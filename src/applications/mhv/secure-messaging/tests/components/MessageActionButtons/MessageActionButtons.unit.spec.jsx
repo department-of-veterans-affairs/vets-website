@@ -46,17 +46,7 @@ describe('MessageActionButtons component', () => {
 
     expect(printModal).to.have.attribute(
       'modaltitle',
-      'What do you want to print?',
-    );
-  });
-
-  it('print button must display an error if no option is selected', () => {
-    const screen = setup();
-    const printButton = screen.getByText('Print');
-    fireEvent.click(printButton);
-    fireEvent.click(document.querySelector('va-button[text="Print"]'));
-    expect(document.querySelector('va-radio').getAttribute('error')).to.equal(
-      'Please select an option to print.',
+      'Make sure you have all messages expanded',
     );
   });
 

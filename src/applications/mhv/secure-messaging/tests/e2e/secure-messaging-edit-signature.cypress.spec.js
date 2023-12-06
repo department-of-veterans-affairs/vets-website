@@ -13,14 +13,11 @@ describe('verify deeplinking sending the draft', () => {
   });
 
   it('verify modal appears and has a link', () => {
-    cy.get('[data-testid="edit-list-button"]')
-      .shadow()
-      .find('button')
-      .click();
+    cy.get('[data-testid="edit-preferences-button"]').click();
 
     cy.get('.va-modal-alert-body')
       .find(Locators.HEADER)
-      .should('have.text', 'Edit your contact list or signature');
+      .should('have.text', 'Edit your message preferences');
     cy.get('[data-testid="edit-preferences-link"]')
       .should('have.attr', 'href')
       .and('contain', 'mhv-portal-web/preferences');

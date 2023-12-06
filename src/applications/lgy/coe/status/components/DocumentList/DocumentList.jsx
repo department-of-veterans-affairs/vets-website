@@ -27,9 +27,9 @@ const DocumentList = ({ notOnUploadPage }) => {
           You have letters about your COE request
         </h2>
         <p className="vads-u-border-color--gray-lighter vads-u-border-bottom--1px vads-u-margin--0 vads-u-padding-y--3">
-          We’ve emailed you notification letters about your COE request. Please
-          read these and follow the steps they outline. You may need to take
-          action before we can make a final decision.
+          We’ve emailed you notification letters about your COE request. Read
+          these and follow the steps they outline. You may need to take action
+          before we can make a final decision.
         </p>
         <List documents={documents} />
       </>

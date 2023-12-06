@@ -43,10 +43,24 @@ const InterstitialPage = props => {
           Your care team may take up to <strong>3 business days</strong> to
           reply.
         </p>
-        <p>
+        {
+          // linter advises to use button instead. However, per designs, action link is required
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <a
+            data-testid="continue-button"
+            className="vads-c-action-link--green vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--1 link"
+            tabIndex={0}
+            role="button"
+            onKeyPress={handleKeyPress}
+            onClick={props.acknowledge}
+          >
+            {continueButtonText}
+          </a>
+        }
+        <h2 className="vads-u-font-size--h3">
           If you need help sooner, use one of these urgent communication
           options:
-        </p>
+        </h2>
         <ul>
           <li>
             <p>
@@ -67,20 +81,6 @@ const InterstitialPage = props => {
             </p>
           </li>
         </ul>
-        {
-          // linter advises to use button instead. However, per designs, action link is required
-          // eslint-disable-next-line jsx-a11y/anchor-is-valid
-          <a
-            className="vads-c-action-link--green vads-u-margin-top--1 link"
-            tabIndex={0}
-            role="button"
-            onKeyPress={handleKeyPress}
-            onClick={props.acknowledge}
-            data-testid="continue-button"
-          >
-            {continueButtonText}
-          </a>
-        }
       </div>
     </div>
   );

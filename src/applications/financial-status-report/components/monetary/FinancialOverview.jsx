@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { currency, getMonthlyExpenses } from '../../utils/helpers';
+import { currency } from '../../utils/helpers';
+import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 import { getMonthlyIncome } from '../../utils/calculateIncome';
 
 const FinancialOverview = ({ formData }) => {

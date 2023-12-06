@@ -27,6 +27,11 @@ export const foldersReducer = (state = initialState, action) => {
           };
         }),
       };
+    case Actions.Folder.GET_LIST_ERROR:
+      return {
+        ...state,
+        folderList: [],
+      };
     case Actions.Folder.GET:
     case Actions.Folder.CREATE:
       return {
@@ -36,7 +41,10 @@ export const foldersReducer = (state = initialState, action) => {
     case Actions.Folder.CLEAR:
       return { ...state, folder: { ...initialState } };
     case Actions.Folder.DELETE:
-      return { ...state };
+      return {
+        ...state,
+        folder: undefined,
+      };
     default:
       return state;
   }

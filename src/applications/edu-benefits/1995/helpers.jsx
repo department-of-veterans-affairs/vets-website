@@ -1,5 +1,12 @@
 import environment from 'platform/utilities/environment';
 
+export const isProductionOfTestProdEnv = () => {
+  return (
+    environment.isProduction() ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
+
 export const buildSubmitEventData = formData => {
   const yesNoOrUndefined = value => {
     if (value === undefined) {

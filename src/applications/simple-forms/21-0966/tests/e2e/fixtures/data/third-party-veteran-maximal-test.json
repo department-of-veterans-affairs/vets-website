@@ -5,9 +5,11 @@
     "middle": "Party",
     "last": "Veteran"
   },
+  "thirdPartyPreparerRole": "other",
+  "otherThirdPartyPreparerRole": "Secret agent",
   "benefitSelection": {
-    "COMPENSATION": true,
-    "PENSION": true
+    "compensation": true,
+    "pension": true
   },
   "veteranFullName": {
     "first": "Veteran",

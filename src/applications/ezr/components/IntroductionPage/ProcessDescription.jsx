@@ -1,5 +1,6 @@
 import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
 const ProcessDescription = () => (
@@ -22,10 +23,10 @@ const ProcessDescription = () => (
       <li>Your marital status</li>
       <li>Dependent information</li>
       <li>
-        Income information from 2022 for you, your spouse (if you’re married),
-        and any dependents you may have
+        Income information from {LAST_YEAR} for you, your spouse (if you’re
+        married), and any dependents you may have
       </li>
-      <li>You or your spouse’s deductible expenses from 2022</li>
+      <li>You or your spouse’s deductible expenses from {LAST_YEAR}</li>
     </ul>
 
     <p>

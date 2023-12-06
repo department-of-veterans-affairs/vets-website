@@ -59,7 +59,6 @@ export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
-  uniqueIssue: 'You must enter a condition you haven’t already entered',
   maxLength: `You can enter a maximum of ${MAX_LENGTH.ISSUE_NAME} characters`,
   requiredYesNo: 'You must answer yes or no',
 

@@ -28,6 +28,15 @@ export const phoneUiSchema = fieldName => {
   return {
     inputPhoneNumber: {
       'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:validations': [
+        (errors, field) => {
+          // checks that the phone number is at least 10 numerical digits
+          const strippedPhone = field?.replace(/[^0-9]/g, '');
+          if (strippedPhone?.length !== 10) {
+            errors.addError(phoneErrorMessage);
+          }
+        },
+      ],
       'ui:errorMessages': {
         pattern: phoneErrorMessage,
       },

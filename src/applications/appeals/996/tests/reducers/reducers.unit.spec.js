@@ -15,6 +15,10 @@ describe('contestableIssues reducer', () => {
   };
 
   it('should handle FETCH_CONTESTABLE_ISSUES_INIT', () => {
+    const defaultState = { issues: [], status: '', error: '' };
+    expect(contestableIssues()).to.deep.equal(defaultState);
+  });
+  it('should handle FETCH_CONTESTABLE_ISSUES_INIT', () => {
     const newState = contestableIssues(initialState, {
       type: FETCH_CONTESTABLE_ISSUES_INIT,
     });

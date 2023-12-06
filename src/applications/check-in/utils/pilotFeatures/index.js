@@ -1,6 +1,3 @@
-import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
-// import salem from './travelClaim/salem.json';
-
 const devStations = {
   // Dev
   '500': {},
@@ -13,29 +10,7 @@ const devStations = {
 };
 
 const pilotFeatures = {
-  fileTravelClaim: {
-    pilotStations: {
-      ...devStations,
-      ...fileTravelClaimWilkesBarre,
-      // Week 1 658
-      // ...fileTravelClaimSalem,
-      // Week 2 565
-      // ...fileTravelClaimFayetteville,
-      // Week 3 558
-      // ...fileTravelClaimDurham,
-      // Week 4 652
-      // ...fileTravelClaimHunterHolmes,
-      // Week 5 590
-      // ...fileTravelClaimHampton,
-      // Week 6 659
-      // ...fileTravelClaimSalisbury,
-      // Week 7 637
-      // ...fileTravelClaimAsheville,
-      // Week 8
-      // VISN 15
-    },
-  },
-  fortyFiveMinuteText: {
+  exampleFeature: {
     pilotStations: {
       ...devStations,
     },

@@ -8,8 +8,9 @@ describe('Medications Details Page Download', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
+
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
@@ -17,9 +18,6 @@ describe('Medications Details Page Download', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

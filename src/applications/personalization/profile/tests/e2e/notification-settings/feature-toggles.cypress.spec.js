@@ -7,7 +7,6 @@ import {
 } from '../helpers';
 
 import NotificationSettingsFeature from './NotificationSettingsFeature';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 // tests anything that relies on feature toggles within the notifications settings page
 
@@ -34,8 +33,6 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      checkForWebComponentLoadingIndicator();
-
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
@@ -55,8 +52,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      checkForWebComponentLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
@@ -80,8 +75,6 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      checkForWebComponentLoadingIndicator();
-
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
@@ -101,8 +94,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      checkForWebComponentLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
@@ -127,7 +118,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-      checkForWebComponentLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
@@ -157,8 +147,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      checkForWebComponentLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 

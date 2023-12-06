@@ -27,7 +27,7 @@ describe(manifest.appName, () => {
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
 
-      cy.get('[role="status"]').should('not.exist');
+      LandingPage.unreadMessageIndicator().should('not.exist');
     });
   });
 });

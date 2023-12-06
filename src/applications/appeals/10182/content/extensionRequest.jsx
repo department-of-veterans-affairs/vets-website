@@ -1,32 +1,29 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { REDIRECTED_PART3 } from '../constants';
+import { SHOW_PART3_REDIRECT } from '../constants';
 
 const title = 'Request an extension';
 
 const ShowAlert = () => {
-  // get from loadedData since it's temporary
-  const part3 = useSelector(
-    state => state.form.loadedData.metadata[REDIRECTED_PART3],
+  // Show info alert after redirect
+  const part3Redirect = useSelector(
+    state => state.form?.data?.[SHOW_PART3_REDIRECT],
   );
-  if (part3) {
-    return (
-      <va-alert
-        background-only
-        status="info"
-        class="vads-u-margin-y--1"
-        role="alert"
-      >
-        <p>
-          We updated the Board Appeal with new questions. Your previous
-          responses have been saved. You’ll need to review your application in
-          order to submit.
-        </p>
-      </va-alert>
-    );
-  }
-  return null;
+  return part3Redirect === 'redirected' ? (
+    <va-alert
+      background-only
+      status="info"
+      class="vads-u-margin-y--1"
+      role="alert"
+    >
+      <p>
+        We updated the Board Appeal with new questions. Your previous responses
+        have been saved. You’ll need to review your application in order to
+        submit.
+      </p>
+    </va-alert>
+  ) : null;
 };
 
 export const content = {

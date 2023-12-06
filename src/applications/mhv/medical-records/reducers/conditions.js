@@ -40,9 +40,8 @@ export const conditionReducer = (state = initialState, action) => {
     case Actions.Conditions.GET_LIST: {
       return {
         ...state,
-        conditionsList: action.response.entry.map(item => {
-          const record = item.resource;
-          return convertCondition(record);
+        conditionsList: action.response.map(item => {
+          return convertCondition(item);
         }),
       };
     }

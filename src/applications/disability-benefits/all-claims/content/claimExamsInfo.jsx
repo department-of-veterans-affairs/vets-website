@@ -18,6 +18,13 @@ export const claimExamsDescription = (
         schedule your exam. It’s important that you answer any calls you receive
         after you file a disability claim.
       </p>
+      <p>
+        You can go to your{' '}
+        <a href="/profile" target="_blank" rel="noreferrer">
+          VA.gov profile (opens in a new tab)
+        </a>{' '}
+        to confirm your phone number.
+      </p>
     </va-alert>
 
     <p>At this time we partner with 3 vendors:</p>
@@ -46,6 +53,19 @@ export const claimExamsFAQ = (
         <p>
           If you can’t make your appointment, let us know right away. You can
           most likely reschedule, but this may delay your claim.
+        </p>
+        <p>
+          If you’re a Veteran who lives overseas, you may{' '}
+          <a
+            href="https://www.benefits.va.gov/persona/veteran-abroad.asp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {' '}
+            contact an Overseas Military Services Coordinator (opens in a new
+            tab)
+          </a>{' '}
+          for help scheduling a claim exam.
         </p>
       </va-accordion-item>
       <va-accordion-item>

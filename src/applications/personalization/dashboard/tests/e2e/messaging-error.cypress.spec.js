@@ -7,7 +7,7 @@ describe('MyVA Dashboard - Messaging', () => {
   describe('when there is an error fetching the inbox data', () => {
     beforeEach(() => {
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/messaging/health/folders/0', {
+      cy.intercept('GET', '/my_health/v1/messaging/folders', {
         statusCode: 400,
         body: ERROR_400,
       });

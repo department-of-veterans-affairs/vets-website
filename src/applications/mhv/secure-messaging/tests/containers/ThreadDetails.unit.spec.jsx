@@ -1,6 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import {
+  mockApiRequest,
+  mockMultipleApiRequests,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import moment from 'moment';
 import ThreadDetails from '../../containers/ThreadDetails';
@@ -11,9 +15,9 @@ import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.j
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
 import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
-import { getByBrokenText } from '../../util/testUtils';
+import { inputVaTextInput } from '../../util/testUtils';
 import {
-  dateFormat,
+  threadsDateFormat,
   getLastSentMessage,
   isOlderThan,
 } from '../../util/helpers';
@@ -31,7 +35,7 @@ describe('Thread Details container', () => {
   const replyMessage = draftMessageHistory[0];
   const olderMessage = draftMessageHistory[1];
 
-  it('with no drafts renders Thread Details with messages in a thread', async () => {
+  it('renders Thread Details with messages in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -58,30 +62,34 @@ describe('Thread Details container', () => {
         selector: 'h1',
       }),
     ).to.exist;
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `From: ${senderName} (${triageGroupName})`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `To: ${recipientName}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: ${dateFormat(sentDate)}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Message ID: ${messageId}`,
-    );
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
 
     expect(screen.getByText(body)).to.exist;
 
-    expect(screen.getByText('Messages in this conversation')).to.exist;
+    expect(screen.getByText('2 Messages in this conversation')).to.exist;
     expect(
       document
         .querySelector('.older-messages')
         .querySelectorAll('.older-message'),
-    ).to.have.length(1);
+    ).to.have.length(2);
   });
 
-  it('with no drafts renders Thread Details with NO messages in a thread', async () => {
+  it('renders Thread Details with NO message history in a thread', async () => {
     const state = {
       sm: {
         messageDetails: {
@@ -110,27 +118,27 @@ describe('Thread Details container', () => {
       }),
     ).to.exist;
 
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `From: ${senderName} (${triageGroupName})`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `To: ${recipientName}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Date: ${dateFormat(sentDate)}`,
-    );
-    expect(screen.getByTestId('message-metadata').textContent).to.contain(
-      `Message ID: ${messageId}`,
-    );
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`From: ${senderName} (${triageGroupName})`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`To: ${recipientName}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Date: ${threadsDateFormat(sentDate)}`);
+    expect(
+      screen.getByTestId(`expand-message-button-${messageId}`).textContent,
+    ).to.contain(`Message ID: ${messageId}`);
 
     expect(screen.getByText(body)).to.exist;
 
-    expect(screen.queryByText('Messages in this conversation')).to.be.null;
-    expect(document.querySelector('.older-messages')).to.be.null;
+    expect(screen.queryByText('1 Message in this conversation')).to.exist;
+    expect(document.querySelector('.older-messages')).to.not.be.null;
   });
 
   it('with one draft message renders Edit Draft', async () => {
-    const { category, subject, body } = singleDraftThread.draftMessage;
+    const { body } = singleDraftThread.draftMessage;
     const state = {
       sm: {
         triageTeams: {
@@ -161,12 +169,6 @@ describe('Thread Details container', () => {
       screen.getByText(
         'If you need help sooner, use one of these urgent communication options:',
       ),
-    ).to.exist;
-    expect(
-      screen.getByText(`${category}: ${subject}`, {
-        exact: false,
-        selector: 'h2',
-      }),
     ).to.exist;
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
   });
@@ -226,20 +228,8 @@ describe('Thread Details container', () => {
       '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
-    const messageRepliedTo = screen.getByTestId('message-replied-to');
-    const from = getByBrokenText(
-      `From: ${replyMessage.senderName}`,
-      messageRepliedTo,
-    );
-    expect(from).to.exist;
-    const to = getByBrokenText(
-      `To: ${replyMessage.recipientName}`,
-      messageRepliedTo,
-    );
-    expect(to).to.exist;
-
     expect(
-      screen.getByText('Messages in this conversation', {
+      screen.getByText('2 Messages in this conversation', {
         exact: true,
         selector: 'h2',
       }),
@@ -330,5 +320,149 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('Send-Button')).to.exist;
     expect(screen.getByTestId('Save-Draft-Button')).to.exist;
     expect(screen.getByTestId('delete-draft-button')).to.exist;
+    mockApiRequest({ method: 'POST', data: {}, status: 200 });
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Send-Button'));
+      expect(screen.getByText('Secure message was successfully sent.'));
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('success');
+    });
+  });
+
+  it('responds to sending a reply draft with attachments', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        draftDetails: {
+          ...replyDraftMessage,
+        },
+        ...replyDraftThread,
+      },
+    };
+    const screen = setup(state);
+
+    const fileName = 'test.png';
+    const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
+
+    await waitFor(() =>
+      fireEvent.change(screen.getByTestId('attach-file-input'), {
+        target: { files: [file] },
+      }),
+    );
+    const req1 = {
+      shouldResolve: false,
+      response: { method: 'POST', data: {}, status: 500 },
+    };
+    const req2 = {
+      shouldResolve: true,
+      response: { method: 'POST', data: {}, status: 200 },
+    };
+    mockMultipleApiRequests([req1, req2]);
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Send-Button'));
+    });
+    expect(
+      await screen.findByText('We’re sorry. Something went wrong on our end.'),
+    ).to.exist;
+    const alert = document.querySelector('va-alert');
+    expect(alert)
+      .to.have.attribute('status')
+      .to.equal('error');
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Send-Button'));
+    });
+    expect(await screen.findByText('Secure message was successfully sent.')).to
+      .exist;
+    expect(document.querySelector('va-alert'))
+      .to.have.attribute('status')
+      .to.equal('success');
+  });
+
+  it('renders error banner on sendReply failure', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        draftDetails: {
+          ...replyDraftMessage,
+        },
+        ...replyDraftThread,
+      },
+    };
+    const screen = setup(state);
+    mockApiRequest({ method: 'POST', data: {}, status: 500 }, false);
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Send-Button'));
+      expect(screen.getByText('We’re sorry. Something went wrong on our end.'));
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('error');
+    });
+  });
+
+  it('redirect to the folder associated with the draft on sendReply', async () => {
+    const folderId = '112233';
+    const state = {
+      sm: {
+        ...replyDraftThread,
+        draftDetails: {
+          ...replyDraftThread.draftDetails,
+          draftMessage: {
+            ...replyDraftMessage,
+            threadFolderId: folderId,
+            replyToMessageId: 1234,
+          },
+        },
+      },
+    };
+    const screen = setup(state);
+    await waitFor(() => {
+      screen.getByTestId('Send-Button');
+    });
+    expect(screen.getByTestId('Send-Button')).to.exist;
+    mockApiRequest({ method: 'POST', data: {}, status: 200 });
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Send-Button'));
+      expect(screen.getByText('Secure message was successfully sent.'));
+      expect(screen.history.location.pathname).to.equal(
+        `/folders/${folderId}/`,
+      );
+    });
+  });
+
+  it('responds to Save Draft button click on Reply Form', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        ...replyDraftThread,
+        draftDetails: {
+          ...replyDraftThread.draftDetails,
+          draftMessage: {
+            ...replyDraftMessage,
+            replyToMessageId: 1234,
+          },
+        },
+      },
+    };
+    const screen = setup(state);
+    await waitFor(() => {
+      screen.getByTestId('message-body-field');
+    });
+
+    inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
+    mockApiRequest({ method: 'POST', status: 200, ok: true });
+    await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      expect(screen.getByText('Your message was saved', { exact: false }));
+    });
   });
 });

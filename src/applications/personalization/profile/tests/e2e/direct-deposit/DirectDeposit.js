@@ -1,12 +1,10 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
-import { checkForWebComponentLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 
 class DirectDepositPage {
   LINK_TEXT = 'Direct Deposit Information';
 
   visitPage = () => {
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
-    checkForWebComponentLoadingIndicator();
   };
 
   confirmDirectDepositIsAvailable = ({ visitPage = true } = {}) => {

@@ -3,9 +3,9 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { transform } from '../submit-transformer';
-import { prefillTransformer } from '../prefill-transformer';
-import submitForm from '../submitForm';
+import { transform } from './submit-transformer';
+import { prefillTransformer } from './prefill-transformer';
+import submitForm from './submitForm';
 
 import { urlMigration } from '../../config/migrations';
 

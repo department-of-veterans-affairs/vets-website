@@ -88,7 +88,10 @@ const testConfig = createTestConfig(
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/Number of dependents/).type('2');
+          cy.get('#dependent-count')
+            .shadow()
+            .find('input')
+            .type('2');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -136,7 +139,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 3);
+          cy.get('va-accordion-item').should('have.length', 3);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')

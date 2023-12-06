@@ -9,7 +9,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 import { content } from '../../content/extensionRequest';
-import { REDIRECTED_PART3 } from '../../constants';
+import { SHOW_PART3_REDIRECT } from '../../constants';
 
 const {
   schema,
@@ -17,13 +17,11 @@ const {
 } = formConfig.chapters.conditions.pages.extensionRequest;
 
 describe('extension request page', () => {
-  const mockStore = (redirected = false) => ({
+  const mockStore = () => ({
     getState: () => ({
       form: {
-        loadedData: {
-          metadata: {
-            [REDIRECTED_PART3]: redirected,
-          },
+        data: {
+          [SHOW_PART3_REDIRECT]: 'redirected',
         },
       },
     }),
@@ -49,7 +47,7 @@ describe('extension request page', () => {
 
   it('should render v2 redirect alert', () => {
     const { container } = render(
-      <Provider store={mockStore(true)}>
+      <Provider store={mockStore()}>
         <DefinitionTester
           definitions={{}}
           schema={schema}

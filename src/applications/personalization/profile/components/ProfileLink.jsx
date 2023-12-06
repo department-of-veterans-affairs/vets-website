@@ -65,7 +65,7 @@ export const ProfileLink = ({ href, active = true, className = '', text }) => {
       active={active}
       text={text}
       href={href}
-      className={className}
+      class={className}
       data-testid="profile-link-external"
     />
   );

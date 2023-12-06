@@ -11,8 +11,7 @@ import {
 import formConfig from '../../config/form';
 
 describe('Pensions marriage history', () => {
-  const marriageHistory =
-    formConfig.chapters.householdInformation.pages.marriageHistory;
+  const { marriageHistory } = formConfig.chapters.householdInformation.pages;
   const uiSchema = marriageHistory.uiSchema.marriages.items;
   const schema = marriageHistory.schema.properties.marriages.items;
 
@@ -83,6 +82,9 @@ describe('Pensions marriage history', () => {
     });
     it('uses word for index', () => {
       expect(pageTitle({}, { pagePerItemIndex: 49 })).to.equal('50th marriage');
+    });
+    it('uses word for index', () => {
+      expect(pageTitle({})).to.equal('First marriage');
     });
   });
 

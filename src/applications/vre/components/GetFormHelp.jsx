@@ -1,12 +1,10 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
-const GetFormHelp = () => (
-  <p className="help-talk">
-    If you have trouble using this online form, call our MyVA411 main
-    information line at <va-telephone contact={CONTACTS.VA_411} />. If you have
-    hearing loss, call <va-telephone contact={CONTACTS['711']} tty />.
-  </p>
-);
-
-export default GetFormHelp;
+export default function GetFormHelp() {
+  return (
+    <p className="help-talk">
+      If you have trouble using this online form, <SubmitSignInForm />
+    </p>
+  );
+}

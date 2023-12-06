@@ -1,82 +1,111 @@
 import React from 'react';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { App } from '.';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { App, mapDispatchToProps, mapStateToProps } from '.';
+
+const store = ({ pensionFormEnabled = false } = {}) => ({
+  getState: () => ({
+    user: {
+      profile: {
+        loading: false,
+        savedForms: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+      },
+    },
+    featureToggles: {
+      loading: false,
+      // eslint-disable-next-line camelcase
+      pension_form_enabled: pensionFormEnabled,
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+});
 
 describe('Pension Widget <App>', () => {
-  let replaceStateSpy;
-
-  beforeEach(() => {
-    replaceStateSpy = sinon.spy(window.history, 'replaceState');
-  });
-
-  afterEach(() => {
-    replaceStateSpy.restore();
-  });
-
   it('renders the pension widget app', () => {
-    const wrapper = shallow(<App />);
-    expect(wrapper.find('h3').text()).to.equal(
-      `Our online pension form isn’t working right now`,
+    const mockStore = store();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>,
     );
-    wrapper.unmount();
+    expect($('h3', container).textContent).to.equal(
+      `You can’t use our online application right now`,
+    );
+  });
+
+  it('renders the application status component', () => {
+    const mockStore = store({ pensionFormEnabled: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>,
+    );
+    expect($('h2', container).textContent).to.equal(`How do I apply?`);
   });
 
   it('shows "Refer to your saved form" link when user is logged in', () => {
-    const wrapper = shallow(<App loggedIn />);
-    const selector = 'a[href="/pension/application/527EZ/introduction/"]';
-    expect(wrapper.find(selector).exists()).to.equal(true);
-    wrapper.unmount();
+    const mockStore = store();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App loggedIn />
+      </Provider>,
+    );
+
+    const selector = 'va-link[href="/pension/application/527EZ/introduction"]';
+    expect($(selector, container)).to.not.be.null;
   });
 
   it('shows "Sign in to VA.gov" button when user is not logged in', () => {
-    const wrapper = shallow(<App loggedIn={false} />);
-    expect(
-      wrapper.find('va-button[text="Sign in to VA.gov"]').exists(),
-    ).to.equal(true);
-    wrapper.unmount();
+    const mockStore = store();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>,
+    );
+
+    const selector = 'va-button[text="Sign in to VA.gov"]';
+    expect($(selector, container)).to.not.be.null;
   });
 
   it('calls toggleLoginModal when "Sign in to VA.gov" button is clicked', () => {
-    const toggleLoginMock = {
-      called: false,
-      call() {
-        this.called = true;
-      },
-    };
+    const toggleLoginMock = sinon.spy();
 
-    const wrapper = shallow(
-      <App
-        loggedIn={false}
-        toggleLoginModal={toggleLoginMock.call.bind(toggleLoginMock)}
-      />,
+    const mockStore = store();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App toggleLoginModal={toggleLoginMock} />
+      </Provider>,
     );
-    wrapper.find('va-button').simulate('click');
-    expect(toggleLoginMock.called).to.equal(true);
-    wrapper.unmount();
+    const button = $('va-button', container);
+    fireEvent.click(button);
+    expect(toggleLoginMock.called).to.be.true;
   });
 
-  it('sets the correct return URL in sessionStorage when the va-button is clicked', () => {
-    const mockSessionStorage = {
-      setItem: sinon.spy(),
-    };
-    global.sessionStorage = mockSessionStorage; // This mocks the global sessionStorage for this test
+  describe('mapStateToProps', () => {
+    it('should render appropriately', () => {
+      const goodObj = { user: { login: { currentlyLoggedIn: false } } };
+      expect(mapStateToProps(goodObj)).to.eql({ loggedIn: false });
+    });
+  });
 
-    const wrapper = shallow(
-      <App loggedIn={false} toggleLoginModal={() => {}} />,
-    );
+  describe('mapDispatchToProps', () => {
+    it('does it', () => {
+      const dispatchSpy = sinon.spy();
+      const props = mapDispatchToProps(dispatchSpy);
 
-    wrapper.find('va-button').simulate('click');
+      props.toggleLoginModal(true);
 
-    expect(mockSessionStorage.setItem.calledOnce).to.equal(true);
-    expect(
-      mockSessionStorage.setItem.calledWith(
-        'authReturnUrl',
-        `${window.location.origin}/pension/application/527EZ/introduction/`,
-      ),
-    ).to.equal(true);
-
-    wrapper.unmount();
+      expect(dispatchSpy.calledOnce).to.be.true;
+      expect(dispatchSpy.calledWithExactly(toggleLoginModalAction(true))).to.be
+        .true;
+    });
   });
 });

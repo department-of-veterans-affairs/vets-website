@@ -1,39 +1,58 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import React, { useEffect, useRef } from 'react';
+import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { monetaryAssets as monetaryAssetList } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
-const MonetaryCheckList = () => {
-  const dispatch = useDispatch();
-  const formData = useSelector(state => state.form.data);
-
-  const { assets, gmtData } = formData;
+const MonetaryCheckList = ({
+  data,
+  goBack,
+  goForward,
+  goToPath,
+  setFormData,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { monetaryAssets = [] } = assets;
+
+  const headerRef = useRef(null);
+  // Header ref for setting focus
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
   const onChange = ({ target }) => {
     const { value } = target;
     return monetaryAssets.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            assets: {
-              ...assets,
-              monetaryAssets: monetaryAssets.filter(
-                source => source.name !== value,
-              ),
-            },
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            assets: {
-              ...assets,
-              monetaryAssets: [...monetaryAssets, { name: value, amount: '' }],
-            },
-          }),
-        );
+      ? setFormData({
+          ...data,
+          assets: {
+            ...assets,
+            monetaryAssets: monetaryAssets.filter(
+              source => source.name !== value,
+            ),
+          },
+        })
+      : setFormData({
+          ...data,
+          assets: {
+            ...assets,
+            monetaryAssets: [...monetaryAssets, { name: value, amount: '' }],
+          },
+        });
   };
 
   const isBoxChecked = option => {
@@ -56,14 +75,14 @@ const MonetaryCheckList = () => {
       asset.toLowerCase() !== 'savings accounts',
   );
 
-  const streamlinedList = formData['view:streamlinedWaiverAssetUpdate']
+  const streamlinedList = data['view:streamlinedWaiverAssetUpdate']
     ? noLiquidAssetsList
     : noCashList;
 
   // only filtering out these options for streamlined candidiates
   const adjustForStreamlined =
     (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-    (formData['view:streamlinedWaiverAssetUpdate'] &&
+    (data['view:streamlinedWaiverAssetUpdate'] &&
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
@@ -71,15 +90,80 @@ const MonetaryCheckList = () => {
     ? streamlinedList
     : monetaryAssetList;
 
+  // reviewDepends - only show/handle review alert and navigation if
+  //  feature flag is on, user is in review mode, and they have not seen the cash pages
+  const reviewDepends =
+    reviewNavigation && showReviewNavigation && !adjustForStreamlined;
+
+  const handleBackNavigation = () => {
+    if (reviewDepends) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
-    <Checklist
-      title={title}
-      prompt={prompt}
-      options={adjustedAssetList}
-      onChange={event => onChange(event)}
-      isBoxChecked={isBoxChecked}
-    />
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        goForward(data);
+      }}
+    >
+      <fieldset>
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0" ref={headerRef}>
+            {title}
+          </h3>
+        </legend>
+        {reviewDepends ? (
+          <ReviewPageNavigationAlert data={data} title="household assets" />
+        ) : null}
+        <Checklist
+          prompt={prompt}
+          options={adjustedAssetList}
+          onChange={event => onChange(event)}
+          isBoxChecked={isBoxChecked}
+        />
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handleBackNavigation}
+          goForward={goForward}
+          submitToContinue
+        />
+        {contentAfterButtons}
+      </fieldset>
+    </form>
   );
+};
+
+MonetaryCheckList.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
+  data: PropTypes.shape({
+    assets: PropTypes.shape({
+      monetaryAssets: PropTypes.array,
+    }),
+    gmtData: PropTypes.shape({
+      incomeBelowGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
+    }),
+    reviewNavigation: PropTypes.bool,
+    questions: PropTypes.shape({
+      isMarried: PropTypes.bool,
+    }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
 export default MonetaryCheckList;

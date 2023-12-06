@@ -1,29 +1,61 @@
 import { expect } from 'chai';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/exports';
 import {
-  contactInformationStepperTitle,
+  survivingDependentContactInformationChapterTitle,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
   preparerIsThirdParty,
   preparerIsVeteran,
-  benefitSelectionTitle,
-  personalInformationStepperTitle,
-  benefitSelectionStepperTitle,
+  survivingDependentPersonalInformationChapterTitle,
+  benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
   statementOfTruthFullNamePath,
-  getClaimType,
-  getAlreadySubmittedIntentText,
+  getAlertType,
+  getSuccessAlertTitle,
+  getSuccessAlertText,
+  getInfoAlertTitle,
+  getInfoAlertText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
+  veteranPersonalInformationChapterTitle,
+  veteranContactInformationChapterTitle,
+  getNextStepsTextSecondParagraph,
+  getNextStepsLinks,
 } from '../../config/helpers';
 import {
   preparerIdentifications,
   veteranBenefits,
+  benefitPhrases,
+  survivingDependentBenefits,
 } from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 describe('form helper functions', () => {
+  it('test defaults for helper functions', () => {
+    expect(preparerIsVeteran()).to.equal(false);
+    expect(preparerIsSurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdPartyToTheVeteran()).to.equal(false);
+    expect(preparerIsThirdPartyToASurvivingDependent()).to.equal(false);
+    expect(preparerIsThirdParty()).to.equal(false);
+    expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
+    expect(statementOfTruthFullNamePath()).to.equal(
+      'survivingDependentFullName',
+    );
+    expect(survivingDependentPersonalInformationChapterTitle()).to.match(
+      /Your personal information/i,
+    );
+    expect(survivingDependentContactInformationChapterTitle()).to.match(
+      /Your contact information/i,
+    );
+    expect(veteranPersonalInformationChapterTitle()).to.match(
+      /Veteran’s personal information/i,
+    );
+    expect(veteranContactInformationChapterTitle()).to.match(
+      /Veteran’s contact information/i,
+    );
+  });
+
   it('provides the correct information for a veteran', () => {
     const formData = {
       preparerIdentification: 'VETERAN',
@@ -36,10 +68,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Your/i,
+    );
   });
 
   it('provides the correct information for a surviving dependent', () => {
@@ -54,10 +95,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the veteran', () => {
@@ -72,10 +122,19 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Veteran/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Veteran/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Veteran/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Veteran/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Veteran/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides the correct information for a third party to the surviving dependent', () => {
@@ -90,10 +149,19 @@ describe('form helper functions', () => {
       true,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(true);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/Claimant/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Claimant/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Claimant/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Claimant/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Claimant/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
+    expect(veteranContactInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 
   it('provides a reasonble default', () => {
@@ -108,10 +176,16 @@ describe('form helper functions', () => {
       false,
     );
     expect(preparerIsThirdParty({ formData })).to.equal(false);
-    expect(benefitSelectionStepperTitle({ formData })).to.match(/Your/i);
-    expect(benefitSelectionTitle({ formData })).to.match(/you/i);
-    expect(personalInformationStepperTitle({ formData })).to.match(/Your/i);
-    expect(contactInformationStepperTitle({ formData })).to.match(/Your/i);
+    expect(benefitSelectionChapterTitle({ formData })).to.match(/Your/i);
+    expect(
+      survivingDependentPersonalInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(
+      survivingDependentContactInformationChapterTitle({ formData }),
+    ).to.match(/Your/i);
+    expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
+      /Veteran/i,
+    );
   });
 });
 
@@ -168,184 +242,437 @@ describe('statementOfTruthFullNamePath', () => {
 });
 
 describe('confirmation page helper functions', () => {
-  describe('Compensation claim type', () => {
-    const data = {
-      benefitSelection: {},
-    };
-    data.benefitSelection[veteranBenefits.compensation] = true;
-
-    it('correctly gets the claim type and already submitted title and text', () => {
-      expect(getClaimType(data)).to.match(/compensation/i);
-      expect(getClaimType(data)).not.to.match(/pension/i);
-      expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
-      expect(getAlreadySubmittedText(data, {}, '')).to.equal(null);
-    });
-
-    describe('getting already submitted intent text', () => {
-      it('correctly gets the text with an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {
-          compensation: {},
+  describe('success alert', () => {
+    describe('One intent selected and filed', () => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
+        const data = {
+          benefitSelection: {
+            [selectedIntent]: true,
+          },
         };
 
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.match(/you already have an intent/i);
-      });
+        it('shows a success alert', () => {
+          expect(getAlertType(data, {})).to.equal('success');
+        });
 
-      it('correctly gets the text without an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {};
+        it('successfully gets the success alert title', () => {
+          expect(getSuccessAlertTitle(data, {})).to.equal(
+            'You’ve submitted your intent to file',
+          );
+        });
 
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.equal(null);
-      });
-    });
-  });
-
-  describe('Pension claim type', () => {
-    const data = {
-      benefitSelection: {},
-    };
-    data.benefitSelection[veteranBenefits.pension] = true;
-
-    it('correctly gets the claim type and already submitted title and text', () => {
-      expect(getClaimType(data)).to.match(/pension/i);
-      expect(getClaimType(data)).not.to.match(/compensation/i);
-      expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
-      expect(getAlreadySubmittedText(data, {}, '')).to.equal(null);
-    });
-
-    describe('getting already submitted intent text', () => {
-      it('correctly gets the text with an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {
-          pension: {},
-        };
-
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.match(/you already have an intent/i);
-      });
-
-      it('correctly gets the text without an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {};
-
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.equal(null);
-      });
-    });
-  });
-
-  describe('both claim types', () => {
-    const data = {
-      benefitSelection: {},
-    };
-    data.benefitSelection[veteranBenefits.compensation] = true;
-    data.benefitSelection[veteranBenefits.pension] = true;
-
-    it('correctly gets the claim types', () => {
-      expect(getClaimType(data)).to.match(/compensation and pension/i);
-      expect(getClaimType(data)).not.to.match(/survivors/i);
-    });
-
-    describe('getting already submitted intent text', () => {
-      it('correctly gets the text with an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {
-          compensation: {},
-          pension: {},
-        };
-
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.match(/you already have an intent/i);
-      });
-
-      it('correctly gets the text without an already submitted compensation intent', () => {
-        const alreadySubmittedIntents = {};
-
-        expect(
-          getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-        ).to.equal(null);
+        it('successfully gets the success alert text', () => {
+          expect(getSuccessAlertText(data, {})).to.equal(
+            `Your intent to file for ${
+              benefitPhrases[selectedIntent]
+            } will expire in 1 year.`,
+          );
+        });
       });
     });
 
-    describe('getting already submitted title', () => {
-      it('correctly gets the title when the compensation intent is active', () => {
-        const alreadySubmittedIntents = {
-          compensation: 'active',
-        };
+    describe('Two intents selected and filed', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
 
-        expect(
-          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-        ).to.match(/compensation/i);
-        expect(
-          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-        ).not.to.match(/pension/i);
+      it('shows a success alert', () => {
+        expect(getAlertType(data, {})).to.equal('success');
       });
 
-      it('correctly gets the title when the pension intent is active', () => {
-        const alreadySubmittedIntents = {
-          pension: 'active',
-        };
-
-        expect(
-          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-        ).to.match(/pension/i);
-        expect(
-          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-        ).not.to.match(/compensation/i);
+      it('successfully gets the success alert title', () => {
+        expect(getSuccessAlertTitle(data, {})).to.equal(
+          'You’ve submitted your intent to file',
+        );
       });
 
-      it('provides a reasonable default', () => {
-        const alreadySubmittedIntents = {};
-
-        expect(
-          getAlreadySubmittedTitle(data, alreadySubmittedIntents),
-        ).to.equal(null);
+      it('successfully gets the success alert text', () => {
+        expect(getSuccessAlertText(data, {})).to.equal(
+          `Your intent to file for disability compensation and pension claims will expire in 1 year.`,
+        );
       });
     });
 
-    describe('getting already submitted text', () => {
-      it('correctly gets the text when the compensation intent is active', () => {
+    describe('Two intents selected, one filed and one already on file', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
+
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
+        alreadySubmittedIntentType => {
+          const alreadySubmittedIntents = {
+            [alreadySubmittedIntentType]: {
+              creationDate: '2021-03-16T19:15:21.000-05:00',
+              expirationDate: '2022-03-16T19:15:20.000-05:00',
+              type: alreadySubmittedIntentType,
+              status: 'active',
+            },
+          };
+          const newlySelectedIntent = [
+            veteranBenefits.COMPENSATION,
+            veteranBenefits.PENSION,
+          ].filter(intent => intent !== alreadySubmittedIntentType)[0];
+
+          it('shows a success alert', () => {
+            expect(getAlertType(data, alreadySubmittedIntents)).to.equal(
+              'success',
+            );
+          });
+
+          it('successfully gets the success alert title', () => {
+            expect(
+              getSuccessAlertTitle(data, alreadySubmittedIntents),
+            ).to.equal(
+              `You’ve submitted your intent to file for ${
+                benefitPhrases[newlySelectedIntent]
+              }`,
+            );
+          });
+
+          it('successfully gets the success alert text', () => {
+            expect(getSuccessAlertText(data, alreadySubmittedIntents)).to.equal(
+              `Your intent to file will expire in 1 year.`,
+            );
+          });
+        },
+      );
+    });
+
+    describe('One intent selected, already on file, so nothing new is filed', () => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
+        const data = {
+          benefitSelection: {
+            [selectedIntent]: true,
+          },
+        };
+        const expirationDate = '2024-09-22T19:15:20.000-05:00';
         const alreadySubmittedIntents = {
-          compensation: 'active',
+          [selectedIntent]: {
+            creationDate: '2021-03-16T19:15:21.000-05:00',
+            expirationDate,
+            type: selectedIntent,
+            status: 'active',
+          },
         };
 
-        expect(
-          getAlreadySubmittedText(data, alreadySubmittedIntents, ''),
-        ).to.match(/\(ITF\) for disability compensation/i);
+        it('shows an info alert', () => {
+          expect(getAlertType(data, alreadySubmittedIntents)).to.equal('info');
+        });
+
+        it('successfully gets the info alert title', () => {
+          expect(getInfoAlertTitle()).to.equal(
+            'You’ve already submitted an intent to file',
+          );
+        });
+
+        it('successfully gets the info alert text', () => {
+          const dateOptions = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          };
+          expect(getInfoAlertText(data, alreadySubmittedIntents)).to.equal(
+            `Our records show that you already have an intent to file for ${
+              benefitPhrases[selectedIntent]
+            } and it will expire on ${new Date(
+              expirationDate,
+            ).toLocaleDateString('en-US', dateOptions)}.`,
+          );
+        });
+      });
+    });
+
+    describe('Two intents selected, both already on file, so nothing new is filed', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
+      const expirationDate = 'expiration-date';
+      const alreadySubmittedIntents = {
+        [veteranBenefits.COMPENSATION]: {
+          creationDate: '2021-03-16T19:15:21.000-05:00',
+          expirationDate,
+          type: veteranBenefits.COMPENSATION,
+          status: 'active',
+        },
+        [veteranBenefits.PENSION]: {
+          creationDate: '2021-03-16T19:15:21.000-05:00',
+          expirationDate,
+          type: veteranBenefits.PENSION,
+          status: 'active',
+        },
+      };
+
+      it('shows an info alert', () => {
+        expect(getAlertType(data, alreadySubmittedIntents)).to.equal('info');
       });
 
-      it('correctly gets the title when the pension intent is active', () => {
-        const alreadySubmittedIntents = {
-          pension: 'active',
-        };
-
-        expect(
-          getAlreadySubmittedText(data, alreadySubmittedIntents, ''),
-        ).to.match(/\(ITF\) for pension/i);
+      it('successfully gets the info alert title', () => {
+        expect(getInfoAlertTitle()).to.equal(
+          'You’ve already submitted an intent to file',
+        );
       });
 
-      it('provides a reasonable default', () => {
-        const alreadySubmittedIntents = {};
-
-        expect(getAlreadySubmittedText(data, alreadySubmittedIntents)).to.equal(
-          null,
+      it('successfully gets the info alert text', () => {
+        expect(getInfoAlertText(data, alreadySubmittedIntents)).to.equal(
+          'Our records show that you already have an intent to file for disability compensation and for pension claims.',
         );
       });
     });
   });
 
-  it('provides a reasonable default', () => {
-    const data = {
-      benefitSelection: {},
-    };
-    const alreadySubmittedIntents = {};
+  describe('next steps', () => {
+    describe('One intent selected and filed', () => {
+      ['COMPENSATION', 'PENSION', 'SURVIVOR'].forEach(selectedIntent => {
+        const data = {
+          benefitSelection: {
+            [selectedIntent]: true,
+          },
+        };
 
-    expect(getClaimType(data)).not.to.match(/compensation/i);
-    expect(getClaimType(data)).to.match(/pension/i);
-    expect(
-      getAlreadySubmittedIntentText(data, alreadySubmittedIntents, ''),
-    ).to.equal(null);
+        it('successfully gets the already submitted title', () => {
+          expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
+        });
+
+        it('successfully gets the already submitted text', () => {
+          expect(getAlreadySubmittedText(data, {})).to.equal(null);
+        });
+
+        it('successfully gets the second paragraph of the next steps text', () => {
+          expect(getNextStepsTextSecondParagraph(data, {})).to.equal(
+            `Your intent to file for ${
+              benefitPhrases[selectedIntent]
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+          );
+        });
+
+        it('successfully gets the next steps links', () => {
+          const result = getNextStepsLinks(data);
+          expect(result.length).to.equal(1);
+          expect(result).to.contain(selectedIntent);
+        });
+      });
+    });
+
+    describe('Two intents selected and filed', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
+      const expirationDate = 'expiration-date';
+
+      it('successfully gets the already submitted title', () => {
+        expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
+      });
+
+      it('successfully gets the already submitted text', () => {
+        expect(getAlreadySubmittedText(data, {})).to.equal(null);
+      });
+
+      it('successfully gets the second paragraph of the next steps text', () => {
+        expect(
+          getNextStepsTextSecondParagraph(data, {}, expirationDate),
+        ).to.equal(
+          'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
+        );
+      });
+
+      it('successfully gets the next steps links', () => {
+        const result = getNextStepsLinks(data);
+        expect(result.length).to.equal(2);
+        expect(result).to.contain(veteranBenefits.COMPENSATION);
+        expect(result).to.contain(veteranBenefits.PENSION);
+      });
+    });
+
+    describe('Two intents selected, one filed and one already on file', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
+      const dateOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
+      const alreadySubmittedExpirationDate = '2022-03-16T19:15:20.000-05:00';
+      const formattedAlreadySubmittedExpirationDate = new Date(
+        alreadySubmittedExpirationDate,
+      ).toLocaleDateString('en-us', dateOptions);
+
+      [veteranBenefits.COMPENSATION, veteranBenefits.PENSION].forEach(
+        alreadySubmittedIntentType => {
+          const alreadySubmittedIntents = {
+            [alreadySubmittedIntentType]: {
+              creationDate: '2021-03-16T19:15:21.000-05:00',
+              expirationDate: alreadySubmittedExpirationDate,
+              type: alreadySubmittedIntentType,
+              status: 'active',
+            },
+          };
+
+          it('successfully gets the already submitted title', () => {
+            expect(
+              getAlreadySubmittedTitle(data, alreadySubmittedIntents),
+            ).to.equal(
+              `You’ve already submitted an intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              }`,
+            );
+          });
+
+          it('successfully gets the already submitted text', () => {
+            expect(
+              getAlreadySubmittedText(data, alreadySubmittedIntents),
+            ).to.equal(
+              `Our records show that you already have an intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              }. Your intent to file for ${
+                benefitPhrases[alreadySubmittedIntentType]
+              } expires on ${formattedAlreadySubmittedExpirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`,
+            );
+          });
+
+          it('successfully gets the second paragraph of the next steps text', () => {
+            expect(
+              getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
+            ).to.equal(
+              'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).',
+            );
+          });
+
+          it('successfully gets the next steps links', () => {
+            const result = getNextStepsLinks(data);
+            expect(result.length).to.equal(2);
+            expect(result).to.contain(veteranBenefits.COMPENSATION);
+            expect(result).to.contain(veteranBenefits.PENSION);
+          });
+        },
+      );
+    });
+
+    describe('One intent selected, already on file, so nothing new is filed', () => {
+      [
+        veteranBenefits.COMPENSATION,
+        veteranBenefits.PENSION,
+        survivingDependentBenefits.SURVIVOR,
+      ].forEach(selectedIntent => {
+        const data = {
+          benefitSelection: {
+            [selectedIntent]: true,
+          },
+        };
+        const alreadySubmittedIntents = {
+          [selectedIntent]: {
+            creationDate: '2021-03-16T19:15:21.000-05:00',
+            expirationDate: '2024-09-22T19:15:20.000-05:00',
+            type: selectedIntent,
+            status: 'active',
+          },
+        };
+
+        it('successfully gets the already submitted title', () => {
+          expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
+        });
+
+        it('successfully gets the already submitted text', () => {
+          expect(getAlreadySubmittedText(data, {})).to.equal(null);
+        });
+
+        it('successfully gets the second paragraph of the next steps text', () => {
+          expect(
+            getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
+          ).to.equal(
+            `Your intent to file for ${
+              benefitPhrases[selectedIntent]
+            } expires in 1 year. You’ll need to file your claim within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+          );
+        });
+
+        it('successfully gets the next steps links', () => {
+          const result = getNextStepsLinks(data);
+          expect(result.length).to.equal(1);
+          expect(result).to.contain(selectedIntent);
+        });
+      });
+    });
+
+    describe('Two intents selected, both already on file, so nothing new is filed', () => {
+      const data = {
+        benefitSelection: {
+          [veteranBenefits.COMPENSATION]: true,
+          [veteranBenefits.PENSION]: true,
+        },
+      };
+      const dateOptions = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
+      const expirationDate = '2022-03-16T19:15:21.000-05:00';
+      const formattedExpirationDate = new Date(
+        expirationDate,
+      ).toLocaleDateString('en-us', dateOptions);
+      const alreadySubmittedIntents = {
+        compensation: {
+          creationDate: '2021-03-16T19:15:21.000-05:00',
+          expirationDate,
+          type: veteranBenefits.COMPENSATION,
+          status: 'active',
+        },
+        pension: {
+          creationDate: '2021-03-16T19:15:21.000-05:00',
+          expirationDate,
+          type: veteranBenefits.PENSION,
+          status: 'active',
+        },
+      };
+
+      it('successfully gets the already submitted title', () => {
+        expect(getAlreadySubmittedTitle(data, {})).to.equal(null);
+      });
+
+      it('successfully gets the already submitted text', () => {
+        expect(getAlreadySubmittedText(data, {})).to.equal(null);
+      });
+
+      it('successfully gets the second paragraph of the next steps text', () => {
+        expect(
+          getNextStepsTextSecondParagraph(data, alreadySubmittedIntents),
+        ).to.equal(
+          `Your intent to file for disability compensation expires on ${formattedExpirationDate} and your intent to file for pension claims expires on ${formattedExpirationDate}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`,
+        );
+      });
+
+      it('successfully gets the next steps links', () => {
+        const result = getNextStepsLinks(data);
+        expect(result.length).to.equal(2);
+        expect(result).to.contain(veteranBenefits.COMPENSATION);
+        expect(result).to.contain(veteranBenefits.PENSION);
+      });
+    });
   });
 });

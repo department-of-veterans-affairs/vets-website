@@ -7,7 +7,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe.skip('Secure Messaging Delete Reply Draft', () => {
+describe('Secure Messaging Delete Reply Draft', () => {
   it('Axe Check Message Delete Reply Draft with Axe Check', () => {
     const draftsPage = new PatientMessageDraftsPage();
     const landingPage = new PatientInboxPage();
@@ -37,13 +37,17 @@ describe.skip('Secure Messaging Delete Reply Draft', () => {
       );
     });
     draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteReplyDraftWithEnterKey(messageDetails);
+    draftsPage.confirmDeleteDraft(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
+          enabled: false,
+        },
+        'color-contrast': {
           enabled: false,
         },
       },

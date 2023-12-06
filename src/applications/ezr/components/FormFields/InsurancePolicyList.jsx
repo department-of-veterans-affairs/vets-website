@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { replaceStrValues } from '../../utils/helpers/general';
 import { SESSION_ITEMS, SHARED_PATHS } from '../../utils/constants';
-import { getInsuranceSrLabel } from '../../utils/helpers/insurance-information';
+import { getInsuranceSrLabel } from '../../utils/helpers/insurance';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import content from '../../locales/en/content.json';
 
@@ -102,16 +102,18 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
         className="ezr-listloop--tile vads-u-border--1px vads-u-border-color--gray-medium"
       >
         <span
-          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
+          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold dd-privacy-mask"
           data-testid="ezr-listloop-tile--title"
+          data-dd-action-name="Insurance provider"
           aria-hidden
         >
           {insuranceName}
         </span>
-        <span className="sr-only">{srLabel}</span>
+        <span className="sr-only dd-privacy-mask">{srLabel}</span>
         <span
-          className="vads-u-display--block vads-u-line-height--2"
+          className="vads-u-display--block vads-u-line-height--2 dd-privacy-mask"
           data-testid="ezr-listloop-tile--subtitle"
+          data-dd-action-name="Insurance policyholder name"
         >
           {content['insurance-policy-tile-label']} {insurancePolicyHolderName}
         </span>
@@ -123,12 +125,14 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
               search: `?index=${index}&action=${mode}`,
             }}
           >
-            {content['button-edit']} <span className="sr-only">{srLabel}</span>{' '}
+            {content['button-edit']}{' '}
+            <span className="sr-only dd-privacy-mask">{srLabel}</span>{' '}
             <i
               role="presentation"
               className="fas fa-chevron-right vads-u-margin-left--0p5"
             />
           </Link>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="va-button-link ezr-button-remove"
@@ -141,7 +145,7 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
               className="fas fa-times vads-u-margin-right--0p5"
             />{' '}
             {content['button-remove']}{' '}
-            <span className="sr-only">{srLabel}</span>
+            <span className="sr-only dd-privacy-mask">{srLabel}</span>
           </button>
         </span>
       </li>

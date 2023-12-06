@@ -7,6 +7,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
 export const formBenefits = {
+  [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
   [VA_FORM_IDS.FORM_21_4142]: 'authorization to release medical information',
@@ -26,8 +27,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
   [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
-  [VA_FORM_IDS.FORM_28_1900]:
-    'Application for Veteran Readiness and Employment Benefits',
+  [VA_FORM_IDS.FORM_28_1900]: 'Veteran Readiness and Employment Benefits',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
@@ -80,6 +80,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
   [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
   [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
+  [VA_FORM_IDS.FORM_20_10206]: `${getAppUrl('10206-pa')}/`,
   [VA_FORM_IDS.FORM_21_0972]: `${getAppUrl('21-0972-alternate-signer')}/`,
   [VA_FORM_IDS.FORM_21_10210]: `${getAppUrl('10210-lay-witness-statement')}/`,
   [VA_FORM_IDS.FORM_21_4142]: `${getAppUrl('21-4142-medical-release')}/`,
@@ -106,6 +107,7 @@ export const formLinks = {
 };
 
 export const trackingPrefixes = {
+  [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
   [VA_FORM_IDS.FORM_21_4142]: 'medical-release-4142-',
@@ -137,6 +139,7 @@ export const trackingPrefixes = {
 
 export const sipEnabledForms = new Set([
   VA_FORM_IDS.FORM_10_10EZ,
+  VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21_4142,

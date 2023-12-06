@@ -92,8 +92,10 @@ export const getObservationValueWithUnits = observation => {
  * @returns {String} array of strings, separated by a comma
  */
 export const processList = list => {
-  if (list?.length > 1) return list.join('. ');
-  if (list?.length === 1) return list.toString();
+  if (Array.isArray(list)) {
+    if (list?.length > 1) return list.join('. ');
+    if (list?.length === 1) return list.toString();
+  }
   return EMPTY_FIELD;
 };
 
@@ -146,4 +148,49 @@ export const makePdf = async (
   } catch (error) {
     sendErrorToSentry(error, sentryError);
   }
+};
+
+/**
+ * Extract a contained resource from a FHIR resource's "contained" array.
+ * @param {Object} resource a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} referenceId an internal ID referencing a contained resource
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedResource = (resource, referenceId) => {
+  if (resource && isArrayAndHasItems(resource.contained) && referenceId) {
+    // Strip the leading "#" from the reference.
+    const strippedRefId = referenceId.substring(1);
+    const containedResource = resource.contained.find(
+      containedItem => containedItem.id === strippedRefId,
+    );
+    return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Download a text file
+ * @param {String} content text file content
+ * @param {String} fileName name for the text file
+ */
+export const generateTextFile = (content, fileName) => {
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
+};
+
+/**
+ * Returns the date and time for file download name
+ * @param {Object} user user object from redux store
+ * @returns the user's name with the date and time in the format John-Doe-M-D-YYYY_hhmmssa
+ */
+export const getNameDateAndTime = user => {
+  return `${user.userFullName.first}-${user.userFullName.last}-${moment()
+    .format('M-D-YYYY_hhmmssa')
+    .replace(/\./g, '')}`;
 };

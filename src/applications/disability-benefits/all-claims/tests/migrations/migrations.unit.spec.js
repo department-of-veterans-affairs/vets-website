@@ -10,7 +10,7 @@ import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
 import redirectToxicExposure from '../../migrations/09-redirect-toxic-exposure';
 
 import formConfig from '../../config/form';
-import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
+import { MAX_HOUSING_STRING_LENGTH, SHOW_8940_4192 } from '../../constants';
 
 describe('526 v2 migrations', () => {
   const longString = (offset = 10) =>
@@ -322,6 +322,10 @@ describe('526 v2 migrations', () => {
   });
 
   describe('09-redirect-toxic-exposure', () => {
+    afterEach(() => {
+      sessionStorage.removeItem(SHOW_8940_4192);
+    });
+
     it('should not change returnUrl if user left off on a page before toxic exposure pages', () => {
       const savedData = {
         formData: {},
@@ -341,13 +345,11 @@ describe('526 v2 migrations', () => {
         formData: {},
         metadata: {
           version: 9,
-          returnUrl: '/claim-type',
+          returnUrl: '/pow',
         },
       };
       const migratedData = redirectToxicExposure(savedData);
-      expect(migratedData.metadata.returnUrl).to.deep.equal(
-        '/toxic-exposure-intro',
-      );
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/toxic-exposure');
     });
 
     it('should not change returnUrl if user has filled out toxic exposure intro', () => {
@@ -357,11 +359,26 @@ describe('526 v2 migrations', () => {
         },
         metadata: {
           version: 9,
-          returnUrl: '/claim-type',
+          returnUrl: '/review-and-submit',
         },
       };
       const migratedData = redirectToxicExposure(savedData);
-      expect(migratedData.metadata.returnUrl).to.deep.equal('/claim-type');
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/review-and-submit',
+      );
+    });
+
+    it('should change returnUrl if 8940 enabled and user left on an 8940 page', () => {
+      sessionStorage.setItem(SHOW_8940_4192, 'true');
+      const savedData = {
+        formData: {},
+        metadata: {
+          version: 9,
+          returnUrl: '/unemployability-walkthrough-choice',
+        },
+      };
+      const migratedData = redirectToxicExposure(savedData);
+      expect(migratedData.metadata.returnUrl).to.deep.equal('/toxic-exposure');
     });
   });
 });

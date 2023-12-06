@@ -43,7 +43,7 @@ describe('threads actions', () => {
   it('should dispatch empty list on getListOfThreads action when no threads', async () => {
     mockFetch(noThreadsResponse, false);
     const store = mockStore();
-    await store.dispatch(getListOfThreads(0, 10, 1));
+    await store.dispatch(getListOfThreads(-1, 20, 5));
     expect(store.getActions()).to.deep.include({
       type: Actions.Thread.GET_EMPTY_LIST,
       response: [],
@@ -63,7 +63,7 @@ describe('threads actions', () => {
     };
     mockFetch(mockError, false);
     const store = mockStore();
-    await store.dispatch(getListOfThreads(0, 10, 1));
+    await store.dispatch(getListOfThreads());
     expect(store.getActions()).to.deep.include({
       type: Actions.Alerts.ADD_ALERT,
       payload: {

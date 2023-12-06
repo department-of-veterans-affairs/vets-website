@@ -6,10 +6,10 @@
   "provider": "Becky",
   "facility": "",
   "code": {
-    "coding": { "code": "asdf" },
-    "text": "Back pain (SCT 161891005)"
+    "coding": { "code": "" },
+    "text": ""
   },
-  "clinicalStatus": { "coding": { "code": "Inactive" } },
-  "asserter": "Dr. John",
-  "note": "A note"
+  "clinicalStatus": { "coding": { "code": "" } },
+  "asserter": "",
+  "note": ""
 }

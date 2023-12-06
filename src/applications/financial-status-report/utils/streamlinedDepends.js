@@ -1,6 +1,7 @@
 import { DEBT_TYPES } from '../constants';
 import { getMonthlyIncome, safeNumber } from './calculateIncome';
-import { getMonthlyExpenses, getTotalAssets } from './helpers';
+import { getTotalAssets } from './helpers';
+import { getMonthlyExpenses } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
 

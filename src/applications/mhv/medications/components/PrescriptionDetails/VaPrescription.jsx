@@ -106,48 +106,58 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              What it looks like
-            </h3>
-            <p>
-              Your medication may look different when you get a refill. Find the
-              most recent image in your refill history.
-            </p>
           </div>
-
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3">Refill history</h2>
-            {refillHistory.map((entry, i) => (
-              <div
-                key={entry.id}
-                className={
-                  i + 1 < refillHistory.length
-                    ? 'vads-u-margin-bottom--3 refill-entry'
-                    : 'refill-entry'
-                }
-              >
-                <h3 className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
-                  {i + 1 === refillHistory.length
-                    ? 'First fill'
-                    : `Refill ${refillHistory.length - i - 1}`}
-                </h3>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                  Filled by pharmacy on
-                </h4>
-                <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {dateFormat(entry.dispensedDate)}
-                </p>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                  Shipped on
-                </h4>
-                <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                  {dateFormat(shippedOn?.[i]?.completeDateTime)}
-                </p>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                  Image of the medication or supply
-                </h4>
-                <div className="no-print">
-                  <va-additional-info trigger="Review image">
+            {(refillHistory.length > 1 ||
+              refillHistory[0].dispensedDate !== undefined) &&
+              refillHistory.map((entry, i) => (
+                <div
+                  key={entry.id}
+                  className={
+                    i + 1 < refillHistory.length
+                      ? 'vads-u-margin-bottom--3 refill-entry'
+                      : 'refill-entry'
+                  }
+                >
+                  <h3 className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2">
+                    {i + 1 === refillHistory.length
+                      ? 'First fill'
+                      : `Refill ${refillHistory.length - i - 1}`}
+                  </h3>
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                    Filled by pharmacy on
+                  </h4>
+                  <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                    {dateFormat(entry.dispensedDate)}
+                  </p>
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                    Shipped on
+                  </h4>
+                  <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                    {dateFormat(shippedOn?.[i]?.completeDateTime)}
+                  </p>
+                  <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                    Image of the medication or supply
+                  </h4>
+                  <div className="no-print">
+                    {entry.cmopNdcNumber ? (
+                      <va-additional-info
+                        trigger="Review image"
+                        data-testid="review-rx-image"
+                      >
+                        <img
+                          src={getImageUri(entry.cmopNdcNumber)}
+                          alt={entry.prescriptionName}
+                          width="350"
+                          height="350"
+                        />
+                      </va-additional-info>
+                    ) : (
+                      <p className="vads-u-margin--0">No image available</p>
+                    )}
+                  </div>
+                  <div className="print-only">
                     {entry.cmopNdcNumber ? (
                       <img
                         src={getImageUri(entry.cmopNdcNumber)}
@@ -156,24 +166,15 @@ const VaPrescription = prescription => {
                         height="350"
                       />
                     ) : (
-                      <p>No Image Available</p>
+                      <p className="vads-u-margin--0">Image not available</p>
                     )}
-                  </va-additional-info>
+                  </div>
                 </div>
-                <div className="print-only">
-                  {entry.cmopNdcNumber ? (
-                    <img
-                      src={getImageUri(entry.cmopNdcNumber)}
-                      alt={entry.prescriptionName}
-                      width="350"
-                      height="350"
-                    />
-                  ) : (
-                    <p className="vads-u-margin--0">Image not available</p>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            {refillHistory.length <= 1 &&
+              refillHistory[0].dispensedDate === undefined && (
+                <p>You haven’t filled this prescription yet.</p>
+              )}
           </div>
         </>
       );

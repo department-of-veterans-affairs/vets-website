@@ -4,22 +4,25 @@ import vamcUser from '../fixtures/vamc-ehr.json';
 import prescriptions from '../fixtures/prescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, featureToggle = true) => {
     if (isMedicationsUser) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
 
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'mhv_medications_to_va_gov_release',
-              value: true,
-            },
-          ],
+      cy.intercept(
+        { method: 'GET', url: '/v0/feature_toggles?*' },
+        {
+          data: {
+            type: 'feature_toggles',
+            features: [
+              {
+                name: 'mhv_medications_to_va_gov_release',
+                value: featureToggle,
+              },
+            ],
+          },
         },
-      }).as('featureToggle');
+      ).as('featureToggle');
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept(
@@ -28,6 +31,7 @@ class MedicationsSite {
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.intercept('GET', '/health-care/refill-track-prescriptions');
     }
   };
 

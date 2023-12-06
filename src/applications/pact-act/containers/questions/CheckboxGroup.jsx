@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import {
   VaButtonPair,
   VaCheckbox,
-  VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
@@ -34,6 +34,19 @@ const CheckboxGroup = ({
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
+  const onValueChange = event => {
+    const { value } = event?.target;
+    valueSetter(value);
+
+    if (formValue) {
+      setValueHasChanged(true);
+    }
+
+    if (value) {
+      setFormError(false);
+    }
+  };
+
   const createCheckboxes = () => {
     return responses.map(response => {
       return (
@@ -43,6 +56,7 @@ const CheckboxGroup = ({
           label={response}
           name={shortName}
           value={response}
+          onVaChange={onValueChange}
         />
       );
     });
@@ -66,39 +80,30 @@ const CheckboxGroup = ({
     navigateBackward(shortName, formResponses, router);
   };
 
-  const onValueChange = event => {
-    const { value } = event?.target;
-    valueSetter(value);
-
-    if (formValue) {
-      setValueHasChanged(true);
-    }
-
-    if (value) {
-      setFormError(false);
-    }
-  };
-
-  const onBlurInput = () => {
-    if (formValue) {
-      setFormError(false);
-    }
-  };
-
   return (
     <>
-      <VaCheckboxGroup
-        data-testid={testId}
-        onBlur={onBlurInput}
-        className="vads-u-margin-bottom--3"
-        error={(formError && 'Select a location.') || null}
-        hint=""
-        label={h1}
-        label-header-level="1"
-        onVaChange={onValueChange}
+      <div
+        className={classNames('vads-u-margin-bottom--3', {
+          'pact-act-form-question-error': formError,
+        })}
       >
-        {createCheckboxes()}
-      </VaCheckboxGroup>
+        <h1
+          className="pact-act-form-question-header"
+          id="pact-act-form-question"
+        >
+          {h1}
+        </h1>
+        <fieldset aria-labelledby="pact-act-form-question" data-testid={testId}>
+          {formError && (
+            <span className="usa-error-message" role="alert">
+              <div className="pact-act-form-text-error">
+                <span className="usa-sr-only">Error</span> Select a location.
+              </div>
+            </span>
+          )}
+          {createCheckboxes()}
+        </fieldset>
+      </div>
       <VaButtonPair
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}

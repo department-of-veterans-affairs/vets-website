@@ -228,5 +228,6 @@ MessageList.propTypes = {
   isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   messages: PropTypes.array,
+  page: PropTypes.number,
   sortOrder: PropTypes.string,
 };

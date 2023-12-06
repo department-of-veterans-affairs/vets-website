@@ -192,6 +192,9 @@ describe('folders actions', () => {
     mockApiRequest({ method: 'DELETE', status: 204, ok: true });
     await store.dispatch(delFolder(1234)).then(() => {
       expect(store.getActions()).to.deep.include({
+        type: Actions.Folder.DELETE,
+      });
+      expect(store.getActions()).to.deep.include({
         type: Actions.Alerts.ADD_ALERT,
         payload: {
           alertType: 'success',

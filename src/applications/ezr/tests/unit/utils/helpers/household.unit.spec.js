@@ -1,62 +1,11 @@
 import { expect } from 'chai';
 import {
-  includeSpousalInformation,
   isOfCollegeAge,
   getDependentPageList,
 } from '../../../../utils/helpers/household';
 
-describe('ezr household financial helpers', () => {
-  describe('when `includeSpousalInformation` executes', () => {
-    const formData = {
-      discloseFinancialInformation: false,
-      maritalStatus: 'never married',
-    };
-
-    context('when financial disclose is `false`', () => {
-      it('should return `false`', () => {
-        expect(includeSpousalInformation(formData)).to.be.false;
-      });
-    });
-
-    context('when financial disclosure is `true`', () => {
-      context('when marital status is `never married`', () => {
-        it('should return `false`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-            }),
-          ).to.be.false;
-        });
-      });
-
-      context('when marital status is `married`', () => {
-        it('should return `true`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-              maritalStatus: 'married',
-            }),
-          ).to.be.true;
-        });
-      });
-
-      context('when marital status is `separated`', () => {
-        it('should return `true`', () => {
-          expect(
-            includeSpousalInformation({
-              ...formData,
-              discloseFinancialInformation: true,
-              maritalStatus: 'separated',
-            }),
-          ).to.be.true;
-        });
-      });
-    });
-  });
-
-  describe('when `isOfCollegeAge` executes', () => {
+describe('ezr household information helpers', () => {
+  context('when `isOfCollegeAge` executes', () => {
     context('when birthdate is greater than 23 years from testdate', () => {
       it('should return `false`', () => {
         const birthdate = '1986-06-01';
@@ -98,7 +47,7 @@ describe('ezr household financial helpers', () => {
     });
   });
 
-  describe('when `getDependentPageList` executes', () => {
+  context('when `getDependentPageList` executes', () => {
     const pages = [
       { id: 'page1', title: 'Page 1' },
       { id: 'page2', title: 'Page 2', depends: { key: 'key1', value: false } },
@@ -108,7 +57,11 @@ describe('ezr household financial helpers', () => {
     ];
 
     context('when page entries do not have conditional dependencies', () => {
-      it('should return a list of only pages without a conditional dependency', () => {
+      it('should return a list of non-conditional pages when form data is omitted', () => {
+        expect(getDependentPageList(pages)).to.have.lengthOf(2);
+      });
+
+      it('should return a list of non-conditional pages when form data is included', () => {
         const formData = {};
         expect(getDependentPageList(pages, formData)).to.have.lengthOf(2);
       });
@@ -125,6 +78,40 @@ describe('ezr household financial helpers', () => {
       it('should return a list of four (4) pages', () => {
         const formData = { key1: false, key2: true, key3: true };
         expect(getDependentPageList(pages, formData)).to.have.lengthOf(4);
+      });
+    });
+
+    context('when one conditional dependency contain a function value', () => {
+      it('should return a list of four (5) pages', () => {
+        const formData = { key1: false, key2: true, key3: false };
+        const altPages = [
+          ...pages,
+          {
+            id: 'page6',
+            title: 'Page 6',
+            depends: {
+              key: 'key3',
+              value: val => val === true,
+            },
+          },
+        ];
+        expect(getDependentPageList(altPages, formData)).to.have.lengthOf(5);
+      });
+
+      it('should return a list of all pages when the form data matches the function conditional', () => {
+        const formData = { key1: false, key2: true, key3: false };
+        const altPages = [
+          ...pages,
+          {
+            id: 'page6',
+            title: 'Page 6',
+            depends: {
+              key: 'key3',
+              value: val => val === false,
+            },
+          },
+        ];
+        expect(getDependentPageList(altPages, formData)).to.have.lengthOf(6);
       });
     });
 

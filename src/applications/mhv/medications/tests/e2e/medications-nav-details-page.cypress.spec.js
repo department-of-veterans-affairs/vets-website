@@ -8,8 +8,9 @@ describe('verify navigation to medication details Page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
+
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
 
@@ -30,14 +31,12 @@ describe('verify navigation to medication details Page', () => {
     detailsPage.verifyPrescriptionsRefillsRemaining(
       mockPrescriptionDetails.data.attributes.refillRemaining,
     );
+    detailsPage.verifyPrescriptionNameIsFocusedAfterLoading();
 
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

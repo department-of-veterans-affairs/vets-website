@@ -1,6 +1,6 @@
 import { Actions } from '../util/actionTypes';
 
-const initialState = {
+export const initialState = {
   /**
    * The list of paginated and sorted prescriptions returned from the api
    * @type {array}
@@ -18,7 +18,7 @@ const initialState = {
 
 export const prescriptionsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.Prescriptions.GET: {
+    case Actions.Prescriptions.GET_DETAILS: {
       return {
         ...state,
         prescriptionDetails: action.response.data.attributes,

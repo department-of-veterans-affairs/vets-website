@@ -19,6 +19,10 @@ describe('Allergies list container', () => {
         ),
       },
     },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
   };
 
   let screen;
@@ -77,96 +81,95 @@ describe('Allergies list container', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen).to.exist;
   });
+
+  it('should download a text file', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen).to.exist;
+  });
 });
 
 describe('Allergies list container still loading', () => {
-  const initialState = {
-    user,
-    mr: {
-      allergies: {},
-      alerts: {
-        alertList: [],
+  it('displays a loading indicator', () => {
+    const initialState = {
+      user,
+      mr: {
+        allergies: {},
+        alerts: {
+          alertList: [],
+        },
       },
-    },
-  };
+    };
 
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
       initialState,
       reducers: reducer,
       path: '/allergies',
     });
-  });
 
-  it('displays a loading indicator', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
   });
 });
 
 describe('Allergies list container with no allergies', () => {
-  const initialState = {
-    user,
-    mr: {
-      allergies: {
-        allergiesList: [],
+  it('displays a no allergies message', () => {
+    const initialState = {
+      user,
+      mr: {
+        allergies: {
+          allergiesList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
       },
-      alerts: {
-        alertList: [],
-      },
-    },
-  };
+    };
 
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
       initialState,
       reducers: reducer,
       path: '/allergies',
     });
-  });
 
-  it('displays a no allergies message', () => {
     expect(
-      screen.getByText('You don’t have any records in Allergies', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no allergies or reactions in your VA medical records.',
+        {
+          exact: true,
+        },
+      ),
     ).to.exist;
   });
 });
 
 describe('Allergies list container with errors', () => {
-  const initialState = {
-    user,
-    mr: {
-      allergies: {},
-      alerts: {
-        alertList: [
-          {
-            datestamp: '2023-10-10T16:03:28.568Z',
-            isActive: true,
-            type: 'error',
-          },
-          {
-            datestamp: '2023-10-10T16:03:28.572Z',
-            isActive: true,
-            type: 'error',
-          },
-        ],
+  it('displays an error', async () => {
+    const initialState = {
+      user,
+      mr: {
+        allergies: {},
+        alerts: {
+          alertList: [
+            {
+              datestamp: '2023-10-10T16:03:28.568Z',
+              isActive: true,
+              type: 'error',
+            },
+            {
+              datestamp: '2023-10-10T16:03:28.572Z',
+              isActive: true,
+              type: 'error',
+            },
+          ],
+        },
       },
-    },
-  };
+    };
 
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
+    const screen = renderWithStoreAndRouter(<Allergies runningUnitTest />, {
       initialState,
       reducers: reducer,
       path: '/allergies',
     });
-  });
 
-  it('displays an error', async () => {
     await waitFor(() => {
       expect(
         screen.getByText('We can’t access your allergy records right now', {

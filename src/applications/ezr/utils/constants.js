@@ -1,46 +1,46 @@
-// declare address overrides for uiSchema and schema declarations
-export const DEFAULT_ADDRESS_OVERRIDES = {
-  uiSchema: {
-    street: {
-      'ui:title': 'Street address',
-      'ui:errorMessages': {
-        pattern: 'Please provide a valid street address.',
-      },
-    },
-    city: {
-      'ui:errorMessages': {
-        pattern: 'Please provide a valid city.',
-      },
-    },
-    state: {
-      'ui:title': 'State/Province/Region',
-      'ui:errorMessages': {
-        required: 'Please enter a state/province/region',
-      },
-    },
-  },
-  schema: {
-    properties: {
-      street: {
-        minLength: 1,
-        maxLength: 30,
-      },
-      street2: {
-        minLength: 1,
-        maxLength: 30,
-      },
-      street3: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 30,
-      },
-      city: {
-        minLength: 1,
-        maxLength: 30,
-      },
-    },
-  },
+import { isOfCollegeAge } from './helpers/household';
+import { replaceStrValues } from './helpers/general';
+import content from '../locales/en/content.json';
+
+// declare previous year for form questions and content
+export const LAST_YEAR = new Date().getFullYear() - 1;
+
+// declare view fields for use in household section
+export const DEPENDENT_VIEW_FIELDS = {
+  add: 'view:reportDependents',
+  skip: 'view:skipDependentInfo',
 };
+
+// declare subpage configs for dependent information page
+export const DEPENDENT_SUBPAGES = [
+  {
+    id: 'basic',
+    title: content['household-dependent-info-basic-title'],
+  },
+  {
+    id: 'education',
+    title: content['household-dependent-info-education-title'],
+    depends: { key: 'dateOfBirth', value: isOfCollegeAge },
+  },
+  {
+    id: 'additional',
+    title: content['household-dependent-info-addtl-title'],
+  },
+  {
+    id: 'support',
+    title: content['household-dependent-info-support-title'],
+    depends: { key: 'cohabitedLastYear', value: false },
+  },
+  {
+    id: 'income',
+    title: replaceStrValues(
+      content['household-dependent-info-income-title'],
+      LAST_YEAR,
+      '%d',
+    ),
+    depends: { key: 'view:dependentIncome', value: true },
+  },
+];
 
 // declare prefix for use in GA events related to disability rating
 export const DISABILITY_PREFIX = 'disability-ratings';
@@ -78,17 +78,34 @@ export const HIGH_DISABILITY_MINIMUM = 50;
 
 // declare view fields for use in insurance info section
 export const INSURANCE_VIEW_FIELDS = {
-  add: 'view:addInsuancePolicy',
+  add: 'view:addInsurancePolicy',
   skip: 'view:skipInsuranceInfo',
+};
+
+// declare military city codes to use for prefill transformer
+export const MILITARY_CITIES = ['APO', 'FPO', 'DPO'];
+
+// declare mock response for enrollment status API to use for simulated testing
+export const MOCK_ENROLLMENT_RESPONSE = {
+  applicationDate: '2019-04-24T00:00:00.000-06:00',
+  enrollmentDate: '2019-04-30T00:00:00.000-06:00',
+  preferredFacility: '463 - CHEY6',
+  parsedStatus: 'enrolled',
+  effectiveDate: '2019-04-25T00:00:00.000-06:00',
 };
 
 // declare names to use for window session storage items
 export const SESSION_ITEMS = {
+  dependent: 'ezrDependentIndex',
   insurance: 'ezrPolicyIndex',
 };
 
 // declare routes that are shared between custom form pages
 export const SHARED_PATHS = {
+  dependents: {
+    summary: 'household-information/dependents',
+    info: 'household-information/dependent-information',
+  },
   insurance: {
     summary: 'insurance-information/policies',
     info: 'insurance-information/policy-information',

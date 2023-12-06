@@ -12,7 +12,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.loadMessages();
   });
 
-  it.skip('Verify filter works correctly', () => {
+  it('Verify filter works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -26,7 +26,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.verifyFilterResults('test');
   });
 
-  it.skip('Verify filter works with Date', () => {
+  it('Verify filter works with Date', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
@@ -38,7 +38,7 @@ describe('Secure Messaging Draft Folder checks', () => {
     draftsPage.inputFilterData('Last 3 Months');
     draftsPage.filterMessages();
   });
-  it.skip('Verify clear filter btn works correctly', () => {
+  it('Verify clear filter btn works correctly', () => {
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {

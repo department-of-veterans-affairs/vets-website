@@ -9,12 +9,17 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
-  getClaimType,
-  getAlreadySubmittedIntentText,
   getAlreadySubmittedTitle,
   getAlreadySubmittedText,
+  getAlertType,
+  getSuccessAlertTitle,
+  getSuccessAlertText,
+  getInfoAlertTitle,
+  getInfoAlertText,
+  getNextStepsTextSecondParagraph,
+  getNextStepsLinks,
 } from '../config/helpers';
-import { veteranBenefits } from '../definitions/constants';
+import { benefitPhrases, veteranBenefits } from '../definitions/constants';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -26,26 +31,31 @@ export class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, data } = form;
 
-    const { fullName } = data;
+    const { veteranFullName } = data;
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
 
-    const title = 'You’ve submitted your intent to file request';
-    const claimType = getClaimType(data);
+    const dateOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
     const expirationDate = new Date(
       submission.response?.expirationDate,
-    ).toDateString();
-    const expirationDateText = `Your intent to file for ${claimType} will expire on ${expirationDate}.`;
-    const alreadySubmittedIntents = {
-      compensation: !!submission.response?.compensationIntent?.status,
-      pension: !!submission.response?.pensionIntent?.status,
-      survivors: !!submission.response?.survivorsIntent?.status,
-    };
-    const alreadySubmittedIntentText = getAlreadySubmittedIntentText(
-      data,
-      alreadySubmittedIntents,
-      expirationDate,
-    );
+    ).toLocaleDateString('en-US', dateOptions);
+    const alreadySubmittedIntents = {};
+    if (submission.response?.compensationIntent) {
+      alreadySubmittedIntents.compensation =
+        submission.response.compensationIntent;
+    }
+    if (submission.response?.pensionIntent) {
+      alreadySubmittedIntents.pension = submission.response.pensionIntent;
+    }
+    if (submission.response?.survivorIntent) {
+      alreadySubmittedIntents.survivor = submission.response.survivorIntent;
+    }
+
     const alreadySubmittedTitle = getAlreadySubmittedTitle(
       data,
       alreadySubmittedIntents,
@@ -55,9 +65,12 @@ export class ConfirmationPage extends React.Component {
       alreadySubmittedIntents,
       expirationDate,
     );
-    const benefitSelection = Object.keys(data.benefitSelection).filter(
-      key => data.benefitSelection[key],
+    const nextStepsTextSecondParagraph = getNextStepsTextSecondParagraph(
+      data,
+      alreadySubmittedIntents,
+      expirationDate,
     );
+    const nextStepsLinks = getNextStepsLinks(data);
 
     return (
       <div>
@@ -68,14 +81,14 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        {alreadySubmittedIntentText ? (
+        {getAlertType(data, alreadySubmittedIntents) === 'info' ? (
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
             visible
           >
-            <h2 slot="headline">You've already submitted an intent to file</h2>
-            <p>{alreadySubmittedIntentText}</p>
+            <h2 slot="headline">{getInfoAlertTitle()}</h2>
+            <p>{getInfoAlertText(data, alreadySubmittedIntents)}</p>
           </va-alert>
         ) : (
           <va-alert
@@ -83,35 +96,38 @@ export class ConfirmationPage extends React.Component {
             status="success"
             visible
           >
-            <h2 slot="headline">{title}</h2>
-            <p>{expirationDateText}</p>
+            <h2 slot="headline">
+              {getSuccessAlertTitle(data, alreadySubmittedIntents)}
+            </h2>
+            <p>{getSuccessAlertText(data, alreadySubmittedIntents)}</p>
           </va-alert>
         )}
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your application information</h3>
-          {fullName ? (
+          {veteranFullName && (
             <>
               <h4>Applicant</h4>
               <p>
-                {fullName.first} {fullName.middle} {fullName.last}
-                {fullName.suffix ? `, ${fullName.suffix}` : null}
+                {veteranFullName.first} {veteranFullName.middle}{' '}
+                {veteranFullName.last}
+                {veteranFullName.suffix ? `, ${veteranFullName.suffix}` : null}
               </p>
             </>
-          ) : null}
+          )}
 
-          {confirmationNumber ? (
+          {confirmationNumber && (
             <>
               <h4>Confirmation number</h4>
               <p>{confirmationNumber}</p>
             </>
-          ) : null}
+          )}
 
-          {isValid(submitDate) ? (
+          {isValid(submitDate) && (
             <>
               <h4>Date submitted</h4>
               <p>{format(submitDate, 'MMMM d, yyyy')}</p>
             </>
-          ) : null}
+          )}
 
           <h4>Confirmation for your records</h4>
           <p>You can print this confirmation page for your records</p>
@@ -132,40 +148,29 @@ export class ConfirmationPage extends React.Component {
         <div>
           <h2>What are my next steps?</h2>
           <p>You should complete and file your claim as soon as possible.</p>
-          <p>
-            Your intent to file for {claimType} expires on {expirationDate}.
-            You’ll need to file your claim by this date to get retroactive
-            payments (payments for the time between when you submit your intent
-            to file and when we approve your claim).
-          </p>
-          {benefitSelection.includes(veteranBenefits.compensation) &&
-          benefitSelection.includes(veteranBenefits.pension) ? (
-            <ul style={{ listStyleType: 'none' }}>
-              <li>
+          <p>{nextStepsTextSecondParagraph}</p>
+          {nextStepsLinks.map(nextStep => {
+            let href = '/';
+            if (nextStep === veteranBenefits.COMPENSATION) {
+              href =
+                '/disability/file-disability-claim-form-21-526ez/introduction';
+            } else if (nextStep === veteranBenefits.PENSION) {
+              href = '/find-forms/about-form-21p-527ez/';
+            } else if (nextStep === veteranBenefits.SURVIVOR) {
+              href = '/find-forms/about-form-21p-534ez/';
+            }
+
+            return (
+              <p key={nextStep}>
                 <a
                   className="vads-c-action-link--green vads-u-margin-bottom--4"
-                  href="/"
+                  href={href}
                 >
-                  Complete your disability compensation claim
+                  Complete your {benefitPhrases[nextStep]}
                 </a>
-              </li>
-              <li>
-                <a
-                  className="vads-c-action-link--green vads-u-margin-bottom--4"
-                  href="/"
-                >
-                  Complete your pension claim
-                </a>
-              </li>
-            </ul>
-          ) : (
-            <a
-              className="vads-c-action-link--green vads-u-margin-bottom--4"
-              href="/"
-            >
-              Complete your {claimType}
-            </a>
-          )}
+              </p>
+            );
+          })}
         </div>
         <a
           className="vads-c-action-link--green vads-u-margin-bottom--4"
@@ -184,7 +189,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      veteranFullName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
@@ -193,6 +198,13 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
+      response: PropTypes.shape({
+        confirmationNumber: PropTypes.string,
+        expirationDate: PropTypes.string,
+        compensationIntent: PropTypes.shape(),
+        pensionIntent: PropTypes.shape(),
+        survivorIntent: PropTypes.shape(),
+      }),
       timestamp: PropTypes.string,
     }),
   }),

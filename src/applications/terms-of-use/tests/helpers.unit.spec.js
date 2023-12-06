@@ -16,4 +16,5 @@ describe('parseRedirectUrl', () => {
       expect(parseRedirectUrl(parsedUrl)).to.eql(formattedUrl);
     });
   });
+  expect(parseRedirectUrl(null)).to.eql('https://dev.va.gov');
 });

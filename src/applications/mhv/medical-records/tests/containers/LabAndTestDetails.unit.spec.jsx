@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
@@ -175,25 +176,22 @@ describe('LabAndTestDetails pathology', () => {
 // });
 
 describe('LabAndTestDetails radiology', () => {
-  const initialState = {
-    user,
-    mr: {
-      labsAndTests: {
-        labsAndTestsDetails: convertLabsAndTestsRecord(radiology),
+  it('displays radiology label', () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {
+          labsAndTestsDetails: convertLabsAndTestsRecord(radiology),
+        },
       },
-    },
-  };
+    };
 
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
+    const screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
       initialState,
       reducers: reducer,
       path: '/labs-and-tests/ex-MHV-chReport-1',
     });
-  });
 
-  it('displays radiology label', () => {
     expect(
       screen.getByText(
         'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
@@ -207,23 +205,62 @@ describe('LabAndTestDetails radiology', () => {
 });
 
 describe('LabAndTestDetails loading', () => {
-  const initialState = {
-    user,
-    mr: {
-      labsAndTests: {},
-    },
-  };
+  it('displays a loading indicator', () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {},
+      },
+    };
 
-  let screen;
-  beforeEach(() => {
-    screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
+    const screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
       initialState,
       reducers: reducer,
       path: '/labs-and-tests/ex-MHV-chReport-1',
     });
-  });
 
-  it('displays a loading indicator', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Labs and tests details container with errors', () => {
+  it('displays an error', async () => {
+    const initialState = {
+      user,
+      mr: {
+        labsAndTests: {},
+        alerts: {
+          alertList: [
+            {
+              datestamp: '2023-10-10T16:03:28.568Z',
+              isActive: true,
+              type: 'error',
+            },
+            {
+              datestamp: '2023-10-10T16:03:28.572Z',
+              isActive: true,
+              type: 'error',
+            },
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
+      initialState,
+      reducers: reducer,
+      path: '/labs-and-tests/123',
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'We can’t access your labs and tests records right now',
+          {
+            exact: false,
+          },
+        ),
+      ).to.exist;
+    });
   });
 });

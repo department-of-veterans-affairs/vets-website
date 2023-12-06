@@ -1,11 +1,12 @@
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-// import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
+import { ERROR } from '../chatbox/loadingStatus';
+// import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
 import {
@@ -18,11 +19,17 @@ import {
 import {
   cardActionMiddleware,
   ifMissingParamsCallSentry,
+  hasAllParams,
 } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, WebChatFramework, apiSession }) => {
+const WebChat = ({
+  token,
+  WebChatFramework,
+  apiSession,
+  setParamLoadingStatus,
+}) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
   const csrfToken = localStorage.getItem('csrfToken');
   const userFirstName = useSelector(state =>
@@ -30,21 +37,17 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const { virtualAgentDecisionLetterDownloadTracking } = useSelector(
-    state => {
-      return {
-        virtualAgentDecisionLetterDownloadTracking:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.virtualAgentDecisionLetterDownloadTracking
-          ],
-      };
-    },
-    state => state.featureToggles,
-  );
+
+  ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
+  if (!hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
+    // if this component is rendered then we know that the feature toggles are
+    // loaded and thus we can assume all the params are available if not we
+    // should error out
+    setParamLoadingStatus(ERROR);
+  }
 
   const store = useMemo(
     () => {
-      ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
       return createStore(
         {},
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
@@ -54,6 +57,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
+          isMobile,
         ),
       );
     },
@@ -221,9 +225,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
-        cardActionMiddleware={cardActionMiddleware(
-          virtualAgentDecisionLetterDownloadTracking,
-        )}
+        cardActionMiddleware={cardActionMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

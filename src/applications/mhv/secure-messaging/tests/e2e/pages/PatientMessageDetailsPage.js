@@ -248,11 +248,22 @@ class PatientMessageDetailsPage {
   };
 
   verifyMessageDetails = (messageDetails = mockMessage) => {
-    cy.get('[data-testid="message-metadata"]')
-      .should('contain', messageDetails.data.attributes.messageId)
-      .should('contain', messageDetails.data.attributes.triageGroupName)
-      .should('contain', messageDetails.data.attributes.senderName)
-      .should('contain', messageDetails.data.attributes.recipientName);
+    cy.get('[data-testid="message-id"]').should(
+      'contain',
+      messageDetails.data.attributes.messageId,
+    );
+    cy.get('[data-testid="from"]').should(
+      'contain',
+      messageDetails.data.attributes.triageGroupName,
+    );
+    cy.get('[data-testid="from"]').should(
+      'contain',
+      messageDetails.data.attributes.senderName,
+    );
+    cy.get('[data-testid="to"]').should(
+      'contain',
+      messageDetails.data.attributes.recipientName,
+    );
   };
 
   verifyTrashButtonModal = () => {
@@ -294,14 +305,10 @@ class PatientMessageDetailsPage {
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');
     cy.get('[data-testid=folder-list-radio-button]').should('be.visible');
     cy.get('[data-testid=move-to-modal]')
-      .shadow()
-      .find('button')
-      .contains('Confirm')
+      .find('va-button[text="Confirm"]')
       .should('be.visible');
     cy.get('[data-testid=move-to-modal]')
-      .shadow()
-      .find('button')
-      .contains('Cancel')
+      .find('va-button[text="Cancel"]')
       .should('be.visible')
       .click();
   };
@@ -344,7 +351,12 @@ class PatientMessageDetailsPage {
     );
     cy.get('.older-message')
       .eq(messageIndex)
-      .should('contain', `From: ${messageDetails.data.attributes.senderName}`);
+      .should(
+        'contain',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
   };
 
   verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
@@ -384,7 +396,7 @@ class PatientMessageDetailsPage {
           'have.text',
           `Date: ${dateFormat(
             messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY, h:mm a z',
+            'MMMM D, YYYY, [at] h:mm a z',
           )}`,
         );
     } else {
@@ -392,7 +404,7 @@ class PatientMessageDetailsPage {
         .eq(messageIndex)
         .should(
           'have.text',
-          `${dateFormat(
+          `Date: ${dateFormat(
             messageDetails.data.attributes.sentDate,
             'MMMM D, YYYY [at] h:mm a z',
           )}`,
@@ -412,6 +424,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessagesenderName = (messageDetails, messageIndex = 0) => {
+    cy.log('testing message from sender');
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
       .should(
@@ -423,14 +436,10 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
-    cy.get(
-      '[data-testid="message-replied-to"] > :nth-child(2)  > :nth-child(3)',
-    )
+    cy.log('testing message to recipient');
+    cy.get('[data-testid="to"]')
       .eq(messageIndex)
-      .should(
-        'have.text',
-        `To: ${messageDetails.data.attributes.recipientName}`,
-      );
+      .should('contain', `To: ${messageDetails.data.attributes.recipientName}`);
   };
 
   ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
@@ -440,16 +449,14 @@ class PatientMessageDetailsPage {
         'have.text',
         `Date: ${dateFormat(
           messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY, h:mm a z',
+          'MMMM D, YYYY [at] h:mm a z',
         )}`,
       );
   };
 
   ReplyToMessageId = messageDetails => {
-    cy.get(
-      '[data-testid="message-replied-to"] > :nth-child(2)  > :nth-child(5)',
-    ).should(
-      'have.text',
+    cy.get('[data-testid="message-id"]').should(
+      'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
     );
   };
@@ -458,6 +465,9 @@ class PatientMessageDetailsPage {
   ReplyToMessageBody = testMessageBody => {
     cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
   };
-}
 
+  verifyDeleteMessageConfirmationMessageHasFocus = () => {
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  };
+}
 export default PatientMessageDetailsPage;

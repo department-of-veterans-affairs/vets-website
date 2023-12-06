@@ -12,6 +12,7 @@ import allergy from '../fixtures/allergy.json';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
 import {
+  testableApiRequestWithRetry,
   getAllergies,
   getAllergy,
   getCondition,
@@ -25,6 +26,56 @@ import {
   getVitalsList,
   postSharingUpdateStatus,
 } from '../../api/MrApi';
+
+describe('apiRequestWithRetry', () => {
+  let callCount = 0;
+
+  const mockedApiRequest = async () => {
+    // Throw a 404 error twice, then return success on the third try.
+    callCount += 1;
+    if (callCount < 3) {
+      // We are throwing a very specific object here that has an "errors" property,
+      // unlike the JS errors object.
+      // eslint-disable-next-line no-throw-literal
+      throw { errors: [{ code: '404' }] };
+    }
+    return 'success';
+  };
+
+  beforeEach(() => {
+    callCount = 0;
+  });
+
+  it('times out if success is not returned quickly enough', async () => {
+    try {
+      const endTime = Date.now() + 100;
+      await testableApiRequestWithRetry(200, mockedApiRequest)(
+        'http://example.com/api',
+        {},
+        endTime,
+      );
+      expect.fail('Function should have thrown an error due to timeout');
+    } catch (error) {
+      expect(error).to.exist;
+      expect(callCount).to.be.lessThan(3);
+    }
+  });
+
+  it('retries several times before returning successfully', async () => {
+    try {
+      const endTime = Date.now() + 500;
+      const result = await testableApiRequestWithRetry(200, mockedApiRequest)(
+        'http://example.com/api',
+        {},
+        endTime,
+      );
+      expect(result).to.equal('success');
+      expect(callCount).to.equal(3);
+    } catch (error) {
+      expect.fail('Function should not have thrown an error');
+    }
+  });
+});
 
 describe('Get labs and tests api call', () => {
   it('should make an api call to get all labs and tests', () => {
@@ -54,7 +105,7 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(3);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });
@@ -76,7 +127,7 @@ describe('Get vitals api call', () => {
     mockApiRequest(mockData);
 
     return getVitalsList(true).then(res => {
-      expect(res.entry.length).to.equal(2);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });

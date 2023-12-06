@@ -81,14 +81,14 @@
                 "prescriptionNumber": "3636888",
                 "prescriptionName": "OCTREOTIDE ACETATE 1000MCG/ML INJ *SUBQ*",
                 "refillStatus": "active",
-                "refillSubmitDate": "2023-02-14T16:29:06.000Z",
+                "refillSubmitDate": "October 2, 2023",
                 "refillDate": "2023-02-12T05:00:00.000Z",
                 "refillRemaining": 0,
                 "facilityName": "SLC10 TEST LAB",
                 "orderedDate": "2022-10-08T04:00:00.000Z",
                 "quantity": 3,
                 "expirationDate": "2023-10-09T04:00:00.000Z",
-                "dispensedDate": null,
+                "dispensedDate": "October 2, 2023",
                 "stationNumber": "979",
                 "isRefillable": false,
                 "isTrackable": false,
@@ -121,7 +121,7 @@
                         [
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "October 2, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 0,
                                 "facilityName": "SLC10 TEST LAB",
@@ -207,7 +207,7 @@
                             },
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "February 12, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 2,
                                 "facilityName": "SLC10 TEST LAB",
@@ -251,27 +251,28 @@
                         ]
                     ]
                 ],
-                "tracking": false
+                "tracking": false,
+                "sortedDispensedDate": "2023-10-02"
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21457695"
             }
         },
         {
-            "id": "21142521",
+            "id": "22177891",
             "type": "prescription_details",
             "attributes": {
-                "prescriptionId": 21142521,
-                "prescriptionNumber": "8",
-                "prescriptionName": "BAB OTIC SOL",
+                "prescriptionId": 22177891,
+                "prescriptionNumber": "9",
+                "prescriptionName": "CALAMINE LOTION",
                 "refillStatus": "active",
                 "refillSubmitDate": null,
-                "refillDate": "2022-03-23T04:00:00.000Z",
+                "refillDate": "2023-05-26T04:00:00.000Z",
                 "refillRemaining": null,
                 "facilityName": "DAYT29",
-                "orderedDate": "2022-03-23T04:00:00.000Z",
+                "orderedDate": "2023-05-31T04:00:00.000Z",
                 "quantity": null,
-                "expirationDate": "2022-05-22T04:00:00.000Z",
+                "expirationDate": null,
                 "dispensedDate": null,
                 "stationNumber": "989",
                 "isRefillable": false,
@@ -279,31 +280,32 @@
                 "cmopNdcNumber": null,
                 "inCernerTransition": false,
                 "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
-                "sig": "HIGH TOP WEEKLY",
+                "sig": "120 ML TOPICAL WEEKLY",
                 "cmopDivisionPhone": null,
                 "userId": 17621060,
                 "providerFirstName": "BHAVIN",
                 "providerLastName": "PATEL",
-                "remarks": null,
+                "remarks": "TEST COMMENTS 06052023",
                 "divisionName": null,
-                "modifiedDate": "2023-10-04T13:45:29.000Z",
+                "modifiedDate": "2023-10-27T13:20:26.000Z",
                 "institutionId": null,
                 "dialCmopDivisionPhone": "",
                 "dispStatus": "Active: Non-VA",
-                "ndc": null,
+                "ndc": "0242-2127-65",
                 "reason": null,
                 "prescriptionNumberIndex": "NV",
                 "prescriptionSource": "NV",
-                "disclaimer": null,
-                "indicationForUse": null,
+                "disclaimer": "TEST DISCLAIMER 06052023",
+                "indicationForUse": "TEST INDICATION NON-VA MEDS 06052023",
                 "indicationForUseFlag": null,
                 "category": "Documented by VA",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false
+                "tracking": false,
+                "orderableItem": "CALAMINE"
             },
             "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142521"
+                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22177891"
             }
         },
         {
@@ -1237,30 +1239,6 @@
             }
         },
         {
-            "id": "22244915",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 22244915,
-                "prescriptionNumber": "2720518",
-                "prescriptionName": "BUTALBITAL ACETAMINOPHEN 50/325MG TAB",
-                "refillStatus": "activeParked",
-                "refillSubmitDate": "2023-06-29T17:09:33.000Z",
-                "refillDate": "2023-06-29T04:00:00.000Z",
-                "refillRemaining": 0,
-                "facilityName": "DAYT29",
-                "orderedDate": "2023-05-30T04:00:00.000Z",
-                "quantity": 30,
-                "expirationDate": "2024-05-30T04:00:00.000Z",
-                "dispensedDate": "2023-06-29T04:00:00.000Z",
-                "stationNumber": "989",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22244915"
-            }
-        },
-        {
             "id": "22177889",
             "type": "prescriptions",
             "attributes": {
@@ -1429,30 +1407,6 @@
             }
         },
         {
-            "id": "21142490",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21142490,
-                "prescriptionNumber": "3636859",
-                "prescriptionName": "FAMOTIDINE 40MG TAB",
-                "refillStatus": "expired",
-                "refillSubmitDate": "2022-08-25T19:55:30.000Z",
-                "refillDate": "2022-09-06T04:00:00.000Z",
-                "refillRemaining": 1,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-06-06T04:00:00.000Z",
-                "quantity": 30,
-                "expirationDate": "2023-06-07T04:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142490"
-            }
-        },
-        {
             "id": "22116215",
             "type": "prescriptions",
             "attributes": {
@@ -1594,54 +1548,6 @@
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142470"
-            }
-        },
-        {
-            "id": "21142471",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21142471,
-                "prescriptionNumber": "3636827",
-                "prescriptionName": "NAPROXEN 250MG TAB",
-                "refillStatus": "discontinued",
-                "refillSubmitDate": null,
-                "refillDate": "2022-03-11T05:00:00.000Z",
-                "refillRemaining": 2,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-02-09T05:00:00.000Z",
-                "quantity": 60,
-                "expirationDate": "2023-02-10T05:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142471"
-            }
-        },
-        {
-            "id": "21296559",
-            "type": "prescriptions",
-            "attributes": {
-                "prescriptionId": 21296559,
-                "prescriptionNumber": "3636827A",
-                "prescriptionName": "NAPROXEN 250MG TAB",
-                "refillStatus": "refillinprocess",
-                "refillSubmitDate": "2022-11-08T19:11:24.000Z",
-                "refillDate": "2022-11-08T05:00:00.000Z",
-                "refillRemaining": 2,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2022-09-20T04:00:00.000Z",
-                "quantity": 60,
-                "expirationDate": "2023-09-21T04:00:00.000Z",
-                "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
-                "isTrackable": false
-            },
-            "links": {
-                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21296559"
             }
         },
         {

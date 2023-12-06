@@ -7,8 +7,9 @@ describe('Medications List Page Pagination', () => {
   it('visits Medications list Page Pagination', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    cy.visit('my-health/about-medications');
     site.login();
+    cy.visit('my-health/about-medications');
+
     const threadLength = 29;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
@@ -23,9 +24,6 @@ describe('Medications List Page Pagination', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

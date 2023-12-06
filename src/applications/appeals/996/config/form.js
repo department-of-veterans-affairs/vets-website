@@ -12,7 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -20,7 +20,8 @@ import homeless from '../pages/homeless';
 import contactInfo from '../pages/contactInformation';
 import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
-import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
+import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
@@ -30,13 +31,13 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
-import { getIssueTitle } from '../content/areaOfDisagreement';
 
+import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
 
-// import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/initialData';
 
 import manifest from '../manifest.json';
 
@@ -49,10 +50,10 @@ const formConfig = {
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vaProfile,
-      services.bgs,
-      services.mvi,
-      services.appeals,
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
     ],
   },
 
@@ -138,7 +139,7 @@ const formConfig = {
           depends: () => false,
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
@@ -146,11 +147,12 @@ const formConfig = {
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
           path: 'area-of-disagreement/:index',
+          CustomPage: AreaOfDisagreement,
+          CustomPageReview: null,
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-          appStateSelector,
         },
         optIn: {
           title: 'Opt in',

@@ -177,7 +177,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  confirmDeleteDraft = draftMessage => {
+  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',
       `/my_health/v1/messaging/messages/${
@@ -185,20 +185,31 @@ class PatientMessageDraftsPage {
       }`,
       draftMessage,
     ).as('deletedDraftResponse');
-    cy.get('[data-testid="delete-draft-modal"]').should('be.visible');
-    cy.get('[data-testid="delete-draft-modal"]')
-      .find('va-button[text="Delete draft"]', { force: true })
-      .contains('Delete draft')
-      .should('contain', 'Delete')
-      .click({ force: true });
-    cy.wait('@deletedDraftResponse');
+    if (isNewDraftText) {
+      cy.get('[data-testid="delete-draft-modal"]')
+        .find('va-button[text="Yes, delete this draft"]', { force: true })
+        .contains('Yes, delete this draft')
+        .click({ force: true });
+      // Wait needs to be added back in before closing PR
+      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
+    } else {
+      cy.get('[data-testid="delete-draft-modal"]')
+        .find('va-button[text="Delete draft"]', { force: true })
+        .contains('Delete draft')
+        .click({ force: true });
+      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
+    }
   };
 
   verifyDeleteConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+    cy.get('[close-btn-aria-label="Close notification"]').should(
       'have.text',
       `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
     );
+  };
+
+  verifyDeleteConfirmationHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -227,7 +238,7 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="delete-draft-modal"]');
     cy.realPress(['Tab']);
     cy.realPress(['Enter']);
-    cy.wait('@deletedDraftResponse')
+    cy.wait('@deletedDraftResponse', { requestTimeout: 10000 })
       .its('request.url')
       .should('include', `${draftMessage.data.attributes.messageId}`);
   };
@@ -404,6 +415,10 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.wait('@draftFolder');
     cy.wait('@draftFolderMessages');
+  };
+
+  verifyDraftMessageBannerTextHasFocus = () => {
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 }
 

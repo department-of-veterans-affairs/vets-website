@@ -4,11 +4,10 @@ import { expect } from 'chai';
 import SigiDescription from '../../../../components/FormDescriptions/SigiDescription';
 
 describe('ezr <SigiDescription>', () => {
-  describe('when the component renders', () => {
-    it('should render `va-additional-info` component', () => {
+  context('when the component renders', () => {
+    it('should render with content', () => {
       const { container } = render(SigiDescription);
-      const selector = container.querySelector('va-additional-info');
-      expect(selector).to.exist;
+      expect(container).to.not.be.empty;
     });
   });
 });

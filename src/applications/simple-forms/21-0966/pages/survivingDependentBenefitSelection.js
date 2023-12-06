@@ -14,7 +14,7 @@ export default {
       labelHeaderLevel: '3',
       tile: true,
       labels: {
-        [survivingDependentBenefits.survivors]: {
+        [survivingDependentBenefits.SURVIVOR]: {
           title:
             'Survivors pension and/or dependency and indemnity compensation (DIC)',
           description:
@@ -28,10 +28,10 @@ export default {
     'view:additionalInfo': {
       'ui:description': (
         <va-additional-info trigger="What's an intent to file?">
-          An intent to file request lets us know that you’re planning to file a
-          claim. An intent to file reserves a potential effective date for when
-          you could start getting benefits while you prepare your claim and
-          gather supporting documents.
+          An intent to file lets us know that you’re planning to file a claim.
+          An intent to file reserves a potential effective date for when you
+          could start getting benefits while you prepare your claim and gather
+          supporting documents.
         </va-additional-info>
       ),
     },

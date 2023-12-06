@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  VaButtonPair,
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { snakeCase } from 'lodash';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   navigateBackward,
   navigateForward,
@@ -53,14 +50,7 @@ const TernaryRadios = ({
     navigateBackward(shortName, formResponses, router);
   };
 
-  const onBlurInput = () => {
-    if (formValue) {
-      setFormError(false);
-    }
-  };
-
-  const onValueChange = event => {
-    const { value } = event?.detail;
+  const onValueChange = value => {
     valueSetter(value);
 
     if (formValue) {
@@ -72,38 +62,66 @@ const TernaryRadios = ({
     }
   };
 
+  const renderRadioOptions = () => {
+    return responses.map((response, index) => {
+      return (
+        <div key={index}>
+          <input
+            type="radio"
+            checked={formValue === response}
+            data-testid="va-radio-option"
+            id={snakeCase(`${response}_input`)}
+            name={shortName}
+            onChange={() => onValueChange(response)}
+            value={response}
+          />
+          <label
+            className="pact-act-form-label"
+            htmlFor={snakeCase(`${response}_input`)}
+          >
+            <span>{response}</span>
+          </label>
+        </div>
+      );
+    });
+  };
+
   return (
     <>
-      <VaRadio
-        data-testid={testId}
-        onBlur={onBlurInput}
-        className="vads-u-margin-bottom--3"
-        error={(formError && 'Select a response.') || null}
-        hint=""
-        label={h1}
-        label-header-level="1"
-        onVaValueChange={onValueChange}
+      <div
+        className={
+          formError
+            ? 'vads-u-margin-bottom--3 pact-act-form-question-error'
+            : 'vads-u-margin-bottom--3'
+        }
       >
-        {locationList}
-        <VaRadioOption
-          checked={formValue === responses[0]}
-          label={responses[0]}
-          name={shortName}
-          value={responses[0]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[1]}
-          label={responses[1]}
-          name={shortName}
-          value={responses[1]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[2]}
-          label={responses[2]}
-          name={shortName}
-          value={responses[2]}
-        />
-      </VaRadio>
+        <h1
+          className="pact-act-form-question-header"
+          id="pact-act-form-question"
+        >
+          {h1}
+        </h1>
+        {locationList ? (
+          <div id="pact-act-form-instructions">{locationList}</div>
+        ) : null}
+        <fieldset
+          aria-labelledby={
+            locationList
+              ? 'pact-act-form-question pact-act-form-instructions'
+              : 'pact-act-form-question'
+          }
+          data-testid={testId}
+        >
+          {formError && (
+            <span className="usa-error-message" role="alert">
+              <div className="pact-act-form-text-error">
+                <span className="usa-sr-only">Error</span> Select a response.
+              </div>
+            </span>
+          )}
+          {renderRadioOptions()}
+        </fieldset>
+      </div>
       <VaButtonPair
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}

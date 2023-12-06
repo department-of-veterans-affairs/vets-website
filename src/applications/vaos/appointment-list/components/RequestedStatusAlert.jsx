@@ -81,26 +81,33 @@ export default function RequestedStatusAlert({ appointment, facility }) {
       </InfoAlert>
     );
   }
-  if (!showConfirmMsg) {
-    return (
-      <InfoAlert backgroundOnly status={canceled ? 'error' : 'info'}>
-        {!canceled &&
-          'The time and date of this appointment are still to be determined.'}
-        {canceled && (
-          <>
-            <strong>{who} canceled this request. </strong>
-            If you still need an appointment, call us or request a new
-            appointment online.
-          </>
-        )}
-      </InfoAlert>
-    );
-  }
-
-  return null;
+  return (
+    <InfoAlert backgroundOnly status={canceled ? 'error' : 'info'}>
+      {!canceled &&
+        'The time and date of this appointment are still to be determined.'}
+      {canceled && (
+        <>
+          <strong>{who} canceled this request. </strong>
+          If you still need an appointment, call us or request a new appointment
+          online.
+        </>
+      )}
+    </InfoAlert>
+  );
 }
 
 RequestedStatusAlert.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    cancelationReason: PropTypes.string,
+  }),
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+};
+RequestedStatusAlert.defaultProps = {
+  appointment: {
+    status: 'pending',
+    cancelationReason: '',
+  },
 };

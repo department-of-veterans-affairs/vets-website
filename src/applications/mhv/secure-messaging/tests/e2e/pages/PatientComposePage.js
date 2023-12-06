@@ -112,7 +112,9 @@ class PatientComposePage {
   };
 
   verifyFocusonMessageAttachment = () => {
-    cy.get('.editable-attachment > span').should('have.focus');
+    cy.get('[data-testid="close-success-alert-button"]')
+      .should('be.visible')
+      .should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
@@ -131,13 +133,6 @@ class PatientComposePage {
 
   verifyFocusOnErrorEmptyMessageBody = () => {
     cy.focused().should('have.attr', 'error', 'Message body cannot be blank.');
-  };
-
-  verifyErrorEmptyMessageBody = () => {
-    cy.get('#input-error-message').should(
-      'contain.text',
-      'Message body cannot be blank',
-    );
   };
 
   //* Refactor* Needs to have mockDraftMessage as parameter
@@ -263,9 +258,36 @@ class PatientComposePage {
     });
   };
 
+  verifyAttachmentButtonText = (numberOfAttachments = 0) => {
+    if (numberOfAttachments < 1) {
+      cy.get('[data-testid="attach-file-button"]')
+        .shadow()
+        .find('[type="button"]')
+        .should('contain', 'Attach file');
+    } else {
+      cy.get('[data-testid="attach-file-button"]')
+        .shadow()
+        .find('[type="button"]')
+        .should('contain', 'Attach additional file');
+    }
+  };
+
+  verifyExpectedAttachmentsCount = expectedCount => {
+    cy.get('[data-testid="attachments-count"]').should(
+      'contain',
+      expectedCount,
+    );
+  };
+
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
     cy.contains('Remove').click();
+  };
+
+  verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {
+    cy.get('.remove-attachment-button')
+      .eq(_attachmentIndex)
+      .should('have.focus');
   };
 
   //* Refactor*Remove and consolidate
@@ -288,10 +310,9 @@ class PatientComposePage {
   };
 
   clickOnDeleteDraftButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
-      .shadow()
-      .find('button')
-      .contains('Delete draft')
+    cy.get('va-button[text="Continue editing"]')
+      .parent()
+      .find('va-button[text="Delete draft"]')
       .click();
   };
 
@@ -303,7 +324,7 @@ class PatientComposePage {
   };
 
   clickOnContinueEditingButton = () => {
-    cy.get('[primary-button-text="Continue editing"]')
+    cy.get('va-button[text="Continue editing"]')
       .shadow()
       .find('button')
       .contains('Continue editing')
@@ -389,7 +410,7 @@ class PatientComposePage {
     );
   };
 
-  verifySelcteRespitantErrorMessage = () => {
+  verifySelectRecipientErrorMessage = () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="error-message"]')

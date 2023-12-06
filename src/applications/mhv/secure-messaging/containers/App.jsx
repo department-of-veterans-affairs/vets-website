@@ -35,6 +35,7 @@ const App = () => {
     sessionSampleRate: 100, // controls the percentage of overall sessions being tracked
     sessionReplaySampleRate: 50, // is applied after the overall sample rate, and controls the percentage of sessions tracked as Browser RUM & Session Replay
     trackInteractions: true,
+    trackFrustrations: true,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,

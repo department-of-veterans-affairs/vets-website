@@ -4,13 +4,22 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { recordType, vitalTypes, pageTitles } from '../util/constants';
+import {
+  recordType,
+  vitalTypes,
+  pageTitles,
+  ALERT_TYPE_ERROR,
+  accessAlertTypes,
+} from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import useAlerts from '../hooks/use-alerts';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
+  const activeAlert = useAlerts();
 
   useEffect(
     () => {
@@ -42,13 +51,19 @@ const Vitals = () => {
           vitals.find(vital => vital.type === vitalTypes.HEIGHT),
           vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
           vitals.find(vital => vital.type === vitalTypes.WEIGHT),
+          vitals.find(vital => vital.type === vitalTypes.PAIN),
         ]);
       }
     },
     [vitals],
   );
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
   const content = () => {
+    if (accessAlert) {
+      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    }
     if (cards?.length) {
       return (
         <RecordList
@@ -69,12 +84,13 @@ const Vitals = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 

@@ -3,7 +3,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import footerContent from 'platform/forms/components/FormFooter';
 
 import manifest from '../manifest.json';
-import transformForSubmit from '../../shared/config/submit-transformer';
+import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { pageFocusScroll } from './helpers';

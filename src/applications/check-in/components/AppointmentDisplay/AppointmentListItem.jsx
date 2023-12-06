@@ -34,7 +34,7 @@ const AppointmentListItem = props => {
         </span>
       );
     }
-    if (is45MinuteReminderEnabled) {
+    if (is45MinuteReminderEnabled && appointment) {
       return (
         <span data-testid="in-person-msg-confirmation">
           {t('remember-to-bring-your-insurance-cards-with-you')}

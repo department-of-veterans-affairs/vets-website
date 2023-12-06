@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-
-import { hasBadAddress as hasBadAddressSelector } from '@@profile/selectors';
 import { useSelector } from 'react-redux';
 
-import { PROFILE_PATHS } from '@@profile/constants';
+import {
+  hasBadAddress as hasBadAddressSelector,
+  selectProfileContactsToggle,
+} from '@@profile/selectors';
+
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';
 
 import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
@@ -14,6 +17,7 @@ import { HubCard } from './HubCard';
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
+  const profileContactsEnabled = useSelector(selectProfileContactsToggle);
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -33,120 +37,111 @@ export const Hub = () => {
       )}
 
       {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
+      <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Personal information"
-          content="Review your legal name, date of birth, and disability rating. And
-              manage your preferred name and gender identity."
+          heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
+          content="Legal name, date of birth, preferred name, gender identity, and disability rating"
         >
-          <div className="vads-u-margin-bottom--0p5">
-            <ProfileLink
-              text="Manage your personal information"
-              href={PROFILE_PATHS.PERSONAL_INFORMATION}
-            />
-          </div>
+          <ProfileLink
+            text="Manage your personal information"
+            href={PROFILE_PATHS.PERSONAL_INFORMATION}
+          />
         </HubCard>
 
         <HubCard
-          heading="Contact information"
-          content="Manage your addresses, phone numbers, and the email address we'll use to contact you."
+          heading={PROFILE_PATH_NAMES.CONTACT_INFORMATION}
+          content="Addresses, phone numbers, and email address"
         >
-          <div className="vads-u-margin-bottom--0p5">
-            <ProfileLink
-              text="Manage your contact information"
-              href={PROFILE_PATHS.CONTACT_INFORMATION}
-            />
-          </div>
+          <ProfileLink
+            text="Manage your contact information"
+            href={PROFILE_PATHS.CONTACT_INFORMATION}
+          />
         </HubCard>
-      </div>
 
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
+        {profileContactsEnabled && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.CONTACTS}
+            content="Medical emergency contact and next of kin contact information"
+          >
+            <ProfileLink
+              className="small-screen--line-break-at-32-characters"
+              text="Review your personal health care contacts"
+              href={PROFILE_PATHS.CONTACTS}
+            />
+          </HubCard>
+        )}
+
         <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Military information"
-          content="Review your military branches and dates of service."
+          heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
+          content="Military branches and dates of service"
         >
           <>
-            <div className="vads-u-display--block">
-              <ProfileLink
-                text="Review your military information"
-                href={PROFILE_PATHS.MILITARY_INFORMATION}
-              />
-            </div>
-            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5 vads-u-padding-right--2 medium-screen:vads-u-padding-right">
-              <ProfileLink
-                text="Learn how to request your DD214 and other military records"
-                href="/records/get-military-service-records/"
-              />
-            </div>
+            <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
+              text="Review your military information"
+              href={PROFILE_PATHS.MILITARY_INFORMATION}
+            />
+            <ProfileLink
+              className="medium-screen--line-break-at-50-characters"
+              text="Learn how to request your DD214 and other military records"
+              href="/records/get-military-service-records/"
+            />
           </>
         </HubCard>
 
         <HubCard
-          heading="Direct deposit information"
-          content="Manage direct deposit information for disability compensation, pension, and education benefits."
+          heading={PROFILE_PATH_NAMES.DIRECT_DEPOSIT}
+          content="Direct deposit information for disability compensation, pension, and education benefits"
         >
-          <div className="vads-u-display--block vads-u-margin-bottom--5">
-            <ProfileLink
-              text="Manage your direct deposit information"
-              href={PROFILE_PATHS.DIRECT_DEPOSIT}
-            />
-          </div>
-        </HubCard>
-      </div>
+          <ProfileLink
+            className="vads-u-display--block vads-u-margin-bottom--2"
+            text="Manage your direct deposit information"
+            href={PROFILE_PATHS.DIRECT_DEPOSIT}
+          />
 
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4">
-        <HubCard
-          className="medium-screen:vads-u-padding-right--4 vads-u-padding-bottom--4 medium-screen:vads-u-padding-bottom--0"
-          heading="Notification settings"
-          content="Manage the text and email notifications you get from VA."
-        >
-          <div className="vads-u-margin-bottom--5">
-            <ProfileLink
-              text="Manage notification settings"
-              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
-            />
-          </div>
+          <ProfileLink
+            text="View payment history"
+            href="/va-payment-history/payments/"
+          />
         </HubCard>
 
         <HubCard
-          heading="Account security"
-          content="Review your sign-in and account information."
+          heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
+          content="Text and email notifications you get from VA"
+        >
+          <ProfileLink
+            text="Manage notification settings"
+            href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+          />
+        </HubCard>
+
+        <HubCard
+          heading={PROFILE_PATH_NAMES.ACCOUNT_SECURITY}
+          content="Sign-in and account information"
         >
           <>
-            <div className="vads-u-display--block">
-              <ProfileLink
-                text="Review account security"
-                href={PROFILE_PATHS.ACCOUNT_SECURITY}
-              />
-            </div>
+            <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
+              text="Review account security"
+              href={PROFILE_PATHS.ACCOUNT_SECURITY}
+            />
 
-            <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
-              <ProfileLink
-                text={`Update your sign-in info on the ${label} website`}
-                href={link}
-              />
-            </div>
+            <ProfileLink
+              className="vads-u-display--block"
+              text={`Update your sign-in info on the ${label} website`}
+              href={link}
+            />
           </>
         </HubCard>
-      </div>
 
-      {/* ROW */}
-      <div className="vads-l-row vads-u-margin-bottom--4 ">
         <HubCard
-          className="medium-screen:vads-u-padding-right--4"
-          heading="Connected apps"
-          content="Manage the 3rd-party apps that have access to your VA.gov profile."
+          heading={PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS}
+          content="3rd-party apps that have access to your VA.gov profile"
         >
-          <div className="vads-u-display--block vads-u-margin-top--1p5 vads-u-margin-bottom--0p5">
-            <ProfileLink
-              href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
-              text="Manage connected apps"
-            />
-          </div>
+          <ProfileLink
+            href={PROFILE_PATHS.CONNECTED_APPLICATIONS}
+            text="Manage connected apps"
+          />
         </HubCard>
       </div>
     </>

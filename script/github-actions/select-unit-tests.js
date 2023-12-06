@@ -21,8 +21,10 @@ const CHANGED_APPS = process.env.CHANGED_FILES
     )
   : [];
 
-const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(specPath =>
-  CHANGED_APPS.some(filePath => specPath.includes(filePath)),
+const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
+  specPath =>
+    CHANGED_APPS.some(filePath => specPath.includes(filePath)) &&
+    fs.existsSync(specPath),
 );
 
 core.exportVariable('TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);

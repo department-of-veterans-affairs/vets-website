@@ -27,7 +27,7 @@ describe('Secure Messaging Reply Message Details Thread', () => {
       `[data-testid='expand-message-button-${
         testMessage.data.attributes.messageId
       }']`,
-    ).click({ waitforanimations: true });
+    ).click({ waitforanimations: true, multiple: true });
     PatientReplyPage.verifyExpandedMessageDateDisplay(testMessage);
     // messageDetailsPage.verifyExpandedMessageIDDisplay(testMessage); // TODO: Pending UCD decision if message ID should be displayed
     messageDetailsPage.verifyExpandedMessageToDisplay(testMessage);

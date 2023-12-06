@@ -11,7 +11,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="active-status-definition"
+              >
                 This is a current prescription. If you have refills left, you
                 can request a refill now.
               </p>
@@ -26,7 +29,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -70,7 +76,7 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Non-VA</div>
-            <div className="no-print">
+            <div className="no-print" data-testid="status-dropdown">
               <va-additional-info trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
@@ -87,7 +93,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="parked-status-dropdown"
+              >
                 Your VA provider prescribed this medication or supply to you.
                 But we won’t send any shipments until you request to fill or
                 refill it.
@@ -115,7 +124,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: Parked</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -131,7 +143,7 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>
+              <p data-testid="onHold-status-definition">
                 We put a hold on this prescription. You can’t request a refill
                 until we remove the hold.
                 <br />
@@ -152,7 +164,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: On hold</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -194,7 +209,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="discontinued-status-definition"
+              >
                 You can’t refill this prescription. We may use this status for
                 either of these reasons:
               </p>
@@ -218,7 +236,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Discontinued</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -233,7 +254,7 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>
+              <p data-testid="submitted-status-definition">
                 We got your request to fill or refill this prescription. We’ll
                 update the status when we process your request.
                 <br />
@@ -247,7 +268,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: Submitted</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -262,7 +286,10 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p className="vads-u-padding-bottom--1">
+              <p
+                className="vads-u-padding-bottom--1"
+                data-testid="expired-status-definition"
+              >
                 This prescription is too old to refill.
               </p>
               <p>
@@ -281,7 +308,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Expired</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -296,7 +326,9 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>We moved this prescription to our My VA Health portal.</p>
+              <p data-testid="transferred-status-definition">
+                We moved this prescription to our My VA Health portal.
+              </p>
             </>
           );
         };
@@ -304,7 +336,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Transferred</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -319,7 +354,7 @@ const StatusDropdown = props => {
         const dropdownContent = () => {
           return (
             <>
-              <p>
+              <p data-testid="unknown-status-definition">
                 There’s a problem with our system. You can’t manage this
                 prescription online right now.
                 <br />
@@ -332,7 +367,10 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Unknown</div>
             <div className="no-print">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info
+                trigger="What does this status mean?"
+                data-testid="status-dropdown"
+              >
                 {dropdownContent()}
               </va-additional-info>
             </div>

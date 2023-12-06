@@ -342,7 +342,9 @@ export default function getNewAppointmentFlow(state) {
     },
     clinicChoice: {
       ...flow.clinicChoice,
-      url: featureBreadcrumbUrlUpdate ? 'clinic' : '/new-appointment/clinics',
+      url: featureBreadcrumbUrlUpdate
+        ? '/schedule/clinic'
+        : '/new-appointment/clinics',
     },
     contactInfo: {
       ...flow.contactInfo,

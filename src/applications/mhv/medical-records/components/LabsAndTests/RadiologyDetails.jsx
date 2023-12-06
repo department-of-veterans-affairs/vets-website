@@ -11,9 +11,13 @@ import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
+import DateSubheading from '../shared/DateSubheading';
+import { txtLine } from '../../../shared/util/constants';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
+  const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -38,118 +42,117 @@ const RadiologyDetails = props => {
     GenerateRadiologyPdf(record, runningUnitTest);
   };
 
-  const content = () => {
-    return (
-      <>
-        <PrintHeader />
-        <h1
-          className="vads-u-margin-bottom--0"
-          aria-describedby="radiology-date"
-        >
-          {record.name}
-        </h1>
-        <div className="time-header">
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans"
-            id="radiology-date"
-          >
-            Date:{' '}
-            <span
-              className="vads-u-font-weight--normal"
-              data-testid="header-time"
-            >
-              {record.date}
-            </span>
-          </h2>
-        </div>
-        <div className="no-print">
-          <PrintDownload
-            download={download}
-            allowTxtDownloads={allowTxtDownloads}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-        </div>
-        <div className="test-details-container max-80">
-          <h2>Details about this test</h2>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
-            Images
-          </h3>
-          <p className="no-print">
-            <va-link
-              active
-              href={`/my-health/medical-records/labs-and-tests/${
-                record.id
-              }/images`}
-              text={`See all ${record.images.length} images`}
-            />
-          </p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Reason for test
-          </h3>
-          <p>{record.reason}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Clinical history
-          </h3>
-          <p>{record.clinicalHistory}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Ordered by
-          </h3>
-          <p>{record.orderedBy}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Ordering location
-          </h3>
-          <p>{record.orderingLocation}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Imaging location
-          </h3>
-          <p>{record.imagingLocation}</p>
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-            Imaging provider
-          </h3>
-          <p>{record.imagingProvider}</p>
-        </div>
+  const generateRadioloyTxt = async () => {
+    const content = `\n
+${record.name}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+    Reason for test: ${record.reason} \n
+    Clinical history: ${record.clinicalHistory} \n
+    Ordered by: ${record.orderedBy} \n
+    Order location: ${record.orderingLocation} \n
+    Imaging location: ${record.imagingLocation} \n
+    Imaging provider: ${record.imagingProvider} \n;
+${txtLine}\n\n
+Results\n
+${record.results}`;
 
-        <div className="test-results-container">
-          <h2>Results</h2>
-
-          <va-alert-expandable
-            status="info"
-            trigger="Need help understanding your results?"
-            class="no-print"
-          >
-            <p>
-              Your provider will review your results. If you need to do
-              anything, your provider will contact you.
-            </p>
-            <p>
-              If you have questions, send a message to the care team that
-              ordered this test.
-            </p>
-            <p>
-              <a
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
-              >
-                Compose a new message
-              </a>
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">Note: </span>
-              If you have questions about more than 1 test ordered by the same
-              care team, send 1 message with all of your questions.
-            </p>
-          </va-alert-expandable>
-          <p className="monospace">{record.results}</p>
-        </div>
-      </>
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
-      {record && content()}
+      <PrintHeader />
+      <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
+        {record.name}
+      </h1>
+      <DateSubheading date={record.date} id="radiology-date" />
+
+      <div className="no-print">
+        <PrintDownload
+          download={download}
+          downloadTxt={generateRadioloyTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+      </div>
+      <div className="test-details-container max-80">
+        <h2>Details about this test</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
+          Images
+        </h3>
+        <p className="no-print">
+          <va-link
+            active
+            href={`/my-health/medical-records/labs-and-tests/${
+              record.id
+            }/images`}
+            text={`See all ${record.images.length} images`}
+          />
+        </p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Reason for test
+        </h3>
+        <p>{record.reason}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Clinical history
+        </h3>
+        <p>{record.clinicalHistory}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Ordered by
+        </h3>
+        <p>{record.orderedBy}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Ordering location
+        </h3>
+        <p>{record.orderingLocation}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Imaging location
+        </h3>
+        <p>{record.imagingLocation}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Imaging provider
+        </h3>
+        <p>{record.imagingProvider}</p>
+      </div>
+
+      <div className="test-results-container">
+        <h2>Results</h2>
+
+        <va-alert-expandable
+          status="info"
+          trigger="Need help understanding your results?"
+          class="no-print"
+        >
+          <p>
+            Your provider will review your results. If you need to do anything,
+            your provider will contact you.
+          </p>
+          <p>
+            If you have questions, send a message to the care team that ordered
+            this test.
+          </p>
+          <p>
+            <a
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'secure-messaging',
+              )}
+            >
+              Compose a new message
+            </a>
+          </p>
+          <p>
+            <span className="vads-u-font-weight--bold">Note: </span>
+            If you have questions about more than 1 test ordered by the same
+            care team, send 1 message with all of your questions.
+          </p>
+        </va-alert-expandable>
+        <p className="monospace">{record.results}</p>
+      </div>
     </div>
   );
 };

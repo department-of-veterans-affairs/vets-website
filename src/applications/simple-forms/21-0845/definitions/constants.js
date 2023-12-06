@@ -20,12 +20,18 @@ export const INFORMATION_SCOPES = Object.freeze({
 });
 
 export const LIMITED_INFORMATION_ITEMS = Object.freeze({
-  CLAIM_STATUS: 'Status of pending claim or appeal',
-  BENEFIT: 'Current benefit and rate',
-  PAYMENT_HISTORY: 'Payment history',
-  MONEY_OWED: 'Amount of money owed to VA',
-  PAYMENT_LETTER: 'Request a benefit payment letter',
-  ADDRESS_CHANGE: 'Change of address or direct deposit',
+  CLAIM_STATUS: { title: 'Status of pending claim or appeal' },
+  BENEFIT: { title: 'Current benefit and rate' },
+  PAYMENT_HISTORY: { title: 'Payment history' },
+  MONEY_OWED: { title: 'Amount of money owed to VA' },
+  PAYMENT_LETTER: {
+    title: 'Request a benefit payment letter',
+    description: '',
+  },
+  ADDRESS_CHANGE: {
+    title: 'Change of address or direct deposit',
+    description: '',
+  },
 });
 
 export const RELEASE_DURATIONS = Object.freeze({
