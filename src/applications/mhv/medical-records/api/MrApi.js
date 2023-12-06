@@ -44,24 +44,23 @@ export const testableApiRequestWithRetry = (
   retryInterval,
   apiRequestFunc,
 ) => async (path, options, endTime) => {
-  try {
-    return await apiRequestFunc(path, options);
-  } catch (e) {
-    const errorCode = e.errors && e.errors[0] && e.errors[0].code;
-
-    // Check if the error code is 404 and if the retry time limit has not been reached
-    if (errorCode === '404' && Date.now() < endTime) {
-      await delay(retryInterval);
-      return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
-        path,
-        options,
-        endTime,
-      );
-    }
-
-    // If error is not 404 or time limit exceeded, throw the error
-    throw e;
+  if (Date.now() >= endTime) {
+    throw new Error('Timed out while waiting for response');
   }
+
+  const response = await apiRequestFunc(path, options);
+
+  // Check if the status code is 202 and if the retry time limit has not been reached
+  if (response.status === 202 && Date.now() < endTime) {
+    await delay(retryInterval);
+    return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
+      path,
+      options,
+      endTime,
+    );
+  }
+
+  return response;
 };
 
 /**
