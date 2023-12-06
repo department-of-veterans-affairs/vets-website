@@ -40,7 +40,7 @@ const SearchPage = props => {
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
-      page: currentQuery.currentPage,
+      page: currentQuery.page || 1,
       /* eslint-disable camelcase */
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
@@ -88,6 +88,7 @@ const SearchPage = props => {
         repOrganizationQueryString: location.query.name,
         repOrganizationInputString: location.query.name,
         representativeType: location.query.type,
+        page: location.query.page,
         sortType: location.query.sort,
       });
     }
@@ -106,13 +107,15 @@ const SearchPage = props => {
 
     const { latitude, longitude } = position;
 
+    setIsSearching(true);
+
     updateUrlParams({
       address: context.location,
       name: repOrganizationInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
-      page,
+      page: page || 1,
       sort: sortType,
     });
 
@@ -122,19 +125,20 @@ const SearchPage = props => {
         lat: latitude,
         long: longitude,
         name: repOrganizationInputString,
-        page: 1,
+        page,
         per_page: 10,
         sort: sortType,
         type: representativeType,
       });
 
       setIsSearching(false);
+      setIsLoading(true);
+      setIsDisplayingResults(false);
     }
   };
 
   const handlePageSelect = e => {
     const { page } = e.detail;
-    focusElement('.search-results-subheader');
     setIsSearching(true);
     props.updateSearchQuery({ id: Date.now(), page });
   };
@@ -144,8 +148,6 @@ const SearchPage = props => {
     () => {
       if (isSearching && !props.currentQuery.geocodeError) {
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.id],
@@ -155,13 +157,20 @@ const SearchPage = props => {
   useEffect(
     () => {
       if (props.currentQuery.searchCounter > 0) {
-        setIsSearching(true);
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.sortType],
+  );
+
+  // Trigger request on page update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.page],
   );
 
   useEffect(
@@ -190,12 +199,7 @@ const SearchPage = props => {
     () => {
       if (isDisplayingResults) {
         window.scrollTo(0, 600);
-
-        if (props.searchResults.length === 0) {
-          focusElement('#search-results-subheader');
-        } else {
-          focusElement('.representative-results-list');
-        }
+        focusElement('#search-results-subheader');
       }
     },
     [isDisplayingResults],
@@ -209,15 +213,15 @@ const SearchPage = props => {
   const renderBreadcrumbs = () => {
     return [
       {
-        href: '#one',
+        href: '/',
         label: 'Home',
       },
       {
-        href: '#two',
+        href: '/get-help-from-acccredited-representative',
         label: 'Get help from a VA accredited representative',
       },
       {
-        href: '#three',
+        href: '/get-help-from-acccredited-representative/find-rep',
         label: 'Find a VA accredited representative',
       },
     ];
@@ -297,6 +301,7 @@ const SearchPage = props => {
                 <SearchResultsHeader
                   searchResults={props.searchResults}
                   query={currentQuery}
+                  updateSearchQuery={props.updateSearchQuery}
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}

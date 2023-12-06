@@ -13,7 +13,7 @@ const initialState = {
   error: '',
 };
 
-export default function contestableIssues(state = initialState, action) {
+export default function contestableIssues(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_CONTESTABLE_ISSUES_INIT: {
       return {

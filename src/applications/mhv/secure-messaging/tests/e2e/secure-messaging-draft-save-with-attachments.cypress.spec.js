@@ -33,6 +33,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'contain',
       'If you save this message as a draft',
     );
+
     cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
