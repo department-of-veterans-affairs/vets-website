@@ -56,5 +56,7 @@ describe('Start a new message With Attacments and Errors', () => {
     // );
 
     composePage.sendMessage();
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

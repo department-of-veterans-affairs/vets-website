@@ -68,6 +68,8 @@ describe('Secure Messaging Reply', () => {
       messageDetails.data.attributes.subject,
       `\n\n\nName\nTitleTest${testMessageBody}`,
     );
+    PatientReplyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.verifySendMessageConfirmationHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

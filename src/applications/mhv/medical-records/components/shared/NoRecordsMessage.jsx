@@ -9,7 +9,7 @@ const NoRecordsMessage = ({ type }) => {
     >
       <h2
         className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
-        data-testid="no-allergy-records"
+        data-testid="no-records-message"
       >
         There are no {type} in your VA medical records.
       </h2>
