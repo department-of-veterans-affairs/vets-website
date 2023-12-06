@@ -9,9 +9,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import DashboardCards from '../../containers/DashboardCards';
 
 describe('<DashboardCards>', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/users/dashboard`;
+  const apiRequestWithUrl = `${environment.API_URL}/ask_va_api/v0/inquiries`;
 
   describe('when the api server succeeds', () => {
     let server = null;
@@ -21,19 +19,13 @@ describe('<DashboardCards>', () => {
         rest.get(`${apiRequestWithUrl}`, (req, res, ctx) => {
           return res(
             ctx.json({
-              data: {
-                attributes: {
-                  inquiries: [
-                    {
-                      data: {
-                        attributes: {
-                          inquiryNumber: 'A-1',
-                        },
-                      },
-                    },
-                  ],
+              data: [
+                {
+                  attributes: {
+                    inquiryNumber: 'A-1',
+                  },
                 },
-              },
+              ],
             }),
           );
         }),

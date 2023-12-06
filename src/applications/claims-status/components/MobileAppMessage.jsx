@@ -55,7 +55,11 @@ export default function MobileAppMessage({ mockUserAgent }) {
   };
 
   return isHidden ? null : (
-    <VaAlert status="info" closeable onCloseEvent={handlers.closeModal}>
+    <VaAlert
+      class="vads-u-margin-top--2"
+      closeable
+      onCloseEvent={handlers.closeModal}
+    >
       <h2 id="track-your-status-on-mobile" slot="headline">
         Track your claim, decision review, or appeal on your mobile device
       </h2>

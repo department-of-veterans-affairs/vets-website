@@ -9,7 +9,7 @@ import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
   isValidYear,
-  isValidPartialDate,
+  isValidVAFileNumber,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureDate,
@@ -18,6 +18,8 @@ import {
   isValidRoutingNumber,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
+  isValidDate,
+  isValidPartialDate,
 } from './utilities/validations';
 
 /*
@@ -345,6 +347,12 @@ export function validateSSN(errors, ssn) {
   }
 }
 
+export function validateVAFileNumber(errors, vaFileNumber) {
+  if (vaFileNumber && !isValidVAFileNumber(vaFileNumber)) {
+    errors.addError('VA file number must be 8 or 9 digits (dashes allowed)');
+  }
+}
+
 export function validateDate(
   errors,
   dateString,
@@ -362,6 +370,8 @@ export function validateDate(
       `Please enter a year between ${customMinYear} and ${customMaxYear}`,
     );
   } else if (!isValidPartialDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
+  } else if (day && month && year && !isValidDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }

@@ -57,6 +57,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -172,6 +173,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -232,6 +234,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -294,6 +297,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -354,6 +358,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -415,6 +420,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -476,6 +482,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',
@@ -533,6 +540,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       ],
       description: 'community care appointment',
       comment: 'test comment',
+      localStartTime: appointmentTime.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: appointmentTime,
       communityCareProvider: {
         providerName: 'Atlantic Medical Care',

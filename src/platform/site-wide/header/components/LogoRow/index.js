@@ -1,9 +1,7 @@
-// Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
@@ -15,17 +13,13 @@ export const LogoRow = ({
   updateExpandedMenuID,
 }) => {
   const onMenuToggle = () => {
-    // Record the analytic event.
     recordEvent({ event: 'nav-header-menu-expand' });
-
-    // Update the state.
     updateExpandedMenuID();
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
-      {/* Logo */}
       <a
         aria-label="VA logo"
         className="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center"
@@ -34,12 +28,8 @@ export const LogoRow = ({
       >
         <Logo />
       </a>
-
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
-        {/* Sign in button */}
         <UserNav isHeaderV2 showNavLogin={showNavLogin} />
-
-        {/* Mobile menu button */}
         {showNavLogin && (
           <button
             aria-controls="header-nav-items"
@@ -48,10 +38,7 @@ export const LogoRow = ({
             onClick={onMenuToggle}
             type="button"
           >
-            {/* Menu | Close */}
             {!isMenuOpen ? 'Menu' : 'Close'}
-
-            {/* Menu bars icon | Close icon */}
             {!isMenuOpen ? (
               <i
                 aria-hidden="true"
@@ -63,8 +50,6 @@ export const LogoRow = ({
                 className="fa fa-times vads-u-margin-left--1 vads-u-font-size--sm"
               />
             )}
-
-            {/* Styling overlay */}
             {isMenuOpen && (
               <div className="header-menu-button-overlay vads-u-background-color--gray-lightest vads-u-position--absolute vads-u-width--full" />
             )}

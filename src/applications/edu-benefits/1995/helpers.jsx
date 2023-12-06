@@ -1,3 +1,12 @@
+import environment from 'platform/utilities/environment';
+
+export const isProductionOfTestProdEnv = () => {
+  return (
+    environment.isProduction() ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
+
 export const buildSubmitEventData = formData => {
   const yesNoOrUndefined = value => {
     if (value === undefined) {
@@ -35,7 +44,9 @@ export const buildSubmitEventData = formData => {
     'dependent-parent': yesNoOrUndefined(
       formData.serviceBefore1977?.parentDependent,
     ),
-    'direct-deposit-method': formData.bankAccountChange,
+    'direct-deposit-method': environment.isProduction()
+      ? formData.bankAccountChange
+      : formData.bankAccountChangeUpdate,
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
 };

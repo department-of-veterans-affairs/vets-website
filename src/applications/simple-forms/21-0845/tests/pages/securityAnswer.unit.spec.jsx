@@ -61,7 +61,7 @@ describe(`${pageTitle} - dynamic-field-label`, () => {
         />,
       );
 
-      expect(screen.container.querySelector('.custom-header')).to.include.text(
+      expect(screen.container.querySelector('legend > h3')).to.include.text(
         SECURITY_QUESTIONS[camelCaseToSnakeAllCaps(questionValue)],
       );
     });

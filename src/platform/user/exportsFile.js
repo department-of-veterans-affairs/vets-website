@@ -12,7 +12,6 @@ export {
   isLOA1,
   isMultifactorEnabled,
   selectAvailableServices,
-  selectPatientFacilities,
   selectVAPContactInfo,
   hasVAPServiceConnectionError,
   selectVAPEmailAddress,
@@ -23,13 +22,6 @@ export {
   selectVAPResidentialAddress,
   selectVAPMailingAddress,
   createIsServiceAvailableSelector,
-  selectIsCernerOnlyPatient,
-  selectIsCernerPatient,
-  selectCernerRxFacilities,
-  selectCernerMessagingFacilities,
-  selectCernerAppointmentsFacilities,
-  selectCernerMedicalRecordsFacilities,
-  selectCernerTestResultsFacilities,
   mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from './selectors';
@@ -60,7 +52,6 @@ export {
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
-export { default as FedWarning } from './authentication/components/FedWarning';
 export { default as IDMeSVG } from './authentication/components/IDMeSVG';
 export {
   default as LoginActions,
@@ -136,8 +127,10 @@ export {
   hasCheckedKeepAlive,
   signInServiceName,
   isAuthenticatedWithSSOe,
+  isAuthenticatedWithOAuth,
   ssoeTransactionId,
   transitionMHVAccount,
+  termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';
 export { OAuthEnabledApplications } from './authentication/config/constants';
@@ -274,9 +267,6 @@ export {
   getUiSchema,
 } from './profile/vap-svc/components/AddressField/address-schemas';
 export {
-  default as AddressEditModal,
-} from './profile/vap-svc/components/AddressField/AddressEditModal';
-export {
   default as AddressField,
   convertNextValueToCleanData,
   convertCleanDataToPayload,
@@ -285,9 +275,6 @@ export {
   default as AddressView,
 } from './profile/vap-svc/components/AddressField/AddressView';
 
-export {
-  default as VAPServiceEditModal,
-} from './profile/vap-svc/components/base/VAPServiceEditModal';
 export {
   default as VAPServiceEditModalActionButtons,
 } from './profile/vap-svc/components/base/VAPServiceEditModalActionButtons';
@@ -328,44 +315,15 @@ export {
 } from './profile/vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 export {
-  default as EmailEditModal,
-} from './profile/vap-svc/components/EmailField/EmailEditModal';
-export {
-  default as EmailField,
-} from './profile/vap-svc/components/EmailField/EmailField';
-export {
-  default as EmailView,
-} from './profile/vap-svc/components/EmailField/EmailView';
-
-export {
-  default as PhoneEditModal,
-} from './profile/vap-svc/components/PhoneField/PhoneEditModal';
-export {
-  default as PhoneField,
-} from './profile/vap-svc/components/PhoneField/PhoneField';
-export {
-  default as PhoneView,
-} from './profile/vap-svc/components/PhoneField/PhoneView';
-
-export {
   default as ContactInfoForm,
 } from './profile/vap-svc/components/ContactInfoForm';
-export { default as Email } from './profile/vap-svc/components/Email';
-export { default as FaxNumber } from './profile/vap-svc/components/FaxNumber';
-export { default as HomePhone } from './profile/vap-svc/components/HomePhone';
-export {
-  default as MailingAddress,
-} from './profile/vap-svc/components/MailingAddress';
-export {
-  default as MobilePhone,
-} from './profile/vap-svc/components/MobilePhone';
+
 export {
   default as ProfileInformationFieldController,
 } from './profile/vap-svc/components/ProfileInformationFieldController';
 export {
   default as ResidentialAddress,
 } from './profile/vap-svc/components/ResidentialAddress';
-export { default as WorkPhone } from './profile/vap-svc/components/WorkPhone';
 
 export {
   ADDRESS_VALIDATION_TYPES,
@@ -414,9 +372,7 @@ export {
 export {
   default as Vet360PendingTransactionCategory,
 } from './profile/vap-svc/containers/VAPServicePendingTransactionCategory';
-export {
-  default as VAPServiceProfileField,
-} from './profile/vap-svc/containers/VAPServiceProfileField';
+
 export {
   default as VAPServiceTransactionReporter,
 } from './profile/vap-svc/containers/VAPServiceTransactionReporter';

@@ -1,23 +1,29 @@
-import definitions from 'vets-json-schema/dist/definitions.json';
-import { uiSchema, schema } from '../../shared/definitions/pdfAddress';
+import {
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+const addressSchema = addressNoMilitarySchema({
+  omit: ['isMilitary', 'street3'],
+});
+addressSchema.properties.street.maxLength = 30;
+addressSchema.properties.street2.maxLength = 5;
+addressSchema.properties.city.maxLength = 18;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    authorizerAddress: uiSchema({
-      root: '',
-      street2: 'Apartment or unit number',
+    authorizerAddress: addressNoMilitaryUI({
+      labels: { street2: 'Apartment or unit number' },
+      omit: ['isMilitary', 'street3'],
+      required: true,
     }),
   },
   schema: {
     type: 'object',
-    required: ['authorizerAddress'],
     properties: {
-      authorizerAddress: schema({ definitions }, true, 'address', {
-        street: 30,
-        street2: 5,
-        city: 18,
-      }),
+      authorizerAddress: addressSchema,
     },
+    required: ['authorizerAddress'],
   },
 };

@@ -13,10 +13,7 @@ export const selectInstitutions = state =>
 export const selectInstitutionSelected = state =>
   _.get(state, 'schoolSelect.institutionSelected');
 export const selectManualSchoolEntryChecked = state =>
-  _.get(
-    state,
-    'form.data.educationDetails.school.view:searchSchoolSelect.view:manualSchoolEntryChecked',
-  );
+  _.get(state, 'schoolSelect.manualSchoolEntryChecked');
 export const selectPagesCount = state =>
   _.get(state, 'schoolSelect.pagesCount');
 export const selectSearchInputValue = state =>

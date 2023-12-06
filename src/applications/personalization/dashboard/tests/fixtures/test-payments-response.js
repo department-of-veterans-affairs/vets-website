@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { subDays } from 'date-fns';
 
 export const paymentsSuccess = (
   hasRecentPayment = false,
@@ -13,8 +13,8 @@ export const paymentsSuccess = (
           {
             payCheckAmount: '$1561.92',
             payCheckDt: hasRecentPayment
-              ? moment().subtract(3, 'days')
-              : moment().subtract(62, 'days'),
+              ? subDays(Date.now(), 3)
+              : subDays(Date.now(), 62),
             payCheckId: '001',
             payCheckReturnFiche: 'C',
             payCheckType: 'Compensation & Pension - Recurring',

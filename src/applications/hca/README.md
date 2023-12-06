@@ -10,7 +10,6 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 
 ## Approval Groups
 
-- [Benefits Team 1](https://github.com/orgs/department-of-veterans-affairs/teams/benefits-team-1-frontend)
 - [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation
@@ -47,7 +46,6 @@ The data ends up in the ESR (Enrollment).
 * We have a feature toggle to enable an override of enrollment status, `hca_enrollment_status_override_enabled`, to allow multiple submissions with same user.
 * We have a feature toggle to enable DataDog's browser monitoring for the application, `hca_browser_monitoring_enabled`.
 * We have a feature toggle to enable an optimized flow for the household section of the application, `hca_houshold_v2_enabled`.
-* We have a feature toggle to remove the duplicate identity fields for guest users, `hca_remove_id_fields_enabled`.
 
 ### How to test new features?
 

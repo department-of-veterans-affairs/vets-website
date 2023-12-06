@@ -4,7 +4,6 @@
 // TODO: Determine if we are actually using any of these
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
 .claim-list {
   margin-bottom: 2em;
@@ -46,10 +45,6 @@
   p {
     margin: 0 0 4px;
   }
-}
-
-.claim-list-item-container a {
-  position: relative;
 }
 
 @media (max-width: $medium-screen) {
@@ -97,14 +92,20 @@
   margin: 0;
 }
 
-.communications {
+.communications,
+.communications-old {
   list-style: none;
   padding: 0;
 }
 
+.communications-old,
+.status-old {
+  margin: 0 0 0.5em;
+}
+
 .communications,
 .status {
-  margin: 0 0 0.5em;
+  margin: 0;
 }
 
 // Index page V2
@@ -135,6 +136,43 @@
   }
 }
 
+// Index page V3
+.claim-list-item {
+  margin-bottom: 1em;
+
+  // TODO: We may or may not use this
+  &.in-progress {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.32);
+  }
+
+  .card-status {
+    margin: 0 0 1em;
+    // display: flex;
+
+    p {
+      margin-top: 0.25em;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+
+  span {
+    display: block;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-family: var(--font-source-sans);
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .usa-label {
+    margin-bottom: 1em;
+  }
+}
+
 .last-changed-label {
   position: absolute;
   top: 0;
@@ -146,21 +184,7 @@
   border-radius: 0 0 0.5em 0.5em;
 }
 
-.claim-list-item {
-  text-decoration: none;
-  display: block;
-  color: inherit;
-
-  &:visited,
-  &:hover,
-  &:active {
-    color: inherit;
-    text-decoration: none;
-    background-color: inherit;
-  }
-}
-
-.claim-list-item-header {
+.claim-list-item-header-old {
   color: $color-primary;
   margin-top: 0;
 }
@@ -168,10 +192,6 @@
 .claim-list-item-header-v2 {
   margin-top: -2rem;
   white-space: pre-line;
-}
-
-.claim-list-item:hover .claim-list-item-header {
-  color: $color-primary-darker;
 }
 
 .claims-status {
@@ -381,7 +401,7 @@
 }
 
 .disability-claims-warning {
-  background-color: $color-warning-message;
+  background-color: $color-feedback-warning-background;
   text-align: left;
   font-weight: bold;
 }
@@ -434,24 +454,6 @@
   @include media($medium-large-screen) {
     float: left;
     width: 63%;
-  }
-}
-
-.claims-status-tabs {
-  display: flex;
-}
-
-.claims-status-tabs-item {
-  @media (max-width: $small-screen) {
-    flex: 1 1 0px;
-    text-align: center;
-  }
-  > .va-tab-trigger {
-    @media (max-width: $small-screen) {
-      display: inline-block;
-      height: 100%;
-      width: 100%;
-    }
   }
 }
 
@@ -512,10 +514,6 @@ h1:focus {
     display: block;
     margin: 1.4rem 0;
   }
-}
-
-.claims-closed-text {
-  margin-top: 1em;
 }
 
 .claims-breadcrumbs {
@@ -820,17 +818,6 @@ h1:focus {
 
   .usa-alert-text {
     margin-top: 1em;
-  }
-}
-
-.appeals-tabs-item {
-  flex: 1 1 0px;
-  text-align: center;
-
-  > .va-tab-trigger {
-    display: inline-block;
-    height: 100%;
-    width: 100%;
   }
 }
 
@@ -1397,4 +1384,114 @@ $marker-text-width: 9rem;
   background-color: transparent;
   box-shadow: inset 0 0 0 2px $color-primary-darkest;
   color: $color-primary-darkest;
+}
+
+.claim-card-link {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px;
+
+  &:focus i::before,
+  &:hover i::before {
+    margin-left: 1.2rem;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: margin;
+  }
+
+  i::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-size: 1.6rem;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    line-height: 1;
+    margin-right: 0.8rem;
+    text-rendering: auto;
+    content: "\f105"; /* fa-angle-right */
+    margin-bottom: 0.1rem;
+    margin-left: 0.8rem;
+    margin-right: 0;
+    vertical-align: middle;
+  }
+}
+
+.tabs {
+  list-style: none;
+  margin-bottom: -1px;
+  margin-left: -10px;
+  padding: 0;
+
+  & > li {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
+.tab {
+  padding: 0.5em 1.5rem;
+  display: inline-block;
+  font-size: 20px;
+  text-decoration: none;
+  color: $color-base !important;
+
+  &:hover {
+    text-decoration: none;
+    position: relative;
+
+    & > span::after {
+      background-color: $color-blue;
+      border-radius: 0;
+      content: "";
+      display: block;
+      position: absolute;
+      height: 6px;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0;
+    }
+  }
+}
+
+.tab--current {
+  font-weight: bold;
+  position: relative;
+  // Lowering the padding to account for the font-weight: bold above
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+
+  & > span::after {
+    background-color: $color-blue;
+    border-radius: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    height: 6px;
+    left: 1rem;
+    right: 1rem;
+    bottom: 0;
+  }
+}
+
+.tab-content {
+  border-top: 1px solid $color-gray-lighter;
+}
+
+.tab-panel:focus {
+  outline: none;
+}
+
+#downtime-app > va-alert {
+  margin: 48px auto;
+  max-width: 62.5em;
+}
+
+@media (max-width: $large-screen) {
+  #downtime-app > va-alert {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }

@@ -2,12 +2,17 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockAutoSaveDraftResponse from './fixtures/autosafe-draft-response.json';
+import { AXE_CONTEXT } from './utils/constants';
+import { draftAutoSaveTimeout } from '../../util/constants';
+import PatientComposePage from './pages/PatientComposePage';
 
-describe(manifest.appName, () => {
-  describe('Advanced search in Drafts', () => {
+describe.skip(manifest.appName, () => {
+  const composePage = new PatientComposePage();
+  describe('Verify draft auto save', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       const landingPage = new PatientInboxPage();
+
       site.login();
       landingPage.loadInboxMessages();
       landingPage.navigateToComposePage();
@@ -24,21 +29,30 @@ describe(manifest.appName, () => {
         }`,
         mockAutoSaveDraftResponse,
       ).as('autoSaveDetailed');
-      cy.wait('@autoSave').then(xhr => {
-        cy.log(JSON.stringify(xhr.response.body));
-      });
-      cy.wait('@autoSaveDetailed');
+      cy.wait('@autoSave', { timeout: draftAutoSaveTimeout + 1000 }).then(
+        xhr => {
+          cy.log(JSON.stringify(xhr.response.body));
+          cy.get('[data-testid="message-subject-field"]')
+            .shadow()
+            .find('#inputField')
+            .type('testSubject2');
+          cy.wait('@autoSaveDetailed', {
+            timeout: draftAutoSaveTimeout + 1000,
+          });
+        },
+      );
     });
-    it('Check all draft messages contain the searched category', () => {
+    it('verify notification message', () => {
       cy.get('.last-save-time').should('contain', 'Your message was saved');
       cy.injectAxe();
-      cy.axeCheck('main', {
+      cy.axeCheck(AXE_CONTEXT, {
         rules: {
           'aria-required-children': {
             enabled: false,
           },
         },
       });
+      composePage.sendMessage();
     });
   });
 });

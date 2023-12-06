@@ -11,9 +11,11 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
 import { outputDateFormat } from '../../content/itfWrapper';
-import { ITF_STATUSES, FORMAT_YMD } from '../../constants';
+import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
+
+import { FORMAT_YMD } from '../../../shared/constants';
 
 const getData = ({
   loggedIn = true,

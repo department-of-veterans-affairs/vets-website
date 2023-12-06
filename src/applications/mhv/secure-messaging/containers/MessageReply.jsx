@@ -59,15 +59,17 @@ const MessageReply = () => {
   };
 
   const thread = () => {
+    const newHistory = [replyMessage];
+    if (messageHistory?.length) {
+      newHistory.push(...messageHistory);
+    }
     return (
       <>
-        {messageHistory?.length > 0 && (
-          <MessageThread
-            messageHistory={messageHistory}
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-            viewCount={threadViewCount}
-          />
-        )}
+        <MessageThread
+          messageHistory={newHistory}
+          isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+          viewCount={threadViewCount}
+        />
       </>
     );
   };

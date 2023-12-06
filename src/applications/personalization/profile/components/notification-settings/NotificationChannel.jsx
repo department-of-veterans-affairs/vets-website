@@ -124,7 +124,7 @@ const NotificationChannel = props => {
                 event: 'int-checkbox-group-option-click',
                 'checkbox-group-optionLabel': `${label} - ${newValue}`,
                 'checkbox-group-label': itemName,
-                'checkbox-group-required': false,
+                'checkbox-group-required': '-',
               };
 
               recordEvent(eventPayload);

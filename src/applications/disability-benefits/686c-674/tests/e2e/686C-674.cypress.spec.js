@@ -82,6 +82,18 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'add-child/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('@testData').then(data => {
+            if (!data.childrenToAdd[0].childStatus.biological) {
+              cy.get('#root_childStatus_stepchild').check();
+              cy.get('#root_childStatus_biologicalStepchildYes').check();
+            }
+          });
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();

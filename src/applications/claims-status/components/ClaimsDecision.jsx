@@ -11,7 +11,7 @@ const headerText = closedDate =>
 const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
   <>
     <va-alert>
-      <h3 className="claims-alert-header vads-u-font-size--h4" slot="headline">
+      <h3 className="claims-alert-header" slot="headline">
         {completedDate && headerText(completedDate)}
       </h3>
       {showClaimLettersLink ? (
@@ -34,6 +34,20 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
         </p>
       )}
     </va-alert>
+
+    {!showClaimLettersLink && (
+      <va-alert background-only class="vads-u-margin-y--2" status="warning">
+        <h3 className="claims-alert-header">
+          Decision letters aren’t available to download right now.
+        </h3>
+        <p className="vads-u-margin-y--0">
+          We’re fixing some problems with this tool. Check back later. If you
+          need information about your decision letters now, call us at{' '}
+          <va-telephone contact="8008271000" /> (TTY: 711). We’re here Monday
+          through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        </p>
+      </va-alert>
+    )}
     <h4 className="claims-paragraph-header vads-u-font-size--h3">Next steps</h4>
     <p>
       <strong>If you agree with your claim decision</strong>, you don’t need to

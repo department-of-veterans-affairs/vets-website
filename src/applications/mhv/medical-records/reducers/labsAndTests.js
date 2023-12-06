@@ -58,7 +58,9 @@ const convertChemHemRecord = record => {
     category: concatCategoryCodeText(record),
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
-    date: formatDateLong(record.effectiveDateTime),
+    date: record.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
     comments: [record.conclusion],
@@ -79,7 +81,9 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime || EMPTY_FIELD,
+    date: record.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
     sampleFrom: record.type?.text || EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
     orderingLocation:
@@ -102,7 +106,9 @@ const convertPathologyRecord = record => {
     category: concatCategoryCodeText(record),
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
-    date: formatDateLong(record.effectiveDateTime),
+    date: record.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
     labLocation: record.labLocation || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
@@ -122,7 +128,7 @@ const convertEkgRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.date,
+    date: record.date || EMPTY_FIELD,
     facility: 'school parking lot',
   };
 };
@@ -150,13 +156,10 @@ const convertRadiologyRecord = record => {
     orderedBy:
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
       EMPTY_FIELD,
-    requestedBy:
-      (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      EMPTY_FIELD,
     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     imagingLocation: authorDisplay,
-    date: record.date,
+    date: record.date ? formatDateLong(record.data) : EMPTY_FIELD,
     imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
@@ -227,7 +230,17 @@ export const labsAndTestsReducer = (state = initialState, action) => {
           [],
       };
     }
+    case Actions.LabsAndTests.CLEAR_DETAIL: {
+      return {
+        ...state,
+        labsAndTestsDetails: undefined,
+      };
+    }
     default:
       return state;
   }
 };
+
+/**
+ * Clears the lab and test result in the details page
+ */

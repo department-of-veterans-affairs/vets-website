@@ -1,35 +1,17 @@
 import mockFeatureToggles from '../fixtures/generalResponses/featureToggles.json';
 import mockUser from '../fixtures/generalResponses/user.json';
-import mockFolders from '../fixtures/generalResponses/folders.json';
-import mockRecipients from '../fixtures/generalResponses/recipients.json';
-import mockCategories from '../fixtures/generalResponses/categories.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 
 class SecureMessagingLandingPage {
-  loadMainPage = (
-    user = mockUser,
-    recipients = mockRecipients,
-    messages = mockGeneralMessages,
-  ) => {
+  loadMainPage = (user = mockUser, messages = mockGeneralMessages) => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'featureToggles',
     );
     cy.intercept('GET', '/v0/user', user).as('user');
-    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
-      'folders',
-    );
-    cy.intercept('GET', '/my_health/v1/messaging/recipients*', recipients).as(
-      'recipients',
-    );
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0',
+      '/my_health/v1/messaging/folders/0*',
       mockGeneralFolder,
     ).as('generalFolder');
     cy.intercept(
@@ -46,12 +28,40 @@ class SecureMessagingLandingPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
+    cy.wait('@generalFolder');
   };
 
   verifyHeader = (text = 'Messages') => {
     cy.get('h1')
       .should('be.visible')
       .and('have.text', `${text}`);
+  };
+
+  verifyUnreadMessagesNote = (text = 'unread messages in your inbox') => {
+    cy.get('[data-testid="unread-messages"]')
+      .should('be.visible')
+      .and('include.text', `${text}`);
+  };
+
+  verifyWelcomeMessage = (text = 'What to know as you try out this tool') => {
+    cy.get('.welcome-message')
+      .should('be.visible')
+      .and('contain.text', `${text}`);
+  };
+
+  verifyFaqMessage = (text = 'Questions about using messages') => {
+    cy.get('.secure-messaging-faq')
+      .should('be.visible')
+      .and('contain.text', `${text}`);
+  };
+
+  verifyFaqAccordions = () => {
+    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+      cy.wrap(el)
+        .should('be.visible')
+        .click({ waitForAnimations: true });
+      cy.wrap(el).should('have.attr', 'open');
+    });
   };
 }
 

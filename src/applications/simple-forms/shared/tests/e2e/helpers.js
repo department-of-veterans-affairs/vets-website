@@ -1,58 +1,41 @@
-// single fields
+export const getPagePaths = formConfig => {
+  // For testing v3-web-component pages.
+  // Returns an flat object of page-paths, keyed by page-keys in formConfig.
+  const { chapters } = formConfig;
+  const pagePaths = {};
+
+  Object.keys(chapters).forEach(chapter => {
+    const { pages } = chapters[chapter];
+    Object.keys(pages).forEach(page => {
+      pagePaths[page] = pages[page].path;
+    });
+  });
+
+  return pagePaths;
+};
+
 export const fillTextWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-text-input[name="root_${fieldName}"]`)
-      .shadow()
-      .find('input')
-      .type(value);
-  }
+  cy.fillVaTextInput(`root_${fieldName}`, value);
 };
 
 export const fillTextAreaWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-textarea[name="root_${fieldName}"]`)
-      .shadow()
-      .find('textarea')
-      .type(value);
-  }
+  cy.fillVaTextarea(`root_${fieldName}`, value);
 };
 
 export const selectRadioWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(
-      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
-    ).click();
-  }
+  cy.selectVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectYesNoWebComponent = (fieldName, value) => {
-  const selection = value ? 'Y' : 'N';
-  selectRadioWebComponent(fieldName, selection);
+  cy.selectYesNoVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectDropdownWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-select[name="root_${fieldName}"]`)
-      .shadow()
-      .find('select')
-      .select(value);
-  }
+  cy.selectVaSelect(`root_${fieldName}`, value);
 };
 
 export const selectCheckboxWebComponent = (fieldName, condition) => {
-  if (condition) {
-    // V1 web component
-    // cy.get(`va-checkbox[name="root_${fieldName}"]`)
-    //   .shadow()
-    //   .find('input')
-    //   .check();
-
-    // V3 web component - work around for not being able to check input
-    cy.get(`va-checkbox[name="root_${fieldName}"]`)
-      .shadow()
-      .find('label')
-      .click();
-  }
+  cy.selectVaCheckbox(`root_${fieldName}`, condition);
 };
 
 export const selectGroupCheckboxWidget = label => {
@@ -62,6 +45,19 @@ export const selectGroupCheckboxWidget = label => {
       .get('#checkbox-element')
       .first()
       .click();
+  }
+};
+
+export const selectCheckboxGroupWebComponent = data => {
+  if (data && typeof data === 'object') {
+    const truthyKeys = Object.keys(data).filter(key => data[key]);
+
+    truthyKeys.forEach(truthyKey => {
+      cy.get(`va-checkbox[data-key="${truthyKey}"]`)
+        .shadow()
+        .find('label')
+        .click();
+    });
   }
 };
 

@@ -5,8 +5,6 @@ import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-mess
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 
-// import testThreadResponse from '../fixtures/sentResponse/test-thread-response.json'
-
 class PatientMessageSentPage {
   loadMessages = (mockMessagesResponse = mockSentMessages) => {
     cy.intercept(
@@ -20,6 +18,8 @@ class PatientMessageSentPage {
       mockMessagesResponse,
     ).as('sentFolderMessages');
     cy.get('[data-testid="sent-sidebar"]').click();
+    cy.wait('@sentFolder');
+    cy.wait('@sentFolderMessages');
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -86,7 +86,7 @@ class PatientMessageSentPage {
       .find('.received-date')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(listBefore);
+        cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
@@ -94,7 +94,7 @@ class PatientMessageSentPage {
           .find('.received-date')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(listAfter);
+            cy.log(JSON.stringify(listAfter));
             expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
@@ -133,6 +133,12 @@ class PatientMessageSentPage {
       .shadow()
       .find('#inputField')
       .should('be.empty');
+  };
+
+  navigateToLastPage = () => {
+    cy.get('.pagination-inner li')
+      .last()
+      .click();
   };
 }
 

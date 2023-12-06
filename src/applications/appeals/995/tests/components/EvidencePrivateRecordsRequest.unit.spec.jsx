@@ -3,6 +3,11 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
@@ -11,7 +16,6 @@ import {
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
 } from '../../constants';
-import { $, $$ } from '../../utils/ui';
 
 describe('<EvidencePrivateRecordsRequest>', () => {
   it('should render', () => {

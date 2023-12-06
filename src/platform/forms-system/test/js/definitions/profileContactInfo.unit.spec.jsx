@@ -1,6 +1,9 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
-import profileContactInfo from '../../../src/js/definitions/profileContactInfo';
+import profileContactInfo, {
+  profileReviewErrorOverride,
+} from '../../../src/js/definitions/profileContactInfo';
 
 describe('profileContactInfo', () => {
   const pageKey = 'confirmContactInfo';
@@ -17,7 +20,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone.required).to.deep.equal([
       'areaCode',
@@ -42,7 +46,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
   });
   it('should only return mobile phone page when included', () => {
@@ -58,7 +63,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.mobilePhone.required).to.deep.equal([
       'areaCode',
@@ -80,7 +86,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone.required).to.deep.equal([
       'areaCode',
@@ -102,7 +109,8 @@ describe('profileContactInfo', () => {
     expect(veteran.required).to.deep.equal([
       'mailingAddress',
       'email',
-      'homePhone|mobilePhone',
+      'homePhone',
+      'mobilePhone',
     ]);
     expect(veteran.properties.homePhone).to.be.undefined;
     expect(veteran.properties.mobilePhone).to.be.undefined;
@@ -110,15 +118,53 @@ describe('profileContactInfo', () => {
   });
 
   it('should add custom uiSchema', () => {
+    const updateSpy = sinon.spy();
     const result = profileContactInfo({
       contactInfoUiSchema: {
         'ui:required': ['test1'],
-        'ui:options': { test2: true },
+        'ui:options': {
+          test2: true,
+          updateSchema: (formData, schema) => {
+            updateSpy();
+            return schema;
+          },
+        },
       },
     });
     const { uiSchema } = result[pageKey];
-
     expect(uiSchema['ui:required']).to.deep.equal(['test1']);
     expect(uiSchema['ui:options'].test2).to.be.true;
+    // adds updateSchema
+    const { updateSchema } = uiSchema['ui:options'];
+    expect(updateSchema).to.exist;
+    updateSchema({}, {});
+    expect(updateSpy.called).to.be.true;
+  });
+});
+
+describe('profileReviewErrorOverride', () => {
+  const defaultOverride = profileReviewErrorOverride();
+  it('should return null for non-matching errors', () => {
+    expect(defaultOverride('')).to.be.null;
+    expect(defaultOverride('blah')).to.be.null;
+  });
+  it('should return chapter & page keys for matching wrapper', () => {
+    const result = {
+      contactInfoChapterKey: 'infoPages',
+      pageKey: 'confirmContactInfo',
+    };
+    expect(defaultOverride('veteran')).to.deep.equal(result);
+  });
+  it('should return chapter & page keys for matching wrapper', () => {
+    const customOverride = profileReviewErrorOverride({
+      contactInfoChapterKey: 'foo',
+      contactInfoPageKey: 'bar',
+      wrapperKey: 'baz',
+    });
+    const result = {
+      contactInfoChapterKey: 'foo',
+      pageKey: 'bar',
+    };
+    expect(customOverride('baz')).to.deep.equal(result);
   });
 });

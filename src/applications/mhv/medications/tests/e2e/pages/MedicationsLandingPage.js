@@ -36,7 +36,11 @@ class MedicationsLandingPage {
   };
 
   clickExpandAccordionsOnMedicationsLandingPage = () => {
-    cy.expandAccordions();
+    // cy.expandAccordions();
+    cy.get('[data-testid="more-ways-to-manage"]')
+      .shadow()
+      .find('[aria-label="Expand all accordions"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
@@ -61,6 +65,26 @@ class MedicationsLandingPage {
         'Make sure your providers know about all your allergies and reactions to medications.',
       )
       .should('be.visible');
+  };
+
+  verifyNavigationToLandingPageAfterClickingBreadcrumb = () => {
+    cy.get('[data-testid="landing-page-heading"]')
+      .should('be.visible')
+      .and('contain', 'About medications');
+  };
+
+  verifyHowToManageNotificationsAccordionDropDown = () => {
+    cy.get('[data-testid="notifications"]').contains(
+      'You can sign up to get email notifications when we ship your prescriptions.',
+    );
+  };
+
+  verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
+    // cy.get('[data-testid="empty-list-alert"] >div ').should(
+    cy.get('[data-testid="alert-message"]').should(
+      'contain.text',
+      'You don’t have any medications in your medications list',
+    );
   };
 }
 export default MedicationsLandingPage;

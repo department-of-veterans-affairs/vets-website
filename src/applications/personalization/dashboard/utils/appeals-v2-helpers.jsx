@@ -1,10 +1,10 @@
 import React from 'react';
-import moment from 'moment';
+import { format, isBefore, isAfter } from 'date-fns';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { ITEMS_PER_PAGE } from './constants';
 
-// This literally determines how many rows are displayed per page on the v2 index page
+// This literally determines how many rows are displayed per page on the index page
 export const DECISION_REVIEW_URL = '/decision-reviews';
 
 export const APPEAL_ACTIONS = {
@@ -301,7 +301,7 @@ export function isolateAppeal(state, id) {
 }
 
 export function formatDate(date) {
-  return moment(date, 'YYYY-MM-DD').format('MMMM DD, YYYY');
+  return format(new Date(date, 'MMMM dd, yyyy'));
 }
 
 export function getHearingType(type) {
@@ -486,8 +486,9 @@ export function getNextEvents(appeal) {
     case STATUS_TYPES.pendingForm9: {
       const certDuration = makeDurationText(details.certificationTimeliness);
       const ssocDuration = makeDurationText(details.ssocTimeliness);
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(details.lastSocDate),
+        'MMMM d, yyyy',
       );
       return {
         header: `If you return VA Form 9 within 60 days, what happens next
@@ -535,8 +536,9 @@ export function getNextEvents(appeal) {
     case STATUS_TYPES.pendingCertification: {
       const certDuration = makeDurationText(details.certificationTimeliness);
       const ssocDuration = makeDurationText(details.ssocTimeliness);
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(details.lastSocDate),
+        'MMMM d, yyyy',
       );
       return {
         header: 'What happens next depends on whether you submit new evidence.',
@@ -582,8 +584,9 @@ export function getNextEvents(appeal) {
     case STATUS_TYPES.pendingCertificationSsoc: {
       const certDuration = makeDurationText(details.certificationTimeliness);
       const ssocDuration = makeDurationText(details.ssocTimeliness);
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(details.lastSocDate),
+        'MMMM d, yyyy',
       );
       return {
         header: 'What happens next depends on whether you submit new evidence.',
@@ -630,8 +633,9 @@ export function getNextEvents(appeal) {
     case STATUS_TYPES.remandSsoc: {
       const returnSsocDuration = makeDurationText(details.returnTimeliness);
       const remandSsocDuration = makeDurationText(details.remandSsocTimeliness);
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(details.lastSocDate),
+        'MMMM d, yyyy',
       );
       return {
         header: 'What happens next depends on whether you submit new evidence.',
@@ -1400,10 +1404,10 @@ export function sortByLastUpdated(item1, item2) {
   const lastUpdatedDate1 = getDate(item1);
   const lastUpdatedDate2 = getDate(item2);
 
-  if (moment(lastUpdatedDate1).isAfter(lastUpdatedDate2)) {
+  if (isAfter(lastUpdatedDate1, lastUpdatedDate2)) {
     return -1;
   }
-  if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
+  if (isBefore(lastUpdatedDate1, lastUpdatedDate2)) {
     return 1;
   }
   return 0;

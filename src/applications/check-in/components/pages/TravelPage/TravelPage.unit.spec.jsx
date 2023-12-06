@@ -9,19 +9,26 @@ describe('Check-in experience', () => {
   describe('shared components', () => {
     describe('TravelPage', () => {
       it('renders custom header, eyebrow, body, and helptext', () => {
+        const additionalInfoItems = [
+          {
+            info: 'test additional info',
+            trigger: 'Additional Info Trigger',
+          },
+        ];
+
         const { getByText, getByTestId } = render(
           <CheckInProvider>
             <TravelPage
               header="test header"
               eyebrow="Check-In"
               bodyText="test body"
-              helpText="test help text"
+              additionalInfoItems={additionalInfoItems}
             />
           </CheckInProvider>,
         );
         expect(getByTestId('header')).to.contain.text('Check-In test header');
         expect(getByText('test body')).to.exist;
-        expect(getByText('test help text')).to.exist;
+        expect(getByText('test additional info')).to.exist;
       });
       it('renders buttons', () => {
         const { getByTestId } = render(

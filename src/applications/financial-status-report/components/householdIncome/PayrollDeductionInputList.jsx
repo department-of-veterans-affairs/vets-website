@@ -20,6 +20,8 @@ const PayrollDeductionInputList = props => {
 
   const formData = useSelector(state => state.form.data);
 
+  const MAXIMUM_DEDUCTION_AMOUNT = 40000;
+
   const {
     personalData: {
       employmentHistory: {
@@ -53,7 +55,10 @@ const PayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
-    if (!isValidCurrency(target.value)) {
+    if (
+      !isValidCurrency(target.value) ||
+      target.value > MAXIMUM_DEDUCTION_AMOUNT
+    ) {
       setErrors([...errors, target.name]);
     } else {
       setErrors(errors.filter(error => error !== target.name));
@@ -64,7 +69,11 @@ const PayrollDeductionInputList = props => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -143,14 +152,45 @@ const PayrollDeductionInputList = props => {
               required
               currency
               width="md"
+              min={0}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               error={
                 errors.includes(deduction.name)
-                  ? 'Enter a valid dollar amount.'
+                  ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
             />
           </div>
         ))}
+        <va-additional-info
+          trigger="How to calculate your monthly deductions"
+          class="vads-u-margin-top--2"
+          uswds
+        >
+          <p>
+            First, find the total deduction amount on your pay stub. Then follow
+            the step that applies to you:
+          </p>
+          <ol className="vads-u-margin--0 vads-u-padding-left--4 vads-u-padding-top--2 vads-u-padding-bottom--0p25">
+            <li>
+              <strong>If you are paid weekly,</strong> multiply your deduction
+              amount by 4.
+            </li>
+            <li>
+              <strong>If you are paid every other week,</strong> multiply your
+              deduction amount by 26. Then divide the total by 12 to get your
+              monthly amount.
+            </li>
+            <li>
+              <strong>If you are paid twice a month,</strong> multiply your
+              deduction amount by 2 to get your monthly amount.
+            </li>
+            <li>
+              <strong>If you are paid monthly,</strong> enter the deduction
+              amount from your pay stub.
+            </li>
+          </ol>
+        </va-additional-info>
       </fieldset>
       {onReviewPage ? updateButton : navButtons}
     </form>

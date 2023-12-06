@@ -1,8 +1,11 @@
+import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import manifest from '../../manifest.json';
-import { navigateToDebtSelection } from './fixtures/helpers';
 import mockUser from './fixtures/mocks/mockUser.json';
+import { WIZARD_STATUS } from '../../wizard/constants';
 
-describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
+describe(`Fetch Debts Successfully and Filter Out Invalid Debt`, () => {
+  Cypress.config({ requestTimeout: 10000 });
+
   before(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
@@ -11,10 +14,7 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
           { name: 'show_financial_status_report', value: true },
         ],
       },
-    });
-
-    cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.login(mockUser);
+    }).as('features');
 
     cy.intercept('GET', '/v0/debts*', {
       hasDependentDebts: false,
@@ -121,21 +121,27 @@ describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
       },
     });
 
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/user?*', mockUser);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.visit(manifest.rootUrl);
-  });
-  beforeEach(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
-  });
-  afterEach(() => {
-    cy.window().then(window => {
-      window.sessionStorage.clear();
-    });
+    cy.wait('@features');
   });
 
   it('Successful API Response', () => {
-    navigateToDebtSelection();
+    cy.get('a.vads-c-action-link--green')
+      .first()
+      .click({ waitForAnimations: true });
+
+    cy.location('pathname').should(
+      'eq',
+      `/manage-va-debt/request-debt-help-form-5655/veteran-information`,
+    );
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click({ waitForAnimations: true });
 
     cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 

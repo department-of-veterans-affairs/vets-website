@@ -60,7 +60,9 @@ const Notice5103 = ({
         checked={data.form5103Acknowledged}
         required
         enable-analytics
-      />
+      >
+        <div slot="description">{content.descriptionInCheckbox}</div>
+      </VaCheckbox>
       <div className="form-nav-buttons vads-u-margin-top--4">
         {onReviewPage && (
           <va-button

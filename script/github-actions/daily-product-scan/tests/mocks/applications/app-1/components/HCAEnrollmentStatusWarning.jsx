@@ -1,9 +1,6 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
-/* eslint-disable deprecate/import */
 import React from 'react';
-
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import {
   getWarningHeadline,
@@ -18,22 +15,16 @@ function HCAEnrollmentStatusWarning({
   preferredFacility,
 }) {
   return (
-    <AlertBox
-      content={
-        <div>
-          {getWarningHeadline(enrollmentStatus)}
-          {getWarningStatus(
-            enrollmentStatus,
-            applicationDate,
-            enrollmentDate,
-            preferredFacility,
-          )}
-          {getWarningExplanation(enrollmentStatus)}
-        </div>
-      }
-      isVisible
-      status="warning"
-    />
+    <va-alert isVisible status="warning">
+      <h2 slot="headline">{getWarningHeadline(enrollmentStatus)}</h2>
+      {getWarningStatus(
+        enrollmentStatus,
+        applicationDate,
+        enrollmentDate,
+        preferredFacility,
+      )}
+      {getWarningExplanation(enrollmentStatus)}
+    </va-alert>
   );
 }
 

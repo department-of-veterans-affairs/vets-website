@@ -5,7 +5,9 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { waitFor } from '@testing-library/react';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
+
 import Avs from '../../containers/Avs';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
 
@@ -95,7 +97,39 @@ describe('Avs container', () => {
       },
     });
     await waitFor(() => {
-      expect(screen.getByText('After-visit Summary'));
+      expect(screen.getByText('After-visit summary'));
+    });
+  });
+
+  it('API request fails', async () => {
+    mockApiRequest({}, false);
+    const screen = renderWithStoreAndRouter(
+      <ErrorBoundary>
+        <Avs {...props} />
+      </ErrorBoundary>,
+      {
+        initialState: {
+          ...initialState,
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            avs_enabled: true,
+            loading: false,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.USER_PROFILE],
+            },
+          },
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(
+        screen.getByText('We can’t access your after-visit summary right now'),
+      );
     });
   });
 });

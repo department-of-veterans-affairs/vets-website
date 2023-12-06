@@ -4,12 +4,13 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import mockPrescriptionDetails from './fixtures/prescription-details.json';
 
 describe('Medications Details Page DropDown', () => {
-  it.skip('visits Medications Details Page DropDown', () => {
+  it('visits Medications Details Page DropDown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
+
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.clickWhatToKnowAboutMedicationsDropDown();
@@ -18,9 +19,6 @@ describe('Medications Details Page DropDown', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

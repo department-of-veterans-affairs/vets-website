@@ -1,27 +1,18 @@
+// this file will be deleted when research is complete
+// and replaced with TempResults1Page2
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { accordions } from '../../../constants/results-set-1-page-2-accordions';
 import { customizeTitle } from '../../../utilities/customize-title';
-import { ROUTES } from '../../../constants';
 
-const ResultsSet1Page2 = ({ viewedResultsPage1, router }) => {
+const ResultsSet1Page2 = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const H1 = 'Apply for VA benefits now';
 
   useEffect(() => {
     document.title = customizeTitle(H1);
   });
-
-  useEffect(
-    () => {
-      if (!viewedResultsPage1) {
-        router.push(ROUTES.RESULTS_SET_1_PAGE_1);
-      }
-    },
-    [viewedResultsPage1, router],
-  );
 
   useEffect(
     () => {
@@ -61,23 +52,42 @@ const ResultsSet1Page2 = ({ viewedResultsPage1, router }) => {
         online now.
       </p>
       <article>
-        <va-on-this-page />
         <h2 id="file-a-disability-compensation-claim">
           File a claim for disability compensation
         </h2>
         <p>
           If you think you’re eligible, we encourage you to file a claim for
-          disability compensation now. If you have an illness that we don’t
-          consider presumptive, you can still file a claim. But you’ll need to
-          provide evidence that your service caused your condition.
+          disability compensation now.
+        </p>
+        <h3>Check presumptive conditions</h3>
+        <p>
+          Here are the presumptive conditions we think may apply to you based on
+          your answers.
         </p>
         {renderAccordions()}
-        <h3>If you haven’t yet filed a claim for your condition</h3>
         <p>
-          You can file a claim now. If you already get disability compensation
-          for a different condition, we still encourage you to file a claim for
-          any condition you believe your service caused. You may be able to get
-          additional or other benefits.
+          <strong>Note:</strong> If your condition isn’t listed here, you can
+          learn more about other presumptive conditions and disability benefit
+          eligibility. And if you have an illness that we don’t consider
+          presumptive, you can still file a claim. But you’ll need to provide
+          evidence that your service caused your condition.{' '}
+          <a
+            href="/disability/eligibility"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about eligibility for disability benefits (opens in a new
+            tab)
+          </a>
+        </p>
+        <h3>
+          How to file a claim for a condition you haven’t filed a claim for yet
+        </h3>
+        <p>You can file a claim now.</p>
+        <p>
+          Already get disability compensation for a different condition? We
+          still encourage you to file a claim for any condition you believe your
+          service caused. You may be able to get additional or other benefits.
         </p>
         <a
           className="vads-c-action-link--blue"
@@ -85,7 +95,7 @@ const ResultsSet1Page2 = ({ viewedResultsPage1, router }) => {
         >
           File a disability compensation claim
         </a>
-        <h3>If we denied your claim for this condition in the past</h3>
+        <h3>How to file a claim for a condition we’ve denied in the past</h3>
         <p>
           If we now consider your condition presumptive under the PACT Act, you
           can file a Supplemental Claim. We’ll reconsider your claim.
@@ -124,15 +134,10 @@ const ResultsSet1Page2 = ({ viewedResultsPage1, router }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  viewedResultsPage1: state?.pactAct?.viewedResultsPage1,
-});
-
 ResultsSet1Page2.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  viewedResultsPage1: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps)(ResultsSet1Page2);
+export default ResultsSet1Page2;

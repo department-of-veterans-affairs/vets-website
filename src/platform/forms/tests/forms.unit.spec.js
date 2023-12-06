@@ -16,7 +16,6 @@ const remapFormId = {
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
-  VA_FORM_IDS.FORM_10_10EZR,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_22,
@@ -30,6 +29,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
+  VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
@@ -75,11 +75,13 @@ const formConfigKeys = [
   'customText',
   'submissionError',
   'saveInProgress',
+  'hideUnauthedStartLink',
   'wizardStorageKey',
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
   'v3SegmentedProgressBar',
+  'formOptions',
 ];
 
 const validProperty = (

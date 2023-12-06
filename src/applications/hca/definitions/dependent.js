@@ -23,8 +23,8 @@ import {
  */
 const incomeFields = ['grossIncome', 'netIncome', 'otherIncome'];
 
-export const createDependentSchema = hcaSchema => {
-  const schema = merge({}, hcaSchema.definitions.dependent, {
+export const createDependentSchema = dependent => {
+  const schema = merge({}, dependent, {
     required: [
       'dependentRelation',
       'socialSecurityNumber',
@@ -34,14 +34,11 @@ export const createDependentSchema = hcaSchema => {
       'cohabitedLastYear',
     ],
   });
-
   schema.properties = omit(incomeFields, schema.properties);
-
   return schema;
 };
 
-export const createDependentIncomeSchema = hcaSchema => {
-  const { dependent } = hcaSchema.definitions;
+export const createDependentIncomeSchema = dependent => {
   return {
     ...dependent,
     properties: pick(dependent.properties, incomeFields),
@@ -90,7 +87,6 @@ export const uiSchema = {
     ...currentOrPastDateUI('When did they become your dependent?'),
     'ui:validations': [validateDependentDate],
   },
-
   disabledBefore18: {
     'ui:title':
       'Was your dependent permanently and totally disabled before the age of 18?',

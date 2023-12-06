@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'Your contact information';
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 2;
 testNumberOfFields(
   formConfig,
   schema,
@@ -20,14 +20,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 3;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
-  pageTitle,
-);
+const expectedNumberOfErrors = 1;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

@@ -50,7 +50,7 @@ describe('Record list component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Showing', { exact: false })).to.exist;
+    expect(screen.getAllByText('Showing', { exact: false }).length).to.eq(2);
   });
 
   it('displays a list of records when records are provided', async () => {

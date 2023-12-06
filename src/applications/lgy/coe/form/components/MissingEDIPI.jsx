@@ -21,8 +21,8 @@ const MissingEDIPI = () => {
       </h2>
       <p className="vads-u-font-size--base">
         We don’t have all of your ID information for your account. We need this
-        information before you can request a COE. To update your account, please
-        call Veterans Benefits Assistance at{' '}
+        information before you can request a COE. To update your account, call
+        Veterans Benefits Assistance at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact={CONTACTS['711']} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.

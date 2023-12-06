@@ -11,7 +11,7 @@ import { DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
-  const { folder, keyword, resultsCount, query } = props;
+  const { folder, keyword, resultsCount, query, threadCount } = props;
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,8 +68,6 @@ const SearchForm = props => {
     setFiltersCleared(false);
     if (filterBoxRef.current.checkFormValidity()) return;
 
-    const todayDateTime = moment(new Date()).format();
-    const offset = todayDateTime.substring(todayDateTime.length - 6);
     let relativeToDate;
     let relativeFromDate;
     let fromDateTime;
@@ -80,11 +78,11 @@ const SearchForm = props => {
       dateRange === DateRangeValues.LAST6 ||
       dateRange === DateRangeValues.LAST12
     ) {
-      relativeToDate = moment(new Date());
-      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
+      relativeFromDate = moment.utc(getRelativeDate(dateRange)).startOf('day');
+      relativeToDate = moment.utc(new Date()).endOf('day');
     } else if (dateRange === DateRangeValues.CUSTOM) {
-      fromDateTime = `${fromDate}T00:00:00${offset}`;
-      toDateTime = `${toDate}T23:59:59${offset}`;
+      fromDateTime = moment.utc(fromDate).startOf('day');
+      toDateTime = moment.utc(toDate).endOf('day');
     }
 
     if (searchTerm === '' && customFilter === false) {
@@ -110,7 +108,7 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    focusElement(filterInputRef.current.shadowRoot.querySelector('input'));
+    focusElement(filterInputRef.current.shadowRoot?.querySelector('input'));
     setFiltersCleared(true);
     setCategory('');
     setDateRange('any');
@@ -128,9 +126,9 @@ const SearchForm = props => {
     if (query.fromDate && query.toDate) {
       return queryItem(
         null,
-        `${moment(query.fromDate).format('MMMM Do YYYY')} to ${moment(
-          query.toDate,
-        ).format('MMMM Do YYYY')}`,
+        `${moment.utc(query.fromDate).format('MMMM Do YYYY')} to ${moment
+          .utc(query.toDate)
+          .format('MMMM Do YYYY')}`,
       );
     }
     return null;
@@ -203,6 +201,7 @@ const SearchForm = props => {
   return (
     <>
       <form
+        data-testid="search-form"
         className="search-form"
         onSubmit={() => {
           handleSearch();
@@ -246,22 +245,22 @@ const SearchForm = props => {
             new message. These emails include the message ID.
           </va-additional-info>
         )}
-
-        <div>
-          <FilterBox
-            ref={filterBoxRef}
-            keyword={keyword}
-            category={category}
-            setCategory={setCategory}
-            dateRange={dateRange}
-            setDateRange={setDateRange}
-            fromDate={fromDate}
-            setFromDate={setFromDate}
-            toDate={toDate}
-            setToDate={setToDate}
-          />
-        </div>
-
+        {threadCount > 0 && (
+          <div>
+            <FilterBox
+              ref={filterBoxRef}
+              keyword={keyword}
+              category={category}
+              setCategory={setCategory}
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+            />
+          </div>
+        )}
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <va-button
             text="Filter"
@@ -298,6 +297,7 @@ SearchForm.propTypes = {
   keyword: PropTypes.string,
   query: PropTypes.object,
   resultsCount: PropTypes.number,
+  threadCount: PropTypes.number,
 };
 
 export default SearchForm;

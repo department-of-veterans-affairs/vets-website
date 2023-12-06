@@ -1,56 +1,53 @@
 import React from 'react';
 
-import ArrayField from 'platform/forms-system/src/js/fields/ArrayField';
-import OrgRepsViewField from '../components/OrgRepsViewField';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+
+const labelString = 'Name of representative';
 
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="custom-header">Organization’s representatives</h3>
+    ...titleUI(
+      'Organization’s representatives',
+      'List at least one person from the organization who we can release your information to.',
     ),
-    organizationRepresentatives: {
-      'ui:description':
-        'List one or more people from the organization who we can share your information with.',
-      'ui:field': ArrayField,
-      'ui:options': {
-        itemName: 'representative',
-        viewField: OrgRepsViewField,
-        keepInPageOnReview: true,
-        useDlWrap: true,
-        showSave: false,
-        reviewMode: true,
-        customTitle: ' ',
-        confirmRemove: true,
-        confirmRemoveDescription:
-          'This will remove the Representative associated with the Organization.',
+    organizationRepresentative: {
+      'ui:title': (
+        <>
+          <span>{labelString}</span>{' '}
+          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--secondary-dark">
+            (*Required)
+          </span>
+          <br />
+          <span className="vads-u-color--gray-medium">
+            At least one representative is required
+          </span>
+        </>
+      ),
+      'ui:reviewField': ({ children }) => (
+        // remove custom required-span & description from
+        // review-field label.
+        <div className="review-row">
+          <dt>{labelString}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
+      'ui:errorMessages': {
+        required: 'Please enter the name of a representative',
       },
-      items: {
-        representativeName: {
-          'ui:title': 'Name of representative',
-          'ui:required': () => true,
-          'ui:errorMessages': {
-            required: 'Please provide the Representative’s name',
-          },
-        },
-      },
+    },
+    organizationRepresentative2: {
+      'ui:title': 'Name of second representative (if any)',
     },
   },
   schema: {
     type: 'object',
-    required: ['organizationRepresentatives'],
+    required: ['organizationRepresentative'],
     properties: {
-      organizationRepresentatives: {
-        type: 'array',
-        minItems: 1,
-        maxItems: 2, // PDF only has 2 lines for reps
-        items: {
-          type: 'object',
-          properties: {
-            representativeName: {
-              type: 'string',
-            },
-          },
-        },
+      organizationRepresentative: {
+        type: 'string',
+      },
+      organizationRepresentative2: {
+        type: 'string',
       },
     },
   },

@@ -1,14 +1,40 @@
 import { errorMessages } from '../content/contactInfo';
 
+const validateValue = (errors, value, errorMsg) => {
+  if (!value) {
+    errors.addError?.(errorMessages[errorMsg]);
+  }
+};
+
+const validateAddress = (errors, address) => {
+  validateValue(errors, address.addressLine1, 'missingMailingAddress');
+  if (
+    !address.city ||
+    (address.countryCodeIso2 === 'US' &&
+      (!address.stateCode || address.zipCode?.length !== 5))
+  ) {
+    errors.addError?.(errorMessages.invalidMailingAddress);
+  }
+};
+
+// HLR & NOD validation; has homeless question & only mobile phone
 export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
   const { veteran = {}, homeless } = formData || {};
-  if (!veteran.email) {
-    errors.addError?.(errorMessages.missingEmail);
+
+  validateValue(errors, veteran.email, 'missingEmail');
+  validateValue(errors, veteran.phone?.phoneNumber, 'missingMobilePhone');
+  if (!homeless) {
+    validateAddress(errors, veteran.address || {});
   }
-  if (!veteran.phone?.phoneNumber) {
-    errors.addError?.(errorMessages.missingMobilePhone);
-  }
-  if (!homeless && !veteran.address?.addressLine1) {
-    errors.addError?.(errorMessages.missingMailingAddress);
-  }
+};
+
+// 995 validation; no homeless question & has both home & mobile phones
+export const contactInfo995Validation = (errors = {}, _fieldData, formData) => {
+  const { veteran = {} } = formData || {};
+
+  validateValue(errors, veteran.email, 'missingEmail');
+  validateValue(errors, veteran.homePhone?.phoneNumber, 'missingHomePhone');
+  validateValue(errors, veteran.mobilePhone?.phoneNumber, 'missingMobilePhone');
+
+  validateAddress(errors, veteran.address || {});
 };

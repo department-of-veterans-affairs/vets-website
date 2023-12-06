@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { IS_TESTING } from '../util/constants';
+import { EMPTY_FIELD } from '../util/constants';
 
 const initialState = {
   /**
@@ -14,53 +14,41 @@ const initialState = {
   conditionDetails: undefined,
 };
 
-const convertCondition = condition => {
+export const convertCondition = condition => {
   return {
     id: 'SCT161891005',
-    date: condition.recordedDate,
-    name: condition.code.text,
-    clinicalTerm: condition.code.coding.code,
-    active: condition.clinicalStatus.coding.code,
-    provider: condition.asserter,
-    facility: "chiropractor's office",
-    comments: condition.note,
+    date: condition.recordedDate
+      ? formatDateLong(condition.recordedDate)
+      : EMPTY_FIELD,
+    name: condition.code?.text || EMPTY_FIELD,
+    clinicalTerm: condition.code?.coding?.code || EMPTY_FIELD,
+    active: condition.clinicalStatus?.coding?.code || EMPTY_FIELD,
+    provider: condition.asserter || EMPTY_FIELD,
+    facility: condition.facility,
+    comments: condition.note || EMPTY_FIELD,
   };
-};
-
-const convertConditionsList = recordList => {
-  recordList.entry.map(item => {
-    const record = item.resource;
-    return convertCondition(record);
-  });
 };
 
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
-      let conditionDetails;
-      if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
-        convertCondition(action.response);
-      } else {
-        conditionDetails = action.response;
-      }
       return {
         ...state,
-        conditionDetails,
+        conditionDetails: convertCondition(action.response),
       };
     }
     case Actions.Conditions.GET_LIST: {
-      const recordList = action.response;
-      let conditionsList;
-      if (environment.BUILDTYPE === 'localhost' && IS_TESTING) {
-        convertConditionsList(recordList);
-      } else {
-        conditionsList = recordList.map(condition => {
-          return { ...condition };
-        });
-      }
       return {
         ...state,
-        conditionsList,
+        conditionsList: action.response.map(item => {
+          return convertCondition(item);
+        }),
+      };
+    }
+    case Actions.Conditions.CLEAR_DETAIL: {
+      return {
+        ...state,
+        conditionDetails: undefined,
       };
     }
     default:

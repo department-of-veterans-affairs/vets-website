@@ -70,8 +70,8 @@ const AreaOfDisagreement = ({
       const name = event.target.getAttribute('name');
       const { checked } = event.detail;
       if (name && pagePerItemIndex) {
-        const areaOfDisagreement = cloneDeep(data.areaOfDisagreement);
-        const disagreement = areaOfDisagreement[pagePerItemIndex];
+        const areaOfDisagreement = cloneDeep(data.areaOfDisagreement || []);
+        const disagreement = areaOfDisagreement[pagePerItemIndex] || {};
         disagreement.disagreementOptions = {
           ...(disagreement.disagreementOptions || {}),
           [name]: checked,
@@ -84,8 +84,8 @@ const AreaOfDisagreement = ({
     },
     onInput: event => {
       const { value } = event.target;
-      const areaOfDisagreement = cloneDeep(data.areaOfDisagreement);
-      const disagreement = areaOfDisagreement[pagePerItemIndex];
+      const areaOfDisagreement = cloneDeep(data.areaOfDisagreement || []);
+      const disagreement = areaOfDisagreement[pagePerItemIndex] || {};
       disagreement.otherEntry = value;
       setFormData({ ...data, areaOfDisagreement });
       setMaxError(disagreement);
@@ -103,7 +103,7 @@ const AreaOfDisagreement = ({
     },
     updatePage: () => {
       waitForRenderThenFocus(
-        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form .edit-btn`,
+        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
       );
       updatePage();
     },

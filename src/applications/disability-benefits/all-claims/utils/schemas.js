@@ -30,6 +30,8 @@ import {
 import {
   capitalizeEachWord,
   disabilityIsSelected,
+  isClaimingIncrease,
+  isClaimingNew,
   pathWithIndex,
   sippableId,
 } from './index';
@@ -47,8 +49,12 @@ const createCheckboxSchema = (schema, disabilityName) => {
   );
 };
 
+/**
+ * Create the checkbox schema for new disabilities if user has selected
+ * New claim type
+ */
 export const makeSchemaForNewDisabilities = createSelector(
-  formData => formData.newDisabilities,
+  formData => (isClaimingNew(formData) ? formData.newDisabilities : []),
   (newDisabilities = []) => ({
     properties: newDisabilities
       .map(disability => disability.condition)
@@ -56,8 +62,12 @@ export const makeSchemaForNewDisabilities = createSelector(
   }),
 );
 
+/**
+ * Create the checkbox schema for rated disabilities based if user has selected
+ * Increase claim type
+ */
 export const makeSchemaForRatedDisabilities = createSelector(
-  formData => formData.ratedDisabilities,
+  formData => (isClaimingIncrease(formData) ? formData.ratedDisabilities : []),
   (ratedDisabilities = []) => ({
     properties: ratedDisabilities
       .filter(disabilityIsSelected)
@@ -66,6 +76,10 @@ export const makeSchemaForRatedDisabilities = createSelector(
   }),
 );
 
+/**
+ * Dynamically creates the checkbox schema for new conditions and/or rated
+ * disabilities, based on the claim type user has selected
+ */
 export const makeSchemaForAllDisabilities = createSelector(
   makeSchemaForNewDisabilities,
   makeSchemaForRatedDisabilities,

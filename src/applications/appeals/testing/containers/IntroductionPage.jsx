@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -14,6 +15,7 @@ import {
   HLR_BASE_URL,
   NOD_OPTIONS_URL,
 } from '../../shared/constants';
+import GetFormHelp from '../content/GetFormHelp';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {
@@ -32,6 +34,26 @@ const IntroductionPage = ({ route }) => {
         <a href="/decision-reviews/appeals-testing">Request a Board Appeal</a>
       </va-breadcrumbs>
 
+      {/* <VaBreadcrumbs
+        label="Breadcrumbs"
+        class="vads-u-margin-left--neg1"
+        breadcrumbsList={[
+          {
+            href: '/decision-reviews',
+            label: 'Decision review and appeals',
+          },
+          {
+            href: '/decision-reviews/board-appeal',
+            label: 'Board Appeals',
+          },
+          {
+            href: '/decision-reviews/appeals-testing',
+            label: 'Request a Board Appeal',
+          },
+        ]}
+        uswds
+      /> */}
+
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>
         Use this form if you wish to appeal 1 or more issues to the Veterans Law
@@ -40,11 +62,11 @@ const IntroductionPage = ({ route }) => {
       </p>
       <p>
         If you want to have additional evidence reviewed by a VA rater, submit a{' '}
-        <a href={`/${SC_BASE_URL}`}>Supplemental Claim</a>.
+        <a href={SC_BASE_URL}>Supplemental Claim</a>.
       </p>
       <p>
         If you want to have your claim reviewed by a VA senior reviewer, submit
-        a <a href={`/${HLR_BASE_URL}`}>Higher Level Review</a>.
+        a <a href={HLR_BASE_URL}>Higher Level Review</a>.
       </p>
       <p>
         <strong>Note:</strong> You can only apply to one decision review at a
@@ -54,13 +76,13 @@ const IntroductionPage = ({ route }) => {
       <p className="vads-u-margin-top--4">
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/appeals-testing/veteran-details"
+          href="/decision-reviews/appeals-testing/task-list"
         >
           Start the Board Appeal request
         </a>
       </p>
 
-      <va-featured-content>
+      <va-featured-content uswds>
         <h2 slot="headline">Can I request a Board Appeal?</h2>
         <p>
           You can submit this online form (VA Form 10182) to appeal a VA
@@ -82,7 +104,7 @@ const IntroductionPage = ({ route }) => {
           <li>
             <strong>If you have a claim from the old appeals system</strong>
             <p>
-              If you have a <strong>Statement of the Case (SOC)</strong> or a
+              If you have a <strong>Statement of the Case (SOC)</strong> or a{' '}
               <strong>Supplemental Statement of the Case (SSOC)</strong> from
               the old appeals system{' '}
               <strong>dated on or after February 19, 2019</strong>, the Board
@@ -146,7 +168,7 @@ const IntroductionPage = ({ route }) => {
           <p>
             Review the information you’ve entered, and submit the form online.
           </p>
-          <va-additional-info trigger="What happens after I apply?">
+          <va-additional-info trigger="What happens after I apply?" uswds>
             <p>
               After you submit your request for a Board Appeal, you’ll get a
               confirmation message. You can print this for your records.
@@ -166,7 +188,7 @@ const IntroductionPage = ({ route }) => {
       <div>
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/appeals-testing/veteran-details"
+          href="/decision-reviews/appeals-testing/task-list"
         >
           Start the Board Appeal request
         </a>
@@ -193,8 +215,11 @@ const IntroductionPage = ({ route }) => {
         <va-omb-info
           res-burden={30}
           omb-number="2900-0674"
-          exp-date="2/28/2022"
+          exp-date="3/31/2025"
+          uswds
         />
+        <p />
+        <GetFormHelp />
       </div>
     </div>
   );

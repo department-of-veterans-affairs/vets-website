@@ -1,94 +1,99 @@
+.before-you-download-dropdown {
+  max-width: 500px;
+}
+
 .print-download {
-    width: 275px;
-    button {
-      background-color: var(--color-white);
-      color: var(--color-primary);
-      width: 100%;
-      box-shadow: none;
-    }
-    button * {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      margin-right: 0px;
-    }
-    button:active,
-    button:focus {
-      outline: none;
-      background-color: var(--color-gray-cool-light);
-    }
-    button:hover {
-      background-color: var(--color-gray-cool-light);
-      color: var(--color-primary-darker);
-    }
-    button:hover i::before {
-      color: var(--color-primary-darker);
-    }
-    button:active {
-      color: var(--color-primary);
-    }
-    button:active i::before {
-      color: var(--color-primary);
-    }
+  width: 275px;
+  button {
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    width: 100%;
+    box-shadow: none;
+  }
+  button * {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+  }
+  button:active,
+  button:focus {
+    background-color: var(--color-gray-cool-light);
+    color: var(--color-primary-darker);
+  }
+  button:hover {
+    background-color: var(--color-gray-cool-light);
+    color: var(--color-primary-darker);
+  }
+  button:hover i::before {
+    color: var(--color-primary-darker);
+  }
+  button:active {
+    color: var(--color-primary);
+    outline: none;
+  }
+  button:active i::before {
+    color: var(--color-primary);
+  }
 
-    .toggle-menu-button {
-      display: flex;
-      align-items: center;
-      margin-bottom: 0;
-      border-radius: 5px;
-      border: 2px solid var(--color-primary);
-    }
+  .toggle-menu-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    border-radius: 5px;
+    border: 2px solid var(--color-primary);
+  }
 
-    .menu-options {
+  .menu-options {
+    margin: 0px;
+    padding: 0px;
+    display: none;
+    flex-direction: column;
+
+    li:first-child {
+      margin-top: 4px;
+      border-radius: 5px 5px 0px 0px;
+      border-top: 2px solid var(--color-primary);
+      border-right: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      border-left: 2px solid var(--color-primary);
+
+      button {
+        border-radius: 5px 5px 0px 0px;
+      }
+    }
+    li {
       margin: 0px;
       padding: 0px;
-      display: none;
-      flex-direction: column;
+      border-top: none;
+      border-right: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      border-left: 2px solid var(--color-primary);
+      border-radius: 0px;
 
-      li:first-child {
-        margin-top: 4px;
-        border-radius: 5px 5px 0px 0px;
-        border-top: 2px solid var(--color-primary);
-        border-right: 2px solid var(--color-primary);
-        border-bottom: 2px solid var(--color-primary);
-        border-left: 2px solid var(--color-primary);
-
-        button {
-          border-radius: 5px 5px 0px 0px;
-        }
-      }
-      li {
-        margin: 0px;
-        padding: 0px;
-        border-top: none;
-        border-right: 2px solid var(--color-primary);
-        border-bottom: 2px solid var(--color-primary);
-        border-left: 2px solid var(--color-primary);
+      button {
         border-radius: 0px;
-
-        button {
-          border-radius: 0px;
-          margin: 0px;
-          text-align: left;
-        }
-      }
-      li:last-child {
-        border-radius: 0px 0px 5px 5px;
-        border-top: none;
-        border-right: 2px solid var(--color-primary);
-        border-bottom: 2px solid var(--color-primary);
-        border-left: 2px solid var(--color-primary);
-
-        button {
-          border-radius: 0px 0px 5px 5px;
-        }
+        margin: 0px;
+        text-align: left;
       }
     }
+    li:last-child {
+      border-radius: 0px 0px 5px 5px;
+      border-top: none;
+      border-right: 2px solid var(--color-primary);
+      border-bottom: 2px solid var(--color-primary);
+      border-left: 2px solid var(--color-primary);
 
-    .menu-options-open {
-      width: 275px;
-      position: absolute;
-      z-index: 99;
-      list-style: none;
-      display: flex;
+      button {
+        border-radius: 0px 0px 5px 5px;
+      }
     }
   }
+
+  .menu-options-open {
+    width: 275px;
+    position: absolute;
+    z-index: 99;
+    list-style: none;
+    display: flex;
+  }
+}

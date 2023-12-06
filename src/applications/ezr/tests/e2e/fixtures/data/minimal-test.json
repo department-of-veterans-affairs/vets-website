@@ -1,0 +1,50 @@
+{
+  "data": {
+    "view:isMedicaidEligible" : {
+      "isMedicaidEligible": true
+    },
+    "view:isEnrolledMedicarePartA" : {
+      "isEnrolledMedicarePartA": false
+    },
+    "view:deductibleMedicalExpenses": {
+      "deductibleMedicalExpenses": 234
+    },
+    "view:deductibleFuneralExpenses": {
+      "deductibleFuneralExpenses": 11
+    },
+    "view:deductibleEducationExpenses": {
+      "deductibleEducationExpenses": 0
+    },
+    "view:veteranGrossIncome": {
+      "veteranGrossIncome": 3242434
+    },
+    "view:veteranNetIncome": {
+      "veteranNetIncome": 23424
+    },
+    "view:veteranOtherIncome": {
+      "veteranOtherIncome": 23424
+    },
+    "view:addInsurancePolicy": false,
+    "view:reportDependents": false,
+    "veteranAddress": {
+      "isMilitary": false,
+      "country": "USA",
+      "street": "123 elm st",
+      "city": "Northampton",
+      "state": "MA",
+      "postalCode": "01060"
+    },
+    "view:doesMailingMatchHomeAddress": true,
+    "gender": "F",
+    "view:maritalStatus": {
+      "maritalStatus": "Never Married"
+    },
+    "veteranDateOfBirth": "1990-01-01",
+    "veteranSocialSecurityNumber": "234243444",
+    "veteranFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "privacyAgreementAccepted": true
+  }
+}

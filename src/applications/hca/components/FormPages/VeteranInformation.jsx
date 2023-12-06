@@ -21,7 +21,7 @@ const VeteranInformation = props => {
       {data['view:isLoggedIn'] ? (
         <AuthProfileInformation user={user} />
       ) : (
-        <GuestVerifiedInformation user={data} />
+        <GuestVerifiedInformation user={data['view:veteranInformation']} />
       )}
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

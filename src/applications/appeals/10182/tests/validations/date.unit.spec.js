@@ -36,7 +36,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -54,7 +54,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -84,7 +84,7 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for dates in the distant past', () => {
     const date = getDate({ offset: { years: -2 } });
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -95,7 +95,7 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).substring(0, 8);
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -106,7 +106,7 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).replace(/-.*-/, '--');
     validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(issueErrorMessages.missingDecisionDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.not.contain('year');
@@ -121,7 +121,7 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
     const date = getDate({ offset: { years: -110 } });
     validateDate(errors, date, { [SHOW_PART3]: true });
-    expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
+    expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');

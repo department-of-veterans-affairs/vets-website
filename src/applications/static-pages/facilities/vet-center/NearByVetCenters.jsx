@@ -190,24 +190,34 @@ const NearByVetCenters = props => {
   const normalizeFetchedVetCenters = vcs => {
     return vcs
       .map(vc => normalizeFetchedVetCenterProperties(vc))
-      .filter(center => center.distance < NEARBY_VET_CENTER_RADIUS_MILES)
-      .sort((a, b) => (a.distance < b.distance ? 1 : -1));
+      .sort((a, b) => a.distance - b.distance);
   };
 
-  const renderNearbyVetCenterContainer = sortedVetCenters => (
-    <div>
-      <h2
-        className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+  const renderNearbyVetCenterContainer = sortedVetCenters => {
+    // Filter here so we can choose to use the sorted list if there are no Vet centers within the birds-eye radius
+    const filteredByDistance = sortedVetCenters.filter(
+      vc => vc.distance < NEARBY_VET_CENTER_RADIUS_MILES,
+    );
+
+    // Distance is calculated using the driving distance not birds-eye distance so all results may be outside the radius
+    const useSorted = filteredByDistance.length === 0;
+
+    return (
+      <div>
+        <h2
+          className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
                   medium-screen:vads-u-margin-bottom--3"
-        id="other-near-locations"
-      >
-        Other nearby Vet Centers
-      </h2>
-      {sortedVetCenters.map(vc =>
-        renderVetCenter(vc, props.mainVetCenterPhone),
-      )}
-    </div>
-  );
+          id="other-near-locations"
+        >
+          Other nearby Vet Centers
+        </h2>
+
+        {(useSorted ? sortedVetCenters : filteredByDistance).map(vc => {
+          return renderVetCenter(vc, props.mainVetCenterPhone);
+        })}
+      </div>
+    );
+  };
 
   const filteredVetCenters = fetchedVetCenters.filter(
     vc =>
@@ -215,9 +225,11 @@ const NearByVetCenters = props => {
       !(props.satteliteVetCenters || []).includes(vc.id),
   );
   if (filteredVetCenters.length > 0) {
-    return renderNearbyVetCenterContainer(
-      normalizeFetchedVetCenters(filteredVetCenters),
+    // only render the section if there are some facilities within the birds-eye radius
+    const normalizedFetchedVetCenters = normalizeFetchedVetCenters(
+      filteredVetCenters,
     );
+    return renderNearbyVetCenterContainer(normalizedFetchedVetCenters);
   }
   return null;
 };

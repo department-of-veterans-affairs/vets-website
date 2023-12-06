@@ -5,3 +5,63 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.form-review-panel-page .hideOnReviewPage {
+  display: none !important;
+}
+// Custom-style 'ui:title's as h3s, without using <h3> tags.
+// A11y best-practices say <label>s should not contain <h> tags.
+@mixin label-as-h3 {
+  font-family: "Bitter", serif !important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+}
+
+.custom-label {
+  @include label-as-h3; // default custom-label style
+
+  // some custom-labels need to be h4
+  &.h4 {
+    font-size: 1.7rem !important;
+  }
+}
+.custom-required,
+.custom-description,
+.custom-hint {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: normal !important;
+}
+.custom-required {
+  // manually-injected required span.
+  color: $color-secondary-dark !important;
+}
+.custom-hint {
+  color: $color-gray-medium !important;
+}
+.hide-following-required-span + .schemaform-required-span {
+  // if manually injecting custom-required-span, hide forms-library's
+  // auto-injected [but misplaced] required span.
+  display: none !important;
+}
+
+.form-panel.veteran-supporting-documentation legend > h3 {
+  margin-bottom: 0 !important;
+}
+.form-review-panel-page #root_veteranSupportingDocuments__title > h3 {
+  font-size: 1.7rem !important;
+  margin-bottom: 0 !important;
+}
+
+#root_veteranSupportingDocuments_add_label {
+  margin-top: 0;
+}
+
+input[name="root_certificates"],
+input[name="root_additionalCopies"] {
+  max-width: 7rem;
+}
+
+va-text-input[name="root_additionalCopies"]::part(label) {
+  margin-top: 0;
+}

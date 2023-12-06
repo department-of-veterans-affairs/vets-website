@@ -33,6 +33,8 @@ const CreditCardBill = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_BILL_AMOUNT = 100000;
+
   // if we have creditCardBills and plan to edit, we need to get it from the creditCardBills
   const specificRecord = creditCardBills?.length
     ? creditCardBills[index]
@@ -44,17 +46,19 @@ const CreditCardBill = props => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const unpaidBalanceError = !isValidCurrency(
-    creditCardBillRecord.unpaidBalance,
-  )
-    ? 'Please enter the unpaid balance amount'
-    : null;
+  const unpaidBalanceError =
+    !isValidCurrency(creditCardBillRecord.unpaidBalance) ||
+    (creditCardBillRecord.unpaidBalance > MAXIMUM_BILL_AMOUNT ||
+      creditCardBillRecord.unpaidBalance < 0)
+      ? 'Please enter an unpaid balance amount less than $100,000'
+      : null;
 
-  const minMonthlyPaymentError = !isValidCurrency(
-    creditCardBillRecord.amountDueMonthly,
-  )
-    ? 'Please enter the minimum monthly payment amount'
-    : null;
+  const minMonthlyPaymentError =
+    !isValidCurrency(creditCardBillRecord.amountDueMonthly) ||
+    (creditCardBillRecord.amountDueMonthly > MAXIMUM_BILL_AMOUNT ||
+      creditCardBillRecord.amountDueMonthly < 0)
+      ? 'Please enter a minimum monthly payment amount less than $100,000'
+      : null;
 
   const amountOverdueError =
     !isValidCurrency(creditCardBillRecord.amountPastDue) &&
@@ -84,8 +88,23 @@ const CreditCardBill = props => {
   const updateFormData = e => {
     setSubmitted(true);
     e.preventDefault();
+
+    if (unpaidBalanceError || minMonthlyPaymentError || amountOverdueError) {
+      return;
+    }
+
+    // Create a copy of the current creditCardBills array
     const newCreditCardBillArray = [...creditCardBills];
-    newCreditCardBillArray[index] = creditCardBillRecord;
+    // If it's a new record, set the purpose to 'Credit card payment' explicitly
+    if (creditCardBills.length === index) {
+      newCreditCardBillArray.push({
+        ...defaultRecord[0], // You can include other default values as needed
+        ...creditCardBillRecord,
+      });
+    } else {
+      // Update an existing record
+      newCreditCardBillArray[index] = creditCardBillRecord;
+    }
 
     if (
       creditCardBillRecord.amountDueMonthly &&
@@ -99,7 +118,7 @@ const CreditCardBill = props => {
         }));
       }
 
-      // update form data
+      // Update form data
       setFormData({
         ...data,
         expenses: {
@@ -199,6 +218,8 @@ const CreditCardBill = props => {
             hint={null}
             currency
             required
+            min={0}
+            max={MAXIMUM_BILL_AMOUNT}
             inputmode="numeric"
             label="Unpaid balance"
             name="unpaidBalance"
@@ -214,6 +235,8 @@ const CreditCardBill = props => {
             required
             currency
             inputmode="numeric"
+            min={0}
+            max={MAXIMUM_BILL_AMOUNT}
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"

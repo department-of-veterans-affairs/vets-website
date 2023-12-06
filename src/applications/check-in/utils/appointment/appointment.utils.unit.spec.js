@@ -57,12 +57,12 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns false if the selected appointment is found and is the only eligible appointment', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facility: 'some-facility',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
@@ -75,18 +75,16 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns true if the selected appointment is found and there are more eligible appointments', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({
             eligibility: 'ELIGIBLE',
-            facilityId: 'some-facility',
             appointmentIen: 'some-other-ien',
             clinicFriendlyName: 'TEST CLINIC',
           }),
@@ -99,7 +97,6 @@ describe('check in', () => {
       it('returns true if the selected appointment is not found and there are more eligible appointments', () => {
         const selectedAppointment = createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           appointmentIen: 'some-ien',
           clinicFriendlyName: 'TEST CLINIC',
         });
@@ -108,7 +105,6 @@ describe('check in', () => {
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({
             eligibility: 'ELIGIBLE',
-            facilityId: 'some-facility',
             appointmentIen: 'some-other-ien',
             clinicFriendlyName: 'TEST CLINIC',
           }),
@@ -120,7 +116,6 @@ describe('check in', () => {
       it('returns false if no more eligible appointments are found', () => {
         const selectedAppointment = createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           appointmentIen: 'some-other-ien',
           clinicFriendlyName: 'TEST CLINIC',
         });

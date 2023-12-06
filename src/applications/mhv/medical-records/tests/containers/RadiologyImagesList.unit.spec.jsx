@@ -3,9 +3,11 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../reducers';
 import RadiologyImagesList from '../../containers/RadiologyImagesList';
+import user from '../fixtures/user.json';
 
 describe('Radiology Images List container', () => {
   const initialState = {
+    user,
     mr: {
       labsAndTests: {
         labsAndTestsDetails: {
@@ -51,7 +53,7 @@ describe('Radiology Images List container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen);
+    expect(screen).to.exist;
   });
 
   it('displays Date of birth for the print view', () => {
@@ -82,7 +84,7 @@ describe('Radiology Images List container', () => {
     const screen = setup();
     const formattedDate = screen.getByText('April 13, 2022', {
       exact: true,
-      selector: 'p',
+      selector: 'span',
     });
     expect(formattedDate).to.exist;
   });

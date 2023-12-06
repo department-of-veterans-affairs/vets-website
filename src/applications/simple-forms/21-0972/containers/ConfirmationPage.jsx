@@ -24,247 +24,281 @@ const childContent = (
       section-heading={{
         value: 'null',
       }}
-      uswds={{
-        value: 'true',
-      }}
     >
-      <va-accordion-item
-        header="Accrued benefits"
-        id="first"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Accrued benefits">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21p-601">VA Form 21P-601</a>,
-            Application for Accrued Amounts Due a Deceased Beneficiary
+            Application for Accrued Amounts Due a Deceased Beneficiary (VA Form
+            21P-601)
+            <br />
+            <a href="/find-forms/about-form-21p-601">
+              Learn more about VA Form 21P-601
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Appeals" id="second" uswds={{ value: 'true' }}>
+      <va-accordion-item header="Appeals">
         <ul>
           <li>
-            <a href="/find-forms/about-form-20-0995">VA Form 20-0995</a>,
-            Decision Review Request: Supplemental Claim
+            Decision Review Request: Supplemental Claim (VA Form 20-0995)
+            <br />
+            <a href="/find-forms/about-form-20-0995">
+              Learn more about VA Form 20-0995
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-20-0996">VA Form 20-0996</a>,
-            Decision Review Request: Higher-Level Review
+            Decision Review Request: Higher-Level Review (VA Form 20-0996)
+            <br />
+            <a href="/find-forms/about-form-20-0996">
+              Learn more about VA Form 20-0996
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-10182">VA Form 20-10182</a>,
-            Decision Review Request: Board Appeal (Notice of Disagreement)
+            Decision Review Request: Board Appeal (Notice of Disagreement) (VA
+            Form 10182)
+            <br />
+            <a href="/find-forms/about-form-10182">
+              Learn more about VA Form 10182
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Auto allowance"
-        id="third"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Auto allowance">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-4502">VA Form 21-4502</a>,
             Application for Automobile or Other Conveyance and Adaptive
-            Equipment
+            Equipment (VA Form 21-4502)
+            <br />
+            <a href="/find-forms/about-form-21-4502">
+              Learn more about VA Form 21-4502
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Benefits for certain children with disabilities"
-        id="fourth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Benefits for certain children with disabilities">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-0304">VA Form 21-0304</a>,
             Application for Benefits for a Qualifying Veteran’s Child Born with
-            Disabilities
+            Disabilities (VA Form 21-0304)
+            <br />
+            <a href="/find-forms/about-form-21-0304">
+              Learn more about VA Form 21-0304
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Compensation"
-        id="fifth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Compensation">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-526ez">VA Form 21-526EZ</a>,
             Application for Disability Compensation and Related Compensation
-            Benefits
+            Benefits (VA Form 21-526EZ)
+            <br />
+            <a href="/find-forms/about-form-21-526ez">
+              Learn more about VA Form 21-526EZ
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Compensation and/or Pension"
-        id="sixth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Compensation or Pension">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-0966">VA Form 21-0966</a>, Intent
-            to File a Claim for Compensation and/or Pension, or Survivors
-            Pension and/or DIC
+            Intent to File a Claim for Compensation and/or Pension, or Survivors
+            Pension and/or DIC (VA Form 21-0966)
+            <br />
+            <a href="/find-forms/about-form-21-0966">
+              Learn more about VA Form 21-0966
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Dependents"
-        id="seventh"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Dependents">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-686c">VA Form 21-686c</a>,
-            Application Request to Add and/or Remove Dependents
+            Application Request to Add and/or Remove Dependents (VA Form
+            21-686c)
+            <br />
+            <a href="/find-forms/about-form-21-686c">
+              Learn more about VA Form 21-686c
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Dependent parent(s)"
-        id="eighth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Dependent parent(s)">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21p-509">VA Form 21P-509</a>,
-            Statement of Dependency of Parent(s)
+            Statement of Dependency of Parent(s) (VA Form 21P-509)
+            <br />
+            <a href="/find-forms/about-form-21p-509">
+              Learn more about VA Form 21P-509
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Individual unemployability"
-        id="ninth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Individual unemployability">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-8940">VA Form 21-8940</a>,
             Veteran’s Application for Increased Compensation Based on
-            Unemployability
+            Unemployability (VA Form 21-8940)
+            <br />
+            <a href="/find-forms/about-form-21-8940">
+              Learn more about VA Form 21-8940
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item header="Pension" id="tenth" uswds={{ value: 'true' }}>
+      <va-accordion-item header="Pension">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21p-527ez">VA Form 21P-527EZ</a>,
-            Application for Pension
+            Application for Veterans Pension (VA Form 21P-527EZ)
+            <br />
+            <a href="/find-forms/about-form-21p-527ez">
+              Learn more about VA Form 21P-527EZ
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-0969">VA Form 21P-0969</a>,
             Income and Asset Statement in Support of Claim for Pension or
-            Parents' Dependency and Indemnity Compensation (DIC)
+            Parents' Dependency and Indemnity Compensation (DIC) (VA Form
+            21P-0969)
+            <br />
+            <a href="/find-forms/about-form-21p-0969">
+              Learn more about VA Form 21P-0969
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-527">VA Form 21P-527</a>,
-            Income, Net Worth, and Employment Statement
+            Income, Net Worth, and Employment Statement (VA Form 21P-527)
+            <br />
+            <a href="/find-forms/about-form-21p-527">
+              Learn more about VA Form 21P-527
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-4165">VA Form 21P-4165</a>,
-            Pension Claim Questionnaire for Farm Income
+            Pension Claim Questionnaire for Farm Income (VA Form 21P-4165)
+            <br />
+            <a href="/find-forms/about-form-21p-4165">
+              Learn more about VA Form 21P-4165
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-8416">VA Form 21P-8416</a>,
-            Medical Expense Report
+            Medical Expense Report (VA Form 21P-8416)
+            <br />
+            <a href="/find-forms/about-form-21p-8416">
+              Learn more about VA Form 21P-8416
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-8049">VA Form 21P-8049</a>,
-            Request for Details of Expenses
+            Request for Details of Expenses (VA Form 21P-8049)
+            <br />
+            <a href="/find-forms/about-form-21p-8049">
+              Learn more about VA Form 21P-8049
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21p-4185">VA Form 21P-4185</a>,
-            Report of Income from Property or Business
+            Report of Income from Property or Business (VA Form 21P-4185)
+            <br />
+            <a href="/find-forms/about-form-21p-4185">
+              Learn more about VA Form 21P-4185
+            </a>
           </li>
           <li>
-            All forms known as{' '}
-            <a href="find-forms/?q=Eligibility+Verification+Reports">
-              Eligibility Verification Reports
-            </a>{' '}
-            (EVR’s)
+            All forms known as Eligibility Verification Reports
+            <br />
+            <a href="/find-forms/?q=Eligibility+Verification+Reports">
+              Learn more about Eligibility Verification Reports
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Posttramatic stress disorder"
-        id="twelfth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Posttraumatic stress disorder">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-0781">VA Form 21-0781</a>,
             Statement in Support of Claim for Service Connection for
-            Posttraumatic Stress Disorder (PTSD)
+            Posttraumatic Stress Disorder (PTSD) (VA Form 21-0781)
+            <br />
+            <a href="/find-forms/about-form-21-0781">
+              Learn more about VA Form 21-0781
+            </a>
           </li>
           <li>
-            <a href="/find-forms/about-form-21-0781a">VA Form 21-0781a</a>,
             Statement in Support of Claim for Service Connection for PTSD
-            Secondary to Personal Assault
+            Secondary to Personal Assault (VA Form 21-0781a)
+            <br />
+            <a href="/find-forms/about-form-21-0781a">
+              Learn more about VA Form 21-0781a
+            </a>
+          </li>
+        </ul>
+
+        <p>
+          <strong>Note:</strong> If you want to fill out these forms online,
+          you’ll need to go to our disability compensation form,{' '}
+          <a href="/find-forms/about-form-21-526ez">VA Form 21-526EZ</a>. These
+          forms are included within the online version of VA Form 21-526EZ.
+        </p>
+      </va-accordion-item>
+      <va-accordion-item header="School-age children (ages 18 to 23 and in school)">
+        <ul>
+          <li>
+            Request for Approval of School Attendance (VA Form 21-674)
+            <br />
+            <a href="/find-forms/about-form-21-674">
+              Learn more about VA Form 21-674
+            </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="School Age Child(ren) (Aged 18-23 Years and in School)"
-        id="thirteenth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Specially adapted housing or special home adaptation">
         <ul>
           <li>
-            <a href="/find-forms/about-form-21-674">VA Form 21-674</a>, Request
-            for Approval of School Attendance
-          </li>
-        </ul>
-      </va-accordion-item>
-      <va-accordion-item
-        header="Specially adapted housing or special home adaptation"
-        id="fourteenth"
-        uswds={{ value: 'true' }}
-      >
-        <ul>
-          <li>
+            Application in Acquiring Specially Adapted Housing or Special Home
+            Adaptation Grant (VA Form 26-4555)
+            <br />
             <a href="/find-forms/about-form-26-4555">
-              Application in Acquiring Specially Adapted Housing or Special Home
-              Adaptation Grant (VA Form 26-4555)
+              Learn more about VA Form 26-4555
             </a>
           </li>
         </ul>
       </va-accordion-item>
-      <va-accordion-item
-        header="Survivor benefits"
-        id="fifteenth"
-        uswds={{ value: 'true' }}
-      >
+      <va-accordion-item header="Survivor benefits">
         <ul>
           <li>
+            Application for DIC, Survivors Pension, and/or Accrued Benefit (VA
+            Form 21P-534EZ)
+            <br />
             <a href="/find-forms/about-form-21p-534ez">
-              Application for DIC, Death Pension, and/or Accrued Benefit (VA
-              Form 21P-534EZ)
+              Learn more about VA Form 21P-534EZ
             </a>
           </li>
           <li>
+            Application for Dependency and Indemnity Compensation, Survivors
+            Pension, and Accrued Benefits by Surviving Spouse or Child (VA Form
+            21P-534)
+            <br />
             <a href="/find-forms/about-form-21p-534">
-              Application for Dependency and Indemnity Compensation, Death
-              Pension, and Accrued Benefits by Surviving Spouse or Child (VA
-              Form 21P-534)
+              Learn more about VA Form 21P-534
             </a>
           </li>
           <li>
+            Application for Dependency and Indemnity Compensation by a Surviving
+            Spouse or Child - In-Service Death Only (VA Form 21P-534a)
+            <br />
             <a href="/find-forms/about-form-21p-534a">
-              Application for Dependency and Indemnity Compensation by a
-              Surviving Spouse or Child - In-Service Death Only (VA Form
-              21P-534a)
+              Learn more about VA Form 21P-534a
             </a>
           </li>
           <li>
+            Application for Dependency and Indemnity Compensation by Parent(s)
+            (VA Form 21P-535)
+            <br />
             <a href="/find-forms/about-form-21p-535">
-              Application for Dependency and Indemnity Compensation by Parent(s)
-              (VA Form 21P-535)
+              Learn more about VA Form 21P-535
             </a>
           </li>
           <li>
+            Application of Surviving Spouse or Child for REPS Benefits (Restored
+            Entitlement Program for Survivors) (VA Form 21P-8924)
+            <br />
             <a href="/find-forms/about-form-21p-8924">
-              Application of Surviving Spouse or Child for REPS Benefits
-              (Restored Entitlement Program for Survivors) (VA Form 21P-8924)
+              Learn more about VA Form 21P-8924
             </a>
           </li>
         </ul>

@@ -9,8 +9,8 @@ export default function DemographicsDisplay({
   eyebrow = '',
   subtitle = '',
   demographics = {},
-  yesAction = () => {},
-  noAction = () => {},
+  yesAction,
+  noAction,
   router,
 }) {
   const { t } = useTranslation();
@@ -59,11 +59,11 @@ export default function DemographicsDisplay({
 }
 
 DemographicsDisplay.propTypes = {
+  noAction: PropTypes.func.isRequired,
+  yesAction: PropTypes.func.isRequired,
   demographics: PropTypes.object,
   eyebrow: PropTypes.string,
   header: PropTypes.string,
-  noAction: PropTypes.func,
   router: PropTypes.object,
   subtitle: PropTypes.string,
-  yesAction: PropTypes.func,
 };
