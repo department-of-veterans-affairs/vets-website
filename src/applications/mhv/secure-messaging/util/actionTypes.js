@@ -4,6 +4,10 @@ export const Actions = {
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
     FOCUS_OUT_ALERT: 'SM_ALERT_FOCUS_OUT',
   },
+  AllRecipients: {
+    GET_LIST: 'SM_ALL_RECIPIENTS_GET_LIST',
+    GET_LIST_ERROR: 'SM_ALL_RECIPIENTS_GET_LIST_ERROR',
+  },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
   },
