@@ -59,6 +59,7 @@ export const geocodeUserAddress = query => {
               location: query.locationInputString,
               repOrgName: query.repOrganizationInputString,
             },
+            page: 1,
             id: Date.now(),
             inProgress: true,
             position: {
