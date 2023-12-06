@@ -4,7 +4,6 @@ import { focusElement } from 'platform/utilities/ui';
 import BurialModalContent from 'platform/forms/components/OMBInfoModalContent/BurialModalContent';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import environment from 'platform/utilities/environment';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 class IntroductionPage extends React.Component {
@@ -20,24 +19,14 @@ class IntroductionPage extends React.Component {
           Equal to VA Form 40-10007 (Application for Pre-Need Determination of
           Eligibility for Burial in a VA National Cemetery).
         </p>
-        {environment.isProduction() ? (
-          <SaveInProgressIntro
-            headingLevel={2}
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the pre-need eligibility application"
-          />
-        ) : (
-          <SaveInProgressIntro
-            headingLevel={2}
-            formConfig={this.props.route.formConfig}
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            pageList={this.props.route.pageList}
-            startText="Start the pre-need eligibility application"
-          />
-        )}
+        <SaveInProgressIntro
+          headingLevel={2}
+          formConfig={this.props.route.formConfig}
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the pre-need eligibility application"
+        />
         <h2 className="vads-u-font-size--h3">
           Follow these steps to get started
         </h2>
