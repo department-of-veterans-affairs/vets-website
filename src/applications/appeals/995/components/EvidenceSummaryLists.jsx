@@ -6,7 +6,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 
 import {
   EVIDENCE_VA_PATH,

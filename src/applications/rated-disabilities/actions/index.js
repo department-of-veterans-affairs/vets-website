@@ -1,4 +1,5 @@
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import { getData, isServerError, isClientError } from '../util';
 
 export const FETCH_RATED_DISABILITIES_SUCCESS =

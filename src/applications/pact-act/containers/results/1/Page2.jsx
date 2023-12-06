@@ -52,23 +52,42 @@ const ResultsSet1Page2 = () => {
         online now.
       </p>
       <article>
-        <va-on-this-page />
         <h2 id="file-a-disability-compensation-claim">
           File a claim for disability compensation
         </h2>
         <p>
           If you think you’re eligible, we encourage you to file a claim for
-          disability compensation now. If you have an illness that we don’t
-          consider presumptive, you can still file a claim. But you’ll need to
-          provide evidence that your service caused your condition.
+          disability compensation now.
+        </p>
+        <h3>Check presumptive conditions</h3>
+        <p>
+          Here are the presumptive conditions we think may apply to you based on
+          your answers.
         </p>
         {renderAccordions()}
-        <h3>If you haven’t yet filed a claim for your condition</h3>
         <p>
-          You can file a claim now. If you already get disability compensation
-          for a different condition, we still encourage you to file a claim for
-          any condition you believe your service caused. You may be able to get
-          additional or other benefits.
+          <strong>Note:</strong> If your condition isn’t listed here, you can
+          learn more about other presumptive conditions and disability benefit
+          eligibility. And if you have an illness that we don’t consider
+          presumptive, you can still file a claim. But you’ll need to provide
+          evidence that your service caused your condition.{' '}
+          <a
+            href="/disability/eligibility"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn more about eligibility for disability benefits (opens in a new
+            tab)
+          </a>
+        </p>
+        <h3>
+          How to file a claim for a condition you haven’t filed a claim for yet
+        </h3>
+        <p>You can file a claim now.</p>
+        <p>
+          Already get disability compensation for a different condition? We
+          still encourage you to file a claim for any condition you believe your
+          service caused. You may be able to get additional or other benefits.
         </p>
         <a
           className="vads-c-action-link--blue"
@@ -76,7 +95,7 @@ const ResultsSet1Page2 = () => {
         >
           File a disability compensation claim
         </a>
-        <h3>If we denied your claim for this condition in the past</h3>
+        <h3>How to file a claim for a condition we’ve denied in the past</h3>
         <p>
           If we now consider your condition presumptive under the PACT Act, you
           can file a Supplemental Claim. We’ll reconsider your claim.

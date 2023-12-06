@@ -30,12 +30,18 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
         'ui:title': 'First name',
-        'ui:errorMessages': { required: 'Enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       middle: {
         'ui:title': 'Middle name',
         'ui:options': {
           hideEmptyValueInReview: true,
+        },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
         },
       },
       last: {
@@ -45,7 +51,10 @@ export const uiSchema = {
             TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
           ),
         'ui:title': 'Last name',
-        'ui:errorMessages': { required: 'Enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       suffix: {
         'ui:title': 'Suffix',

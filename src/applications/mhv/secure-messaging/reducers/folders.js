@@ -27,6 +27,11 @@ export const foldersReducer = (state = initialState, action) => {
           };
         }),
       };
+    case Actions.Folder.GET_LIST_ERROR:
+      return {
+        ...state,
+        folderList: [],
+      };
     case Actions.Folder.GET:
     case Actions.Folder.CREATE:
       return {

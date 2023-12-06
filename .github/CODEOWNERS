@@ -74,11 +74,13 @@ src/applications/vre @department-of-veterans-affairs/benefits-non-disability @de
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/burials @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/burial-poc-v6 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/pensions @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Pensions
+src/applications/pensions @department-of-veterans-affairs/pensions @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
@@ -176,7 +178,7 @@ src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-med
 src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/avs @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile
 

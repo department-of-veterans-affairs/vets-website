@@ -10,7 +10,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import getData from '../fixtures/mocks/mockStore';
 
 import formConfig from '../../config/form';
 import servicePeriods from '../../pages/servicePeriods';
@@ -18,42 +19,6 @@ import servicePeriods from '../../pages/servicePeriods';
 const definitions = formConfig.defaultDefinitions;
 
 const { schema, uiSchema } = servicePeriods;
-
-const getData = ({
-  loggedIn = true,
-  savedForms = [],
-  formData = {},
-  contestableIssues = { status: '' },
-  routerPush = () => {},
-} = {}) => ({
-  props: {
-    loggedIn,
-    location: { pathname: '/introduction', search: '' },
-    children: <h1>Intro</h1>,
-    router: { push: routerPush },
-  },
-  data: {
-    user: {
-      login: {
-        currentlyLoggedIn: loggedIn,
-      },
-      profile: {
-        savedForms,
-        prefillsAvailable: [],
-        verified: true,
-      },
-    },
-    form: {
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: formData,
-    },
-    contestableIssues,
-  },
-});
 
 describe('pension service periods page', () => {
   const middleware = [];
@@ -201,7 +166,7 @@ describe('pension service periods page', () => {
       '#root_servicePeriods_0_activeServiceDateRange_toYear',
     );
     const serviceNumber = queryByRole('textbox', {
-      name: /Service number/i,
+      name: /Military service number/i,
     });
 
     fireEvent.click(submitBtn);

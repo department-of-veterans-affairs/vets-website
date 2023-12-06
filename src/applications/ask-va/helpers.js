@@ -29,7 +29,7 @@ export function formatAddress(address) {
 
   const displayCountry = countries.find(
     countryCode =>
-      countryCode.countryCodeISO3 === country.iso3Code ||
+      countryCode.countryCodeISO3 === country?.iso3Code ||
       countryCode.countryCodeISO3 === country,
   );
 
@@ -43,8 +43,8 @@ export function formatAddress(address) {
       : '';
 
   const addressStreet = street
-    ? street.concat(' ', street2)
-    : addressLine1.concat(' ', addressLine2, ' ', addressLine3);
+    ? `${street} ${street2}`
+    : `${addressLine1} ${addressLine2} ${addressLine3}`;
 
   // only use the full state name for military addresses, otherwise just show
   // the two-letter state code
@@ -71,7 +71,7 @@ export function formatAddress(address) {
       break;
 
     default:
-      cityStateZip = city.concat(' ', stateName, ' ', zip) || '';
+      cityStateZip = `${city} ${stateName} ${zip}` || '';
   }
 
   return { addressStreet, cityStateZip, addressCountry };

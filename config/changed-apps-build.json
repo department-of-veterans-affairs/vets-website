@@ -1,6 +1,10 @@
 {
   "apps": [
     {
+      "rootFolder": "avs",
+      "slackGroup": "<@C04UBETRY8N>"
+    },
+    {
       "rootFolder": "burials",
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
@@ -79,6 +83,10 @@
     },
     {
       "rootFolder": "rated-disabilities",
+      "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "letters",
       "slackGroup": "@benefits-app-builds"
     }
   ]

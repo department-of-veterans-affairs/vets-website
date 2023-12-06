@@ -59,6 +59,21 @@ export const dateFormat = (timestamp, format = null) => {
     .format(format || 'MMMM D, YYYY, h:mm a z');
 };
 
+export const threadsDateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
+  const timeZone = moment.tz.guess();
+  return moment
+    .tz(timestamp, timeZone)
+    .format(format || 'MMMM D, YYYY [at] h:mm a z');
+};
+
 export const sortRecipients = recipientsList => {
   const isAlphabetical = str => /^\w/.test(str);
   let list = [];

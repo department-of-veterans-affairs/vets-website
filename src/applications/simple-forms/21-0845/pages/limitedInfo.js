@@ -1,5 +1,3 @@
-import { isEmpty } from 'lodash';
-
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
@@ -11,50 +9,23 @@ import { LIMITED_INFORMATION_ITEMS } from '../definitions/constants';
 
 export default {
   uiSchema: {
-    /* TODO: Once bug #718 is fixed and merged, refactor to
-      * uiSchema below
-      */
-    limitedInformationItems: {
-      // deconstruct checkboxGroupUI, so that
-      // we can override the required prop with a function
-      ...checkboxGroupUI({
-        title: 'Which specific information do you authorize us to release?',
-        description:
-          'Select the items we can share with your third-party source. You can select more than one',
-        labels: LIMITED_INFORMATION_ITEMS,
-        required: false, // override with 'ui:required' below
-        labelHeaderLevel: '3',
-        tile: false,
-        errorMessages: {},
-      }),
-      // override checkboxGroupUI's required
-      'ui:required': formData => !formData.limitedInformationOther,
-    },
+    limitedInformationItems: checkboxGroupUI({
+      title: 'Which specific information do you authorize us to release?',
+      description:
+        'Select the items we can share with your third-party source. You can select more than one',
+      labels: LIMITED_INFORMATION_ITEMS,
+      required: formData => !formData.limitedInformationOther,
+      labelHeaderLevel: '3',
+      tile: false,
+      errorMessages: {
+        required:
+          'Please select at least one type of information here, or specify something else below',
+      },
+    }),
     limitedInformationOther: {
       'ui:title': 'Other (specify here)',
       'ui:webComponentField': VaTextInputField,
     },
-    'ui:validations': [
-      (errors, fields) => {
-        const { limitedInformationItems, limitedInformationOther } = fields;
-
-        if (
-          (typeof limitedInformationItems === 'undefined' ||
-            isEmpty(limitedInformationItems) ||
-            Object.values(limitedInformationItems).every(
-              val => val === false || val === undefined,
-            )) &&
-          typeof limitedInformationOther === 'undefined'
-        ) {
-          errors.limitedInformationItems.addError(
-            'Please select at least one type of information here, or specify something else below',
-          );
-        } else {
-          // eslint-disable-next-line no-param-reassign
-          errors.limitedInformationItems = [];
-        }
-      },
-    ],
   },
   schema: {
     type: 'object',

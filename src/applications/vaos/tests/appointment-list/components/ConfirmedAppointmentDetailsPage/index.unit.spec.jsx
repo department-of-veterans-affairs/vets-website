@@ -180,9 +180,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
-      localStartTime: futureDate
-        .add(1, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      localStartTime: futureDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.add(1, 'days').format(),
       status: 'booked',
       cancellable: true,

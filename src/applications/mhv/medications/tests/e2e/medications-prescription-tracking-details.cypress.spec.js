@@ -20,9 +20,6 @@ describe('Medications Details Page Download', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

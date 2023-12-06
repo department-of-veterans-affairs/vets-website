@@ -11,7 +11,6 @@ import {
 } from '@@profile/actions';
 import {
   cnpDirectDepositInformation,
-  profileUseLighthouseDirectDepositEndpoint,
   selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
@@ -70,7 +69,6 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
@@ -80,9 +78,7 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -105,7 +101,6 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
@@ -129,9 +124,7 @@ class Profile extends Component {
         shouldFetchCNPDirectDepositInformation &&
         !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
 
     if (
@@ -288,7 +281,6 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -369,9 +361,6 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
-    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
-      state,
-    ),
     togglesLoaded,
     profileToggles: selectProfileToggles(state),
   };
