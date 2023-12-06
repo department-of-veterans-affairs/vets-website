@@ -40,7 +40,7 @@ const SearchPage = props => {
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
-      page: currentQuery.currentPage,
+      page: currentQuery.page || 1,
       /* eslint-disable camelcase */
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
@@ -107,6 +107,8 @@ const SearchPage = props => {
 
     const { latitude, longitude } = position;
 
+    setIsSearching(true);
+
     updateUrlParams({
       address: context.location,
       name: repOrganizationInputString || null,
@@ -130,6 +132,8 @@ const SearchPage = props => {
       });
 
       setIsSearching(false);
+      setIsLoading(true);
+      setIsDisplayingResults(false);
     }
   };
 
@@ -144,8 +148,6 @@ const SearchPage = props => {
     () => {
       if (isSearching && !props.currentQuery.geocodeError) {
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.id],
@@ -155,10 +157,7 @@ const SearchPage = props => {
   useEffect(
     () => {
       if (props.currentQuery.searchCounter > 0) {
-        setIsSearching(true);
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.sortType],
@@ -168,10 +167,7 @@ const SearchPage = props => {
   useEffect(
     () => {
       if (props.currentQuery.searchCounter > 0) {
-        setIsSearching(true);
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.page],
