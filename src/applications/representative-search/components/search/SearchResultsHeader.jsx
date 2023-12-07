@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { individualSortOptions, orgSortOptions } from '../../config';
+import { orgSortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
@@ -12,11 +12,6 @@ export const SearchResultsHeader = props => {
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
-
-  const sortOptions =
-    representativeType === 'organization'
-      ? orgSortOptions
-      : individualSortOptions;
 
   if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
@@ -51,9 +46,9 @@ export const SearchResultsHeader = props => {
     return 'Results';
   };
 
-  const options = Object.keys(sortOptions).map(option => (
+  const options = Object.keys(orgSortOptions).map(option => (
     <option key={option} value={option}>
-      {sortOptions[option]}
+      {orgSortOptions[option]}
     </option>
   ));
 

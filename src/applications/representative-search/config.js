@@ -32,13 +32,22 @@ export const individualSortOptions = {
   distance_desc: 'Distance (farthest to closest)',
   last_name_asc: 'Last Name (A - Z)',
   last_name_desc: 'Last Name (Z - A)',
+  first_name_asc: 'First Name (A - Z)',
+  first_name_desc: 'First Name (Z - A)',
 };
 
+/*
+ * Toggle true for local development
+ */
+export const useStagingDataLocally = true;
+
 const railsEngineApi = {
-  baseUrl: `${
-    environment.API_URL
-  }/services/veteran/v0/accredited_representatives`,
-  url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
+  baseUrl: useStagingDataLocally
+    ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+    : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
+  url: useStagingDataLocally
+    ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+    : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
 
@@ -66,11 +75,22 @@ export const resolveParamsWithUrl = ({
 
   let newSort = sort;
 
+  /* 
+    Converting sort type for scenarios where the rep type is 
+    updated in a way that's doesn't correspond with the current sort type
+  */
+
   if (type !== 'organization') {
     if (sort === 'name_asc') {
       newSort = 'last_name_asc';
     } else if (sort === 'name_dsc') {
       newSort = 'last_name_dsc';
+    }
+  } else if (type === 'organization') {
+    if (sort === 'last_name_asc') {
+      newSort = 'name_asc';
+    } else if (sort === 'last_name_dsc') {
+      newSort = 'name_dsc';
     }
   }
 
