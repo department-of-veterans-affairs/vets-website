@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  apiRequest,
-  logoutUrlSiS,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  logout as IAMLogout,
   isAuthenticatedWithOAuth,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
-import { parseRedirectUrl, errorMessages, touStyles } from '../helpers';
+import {
+  parseRedirectUrl,
+  declineAndLogout,
+  validateWhichRedirectUrlToUse,
+} from '../helpers';
+import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
 
 const touUpdatedDate = `September 2023`;
@@ -25,10 +26,8 @@ export default function TermsOfUse() {
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
-  const redirectUrl =
-    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) ||
-    redirectLocation.searchParams.get('redirect_url') ||
-    redirectLocation.searchParams.get('ssoeTarget');
+  const redirectUrl = validateWhichRedirectUrlToUse(redirectLocation);
+  const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
 
   useEffect(
     () => {
@@ -69,16 +68,16 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
-          window.location = encodeURI(parseRedirectUrl(redirectUrl));
+          window.location = parseRedirectUrl(redirectUrl);
         }
 
         if (type === 'decline') {
           setShowDeclineModal(false);
-          if (termsCodeExists || isAuthenticatedWithSiS) {
-            window.location = logoutUrlSiS();
-          } else {
-            IAMLogout({ queryParams: { [`agreements_declined`]: true } });
-          }
+          declineAndLogout({
+            termsCodeExists,
+            shouldRedirectToMobile,
+            isAuthenticatedWithSiS,
+          });
         }
       }
     } catch (err) {
@@ -129,7 +128,7 @@ export default function TermsOfUse() {
               for VA health care and benefits in any way. You can still get VA
               health care and benefits without using online services. If you
               need help or have questions, call us at{' '}
-              <va-telephone contact={CONTACTS.VA_411} /> select 0 (
+              <va-telephone contact={CONTACTS.VA_411} />, select 0 (
               <va-telephone contact={CONTACTS[711]} tty />
               ). We’re here 24/7.
             </p>

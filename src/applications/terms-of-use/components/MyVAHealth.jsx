@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { parseRedirectUrl, touStyles } from '../helpers';
+import { parseRedirectUrl } from '../helpers';
+import { touStyles } from '../constants';
 
 const redirectUserToErrorPage = () => {
   setTimeout(() => {
