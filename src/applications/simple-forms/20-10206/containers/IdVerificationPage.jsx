@@ -23,6 +23,11 @@ const IdVerificationPage = props => {
 
   formConfig.getHelp = getHelp;
 
+  if (!userLoggedIn || userIdVerified) {
+    router.push('/preparer-type');
+    return null;
+  }
+
   return (
     <div className="schemaform-intro">
       {showLoadingIndicator ? (
