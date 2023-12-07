@@ -140,6 +140,7 @@ export default {
           const globalState = getGlobalState();
           return (
             formData.questions.isMarried &&
+            !formData.reviewNavigation &&
             globalState.spouseChanged &&
             formData['view:streamlinedWaiver']
           );
