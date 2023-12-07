@@ -616,13 +616,17 @@ class PatientInboxPage {
           }
         }
         cy.log(`name = ${facilityName}`);
-        if (cernerCount === 1) {
+        if (cernerCount === 0) {
+          cy.get('[data-testid="cerner-facilities-alert"]').should(
+            'not.be.visible',
+          );
+        } else if (cernerCount === 1) {
           cy.get('[data-testid="cerner-facilities-alert"]')
             .shadow()
             .get('[data-testid="single-cerner-facility-text"]')
             .contains(facilityName);
           break;
-        } else {
+        } else if (cernerCount > 1) {
           cy.get('[data-testid="cerner-facilities-alert"]')
             .shadow()
             .get('[data-testid="cerner-facility"]')
