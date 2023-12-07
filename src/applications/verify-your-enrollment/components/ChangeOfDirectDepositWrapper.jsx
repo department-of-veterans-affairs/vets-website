@@ -16,6 +16,7 @@ const ChangeOfDirectDepositWrapper = () => {
   const PREFIX = 'GI-Bill-Chapters-';
 
   const handleCloseForm = () => {
+    setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
   };
 
@@ -30,8 +31,6 @@ const ChangeOfDirectDepositWrapper = () => {
     //     accountType: formData[`${PREFIX}AccountType`],
 
     // };
-
-    setFormData({}); // clear form data
     handleCloseForm(); // close directDeposit form
     // add redux logic here when API is available
   };
