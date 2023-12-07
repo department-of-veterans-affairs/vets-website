@@ -7,13 +7,16 @@ import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
+import FinancialMeansTestWarning from '../FormAlerts/FinancialStatusWarning';
 import content from '../../locales/en/content.json';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
-  const { isEnrolledinESR, hasServerError } = useSelector(
-    selectEnrollmentStatus,
-  );
+  const {
+    canSubmitFinancialInfo,
+    isEnrolledinESR,
+    hasServerError,
+  } = useSelector(selectEnrollmentStatus);
   const {
     downtime,
     prefillEnabled,
@@ -36,12 +39,22 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     pageList,
   };
 
+  const sipIntro = <SaveInProgressIntro {...sipProps} />;
+
   // set the correct alert to render based on enrollment status
-  const LoggedInAlertToRender = isEnrolledinESR ? (
-    <SaveInProgressIntro {...sipProps} />
-  ) : (
-    <EnrollmentStatusAlert showError={hasServerError} />
-  );
+  const LoggedInAlertToRender = () => {
+    if (!isEnrolledinESR)
+      return <EnrollmentStatusAlert showError={hasServerError} />;
+
+    return canSubmitFinancialInfo ? (
+      sipIntro
+    ) : (
+      <>
+        <FinancialMeansTestWarning />
+        {sipIntro}
+      </>
+    );
+  };
 
   return isLoggedOut ? (
     <>
@@ -63,12 +76,12 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
               finish it.
             </li>
           </ul>
-          <SaveInProgressIntro {...sipProps} />
+          {sipIntro}
         </div>
       </va-alert>
     </>
   ) : (
-    <div className="vads-u-margin-y--4">{LoggedInAlertToRender}</div>
+    <div className="vads-u-margin-y--4">{LoggedInAlertToRender()}</div>
   );
 };
 
