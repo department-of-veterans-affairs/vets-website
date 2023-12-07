@@ -92,6 +92,7 @@ const TravelQuestion = props => {
             <va-additional-info
               uswds
               trigger={t('beneficiary-travel-agreement')}
+              class="vads-u-margin-bottom--3"
             >
               <span className="vads-u-font-weight--bold">
                 {t('please-review')}

@@ -65,10 +65,11 @@ const useTravelPayFlags = appointment => {
   }
 
   const travelPayEligible =
-    travelPayData.travelAddress &&
-    travelPayData.travelMileage &&
-    travelPayData.travelVehicle &&
-    travelPayData.travelReview;
+    (travelPayData.travelAddress &&
+      travelPayData.travelMileage &&
+      travelPayData.travelVehicle &&
+      travelPayData.travelReview) ||
+    false;
 
   return {
     travelPayData,
