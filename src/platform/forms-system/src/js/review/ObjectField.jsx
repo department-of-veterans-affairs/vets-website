@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { flow, groupBy } from 'lodash';
-import environment from 'platform/utilities/environment';
 
 import {
   getDefaultFormState,
@@ -188,20 +187,14 @@ class ObjectField extends React.Component {
                   {title}
                 </h4>
               )}
-            <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--flex-end">
+            <div className="vads-u-justify-content--flex-end">
               {defaultEditButton()}
             </div>
           </div>
         )}
-        {environment.isProduction() && (
-          <Tag className="review">{renderedProperties}</Tag>
-        )}
-
-        {!environment.isProduction() && (
-          <Tag className="review" style={{ margin: '16px auto' }}>
-            {renderedProperties}
-          </Tag>
-        )}
+        <Tag className="review" style={{ margin: '16px auto' }}>
+          {renderedProperties}
+        </Tag>
       </>
     ) : (
       <>{renderedProperties}</>

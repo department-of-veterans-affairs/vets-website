@@ -85,21 +85,21 @@ const VaccineDetails = props => {
   );
 
   const generateVaccinePdf = async () => {
-    const title = `Vaccines: ${record.name} on ${record.date}`;
+    const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
 
     scaffold.details = {
       items: [
         {
-          title: 'Location',
-          value: record.location,
+          title: 'Date received',
+          value: record.date,
           inline: true,
         },
         {
-          title: 'Reaction',
-          value: processList(record.reactions),
-          inline: !record.reactions.length,
+          title: 'Location',
+          value: record.location,
+          inline: true,
         },
         {
           title: 'Provider notes',
@@ -124,7 +124,6 @@ ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
 Location: ${record.location}\n
-Reaction: ${processList(record.reactions)}\n
 Provider notes: ${processList(record.notes)}\n`;
 
     const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
@@ -152,24 +151,40 @@ Provider notes: ${processList(record.notes)}\n`;
             className="vads-u-margin-bottom--0p5"
             aria-describedby="vaccine-date"
             data-dd-privacy="mask"
+            data-testid="vaccine-name"
           >
-            {record.name}
+            Vaccines: {record.name}
           </h1>
-          <DateSubheading date={record.date} id="vaccine-date" />
+          <DateSubheading
+            date={record.date}
+            label="Date received"
+            id="vaccine-date"
+          />
           <PrintDownload
             download={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="detail-block max-80">
-            <h2>Location</h2>
-            <p data-dd-privacy="mask">{record.location}</p>
-            <h2 className="vads-u-margin-bottom--0">
+          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          <div>
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
+              Location
+            </h2>
+            <p
+              className="vads-u-margin-top--0"
+              data-dd-privacy="mask"
+              data-testid="vaccine-location"
+            >
+              {record.location}
+            </p>
+            {/* <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
               Reactions recorded by provider
             </h2>
-            <ItemList list={record.reactions} />
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <ItemList list={record.reactions} /> */}
+            <h2 className="vads-u-margin-top--2 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              Provider notes
+            </h2>
             <ItemList list={record.notes} />
           </div>
         </>

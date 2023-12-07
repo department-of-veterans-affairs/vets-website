@@ -82,7 +82,10 @@ const Compose = () => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             {pageTitle}
           </h1>
-          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+          <ComposeForm
+            draft={draftMessage}
+            recipients={triageTeams !== 'error' && triageTeams}
+          />
         </>
       );
     }

@@ -94,6 +94,7 @@ export const Hub = () => {
           content="Direct deposit information for disability compensation, pension, and education benefits"
         >
           <ProfileLink
+            className="vads-u-display--block vads-u-margin-bottom--2"
             text="Manage your direct deposit information"
             href={PROFILE_PATHS.DIRECT_DEPOSIT}
           />

@@ -1,9 +1,13 @@
 import * as Sentry from '@sentry/browser';
 import {
-  FETCH_REPRESENTATIVES,
+  // FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   SEARCH_COMPLETE,
 } from '../../utils/actionTypes';
+import { useMockData } from '../../config';
+// import mockPaginatedData from '../../constants/mock-representative-paginated-data.json';
+import mockUnpaginatedData from '../../constants/mock-rep-data-unpaginated.json';
+import { mockPaginatedResponse } from '../../utils/helpers';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -29,8 +33,6 @@ export const fetchRepresentatives = async (
   type,
   dispatch,
 ) => {
-  let data = {};
-
   try {
     const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
@@ -42,25 +44,40 @@ export const fetchRepresentatives = async (
       sort,
       type,
     );
-    data = { ...dataList };
     if (dataList.data) {
-      dispatch({ type: SEARCH_COMPLETE, payload: data });
-      return dataList.data;
+      dispatch({ type: SEARCH_COMPLETE, payload: dataList });
     }
 
-    if (data.errors) {
-      dispatch({ type: SEARCH_FAILED, error: data.errors });
-    } else {
-      dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
+    if (dataList.errors?.length > 0) {
+      dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
+    if (useMockData) {
+      /*
+      const mockedResponse = {
+        data: mockPaginatedData.mockPages[page - 1],
+        links: mockPaginatedData.links,
+        meta: {
+          ...mockPaginatedData.meta,
+          pagination: {
+            ...mockPaginatedData.meta.pagination,
+            currentPage: page,
+          },
+        },
+      };
+      */
+
+      const mockedResponse = mockPaginatedResponse(mockUnpaginatedData, page);
+      dispatch({ type: SEARCH_COMPLETE, payload: mockedResponse });
+
+      return;
+    }
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage('Error fetching accredited representatives');
     });
 
     dispatch({ type: SEARCH_FAILED, error: error.message });
+    throw error;
   }
-
-  return null;
 };
