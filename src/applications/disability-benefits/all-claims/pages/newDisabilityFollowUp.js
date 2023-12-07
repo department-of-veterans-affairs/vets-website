@@ -63,7 +63,7 @@ export const uiSchema = {
         itemAriaLabel: data => `${data.condition} followup questions`,
       },
       cause: {
-        'ui:title': 'What caused your condition??',
+        'ui:title': 'What caused your condition?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
