@@ -10,10 +10,14 @@ const NavCard = ({ icon = null, title, links }) => {
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
+          const header =
+            typeof text === 'object' && text !== null ? 'Inbox' : text;
+          const sectionHeader =
+            typeof text === 'object' && text !== null ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-header': text,
-            'links-list-section-header': String(text) === text ? text : 'Inbox', // hack to handle 'the dot',
+            'links-list-header': header,
+            'links-list-section-header': sectionHeader,
           });
         }}
       >
