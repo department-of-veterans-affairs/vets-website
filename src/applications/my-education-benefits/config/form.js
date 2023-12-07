@@ -129,7 +129,7 @@ const formPages = {
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
         info:
-          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
       },
     },
     loanPayment: {
@@ -257,23 +257,40 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-function AdditionalConsiderationTemplate(page, formField) {
+function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
+  const displayTypeMapping = {
+    [formFields.federallySponsoredAcademy]: 'Academy',
+    [formFields.seniorRotcCommission]: 'ROTC',
+    [formFields.loanPayment]: 'LRP',
+  };
+  // Use the mapping to determine the display type
+  const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
-  if (additionalInfo) {
-    additionalInfoView = {
-      [additionalInfoViewName]: {
-        'ui:description': (
+  const uiDescription = (
+    <>
+      {options.includeExclusionWidget && (
+        <ExclusionPeriodsWidget displayType={displayType} />
+      )}
+      {additionalInfo && (
+        <>
+          <br />
           <va-additional-info trigger={additionalInfo.trigger}>
             <p>{additionalInfo.info}</p>
           </va-additional-info>
-        ),
+        </>
+      )}
+    </>
+  );
+  if (additionalInfo || options.includeExclusionWidget) {
+    additionalInfoView = {
+      [additionalInfoViewName]: {
+        'ui:description': uiDescription,
       },
     };
   }
-
   return {
     path: page.name,
     title: data => {
@@ -287,9 +304,6 @@ function AdditionalConsiderationTemplate(page, formField) {
       );
     },
     uiSchema: {
-      'view:exclusionPeriodsWidget': {
-        'ui:field': <ExclusionPeriodsWidget />,
-      },
       'ui:description': data => {
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
@@ -297,10 +311,6 @@ function AdditionalConsiderationTemplate(page, formField) {
           ],
           page.order,
         );
-      },
-      [formFields[formField]]: {
-        'ui:title': title,
-        'ui:widget': 'radio',
       },
       [formFields[formField]]: {
         'ui:title': title,
@@ -1659,20 +1669,85 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
+            { includeExclusionWidget: true },
           ),
         },
+        // [formPages.additionalConsiderations.militaryAcademy.name]: {
+        //   title: 'Military Academy Question',
+        //   path: 'additional-considerations/military-academy',
+        //   uiSchema: {
+        //     'ui:description': (
+        //       <>
+        //         <ExclusionPeriodsWidget />
+        //         {/* Additional descriptions or components here */}
+        //       </>
+        //     ),
+        //     [formFields.federallySponsoredAcademy]: {
+        //       'ui:title': 'Did you graduate from a Military Service Academy?',
+        //       'ui:widget': 'radio',
+        //     },
+        //     // ... other UI schema properties
+        //   },
+        //   schema: {
+        //     // ... schema definition
+        //   },
+        // },
+
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
+            { includeExclusionWidget: true },
           ),
         },
+        // [formPages.additionalConsiderations.seniorRotc.name]: {
+        //   title: 'Senior ROTC Question',
+        //   path: 'additional-considerations/senior-rotc',
+        //   uiSchema: {
+        //     'ui:description': (
+        //       <>
+        //         <ExclusionPeriodsWidget />
+        //         {/* Additional descriptions or components here */}
+        //       </>
+        //     ),
+        //     [formFields.seniorRotcCommission]: {
+        //       'ui:title': 'Were you commissioned as a result of Senior ROTC?',
+        //       'ui:widget': 'radio',
+        //     },
+        //     // ... other UI schema properties
+        //   },
+        //   schema: {
+        //     // ... schema definition
+        //   },
+        // },
+
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
+            { includeExclusionWidget: true },
           ),
         },
+        // [formPages.additionalConsiderations.loanPayment.name]: {
+        //   title: 'Loan Payment Question',
+        //   path: 'additional-considerations/loan-payment',
+        //   uiSchema: {
+        //     'ui:description': (
+        //       <>
+        //         <ExclusionPeriodsWidget />
+        //         {/* Additional descriptions or components here */}
+        //       </>
+        //     ),
+        //     [formFields.loanPayment]: {
+        //       'ui:title': 'Do you have a period of service counted towards an education loan payment?',
+        //       'ui:widget': 'radio',
+        //     },
+        //     // ... other UI schema properties
+        //   },
+        //   schema: {
+        //     // ... schema definition
+        //   },
+        // },
       },
     },
     bankAccountInfoChapter: {

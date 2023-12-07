@@ -1,56 +1,41 @@
 import React from 'react';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const ExclusionPeriodsWidget = ({ formData }) => {
+const ExclusionPeriodsWidget = ({ formData, displayType = '' }) => {
   const { exclusionPeriods } = formData;
 
-  const renderExclusionInfo = () => {
-    return exclusionPeriods.map((period, index) => {
-      let message;
-      switch (period) {
-        case 'ROTC':
-          message =
-            'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.';
-          break;
-        case 'LRP':
-          message =
-            'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.';
-          break;
-        case 'Academy':
-          message =
-            'Dept. of Defense data shows you have graduated from a Military Service Academy';
-          break;
-        default:
-          return null;
-      }
-      return (
-        <va-alert key={`exclusion-${index}`} status="info">
-          {message}
-        </va-alert>
-      );
-    });
+  const getMessageForType = type => {
+    switch (type) {
+      case 'ROTC':
+        return 'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.';
+      case 'LRP':
+        return 'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.';
+      case 'Academy':
+        return 'Dept. of Defense data shows you have graduated from a Military Service Academy';
+      default:
+        return null;
+    }
   };
-  if (!exclusionPeriods || exclusionPeriods.length === 0) {
+  if (displayType && exclusionPeriods?.includes(displayType)) {
+    const message = getMessageForType(displayType);
     return (
-      <va-alert status="info">No exclusion periods data available.</va-alert>
+      <va-alert key={`exclusion-${displayType}`} status="info">
+        {message}
+      </va-alert>
     );
   }
-  return <div>{renderExclusionInfo()}</div>;
+
+  return null;
 };
 ExclusionPeriodsWidget.propTypes = {
+  displayType: PropTypes.string,
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
 };
-
+ExclusionPeriodsWidget.defaultProps = {
+  displayType: '',
+};
 const mapStateToProps = state => ({
   formData: state?.form?.data,
 });
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ExclusionPeriodsWidget);
+export default connect(mapStateToProps)(ExclusionPeriodsWidget);

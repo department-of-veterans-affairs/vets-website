@@ -172,6 +172,7 @@ export const App = ({
       if (exclusionPeriods && !formData.exclusionPeriods) {
         const updatedFormData = {
           ...formData,
+          mebExclusionPeriodEnabled,
           exclusionPeriods, // Update form data with fetched exclusion periods
         };
         setFormData(updatedFormData);
