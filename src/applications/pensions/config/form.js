@@ -61,6 +61,7 @@ import contactInformation from '../pages/contactInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
+import age from '../pages/age';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
 import medicaidCoverage from '../pages/medicaidCoverage';
 import medicaidStatus from '../pages/medicaidStatus';
@@ -150,11 +151,14 @@ const previousEmployers = generateEmployersSchemas(
   true,
 );
 
-function isUnder65(formData) {
-  return moment()
-    .startOf('day')
-    .subtract(65, 'years')
-    .isBefore(formData.veteranDateOfBirth);
+export function isUnder65(formData, currentDate) {
+  const today = currentDate || moment();
+  return (
+    today
+      .startOf('day')
+      .subtract(65, 'years')
+      .isBefore(formData.veteranDateOfBirth) || !formData.isOver65
+  );
 }
 
 function isBetween18And23(childDOB) {
@@ -274,6 +278,7 @@ const formConfig = {
           title: 'Applicant information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+          updateFormData: applicantInformation.updateFormData,
         },
         mailingAddress: {
           title: 'Mailing address',
@@ -315,10 +320,15 @@ const formConfig = {
     healthAndEmploymentInformation: {
       title: 'Health and employment information',
       pages: {
+        age: {
+          title: 'Age',
+          path: 'medical/history/age',
+          uiSchema: age.uiSchema,
+          schema: age.schema,
+        },
         socialSecurityDisability: {
           title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
-          depends: isUnder65,
           uiSchema: socialSecurityDisability.uiSchema,
           schema: socialSecurityDisability.schema,
         },
@@ -402,7 +412,7 @@ const formConfig = {
           title: 'Current employment',
           path: 'employment/current/history',
           depends: formData => {
-            return formData.currentEmployment !== false;
+            return formData.currentEmployment !== false && isUnder65(formData);
           },
           uiSchema: currentEmployers.uiSchema,
           schema: currentEmployers.schema,
@@ -411,7 +421,7 @@ const formConfig = {
           title: 'Previous employment',
           path: 'employment/previous/history',
           depends: formData => {
-            return formData.currentEmployment !== true;
+            return formData.currentEmployment !== true && isUnder65(formData);
           },
           uiSchema: previousEmployers.uiSchema,
           schema: previousEmployers.schema,

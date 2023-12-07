@@ -57,6 +57,7 @@ const IdVerificationPage = props => {
               target="_blank"
               rel="noopener noreferrer"
               className="vads-c-action-link--green"
+              data-testid="id-verification-link"
             >
               Verify your identity (opens in new tab)
             </a>
@@ -74,6 +75,7 @@ const IdVerificationPage = props => {
               download
               href="https://www.vba.va.gov/pubs/forms/VBA-20-10206-ARE.pdf"
               text="Download VA Form 20-10206 (PDF)"
+              data-testid="download-link"
             />
           </p>
           {footerContent({ formConfig, location })}
@@ -87,12 +89,10 @@ IdVerificationPage.propTypes = {
   route: PropTypes.object,
   router: PropTypes.object,
   showLoadingIndicator: PropTypes.bool,
-  user: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
-    user: state.user,
     showLoadingIndicator: isProfileLoading(state),
   };
 };

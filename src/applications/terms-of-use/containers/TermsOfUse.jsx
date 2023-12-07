@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import {
   isAuthenticatedWithOAuth,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import {
   parseRedirectUrl,
@@ -106,15 +106,6 @@ export default function TermsOfUse() {
               </p>
             </div>
             <h2 id="terms-of-use">Terms of use</h2>
-            <p>
-              The Department of Veterans Affairs (VA) owns and manages VA.gov
-              and the My HealtheVet health management portal. VA.gov allows you
-              to use online tools that display parts of your personal health
-              information. This health information is only displayed on VA.gov
-              &mdash; the information is stored on VA protected federal computer
-              systems and networks. VA supports the secure storage and
-              transmission of all information on VA.gov.
-            </p>
             <div>
               <va-accordion bordered>
                 {touData.map(({ header, content }, i) => (
@@ -136,7 +127,10 @@ export default function TermsOfUse() {
               Your decision to decline these terms won’t affect your eligibility
               for VA health care and benefits in any way. You can still get VA
               health care and benefits without using online services. If you
-              need help or have questions, <SubmitSignInForm /> We’re here 24/7.
+              need help or have questions, call us at{' '}
+              <va-telephone contact={CONTACTS.VA_411} />, select 0 (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ). We’re here 24/7.
             </p>
             <va-alert status="warning" visible>
               <h3 slot="headline" id="what-happens-if-you-decline">
@@ -145,7 +139,8 @@ export default function TermsOfUse() {
               <p>
                 If you decline these terms, we’ll sign you out. You can still
                 get VA health care and benefits by phone, by mail, or in person.
-                But you won't be able to use some online services, like:
+                But you won't be able to use some VA online services, including
+                these services:
               </p>
               <ul>
                 <li>VA.gov</li>

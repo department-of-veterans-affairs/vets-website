@@ -18,11 +18,16 @@ export default {
     ),
     disabilityExams: {
       'ui:options': {
-        itemName: 'exam',
+        itemName: 'exam date',
         viewField: DisabilityExamDate,
         keepInPageOnReview: true,
         customTitle: ' ',
+        confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the date of your disability exam and may make it harder to find your record.',
         useDlWrap: true,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         'ui:options': {
