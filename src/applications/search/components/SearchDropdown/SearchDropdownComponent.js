@@ -148,6 +148,7 @@ class SearchDropdownComponent extends React.Component {
       savedSuggestions: [],
       suggestions: [],
       a11yStatusMessage: '',
+      a11yLongStringMessage: '',
       displayA11yDescriptionFlag: undefined,
       fetchingSuggestions: true,
     };
@@ -187,6 +188,11 @@ class SearchDropdownComponent extends React.Component {
     this.updateA11yTimeout = setTimeout(() => {
       this.setA11yStatusMessage();
     }, 300);
+
+    clearTimeout(this.updateCheckInputForErrors);
+    this.updateCheckInputForErrors = setTimeout(() => {
+      this.checkInputForErrors();
+    }, 5000);
   }
 
   // when the component unmounts, clear the timeout if we have one.
@@ -573,6 +579,27 @@ class SearchDropdownComponent extends React.Component {
     });
   };
 
+  checkInputForErrors = () => {
+    if (this.state.inputValue.length >= 255) {
+      this.setState({
+        a11yLongStringMessage:
+          'The search is over the character limit. Shorten the search and try again.',
+      });
+      clearTimeout(this.resetA11yMessage);
+      this.resetA11yMessage = setTimeout(() => {
+        this.setState({
+          a11yLongStringMessage: '',
+        });
+      }, 5000);
+    }
+  };
+
+  resetInputForErrors = () => {
+    this.setState({
+      a11yLongStringMessage: '',
+    });
+  };
+
   // render
   render() {
     const {
@@ -582,6 +609,7 @@ class SearchDropdownComponent extends React.Component {
       suggestions,
       a11yStatusMessage,
       displayA11yDescriptionFlag,
+      a11yLongStringMessage,
     } = this.state;
 
     const {
@@ -605,14 +633,20 @@ class SearchDropdownComponent extends React.Component {
     if (isOpen && activeIndex !== undefined) {
       activeId = `${id}-option-${activeIndex}`;
     }
+    const inputHasLengthError = inputValue.length >= 255;
 
     const assistiveHintid = `${id}-assistive-hint`;
+
+    const errorStringLengthId =
+      'search-results-page-dropdown-a11y-status-message';
 
     const mobileResponsiveClass = mobileResponsive ? 'shrink-to-column' : '';
 
     const ariaDescribedProp = displayA11yDescriptionFlag
       ? {
-          'aria-describedby': assistiveHintid,
+          'aria-describedby': inputHasLengthError
+            ? `${errorStringLengthId} ${assistiveHintid}`
+            : assistiveHintid,
         }
       : null;
 
@@ -641,6 +675,18 @@ class SearchDropdownComponent extends React.Component {
           >
             {a11yStatusMessage}
           </span>
+
+          {inputHasLengthError && (
+            <span
+              id={`${id}-a11y-status-message-submit-button-click`}
+              role="status"
+              className="vads-u-visibility--screen-reader"
+              aria-live="assertive"
+              aria-relevant="additions text"
+            >
+              {a11yLongStringMessage}
+            </span>
+          )}
 
           <span
             id={assistiveHintid}
@@ -734,6 +780,7 @@ class SearchDropdownComponent extends React.Component {
               tabIndex="0"
               onClick={() => {
                 this.updateMenuState(false, false);
+                this.checkInputForErrors();
                 onInputSubmit(this.state);
               }}
               onFocus={() => {
