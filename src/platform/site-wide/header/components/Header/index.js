@@ -13,7 +13,6 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   console.log('THIS IS THE MOBILE HEADER');
 
   useEffect(() => {
-    console.log('this runs (header)');
     addFocusBehaviorToCrisisLineModal();
     addOverlayTriggers(setCanShowLoginModal);
   }, []);

@@ -55,6 +55,5 @@ export default function startSitewideComponents(commonStore) {
 
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();
-  console.log('this is happening');
   addOverlayTriggers();
 }

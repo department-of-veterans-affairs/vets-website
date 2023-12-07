@@ -222,8 +222,6 @@ export class Main extends Component {
   };
 
   render() {
-    console.log('showLoginModal (main): ', this.props.showLoginModal);
-    console.log('canShowLoginModal (main): ', this.props.canShowLoginModal);
     const { mhvTransition, mhvTransitionModal } = this.props;
 
     return (
@@ -246,8 +244,8 @@ export class Main extends Component {
         <SignInModal
           onClose={this.closeLoginModal}
           visible={
-            this.props.showLoginModal ||
-            (this.props.canShowLoginModal && this.props.showLoginModal)
+            (this.props.canShowLoginModal && this.props.showLoginModal) ||
+            this.props.showLoginModal
           }
           useSiS={this.props.useSignInService}
         />
