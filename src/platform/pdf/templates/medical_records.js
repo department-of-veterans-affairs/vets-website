@@ -113,11 +113,7 @@ const generateResultItemContent = async (
   }
 
   if (hasHorizontalRule) {
-    results.add(
-      doc.struct('Artifact', () => {
-        addHorizontalRule(doc, 30, 1.5, 1.5);
-      }),
-    );
+    addHorizontalRule(doc, 30, 1.5, 1.5);
   }
 };
 

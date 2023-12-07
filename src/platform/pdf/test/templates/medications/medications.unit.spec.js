@@ -93,14 +93,14 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the acetic acid medication header
+      expect(content.items[95].tag).to.eq('H3');
+      expect(content.items[97].str).to.eq('ACETIC ACID 0.25% IRRG SOLN');
 
-      expect(artifactCount).to.eq(6);
+      // The two items before it should be the start and end of the Artifact tag.
+      expect(content.items[93].type).to.eq('beginMarkedContent');
+      expect(content.items[93].tag).to.eq('Artifact');
+      expect(content.items[94].type).to.eq('endMarkedContent');
     });
 
     it('Outputs document sections in the correct order', async () => {

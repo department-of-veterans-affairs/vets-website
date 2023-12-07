@@ -82,16 +82,15 @@ const addHorizontalRule = (
   linesAbove = 0.5,
   linesBelow = 0.5,
 ) => {
+  doc.markContent('Artifact');
   doc.moveDown(linesAbove);
-
-  // TODO add alternative text.
-  doc.markContent('Artifact', { type: 'Layout' });
   doc
     .moveTo(0 + spaceFromEdge, doc.y)
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
   doc.moveDown(linesBelow);
+  doc.endMarkedContent();
   return doc;
 };
 
