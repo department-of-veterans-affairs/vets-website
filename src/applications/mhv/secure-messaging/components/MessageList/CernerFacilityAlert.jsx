@@ -45,7 +45,9 @@ const CernerFacilityAlert = () => {
                 </p>
                 <ul>
                   {cernerFacilitiesNames.map((facilityName, i) => (
-                    <li key={i}>{facilityName}</li>
+                    <li data-testid="cerner-facility" key={i}>
+                      {facilityName}
+                    </li>
                   ))}
                 </ul>
               </>

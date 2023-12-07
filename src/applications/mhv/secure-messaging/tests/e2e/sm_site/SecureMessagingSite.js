@@ -1,32 +1,48 @@
-import mockUser from '../fixtures/user.json';
+import mockUser from '../fixtures/userResponse/user.json';
 import mockNonSMUser from '../fixtures/non_sm_user.json';
 import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
-import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
-import mockFacilitiesObjects from '../fixtures/facilityResponse/cerner-facilitie-objects-request.json';
+import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.json';
 
 class SecureMessagingSite {
-  login = (isSMUser = true) => {
-    if (isSMUser) {
+  login = (
+    isSMUser = true,
+    user = mockUser,
+    userFacilities = mockFacilities,
+  ) => {
+    if (isSMUser === true) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.intercept('GET', '/v0/user_transition_availabilities', mockUser);
+      cy.intercept('GET', '/v0/user', user).as('mockUser');
+      cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
         'featureToggle',
       );
+      const facilityIDs = [];
+      const objectIDs = [];
+      for (
+        let i = 0;
+        i < user.data.attributes.vaProfile.facilities.length;
+        i += 1
+      ) {
+        const obj = user.data.attributes.vaProfile.facilities[i];
+        facilityIDs.push(`vha_${obj.facilityId}`);
+        objectIDs.push('[object%20Object]');
+      }
+
       cy.intercept(
         'GET',
-        '/v1/facilities/va?ids=vha_983,vha_668,vha_984,vha_987,vha_463,vha_583,vha_531,vha_660,vha_687,vha_668,vha_607,vha_636,vha_662,vha_589',
-        mockFacilities,
+        `/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+        userFacilities,
       ).as('facilities');
+
       cy.intercept(
         'GET',
-        'v1/facilities/va?ids=[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object],[object%20Object]',
-        mockFacilitiesObjects,
+        `v1/facilities/va?ids=${objectIDs.join(',')}`,
+        userFacilities,
       ).as('facilitiesSet');
     } else {
       cy.login();

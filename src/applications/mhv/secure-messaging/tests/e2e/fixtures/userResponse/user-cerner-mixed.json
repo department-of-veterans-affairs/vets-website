@@ -13,6 +13,7 @@
               "lighthouse",
               "form526",
               "user-profile",
+              "messaging",
               "appeals-status",
               "identity-proofed",
               "vet360"
@@ -97,14 +98,6 @@
                   {
                       "facilityId": "660",
                       "isCerner": false
-                  },
-                  {
-                      "facilityId": "687",
-                      "isCerner": true
-                  },
-                  {
-                      "facilityId": "668",
-                      "isCerner": true
                   },
                   {
                       "facilityId": "607",
