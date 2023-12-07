@@ -27,19 +27,10 @@ export const orgSortOptions = {
   name_desc: 'Name (Z - A)',
 };
 
-export const individualSortOptions = {
-  distance_asc: 'Distance (closest to farthest)',
-  distance_desc: 'Distance (farthest to closest)',
-  last_name_asc: 'Last Name (A - Z)',
-  last_name_desc: 'Last Name (Z - A)',
-  first_name_asc: 'First Name (A - Z)',
-  first_name_desc: 'First Name (Z - A)',
-};
-
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = false;
+export const useStagingDataLocally = true;
 
 const railsEngineApi = {
   baseUrl:
@@ -52,8 +43,6 @@ const railsEngineApi = {
       : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
-
-export const useMockData = false;
 
 export const getAPI = () => railsEngineApi;
 
@@ -85,14 +74,14 @@ export const resolveParamsWithUrl = ({
   if (type !== 'organization') {
     if (sort === 'name_asc') {
       newSort = 'last_name_asc';
-    } else if (sort === 'name_dsc') {
-      newSort = 'last_name_dsc';
+    } else if (sort === 'name_desc') {
+      newSort = 'last_name_desc';
     }
   } else if (type === 'organization') {
     if (sort === 'last_name_asc') {
       newSort = 'name_asc';
-    } else if (sort === 'last_name_dsc') {
-      newSort = 'name_dsc';
+    } else if (sort === 'last_name_desc') {
+      newSort = 'name_desc';
     }
   }
 
