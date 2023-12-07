@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
 
-import DownloadLetters from './containers/DownloadLetters';
+import App from './containers/App';
 import AddressSection from './containers/AddressSection';
+import DownloadLetters from './containers/DownloadLetters';
 import LetterList from './containers/LetterList';
 import Main from './containers/Main';
-import LettersApp from './containers/LettersApp';
 
 const routes = (
-  <Route path="/" component={LettersApp}>
+  <Route path="/" component={App}>
     <Route
       component={DownloadLetters}
       name="Download Letters"

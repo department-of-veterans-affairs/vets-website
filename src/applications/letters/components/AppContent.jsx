@@ -1,20 +1,14 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
-import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
-import { isLoadingFeatures } from '../selectors';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-export class AppContent extends React.Component {
+export default class AppContent extends React.Component {
   constructor(props) {
     super(props);
     if (props.isDataAvailable === false) {
@@ -50,11 +44,7 @@ export class AppContent extends React.Component {
     }
 
     if (!this.props.featureFlagsLoading) {
-      return (
-        <div data-testid="appContentChildren" className="usa-grid">
-          {this.props.children}
-        </div>
-      );
+      return <div className="usa-grid">{this.props.children}</div>;
     }
     return (
       <div className="vads-u-margin-y--5">
@@ -67,40 +57,7 @@ export class AppContent extends React.Component {
   }
 }
 
-export function LettersApp({ user, children, featureFlagsLoading }) {
-  return (
-    <RequiredLoginView
-      verify
-      serviceRequired={backendServices.EVSS_CLAIMS}
-      user={user}
-    >
-      <AppContent featureFlagsLoading={featureFlagsLoading}>
-        <DowntimeBanner
-          appTitle="Letters Generator"
-          dependencies={[externalServices.evss]}
-        />
-        <div>{children}</div>
-      </AppContent>
-    </RequiredLoginView>
-  );
-}
-
 AppContent.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.arrayOf(PropTypes.node),
   isDataAvailable: PropTypes.bool,
 };
-
-LettersApp.propTypes = {
-  children: PropTypes.element,
-  featureFlagsLoading: PropTypes.bool,
-  user: PropTypes.shape({}),
-};
-
-function mapStateToProps(state) {
-  return {
-    featureFlagsLoading: isLoadingFeatures(state),
-    user: state.user,
-  };
-}
-
-export default connect(mapStateToProps)(LettersApp);
