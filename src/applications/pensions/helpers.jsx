@@ -537,3 +537,15 @@ export const dependentExpectedIncomeDescription = (
     expects to receive in the next 12 months
   </span>
 );
+
+export const dependentSeriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="What do we mean by seriously disabled?">
+      <span>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </span>
+    </va-additional-info>
+  </div>
+);
