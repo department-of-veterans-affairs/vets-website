@@ -243,10 +243,7 @@ export class Main extends Component {
         />
         <SignInModal
           onClose={this.closeLoginModal}
-          visible={
-            (this.props.canShowLoginModal && this.props.showLoginModal) ||
-            this.props.showLoginModal
-          }
+          visible={this.props.canShowLoginModal && this.props.showLoginModal}
           useSiS={this.props.useSignInService}
         />
         {mhvTransition &&

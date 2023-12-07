@@ -16,7 +16,9 @@ export default class SignInModal extends React.Component {
     }
   }
 
+  
   render() {
+    console.log('visible: ', this.props.visible);
     return (
       <Modal
         cssClass="va-modal-large new-modal-design"

@@ -24,6 +24,7 @@ export function addOverlayTriggers(setCanShowLoginModal) {
 
     if (shouldCloseOverlay) {
       if (setCanShowLoginModal) {
+        console.log('running: true');
         setCanShowLoginModal(true);
       }
 
@@ -31,6 +32,7 @@ export function addOverlayTriggers(setCanShowLoginModal) {
       document.body.classList.remove('va-pos-fixed');
     } else if (overlayId) {
       if (setCanShowLoginModal) {
+        console.log('running: false');
         setCanShowLoginModal(false);
       }
 
