@@ -149,7 +149,7 @@ export async function querySelectorWithShadowRoot(selector, root) {
     }
 
     const selectorElement =
-      typeof selector === 'string'
+      typeof selector === 'string' && rootElement
         ? rootElement.querySelector(selector)
         : selector;
 
