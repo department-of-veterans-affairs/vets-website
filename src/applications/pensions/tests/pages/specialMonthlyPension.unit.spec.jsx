@@ -1,7 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from '../../../simple-forms/shared/tests/pages/pageTests.spec';
+} from './pageTests.spec';
 import formConfig from '../../config/form';
 import specialMonthlyPension from '../../pages/specialMonthlyPension';
 

@@ -75,6 +75,7 @@ const formConfigKeys = [
   'customText',
   'submissionError',
   'saveInProgress',
+  'hideUnauthedStartLink',
   'wizardStorageKey',
   'showReviewErrors',
   'reviewErrors',
