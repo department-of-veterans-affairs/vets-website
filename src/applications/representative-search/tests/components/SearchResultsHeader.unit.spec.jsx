@@ -167,7 +167,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for Claim Agents within 50 miles of "new york"';
+      'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
     const actualString = wrapper.find('h2').text();
 
     // Remove whitespaces and special characters
@@ -194,7 +194,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for Claim Agents within 50 miles of "new york"';
+      'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
     const actualString = wrapper.find('h2').text();
 
     // Remove whitespaces and special characters
@@ -236,7 +236,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for Claim Agents within 50 miles of "new york"',
+      'No results found for Claims agents within 50 miles of "new york"',
     );
     wrapper.unmount();
   });

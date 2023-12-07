@@ -20,7 +20,7 @@ export const SearchResultsHeader = props => {
   const repFormat = {
     organization: 'Veteran Service Organizations',
     attorney: 'Attorneys',
-    claim_agents: 'Claim Agents',
+    claim_agents: 'Claims agents',
   };
 
   const handleNumberOfResults = () => {
