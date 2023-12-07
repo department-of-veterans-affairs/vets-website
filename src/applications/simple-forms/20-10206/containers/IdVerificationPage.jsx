@@ -53,13 +53,11 @@ const IdVerificationPage = props => {
           </p>
           <p>
             <a
-              href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/verify?next=/records/request-personal-records-form-20-10206/introduction"
               className="vads-c-action-link--green"
               data-testid="id-verification-link"
             >
-              Verify your identity (opens in new tab)
+              Verify your identity
             </a>
           </p>
           <p>
