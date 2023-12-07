@@ -4,8 +4,8 @@ import {
   getNewStoreAfterRemovingResponse,
   setShortNameValue,
   updateFormValue,
-} from '../reducers/utilities';
-import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+} from '../../reducers/utilities';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 describe('reducer', () => {
   describe('utilities: createFormStore', () => {
