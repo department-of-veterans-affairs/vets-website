@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { AppContent } from '../../components/AppContent';
+import AppContent from '../../components/AppContent';
 
 describe('<AppContent>', () => {
   it('should render children if data available', () => {
