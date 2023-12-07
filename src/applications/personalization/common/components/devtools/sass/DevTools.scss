@@ -14,13 +14,10 @@
   opacity: 0;
 }
 
-.devtools-panel--hovered {
+.devtools-panel--shown {
   padding: 1rem 2rem;
   display: block;
   z-index: 999999999999;
-
-  color: rgb(186, 190, 216);
-  background: rgb(41, 45, 62);
   pointer-events: all;
   opacity: 1;
   border-radius: 1rem;
@@ -33,7 +30,7 @@
   bottom: 0;
 }
 
-.devtools-show-icon .devtools-container button {
+.devtools-show-icon .devtools-container .devtools-show-button {
   position: absolute;
   right: -1rem;
   bottom: -1rem;

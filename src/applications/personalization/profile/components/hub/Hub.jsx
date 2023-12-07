@@ -13,8 +13,6 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
-import { ExampleForDevTools } from '~/applications/personalization/common/components/devtools/ExampleForDevtools';
-import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -146,12 +144,6 @@ export const Hub = () => {
           />
         </HubCard>
       </div>
-      <DevTools
-        devtoolsData={{ label, link, hasBadAddress }}
-        showChildren={false}
-      >
-        <ExampleForDevTools data={{ label, link }} something="bork bork bork" />
-      </DevTools>
     </>
   );
 };

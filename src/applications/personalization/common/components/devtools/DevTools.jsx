@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
@@ -11,25 +10,38 @@ const ChildrenRenderer = ({ children, shouldRender }) => {
 };
 
 export const DevTools = ({
-  devtoolsData = { error: 'no data provided to devtools instance' },
-  showChildren = true,
-  showHighlight = false,
+  devToolsData = { error: 'no data provided to devtools instance' },
+  alwaysShowChildren = true,
   showIcon = true,
+  panel = false,
   children,
 }) => {
   const [visible, setVisible] = useState(false);
 
   if (!window?.showDevTools) {
     window.showDevTools = () => {
-      setVisible(true);
+      document.dispatchEvent(
+        new CustomEvent('devToolsActivate', { detail: true }),
+      );
     };
   }
 
   if (!window?.hideDevTools) {
     window.hideDevTools = () => {
-      setVisible(false);
+      document.dispatchEvent(
+        new CustomEvent('devToolsActivate', { detail: false }),
+      );
     };
   }
+
+  document.addEventListener('devToolsActivate', event => {
+    if (event.detail === true) {
+      setVisible(true);
+      return;
+    }
+
+    setVisible(false);
+  });
 
   const {
     TOGGLE_NAMES,
@@ -52,35 +64,25 @@ export const DevTools = ({
     [loading, devToolsShouldLoad],
   );
 
-  useEffect(
-    () => {
-      if (devToolsRef?.current) {
-        const classList = classNames({
-          'devtools-active': visible && showHighlight,
-          'devtools-show-icon': showIcon,
-        });
-
-        devToolsRef.current.parentNode.classList = [classList];
-      }
-    },
-    [visible, devToolsRef],
-  );
-
-  return !loading && devToolsShouldLoad ? (
-    <div className="devtools-root" ref={devToolsRef}>
+  return !loading && devToolsShouldLoad && visible ? (
+    <div className={showIcon && 'devtools-show-icon'} ref={devToolsRef}>
       <Suspense fallback={<div>Loading...</div>}>
-        <DevToolsLoader devtoolsData={devtoolsData} />
+        <DevToolsLoader devToolsData={devToolsData} panel={panel}>
+          {children}
+        </DevToolsLoader>
         {children}
       </Suspense>
     </div>
   ) : (
-    <ChildrenRenderer shouldRender={showChildren}>{children}</ChildrenRenderer>
+    <ChildrenRenderer shouldRender={alwaysShowChildren}>
+      {children}
+    </ChildrenRenderer>
   );
 };
 
 DevTools.propTypes = {
   children: PropTypes.node,
-  devtoolsData: PropTypes.object,
+  devToolsData: PropTypes.object,
   showChildren: PropTypes.bool,
   showHighlight: PropTypes.bool,
   showIcon: PropTypes.bool,
