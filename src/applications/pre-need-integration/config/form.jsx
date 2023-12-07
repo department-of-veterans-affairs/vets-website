@@ -13,7 +13,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
@@ -31,7 +30,6 @@ import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
-import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -39,7 +37,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import phoneUI from '../components/Phone';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
@@ -61,8 +58,6 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  applicantsMailingAddressHasState,
-  sponsorMailingAddressHasState,
   MailingAddressStateTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -95,9 +90,11 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
-const applicantContactInfoSubheader = (
+// NOTE: Commented since only used in Contact Information section which is currently commented until it is moved
+//       Uncomment once Contact Information is moved and uncommented
+/* const applicantContactInfoSubheader = (
   <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
-);
+); */
 
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
@@ -584,7 +581,10 @@ const formConfig = {
         },
       },
     },
-    contactInformation: {
+    // NOTE: Commented until section is moved
+    //       After this section is moved and uncommented, make sure to uncomment const applicantContactInfoSubheader at the top of this form
+    //       Also, after this section is moved and uncommented, make sure to uncomment the section at the end of the return statement of ../definitions/address.js
+    /* contactInformation: {
       title: 'Contact information',
       pages: {
         applicantContactInformation: {
@@ -704,7 +704,7 @@ const formConfig = {
           },
         },
       },
-    },
+    }, */
   },
 };
 
