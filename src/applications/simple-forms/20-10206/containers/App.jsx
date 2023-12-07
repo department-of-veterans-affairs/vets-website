@@ -49,8 +49,8 @@ App.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
-  userIdVerified: PropTypes.bool.isRequired,
-  userLoggedIn: PropTypes.bool.isRequired,
+  userIdVerified: PropTypes.bool,
+  userLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

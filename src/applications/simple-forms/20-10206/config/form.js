@@ -28,7 +28,7 @@ import transformForSubmit from './submit-transformer';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
-import { getMockData } from '../helpers';
+import { getMockData, getUserBasedDepends } from '../helpers';
 
 const mockData = testData.data;
 
@@ -91,8 +91,11 @@ const formConfig = {
       path: 'identity-verification',
       pageKey: 'identity-verification',
       component: IdVerificationPage,
-      // user-state view-field below was added to form-data by App.jsx
-      depends: formData => !formData['view:userIdVerified'],
+      // user-state view-fields below were added to form-data by App.jsx
+      depends: {
+        'view:userLoggedIn': true,
+        'view:userIdVerified': false,
+      },
     },
   ],
   chapters: {
@@ -102,9 +105,7 @@ const formConfig = {
         preparerTypePage: {
           path: 'preparer-type',
           title: 'Preparer type',
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
@@ -120,18 +121,15 @@ const formConfig = {
         personalInfoPage: {
           path: 'personal-information',
           title: 'Name and date of birth',
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           uiSchema: persInfoPg.uiSchema,
           schema: persInfoPg.schema,
           pageClass: 'personal-information',
         },
         citizenIdentificationInfoPage: {
-          depends: {
-            'view:userIdVerified': true,
-            preparerType: PREPARER_TYPES.CITIZEN,
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.preparerType === PREPARER_TYPES.CITIZEN,
           path: 'citizen-identification-information',
           title: 'Identification information',
           uiSchema: citizenIdInfoPg.uiSchema,
@@ -139,10 +137,9 @@ const formConfig = {
           pageClass: 'citizen-identification-information',
         },
         nonCitizenIdentificationInfoPage: {
-          depends: {
-            'view:userIdVerified': true,
-            preparerType: PREPARER_TYPES.NON_CITIZEN,
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.preparerType === PREPARER_TYPES.NON_CITIZEN,
           path: 'non-citizen-identification-information',
           title: 'Identification information',
           uiSchema: nonCitizenIdInfoPg.uiSchema,
@@ -157,9 +154,7 @@ const formConfig = {
         addressPage: {
           path: 'contact-information',
           title: 'Mailing address',
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           uiSchema: addressPg.uiSchema,
           schema: addressPg.schema,
           pageClass: 'address',
@@ -167,9 +162,7 @@ const formConfig = {
         phoneEmailPage: {
           path: 'phone-email',
           title: 'Phone and email address',
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           uiSchema: phoneEmailPg.uiSchema,
           schema: phoneEmailPg.schema,
           pageClass: 'phone-email',
@@ -182,9 +175,7 @@ const formConfig = {
         recordSelectionsPage: {
           path: 'record-selections',
           title: 'Select at least one record',
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           uiSchema: recordSelectionsPg.uiSchema,
           schema: recordSelectionsPg.schema,
           pageClass: 'record-selections',
@@ -195,12 +186,9 @@ const formConfig = {
       title: 'Disability exam details',
       pages: {
         disabilityExamDetailsPage: {
-          depends: {
-            'view:userIdVerified': true,
-            recordSelections: {
-              [RECORD_TYPES.DISABILITY_EXAMS]: true,
-            },
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.recordSelections[RECORD_TYPES.DISABILITY_EXAMS],
           path: 'disability-exam-details',
           title: 'Disability exam details',
           uiSchema: disExamDetailsPg.uiSchema,
@@ -215,12 +203,9 @@ const formConfig = {
         financialRecordDetailsPage: {
           path: 'financial-record-details',
           title: 'Financial record details',
-          depends: {
-            'view:userIdVerified': true,
-            recordSelections: {
-              [RECORD_TYPES.FINANCIAL]: true,
-            },
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.recordSelections[RECORD_TYPES.FINANCIAL],
           uiSchema: finRecDetailsPg.uiSchema,
           schema: finRecDetailsPg.schema,
           pageClass: 'financial-record-details',
@@ -231,12 +216,9 @@ const formConfig = {
       title: 'Life insurance benefit details',
       pages: {
         lifeInsuranceBenefitDetailsPage: {
-          depends: {
-            'view:userIdVerified': true,
-            recordSelections: {
-              [RECORD_TYPES.LIFE_INS]: true,
-            },
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.recordSelections[RECORD_TYPES.LIFE_INS],
           path: 'life-insurance-benefit-details',
           title: 'Life insurance benefit details',
           uiSchema: lifeInsBenefitDetailsPg.uiSchema,
@@ -249,12 +231,9 @@ const formConfig = {
       title: 'Compensation and/or pension details',
       pages: {
         otherCompensationAndPensionDetailsPage: {
-          depends: {
-            'view:userIdVerified': true,
-            recordSelections: {
-              [RECORD_TYPES.OTHER_COMP_PEN]: true,
-            },
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.recordSelections[RECORD_TYPES.OTHER_COMP_PEN],
           path: 'other-compensation-and-pension-details',
           title: 'Other compensation and pension record details',
           uiSchema: otherCompPenDetailsPg.uiSchema,
@@ -267,12 +246,9 @@ const formConfig = {
       title: 'Benefit record details',
       pages: {
         otherBenefitDetailsPage: {
-          depends: {
-            'view:userIdVerified': true,
-            recordSelections: {
-              [RECORD_TYPES.OTHER]: true,
-            },
-          },
+          depends: formData =>
+            getUserBasedDepends(formData) &&
+            formData.recordSelections[RECORD_TYPES.OTHER],
           path: 'other-benefit-details',
           title: 'Other benefit record details',
           uiSchema: otherBenefitDetailsPg.uiSchema,
@@ -285,9 +261,7 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         additionalRecordsInformationPage: {
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           path: 'additional-records-information',
           title: 'Additional records information',
           uiSchema: additionalRecordsInformationPg.uiSchema,
@@ -300,9 +274,7 @@ const formConfig = {
       title: 'VA regional office',
       pages: {
         associatedVARegionalOfficePage: {
-          depends: {
-            'view:userIdVerified': true,
-          },
+          depends: formData => getUserBasedDepends(formData),
           path: 'associated-va-regional-office',
           title: 'Associated VA regional office',
           uiSchema: associatedVARegionalOfficePg.uiSchema,

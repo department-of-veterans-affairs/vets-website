@@ -5,13 +5,21 @@ import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import footerContent from 'platform/forms/components/FormFooter';
-import { isProfileLoading } from 'platform/user/selectors';
+import { isProfileLoading, isLoggedIn, isLOA3 } from 'platform/user/selectors';
 import getHelp from '../../shared/components/GetFormHelp';
 
 const IdVerificationPage = props => {
-  const { route, router, showLoadingIndicator } = props;
+  const {
+    route,
+    router,
+    isLoadingFeatures,
+    isLoadingProfile,
+    userIdVerified,
+    userLoggedIn,
+  } = props;
   const { formConfig } = route;
   const { location } = router;
+  const showLoadingIndicator = isLoadingFeatures || isLoadingProfile;
 
   formConfig.getHelp = getHelp;
 
@@ -76,6 +84,12 @@ const IdVerificationPage = props => {
               data-testid="download-link"
             />
           </p>
+          <div className="test-only">
+            <p>
+              [userLoggedIn: {userLoggedIn ? 'true' : 'false'}; userIdVerified:{' '}
+              {userIdVerified ? 'true' : 'false'}]
+            </p>
+          </div>
           {footerContent({ formConfig, location })}
         </>
       )}
@@ -84,15 +98,19 @@ const IdVerificationPage = props => {
 };
 
 IdVerificationPage.propTypes = {
+  isLoadingFeatures: PropTypes.bool,
+  isLoadingProfile: PropTypes.bool,
   route: PropTypes.object,
   router: PropTypes.object,
-  showLoadingIndicator: PropTypes.bool,
+  userIdVerified: PropTypes.bool,
+  userLoggedIn: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    showLoadingIndicator: isProfileLoading(state),
-  };
-};
+const mapStateToProps = state => ({
+  isLoadingFeatures: state.featureToggles.loading,
+  isLoadingProfile: isProfileLoading(state),
+  userIdVerified: isLOA3(state),
+  userLoggedIn: isLoggedIn(state),
+});
 
 export default connect(mapStateToProps)(IdVerificationPage);
