@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import EnrollmentVerificationBreadcrumbs from './EnrollmentVerificationBreadcrumbs';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 
-export default function EnrollmentVerificationPageWrapper({ children }) {
+const EnrollmentVerificationPageWrapper = ({ children }) => {
   return (
     <>
       <div name="topScrollElement" />
@@ -23,8 +23,10 @@ export default function EnrollmentVerificationPageWrapper({ children }) {
       </div>
     </>
   );
-}
+};
 
 EnrollmentVerificationPageWrapper.propTypes = {
   children: PropTypes.any,
 };
+
+export default EnrollmentVerificationPageWrapper;

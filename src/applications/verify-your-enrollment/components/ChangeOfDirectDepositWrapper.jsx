@@ -176,7 +176,6 @@ const ChangeOfDirectDepositWrapper = () => {
                 type="submit"
                 loadingText="saving bank information"
                 className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
-                // isLoading={directDepositUiState.isSaving}
               >
                 Save
               </LoadingButton>
@@ -184,8 +183,6 @@ const ChangeOfDirectDepositWrapper = () => {
                 text="Cancel"
                 label="cancel updating your bank information for GI Bill benefits"
                 secondary
-                // disabled={directDepositUiState.isSaving}
-                // className="usa-button-secondary small-screen:vads-u-margin-top--0"
                 onClick={() => {
                   handleCloseForm();
                 }}
