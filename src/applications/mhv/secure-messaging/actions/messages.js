@@ -92,23 +92,26 @@ export const retrieveMessageThread = (
           ?.attributes.folderId.toString() ||
         response.data[0].attributes.folderId;
 
-      if (drafts?.length) {
-        // drafts[0].attributes = { ...msgResponse.data.attributes };
-        drafts.map(m => {
-          if (
-            m.attributes.messageId === msgResponse.data.attributes.messageId
-          ) {
-            return { ...m, ...msgResponse.data.attributes };
-          }
-          return m;
-        });
-        drafts.sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
+      const fullDrafts = async () => {
+        if (drafts?.length) {
+          const arr = await Promise.all(
+            drafts.map(async m => {
+              const fullDraft = await getMessage(m.attributes.messageId);
+              return { ...m.attributes, ...fullDraft.data.attributes };
+            }),
+          );
+          arr.sort((a, b) => {
+            const dateA = new Date(a.draftDate);
+            const dateB = new Date(b.draftDate);
 
-          return dateA - dateB;
-        });
-      }
+            return dateB - dateA;
+          });
+          return arr;
+        }
+        return undefined;
+      };
+
+      const fullDraftsArr = await fullDrafts();
 
       dispatch({
         type: Actions.Thread.GET_THREAD,
@@ -117,34 +120,10 @@ export const retrieveMessageThread = (
           threadFolderId,
           cannotReply: isOlderThan(lastSentDate, 45),
           replyToMessageId: msgResponse.data.attributes.messageId,
-          drafts: drafts ? drafts.map(m => m.attributes) : undefined,
+          drafts: fullDraftsArr,
           messages: messages.map(m => m.attributes),
         },
       });
-      // dispatch({
-      //   type: Actions.Thread.GET_THREAD_MESSAGES,
-      //   payload: response.data.filter(m => m.attributes.sentDate !== null),
-      // });
-
-      // dispatch({
-      //   type: drafts?.length ? Actions.Draft.GET : Actions.Message.GET,
-      //   response: {
-      //     data: {
-      //       replyToName,
-      //       threadFolderId,
-      //       replyToMessageId: msgResponse.data.attributes.messageId,
-      //       attributes: {
-      //         ...response.data[0].attributes,
-      //         ...msgResponse.data.attributes,
-      //       },
-      //     },
-      //     included: msgResponse.included,
-      //   },
-      // });
-      // dispatch({
-      //   type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-      //   response: { data: response.data.slice(1, response.data.length) },
-      // });
     }
   } catch (e) {
     const errorMessage =

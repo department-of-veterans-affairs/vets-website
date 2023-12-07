@@ -25,15 +25,8 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      // if (replyMessage && !draftToEdit) {
-      // setSelectedRecipient(replyMessage.senderId);
       setSubject(replyMessage.subject);
-      // setMessageBody('');
       setCategory(replyMessage.category);
-      // }
-      // if (drafts?.length > 0) {
-      //   setDraft(drafts);
-      // }
     },
     [replyMessage],
   );
@@ -64,7 +57,6 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
       updatePageTitle(
         `${replyMessage.category}: ${replyMessage.subject} ${
           PageTitles.PAGE_TITLE_TAG
@@ -95,7 +87,6 @@ const ReplyForm = props => {
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
-            // onSubmit={sendMessageHandler}
           >
             {!cannotReply && <EmergencyNote dropDownFlag />}
 

@@ -26,7 +26,7 @@ import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
-import { sendReply } from '../../actions/messages';
+import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 
 const ReplyDraftItem = props => {
@@ -172,12 +172,6 @@ const ReplyDraftItem = props => {
       if (checkMessageValidity()) {
         if (!draftId) {
           dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
-          // .then(
-          //   newDraft => {
-          //     setEditedDraft(newDraft);
-          //     setNewDraftId(newDraft.messageId);
-          //   },
-          // );
         } else {
           dispatch(
             saveReplyDraft(replyMessage.messageId, formData, type, draftId),
@@ -242,9 +236,6 @@ const ReplyDraftItem = props => {
         setMessageBody('');
         setCategory(replyMessage.category);
       }
-      // if (draft) {
-      //   setEditedDraft(draft);
-      // }
     },
     [replyMessage, draft],
   );
@@ -296,10 +287,15 @@ const ReplyDraftItem = props => {
 
         dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
           .then(() => {
-            navigateToFolderByFolderId(
-              draft?.threadFolderId ? draft?.threadFolderId : folderId,
-              history,
-            );
+            if (draftsCount > 1) {
+              // send a call to get updated thread
+              dispatch(retrieveMessageThread(replyMessage.messageId));
+            } else {
+              navigateToFolderByFolderId(
+                draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                history,
+              );
+            }
           })
           .catch(() => {
             setSendMessageFlag(false);
