@@ -15,7 +15,8 @@ const ServicePeriod = ({
 }) => {
   const [formError, setFormError] = useState(false);
   const shortName = SHORT_NAME_MAP.SERVICE_PERIOD;
-  const H1 = 'Service Period 1';
+  const H1 =
+    'When did you serve in the U.S. military (including time spent in training)?';
   const servicePeriod = formResponses[shortName];
   const {
     DURING_BOTH_PERIODS,

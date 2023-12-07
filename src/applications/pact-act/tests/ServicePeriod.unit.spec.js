@@ -14,7 +14,7 @@ import ServicePeriod from '../containers/questions/ServicePeriod';
 // This file contains tests for the component's display as well as testing displayConditionsMet
 // for this question specifically
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => ({
     pactAct: {
       form: {
@@ -44,7 +44,7 @@ const mockStoreNoIntroPage = {
 
 const pushStub = sinon.stub();
 
-const propsStandard = {
+const props = {
   formResponses: {
     BURN_PIT_2_1: null,
     SERVICE_PERIOD: null,
@@ -73,10 +73,10 @@ describe('Service Period Page', () => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the service period page in the standard flow', () => {
+  it('should correctly load the service period page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <ServicePeriod {...propsStandard} />
+      <Provider store={mockStore}>
+        <ServicePeriod {...props} />
       </Provider>,
     );
 

@@ -1,52 +1,34 @@
-// this file will be deleted when research is complete
-// and replaced with TempResults1Page2
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { accordions } from '../../../constants/results-set-1-page-2-accordions';
-import { customizeTitle } from '../../../utilities/customize-title';
+import { ROUTES } from '../../constants';
+import {
+  getDynamicAccordions,
+  isDisplayRequirementFulfilled,
+} from '../../utilities/results-1-2-accordions';
+import { pageSetup } from '../../utilities/page-setup';
+import { BATCHES, BATCH_MAP } from '../../constants/question-batches';
+import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 
-const ResultsSet1Page2 = () => {
-  const [hasScrolled, setHasScrolled] = useState(false);
+const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Apply for VA benefits now';
 
   useEffect(() => {
-    document.title = customizeTitle(H1);
+    pageSetup(H1);
   });
 
   useEffect(
     () => {
-      if (!hasScrolled) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        waitForRenderThenFocus('h1');
-        setHasScrolled(true);
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    [hasScrolled],
+    [router, viewedIntroPage],
   );
-
-  const renderAccordions = () => {
-    const contents = accordions['burn-pit'].map(accordion => (
-      <va-accordion-item
-        level="3"
-        data-testid="il-results-1"
-        header={accordion?.title}
-        key={accordion?.title}
-      >
-        {accordion?.content}
-      </va-accordion-item>
-    ));
-
-    return (
-      <va-accordion class="vads-u-margin-top--4" open-single>
-        {contents}
-      </va-accordion>
-    );
-  };
 
   return (
     <>
-      <h1>{H1}</h1>
+      <h1 data-testid="paw-results-1-p2">{H1}</h1>
       <p>
         Here’s how to apply for VA disability compensation and health care
         online now.
@@ -64,7 +46,23 @@ const ResultsSet1Page2 = () => {
           Here are the presumptive conditions we think may apply to you based on
           your answers.
         </p>
-        {renderAccordions()}
+        <va-accordion
+          class="vads-u-margin-top--4"
+          bordered
+          data-testid="paw-results-s1p2"
+        >
+          {getDynamicAccordions(formResponses).map((accordion, index) => (
+            <va-accordion-item
+              level="4"
+              data-testid={`il-results-${index}`}
+              header={accordion.title}
+              key={`il-results-${index}`}
+            >
+              {accordion.test}
+              {accordion.content}
+            </va-accordion-item>
+          ))}
+        </va-accordion>
         <p>
           <strong>Note:</strong> If your condition isn’t listed here, you can
           learn more about other presumptive conditions and disability benefit
@@ -72,6 +70,7 @@ const ResultsSet1Page2 = () => {
           presumptive, you can still file a claim. But you’ll need to provide
           evidence that your service caused your condition.{' '}
           <a
+            className="vads-u-display--block vads-u-margin-top--1"
             href="/disability/eligibility"
             target="_blank"
             rel="noopener noreferrer"
@@ -108,11 +107,25 @@ const ResultsSet1Page2 = () => {
         </a>
         <h2 id="apply-for-va-health-care">Apply for VA health care</h2>
         <p>You may also be eligible for VA health care.</p>
-        <p>
-          We’re extending and expanding VA health care eligibility based on the
-          PACT Act. We encourage you to apply, no matter your separation date.
-          Your eligibility depends on your service history and other factors.
-        </p>
+        {isDisplayRequirementFulfilled(
+          formResponses,
+          BATCH_MAP[BATCHES.BURN_PITS],
+        ) && (
+          <p data-testid="paw-results-1-2-burn-pits">
+            We’re extending and expanding VA health care eligibility based on
+            the PACT Act. We encourage you to apply, no matter your separation
+            date. Your eligibility depends on your service history and other
+            factors.
+          </p>
+        )}
+        {isDisplayRequirementFulfilled(formResponses, [
+          SHORT_NAME_MAP.ORANGE_2_2_A,
+          ...BATCH_MAP[BATCHES.CAMP_LEJEUNE],
+        ]) && (
+          <p data-testid="paw-results-1-2-o22-lejeune">
+            Based on your service history, we encourage you to apply now.
+          </p>
+        )}
         <a
           className="vads-c-action-link--blue"
           href="/health-care/apply/application/introduction"
@@ -130,14 +143,27 @@ const ResultsSet1Page2 = () => {
           </a>
         </p>
       </article>
+      <va-button
+        back
+        class="vads-u-margin-top--3"
+        data-testid="paw-results-back"
+        onClick={() => router.push(ROUTES.RESULTS_1_P1)}
+      />
     </>
   );
 };
 
-ResultsSet1Page2.propTypes = {
+Results1Page2.propTypes = {
+  formResponses: PropTypes.object.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default ResultsSet1Page2;
+const mapStateToProps = state => ({
+  formResponses: state?.pactAct?.form,
+  viewedIntroPage: state?.pactAct?.viewedIntroPage,
+});
+
+export default connect(mapStateToProps)(Results1Page2);

@@ -12,6 +12,7 @@ export const ORANGE_2_2_B_INPUT = 'paw-orange2_2_B';
 export const ORANGE_2_2_1_A_INPUT = 'paw-orange2_2_1_A';
 export const ORANGE_2_2_1_B_INPUT = 'paw-orange2_2_1_B';
 export const ORANGE_2_2_2_INPUT = 'paw-orange2_2_2';
+export const ORANGE_2_2_2_INFO = 'paw-orange-2-2-2-info';
 export const ORANGE_2_2_3_INPUT = 'paw-orange2_2_3';
 
 export const RADIATION_2_3_A_INPUT = 'paw-radiation2_3_A';

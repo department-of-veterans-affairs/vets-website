@@ -1,15 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
-import { ROUTES } from '../constants';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
+import { ROUTES } from '../../constants';
 import {
   determineResultsPage,
-  filterForYesResponses,
-  getQuestionBatch,
   responsesMatchResultsDCs,
-} from '../utilities/display-logic-results';
-import { BATCHES } from '../constants/question-batches';
-import { NONE } from '../constants/display-conditions/results-screens';
+} from '../../utilities/display-logic-results';
+import { BATCHES } from '../../constants/question-batches';
+import { NONE } from '../../constants/display-conditions/results-screens';
 
 const pushSpy = sinon.spy();
 
@@ -22,11 +20,9 @@ beforeEach(() => {
 });
 
 const {
-  BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
   LEJEUNE_2_4,
-  ORANGE_2_2_A,
   ORANGE_2_2_1_A,
   ORANGE_2_2_2,
   ORANGE_2_2_3,
@@ -40,28 +36,12 @@ const {
   NINETY_OR_LATER,
   NO,
   NOT_SURE,
-  VIETNAM_REP,
-  VIETNAM_WATERS,
   YES,
 } = RESPONSES;
 
 const { ORANGE, BURN_PITS, CAMP_LEJEUNE, RADIATION } = BATCHES;
 
 describe('display conditions for results pages', () => {
-  describe('getQuestionBatch', () => {
-    it('should return the correct batch for a given SHORT_NAME', () => {
-      expect(getQuestionBatch(SHORT_NAME_MAP.ORANGE_2_2_1_A)).to.equal(
-        BATCHES.ORANGE,
-      );
-    });
-
-    it('should return the correct batch for a given SHORT_NAME', () => {
-      expect(getQuestionBatch(SHORT_NAME_MAP.RADIATION_2_3_B)).to.equal(
-        BATCHES.RADIATION,
-      );
-    });
-  });
-
   describe('responsesMatchResultsDCs', () => {
     describe('results screen 1 display conditions', () => {
       it('should return true if the display conditions are met', () => {
@@ -213,58 +193,6 @@ describe('display conditions for results pages', () => {
         expect(responsesMatchResultsDCs(yesShortNames, { YES: NONE })).to.be
           .false;
       });
-    });
-  });
-
-  describe('filterForYesResponses: ', () => {
-    it('should return the correct array of "Yes" responses', () => {
-      const formResponses = {
-        BURN_PIT_2_1: YES,
-        BURN_PIT_2_1_1: null,
-        BURN_PIT_2_1_2: null,
-        ORANGE_2_2_A: YES,
-        ORANGE_2_2_B: [VIETNAM_REP, VIETNAM_WATERS],
-        ORANGE_2_2_1_A: NO,
-        ORANGE_2_2_1_B: null,
-        ORANGE_2_2_2: NO,
-        SERVICE_PERIOD: DURING_BOTH_PERIODS,
-      };
-
-      expect(filterForYesResponses(formResponses)).to.deep.equal([
-        BURN_PIT_2_1,
-        ORANGE_2_2_A,
-      ]);
-    });
-
-    it('should return the correct array of "Yes" responses', () => {
-      const formResponses = {
-        BURN_PIT_2_1: NOT_SURE,
-        BURN_PIT_2_1_1: YES,
-        BURN_PIT_2_1_2: null,
-        SERVICE_PERIOD: NINETY_OR_LATER,
-      };
-
-      expect(filterForYesResponses(formResponses)).to.deep.equal([
-        BURN_PIT_2_1_1,
-      ]);
-    });
-
-    it('should return the correct array of "Yes" responses', () => {
-      const formResponses = {
-        BURN_PIT_2_1: NOT_SURE,
-        BURN_PIT_2_1_1: NO,
-        BURN_PIT_2_1_2: NO,
-        ORANGE_2_2_A: NO,
-        ORANGE_2_2_B: null,
-        ORANGE_2_2_1_A: NO,
-        ORANGE_2_2_1_B: null,
-        ORANGE_2_2_2: NO,
-        RADIATION_2_3_A: NOT_SURE,
-        LEJEUNE_2_4: NOT_SURE,
-        SERVICE_PERIOD: DURING_BOTH_PERIODS,
-      };
-
-      expect(filterForYesResponses(formResponses)).to.deep.equal([]);
     });
   });
 
