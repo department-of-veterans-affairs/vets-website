@@ -71,7 +71,7 @@ describe('Cerner Facility Alert', () => {
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,
     ).to.contain(
-      'To manage appointments at VA Spokane health care, go to My VA Health.',
+      'To send a secure message to a provider at VA Spokane health care, go to My VA Health.',
     );
   });
 });
