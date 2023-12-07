@@ -26,6 +26,7 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
+  dependentSeriouslyDisabledDescription,
   directDepositWarning,
   isMarried,
   uploadMessage,
@@ -75,6 +76,8 @@ import currentEmployment from './chapters/03-health-and-employment-information/c
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import maritalStatus from './chapters/04-household-information/maritalStatus';
 import currentSpouse from './chapters/04-household-information/currentSpouse';
+import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
+import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 
@@ -451,6 +454,13 @@ const formConfig = {
           uiSchema: dateOfCurrentMarriage.uiSchema,
           schema: dateOfCurrentMarriage.schema,
         },
+        currentSpouseMonthlySupport: {
+          title: 'Financial support for you spouse',
+          path: 'household/marital-status/spouse-monthly-support',
+          depends: isMarried,
+          uiSchema: currentSpouseMonthlySupport.uiSchema,
+          schema: currentSpouseMonthlySupport.schema,
+        },
         reasonForCurrentSeparation: {
           title: 'Reason for separation',
           path: 'household/marital-status/reason-for-separation',
@@ -459,6 +469,13 @@ const formConfig = {
           },
           uiSchema: reasonForCurrentSeparation.uiSchema,
           schema: reasonForCurrentSeparation.schema,
+        },
+        currentSpouseMaritalHistory: {
+          title: 'Current spouse marital history',
+          path: 'household/marital-status/spouse-marital-history',
+          depends: isMarried,
+          uiSchema: currentSpouseMaritalHistory.uiSchema,
+          schema: currentSpouseMaritalHistory.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
@@ -989,6 +1006,7 @@ const formConfig = {
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
+                  'ui:description': dependentSeriouslyDisabledDescription,
                   'ui:required': (formData, index) =>
                     !isEligibleForDisabilitySupport(
                       get(['dependents', index, 'childDateOfBirth'], formData),

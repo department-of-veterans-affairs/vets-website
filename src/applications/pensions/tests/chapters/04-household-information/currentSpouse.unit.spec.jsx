@@ -5,9 +5,9 @@ import {
 import formConfig from '../../../config/form';
 import currentSpouse from '../../../config/chapters/04-household-information/currentSpouse';
 
-describe('current spouse page', () => {
+describe('current spouse full name page', () => {
   it('should render web components in form correctly', () => {
-    const pageTitle = 'current spouse';
+    const pageTitle = 'current spouse full name';
     const expectedNumberOfFields = 4;
     testNumberOfWebComponentFields(
       formConfig,
