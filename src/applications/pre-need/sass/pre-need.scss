@@ -54,7 +54,16 @@ h3.name-of-deceased-text {
 article#pre-need[data-location="applicant-demographics"],
 article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: 0em !important;
+    margin-top: -0.5em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -0.5em;
+  }
+  .schemaform-field-template {
+    margin-top: 1em;
+  }
+  .schemaform-first-field {
+    margin-bottom: -0.5em;
   }
 }
 
@@ -132,7 +141,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
 
 .applicantDemographicsDescription,
 .sponsorDemographicsDescription {
-  padding-bottom: 0.5em;
+  margin-bottom: -1em;
 }
 
 .ApplicantDescriptionWrapper {
