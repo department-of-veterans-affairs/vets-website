@@ -22,6 +22,10 @@ const TravelPage = ({
   additionalInfoItems,
   pageType,
   router,
+  yesButtonText,
+  yesFunction,
+  noButtonText,
+  noFunction,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -37,8 +41,12 @@ const TravelPage = ({
       event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
-    if (answer === 'no') {
+    if (answer === 'no' && noFunction) {
+      noFunction();
+    } else if (answer === 'no') {
       jumpToPage(URLS.DETAILS);
+    } else if (yesFunction) {
+      yesFunction();
     } else {
       goToNextPage();
     }
@@ -98,7 +106,7 @@ const TravelPage = ({
             type="button"
             value="yes"
           >
-            {t('yes')}
+            {yesButtonText || t('yes')}
           </button>
           <button
             onClick={onClick}
@@ -107,7 +115,7 @@ const TravelPage = ({
             type="button"
             value="no"
           >
-            {t('no')}
+            {noButtonText || t('no')}
           </button>
         </>
       </Wrapper>
@@ -122,5 +130,9 @@ TravelPage.propTypes = {
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
+  noButtonText: PropTypes.string,
+  noFunction: PropTypes.func,
+  yesButtonText: PropTypes.string,
+  yesFunction: PropTypes.func,
 };
 export default TravelPage;

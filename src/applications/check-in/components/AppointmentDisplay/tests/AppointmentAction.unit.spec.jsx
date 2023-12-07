@@ -81,6 +81,7 @@ describe('check-in', () => {
         travelAddress: 'yes',
         travelMileage: 'yes',
         travelVehicle: 'yes',
+        travelReview: 'yes',
         features: {
           /* eslint-disable-next-line camelcase */
           check_in_experience_travel_reimbursement: true,
@@ -123,6 +124,7 @@ describe('check-in', () => {
         travelAddress: null,
         travelMileage: null,
         travelVehicle: null,
+        travelReview: null,
         features: {
           /* eslint-disable-next-line camelcase */
           check_in_experience_travel_reimbursement: false,
