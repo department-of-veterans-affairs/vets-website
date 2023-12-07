@@ -342,7 +342,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
-              'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.',
+              'Now we’re going to ask you some follow-up questions about each of your conditions. We’ll go through them one by one.',
           },
           schema: { type: 'object', properties: {} },
         },
