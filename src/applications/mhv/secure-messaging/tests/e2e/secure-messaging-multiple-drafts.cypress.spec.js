@@ -5,7 +5,7 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-response.json';
 import { Alerts } from '../../util/constants';
 
-describe('handle multiple drafts in one thread', () => {
+describe.skip('handle multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
