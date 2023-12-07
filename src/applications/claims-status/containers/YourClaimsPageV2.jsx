@@ -231,52 +231,48 @@ class YourClaimsPageV2 extends React.Component {
       content = (
         <va-loading-indicator message="Loading your claims and appeals..." />
       );
-    } else {
-      if (!emptyList) {
-        const listLen = list.length;
-        const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
-        const shouldPaginate = numPages > 1;
+    } else if (!emptyList) {
+      const listLen = list.length;
+      const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
+      const shouldPaginate = numPages > 1;
 
-        const pageItems = getVisibleRows(list, this.state.page);
+      const pageItems = getVisibleRows(list, this.state.page);
 
-        if (shouldPaginate) {
-          const range = getPageRange(this.state.page, listLen);
-          const { end, start } = range;
+      if (shouldPaginate) {
+        const range = getPageRange(this.state.page, listLen);
+        const { end, start } = range;
 
-          const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
+        const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
 
-          pageInfo = <p id="pagination-info">{txt}</p>;
-        }
-
-        content = (
-          <>
-            {this.state.show30DayNotice && (
-              <ClosedClaimMessage
-                claims={pageItems}
-                onClose={this.hide30DayNotice}
-              />
-            )}
-            {pageInfo}
-            <div className="claim-list">
-              {atLeastOneRequestLoading && (
-                <va-loading-indicator message="Loading your claims and appeals..." />
-              )}
-              {pageItems.map(claim => this.renderListItem(claim))}
-              {shouldPaginate && (
-                <VaPagination
-                  page={this.state.page}
-                  pages={numPages}
-                  onPageSelect={this.changePage}
-                />
-              )}
-            </div>
-          </>
-        );
-      } else if (allRequestsLoaded) {
-        content = <NoClaims />;
+        pageInfo = <p id="pagination-info">{txt}</p>;
       }
 
-      content = <div className="tab-content">{content}</div>;
+      content = (
+        <>
+          {this.state.show30DayNotice && (
+            <ClosedClaimMessage
+              claims={pageItems}
+              onClose={this.hide30DayNotice}
+            />
+          )}
+          {pageInfo}
+          <div className="claim-list">
+            {atLeastOneRequestLoading && (
+              <va-loading-indicator message="Loading your claims and appeals..." />
+            )}
+            {pageItems.map(claim => this.renderListItem(claim))}
+            {shouldPaginate && (
+              <VaPagination
+                page={this.state.page}
+                pages={numPages}
+                onPageSelect={this.changePage}
+              />
+            )}
+          </div>
+        </>
+      );
+    } else if (allRequestsLoaded) {
+      content = <NoClaims />;
     }
 
     return (
