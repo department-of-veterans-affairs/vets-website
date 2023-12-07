@@ -3,7 +3,7 @@ const filterMedicationsByType = (medications, type) => {
 };
 
 const getCombinedMedications = avs => {
-  const combined = avs.vaMedications;
+  const combined = [...avs.vaMedications];
   combined.push(...avs.nonvaMedications);
   return combined;
 };
@@ -15,7 +15,7 @@ const getMedicationsTaking = avs => {
   return medications.filter(
     medication =>
       medication.patientTaking === true ||
-      medication.stationNo === avs.header.stationNo,
+      medication.stationNo === avs.meta.stationNo,
   );
 };
 
@@ -24,7 +24,7 @@ const getMedicationsNotTaking = avs => {
   return medications.filter(
     medication =>
       medication.patientTaking === false &&
-      medication.stationNo !== avs.header.stationNo,
+      medication.stationNo !== avs.meta.stationNo,
   );
 };
 

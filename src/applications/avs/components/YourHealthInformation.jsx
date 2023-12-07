@@ -312,6 +312,7 @@ const renderNotTakingMedication = medication => {
       {medication.name}
       <br />
       {medication.sig}
+      <br />
       Notes: {medication.comment}
       <br />
       <br />
