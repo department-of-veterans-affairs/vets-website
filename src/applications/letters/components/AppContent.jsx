@@ -8,7 +8,7 @@ const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-export class AppContent extends React.Component {
+export default class AppContent extends React.Component {
   constructor(props) {
     super(props);
     if (props.isDataAvailable === false) {
