@@ -1672,26 +1672,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-        // [formPages.additionalConsiderations.militaryAcademy.name]: {
-        //   title: 'Military Academy Question',
-        //   path: 'additional-considerations/military-academy',
-        //   uiSchema: {
-        //     'ui:description': (
-        //       <>
-        //         <ExclusionPeriodsWidget />
-        //         {/* Additional descriptions or components here */}
-        //       </>
-        //     ),
-        //     [formFields.federallySponsoredAcademy]: {
-        //       'ui:title': 'Did you graduate from a Military Service Academy?',
-        //       'ui:widget': 'radio',
-        //     },
-        //     // ... other UI schema properties
-        //   },
-        //   schema: {
-        //     // ... schema definition
-        //   },
-        // },
 
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
@@ -1700,27 +1680,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-        // [formPages.additionalConsiderations.seniorRotc.name]: {
-        //   title: 'Senior ROTC Question',
-        //   path: 'additional-considerations/senior-rotc',
-        //   uiSchema: {
-        //     'ui:description': (
-        //       <>
-        //         <ExclusionPeriodsWidget />
-        //         {/* Additional descriptions or components here */}
-        //       </>
-        //     ),
-        //     [formFields.seniorRotcCommission]: {
-        //       'ui:title': 'Were you commissioned as a result of Senior ROTC?',
-        //       'ui:widget': 'radio',
-        //     },
-        //     // ... other UI schema properties
-        //   },
-        //   schema: {
-        //     // ... schema definition
-        //   },
-        // },
-
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
@@ -1728,26 +1687,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-        // [formPages.additionalConsiderations.loanPayment.name]: {
-        //   title: 'Loan Payment Question',
-        //   path: 'additional-considerations/loan-payment',
-        //   uiSchema: {
-        //     'ui:description': (
-        //       <>
-        //         <ExclusionPeriodsWidget />
-        //         {/* Additional descriptions or components here */}
-        //       </>
-        //     ),
-        //     [formFields.loanPayment]: {
-        //       'ui:title': 'Do you have a period of service counted towards an education loan payment?',
-        //       'ui:widget': 'radio',
-        //     },
-        //     // ... other UI schema properties
-        //   },
-        //   schema: {
-        //     // ... schema definition
-        //   },
-        // },
       },
     },
     bankAccountInfoChapter: {
