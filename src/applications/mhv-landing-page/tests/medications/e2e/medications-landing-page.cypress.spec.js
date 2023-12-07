@@ -7,8 +7,6 @@ describe('Medications Landing Page', () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'featureToggles',
     );
-    // const redirectUrl = 'https://**.va.gov/mhv-portal**/**';
-    // cy.intercept('GET', redirectUrl, '').as('mhvRedirect');
   });
 
   it('visits Medications landing Page', () => {

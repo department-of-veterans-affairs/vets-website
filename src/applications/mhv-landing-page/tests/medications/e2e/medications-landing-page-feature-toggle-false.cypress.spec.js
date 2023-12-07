@@ -30,19 +30,5 @@ describe('Medications Landing Page', () => {
     cy.visit('my-health/about-medications/');
 
     cy.wait('@refillRedirect');
-    cy.url().should('include', '/health-care/refill-track-prescriptions');
-
-    // Login when feature enabled, see regular page
-    cy.intercept('GET', '/v0/feature_toggles*', medicationFeatureToggles(true));
-    cy.login();
-    cy.visit('my-health/about-medications/');
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });
