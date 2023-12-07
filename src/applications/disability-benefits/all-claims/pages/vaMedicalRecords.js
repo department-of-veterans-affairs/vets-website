@@ -18,7 +18,7 @@ export const uiSchema = {
   'view:vaMedicalRecordsIntro': {
     'ui:title': 'VA medical records',
     'ui:description':
-      'Please tell us where VA treated you for your condition.. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
+      'Tell us where VA treated you for your condition. We’ll use the information you provide to help us locate your records and make decisions on your claim.',
   },
   vaTreatmentFacilities: {
     'ui:options': {

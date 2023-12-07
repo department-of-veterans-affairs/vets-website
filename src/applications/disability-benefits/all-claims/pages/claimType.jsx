@@ -21,7 +21,7 @@ export const uiSchema = {
     },
     'view:claimingIncrease': {
       'ui:title':
-        'One or more of my rated-service connected disabilities has gotten worse',
+        'One or more of my rated service-connected disabilities has gotten worse',
     },
   },
 };
