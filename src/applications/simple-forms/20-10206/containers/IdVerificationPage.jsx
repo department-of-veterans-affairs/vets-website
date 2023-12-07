@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -23,10 +23,14 @@ const IdVerificationPage = props => {
 
   formConfig.getHelp = getHelp;
 
-  if (!userLoggedIn || userIdVerified) {
-    router.push('/preparer-type');
-    return null;
-  }
+  useEffect(
+    () => {
+      if (!userLoggedIn || userIdVerified) {
+        router.push('/preparer-type');
+      }
+    },
+    [userLoggedIn, userIdVerified, router],
+  );
 
   return (
     <div className="schemaform-intro">
