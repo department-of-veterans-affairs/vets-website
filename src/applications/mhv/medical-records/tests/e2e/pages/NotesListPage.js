@@ -28,7 +28,10 @@ class NotesListPage {
 
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').click();
+  };
+
+  clickPrintOrDownload = () => {
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
   verifyPrintButton = () => {
