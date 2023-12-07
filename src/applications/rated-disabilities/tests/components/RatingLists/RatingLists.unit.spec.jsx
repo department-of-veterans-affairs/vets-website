@@ -51,7 +51,7 @@ const ratings = [
 const serviceConnectedRatingsOnly = ratings.slice(0, 3);
 const nonServiceConnectedRatingsOnly = ratings.slice(3);
 
-describe('<RatingLists />', () => {
+describe('<RatingLists>', () => {
   context('when there are no ratings', () => {
     it('should display an alert indicating that there are no ratings', () => {
       const screen = render(<RatingLists ratings={[]} />);

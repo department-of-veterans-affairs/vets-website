@@ -4,12 +4,13 @@ import { getAppUrl } from '@department-of-veterans-affairs/platform-utilities/ex
 
 const facilityLocatorUrl = getAppUrl('facilities');
 
+export const headline =
+  'We’re having trouble matching your information to our veteran records';
+
 export default function MVIError() {
   return (
     <va-alert status="warning">
-      <h2 className="vads-u-margin-y--0 vads-u-font-size--h3" slot="headline">
-        We’re having trouble matching your information to our veteran records
-      </h2>
+      <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-font-size--base">
           We’re having trouble matching your information to our veteran records,

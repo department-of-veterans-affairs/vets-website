@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { ListItem } from '../../../components/RatingLists';
 
-describe('<ListItem />', () => {
+describe('<ListItem>', () => {
   context('Service-connected rating', () => {
     const rating = {
       decision: 'Not Service Connected',

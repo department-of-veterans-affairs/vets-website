@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { getRatedDisabilities } from '../actions';
 import CombinedRating from './CombinedRating';
@@ -7,27 +6,31 @@ import NeedHelp from './NeedHelp';
 import Learn from './Learn';
 import OnThisPage from './OnThisPage';
 import RatingLists from './RatingLists';
-import MVIError from './MVIError';
 import ServerError from './ServerError';
 
 const loadingIndicator = (
   <va-loading-indicator message="Loading your rating information..." />
 );
 
-export default function AppContent({ user }) {
+export default function AppContent() {
   const [data, setData] = useState({});
   const [error, setError] = useState(null);
   const [isRequestDone, setIsRequestDone] = useState(false);
 
   useEffect(() => {
-    getRatedDisabilities()
-      .then(res => {
-        setData(res);
-      })
-      .catch(err => {
+    const fetchData = async () => {
+      try {
+        const responseData = await getRatedDisabilities();
+        console.log(responseData);
+        setData(responseData);
+      } catch (err) {
         setError({ code: 500 });
-      })
-      .finally(() => setIsRequestDone(true));
+      } finally {
+        setIsRequestDone(true);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const { combinedDisabilityRating, individualRatings } = data || {};
@@ -35,9 +38,7 @@ export default function AppContent({ user }) {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (!user.profile.verified || user.profile.status !== 'OK') {
-    contentOrError = <MVIError />;
-  } else if (error) {
+  if (error) {
     contentOrError = <ServerError />;
   } else {
     contentOrError = (
@@ -50,7 +51,7 @@ export default function AppContent({ user }) {
         <h2 id="individual-ratings" className="vads-u-margin-y--2">
           Your individual ratings
         </h2>
-        <RatingLists ratings={[]} />
+        <RatingLists ratings={individualRatings} />
       </>
     );
   }
@@ -68,7 +69,3 @@ export default function AppContent({ user }) {
     </div>
   );
 }
-
-AppContent.propTypes = {
-  user: PropTypes.object,
-};

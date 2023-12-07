@@ -28,7 +28,7 @@ const ratings = [
   },
 ];
 
-describe('<List />', () => {
+describe('<List>', () => {
   it('should display a list of ratings', () => {
     const screen = render(<List ratings={ratings} />);
 
