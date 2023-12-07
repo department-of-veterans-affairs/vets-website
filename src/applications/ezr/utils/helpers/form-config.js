@@ -37,6 +37,26 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
+ * Helper that determines if the form data contains values that allow users to fill
+ * in their household financial information
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user can submit financial information.
+ */
+export function includeHouseholdInformation(formData) {
+  return formData['view:householdEnabled'];
+}
+
+/**
+ * Helper that determines if the form data contains values that require the financial
+ * status alert to be shown
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user cannot submit financial information.
+ */
+export function showFinancialStatusAlert(formData) {
+  return !includeHouseholdInformation(formData);
+}
+
+/**
  * Helper that determines if the form data contains values that require users
  * to fill out spousal information
  * @param {Object} formData - the current data object passed from the form
@@ -44,6 +64,7 @@ export function hasDifferentHomeAddress(formData) {
  * financial data & have a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformation(formData) {
+  if (!includeHouseholdInformation(formData)) return false;
   const { maritalStatus } = formData['view:maritalStatus'];
   return (
     maritalStatus?.toLowerCase() === 'married' ||
@@ -79,7 +100,10 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function includeDependentInformation(formData) {
-  return !formData[DEPENDENT_VIEW_FIELDS.skip];
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData[DEPENDENT_VIEW_FIELDS.skip]
+  );
 }
 
 /**

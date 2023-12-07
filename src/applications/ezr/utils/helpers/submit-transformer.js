@@ -16,7 +16,7 @@ import { getInactivePages } from 'platform/forms/helpers';
  * @returns {Object} - an object literal
  */
 export function submitTransformer(formConfig, form) {
-  const { data: formData, loadedData } = form;
+  const { data: formData } = form;
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     formData,
@@ -30,20 +30,6 @@ export function submitTransformer(formConfig, form) {
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
   let gaClientId;
-
-  // set veteran name, dob & ssn to loaded profile data, because it is removed in filterInactivePageData
-  const veteranFields = [
-    'veteranFullName',
-    'veteranDateOfBirth',
-    'veteranSocialSecurityNumber',
-    'gender',
-  ];
-  veteranFields.forEach(field => {
-    if (!withoutViewFields[field]) {
-      const fieldData = loadedData.formData[field];
-      withoutViewFields = set(field, fieldData, withoutViewFields);
-    }
-  });
 
   // set mailing address as home address if view field is `true`
   if (formData['view:doesMailingMatchHomeAddress']) {

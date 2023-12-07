@@ -7,13 +7,15 @@ import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 // internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
-import { SHARED_PATHS } from '../utils/constants';
+import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
+  includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
+  showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
@@ -52,6 +54,7 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
+import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
 
 // chapter 3 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
@@ -130,7 +133,7 @@ const formConfig = {
           CustomPage: VeteranProfileInformation,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
         dateOfBirth: {
           path: 'veteran-information/date-of-birth',
@@ -183,10 +186,20 @@ const formConfig = {
     householdInformation: {
       title: 'Household financial information',
       pages: {
+        financialStatusConfirmation: {
+          path: 'household-information/financial-information-status',
+          title: 'Financial information status',
+          depends: showFinancialStatusAlert,
+          CustomPage: FinancialConfirmationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
+        },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
@@ -226,6 +239,7 @@ const formConfig = {
           title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
+          depends: includeHouseholdInformation,
           uiSchema: dependentSummary.uiSchema,
           schema: dependentSummary.schema,
         },
@@ -236,12 +250,13 @@ const formConfig = {
           CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
         veteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
@@ -257,6 +272,7 @@ const formConfig = {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
         },
@@ -302,7 +318,7 @@ const formConfig = {
           CustomPage: InsurancePolicyInformationPage,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
       },
     },

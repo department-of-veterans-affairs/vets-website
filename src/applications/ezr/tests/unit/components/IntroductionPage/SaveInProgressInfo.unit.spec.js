@@ -14,6 +14,7 @@ describe('ezr <SaveInProgressInfo>', () => {
     showLoader,
     enrollmentStatus = 'noneOfTheAbove',
     hasServerError = false,
+    canSubmitFinancialInfo = false,
   }) => ({
     props: {
       formConfig,
@@ -25,6 +26,7 @@ describe('ezr <SaveInProgressInfo>', () => {
           loading: showLoader,
           parsedStatus: enrollmentStatus,
           hasServerError,
+          canSubmitFinancialInfo,
         },
         form: {
           formId: formConfig.formId,
@@ -85,13 +87,14 @@ describe('ezr <SaveInProgressInfo>', () => {
     });
 
     context('when the user is logged in', () => {
-      context('when the user is enrolled in benefits', () => {
+      context('when the user has not submitted financials', () => {
         it('should render `va-alert` with `start` button', () => {
           const { props, mockStore } = getData({
             showLoader: false,
             loggedIn: true,
             loaState: 3,
             enrollmentStatus: 'enrolled',
+            canSubmitFinancialInfo: true,
           });
           const { container } = render(
             <Provider store={mockStore}>
@@ -100,15 +103,38 @@ describe('ezr <SaveInProgressInfo>', () => {
           );
           const selectors = {
             alert: container.querySelector(
-              '[data-testid="ezr-verified-prefill-alert"]',
+              '[data-testid="ezr-financial-status-warning"]',
             ),
             button: container.querySelector('.vads-c-action-link--green'),
           };
-          expect(selectors.alert).to.exist;
+          expect(selectors.alert).to.not.exist;
           expect(selectors.button).to.exist;
           expect(selectors.button).to.contain.text(
             content['sip-start-form-text'],
           );
+        });
+      });
+
+      context('when the user already has submitted financials', () => {
+        it('should render `va-alert` with `start` button', () => {
+          const { props, mockStore } = getData({
+            showLoader: false,
+            loggedIn: true,
+            loaState: 3,
+            enrollmentStatus: 'enrolled',
+            canSubmitFinancialInfo: false,
+          });
+          const { container } = render(
+            <Provider store={mockStore}>
+              <SaveInProgressInfo {...props} />
+            </Provider>,
+          );
+          const selectors = {
+            alert: container.querySelector(
+              '[data-testid="ezr-financial-status-warning"]',
+            ),
+          };
+          expect(selectors.alert).to.exist;
         });
       });
 

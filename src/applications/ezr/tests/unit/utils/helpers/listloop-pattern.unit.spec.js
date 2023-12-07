@@ -8,37 +8,45 @@ import {
 
 describe('ezr list-loop pattern helpers', () => {
   context('when `getDataToSet` executes', () => {
-    const listRef = [{ name: 'John' }, { name: 'Jane' }, { name: 'Mary' }];
-    const searchIndex = 1;
-    const defaultProps = {
-      slices: {
-        beforeIndex: listRef.slice(0, searchIndex),
-        afterIndex: listRef.slice(searchIndex + 1),
-      },
-      dataKey: 'dependents',
-      localData: { name: 'Liz' },
-      listRef,
-      viewFields: {
+    const getData = ({
+      listRef = [{ name: 'John' }, { name: 'Jane' }, { name: 'Mary' }],
+      searchIndex = 1,
+      localData = null,
+      viewFields = {
         add: 'view:addDependent',
         skip: 'view:skipDependents',
       },
-    };
-    const expectedResults = {
-      blank: {
-        dependents: listRef,
-        [defaultProps.viewFields.add]: null,
-        [defaultProps.viewFields.skip]: true,
+    }) => ({
+      props: {
+        slices: {
+          beforeIndex: listRef.slice(0, searchIndex),
+          afterIndex: listRef.slice(searchIndex + 1),
+        },
+        dataKey: 'dependents',
+        localData,
+        listRef,
+        viewFields,
       },
-      populated: {
-        dependents: [{ name: 'John' }, { name: 'Liz' }, { name: 'Mary' }],
-        [defaultProps.viewFields.add]: null,
-        [defaultProps.viewFields.skip]: true,
+      expectedResults: {
+        blank: {
+          dependents: listRef,
+          [viewFields.add]: null,
+          [viewFields.skip]: true,
+        },
+        populated: {
+          dependents: [{ name: 'John' }, { name: 'Liz' }, { name: 'Mary' }],
+          [viewFields.add]: null,
+          [viewFields.skip]: true,
+        },
       },
-    };
+    });
 
     context('when localData is populated', () => {
       it('should return the modified dataset without modifying the viewfield values', () => {
-        expect(JSON.stringify(getDataToSet(defaultProps))).to.equal(
+        const { props, expectedResults } = getData({
+          localData: { name: 'Liz' },
+        });
+        expect(JSON.stringify(getDataToSet(props))).to.equal(
           JSON.stringify(expectedResults.populated),
         );
       });
@@ -46,7 +54,7 @@ describe('ezr list-loop pattern helpers', () => {
 
     context('when localData is set to `null`', () => {
       it('should return the original dataset with the modified viewfield values', () => {
-        const props = { ...defaultProps, localData: null };
+        const { props, expectedResults } = getData({});
         expect(JSON.stringify(getDataToSet(props))).to.equal(
           JSON.stringify(expectedResults.blank),
         );
@@ -154,22 +162,50 @@ describe('ezr list-loop pattern helpers', () => {
         expect(getSearchIndex(params, arrayToParse)).to.equal(1);
       });
     });
+
+    context('when the array is omitted', () => {
+      it('should default to the the start of a new array', () => {
+        const params = new URLSearchParams('index=0');
+        expect(getSearchIndex(params)).to.equal(0);
+      });
+    });
   });
 
   context('when `getDefaultState` executes', () => {
-    const defaultProps = {
-      defaultData: { data: {}, page: 'basic-info' },
-      dataToSearch: [],
-      name: 'ITEM',
-    };
-    const expectedResults = {
-      blank: defaultProps.defaultData,
-      populated: { data: { name: 'Mary' }, page: 'basic-info' },
-    };
+    const getData = ({
+      searchIndex = 0,
+      searchAction = { mode: 'add' },
+      defaultData = { data: {}, page: 'basic-info' },
+      dataToSearch = [],
+      name = 'ITEM',
+    }) => ({
+      props: {
+        searchIndex,
+        searchAction,
+        defaultData,
+        dataToSearch,
+        name,
+      },
+      expectedResults: {
+        blank: defaultData,
+        populated: { data: { name: 'Mary' }, page: 'basic-info' },
+      },
+    });
 
-    context('when the `searchAction` & `searchIndex` props are omitted', () => {
+    context('when `searchIndex` is null', () => {
       it('should return the default data', () => {
-        expect(JSON.stringify(getDefaultState(defaultProps))).to.equal(
+        const { props, expectedResults } = getData({ searchIndex: null });
+        expect(JSON.stringify(getDefaultState(props))).to.equal(
+          JSON.stringify(expectedResults.blank),
+        );
+      });
+    });
+
+    context('when `dataToSearch` is omitted', () => {
+      it('should return the default data', () => {
+        const { props, expectedResults } = getData({});
+        delete props.dataToSearch;
+        expect(JSON.stringify(getDefaultState(props))).to.equal(
           JSON.stringify(expectedResults.blank),
         );
       });
@@ -177,11 +213,7 @@ describe('ezr list-loop pattern helpers', () => {
 
     context('when there is no data record for the search index', () => {
       it('should return the default data', () => {
-        const props = {
-          ...defaultProps,
-          searchIndex: 0,
-          searchAction: { mode: 'add' },
-        };
+        const { props, expectedResults } = getData({});
         expect(JSON.stringify(getDefaultState(props))).to.equal(
           JSON.stringify(expectedResults.blank),
         );
@@ -190,12 +222,9 @@ describe('ezr list-loop pattern helpers', () => {
 
     context('when there is a data record for the search index', () => {
       it('should return the found data record', () => {
-        const props = {
-          ...defaultProps,
+        const { props, expectedResults } = getData({
           dataToSearch: [{ name: 'Mary' }],
-          searchIndex: 0,
-          searchAction: { mode: 'add' },
-        };
+        });
         expect(JSON.stringify(getDefaultState(props))).to.equal(
           JSON.stringify(expectedResults.populated),
         );
@@ -205,12 +234,10 @@ describe('ezr list-loop pattern helpers', () => {
 
     context('when the search action is set to `edit`', () => {
       it('should return the found data record', () => {
-        const props = {
-          ...defaultProps,
+        const { props, expectedResults } = getData({
           dataToSearch: [{ name: 'Mary' }],
-          searchIndex: 0,
           searchAction: { mode: 'edit' },
-        };
+        });
         expect(JSON.stringify(getDefaultState(props))).to.equal(
           JSON.stringify(expectedResults.populated),
         );
