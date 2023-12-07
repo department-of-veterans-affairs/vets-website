@@ -72,7 +72,7 @@ export const uiSchema = {
             SECONDARY:
               'My condition was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
             WORSENED:
-              'My condition or condition existed before I served in the military, but it got worse because of my military service.',
+              'My condition existed before I served in the military, but it got worse because of my military service.',
             VA:
               'My condition was caused by an injury or event that happened when I was receiving VA care.',
           },
