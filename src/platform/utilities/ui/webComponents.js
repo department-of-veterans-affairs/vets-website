@@ -141,12 +141,12 @@ export async function querySelectorWithShadowRoot(selector, root) {
         ? document.querySelector(root)
         : root || document;
 
-    if (isWebComponent(root) && !isWebComponentReady(root)) {
+    if (isWebComponent(currentRoot) && !isWebComponentReady(currentRoot)) {
       const waitForPaint = false;
-      await waitForShadowRoot(root, waitForPaint);
+      await waitForShadowRoot(currentRoot, waitForPaint);
       // Fallback to root if shadowRoot is not available,
       // for example in unit tests where shadowRoot is null
-      currentRoot = root.shadowRoot || currentRoot;
+      currentRoot = currentRoot.shadowRoot || currentRoot;
     }
 
     if (!element) {
