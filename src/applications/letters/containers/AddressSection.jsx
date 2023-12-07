@@ -10,11 +10,11 @@ import {
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
 import AddressField from '@@vap-svc/components/AddressField/AddressField';
-import { focusElement } from '~/platform/utilities/ui';
-import { selectVAPContactInfo } from '~/platform/user/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 
+import NoAddressBanner from '../components/NoAddressBanner';
 import { isAddressEmpty } from '../utils/helpers';
-import noAddressBanner from '../components/NoAddressBanner';
 
 const navigateToLetterList = router => {
   router.push('/letter-list');
@@ -71,7 +71,7 @@ export function AddressSection({ address, location, router }) {
     <div>
       <div>
         <div aria-live="polite" aria-relevant="additions">
-          {emptyAddress ? noAddressBanner : addressContent}
+          {emptyAddress ? NoAddressBanner : addressContent}
         </div>
       </div>
       {viewLettersButton}
