@@ -59,13 +59,13 @@ export const geocodeUserAddress = query => {
               location: query.locationInputString,
               repOrgName: query.repOrganizationInputString,
             },
+            page: 1,
             id: Date.now(),
             inProgress: true,
             position: {
               latitude: features[0].center[1],
               longitude: features[0].center[0],
             },
-            currentPage: 1,
             mapBoxQuery: {
               placeName: features[0].place_name,
               placeType: features[0].place_type[0],

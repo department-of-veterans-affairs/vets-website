@@ -25,7 +25,7 @@ import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
-describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
+describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
   beforeEach(() => {
     vaosSetup();
 
