@@ -310,6 +310,7 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",

@@ -80,6 +80,7 @@ import currentSpouseMonthlySupport from './chapters/04-household-information/cur
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
+import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -1142,11 +1143,11 @@ const formConfig = {
       },
     },
     financialDisclosure: {
-      title: 'Financial disclosure',
+      title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
-          path: 'financial-disclosure/net-worth',
+          path: 'financial-information/net-worth',
           title: item =>
             `${item.veteranFullName.first} ${
               item.veteranFullName.last
@@ -1168,7 +1169,7 @@ const formConfig = {
           },
         },
         monthlyIncome: {
-          path: 'financial-disclosure/monthly-income',
+          path: 'financial-information/monthly-income',
           title: item =>
             `${item.veteranFullName.first} ${
               item.veteranFullName.last
@@ -1192,7 +1193,7 @@ const formConfig = {
           },
         },
         expectedIncome: {
-          path: 'financial-disclosure/expected-income',
+          path: 'financial-information/expected-income',
           title: item =>
             `${item.veteranFullName.first} ${
               item.veteranFullName.last
@@ -1215,7 +1216,7 @@ const formConfig = {
           },
         },
         otherExpenses: {
-          path: 'financial-disclosure/other-expenses',
+          path: 'financial-information/other-expenses',
           title: item =>
             `${item.veteranFullName.first} ${
               item.veteranFullName.last
@@ -1254,7 +1255,7 @@ const formConfig = {
           },
         },
         spouseNetWorth: {
-          path: 'financial-disclosure/net-worth/spouse',
+          path: 'financial-information/net-worth/spouse',
           title: 'Spouse net worth',
           depends: isMarried,
           initialData: {},
@@ -1271,7 +1272,7 @@ const formConfig = {
           },
         },
         spouseMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/spouse',
+          path: 'financial-information/monthly-income/spouse',
           title: 'Spouse monthly income',
           depends: isMarried,
           initialData: {},
@@ -1289,7 +1290,7 @@ const formConfig = {
           },
         },
         spouseExpectedIncome: {
-          path: 'financial-disclosure/expected-income/spouse',
+          path: 'financial-information/expected-income/spouse',
           title: 'Spouse expected income',
           depends: isMarried,
           initialData: {},
@@ -1306,7 +1307,7 @@ const formConfig = {
           },
         },
         spouseOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/spouse',
+          path: 'financial-information/other-expenses/spouse',
           depends: isMarried,
           title: 'Spouse other expenses',
           schema: {
@@ -1343,7 +1344,7 @@ const formConfig = {
           },
         },
         dependentsNetWorth: {
-          path: 'financial-disclosure/net-worth/dependents/:index',
+          path: 'financial-information/net-worth/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} net worth`,
@@ -1374,7 +1375,7 @@ const formConfig = {
           },
         },
         dependentsMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/dependents/:index',
+          path: 'financial-information/monthly-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} monthly income`,
@@ -1410,7 +1411,7 @@ const formConfig = {
           },
         },
         dependentsExpectedIncome: {
-          path: 'financial-disclosure/expected-income/dependents/:index',
+          path: 'financial-information/expected-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} expected income`,
@@ -1445,7 +1446,7 @@ const formConfig = {
           },
         },
         dependentsOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/dependents/:index',
+          path: 'financial-information/other-expenses/dependents/:index',
           showPagePerItem: true,
           arrayPath: 'dependents',
           title: item =>
@@ -1494,6 +1495,12 @@ const formConfig = {
               },
             },
           },
+        },
+        totalNetWorth: {
+          title: 'Income and assets',
+          path: 'financial-information/total-net-worth',
+          uiSchema: totalNetWorth.uiSchema,
+          schema: totalNetWorth.schema,
         },
       },
     },
