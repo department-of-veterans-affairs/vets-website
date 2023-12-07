@@ -151,12 +151,7 @@ const generateResultsMedicationListContent = async (
   if (hasHorizontalRule) {
     // if horizontal line won't fit - move to the next page
     if (doc.y > doc.page.height - doc.page.margins.bottom) await doc.addPage();
-
-    results.add(
-      doc.struct('Artifact', () => {
-        addHorizontalRule(doc, 16, 0, 1);
-      }),
-    );
+    addHorizontalRule(doc, 16, 0, 1);
   }
 };
 
