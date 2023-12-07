@@ -314,6 +314,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
+    // TODO: Update commit hash when schema changes are merged in
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#2092ad296ec27a62023674ad2fc597ee25b9d720"
   },
   "resolutions": {
