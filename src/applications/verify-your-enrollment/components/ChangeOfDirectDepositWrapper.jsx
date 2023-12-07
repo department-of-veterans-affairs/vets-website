@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import '../sass/change-of-direct-deposit.scss';
+import '../sass/change-of-direct-deposit-wrapper.scss';
 import ChangeOfDirectDepositForm from './ChangeOfDirectDepositForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
-import { CHANGE_OF_DIRECT_DEPOSIT_TITLE, SMALL_SCREEN } from '../constants';
+import {
+  CHANGE_OF_DIRECT_DEPOSIT_TITLE,
+  SMALL_SCREEN,
+} from '../constants/index';
 
 const ChangeOfDirectDepositWrapper = () => {
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
@@ -131,7 +134,11 @@ const ChangeOfDirectDepositWrapper = () => {
       >
         {!toggleDirectDepositForm && (
           <>
-            <va-button onClick={handleAddNewClick} text="Add new account" />
+            <va-button
+              id="VYE-add-new-account-button"
+              onClick={handleAddNewClick}
+              text="Add new account"
+            />
             <va-alert
               close-btn-aria-label="Close notification"
               status="info"
@@ -139,7 +146,7 @@ const ChangeOfDirectDepositWrapper = () => {
               background-only
               class="vads-u-margin-y--2"
             >
-              <h2 id="VYE-chnage-of-direct-deposit" slot="headline">
+              <h2 id="VYE-change-of-direct-deposit" slot="headline">
                 Change of Direct Deposit for Veryify Your Enrollment
               </h2>
               <div>
@@ -162,7 +169,7 @@ const ChangeOfDirectDepositWrapper = () => {
           </>
         )}
         {toggleDirectDepositForm && (
-          <div>
+          <div className="direct-deposit-form-container">
             <p className="vads-u-font-weight--bold">Add new account</p>
             {directDepositDescription}
             <ChangeOfDirectDepositForm
@@ -175,14 +182,14 @@ const ChangeOfDirectDepositWrapper = () => {
                 aria-label="save your bank information for GI Bill benefits"
                 type="submit"
                 loadingText="saving bank information"
-                className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
+                className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
               >
                 Save
               </LoadingButton>
               <va-button
                 text="Cancel"
-                label="cancel updating your bank information for GI Bill benefits"
                 secondary
+                label="cancel updating your bank information for GI Bill benefits"
                 onClick={() => {
                   handleCloseForm();
                 }}
