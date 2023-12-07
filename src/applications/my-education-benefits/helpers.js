@@ -353,6 +353,9 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
 export function prefillTransformerV2(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const exclusionPeriods = Array.isArray(state.data?.exclusionPeriods)
+    ? state.data?.exclusionPeriods
+    : [];
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user || {};
@@ -456,6 +459,15 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
     },
+    [formFields.federallySponsoredAcademy]: exclusionPeriods?.includes(
+      'Academy',
+    )
+      ? 'Yes'
+      : 'No',
+    [formFields.seniorRotcCommission]: exclusionPeriods?.includes('ROTC')
+      ? 'Yes'
+      : 'No',
+    [formFields.loanPayment]: exclusionPeriods?.includes('LRP') ? 'Yes' : 'No',
     [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
