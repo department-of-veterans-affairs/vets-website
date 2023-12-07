@@ -222,7 +222,19 @@ export class Main extends Component {
   };
 
   render() {
-    const { mhvTransition, mhvTransitionModal } = this.props;
+    const {
+      canShowLoginModal,
+      isDesktop,
+      mhvTransition,
+      mhvTransitionModal,
+      showLoginModal,
+    } = this.props;
+
+    console.log('isDesktop: ', isDesktop);
+
+    const signInModalIsVisible = isDesktop
+      ? showLoginModal
+      : canShowLoginModal && showLoginModal;
 
     return (
       <div className="profile-nav-container">
@@ -243,7 +255,7 @@ export class Main extends Component {
         />
         <SignInModal
           onClose={this.closeLoginModal}
-          visible={this.props.canShowLoginModal && this.props.showLoginModal}
+          visible={signInModalIsVisible}
           useSiS={this.props.useSignInService}
         />
         {mhvTransition &&
@@ -318,6 +330,7 @@ export default connect(
 Main.propTypes = {
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
+  isDesktop: PropTypes.bool.isRequired,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,

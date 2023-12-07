@@ -28,6 +28,7 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   if (!show) {
     return null;
   }
+  console.log('isDesktop (app): ', isDesktop);
 
   if (isDesktop) {
     showLegacyHeader();
@@ -36,8 +37,10 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
 
   hideLegacyHeader();
 
+
   return (
     <Header
+      isDesktop={!!isDesktop}
       megaMenuData={megaMenuData}
       showMegaMenu={showMegaMenu}
       showNavLogin={showNavLogin}

@@ -16,7 +16,6 @@ export default class SignInModal extends React.Component {
     }
   }
 
-  
   render() {
     console.log('visible: ', this.props.visible);
     return (

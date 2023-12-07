@@ -7,10 +7,14 @@ import VeteranCrisisLine from '../VeteranCrisisLine';
 import addFocusBehaviorToCrisisLineModal from '../../../accessible-VCL-modal';
 import { addOverlayTriggers } from '../../../legacy/menu';
 
-export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
+export const Header = ({
+  isDesktop,
+  megaMenuData,
+  showMegaMenu,
+  showNavLogin,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [canShowLoginModal, setCanShowLoginModal] = useState(true);
-  console.log('THIS IS THE MOBILE HEADER');
 
   useEffect(() => {
     addFocusBehaviorToCrisisLineModal();
@@ -24,6 +28,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
         <LogoRow
           canShowLoginModal={canShowLoginModal}
+          isDesktop={isDesktop}
           isMenuOpen={isMenuOpen}
           showNavLogin={showNavLogin}
           setIsMenuOpen={setIsMenuOpen}
@@ -39,6 +44,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
 };
 
 Header.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.arrayOf(PropTypes.object).isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,

@@ -8,6 +8,7 @@ import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
 export const LogoRow = ({
   canShowLoginModal,
+  isDesktop,
   isMenuOpen,
   setIsMenuOpen,
   showNavLogin = true,
@@ -18,8 +19,6 @@ export const LogoRow = ({
     updateExpandedMenuID();
     setIsMenuOpen(!isMenuOpen);
   };
-
-  console.log('canShowLoginModal: ', canShowLoginModal);
 
   return (
     <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
@@ -33,6 +32,7 @@ export const LogoRow = ({
       </a>
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
         <UserNav
+          isDesktop={isDesktop}
           isHeaderV2
           showNavLogin={showNavLogin}
           canShowLoginModal={canShowLoginModal}
