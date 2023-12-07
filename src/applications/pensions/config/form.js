@@ -1142,7 +1142,7 @@ const formConfig = {
         },
       },
     },
-    financialDisclosure: {
+    financialInformation: {
       title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
