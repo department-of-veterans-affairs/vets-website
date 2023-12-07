@@ -14,9 +14,10 @@ describe('Medical Records Vitals', () => {
 
     VitalsListPage.clickVitalsDetailsLink(0);
     // should display a toggle menu button
-
+    // Verify  PrintDownload button
     VitalsListPage.verifyPrintOrDownload();
-
+    // Click PrintDownload button
+    VitalsListPage.clickPrintOrDownload();
     // should display print button for a list "Print this list"
     VitalsListPage.verifyPrintButton();
 

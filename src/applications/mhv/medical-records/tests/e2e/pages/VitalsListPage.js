@@ -28,6 +28,9 @@ class VitalsListPage {
 
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
+  clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click();
   };
 
