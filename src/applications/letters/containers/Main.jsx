@@ -32,10 +32,10 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
+    const { useLighthouse } = this.props;
 
     // eslint-disable-next-line -- LH_MIGRATION
-    const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions(useLighthouse);
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
@@ -89,8 +89,9 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
-    // TODO: change to conform to LH_MIGRATION style
-    shouldUseLighthouse: lettersUseLighthouse(state),
+    // START lighthouse_migration
+    useLighthouse: lettersUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
