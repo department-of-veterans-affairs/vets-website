@@ -1,5 +1,9 @@
 import React from 'react';
-import { validateCurrency } from '../../../../utils/validations';
+import {
+  validateCurrency,
+  validateSpouseBenefitsVaCompensationimits,
+  validateSpouseBenefitsVaEducationLimits,
+} from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -25,7 +29,10 @@ export const uiSchema = {
           required:
             'Please enter your spouse’s VA compensation and pension benefits information.',
         },
-        'ui:validations': [validateCurrency],
+        'ui:validations': [
+          validateCurrency,
+          validateSpouseBenefitsVaCompensationimits,
+        ],
       },
       education: {
         'ui:title':
@@ -38,7 +45,10 @@ export const uiSchema = {
           required:
             'Please enter your spouse’s VA education benefits information.',
         },
-        'ui:validations': [validateCurrency],
+        'ui:validations': [
+          validateCurrency,
+          validateSpouseBenefitsVaEducationLimits,
+        ],
       },
     },
   },
