@@ -1,10 +1,10 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import treatmentHistory from '../../pages/vaTreatmentHistory';
-import generateMedicalCentersSchemas from '../../pages/medicalCenters';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import treatmentHistory from '../../../config/chapters/health-and-employment-information/vaTreatmentHistory';
+import generateMedicalCentersSchemas from '../../../config/chapters/health-and-employment-information/medicalCenters';
 
 describe('pension treatment history page', () => {
   it('should render web components in form correctly', () => {

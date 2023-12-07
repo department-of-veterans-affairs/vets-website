@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import contactInformation from '../../pages/contactInformation';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import contactInformation from '../../../config/chapters/applicant-information/contactInformation';
 
 const { schema, uiSchema } = contactInformation;
 

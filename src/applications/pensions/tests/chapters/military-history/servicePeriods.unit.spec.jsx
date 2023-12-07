@@ -11,10 +11,10 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import getData from '../fixtures/mocks/mockStore';
+import getData from '../../fixtures/mocks/mockStore';
 
-import formConfig from '../../config/form';
-import servicePeriods from '../../pages/servicePeriods';
+import formConfig from '../../../config/form';
+import servicePeriods from '../../../config/chapters/military-history/servicePeriods';
 
 const definitions = formConfig.defaultDefinitions;
 

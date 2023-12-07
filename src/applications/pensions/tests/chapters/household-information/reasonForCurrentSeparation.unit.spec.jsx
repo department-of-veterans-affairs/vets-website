@@ -1,18 +1,18 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import maritalStatus from '../../pages/maritalStatus';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import reasonForCurrentSeparation from '../../../config/chapters/household-information/reasonForCurrentSeparation';
 
-describe('marital status page', () => {
+describe('reason for current separation page', () => {
   it('should render web components in form correctly', () => {
-    const pageTitle = 'marital status';
+    const pageTitle = 'reason for separation';
     const expectedNumberOfFields = 1;
     testNumberOfWebComponentFields(
       formConfig,
-      maritalStatus.schema,
-      maritalStatus.uiSchema,
+      reasonForCurrentSeparation.schema,
+      reasonForCurrentSeparation.uiSchema,
       expectedNumberOfFields,
       pageTitle,
     );
@@ -20,8 +20,8 @@ describe('marital status page', () => {
     const expectedNumberOfErrors = 1;
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
-      maritalStatus.schema,
-      maritalStatus.uiSchema,
+      reasonForCurrentSeparation.schema,
+      reasonForCurrentSeparation.uiSchema,
       expectedNumberOfErrors,
       pageTitle,
     );

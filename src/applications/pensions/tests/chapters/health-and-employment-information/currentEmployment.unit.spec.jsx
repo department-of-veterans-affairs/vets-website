@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import currentEmployment from '../../pages/currentEmployment';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import currentEmployment from '../../../config/chapters/health-and-employment-information/currentEmployment';
 
 const { schema, uiSchema } = currentEmployment;
 

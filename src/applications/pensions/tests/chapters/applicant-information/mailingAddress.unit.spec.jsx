@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import mailingAddress from '../../pages/mailingAddress';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import mailingAddress from '../../../config/chapters/applicant-information/mailingAddress';
 
 const { schema, uiSchema } = mailingAddress;
 

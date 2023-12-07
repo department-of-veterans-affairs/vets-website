@@ -3,8 +3,8 @@ import {
   yesNoUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
-import { specialMonthlyPensionDescription } from '../helpers';
-import { SpecialMonthlyPensionEvidenceAlert } from '../components/FormAlerts';
+import { specialMonthlyPensionDescription } from '../../../helpers';
+import { SpecialMonthlyPensionEvidenceAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {

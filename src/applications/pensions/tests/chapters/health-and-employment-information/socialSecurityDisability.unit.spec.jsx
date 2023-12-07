@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import socialSecurityDisability from '../../pages/socialSecurityDisability';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import socialSecurityDisability from '../../../config/chapters/health-and-employment-information/socialSecurityDisability';
 
 const { schema, uiSchema } = socialSecurityDisability;
 

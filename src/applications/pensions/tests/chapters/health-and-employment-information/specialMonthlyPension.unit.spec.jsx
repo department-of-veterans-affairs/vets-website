@@ -1,14 +1,14 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import nursingHome from '../../pages/nursingHome';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import specialMonthlyPension from '../../../config/chapters/health-and-employment-information/specialMonthlyPension';
 
-const { schema, uiSchema } = nursingHome;
+const { schema, uiSchema } = specialMonthlyPension;
 
-describe('pension nursing home page', () => {
-  const pageTitle = 'nursing home information';
+describe('pension special monthly pension page', () => {
+  const pageTitle = 'special monthly pension';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

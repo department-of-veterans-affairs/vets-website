@@ -1,14 +1,14 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import medicaidStatus from '../../pages/medicaidStatus';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import medicalCondition from '../../../config/chapters/health-and-employment-information/medicalCondition';
 
-const { schema, uiSchema } = medicaidStatus;
+const { schema, uiSchema } = medicalCondition;
 
-describe('medicaid status pension page', () => {
-  const pageTitle = 'medicaid status';
+describe('pension medical condition page', () => {
+  const pageTitle = 'medical condition information';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
@@ -18,7 +18,7 @@ describe('medicaid status pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 0;
+  const expectedNumberOfErrors = 1;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
