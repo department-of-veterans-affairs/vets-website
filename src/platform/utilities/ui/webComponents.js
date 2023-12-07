@@ -130,35 +130,39 @@ export function waitForShadowRoot(el, waitForPaint = true) {
  * ```
  *
  * @param {string | HTMLElement} selector
- * @param {HTMLElement} [root]
+ * @param {string | HTMLElement} [root]
  * @returns {Promise<HTMLElement | null>}
  */
 export async function querySelectorWithShadowRoot(selector, root) {
   try {
-    let element = typeof selector === 'string' ? null : selector;
-    let currentRoot =
+    let rootElement =
       typeof root === 'string'
         ? document.querySelector(root)
         : root || document;
 
-    if (isWebComponent(currentRoot) && !isWebComponentReady(currentRoot)) {
+    if (isWebComponent(rootElement) && !isWebComponentReady(rootElement)) {
       const waitForPaint = false;
-      await waitForShadowRoot(currentRoot, waitForPaint);
+      await waitForShadowRoot(rootElement, waitForPaint);
       // Fallback to root if shadowRoot is not available,
       // for example in unit tests where shadowRoot is null
-      currentRoot = currentRoot.shadowRoot || currentRoot;
+      rootElement = rootElement?.shadowRoot || rootElement;
     }
 
-    if (!element) {
-      element = currentRoot.querySelector(selector);
-    }
+    const selectorElement =
+      typeof selector === 'string'
+        ? rootElement.querySelector(selector)
+        : selector;
 
-    if (element && isWebComponent(element) && !isWebComponentReady(element)) {
+    if (
+      selectorElement &&
+      isWebComponent(selectorElement) &&
+      !isWebComponentReady(selectorElement)
+    ) {
       const waitForPaint = true;
-      await waitForShadowRoot(element, waitForPaint);
+      await waitForShadowRoot(selectorElement, waitForPaint);
     }
 
-    return element; // Returns a promise, since this is an async function
+    return selectorElement; // Returns a promise, since this is an async function
   } catch (error) {
     console.error('Error in querySelectorWithShadowRoot:', error);
     return null;
