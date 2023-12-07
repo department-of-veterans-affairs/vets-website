@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
@@ -52,13 +53,13 @@ export class Main extends React.Component {
         : lettersAvailability;
     switch (status) {
       case available:
-        return this.props.children;
+        return <Outlet />;
       case awaitingResponse:
         return <va-loading-indicator message="Loading your letters..." />;
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:
-        return this.props.children;
+        return <Outlet />;
       case hasEmptyAddress:
         return noAddressBanner;
       case unavailable: // fall-through to default
@@ -70,7 +71,6 @@ export class Main extends React.Component {
 }
 
 Main.propTypes = {
-  children: PropTypes.any,
   emptyAddress: PropTypes.bool,
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,

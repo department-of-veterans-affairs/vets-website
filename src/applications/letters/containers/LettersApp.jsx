@@ -2,6 +2,7 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
@@ -67,31 +68,30 @@ export class AppContent extends React.Component {
   }
 }
 
-export function LettersApp({ user, children, featureFlagsLoading }) {
+export function LettersApp({ user, featureFlagsLoading }) {
   return (
     <RequiredLoginView
-      verify
       serviceRequired={backendServices.EVSS_CLAIMS}
       user={user}
+      verify
     >
       <AppContent featureFlagsLoading={featureFlagsLoading}>
         <DowntimeBanner
           appTitle="Letters Generator"
           dependencies={[externalServices.evss]}
         />
-        <div>{children}</div>
+        <Outlet />
       </AppContent>
     </RequiredLoginView>
   );
 }
 
 AppContent.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.arrayOf(PropTypes.node),
   isDataAvailable: PropTypes.bool,
 };
 
 LettersApp.propTypes = {
-  children: PropTypes.element,
   featureFlagsLoading: PropTypes.bool,
   user: PropTypes.shape({}),
 };
