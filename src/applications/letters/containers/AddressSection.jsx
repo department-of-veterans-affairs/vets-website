@@ -81,8 +81,8 @@ const mapStateToProps = state => ({
 });
 
 AddressSection.propTypes = {
-  location: PropTypes.object,
   address: PropTypes.object,
+  location: PropTypes.object,
   router: PropTypes.object,
 };
 

@@ -59,5 +59,6 @@ export default class AppContent extends React.Component {
 
 AppContent.propTypes = {
   children: PropTypes.arrayOf(PropTypes.node),
+  featureFlagsLoading: PropTypes.bool,
   isDataAvailable: PropTypes.bool,
 };
