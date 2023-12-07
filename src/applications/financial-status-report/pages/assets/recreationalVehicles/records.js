@@ -1,5 +1,8 @@
 import React from 'react';
-import { validateCurrency } from '../../../utils/validations';
+import {
+  validateCurrency,
+  validateRecreationalVechicleAssetsLimits,
+} from '../../../utils/validations';
 
 const RecVehicleInfo = (
   <va-additional-info trigger="What if I don’t know the estimated value of my trailer, camper, or boat?">
@@ -34,7 +37,10 @@ const recreationalVehicleUISchema = {
       'ui:errorMessages': {
         required: 'Please enter the estimated value.',
       },
-      'ui:validations': [validateCurrency],
+      'ui:validations': [
+        validateCurrency,
+        validateRecreationalVechicleAssetsLimits,
+      ],
     },
   },
   'view:components': {

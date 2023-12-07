@@ -1,5 +1,8 @@
 import HouseholdExpensesInputList from '../../components/householdExpenses/HouseholdExpensesInputList';
-import { validateCurrencyArray } from '../../utils/validations';
+import {
+  validateCurrencyArray,
+  validateHouseholdExpensesArrayLimits,
+} from '../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
@@ -11,7 +14,10 @@ export const uiSchema = {
     },
     expenseRecords: {
       'ui:title': 'householdExpensesInputList',
-      'ui:validations': [validateCurrencyArray],
+      'ui:validations': [
+        validateCurrencyArray,
+        validateHouseholdExpensesArrayLimits,
+      ],
       items: {
         name: {
           'ui:title': 'Name of expense',
