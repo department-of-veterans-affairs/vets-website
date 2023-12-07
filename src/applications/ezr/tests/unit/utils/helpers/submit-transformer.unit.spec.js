@@ -6,6 +6,17 @@ describe('ezr submit transformer', () => {
   context('when all required data is provided', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
@@ -97,6 +108,17 @@ describe('ezr submit transformer', () => {
   context('when Veteran mailing and home addresses do not match', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
@@ -195,6 +217,17 @@ describe('ezr submit transformer', () => {
   context('when Dependents have been declared', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
