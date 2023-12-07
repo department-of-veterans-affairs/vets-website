@@ -71,7 +71,7 @@ export function AddressSection({ address, location, router }) {
     <div>
       <div>
         <div aria-live="polite" aria-relevant="additions">
-          {emptyAddress ? NoAddressBanner : addressContent}
+          {emptyAddress ? <NoAddressBanner /> : addressContent}
         </div>
       </div>
       {viewLettersButton}
