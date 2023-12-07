@@ -11,7 +11,7 @@ import { DowntimeBanner } from '@department-of-veterans-affairs/platform-monitor
 import AppContent from '../components/AppContent';
 import { isLoadingFeatures } from '../selectors';
 
-export function LettersApp({ featureFlagsLoading, user }) {
+export function App({ featureFlagsLoading, user }) {
   return (
     <RequiredLoginView
       serviceRequired={backendServices.EVSS_CLAIMS}
@@ -29,7 +29,7 @@ export function LettersApp({ featureFlagsLoading, user }) {
   );
 }
 
-LettersApp.propTypes = {
+App.propTypes = {
   featureFlagsLoading: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -39,4 +39,4 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(LettersApp);
+export default connect(mapStateToProps)(App);
