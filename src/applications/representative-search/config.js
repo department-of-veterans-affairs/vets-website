@@ -39,7 +39,7 @@ export const individualSortOptions = {
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = true;
+export const useStagingDataLocally = false;
 
 const railsEngineApi = {
   baseUrl: useStagingDataLocally
