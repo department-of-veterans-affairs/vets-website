@@ -140,10 +140,11 @@ export const applicantContactInfoDescriptionNonVet = (
 );
 
 export const PreparerPhoneNumberDescription = (
-  <va-additional-info trigger="Why do we need your phone number?">
+  <va-additional-info trigger="Why do we ask for your contact details?">
     <p>
-      We may contact you by phone if we need more information about the
-      application.
+      Once you’ve submitted the application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );

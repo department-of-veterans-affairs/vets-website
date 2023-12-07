@@ -11,7 +11,7 @@ import {
 } from 'platform/forms/address';
 import environment from 'platform/utilities/environment';
 
-// let priorCountry = '';
+let priorCountry = '';
 
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
@@ -316,9 +316,7 @@ export function uiSchema(
           }
 
           // Veteran address state must be reset if prior country had a state list.
-          // NOTE: removed because currently no page uses formData.application.veteran.address.country
-          //       uncomment if a page is added which uses formData.application.veteran.address.country
-          /* if (modifiedData.application.veteran) {
+          if (modifiedData.application.veteran) {
             if (
               (priorCountry === 'CAN' &&
                 modifiedData.application.veteran.address.country === 'USA') ||
@@ -328,7 +326,7 @@ export function uiSchema(
               modifiedData.application.veteran.address.state = undefined;
             }
             priorCountry = formData.application.veteran.address.country;
-          } */
+          }
         }
 
         if (isRequired) {

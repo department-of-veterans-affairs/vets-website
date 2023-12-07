@@ -15,7 +15,7 @@ export const uiSchema = {
     applicant: {
       name: {
         first: {
-          'ui:title': "Preparer's first name",
+          'ui:title': 'Your first name',
           'ui:required': isAuthorizedAgent,
         },
         middle: {
@@ -24,7 +24,7 @@ export const uiSchema = {
           },
         },
         last: {
-          'ui:title': "Preparer's last name",
+          'ui:title': 'Your last name',
           'ui:required': isAuthorizedAgent,
         },
         suffix: {
