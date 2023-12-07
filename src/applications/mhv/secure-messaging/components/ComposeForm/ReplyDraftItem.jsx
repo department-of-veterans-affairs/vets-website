@@ -408,8 +408,10 @@ const ReplyDraftItem = props => {
       <HorizontalRule />
       {draftsCount > 1 && (
         <>
-          <h3>Draft {draftsequence}</h3>
-          <p>Started {dateFormat(draft.draftDate)}</p>
+          <h3 className="vads-u-margin-bottom--0p5">Draft {draftsequence}</h3>
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+            Last edited {dateFormat(draft.draftDate)}
+          </p>
         </>
       )}
       {editMode ? (
@@ -488,7 +490,9 @@ const ReplyDraftItem = props => {
         </>
       ) : (
         <>
-          <p className="vads-u-margin-top--2">{draft.body}</p>
+          <p className="vads-u-margin-top--2 message-body-draft-preview">
+            {draft.body}
+          </p>
           <va-button
             secondary
             text={`Edit draft ${draftsequence}`}
