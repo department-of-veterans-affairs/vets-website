@@ -1061,7 +1061,7 @@ const formConfig = {
                     childInHousehold:
                       dependents.items.properties.childInHousehold,
                     childAddress: addressSchema({
-                      omit: ['street3'],
+                      omit: ['street3', 'isMilitary'],
                     }),
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
@@ -1082,7 +1082,7 @@ const formConfig = {
                 childAddress: merge(
                   {},
                   addressUI({
-                    omit: ['street3'],
+                    omit: ['street3', 'isMilitary'],
                     required: (form, index) =>
                       !get(['dependents', index, 'childInHousehold'], form),
                   }),
