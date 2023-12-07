@@ -3,7 +3,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default [
   {
-    header: `General Disclaimer`,
+    header: `General disclaimer`,
     content: (
       <>
         <p>

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { COOKIES, CLIENT_IDS } from 'platform/utilities/oauth/constants';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { touStyles } from '../helpers';
 
 export default function Declined() {
@@ -32,9 +32,11 @@ export default function Declined() {
         </p>
         <h2>What you can do</h2>
         <p>
-          <strong>Note:</strong> You can still get VA health care and benefits
-          without using our online services. If you need help or have questions,{' '}
-          <SubmitSignInForm /> We’re here 24/7.
+          You can still get VA health care and benefits without using our online
+          services. If you need help or have questions, call us at{' '}
+          <va-telephone contact={CONTACTS.VA_411} /> select 0 (
+          <va-telephone contact={CONTACTS[711]} tty />
+          ). We’re here 24/7.
         </p>
         <p>
           Or you can change your answer and accept the terms. If you want to
