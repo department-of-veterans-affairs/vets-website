@@ -18,15 +18,15 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import pow from '../../../config/chapters/military-history/pow';
+import generalHistory from '../../../config/chapters/02-military-history/generalHistory';
 
 const definitions = formConfig.defaultDefinitions;
 
-const { schema, uiSchema } = pow;
+const { schema, uiSchema } = generalHistory;
 
 describe('web component tests', () => {
   const pageTitle = 'military history';
-  const expectedNumberOfFields = 1;
+  const expectedNumberOfFields = 2;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -45,10 +45,10 @@ describe('web component tests', () => {
   );
 });
 
-describe('pension pow information page', () => {
+describe('pension applicant information page', () => {
   const middleware = [];
   const mockStore = configureStore(middleware);
-  it('should submit with valid data', async () => {
+  it('should submit with no errors when No is selected', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
     const { queryByText, container } = render(
@@ -74,10 +74,10 @@ describe('pension pow information page', () => {
       expect(onSubmit.called).to.be.true;
     });
   });
-  it('should reveal date fields', async () => {
+  it('should not submit with errors when Yes is selected', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
-    const { container } = render(
+    const { queryByText, container } = render(
       <Provider store={mockStore(data)}>
         <DefinitionTester
           definitions={definitions}
@@ -89,19 +89,47 @@ describe('pension pow information page', () => {
         />
       </Provider>,
     );
+    const submitBtn = queryByText('Submit');
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: 'Y' },
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
 
-    // Verify fields not visible
-    expect($$('input,select', container).length).to.equal(0);
-
+    fireEvent.click(submitBtn);
     await waitFor(() => {
+      expect(onSubmit.called).to.be.false;
+    });
+  });
+  it('should reveal name fields', async () => {
+    const onSubmit = sinon.spy();
+    const { data } = getData({ loggedIn: false });
+    const store = mockStore(data);
+    const { container } = render(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={definitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    waitFor(() => {
+      expect($$('input', container).length).to.equal(1);
+      expect($$('va-radio', container).length).to.equal(1);
+      expect($('button[type="submit"]', container)).to.exist;
+
       const changeEvent = new CustomEvent('selected', {
         detail: { value: 'Y' },
       });
       $('va-radio', container).__events.vaValueChange(changeEvent);
 
+      expect($$('va-radio-option', container).length).to.eq(2);
       // Verify fields are now visible
-      expect($$('select', container).length).to.equal(4);
-      expect($$('input', container).length).to.equal(2);
+      expect($$('input', container).length).to.equal(4);
     });
   });
 });

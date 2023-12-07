@@ -3,12 +3,12 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import specialMonthlyPension from '../../../config/chapters/health-and-employment-information/specialMonthlyPension';
+import medicalCondition from '../../../config/chapters/03-health-and-employment-information/medicalCondition';
 
-const { schema, uiSchema } = specialMonthlyPension;
+const { schema, uiSchema } = medicalCondition;
 
-describe('pension special monthly pension page', () => {
-  const pageTitle = 'special monthly pension';
+describe('pension medical condition page', () => {
+  const pageTitle = 'medical condition information';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

@@ -3,12 +3,12 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import currentEmployment from '../../../config/chapters/health-and-employment-information/currentEmployment';
+import age from '../../../config/chapters/03-health-and-employment-information/age';
 
-const { schema, uiSchema } = currentEmployment;
+const { schema, uiSchema } = age;
 
-describe('pension current employment page', () => {
-  const pageTitle = 'current employment information';
+describe('pension age page', () => {
+  const pageTitle = 'Age';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

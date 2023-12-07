@@ -14,7 +14,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import getData from '../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../config/form';
-import servicePeriods from '../../../config/chapters/military-history/servicePeriods';
+import servicePeriods from '../../../config/chapters/02-military-history/servicePeriods';
 
 const definitions = formConfig.defaultDefinitions;
 

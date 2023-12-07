@@ -9,7 +9,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-import servicePeriods from '../../config/chapters/military-history/servicePeriods';
+import servicePeriods from '../../config/chapters/02-military-history/servicePeriods';
 
 describe('Pensions service periods', () => {
   const { schema, uiSchema } = servicePeriods;

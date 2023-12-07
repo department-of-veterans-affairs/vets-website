@@ -3,13 +3,13 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import mailingAddress from '../../../config/chapters/applicant-information/mailingAddress';
+import currentEmployment from '../../../config/chapters/03-health-and-employment-information/currentEmployment';
 
-const { schema, uiSchema } = mailingAddress;
+const { schema, uiSchema } = currentEmployment;
 
-describe('pension mailing address page', () => {
-  const pageTitle = 'mailing address';
-  const expectedNumberOfFields = 7;
+describe('pension current employment page', () => {
+  const pageTitle = 'current employment information';
+  const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('pension mailing address page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 4;
+  const expectedNumberOfErrors = 1;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

@@ -3,7 +3,7 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import nursingHome from '../../../config/chapters/health-and-employment-information/nursingHome';
+import nursingHome from '../../../config/chapters/03-health-and-employment-information/nursingHome';
 
 const { schema, uiSchema } = nursingHome;
 

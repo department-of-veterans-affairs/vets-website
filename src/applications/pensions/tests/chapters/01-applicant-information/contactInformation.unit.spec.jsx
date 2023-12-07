@@ -3,13 +3,13 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import medicaidCoverage from '../../../config/chapters/health-and-employment-information/medicaidCoverage';
+import contactInformation from '../../../config/chapters/01-applicant-information/contactInformation';
 
-const { schema, uiSchema } = medicaidCoverage;
+const { schema, uiSchema } = contactInformation;
 
-describe('medicaid coverage pension page', () => {
-  const pageTitle = 'medicaid coverage';
-  const expectedNumberOfFields = 1;
+describe('pension contact information page', () => {
+  const pageTitle = 'Email address and phone number';
+  const expectedNumberOfFields = 4;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('medicaid coverage pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 0;
+  const expectedNumberOfErrors = 2;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

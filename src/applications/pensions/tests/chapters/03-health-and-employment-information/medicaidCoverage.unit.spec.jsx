@@ -3,12 +3,12 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import medicalCondition from '../../../config/chapters/health-and-employment-information/medicalCondition';
+import medicaidCoverage from '../../../config/chapters/03-health-and-employment-information/medicaidCoverage';
 
-const { schema, uiSchema } = medicalCondition;
+const { schema, uiSchema } = medicaidCoverage;
 
-describe('pension medical condition page', () => {
-  const pageTitle = 'medical condition information';
+describe('medicaid coverage pension page', () => {
+  const pageTitle = 'medicaid coverage';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
@@ -18,7 +18,7 @@ describe('pension medical condition page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

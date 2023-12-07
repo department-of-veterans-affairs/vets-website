@@ -3,13 +3,13 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import socialSecurityDisability from '../../../config/chapters/health-and-employment-information/socialSecurityDisability';
+import mailingAddress from '../../../config/chapters/01-applicant-information/mailingAddress';
 
-const { schema, uiSchema } = socialSecurityDisability;
+const { schema, uiSchema } = mailingAddress;
 
-describe('pension social security disability page', () => {
-  const pageTitle = 'health history';
-  const expectedNumberOfFields = 1;
+describe('pension mailing address page', () => {
+  const pageTitle = 'mailing address';
+  const expectedNumberOfFields = 7;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('pension social security disability page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 4;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

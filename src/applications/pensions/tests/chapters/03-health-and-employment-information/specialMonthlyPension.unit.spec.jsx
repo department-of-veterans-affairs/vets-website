@@ -3,12 +3,12 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import medicaidStatus from '../../../config/chapters/health-and-employment-information/medicaidStatus';
+import specialMonthlyPension from '../../../config/chapters/03-health-and-employment-information/specialMonthlyPension';
 
-const { schema, uiSchema } = medicaidStatus;
+const { schema, uiSchema } = specialMonthlyPension;
 
-describe('medicaid status pension page', () => {
-  const pageTitle = 'medicaid status';
+describe('pension special monthly pension page', () => {
+  const pageTitle = 'special monthly pension';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
@@ -18,7 +18,7 @@ describe('medicaid status pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 0;
+  const expectedNumberOfErrors = 1;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

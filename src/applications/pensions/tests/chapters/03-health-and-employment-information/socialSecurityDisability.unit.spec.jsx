@@ -3,12 +3,12 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import age from '../../../config/chapters/health-and-employment-information/age';
+import socialSecurityDisability from '../../../config/chapters/03-health-and-employment-information/socialSecurityDisability';
 
-const { schema, uiSchema } = age;
+const { schema, uiSchema } = socialSecurityDisability;
 
-describe('pension age page', () => {
-  const pageTitle = 'Age';
+describe('pension social security disability page', () => {
+  const pageTitle = 'health history';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

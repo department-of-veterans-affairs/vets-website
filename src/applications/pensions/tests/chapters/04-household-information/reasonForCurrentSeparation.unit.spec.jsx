@@ -3,7 +3,7 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import reasonForCurrentSeparation from '../../../config/chapters/household-information/reasonForCurrentSeparation';
+import reasonForCurrentSeparation from '../../../config/chapters/04-household-information/reasonForCurrentSeparation';
 
 describe('reason for current separation page', () => {
   it('should render web components in form correctly', () => {

@@ -18,7 +18,7 @@ import formConfig from '../../../config/form';
 import applicantInformation, {
   isOver65,
   setDefaultIsOver65,
-} from '../../../config/chapters/applicant-information/applicantInformation';
+} from '../../../config/chapters/01-applicant-information/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 
