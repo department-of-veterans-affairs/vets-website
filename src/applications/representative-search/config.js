@@ -42,12 +42,14 @@ export const individualSortOptions = {
 export const useStagingDataLocally = false;
 
 const railsEngineApi = {
-  baseUrl: useStagingDataLocally
-    ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
-    : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
-  url: useStagingDataLocally
-    ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
-    : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
+  baseUrl:
+    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
+  url:
+    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
 
