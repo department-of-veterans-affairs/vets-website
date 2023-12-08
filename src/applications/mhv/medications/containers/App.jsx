@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
 const App = ({ children }) => {
+  const user = useSelector(selectUser);
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -47,7 +51,14 @@ const App = ({ children }) => {
     return <></>;
   }
 
-  return children;
+  return (
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.USER_PROFILE]}
+    >
+      {children}
+    </RequiredLoginView>
+  );
 };
 
 App.propTypes = {

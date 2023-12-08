@@ -5,11 +5,8 @@ import {
   gatherDCsNotMetQuestions,
   gatherQuestionsToReset,
   gatherWrongFlowQuestions,
-} from './src/applications/pact-act/utilities/answer-cleanup';
-import {
-  RESPONSES,
-  SHORT_NAME_MAP,
-} from './src/applications/pact-act/constants/question-data-map';
+} from '../../utilities/answer-cleanup';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 const {
   BURN_PIT_2_1,
