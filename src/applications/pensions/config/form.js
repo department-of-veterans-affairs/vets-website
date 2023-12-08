@@ -225,6 +225,15 @@ function createSpouseLabelSelector(nameTemplate) {
   );
 }
 
+function createFullNameReviewTitle(label) {
+  return item => {
+    const veteranFullName = item.formData
+      ? item.formData.veteranFullName
+      : item.veteranFullName;
+    return `${veteranFullName.first} ${veteranFullName.last} ${label}`;
+  };
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -1147,10 +1156,7 @@ const formConfig = {
       pages: {
         netWorth: {
           path: 'financial-disclosure/net-worth',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } net worth`,
+          title: createFullNameReviewTitle('net worth'),
           schema: {
             type: 'object',
             required: ['netWorth'],
@@ -1169,10 +1175,7 @@ const formConfig = {
         },
         monthlyIncome: {
           path: 'financial-disclosure/monthly-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } monthly income`,
+          title: createFullNameReviewTitle('monthly income'),
           initialData: {},
           schema: {
             type: 'object',
@@ -1193,10 +1196,7 @@ const formConfig = {
         },
         expectedIncome: {
           path: 'financial-disclosure/expected-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expected income`,
+          title: createFullNameReviewTitle('expected income'),
           initialData: {},
           schema: {
             type: 'object',
@@ -1216,10 +1216,7 @@ const formConfig = {
         },
         otherExpenses: {
           path: 'financial-disclosure/other-expenses',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expenses`,
+          title: createFullNameReviewTitle('expenses'),
           schema: {
             type: 'object',
             required: ['view:hasOtherExpenses'],
