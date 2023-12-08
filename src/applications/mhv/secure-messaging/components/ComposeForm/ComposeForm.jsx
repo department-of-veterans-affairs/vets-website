@@ -60,6 +60,7 @@ const ComposeForm = props => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+  const [savedDraft, setSavedDraft] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -258,7 +259,8 @@ const ComposeForm = props => {
         setLastFocusableElement(e.target);
         await setMessageInvalid(false);
         if (checkMessageValidity() === true) {
-          setNavigationError(null);
+          setUnsavedNavigationError(null);
+          setSavedDraft(true);
         } else
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
@@ -342,28 +344,36 @@ const ComposeForm = props => {
         category === null &&
         attachments.length === 0;
 
-      const editPopulatedForm =
-        messageBody !== draft?.messageBody ||
-        selectedRecipient !== draft?.recipientId ||
-        category !== draft?.category ||
-        subject !== draft?.subject;
+      const savedEdits =
+        messageBody === draft?.body &&
+        Number(selectedRecipient) === draft?.recipientId &&
+        category === draft?.category &&
+        subject === draft?.subject;
 
-      if (blankForm) {
+      const editPopulatedForm =
+        (messageBody !== draft?.body ||
+          selectedRecipient !== draft?.recipientId ||
+          category !== draft?.category ||
+          subject !== draft?.subject) &&
+        !blankForm &&
+        !savedEdits;
+
+      if (editPopulatedForm === false) {
+        setSavedDraft(false);
+      }
+
+      const unsavedDraft = editPopulatedForm && !deleteButtonClicked;
+
+      if (blankForm || savedDraft) {
         setUnsavedNavigationError(null);
       } else {
-        if (
-          (editPopulatedForm && !deleteButtonClicked) ||
-          (editPopulatedForm && formPopulated && !deleteButtonClicked)
-        ) {
+        if (unsavedDraft) {
+          setSavedDraft(false);
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
           );
         }
-        if (
-          editPopulatedForm &&
-          !deleteButtonClicked &&
-          attachments.length > 0
-        ) {
+        if (unsavedDraft && attachments.length > 0) {
           setUnsavedNavigationError(
             ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
           );
@@ -374,7 +384,12 @@ const ComposeForm = props => {
     [
       attachments,
       category,
+      checkMessageValidity,
       deleteButtonClicked,
+      draft?.category,
+      draft?.messageBody,
+      draft?.recipientId,
+      draft?.subject,
       formPopulated,
       messageBody,
       selectedRecipient,
