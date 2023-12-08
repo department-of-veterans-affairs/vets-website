@@ -220,7 +220,7 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
     right: 16,
   };
 
-  const header = doc.struct('Sect', {
+  const header = doc.struct('Div', {
     type: 'Pagination',
     title: 'Header',
     attached: 'Top',
