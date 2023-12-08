@@ -10,12 +10,6 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.clickVitalsDetailsLink(0);
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

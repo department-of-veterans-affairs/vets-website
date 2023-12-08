@@ -10,12 +10,6 @@ describe('Medical Records View Notes', () => {
     NotesListPage.clickNotesDetailsLink(0);
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });
