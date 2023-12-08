@@ -261,48 +261,41 @@ const medsIntro = avs => {
   );
 };
 
+// FIXME: object children test error.
 const renderMedication = medication => {
   return (
-    <p>
-      {medication.name}
-      <br />
-      {medication.sig}
-      {medication.description && (
-        <>
-          <br />
-          Description: {medication.description}
-        </>
-      )}
-      <br />
-      Rx #: {medication.rxNumber}
-      <br />
-      Notes: {medication.comment}
-      <br />
-      <br />
-      Facility: {medication.stationName}
-      <br />
-      Main phone:{' '}
-      {medication.facilityPhone && (
-        <>
-          [
-          <va-telephone contact={medication.facilityPhone.replace(/\D/g, '')} />
-          ] (<va-telephone contact={CONTACTS['711']} tty />)
-        </>
-      )}
-      <br />
-      Ordering Provider: {medication.orderingProvider}
-      <br />
-      <br />
-      Status: {medication.status}
-      <br />
-      Quantity: {medication.quantity}
-      <br />
-      Refills remaining: {medication.refillsRemaining}
-      <br />
-      Expires: {medication.dateExpires}
-      <br />
-      Last filled: {medication.dateLastFilled}
-    </p>
+    <>
+      <p>
+        {medication.name}
+        <br />
+        {medication.sig}
+        {medication.description && <br />}
+        {medication.description && `Description: ${medication.description}`}
+        <br />
+        Rx #: {medication.rxNumber}
+        <br />
+        Notes: {medication.comment}
+        <br />
+        <br />
+        Facility: {medication.stationName}
+        <br />
+        Main phone: [{' '}
+        <va-telephone contact={medication.facilityPhone.replace(/\D/g, '')} /> ]
+        (<va-telephone contact={CONTACTS['711']} tty />)<br />
+        Ordering Provider: {medication.orderingProvider}
+        <br />
+        <br />
+        Status: {medication.status}
+        <br />
+        Quantity: {medication.quantity}
+        <br />
+        Refills remaining: {medication.refillsRemaining}
+        <br />
+        Expires: {medication.dateExpires}
+        <br />
+        Last filled: {medication.dateLastFilled}
+      </p>
+    </>
   );
 };
 
