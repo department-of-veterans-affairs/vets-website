@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import maritalStatus from '../../pages/maritalStatus';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import maritalStatus from '../../../config/chapters/04-household-information/maritalStatus';
 
 describe('marital status page', () => {
   it('should render web components in form correctly', () => {

@@ -1,9 +1,9 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import reasonForCurrentSeparation from '../../pages/reasonForCurrentSeparation';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import reasonForCurrentSeparation from '../../../config/chapters/04-household-information/reasonForCurrentSeparation';
 
 describe('reason for current separation page', () => {
   it('should render web components in form correctly', () => {

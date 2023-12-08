@@ -8,11 +8,11 @@ import {
   serviceNumberSchema,
   serviceNumberUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import ServicePeriodView from '../components/ServicePeriodView';
+import ServicePeriodView from '../../../components/ServicePeriodView';
 
 const { dateRange } = fullSchemaPensions.definitions;
-import { wartimeWarning, servedDuringWartime } from '../helpers';
-import { validateServiceBirthDates } from '../validation';
+import { wartimeWarning, servedDuringWartime } from '../../../helpers';
+import { validateServiceBirthDates } from '../../../validation';
 
 /** @type {PageSchema} */
 export default {

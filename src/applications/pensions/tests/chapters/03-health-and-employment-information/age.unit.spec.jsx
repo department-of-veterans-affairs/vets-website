@@ -1,15 +1,15 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import mailingAddress from '../../pages/mailingAddress';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import age from '../../../config/chapters/03-health-and-employment-information/age';
 
-const { schema, uiSchema } = mailingAddress;
+const { schema, uiSchema } = age;
 
-describe('pension mailing address page', () => {
-  const pageTitle = 'mailing address';
-  const expectedNumberOfFields = 7;
+describe('pension age page', () => {
+  const pageTitle = 'Age';
+  const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +18,7 @@ describe('pension mailing address page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 4;
+  const expectedNumberOfErrors = 1;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

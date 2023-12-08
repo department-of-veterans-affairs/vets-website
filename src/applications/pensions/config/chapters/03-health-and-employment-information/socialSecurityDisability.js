@@ -2,29 +2,29 @@ import {
   yesNoSchema,
   yesNoUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { MedicalEvidenceAlert } from '../components/FormAlerts';
+import { MedicalEvidenceAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medical condition',
-    medicalCondition: yesNoUI({
-      title: 'Do you have a medical condition that prevents you from working?',
+    'ui:title': 'Social Security disability',
+    socialSecurityDisability: yesNoUI({
+      title: 'Do you currently receive Social Security disability payments?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {
       'ui:description': MedicalEvidenceAlert,
       'ui:options': {
-        hideIf: formData => formData.medicalCondition !== true,
+        hideIf: formData => formData.socialSecurityDisability !== false,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['medicalCondition'],
+    required: ['socialSecurityDisability'],
     properties: {
-      medicalCondition: yesNoSchema,
+      socialSecurityDisability: yesNoSchema,
       'view:warningAlert': {
         type: 'object',
         properties: {},

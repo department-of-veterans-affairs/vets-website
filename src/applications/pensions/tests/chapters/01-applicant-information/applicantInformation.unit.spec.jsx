@@ -12,13 +12,13 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import getData from '../fixtures/mocks/mockStore';
+import getData from '../../fixtures/mocks/mockStore';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 import applicantInformation, {
   isOver65,
   setDefaultIsOver65,
-} from '../../pages/applicantInformation';
+} from '../../../config/chapters/01-applicant-information/applicantInformation';
 
 const definitions = formConfig.defaultDefinitions;
 

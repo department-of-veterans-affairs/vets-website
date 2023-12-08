@@ -1,14 +1,14 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import nursingHome from '../../pages/nursingHome';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import medicaidCoverage from '../../../config/chapters/03-health-and-employment-information/medicaidCoverage';
 
-const { schema, uiSchema } = nursingHome;
+const { schema, uiSchema } = medicaidCoverage;
 
-describe('pension nursing home page', () => {
-  const pageTitle = 'nursing home information';
+describe('medicaid coverage pension page', () => {
+  const pageTitle = 'medicaid coverage';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
@@ -18,7 +18,7 @@ describe('pension nursing home page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,

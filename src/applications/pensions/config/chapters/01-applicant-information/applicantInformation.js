@@ -13,7 +13,7 @@ import {
   yesNoSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
-import UnauthenticatedWarningAlert from '../containers/UnauthenticatedWarningAlert';
+import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
 
 export function isOver65(formData, currentDate) {
   const today = currentDate || moment();
