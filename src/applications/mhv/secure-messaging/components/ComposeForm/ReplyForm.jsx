@@ -377,9 +377,11 @@ const ReplyForm = props => {
       if (messageBody !== (draft ? draft.body : '') || attachments.length) {
         e.preventDefault();
         window.onbeforeunload = () => signOutMessage;
+        e.returnValue = true;
       } else {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
         window.onbeforeunload = null;
+        e.returnValue = false;
         noTimeout();
       }
     },
