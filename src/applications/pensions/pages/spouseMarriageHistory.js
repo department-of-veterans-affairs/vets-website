@@ -13,7 +13,10 @@ import { contactWarning, contactWarningMulti } from '../helpers';
 import SpouseMarriageView from '../components/SpouseMarriageView';
 import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 
-import { validateAfterMarriageDate } from '../validation';
+import {
+  validateAfterMarriageDates,
+  validateUniqueMarriageDates,
+} from '../validation';
 
 const { marriages } = fullSchemaPensions.definitions;
 
@@ -58,7 +61,6 @@ export default {
         otherExplanation: {
           'ui:title': 'Please specify',
           'ui:options': {
-            hideLabelText: true,
             expandUnder: 'reasonForSeparation',
             expandUnderCondition: 'Other',
           },
@@ -66,10 +68,13 @@ export default {
             get(['spouseMarriages', index, 'reasonForSeparation'], form) ===
             'Other',
         },
-        dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+        dateOfMarriage: {
+          ...currentOrPastDateUI('Date of marriage'),
+          'ui:validations': [validateUniqueMarriageDates],
+        },
         dateOfSeparation: {
           ...currentOrPastDateUI('Date marriage ended'),
-          'ui:validations': [validateAfterMarriageDate],
+          'ui:validations': [validateAfterMarriageDates],
         },
         locationOfMarriage: {
           'ui:title': 'Place of marriage (city and state or foreign country)',
