@@ -1,6 +1,7 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { inlineTitleUI } from '../../../components/FormPatterns/TitlePatterns';
 import { validateCurrency } from '../../../utils/validation';
 import {
   EducationalExpensesDescription,
@@ -49,8 +50,10 @@ export default {
       },
     },
     'view:deductibleFuneralExpenses': {
-      'ui:title': content['household-expenses-funeral-title'],
-      'ui:description': content['household-expenses-funeral-description'],
+      ...inlineTitleUI(
+        content['household-expenses-funeral-title'],
+        content['household-expenses-funeral-description'],
+      ),
       deductibleFuneralExpenses: {
         ...currencyUI(
           replaceStrValues(
