@@ -1060,9 +1060,12 @@ const formConfig = {
                   properties: {
                     childInHousehold:
                       dependents.items.properties.childInHousehold,
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childAddress: merge(
+                      {},
+                      addressSchema({
+                        omit: ['street3', 'isMilitary'],
+                      }),
+                    ),
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -1079,20 +1082,26 @@ const formConfig = {
                   'ui:title': 'Does your child live with you?',
                   'ui:widget': 'yesNo',
                 },
-                childAddress: merge(
-                  {},
-                  addressUI({
+                childAddress: {
+                  ...addressUI({
                     omit: ['street3', 'isMilitary'],
-                    required: (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
-                  }),
-                  {
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
+                    required: {
+                      country: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      street: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      city: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      postalCode: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
                     },
+                  }),
+                  'ui:options': {
+                    test: 'bar',
+                    expandUnder: 'childInHousehold',
+                    expandUnderCondition: false,
                   },
-                ),
+                },
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
                   'ui:options': {
