@@ -30,13 +30,18 @@ export function flagCurrentPageInTopLevelLinks(
     ? pathName.slice(0, -1)
     : pathName;
   return links.map(link => {
-    const noTrailingSlashHref = link.href.endsWith('/')
-      ? link.href.slice(0, -1)
-      : link.href;
-    return noTrailingSlashPathName.endsWith(noTrailingSlashHref) ||
-      href.includes(link.href)
-      ? { ...link, currentPage: true }
-      : link;
+    let processedLink = link;
+    if (link.href !== undefined) {
+      const noTrailingSlashHref = link.href.endsWith('/')
+        ? link.href.slice(0, -1)
+        : link.href;
+      processedLink =
+        noTrailingSlashPathName.endsWith(noTrailingSlashHref) ||
+        href.includes(link.href)
+          ? { ...link, currentPage: true }
+          : link;
+    }
+    return processedLink;
   });
 }
 
@@ -52,29 +57,6 @@ export function getAuthorizedLinkData(
 }
 
 export class Main extends Component {
-  static propTypes = {
-    megaMenuData: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-      }).isRequired,
-    ),
-    toggleMobileDisplayHidden: PropTypes.func.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    updateCurrentSection: PropTypes.func.isRequired,
-    currentDropdown: PropTypes.string,
-    currentSection: PropTypes.string,
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    ).isRequired,
-    display: PropTypes.object,
-    loggedIn: PropTypes.bool.isRequired,
-  };
-
   toggleDropDown = currentDropdown => {
     const isVisible = !!currentDropdown;
     if (isVisible) {
@@ -178,6 +160,29 @@ export class Main extends Component {
     return <MegaMenu {...childProps} />;
   }
 }
+
+Main.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+      title: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  toggleMobileDisplayHidden: PropTypes.func.isRequired,
+  togglePanelOpen: PropTypes.func.isRequired,
+  updateCurrentSection: PropTypes.func.isRequired,
+  currentDropdown: PropTypes.string,
+  currentSection: PropTypes.string,
+  display: PropTypes.object,
+  megaMenuData: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    }).isRequired,
+  ),
+};
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
