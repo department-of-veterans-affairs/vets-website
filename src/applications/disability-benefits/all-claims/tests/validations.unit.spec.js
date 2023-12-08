@@ -27,6 +27,7 @@ import {
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
+import revisedFormWrapper from '../content/revisedFormWrapper';
 import { capitalizeEachWord } from '../utils';
 
 const formatDate = date => format(date, 'yyyy-MM-dd');
@@ -381,6 +382,15 @@ describe('526 All Claims validations', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(err, getDisabilityLabels()[7100]);
       expect(err.addError.called).to.be.false;
+    });
+    it('should not add error when disability is in staging list', () => {
+      const err = { addError: sinon.spy() };
+      const stub = sinon
+        .stub(revisedFormWrapper, 'isRevisedForm')
+        .callsFake(() => true);
+      validateDisabilityName(err, getDisabilityLabels()[528]);
+      expect(err.addError.called).to.be.false;
+      stub.reset();
     });
     it('should not add error when disability is in list but capitalization is different', () => {
       const err = { addError: sinon.spy() };
