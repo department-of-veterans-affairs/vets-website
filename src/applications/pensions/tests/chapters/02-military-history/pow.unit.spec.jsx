@@ -11,14 +11,14 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import getData from '../fixtures/mocks/mockStore';
+import getData from '../../fixtures/mocks/mockStore';
 
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import pow from '../../pages/pow';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import pow from '../../../config/chapters/02-military-history/pow';
 
 const definitions = formConfig.defaultDefinitions;
 
