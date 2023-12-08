@@ -25,12 +25,19 @@ export function flagCurrentPageInTopLevelLinks(
   href = window.location.href,
   pathName = window.location.pathname,
 ) {
-  return links.map(
-    link =>
-      pathName.endsWith(link.href) || href.includes(link.href)
-        ? { ...link, currentPage: true }
-        : link,
-  );
+  // Removing the trailing slash allows for a page's URL to have it or not.
+  const noTrailingSlashPathName = pathName.endsWith('/')
+    ? pathName.slice(0, -1)
+    : pathName;
+  return links.map(link => {
+    const noTrailingSlashHref = link.href.endsWith('/')
+      ? link.href.slice(0, -1)
+      : link.href;
+    return noTrailingSlashPathName.endsWith(noTrailingSlashHref) ||
+      href.includes(link.href)
+      ? { ...link, currentPage: true }
+      : link;
+  });
 }
 
 export function getAuthorizedLinkData(

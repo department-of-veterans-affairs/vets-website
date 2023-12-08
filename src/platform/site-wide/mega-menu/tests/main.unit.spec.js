@@ -9,26 +9,85 @@ describe('mega-menu', () => {
   describe('Main.jsx', () => {
     describe('flagCurrentPageIntopLevelLinks', () => {
       it('should return object with currentPage: true when path name matches href', () => {
-        const pathName = '/test';
-        const links = [
+        // Test using pathName
+        let links = [
           {
             href: '/test',
           },
           {
+            href: '/test/',
+          },
+          {
+            href: '/test/otherpage',
+          },
+          {
             href: 'not',
           },
+          {
+            href: 'not/',
+          },
         ];
-        const expectedResult = [
+        let expectedResult = [
           {
             href: '/test',
             currentPage: true,
           },
           {
+            href: '/test/',
+            currentPage: true,
+          },
+          {
+            href: '/test/otherpage',
+          },
+          {
             href: 'not',
           },
+          {
+            href: 'not/',
+          },
         ];
-        const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
+        let actualResult = flagCurrentPageInTopLevelLinks(
+          links,
+          undefined,
+          '/test',
+        );
+        expect(actualResult).to.eql(expectedResult);
+        actualResult = flagCurrentPageInTopLevelLinks(
+          links,
+          undefined,
+          '/test/',
+        );
+        expect(actualResult).to.eql(expectedResult);
 
+        // Test using href
+        links = [
+          {
+            href: '/test',
+          },
+          {
+            href: '/test/',
+          },
+          {
+            href: '/test/otherpage',
+          },
+        ];
+        expectedResult = [
+          {
+            href: '/test',
+            currentPage: true,
+          },
+          {
+            href: '/test/',
+            currentPage: true,
+          },
+          {
+            href: '/test/otherpage',
+          },
+        ];
+        actualResult = flagCurrentPageInTopLevelLinks(
+          links,
+          'http://example.com/test/somethingelse',
+        );
         expect(actualResult).to.eql(expectedResult);
       });
     });
