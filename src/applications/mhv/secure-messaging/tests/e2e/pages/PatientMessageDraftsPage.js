@@ -7,6 +7,8 @@ import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.js
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
+import mockMessages from '../fixtures/messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -161,6 +163,41 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
+  loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/2666253/thread',
+      mockResponse,
+    ).as('multiDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[0].attributes.messageId
+      }`,
+      { data: mockResponse.data[0] },
+    ).as('firstDraft');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[1].attributes.messageId
+      }`,
+      { data: mockResponse.data[1] },
+    ).as('secondDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[2].attributes.messageId
+      }`,
+      { data: mockResponse.data[2] },
+    ).as('firstSentMessage');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+  };
+
   clickDeleteButton = () => {
     cy.get('[data-testid="delete-draft-button"]').should('be.visible');
     cy.get('[data-testid="delete-draft-button"]').click({
@@ -177,7 +214,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  replyDraftMessage = (mockResponse, messageId) => {
+  sendMultiDraftMessage = (mockResponse, messageId) => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
       data: mockResponse,
     }).as('sentDraftResponse');
@@ -185,7 +222,6 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  // nex two methods should be united/refactored
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',

@@ -67,7 +67,7 @@ describe.skip('handle multiple drafts in one thread', () => {
       },
     });
 
-    draftPage.replyDraftMessage(
+    draftPage.sendMultiDraftMessage(
       mockMultiDraftsResponse.data[0],
       mockMultiDraftsResponse.data[0].attributes.messageId,
     );
