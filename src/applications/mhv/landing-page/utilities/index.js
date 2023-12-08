@@ -1,6 +1,6 @@
 import React from 'react';
 
-// This function recursively extracts text from a React element's children.
+// For use when the dot notification is added to a link. This function recursively extracts text from a React element's children.
 
 const getTextFromReactElement = element => {
   if (typeof element === 'string') {
