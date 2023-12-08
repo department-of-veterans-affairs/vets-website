@@ -60,7 +60,7 @@ describe('Medications PDF template', () => {
       // There should be one and only one root element.
       expect(structure.children.length).to.equal(1);
       expect(rootElement.role).to.equal('Document');
-      expect(rootElement.children.length).to.equal(4);
+      expect(rootElement.children.length).to.equal(3);
       expect(rootElement.children[1].children[0].role).to.equal('H1');
     });
   });
