@@ -1,14 +1,14 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
-} from './pageTests.spec';
-import formConfig from '../../config/form';
-import socialSecurityDisability from '../../pages/socialSecurityDisability';
+} from '../pageTests.spec';
+import formConfig from '../../../config/form';
+import specialMonthlyPension from '../../../config/chapters/03-health-and-employment-information/specialMonthlyPension';
 
-const { schema, uiSchema } = socialSecurityDisability;
+const { schema, uiSchema } = specialMonthlyPension;
 
-describe('pension social security disability page', () => {
-  const pageTitle = 'health history';
+describe('pension special monthly pension page', () => {
+  const pageTitle = 'special monthly pension';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,

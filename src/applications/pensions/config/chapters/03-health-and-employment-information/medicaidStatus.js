@@ -2,7 +2,7 @@ import {
   yesNoSchema,
   yesNoUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { RequestNursingHomeInformationAlert } from '../components/FormAlerts';
+import { RequestNursingHomeInformationAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
