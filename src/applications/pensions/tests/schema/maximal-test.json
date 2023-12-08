@@ -311,6 +311,7 @@
       }
     ],
     "totalNetWorth": true,
+    "transferredAssets": true,
     "homeOwnership": true,
     "bankAccount": {
       "accountType": "checking",
