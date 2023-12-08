@@ -32,10 +32,9 @@ describe('fetch contestable issues action', () => {
 
   it('should dispatch an add person failed action', () => {
     const mockData = { data: 'asdf' };
-    const props = { benefitType: 'compensation' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getContestableIssues(props)(dispatch).then(() => {
+    return getContestableIssues()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,
       );

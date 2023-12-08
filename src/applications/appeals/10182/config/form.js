@@ -198,7 +198,7 @@ const formConfig = {
           schema: boardReview.schema,
         },
         evidenceIntro: {
-          title: 'Evidence submission',
+          title: 'Additional evidence',
           path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,

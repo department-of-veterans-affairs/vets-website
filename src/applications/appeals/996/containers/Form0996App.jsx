@@ -40,7 +40,7 @@ export const Form0996App = ({
   router,
   savedForms,
   getContestableIssues,
-  contestableIssues = {},
+  contestableIssues,
   legacyCount,
 }) => {
   // Make sure we're only loading issues once - see
@@ -195,7 +195,7 @@ Form0996App.propTypes = {
 const mapStateToProps = state => ({
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
-  profile: selectProfile(state) || {},
+  profile: selectProfile(state),
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,

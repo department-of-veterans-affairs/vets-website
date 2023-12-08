@@ -91,4 +91,26 @@ describe('Confirmation page', () => {
     expect(tree.find('li .dd-privacy-hidden').length).to.eq(1);
     tree.unmount();
   });
+
+  it('should render with no data', () => {
+    const fakeStore2 = {
+      getState: () => ({
+        ...data,
+        user: {
+          profile: {},
+        },
+        form: {
+          formId: formConfig.formId,
+          submission: {
+            response: Date.now(),
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const tree = mount(<ConfirmationPage store={fakeStore2} />);
+    expect(tree.text()).to.contain('Your request has been submitted');
+    tree.unmount();
+  });
 });
