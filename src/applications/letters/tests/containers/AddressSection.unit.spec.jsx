@@ -1,15 +1,20 @@
 import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
-import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import sinon from 'sinon';
 
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
-import { AddressSection } from '../../containers/AddressSection';
 
-const mailingAddress = {
+import { AddressSection } from '../../containers/AddressSection';
+import * as VAProfileWrapper from '../../containers/VAProfileWrapper';
+
+// Stubbing out VAProfileWrapper because we're not interested
+// in setting up all of the redux state needed to test it
+const stub = sinon.stub(VAProfileWrapper, 'default');
+stub.returns(<div />);
+
+const address = {
   type: ADDRESS_TYPES_ALTERNATE.domestic,
   addressOne: '2476 Main Street',
   addressTwo: '',
@@ -19,31 +24,6 @@ const mailingAddress = {
   stateCode: 'VA',
   zipCode: '12345',
 };
-
-const store = createStore(
-  () => ({
-    user: {
-      profile: {
-        vapContactInfo: {
-          mailingAddress,
-        },
-      },
-    },
-    vapService: {
-      addressValidation: {
-        addressValidationType: '',
-      },
-      fieldTransactionMap: {},
-      formFields: {
-        mailingAddress: {},
-      },
-      hasUnsavedEdits: false,
-      transactions: [],
-    },
-  }),
-  {},
-  applyMiddleware(thunk),
-);
 
 const emptyAddress = {
   addressOne: '',
@@ -59,9 +39,7 @@ describe('<AddressSection>', () => {
   it('should enable the View Letters button with default props', () => {
     const screen = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
-        <Provider store={store}>
-          <AddressSection address={mailingAddress} />
-        </Provider>
+        <AddressSection address={address} />
       </MemoryRouter>,
     );
 
@@ -71,9 +49,7 @@ describe('<AddressSection>', () => {
   it('should render an empty address warning on the view screen and disable the View Letters button', () => {
     const screen = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
-        <Provider store={store}>
-          <AddressSection address={emptyAddress} />
-        </Provider>
+        <AddressSection address={emptyAddress} />
       </MemoryRouter>,
     );
 
