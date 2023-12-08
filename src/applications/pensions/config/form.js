@@ -84,7 +84,6 @@ import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
 
-
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
