@@ -60,21 +60,6 @@ describe('<ClaimsListItemV3>', () => {
     expect(screen.getByText('We sent you a development letter')).to.exist;
   });
 
-  it('should show development letter flag', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: false,
-        developmentLetterSent: true,
-        documentsNeeded: false,
-        status: 'INITIAL_REVIEW',
-      },
-    };
-
-    const screen = render(<ClaimsListItemV3 claim={claim} />);
-    expect(screen.getByText('We sent you a development letter')).to.exist;
-  });
-
   it('should show decision letter flag', () => {
     const claim = {
       id: 1,
