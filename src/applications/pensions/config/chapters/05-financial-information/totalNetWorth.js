@@ -19,7 +19,6 @@ export default {
     totalNetWorth: yesNoUI({
       title: 'Do you and your dependents have over $25,000 in assets?',
       uswds: true,
-      classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlertOnYes': {
       'ui:description': RequestIncomeAndAssetInformationAlert,
