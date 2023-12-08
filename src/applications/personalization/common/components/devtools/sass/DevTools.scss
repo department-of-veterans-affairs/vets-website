@@ -8,13 +8,10 @@
   pointer-events: none;
   left: 1vw;
   top: 1vw;
-  overflow: scroll
+  overflow: scroll;
+  max-height: 75vh;
 }
 
-.devtools-container pre {
-  max-height: 75vh;
-  overflow: scroll;
-}
 
 .devtools-panel--hidden {
   opacity: 0;
@@ -39,7 +36,7 @@
 .devtools-show-icon .devtools-container .devtools-show-button {
   position: absolute;
   right: -1rem;
-  bottom: -1rem;
+  bottom: -3rem;
   font-size: 1rem;
   color: rgb(186, 190, 216) !important;
   cursor: pointer;

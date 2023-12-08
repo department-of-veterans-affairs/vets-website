@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { nanoid } from 'nanoid';
 import ChildrenDetails from './ChildrenDetails';
 
-const getUuid = () => {
+const getUuid = nanoidImp => {
   try {
-    return nanoid();
+    return nanoidImp();
   } catch (e) {
     return (
       Date.now().toString(36) +
@@ -38,7 +38,7 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
   return (
     <>
       {panel ? (
-        <div className={classes}>
+        <div className={classes} data-testid="devtools-panel">
           <div className="devtools-panel__content">
             <button
               type="button"
@@ -112,13 +112,18 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
   );
 };
 
-export const DevToolsLoader = ({ devToolsData, panel, children }) => {
+export const DevToolsLoader = ({
+  devToolsData,
+  panel,
+  children,
+  nanoidImp = nanoid,
+}) => {
   const [show, setShow] = useState(false);
 
-  const uuid = useRef(getUuid());
+  const uuid = useRef(getUuid(nanoidImp));
 
-  document.addEventListener('devToolsPanelUpdate', event => {
-    if (event.detail.uuid === uuid) {
+  const updatePanel = useCallback(event => {
+    if (event.detail.uuid === uuid.current) {
       setShow(true);
       return;
     }
@@ -127,18 +132,30 @@ export const DevToolsLoader = ({ devToolsData, panel, children }) => {
       setShow(false);
       return;
     }
+
     setShow(false);
-  });
+  }, []);
 
   const handlers = {
     togglePanel: () => {
       document.dispatchEvent(
         new CustomEvent('devToolsPanelUpdate', {
-          detail: { devToolsData, uuid },
+          detail: { devToolsData, uuid: uuid.current },
         }),
       );
     },
   };
+
+  useEffect(
+    () => {
+      document.addEventListener('devToolsPanelUpdate', updatePanel);
+
+      return () => {
+        document.removeEventListener('devToolsPanelUpdate', updatePanel);
+      };
+    },
+    [updatePanel],
+  );
 
   return (
     <div className="devtools-container">

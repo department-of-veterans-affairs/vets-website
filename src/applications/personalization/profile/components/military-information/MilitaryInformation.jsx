@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { ExampleForDevTools } from '~/applications/personalization/common/components/devtools/ExampleForDevtools';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
 import DowntimeNotification, {
@@ -210,7 +209,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
-        <DevTools devToolsData={{ veteranStatus, militaryInformation }} panel />
       </DowntimeNotification>
 
       <va-featured-content>
@@ -224,17 +222,12 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         </div>
       </va-featured-content>
 
-      <DevTools alwaysShowChildren={false}>
-        <ExampleForDevTools
-          data={{
-            exampleBool: true,
-            exampleStr: 'hey there',
-            exampleArr: [1, 2, 3],
-            exampleObj: { something: 'cool' },
-          }}
-          extraProp="bork bork bork"
-        />
-        <p>Just a paragraph</p>
+      <DevTools
+        alwaysShowChildren={false}
+        devToolsData={{ militaryInformation, veteranStatus }}
+        panel
+      >
+        <p>Profile devtools test, please ignore.</p>
       </DevTools>
     </div>
   );
