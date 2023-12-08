@@ -26,6 +26,7 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
+  dependentSeriouslyDisabledDescription,
   directDepositWarning,
   isMarried,
   uploadMessage,
@@ -61,6 +62,7 @@ import contactInformation from '../pages/contactInformation';
 import servicePeriods from '../pages/servicePeriods';
 import generalHistory from '../pages/generalHistory';
 import pow from '../pages/pow';
+import age from '../pages/age';
 import socialSecurityDisability from '../pages/socialSecurityDisability';
 import medicaidCoverage from '../pages/medicaidCoverage';
 import medicaidStatus from '../pages/medicaidStatus';
@@ -74,6 +76,8 @@ import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
 import maritalStatus from '../pages/maritalStatus';
 import currentSpouse from '../pages/currentSpouse';
+import currentSpouseMonthlySupport from '../pages/currentSpouseMonthlySupport';
+import currentSpouseMaritalHistory from '../pages/currentSpouseMaritalHistory';
 import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from '../pages/reasonForCurrentSeparation';
 
@@ -150,11 +154,14 @@ const previousEmployers = generateEmployersSchemas(
   true,
 );
 
-function isUnder65(formData) {
-  return moment()
-    .startOf('day')
-    .subtract(65, 'years')
-    .isBefore(formData.veteranDateOfBirth);
+export function isUnder65(formData, currentDate) {
+  const today = currentDate || moment();
+  return (
+    today
+      .startOf('day')
+      .subtract(65, 'years')
+      .isBefore(formData.veteranDateOfBirth) || !formData.isOver65
+  );
 }
 
 function isBetween18And23(childDOB) {
@@ -274,6 +281,7 @@ const formConfig = {
           title: 'Applicant information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+          updateFormData: applicantInformation.updateFormData,
         },
         mailingAddress: {
           title: 'Mailing address',
@@ -315,10 +323,15 @@ const formConfig = {
     healthAndEmploymentInformation: {
       title: 'Health and employment information',
       pages: {
+        age: {
+          title: 'Age',
+          path: 'medical/history/age',
+          uiSchema: age.uiSchema,
+          schema: age.schema,
+        },
         socialSecurityDisability: {
           title: 'Social Security disability',
           path: 'medical/history/social-security-disability',
-          depends: isUnder65,
           uiSchema: socialSecurityDisability.uiSchema,
           schema: socialSecurityDisability.schema,
         },
@@ -402,7 +415,7 @@ const formConfig = {
           title: 'Current employment',
           path: 'employment/current/history',
           depends: formData => {
-            return formData.currentEmployment !== false;
+            return formData.currentEmployment !== false && isUnder65(formData);
           },
           uiSchema: currentEmployers.uiSchema,
           schema: currentEmployers.schema,
@@ -411,7 +424,7 @@ const formConfig = {
           title: 'Previous employment',
           path: 'employment/previous/history',
           depends: formData => {
-            return formData.currentEmployment !== true;
+            return formData.currentEmployment !== true && isUnder65(formData);
           },
           uiSchema: previousEmployers.uiSchema,
           schema: previousEmployers.schema,
@@ -441,6 +454,13 @@ const formConfig = {
           uiSchema: dateOfCurrentMarriage.uiSchema,
           schema: dateOfCurrentMarriage.schema,
         },
+        currentSpouseMonthlySupport: {
+          title: 'Financial support for you spouse',
+          path: 'household/marital-status/spouse-monthly-support',
+          depends: isMarried,
+          uiSchema: currentSpouseMonthlySupport.uiSchema,
+          schema: currentSpouseMonthlySupport.schema,
+        },
         reasonForCurrentSeparation: {
           title: 'Reason for separation',
           path: 'household/marital-status/reason-for-separation',
@@ -449,6 +469,13 @@ const formConfig = {
           },
           uiSchema: reasonForCurrentSeparation.uiSchema,
           schema: reasonForCurrentSeparation.schema,
+        },
+        currentSpouseMaritalHistory: {
+          title: 'Current spouse marital history',
+          path: 'household/marital-status/spouse-marital-history',
+          depends: isMarried,
+          uiSchema: currentSpouseMaritalHistory.uiSchema,
+          schema: currentSpouseMaritalHistory.schema,
         },
         marriageInfo: {
           title: 'Marriage history',
@@ -979,6 +1006,7 @@ const formConfig = {
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
+                  'ui:description': dependentSeriouslyDisabledDescription,
                   'ui:required': (formData, index) =>
                     !isEligibleForDisabilitySupport(
                       get(['dependents', index, 'childDateOfBirth'], formData),

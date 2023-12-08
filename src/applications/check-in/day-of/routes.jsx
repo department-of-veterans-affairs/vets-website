@@ -15,6 +15,7 @@ import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
 import TravelMileage from './pages/TravelMileage';
+import TravelReview from './pages/TravelReview';
 import AppointmentDetails from '../components/pages/AppointmentDetails';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -132,6 +133,15 @@ const routes = [
   {
     path: URLS.TRAVEL_MILEAGE,
     component: TravelMileage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.TRAVEL_REVIEW,
+    component: TravelReview,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
