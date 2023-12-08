@@ -61,6 +61,7 @@ describe('ezr submit transformer', () => {
             maritalStatus: 'never married',
           },
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({
@@ -169,6 +170,7 @@ describe('ezr submit transformer', () => {
             maritalStatus: 'never married',
           },
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({
@@ -287,6 +289,7 @@ describe('ezr submit transformer', () => {
             },
           ],
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({

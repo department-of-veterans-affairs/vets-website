@@ -6,8 +6,8 @@ import {
   makeRoadmap,
   responseMatchesRequired,
   validateMultiCheckboxResponses,
-} from '../utilities/display-logic-questions';
-import { RESPONSES, SHORT_NAME_MAP } from '../constants/question-data-map';
+} from '../../utilities/display-logic-questions';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 // displayConditionsMet is tested for every question within their respective file (e.g. BurnPit-2-1-1.unit.spec.js)
 
