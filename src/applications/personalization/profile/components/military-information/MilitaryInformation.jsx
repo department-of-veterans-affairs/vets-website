@@ -210,6 +210,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
+        <DevTools devToolsData={{ veteranStatus, militaryInformation }} panel />
       </DowntimeNotification>
 
       <va-featured-content>
@@ -223,10 +224,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         </div>
       </va-featured-content>
 
-      <DevTools
-        devToolsData={{ veteranStatus, militaryInformation }}
-        alwaysShowChildren={false}
-      >
+      <DevTools alwaysShowChildren={false}>
         <ExampleForDevTools
           data={{
             exampleBool: true,
@@ -236,13 +234,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           }}
           extraProp="bork bork bork"
         />
+        <p>Just a paragraph</p>
       </DevTools>
-
-      <DevTools
-        devToolsData={{ newDataStuffs: 'new data stuffs' }}
-        alwaysShowChildren={false}
-        panel
-      />
     </div>
   );
 };

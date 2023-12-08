@@ -10,7 +10,7 @@ const ChildrenRenderer = ({ children, shouldRender }) => {
 };
 
 export const DevTools = ({
-  devToolsData = { error: 'no data provided to devtools instance' },
+  devToolsData,
   alwaysShowChildren = true,
   showIcon = true,
   panel = false,

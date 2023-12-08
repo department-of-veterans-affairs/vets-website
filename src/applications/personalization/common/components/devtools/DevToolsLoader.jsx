@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { nanoid } from 'nanoid';
+import ChildrenDetails from './ChildrenDetails';
 
 const getUuid = () => {
   try {
-    return crypto.randomUUID();
+    return nanoid();
   } catch (e) {
     return (
       Date.now().toString(36) +
@@ -15,7 +17,7 @@ const getUuid = () => {
   }
 };
 
-const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
+const DevToolsPanel = ({ devToolsData, show, setShow, panel, children }) => {
   const classes = classNames({
     'devtools-panel': true,
     'devtools-panel--hidden': !show,
@@ -45,7 +47,28 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
             >
               <i className="fas fa-times" />
             </button>
-            <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
+
+            <va-accordion
+              disable-analytics={{
+                value: 'true',
+              }}
+              section-heading={{
+                value: 'Details',
+              }}
+              uswds={{
+                value: 'false',
+              }}
+            >
+              <va-accordion-item>
+                <h6 slot="headline">devToolsData</h6>
+                <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
+              </va-accordion-item>
+              {children && (
+                <va-accordion-item header="children">
+                  <ChildrenDetails>{children}</ChildrenDetails>
+                </va-accordion-item>
+              )}
+            </va-accordion>
           </div>
         </div>
       ) : (
@@ -60,17 +83,36 @@ const DevToolsPanel = ({ devToolsData, show, setShow, panel }) => {
           visible
           clickToClose
         >
-          <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
+          <va-accordion
+            disable-analytics={{
+              value: 'true',
+            }}
+            section-heading={{
+              value: 'Details',
+            }}
+            uswds={{
+              value: 'false',
+            }}
+          >
+            {devToolsData && (
+              <va-accordion-item>
+                <h6 slot="headline">devToolsData</h6>
+                <pre>{JSON.stringify(devToolsData, null, 2)}</pre>
+              </va-accordion-item>
+            )}
+            {children && (
+              <va-accordion-item header="children">
+                <ChildrenDetails>{children}</ChildrenDetails>
+              </va-accordion-item>
+            )}
+          </va-accordion>
         </VaModal>
       )}
     </>
   );
 };
 
-export const DevToolsLoader = ({
-  devToolsData = { error: 'no data provided to devtools instance' },
-  panel,
-}) => {
+export const DevToolsLoader = ({ devToolsData, panel, children }) => {
   const [show, setShow] = useState(false);
 
   const uuid = useRef(getUuid());
@@ -108,12 +150,16 @@ export const DevToolsLoader = ({
         <i className="fas fa-code" />
       </button>
       {show && (
-        <DevToolsPanel
-          devToolsData={{ ...devToolsData, uuid }}
-          show={show}
-          setShow={setShow}
-          panel={panel}
-        />
+        <>
+          <DevToolsPanel
+            devToolsData={devToolsData}
+            show={show}
+            setShow={setShow}
+            panel={panel}
+          >
+            {children}
+          </DevToolsPanel>
+        </>
       )}
     </div>
   );
