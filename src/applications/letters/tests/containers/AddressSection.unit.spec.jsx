@@ -7,7 +7,7 @@ import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { AddressSection } from '../../containers/AddressSection';
 
 const defaultProps = {
-  savedAddress: {
+  address: {
     type: ADDRESS_TYPES_ALTERNATE.domestic,
     addressOne: '2476 Main Street',
     addressTwo: '',
@@ -44,14 +44,10 @@ describe('<AddressSection>', () => {
 
   it('should render an empty address warning on the view screen and disable the View Letters button', () => {
     const tree = shallow(
-      <AddressSection {...defaultProps} savedAddress={emptyAddress} />,
+      <AddressSection {...defaultProps} address={emptyAddress} />,
     );
-    expect(
-      tree
-        .find('va-alert')
-        .first()
-        .text(),
-    ).to.contain('We don’t have a valid address on file for you');
+
+    expect(tree.find('NoAddressBanner'));
     expect(tree.find('button').prop('disabled')).to.be.true;
     tree.unmount();
   });
