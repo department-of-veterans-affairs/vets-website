@@ -104,6 +104,7 @@
   "insurance-medicaid-title": "Are you eligible for Medicaid?",
   "insurance-medicare-title": "Are you enrolled in Medicare Part A?",
   "insurance-medicare-claim-number-label": "What is your Medicare claim number?",
+  "insurance-medicare-claim-number-hint": "You\u2019ll find this number on the front of your Medicare card. Enter all 11 numbers and letters.",
   "insurance-medicare-part-a-title": "What is your Medicare Part A effective date?",
   "insurance-medicare-part-a-hint": "You\u2019ll find this date under “coverage starts” on the front of your Medicare card.",
   "insurance-modal-cancel-title": "Cancel %s this insurance policy?",
