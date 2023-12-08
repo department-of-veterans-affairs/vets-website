@@ -1,11 +1,16 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
 
-import { SET_CATEGORY_ID, SET_TOPIC_ID } from '../actions';
+import {
+  SET_CATEGORY_ID,
+  SET_TOPIC_ID,
+  SET_UPDATED_IN_REVIEW,
+} from '../actions';
 
 const initialState = {
   categoryID: '',
   topicID: '',
+  updatedInReview: '',
 };
 
 export default {
@@ -21,6 +26,11 @@ export default {
         return {
           ...state,
           topicID: action.payload,
+        };
+      case SET_UPDATED_IN_REVIEW:
+        return {
+          ...state,
+          updatedInReview: action.payload,
         };
       default:
         return state;

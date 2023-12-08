@@ -1,4 +1,5 @@
 import React from 'react';
+import PageFieldSummary from '../../../components/PageFieldSummary';
 import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import {
   CHAPTER_4,
@@ -11,6 +12,7 @@ const question = <h4>{CHAPTER_4.PAGE_2.TITLE}</h4>;
 const veteransAddressZipPage = {
   uiSchema: {
     'ui:description': question,
+    'ui:objectViewField': PageFieldSummary,
     isVetMilitaryBase: {
       'ui:title': CHAPTER_4.PAGE_2.QUESTION_1,
     },
@@ -26,6 +28,7 @@ const veteransAddressZipPage = {
     }),
     veteranPostalCode: {
       'ui:title': CHAPTER_4.PAGE_2.QUESTION_4,
+      'ui:require': form => !form.isVetMilitaryBase,
       'ui:options': {
         hideIf: form => form.isVetMilitaryBase,
       },
@@ -38,7 +41,7 @@ const veteransAddressZipPage = {
   },
   schema: {
     type: 'object',
-    required: ['veteranPostalCode'],
+    required: [],
     properties: {
       isVetMilitaryBase: {
         type: 'boolean',
