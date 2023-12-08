@@ -140,7 +140,7 @@ export const applicantContactInfoDescriptionNonVet = (
 );
 
 export const PreparerPhoneNumberDescription = (
-  <va-additional-info trigger="Why do we ask for your contact details?">
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
       Once you’ve submitted the application, we’ll send you an email
       confirmation. We may contact you by phone or mail if we need more
