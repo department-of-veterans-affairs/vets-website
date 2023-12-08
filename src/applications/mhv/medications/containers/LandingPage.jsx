@@ -468,8 +468,11 @@ const LandingPage = () => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
