@@ -311,6 +311,7 @@
       }
     ],
     "totalNetWorth": true,
+    "homeOwnership": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
