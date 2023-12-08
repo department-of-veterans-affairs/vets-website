@@ -100,7 +100,7 @@ const formConfig = {
   ],
   chapters: {
     preparerTypeChapter: {
-      title: 'Your identity',
+      title: 'Requester information',
       pages: {
         preparerTypePage: {
           path: 'preparer-type',
@@ -126,6 +126,11 @@ const formConfig = {
           schema: persInfoPg.schema,
           pageClass: 'personal-information',
         },
+      },
+    },
+    identificationInformationChapter: {
+      title: 'Your identification information',
+      pages: {
         citizenIdentificationInfoPage: {
           depends: formData =>
             getUserBasedDepends(formData) &&
@@ -148,8 +153,8 @@ const formConfig = {
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Your contact information',
+    mailingAddressChapter: {
+      title: 'Your mailing address',
       pages: {
         addressPage: {
           path: 'contact-information',
@@ -159,6 +164,11 @@ const formConfig = {
           schema: addressPg.schema,
           pageClass: 'address',
         },
+      },
+    },
+    contactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
         phoneEmailPage: {
           path: 'phone-email',
           title: 'Phone and email address',
