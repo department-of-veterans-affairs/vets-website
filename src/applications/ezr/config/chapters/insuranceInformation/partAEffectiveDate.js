@@ -23,6 +23,9 @@ export default {
       'ui:title': content['insurance-medicare-claim-number-label'],
       ...descriptionUI(MedicareClaimNumberDescription, { hideOnReview: true }),
       'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        hint: content['insurance-medicare-claim-number-hint'],
+      },
       'ui:errorMessages': {
         required: content['validation-medicare-claim-number'],
       },

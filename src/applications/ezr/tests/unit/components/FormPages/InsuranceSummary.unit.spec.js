@@ -13,7 +13,9 @@ describe('ezr InsuranceSummary', () => {
       {
         insuranceName: 'Cigna',
         insurancePolicyHolderName: 'John Smith',
-        insurancePolicyNumber: '006655',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '006655',
+        },
       },
     ],
   };
