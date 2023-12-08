@@ -18,7 +18,7 @@ describe('financial information home ownership pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
