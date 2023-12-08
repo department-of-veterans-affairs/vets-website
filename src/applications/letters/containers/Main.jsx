@@ -34,7 +34,9 @@ const {
 export class Main extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line -- LH_MIGRATION
-    const LH_MIGRATION__options = LH_MIGRATION__getOptions(this.props.useLighthouse);
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions(
+      this.props.useLighthouse,
+    );
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
@@ -53,7 +55,12 @@ export class Main extends React.Component {
       case available:
         return <Outlet />;
       case awaitingResponse:
-        return <va-loading-indicator message="Loading your letters..." />;
+        return (
+          <va-loading-indicator
+            data-testid="letters-loading"
+            message="Loading your letters..."
+          />
+        );
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:
