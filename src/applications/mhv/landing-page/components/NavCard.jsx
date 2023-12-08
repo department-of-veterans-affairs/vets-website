@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getTextFromReactElement } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -11,13 +13,13 @@ const NavCard = ({ icon = null, title, links }) => {
         aria-label={ariaLabel}
         onClick={() => {
           const header =
-            typeof text === 'object' && text !== null ? 'Inbox' : text;
-          const sectionHeader =
-            typeof text === 'object' && text !== null ? 'Messages' : title;
+            typeof text === 'object' && text !== null
+              ? getTextFromReactElement(text)
+              : text;
           recordEvent({
             event: 'nav-linkslist',
             'links-list-header': header,
-            'links-list-section-header': sectionHeader,
+            'links-list-section-header': title,
           });
         }}
       >
@@ -26,7 +28,7 @@ const NavCard = ({ icon = null, title, links }) => {
       </a>
     </li>
   ));
-  const slug = `mhv-c-card-${title.replaceAll(/[^\w]+/g, '-').toLowerCase()}`;
+  const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
     <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
       <div className="vads-u-display--flex vads-u-align-items--start">
