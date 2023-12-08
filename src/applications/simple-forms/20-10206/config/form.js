@@ -295,9 +295,9 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         additionalRecordsInformationPage: {
-          depends: {
-            'view:userIdVerified': true,
-          },
+          // depends: {
+          //   'view:userIdVerified': true,
+          // },
           path: 'additional-records-information',
           title: 'Additional records information',
           uiSchema: additionalRecordsInformationPg.uiSchema,
@@ -310,9 +310,9 @@ const formConfig = {
       title: 'VA regional office',
       pages: {
         associatedVARegionalOfficePage: {
-          depends: {
-            'view:userIdVerified': true,
-          },
+          // depends: {
+          //   'view:userIdVerified': true,
+          // },
           path: 'associated-va-regional-office',
           title: 'Associated VA regional office',
           uiSchema: associatedVARegionalOfficePg.uiSchema,
