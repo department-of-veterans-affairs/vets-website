@@ -103,7 +103,7 @@ export const saveReplyDraft = (
     });
     dispatch({
       type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
-      payload: { messageId: id, ...messageData },
+      payload: { messageId: id, draftDate: Date.now(), ...messageData },
     });
   }
   if (response.errors) {
