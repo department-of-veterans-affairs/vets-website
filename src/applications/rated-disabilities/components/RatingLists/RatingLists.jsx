@@ -9,7 +9,6 @@ import NoRatings from './NoRatings';
 import List from './List';
 
 export default function RatingLists({ ratings }) {
-  console.log('RATINGS:', ratings);
   const serviceConnectedRatings = getServiceConnectedRatings(ratings);
   const nonServiceConnectedRatings = getNonServiceConnectedRatings(ratings);
 

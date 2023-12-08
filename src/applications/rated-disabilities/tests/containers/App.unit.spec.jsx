@@ -1,8 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { createStore } from 'redux';
+import { shallow } from 'enzyme';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import sinon from 'sinon';
 
 import { headline as MVIErrorHeadline } from '../../components/MVIError';
 import { App } from '../../containers/App';

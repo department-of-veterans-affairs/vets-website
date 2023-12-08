@@ -14,17 +14,16 @@ const loadingIndicator = (
 
 export default function AppContent() {
   const [data, setData] = useState({});
-  const [error, setError] = useState(null);
+  const [hasError, setHasError] = useState(false);
   const [isRequestDone, setIsRequestDone] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const responseData = await getRatedDisabilities();
-        console.log(responseData);
         setData(responseData);
       } catch (err) {
-        setError({ code: 500 });
+        setHasError(true);
       } finally {
         setIsRequestDone(true);
       }
@@ -38,7 +37,7 @@ export default function AppContent() {
   const hasRatedDisabilities = individualRatings?.length > 0;
 
   let contentOrError;
-  if (error) {
+  if (hasError) {
     contentOrError = <ServerError />;
   } else {
     contentOrError = (
