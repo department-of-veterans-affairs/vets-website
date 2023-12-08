@@ -27,12 +27,20 @@
       "vaFileNumber": "123456789"
     },
     "recordSelections": {
+      "c-file": true,
       "dd214": true,
       "disability-exams": true,
+      "education": true,
       "financial": true,
+      "fiduciary": true,
+      "home-loan": true,
       "life-ins": true,
+      "ompf": true,
       "other-comp-pen": true,
-      "other": true
+      "other": true,
+      "pension": true,
+      "treatment": true,
+      "vre": true
     },
     "disabilityExams": [
       {
@@ -50,4 +58,3 @@
     "vaRegionalOfficeName": "VA regional office name"
   }
 }
-
