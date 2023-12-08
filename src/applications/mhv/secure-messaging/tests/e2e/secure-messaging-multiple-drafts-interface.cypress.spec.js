@@ -13,11 +13,9 @@ describe('handle multiple drafts in one thread', () => {
     site.login();
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread();
-    // const draftsCount = mockMultiDraftsResponse.data.filter(el => {
-    //   !el.attributes.sentDate
-    // })
-    // cy.log(`Number of drafts = ${draftsCount.length}`)
-    cy.log(mockMultiDraftsResponse.data.length);
+    const draftsCount = mockMultiDraftsResponse.data.filter(
+      el => el.attributes.draftDate !== null,
+    ).length;
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -33,7 +31,7 @@ describe('handle multiple drafts in one thread', () => {
     cy.get('[data-testid="reply-form"]')
       .find('h2')
       .should('be.visible')
-      .and('contain.text', '2 drafts');
+      .and('contain.text', `${draftsCount} drafts`);
 
     cy.get('[data-testid="reply-form"]')
       .find('h3')
