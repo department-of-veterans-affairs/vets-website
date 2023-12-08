@@ -22,26 +22,14 @@ const tabbableSelectors =
 
 export function flagCurrentPageInTopLevelLinks(
   links = [],
-  href = window.location.href,
-  pathName = window.location.pathname,
+  pathname = window.location.pathname,
 ) {
-  // Removing the trailing slash allows for a page's URL to have it or not.
-  const noTrailingSlashPathName = pathName.endsWith('/')
-    ? pathName.slice(0, -1)
-    : pathName;
+  const currentPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
   return links.map(link => {
-    let processedLink = link;
-    if (link.href !== undefined) {
-      const noTrailingSlashHref = link.href.endsWith('/')
-        ? link.href.slice(0, -1)
-        : link.href;
-      processedLink =
-        noTrailingSlashPathName.endsWith(noTrailingSlashHref) ||
-        href.includes(link.href)
-          ? { ...link, currentPage: true }
-          : link;
-    }
-    return processedLink;
+    const currentPage = currentPath.startsWith(link.href)
+      ? { currentPage: true }
+      : {};
+    return { ...link, ...currentPage };
   });
 }
 

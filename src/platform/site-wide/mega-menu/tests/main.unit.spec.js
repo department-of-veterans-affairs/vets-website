@@ -9,8 +9,7 @@ describe('mega-menu', () => {
   describe('Main.jsx', () => {
     describe('flagCurrentPageIntopLevelLinks', () => {
       it('should return object with currentPage: true when path name matches href', () => {
-        // Test using pathName
-        let links = [
+        const links = [
           {
             href: '/test',
           },
@@ -27,7 +26,7 @@ describe('mega-menu', () => {
             href: 'not/',
           },
         ];
-        let expectedResult = [
+        const expectedResult = [
           {
             href: '/test',
             currentPage: true,
@@ -46,48 +45,10 @@ describe('mega-menu', () => {
             href: 'not/',
           },
         ];
-        let actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          undefined,
-          '/test',
-        );
-        expect(actualResult).to.eql(expectedResult);
-        actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          undefined,
-          '/test/',
-        );
+        let actualResult = flagCurrentPageInTopLevelLinks(links, '/test');
         expect(actualResult).to.eql(expectedResult);
 
-        // Test using href
-        links = [
-          {
-            href: '/test',
-          },
-          {
-            href: '/test/',
-          },
-          {
-            href: '/test/otherpage',
-          },
-        ];
-        expectedResult = [
-          {
-            href: '/test',
-            currentPage: true,
-          },
-          {
-            href: '/test/',
-            currentPage: true,
-          },
-          {
-            href: '/test/otherpage',
-          },
-        ];
-        actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          'http://example.com/test/somethingelse',
-        );
+        actualResult = flagCurrentPageInTopLevelLinks(links, '/test/');
         expect(actualResult).to.eql(expectedResult);
       });
     });
