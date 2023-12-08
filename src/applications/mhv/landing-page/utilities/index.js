@@ -1,6 +1,7 @@
 import React from 'react';
 
-// For use when the dot notification is added to a link. This function recursively extracts text from a React element's children.
+// For use when the dot notification is added to a link and you want to record that event in Google Analytics.
+// This function recursively extracts text from a React element's children.
 
 const getTextFromReactElement = element => {
   if (typeof element === 'string') {
