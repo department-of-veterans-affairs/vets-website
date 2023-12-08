@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import AppointmentsPageV2 from './components/AppointmentsPageV2/index';
+import AppointmentsPage from './components/AppointmentsPage/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -30,7 +30,7 @@ function AppointmentListSection() {
             path="/:pastOrPending?/requests/:id"
             component={RequestedAppointmentDetailsPage}
           />
-          <Route path="/" component={AppointmentsPageV2} />
+          <Route path="/" component={AppointmentsPage} />
         </Switch>
       )}
       {featureBreadcrumbUrlUpdate && (
@@ -39,14 +39,14 @@ function AppointmentListSection() {
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}
           />
-          <Route path="/pending" component={AppointmentsPageV2} />
+          <Route path="/pending" component={AppointmentsPage} />
           <Route path="/past/:id" component={ConfirmedAppointmentDetailsPage} />
-          <Route path="/past" component={AppointmentsPageV2} />
+          <Route path="/past" component={AppointmentsPage} />
           <Route
             path={['/va/:id', '/:id']}
             component={ConfirmedAppointmentDetailsPage}
           />
-          <Route path="/" component={AppointmentsPageV2} />
+          <Route path="/" component={AppointmentsPage} />
         </Switch>
       )}
     </>

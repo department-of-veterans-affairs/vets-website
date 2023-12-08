@@ -82,16 +82,15 @@ const addHorizontalRule = (
   linesAbove = 0.5,
   linesBelow = 0.5,
 ) => {
+  doc.markContent('Artifact');
   doc.moveDown(linesAbove);
-
-  // TODO add alternative text.
-  doc.markContent('Artifact', { type: 'Layout' });
   doc
     .moveTo(0 + spaceFromEdge, doc.y)
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
   doc.moveDown(linesBelow);
+  doc.endMarkedContent();
   return doc;
 };
 
@@ -395,6 +394,67 @@ const createDetailItem = async (doc, config, x, item) => {
 };
 
 /**
+ * Add a rich text details item to the given PDFKit structure element (inline is always false)
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {Object} item
+ *
+ * @returns {Array} content
+ */
+const createRichTextDetailItem = async (doc, config, x, item) => {
+  let titleText = item.title ?? '';
+  const content = [];
+
+  if (titleText) {
+    titleText += ' ';
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, { lineGap: 2 });
+      }),
+    );
+  }
+
+  for (let i = 0; i < item.value.length; i += 1) {
+    const element = item.value[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {
+      continued: !!element.continued,
+      lineGap: 2,
+      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+    };
+
+    if (Array.isArray(element.value)) {
+      content.push(
+        doc.struct('List', () => {
+          doc.list(element.value, {
+            ...paragraphOptions,
+            listType: 'bullet',
+            bulletRadius: 2,
+          });
+        }),
+      );
+    } else {
+      content.push(
+        doc.struct('Span', () => {
+          doc
+            .font(font)
+            .fontSize(config.text.size)
+            .text(element.value, x, doc.y, paragraphOptions);
+        }),
+      );
+    }
+  }
+
+  return content;
+};
+
+/**
  * Add an image item to the given PDFKit structure element.
  *
  * @param {Object} doc
@@ -472,8 +532,8 @@ const createSubHeading = (doc, config, text, options) => {
   return createStruct(
     doc,
     'P',
-    config.subHeading.font,
-    config.subHeading.size,
+    options.font || config.subHeading.font,
+    options.size || config.subHeading.size,
     text,
     options,
   );
@@ -582,6 +642,7 @@ export {
   createAccessibleDoc,
   createArtifactText,
   createDetailItem,
+  createRichTextDetailItem,
   createHeading,
   createSpan,
   createSubHeading,

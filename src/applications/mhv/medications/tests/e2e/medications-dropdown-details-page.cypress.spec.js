@@ -21,9 +21,6 @@ describe('Medications Details Page DropDown', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

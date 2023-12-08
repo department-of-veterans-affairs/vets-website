@@ -25,6 +25,8 @@ const DependentAges = ({
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
 
+  const MAXIMUM_DEPENDENT_AGE = 150;
+
   const [stateDependents, setStateDependents] = useState(dependents);
   const [errors, setErrors] = useState(
     Array(stateDependents.length).fill(null),
@@ -142,18 +144,16 @@ const DependentAges = ({
     goToPath('/dependent-count');
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
       const newErrors = [...errors];
       if (!value) {
-        newErrors[i] = 'Please enter your dependent(s) age.';
+        newErrors[i] = 'Please enter your dependent(s) age';
       } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
+      } else if (value < 0 || value > MAXIMUM_DEPENDENT_AGE) {
+        newErrors[i] = 'Please enter a value between 0 and 150';
       } else {
         newErrors[i] = null;
       }
@@ -166,7 +166,6 @@ const DependentAges = ({
     onSubmit,
     onCancel,
     handleBlur,
-    toggleEditing,
     updateDependents,
   };
 
@@ -184,6 +183,8 @@ const DependentAges = ({
         error={errors[i]}
         inputMode="numeric"
         required
+        min={0}
+        max={MAXIMUM_DEPENDENT_AGE}
       />
     </div>
   );
@@ -226,17 +227,7 @@ const DependentAges = ({
           }`}
         >
           <HeaderTag className={className}>Dependents ages</HeaderTag>
-          {isReviewMode &&
-            !isEditing && (
-              <ReviewControl
-                // readOnly
-                position="header"
-                isEditing={false}
-                onEditClick={handlers.toggleEditing}
-                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-                buttonText="Edit"
-              />
-            )}
+
           {!isReviewMode ? (
             <>
               <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">

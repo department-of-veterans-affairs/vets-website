@@ -1,26 +1,32 @@
 import SpouseAdditionalIncomeInputList from '../../../../components/householdIncome/SpouseAdditionalIncomeInputList';
-import { validateAddlIncomeValues } from '../../../../utils/validations';
+import {
+  validateAddlIncomeValues,
+  validateSpouseAdditionalIncomeArrayLimits,
+} from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
   additionalIncome: {
-    'ui:title': "Your spouse's other income",
-    'ui:field': SpouseAdditionalIncomeInputList,
-    'ui:options': {
-      hideOnReview: true,
-    },
+    'ui:title': '',
     spouse: {
-      'ui:title': '',
-    },
-    spAddlIncome: {
-      'ui:title': 'addlIncRecords',
-      'ui:validations': [validateAddlIncomeValues],
-      items: {
-        name: {
-          'ui:title': 'Type of income',
-        },
-        amount: {
-          'ui:title': 'Monthly income amount',
+      'ui:title': "Your spouse's other income",
+      'ui:field': SpouseAdditionalIncomeInputList,
+      'ui:options': {
+        hideOnReview: true,
+      },
+      spAddlIncome: {
+        'ui:title': 'spAddlIncome',
+        'ui:validations': [
+          validateAddlIncomeValues,
+          validateSpouseAdditionalIncomeArrayLimits,
+        ],
+        items: {
+          name: {
+            'ui:title': 'Type of income',
+          },
+          amount: {
+            'ui:title': 'Monthly income amount',
+          },
         },
       },
     },

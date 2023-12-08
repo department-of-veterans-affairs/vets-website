@@ -1,31 +1,32 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { individualSortOptions, orgSortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
-  const { searchResults, searchCounter, inProgress, pagination } = props;
+  const { searchResults, pagination, query } = props;
 
+  const { inProgress, context, representativeType, sortType } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
 
-  if (inProgress || searchCounter === 0) {
+  const sortOptions =
+    representativeType === 'organization'
+      ? orgSortOptions
+      : individualSortOptions;
+
+  if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 
   const repFormat = {
     organization: 'Veteran Service Organizations',
-    attorney: 'Attornies',
+    attorney: 'Attorneys',
     claim_agents: 'Claim Agents',
   };
-
-  const urlParams = new URLSearchParams(location.search);
-
-  const address = urlParams.get('address');
-  const repOrgName = urlParams.get('name');
-  const representativeType = repFormat[urlParams.get('type')];
 
   const handleNumberOfResults = () => {
     if (noResultsFound) {
@@ -35,7 +36,7 @@ export const SearchResultsHeader = props => {
       return 'Showing 1 result';
     }
     if (totalEntries < 11 && totalEntries > 1) {
-      return `Showing 1 - ${totalEntries} results`;
+      return `Showing ${totalEntries} results`;
     }
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
@@ -50,8 +51,23 @@ export const SearchResultsHeader = props => {
     return 'Results';
   };
 
+  const options = Object.keys(sortOptions).map(option => (
+    <option key={option} value={option}>
+      {sortOptions[option]}
+    </option>
+  ));
+
+  // method for triggering sortResults when sortType updates
+  const handleSortTypeChange = e => {
+    props.updateSearchQuery({
+      id: Date.now(),
+      page: 1,
+      sortType: e.target.value,
+    });
+  };
+
   return (
-    <div className="search-results-header vads-u-margin-top--6">
+    <div className="search-results-header">
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
@@ -59,23 +75,37 @@ export const SearchResultsHeader = props => {
       >
         {handleNumberOfResults()} for
         {` `}
-        <b>
-          {representativeType}
-          {` `}
-        </b>
-        {repOrgName && (
+        <b>{repFormat[representativeType]}</b>
+        {context.repOrgName && (
           <>
-            matching <b>"{repOrgName}"</b>
+            {` `}
+            matching <b>"{context.repOrgName}"</b>
           </>
         )}
-        {address && (
+        {` `}
+        {context.location && (
           <>
-            &nbsp;within 50 miles of &quot;
-            <b>{address}</b>
+            within 50 miles of &quot;
+            <b>{context.location}</b>
             &quot;
           </>
-        )}{' '}
+        )}
       </h2>
+      <div className="sort-dropdown">
+        <label htmlFor="sort-by-dropdown">Sort by</label>
+        <select
+          id="representative-sorting-dropdown"
+          aria-label="Sort"
+          // ref={sortTypeRef}
+          value={sortType}
+          title="Sort by:"
+          onChange={handleSortTypeChange}
+          style={{ fontWeight: 'bold' }}
+        >
+          {' '}
+          {options}{' '}
+        </select>
+      </div>
     </div>
   );
 };

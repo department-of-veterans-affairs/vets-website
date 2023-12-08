@@ -26,7 +26,9 @@ describe('ezr submit transformer', () => {
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
           isMedicaidEligible: false,
-          isEnrolledMedicarePartA: false,
+          'view:isEnrolledMedicarePartA': {
+            isEnrolledMedicarePartA: false,
+          },
           'view:deductibleMedicalExpenses': {
             deductibleMedicalExpenses: 234,
           },
@@ -55,8 +57,11 @@ describe('ezr submit transformer', () => {
             postalCode: '01060',
           },
           'view:doesMailingMatchHomeAddress': true,
-          maritalStatus: 'Never Married',
+          'view:maritalStatus': {
+            maritalStatus: 'never married',
+          },
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({
@@ -84,7 +89,7 @@ describe('ezr submit transformer', () => {
             state: 'MA',
             postalCode: '01060',
           },
-          maritalStatus: 'Never Married',
+          maritalStatus: 'never married',
           privacyAgreementAccepted: true,
           veteranHomeAddress: {
             country: 'USA',
@@ -123,7 +128,9 @@ describe('ezr submit transformer', () => {
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
           isMedicaidEligible: false,
-          isEnrolledMedicarePartA: false,
+          'view:isEnrolledMedicarePartA': {
+            isEnrolledMedicarePartA: false,
+          },
           'view:deductibleMedicalExpenses': {
             deductibleMedicalExpenses: 234,
           },
@@ -159,8 +166,11 @@ describe('ezr submit transformer', () => {
             postalCode: '46220',
           },
           'view:doesMailingMatchHomeAddress': false,
-          maritalStatus: 'Never Married',
+          'view:maritalStatus': {
+            maritalStatus: 'never married',
+          },
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({
@@ -195,7 +205,7 @@ describe('ezr submit transformer', () => {
             state: 'IN',
             postalCode: '46220',
           },
-          maritalStatus: 'Never Married',
+          maritalStatus: 'never married',
           privacyAgreementAccepted: true,
           dependents: [],
         }),
@@ -226,8 +236,12 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
-          isMedicaidEligible: false,
-          isEnrolledMedicarePartA: false,
+          'view:isMedicaidEligible': {
+            isMedicaidEligible: false,
+          },
+          'view:isEnrolledMedicarePartA': {
+            isEnrolledMedicarePartA: false,
+          },
           'view:deductibleMedicalExpenses': {
             deductibleMedicalExpenses: 234,
           },
@@ -256,7 +270,9 @@ describe('ezr submit transformer', () => {
             postalCode: '01060',
           },
           'view:doesMailingMatchHomeAddress': true,
-          maritalStatus: 'Never Married',
+          'view:maritalStatus': {
+            maritalStatus: 'never married',
+          },
           dependents: [
             {
               fullName: {
@@ -273,6 +289,7 @@ describe('ezr submit transformer', () => {
             },
           ],
           privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
         },
       };
       const expectedResult = JSON.stringify({
@@ -300,7 +317,7 @@ describe('ezr submit transformer', () => {
             state: 'MA',
             postalCode: '01060',
           },
-          maritalStatus: 'Never Married',
+          maritalStatus: 'never married',
           dependents: [
             {
               fullName: {

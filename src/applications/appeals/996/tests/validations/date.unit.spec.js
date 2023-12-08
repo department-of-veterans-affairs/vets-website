@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
+
+import { getDate } from '../../../shared/utils/dates';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -32,7 +33,16 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;
   });
-  it('should throw a invalid date error', () => {
+  it('should throw a invalid date error for an undefined date', () => {
+    validateDate(errors);
+    expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
+    expect(errorMessage[1]).to.contain('month');
+    expect(errorMessage[1]).to.contain('day');
+    expect(errorMessage[1]).to.contain('year');
+    expect(errorMessage[1]).to.contain('other');
+    expect(isValidDate()).to.be.false;
+  });
+  it('should throw a invalid date error for a partial date', () => {
     validateDate(errors, '200');
     expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
