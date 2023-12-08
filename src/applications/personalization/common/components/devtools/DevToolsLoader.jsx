@@ -161,7 +161,7 @@ export const DevToolsLoader = ({
     <div className="devtools-container">
       <button
         type="button"
-        className="devtools-show-button"
+        className="devtools-show-button vads-u-background-color--primary vads-u-color--white"
         onClick={handlers.togglePanel}
       >
         <i className="fas fa-code" />
