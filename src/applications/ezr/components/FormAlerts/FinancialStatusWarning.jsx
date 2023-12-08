@@ -2,7 +2,7 @@ import React from 'react';
 import { LAST_YEAR } from '../../utils/constants';
 
 const FinancialStatusWarning = () => {
-  const THIS_YEAR = new Date().getFullYear();
+  const THIS_YEAR = LAST_YEAR + 1;
   const NEXT_YEAR = THIS_YEAR + 1;
   return (
     <va-alert
@@ -15,8 +15,8 @@ const FinancialStatusWarning = () => {
       <div>
         <p>
           Our records show that you already shared your household financial
-          information for {LAST_YEAR}. You can only share your household
-          financial information only once each year.
+          information for {LAST_YEAR}. You can share your household financial
+          information only once each year.
         </p>
         <p>
           Example: If you share your {LAST_YEAR} income in {THIS_YEAR}, you
