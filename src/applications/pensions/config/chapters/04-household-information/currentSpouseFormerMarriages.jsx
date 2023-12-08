@@ -8,15 +8,15 @@ import {
   currentOrPastDateUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
-import { contactWarning, contactWarningMulti } from '../helpers';
+import { contactWarning, contactWarningMulti } from '../../../helpers';
 
-import SpouseMarriageView from '../components/SpouseMarriageView';
-import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
+import SpouseMarriageView from '../../../components/SpouseMarriageView';
+import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 
 import {
   validateAfterMarriageDates,
   validateUniqueMarriageDates,
-} from '../validation';
+} from '../../../validation';
 
 const { marriages } = fullSchemaPensions.definitions;
 

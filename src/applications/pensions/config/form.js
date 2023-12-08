@@ -72,7 +72,7 @@ import federalTreatmentHistory from '../pages/federalTreatmentHistory';
 import generateMedicalCentersSchemas from '../pages/medicalCenters';
 import currentEmployment from '../pages/currentEmployment';
 import generateEmployersSchemas from '../pages/employmentHistory';
-import spouseMarriageHistory from '../pages/spouseMarriageHistory';
+import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
 import maritalStatus from '../pages/maritalStatus';
 import currentSpouse from '../pages/currentSpouse';
 import currentSpouseMonthlySupport from '../pages/currentSpouseMonthlySupport';
@@ -720,8 +720,8 @@ const formConfig = {
           title: 'Spouse’s former marriages',
           path: 'household/spouse-marriages',
           depends: isMarried,
-          uiSchema: spouseMarriageHistory.uiSchema,
-          schema: spouseMarriageHistory.schema,
+          uiSchema: currentSpouseFormerMarriages.uiSchema,
+          schema: currentSpouseFormerMarriages.schema,
         },
         dependents: {
           title: 'Dependent children',
