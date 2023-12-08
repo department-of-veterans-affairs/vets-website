@@ -502,7 +502,6 @@ describe('AppointmentCard component', () => {
         initialState,
       },
     );
-    console.log(wrapper.debug());
     expect(wrapper.getByRole('link')).to.exist;
     // fireEvent.click returns false if Event.preventDefault() is called.
     expect(fireEvent.click(wrapper.getByRole('link'))).to.be.false;
