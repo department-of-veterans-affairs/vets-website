@@ -20,23 +20,23 @@ import {
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+export function removeTrailingSlash(uri) {
+  // Does not remove the slash in the case the URI is just '/'
+  return uri.length > 1 && uri.endsWith('/') ? uri.slice(0, -1) : uri;
+}
+
 export function flagCurrentPageInTopLevelLinks(
   links = [],
   href = window.location.href,
   pathName = window.location.pathname,
 ) {
   // Removing the trailing slash allows for a page's URL to have it or not.
-  const noTrailingSlashPathName = pathName.endsWith('/')
-    ? pathName.slice(0, -1)
-    : pathName;
+  const noTrailingSlashPathName = removeTrailingSlash(pathName);
   return links.map(link => {
     let processedLink = link;
     if (link.href !== undefined) {
-      const noTrailingSlashHref = link.href.endsWith('/')
-        ? link.href.slice(0, -1)
-        : link.href;
       processedLink =
-        noTrailingSlashPathName.endsWith(noTrailingSlashHref) ||
+        noTrailingSlashPathName.endsWith(removeTrailingSlash(link.href)) ||
         href.includes(link.href)
           ? { ...link, currentPage: true }
           : link;

@@ -3,10 +3,18 @@ import { expect } from 'chai';
 import {
   flagCurrentPageInTopLevelLinks,
   getAuthorizedLinkData,
+  removeTrailingSlash,
 } from '../containers/Main';
 
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
+    describe('removeTrailingSlash', () => {
+      it('should remove trailing slash from a URI', () => {
+        expect(removeTrailingSlash('/test/')).to.eql('/test');
+        expect(removeTrailingSlash('/test')).to.eql('/test');
+        expect(removeTrailingSlash('/')).to.eql('/');
+      });
+    });
     describe('flagCurrentPageIntopLevelLinks', () => {
       it('should return object with currentPage: true when path name matches href', () => {
         // Test using pathName
