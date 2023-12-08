@@ -1,4 +1,5 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
 
 describe('Medical Records Care summaries and notes', () => {
@@ -14,20 +15,17 @@ describe('Medical Records Care summaries and notes', () => {
 
     NotesListPage.clickNotesDetailsLink(0);
     // should display a toggle menu button
+    NotesDetailsPage.clickPrintOrDownload();
+    NotesDetailsPage.verifyPrintOrDownload();
 
-    NotesListPage.verifyPrintOrDownload();
-
-    // should display print button for a list "Print this list"
-    NotesListPage.verifyPrintButton();
+    // should display print button for a Details "Print this Details"
+    NotesDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    NotesListPage.verifyDownloadPDF();
+    NotesDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
-    NotesListPage.verifyDownloadTextFile();
-
-    // PathologyListPage.clickDownloadPDFFile();
-    // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
+    // should display a download text file button "Download Details as a text file"
+    NotesDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
     cy.axeCheck('main', {

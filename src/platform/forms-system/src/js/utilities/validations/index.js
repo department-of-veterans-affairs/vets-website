@@ -36,15 +36,6 @@ export function isValidSSN(value) {
   return /^\d{9}$/.test(value) || /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
-// Conditions for valid ARN:
-// A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid ARN
-export function isValidARN(value) {
-  // Remove all non-digit characters
-  const strippedValue = value.replace(/\D/g, '');
-
-  return /^[1-9]\d{6,8}$/.test(strippedValue);
-}
-
 // A 9 digit VA File Number must be an SSN
 // The only other valid option is an 8-digit number
 export function isValidVAFileNumber(value) {
