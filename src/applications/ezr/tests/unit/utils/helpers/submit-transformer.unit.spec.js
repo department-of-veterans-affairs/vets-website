@@ -6,6 +6,17 @@ describe('ezr submit transformer', () => {
   context('when all required data is provided', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
@@ -51,6 +62,112 @@ describe('ezr submit transformer', () => {
           },
           privacyAgreementAccepted: true,
           'view:householdEnabled': true,
+          'view:userDob': '1990-01-01',
+          'view:userGender': 'F',
+        },
+      };
+      const expectedResult = JSON.stringify({
+        asyncCompatible: true,
+        form: JSON.stringify({
+          veteranFullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          veteranSocialSecurityNumber: '234243444',
+          isMedicaidEligible: false,
+          isEnrolledMedicarePartA: false,
+          deductibleMedicalExpenses: 234,
+          deductibleFuneralExpenses: 11,
+          deductibleEducationExpenses: 0,
+          veteranGrossIncome: 234234,
+          veteranNetIncome: 234234,
+          veteranOtherIncome: 0,
+          veteranAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          maritalStatus: 'never married',
+          privacyAgreementAccepted: true,
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'F',
+          veteranHomeAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          dependents: [],
+        }),
+      });
+      expect(submitTransformer(formConfig, form)).to.deep.equal(expectedResult);
+    });
+  });
+
+  context('when loaded data is missing date of birth', () => {
+    it('should successfully transform data', () => {
+      const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: null,
+            gender: 'F',
+          },
+        },
+        data: {
+          veteranFullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          veteranSocialSecurityNumber: '234243444',
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'F',
+          isMedicaidEligible: false,
+          'view:isEnrolledMedicarePartA': {
+            isEnrolledMedicarePartA: false,
+          },
+          'view:deductibleMedicalExpenses': {
+            deductibleMedicalExpenses: 234,
+          },
+          'view:deductibleFuneralExpenses': {
+            deductibleFuneralExpenses: 11,
+          },
+          'view:deductibleEducationExpenses': {
+            deductibleEducationExpenses: 0,
+          },
+          'view:veteranGrossIncome': {
+            veteranGrossIncome: 234234,
+          },
+          'view:veteranNetIncome': {
+            veteranNetIncome: 234234,
+          },
+          'view:veteranOtherIncome': {
+            veteranOtherIncome: 0,
+          },
+          'view:addInsurancePolicy': false,
+          'view:reportDependents': false,
+          veteranAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          'view:doesMailingMatchHomeAddress': true,
+          'view:maritalStatus': {
+            maritalStatus: 'never married',
+          },
+          privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
+          'view:userDob': '',
+          'view:userGender': 'F',
         },
       };
       const expectedResult = JSON.stringify({
@@ -62,6 +179,109 @@ describe('ezr submit transformer', () => {
           },
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
+          isMedicaidEligible: false,
+          isEnrolledMedicarePartA: false,
+          deductibleMedicalExpenses: 234,
+          deductibleFuneralExpenses: 11,
+          deductibleEducationExpenses: 0,
+          veteranGrossIncome: 234234,
+          veteranNetIncome: 234234,
+          veteranOtherIncome: 0,
+          veteranAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          maritalStatus: 'never married',
+          privacyAgreementAccepted: true,
+          gender: 'F',
+          veteranHomeAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          dependents: [],
+        }),
+      });
+      expect(submitTransformer(formConfig, form)).to.deep.equal(expectedResult);
+    });
+  });
+
+  context('when loaded data is missing birth sex', () => {
+    it('should successfully transform data', () => {
+      const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: null,
+          },
+        },
+        data: {
+          veteranFullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          veteranSocialSecurityNumber: '234243444',
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'F',
+          isMedicaidEligible: false,
+          'view:isEnrolledMedicarePartA': {
+            isEnrolledMedicarePartA: false,
+          },
+          'view:deductibleMedicalExpenses': {
+            deductibleMedicalExpenses: 234,
+          },
+          'view:deductibleFuneralExpenses': {
+            deductibleFuneralExpenses: 11,
+          },
+          'view:deductibleEducationExpenses': {
+            deductibleEducationExpenses: 0,
+          },
+          'view:veteranGrossIncome': {
+            veteranGrossIncome: 234234,
+          },
+          'view:veteranNetIncome': {
+            veteranNetIncome: 234234,
+          },
+          'view:veteranOtherIncome': {
+            veteranOtherIncome: 0,
+          },
+          'view:addInsurancePolicy': false,
+          'view:reportDependents': false,
+          veteranAddress: {
+            country: 'USA',
+            street: '123 elm st',
+            city: 'Northampton',
+            state: 'MA',
+            postalCode: '01060',
+          },
+          'view:doesMailingMatchHomeAddress': true,
+          'view:maritalStatus': {
+            maritalStatus: 'never married',
+          },
+          privacyAgreementAccepted: true,
+          'view:householdEnabled': true,
+          'view:userDob': '1990-01-01',
+          'view:userGender': '',
+        },
+      };
+      const expectedResult = JSON.stringify({
+        asyncCompatible: true,
+        form: JSON.stringify({
+          veteranFullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          veteranSocialSecurityNumber: '234243444',
           gender: 'F',
           isMedicaidEligible: false,
           isEnrolledMedicarePartA: false,
@@ -80,6 +300,7 @@ describe('ezr submit transformer', () => {
           },
           maritalStatus: 'never married',
           privacyAgreementAccepted: true,
+          veteranDateOfBirth: '1990-01-01',
           veteranHomeAddress: {
             country: 'USA',
             street: '123 elm st',
@@ -97,6 +318,17 @@ describe('ezr submit transformer', () => {
   context('when Veteran mailing and home addresses do not match', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
@@ -149,6 +381,8 @@ describe('ezr submit transformer', () => {
           },
           privacyAgreementAccepted: true,
           'view:householdEnabled': true,
+          'view:userDob': '1990-01-01',
+          'view:userGender': 'F',
         },
       };
       const expectedResult = JSON.stringify({
@@ -159,8 +393,6 @@ describe('ezr submit transformer', () => {
             last: 'Doe',
           },
           veteranSocialSecurityNumber: '234243444',
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'F',
           isMedicaidEligible: false,
           isEnrolledMedicarePartA: false,
           deductibleMedicalExpenses: 234,
@@ -185,6 +417,8 @@ describe('ezr submit transformer', () => {
           },
           maritalStatus: 'never married',
           privacyAgreementAccepted: true,
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'F',
           dependents: [],
         }),
       });
@@ -195,6 +429,17 @@ describe('ezr submit transformer', () => {
   context('when Dependents have been declared', () => {
     it('should successfully transform data', () => {
       const form = {
+        loadedData: {
+          formData: {
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+          },
+        },
         data: {
           veteranFullName: {
             first: 'Jane',
@@ -257,6 +502,8 @@ describe('ezr submit transformer', () => {
           ],
           privacyAgreementAccepted: true,
           'view:householdEnabled': true,
+          'view:userDob': '1990-01-01',
+          'view:userGender': 'F',
         },
       };
       const expectedResult = JSON.stringify({
@@ -267,8 +514,6 @@ describe('ezr submit transformer', () => {
             last: 'Doe',
           },
           veteranSocialSecurityNumber: '234243444',
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'F',
           isMedicaidEligible: false,
           isEnrolledMedicarePartA: false,
           deductibleMedicalExpenses: 234,
@@ -304,6 +549,8 @@ describe('ezr submit transformer', () => {
             },
           ],
           privacyAgreementAccepted: true,
+          veteranDateOfBirth: '1990-01-01',
+          gender: 'F',
           veteranHomeAddress: {
             country: 'USA',
             street: '123 elm st',

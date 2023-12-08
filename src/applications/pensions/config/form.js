@@ -26,6 +26,7 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
+  dependentSeriouslyDisabledDescription,
   directDepositWarning,
   isMarried,
   uploadMessage,
@@ -55,30 +56,32 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
-import applicantInformation from '../pages/applicantInformation';
-import mailingAddress from '../pages/mailingAddress';
-import contactInformation from '../pages/contactInformation';
-import servicePeriods from '../pages/servicePeriods';
-import generalHistory from '../pages/generalHistory';
-import pow from '../pages/pow';
-import age from '../pages/age';
-import socialSecurityDisability from '../pages/socialSecurityDisability';
-import medicaidCoverage from '../pages/medicaidCoverage';
-import medicaidStatus from '../pages/medicaidStatus';
-import medicalCondition from '../pages/medicalCondition';
-import nursingHome from '../pages/nursingHome';
-import specialMonthlyPension from '../pages/specialMonthlyPension';
-import vaTreatmentHistory from '../pages/vaTreatmentHistory';
-import federalTreatmentHistory from '../pages/federalTreatmentHistory';
-import generateMedicalCentersSchemas from '../pages/medicalCenters';
-import currentEmployment from '../pages/currentEmployment';
-import generateEmployersSchemas from '../pages/employmentHistory';
-import maritalStatus from '../pages/maritalStatus';
-import currentSpouse from '../pages/currentSpouse';
-import currentSpouseMonthlySupport from '../pages/currentSpouseMonthlySupport';
-import currentSpouseMaritalHistory from '../pages/currentSpouseMaritalHistory';
-import dateOfCurrentMarriage from '../pages/dateOfCurrentMarriage';
-import reasonForCurrentSeparation from '../pages/reasonForCurrentSeparation';
+import applicantInformation from './chapters/01-applicant-information/applicantInformation';
+import mailingAddress from './chapters/01-applicant-information/mailingAddress';
+import contactInformation from './chapters/01-applicant-information/contactInformation';
+import servicePeriods from './chapters/02-military-history/servicePeriods';
+import generalHistory from './chapters/02-military-history/generalHistory';
+import pow from './chapters/02-military-history/pow';
+import age from './chapters/03-health-and-employment-information/age';
+import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
+import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
+import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
+import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
+import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
+import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
+import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
+import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
+import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
+import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
+import maritalStatus from './chapters/04-household-information/maritalStatus';
+import currentSpouse from './chapters/04-household-information/currentSpouse';
+import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
+import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
+import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
+import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
+import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import homeOwnership from './chapters/05-financial-information/homeOwnership';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -222,6 +225,15 @@ function createSpouseLabelSelector(nameTemplate) {
       };
     },
   );
+}
+
+function createFullNameReviewTitle(label) {
+  return item => {
+    const veteranFullName = item.formData
+      ? item.formData.veteranFullName
+      : item.veteranFullName;
+    return `${veteranFullName.first} ${veteranFullName.last} ${label}`;
+  };
 }
 
 const formConfig = {
@@ -1005,6 +1017,7 @@ const formConfig = {
                 },
                 disabled: {
                   'ui:title': 'Is your child seriously disabled?',
+                  'ui:description': dependentSeriouslyDisabledDescription,
                   'ui:required': (formData, index) =>
                     !isEligibleForDisabilitySupport(
                       get(['dependents', index, 'childDateOfBirth'], formData),
@@ -1139,16 +1152,13 @@ const formConfig = {
         },
       },
     },
-    financialDisclosure: {
-      title: 'Financial disclosure',
+    financialInformation: {
+      title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
-          path: 'financial-disclosure/net-worth',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } net worth`,
+          path: 'financial/net-worth',
+          title: createFullNameReviewTitle('net worth'),
           schema: {
             type: 'object',
             required: ['netWorth'],
@@ -1166,11 +1176,8 @@ const formConfig = {
           },
         },
         monthlyIncome: {
-          path: 'financial-disclosure/monthly-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } monthly income`,
+          path: 'financial/monthly-income',
+          title: createFullNameReviewTitle('monthly income'),
           initialData: {},
           schema: {
             type: 'object',
@@ -1190,11 +1197,8 @@ const formConfig = {
           },
         },
         expectedIncome: {
-          path: 'financial-disclosure/expected-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expected income`,
+          path: 'financial/expected-income',
+          title: createFullNameReviewTitle('expected income'),
           initialData: {},
           schema: {
             type: 'object',
@@ -1213,11 +1217,8 @@ const formConfig = {
           },
         },
         otherExpenses: {
-          path: 'financial-disclosure/other-expenses',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expenses`,
+          path: 'financial/other-expenses',
+          title: createFullNameReviewTitle('expenses'),
           schema: {
             type: 'object',
             required: ['view:hasOtherExpenses'],
@@ -1252,7 +1253,7 @@ const formConfig = {
           },
         },
         spouseNetWorth: {
-          path: 'financial-disclosure/net-worth/spouse',
+          path: 'financial/net-worth/spouse',
           title: 'Spouse net worth',
           depends: isMarried,
           initialData: {},
@@ -1269,7 +1270,7 @@ const formConfig = {
           },
         },
         spouseMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/spouse',
+          path: 'financial/monthly-income/spouse',
           title: 'Spouse monthly income',
           depends: isMarried,
           initialData: {},
@@ -1287,7 +1288,7 @@ const formConfig = {
           },
         },
         spouseExpectedIncome: {
-          path: 'financial-disclosure/expected-income/spouse',
+          path: 'financial/expected-income/spouse',
           title: 'Spouse expected income',
           depends: isMarried,
           initialData: {},
@@ -1304,7 +1305,7 @@ const formConfig = {
           },
         },
         spouseOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/spouse',
+          path: 'financial/other-expenses/spouse',
           depends: isMarried,
           title: 'Spouse other expenses',
           schema: {
@@ -1341,7 +1342,7 @@ const formConfig = {
           },
         },
         dependentsNetWorth: {
-          path: 'financial-disclosure/net-worth/dependents/:index',
+          path: 'financial/net-worth/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} net worth`,
@@ -1372,7 +1373,7 @@ const formConfig = {
           },
         },
         dependentsMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/dependents/:index',
+          path: 'financial/monthly-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} monthly income`,
@@ -1408,7 +1409,7 @@ const formConfig = {
           },
         },
         dependentsExpectedIncome: {
-          path: 'financial-disclosure/expected-income/dependents/:index',
+          path: 'financial/expected-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} expected income`,
@@ -1443,7 +1444,7 @@ const formConfig = {
           },
         },
         dependentsOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/dependents/:index',
+          path: 'financial/other-expenses/dependents/:index',
           showPagePerItem: true,
           arrayPath: 'dependents',
           title: item =>
@@ -1492,6 +1493,18 @@ const formConfig = {
               },
             },
           },
+        },
+        totalNetWorth: {
+          title: 'total net worth',
+          path: 'financial/total-net-worth',
+          uiSchema: totalNetWorth.uiSchema,
+          schema: totalNetWorth.schema,
+        },
+        homeOwnership: {
+          title: 'home ownership',
+          path: 'financial/home-ownership',
+          uiSchema: homeOwnership.uiSchema,
+          schema: homeOwnership.schema,
         },
       },
     },
