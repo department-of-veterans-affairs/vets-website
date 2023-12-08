@@ -32,14 +32,14 @@ describe('handle multiple drafts in one thread', () => {
       `/my_health/v1/messaging/messages/${
         mockMultiDraftsResponse.data[0].attributes.messageId
       }`,
-      mockMultiDraftsResponse.data[0],
+      { data: mockMultiDraftsResponse.data[0] },
     ).as('firstDraft');
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
         mockMultiDraftsResponse.data[1].attributes.messageId
       }`,
-      mockMultiDraftsResponse.data[1],
+      { data: mockMultiDraftsResponse.data[1] },
     ).as('secondDraft');
 
     cy.contains(mockMessages.data[0].attributes.subject).click({
