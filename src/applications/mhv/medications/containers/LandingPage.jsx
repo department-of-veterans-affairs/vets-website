@@ -38,7 +38,7 @@ const LandingPage = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
     if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current.scrollIntoView();
+      manageMedicationsAccordionSection.current?.scrollIntoView();
     }
   };
 
