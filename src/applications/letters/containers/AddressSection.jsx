@@ -11,17 +11,17 @@ import {
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
 import AddressField from '@@vap-svc/components/AddressField/AddressField';
-import { focusElement } from '~/platform/utilities/ui';
-import { selectVAPContactInfo } from '~/platform/user/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 
+import NoAddressBanner from '../components/NoAddressBanner';
 import { isAddressEmpty } from '../utils/helpers';
-import noAddressBanner from '../components/NoAddressBanner';
 
 const navigateToLetterList = navigate => {
   navigate('/letter-list');
 };
 
-function AddressSection({ savedAddress }) {
+export function AddressSection({ address }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,7 +29,6 @@ function AddressSection({ savedAddress }) {
     focusElement('#content');
   });
 
-  const address = savedAddress;
   const emptyAddress = isAddressEmpty(address);
 
   const addressContent = (
@@ -64,6 +63,7 @@ function AddressSection({ savedAddress }) {
           onClick={() => navigateToLetterList(navigate)}
           className="usa-button-primary view-letters-button"
           disabled={emptyAddress}
+          type="button"
         >
           View Letters
         </button>
@@ -73,10 +73,8 @@ function AddressSection({ savedAddress }) {
 
   return (
     <>
-      <div>
-        <div aria-live="polite" aria-relevant="additions">
-          {emptyAddress ? noAddressBanner : addressContent}
-        </div>
+      <div aria-live="polite" aria-relevant="additions">
+        {emptyAddress ? <NoAddressBanner /> : addressContent}
       </div>
       {viewLettersButton}
     </>
@@ -84,11 +82,11 @@ function AddressSection({ savedAddress }) {
 }
 
 const mapStateToProps = state => ({
-  savedAddress: selectVAPContactInfo(state)?.mailingAddress,
+  address: selectVAPContactInfo(state)?.mailingAddress,
 });
 
 AddressSection.propTypes = {
-  savedAddress: PropTypes.object,
+  address: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(AddressSection);
