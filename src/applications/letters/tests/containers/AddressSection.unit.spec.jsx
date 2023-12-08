@@ -15,13 +15,13 @@ const stub = sinon.stub(VAProfileWrapper, 'default');
 stub.returns(<div />);
 
 const address = {
-  type: ADDRESS_TYPES_ALTERNATE.domestic,
   addressOne: '2476 Main Street',
   addressTwo: '',
   addressThree: '',
   city: 'Reston',
   countryName: 'USA',
   stateCode: 'VA',
+  type: ADDRESS_TYPES_ALTERNATE.domestic,
   zipCode: '12345',
 };
 
