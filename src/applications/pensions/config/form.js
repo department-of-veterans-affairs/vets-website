@@ -80,6 +80,8 @@ import currentSpouseMaritalHistory from './chapters/04-household-information/cur
 import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
+import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import homeOwnership from './chapters/05-financial-information/homeOwnership';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -1021,12 +1023,12 @@ const formConfig = {
         },
       },
     },
-    financialDisclosure: {
-      title: 'Financial disclosure',
+    financialInformation: {
+      title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
         netWorth: {
-          path: 'financial-disclosure/net-worth',
+          path: 'financial/net-worth',
           title: createFullNameReviewTitle('net worth'),
           schema: {
             type: 'object',
@@ -1045,7 +1047,7 @@ const formConfig = {
           },
         },
         monthlyIncome: {
-          path: 'financial-disclosure/monthly-income',
+          path: 'financial/monthly-income',
           title: createFullNameReviewTitle('monthly income'),
           initialData: {},
           schema: {
@@ -1066,7 +1068,7 @@ const formConfig = {
           },
         },
         expectedIncome: {
-          path: 'financial-disclosure/expected-income',
+          path: 'financial/expected-income',
           title: createFullNameReviewTitle('expected income'),
           initialData: {},
           schema: {
@@ -1086,7 +1088,7 @@ const formConfig = {
           },
         },
         otherExpenses: {
-          path: 'financial-disclosure/other-expenses',
+          path: 'financial/other-expenses',
           title: createFullNameReviewTitle('expenses'),
           schema: {
             type: 'object',
@@ -1122,7 +1124,7 @@ const formConfig = {
           },
         },
         spouseNetWorth: {
-          path: 'financial-disclosure/net-worth/spouse',
+          path: 'financial/net-worth/spouse',
           title: 'Spouse net worth',
           depends: isMarried,
           initialData: {},
@@ -1139,7 +1141,7 @@ const formConfig = {
           },
         },
         spouseMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/spouse',
+          path: 'financial/monthly-income/spouse',
           title: 'Spouse monthly income',
           depends: isMarried,
           initialData: {},
@@ -1157,7 +1159,7 @@ const formConfig = {
           },
         },
         spouseExpectedIncome: {
-          path: 'financial-disclosure/expected-income/spouse',
+          path: 'financial/expected-income/spouse',
           title: 'Spouse expected income',
           depends: isMarried,
           initialData: {},
@@ -1174,7 +1176,7 @@ const formConfig = {
           },
         },
         spouseOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/spouse',
+          path: 'financial/other-expenses/spouse',
           depends: isMarried,
           title: 'Spouse other expenses',
           schema: {
@@ -1211,7 +1213,7 @@ const formConfig = {
           },
         },
         dependentsNetWorth: {
-          path: 'financial-disclosure/net-worth/dependents/:index',
+          path: 'financial/net-worth/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} net worth`,
@@ -1242,7 +1244,7 @@ const formConfig = {
           },
         },
         dependentsMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/dependents/:index',
+          path: 'financial/monthly-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} monthly income`,
@@ -1278,7 +1280,7 @@ const formConfig = {
           },
         },
         dependentsExpectedIncome: {
-          path: 'financial-disclosure/expected-income/dependents/:index',
+          path: 'financial/expected-income/dependents/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} expected income`,
@@ -1313,7 +1315,7 @@ const formConfig = {
           },
         },
         dependentsOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/dependents/:index',
+          path: 'financial/other-expenses/dependents/:index',
           showPagePerItem: true,
           arrayPath: 'dependents',
           title: item =>
@@ -1362,6 +1364,18 @@ const formConfig = {
               },
             },
           },
+        },
+        totalNetWorth: {
+          title: 'total net worth',
+          path: 'financial/total-net-worth',
+          uiSchema: totalNetWorth.uiSchema,
+          schema: totalNetWorth.schema,
+        },
+        homeOwnership: {
+          title: 'home ownership',
+          path: 'financial/home-ownership',
+          uiSchema: homeOwnership.uiSchema,
+          schema: homeOwnership.schema,
         },
       },
     },
