@@ -60,17 +60,6 @@ export const draftDetailsReducer = (state = initialState, action) => {
           ...data.attributes,
         },
       };
-    case Actions.Draft.UPDATE_SUCCEEDED:
-      return {
-        ...state,
-        isSaving: false,
-        lastSaveTime: Date.now(),
-        saveError: null,
-        draftMessage: {
-          ...state.draftMessage,
-          ...action.response,
-        },
-      };
     case Actions.Draft.SAVE_FAILED:
       return {
         ...state,

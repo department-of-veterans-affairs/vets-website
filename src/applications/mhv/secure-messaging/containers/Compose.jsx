@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { clearDraft } from '../actions/draftDetails';
+import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
@@ -33,13 +33,13 @@ const Compose = () => {
       dispatch(getPatientSignature());
 
       if (location.pathname === Paths.COMPOSE) {
-        dispatch(clearDraft());
+        dispatch(clearThread());
         setDraftType('compose');
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
       return () => {
-        dispatch(clearDraft());
+        dispatch(clearThread());
       };
     },
     [dispatch, draftId, location.pathname],

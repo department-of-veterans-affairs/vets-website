@@ -66,6 +66,8 @@ export const threadDetailsReducer = (state = initialState, action) => {
         ...state,
         lastSaveTime: null,
       };
+    case Actions.Thread.CLEAR_THREAD:
+      return initialState;
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
     }

@@ -116,10 +116,6 @@ export const saveReplyDraft = (
   return null;
 };
 
-export const clearDraft = () => dispatch => {
-  dispatch({ type: Actions.Draft.CLEAR_DRAFT });
-};
-
 /**
  * @param {Long} messageId
  * @returns
@@ -134,7 +130,6 @@ export const deleteDraft = messageId => async dispatch => {
         Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
       ),
     );
-    dispatch(clearDraft());
   } catch (e) {
     dispatch(
       addAlert(

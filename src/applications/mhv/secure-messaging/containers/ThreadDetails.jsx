@@ -14,7 +14,6 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
-import { clearDraft } from '../actions/draftDetails';
 import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 // import { navigateToFolderByFolderId } from '../util/helpers';
@@ -81,7 +80,6 @@ const ThreadDetails = props => {
           });
       }
       return () => {
-        dispatch(clearDraft());
         dispatch(closeAlert());
       };
     },

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { clearDraft } from '../../actions/draftDetails';
 import EmergencyNote from '../EmergencyNote';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import ReplyDrafts from './ReplyDrafts';
 import { updatePageTitle } from '../../util/helpers';
 import { PageTitles } from '../../util/constants';
+import { clearThread } from '../../actions/threadDetails';
 
 const ReplyForm = props => {
   const { cannotReply, drafts, replyMessage } = props;
@@ -27,6 +27,11 @@ const ReplyForm = props => {
     () => {
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
+      updatePageTitle(
+        `${replyMessage.category}: ${replyMessage.subject} ${
+          PageTitles.PAGE_TITLE_TAG
+        }`,
+      );
     },
     [replyMessage],
   );
@@ -34,7 +39,7 @@ const ReplyForm = props => {
   useEffect(
     () => {
       return () => {
-        dispatch(clearDraft());
+        dispatch(clearThread());
       };
     },
     [dispatch],
@@ -54,17 +59,6 @@ const ReplyForm = props => {
       focusElement(header.current);
     }
   }, []);
-
-  useEffect(
-    () => {
-      updatePageTitle(
-        `${replyMessage.category}: ${replyMessage.subject} ${
-          PageTitles.PAGE_TITLE_TAG
-        }`,
-      );
-    },
-    [replyMessage],
-  );
 
   const messageTitle = useMemo(
     () => {
