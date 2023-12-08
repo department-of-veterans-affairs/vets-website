@@ -91,6 +91,13 @@ const ReplyDraftItem = props => {
     [draft, messageBody],
   );
 
+  const refreshThreadHandler = useCallback(
+    () => {
+      dispatch(retrieveMessageThread(replyMessage.messageId));
+    },
+    [replyMessage, dispatch],
+  );
+
   useEffect(
     () => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
@@ -476,12 +483,14 @@ const ReplyDraftItem = props => {
 
           <DraftSavedInfo />
           <ComposeFormActionButtons
-            onSend={sendMessageHandler}
-            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
-            draftId={draft?.messageId}
-            setNavigationError={setNavigationError}
             cannotReply={cannotReply}
+            draftId={draft?.messageId}
+            draftsCount={draftsCount}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            onSend={sendMessageHandler}
+            refreshThreadCallback={refreshThreadHandler}
             setDeleteButtonClicked={setDeleteButtonClicked}
+            setNavigationError={setNavigationError}
           />
         </>
       ) : (

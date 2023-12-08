@@ -24,8 +24,10 @@ const DeleteDraft = props => {
   const {
     cannotReply,
     draftId,
+    draftsCount,
     formPopulated,
     navigationError,
+    refreshThreadCallback,
     setDeleteButtonClicked,
     setNavigationError,
     setUnsavedNavigationError,
@@ -55,11 +57,15 @@ const DeleteDraft = props => {
       setNavigationError(null);
       setIsModalVisible(false);
       dispatch(deleteDraft(draftId)).then(() => {
-        dispatch(clearMessageHistory());
-        navigateToFolderByFolderId(
-          activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
-          history,
-        );
+        if (draftsCount === 1) {
+          dispatch(clearMessageHistory());
+          navigateToFolderByFolderId(
+            activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
+            history,
+          );
+        } else {
+          refreshThreadCallback();
+        }
       });
     }
 
@@ -138,9 +144,11 @@ DeleteDraft.propTypes = {
   cannotReply: PropType.bool,
   draft: PropType.object,
   draftId: PropType.number,
+  draftsCount: PropType.number,
   formPopulated: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
+  refreshThreadCallback: PropType.func,
   setDeleteButtonClicked: PropType.func,
   setNavigationError: PropType.func,
   setUnsavedNavigationError: PropType.func,
