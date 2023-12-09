@@ -1,6 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import getHelp from '../../shared/components/GetFormHelp';
+import getHelp from '../components/CustomGetFormHelp';
 
 import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
