@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { connect } from 'react-redux';
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
 const ombInfo = {
@@ -12,7 +16,20 @@ const ombInfo = {
   expDate: '08/31/2026',
 };
 
-export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
+export const IntroductionPage = props => {
+  const { route, userIdVerified, userLoggedIn } = props;
+  const getStartPage = () => {
+    const data = {
+      'view:userLoggedIn': userLoggedIn,
+      'view:userIdVerified': userIdVerified,
+    };
+    const { pageList } = route;
+    const pathname = '/introduction';
+    // pathname is only provided when the first page is conditional
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
+
   const content = {
     formTitle: 'Request personal records',
     formSubTitle:
@@ -192,6 +209,13 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
                   Verify your identity
                 </a>
               </p>
+              {!environment.isProduction() && (
+                <div className="vads-u-margin-top--2 vads-u-color--gray-light">
+                  <p>
+                    <Link to={getStartPage}>[Start]</Link>
+                  </p>
+                </div>
+              )}
             </va-alert>
             <p className="vads-u-margin-top--3">
               If you don’t want to verify your identity right now, you can still
