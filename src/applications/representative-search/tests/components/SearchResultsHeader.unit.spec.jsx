@@ -101,6 +101,32 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
+  it('endResultNum should equal totalEntries when totalEntries > 10 and currentPage does equal totalPages', () => {
+    const wrapper = shallow(
+      <SearchResultsHeader
+        searchResults={testDataResponse.data}
+        query={{
+          representativeType: 'attorney',
+          inProgress: false,
+          context: { location: 'new york' },
+        }}
+        pagination={{ totalEntries: 12, currentPage: 2, totalPages: 2 }}
+      />,
+    );
+
+    const expectedString =
+      'Showing 11 - 12 of 12 results for Attorneys within 50 miles of "new york"';
+    const actualString = wrapper.find('h2').text();
+
+    // Remove whitespaces and special characters
+    const cleanExpected = expectedString.replace(/\s+/g, '');
+    const cleanActual = actualString.replace(/\s+/g, '');
+
+    expect(cleanActual).to.equal(cleanExpected);
+
+    wrapper.unmount();
+  });
+
   it('should render "Showing _ results" if totalEntries is between 1 and 11', () => {
     const wrapper = shallow(
       <SearchResultsHeader
