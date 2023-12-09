@@ -3,10 +3,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import footerContent from 'platform/forms/components/FormFooter';
 import { isProfileLoading, isLoggedIn, isLOA3 } from 'platform/user/selectors';
-import getHelp from '../../shared/components/GetFormHelp';
+import getHelp from '../components/CustomGetFormHelp';
 
 const IdVerificationPage = props => {
   const {
@@ -25,11 +26,11 @@ const IdVerificationPage = props => {
 
   useEffect(
     () => {
-      if (!userLoggedIn || userIdVerified) {
+      if (!showLoadingIndicator && (!userLoggedIn || userIdVerified)) {
         router.push('/preparer-type');
       }
     },
-    [userLoggedIn, userIdVerified, router],
+    [showLoadingIndicator, userLoggedIn, userIdVerified, router],
   );
 
   return (
@@ -93,12 +94,14 @@ const IdVerificationPage = props => {
               data-testid="download-link"
             />
           </p>
-          <div className="test-only">
-            <p>
-              [userLoggedIn: {userLoggedIn ? 'true' : 'false'}; userIdVerified:{' '}
-              {userIdVerified ? 'true' : 'false'}]
-            </p>
-          </div>
+          {!environment.isProduction() && (
+            <div className="vads-u-margin-top--2 vads-u-color--gray-medium">
+              <p>
+                [userLoggedIn: {userLoggedIn ? 'true' : 'false'};
+                userIdVerified: {userIdVerified ? 'true' : 'false'}]
+              </p>
+            </div>
+          )}
           {footerContent({ formConfig, location })}
         </>
       )}

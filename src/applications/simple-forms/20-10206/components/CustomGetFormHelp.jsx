@@ -31,7 +31,7 @@ export function CustomGetFormHelp(props) {
         text="Find a local Veterans Service Organization"
       />
       {!environment.isProduction() && (
-        <div className="vads-u-margin-top--2 vads-u-color--gray-light">
+        <div className="vads-u-margin-top--2 vads-u-color--gray-medium">
           [userLoggedIn: {userLoggedIn ? 'true' : 'false'}; userIdVerified:{' '}
           {userIdVerified ? 'true' : 'false'}]
         </div>
