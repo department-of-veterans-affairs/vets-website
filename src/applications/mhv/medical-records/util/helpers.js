@@ -214,7 +214,7 @@ export const dispatchDetails = async (
   actionsGET,
 ) => {
   // Determine the property to match based on getDetail
-  const propertyToMatch = getDetail.name === 'getVitals' ? 'name' : 'id';
+  const propertyToMatch = getDetail.name === 'getVitals' ? 'type' : 'id';
   // Find the matching item in the list
   const matchingItem = list.find(item => item[propertyToMatch] === id);
   console.log('The propertyToMatch: ', propertyToMatch);
@@ -228,6 +228,7 @@ export const dispatchDetails = async (
       dispatch(getDetail());
       dispatch({ type: actionsGET, id });
     } else {
+      console.log('I am in not list: hello');
       // List has no data or is empty, fetch the data using getDetail(id)
       const response = await getDetail(id);
       dispatch({ type: actionsGET, response });
@@ -251,7 +252,7 @@ export const dispatchDetails = async (
 //   actionsGET,
 // ) => {
 //   // Determine the property to match based on getDetail
-//   const propertyToMatch = getDetail.name === 'getVitals' ? 'name' : 'id';
+//   const propertyToMatch = getDetail.name === 'getVitals' ? 'type' : 'id';
 //   // Find the matching item in the list
 //   const matchingItem = list.find(item => item[propertyToMatch] === id);
 
