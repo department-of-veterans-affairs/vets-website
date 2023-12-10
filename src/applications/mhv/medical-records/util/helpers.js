@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
@@ -194,3 +195,81 @@ export const getNameDateAndTime = user => {
     .format('M-D-YYYY_hhmmssa')
     .replace(/\./g, '')}`;
 };
+
+/**
+ * Helper function to dispatch details id if a matching is found in the list.
+ * If no matching is found, it fetches the details id using getDetail().
+ *
+ * @param {string} id - The ID of the detail to retrieve.
+ * @param {Array} list - The list of detail object to search in.
+ * @param {Function} dispatch - The Redux dispatch function.
+ * @param {Function} getDetail - The function to fetch detail's object by ID from an API.
+ */
+export const dispatchDetails = async (
+  id,
+  list,
+  dispatch,
+  getDetail,
+  actionsGetFROMLIST,
+  actionsGET,
+) => {
+  // Determine the property to match based on getDetail
+  const propertyToMatch = getDetail.name === 'getVitals' ? 'name' : 'id';
+  // Find the matching item in the list
+  const matchingItem = list.find(item => item[propertyToMatch] === id);
+  console.log('The propertyToMatch: ', propertyToMatch);
+  console.log('The matchingItem : ', matchingItem);
+  console.log('This is id : ', id);
+
+  if (!list || list.length === 0 || !matchingItem) {
+    if (getDetail.name === 'getVitals') {
+      console.log('I am here ty barnes:', getDetail.name);
+      // If the function name is 'getVitals', call it and then dispatch the action
+      dispatch(getDetail());
+      dispatch({ type: actionsGET, id });
+    } else {
+      // List has no data or is empty, fetch the data using getDetail(id)
+      const response = await getDetail(id);
+      dispatch({ type: actionsGET, response });
+    }
+    return;
+  }
+  // If a matching item is found, dispatch it
+  console.log('I am inside the else: Hi');
+  dispatch({
+    type: actionsGetFROMLIST,
+    response: matchingItem,
+  });
+};
+
+// export const dispatchDetails = async (
+//   id,
+//   list,
+//   dispatch,
+//   getDetail,
+//   actionsGetFROMLIST,
+//   actionsGET,
+// ) => {
+//   // Determine the property to match based on getDetail
+//   const propertyToMatch = getDetail.name === 'getVitals' ? 'name' : 'id';
+//   // Find the matching item in the list
+//   const matchingItem = list.find(item => item[propertyToMatch] === id);
+
+//   if (!list || list.length === 0 || !matchingItem) {
+//     if (getDetail.name === 'getVitals') {
+//       // If the function name is 'getVitals', call it and then dispatch the action
+//       dispatch(getDetail());
+//       dispatch({ type: actionsGET, id });
+//     } else {
+//       // List has no data or is empty, fetch the data using getDetail(id)
+//       const response = await getDetail(id);
+//       dispatch({ type: actionsGET, response });
+//     }
+//     return;
+//   }
+//   // If a matching item is found, dispatch it
+//   dispatch({
+//     type: actionsGetFROMLIST,
+//     response: matchingItem,
+//   });
+// };

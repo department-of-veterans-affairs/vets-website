@@ -37,7 +37,9 @@ import { txtLine } from '../../shared/util/constants';
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
   const record = useSelector(state => state.mr.conditions.conditionDetails);
-  const condition = useSelector(state => state.mr.vaccines.conditionList);
+  const conditionList = useSelector(
+    state => state.mr.conditions.conditionsList,
+  );
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -68,9 +70,10 @@ const ConditionDetails = props => {
 
   useEffect(
     () => {
-      if (conditionId) dispatch(getConditionDetails(conditionId, condition));
+      if (conditionId)
+        dispatch(getConditionDetails(conditionId, conditionList));
     },
-    [conditionId, condition, dispatch],
+    [conditionId, conditionList, dispatch],
   );
 
   useEffect(

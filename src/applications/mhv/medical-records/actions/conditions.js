@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { getConditions, getCondition } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
+import { dispatchDetails } from '../util/helpers';
 
 export const getConditionsList = () => async dispatch => {
   try {
@@ -17,26 +18,14 @@ export const getConditionDetails = (
   conditionList,
 ) => async dispatch => {
   try {
-    // Check if conditionList has data
-    if (conditionList && conditionList.length > 0) {
-      const matchingConditon = conditionList.find(
-        item => item.id === conditionId,
-      );
-
-      if (matchingConditon) {
-        // If a matching condition is found, dispatch it
-        dispatch({
-          type: Actions.Conditions.GET_FROM_LIST,
-          response: matchingConditon,
-        });
-        return;
-      }
-    } else {
-      // If conditionList has no data,
-      // or if the conditionList item can't be found, use getCondition(conditionId)
-      const response = await getCondition(conditionId);
-      dispatch({ type: Actions.Conditions.GET, response });
-    }
+    dispatchDetails(
+      conditionId,
+      conditionList,
+      dispatch,
+      getCondition,
+      Actions.Conditions.GET_FROM_LIST,
+      Actions.Conditions.GET,
+    );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }

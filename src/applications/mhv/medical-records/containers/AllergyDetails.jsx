@@ -33,7 +33,7 @@ import { txtLine } from '../../shared/util/constants';
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
-  const allergyList = useSelector(state => state.mr.vaccines.allergyList);
+  const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>

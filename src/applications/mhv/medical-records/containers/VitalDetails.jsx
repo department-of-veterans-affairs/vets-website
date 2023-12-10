@@ -41,7 +41,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
   const records = useSelector(state => state.mr.vitals.vitalDetails);
-  const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const vitalsList = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -119,10 +119,11 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (vitalType) {
-        dispatch(getVitalDetails(macroCase(vitalType, vitals)));
+        const formattedVitalType = macroCase(vitalType);
+        dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
-    [vitalType, vitals, dispatch],
+    [vitalType, vitalsList, dispatch],
   );
 
   const generateVitalsPdf = async () => {
