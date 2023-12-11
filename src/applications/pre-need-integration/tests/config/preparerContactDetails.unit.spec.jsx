@@ -28,7 +28,7 @@ describe('Pre-need preparer info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformation.pages.preparerContactDetails;
+  } = formConfig.chapters.preparerInformation.pages.preparerContactDetails;
 
   it('should render contact details', () => {
     const form = ReactTestUtils.renderIntoDocument(
