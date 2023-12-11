@@ -1,5 +1,8 @@
 import OtherAssetsInputList from '../../../components/otherAssets/OtherAssetsInputList';
-import { validateCurrencyArray } from '../../../utils/validations';
+import {
+  validateCurrencyArray,
+  validateOtherAssetsArrayLimits,
+} from '../../../utils/validations';
 
 export const otherAssetsValues = {
   uiSchema: {
@@ -11,7 +14,10 @@ export const otherAssetsValues = {
       },
       otherAssets: {
         'ui:title': 'otherAssetsValues',
-        'ui:validations': [validateCurrencyArray],
+        'ui:validations': [
+          validateCurrencyArray,
+          validateOtherAssetsArrayLimits,
+        ],
         items: {
           name: {
             'ui:title': 'Name of asset',

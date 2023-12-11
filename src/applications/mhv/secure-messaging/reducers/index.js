@@ -12,6 +12,7 @@ import { breadcrumbsReducer } from './breadcrumbs';
 import { threadsReducer } from './threads';
 import { preferencesReducer } from './preferences';
 import { threadDetailsReducer } from './threadDetails';
+import { facilitiesReducer } from './facilities';
 
 const rootReducer = {
   sm: combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = {
     breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
     draftDetails: draftDetailsReducer,
+    facilities: facilitiesReducer,
     folders: foldersReducer,
     messageDetails: messageDetailsReducer,
     search: searchReducer,

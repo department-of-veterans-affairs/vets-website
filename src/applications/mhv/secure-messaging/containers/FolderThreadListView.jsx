@@ -45,6 +45,7 @@ const FolderThreadListView = props => {
     keyword,
     query,
   } = useSelector(state => state.sm.search);
+
   const location = useLocation();
   const params = useParams();
 
