@@ -7,5 +7,8 @@ export default function PeriodOfConfinement({ formData = {} }) {
 }
 
 PeriodOfConfinement.propTypes = {
-  formData: PropTypes.object,
+  formData: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
 };

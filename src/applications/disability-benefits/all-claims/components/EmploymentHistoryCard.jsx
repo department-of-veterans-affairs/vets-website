@@ -17,7 +17,10 @@ export default function EmploymentHistoryCard({ formData }) {
 
 EmploymentHistoryCard.propTypes = {
   formData: PropTypes.shape({
-    dates: PropTypes.object,
+    dates: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
     name: PropTypes.string,
   }),
 };

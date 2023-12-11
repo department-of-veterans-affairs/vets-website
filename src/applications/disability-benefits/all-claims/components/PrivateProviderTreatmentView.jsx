@@ -15,6 +15,9 @@ export default function PrivateProviderTreatmentView({ formData }) {
 PrivateProviderTreatmentView.propTypes = {
   formData: PropTypes.shape({
     providerFacilityName: PropTypes.string,
-    treatmentDateRange: PropTypes.object,
+    treatmentDateRange: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
   }),
 };

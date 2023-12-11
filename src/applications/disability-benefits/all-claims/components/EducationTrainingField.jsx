@@ -16,7 +16,10 @@ export default function EducationTrainingField({ formData }) {
 
 EducationTrainingField.propTypes = {
   formData: PropTypes.shape({
-    dates: PropTypes.object,
+    dates: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
     name: PropTypes.string,
   }),
 };
