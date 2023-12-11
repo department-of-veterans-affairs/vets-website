@@ -410,6 +410,7 @@ class ReviewCollapsibleChapter extends React.Component {
       <va-accordion-item
         data-chapter={this.props.chapterKey}
         header={chapterTitle}
+        level={3}
         subHeader={this.props.hasUnviewedPages ? subHeader : ''}
         onClick={this.handleChapterClick}
         data-unviewed-pages={this.props.hasUnviewedPages}
