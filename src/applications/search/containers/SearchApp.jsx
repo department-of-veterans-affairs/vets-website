@@ -304,6 +304,10 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
+      if (inputValue.length > 255) {
+        return [];
+      }
+
       const apiRequestOptions = {
         method: 'GET',
       };
