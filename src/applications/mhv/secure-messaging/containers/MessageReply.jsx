@@ -7,7 +7,6 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
-// import { PrintMessageOptions } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const MessageReply = () => {
@@ -15,9 +14,6 @@ const MessageReply = () => {
   const { replyId } = useParams();
   const { error } = useSelector(state => state.sm.draftDetails);
   const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  // const { messageHistory, printOption, threadViewCount } = useSelector(
-  //   state => state.sm.messageDetails,
-  // );
   const { drafts, messages, threadViewCount } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -62,17 +58,9 @@ const MessageReply = () => {
   };
 
   const thread = () => {
-    // const newHistory = [replyMessage];
-    // if (messageHistory?.length) {
-    //   newHistory.push(...messageHistory);
-    // }
     return (
       <>
-        <MessageThread
-          messageHistory={messages}
-          // isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-          viewCount={threadViewCount}
-        />
+        <MessageThread messageHistory={messages} viewCount={threadViewCount} />
       </>
     );
   };

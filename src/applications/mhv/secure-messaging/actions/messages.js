@@ -23,20 +23,11 @@ export const clearMessage = () => async dispatch => {
  * @param {Long} messageId
  * @returns
  */
-export const markMessageAsReadInThread = (
-  messageId,
-  // isDraftThread,
-) => async dispatch => {
+export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
-    // dispatch({
-    //   type: isDraftThread
-    //     ? Actions.Draft.GET_IN_THREAD
-    //     : Actions.Message.GET_IN_THREAD,
-    //   response,
-    // });
     dispatch({
       type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
@@ -71,7 +62,6 @@ export const retrieveMessageThread = (
       const lastSentDate = getLastSentMessage(response.data)?.attributes
         .sentDate;
 
-      // const isDraft = response.data[0].attributes.draftDate !== null;
       const drafts = response.data.filter(m => m.attributes.draftDate !== null);
       const messages = response.data.filter(
         m => m.attributes.sentDate !== null,

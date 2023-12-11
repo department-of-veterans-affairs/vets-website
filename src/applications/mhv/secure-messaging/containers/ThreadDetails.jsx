@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  // useHistory,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
@@ -16,7 +12,6 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
 import { PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-// import { navigateToFolderByFolderId } from '../util/helpers';
 import { getFolders, retrieveFolder } from '../actions/folders';
 
 const ThreadDetails = props => {
@@ -25,28 +20,20 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // const history = useHistory();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const {
-    message,
-    // messageHistory,
-    printOption,
-    // threadViewCount,
-    // cannotReply,
-  } = useSelector(state => state.sm.messageDetails);
-  // const { draftMessage } = useSelector(state => state.sm.draftDetails);
-  const {
+    cannotReply,
     drafts,
     messages,
-    cannotReply,
+    printOption,
     threadFolderId,
     threadViewCount,
   } = useSelector(state => state.sm.threadDetails);
   const { folder } = useSelector(state => state.sm.folders);
 
+  const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
-
   const [isLoaded, setIsLoaded] = useState(testing);
   const header = useRef();
 
@@ -122,16 +109,15 @@ const ThreadDetails = props => {
       return (
         <div className="compose-container">
           <ReplyForm
-            // draftToEdit={drafts[0]}
-            drafts={drafts}
-            replyMessage={messages[0]}
             cannotReply={cannotReply}
+            drafts={drafts}
             header={header}
+            replyMessage={messages[0]}
           />
           <MessageThread
-            messageHistory={messages}
             isDraftThread
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            messageHistory={messages}
             viewCount={threadViewCount}
           />
         </div>
