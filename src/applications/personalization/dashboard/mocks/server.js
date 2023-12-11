@@ -22,7 +22,7 @@ const hasDebts = false;
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
-    authExpVbaDowntimeMessage: true,
+    authExpVbaDowntimeMessage: false,
     myVaEnableNotificationComponent: true,
     myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
