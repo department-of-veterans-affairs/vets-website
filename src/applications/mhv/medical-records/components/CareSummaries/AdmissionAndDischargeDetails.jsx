@@ -165,8 +165,11 @@ ${record.summary}`;
       </div>
 
       <div className="test-details-container max-80">
-        <h2>Details</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h2 data-testid="test-details-container">Details</h2>
+        <h3
+          data-testid="test-details-location"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
           Location
         </h3>
         <p>{record.location}</p>
@@ -174,7 +177,10 @@ ${record.summary}`;
           Admission date
         </h3>
         <p>{record.admissionDate}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3
+          data-testid="test-discharge-date"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
           Discharge date
         </h3>
         <p>{record.dischargeDate}</p>
@@ -182,7 +188,10 @@ ${record.summary}`;
           Admitted by
         </h3>
         <p>{record.admittedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+        <h3
+          data-testid="test-discharged-by"
+          className="vads-u-font-size--base vads-u-font-family--sans"
+        >
           Discharged by
         </h3>
         <p>{record.dischargedBy}</p>

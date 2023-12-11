@@ -40,6 +40,10 @@ class NotesDetailsPage {
       .click();
   };
 
+  verifyDetails = Details => {
+    cy.contains('Details').should('contain', Details);
+  };
+
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
   };

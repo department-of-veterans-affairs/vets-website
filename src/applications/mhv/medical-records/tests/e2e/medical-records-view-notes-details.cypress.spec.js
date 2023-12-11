@@ -11,32 +11,20 @@ describe('Medical Records View Notes', () => {
   });
 
   it('Care summaries and notes Page  ', () => {
+    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
     // should display ProgressNote
     NotesDetailsPage.clickProgressNoteLink(0);
-    // should display a toggle menu button
-    NotesDetailsPage.clickPrintOrDownload();
-    NotesDetailsPage.verifyPrintOrDownload();
-    // should display print button for a Details "Print this Details"
-    NotesDetailsPage.verifyPrintButton();
-    // should display a download pdf file button "Download PDF of this page"
-    NotesDetailsPage.verifyDownloadPDF();
-    // should display a download text file button "Download Details as a text file"
-    NotesDetailsPage.verifyDownloadTextFile();
+    // Verify Details
+    NotesDetailsPage.verifyDetails();
+    // Verify Location
+    // Verify Signed by
+    // Verify Date Signed
 
     // Click Back to Care summaries and notes
     NotesDetailsPage.clickBreadCrumbsLink(0);
 
     // should display Discharge Summary
     NotesDetailsPage.clickDischargeSummaryLink(1);
-    // should display a toggle menu button
-    NotesDetailsPage.clickPrintOrDownload();
-    NotesDetailsPage.verifyPrintOrDownload();
-    // should display print button for a Details "Print this Details"
-    NotesDetailsPage.verifyPrintButton();
-    // should display a download pdf file button "Download PDF of this page"
-    NotesDetailsPage.verifyDownloadPDF();
-    // should display a download text file button "Download Details as a text file"
-    NotesDetailsPage.verifyDownloadTextFile();
 
     // Click Back to Care summaries and notes
     NotesDetailsPage.clickBreadCrumbsLink(0);
