@@ -1,9 +1,9 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
-import mockMultiDraftsResponse from './fixtures/draftsResponse/multi-draft-response.json';
-import { Alerts } from '../../util/constants';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
+import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
+import { Alerts } from '../../../util/constants';
 
 describe.skip('handle multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
