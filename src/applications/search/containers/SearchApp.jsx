@@ -425,6 +425,7 @@ class SearchApp extends React.Component {
         </div>
       );
     }
+
     return (
       <div>
         {searchInput}
