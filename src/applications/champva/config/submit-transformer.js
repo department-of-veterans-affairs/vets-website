@@ -31,35 +31,38 @@ export default function transformForSubmit(formConfig, form) {
   );
 
   // eslint-disable-next-line no-console
-  /*
-  console.log(
-    'Custom transformer called with data: ',
-    JSON.stringify(transformedData),
-    transformedData,
-  );
-  */
+  // console.log(
+  //   'Custom transformer called with data: ',
+  //   JSON.stringify(transformedData),
+  //   transformedData,
+  // );
 
   // Make changes to transformedData here...
   const dataPostTransform = {
     veteran: {
-      full_name: transformedData.veteransFullName,
-      ssn_or_tin: transformedData.ssn,
+      full_name: transformedData.veteransFullName || {},
+      ssn_or_tin: transformedData.ssn || '',
       va_claim_number: transformedData.vaFileNumber || '',
-      date_of_birth: transformedData.sponsorDOB,
+      date_of_birth: transformedData.sponsorDOB || '',
       phone_number: transformedData?.sponsorPhone || '',
-      address: transformedData.sponsorAddress,
+      address: transformedData.sponsorAddress || {
+        street: 'NA',
+        city: 'NA',
+        state: 'NA',
+        postalCode: 'NA',
+        country: 'NA',
+      },
       date_of_death: transformedData.sponsorDOD || '',
       date_of_marriage: transformedData.sponsorDOM || '',
     },
     applicants: transformApplicants(transformedData.applicants),
     certification: {
       date: transformedData?.dateOfCertification || '', // TODO: add field
-      lastName: transformedData.certifierName.last,
-      middleInitial: transformedData.certifierName?.middle[0] || '',
-      firstName: transformedData.certifierName.first,
+      lastName: transformedData.certifierName.last || '',
+      middleInitial: transformedData.certifierName?.middle || '',
+      firstName: transformedData.certifierName.first || '',
       phone_number: transformedData?.certifierPhone || '',
-      relationship:
-        transformedData?.certifierRelationship.relationshipToVeteran || '',
+      relationship: transformedData?.certifierRelationshipToSponsor || '',
       streetAddress: transformedData?.certifierAddress.street || '',
       city: transformedData?.certifierAddress.city || '',
       state: transformedData?.certifierAddress.state || '',
@@ -69,7 +72,7 @@ export default function transformForSubmit(formConfig, form) {
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =
-    dataPostTransform.veteran.address.postalCode;
+    dataPostTransform.veteran.address.postalCode || '';
   delete dataPostTransform.veteran.address.postalCode;
 
   // eslint-disable-next-line no-console
