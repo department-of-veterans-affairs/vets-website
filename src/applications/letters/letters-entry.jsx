@@ -1,4 +1,4 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/letters.scss';
 
 import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
