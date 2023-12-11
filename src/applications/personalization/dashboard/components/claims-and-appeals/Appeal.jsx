@@ -9,6 +9,7 @@ import {
   getTypeName,
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
+import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import { getStatusContents } from '../../utils/getStatusContents';
 
@@ -70,7 +71,7 @@ const Appeal = ({ appeal, name }) => {
   }
 
   appealTitle += ` updated on ${format(
-    new Date(updatedEventDateString.replace(/-/g, '/')),
+    new Date(replace(updatedEventDateString)),
     'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
