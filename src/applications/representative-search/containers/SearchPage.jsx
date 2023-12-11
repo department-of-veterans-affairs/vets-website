@@ -217,11 +217,11 @@ const SearchPage = props => {
         label: 'Home',
       },
       {
-        href: '/get-help-from-acccredited-representative',
+        href: '/get-help-from-accredited-representative',
         label: 'Get help from a VA accredited representative',
       },
       {
-        href: '/get-help-from-acccredited-representative/find-rep',
+        href: '/get-help-from-accredited-representative/find-rep',
         label: 'Find a VA accredited representative',
       },
     ];
