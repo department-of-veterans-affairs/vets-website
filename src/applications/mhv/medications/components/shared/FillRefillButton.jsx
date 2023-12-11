@@ -60,8 +60,8 @@ const FillRefillButton = rx => {
           )}
         {isLoading && (
           <va-loading-indicator
-            label="Submitting your request..."
-            set-focus
+            message="Submitting your request..."
+            setFocus
             data-testid="refill-loader"
           />
         )}
