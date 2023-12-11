@@ -10,13 +10,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 // } from 'platform/monitoring/DowntimeNotification';
 
 function App({ children }) {
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const appEnabled = useToggleValue(TOGGLE_NAMES.findARepresentative);
+  const { useToggleLoadingValue } = useFeatureToggle();
 
   const togglesLoading = useToggleLoadingValue();
 
@@ -28,10 +22,6 @@ function App({ children }) {
         </div>
       </>
     );
-  }
-
-  if (!appEnabled) {
-    return document.location.replace('/');
   }
 
   return (
