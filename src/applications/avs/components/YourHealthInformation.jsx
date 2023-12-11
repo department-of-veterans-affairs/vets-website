@@ -261,39 +261,53 @@ const medsIntro = avs => {
   );
 };
 
-// FIXME: object children test error.
+const renderFieldWithBreak = (field, prefix = '') => {
+  if (field) {
+    if (prefix) {
+      return (
+        <>
+          {prefix}: {String(field)} <br />
+        </>
+      );
+    }
+    return (
+      <>
+        {String(field)}
+        <br />
+      </>
+    );
+  }
+
+  return '';
+};
+
 const renderMedication = medication => {
   return (
     <>
       <p>
-        {medication.name}
+        {renderFieldWithBreak(medication.name)}
+        {renderFieldWithBreak(medication.sig)}
+        {renderFieldWithBreak(medication.description, 'Description')}
+        {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
+        {renderFieldWithBreak(medication.comment, 'Notes')}
         <br />
-        {medication.sig}
-        {medication.description && <br />}
-        {medication.description && `Description: ${medication.description}`}
+        {renderFieldWithBreak(medication.stationName, 'Facility')}
+        {!!medication.facilityPhone && (
+          <>
+            Main phone: [
+            <va-telephone
+              contact={medication.facilityPhone.replace(/\D/g, '')}
+            />
+            ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
+          </>
+        )}
+        {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
         <br />
-        Rx #: {medication.rxNumber}
-        <br />
-        Notes: {medication.comment}
-        <br />
-        <br />
-        Facility: {medication.stationName}
-        <br />
-        Main phone: [{' '}
-        <va-telephone contact={medication.facilityPhone.replace(/\D/g, '')} /> ]
-        (<va-telephone contact={CONTACTS['711']} tty />)<br />
-        Ordering Provider: {medication.orderingProvider}
-        <br />
-        <br />
-        Status: {medication.status}
-        <br />
-        Quantity: {medication.quantity}
-        <br />
-        Refills remaining: {medication.refillsRemaining}
-        <br />
-        Expires: {medication.dateExpires}
-        <br />
-        Last filled: {medication.dateLastFilled}
+        {renderFieldWithBreak(medication.status, 'Status')}
+        {renderFieldWithBreak(medication.quantity, 'Quantity')}
+        {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
+        {renderFieldWithBreak(medication.dateExpires, 'Expires')}
+        {renderFieldWithBreak(medication.dateLastFilled, 'Last filled')}
       </p>
     </>
   );
