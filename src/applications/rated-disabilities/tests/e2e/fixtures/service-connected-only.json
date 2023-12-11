@@ -15,7 +15,7 @@
           "diagnosticTypeCode": "6100",
           "diagnosticTypeName": "6100-Hearing loss",
           "diagnosticText": "Hearing Loss",
-          "disabilityRatingId": "1128271"
+          "disabilityRatingId": "1"
         },
         {
           "decision": "Service Connected",
@@ -25,7 +25,7 @@
           "diagnosticTypeCode": "5260",
           "diagnosticTypeName": "Limitation of flexion, knee",
           "diagnosticText": "Allergies due to Hearing Loss",
-          "disabilityRatingId": "1072414"
+          "disabilityRatingId": "2"
         },
         {
           "decision": "Service Connected",
@@ -35,7 +35,7 @@
           "diagnosticTypeCode": "8540",
           "diagnosticTypeName": "Soft tissue sarcoma (neurogenic origin)",
           "diagnosticText": "Sarcoma Soft-Tissue",
-          "disabilityRatingId": "1124345"
+          "disabilityRatingId": "3"
         }
       ]
     }
