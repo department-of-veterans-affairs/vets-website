@@ -4,10 +4,6 @@ import {
   SEARCH_FAILED,
   SEARCH_COMPLETE,
 } from '../../utils/actionTypes';
-import { useMockData } from '../../config';
-// import mockPaginatedData from '../../constants/mock-representative-paginated-data.json';
-import mockUnpaginatedData from '../../constants/mock-rep-data-unpaginated.json';
-import { mockPaginatedResponse } from '../../utils/helpers';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -52,26 +48,6 @@ export const fetchRepresentatives = async (
       dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
-    if (useMockData) {
-      /*
-      const mockedResponse = {
-        data: mockPaginatedData.mockPages[page - 1],
-        links: mockPaginatedData.links,
-        meta: {
-          ...mockPaginatedData.meta,
-          pagination: {
-            ...mockPaginatedData.meta.pagination,
-            currentPage: page,
-          },
-        },
-      };
-      */
-
-      const mockedResponse = mockPaginatedResponse(mockUnpaginatedData, page);
-      dispatch({ type: SEARCH_COMPLETE, payload: mockedResponse });
-
-      return;
-    }
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage('Error fetching accredited representatives');
