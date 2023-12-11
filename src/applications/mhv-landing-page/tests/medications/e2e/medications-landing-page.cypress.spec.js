@@ -32,6 +32,13 @@ describe('Medications Landing Page', () => {
     });
   });
 
+  it('shows login modal if unauthenticated', () => {
+    cy.intercept('GET', '/v0/feature_toggles*', medicationFeatureToggles(true));
+
+    cy.visit('my-health/about-medications/');
+    cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
+  });
+
   it('redirects from Medications landing Page when feature toggle is off', () => {
     const redirectPath = '/health-care/refill-track-prescriptions';
     cy.intercept('GET', redirectPath, '').as('refillRedirect');
