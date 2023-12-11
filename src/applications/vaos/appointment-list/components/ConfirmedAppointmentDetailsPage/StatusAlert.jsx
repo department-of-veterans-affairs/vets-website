@@ -12,6 +12,7 @@ import {
 import { startNewAppointmentFlow } from '../../redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
+import { selectFeatureAfterVisitSummary } from '../../../redux/selectors';
 
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
@@ -29,12 +30,15 @@ export default function StatusAlert({ appointment, facility }) {
 
   const { search } = useLocation();
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
-
+  const featureAfterVisitSummary = useSelector(state =>
+    selectFeatureAfterVisitSummary(state),
+  );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { isPastAppointment } = appointment.vaos;
+  const avsLink = appointment.avsPath;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -53,11 +57,33 @@ export default function StatusAlert({ appointment, facility }) {
       </>
     );
   }
-  if (isPastAppointment) {
+  if (isPastAppointment && !featureAfterVisitSummary) {
     return (
       <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
       </InfoAlert>
+    );
+  }
+  if (isPastAppointment && featureAfterVisitSummary) {
+    return (
+      <>
+        <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
+          This appointment occurred in the past.
+        </p>
+        {avsLink && (
+          <va-link
+            text="Go to after-visit summary"
+            href={appointment.avsPath}
+            data-testid="after-vist-summary-link"
+            onClick={() =>
+              recordEvent({
+                event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
+              })
+            }
+          />
+        )}
+        <br />
+      </>
     );
   }
   if (showConfirmMsg) {
@@ -95,20 +121,25 @@ StatusAlert.propTypes = {
   appointment: PropTypes.shape({
     status: PropTypes.string.isRequired,
     cancelationReason: PropTypes.string,
+    avsPath: PropTypes.string,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
   }),
   facility: PropTypes.shape({
     name: PropTypes.string,
-  }),
-  vaos: PropTypes.shape({
-    isPastAppointment: PropTypes.bool.isRequired,
   }),
 };
 StatusAlert.defaultProps = {
   appointment: {
     status: 'booked',
     cancelationReason: '',
+    avsPath: '',
+    vaos: {
+      isPastAppointment: false,
+    },
   },
-  vaos: {
-    isPastAppointment: false,
+  facility: {
+    name: '',
   },
 };
