@@ -24,7 +24,7 @@ const renderOldLandingContent = () => {
       <ul>
         <li>
           Go to eBenefits to find a local accredited representative by state or
-          territory, zip code, or the organization’s name.{' '}
+          territory, zip code, or the organization’s name. <br />
           <va-link
             href="https://www.ebenefits.va.gov/ebenefits/vso-search"
             text="Go to eBenefits"
@@ -33,7 +33,7 @@ const renderOldLandingContent = () => {
         <li>
           Search the VA Office of the General Counsel’s list to find VA
           accredited individuals and organizations by name, city, state, or zip
-          code.{' '}
+          code. <br />
           <va-link
             href="https://www.va.gov/ogc/apps/accreditation/index.asp"
             text="Search the VA Office of the General Counsel’s list"
