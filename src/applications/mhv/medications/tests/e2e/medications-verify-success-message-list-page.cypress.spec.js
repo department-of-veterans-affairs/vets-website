@@ -14,9 +14,6 @@ describe('Medications Refill Submit Success Message List Page', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();

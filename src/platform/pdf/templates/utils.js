@@ -82,16 +82,15 @@ const addHorizontalRule = (
   linesAbove = 0.5,
   linesBelow = 0.5,
 ) => {
+  doc.markContent('Artifact');
   doc.moveDown(linesAbove);
-
-  // TODO add alternative text.
-  doc.markContent('Artifact', { type: 'Layout' });
   doc
     .moveTo(0 + spaceFromEdge, doc.y)
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
   doc.moveDown(linesBelow);
+  doc.endMarkedContent();
   return doc;
 };
 
@@ -221,7 +220,7 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
     right: 16,
   };
 
-  const header = doc.struct('Sect', {
+  const header = doc.struct('Div', {
     type: 'Pagination',
     title: 'Header',
     attached: 'Top',
@@ -246,13 +245,12 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
  * Generates Final Header Content
  *
  * @param {Object} doc
- * @param {Object} parent parent struct
  * @param {Object} data PDF data
  * @param {Object} config layout config
  *
  * @returns {void}
  */
-const generateFinalHeaderContent = async (doc, parent, data, config) => {
+const generateFinalHeaderContent = async (doc, data, config) => {
   const pages = doc.bufferedPageRange();
   for (let i = 1; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -266,22 +264,15 @@ const generateFinalHeaderContent = async (doc, parent, data, config) => {
       right: 16,
     };
 
-    const header = doc.struct('Artifact', {
-      type: 'Pagination',
-      title: 'Header',
-      attached: 'Top',
-    });
-    parent.add(header);
-    const leftOptions = { continued: true, x: 16, y: 12 };
-    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
-    const rightOptions = { align: 'right' };
-    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
-    header.end();
+    doc.markContent('Artifact');
+    doc.text(data.headerLeft, 16, 12);
+    doc.text(data.headerRight, 16, 12, { align: 'right' });
+    doc.endMarkedContent();
   }
 };
 
 /**
- * Generates Final Header Content
+ * Generates Footer Content
  *
  * @param {Object} doc
  * @param {Object} parent parent struct
@@ -304,36 +295,24 @@ const generateFooterContent = async (doc, parent, data, config) => {
       right: 16,
     };
 
-    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
-    const footer = doc.struct(groupingStruct, {
-      type: 'Pagination',
-      title: 'Footer',
-      attached: 'Bottom',
-    });
-    parent.add(footer);
+    // Only allow the last footer element to be read by screen readers
+    const footer =
+      i === pages.count - 1
+        ? doc.markStructureContent('Div')
+        : doc.markContent('Artifact');
 
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    const footerLeftOptions = {
-      continued: true,
-      x: config.margins.left,
-      y: 766,
-    };
-    const footerRightOptions = { align: 'right' };
 
-    // Only allow the last footer element to be read by screen readers.
+    doc.text(data.footerLeft, config.margins.left, 766);
+    doc.text(footerRightText, config.margins.left, 766, { align: 'right' });
+
+    doc.endMarkedContent();
+
+    // only structural content needs to be added to parent
     if (i === pages.count - 1) {
-      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
-      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
-    } else {
-      footer.add(
-        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
-      );
-      footer.add(
-        createArtifactText(doc, config, footerRightText, footerRightOptions),
-      );
+      parent.add(footer);
     }
-    footer.end();
   }
 };
 
@@ -389,6 +368,67 @@ const createDetailItem = async (doc, config, x, item) => {
           .text(item.value, x, doc.y, blockValueOptions);
       }),
     );
+  }
+
+  return content;
+};
+
+/**
+ * Add a rich text details item to the given PDFKit structure element (inline is always false)
+ *
+ * @param {Object} doc
+ * @param {Object} config
+ * @param {int} X position
+ * @param {Object} item
+ *
+ * @returns {Array} content
+ */
+const createRichTextDetailItem = async (doc, config, x, item) => {
+  let titleText = item.title ?? '';
+  const content = [];
+
+  if (titleText) {
+    titleText += ' ';
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, { lineGap: 2 });
+      }),
+    );
+  }
+
+  for (let i = 0; i < item.value.length; i += 1) {
+    const element = item.value[i];
+    const font =
+      element.weight === 'bold' ? config.text.boldFont : config.text.font;
+    const paragraphOptions = {
+      continued: !!element.continued,
+      lineGap: 2,
+      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+    };
+
+    if (Array.isArray(element.value)) {
+      content.push(
+        doc.struct('List', () => {
+          doc.list(element.value, {
+            ...paragraphOptions,
+            listType: 'bullet',
+            bulletRadius: 2,
+          });
+        }),
+      );
+    } else {
+      content.push(
+        doc.struct('Span', () => {
+          doc
+            .font(font)
+            .fontSize(config.text.size)
+            .text(element.value, x, doc.y, paragraphOptions);
+        }),
+      );
+    }
   }
 
   return content;
@@ -472,8 +512,8 @@ const createSubHeading = (doc, config, text, options) => {
   return createStruct(
     doc,
     'P',
-    config.subHeading.font,
-    config.subHeading.size,
+    options.font || config.subHeading.font,
+    options.size || config.subHeading.size,
     text,
     options,
   );
@@ -582,6 +622,7 @@ export {
   createAccessibleDoc,
   createArtifactText,
   createDetailItem,
+  createRichTextDetailItem,
   createHeading,
   createSpan,
   createSubHeading,

@@ -7,8 +7,8 @@
       "suffix": "Sr."
     },
     "veteranSocialSecurityNumber": "123123123",
+    "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
-    "vaClaimsHistory": false,
     "veteranDateOfBirth": "1960-01-01",
     "servicePeriods": [
       {
@@ -47,7 +47,9 @@
     },
     "socialSecurityDisability": false,
     "medicalCondition": false,
-    "nursingHome": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [
@@ -64,64 +66,19 @@
         "medicalCenter": "Nashville Health Care"
       }
     ],
-    "disabilities": [
+    "currentEmployment": true,
+    "currentEmployers": [
       {
-        "name": "Back pain",
-        "disabilityStartDate": "1990-03-02"
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Manager"
       },
       {
-        "name": "Neck pain",
-        "disabilityStartDate": "1998-03-02"
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Representative"
       }
     ],
-    "view:hasVisitedVAMC": true,
-    "vamcTreatmentCenters": [
-      {
-        "location": "Leeds, MA"
-      },
-      {
-        "location": "Boston, MA"
-      }
-    ],
-    "view:workedBeforeDisabled": true,
-    "view:history": {
-      "jobs": [
-        {
-          "employer": "Google",
-          "address": {
-            "street": "101 1st st",
-            "city": "Mountain View",
-            "country": "USA",
-            "state": "CA",
-            "postalCode": "02003"
-          },
-          "jobTitle": "Zookeeper",
-          "dateRange": {
-            "from": "2002-03-02",
-            "to": "2004-03-02"
-          },
-          "daysMissed": "2",
-          "annualEarnings": 23322333
-        },
-        {
-          "employer": "Apple",
-          "address": {
-            "street": "101 2nd st",
-            "city": "Cupertino",
-            "country": "USA",
-            "state": "CA",
-            "postalCode": "02003"
-          },
-          "jobTitle": "Beekeeper",
-          "dateRange": {
-            "from": "2004-03-20",
-            "to": "2005-01-02"
-          },
-          "daysMissed": "44",
-          "annualEarnings": 332
-        }
-      ]
-    },
     "spouseDateOfBirth": "1960-01-01",
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
@@ -154,6 +111,13 @@
       }
     ],
     "maritalStatus": "Married",
+    "currentSpouseFullName": {
+      "first": "Jessica",
+      "last": "Doe"
+    },
+    "dateOfCurrentMarriage": "1989-03-02",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "marriages": [
       {
         "spouseFullName": {
@@ -346,6 +310,8 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
+    "homeOwnership": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
@@ -354,16 +320,18 @@
     },
     "veteranAddress": {
       "street": "123 8th st",
+      "street2": "Apt A-3",
       "city": "Hadley",
       "country": "USA",
       "state": "ME",
       "postalCode": "01050",
-      "email": "test@example.com",
-      "altEmail": "test2@example.com",
-      "dayPhone": 1231231231,
-      "nightPhone": 1231231231,
-      "mobilePhone": 1231231231
+      "isMilitary": false
     },
-    "view:aidAttendance": true
+    "email": "test@example.com",
+    "phone": 1231231231,
+    "mobilePhone": 1231231231,
+    "internationalPhone": 1231231231,
+    "view:aidAttendance": true,
+    "isOver65": false
   }
 }

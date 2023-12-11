@@ -13,9 +13,6 @@ describe('Medical Records View Notes', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });
