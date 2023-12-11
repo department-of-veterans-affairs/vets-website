@@ -10,7 +10,7 @@ describe('Pre-need preparer info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformation.pages.preparer;
+  } = formConfig.chapters.preparerInformation.pages.preparer;
 
   it('should render', () => {
     const form = mount(

@@ -1,6 +1,5 @@
 import React from 'react';
 import { merge, pick } from 'lodash';
-import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
@@ -14,7 +13,6 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
-import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
@@ -25,11 +23,13 @@ import * as burialBenefits from './pages/burialBenefits';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as preparer from './pages/preparer';
+import * as preparerDetails from './pages/preparerDetails';
+import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 
-import * as address from '../definitions/address';
 import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -37,8 +37,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import phoneUI from '../components/Phone';
-import preparerPhoneUI from '../components/PreparerPhone';
 import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
@@ -46,7 +44,6 @@ import manifest from '../manifest.json';
 import {
   isVeteran,
   isAuthorizedAgent,
-  formatName,
   transform,
   fullMaidenNameUI,
   ssnDashesUI,
@@ -61,22 +58,13 @@ import {
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  preparerAddressHasState,
-  applicantsMailingAddressHasState,
-  sponsorMailingAddressHasState,
+  MailingAddressStateTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
-import {
-  ContactDetailsTitle,
-  PreparerDescription,
-  PreparerDetailsTitle,
-} from '../components/PreparerHelpers';
-import PreparerRadioWidget from '../components/PreparerRadioWidget';
 
 const {
   claimant,
   veteran,
-  applicant,
   preneedAttachments,
 } = fullSchemaPreNeed.properties.application.properties;
 
@@ -93,21 +81,8 @@ const {
   race,
 } = fullSchemaPreNeed.definitions;
 
-function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
-  const country = get(elementPath, data);
-  if (country === 'CAN') {
-    return 'Province';
-  }
-  return 'State or territory';
-}
-
 export const applicantMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.claimant.address.country" />
-);
-export const preparerMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.applicant.view:applicantInfo.mailingAddress.country" />
 );
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
@@ -115,9 +90,11 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 
-const applicantContactInfoSubheader = (
+// NOTE: Commented since only used in Contact Information section which is currently commented until it is moved
+//       Uncomment once Contact Information is moved and uncommented
+/* const applicantContactInfoSubheader = (
   <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
-);
+); */
 
 function ApplicantContactInfoDescription() {
   const data = useSelector(state => state.form.data || {});
@@ -180,6 +157,30 @@ const formConfig = {
     centralMailVaFile,
   },
   chapters: {
+    preparerInformation: {
+      title: 'Preparer information',
+      pages: {
+        preparer: {
+          path: 'preparer',
+          uiSchema: preparer.uiSchema,
+          schema: preparer.schema,
+        },
+        preparerDetails: {
+          title: 'Preparer details',
+          path: 'preparer-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: preparerDetails.uiSchema,
+          schema: preparerDetails.schema,
+        },
+        preparerContactDetails: {
+          title: 'Preparer contact details',
+          path: 'preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: preparerContactDetails.uiSchema,
+          schema: preparerContactDetails.schema,
+        },
+      },
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: !environment.isProduction()
@@ -580,7 +581,10 @@ const formConfig = {
         },
       },
     },
-    contactInformation: {
+    // NOTE: Commented until section is moved
+    //       After this section is moved and uncommented, make sure to uncomment const applicantContactInfoSubheader at the top of this form
+    //       Also, after this section is moved and uncommented, make sure to uncomment the section at the end of the return statement of ../definitions/address.js
+    /* contactInformation: {
       title: 'Contact information',
       pages: {
         applicantContactInformation: {
@@ -660,31 +664,25 @@ const formConfig = {
           uiSchema: {
             application: {
               veteran: {
-                address: !environment.isProduction()
-                  ? merge({}, address.uiSchema('Sponsor’s mailing address'), {
-                      street: {
-                        'ui:title': 'Street address',
+                address: merge(
+                  {},
+                  address.uiSchema('Sponsor’s mailing address'),
+                  {
+                    street: {
+                      'ui:title': 'Street address',
+                    },
+                    street2: {
+                      'ui:title': 'Street address line 2',
+                    },
+                    state: {
+                      'ui:title': sponsorMailingAddressStateTitleWrapper,
+                      'ui:options': {
+                        hideIf: formData =>
+                          !sponsorMailingAddressHasState(formData),
                       },
-                      street2: {
-                        'ui:title': 'Street address line 2',
-                      },
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData),
-                        },
-                      },
-                    })
-                  : merge({}, address.uiSchema('Sponsor’s address'), {
-                      state: {
-                        'ui:title': sponsorMailingAddressStateTitleWrapper,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !sponsorMailingAddressHasState(formData),
-                        },
-                      },
-                    }),
+                    },
+                  },
+                ),
               },
             },
           },
@@ -705,181 +703,8 @@ const formConfig = {
             },
           },
         },
-        preparer: {
-          path: 'preparer',
-          uiSchema: {
-            application: {
-              applicant: {
-                applicantRelationshipToClaimant: {
-                  'ui:title': 'Who is filling out this application?',
-                  'ui:widget': PreparerRadioWidget,
-                  'ui:options': {
-                    updateSchema: formData => {
-                      const nameData = get(
-                        'application.claimant.name',
-                        formData,
-                      );
-                      const applicantName = nameData
-                        ? formatName(nameData)
-                        : null;
-
-                      return {
-                        enumNames: [
-                          applicantName || 'Myself',
-                          'Someone else, such as a preparer',
-                        ],
-                      };
-                    },
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  applicant: {
-                    type: 'object',
-                    required: ['applicantRelationshipToClaimant'],
-                    properties: {
-                      applicantRelationshipToClaimant:
-                        applicant.properties.applicantRelationshipToClaimant,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        preparerDetails: {
-          title: 'Preparer details',
-          path: 'preparer-details',
-          depends: formData => isAuthorizedAgent(formData),
-          uiSchema: {
-            'ui:title': PreparerDetailsTitle,
-            'ui:description': PreparerDescription,
-            application: {
-              applicant: {
-                name: {
-                  first: {
-                    'ui:title': "Preparer's first name",
-                    'ui:required': isAuthorizedAgent,
-                  },
-                  middle: {
-                    'ui:options': {
-                      hideIf: () => true,
-                    },
-                  },
-                  last: {
-                    'ui:title': "Preparer's last name",
-                    'ui:required': isAuthorizedAgent,
-                  },
-                  suffix: {
-                    'ui:options': {
-                      hideIf: () => true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  applicant: {
-                    type: 'object',
-                    properties: {
-                      name: applicant.properties.name,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        preparerContactDetails: {
-          title: 'Preparer contact details',
-          path: 'preparer-contact-details',
-          depends: formData => isAuthorizedAgent(formData),
-          uiSchema: {
-            application: {
-              applicant: {
-                'view:applicantInfo': {
-                  mailingAddress: merge(
-                    {},
-                    address.uiSchema("Preparer's mailing address"),
-                    {
-                      country: { 'ui:required': isAuthorizedAgent },
-                      street: {
-                        'ui:title': 'Street address',
-                        'ui:required': isAuthorizedAgent,
-                      },
-                      street2: {
-                        'ui:title': 'Street address line 2',
-                      },
-                      city: { 'ui:required': isAuthorizedAgent },
-                      state: {
-                        'ui:title': preparerMailingAddressStateTitleWrapper,
-                        'ui:required': isAuthorizedAgent,
-                        'ui:options': {
-                          hideIf: formData =>
-                            !preparerAddressHasState(formData),
-                        },
-                      },
-                      postalCode: { 'ui:required': isAuthorizedAgent },
-                    },
-                  ),
-                },
-                'view:contactInfo': {
-                  'ui:title': ContactDetailsTitle,
-                  applicantPhoneNumber: merge(
-                    {},
-                    preparerPhoneUI('Phone number'),
-                    {
-                      'ui:required': isAuthorizedAgent,
-                    },
-                  ),
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  applicant: {
-                    type: 'object',
-                    properties: {
-                      'view:applicantInfo': {
-                        type: 'object',
-                        properties: {
-                          mailingAddress: address.schema(fullSchemaPreNeed),
-                        },
-                      },
-                      'view:contactInfo': {
-                        type: 'object',
-                        properties: {
-                          applicantPhoneNumber:
-                            applicant.properties.applicantPhoneNumber,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
       },
-    },
+    }, */
   },
 };
 
