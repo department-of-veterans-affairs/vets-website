@@ -36,8 +36,7 @@ export default function CancelLink({ appointment }) {
       <button
         onClick={() => {
           recordEvent({
-            event: 'interaction',
-            action: `${GA_PREFIX}-cancel-booked-clicked`,
+            event: `${GA_PREFIX}-cancel-booked-clicked`,
           });
           dispatch(startAppointmentCancel(appointment));
         }}

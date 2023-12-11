@@ -197,8 +197,7 @@ export function updateFacilityType(facilityType) {
 
 export function startDirectScheduleFlow() {
   recordEvent({
-    event: 'interaction',
-    action: 'vaos-direct-path-started',
+    event: 'vaos-direct-path-started',
   });
 
   return {
@@ -743,17 +742,14 @@ export function submitAppointmentOrRequest(history) {
     });
 
     let additionalEventData = {
-      custom_string_1: `health-TypeOfCare: ${typeOfCare}`,
-      custom_string_2: `health-ReasonForAppointment: ${
-        data?.reasonForAppointment
-      }`,
+      'health-TypeOfCare': typeOfCare,
+      'health-ReasonForAppointment': data?.reasonForAppointment,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: 'interaction',
-        action: `${GA_PREFIX}-direct-submission`,
+        event: `${GA_PREFIX}-direct-submission`,
         flow,
         ...additionalEventData,
       });
