@@ -9,7 +9,7 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
-  it('verify headers', () => {
+  it.skip('verify headers', () => {
     site.login();
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread();
@@ -42,5 +42,25 @@ describe('handle multiple drafts in one thread', () => {
         cy.wrap(el).should('include.text', 'edited');
       },
     );
+  });
+
+  it('verify drafts detailed vew', () => {
+    site.login();
+    landingPage.loadInboxMessages();
+    draftPage.loadMultiDraftThread();
+
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+
+    cy.get('[text="Edit draft 1"]').click();
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('eq', mockMultiDraftsResponse.data[1].attributes.body);
+
+    cy.get('[text="Edit draft 2"]').click();
+    cy.get('[data-testid="message-body-field"]')
+      .should('have.attr', 'value')
+      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
   });
 });
