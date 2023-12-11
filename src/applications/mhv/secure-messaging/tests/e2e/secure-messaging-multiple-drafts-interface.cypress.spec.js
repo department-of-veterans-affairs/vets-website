@@ -58,9 +58,19 @@ describe('handle multiple drafts in one thread', () => {
       .should('have.attr', 'value')
       .and('eq', mockMultiDraftsResponse.data[1].attributes.body);
 
+    cy.get('.message-body-draft-preview').should(
+      'have.text',
+      `${mockMultiDraftsResponse.data[0].attributes.body}`,
+    );
+
     cy.get('[text="Edit draft 2"]').click();
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
       .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+
+    cy.get('.message-body-draft-preview').should(
+      'have.text',
+      `${mockMultiDraftsResponse.data[1].attributes.body}`,
+    );
   });
 });
