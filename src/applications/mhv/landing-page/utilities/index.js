@@ -1,22 +1,30 @@
-import React from 'react';
-
-// For use when the dot notification is added to a link and you want to record that event in Google Analytics.
-// This function recursively extracts text from a React element's children.
-
-const getTextFromReactElement = element => {
-  if (typeof element === 'string') {
-    return element;
+const getTextFromReactChildren = children => {
+  if (typeof children === 'string' || typeof children === 'number') {
+    return String(children);
   }
-  if (
-    React.isValidElement(element) &&
-    element.props &&
-    element.props.children
-  ) {
-    return React.Children.toArray(element.props.children)
-      .map(getTextFromReactElement)
+  if (Array.isArray(children)) {
+    return children.map(child => getTextFromReactChildren(child)).join('');
+  }
+  if (children && children.$$typeof === Symbol.for('react.element')) {
+    return getTextFromReactChildren(children.props.children);
+  }
+  return '';
+};
+
+const getTextFromElement = element => {
+  if (element && element.$$typeof === Symbol.for('react.element')) {
+    return getTextFromReactChildren(element.props.children);
+  }
+
+  if (element.nodeType === Node.TEXT_NODE) {
+    return element.nodeValue;
+  }
+  if (element.nodeType === Node.ELEMENT_NODE) {
+    return Array.from(element.childNodes)
+      .map(getTextFromElement)
       .join('');
   }
   return '';
 };
 
-export { getTextFromReactElement };
+export { getTextFromElement };

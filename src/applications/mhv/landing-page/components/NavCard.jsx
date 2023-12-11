@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { getTextFromReactElement } from '../utilities';
+import { getTextFromElement } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -13,7 +14,7 @@ const NavCard = ({ icon = null, title, links }) => {
         onClick={() => {
           const header =
             typeof text === 'object' && text !== null
-              ? getTextFromReactElement(text)
+              ? getTextFromElement(text)
               : text;
           recordEvent({
             event: 'nav-linkslist',
