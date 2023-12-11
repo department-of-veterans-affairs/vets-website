@@ -48,5 +48,8 @@ export const getAppData = state => ({
   showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
   ],
+  mebExclusionPeriodEnabled: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
+  ],
   user: state.user || {},
 });

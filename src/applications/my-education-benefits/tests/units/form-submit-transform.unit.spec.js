@@ -271,6 +271,52 @@ describe('form submit transform', () => {
       expect(additionalConsiderations.reserveKicker).to.eql('N/A');
     });
   });
+
+  describe('createAdditionalConsiderations', () => {
+    it('should correctly transform and set considerations with exclusion messages', () => {
+      const ExclusionPeriodsFormSubmission = {
+        mebExclusionPeriodEnabled: true,
+        exclusionPeriods: ['Academy', 'ROTC', 'LRP'], // Make sure 'LRP' is included
+        federallySponsoredAcademy: 'yes',
+        seniorRotcCommission: 'no',
+        loanPayment: 'yes',
+        activeDutyKicker: 'no',
+        selectedReserveKicker: 'yes',
+      };
+      const transformed = createAdditionalConsiderations(
+        ExclusionPeriodsFormSubmission,
+      );
+      expect(transformed).to.deep.equal({
+        academyRotcScholarship:
+          'YES - Dept. of Defense data shows you have graduated from a Military Service Academy',
+        seniorRotcScholarship:
+          'NO - Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
+        activeDutyDodRepayLoan:
+          'YES - Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
+        activeDutyKicker: 'NO',
+        reserveKicker: 'YES',
+      });
+    });
+    it('should handle cases without mebExclusionPeriodEnabled', () => {
+      const NoExclusionPeriodsFormSubmission = {
+        federallySponsoredAcademy: 'no',
+        seniorRotcCommission: 'yes',
+        loanPayment: 'no',
+        activeDutyKicker: 'yes',
+        selectedReserveKicker: 'no',
+      };
+      const transformed = createAdditionalConsiderations(
+        NoExclusionPeriodsFormSubmission,
+      );
+      expect(transformed).to.deep.equal({
+        academyRotcScholarship: 'NO',
+        seniorRotcScholarship: 'YES',
+        activeDutyDodRepayLoan: 'NO',
+        activeDutyKicker: 'YES',
+        reserveKicker: 'NO',
+      });
+    });
+  });
   describe('has a createComments method', () => {
     it('should return full comments section if veteran disagrees with period data', () => {
       const comments = createComments(mockSubmissionForm);

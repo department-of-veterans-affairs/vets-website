@@ -180,6 +180,7 @@ export default Object.freeze({
   showMebEnhancements08: 'show_meb_enhancements_08',
   showMebEnhancements09: 'show_meb_enhancements_09',
   showMebInternationalAddressPrefill: 'show_meb_international_address_prefill',
+  mebExclusionPeriodEnabled: 'meb_exclusion_period_enabled',
   showMeb1990EZMaintenanceAlert: 'show_meb_1990EZ_maintenance_alert',
   showMeb1990EMaintenanceAlert: 'show_meb_1990E_maintenance_alert',
   showMebLettersMaintenanceAlert: 'show_meb_letters_maintenance_alert',
