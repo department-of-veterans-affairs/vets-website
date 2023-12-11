@@ -3,8 +3,9 @@ const filterMedicationsByType = (medications, type) => {
 };
 
 const getCombinedMedications = avs => {
-  const combined = [...avs.vaMedications];
-  combined.push(...avs.nonvaMedications);
+  let combined = [];
+  if (avs.vaMedications) combined = [...avs.vaMedications];
+  if (avs.nonvaMedications) combined.push(...avs.nonvaMedications);
   return combined;
 };
 

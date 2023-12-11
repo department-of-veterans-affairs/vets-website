@@ -39,6 +39,15 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('lab-results').children[2]).to.contain.text(
       'RET-HeResult: 35.7',
     );
+    expect(
+      screen.getByTestId('my-medications').children[2].children[1].children[0],
+    ).to.contain.text('INSULIN REGULAR 500');
+    expect(
+      screen.getByTestId('my-va-supplies').children[1].children[0],
+    ).to.contain.text('TABLET CUTTER');
+    expect(
+      screen.getByTestId('medications-not-taking').children[2].children[0],
+    ).to.contain.text('NELFINAVIR TAB');
   });
 
   it('sections without data are hidden', async () => {
@@ -51,6 +60,8 @@ describe('Avs: Your Health Information', () => {
     delete avs.immunizations;
     delete avs.allergiesReactions;
     delete avs.labResults;
+    delete avs.vaMedications;
+    delete avs.nonvaMedications;
     const props = { avs };
     const screen = render(<YourHealthInformation {...props} />);
     expect(screen.queryByTestId('primary-care-team')).to.not.exist;
@@ -61,5 +72,8 @@ describe('Avs: Your Health Information', () => {
     expect(screen.queryByTestId('immunizations')).to.not.exist;
     expect(screen.queryByTestId('allergies-reactions')).to.not.exist;
     expect(screen.queryByTestId('lab-results')).to.not.exist;
+    expect(screen.queryByTestId('my-medications')).to.not.exist;
+    expect(screen.queryByTestId('my-va-supplies')).to.not.exist;
+    expect(screen.queryByTestId('medications-not-taking')).to.not.exist;
   });
 });
