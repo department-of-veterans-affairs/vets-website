@@ -92,10 +92,8 @@ const formConfig = {
       pageKey: 'identity-verification',
       component: IdVerificationPage,
       // user-state view-fields below were added to form-data by App.jsx
-      depends: {
-        'view:userLoggedIn': true,
-        'view:userIdVerified': false,
-      },
+      depends: formData =>
+        formData['view:userLoggedIn'] && !formData['view:userIdVerified'],
     },
   ],
   chapters: {
