@@ -19,10 +19,24 @@ class NotesDetailsPage {
   }
   */
 
-  clickNotesDetailsLink = (_NotesIndex = 0) => {
+  clickProgressNoteLink = (_ProgressNote = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_NotesIndex)
+      .eq(_ProgressNote)
+      .click();
+  };
+
+  clickDischargeSummaryLink = (_DischargeSummary = 1) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(_DischargeSummary)
+      .click();
+  };
+
+  clickBreadCrumbsLink = (_breadcrumb = 0) => {
+    cy.get('[data-testid="breadcrumbs"]')
+      .find('a')
+      .eq(_breadcrumb)
       .click();
   };
 
