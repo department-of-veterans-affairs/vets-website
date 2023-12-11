@@ -46,6 +46,11 @@ export default function useVirtualAgentToken(props) {
       if (csrfTokenLoading) return;
 
       async function callVirtualAgentTokenApi() {
+        if (props.virtualAgentEnableMsftPvaTesting) {
+          return apiRequest('/virtual_agent_token_msft', {
+            method: 'POST',
+          });
+        }
         return apiRequest('/virtual_agent_token', {
           method: 'POST',
         });
