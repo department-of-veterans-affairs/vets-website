@@ -62,7 +62,7 @@ const App = props => {
 App.propTypes = {
   detectDiscrepancies: PropTypes.bool,
   error: PropTypes.string,
-  featureFlagLoading: PropTypes.bool,
+  featureFlagsLoading: PropTypes.bool,
   fetchRatedDisabilities: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   loading: PropTypes.bool,
