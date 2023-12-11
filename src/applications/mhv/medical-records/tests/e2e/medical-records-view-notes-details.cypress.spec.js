@@ -11,14 +11,19 @@ describe('Medical Records View Notes', () => {
   });
 
   it('Care summaries and notes Page  ', () => {
-    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
-    // should display ProgressNote
+    // Very Care Summary Page title Text
+    NotesDetailsPage.verifyCareSummaryPageText();
+    // should display Progress Note
     NotesDetailsPage.clickProgressNoteLink(0);
-    // Verify Details
-    NotesDetailsPage.verifyDetails();
-    // Verify Location
-    // Verify Signed by
-    // Verify Date Signed
+
+    // Verify Progress Note Details Location
+    NotesDetailsPage.verifyProgressNoteLocation();
+    // Verify Progress Note Details Signed by
+    NotesDetailsPage.verifyProgressNoteSignedBy();
+    // Verify Progress Note Details Signed Date
+    NotesDetailsPage.verifyProgressNoteSignedDate();
+    // Verify Progress Note Record Details
+    NotesDetailsPage.verifyProgressNoteRecord();
 
     // Click Back to Care summaries and notes
     NotesDetailsPage.clickBreadCrumbsLink(0);
@@ -26,8 +31,23 @@ describe('Medical Records View Notes', () => {
     // should display Discharge Summary
     NotesDetailsPage.clickDischargeSummaryLink(1);
 
+    // Verify Discharge Summary Note Details Location
+    NotesDetailsPage.verifyDischargeSummaryLocation();
+    // Verify Discharge Summary Details Admission Date
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate();
+    // Verify Discharge Summary Details DischargeDate
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate();
+    // Verify Discharge Summary Admitted By
+    NotesDetailsPage.verifyDischargeSummaryAdmittedBy();
+
+    // Verify Discharge Summary discharged By
+    NotesDetailsPage.verifyDischargeSummaryDischargedBy();
+
+    // Verify Discharge Summary Note
+    NotesDetailsPage.verifyDischargeSummaryNote();
+
     // Click Back to Care summaries and notes
-    NotesDetailsPage.clickBreadCrumbsLink(0);
+    // NotesDetailsPage.clickBreadCrumbsLink(0);
 
     cy.injectAxe();
     cy.axeCheck('main', {

@@ -165,41 +165,32 @@ ${record.summary}`;
       </div>
 
       <div className="test-details-container max-80">
-        <h2 data-testid="test-details-container">Details</h2>
-        <h3
-          data-testid="test-details-location"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
+        <h2>Details</h2>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p>{record.location}</p>
+        <p data-testid="note-record-location"> {record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admission date
         </h3>
-        <p>{record.admissionDate}</p>
-        <h3
-          data-testid="test-discharge-date"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
+        <p data-testid="note-admission-date">{record.admissionDate}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
-        <p>{record.dischargeDate}</p>
+        <p data-testid="note-discharge-date">{record.dischargeDate}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admitted by
         </h3>
-        <p>{record.admittedBy}</p>
-        <h3
-          data-testid="test-discharged-by"
-          className="vads-u-font-size--base vads-u-font-family--sans"
-        >
+        <p data-testid="note-admitted-by">{record.admittedBy}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p>{record.dischargedBy}</p>
+        <p data-testid="note-discharged-by">{record.dischargedBy}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p>{record.summary}</p>
+        <p data-testid="note-summary">{record.summary}</p>
       </div>
     </div>
   );
