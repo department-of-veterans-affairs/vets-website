@@ -12,6 +12,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 import {
+  dependentSeriouslyDisabledDescription,
   dependentWarning,
   disabilityDocs,
   schoolAttendanceWarning,
@@ -69,40 +70,47 @@ export default {
             },
           },
         },
-        attendingCollege: {
-          'ui:title': 'Is your child in school?',
-          'ui:widget': 'yesNo',
-          'ui:required': (formData, index) =>
-            isBetween18And23(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
-          'ui:options': {
+        attendingCollege: merge(
+          {},
+          yesNoUI({
+            title: 'Is your child in school?',
+            // uiOptions
             hideIf: (formData, index) =>
               !isBetween18And23(
                 get(['dependents', index, 'childDateOfBirth'], formData),
               ),
+          }),
+          {
+            'ui:required': (formData, index) =>
+              isBetween18And23(
+                get(['dependents', index, 'childDateOfBirth'], formData),
+              ),
           },
-        },
+        ),
         'view:schoolWarning': {
           'ui:description': schoolAttendanceWarning,
           'ui:options': {
             expandUnder: 'attendingCollege',
           },
         },
-        disabled: {
-          'ui:title': 'Is your child seriously disabled?',
-          'ui:required': (formData, index) =>
-            !isEligibleForDisabilitySupport(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
-          'ui:options': {
+        disabled: merge(
+          {},
+          yesNoUI({
+            title: 'Is your child seriously disabled?',
+            description: dependentSeriouslyDisabledDescription,
+            // uiOptions
             hideIf: (formData, index) =>
               isEligibleForDisabilitySupport(
                 get(['dependents', index, 'childDateOfBirth'], formData),
               ),
+          }),
+          {
+            'ui:required': (formData, index) =>
+              !isEligibleForDisabilitySupport(
+                get(['dependents', index, 'childDateOfBirth'], formData),
+              ),
           },
-          'ui:widget': 'yesNo',
-        },
+        ),
         'view:disabilityDocs': {
           'ui:description': disabilityDocs,
           'ui:options': {
@@ -151,13 +159,13 @@ export default {
               dependents.items.properties.childSocialSecurityNumber,
             noSSN: yesNoSchema,
             childRelationship: dependents.items.properties.childRelationship,
-            attendingCollege: dependents.items.properties.attendingCollege,
+            attendingCollege: yesNoSchema,
             schoolWarning: { type: 'object', properties: {} },
-            disabled: dependents.items.properties.disabled,
+            disabled: yesNoSchema,
             disabilityDocs: { type: 'object', properties: {} },
             dependentWarning: { type: 'object', properties: {} },
-            previouslyMarried: dependents.items.properties.previouslyMarried,
-            married: dependents.items.properties.married,
+            previouslyMarried: yesNoSchema,
+            married: yesNoSchema,
           },
         },
       },

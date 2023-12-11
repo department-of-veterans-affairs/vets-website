@@ -26,7 +26,6 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
-  // dependentSeriouslyDisabledDescription,
   directDepositWarning,
   isMarried,
   uploadMessage,
@@ -61,6 +60,8 @@ import currentSpouse from './chapters/04-household-information/currentSpouse';
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
+import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import dependentChildren from './chapters/04-household-information/dependentChildren';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
@@ -844,8 +845,8 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents',
-          // uiSchema: dependentChildren.uiSchema,
-          // schema: dependentChildren.schema,
+          uiSchema: dependentChildren.uiSchema,
+          schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
@@ -854,8 +855,8 @@ const formConfig = {
               ''} information`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          // schema: dependentChildInformation.schema,
-          // uiSchema: dependentChildInformation.uiSchema,
+          schema: dependentChildInformation.schema,
+          uiSchema: dependentChildInformation.uiSchema,
         },
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
