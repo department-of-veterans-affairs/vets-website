@@ -262,7 +262,7 @@ const medsIntro = avs => {
 };
 
 const renderFieldWithBreak = (field, prefix = '') => {
-  if (field) {
+  if (field !== null && field !== '') {
     if (prefix) {
       return (
         <>
@@ -289,7 +289,8 @@ const renderMedication = medication => {
         {renderFieldWithBreak(medication.sig)}
         {renderFieldWithBreak(medication.description, 'Description')}
         {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
-        {renderFieldWithBreak(medication.comment, 'Notes')}
+        Notes: {String(medication.comment)}
+        <br />
         <br />
         {renderFieldWithBreak(medication.stationName, 'Facility')}
         {!!medication.facilityPhone && (
