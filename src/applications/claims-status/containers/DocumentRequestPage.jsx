@@ -159,13 +159,13 @@ class DocumentRequestPage extends React.Component {
               if (this.props.documentsUseLighthouse) {
                 this.props.submitFilesLighthouse(
                   this.props.claim.id,
-                  null,
+                  trackedItem,
                   this.props.files,
                 );
               } else {
                 this.props.submitFiles(
                   this.props.claim.id,
-                  null,
+                  trackedItem,
                   this.props.files,
                 );
               }

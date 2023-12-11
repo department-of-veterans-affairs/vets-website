@@ -4,8 +4,6 @@ import {
   SEARCH_FAILED,
   SEARCH_COMPLETE,
 } from '../../utils/actionTypes';
-import { useMockData } from '../../config';
-import mockData from '../../constants/mock-representative-data.json';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -31,11 +29,6 @@ export const fetchRepresentatives = async (
   type,
   dispatch,
 ) => {
-  if (useMockData) {
-    dispatch({ type: SEARCH_COMPLETE, payload: mockData });
-    return;
-  }
-
   try {
     const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,

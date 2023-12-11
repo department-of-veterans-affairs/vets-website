@@ -144,10 +144,6 @@ const DependentAges = ({
     goToPath('/dependent-count');
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
@@ -170,7 +166,6 @@ const DependentAges = ({
     onSubmit,
     onCancel,
     handleBlur,
-    toggleEditing,
     updateDependents,
   };
 
@@ -232,17 +227,7 @@ const DependentAges = ({
           }`}
         >
           <HeaderTag className={className}>Dependents ages</HeaderTag>
-          {isReviewMode &&
-            !isEditing && (
-              <ReviewControl
-                // readOnly
-                position="header"
-                isEditing={false}
-                onEditClick={handlers.toggleEditing}
-                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-                buttonText="Edit"
-              />
-            )}
+
           {!isReviewMode ? (
             <>
               <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
