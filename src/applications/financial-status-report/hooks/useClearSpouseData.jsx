@@ -34,7 +34,6 @@ const useClearSpouseData = (isMarried, formData, setFormData) => {
     () => {
       if (isMarried === false) {
         setFormData(clearSpouseData(formData));
-        // console.log('clearSpouseData ran', formData);
       }
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
