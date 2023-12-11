@@ -26,8 +26,6 @@ describe('handle multiple drafts in one thread', () => {
       },
     });
 
-    // assertion will be added here
-
     cy.get('[data-testid="reply-form"]')
       .find('h2')
       .should('be.visible')
@@ -44,7 +42,5 @@ describe('handle multiple drafts in one thread', () => {
         cy.wrap(el).should('include.text', 'edited');
       },
     );
-
-    cy.log('Privet');
   });
 });
