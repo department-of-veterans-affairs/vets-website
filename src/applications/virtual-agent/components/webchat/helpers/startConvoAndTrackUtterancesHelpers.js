@@ -106,6 +106,11 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const eventName = action?.payload?.activity?.name ?? '';
   const eventValue = action?.payload?.activity?.value ?? '';
 
+  console.log('eventName', eventName);
+  console.log('eventValue', eventValue);
+  const eventType = action?.payload?.activity?.type ?? '';
+  console.log('eventType', eventType);
+
   // use event name for rxSkill
   const skillWasTriggered = eventName === 'Skill_Entry';
   // use event name for rxSkillExit
