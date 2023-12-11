@@ -7,7 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import footerContent from 'platform/forms/components/FormFooter';
 import { isProfileLoading, isLoggedIn, isLOA3 } from 'platform/user/selectors';
-import getHelp from '../components/CustomGetFormHelp';
+import getHelp from '../../shared/components/GetFormHelp';
 
 const IdVerificationPage = props => {
   const {
