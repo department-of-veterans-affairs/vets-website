@@ -1,6 +1,11 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { render } from '@testing-library/react';
+
+const store = createStore(() => ({}));
 
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 
@@ -10,6 +15,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
+
   it('should render sync warning', () => {
     const claim = {
       attributes: {
@@ -22,6 +28,7 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
   });
+
   it('should render unavailable warning', () => {
     const claim = null;
 
@@ -30,6 +37,7 @@ describe('<ClaimDetailLayout>', () => {
     );
     expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
   });
+
   it('should render contention list', () => {
     const claim = {
       attributes: {
@@ -43,6 +51,7 @@ describe('<ClaimDetailLayout>', () => {
       'Condition 1, Condition 2',
     );
   });
+
   it('should render see all link if long contention list', () => {
     const claim = {
       id: 5,
@@ -66,6 +75,26 @@ describe('<ClaimDetailLayout>', () => {
       tree.subTree('.claim-contentions').subTree('Link').props.to,
     ).to.equal('your-claims/5/details');
   });
+
+  it('should render when the claim was submitted', () => {
+    const claim = {
+      attributes: {
+        claimType: 'Compensation',
+        claimDate: '2023-11-23',
+        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
+      },
+    };
+    const screen = render(
+      <Provider store={store}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
+
+    expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
+      'Submitted on November 23, 2023',
+    );
+  });
+
   it('should render not available if no contention list', () => {
     const claim = {
       attributes: {
@@ -79,6 +108,7 @@ describe('<ClaimDetailLayout>', () => {
       'Not available',
     );
   });
+
   it('should render adding details info if open', () => {
     const claim = {
       attributes: {
@@ -94,6 +124,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('AddingDetails')).not.to.be.empty;
   });
+
   it('should not render adding details info if closed', () => {
     const claim = {
       attributes: {
@@ -109,6 +140,7 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.everySubTree('AddingDetails')).to.be.empty;
   });
+
   it('should render normal info', () => {
     const claim = {
       attributes: {
