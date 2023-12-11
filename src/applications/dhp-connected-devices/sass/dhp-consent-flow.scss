@@ -48,6 +48,19 @@
 }
 
 .va-quicklinks {
+  ul {
+    margin-top: 0.8rem;
+  }
+  li {
+    padding: 0.56rem 0;
+  }
+  h3 {
+    line-height: 1.2em;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0;
+    padding: 0 0 0.2em 0;
+  }
   &--commpop {
     padding-bottom: 6.4rem;
   }
