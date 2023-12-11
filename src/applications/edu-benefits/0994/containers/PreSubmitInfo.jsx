@@ -8,12 +8,7 @@ function PreSubmitNotice({
   onSectionComplete,
   setPreSubmit,
 }) {
-  let ariaDescribedBy = null;
-  if (formConfig?.ariaDescribedBySubmit !== null) {
-    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
-  } else {
-    ariaDescribedBy = null;
-  }
+  const ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
 
   const activeDutyNote = (
     <div className="vads-u-margin-bottom--3" id={ariaDescribedBy}>
