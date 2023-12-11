@@ -316,12 +316,9 @@ const renderMedication = medication => {
 const renderNotTakingMedication = medication => {
   return (
     <p>
-      {medication.name}
-      <br />
-      {medication.sig}
-      <br />
-      Notes: {medication.comment}
-      <br />
+      {renderFieldWithBreak(medication.name)}
+      {renderFieldWithBreak(medication.sig)}
+      {renderFieldWithBreak(medication.comment, 'Notes')}
       <br />
       Facility: NON-VA
       <br />
@@ -329,7 +326,7 @@ const renderNotTakingMedication = medication => {
       {medication.documentor}
       <br />
       <br />
-      Status: {medication.status}
+      {renderFieldWithBreak(medication.status, 'Status')}
     </p>
   );
 };
