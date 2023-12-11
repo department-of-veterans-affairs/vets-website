@@ -2,29 +2,28 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import ReviewCollapsibleChapter from 'platform/forms-system/src/js/review/ReviewCollapsibleChapter';
 import Scroll from 'react-scroll';
-import {
-  getReviewPageOpenChapters,
-  getViewedPages,
-} from 'platform/forms-system/src/js/state/selectors';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 
 import {
   createPageListByChapter,
   getActiveExpandedPages,
   getActiveChapters,
   getPageKeys,
-} from 'platform/forms-system/src/js/helpers';
+} from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
 import {
-  closeReviewChapter,
-  openReviewChapter,
   setData,
   setEditMode,
   setViewedPages,
   uploadFile,
-} from 'platform/forms-system/src/js/actions';
-import { setUpdatedInReview } from '../actions';
+} from '@department-of-veterans-affairs/platform-forms-system/actions';
+import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
+import {
+  openReviewChapter,
+  closeReviewChapter,
+  setUpdatedInReview,
+} from '../actions';
 import { setupPages, getPageKeysForReview } from '../utils/reviewPageHelper';
 import formConfig from '../config/form';
 
@@ -44,6 +43,7 @@ const ReviewPage = props => {
   const chapterEditLink = (editLink, chapterName) => {
     return (
       <div className={chapterClasses}>
+        <i className="fas fa-chevron-circle-right uswds-system-color-blue-60v vads-u-font-size--lg vads-u-margin-right--1 vads-u-margin-top--0p25" />
         <Link to={editLink}>{`Return to ${chapterName}`}</Link>
       </div>
     );
@@ -74,9 +74,9 @@ const ReviewPage = props => {
 
   const handleToggleChapter = ({ name, open, pageKeys }) => {
     if (open) {
-      props.closeReviewChapter(name, pageKeys);
+      dispatch(closeReviewChapter(name, pageKeys));
     } else {
-      props.openReviewChapter(name);
+      dispatch(openReviewChapter(name));
       scrollToChapter(name);
     }
   };
@@ -137,6 +137,7 @@ const ReviewPage = props => {
                   toggleButtonClicked={() => handleToggleChapter(chapter)}
                   uploadFile={props.uploadFile}
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
                 />
                 {!pages[0].editModeOnReviewPage &&
                   props.openChapterList.includes(chapter.name) &&
@@ -174,7 +175,7 @@ function mapStateToProps(state, ownProps) {
   // from redux state
   const { form } = state;
   const formData = state.form.data;
-  const openChapters = getReviewPageOpenChapters(state);
+  const { openChapters } = state.askVA.reviewPageView;
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
@@ -213,13 +214,11 @@ function mapStateToProps(state, ownProps) {
     form,
     formContext,
     viewedPages,
-    openChapterList: state.form.reviewPageView.openChapters,
+    openChapterList: state.askVA.reviewPageView.openChapters,
   };
 }
 
 const mapDispatchToProps = {
-  closeReviewChapter,
-  openReviewChapter,
   setData,
   setEditMode,
   setViewedPages,

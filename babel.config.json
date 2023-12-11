@@ -266,6 +266,7 @@
           "@department-of-veterans-affairs/platform-forms-system/ObjectField": "./src/platform/forms-system/src/js/fields/ObjectField.jsx",
           "@department-of-veterans-affairs/platform-forms-system/review/PhoneNumberWidget": "./src/platform/forms-system/src/js/review/PhoneNumberWidget.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ReviewChapters": "./src/platform/forms-system/src/js/review/ReviewChapters.jsx",
+          "@department-of-veterans-affairs/platform-forms-system/ReviewCollapsibleChapter": "./src/platform/forms-system/src/js/review/ReviewCollapsibleChapter.jsx",
           "@department-of-veterans-affairs/platform-forms-system/SubmitController": "./src/platform/forms-system/src/js/review/SubmitController.jsx",
           "@department-of-veterans-affairs/platform-forms-system/state/helpers": "./src/platform/forms-system/src/js/state/helpers.js",
           "@department-of-veterans-affairs/platform-forms-system/reducers": "./src/platform/forms-system/src/js/state/reducers.js",

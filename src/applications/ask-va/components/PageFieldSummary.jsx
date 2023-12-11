@@ -33,13 +33,13 @@ const PageFieldSummary = props => {
         </span>
       </div>
       <dl className="review">
-        {renderedProperties.map(question => (
+        {renderedProperties.map((question, index) => (
           <dl
             className="review-row vads-u-width--full"
-            key={question.props.name}
+            key={`${question?.props.name} ${index}}`}
           >
-            <dt>{question.props.uiSchema['ui:title']}</dt>
-            <dd>{question.props.formData}</dd>
+            <dt>{question?.props.uiSchema['ui:title']}</dt>
+            <dd>{question?.props.formData}</dd>
           </dl>
         ))}
       </dl>
@@ -50,7 +50,7 @@ const PageFieldSummary = props => {
 function mapStateToProps(state) {
   return {
     updatedPage: state.askVA.updatedInReview,
-    currentChapter: state.form.data.reviewPageView?.openChapters,
+    currentChapter: state.askVA.reviewPageView.openChapters,
   };
 }
 PageFieldSummary.prototype = {
