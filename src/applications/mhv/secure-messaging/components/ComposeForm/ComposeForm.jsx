@@ -593,6 +593,7 @@ const ComposeForm = props => {
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
+            draftsCount={1}
             formPopulated={formPopulated}
             navigationError={navigationError}
             setNavigationError={setNavigationError}

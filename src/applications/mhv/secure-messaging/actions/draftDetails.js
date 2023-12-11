@@ -62,8 +62,8 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   }
   if (response.ok) {
     dispatch({
-      type: Actions.Draft.UPDATE_SUCCEEDED,
-      response: messageData,
+      type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+      payload: { messageId: id, draftDate: Date.now(), ...messageData },
     });
   }
 };
@@ -97,10 +97,6 @@ export const saveReplyDraft = (
     return response.data.attributes;
   }
   if (response.ok) {
-    dispatch({
-      type: Actions.Draft.UPDATE_SUCCEEDED,
-      response: messageData,
-    });
     dispatch({
       type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
       payload: { messageId: id, draftDate: Date.now(), ...messageData },
