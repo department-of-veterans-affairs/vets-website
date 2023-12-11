@@ -47,6 +47,7 @@ import createExpandableOperatingStatus from './facilities/vet-center/createExpan
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
+import createFindARepLandingContent from './representative-search';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
@@ -167,6 +168,7 @@ createBasicFacilityListWidget();
 createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
+createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,

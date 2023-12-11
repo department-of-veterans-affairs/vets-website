@@ -111,6 +111,13 @@
       }
     ],
     "maritalStatus": "Married",
+    "currentSpouseFullName": {
+      "first": "Jessica",
+      "last": "Doe"
+    },
+    "dateOfCurrentMarriage": "1989-03-02",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "marriages": [
       {
         "spouseFullName": {
@@ -303,6 +310,8 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
+    "homeOwnership": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
@@ -322,6 +331,7 @@
     "phone": 1231231231,
     "mobilePhone": 1231231231,
     "internationalPhone": 1231231231,
-    "view:aidAttendance": true
+    "view:aidAttendance": true,
+    "isOver65": false
   }
 }

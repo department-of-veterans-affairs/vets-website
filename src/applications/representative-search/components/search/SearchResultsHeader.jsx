@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { orgSortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
 
-  const { inProgress, context, representativeType } = query;
+  const { inProgress, context, representativeType, sortType } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
@@ -18,8 +19,8 @@ export const SearchResultsHeader = props => {
 
   const repFormat = {
     organization: 'Veteran Service Organizations',
-    attorney: 'Attornies',
-    claim_agents: 'Claim Agents',
+    attorney: 'Attorneys',
+    claim_agents: 'Claims agents',
   };
 
   const handleNumberOfResults = () => {
@@ -45,6 +46,21 @@ export const SearchResultsHeader = props => {
     return 'Results';
   };
 
+  const options = Object.keys(orgSortOptions).map(option => (
+    <option key={option} value={option}>
+      {orgSortOptions[option]}
+    </option>
+  ));
+
+  // method for triggering sortResults when sortType updates
+  const handleSortTypeChange = e => {
+    props.updateSearchQuery({
+      id: Date.now(),
+      page: 1,
+      sortType: e.target.value,
+    });
+  };
+
   return (
     <div className="search-results-header">
       <h2
@@ -57,17 +73,34 @@ export const SearchResultsHeader = props => {
         <b>{repFormat[representativeType]}</b>
         {context.repOrgName && (
           <>
+            {` `}
             matching <b>"{context.repOrgName}"</b>
           </>
         )}
+        {` `}
         {context.location && (
           <>
-            &nbsp;within 50 miles of &quot;
+            within 50 miles of &quot;
             <b>{context.location}</b>
             &quot;
           </>
         )}
       </h2>
+      <div className="sort-dropdown">
+        <label htmlFor="sort-by-dropdown">Sort by</label>
+        <select
+          id="representative-sorting-dropdown"
+          aria-label="Sort"
+          // ref={sortTypeRef}
+          value={sortType}
+          title="Sort by:"
+          onChange={handleSortTypeChange}
+          style={{ fontWeight: 'bold' }}
+        >
+          {' '}
+          {options}{' '}
+        </select>
+      </div>
     </div>
   );
 };
