@@ -685,7 +685,7 @@
           "status": "Active",
           "discontinuedDate": null,
           "fmDiscontinuedDate": 0,
-          "comment": null,
+          "comment": "Test notes from provider.",
           "documentor": null,
           "documentingFacility": null,
           "quantity": 90,
