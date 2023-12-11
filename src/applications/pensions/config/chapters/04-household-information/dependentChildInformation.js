@@ -2,8 +2,11 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import merge from 'lodash/merge';
 import moment from 'moment';
 
-import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 import {
+  radioSchema,
+  radioUI,
+  ssnSchema,
+  ssnUI,
   yesNoSchema,
   yesNoUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
@@ -49,27 +52,22 @@ export default {
         childPlaceOfBirth: {
           'ui:title': 'Place of birth (city and state or foreign country)',
         },
-        childSocialSecurityNumber: merge({}, ssnUI, {
-          'ui:title': 'Social Security number',
+        childSocialSecurityNumber: merge({}, ssnUI(), {
           'ui:required': (formData, index) =>
-            !get(`dependents.${index}.noSSN`, formData),
+            !get(`dependents.${index}.view:noSSN`, formData),
         }),
-        noSSN: {
+        'view:noSSN': {
           'ui:title': "Doesn't have a Social Security number",
         },
-        childRelationship: {
-          'ui:title': item =>
-            `What's your relationship to
-            ${item.fullName.first} ${item.fullName.last}?`,
-          'ui:widget': 'radio',
-          'ui:options': {
-            labels: {
-              biological: "They're my biological child",
-              adopted: "They're my adopted child",
-              stepchild: "They're my stepchild",
-            },
+        childRelationship: radioUI({
+          title: "What's your relationship?",
+          // uiOptions
+          labels: {
+            biological: "They're my biological child",
+            adopted: "They're my adopted child",
+            stepchild: "They're my stepchild",
           },
-        },
+        }),
         attendingCollege: merge(
           {},
           yesNoUI({
@@ -155,15 +153,18 @@ export default {
           ],
           properties: {
             childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
-            childSocialSecurityNumber:
-              dependents.items.properties.childSocialSecurityNumber,
-            noSSN: yesNoSchema,
-            childRelationship: dependents.items.properties.childRelationship,
+            childSocialSecurityNumber: ssnSchema,
+            'view:noSSN': { type: 'boolean' },
+            childRelationship: radioSchema([
+              'biological',
+              'adopted',
+              'stepchild',
+            ]),
             attendingCollege: yesNoSchema,
-            schoolWarning: { type: 'object', properties: {} },
+            'view:schoolWarning': { type: 'object', properties: {} },
             disabled: yesNoSchema,
-            disabilityDocs: { type: 'object', properties: {} },
-            dependentWarning: { type: 'object', properties: {} },
+            'view:disabilityDocs': { type: 'object', properties: {} },
+            'view:dependentWarning': { type: 'object', properties: {} },
             previouslyMarried: yesNoSchema,
             married: yesNoSchema,
           },
