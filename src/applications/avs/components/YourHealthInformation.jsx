@@ -5,6 +5,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
+  fieldHasValue,
   getFormattedAppointmentDate,
   parseVistaDate,
   parseVistaDateTime,
@@ -261,8 +262,17 @@ const medsIntro = avs => {
   );
 };
 
+const getDateLastFilled = medication => {
+  if (fieldHasValue(medication.dateLastFilled))
+    return medication.dateLastFilled;
+  if (fieldHasValue(medication.dateLastReleased))
+    return medication.dateLastReleased;
+
+  return '';
+};
+
 const renderFieldWithBreak = (field, prefix = '') => {
-  if (field !== null && field !== '') {
+  if (fieldHasValue(field)) {
     if (prefix) {
       return (
         <>
@@ -289,7 +299,7 @@ const renderMedication = medication => {
         {renderFieldWithBreak(medication.sig)}
         {renderFieldWithBreak(medication.description, 'Description')}
         {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
-        Notes: {String(medication.comment)}
+        Notes: {fieldHasValue(medication.comment) && String(medication.comment)}
         <br />
         <br />
         {renderFieldWithBreak(medication.stationName, 'Facility')}
@@ -308,7 +318,7 @@ const renderMedication = medication => {
         {renderFieldWithBreak(medication.quantity, 'Quantity')}
         {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
         {renderFieldWithBreak(medication.dateExpires, 'Expires')}
-        {renderFieldWithBreak(medication.dateLastFilled, 'Last filled')}
+        {renderFieldWithBreak(getDateLastFilled(medication), 'Last filled')}
       </p>
     </>
   );
