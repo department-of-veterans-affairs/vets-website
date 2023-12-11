@@ -14,6 +14,8 @@ import {
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import PrintHeader from '../components/shared/PrintHeader';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
@@ -44,15 +46,13 @@ const Vitals = () => {
   useEffect(
     () => {
       if (vitals?.length) {
-        setCards([
-          vitals.find(vital => vital.type === vitalTypes.BLOOD_PRESSURE),
-          vitals.find(vital => vital.type === vitalTypes.BREATHING_RATE),
-          vitals.find(vital => vital.type === vitalTypes.PULSE),
-          vitals.find(vital => vital.type === vitalTypes.HEIGHT),
-          vitals.find(vital => vital.type === vitalTypes.TEMPERATURE),
-          vitals.find(vital => vital.type === vitalTypes.WEIGHT),
-          vitals.find(vital => vital.type === vitalTypes.PAIN),
-        ]);
+        // create vital type cards based on the types of records present
+        const firstOfEach = [];
+        Object.keys(vitalTypes).forEach(type => {
+          const firstOfType = vitals.find(item => item.type === type);
+          if (firstOfType) firstOfEach.push(firstOfType);
+        });
+        setCards(firstOfEach);
       }
     },
     [vitals],
@@ -64,6 +64,9 @@ const Vitals = () => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
     }
+    if (vitals?.length === 0) {
+      return <NoRecordsMessage type={recordType.VITALS} />;
+    }
     if (cards?.length) {
       return (
         <RecordList
@@ -74,19 +77,10 @@ const Vitals = () => {
         />
       );
     }
-    if (vitals?.length === 0) {
-      return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Vitals
-          </va-alert>
-        </div>
-      );
-    }
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
-          message="Loading..."
+          message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
         />
@@ -96,6 +90,7 @@ const Vitals = () => {
 
   return (
     <div id="vitals">
+      <PrintHeader />
       <h1 className="vads-u-margin--0">Vitals</h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
         Vitals are basic health numbers your providers check at your

@@ -58,7 +58,7 @@ describe('CareSummariesAndNotes list container still loading', () => {
   });
 });
 
-describe('Labs and tests list container with errors', () => {
+describe('Care summaries and notes list container with errors', () => {
   it('displays an error', async () => {
     const initialState = {
       user,
