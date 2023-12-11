@@ -13,18 +13,18 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>You can submit this request online or by mail.</p>
+        <p>You can submit this form online or by mail.</p>
         <a
           className="vads-c-action-link--blue"
           href="/records/request-personal-records-form-20-10206"
         >
-          Submit a request online for personal records
+          Request personal records online
         </a>
       </>
     );
   }
 
-  return <p>You can submit this request by mail.</p>;
+  return <p>You can submit this form by mail.</p>;
 };
 
 App.propTypes = {
