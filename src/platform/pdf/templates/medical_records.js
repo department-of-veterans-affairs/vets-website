@@ -203,7 +203,7 @@ const generate = async data => {
     await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateFinalHeaderContent(doc, wrapper, data, config);
+  await generateFinalHeaderContent(doc, data, config);
   await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();

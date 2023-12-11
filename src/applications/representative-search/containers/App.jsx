@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import GetFormHelp from '../components/GetFormHelp';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -18,7 +17,6 @@ function App({ children }) {
   } = useFeatureToggle();
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.findARepresentative);
-  const isProduction = environment.isProduction();
 
   const togglesLoading = useToggleLoadingValue();
 
@@ -32,7 +30,7 @@ function App({ children }) {
     );
   }
 
-  if (!appEnabled && isProduction) {
+  if (!appEnabled) {
     return document.location.replace('/');
   }
 
