@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDateRange } from '../utils';
@@ -10,3 +11,10 @@ export default function PrivateProviderTreatmentView({ formData }) {
     </div>
   );
 }
+
+PrivateProviderTreatmentView.propTypes = {
+  formData: PropTypes.shape({
+    providerFacilityName: PropTypes.string,
+    treatmentDateRange: PropTypes.object,
+  }),
+};

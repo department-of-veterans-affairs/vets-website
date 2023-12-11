@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDateRange } from '../utils';
@@ -12,3 +13,10 @@ export default function EducationTrainingField({ formData }) {
     </div>
   );
 }
+
+EducationTrainingField.propTypes = {
+  formData: PropTypes.shape({
+    dates: PropTypes.object,
+    name: PropTypes.string,
+  }),
+};
