@@ -119,14 +119,17 @@ export default {
           },
         },
         previouslyMarried: yesNoUI('Has your child ever been married?'),
-        married: yesNoUI({
-          title: 'Are they currently married?',
-          expandUnder: 'previouslyMarried',
-        }),
-        // {
-        //   'ui:required': (formData, index) =>
-        //     !!get(['dependents', index, 'previouslyMarried'], formData),
-        // },
+        married: merge(
+          {},
+          yesNoUI({
+            title: 'Are they currently married?',
+            expandUnder: 'previouslyMarried',
+          }),
+          {
+            'ui:required': (formData, index) =>
+              get(['dependents', index, 'previouslyMarried'], formData),
+          },
+        ),
       },
     },
   },
@@ -149,19 +152,10 @@ export default {
             noSSN: yesNoSchema,
             childRelationship: dependents.items.properties.childRelationship,
             attendingCollege: dependents.items.properties.attendingCollege,
-            'view:schoolWarning': {
-              type: 'object',
-              properties: {},
-            },
+            schoolWarning: { type: 'object', properties: {} },
             disabled: dependents.items.properties.disabled,
-            'view:disabilityDocs': {
-              type: 'object',
-              properties: {},
-            },
-            'view:dependentWarning': {
-              type: 'object',
-              properties: {},
-            },
+            disabilityDocs: { type: 'object', properties: {} },
+            dependentWarning: { type: 'object', properties: {} },
             previouslyMarried: dependents.items.properties.previouslyMarried,
             married: dependents.items.properties.married,
           },
