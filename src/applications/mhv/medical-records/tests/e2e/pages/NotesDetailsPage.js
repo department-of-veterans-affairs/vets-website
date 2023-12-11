@@ -48,54 +48,70 @@ class NotesDetailsPage {
   verifyProgressNoteLocation = () => {
     // Verify Progress Note Details Location
     cy.get('[data-testid="note-record-location"]').should('be.visible');
+    cy.get('[data-testid="note-record-location"]').contains('DAYTSHR TEST LAB');
   };
 
   verifyProgressNoteSignedBy = () => {
     // Progress Note Details Signed by
     cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-signed-by"]').contains('AHMED,MARUF');
   };
 
   verifyProgressNoteSignedDate = () => {
     cy.get('[data-testid="note-record-signed-date"]').should('be.visible');
+    cy.get('[data-testid="note-record-signed-date"]').contains(
+      'August 8, 2022',
+    );
   };
 
   verifyProgressNoteRecord = () => {
     cy.get('[data-testid="note-record"]').should('be.visible');
+    cy.get('[data-testid="note-record"]').contains(
+      'LOCAL TITLE: Adverse React/Allergy',
+    );
   };
 
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
+  // ..........Discharge Summary
 
   verifyDischargeSummaryLocation = () => {
     // Discharge Summary Note Details Location
     cy.get('[data-testid="note-record-location"]').should('be.visible');
+    cy.get('[data-testid="note-record-location"]').contains('DAYTON');
   };
 
   verifyDischargeSummaryAdmissionDate = () => {
     // Discharge Summary Details Admission Date
     cy.get('[data-testid="note-admission-date"]').should('be.visible');
+    cy.get('[data-testid="note-admission-date"]').contains('August 5, 2022');
   };
 
   verifyDischargeSummaryDischargeDate = () => {
     // Discharge Summary Details DischargeDate
     cy.get('[data-testid="note-discharge-date"]').should('be.visible');
+    cy.get('[data-testid="note-discharge-date"]').contains('August 9, 2022');
   };
 
   verifyDischargeSummaryAdmittedBy = () => {
     // Discharge Summary Admitted By
     cy.get('[data-testid="note-admitted-by"]').should('be.visible');
+    cy.get('[data-testid="note-admitted-by"]').contains('AHMED,NAJEEB');
   };
 
   verifyDischargeSummaryDischargedBy = () => {
     // Discharge Summary discharged By
     cy.get('[data-testid="note-discharged-by"]').should('be.visible');
+    cy.get('[data-testid="note-discharged-by"]').contains('AHMED,MARUF');
   };
 
   verifyDischargeSummaryNote = () => {
     // Discharge Summary Note
     cy.get('[data-testid="note-summary"]').should('be.visible');
+    cy.get('[data-testid="note-summary"]').contains(
+      'LOCAL TITLE: Discharge Summary',
+    );
   };
+
+  // ..............
 
   clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
