@@ -11,6 +11,17 @@ import {
 import { ROUTES } from '../../../constants';
 import { pageSetup } from '../../../utilities/page-setup';
 
+export const locationList = (
+  <ul>
+    <li>Arabian Sea</li>
+    <li>Gulf of Aden</li>
+    <li>Gulf of Oman</li>
+    <li>The neutral zone on the border between Iraq and Saudi Arabia</li>
+    <li>Persian Gulf</li>
+    <li>Red Sea</li>
+  </ul>
+);
+
 const BurnPit211 = ({
   formResponses,
   router,
@@ -37,17 +48,6 @@ const BurnPit211 = ({
       }
     },
     [router, viewedIntroPage],
-  );
-
-  const locationList = (
-    <ul>
-      <li>Arabian Sea</li>
-      <li>Gulf of Aden</li>
-      <li>Gulf of Oman</li>
-      <li>Neutral zone between Iraq/Saudi Arabia</li>
-      <li>Persian Gulf</li>
-      <li>Red Sea</li>
-    </ul>
   );
 
   return (

@@ -1,9 +1,3 @@
-import fileTravelClaimWilkesBarre from './fileTravelClaim/wilkesBarre.json';
-import fileTravelClaimWichita from './fileTravelClaim/wichita.json';
-import fortyFiveMinuteTextWichita from './fortyFiveMinuteText/wichita.json';
-import fileTravelClaimStLouis from './fileTravelClaim/stLouis.json';
-import fortyFiveMinuteTextStLouis from './fortyFiveMinuteText/stLouis.json';
-
 const devStations = {
   // Dev
   '500': {},
@@ -16,33 +10,9 @@ const devStations = {
 };
 
 const pilotFeatures = {
-  fileTravelClaim: {
+  exampleFeature: {
     pilotStations: {
       ...devStations,
-      ...fileTravelClaimWilkesBarre,
-      ...fileTravelClaimWichita,
-      ...fileTravelClaimStLouis,
-      // Week 1 658
-      // ...fileTravelClaimSalem,
-      // Week 2 565
-      // ...fileTravelClaimFayetteville,
-      // Week 3 558
-      // ...fileTravelClaimDurham,
-      // Week 4 652
-      // ...fileTravelClaimHunterHolmes,
-      // Week 5 590
-      // ...fileTravelClaimHampton,
-      // Week 6 659
-      // ...fileTravelClaimSalisbury,
-      // Week 7 637
-      // ...fileTravelClaimAsheville,
-    },
-  },
-  fortyFiveMinuteText: {
-    pilotStations: {
-      ...devStations,
-      ...fortyFiveMinuteTextWichita,
-      ...fortyFiveMinuteTextStLouis,
     },
   },
 };

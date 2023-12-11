@@ -465,6 +465,9 @@ class PatientMessageDetailsPage {
   ReplyToMessageBody = testMessageBody => {
     cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
   };
-}
 
+  verifyDeleteMessageConfirmationMessageHasFocus = () => {
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  };
+}
 export default PatientMessageDetailsPage;

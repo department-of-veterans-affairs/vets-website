@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 
 /**
@@ -58,12 +57,4 @@ export const hasPrefillBankInformation = (bankAccount = {}) => {
     typeof bankAccountNumber !== 'undefined' ||
     typeof bankRoutingNumber !== 'undefined'
   );
-};
-
-/** Uses hasPrefillBankInformation using available form data.
- * @param {*} bank account form data information object
- */
-export const hasPrefillBankInfo = formData => {
-  const bankAccountObj = _.get(formData, 'prefillBankAccount', {});
-  return hasPrefillBankInformation(bankAccountObj);
 };

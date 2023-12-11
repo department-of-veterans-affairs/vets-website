@@ -2,7 +2,7 @@ import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
-import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 
 import { mockGETEndpoints } from '../helpers';
@@ -61,7 +61,7 @@ function saveSuccessAlertRemoved() {
 }
 
 function mockSaveError({
-  error = mockDisabilityCompensation.updates.errors.unspecified,
+  error = mockDisabilityCompensations.updates.errors.unspecified,
   alias = 'unspecifiedSaveError',
 } = {}) {
   cy.intercept('PUT', 'v0/profile/direct_deposits/disability_compensations', {
@@ -75,7 +75,7 @@ function mockSaveSuccess() {
   cy.intercept(
     'PUT',
     'v0/profile/direct_deposits/disability_compensations',
-    mockDisabilityCompensation.updates.success,
+    mockDisabilityCompensations.updates.success,
   ).as('saveSuccess');
 }
 
@@ -121,7 +121,7 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
     cy.intercept(
       'GET',
       'v0/profile/direct_deposits/disability_compensations',
-      mockDisabilityCompensation.base,
+      mockDisabilityCompensations.base,
     ).as('getCNPFromLighthouse');
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.intercept(
@@ -172,22 +172,22 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
   describe('sad update paths for error responses', () => {
     testFailure(
       'generic-error',
-      mockDisabilityCompensation.updates.errors.unspecified,
+      mockDisabilityCompensations.updates.errors.unspecified,
     );
 
     testFailure(
       'flagged-account-error',
-      mockDisabilityCompensation.updates.errors.accoundNumberFlagged,
+      mockDisabilityCompensations.updates.errors.accountNumberFlagged,
     );
 
     testFailure(
       'flagged-routing-number-error',
-      mockDisabilityCompensation.updates.errors.routingNumberFlagged,
+      mockDisabilityCompensations.updates.errors.routingNumberFlagged,
     );
 
     testFailure(
       'invalid-routing-number-error',
-      mockDisabilityCompensation.updates.errors.invalidRoutingNumber,
+      mockDisabilityCompensations.updates.errors.invalidRoutingNumber,
     );
   });
 });

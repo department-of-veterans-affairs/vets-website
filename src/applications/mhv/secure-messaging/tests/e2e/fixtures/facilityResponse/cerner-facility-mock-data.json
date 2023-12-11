@@ -1,0 +1,1613 @@
+{
+  "data": [
+      {
+          "id": "vha_668",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 2,
+                          "established": 1
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 2,
+                          "established": 2
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 4,
+                          "established": 3
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 10,
+                          "established": 3
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 2,
+                          "established": 1
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "99205-6185",
+                      "city": "Spokane",
+                      "state": "WA",
+                      "address1": "4815 North Assembly Street",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Contact us at (509) 434-7026 to schedule, reschedule, or cancel your appointment.",
+                      "appointmentPhones": [
+                          {
+                              "extension": null,
+                              "label": "Vaccine Appointment Line",
+                              "number": "509-434-7026",
+                              "type": "tel"
+                          }
+                      ],
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "false",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.va.gov/spokane-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.5899999737739563,
+                      "primaryCareRoutine": 0.800000011920929,
+                      "specialtyCareUrgent": 0.8899999856948853,
+                      "specialtyCareRoutine": 0.8600000143051147
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_668",
+              "lat": 47.70192635,
+              "long": -117.47562284,
+              "mobile": false,
+              "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_HIGH",
+                          "label": "COVID-19 health protection: Levels high"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "509-434-7100",
+                  "main": "509-434-7000",
+                  "pharmacy": "509-434-7011",
+                  "afterHours": "509-434-7000",
+                  "patientAdvocate": "509-434-7504",
+                  "mentalHealthClinic": "509-434-7013",
+                  "enrollmentCoordinator": "509-434-7506",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "UrgentCare",
+                      "Urology"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "668",
+              "visn": "20",
+              "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/"
+          }
+      },
+      {
+          "id": "vha_687",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 8,
+                          "established": 2
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 37,
+                          "established": 8
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 1,
+                          "established": 1
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 18,
+                          "established": 11
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "99362-3975",
+                      "city": "Walla Walla",
+                      "state": "WA",
+                      "address1": "77 Wainwright Drive",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "true",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.va.gov/walla-walla-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.5699999928474426,
+                      "primaryCareRoutine": 0.7599999904632568,
+                      "specialtyCareUrgent": 0.8899999856948853,
+                      "specialtyCareRoutine": 0.9700000286102295
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "800AM-430PM",
+                  "monday": "800AM-430PM",
+                  "sunday": "Closed",
+                  "tuesday": "800AM-430PM",
+                  "saturday": "Closed",
+                  "thursday": "800AM-430PM",
+                  "wednesday": "800AM-430PM"
+              },
+              "id": "vha_687",
+              "lat": 46.05323845,
+              "long": -118.35545797,
+              "mobile": false,
+              "name": "Jonathan M. Wainwright Memorial VA Medical Center",
+              "operatingStatus": {
+                  "code": "NOTICE",
+                  "additionalInfo": "Effective April 3, face masks are currently optional when entering any building. If you are ill, please wear a mask. If you would like to staff member to wear a mask, please ask.",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_MEDIUM",
+                          "label": "COVID-19 health protection: Levels medium"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "509-527-3452",
+                  "main": "509-525-5200",
+                  "pharmacy": "509-525-5200",
+                  "afterHours": "509-525-5200",
+                  "patientAdvocate": "509-525-5200 x26723",
+                  "mentalHealthClinic": "509-525-5200 x 26975",
+                  "enrollmentCoordinator": "509-525-5200 x27137",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "Nutrition",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "Urology"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "687",
+              "visn": "20",
+              "website": "https://www.va.gov/walla-walla-health-care/locations/jonathan-m-wainwright-memorial-va-medical-center/"
+          }
+      },
+      {
+          "id": "vha_463",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 46,
+                          "established": 9
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 51,
+                          "established": 7
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 32,
+                          "established": 3
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 52,
+                          "established": 6
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 24,
+                          "established": 6
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": null,
+                          "established": 63
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "99504-6104",
+                      "city": "Anchorage",
+                      "state": "AK",
+                      "address1": "1201 North Muldoon Road",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "true",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.va.gov/alaska-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.699999988079071,
+                      "primaryCareRoutine": 0.8199999928474426,
+                      "specialtyCareUrgent": 0.8500000238418579,
+                      "specialtyCareRoutine": 0.8899999856948853
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "730AM-430PM",
+                  "monday": "730AM-430PM",
+                  "sunday": "Closed",
+                  "tuesday": "730AM-430PM",
+                  "saturday": "Closed",
+                  "thursday": "730AM-430PM",
+                  "wednesday": "730AM-430PM"
+              },
+              "id": "vha_463",
+              "lat": 61.23134107,
+              "long": -149.74442494,
+              "mobile": false,
+              "name": "Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_HIGH",
+                          "label": "COVID-19 health protection: Levels high"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "907-257-6774",
+                  "main": "888-353-7574",
+                  "pharmacy": "888-353-7574",
+                  "afterHours": "888-353-7574",
+                  "patientAdvocate": "907-257-5449",
+                  "mentalHealthClinic": "907-257-4854",
+                  "enrollmentCoordinator": "907-257-3323",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "Gastroenterology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "463",
+              "visn": "20",
+              "website": "https://www.va.gov/alaska-health-care/locations/colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/"
+          }
+      },
+      {
+          "id": "vha_583",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 61,
+                          "established": 13
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 37,
+                          "established": 10
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 30,
+                          "established": 14
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 68,
+                          "established": 16
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 20,
+                          "established": 6
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 30,
+                          "established": 22
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 47,
+                          "established": 7
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 68,
+                          "established": 19
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 30,
+                          "established": 7
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 26,
+                          "established": 10
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 59,
+                          "established": 10
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 14,
+                          "established": 7
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "46202-2884",
+                      "city": "Indianapolis",
+                      "state": "IN",
+                      "address1": "1481 West Tenth Street",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+                      "appointmentPhones": [
+                          {
+                              "extension": null,
+                              "label": "COVID-19 Vaccine Appointment Line",
+                              "number": "317-988-4899",
+                              "type": "tel"
+                          }
+                      ],
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "false",
+                      "walkInsAccepted": "true",
+                      "path": "https://www.va.gov/indiana-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.7699999809265137,
+                      "primaryCareRoutine": 0.8700000047683716,
+                      "specialtyCareUrgent": 0.7900000214576721,
+                      "specialtyCareRoutine": 0.8799999952316284
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_583",
+              "lat": 39.777426,
+              "long": -86.187474,
+              "mobile": false,
+              "name": "Richard L. Roudebush Veterans' Administration Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_MEDIUM",
+                          "label": "COVID-19 health protection: Levels medium"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "317-988-3159",
+                  "main": "317-554-0000",
+                  "pharmacy": "317-988-4370",
+                  "afterHours": "317-554-0000",
+                  "patientAdvocate": "317-988-2602",
+                  "mentalHealthClinic": "317-988-2770",
+                  "enrollmentCoordinator": "317-988-4310",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "583",
+              "visn": "10",
+              "website": "https://www.va.gov/indiana-health-care/locations/richard-l-roudebush-veterans-administration-medical-center/"
+          }
+      },
+      {
+          "id": "vha_531",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 42,
+                          "established": 6
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 28,
+                          "established": 5
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 61,
+                          "established": 10
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 62,
+                          "established": 24
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 28,
+                          "established": 5
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 35,
+                          "established": 7
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 29,
+                          "established": 4
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 53,
+                          "established": 11
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 38,
+                          "established": 11
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 28,
+                          "established": 6
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 25,
+                          "established": 6
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 29,
+                          "established": 4
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "83702-4501",
+                      "city": "Boise",
+                      "state": "ID",
+                      "address1": "500 West Fort Street",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "The VA is offering free COVID vaccines to enrolled veterans, spouses, caregivers and military. Walk-in anytime during business hours, or call to schedule.",
+                      "appointmentPhones": [
+                          {
+                              "extension": null,
+                              "label": "COVID19 Vaccine Scheduling Phone Number",
+                              "number": "208-422-1499",
+                              "type": "tel"
+                          }
+                      ],
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "false",
+                      "walkInsAccepted": "true",
+                      "path": "https://www.va.gov/boise-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.7200000286102295,
+                      "primaryCareRoutine": 0.8299999833106995,
+                      "specialtyCareUrgent": 0.75,
+                      "specialtyCareRoutine": 0.9100000262260437
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_531",
+              "lat": 43.621065,
+              "long": -116.1904185,
+              "mobile": false,
+              "name": "Boise VA Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_MEDIUM",
+                          "label": "COVID-19 health protection: Levels medium"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "208-422-1157",
+                  "main": "208-422-1000",
+                  "pharmacy": "208-422-1000 x7635",
+                  "afterHours": "208-422-1000",
+                  "patientAdvocate": "208-422-1034",
+                  "mentalHealthClinic": "208-422-1108",
+                  "enrollmentCoordinator": "208-422-1220",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "531",
+              "visn": "20",
+              "website": "https://www.va.gov/boise-health-care/locations/boise-va-medical-center/"
+          }
+      },
+      {
+          "id": "vha_660",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 34,
+                          "established": 6
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 44,
+                          "established": 13
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 35,
+                          "established": 12
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 52,
+                          "established": 14
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 73,
+                          "established": 32
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 37,
+                          "established": 7
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 63,
+                          "established": 13
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 42,
+                          "established": 13
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 45,
+                          "established": 12
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 19,
+                          "established": 6
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 28,
+                          "established": 6
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 44,
+                          "established": 9
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "84148-0001",
+                      "city": "Salt Lake City",
+                      "state": "UT",
+                      "address1": "500 Foothill Boulevard",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "VA Salt Lake City is vaccinating all Veterans, their spouses and eligible caregivers on a walk-in basis. Our vaccine clinic, in the basement of building 14, is open Monday-Friday from 7:30 a.m.-4 p.m.",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "false",
+                      "walkInsAccepted": "true",
+                      "path": "https://www.va.gov/salt-lake-city-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.8600000143051147,
+                      "primaryCareRoutine": 0.8799999952316284,
+                      "specialtyCareUrgent": 0.8199999928474426,
+                      "specialtyCareRoutine": 0.9200000166893005
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_660",
+              "lat": 40.755051,
+              "long": -111.8376495,
+              "mobile": false,
+              "name": "George E. Wahlen Department of Veterans Affairs Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_HIGH",
+                          "label": "COVID-19 health protection: Levels high"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "801-584-2518",
+                  "main": "801-582-1565",
+                  "pharmacy": "800-579-0540",
+                  "afterHours": "866-369-8020",
+                  "patientAdvocate": "800-613-4012 x1900",
+                  "mentalHealthClinic": "801-582-1565 x 1255",
+                  "enrollmentCoordinator": "800-613-4012",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "660",
+              "visn": "19",
+              "website": "https://www.va.gov/salt-lake-city-health-care/locations/george-e-wahlen-department-of-veterans-affairs-medical/"
+          }
+      },
+      {
+          "id": "vha_607",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 16,
+                          "established": 7
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 35,
+                          "established": 22
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 45,
+                          "established": 15
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 19,
+                          "established": 7
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 40,
+                          "established": 12
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 34,
+                          "established": 7
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 62,
+                          "established": 24
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 146,
+                          "established": 73
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 39,
+                          "established": 12
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 19,
+                          "established": 12
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 23,
+                          "established": 6
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 21,
+                          "established": 5
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "53705-2254",
+                      "city": "Madison",
+                      "state": "WI",
+                      "address1": "2500 Overlook Terrace",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "All Veterans, spouses and caregivers can get a COVID-19 vaccine at VA by appointment or walk-in clinic.",
+                      "appointmentPhones": [
+                          {
+                              "extension": null,
+                              "label": "Vaccine Scheduling Line",
+                              "number": "608-280-2160",
+                              "type": "tel"
+                          }
+                      ],
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "false",
+                      "walkInsAccepted": "not applicable",
+                      "path": "https://www.va.gov/madison-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.0,
+                      "primaryCareRoutine": 0.9599999785423279,
+                      "specialtyCareUrgent": 0.8299999833106995,
+                      "specialtyCareRoutine": 0.9100000262260437
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_607",
+              "lat": 43.07514468,
+              "long": -89.43107348,
+              "mobile": false,
+              "name": "William S. Middleton Memorial Veterans' Hospital",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_HIGH",
+                          "label": "COVID-19 health protection: Levels high"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "608-280-7095",
+                  "main": "608-256-1901",
+                  "pharmacy": "608-280-7076",
+                  "afterHours": "608-256-1901",
+                  "patientAdvocate": "608-280-7182",
+                  "mentalHealthClinic": "608-280-7084",
+                  "enrollmentCoordinator": "608-280-7038",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "607",
+              "visn": "12",
+              "website": "https://www.va.gov/madison-health-care/locations/william-s-middleton-memorial-veterans-hospital/"
+          }
+      },
+      {
+          "id": "vha_636",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 24,
+                          "established": 4
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 39,
+                          "established": 10
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 46,
+                          "established": 11
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 48,
+                          "established": 26
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 51,
+                          "established": 22
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 21,
+                          "established": 10
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 37,
+                          "established": 14
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 58,
+                          "established": 11
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 24,
+                          "established": 7
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 34,
+                          "established": 16
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 32,
+                          "established": 11
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "68105-1850",
+                      "city": "Omaha",
+                      "state": "NE",
+                      "address1": "4101 Woolworth Avenue",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "true",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.va.gov/nebraska-western-iowa-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.8500000238418579,
+                      "primaryCareRoutine": 0.8500000238418579,
+                      "specialtyCareUrgent": 0.8700000047683716,
+                      "specialtyCareRoutine": 0.9100000262260437
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_636",
+              "lat": 41.24512648,
+              "long": -95.97525954,
+              "mobile": false,
+              "name": "Omaha VA Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_MEDIUM",
+                          "label": "COVID-19 health protection: Levels medium"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "402-995-3755",
+                  "main": "402-346-8800",
+                  "pharmacy": "855-560-1722",
+                  "afterHours": "402-995-3250",
+                  "patientAdvocate": "402-995-3218",
+                  "mentalHealthClinic": "402-346-8800",
+                  "enrollmentCoordinator": "402-995-4050",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "636",
+              "visn": "23",
+              "website": "https://www.va.gov/nebraska-western-iowa-health-care/locations/omaha-va-medical-center/"
+          }
+      },
+      {
+          "id": "vha_662",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 34,
+                          "established": 7
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 28,
+                          "established": 11
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 30,
+                          "established": 10
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 67,
+                          "established": 16
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 43,
+                          "established": 7
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 74,
+                          "established": 11
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 44,
+                          "established": 22
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 22,
+                          "established": 13
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 19,
+                          "established": 13
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 17,
+                          "established": 4
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 26,
+                          "established": 8
+                      },
+                      {
+                          "service": "WomensHealth",
+                          "new": 16,
+                          "established": 3
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "94121-1545",
+                      "city": "San Francisco",
+                      "state": "CA",
+                      "address1": "4150 Clement Street",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "true",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.sanfrancisco.va.gov/services/covid-19-vaccines.asp"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.8799999952316284,
+                      "primaryCareRoutine": 0.9399999976158142,
+                      "specialtyCareUrgent": 0.8299999833106995,
+                      "specialtyCareRoutine": 0.8999999761581421
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_662",
+              "lat": 37.781766,
+              "long": -122.50512,
+              "mobile": false,
+              "name": "San Francisco VA Medical Center",
+              "operatingStatus": {
+                  "code": "NOTICE",
+                  "additionalInfo": "Masks required in all VA healthcare facilities & shuttles. Patients with 1) fever, cold or flu symptoms (cough, runny nose, congestion), 2) positive COVID-19 or Flu test, OR 3) recent COVID-19 contact should reschedule routine care to a virtual visit or future date.",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_MEDIUM",
+                          "label": "COVID-19 health protection: Levels medium"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "More hours are available for some services. To learn more, call our main phone number. |",
+              "phone": {
+                  "fax": "415-750-2177",
+                  "main": "415-221-4810",
+                  "pharmacy": "800-847-3203",
+                  "afterHours": "800-733-0502",
+                  "patientAdvocate": "415-750-6650",
+                  "mentalHealthClinic": "415-221-4810 x 24824",
+                  "enrollmentCoordinator": "415-750-6613",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "UrgentCare",
+                      "Urology",
+                      "WomensHealth"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "662",
+              "visn": "21",
+              "website": "https://www.va.gov/san-francisco-health-care/locations/san-francisco-va-medical-center/"
+          }
+      },
+      {
+          "id": "vha_589",
+          "type": "facility",
+          "attributes": {
+              "access": {
+                  "health": [
+                      {
+                          "service": "Audiology",
+                          "new": 22,
+                          "established": 3
+                      },
+                      {
+                          "service": "Cardiology",
+                          "new": 70,
+                          "established": 17
+                      },
+                      {
+                          "service": "Dermatology",
+                          "new": 21,
+                          "established": 12
+                      },
+                      {
+                          "service": "Gastroenterology",
+                          "new": 31,
+                          "established": 9
+                      },
+                      {
+                          "service": "Gynecology",
+                          "new": 37,
+                          "established": 6
+                      },
+                      {
+                          "service": "MentalHealthCare",
+                          "new": 12,
+                          "established": 3
+                      },
+                      {
+                          "service": "Ophthalmology",
+                          "new": 12,
+                          "established": 7
+                      },
+                      {
+                          "service": "Optometry",
+                          "new": 74,
+                          "established": 14
+                      },
+                      {
+                          "service": "Orthopedics",
+                          "new": 29,
+                          "established": 3
+                      },
+                      {
+                          "service": "PrimaryCare",
+                          "new": 33,
+                          "established": 4
+                      },
+                      {
+                          "service": "Urology",
+                          "new": 54,
+                          "established": 5
+                      }
+                  ],
+                  "effectiveDate": "2023-12-04"
+              },
+              "activeStatus": "A",
+              "address": {
+                  "mailing": {},
+                  "physical": {
+                      "zip": "64128-2226",
+                      "city": "Kansas City",
+                      "state": "MO",
+                      "address1": "4801 Linwood Boulevard",
+                      "address2": null,
+                      "address3": null
+                  }
+              },
+              "classification": "VA Medical Center (VAMC)",
+              "detailedServices": [
+                  {
+                      "name": "COVID-19 vaccines",
+                      "descriptionFacility": null,
+                      "appointmentLeadin": "<p><em>&nbsp; &nbsp;Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</em></p>",
+                      "appointmentPhones": null,
+                      "onlineSchedulingAvailable": "false",
+                      "referralRequired": "true",
+                      "walkInsAccepted": "false",
+                      "path": "https://www.va.gov/kansas-city-health-care/programs/covid-19-vaccines/"
+                  }
+              ],
+              "facilityType": "va_health_facility",
+              "feedback": {
+                  "health": {
+                      "primaryCareUrgent": 0.7400000095367432,
+                      "primaryCareRoutine": 0.8600000143051147,
+                      "specialtyCareUrgent": 0.800000011920929,
+                      "specialtyCareRoutine": 0.8700000047683716
+                  },
+                  "effectiveDate": "2022-06-28"
+              },
+              "hours": {
+                  "friday": "24/7",
+                  "monday": "24/7",
+                  "sunday": "24/7",
+                  "tuesday": "24/7",
+                  "saturday": "24/7",
+                  "thursday": "24/7",
+                  "wednesday": "24/7"
+              },
+              "id": "vha_589",
+              "lat": 39.063357,
+              "long": -94.526883,
+              "mobile": false,
+              "name": "Kansas City VA Medical Center",
+              "operatingStatus": {
+                  "code": "NORMAL",
+                  "supplementalStatus": [
+                      {
+                          "id": "COVID_HIGH",
+                          "label": "COVID-19 health protection: Levels high"
+                      }
+                  ]
+              },
+              "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+              "phone": {
+                  "fax": "816-922-4607",
+                  "main": "816-861-4700",
+                  "pharmacy": "816-861-4700 x52602",
+                  "afterHours": "800-525-1483",
+                  "patientAdvocate": "816-861-4700 x52273",
+                  "mentalHealthClinic": "816-861-4700 x 52641",
+                  "enrollmentCoordinator": "816-861-4700 x52498",
+                  "healthConnect": null
+              },
+              "services": {
+                  "other": [],
+                  "health": [
+                      "Audiology",
+                      "Cardiology",
+                      "CaregiverSupport",
+                      "Covid19Vaccine",
+                      "DentalServices",
+                      "Dermatology",
+                      "EmergencyCare",
+                      "Gastroenterology",
+                      "Gynecology",
+                      "MentalHealthCare",
+                      "Nutrition",
+                      "Ophthalmology",
+                      "Optometry",
+                      "Orthopedics",
+                      "Podiatry",
+                      "PrimaryCare",
+                      "Urology"
+                  ],
+                  "lastUpdated": "2023-12-04"
+              },
+              "uniqueId": "589",
+              "visn": "15",
+              "website": "https://www.va.gov/kansas-city-health-care/locations/kansas-city-va-medical-center/"
+          }
+      }
+  ],
+  "meta": {
+      "pagination": {
+          "currentPage": 1,
+          "prevPage": null,
+          "nextPage": null,
+          "totalPages": 1
+      }
+  },
+  "links": {
+      "self": "https://staging-api.va.gov/v1/facilities/va?ids=vha_668%2Cvha_687%2Cvha_668%2Cvha_983%2Cvha_984%2Cvha_987%2Cvha_463%2Cvha_583%2Cvha_531%2Cvha_660%2Cvha_607%2Cvha_636%2Cvha_662%2Cvha_589&page=1&per_page=10",
+      "first": "https://staging-api.va.gov/v1/facilities/va?ids=vha_668%2Cvha_687%2Cvha_668%2Cvha_983%2Cvha_984%2Cvha_987%2Cvha_463%2Cvha_583%2Cvha_531%2Cvha_660%2Cvha_607%2Cvha_636%2Cvha_662%2Cvha_589&per_page=10",
+      "prev": null,
+      "next": null,
+      "last": "https://staging-api.va.gov/v1/facilities/va?ids=vha_668%2Cvha_687%2Cvha_668%2Cvha_983%2Cvha_984%2Cvha_987%2Cvha_463%2Cvha_583%2Cvha_531%2Cvha_660%2Cvha_607%2Cvha_636%2Cvha_662%2Cvha_589&page=1&per_page=10"
+  }
+}

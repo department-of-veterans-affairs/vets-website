@@ -1,0 +1,15 @@
+{
+    "id": "ad4f8695-f18e-4bf3-9255-44f79b71331f",
+    "meta": {
+        "lastUpdated": "2023-12-01T11:51:47.522-05:00"
+    },
+    "type": "searchset",
+    "total": 0,
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization?_count=9999&patient=3102"
+        }
+    ],
+    "resourceType": "Bundle"
+}

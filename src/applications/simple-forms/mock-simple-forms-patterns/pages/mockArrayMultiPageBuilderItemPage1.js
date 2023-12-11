@@ -34,6 +34,7 @@ export default {
             },
             address4: addressNoMilitarySchema({ omit: ['street2', 'street3'] }),
           },
+          required: ['name'],
         },
       },
     },

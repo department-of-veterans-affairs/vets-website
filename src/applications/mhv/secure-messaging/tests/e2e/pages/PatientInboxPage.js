@@ -577,6 +577,66 @@ class PatientInboxPage {
   getInboxHeader = text => {
     cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
+
+  verifyCernerFacilityNames(user, ehrData) {
+    this.user = user;
+    this.ehrData = ehrData;
+    let cernerIndex = 0;
+    let cernerCount = 0;
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      if (facility.isCerner) {
+        cernerCount += 1;
+      }
+    }
+
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      cy.log(` i = ${i}`);
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      let facilityName = '';
+
+      if (facility.isCerner) {
+        const facilityId = `vha_${facility.facilityId}`;
+        cy.log(`id = ${facilityId}`);
+        for (let j = 0; j < ehrData.data.nodeQuery.entities.length; j += 1) {
+          if (
+            ehrData.data.nodeQuery.entities[j].fieldFacilityLocatorApiId ===
+            facilityId
+          ) {
+            facilityName =
+              ehrData.data.nodeQuery.entities[j].fieldRegionPage.entity.title;
+          }
+        }
+        cy.log(`name = ${facilityName}`);
+        if (cernerCount === 0) {
+          cy.get('[data-testid="cerner-facilities-alert"]').should(
+            'not.be.visible',
+          );
+        } else if (cernerCount === 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="single-cerner-facility-text"]')
+            .contains(facilityName);
+          break;
+        } else if (cernerCount > 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="cerner-facility"]')
+            .eq(cernerIndex)
+            .contains(facilityName);
+        }
+        cernerIndex += 1;
+      }
+    }
+  }
 }
 
 export default PatientInboxPage;

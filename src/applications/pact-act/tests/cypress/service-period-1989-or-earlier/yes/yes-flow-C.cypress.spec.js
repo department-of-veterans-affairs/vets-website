@@ -41,6 +41,7 @@ describe('PACT Act', () => {
       // ORANGE_2_2_2
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
       h.selectRadio(h.ORANGE_2_2_2_INPUT, 0);
+      h.verifyElement(h.ORANGE_2_2_2_INFO);
       h.clickContinue();
 
       // RADIATION_2_3_A

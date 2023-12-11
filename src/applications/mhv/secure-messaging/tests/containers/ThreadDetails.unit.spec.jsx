@@ -348,7 +348,7 @@ describe('Thread Details container', () => {
     const fileName = 'test.png';
     const file = new File(['(⌐□_□)'], fileName, { type: 'image/png' });
 
-    waitFor(() =>
+    await waitFor(() =>
       fireEvent.change(screen.getByTestId('attach-file-input'), {
         target: { files: [file] },
       }),
@@ -362,23 +362,25 @@ describe('Thread Details container', () => {
       response: { method: 'POST', data: {}, status: 200 },
     };
     mockMultipleApiRequests([req1, req2]);
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
-      expect(screen.getByText('We’re sorry. Something went wrong on our end.'));
-      const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('error');
     });
+    expect(
+      await screen.findByText('We’re sorry. Something went wrong on our end.'),
+    ).to.exist;
+    const alert = document.querySelector('va-alert');
+    expect(alert)
+      .to.have.attribute('status')
+      .to.equal('error');
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId('Send-Button'));
-      expect(screen.getByText('Secure message was successfully sent.'));
-      const alert = document.querySelector('va-alert');
-      expect(alert)
-        .to.have.attribute('status')
-        .to.equal('success');
     });
+    expect(await screen.findByText('Secure message was successfully sent.')).to
+      .exist;
+    expect(document.querySelector('va-alert'))
+      .to.have.attribute('status')
+      .to.equal('success');
   });
 
   it('renders error banner on sendReply failure', async () => {

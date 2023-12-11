@@ -58,14 +58,14 @@ const Navigation = () => {
   ];
 
   paths[0].subpaths.push({
-    path: '/allergies',
-    label: 'Allergies',
-    datatestid: 'allergies-sidebar',
-  });
-  paths[0].subpaths.push({
     path: '/vaccines',
     label: 'Vaccines',
     datatestid: 'vaccines-sidebar',
+  });
+  paths[0].subpaths.push({
+    path: '/allergies',
+    label: 'Allergies and reactions',
+    datatestid: 'allergies-sidebar',
   });
 
   function openNavigation() {

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
+import { VALIDATION_LIMITS } from '../../constants';
 
 const SpouseAdditionalIncomeInputList = ({ errorSchema, formContext }) => {
-  const errorList = errorSchema?.addlIncRecords?.__errors;
+  const errorList = errorSchema?.spAddlIncome?.__errors;
   const { submitted } = formContext;
 
   const dispatch = useDispatch();
@@ -46,6 +47,8 @@ const SpouseAdditionalIncomeInputList = ({ errorSchema, formContext }) => {
       prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
+      min={VALIDATION_LIMITS.SPOUSE_ADDITIONAL_INCOME_MIN}
+      max={VALIDATION_LIMITS.SPOUSE_ADDITIONAL_INCOME_MAX}
     />
   );
 };

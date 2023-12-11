@@ -11,11 +11,23 @@ import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../../util/helpers';
+import {
+  makePdf,
+  processList,
+  generateTextFile,
+  getNameDateAndTime,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
+  formatName,
 } from '../../../shared/util/helpers';
+import {
+  txtLine,
+  txtLineDotted,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../../shared/util/constants';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
@@ -123,11 +135,43 @@ const ChemHemDetails = props => {
       })),
     };
 
-    makePdf(
-      'microbiology_report',
-      scaffold,
-      'Microbiology details',
-      runningUnitTest,
+    makePdf('chem/hem_report', scaffold, 'Chem/Hem details', runningUnitTest);
+  };
+
+  const generateChemHemTxt = async () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Type of test: ${record.type} \n
+Sample tested: ${record.sampleTested} \n
+Ordered by: ${record.orderedBy} \n
+Order location: ${record.orderingLocation} \n
+Collecting location: ${record.collectingLocation} \n
+Provider notes: ${processList(record.comments)} \n
+${txtLine}\n\n
+Results:
+${record.results
+      .map(
+        entry => `
+${txtLine}\n
+${entry.name}
+${txtLineDotted}
+Result: ${entry.result}
+Standard range: ${entry.standardRange}
+Status: ${entry.status}
+Lab location: ${entry.labLocation}
+Interpretation: ${entry.interpretation}\n`,
+      )
+      .join('')}`;
+
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
   };
 
@@ -142,6 +186,7 @@ const ChemHemDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />

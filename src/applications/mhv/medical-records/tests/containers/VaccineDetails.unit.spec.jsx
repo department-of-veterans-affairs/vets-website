@@ -138,7 +138,7 @@ describe('Vaccine details container with errors', () => {
     });
   });
 
-  it('should not display the formatted date if startDate or endDate is missing', () => {
+  it('should not display the formatted date if the date is missing', () => {
     waitFor(() => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         EMPTY_FIELD,

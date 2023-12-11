@@ -19,14 +19,18 @@ export default function vaTextInputFieldMapping(props) {
       : 'text';
   }
 
+  const commonFieldProps = commonFieldMapping(props);
+
   return {
-    ...commonFieldMapping(props),
+    ...commonFieldProps,
     autocomplete:
       childrenProps.uiSchema['ui:autocomplete'] || uiOptions?.autocomplete,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
+    messageAriaDescribedby:
+      commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     type: inputType,
     width: uiOptions?.width,
     onInput: (event, value) => {

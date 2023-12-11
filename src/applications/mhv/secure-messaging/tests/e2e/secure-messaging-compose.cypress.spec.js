@@ -22,6 +22,8 @@ describe('Secure Messaging Compose', () => {
       .getMessageBodyField()
       .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

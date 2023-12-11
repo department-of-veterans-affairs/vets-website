@@ -97,7 +97,7 @@ describe('Avs container', () => {
       },
     });
     await waitFor(() => {
-      expect(screen.getByText('After-visit Summary'));
+      expect(screen.getByText('After-visit summary'));
     });
   });
 

@@ -8,7 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaUseExperimentalFullstack = true,
     myVaUseLighthouseClaims = true,
     myVaNotificationDotIndicator = true,
-    myVaRemoveCernerMessage = true,
+    myVaEnableMhvLink = true,
     myVaUpdateErrorsWarnings = true,
     vaOnlineSchedulingStaticLandingPage = true,
   } = toggles;
@@ -50,8 +50,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: myVaNotificationDotIndicator,
         },
         {
-          name: 'my_va_remove_cerner_message',
-          value: myVaRemoveCernerMessage,
+          name: 'my_va_enable_mhv_link',
+          value: myVaEnableMhvLink,
         },
         {
           name: 'my_va_update_errors_warnings',

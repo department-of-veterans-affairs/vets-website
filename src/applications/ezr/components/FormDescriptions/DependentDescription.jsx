@@ -4,7 +4,7 @@ import { LAST_YEAR } from '../../utils/constants';
 export const DependentDescription = () => (
   <va-additional-info
     trigger="Who we consider a dependent"
-    class="vads-u-margin-top--neg2 vads-u-margin-bottom--4"
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">

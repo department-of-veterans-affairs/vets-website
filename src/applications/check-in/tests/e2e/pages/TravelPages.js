@@ -13,6 +13,9 @@ class TravelPages {
       case 'mileage':
         title = 'Are you claiming only mileage and no other expenses today?';
         break;
+      case 'review':
+        title = 'Review your travel claim';
+        break;
       default:
         break;
     }
@@ -47,7 +50,7 @@ class TravelPages {
   };
 
   validateBackButton = page => {
-    cy.get('a[data-testid="back-button').should(
+    cy.get('a[data-testid="back-button"]').should(
       'have.text',
       'Back to last screen',
     );
@@ -71,6 +74,11 @@ class TravelPages {
         .should('have.attr', 'href')
         .and('contain', 'travel-address');
     }
+    if (page === 'review') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-mileage');
+    }
   };
 
   validateContent = page => {
@@ -81,6 +89,25 @@ class TravelPages {
     if (body) {
       cy.get(`[data-testid="body-text"]`).should('be.visible');
     }
+  };
+
+  clickEditLink = () => {
+    cy.get(`a[data-testid="review-edit-link"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  acceptTerms = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`[part="checkbox"]`)
+      .click();
+  };
+
+  checkForValidationError = () => {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('#checkbox-error-message');
   };
 }
 

@@ -25,6 +25,12 @@ export const labTypes = {
   OTHER: 'other',
 };
 
+export const noteTypes = {
+  DISCHARGE_SUMMARY: 'discharge_summary',
+  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  OTHER: 'other',
+};
+
 export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '79381-0',
@@ -32,7 +38,7 @@ export const loincCodes = {
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
-  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  PHYSICIAN_PROCEDURE_NOTE: '11506-3',
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',

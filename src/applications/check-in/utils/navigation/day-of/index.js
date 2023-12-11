@@ -52,12 +52,16 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 8,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.TRAVEL_REVIEW,
     order: 9,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.DETAILS,
     order: 10,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 11,
   },
 ]);
 

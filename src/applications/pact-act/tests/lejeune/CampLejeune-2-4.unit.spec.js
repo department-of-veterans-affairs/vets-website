@@ -31,7 +31,7 @@ const {
 // This file contains tests for the component's display as well as testing displayConditionsMet
 // for this question specifically
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => ({
     pactAct: {
       form: {},
@@ -56,7 +56,7 @@ const mockStoreNoIntroPage = {
 const setLejeuneStub = sinon.stub();
 const pushStub = sinon.stub();
 
-const propsStandard = {
+const props = {
   formResponses: {},
   setLejeune24: setLejeuneStub,
   router: {
@@ -80,10 +80,10 @@ describe('Camp Lejeune 2.4 Page', () => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the lejeune page in the standard flow', () => {
+  it('should correctly load the lejeune page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <Lejeune24 {...propsStandard} />
+      <Provider store={mockStore}>
+        <Lejeune24 {...props} />
       </Provider>,
     );
 

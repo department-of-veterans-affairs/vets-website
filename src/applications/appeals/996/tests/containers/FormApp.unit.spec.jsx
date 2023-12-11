@@ -89,6 +89,28 @@ describe('Form0996App', () => {
     expect($('va-loading-indicator', container)).to.not.exist;
   });
 
+  it('should render with no data', () => {
+    const { props, data } = getData();
+    const minimalData = {
+      ...data,
+      user: {
+        ...data.user,
+        profile: {},
+      },
+      form: {
+        ...data.form,
+        data: undefined,
+      },
+      contestableIssues: undefined,
+    };
+    const { container } = render(
+      <Provider store={mockStore(minimalData)}>
+        <Form0996App {...props} />
+      </Provider>,
+    );
+    expect($('#form-0996', container)).to.exist;
+  });
+
   it('should redirect to /start', () => {
     removeHlrWizardStatus();
     const routerPushSpy = sinon.spy();
@@ -226,6 +248,54 @@ describe('Form0996App', () => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.areaOfDisagreement.length).to.eq(2);
+    });
+  });
+
+  it('should not update areaOfDisagreement', async () => {
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
+    const issues = [
+      {
+        type: 'contestableIssue',
+        attributes: {
+          ratingIssueSubjectText: 'test2',
+          approxDecisionDate: '2023-06-06',
+        },
+        [SELECTED]: true,
+      },
+    ];
+    const additionalIssues = [
+      {
+        issue: 'test2',
+        decisionDate: '2023-07-07',
+        [SELECTED]: true,
+      },
+    ];
+    const { props, data } = getData({
+      contestableIssues: {
+        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+        benefitType: 'compensation',
+        issues,
+        legacyCount: 0,
+      },
+      formData: {
+        contestedIssues: issues,
+        benefitType: 'compensation',
+        areaOfDisagreement: [issues[0], additionalIssues[0]],
+        additionalIssues,
+        legacyCount: 0,
+      },
+    });
+    const store = mockStore(data);
+
+    render(
+      <Provider store={store}>
+        <Form0996App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const action = store.getActions()[0];
+      expect(action).to.be.undefined;
     });
   });
 

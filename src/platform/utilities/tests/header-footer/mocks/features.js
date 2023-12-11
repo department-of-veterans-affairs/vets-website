@@ -23,7 +23,7 @@ const features = {
       { name: 'edu_section_103', value: true },
       { name: 'vaViewDependentsAccess', value: false },
       { name: 'gibctEybBottomSheet', value: true },
-      { name: 'my_va_show_header_link', value: true },
+      { name: 'mhv_landing_page_enabled', value: true },
     ],
   },
 };

@@ -11,69 +11,27 @@ describe('DirectDepositClient', () => {
     financialInstitutionRoutingNumber: '987654321',
   };
 
-  describe('ppiu legacy client', () => {
-    let legacyClient;
-    let legacyRecordEventSpy;
+  describe('client', () => {
+    let client;
+    let recordEventSpy;
+
     beforeEach(() => {
-      legacyRecordEventSpy = sinon.spy();
-      legacyClient = new DirectDepositClient({
-        recordEvent: legacyRecordEventSpy,
+      recordEventSpy = sinon.spy();
+      client = new DirectDepositClient({
+        recordEvent: recordEventSpy,
       });
     });
 
     it('returns the correct endpoint', () => {
-      expect(legacyClient.endpoint).to.equal('/ppiu/payment_information');
-    });
-
-    it('generates the correct request options', () => {
-      const legacyOptions = legacyClient.generateApiRequestOptions(fields);
-
-      // IMPORTANT: The PPIU endpoint REQUIRES a financialInstitutionName field,
-      // it doesn't matter what the value is, but it must be present.
-      expect(legacyOptions.body).to.equal(
-        JSON.stringify({
-          ...fields,
-          financialInstitutionName: 'Hidden form field',
-        }),
-      );
-    });
-
-    it('records legacy analytics event', () => {
-      legacyClient.recordCNPEvent({
-        status: API_STATUS.STARTED,
-        method: 'GET',
-      });
-
-      expect(legacyRecordEventSpy.firstCall.args[0]).to.deep.equal({
-        event: 'profile-get-cnp-direct-deposit-started',
-      });
-    });
-  });
-
-  describe('lighthouse client', () => {
-    let lighthouseClient;
-    let lighthouseRecordEventSpy;
-
-    beforeEach(() => {
-      lighthouseRecordEventSpy = sinon.spy();
-      lighthouseClient = new DirectDepositClient({
-        useLighthouseDirectDepositEndpoint: true,
-        recordEvent: lighthouseRecordEventSpy,
-      });
-    });
-
-    it('returns the correct endpoint', () => {
-      expect(lighthouseClient.endpoint).to.equal(
+      expect(client.endpoint).to.equal(
         '/profile/direct_deposits/disability_compensations',
       );
     });
 
     it('generates the correct request options', () => {
-      const lighthouseOptions = lighthouseClient.generateApiRequestOptions(
-        fields,
-      );
+      const options = client.generateApiRequestOptions(fields);
 
-      expect(lighthouseOptions.body).to.equal(
+      expect(options.body).to.equal(
         JSON.stringify({
           accountType: fields.accountType,
           accountNumber: fields.accountNumber,
@@ -92,7 +50,7 @@ describe('DirectDepositClient', () => {
         },
       };
 
-      const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
         response,
       );
 
@@ -116,7 +74,7 @@ describe('DirectDepositClient', () => {
         },
       };
 
-      const formattedResponse = lighthouseClient.formatDirectDepositResponseFromLighthouse(
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
         {},
       );
 
@@ -125,7 +83,7 @@ describe('DirectDepositClient', () => {
 
     it('records lighthouse analytics event', () => {
       const errorMessage = 'test-error-message';
-      lighthouseClient.recordCNPEvent({
+      client.recordCNPEvent({
         status: API_STATUS.FAILED,
         method: 'PUT',
         extraProperties: {
@@ -133,7 +91,7 @@ describe('DirectDepositClient', () => {
         },
       });
 
-      expect(lighthouseRecordEventSpy.firstCall.args[0]).to.deep.equal({
+      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
         event: 'api_call',
         'api-name': 'PUT /profile/direct_deposits/disability_compensations',
         'api-status': API_STATUS.FAILED,
@@ -142,12 +100,12 @@ describe('DirectDepositClient', () => {
     });
 
     it('records lighthouse analytics event without error', () => {
-      lighthouseClient.recordCNPEvent({
+      client.recordCNPEvent({
         status: API_STATUS.SUCCESSFUL,
         method: 'PUT',
       });
 
-      expect(lighthouseRecordEventSpy.firstCall.args[0]).to.deep.equal({
+      expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
         event: 'api_call',
         'api-name': 'PUT /profile/direct_deposits/disability_compensations',
         'api-status': API_STATUS.SUCCESSFUL,

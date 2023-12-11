@@ -348,15 +348,6 @@
   }
 }
 
-@mixin hide-button($selector) {
-  .form-review-panel #{$selector} {
-    display: none;
-  }
-}
-
-@include hide-button("button.edit-page");
-@include hide-button(".edit-btn.primary-outline");
-
 .review-header {
   border-bottom: 1px solid $color-gray-light;
 }
@@ -364,4 +355,18 @@
 .review-top-bottom-borders {
   border-top: 1px solid $color-gray-light;
   border-bottom: 1px solid $color-gray-light;
+}
+
+$chapters: veteranInformationChapter, householdIncomeChapter,
+  householdAssetsChapter, bankruptcyAttestationChapter, householdExpensesChapter,
+  resolutionOptionsChapter;
+
+@each $chapter in $chapters {
+  [data-chapter="#{$chapter}"] {
+    .form-review-panel-page va-button[text="Edit"],
+    .form-review-panel-page button#confirmContactInformationEdit {
+      // hope the id doesn't change
+      display: none;
+    }
+  }
 }

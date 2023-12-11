@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { parseRedirectUrl } from '../helpers';
+import {
+  parseRedirectUrl,
+  declineAndLogout,
+  validateWhichRedirectUrlToUse,
+} from '../helpers';
 
 describe('parseRedirectUrl', () => {
   const testUrls = {
@@ -17,4 +21,53 @@ describe('parseRedirectUrl', () => {
     });
   });
   expect(parseRedirectUrl(null)).to.eql('https://dev.va.gov');
+});
+
+describe('declineAndLogout', () => {
+  const oldLocation = window.location;
+  afterEach(() => {
+    window.location = oldLocation;
+  });
+  it('should redirect to mobile', () => {
+    const oldPath = '/some-random-place';
+    window.location.pathname = oldPath;
+
+    declineAndLogout({ termsCodeExists: true, shouldRedirectToMobile: true });
+    expect(window.location.pathname).to.not.eql(oldPath);
+  });
+});
+
+describe('validateWhichRedirectUrlToUse', () => {
+  afterEach(() => sessionStorage.clear());
+
+  it('should return proper url to USiP clients', () => {
+    const returnUrl = 'http://pint.eauth.va.gov/mhv-portal-web/';
+    sessionStorage.setItem('authReturnUrl', returnUrl);
+
+    expect(
+      validateWhichRedirectUrlToUse(
+        new URL('http://dev.va.gov/?next=loginModal'),
+      ),
+    ).to.eql(returnUrl);
+  });
+
+  it('should return either a redirect_url or ssoeTarget', () => {
+    const returnUrl = 'http://dev.va.gov/?next=loginModal';
+    sessionStorage.setItem('authReturnUrl', returnUrl);
+
+    const base = 'http://dev.va.gov/terms-of-use/';
+    const redirectUrl = 'http://dev.va.gov/auth/login/callback/?type=idme';
+    const url1 = new URL(
+      `${base}?redirect_url=${encodeURIComponent(redirectUrl)}`,
+    );
+    const ssoeTarget = 'http://pint.eauth.va.gov/mhv-portal-web';
+    const url2 = new URL(
+      `${base}?ssoeTarget=${encodeURIComponent(ssoeTarget)}`,
+    );
+
+    expect(validateWhichRedirectUrlToUse(url1)).to.not.eql(returnUrl);
+    expect(validateWhichRedirectUrlToUse(url1)).to.eql(redirectUrl);
+    expect(validateWhichRedirectUrlToUse(url2)).to.not.eql(returnUrl);
+    expect(validateWhichRedirectUrlToUse(url2)).to.eql(ssoeTarget);
+  });
 });

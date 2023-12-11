@@ -7,11 +7,17 @@ import { isProfileLoading } from 'platform/user/selectors';
  */
 export function selectEnrollmentStatus(state) {
   const {
-    enrollmentStatus: { hasServerError, loading, parsedStatus },
+    enrollmentStatus: {
+      canSubmitFinancialInfo,
+      hasServerError,
+      loading,
+      parsedStatus,
+    },
   } = state;
   return {
     isLoading: isProfileLoading(state) || loading,
     isEnrolledinESR: parsedStatus === 'enrolled',
+    canSubmitFinancialInfo,
     hasServerError,
   };
 }

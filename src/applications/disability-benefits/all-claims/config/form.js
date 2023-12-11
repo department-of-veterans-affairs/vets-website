@@ -185,7 +185,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Equal to VA Form 21-526EZ',
+  subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {

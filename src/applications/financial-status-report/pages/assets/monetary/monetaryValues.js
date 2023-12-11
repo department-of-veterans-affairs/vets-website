@@ -1,5 +1,8 @@
 import MonetaryInputList from '../../../components/monetary/MonetaryInputList';
-import { validateCurrencyArray } from '../../../utils/validations';
+import {
+  validateCurrencyArray,
+  validateMonetaryAssetCurrencyArrayLimits,
+} from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
@@ -11,7 +14,10 @@ export const uiSchema = {
     },
     monetaryAssets: {
       'ui:title': 'monetaryAssetValues',
-      'ui:validations': [validateCurrencyArray],
+      'ui:validations': [
+        validateCurrencyArray,
+        validateMonetaryAssetCurrencyArrayLimits,
+      ],
       items: {
         name: {
           'ui:title': 'Name of asset',

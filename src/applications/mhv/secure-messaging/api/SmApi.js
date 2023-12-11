@@ -327,6 +327,18 @@ export const getTriageTeamList = () => {
 };
 
 /**
+ * Get a list of all recipients in triage teams.
+ * @returns
+ */
+export const getAllRecipients = () => {
+  return apiRequest(`${apiBasePath}/messaging/allrecipients`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
  * Search a folder for messages based on criteria
  * @param {Int} folderId
  * @param {Object} query

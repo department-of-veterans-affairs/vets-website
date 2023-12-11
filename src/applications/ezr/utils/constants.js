@@ -92,6 +92,7 @@ export const MOCK_ENROLLMENT_RESPONSE = {
   preferredFacility: '463 - CHEY6',
   parsedStatus: 'enrolled',
   effectiveDate: '2019-04-25T00:00:00.000-06:00',
+  canSubmitFinancialInfo: true,
 };
 
 // declare names to use for window session storage items

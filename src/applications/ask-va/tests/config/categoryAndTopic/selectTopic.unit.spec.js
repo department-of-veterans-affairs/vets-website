@@ -8,7 +8,7 @@ import { setupServer } from 'msw/node';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
 
@@ -90,7 +90,7 @@ describe('selectTopic config', () => {
     );
 
     await waitFor(() => {
-      expect($('h3', container).textContent).to.eq(
+      expect($$('h3', container)[1].textContent).to.eq(
         'Which topic best describes your question?',
       );
     });

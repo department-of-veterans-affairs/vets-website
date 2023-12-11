@@ -19,22 +19,20 @@ class MicrobiologyListPage {
 }
 */
 
-  /*
   clickMicrobiologyDetailsLink = (_MicrobiologyIndex = 0) => {
-    cy.get(':nth-child(2) > .vads-u-margin-y--0p5').click();
-    //cy.get('[data-testid="record-list-item"]')
-     // .find('a')
-     // .eq(_MicrobiologyIndex)
-     // .click();
-  };
-}  */
-  clickMicrobiologyDetailsLink = () => {
-    cy.get(':nth-child(2) > .vads-u-margin-y--0p5').click();
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(_MicrobiologyIndex)
+      .click();
   };
 
+  /* These will be needed later when there is print functionality on the list page
   verifyPrintOrDownload = () => {
     // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
+  clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
@@ -52,6 +50,7 @@ class MicrobiologyListPage {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-2"]').should('be.visible');
   };
+  */
 }
 
 export default new MicrobiologyListPage();

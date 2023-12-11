@@ -206,7 +206,6 @@ App.propTypes = {
     benefitType: PropTypes.string,
     contestedIssues: PropTypes.array,
     legacyCount: PropTypes.number,
-    informalConferenceRep: PropTypes.shape({}),
   }),
   inProgressFormId: PropTypes.number,
   isLoadingFeatures: PropTypes.bool,

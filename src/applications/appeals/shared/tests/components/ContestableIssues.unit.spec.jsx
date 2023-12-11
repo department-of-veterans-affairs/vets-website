@@ -188,4 +188,13 @@ describe('<ContestableIssues>', () => {
       expect($$('va-alert', container).length).to.equal(0);
     });
   });
+
+  it('should not throw a JS error when no list is passed in', () => {
+    const props = getProps({ review: true });
+
+    const { container } = render(
+      <ContestableIssues {...props} formData={{}} contestableIssues={{}} />,
+    );
+    expect($$('input[type="checkbox"]', container).length).to.equal(0);
+  });
 });

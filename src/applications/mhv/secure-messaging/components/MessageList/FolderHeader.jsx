@@ -1,15 +1,21 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
 import { handleHeader, updatePageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
+import CernerFacilityAlert from './CernerFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+
+  const cernerFacilitiesPresent = useSelector(
+    state => state.sm.facilities.cernerFacilities.length > 0,
+  );
 
   const folderDescription = useMemo(
     () => {
@@ -58,6 +64,10 @@ const FolderHeader = props => {
       <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
         {handleHeader(folder.folderId, folder)}
       </h1>
+
+      {folder.folderId === Folders.INBOX.id &&
+        cernerFacilitiesPresent && <CernerFacilityAlert />}
+
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
       <ManageFolderButtons folder={folder} />

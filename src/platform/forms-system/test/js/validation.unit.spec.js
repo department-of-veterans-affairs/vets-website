@@ -264,6 +264,12 @@ describe('Schemaform validations', () => {
       validateDate(errors, `${maxYear + 1}-01-01`);
       expect(errors.addError.callCount).to.equal(1);
     });
+
+    it('should set message if date is not valid', () => {
+      const errors = { addError: sinon.spy() };
+      validateDate(errors, `2023-09-31`);
+      expect(errors.addError.callCount).to.equal(1);
+    });
   });
   describe('validateCurrentOrPastDate', () => {
     it('should set message if invalid', () => {

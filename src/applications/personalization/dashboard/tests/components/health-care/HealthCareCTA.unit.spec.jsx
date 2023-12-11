@@ -52,7 +52,7 @@ describe('<HealthCareCTA />', () => {
         {
           initialState: {
             featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaRemoveCernerMessage]: true,
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
             },
           },
         },

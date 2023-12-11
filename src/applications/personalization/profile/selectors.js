@@ -119,9 +119,6 @@ export const profileDoNotRequireInternationalZipCode = state =>
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
   ];
 
-export const profileUseLighthouseDirectDepositEndpoint = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileLighthouseDirectDeposit];
-
 export const togglesAreLoaded = state => {
   return !toggleValues(state)?.loading;
 };

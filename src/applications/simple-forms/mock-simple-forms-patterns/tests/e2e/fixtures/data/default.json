@@ -12,6 +12,7 @@
     "wcOldSelectFirst": "option1",
     "wcOldSelectSecond": "option1",
     "wcv3Select": "option1",
+    "wcv3TextEmailNew": "abc@abc.com",
     "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
     "rjsfCheckRequiredCheckbox": true,
     "rjsfCheckSsn": "454544545",

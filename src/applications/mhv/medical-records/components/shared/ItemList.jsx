@@ -14,6 +14,7 @@ const ItemList = props => {
               key={idx}
               className="vads-u-margin-bottom--0"
               data-dd-privacy="mask"
+              data-testid="list-item-multiple"
             >
               {item}
             </li>
@@ -23,7 +24,11 @@ const ItemList = props => {
     );
   }
   if (list?.length === 1) {
-    return <span data-dd-privacy="mask">{list[0]}</span>;
+    return (
+      <span data-testid="list-item-single" data-dd-privacy="mask">
+        {list[0]}
+      </span>
+    );
   }
   return <p className="vads-u-margin-top--0">None noted</p>;
 };

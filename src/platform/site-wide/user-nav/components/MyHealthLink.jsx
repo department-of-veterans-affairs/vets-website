@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const MyHealthLink = ({ isSSOe, recordNavUserEvent }) => {
-  const newLandingPageEnabled = useSelector(isLandingPageEnabled);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const newLandingPageEnabled = useToggleValue(
+    TOGGLE_NAMES.mhvLandingPageEnabled,
+  );
   const eventName = newLandingPageEnabled ? 'my-healthevet' : 'my-health';
   const recordMyHealthEvent = recordNavUserEvent(eventName);
   const href = newLandingPageEnabled

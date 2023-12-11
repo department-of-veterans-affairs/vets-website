@@ -1,3 +1,5 @@
+// Determines which question to display
+
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { SHORT_NAME_MAP } from '../constants/question-data-map';
 import { getServicePeriodResponse } from './shared';

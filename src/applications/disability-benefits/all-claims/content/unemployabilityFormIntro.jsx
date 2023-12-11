@@ -13,8 +13,8 @@ export const unemployabilityPageTitle = title => (
 export const introDescription = (
   <div>
     <p>
-      Equal to VA Form 21-8940 (Veteran’s Application for Increased Compensation
-      Based on Unemployability).
+      VA Form 21-8940 (Veteran’s Application for Increased Compensation Based on
+      Unemployability).
       <br />
     </p>
     <p>Filing a claim for Individual Unemployability is a two-part process:</p>

@@ -1,4 +1,5 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import LabsAndTestsDetailsPage from './pages/LabsAndTestsDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 
 describe('Medical Records Health Chemistry And Hematology', () => {
@@ -13,21 +14,18 @@ describe('Medical Records Health Chemistry And Hematology', () => {
     // Given Navigate to Chemistry And Hematology ListPage
 
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
-
+    LabsAndTestsDetailsPage.clickPrintOrDownload();
     // should display a toggle menu button
-    LabsAndTestsListPage.verifyPrintOrDownload();
+    LabsAndTestsDetailsPage.verifyPrintOrDownload();
 
-    // should display print button for a list "Print this list"
-    LabsAndTestsListPage.verifyPrintButton();
+    // should display print button for a Details "Print this Details"
+    LabsAndTestsDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    LabsAndTestsListPage.verifyDownloadPDF();
+    LabsAndTestsDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
-    LabsAndTestsListPage.verifyDownloadTextFile();
-
-    // PathologyListPage.clickDownloadPDFFile();
-    // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
+    // should display a download text file button "Download Details as a text file"
+    LabsAndTestsDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
     cy.axeCheck('main', {

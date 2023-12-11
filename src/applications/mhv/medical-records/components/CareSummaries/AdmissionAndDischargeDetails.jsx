@@ -7,12 +7,22 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf } from '../../util/helpers';
 import {
-  generatePdfScaffold,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../../util/helpers';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
+import {
   updatePageTitle,
+  generatePdfScaffold,
+  formatName,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
 const AdmissionAndDischargeDetails = props => {
@@ -28,17 +38,11 @@ const AdmissionAndDischargeDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate =
-        record.startDate !== EMPTY_FIELD && record.endDate !== EMPTY_FIELD
-          ? `${record.startDate} to ${record.endDate} - `
-          : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
       );
     },
-    [record.endDate, record.name, record.startDate],
+    [record],
   );
 
   const generateCareNotesPDF = async () => {
@@ -72,8 +76,8 @@ const AdmissionAndDischargeDetails = props => {
           inline: true,
         },
         {
-          title: 'Discharge by',
-          value: record.dischargeBy,
+          title: 'Discharged by',
+          value: record.dischargedBy,
           inline: true,
         },
       ],
@@ -101,10 +105,35 @@ const AdmissionAndDischargeDetails = props => {
     );
   };
 
+  const generateCareNotesTxt = () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Admission and discharge summary\n
+${txtLine}\n\n
+Details\n
+Location: ${record.location}\n
+Admission date: ${record.admissionDate}\n
+Discharge date: ${record.dischargeDate}\n
+Admitted by: ${record.admittedBy}\n
+Discharged by: ${record.dischargedBy}\n
+${txtLine}\n\n
+Summary\n
+${record.summary}`;
+
+    generateTextFile(
+      content,
+      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+    );
+  };
+
   const dates =
-    record.startDate &&
-    record.endDate &&
-    `${record.startDate} to ${record.endDate}`;
+    record.admissionDate &&
+    record.dischargeDate &&
+    `${record.admissionDate} to ${record.dischargeDate}`;
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
@@ -129,6 +158,7 @@ const AdmissionAndDischargeDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
@@ -143,19 +173,19 @@ const AdmissionAndDischargeDetails = props => {
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admission date
         </h3>
-        <p>{record.startDate}</p>
+        <p>{record.admissionDate}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
-        <p>{record.endDate}</p>
+        <p>{record.dischargeDate}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admitted by
         </h3>
-        <p>{record.admittingPhysician}</p>
+        <p>{record.admittedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p>{record.dischargePhysician}</p>
+        <p>{record.dischargedBy}</p>
       </div>
 
       <div className="test-results-container">

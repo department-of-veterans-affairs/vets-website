@@ -93,8 +93,8 @@ class IntroductionPage extends React.Component {
           </>
         ) : (
           <p>
-            Equal to VA Form 21-526EZ (Application for Disability Compensation
-            and Related Compensation Benefits).
+            VA Form 21-526EZ (Application for Disability Compensation and
+            Related Compensation Benefits).
           </p>
         )}
         <SaveInProgressIntro {...sipProps} />
@@ -223,7 +223,7 @@ class IntroductionPage extends React.Component {
                         Disability ratings
                       </h4>
                       <p>
-                        For each disability we assign a rating from 0% to 100%.
+                        For each disability, we assign a rating from 0% to 100%.
                         We base this rating on the evidence you turn in with
                         your claim. In some cases we may also ask you to have an
                         exam to help us rate your disability.

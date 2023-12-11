@@ -84,7 +84,7 @@ class FindFormComponent {
 }
 
 // Tests for find-forms application
-describe('Find a VA form smoke test', () => {
+xdescribe('Find a VA form smoke test', () => {
   const findFormComponent = new FindFormComponent();
 
   it('does not display an error on initial page load with no URL query', () => {

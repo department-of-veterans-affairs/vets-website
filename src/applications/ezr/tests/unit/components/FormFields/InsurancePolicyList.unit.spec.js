@@ -11,12 +11,16 @@ describe('ezr <InsurancePolicyList>', () => {
       {
         insuranceName: 'Cigna',
         insurancePolicyHolderName: 'John Smith',
-        insurancePolicyNumber: '006655',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '006655',
+        },
       },
       {
         insuranceName: 'Aetna',
         insurancePolicyHolderName: 'Mary Smith',
-        insuranceGroupCode: '006655',
+        'view:policyOrGroup': {
+          insuranceGroupCode: '006655',
+        },
       },
     ],
     mode: 'edit',

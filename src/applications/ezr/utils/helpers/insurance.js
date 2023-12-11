@@ -8,7 +8,10 @@ import content from '../../locales/en/content.json';
  * or group code.
  */
 export function getInsuranceSrLabel(formData) {
-  const { insuranceName, insurancePolicyNumber, insuranceGroupCode } = formData;
+  const {
+    insuranceName,
+    'view:policyOrGroup': { insurancePolicyNumber, insuranceGroupCode },
+  } = formData;
   const labels = {
     policy: insurancePolicyNumber
       ? `${content['insurance-policy-number-label']} ${insurancePolicyNumber}`

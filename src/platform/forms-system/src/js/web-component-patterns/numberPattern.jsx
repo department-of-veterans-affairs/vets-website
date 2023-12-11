@@ -88,6 +88,13 @@ export const numberUI = options => {
   };
 };
 
+/**
+ * ```js
+ * schema: {
+ *    exampleNumber: numberSchema
+ * }
+ * ```
+ */
 export const numberSchema = {
   type: 'string',
   pattern: '^\\d*$',

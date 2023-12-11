@@ -1,6 +1,9 @@
 import UtilityBillChecklist from '../../../components/utilityBills/UtilityBillChecklist';
 import UtilityBillInputList from '../../../components/utilityBills/UtilityBillInputList';
-import { validateCurrencyArray } from '../../../utils/validations';
+import {
+  validateCurrencyArray,
+  validateUtilityBillsArrayLimits,
+} from '../../../utils/validations';
 
 export const utilityBillChecklist = {
   uiSchema: {
@@ -29,7 +32,10 @@ export const utilityBillValues = {
     'ui:field': UtilityBillInputList,
     utilityRecords: {
       'ui:title': 'utilityBillValues',
-      'ui:validations': [validateCurrencyArray],
+      'ui:validations': [
+        validateCurrencyArray,
+        validateUtilityBillsArrayLimits,
+      ],
       items: {
         name: {
           'ui:title': 'Name of utility bill',

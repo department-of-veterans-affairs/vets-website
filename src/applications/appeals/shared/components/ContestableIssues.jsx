@@ -196,7 +196,7 @@ const ContestableIssues = props => {
         !hasSelected &&
         (onReviewPage || submitted) && (
           <NoneSelectedAlert
-            count={formData.contestedIssues.length}
+            count={formData.contestedIssues?.length || 0}
             headerLevel={onReviewPage ? 4 : 3}
             inReviewMode={inReviewMode}
           />

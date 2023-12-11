@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
 import { SearchResult } from '.';
+import { titleCase } from '../../helpers';
 
 describe('Yellow Ribbon <SearchResult>', () => {
   it('should render', () => {
@@ -34,7 +35,7 @@ describe('Yellow Ribbon <SearchResult>', () => {
     expect(text).to.include(props.school.contributionAmount);
     expect(text).to.include(props.school.insturl);
     expect(text).to.include(props.school.numberOfStudents);
-    expect(text).to.include(props.school.nameOfInstitution);
+    expect(text).to.include(titleCase(props.school.nameOfInstitution));
     expect(text).to.include(props.school.state);
 
     tree.unmount();

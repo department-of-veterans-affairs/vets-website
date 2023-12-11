@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -28,6 +29,7 @@ import FormNavButtons from './FormNavButtons';
 
 import readableList from '../utilities/data/readableList';
 import {
+  setReturnState,
   getReturnState,
   clearReturnState,
   getPhoneString,
@@ -128,7 +130,7 @@ const ContactInfo = ({
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
-        clearReturnState();
+        setReturnState('true');
         updatePage();
       }
     },
@@ -174,12 +176,18 @@ const ContactInfo = ({
             returnState === 'canceled'
               ? `#edit-${lastEdited}`
               : `#updated-${lastEdited}`;
-          scrollTo('topScrollElement');
-          focusElement(target);
+          scrollTo(
+            onReviewPage
+              ? 'confirmContactInformationScrollElement'
+              : 'topScrollElement',
+          );
+          focusElement(
+            onReviewPage ? '#confirmContactInformationHeader' : target,
+          );
         });
       }
     },
-    [editState],
+    [editState, onReviewPage],
   );
 
   useEffect(
@@ -323,6 +331,7 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
+      <Element name="confirmContactInformationScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isValidCurrency } from '../../utils/validations';
 
 const defaultRecord = {
   make: '',
@@ -24,6 +25,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_RESALE_VALUE = 1000000;
+
   // if we have vehicles and plan to edit, we need to get it from the automobiles
   const specificRecord = automobiles ? automobiles[index] : defaultRecord[0];
 
@@ -42,9 +45,13 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     ? 'Please enter a vehicle model'
     : null;
   const yearError = !vehicleRecord.year ? 'Please enter a valid year' : null;
-  const resaleValueError = !vehicleRecord.resaleValue
-    ? 'Please enter the estimated value'
-    : null;
+  const resaleValueError =
+    !vehicleRecord.resaleValue ||
+    !isValidCurrency(vehicleRecord.resaleValue) ||
+    (vehicleRecord.resaleValue > MAXIMUM_RESALE_VALUE ||
+      vehicleRecord.resaleValue < 0)
+      ? 'Please enter an estimated value less than $1,000,000'
+      : null;
 
   const handleChange = (key, value) => {
     setVehicleRecord({
@@ -89,6 +96,10 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
     setVehicleMakeIsDirty(true);
     setVehicleModelIsDirty(true);
     setEstValueIsDirty(true);
+
+    if (resaleValueError) {
+      return;
+    }
 
     if (
       vehicleRecord.make &&
@@ -219,6 +230,8 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             onInput={handleVehicleEstValueChange}
             value={vehicleRecord.resaleValue}
+            min={0}
+            max={MAXIMUM_RESALE_VALUE}
           />
         </div>
         <va-additional-info

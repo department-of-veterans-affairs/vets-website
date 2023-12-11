@@ -76,4 +76,10 @@ describe('Interstitial page header', () => {
     userEvent.tab();
     expect(acknowledgeSpy.called).to.be.false;
   });
+
+  it('"Continue to start message" font size uses Large class', async () => {
+    const screen = render(<InterstitialPage />);
+    const continueButton = screen.getByTestId('continue-button');
+    expect(continueButton).to.have.class('vads-u-font-size--lg');
+  });
 });

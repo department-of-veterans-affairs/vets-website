@@ -1,7 +1,6 @@
-import manifest from 'applications/mhv/landing-page/manifest.json';
+import manifest from 'applications/personalization/dashboard/manifest.json';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
-import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 const mockUser = {
   data: {
@@ -67,44 +66,6 @@ const mockUser = {
 };
 
 describe(manifest.appName, () => {
-  context('unauthenticated', () => {
-    it('shows the My VA link when enabled', () => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: featureFlagNames.myVaShowHeaderLink,
-              value: true,
-            },
-          ],
-        },
-      });
-      cy.visit('/');
-      cy.injectAxeThenAxeCheck();
-
-      cy.get('[data-e2e-id^="my-va-"]').should('exist');
-    });
-
-    it('hides the My VA link when disabled', () => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: featureFlagNames.myVaShowHeaderLink,
-              value: false,
-            },
-          ],
-        },
-      });
-      cy.visit('/');
-      cy.injectAxeThenAxeCheck();
-
-      cy.get('[data-e2e-id^="my-va-"]').should('not.exist');
-    });
-  });
-
   context('authenticated', () => {
     it('shows the My VA link', () => {
       cy.login(mockUser);

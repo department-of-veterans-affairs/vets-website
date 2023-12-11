@@ -93,14 +93,14 @@ describe('Medical records PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the second test result header
+      expect(content.items[37].tag).to.eq('H3');
+      expect(content.items[39].str).to.eq('RBC');
 
-      expect(artifactCount).to.eq(10);
+      // The two items before it should be the start and end of the Artifact tag.
+      expect(content.items[35].type).to.eq('beginMarkedContent');
+      expect(content.items[35].tag).to.eq('Artifact');
+      expect(content.items[36].type).to.eq('endMarkedContent');
     });
 
     it('Horizontal rules below result sections may be suppressed', async () => {
@@ -113,14 +113,13 @@ describe('Medical records PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the second test result header
+      expect(content.items[35].tag).to.eq('H3');
+      expect(content.items[37].str).to.eq('RBC');
 
-      expect(artifactCount).to.eq(4);
+      // The item before it should be the end of the last result header.
+      expect(content.items[33].str).to.eq('None noted');
+      expect(content.items[34].type).to.eq('endMarkedContent');
     });
 
     it('Outputs document sections in the correct order', async () => {

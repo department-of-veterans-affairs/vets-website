@@ -25,7 +25,7 @@ const SearchResult = ({
       <div>
         {distance && (
           <div>
-            <strong>{parseFloat(distance.toFixed(2))} Mi</strong>
+            <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
           </div>
         )}
         {organization && (

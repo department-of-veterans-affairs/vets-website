@@ -150,6 +150,10 @@ class FolderManagementPage {
     );
   };
 
+  verifyDeleteSuccessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+  };
+
   verifyCreateFolderNetworkFailureMessage = () => {
     this.folderConfirmation().should(
       'have.text',
@@ -162,6 +166,10 @@ class FolderManagementPage {
       'have.text',
       'Folder was successfully created.',
     );
+  };
+
+  verifyCreateFolderSucessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   selectFolderfromModal = () => {
@@ -228,10 +236,14 @@ class FolderManagementPage {
     cy.get('va-button[text="Confirm"]').click();
   };
 
-  verifyMoveMessageSuccessConfirmationFocus = () => {
+  verifyMoveMessageSuccessConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('exist')
       .and('have.text', 'Message conversation was successfully moved.');
+  };
+
+  verifyMoveMessageSuccessConfirmationHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   confirmDeleteFolder = folderId => {

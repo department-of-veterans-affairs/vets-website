@@ -2,7 +2,6 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import _ from 'lodash';
 
 import { Main } from '../../containers/Main';
 import { AVAILABILITY_STATUSES } from '../../utils/constants';
@@ -51,51 +50,45 @@ describe('<Main>', () => {
   });
 
   it('renders its children when letters are available', () => {
-    const props = _.merge({}, defaultProps, {
-      lettersAvailability: available,
-    });
+    const props = { ...defaultProps, lettersAvailability: available };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     const childText = tree.subTree('span').text();
     expect(childText).to.equal(testText);
   });
 
   it('shows a system down message for backend service error', () => {
-    const props = _.merge({}, defaultProps, {
-      lettersAvailability: backendServiceError,
-    });
+    const props = { ...defaultProps, lettersAvailability: backendServiceError };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('should show backend authentication error', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = {
+      ...defaultProps,
       lettersAvailability: backendAuthenticationError,
-    });
+    };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#records-not-found')).to.not.be.false;
   });
 
   it('renders children for letter eligibility errors', () => {
-    const props = _.merge({}, defaultProps, {
+    const props = {
+      ...defaultProps,
       lettersAvailability: letterEligibilityError,
-    });
+    };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     const childText = tree.subTree('span').text();
     expect(childText).to.equal(testText);
   });
 
   it('should show system down message when service is unavailable', () => {
-    const props = _.merge({}, defaultProps, {
-      lettersAvailability: unavailable,
-    });
+    const props = { ...defaultProps, lettersAvailability: unavailable };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
 
   it('renders system down message for all unspecified errors', () => {
-    const props = _.merge({}, defaultProps, {
-      lettersAvailability: 'bogusError',
-    });
+    const props = { ...defaultProps, lettersAvailability: 'bogusError' };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     expect(tree.subTree('#systemDownMessage')).to.not.be.false;
   });
@@ -105,7 +98,7 @@ describe('<Main>', () => {
       getLetterListAndBSLOptions: sinon.spy(),
     };
 
-    const props = _.merge({}, defaultProps, spies);
+    const props = { ...defaultProps, ...spies };
     const tree = SkinDeep.shallowRender(<Main {...props} />);
     const instance = tree.getMountedInstance();
     // mounted instance doesn't call lifecycle methods automatically so...

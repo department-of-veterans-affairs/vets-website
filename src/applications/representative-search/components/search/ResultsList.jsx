@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // import mockData from '../../constants/mock-representative-data.json';
 
-import { representativeTypes, sortOptions } from '../../config';
+import { representativeTypes } from '../../config';
 
 import { setFocus } from '../../utils/helpers';
 import { recordSearchResultsEvents } from '../../utils/analytics';
@@ -22,7 +22,7 @@ const ResultsList = props => {
     // pagination,
     // currentQuery,
     query,
-    sortType,
+    // sortType,
   } = props;
 
   useEffect(
@@ -32,14 +32,6 @@ const ResultsList = props => {
     },
     [searchResults, inProgress, props.error],
   );
-
-  // method for triggering sortResults when sortType updates
-  const handleSortTypeChange = e => {
-    props.updateSearchQuery({
-      id: Date.now(),
-      sortType: e.target.value,
-    });
-  };
 
   // const currentPage = pagination ? pagination.currentPage : 1;
 
@@ -54,10 +46,13 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
-          {searchResults.data?.map((result, index) => {
+          <hr />
+
+          {searchResults?.map((result, index) => {
             return (
               <>
-                <hr />
+                {index > 0 ? <hr /> : null}
+
                 <SearchResult
                   organization={
                     result.attributes.fullName || result.attributes.name
@@ -84,32 +79,13 @@ const ResultsList = props => {
     );
   };
 
-  const options = Object.keys(sortOptions).map(option => (
-    <option key={option} value={option}>
-      {sortOptions[option]}
-    </option>
-  ));
-
   return (
     <>
-      {searchResults?.data?.length && (
+      {searchResults?.length ? (
         <>
-          <label htmlFor="sort-by-dropdown">Sort by</label>
-          <select
-            id="representative-sorting-dropdown"
-            aria-label="Sort"
-            // ref={sortTypeRef}
-            value={sortType}
-            title="Sort by:"
-            onChange={handleSortTypeChange}
-            style={{ fontWeight: 'bold' }}
-          >
-            {' '}
-            {options}{' '}
-          </select>
           <div>{renderResultItems(query)}</div>
         </>
-      )}
+      ) : null}
     </>
   );
 };

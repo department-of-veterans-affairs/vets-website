@@ -1,83 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+const content = {
+  headlineText: 'You’ve submitted your personal records request',
+  nextStepsText:
+    'After we review your request, we’ll contact you to tell you what happens next in the request process.',
+};
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = submission ? submission.timestamp : null;
-    const { fullName } = data;
+export const ConfirmationPage = () => {
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Request personal records Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <ConfirmationPageView
+      formType="submission"
+      submitterHeader="Who submitted this form"
+      submitterName={form.data.fullName}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      content={content}
+    />
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
+        last: PropTypes.string.isRequired,
         suffix: PropTypes.string,
       },
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+      timestamp: PropTypes.string.isRequired,
     }),
   }),
   name: PropTypes.string,

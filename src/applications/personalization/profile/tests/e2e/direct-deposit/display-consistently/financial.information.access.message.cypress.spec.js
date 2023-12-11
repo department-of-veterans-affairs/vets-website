@@ -1,5 +1,5 @@
 import { PROFILE_PATHS } from '@@profile/constants';
-import * as paymentInfo from '@@profile/mocks/endpoints/payment-information';
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import { loa3User72 } from 'applications/personalization/profile/mocks/endpoints/user';
 import { basicUserPersonalInfo } from 'applications/personalization/profile/mocks/endpoints/personal-information';
 import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
@@ -18,8 +18,8 @@ describe('Direct Deposit Consistently', () => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
       cy.intercept(
         'GET',
-        'v0/ppiu/payment_information',
-        paymentInfo.isFiduciary,
+        '/v0/profile/direct_deposits/disability_compensations',
+        mockDisabilityCompensations.isFiduciary,
       );
     });
     it('should not display the paymentInformation message on the personal information page', () => {
