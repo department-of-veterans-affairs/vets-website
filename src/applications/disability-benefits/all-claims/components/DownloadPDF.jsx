@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 // See github.com/department-of-veterans-affairs/va.gov-team/issues/11852
@@ -25,5 +26,11 @@ const DownloadPDF = ({ formNumber = '', fileName = '', size = '' }) => (
     </span>
   </a>
 );
+
+DownloadPDF.propTypes = {
+  fileName: PropTypes.string,
+  formNumber: PropTypes.string,
+  size: PropTypes.string,
+};
 
 export default DownloadPDF;
