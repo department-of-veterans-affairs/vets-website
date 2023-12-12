@@ -126,7 +126,7 @@ describe('focusAlertH3', () => {
   it('should focus on H3', async () => {
     const { container } = await renderPage();
 
-    await focusAlertH3(container);
+    await focusAlertH3();
     await waitFor(() => {
       const target = $('h3', container);
       expect(document.activeElement).to.eq(target);
