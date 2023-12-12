@@ -17,7 +17,6 @@ const RatedDisabilityView = ({
   ratedDisabilities,
   sortToggle,
   totalDisabilityRating,
-  user,
 }) => {
   useEffect(() => {
     fetchTotalDisabilityRating();
@@ -29,6 +28,7 @@ const RatedDisabilityView = ({
 
   const hasRatedDisabilities = ratedDisabilities?.ratedDisabilities?.length > 0;
 
+  // Total Disability Calculation and Pending Disabilities should go here.
   return (
     <div className="vads-l-grid-container">
       <div className="vads-l-row">
@@ -74,7 +74,6 @@ RatedDisabilityView.propTypes = {
   }),
   sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
 };
 
 export default RatedDisabilityView;

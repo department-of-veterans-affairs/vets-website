@@ -119,3 +119,7 @@ export function getRatedDisabilities() {
 export function checkForDiscrepancies() {
   getData('/rated_disabilities_discrepancies');
 }
+
+export function getRatedDisabilities() {
+  return getData('/rated_disabilities');
+}

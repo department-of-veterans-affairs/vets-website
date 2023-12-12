@@ -33,8 +33,7 @@ export const missingTotalMessage = () => (
     <va-link
       href="/disability/how-to-file-claim"
       text="Learn how to file a claim for disability compensation"
-    >
-    </va-link>
+    />
   </va-alert>
 );
 

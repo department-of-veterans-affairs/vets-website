@@ -1,7 +1,7 @@
 import React from 'react';
-import sinon from 'sinon';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import RatedDisabilityView from '../../components/RatedDisabilityView';
 
