@@ -29,6 +29,7 @@ const VaccinesListItem = props => {
       >
         {record.name}
       </h3>
+
       <div>
         <span className="vads-u-display--inline vads-u-font-weight--bold">
           Date received:

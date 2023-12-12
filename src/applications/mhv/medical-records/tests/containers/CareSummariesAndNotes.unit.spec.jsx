@@ -42,9 +42,7 @@ describe('CareSummariesAndNotes list container still loading', () => {
   it('shows a loading indicator', () => {
     const initialState = {
       mr: {
-        careSummariesAndNotes: {
-          careSummariesAndNotesList: [],
-        },
+        careSummariesAndNotes: {},
       },
     };
 
@@ -55,6 +53,34 @@ describe('CareSummariesAndNotes list container still loading', () => {
     });
 
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('CareSummariesAndNotes list container with no records', () => {
+  it('shows a no records message', () => {
+    const initialState = {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+      },
+      alerts: {
+        alertList: [],
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'There are no care summaries and notes in your VA medical records.',
+          { exact: false },
+        ),
+      ).to.exist;
+    });
   });
 });
 
