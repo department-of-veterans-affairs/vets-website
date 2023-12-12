@@ -14,6 +14,11 @@ describe('re-save multiple drafts in one thread', () => {
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
 
+    cy.wait('@multiDraft');
+    cy.wait('@firstDraft');
+    cy.wait('@secondDraft');
+    cy.wait('@firstSentMessage');
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -24,17 +29,22 @@ describe('re-save multiple drafts in one thread', () => {
     });
 
     // cy.get('[id="reply-message-body"]').shadow().find('#textarea', ).should('be.enabled', {timeout: 10000}).type('newText',{ waitForAnimations: true })
-
-    cy.get('[id="reply-message-body"]')
+    cy.get("h2:contains('drafts')").should('be.visible');
+    cy.get('va-textarea')
       .shadow()
-      .find('#textarea')
+      .find('textarea')
+      .should('be.visible')
       .should('be.enabled')
-      .click({ waitForAnimations: true });
+      .type('newText', { force: true, waitForAnimations: true });
+    // .type('newText', { delay: 1000, waitForAnimations: true });
+    // .click({ waitForAnimations: true });
     // cy.wait(10000)
-    cy.get('[id="reply-message-body"]')
-      .shadow()
-      .find('#textarea')
-      .type('newText', { waitForAnimations: true });
+
+    // cy.get('[id="reply-message-body"]')
+    //   .shadow()
+    //   .find('textarea')
+    //   .should('be.enabled')
+    //   .type('newText', { waitForAnimations: true });
 
     // cy.get('#textarea').should('be.enabled').type('newText', {waitForAnimations: true})
   });
