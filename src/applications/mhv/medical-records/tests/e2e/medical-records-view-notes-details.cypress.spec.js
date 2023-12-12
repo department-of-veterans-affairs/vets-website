@@ -39,8 +39,8 @@ describe('Medical Records View Notes', () => {
     NotesDetailsPage.verifyDischargeSummaryAdmissionDate('August 5, 2022');
     // Verify Discharge Summary Details DischargeDate
     NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
-    // Verify Discharge Summary Admitted By
-    NotesDetailsPage.verifyDischargeSummaryAdmittedBy('AHMED,NAJEEB');
+    // Verify Discharge Summary Admitted By --this is currently removed
+    // NotesDetailsPage.verifyDischargeSummaryAdmittedBy('AHMED,NAJEEB');
 
     // Verify Discharge Summary discharged By
     NotesDetailsPage.verifyDischargeSummaryDischargedBy('AHMED,MARUF');
