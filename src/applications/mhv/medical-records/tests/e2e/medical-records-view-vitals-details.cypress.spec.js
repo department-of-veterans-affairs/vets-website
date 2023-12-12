@@ -26,6 +26,8 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Blood Pressure ', () => {
     // Click Vitals Page Blood Pressure Link
     VitalsDetailsPage.clickBloodPressureLink(0);
+    // Verify Vital Details Page "Print or download" button
+    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
     VitalsDetailsPage.verifyVitalDate('September 24, 2004');
     // Verify Vital Result
@@ -45,9 +47,11 @@ describe('Medical Records Vitals Details Page', () => {
     });
   });
 
-  it('Vitals Details HeartRate', () => {
-    // Click Vitals Page HeartRate  Link
-    VitalsDetailsPage.clickBloodPressureLink(1);
+  it('Vitals Details Heart Rate', () => {
+    // Click Vitals Page Heart Rate  Link
+    VitalsDetailsPage.clickHeartRateLink(1);
+    // Verify Vital Details Page "Print or download" button
+    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
     VitalsDetailsPage.verifyVitalDate('December 25, 2004');
     // Verify Vital Result
@@ -69,15 +73,17 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Weight', () => {
     // Click Vitals Page Weight Link
-    VitalsDetailsPage.clickBloodPressureLink(2);
+    VitalsDetailsPage.clickWeightLink(2);
+    // Verify Vital Details Page "Print or download" button
+    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
     VitalsDetailsPage.verifyVitalDate('August 9, 1999');
     // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('185 /min');
+    VitalsDetailsPage.verifyVitalResult('150.4 [lb_av]');
     // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('None noted');
+    VitalsDetailsPage.verifyVitalLocation('PCT_O');
     // Verify Vital Details  Provider Notes
-    VitalsDetailsPage.verifyVitalProviderNotes('a bit fast');
+    VitalsDetailsPage.verifyVitalProviderNotes('Here is a provider note');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {
@@ -90,15 +96,17 @@ describe('Medical Records Vitals Details Page', () => {
   });
   it('Vitals Details Pain', () => {
     // Click Vitals Page Pain Link
-    VitalsDetailsPage.clickBloodPressureLink(3);
+    VitalsDetailsPage.clickPainLink(3);
+    // Verify Vital Details Page "Print or download" button
+    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
     VitalsDetailsPage.verifyVitalDate('September 14, 2000');
     // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('185 /min');
+    VitalsDetailsPage.verifyVitalResult('0 undefined');
     // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('None noted');
+    VitalsDetailsPage.verifyVitalLocation('ZZZHEMATOLOGY II');
     // Verify Vital Details  Provider Notes
-    VitalsDetailsPage.verifyVitalProviderNotes('a bit fast');
+    VitalsDetailsPage.verifyVitalProviderNotes('None noted');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {
