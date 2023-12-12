@@ -13,9 +13,9 @@ const VitalListItem = props => {
       className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4">
+      <h2 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin--0">
         {displayName}
-      </h3>
+      </h2>
 
       <div>
         <span className="vads-u-display--inline">Result:</span>{' '}

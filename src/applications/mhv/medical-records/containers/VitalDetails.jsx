@@ -208,9 +208,9 @@ Provider Notes: ${vital.notes}\n\n`,
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         >
-          Displaying {displayNums[0]}
-          &#8211;
-          {displayNums[1]} of {records.length} records from newest to oldest
+          {`Displaying ${displayNums[0]}–${displayNums[1]} of ${
+            records.length
+          } records from newest to oldest`}
         </h2>
 
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 no-print">
@@ -220,33 +220,33 @@ Provider Notes: ${vital.notes}\n\n`,
                 key={idx}
                 className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
               >
-                <h2
+                <h3
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {moment(vital.date).format('LLL')}
-                </h2>
-                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
-                  Measurement:
                 </h3>
+                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                  Measurement:
+                </h4>
                 <p
                   className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
                   Location:
-                </h3>
+                </h4>
                 <p
                   className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
                 </p>
-                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
                   Provider notes:
-                </h3>
+                </h4>
                 <p className="vads-u-margin--0" data-dd-privacy="mask">
                   {vital.notes}
                 </p>
