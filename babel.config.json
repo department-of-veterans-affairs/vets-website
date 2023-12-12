@@ -86,6 +86,8 @@
           "@department-of-veterans-affairs/platform-utilities/ui" : "./src/platform/utilities/ui/index.js",
           "@department-of-veterans-affairs/platform-utilities/scrollTo" : "./src/platform/utilities/ui/scrollTo.js",
           "@department-of-veterans-affairs/platform-utilities/scrollToTop" : "./src/platform/utilities/ui/scrollToTop.js",
+          "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
+          "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",
 
           "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",

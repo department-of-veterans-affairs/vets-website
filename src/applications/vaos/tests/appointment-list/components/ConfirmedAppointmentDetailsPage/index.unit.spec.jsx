@@ -773,8 +773,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     userEvent.click(screen.getByText(/cancel appointment/i));
     await screen.findByRole('alertdialog');
     expect(window.dataLayer[15]).to.deep.equal({
-      event: 'interaction',
-      action: 'vaos-cancel-booked-clicked',
+      event: 'vaos-cancel-booked-clicked',
     });
     //  And clicks on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));

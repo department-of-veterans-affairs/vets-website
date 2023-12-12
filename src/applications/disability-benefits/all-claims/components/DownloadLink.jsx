@@ -16,7 +16,7 @@ const DownloadLink = ({ url = '', content, size }) => {
       target="_blank"
       rel="noopener noreferrer"
       type="application/pdf"
-      download={fileName || null}
+      download={fileName}
     >
       <i
         aria-hidden="true"

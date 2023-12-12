@@ -26,8 +26,6 @@ const AppointmentAction = props => {
   const { isTravelReimbursementEnabled } = featureToggles;
   const { travelPayEligible } = useTravelPayFlags(appointment);
 
-  const travelSubmitted = travelPayEligible || false; // The hook returns undefined so coercing to false
-
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
@@ -49,7 +47,7 @@ const AppointmentAction = props => {
           appointmentIen: appointment.appointmentIen,
           setECheckinStartedCalled,
           isTravelEnabled: isTravelReimbursementEnabled,
-          travelSubmitted,
+          travelSubmitted: travelPayEligible,
         });
         const { status } = json;
         if (status === 200) {
@@ -71,7 +69,7 @@ const AppointmentAction = props => {
       setCheckinComplete,
       setECheckinStartedCalled,
       isTravelReimbursementEnabled,
-      travelSubmitted,
+      travelPayEligible,
     ],
   );
   if (
