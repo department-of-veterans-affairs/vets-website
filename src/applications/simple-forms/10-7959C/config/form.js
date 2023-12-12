@@ -1,5 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/10-7959C-schema.json';
-
 import {
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
@@ -18,14 +16,17 @@ import {
   inlineTitleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from 'platform/utilities/data/get';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import CoverageField from '../components/coverages/CoverageField';
 import CoverageDetailLargeField from '../components/coverages/CoverageDetailLargeField';
-
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { attachmentsSchema, attachmentsConfig } from './AttachmentsSchema';
 
 // const { } = fullSchema.properties;
 
@@ -286,7 +287,7 @@ const formConfig = {
         page9: {
           path: 'other-health-insurance',
           // Shows up on review page
-          title: 'Other Health Insurance',
+          title: 'Other Health Insurance (OHI)',
           arrayPath: 'coverages',
           depends: form => get('hasOtherHealthInsurance', form),
           uiSchema: {
@@ -365,6 +366,54 @@ const formConfig = {
                   properties: {
                     coverageInfoTitle: titleSchema,
                     ohiEffectiveDate: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+        page11: {
+          path: 'other-health-insurance/:index/upload-proof',
+          depends: form => get('hasOtherHealthInsurance', form),
+          arrayPath: 'coverages',
+          showPagePerItem: true,
+          // This only shows on the review page
+          title: 'Active OHI Card',
+          uiSchema: {
+            'ui:description': 'Upload a copy of your health insurance card.',
+            coverages: {
+              'ui:options': {
+                itemName: 'Coverage',
+                useDlWrap: false,
+                viewField: CoverageField,
+              },
+              items: {
+                // This title is what allows custom headers on loop pages
+                'ui:title': CoverageDetailLargeField,
+                coverageFrontInfoTitle: inlineTitleUI(
+                  'Upload insurance card (Front)',
+                ),
+                attachmentFront: fileUploadUI('', attachmentsConfig),
+                coverageBackInfoTitle: inlineTitleUI(
+                  'Upload insurance card (Back)',
+                ),
+                attachmentBack: fileUploadUI('', attachmentsConfig),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              coverages: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    coverageFrontInfoTitle: titleSchema,
+                    attachmentFront: attachmentsSchema,
+                    coverageBackInfoTitle: titleSchema,
+                    attachmentBack: attachmentsSchema,
                   },
                 },
               },
