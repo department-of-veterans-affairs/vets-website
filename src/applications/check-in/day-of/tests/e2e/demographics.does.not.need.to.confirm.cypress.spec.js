@@ -42,11 +42,6 @@ describe('Check In Experience | Day Of |', () => {
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
     });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
     it('should complete check in if answer is no to travel', () => {
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();

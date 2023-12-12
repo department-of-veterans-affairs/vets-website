@@ -20,6 +20,7 @@ describe('Check In Experience | Day Of |', () => {
         initializeUpcomingAppointmentsDataGet,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
@@ -27,12 +28,8 @@ describe('Check In Experience | Day Of |', () => {
       initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       cy.visitWithUUID();
-    });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
     });
     it('should complete check in if answer is yes to all demographics questions', () => {
       ValidateVeteran.validateVeteran();

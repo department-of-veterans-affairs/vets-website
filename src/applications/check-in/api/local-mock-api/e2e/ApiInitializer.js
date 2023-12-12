@@ -362,6 +362,14 @@ class ApiInitializer {
         req.reply(404, sharedData.get.createMockNotFoundResponse());
       });
     },
+    withPast15MinuteWindow: () => {
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointments(
+          sharedData.get.checkInTooLateUUID,
+        );
+        req.reply(rv);
+      });
+    },
     withSuccessAndUpdate: ({
       extraValidation = null,
       appointments = null,
