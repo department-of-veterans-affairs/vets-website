@@ -145,20 +145,20 @@ ${record.note}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p>{record.location}</p>
+        <p data-testid="note-record-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Signed by
         </h3>
-        <p>{record.signedBy}</p>
+        <p data-testid="note-record-signed-by">{record.signedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
-        <p>{record.dateSigned}</p>
+        <p data-testid="note-record-signed-date">{record.dateSigned}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p>{record.note}</p>
+        <p data-testid="note-record">{record.note}</p>
       </div>
     </div>
   );

@@ -169,15 +169,15 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p>{record.location}</p>
+        <p data-testid="note-record-location"> {record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admission date
         </h3>
-        <p>{record.admissionDate}</p>
+        <p data-testid="note-admission-date">{record.admissionDate}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
-        <p>{record.dischargeDate}</p>
+        <p data-testid="note-discharge-date">{record.dischargeDate}</p>
         {/* <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Admitted by
         </h3>
@@ -185,12 +185,12 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
-        <p>{record.dischargedBy}</p>
+        <p data-testid="note-discharged-by">{record.dischargedBy}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p>{record.summary}</p>
+        <p data-testid="note-summary">{record.summary}</p>
       </div>
     </div>
   );
