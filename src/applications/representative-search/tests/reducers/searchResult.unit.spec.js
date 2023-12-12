@@ -4,11 +4,12 @@ import {
   FETCH_REPRESENTATIVES,
   SORT_TYPE_UPDATED,
   SEARCH_FAILED,
+  CLEAR_SEARCH_RESULTS,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
-  results: [],
+  searchResults: [],
   selectedResult: null,
   pagination: {},
 };
@@ -40,6 +41,14 @@ describe('representatives reducer', () => {
     });
 
     expect(state.sortType).to.not.eql('DISTANCE_ASC');
+  });
+
+  it('should handle clearing search results', () => {
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: CLEAR_SEARCH_RESULTS,
+    });
+
+    expect(state).to.eql(INITIAL_STATE);
   });
 
   it('should return error if error present', () => {
