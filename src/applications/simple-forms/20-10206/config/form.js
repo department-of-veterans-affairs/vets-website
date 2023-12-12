@@ -60,7 +60,7 @@ const formConfig = {
     },
   },
   formId: '20-10206',
-  // hideUnauthedStartLink: true,
+  hideUnauthedStartLink: true,
   transformForSubmit,
   saveInProgress: {
     messages: {
