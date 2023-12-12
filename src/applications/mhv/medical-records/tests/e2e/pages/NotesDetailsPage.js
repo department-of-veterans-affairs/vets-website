@@ -111,6 +111,11 @@ class NotesDetailsPage {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
+  verifyPrintOrDownload = () => {
+    // should display a toggle menu button
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
     cy.get('[data-testid="printButton-0"]').should('be.visible');
