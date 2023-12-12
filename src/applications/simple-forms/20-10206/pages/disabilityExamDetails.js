@@ -73,7 +73,7 @@ export default {
       disabilityExams: {
         type: 'array',
         minItems: 1,
-        maxItems: 100,
+        maxItems: 5,
         items: {
           type: 'object',
           properties: {

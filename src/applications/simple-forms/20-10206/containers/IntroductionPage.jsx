@@ -31,9 +31,12 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <h2>What to know before filling out this form</h2>
       <p>
         If you want to request your records through this online form, you’ll
-        need to sign in to your account. We’ll need to verify your identity, so
-        we encourage you to use a <strong>Login.gov</strong> or{' '}
-        <strong>ID.me</strong> account.
+        need to sign in to your account. To manage certain tasks and information
+        on VA.gov, like requesting personal records or changing your direct
+        deposit information, you’ll need to log in with an account where you’ve
+        provided some personal information to verify your identity. We recommend
+        using <strong>ID.me</strong> or <strong>Login.gov</strong> accounts for
+        identity verification.
       </p>
       <p>
         <a
@@ -160,6 +163,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
           </div>
         </va-additional-info>
       </div>
+      <h2 id="start-your-request">Start your request</h2>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">

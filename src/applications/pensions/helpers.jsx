@@ -1,12 +1,13 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import numberToWords from '@department-of-veterans-affairs/platform-forms-system/numberToWords';
+import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
 import Scroll from 'react-scroll';
+import { createSelector } from 'reselect';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -160,17 +161,32 @@ export function getMarriageTitle(index) {
   return `${titleCase(desc)} marriage`;
 }
 
-export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `Spouse’s ${desc} marriage`;
-}
-
 export function getMarriageTitleWithCurrent(form, index) {
   if (isMarried(form) && form.marriages.length - 1 === index) {
     return 'Current marriage';
   }
 
   return getMarriageTitle(index);
+}
+
+export function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(
+    form =>
+      form.marriages && form.marriages.length
+        ? form.marriages[form.marriages.length - 1].spouseFullName
+        : null,
+    spouseFullName => {
+      if (spouseFullName) {
+        return {
+          title: nameTemplate(spouseFullName),
+        };
+      }
+
+      return {
+        title: null,
+      };
+    },
+  );
 }
 
 export const spouseContribution = (
@@ -547,5 +563,26 @@ export const dependentSeriouslyDisabledDescription = (
         child can’t support or care for themselves.
       </span>
     </va-additional-info>
+  </div>
+);
+
+export const contactWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact this person without contacting you first.
+      </div>
+    </div>
+  </div>
+);
+
+export const contactWarningMulti = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact any of the people listed here without contacting you
+        first.
+      </div>
+    </div>
   </div>
 );

@@ -38,6 +38,8 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
+import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget';
+
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -127,7 +129,7 @@ const formPages = {
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
         info:
-          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
       },
     },
     loanPayment: {
@@ -255,23 +257,40 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-function AdditionalConsiderationTemplate(page, formField) {
+function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
+  const displayTypeMapping = {
+    [formFields.federallySponsoredAcademy]: 'Academy',
+    [formFields.seniorRotcCommission]: 'ROTC',
+    [formFields.loanPayment]: 'LRP',
+  };
+  // Use the mapping to determine the display type
+  const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
-  if (additionalInfo) {
-    additionalInfoView = {
-      [additionalInfoViewName]: {
-        'ui:description': (
+  const uiDescription = (
+    <>
+      {options.includeExclusionWidget && (
+        <ExclusionPeriodsWidget displayType={displayType} />
+      )}
+      {additionalInfo && (
+        <>
+          <br />
           <va-additional-info trigger={additionalInfo.trigger}>
             <p>{additionalInfo.info}</p>
           </va-additional-info>
-        ),
+        </>
+      )}
+    </>
+  );
+  if (additionalInfo || options.includeExclusionWidget) {
+    additionalInfoView = {
+      [additionalInfoViewName]: {
+        'ui:description': uiDescription,
       },
     };
   }
-
   return {
     path: page.name,
     title: data => {
@@ -292,10 +311,6 @@ function AdditionalConsiderationTemplate(page, formField) {
           ],
           page.order,
         );
-      },
-      [formFields[formField]]: {
-        'ui:title': title,
-        'ui:widget': 'radio',
       },
       [formFields[formField]]: {
         'ui:title': title,
@@ -1654,18 +1669,22 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
+            { includeExclusionWidget: true },
           ),
         },
+
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
+            { includeExclusionWidget: true },
           ),
         },
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
+            { includeExclusionWidget: true },
           ),
         },
       },

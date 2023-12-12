@@ -53,7 +53,11 @@ describe('<Claim />', () => {
       initialState,
     });
 
-    expect(tree.getByText(/Compensation claim received/)).to.exist;
+    expect(
+      tree.getByRole('heading', {
+        name: /Compensation claim received January 21, 2021/,
+      }),
+    ).to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
   });
 

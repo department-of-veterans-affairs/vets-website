@@ -43,4 +43,18 @@ describe('the Edu-Benefit 0994 Introduction Page', () => {
     expect(wrapper.exists('.subway-map')).to.equal(true);
     wrapper.unmount();
   });
+  it('should return null When showWizard is undefined', () => {
+    const fakeStore = {
+      getState: () => ({
+        showWizard: undefined,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+    expect(wrapper).to.not.be.null;
+    wrapper.unmount();
+  });
 });

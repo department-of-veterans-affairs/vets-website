@@ -13,7 +13,7 @@ describe('Pre-need preparer Details info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformation.pages.preparerDetails;
+  } = formConfig.chapters.preparerInformation.pages.preparerDetails;
 
   it('should render name input field', () => {
     const form = mount(

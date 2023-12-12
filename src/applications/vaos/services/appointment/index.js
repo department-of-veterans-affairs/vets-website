@@ -565,18 +565,15 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  */
 export async function cancelAppointment({ appointment, useAcheron = false }) {
   const additionalEventData = {
-    custom_string_1:
+    appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'appointmentType: pending'
-        : 'appointmentType: confirmed',
-    custom_string_2: appointment.vaos?.isCommunityCare
-      ? 'facilityType: cc'
-      : 'facilityType: va',
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
   };
 
   recordEvent({
-    event: 'interaction',
-    action: eventPrefix,
+    event: eventPrefix,
     ...additionalEventData,
   });
 

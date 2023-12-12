@@ -96,6 +96,10 @@
       margin-bottom: 2em;
     }
 
+    h3 {
+      margin: 0.5em 0 0.5em 0;
+    }
+
     hr {
       @media (min-width: $large-screen) {
         width: 64em;

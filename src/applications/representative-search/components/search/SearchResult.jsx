@@ -30,7 +30,7 @@ const SearchResult = ({
         )}
         {organization && (
           <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-            <strong>{organization}</strong>
+            <h3>{organization}</h3>
           </div>
         )}
         {addressExists && (

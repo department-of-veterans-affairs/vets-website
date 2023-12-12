@@ -304,8 +304,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       flow: 'va-request',
-      custom_string_1: 'health-TypeOfCare: Primary care',
-      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -357,8 +357,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.include({
       event: 'vaos-request-submission-failed',
       flow: 'va-request',
-      custom_string_1: 'health-TypeOfCare: Primary care',
-      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });

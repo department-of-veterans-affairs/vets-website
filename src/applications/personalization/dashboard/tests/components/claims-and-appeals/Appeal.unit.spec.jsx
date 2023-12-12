@@ -7,6 +7,7 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
 import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
+import { replaceDashesWithSlashes } from '../../../utils/date-formatting/helpers';
 
 function makeAppealObject({
   updateDate,
@@ -71,7 +72,7 @@ describe('<Appeal />', () => {
   it('should render', () => {
     const appeal = makeAppealObject({ updateDate: daysAgo(1) });
     const updatedDate = format(
-      new Date(daysAgo(1).replace(/-/g, '/')),
+      new Date(replaceDashesWithSlashes(daysAgo(1))),
       'MMMM d, yyyy',
     );
     const appealTitle = `Disability compensation appeal updated on ${updatedDate}`;

@@ -28,7 +28,7 @@ describe('Pre-need preparer info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformation.pages.preparerContactDetails;
+  } = formConfig.chapters.preparerInformation.pages.preparerContactDetails;
 
   it('should render contact details', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -50,7 +50,7 @@ describe('Pre-need preparer info', () => {
       'USA',
     );
 
-    expect($$('input', formDOM).length).to.equal(5);
+    expect($$('input', formDOM).length).to.equal(6);
     expect($$('select', formDOM).length).to.equal(2);
   });
 
@@ -74,7 +74,7 @@ describe('Pre-need preparer info', () => {
       'MEX',
     );
 
-    expect($$('input', formDOM).length).to.equal(5);
+    expect($$('input', formDOM).length).to.equal(6);
     expect($$('select', formDOM).length).to.equal(1);
   });
 });
