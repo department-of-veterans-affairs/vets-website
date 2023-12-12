@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
+import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
   organization,
@@ -20,6 +21,8 @@ const SearchResult = ({
 }) => {
   const addressExists =
     addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
+
+  const { contact, extension } = parsePhoneNumber(phone);
   return (
     <>
       <div>
@@ -50,7 +53,7 @@ const SearchResult = ({
         {phone && (
           <div>
             <strong>Main Number: </strong>
-            <va-telephone contact={phone} />
+            <va-telephone contact={contact} extension={extension} />
           </div>
         )}
       </div>
