@@ -8,15 +8,20 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
-  { badAddress, signInServiceName } = {
+  { badAddress, signInServiceName, toggles } = {
     badAddress: false,
     signInServiceName: 'idme',
+    toggles: {},
   },
 ) {
   return {
     featureToggles: {
-      loading: false,
-      [Toggler.TOGGLE_NAMES.profileUseHubPage]: true,
+      ...{
+        loading: false,
+        [Toggler.TOGGLE_NAMES.profileUseHubPage]: true,
+        [Toggler.TOGGLE_NAMES.profileContacts]: false,
+      },
+      ...toggles,
     },
     user: {
       profile: {
@@ -77,6 +82,20 @@ describe('<Hub />', () => {
         ),
       ).to.exist;
       expect(container.querySelector(`[href="${service.link}"]`)).to.exist;
+    });
+  });
+
+  describe('render Personal health care contacts card based on feature toggle', () => {
+    it('should NOT render Personal health care contacts card if feature toggle is off', () => {
+      const { queryByText } = setup();
+      expect(queryByText('Personal health care contacts')).not.to.exist;
+    });
+
+    it('should render Personal health care contacts card if feature toggle is on', () => {
+      const { getByText } = setup({
+        toggles: { [Toggler.TOGGLE_NAMES.profileContacts]: true },
+      });
+      expect(getByText('Personal health care contacts')).to.exist;
     });
   });
 });
