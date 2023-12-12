@@ -69,8 +69,7 @@ const Prescriptions = props => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
     if (sortOption !== selectedSortOption) {
       setSelectedSortOption(sortOption);
-      setLoading(true);
-      setLoadingMessage('Sorting your medications...');
+      updateLoadingStatus(true, 'Sorting your medications...');
     }
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
@@ -107,9 +106,7 @@ const Prescriptions = props => {
           page ?? 1,
           rxListSortingOptions[selectedSortOption].API_ENDPOINT,
         ),
-      ).then(() => {
-        updateLoadingStatus(false, '');
-      });
+      ).then(() => updateLoadingStatus(false, ''));
       updatePageTitle('Medications | Veterans Affairs');
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
