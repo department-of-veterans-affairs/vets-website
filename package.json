@@ -20,6 +20,7 @@
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.config.js",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
+    "cy:sm:run": "cypress run --config-file config/cypress.config.js --browser chrome --spec src/applications/mhv/secure-messaging/tests/e2e/**/*.cypress.spec.js",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.config.js --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
