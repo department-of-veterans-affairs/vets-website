@@ -81,11 +81,40 @@ describe('Vaccines list container still loading', () => {
   });
 });
 
+describe('Vaccines list container with no vaccines', () => {
+  it('displays a no vaccines message', () => {
+    const initialState = {
+      user,
+      mr: {
+        vaccines: {
+          vaccinesList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    waitFor(() => {
+      expect(
+        screen.getByText('There are no vaccines in your VA medical records.', {
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+});
+
 describe('Vaccines list container with errors', async () => {
   const initialState = {
     user,
     mr: {
-      vaccines: {},
       alerts: {
         alertList: [
           {

@@ -17,6 +17,7 @@ import EmergencyNote from '../EmergencyNote';
 import {
   messageSignatureFormatter,
   navigateToFolderByFolderId,
+  resetUserSession,
   setCaretToPos,
 } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -69,6 +70,21 @@ const ReplyForm = props => {
   const [draft, setDraft] = useState(null);
 
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
+
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
+
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
+
+  const noTimeout = () => {
+    clearTimeout(timeoutId);
+  };
 
   const formattededSignature = useMemo(
     () => {
@@ -358,11 +374,18 @@ const ReplyForm = props => {
 
   const beforeUnloadHandler = useCallback(
     e => {
-      if (messageBody !== (draft ? draft.body : '')) {
-        e.returnValue = '';
+      if (messageBody !== (draft ? draft.body : '') || attachments.length) {
+        e.preventDefault();
+        window.onbeforeunload = () => signOutMessage;
+        e.returnValue = true;
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        e.returnValue = false;
+        noTimeout();
       }
     },
-    [draft, messageBody],
+    [draft, messageBody, attachments],
   );
 
   useEffect(
@@ -370,6 +393,8 @@ const ReplyForm = props => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       };
     },
     [beforeUnloadHandler],
