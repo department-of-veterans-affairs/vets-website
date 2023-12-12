@@ -1,5 +1,6 @@
 import '@@profile/sass/profile.scss';
-import 'platform/polyfills';
+import '../common/components/devtools/sass/DevTools.scss';
+import '~/platform/polyfills';
 import React from 'react';
 import Profile from '@@profile/components/Profile';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';

@@ -11,6 +11,7 @@ import {
   isLighthouseClaimComplete,
   getClaimType,
 } from '../../utils/claims-helpers';
+import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import CTALink from '../CTALink';
 
@@ -56,7 +57,7 @@ const Claim = ({ claim, useLighthouseClaims = false }) => {
     claim,
     useLighthouseClaims,
   );
-  const dateRecd = format(new Date(claimDate), 'MMMM d, yyyy');
+  const dateRecd = format(new Date(replace(claimDate)), 'MMMM d, yyyy');
 
   const content = (
     <>

@@ -312,6 +312,7 @@
     ],
     "totalNetWorth": true,
     "homeOwnership": true,
+    "homeAcreageMoreThanTwo": "true",
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
