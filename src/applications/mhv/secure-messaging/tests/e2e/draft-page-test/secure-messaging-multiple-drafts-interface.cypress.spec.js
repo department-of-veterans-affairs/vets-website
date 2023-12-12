@@ -49,6 +49,15 @@ describe('handle multiple drafts in one thread', () => {
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread();
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
       .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
