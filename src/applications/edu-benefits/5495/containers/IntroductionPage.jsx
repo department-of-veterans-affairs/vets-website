@@ -143,7 +143,7 @@ export class IntroductionPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   showWizard: showEduBenefits5495Wizard(state),
 });
 
