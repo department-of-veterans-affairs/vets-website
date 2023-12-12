@@ -9,7 +9,7 @@ describe('<RatedDisabilityList/>', () => {
   const ratedDisabilities = {
     ratedDisabilities: [
       {
-        decisionCode: 'SVCCONNECTED',
+        decisionCode: 'SVCCONNCTED',
         decisionText: 'Service Connected',
         diagnosticCode: 5238,
         effectiveDate: '2008-10-01T05:00:00.000+00:00',
