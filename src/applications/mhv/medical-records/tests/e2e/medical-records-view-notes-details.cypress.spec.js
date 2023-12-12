@@ -17,13 +17,15 @@ describe('Medical Records View Notes', () => {
     NotesDetailsPage.clickProgressNoteLink(0);
 
     // Verify Progress Note Details Location
-    NotesDetailsPage.verifyProgressNoteLocation();
+    NotesDetailsPage.verifyProgressNoteLocation('DAYTSHR TEST LAB');
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy();
+    NotesDetailsPage.verifyProgressNoteSignedBy('AHMED,MARUF');
     // Verify Progress Note Details Signed Date
-    NotesDetailsPage.verifyProgressNoteSignedDate();
+    NotesDetailsPage.verifyProgressNoteSignedDate('August 8, 2022');
     // Verify Progress Note Record Details
-    NotesDetailsPage.verifyProgressNoteRecord();
+    NotesDetailsPage.verifyProgressNoteRecord(
+      'LOCAL TITLE: Adverse React/Allergy',
+    );
 
     // Click Back to Care summaries and notes
     NotesDetailsPage.clickBreadCrumbsLink(0);
@@ -32,19 +34,21 @@ describe('Medical Records View Notes', () => {
     NotesDetailsPage.clickDischargeSummaryLink(1);
 
     // Verify Discharge Summary Note Details Location
-    NotesDetailsPage.verifyDischargeSummaryLocation();
+    NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');
     // Verify Discharge Summary Details Admission Date
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate();
+    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('August 5, 2022');
     // Verify Discharge Summary Details DischargeDate
-    NotesDetailsPage.verifyDischargeSummaryDischargeDate();
+    NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
     // Verify Discharge Summary Admitted By
-    NotesDetailsPage.verifyDischargeSummaryAdmittedBy();
+    NotesDetailsPage.verifyDischargeSummaryAdmittedBy('AHMED,NAJEEB');
 
     // Verify Discharge Summary discharged By
-    NotesDetailsPage.verifyDischargeSummaryDischargedBy();
+    NotesDetailsPage.verifyDischargeSummaryDischargedBy('AHMED,MARUF');
 
     // Verify Discharge Summary Note
-    NotesDetailsPage.verifyDischargeSummaryNote();
+    NotesDetailsPage.verifyDischargeSummaryNote(
+      'LOCAL TITLE: Discharge Summary',
+    );
 
     // Click Back to Care summaries and notes
     // NotesDetailsPage.clickBreadCrumbsLink(0);

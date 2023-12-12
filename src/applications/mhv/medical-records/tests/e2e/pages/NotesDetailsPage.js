@@ -45,70 +45,64 @@ class NotesDetailsPage {
       .click();
   };
 
-  verifyProgressNoteLocation = () => {
+  verifyProgressNoteLocation = dischargeLocation => {
     // Verify Progress Note Details Location
     cy.get('[data-testid="note-record-location"]').should('be.visible');
-    cy.get('[data-testid="note-record-location"]').contains('DAYTSHR TEST LAB');
+    cy.get('[data-testid="note-record-location"]').contains(dischargeLocation);
   };
 
-  verifyProgressNoteSignedBy = () => {
+  verifyProgressNoteSignedBy = signedBy => {
     // Progress Note Details Signed by
     cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-by"]').contains('AHMED,MARUF');
+    cy.get('[data-testid="note-record-signed-by"]').contains(signedBy);
   };
 
-  verifyProgressNoteSignedDate = () => {
+  verifyProgressNoteSignedDate = notesSignedDate => {
     cy.get('[data-testid="note-record-signed-date"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-date"]').contains(
-      'August 8, 2022',
-    );
+    cy.get('[data-testid="note-record-signed-date"]').contains(notesSignedDate);
   };
 
-  verifyProgressNoteRecord = () => {
+  verifyProgressNoteRecord = progressNote => {
     cy.get('[data-testid="note-record"]').should('be.visible');
-    cy.get('[data-testid="note-record"]').contains(
-      'LOCAL TITLE: Adverse React/Allergy',
-    );
+    cy.get('[data-testid="note-record"]').contains(progressNote);
   };
 
   // ..........Discharge Summary
 
-  verifyDischargeSummaryLocation = () => {
+  verifyDischargeSummaryLocation = summaryLocation => {
     // Discharge Summary Note Details Location
     cy.get('[data-testid="note-record-location"]').should('be.visible');
-    cy.get('[data-testid="note-record-location"]').contains('DAYTON');
+    cy.get('[data-testid="note-record-location"]').contains(summaryLocation);
   };
 
-  verifyDischargeSummaryAdmissionDate = () => {
+  verifyDischargeSummaryAdmissionDate = addmissionDate => {
     // Discharge Summary Details Admission Date
     cy.get('[data-testid="note-admission-date"]').should('be.visible');
-    cy.get('[data-testid="note-admission-date"]').contains('August 5, 2022');
+    cy.get('[data-testid="note-admission-date"]').contains(addmissionDate);
   };
 
-  verifyDischargeSummaryDischargeDate = () => {
+  verifyDischargeSummaryDischargeDate = dischargeDate => {
     // Discharge Summary Details DischargeDate
     cy.get('[data-testid="note-discharge-date"]').should('be.visible');
-    cy.get('[data-testid="note-discharge-date"]').contains('August 9, 2022');
+    cy.get('[data-testid="note-discharge-date"]').contains(dischargeDate);
   };
 
-  verifyDischargeSummaryAdmittedBy = () => {
+  verifyDischargeSummaryAdmittedBy = admittedBy => {
     // Discharge Summary Admitted By
     cy.get('[data-testid="note-admitted-by"]').should('be.visible');
-    cy.get('[data-testid="note-admitted-by"]').contains('AHMED,NAJEEB');
+    cy.get('[data-testid="note-admitted-by"]').contains(admittedBy);
   };
 
-  verifyDischargeSummaryDischargedBy = () => {
+  verifyDischargeSummaryDischargedBy = dischargedBy => {
     // Discharge Summary discharged By
     cy.get('[data-testid="note-discharged-by"]').should('be.visible');
-    cy.get('[data-testid="note-discharged-by"]').contains('AHMED,MARUF');
+    cy.get('[data-testid="note-discharged-by"]').contains(dischargedBy);
   };
 
-  verifyDischargeSummaryNote = () => {
+  verifyDischargeSummaryNote = summaryNote => {
     // Discharge Summary Note
     cy.get('[data-testid="note-summary"]').should('be.visible');
-    cy.get('[data-testid="note-summary"]').contains(
-      'LOCAL TITLE: Discharge Summary',
-    );
+    cy.get('[data-testid="note-summary"]').contains(summaryNote);
   };
 
   // ..............
