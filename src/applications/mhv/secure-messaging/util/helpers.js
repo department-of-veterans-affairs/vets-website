@@ -206,3 +206,14 @@ export const setCaretToPos = (input, pos) => {
   input.focus();
   input.setSelectionRange(pos, pos);
 };
+
+export const resetUserSession = localStorageValues => {
+  const timeout = setTimeout(() => {
+    Object.keys(localStorageValues).forEach(storageItem => {
+      if (!localStorage.getItem(storageItem)) {
+        localStorage.setItem(storageItem, localStorageValues[storageItem]);
+      }
+    });
+  }, 1000);
+  return { signOutMessage: 'non-empty string', timeOutId: timeout };
+};

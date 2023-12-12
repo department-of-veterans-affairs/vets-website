@@ -374,7 +374,7 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  navigateToComposePage = () => {
+  navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
@@ -382,7 +382,9 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    PatientInterstitialPage.CheckFocusOnVcl();
+    if (checkFocusOnVcl) {
+      PatientInterstitialPage.CheckFocusOnVcl();
+    }
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
