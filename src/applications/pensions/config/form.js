@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import moment from 'moment';
-import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -22,7 +21,6 @@ import createNonRequiredFullName from '@department-of-veterans-affairs/platform-
 import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 
 import {
-  getSpouseMarriageTitle,
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
@@ -43,9 +41,9 @@ import {
   spouseExpectedIncomeDescription,
   submit,
   dependentExpectedIncomeDescription,
+  createSpouseLabelSelector,
 } from '../helpers';
 import IntroductionPage from '../components/IntroductionPage';
-import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DependentField from '../components/DependentField';
 import ErrorText from '../components/ErrorText';
@@ -56,6 +54,7 @@ import monthlyIncomeUI from '../definitions/monthlyIncome';
 import expectedIncomeUI from '../definitions/expectedIncome';
 import { additionalSourcesSchema } from '../definitions/additionalSources';
 import otherExpensesUI from '../definitions/otherExpenses';
+
 import applicantInformation from './chapters/01-applicant-information/applicantInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
@@ -78,15 +77,19 @@ import maritalStatus from './chapters/04-household-information/maritalStatus';
 import currentSpouse from './chapters/04-household-information/currentSpouse';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
+import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
+import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -206,26 +209,6 @@ const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
   enum: ['Widowed', 'Divorced'],
 };
-
-function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
 
 function createFullNameReviewTitle(label) {
   return item => {
@@ -749,120 +732,11 @@ const formConfig = {
           },
         },
         spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
-            getSpouseMarriageTitle(pagePerItemIndex),
-          path: 'household/spouse-marriages/:index',
+          title: 'Spouse’s former marriages',
+          path: 'household/spouse-marriages',
           depends: isMarried,
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriages',
-          uiSchema: {
-            spouseMarriages: {
-              items: {
-                'ui:title': SpouseMarriageTitle,
-                spouseFullName: merge({}, fullNameUI, {
-                  first: {
-                    'ui:title': 'Their spouse’s first name',
-                  },
-                  last: {
-                    'ui:title': 'Their spouse’s last name',
-                  },
-                  middle: {
-                    'ui:title': 'Their spouse’s middle name',
-                  },
-                  suffix: {
-                    'ui:title': 'Their spouse’s suffix',
-                  },
-                }),
-                dateOfMarriage: merge({}, currentOrPastDateUI(''), {
-                  'ui:options': {
-                    updateSchema: createSpouseLabelSelector(
-                      spouseName =>
-                        `Date of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage`,
-                    ),
-                  },
-                }),
-                locationOfMarriage: {
-                  'ui:options': {
-                    updateSchema: createSpouseLabelSelector(
-                      spouseName =>
-                        `Place of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage (city and state or foreign country)`,
-                    ),
-                  },
-                },
-                marriageType: {
-                  'ui:title': 'Type of marriage',
-                  'ui:widget': 'radio',
-                },
-                otherExplanation: {
-                  'ui:title': 'Please specify',
-                  'ui:required': (form, index) =>
-                    get(['spouseMarriages', index, 'marriageType'], form) ===
-                    'Other',
-                  'ui:options': {
-                    expandUnder: 'marriageType',
-                    expandUnderCondition: 'Other',
-                  },
-                },
-                'view:marriageWarning': {
-                  'ui:description': marriageWarning,
-                  'ui:options': {
-                    hideIf: (form, index) =>
-                      get(['spouseMarriages', index, 'marriageType'], form) !==
-                      'Common-law',
-                  },
-                },
-                reasonForSeparation: {
-                  'ui:title': 'Why did the marriage end?',
-                  'ui:widget': 'radio',
-                },
-                dateOfSeparation: {
-                  ...currentOrPastDateUI('Date marriage ended'),
-                  'ui:validations': [validateAfterMarriageDate],
-                },
-
-                locationOfSeparation: {
-                  'ui:title':
-                    'Place marriage ended (city and state or foreign country)',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              spouseMarriages: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'marriageType',
-                    'locationOfMarriage',
-                    'reasonForSeparation',
-                    'dateOfSeparation',
-                    'locationOfSeparation',
-                  ],
-                  properties: {
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
-                    spouseFullName: marriageProperties.spouseFullName,
-                    marriageType,
-                    otherExplanation: marriageProperties.otherExplanation,
-                    'view:marriageWarning': { type: 'object', properties: {} },
-                    reasonForSeparation,
-                    dateOfSeparation: marriageProperties.dateOfSeparation,
-                    locationOfSeparation:
-                      marriageProperties.locationOfSeparation,
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: currentSpouseFormerMarriages.uiSchema,
+          schema: currentSpouseFormerMarriages.schema,
         },
         dependents: {
           title: 'Dependent children',
@@ -1500,11 +1374,32 @@ const formConfig = {
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
         homeOwnership: {
           title: 'home ownership',
           path: 'financial/home-ownership',
           uiSchema: homeOwnership.uiSchema,
           schema: homeOwnership.schema,
+        },
+        homeAcreageMoreThanTwo: {
+          title: 'home acreage',
+          path: 'financial/home-ownership/acres',
+          depends: formData => {
+            return formData.homeOwnership !== false;
+          },
+          uiSchema: homeAcreageMoreThanTwo.uiSchema,
+          schema: homeAcreageMoreThanTwo.schema,
+        },
+        receivesIncome: {
+          title: 'Receives income',
+          path: 'financial/receives-income',
+          uiSchema: receivesIncome.uiSchema,
+          schema: receivesIncome.schema,
         },
       },
     },

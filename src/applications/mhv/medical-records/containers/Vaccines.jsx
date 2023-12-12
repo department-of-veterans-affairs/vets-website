@@ -140,7 +140,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
     if (vaccines?.length === 0) {
-      return <NoRecordsMessage type="vaccines" />;
+      return <NoRecordsMessage type={recordType.VACCINES} />;
     }
     if (vaccines?.length) {
       return (
