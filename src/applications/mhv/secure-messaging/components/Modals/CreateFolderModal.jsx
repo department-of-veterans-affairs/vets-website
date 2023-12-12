@@ -77,11 +77,13 @@ const CreateFolderModal = props => {
         error={nameWarning}
         name="folder-name"
         data-testid="folder-name"
+        data-dd-action-name="Create New Folder Modal"
       />
       <va-button
         text="Create"
         onClick={confirmNewFolder}
         data-testid="create-folder-button"
+        data-dd-action-name="Confirm-Create-New-Folder-Button"
       />
       <va-button
         secondary="true"
