@@ -230,11 +230,13 @@ export class Main extends Component {
       showLoginModal,
     } = this.props;
 
-    console.log('isDesktop: ', isDesktop);
+    console.log('isDesktop (main): ', isDesktop);
+    console.log('canShowLoginModal (main): ', canShowLoginModal);
+    console.log('showLoginModal (main): ', showLoginModal);
 
-    const signInModalIsVisible = isDesktop
-      ? showLoginModal
-      : canShowLoginModal && showLoginModal;
+    // const signInModalIsVisible = isDesktop
+    //   ? showLoginModal
+    //   : canShowLoginModal && showLoginModal;
 
     return (
       <div className="profile-nav-container">
@@ -255,7 +257,7 @@ export class Main extends Component {
         />
         <SignInModal
           onClose={this.closeLoginModal}
-          visible={signInModalIsVisible}
+          visible={canShowLoginModal}
           useSiS={this.props.useSignInService}
         />
         {mhvTransition &&
