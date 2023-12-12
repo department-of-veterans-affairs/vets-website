@@ -21,6 +21,7 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from 'platform/utilities/data/get';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
+import transformForSubmit from './submitTransformer';
 import CoverageField from '../components/coverages/CoverageField';
 import CoverageDetailLargeField from '../components/coverages/CoverageDetailLargeField';
 import manifest from '../manifest.json';
@@ -44,6 +45,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
+  transformForSubmit,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your CHAMPVA other health insurance certification application (10-7959C) is in progress.',
