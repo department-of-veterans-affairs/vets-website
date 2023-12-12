@@ -194,7 +194,7 @@ Provider Notes: ${vital.notes}\n\n`,
       <>
         <PrintHeader />
         <h1 className="vads-u-margin-bottom--1 no-print">{vitalDisplayName}</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3 no-print">
           Your VA providers check your {vitalDisplayNameLowerCase} at
           appointments. Review your {vitalDisplayNameLowerCase} results here.
         </p>
@@ -262,7 +262,7 @@ Provider Notes: ${vital.notes}\n\n`,
           This list includes vitals and other basic health numbers your
           providers check at your appointments.
         </p>
-        <h2 className="vads-u-font-size--h2 vads-u-margin--0 print-only">
+        <h2 className="vads-u-font-size--lg vads-u-margin--0 print-only">
           {vitalTypeDisplayNames[records[0].type]}
         </h2>
         <ul className="vital-records-list print-only">
@@ -270,11 +270,11 @@ Provider Notes: ${vital.notes}\n\n`,
             records?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3vads-u-margin-left--1p5"
+                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-padding-y--3vads-u-margin-left--1p5
+                  vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
               >
                 <h3
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 
-                    vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {moment(vital.date).format('LLL')}
