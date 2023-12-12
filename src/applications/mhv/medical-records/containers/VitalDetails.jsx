@@ -36,6 +36,7 @@ import {
   crisisLineHeader,
   reportGeneratedBy,
 } from '../../shared/util/constants';
+import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 
 const MAX_PAGE_LIST_LENGTH = 5;
 const VitalDetails = props => {
@@ -147,7 +148,7 @@ const VitalDetails = props => {
         {
           title: 'Provider notes',
           value: record.notes,
-          inline: !record.notes,
+          inline: true,
         },
       ],
     }));
@@ -187,47 +188,66 @@ Provider Notes: ${vital.notes}\n\n`,
     return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
   }
   if (records?.length) {
+    const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
+    const vitalDisplayNameLowerCase = vitalDisplayName.toLowerCase();
     return (
       <>
         <PrintHeader />
-        <h1>{vitalTypeDisplayNames[records[0].type]}</h1>
+        <h1 className="vads-u-margin-bottom--1 no-print">{vitalDisplayName}</h1>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          Your VA providers check your {vitalDisplayNameLowerCase} at
+          appointments. Review your {vitalDisplayNameLowerCase} results here.
+        </p>
         <PrintDownload
           download={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
-        <div className="vads-u-padding-y--1 vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print">
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <h2
+          className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
+            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+        >
           Displaying {displayNums[0]}
           &#8211;
-          {displayNums[1]} of {records.length} vitals
-        </div>
+          {displayNums[1]} of {records.length} records from newest to oldest
+        </h2>
 
-        <ul className="vital-details no-print">
+        <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 no-print">
           {currentVitals?.length > 0 &&
             currentVitals?.map((vital, idx) => (
-              <li key={idx}>
-                <h2 data-dd-privacy="mask">
+              <li
+                key={idx}
+                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
+              >
+                <h2
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  data-dd-privacy="mask"
+                >
                   {moment(vital.date).format('LLL')}
                 </h2>
-                <h3>Result:</h3>
+                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                  Measurement:
+                </h3>
                 <p
-                  className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
                 </p>
-                <h3>Location:</h3>
+                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                  Location:
+                </h3>
                 <p
-                  className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
                 </p>
-                <h3>Provider notes:</h3>
-                <p
-                  className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-                  data-dd-privacy="mask"
-                >
+                <h3 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
+                  Provider notes:
+                </h3>
+                <p className="vads-u-margin--0" data-dd-privacy="mask">
                   {vital.notes}
                 </p>
               </li>
@@ -235,24 +255,54 @@ Provider Notes: ${vital.notes}\n\n`,
         </ul>
 
         {/* print view start */}
-        <ul className="vital-details print-only">
+        <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
+          Vitals
+        </h1>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2 print-only">
+          This list includes vitals and other basic health numbers your
+          providers check at your appointments.
+        </p>
+        <h2 className="vads-u-font-size--h2 vads-u-margin--0 print-only">
+          {vitalTypeDisplayNames[records[0].type]}
+        </h2>
+        <ul className="vital-records-list print-only">
           {records?.length > 0 &&
             records?.map((vital, idx) => (
-              <li key={idx}>
-                <h2 data-dd-privacy="mask">
-                  {moment(vital.date).format('LLL')}
-                </h2>
-                <h3>Result:</h3>
-                <p data-dd-privacy="mask">{vital.measurement}</p>
-                <h3>Location:</h3>
-                <p data-dd-privacy="mask">{vital.location}</p>
-                <h3>Provider notes:</h3>
-                <p
-                  className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+              <li
+                key={idx}
+                className="vads-u-margin--0 vads-u-padding-y--3vads-u-margin-left--1p5"
+              >
+                <h3
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 
+                    vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
                   data-dd-privacy="mask"
                 >
-                  {vital.notes}
-                </p>
+                  {moment(vital.date).format('LLL')}
+                </h3>
+                <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
+                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                    Measurement:{' '}
+                  </h4>
+                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                    {vital.measurement}
+                  </p>
+                </div>
+                <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
+                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                    Location:{' '}
+                  </h4>
+                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                    {vital.location}
+                  </p>
+                </div>
+                <div className="vads-u-margin-left--1p5">
+                  <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">
+                    Provider notes:{' '}
+                  </h4>
+                  <p className="vads-u-display--inline" data-dd-privacy="mask">
+                    {vital.notes}
+                  </p>
+                </div>
               </li>
             ))}
         </ul>
