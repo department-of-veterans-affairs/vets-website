@@ -169,7 +169,15 @@ const useGetCheckInData = ({
           api.v2
             .getCheckInData(token)
             .then(json => {
-              setDayOfData(json.payload);
+              const { payload } = json;
+              setDayOfData(payload);
+
+              if (
+                payload.appointments?.length > 0 &&
+                appointmentStartTimePast15(payload.appointments)
+              ) {
+                updateError('check-in-past-appointment');
+              }
             })
             .catch(e => {
               if (e.errors && e.errors[0]?.status === '404') {

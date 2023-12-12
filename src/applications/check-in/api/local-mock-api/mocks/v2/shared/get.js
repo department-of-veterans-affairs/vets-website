@@ -13,6 +13,7 @@ const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
+const checkInTooLateUUID = '127c6f75-ea5f-4986-b0f5-d411d9d5e55c';
 
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
@@ -203,6 +204,23 @@ const createAppointments = (
     }),
   ];
 
+  if (token === checkInTooLateUUID) {
+    appointments = [
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        clinicIen: '0001',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        clinicIen: '0001',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+    ];
+  }
+
   if (token === allAppointmentTypesUUID) {
     appointments = [
       createAppointment({
@@ -319,8 +337,9 @@ module.exports = {
   createAppointments,
   createAppointment,
   createUpcomingAppointments,
-  defaultUUID,
-  mockDemographics,
   createMockFailedResponse,
   createMockNotFoundResponse,
+  defaultUUID,
+  mockDemographics,
+  checkInTooLateUUID,
 };
