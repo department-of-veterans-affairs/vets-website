@@ -336,6 +336,7 @@ export default class ArrayField extends React.Component {
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
+      'rjsf-array-field': true,
     });
 
     return (

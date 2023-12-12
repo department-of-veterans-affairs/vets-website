@@ -29,7 +29,7 @@ class ReadOnlyArrayField extends React.Component {
     const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
     return (
-      <div className="schemaform-field-container">
+      <div className="schemaform-field-container rjsf-array-field">
         {items.map((item, index) => {
           const itemSchema = this.getItemSchema(index);
           const itemIdPrefix = `${idSchema.$id}_${index}`;
