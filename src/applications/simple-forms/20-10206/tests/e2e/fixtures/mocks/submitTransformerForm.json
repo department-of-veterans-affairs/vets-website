@@ -72,8 +72,7 @@
                   "ui:options": {
                       "labels": {
                           "citizen": "I’m a U.S. citizen requesting my own personal VA records",
-                          "non-citizen": "I’m a non-U.S. citizen requesting my own personal VA records",
-                          "third-party": "I’m a third-party or power of attorney requesting personal VA records for someone else"
+                          "non-citizen": "I’m a non-U.S. citizen requesting my own personal VA records"
                       },
                       "labelHeaderLevel": "3"
                   },
@@ -89,8 +88,7 @@
                       "type": "string",
                       "enum": [
                           "citizen",
-                          "non-citizen",
-                          "third-party"
+                          "non-citizen"
                       ]
                   }
               },
