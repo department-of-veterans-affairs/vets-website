@@ -81,7 +81,9 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
+import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -1371,11 +1373,26 @@ const formConfig = {
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
         homeOwnership: {
           title: 'home ownership',
           path: 'financial/home-ownership',
           uiSchema: homeOwnership.uiSchema,
           schema: homeOwnership.schema,
+        },
+        homeAcreageMoreThanTwo: {
+          title: 'home acreage',
+          path: 'financial/home-ownership/acres',
+          depends: formData => {
+            return formData.homeOwnership !== false;
+          },
+          uiSchema: homeAcreageMoreThanTwo.uiSchema,
+          schema: homeAcreageMoreThanTwo.schema,
         },
       },
     },
