@@ -79,12 +79,14 @@ import servicePeriods from './chapters/02-military-history/servicePeriods';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -1161,6 +1163,12 @@ const formConfig = {
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
         homeOwnership: {
           title: 'home ownership',
           path: 'financial/home-ownership',
@@ -1175,6 +1183,12 @@ const formConfig = {
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
+        },
+        receivesIncome: {
+          title: 'Receives income',
+          path: 'financial/receives-income',
+          uiSchema: receivesIncome.uiSchema,
+          schema: receivesIncome.schema,
         },
       },
     },
