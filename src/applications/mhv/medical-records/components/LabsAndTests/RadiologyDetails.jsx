@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { updatePageTitle } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
@@ -121,36 +120,7 @@ ${record.results}`;
 
       <div className="test-results-container">
         <h2>Results</h2>
-
-        <va-alert-expandable
-          status="info"
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results. If you need to do anything,
-            your provider will contact you.
-          </p>
-          <p>
-            If you have questions, send a message to the care team that ordered
-            this test.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Compose a new message
-            </a>
-          </p>
-          <p>
-            <span className="vads-u-font-weight--bold">Note: </span>
-            If you have questions about more than 1 test ordered by the same
-            care team, send 1 message with all of your questions.
-          </p>
-        </va-alert-expandable>
+        <InfoAlert fullState={fullState} />
         <p className="monospace">{record.results}</p>
       </div>
     </div>

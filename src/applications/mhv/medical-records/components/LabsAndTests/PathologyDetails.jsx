@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import {
   makePdf,
   getNameDateAndTime,
@@ -124,26 +123,7 @@ ${record.results} \n`;
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results and explain what they mean
-            for your health. To ask a question now, send a secure message to
-            your care team.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Start a new message
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert fullState={fullState} />
         <p>{record.results}</p>
       </div>
     </div>

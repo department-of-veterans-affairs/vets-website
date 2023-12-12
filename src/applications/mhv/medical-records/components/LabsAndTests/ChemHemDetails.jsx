@@ -5,12 +5,11 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import {
   makePdf,
   processList,
@@ -222,28 +221,7 @@ Interpretation: ${entry.interpretation}\n`,
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p className="vads-u-margin-bottom--1">
-            If your results are outside the standard range, this doesn’t
-            automatically mean you have a health problem. Your provider will
-            review your results and explain what they mean for your health.
-          </p>
-          <p>To ask a question now, send a secure message to your care team.</p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-              rel="noreferrer" // check dis
-            >
-              Compose a message.
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean
