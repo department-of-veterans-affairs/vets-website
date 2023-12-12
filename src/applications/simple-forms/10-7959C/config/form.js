@@ -1,5 +1,4 @@
 // import fullSchema from 'vets-json-schema/dist/10-7959C-schema.json';
-import get from 'platform/utilities/data/get';
 
 import {
   fullNameNoSuffixUI,
@@ -16,9 +15,13 @@ import {
   yesNoSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  inlineTitleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import get from 'platform/utilities/data/get';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import CoverageField from '../components/coverage/CoverageField';
+import CoverageField from '../components/coverages/CoverageField';
+import CoverageDetailLargeField from '../components/coverages/CoverageDetailLargeField';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -282,6 +285,7 @@ const formConfig = {
         // TODO: is pt D required to get to this state?
         page9: {
           path: 'other-health-insurance',
+          // Shows up on review page
           title: 'Other Health Insurance',
           arrayPath: 'coverages',
           depends: form => get('hasOtherHealthInsurance', form),
@@ -291,9 +295,6 @@ const formConfig = {
               'Provide all periods of OHI coverage since becoming CHAMPVA eligible and attach a copy of any active health insurance cards (front and back).',
             coverages: {
               'ui:options': {
-                // itemName is what's displayed on the "add another" button
-                // itemName: (formData, index) =>
-                // 'ui:title': formData => formData.coverages[index]?.nameOfInsurance
                 viewField: CoverageField,
                 keepInPageOnReview: true,
                 useDlWrap: false,
@@ -332,18 +333,20 @@ const formConfig = {
           depends: form => get('hasOtherHealthInsurance', form),
           arrayPath: 'coverages',
           showPagePerItem: true,
-          title: 'Page 10', // This only shows on the review page
+          // This only shows on the review page
+          title: 'OHI Effective Date',
           uiSchema: {
-            'ui:title': 'OHI Effective Date',
             'ui:description': 'Provide date OHI coverage became effective.',
             coverages: {
               'ui:options': {
                 itemName: 'Coverage',
-                viewField: CoverageField,
-                keepInPageOnReview: true,
                 useDlWrap: false,
+                viewField: CoverageField,
               },
               items: {
+                // This title is what allows custom headers on loop pages
+                'ui:title': CoverageDetailLargeField,
+                coverageInfoTitle: inlineTitleUI('Coverage Effective Date'),
                 ohiEffectiveDate: {
                   ...currentOrPastDateUI(),
                   'ui:required': () => true,
@@ -360,6 +363,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    coverageInfoTitle: titleSchema,
                     ohiEffectiveDate: { type: 'string' },
                   },
                 },
