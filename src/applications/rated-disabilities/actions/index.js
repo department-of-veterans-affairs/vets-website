@@ -112,10 +112,6 @@ export function fetchTotalDisabilityRating(recordAnalyticsEvent = recordEvent) {
   };
 }
 
-export function getRatedDisabilities() {
-  return getData('/rated_disabilities');
-}
-
 export function checkForDiscrepancies() {
   getData('/rated_disabilities_discrepancies');
 }
