@@ -38,7 +38,7 @@ const LandingPage = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
     if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current.scrollIntoView();
+      manageMedicationsAccordionSection.current?.scrollIntoView();
     }
   };
 
@@ -472,8 +472,11 @@ const LandingPage = () => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
