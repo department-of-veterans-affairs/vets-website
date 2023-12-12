@@ -311,6 +311,7 @@
       }
     ],
     "totalNetWorth": true,
+    "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": "true",
     "bankAccount": {
