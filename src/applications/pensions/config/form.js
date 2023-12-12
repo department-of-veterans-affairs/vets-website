@@ -1060,12 +1060,9 @@ const formConfig = {
                   properties: {
                     childInHousehold:
                       dependents.items.properties.childInHousehold,
-                    childAddress: merge(
-                      {},
-                      addressSchema({
-                        omit: ['street3', 'isMilitary'],
-                      }),
-                    ),
+                    childAddress: addressSchema({
+                      omit: ['street3', 'isMilitary'],
+                    }),
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -1097,7 +1094,6 @@ const formConfig = {
                     },
                   }),
                   'ui:options': {
-                    test: 'bar',
                     expandUnder: 'childInHousehold',
                     expandUnderCondition: false,
                   },
