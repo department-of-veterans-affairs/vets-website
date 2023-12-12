@@ -46,6 +46,7 @@ const ReplyDraftItem = props => {
   const dispatch = useDispatch();
   const history = useHistory();
   const textareaRef = useRef(null);
+  const composeFormActionButtonsRef = useRef(null);
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
 
@@ -369,12 +370,18 @@ const ReplyDraftItem = props => {
     () => {
       if (editMode && focusToTextarea) {
         setTimeout(() => {
-          focusElement(textareaRef.current);
+          focusElement(
+            cannotReply
+              ? composeFormActionButtonsRef.current.querySelector(
+                  '#delete-draft-button',
+                )
+              : textareaRef.current,
+          );
           setFocusToTextarea(false);
         }, 300);
       }
     },
-    [editMode, focusToTextarea],
+    [cannotReply, editMode, focusToTextarea],
   );
 
   return (
@@ -482,16 +489,18 @@ const ReplyDraftItem = props => {
           )}
 
           <DraftSavedInfo />
-          <ComposeFormActionButtons
-            cannotReply={cannotReply}
-            draftId={draft?.messageId}
-            draftsCount={draftsCount}
-            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
-            onSend={sendMessageHandler}
-            refreshThreadCallback={refreshThreadHandler}
-            setDeleteButtonClicked={setDeleteButtonClicked}
-            setNavigationError={setNavigationError}
-          />
+          <div ref={composeFormActionButtonsRef}>
+            <ComposeFormActionButtons
+              cannotReply={cannotReply}
+              draftId={draft?.messageId}
+              draftsCount={draftsCount}
+              onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+              onSend={sendMessageHandler}
+              refreshThreadCallback={refreshThreadHandler}
+              setDeleteButtonClicked={setDeleteButtonClicked}
+              setNavigationError={setNavigationError}
+            />
+          </div>
         </>
       ) : (
         <>
