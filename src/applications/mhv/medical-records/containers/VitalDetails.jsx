@@ -265,12 +265,12 @@ Provider Notes: ${vital.notes}\n\n`,
         <h2 className="vads-u-font-size--lg vads-u-margin--0 print-only">
           {vitalTypeDisplayNames[records[0].type]}
         </h2>
-        <ul className="vital-records-list print-only">
+        <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&
             records?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-padding-y--3vads-u-margin-left--1p5
+                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-margin-left--1p5
                   vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
               >
                 <h3
@@ -315,6 +315,7 @@ Provider Notes: ${vital.notes}\n\n`,
             pages={paginatedVitals.current.length}
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
             showLastPage
+            uswds
           />
         </div>
       </>
@@ -336,3 +337,4 @@ export default VitalDetails;
 VitalDetails.propTypes = {
   runningUnitTest: PropTypes.bool,
 };
+// uswds on pagination
