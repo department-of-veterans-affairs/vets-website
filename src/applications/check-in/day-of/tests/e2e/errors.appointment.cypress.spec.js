@@ -4,33 +4,28 @@ import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import Error from './pages/Error';
 
-describe('Check In Experience | Day Of |', () => {
-  describe("Patient who does't correctly authenticate", () => {
+describe('Check In Experience | Day Of | Appointment Errors', () => {
+  describe('Patient with an expired appointment', () => {
     beforeEach(() => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
         initializeCheckInDataGet,
+        initializeUpcomingAppointmentsDataGet,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withPast15MinuteWindow();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
     });
-    it('should show inline error message', () => {
+    it('should be directed to the error page after validation', () => {
       ApiInitializer.initializeSessionPost.withValidation();
-      ValidateVeteran.validateVeteranIncorrect();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('should redirect to error page after max validate limit reached', () => {
-      ApiInitializer.initializeSessionPost.withValidationMaxAttempts();
-      ValidateVeteran.validateVeteranIncorrect();
-      ValidateVeteran.attemptToGoToNextPage();
-      Error.validatePageLoaded('max-validation');
+      Error.validatePageLoaded('check-in-past-appointment');
       cy.injectAxeThenAxeCheck();
     });
   });
