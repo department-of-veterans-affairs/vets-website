@@ -64,11 +64,18 @@ const SearchResult = ({
 SearchResult.propTypes = {
   addressLine1: PropTypes.string.isRequired,
   addressLine2: PropTypes.string.isRequired,
-  // handleRedirect: PropTypes.func.isRequired,
+  addressLine3: PropTypes.string.isRequired,
+  city: PropTypes.string,
+  distance: PropTypes.number.isRequired,
   organization: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
+  query: PropTypes.object.isRequired,
+  representative: PropTypes.string,
+  state: PropTypes.string,
   type: PropTypes.string.isRequired,
-  distance: PropTypes.number.isRequired,
+  zipCode: PropTypes.string,
+
+  // handleRedirect: PropTypes.func.isRequired,
 };
 
 export default SearchResult;
