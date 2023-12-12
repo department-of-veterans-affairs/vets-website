@@ -48,11 +48,6 @@ describe('Check In Experience | Day Of |', () => {
         JSON.stringify({ '0001': new Date() }),
       );
     });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
     it('should complete check and skip all travel questions', () => {
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
