@@ -44,11 +44,6 @@ describe('Check In Experience | Day Of |', () => {
       initializeBtsssPost.withSuccess();
       cy.visitWithUUID();
     });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
     it('should complete check in if answer is yes to all', () => {
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
