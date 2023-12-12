@@ -69,6 +69,7 @@ const responses = {
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowQuickSubmitNotificationSetting: true,
+            profileUseExperimental: true,
           }),
         ),
       secondsOfDelay,

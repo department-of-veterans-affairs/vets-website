@@ -20,7 +20,7 @@ const ItemsBlock = props => {
   return (
     <div data-testid={itemType}>
       <h3>{heading}</h3>
-      {intro && <p>{intro}</p>}
+      {intro && <div>{intro}</div>}
       <div>{listItems}</div>
     </div>
   );
