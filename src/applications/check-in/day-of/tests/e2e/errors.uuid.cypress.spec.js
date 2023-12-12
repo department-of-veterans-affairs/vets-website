@@ -39,7 +39,7 @@ describe('Check In Experience | Day Of | Errors', () => {
       cy.visitWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Error.validatePageLoaded();
+      Error.validatePageLoaded('uuid-not-found');
       cy.injectAxeThenAxeCheck();
     });
   });
