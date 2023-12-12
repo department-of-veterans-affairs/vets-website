@@ -38,7 +38,7 @@ import {
 } from '../../shared/util/constants';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 
-const MAX_PAGE_LIST_LENGTH = 5;
+const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
   const { runningUnitTest } = props;
   const records = useSelector(state => state.mr.vitals.vitalDetails);
