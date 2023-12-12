@@ -116,6 +116,8 @@
       "last": "Doe"
     },
     "dateOfCurrentMarriage": "1989-03-02",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "marriages": [
       {
         "spouseFullName": {
@@ -308,6 +310,11 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": "true",
+    "receivesIncome": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
