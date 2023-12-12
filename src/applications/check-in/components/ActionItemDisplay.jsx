@@ -22,7 +22,13 @@ const ActionItemDisplay = props => {
   const dispatch = useDispatch();
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const { goToNextPage, jumpToPage, pages } = useFormRouting(router);
+  const {
+    goToNextPage,
+    jumpToPage,
+    pages,
+    getNextPageFromRouter,
+  } = useFormRouting(router);
+  const nextPage = getNextPageFromRouter();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 
@@ -39,7 +45,11 @@ const ActionItemDisplay = props => {
         },
       }),
     );
-    goToNextPage();
+    if (nextPage === 'complete') {
+      jumpToPage(`complete/${appointmentId}`);
+    } else {
+      goToNextPage();
+    }
   };
 
   const goToDetails = (e, appointment) => {

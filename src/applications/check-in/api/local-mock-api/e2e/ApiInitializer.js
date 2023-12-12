@@ -28,6 +28,7 @@ class ApiInitializer {
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: true,
           checkInExperiencePreCheckInActionLinkTopPlacement: true,
+          checkInExperienceTravelLogic: true,
         }),
       );
     },
