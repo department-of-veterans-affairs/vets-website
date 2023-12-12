@@ -38,11 +38,11 @@ class ReviewCollapsibleChapter extends React.Component {
 
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
+    this.scrollToPage(key);
     if (editing) {
       // pressing "Update page" will call handleSubmit, which moves focus from
       // the edit button to the this target
-      this.focusOnPage(`${key}${index === null ? '' : index}`);
+      this.focusOnPage(key);
     }
   }
 
@@ -362,12 +362,10 @@ class ReviewCollapsibleChapter extends React.Component {
    * @param {string} key - The specific page key used to find the element to focus on
    */
   focusOnPage = key => {
-    const name = `${key.replace(/:/g, '\\:')}`;
-
     // Wait for edit view to render
     setTimeout(() => {
       const scrollElement = document.querySelector(
-        `[name="${name}ScrollElement"]`,
+        `[name="${key}ScrollElement"]`,
       );
 
       if (scrollElement && scrollElement.parentElement) {
@@ -376,7 +374,7 @@ class ReviewCollapsibleChapter extends React.Component {
         );
 
         // Sets focus on the first focusable element
-        focusOnChange(name, `[id="${focusableElements[0].id}"]`);
+        focusOnChange(key, `[id="${focusableElements[0].id}"]`);
       }
     }, 0);
   };
