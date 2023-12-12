@@ -21,7 +21,7 @@ const OrdersBlock = props => {
     return (
       <div>
         <h4>{heading}</h4>
-        {intro && <p>{intro}</p>}
+        {intro && <div>{intro}</div>}
         <ul className="bulleted-list" data-testid={kebabCase(type.label)}>
           {orderListItems}
         </ul>
