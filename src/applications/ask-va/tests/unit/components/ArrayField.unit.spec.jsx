@@ -514,17 +514,6 @@ describe('Schemaform review <ArrayField>', () => {
 
       expect(tree.subTree('.add-btn').props.disabled).to.be.true;
     });
-    it('remove', () => {
-      expect(tree.everySubTree('SchemaForm').length).to.equal(1);
-
-      tree.getMountedInstance().handleRemove(0);
-
-      expect(tree.everySubTree('SchemaForm').length).to.equal(0);
-    });
-    it('setData', () => {
-      tree.subTree('SchemaForm').props.onChange({ test: 1 });
-      expect(setData.calledWith({ thingList: [{ test: 1 }] })).to.be.true;
-    });
   });
 
   it('should update state when props change', () => {

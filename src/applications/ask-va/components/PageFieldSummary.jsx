@@ -50,7 +50,6 @@ const PageFieldSummary = props => {
 function mapStateToProps(state) {
   return {
     updatedPage: state.askVA.updatedInReview,
-    currentChapter: state.askVA.reviewPageView.openChapters,
   };
 }
 PageFieldSummary.prototype = {

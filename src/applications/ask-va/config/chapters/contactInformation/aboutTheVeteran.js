@@ -6,7 +6,7 @@ import {
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = FormElementTitle({ title: CHAPTER_4.PAGE_1.TITLE });
+const question = FormElementTitle({ title: CHAPTER_4.PAGE_2.TITLE });
 
 const aboutTheVeteranPage = {
   uiSchema: {

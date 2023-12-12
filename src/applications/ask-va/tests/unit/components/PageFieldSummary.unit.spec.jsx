@@ -6,8 +6,8 @@ import { expect } from 'chai';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 
 describe('<PageFieldSummary>', () => {
-  describe('when the api server succeeds', () => {
-    it('should render user Response Inbox', async () => {
+  describe('when the component renders', () => {
+    it('should render chapter title and questions', async () => {
       const mockStore = {
         getState: () => ({
           form: {
