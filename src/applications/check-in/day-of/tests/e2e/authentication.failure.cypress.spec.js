@@ -19,11 +19,6 @@ describe('Check In Experience | Day Of |', () => {
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
     });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
     it('should show inline error message', () => {
       ApiInitializer.initializeSessionPost.withValidation();
       ValidateVeteran.validateVeteranIncorrect();
