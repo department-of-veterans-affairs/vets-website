@@ -72,6 +72,7 @@ class SaveInProgressIntro extends React.Component {
       ariaLabel = null,
       ariaDescribedby = null,
     } = this.props;
+    const { additionalSignInHelpListItems } = formConfig;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -244,6 +245,7 @@ class SaveInProgressIntro extends React.Component {
                       {retentionPeriod} from when you start or make updates to
                       your {appType} to come back and finish it.
                     </li>
+                    {additionalSignInHelpListItems ?? null}
                   </ul>
                 </>
               )}
@@ -412,6 +414,7 @@ SaveInProgressIntro.propTypes = {
   children: PropTypes.any,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    additionalSignInHelpListItems: PropTypes.element,
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),

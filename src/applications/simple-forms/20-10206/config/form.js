@@ -1,3 +1,5 @@
+import React from 'react';
+
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -6,7 +8,6 @@ import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
 
 import IntroductionPage from '../containers/IntroductionPage';
-// import IdVerificationPage from '../containers/IdVerificationPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
@@ -59,6 +60,14 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
+  additionalSignInHelpListItems: (
+    <li>
+      You’ll need to log in with an account where you’ve provided some personal
+      information to verify your identity. We recommend using{' '}
+      <strong>ID.me</strong> or <strong>Login.gov</strong> accounts for identity
+      verification.
+    </li>
+  ),
   formId: '20-10206',
   // hideUnauthedStartLink: true,
   transformForSubmit,
