@@ -9,7 +9,6 @@ import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import { getTriageTeams } from '../actions/triageTeams';
 import { clearDraft } from '../actions/draftDetails';
 import { PrintMessageOptions, PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
@@ -23,7 +22,7 @@ const ThreadDetails = props => {
   const location = useLocation();
   const history = useHistory();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
-  const { triageTeams } = useSelector(state => state.sm.triageTeams);
+  const { recipients } = useSelector(state => state.sm);
   const {
     message,
     messageHistory,
@@ -64,7 +63,6 @@ const ThreadDetails = props => {
   useEffect(
     () => {
       if (threadId) {
-        dispatch(getTriageTeams());
         dispatch(retrieveMessageThread(threadId))
           .then(() => {
             setIsLoaded(true);
@@ -131,6 +129,7 @@ const ThreadDetails = props => {
             replyMessage={draftMessageHistory[0]}
             cannotReply={cannotReply}
             header={header}
+            recipients={recipients}
           />
           <MessageThread
             messageHistory={draftMessageHistory}
@@ -147,7 +146,7 @@ const ThreadDetails = props => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+          <ComposeForm draft={draftMessage} recipients={recipients} />
         </div>
       );
     }
@@ -159,6 +158,7 @@ const ThreadDetails = props => {
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            recipients={recipients}
           />
           <MessageThread
             messageHistory={[message, ...messageHistory]}

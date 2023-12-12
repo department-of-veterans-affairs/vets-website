@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { clearDraft, saveReplyDraft } from '../../actions/draftDetails';
@@ -23,9 +24,10 @@ import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage, cannotReply, header } = props;
+  const { draftToEdit, replyMessage, cannotReply, header, recipients } = props;
   const dispatch = useDispatch();
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -53,11 +55,22 @@ const ReplyForm = props => {
   const [modalVisible, updateModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
   const { isSaving } = draftDetails;
   const signature = useSelector(state => state.sm.preferences.signature);
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
 
   // sendReply call requires an id for the message being replied to
   // if a thread contains a saved draft, sendReply call will use the draft's id in params and in body
@@ -76,6 +89,20 @@ const ReplyForm = props => {
     },
     [signature],
   );
+
+  useEffect(() => {
+    if (
+      mhvSecureMessagingBlockedTriageGroup1p0 &&
+      recipients.associatedBlockedTriageGroupsQty
+    ) {
+      setShowBlockedTriageGroupAlert(
+        recipients.blockedRecipients.some(
+          recipient => recipient.id === draftToEdit.recipientId,
+        ),
+      );
+    }
+    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+  }, []);
 
   useEffect(
     () => {
@@ -381,7 +408,16 @@ const ReplyForm = props => {
         <h1 ref={header} className="page-title">
           {messageTitle}
         </h1>
-        <CannotReplyAlert visible={cannotReply} />
+        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+          <CannotReplyAlert
+            visible={cannotReply && !showBlockedTriageGroupAlert}
+          />
+        ) : (
+          <CannotReplyAlert visible={cannotReply} />
+        )}
+
+        {mhvSecureMessagingBlockedTriageGroup1p0 &&
+          showBlockedTriageGroupAlert && <BlockedTriageGroupAlert />}
 
         <section>
           <h2 className="sr-only">Reply draft edit mode.</h2>
@@ -419,7 +455,10 @@ const ReplyForm = props => {
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
             />
-            {!cannotReply && <EmergencyNote dropDownFlag />}
+            {!cannotReply &&
+              (mhvSecureMessagingBlockedTriageGroup1p0
+                ? !showBlockedTriageGroupAlert
+                : true) && <EmergencyNote dropDownFlag />}
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
@@ -490,15 +529,29 @@ const ReplyForm = props => {
               )}
 
               <DraftSavedInfo />
-              <ComposeFormActionButtons
-                onSend={sendMessageHandler}
-                onSaveDraft={(type, e) => saveDraftHandler(type, e)}
-                draftId={newDraftId}
-                setNavigationError={setNavigationError}
-                cannotReply={cannotReply}
-                setDeleteButtonClicked={setDeleteButtonClicked}
-                messageBody={messageBody}
-              />
+              {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+                <ComposeFormActionButtons
+                  onSend={sendMessageHandler}
+                  onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+                  draftId={newDraftId}
+                  setNavigationError={setNavigationError}
+                  cannotReply={cannotReply}
+                  setDeleteButtonClicked={setDeleteButtonClicked}
+                  messageBody={messageBody}
+                  hideSendButton={showBlockedTriageGroupAlert}
+                />
+              ) : (
+                <ComposeFormActionButtons
+                  onSend={sendMessageHandler}
+                  onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+                  draftId={newDraftId}
+                  setNavigationError={setNavigationError}
+                  cannotReply={cannotReply}
+                  setDeleteButtonClicked={setDeleteButtonClicked}
+                  messageBody={messageBody}
+                  hideSendButton={false}
+                />
+              )}
             </div>
           </form>
         </section>
@@ -511,7 +564,7 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   draftToEdit: PropTypes.object,
   header: PropTypes.object,
-  recipients: PropTypes.array,
+  recipients: PropTypes.object,
   replyMessage: PropTypes.object,
 };
 

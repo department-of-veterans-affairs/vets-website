@@ -19,6 +19,7 @@ const MessageReply = () => {
     state => state.sm.messageDetails,
   );
   const [acknowledged, setAcknowledged] = useState(false);
+  const recipients = useSelector(state => state.sm);
 
   useEffect(
     () => {
@@ -55,7 +56,13 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draftToEdit={null} replyMessage={replyMessage} />;
+    return (
+      <ReplyForm
+        draftToEdit={null}
+        replyMessage={replyMessage}
+        recipients={recipients}
+      />
+    );
   };
 
   const thread = () => {

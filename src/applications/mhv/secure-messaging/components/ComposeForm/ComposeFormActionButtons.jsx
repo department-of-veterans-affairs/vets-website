@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import DeleteDraft from '../Draft/DeleteDraft';
 
 const ComposeFormActionButtons = ({
@@ -14,28 +16,72 @@ const ComposeFormActionButtons = ({
   setUnsavedNavigationError,
   savedForm,
   messageBody,
+  hideSendButton,
 }) => {
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
-      {!cannotReply && (
-        <va-button
-          text="Send"
-          label="Send"
-          id="send-button"
-          class={`vads-u-width--full vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0
-                      small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
-          data-testid="Send-Button"
-          onClick={onSend}
-        />
-      )}
+      {mhvSecureMessagingBlockedTriageGroup1p0
+        ? !cannotReply &&
+          !hideSendButton && (
+            <va-button
+              text="Send"
+              label="Send"
+              id="send-button"
+              class={`
+                small-screen:vads-u-flex--1
+                small-screen:vads-u-margin-bottom--0
+                small-screen:vads-u-margin-right--1
+                vads-u-margin-bottom--2
+                vads-u-margin-right--0
+                vads-u-margin-top--0
+                vads-u-width--full
+              `}
+              data-testid="Send-Button"
+              onClick={onSend}
+            />
+          )
+        : !cannotReply && (
+            <va-button
+              text="Send"
+              label="Send"
+              id="send-button"
+              class={`
+                small-screen:vads-u-flex--1
+                small-screen:vads-u-margin-bottom--0
+                small-screen:vads-u-margin-right--1
+                vads-u-margin-bottom--2
+                vads-u-margin-right--0
+                vads-u-margin-top--0
+                vads-u-width--full
+              `}
+              data-testid="Send-Button"
+              onClick={onSend}
+            />
+          )}
 
       {!cannotReply && (
         <button
           type="button"
           id="save-draft-button"
-          className={`usa-button usa-button-secondary save-draft-button vads-u-width--full small-screen:vads-u-margin-left--1
-                            xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0 xsmall-screen:vads-u-margin-right--1
-                            xsmall-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--2 vads-u-padding-x--0p5`}
+          className={`
+            save-draft-button
+            vads-u-width--full
+            usa-button
+            ${hideSendButton ? 'usa-button-primary' : 'usa-button-secondary'}
+            vads-u-margin-bottom--2
+            vads-u-margin-right--0
+            vads-u-margin-top--0
+            vads-u-padding-x--0p5
+            xsmall-screen:vads-u-flex--1
+            xsmall-screen:vads-u-margin-bottom--0
+            xsmall-screen:vads-u-margin-right--1
+          `}
           data-testid="Save-Draft-Button"
           onClick={e => onSaveDraft('manual', e)}
         >
@@ -63,6 +109,8 @@ ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
   formPopulated: PropTypes.bool,
+  hideSaveDraftButton: PropTypes.bool,
+  hideSendButton: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
   savedForm: PropTypes.bool,

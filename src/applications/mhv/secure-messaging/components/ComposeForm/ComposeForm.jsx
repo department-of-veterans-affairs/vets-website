@@ -7,6 +7,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -31,6 +32,7 @@ import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import EditPreferences from './EditPreferences';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -61,6 +63,10 @@ const ComposeForm = props => {
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -72,6 +78,13 @@ const ComposeForm = props => {
   const debouncedRecipient = useDebounce(
     selectedRecipient,
     draftAutoSaveTimeout,
+  );
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
   );
 
   const formattededSignature = useMemo(
@@ -115,17 +128,18 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients?.length) {
-        const filteredRecipients = recipients.filter(
-          team => team.preferredTeam === true,
+      if (recipients.allowedRecipients?.length) {
+        const filteredRecipients = recipients.allowedRecipients.filter(
+          recipient => recipient.preferredTeam === true,
         );
-        setRecipientsList(prevRecipientsList => [
-          ...prevRecipientsList.filter(
-            oldRecip =>
-              !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
-          ),
-          ...filteredRecipients,
-        ]);
+        // setRecipientsList(prevRecipientsList => [
+        //   ...prevRecipientsList.filter(
+        //     oldRecip =>
+        //       !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
+        //   ),
+        //   ...filteredRecipients,
+        // ]);
+        setRecipientsList([...defaultRecipientsList, ...filteredRecipients]);
       }
 
       if (!draft) {
@@ -137,6 +151,21 @@ const ComposeForm = props => {
     },
     [recipients, draft],
   );
+
+  useEffect(() => {
+    if (
+      mhvSecureMessagingBlockedTriageGroup1p0 &&
+      draft &&
+      recipients.associatedBlockedTriageGroupsQty
+    ) {
+      setShowBlockedTriageGroupAlert(
+        recipients.blockedRecipients.some(
+          recipient => recipient.id === draft.recipientId,
+        ),
+      );
+    }
+    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+  }, []);
 
   useEffect(
     () => {
@@ -222,7 +251,7 @@ const ComposeForm = props => {
     );
   };
 
-  if (draft && recipients && !formPopulated) populateForm();
+  if (draft && recipients.allRecipients && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
     () => {
@@ -508,6 +537,20 @@ const ComposeForm = props => {
         />
         <div>
           <EditPreferences />
+
+          {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (showBlockedTriageGroupAlert && (
+              <div
+                className="
+                  vads-u-border-top--1px
+                  vads-u-padding-top--3
+                  vads-u-margin-top--3
+                  vads-u-margin-bottom--neg2"
+              >
+                <BlockedTriageGroupAlert />
+              </div>
+            ))}
+
           {recipientsList && (
             <>
               <VaSelect
@@ -590,15 +633,16 @@ const ComposeForm = props => {
           </section>
           <DraftSavedInfo />
           <ComposeFormActionButtons
-            onSend={sendMessageHandler}
-            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             formPopulated={formPopulated}
+            hideSendButton={false}
             navigationError={navigationError}
-            setNavigationError={setNavigationError}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            onSend={sendMessageHandler}
             setDeleteButtonClicked={setDeleteButtonClicked}
+            setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
-            deleteButtonClicked={deleteButtonClicked}
           />
         </div>
       </form>
@@ -608,7 +652,7 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   draft: PropTypes.object,
-  recipients: PropTypes.array,
+  recipients: PropTypes.object,
 };
 
 export default ComposeForm;
