@@ -19,6 +19,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   sortRecipients,
+  resetUserSession,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -86,6 +87,21 @@ const ComposeForm = props => {
         FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
       ],
   );
+
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
+
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
+
+  const noTimeout = () => {
+    clearTimeout(timeoutId);
+  };
 
   const formattededSignature = useMemo(
     () => {
@@ -476,12 +492,28 @@ const ComposeForm = props => {
           (draft ? draft.recipientId.toString() : '0') ||
         category !== (draft ? draft.category : null) ||
         subject !== (draft ? draft.subject : '') ||
-        messageBody !== (draft ? draft.body : '')
+        messageBody !== (draft ? draft.body : '') ||
+        attachments.length
       ) {
-        e.returnValue = '';
+        e.preventDefault();
+        window.onbeforeunload = () => signOutMessage;
+        e.returnValue = true;
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        e.returnValue = false;
+        noTimeout();
       }
     },
-    [draft, selectedRecipient, category, subject, messageBody],
+    [
+      draft,
+      selectedRecipient,
+      category,
+      subject,
+      messageBody,
+      attachments,
+      timeoutId,
+    ],
   );
 
   useEffect(
@@ -489,6 +521,8 @@ const ComposeForm = props => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       };
     },
     [beforeUnloadHandler],
@@ -498,7 +532,7 @@ const ComposeForm = props => {
     <>
       <EmergencyNote dropDownFlag />
 
-      <form className="compose-form">
+      <form className="compose-form" id="sm-compose-form">
         {saveError && (
           <VaModal
             modalTitle={saveError.title}

@@ -82,6 +82,7 @@ export default function StatusAlert({ appointment, facility }) {
             }
           />
         )}
+        <br />
       </>
     );
   }
