@@ -1,7 +1,12 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
-const OMBInfo = () => (
-  <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={24}>
+const OMBInfo = props => (
+  <va-omb-info
+    exp-date={props.expDate || ''}
+    omb-number={props.ombNumber || ''}
+    res-burden={props.resBurden || ''}
+  >
     <p>
       <strong>The Paperwork Reduction Act</strong> of 1995 requires us to notify
       you that this information collection is in accordance with the clearance

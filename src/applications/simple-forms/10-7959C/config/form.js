@@ -38,6 +38,7 @@ const formConfig = {
   trackingPrefix: '10-7959C-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
   formId: '10-7959C',
   saveInProgress: {
     // messages: {

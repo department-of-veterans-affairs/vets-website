@@ -34,9 +34,8 @@ class IntroductionPage extends React.Component {
           Follow the steps below to apply for CHAMPVA other health insurance
           certification.
         </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
+        <va-process-list uswds>
+          <va-process-list-item header="Prepare">
             <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number (required)</li>
@@ -49,9 +48,9 @@ class IntroductionPage extends React.Component {
                 Get help filing your claim
               </a>
             </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
+          </va-process-list-item>
+
+          <va-process-list-item header="Apply">
             <p>
               Complete this CHAMPVA other health insurance certification form.
             </p>
@@ -59,22 +58,22 @@ class IntroductionPage extends React.Component {
               After submitting the form, you’ll get a confirmation message. You
               can print this for your records.
             </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
+          </va-process-list-item>
+
+          <va-process-list-item header="VA Review">
             <p>
               We process claims within a week. If more than a week has passed
               since you submitted your application and you haven’t heard back,
               please don’t apply again. Call us at.
             </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
+          </va-process-list-item>
+
+          <va-process-list-item header="Decision">
             <p>
               Once we’ve processed your claim, you’ll get a notice in the mail
               with our decision.
             </p>
-          </li>
+          </va-process-list-item>
         </va-process-list>
         <SaveInProgressIntro
           buttonOnly
