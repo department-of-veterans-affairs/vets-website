@@ -31,8 +31,9 @@ const PrintBtn = props => {
 
   const printModal = () => {
     return (
-      <div className="message-actions-buttons-modal">
+      <div className="Print Modal">
         <VaModal
+          data-dd-action-name="Attach File Button"
           id="print-modal"
           modalTitle="Make sure you have all messages expanded"
           onCloseEvent={closeModal}
@@ -46,6 +47,7 @@ const PrintBtn = props => {
           </p>
 
           <va-button
+            data-dd-action-name="Confirm Print Button in Modal"
             text="Print"
             onClick={() => {
               handleConfirmPrint(PrintMessageOptions.PRINT_THREAD);

@@ -479,6 +479,7 @@ const ComposeForm = props => {
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
+            data-dd-action-name="Save Error Modal"
             visible
           >
             <p>{saveError.p1}</p>
@@ -521,6 +522,7 @@ const ComposeForm = props => {
                 data-testid="compose-recipient-select"
                 error={recipientError}
                 data-dd-privacy="mask"
+                data-dd-action-name="Compose-Recipient-Dropdown-List"
               >
                 {sortRecipients(recipientsList)?.map(item => (
                   <option key={item.id} value={item.id}>
@@ -552,6 +554,7 @@ const ComposeForm = props => {
               value={subject}
               error={subjectError}
               data-dd-privacy="mask"
+              data-dd-action-name="Compose-Message-Subject-Input-Field"
             />
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">
@@ -569,6 +572,7 @@ const ComposeForm = props => {
                 setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
               }}
               data-dd-privacy="mask"
+              data-dd-action-name="Compose-Message-Body-Textbox"
             />
           </div>
           <section className="attachments-section">
