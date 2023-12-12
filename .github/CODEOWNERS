@@ -158,7 +158,6 @@ src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-v
 
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/health-care-supply-reordering @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My Education Benefits Team
