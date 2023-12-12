@@ -26,7 +26,7 @@ import CoverageDetailLargeField from '../components/coverages/CoverageDetailLarg
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { attachmentsSchema, attachmentsConfig } from './AttachmentsSchema';
+import { attachmentsSchema, attachmentsConfig } from './attachmentsSchema';
 
 // const { } = fullSchema.properties;
 
