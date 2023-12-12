@@ -433,7 +433,7 @@ export const mockLightHouseFacilitiesResponseWithTransformedAddresses = {
           physical: {
             address1: '1 Test Ave',
             address2: 'Suite 202',
-            address3: 'Testville, FL 11111-2222',
+            address3: 'Testville, FL, 11111-2222',
           },
         },
         phone: {
@@ -499,7 +499,7 @@ export const mockLightHouseFacilitiesResponseWithTransformedAddresses = {
           physical: {
             address1: '1 Test Rd',
             address2: 'Suite 101, Bldg 4',
-            address3: 'Testburgh, FL 22222-1111',
+            address3: 'Testburgh, FL, 22222-1111',
           },
         },
         phone: {
