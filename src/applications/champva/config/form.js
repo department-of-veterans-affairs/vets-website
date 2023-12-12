@@ -50,8 +50,8 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit,
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //  Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'champva-10-10d-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -219,13 +219,10 @@ const formConfig = {
                     !formData.sponsorNoAddress.hasNoAddress,
                 },
               }),
-              // TODO: can I just use this instead of specifying five fields above?
-              // 'ui:required': formData => !formData.sponsorNoAddress.hasNoAddress,
-              'ui:options': {
-                hideIf: formData => formData.sponsorNoAddress.hasNoAddress,
-              },
             },
           },
+          // TODO: Conditionally require address based on checkbox
+          // - will need to move checkbox to a previous page.
           schema: {
             type: 'object',
             required: ['sponsorAddress'],
@@ -255,15 +252,9 @@ const formConfig = {
                 title: 'Home phone number',
               }),
               'ui:required': formData => !formData.sponsorNoPhone.hasNoPhone,
-              'ui:options': {
-                hideIf: formData => formData.sponsorNoPhone.hasNoPhone,
-              },
             },
             sponsorPhoneAlt: {
               ...phoneUI({ title: 'Mobile phone number' }),
-              'ui:options': {
-                hideIf: formData => formData.sponsorNoPhone.hasNoPhone,
-              },
             },
           },
           schema: {
@@ -282,9 +273,9 @@ const formConfig = {
           path: 'sponsor-information/status-relationship-current',
           title: 'Relationship to Sponsor',
           depends: formData => !get('sponsorIsDeceased', formData),
+          // TODO: is this different from the certifier and applicant? Or is this one of those?
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI('Relationship to Sponsor'),
-            // TODO: is this different from the certifier and applicant? Or is this one of those?
             certifierRelationshipToSponsorCurrent: {
               ...relationshipToVeteranUI('Sponsor'),
               'ui:required': () => true,
