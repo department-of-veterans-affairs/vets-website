@@ -81,6 +81,7 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
 
@@ -88,6 +89,7 @@ import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -1372,6 +1374,12 @@ const formConfig = {
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
         homeOwnership: {
           title: 'home ownership',
           path: 'financial/home-ownership',
@@ -1386,6 +1394,12 @@ const formConfig = {
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
+        },
+        receivesIncome: {
+          title: 'Receives income',
+          path: 'financial/receives-income',
+          uiSchema: receivesIncome.uiSchema,
+          schema: receivesIncome.schema,
         },
       },
     },
