@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { orgSortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
 
-  const { inProgress, context, representativeType } = query;
+  const { inProgress, context, representativeType, sortType } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
 
   const noResultsFound = !searchResults || !searchResults.length;
@@ -18,8 +19,8 @@ export const SearchResultsHeader = props => {
 
   const repFormat = {
     organization: 'Veteran Service Organizations',
-    attorney: 'Attornies',
-    claim_agents: 'Claim Agents',
+    attorney: 'Attorneys',
+    claim_agents: 'Claims agents',
   };
 
   const handleNumberOfResults = () => {
@@ -30,7 +31,7 @@ export const SearchResultsHeader = props => {
       return 'Showing 1 result';
     }
     if (totalEntries < 11 && totalEntries > 1) {
-      return `Showing 1 - ${totalEntries} results`;
+      return `Showing ${totalEntries} results`;
     }
     if (totalEntries > 10) {
       const startResultNum = 10 * (currentPage - 1) + 1;
@@ -45,8 +46,23 @@ export const SearchResultsHeader = props => {
     return 'Results';
   };
 
+  const options = Object.keys(orgSortOptions).map(option => (
+    <option key={option} value={option}>
+      {orgSortOptions[option]}
+    </option>
+  ));
+
+  // method for triggering sortResults when sortType updates
+  const handleSortTypeChange = e => {
+    props.updateSearchQuery({
+      id: Date.now(),
+      page: 1,
+      sortType: e.target.value,
+    });
+  };
+
   return (
-    <div className="search-results-header vads-u-margin-top--6">
+    <div className="search-results-header">
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
@@ -57,17 +73,34 @@ export const SearchResultsHeader = props => {
         <b>{repFormat[representativeType]}</b>
         {context.repOrgName && (
           <>
+            {` `}
             matching <b>"{context.repOrgName}"</b>
           </>
         )}
+        {` `}
         {context.location && (
           <>
-            &nbsp;within 50 miles of &quot;
+            within 50 miles of &quot;
             <b>{context.location}</b>
             &quot;
           </>
         )}
       </h2>
+      <div className="sort-dropdown">
+        <label htmlFor="sort-by-dropdown">Sort by</label>
+        <select
+          id="representative-sorting-dropdown"
+          aria-label="Sort"
+          // ref={sortTypeRef}
+          value={sortType}
+          title="Sort by:"
+          onChange={handleSortTypeChange}
+          style={{ fontWeight: 'bold' }}
+        >
+          {' '}
+          {options}{' '}
+        </select>
+      </div>
     </div>
   );
 };

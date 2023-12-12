@@ -15,9 +15,6 @@ describe('Medical Records View Labs And Tests', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
   });

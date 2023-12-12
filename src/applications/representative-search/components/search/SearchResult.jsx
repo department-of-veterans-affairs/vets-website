@@ -25,12 +25,12 @@ const SearchResult = ({
       <div>
         {distance && (
           <div>
-            <strong>{parseFloat(distance.toFixed(2))} Mi</strong>
+            <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
           </div>
         )}
         {organization && (
           <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-            <strong>{organization}</strong>
+            <h3>{organization}</h3>
           </div>
         )}
         {addressExists && (

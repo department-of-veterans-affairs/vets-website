@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import {
-  FETCH_REPRESENTATIVES,
+  // FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   SEARCH_COMPLETE,
 } from '../../utils/actionTypes';
@@ -29,8 +29,6 @@ export const fetchRepresentatives = async (
   type,
   dispatch,
 ) => {
-  let data = {};
-
   try {
     const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
@@ -42,16 +40,12 @@ export const fetchRepresentatives = async (
       sort,
       type,
     );
-    data = { ...dataList };
     if (dataList.data) {
-      dispatch({ type: SEARCH_COMPLETE, payload: data });
-      return dataList.data;
+      dispatch({ type: SEARCH_COMPLETE, payload: dataList });
     }
 
-    if (data.errors) {
-      dispatch({ type: SEARCH_FAILED, error: data.errors });
-    } else {
-      dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
+    if (dataList.errors?.length > 0) {
+      dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
     Sentry.withScope(scope => {
@@ -60,7 +54,6 @@ export const fetchRepresentatives = async (
     });
 
     dispatch({ type: SEARCH_FAILED, error: error.message });
+    throw error;
   }
-
-  return null;
 };

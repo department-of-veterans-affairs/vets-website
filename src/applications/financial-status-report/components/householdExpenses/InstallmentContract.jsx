@@ -39,6 +39,8 @@ const InstallmentContract = props => {
 
   const index = isEditing ? Number(editIndex) : 0;
 
+  const MAXIMUM_INSTALLMENT_AMOUNT = 1000000;
+
   // if we have creditCardBills and plan to edit, we need to get it from the creditCardBills
   const specificRecord = installmentContracts?.length
     ? installmentContracts[index]
@@ -75,11 +77,12 @@ const InstallmentContract = props => {
   const [submitted, setSubmitted] = useState(false);
   const [fromDateError, setFromDateError] = useState(null);
 
-  const amountDueMonthlyError = !isValidCurrency(
-    contractRecord.amountDueMonthly,
-  )
-    ? 'Please enter the minimum monthly payment amount'
-    : null;
+  const amountDueMonthlyError =
+    !isValidCurrency(contractRecord.amountDueMonthly) ||
+    (contractRecord.amountDueMonthly > MAXIMUM_INSTALLMENT_AMOUNT ||
+      contractRecord.amountDueMonthly < 0)
+      ? 'Please enter a minimum monthly payment amount less than $1,000,000'
+      : null;
 
   const typeError = !purpose ? 'Please enter the contract type' : null;
 
@@ -291,6 +294,8 @@ const InstallmentContract = props => {
             label="Unpaid balance"
             name="unpaidBalance"
             id="unpaidBalance"
+            min={0}
+            max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleUnpaidBalanceChange}
             value={contractRecord.unpaidBalance}
           />
@@ -305,6 +310,8 @@ const InstallmentContract = props => {
             label="Minimum monthly payment amount"
             name="amountDueMonthly"
             id="amountDueMonthly"
+            min={0}
+            max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleAmountDueMonthlyChange}
             value={contractRecord.amountDueMonthly}
           />

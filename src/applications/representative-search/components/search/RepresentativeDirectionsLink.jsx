@@ -19,7 +19,8 @@ function RepresentativeDirectionsLink({ representative, query }) {
       >
         Get directions on Google Maps{' '}
         <span className="sr-only">
-          {`to ${representative?.attributes?.full_name}`}
+          {`to ${representative.attributes.fullName ||
+            representative.attributes.name}`}
         </span>
       </a>
     </div>

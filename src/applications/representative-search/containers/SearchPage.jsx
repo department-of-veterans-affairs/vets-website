@@ -40,7 +40,7 @@ const SearchPage = props => {
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
-      page: currentQuery.currentPage,
+      page: currentQuery.page || 1,
       /* eslint-disable camelcase */
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
@@ -88,6 +88,7 @@ const SearchPage = props => {
         repOrganizationQueryString: location.query.name,
         repOrganizationInputString: location.query.name,
         representativeType: location.query.type,
+        page: location.query.page,
         sortType: location.query.sort,
       });
     }
@@ -106,13 +107,15 @@ const SearchPage = props => {
 
     const { latitude, longitude } = position;
 
+    setIsSearching(true);
+
     updateUrlParams({
       address: context.location,
       name: repOrganizationInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
-      page,
+      page: page || 1,
       sort: sortType,
     });
 
@@ -122,33 +125,52 @@ const SearchPage = props => {
         lat: latitude,
         long: longitude,
         name: repOrganizationInputString,
-        page: 1,
+        page,
         per_page: 10,
         sort: sortType,
         type: representativeType,
       });
 
       setIsSearching(false);
+      setIsLoading(true);
+      setIsDisplayingResults(false);
     }
   };
 
   const handlePageSelect = e => {
     const { page } = e.detail;
-    focusElement('.search-results-subheader');
     setIsSearching(true);
     props.updateSearchQuery({ id: Date.now(), page });
   };
 
-  // Query updated successfully
+  // Trigger request on query update following search
   useEffect(
     () => {
       if (isSearching && !props.currentQuery.geocodeError) {
         handleSearchOnQueryChange();
-        setIsLoading(true);
-        setIsDisplayingResults(false);
       }
     },
     [props.currentQuery.id],
+  );
+
+  // Trigger request on sort update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.sortType],
+  );
+
+  // Trigger request on page update
+  useEffect(
+    () => {
+      if (props.currentQuery.searchCounter > 0) {
+        handleSearchOnQueryChange();
+      }
+    },
+    [props.currentQuery.page],
   );
 
   useEffect(
@@ -183,6 +205,7 @@ const SearchPage = props => {
     [isDisplayingResults],
   );
 
+  // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
   }, []);
@@ -190,15 +213,15 @@ const SearchPage = props => {
   const renderBreadcrumbs = () => {
     return [
       {
-        href: '#one',
+        href: '/',
         label: 'Home',
       },
       {
-        href: '#two',
+        href: '/get-help-from-accredited-representative',
         label: 'Get help from a VA accredited representative',
       },
       {
-        href: '#three',
+        href: '/get-help-from-accredited-representative/find-rep',
         label: 'Find a VA accredited representative',
       },
     ];
@@ -239,7 +262,7 @@ const SearchPage = props => {
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
-          sortType={props.sortType}
+          sortType={currentQuery.sortType}
           onUpdateSortType={props.updateSortType}
         />
       );
@@ -278,6 +301,7 @@ const SearchPage = props => {
                 <SearchResultsHeader
                   searchResults={props.searchResults}
                   query={currentQuery}
+                  updateSearchQuery={props.updateSearchQuery}
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
@@ -297,9 +321,9 @@ const SearchPage = props => {
         <div className="title-section vads-u-padding-y--1">
           <h1>Find a VA accredited representative</h1>
           <p>
-            Find a representative to help you file a claim, submit an appeal, or
-            request a decision review. Then contact them to ask if they’re
-            available to help.
+            Find an accredited representative to help you file a claim, submit
+            an appeal, or request a decision review. Then contact them to ask if
+            they’re available to help.
           </p>
         </div>
 

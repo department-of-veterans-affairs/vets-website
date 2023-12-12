@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
@@ -27,33 +26,6 @@ const SearchControls = props => {
 
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
-
-  const handleSearchButtonClick = e => {
-    e.preventDefault();
-    // const {
-    //   representativeType,
-    //   isValid,
-    // } = currentQuery;
-
-    if (!locationInputString) {
-      onChange({ locationInputString: '' });
-      focusElement('.location-input-container');
-      return;
-    }
-
-    // if (!isValid) {
-    //   return;
-    // }
-
-    // Report event here to only send analytics event when a user clicks on the button
-    // recordEvent({
-    //   event: 'fl-search',
-    //   'fl-search-fac-type': facilityType,
-    //   'fl-search-svc-type': analyticsServiceType,
-    // });
-
-    onSubmit();
-  };
 
   const handleLocationChange = e => {
     onChange({
@@ -94,9 +66,9 @@ const SearchControls = props => {
       />
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
-          <h3 className="vads-u-margin-bottom--0">
-            Search for a representative
-          </h3>
+          <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
+            Search for an accredited representative
+          </h2>
           <div className="location-input-container">
             <va-text-input
               style={{ order: 1 }}
@@ -111,10 +83,13 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, State or Postal code"
+              label="City, state or postal code"
               message-aria-describedby="Text input for location"
-              name="City, State or Postal code"
+              name="City, state or postal code"
               onInput={handleLocationChange}
+              onKeyPress={e => {
+                if (e.key === 'Enter') onSubmit();
+              }}
               value={locationInputString}
               uswds
               required
@@ -160,18 +135,20 @@ const SearchControls = props => {
             representativeType={representativeType}
             onChange={onChange}
           />
-
           <va-text-input
             hint={null}
             label={
-              representativeType === 'Veteran Service Organization (VSO)'
+              representativeType === 'organization'
                 ? 'Organization name'
-                : 'Representative name'
+                : 'Accredited representative name'
             }
-            message-aria-describedby="Text input for organization or representative name"
-            name="Organization or Representative Name"
+            message-aria-describedby="Text input for organization or Accredited representative name"
+            name="Organization or Accredited Representative Name"
             onChange={handleRepOrganizationChange}
             onInput={handleRepOrganizationChange}
+            onKeyPress={e => {
+              if (e.key === 'Enter') onSubmit();
+            }}
             value={repOrganizationInputString}
             uswds
           />
@@ -180,7 +157,10 @@ const SearchControls = props => {
             id="representative-search"
             type="submit"
             value="Search"
-            onClick={handleSearchButtonClick}
+            onClick={e => {
+              e.preventDefault();
+              onSubmit();
+            }}
           >
             <i className="fas fa-search" /> Search
           </button>

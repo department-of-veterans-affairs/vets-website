@@ -203,19 +203,19 @@ describe('Pensions', () => {
   }
   describe('Other expenses', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.otherExpenses,
+      formConfig.chapters.financialInformation.pages.otherExpenses,
       'veteranFullName',
     );
   });
   describe('Spouse other expenses', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.spouseOtherExpenses,
+      formConfig.chapters.financialInformation.pages.spouseOtherExpenses,
       'spouseFullName',
     );
   });
   describe('Dependent other expenses', () => {
     const page =
-      formConfig.chapters.financialDisclosure.pages.dependentsOtherExpenses;
+      formConfig.chapters.financialInformation.pages.dependentsOtherExpenses;
     runTests(
       {
         title: page.title,

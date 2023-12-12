@@ -180,9 +180,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
-      localStartTime: futureDate
-        .add(1, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      localStartTime: futureDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: futureDate.add(1, 'days').format(),
       status: 'booked',
       cancellable: true,
@@ -775,8 +773,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     userEvent.click(screen.getByText(/cancel appointment/i));
     await screen.findByRole('alertdialog');
     expect(window.dataLayer[15]).to.deep.equal({
-      event: 'interaction',
-      action: 'vaos-cancel-booked-clicked',
+      event: 'vaos-cancel-booked-clicked',
     });
     //  And clicks on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
