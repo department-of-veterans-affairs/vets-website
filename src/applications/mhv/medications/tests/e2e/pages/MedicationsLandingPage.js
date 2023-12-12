@@ -46,7 +46,7 @@ class MedicationsLandingPage {
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
     cy.get('[data-testid="renew-information-button"]')
       .contains(
-        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
+        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal.',
       )
       .should('be.visible');
   };
