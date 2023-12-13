@@ -15,6 +15,7 @@ import {
   dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
+  resetUserSession,
   setCaretToPos,
 } from '../../util/helpers';
 import AttachmentsList from '../AttachmentsList';
@@ -76,20 +77,26 @@ const ReplyDraftItem = props => {
   // const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
 
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
+
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
+
+  const noTimeout = () => {
+    clearTimeout(timeoutId);
+  };
+
   const formattededSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
     },
     [signature],
-  );
-
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (messageBody !== (draft ? draft.body : '')) {
-        e.returnValue = '';
-      }
-    },
-    [draft, messageBody],
   );
 
   const refreshThreadHandler = useCallback(
@@ -99,11 +106,29 @@ const ReplyDraftItem = props => {
     [replyMessage, dispatch],
   );
 
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (messageBody !== (draft ? draft.body : '') || attachments.length) {
+        e.preventDefault();
+        window.onbeforeunload = () => signOutMessage;
+        e.returnValue = true;
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        e.returnValue = false;
+        noTimeout();
+      }
+    },
+    [draft, messageBody, attachments],
+  );
+
   useEffect(
     () => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       };
     },
     [beforeUnloadHandler],
