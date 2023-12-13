@@ -89,6 +89,7 @@ import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -1393,6 +1394,12 @@ const formConfig = {
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
+        },
+        receivesIncome: {
+          title: 'Receives income',
+          path: 'financial/receives-income',
+          uiSchema: receivesIncome.uiSchema,
+          schema: receivesIncome.schema,
         },
       },
     },
