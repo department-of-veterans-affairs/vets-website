@@ -5,7 +5,7 @@ import TypeHeader from '../TypeHeader';
 import { formatHeader } from '../DetailsVA.util';
 
 describe('TypeHeader component', () => {
-  it('should create data-cy=va-appointment-details-header', async () => {
+  it('should create VA appointment details header', async () => {
     const appointment = {
       vaos: {
         isPastAppointment: true,
@@ -25,7 +25,7 @@ describe('TypeHeader component', () => {
     ).to.have.attribute('data-cy', 'va-appointment-details-header');
   });
 
-  it('should create data-cy=va-video-appointment-details-header', async () => {
+  it('should create VA video appointment details header', async () => {
     const appointment = {
       vaos: {
         isPastAppointment: true,
@@ -45,7 +45,7 @@ describe('TypeHeader component', () => {
     ).to.have.attribute('data-cy', 'va-video-appointment-details-header');
   });
 
-  it('should create data-cy=community-care-appointment-details-header', async () => {
+  it('should create Community care appointment details header', async () => {
     const appointment = {
       vaos: {
         isPastAppointment: true,
