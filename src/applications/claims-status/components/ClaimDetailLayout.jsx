@@ -2,14 +2,19 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import TabNav from './TabNav';
-import ClaimSyncWarning from './ClaimSyncWarning';
-import AskVAQuestions from './AskVAQuestions';
+import { DATE_FORMATS } from '../constants';
+import {
+  buildDateFormatter,
+  getClaimType,
+  isPopulatedClaim,
+} from '../utils/helpers';
 import AddingDetails from './AddingDetails';
-import Notification from './Notification';
+import AskVAQuestions from './AskVAQuestions';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
+import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
-import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+import Notification from './Notification';
+import TabNav from './TabNav';
 
 const MAX_CONTENTIONS = 3;
 
@@ -62,6 +67,9 @@ export default function ClaimDetailLayout(props) {
           .join(', ')
       : 'Not available';
 
+    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+    const formattedClaimDate = formatDate(claim.attributes.claimDate);
+
     headingContent = (
       <>
         {message && (
@@ -72,7 +80,12 @@ export default function ClaimDetailLayout(props) {
             onClose={clearNotification}
           />
         )}
-        <h1 className="claim-title">{claimTitle}</h1>
+        <h1 className="claim-title">
+          {claimTitle}
+          <span className="claim-subtitle vads-u-margin-top--1">
+            Submitted on {formattedClaimDate}
+          </span>
+        </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h6">
@@ -96,7 +109,7 @@ export default function ClaimDetailLayout(props) {
       <div className="claim-container">
         <TabNav id={props.claim.id} />
         {tabs.map(tab => (
-          <div key={tab} id={`tabPanel${tab}`} aria-labelledby={`tab${tab}`}>
+          <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
               <div className="tab-content claim-tab-content">
                 {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (

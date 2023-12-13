@@ -68,7 +68,7 @@ class FilesPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.tab--current');
+      setFocus('#tabPanelFiles');
     }
   }
 

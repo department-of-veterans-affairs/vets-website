@@ -10,6 +10,7 @@ import {
 } from '../../utils/streamlinedDepends';
 
 import ResolutionExplainerWidget from '../../components/resolution/ResolutionExplainerWidget';
+import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
 import ResolutionComments from '../../components/resolution/ResolutionComments';
 import ResolutionCommentsReview from '../../components/resolution/ResolutionCommentsReview';
 
@@ -23,7 +24,7 @@ export default {
         path: 'option-explainer',
         title: 'Resolution Option Explainer',
         CustomPage: ResolutionExplainerWidget,
-        CustomPageReview: null,
+        CustomPageReview: ResolutionExplainerReview,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>

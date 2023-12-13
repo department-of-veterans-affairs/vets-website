@@ -27,7 +27,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingPrintList', value: true },
   { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
   { name: 'vaOnlineSchedulingGA4Migration', value: true },
-  { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
+  { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },

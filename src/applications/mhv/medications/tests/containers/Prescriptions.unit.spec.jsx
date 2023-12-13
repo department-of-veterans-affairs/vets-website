@@ -21,7 +21,7 @@ describe('Medications Prescriptions container', () => {
       breadcrumbs: {
         list: [
           { url: '/my-health/about-medications' },
-          { label: 'About Medications' },
+          { label: 'About medications' },
         ],
       },
       allergies: { error: true },
@@ -72,7 +72,7 @@ describe('Medications Prescriptions container', () => {
           breadcrumbs: {
             list: [
               { url: '/my-health/about-medications' },
-              { label: 'About Medications' },
+              { label: 'About medications' },
             ],
           },
           allergies: { error: true },
@@ -105,7 +105,7 @@ describe('Medications Prescriptions container', () => {
           breadcrumbs: {
             list: [
               { url: '/my-health/about-medications' },
-              { label: 'About Medications' },
+              { label: 'About medications' },
             ],
           },
           allergies: {
@@ -139,7 +139,7 @@ describe('Medications Prescriptions container', () => {
             breadcrumbs: {
               list: [
                 { url: '/my-health/about-medications' },
-                { label: 'About Medications' },
+                { label: 'About medications' },
               ],
             },
             allergies: {

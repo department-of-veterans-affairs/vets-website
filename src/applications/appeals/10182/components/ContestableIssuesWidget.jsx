@@ -87,21 +87,12 @@ ContestableIssuesWidget.propTypes = {
     issues: PropTypes.array,
     status: PropTypes.string,
   }),
-  formContext: PropTypes.shape({
-    onReviewPage: PropTypes.bool,
-    reviewMode: PropTypes.bool,
-    submitted: PropTypes.bool,
-  }),
   formData: PropTypes.shape({
     contestedIssues: PropTypes.array,
   }),
   getContestableIssues: PropTypes.func,
-  id: PropTypes.string,
-  options: PropTypes.shape({}),
   setFormData: PropTypes.func,
   showPart3: PropTypes.bool,
-  value: PropTypes.array,
-  onChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

@@ -496,9 +496,9 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1em 5rem;
+  margin: -1em -1.2em 5rem;
   .form-review-panel-page-header-row {
-    padding: 1em 1em;
+    padding: 1em 0.5em;
     background-color: var(--color-secondary-lightest);
     &:before {
       display: block;
@@ -523,38 +523,18 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+va-accordion-item[data-unviewed-pages="true"] {
+  --item-border: 3px solid var(--color-secondary-lightest) !important;
+
+  &::part(accordion-header) {
+    background-color: var(--color-secondary-lightest);
+    border-color: var(--color-secondary-lightest);
+  }
+}
+
 .form-review-panel .accordion-header > button.usa-button-unstyled {
   padding: 2.5rem 4.5rem 2.5rem 2.5rem;
   line-height: 2.2rem;
-}
-
-.schemaform-review-chapter-error {
-  .schemaform-chapter-accordion-header {
-    position: relative;
-    margin-bottom: 0;
-    border-bottom: 0.5rem solid var(--color-secondary-lightest);
-    > button.usa-button-unstyled {
-      padding-left: 5rem;
-      background-color: $color-secondary-lightest;
-    }
-    .schemaform-review-chapter-error-icon {
-      position: absolute;
-      top: calc(50% - 0.6em);
-      left: 1.5rem;
-      display: block;
-      background-image: url("~uswds/dist/img/alerts/error.png");
-      background-image: url("~uswds/dist/img/alerts/error.svg");
-      width: 2em;
-      height: 1.2em;
-      background-size: 1.8em;
-      margin-right: 1em;
-    }
-  }
-  .schemaform-chapter-accordion-content {
-    border-right-color: $color-secondary-lightest;
-    border-left-color: $color-secondary-lightest;
-    border-bottom-color: $color-secondary-lightest;
-  }
 }
 
 #content .panel.saved-success-container {

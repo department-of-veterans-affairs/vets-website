@@ -1,5 +1,5 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const errorMessage = () => (
@@ -30,13 +30,10 @@ export const missingTotalMessage = () => (
       disability that was caused by or got worse because of your service, you
       can file a claim for disability benefits.
     </p>
-    <a
-      href="/disability/how-to-file-claim/"
-      className="usa-link vads-u-font-size--base"
-      aria-label="Learn how to file a claim for disability compensation"
-    >
-      Learn how to file a claim for disability compensation
-    </a>
+    <va-link
+      href="/disability/how-to-file-claim"
+      text="Learn how to file a claim for disability compensation"
+    />
   </va-alert>
 );
 

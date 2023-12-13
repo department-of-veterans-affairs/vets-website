@@ -16,6 +16,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 
 import environment from 'platform/utilities/environment';
+import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
@@ -73,6 +74,43 @@ export const contactInfoDescription = (
   </va-additional-info>
 );
 
+export const applicantInformationDescription = (
+  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+    <ul>
+      <>
+        <li>
+          A <strong>spouse</strong> is a person who is or was legally married to
+          a service member or Veteran. A <strong>surviving spouse</strong> is
+          someone who was legally married to the service member or Veteran at
+          the time of their death and includes a surviving spouse who remarried.
+        </li>
+        <li>
+          An <strong>unmarried adult child</strong> is an individual who became
+          physically or mentally disabled permanently and incapable of
+          self-support before the age of 21, or before 23 years of age if
+          pursuing a full-time course of instruction at an approved educational
+          institution.
+        </li>
+        <li>
+          For <strong>other</strong> applicants such as the parent of a service
+          member, we’ll ask questions about the service member (the sponsor) to
+          determine eligibility for burial in a VA national cemetery.
+        </li>
+      </>
+    </ul>
+  </va-additional-info>
+);
+
+export const applicantDetailsDescription = (
+  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
+    <p>
+      If you’re filling out the form on behalf of someone else, you’ll need to
+      provide their details below. As the preparer, we’ll ask for your own
+      details later.
+    </p>
+  </va-additional-info>
+);
+
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
   <va-additional-info trigger="Why do we need your contact details?">
@@ -102,10 +140,11 @@ export const applicantContactInfoDescriptionNonVet = (
 );
 
 export const PreparerPhoneNumberDescription = (
-  <va-additional-info trigger="Why do we need your phone number?">
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
-      We may contact you by phone if we need more information about the
-      application.
+      Once you’ve submitted the application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );
@@ -125,16 +164,19 @@ export const veteranRelationshipDescription = (
 
 export const authorizedAgentDescription = (
   // TODO va-additional-info component to be replaced with a more optimal solution
-  <va-additional-info
-    trigger={"If you're applying for someone else, who can you sign for?"}
-  >
-    <p>A preparer can sign for an applicant who’s:</p>
+  <va-additional-info trigger="What to know if you’re filling out this application for someone else">
+    <p>
+      One of these descriptions must be true for the applicant (the person
+      you’re filling out this application for):
+    </p>
     <ul>
       <>
         <li>
-          Mentally incompetent <strong>or</strong>
+          They have an illness, injury, or other health condition that prevents
+          them from making decisions for themselves or providing the information
+          needed to complete forms, <strong>or</strong>
         </li>
-        <li>Physically unable to sign the application</li>
+        <li>They physically can’t sign the application</li>
       </>
     </ul>
   </va-additional-info>
@@ -392,10 +434,18 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = merge({}, fullNameUI, {
-  maiden: { 'ui:title': 'Maiden name' },
-  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-});
+export const fullMaidenNameUI = !environment.isProduction()
+  ? merge({}, fullNameUI, {
+      first: { 'ui:title': 'First name' },
+      middle: { 'ui:title': 'Middle name' },
+      last: { 'ui:title': 'Last name' },
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    })
+  : merge({}, fullNameUI, {
+      maiden: { 'ui:title': 'Maiden name' },
+      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+    });
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -433,8 +483,9 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title':
-      'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title': !environment.isProduction()
+      ? 'Military Service number (if it’s different than your Social Security number)'
+      : 'Military Service number (if you have one that’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -449,11 +500,15 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': 'Sex (information will be used for statistical purposes only)',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your sex?'
+      : 'Sex (information will be used for statistical purposes only)',
     'ui:widget': 'radio',
   },
   maritalStatus: {
-    'ui:title': 'Marital status',
+    'ui:title': !environment.isProduction()
+      ? 'What’s your marital status?'
+      : 'Marital status',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -527,6 +582,7 @@ export const serviceRecordsUI = {
     viewField: ServicePeriodView,
     itemName: 'Service period',
     keepInPageOnReview: true,
+    useDlWrap: true,
   },
   items: {
     'ui:order': [
@@ -625,6 +681,16 @@ export function getCemeteries() {
       // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
+}
+
+export function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
+  const data = useSelector(state => state.form.data || {});
+  const country = get(elementPath, data);
+  if (country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
 }
 
 SSNWidget.propTypes = {

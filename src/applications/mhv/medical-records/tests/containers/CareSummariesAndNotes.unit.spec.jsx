@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
 import CareSummariesAndNotes from '../../containers/CareSummariesAndNotes';
 import reducer from '../../reducers';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 import notes from '../fixtures/notes.json';
 import user from '../fixtures/user.json';
 
@@ -13,7 +13,9 @@ describe('CareSummariesAndNotes list container', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesList: notes.entry.map(note => convertNote(note)),
+        careSummariesAndNotesList: notes.entry.map(note =>
+          convertCareSummariesAndNotesRecord(note.resource),
+        ),
       },
     },
   };
@@ -40,9 +42,7 @@ describe('CareSummariesAndNotes list container still loading', () => {
   it('shows a loading indicator', () => {
     const initialState = {
       mr: {
-        careSummariesAndNotes: {
-          careSummariesAndNotesList: [],
-        },
+        careSummariesAndNotes: {},
       },
     };
 
@@ -53,6 +53,34 @@ describe('CareSummariesAndNotes list container still loading', () => {
     });
 
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('CareSummariesAndNotes list container with no records', () => {
+  it('shows a no records message', () => {
+    const initialState = {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+      },
+      alerts: {
+        alertList: [],
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes',
+    });
+
+    waitFor(() => {
+      expect(
+        screen.getByText(
+          'There are no care summaries and notes in your VA medical records.',
+          { exact: false },
+        ),
+      ).to.exist;
+    });
   });
 });
 

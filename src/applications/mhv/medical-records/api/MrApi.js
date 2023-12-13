@@ -1,13 +1,10 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import notes from '../tests/fixtures/notes.json';
-import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
-import vaccines from '../tests/fixtures/vaccines.json';
-import vaccine from '../tests/fixtures/vaccine.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -46,24 +43,23 @@ export const testableApiRequestWithRetry = (
   retryInterval,
   apiRequestFunc,
 ) => async (path, options, endTime) => {
-  try {
-    return await apiRequestFunc(path, options);
-  } catch (e) {
-    const errorCode = e.errors && e.errors[0] && e.errors[0].code;
-
-    // Check if the error code is 404 and if the retry time limit has not been reached
-    if (errorCode === '404' && Date.now() < endTime) {
-      await delay(retryInterval);
-      return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
-        path,
-        options,
-        endTime,
-      );
-    }
-
-    // If error is not 404 or time limit exceeded, throw the error
-    throw e;
+  if (Date.now() >= endTime) {
+    throw new Error('Timed out while waiting for response');
   }
+
+  const response = await apiRequestFunc(path, options);
+
+  // Check if the status code is 202 and if the retry time limit has not been reached
+  if (response?.status === 202 && Date.now() < endTime) {
+    await delay(retryInterval);
+    return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
+      path,
+      options,
+      endTime,
+    );
+  }
+
+  return response;
 };
 
 /**
@@ -126,7 +122,11 @@ export const getNote = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(note);
+      resolve(
+        notes.entry.find(item => {
+          return item.resource.id === id;
+        }).resource,
+      );
     }, 1000);
   });
 };
@@ -191,17 +191,12 @@ export const getAllergy = id => {
  * Get a patient's vaccines
  * @returns list of patient's vaccines in FHIR format
  */
-export const getVaccineList = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccines);
-    }, 1000);
-  });
+export const getVaccineList = () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/vaccines`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 /**
@@ -209,17 +204,12 @@ export const getVaccineList = runningUnitTest => {
  * @param {Long} id
  * @returns vaccine details in FHIR format
  */
-export const getVaccine = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vaccine);
-    }, 1000);
-  });
+export const getVaccine = id => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/vaccines/${id}`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 /**

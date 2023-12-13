@@ -1,19 +1,19 @@
 import React from 'react';
-// Dependencies.
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-// Relative imports.
 import FormTitle from '../../components/FormTitle';
 
 describe('Find VA Forms <FormTitle />', () => {
+  const recordSpy = sinon.spy();
+
   const props = {
     id: 'VA10192',
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
     title: 'Information for Pre-Complaint Processing',
     language: 'en',
-    recordGAEvent: sinon.stub(),
+    recordGAEvent: recordSpy,
     formName: 'VA10192',
   };
 
@@ -29,7 +29,6 @@ describe('Find VA Forms <FormTitle />', () => {
       />,
     );
 
-    // Props testing
     expect(tree.props().id).to.equal(props.id);
     expect(tree.props().formUrl).to.equal(props.formDetailsUrl);
     expect(tree.props().title).to.equal(props.title);
@@ -68,5 +67,23 @@ describe('Find VA Forms <FormTitle />', () => {
     // expect html title node to be the link
     expect(tree.html()).to.include(`href="${props.formDetailsUrl}"`);
     tree.unmount();
+  });
+
+  describe('when clicking on the form url', () => {
+    it('should record a GA event', () => {
+      const tree = mount(
+        <FormTitle
+          id={props.id}
+          formUrl={props.formDetailsUrl}
+          title={props.title}
+          recordGAEvent={recordSpy}
+        />,
+      );
+
+      tree.find('a').simulate('click');
+      expect(recordSpy.called).to.be.true;
+
+      tree.unmount();
+    });
   });
 });

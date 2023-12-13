@@ -1,13 +1,17 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import compact from 'lodash/compact';
 import { RepresentativeType } from './constants';
 import manifest from './manifest.json';
 // import { facilityLocatorLatLongOnly } from './utils/featureFlagSelectors';
 
+/* eslint-disable camelcase */
+
 const apiSettings = {
-  credentials: 'include',
+  // credentials: 'include',
+  mode: 'cors',
   headers: {
     'X-Key-Inflection': 'camel',
+    'Sec-Fetch-Mode': 'cors',
 
     // Pull app name directly from manifest since this config is defined
     // before startApp, and using window.appName here would result in
@@ -16,19 +20,27 @@ const apiSettings = {
   },
 };
 
-export const sortOptions = {
-  DISTANCE_CLOSEST_TO_FARTHEST: 'Distance (closest to farthest)',
-  DISTANCE_FARTHEST_TO_CLOSEST: 'Distance (farthest to closest)',
-  FIRST_NAME_ALPHABETICAL_A_TO_Z: 'First Name (A - Z)',
-  FIRST_NAME_ALPHABETICAL_Z_TO_A: 'First Name (Z - A)',
-  LAST_NAME_ALPHABETICAL_A_TO_Z: 'Last Name (A - Z)',
-  LAST_NAME_ALPHABETICAL_Z_TO_A: 'Last Name (Z - A)',
+export const orgSortOptions = {
+  distance_asc: 'Distance (closest to farthest)',
+  distance_desc: 'Distance (farthest to closest)',
+  name_asc: 'Name (A - Z)',
+  name_desc: 'Name (Z - A)',
 };
 
+/*
+ * Toggle true for local development
+ */
+export const useStagingDataLocally = true;
+
 const railsEngineApi = {
-  baseUrl: `${environment.API_URL}/facilities_api/v1`,
-  url: `${environment.API_URL}/facilities_api/v1/va`,
-  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  baseUrl:
+    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
+  url:
+    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
+      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
   settings: apiSettings,
 };
 
@@ -40,41 +52,53 @@ export const getAPI = () => railsEngineApi;
  */
 export const resolveParamsWithUrl = ({
   address,
-  representativeType,
+  lat,
+  long,
+  name,
   page,
-  bounds,
-  center,
-  radius,
-  // store,
+  perPage = 10,
+  sort,
+  type = 'organization',
 }) => {
   const api = getAPI();
 
   const { url } = api;
-  let roundRadius;
-  const perPage = 10;
 
-  if (radius) roundRadius = Math.max(1, radius.toFixed());
+  let newSort = sort;
 
-  const locationParams = [
+  /* 
+    Converting sort type for scenarios where the rep type is 
+    updated in a way that's doesn't correspond with the current sort type
+  */
+
+  if (type !== 'organization') {
+    if (sort === 'name_asc') {
+      newSort = 'last_name_asc';
+    } else if (sort === 'name_desc') {
+      newSort = 'last_name_desc';
+    }
+  } else if (type === 'organization') {
+    if (sort === 'last_name_asc') {
+      newSort = 'name_asc';
+    } else if (sort === 'last_name_desc') {
+      newSort = 'name_desc';
+    }
+  }
+
+  const params = [
     address ? `address=${address}` : null,
-    ...bounds.map(c => `bbox[]=${c}`),
-    center && center.length > 0 ? `latitude=${center[0]}` : null,
-    center && center.length > 0 ? `longitude=${center[1]}` : null,
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
+    name ? `name=${name}` : null,
+    `page=${page || 1}`,
+    `per_page=${perPage}`,
+    `sort=${newSort}`,
+    type ? `type=${type}` : null,
   ];
-
-  const representativeParams = representativeType
-    ? `type=${representativeType}`
-    : null;
 
   return {
     url,
-    params: compact([
-      representativeParams,
-      `page=${page}`,
-      `per_page=${perPage}`,
-      roundRadius ? `radius=${roundRadius}` : null,
-      ...locationParams,
-    ]).join('&'),
+    params: compact([...params]).join('&'),
   };
 };
 // Please use sentence case for all of these
@@ -83,12 +107,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'Claims Agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };

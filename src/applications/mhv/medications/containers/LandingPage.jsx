@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -10,6 +13,7 @@ import { medicationsUrls } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
+  const user = useSelector(selectUser);
   const location = useLocation();
   const fullState = useSelector(state => state);
   const { featureTogglesLoading, appEnabled } = useSelector(
@@ -34,7 +38,7 @@ const LandingPage = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
     if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current.scrollIntoView();
+      manageMedicationsAccordionSection.current?.scrollIntoView();
     }
   };
 
@@ -53,20 +57,25 @@ const LandingPage = () => {
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
         <div className="main-content">
           <section>
-            <h1 data-testid="landing-page-heading">About medications</h1>
-            <p className="vads-u-font-size--lg">
+            <h1
+              data-testid="landing-page-heading"
+              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+            >
+              About medications
+            </h1>
+            <p className="vads-u-font-family--serif">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
           </section>
           <section>
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--4 vads-u-border-left--7px vads-u-border-color vads-u-border-color--primary-alt-dark">
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
               <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                Manage your medications now
+                Go to your medications now
               </h2>
               <p className="vads-u-margin-y--3">
-                Refill and track your VA prescriptions. And review all
-                medications in your VA medical records.
+                Refill and track your VA prescriptions. And review your
+                medications list.
               </p>
               <a
                 className="vads-c-action-link--green vads-u-margin--0"
@@ -108,7 +117,10 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Does this tool list all my medications and supplies?
                   </h3>
-                  <p data-testid="tool-information">
+                  <p
+                    data-testid="tool-information"
+                    className="vads-u-margin-top--0"
+                  >
                     This tool lists medications and supplies prescribed by your
                     VA providers. It also lists medications and supplies
                     prescribed by non-VA providers, if you filled them through a
@@ -134,14 +146,14 @@ const LandingPage = () => {
                     At this time, this tool doesn’t list these types of
                     medications and supplies:
                   </p>
-                  <ul>
+                  <ul className="vads-u-margin-bottom--0">
                     <li>
                       <strong>
                         Older prescriptions that have been inactive for more
                         than 180 days.{' '}
                       </strong>
                       To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website{' '}
+                      Button report on the My HealthVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
@@ -149,7 +161,7 @@ const LandingPage = () => {
                         )}
                         rel="noreferrer"
                       >
-                        Go to VA Blue Button® on the My HealtheVet website
+                        Go to VA Blue Button&reg; on the My HealtheVet website
                       </a>
                     </li>
                     <li>
@@ -182,7 +194,10 @@ const LandingPage = () => {
                     What types of prescriptions can I refill and track in this
                     tool?
                   </h3>
-                  <p data-testid="track-refill-prescription-info">
+                  <p
+                    data-testid="track-refill-prescription-info"
+                    className="vads-u-margin-top--0"
+                  >
                     You can refill and track your shipments of most VA
                     prescriptions. This includes prescription medications and
                     prescription supplies, like diabetic supplies.
@@ -204,7 +219,10 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How long will it take to get my prescriptions?
                   </h3>
-                  <p data-testid="prescription-refill-info">
+                  <p
+                    data-testid="prescription-refill-info"
+                    className="vads-u-margin-top--0"
+                  >
                     Prescriptions usually arrive within 3 to 5 days after we
                     ship them. You can find tracking information in your
                     prescription details.
@@ -215,7 +233,7 @@ const LandingPage = () => {
                     <strong>at least 15 days</strong> before you need more
                     medication.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--0">
                     If your prescription is too old to refill or you have no
                     refills left, request a renewal{' '}
                     <strong>at least 15 days</strong> before you need more.
@@ -225,7 +243,10 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Will VA protect my personal health information?
                   </h3>
-                  <p data-test-id="security-policy">
+                  <p
+                    data-test-id="security-policy"
+                    className="vads-u-margin-top--0"
+                  >
                     Yes. This is a secure website. We follow strict security
                     policies and practices to protect your personal health
                     information.
@@ -235,7 +256,7 @@ const LandingPage = () => {
                     prescription details), you’ll need to take responsibility
                     for protecting that information.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--0">
                     If you’re on a public or shared computer, remember that
                     downloading will save a copy of your records to that
                     computer. Make sure to delete any records you download to a
@@ -246,7 +267,10 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     What if I have more questions?
                   </h3>
-                  <p data-testid="more-questions">
+                  <p
+                    data-testid="more-questions"
+                    className="vads-u-margin-top--0"
+                  >
                     <strong>
                       For questions about your medications and supplies,
                     </strong>{' '}
@@ -263,7 +287,7 @@ const LandingPage = () => {
                       Compose a message on the My HealtheVet website
                     </a>
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--0">
                     <strong>For questions about how to use this tool,</strong>{' '}
                     email us at <FeedbackEmail />.
                   </p>
@@ -320,6 +344,7 @@ const LandingPage = () => {
                     Send a secure message to your VA care team.
                   </p>
                   <a
+                    className="vads-u-margin-bottom--1 vads-u-display--block"
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
                       'secure-messaging',
@@ -347,7 +372,7 @@ const LandingPage = () => {
                     You can find this information in your medication details in
                     this tool.
                   </section>
-                  <p>
+                  <p className="vads-u-margin-bottom--0">
                     <strong>Note:</strong> If you’re requesting renewals for
                     more than 1 prescription from the same care team, send 1
                     message with all of your requests.
@@ -357,7 +382,10 @@ const LandingPage = () => {
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to confirm or update your mailing address
                   </h3>
-                  <p data-testid="mailing-address-confirmation">
+                  <p
+                    data-testid="mailing-address-confirmation"
+                    className="vads-u-margin-top--0"
+                  >
                     We’ll send your prescriptions to the address we have on file
                     for you. We ship to all addresses in the U.S. and its
                     territories. We don’t ship prescriptions to foreign
@@ -373,32 +401,12 @@ const LandingPage = () => {
                 </va-accordion-item>
                 <va-accordion-item>
                   <h3 className="vads-u-font-size--h6" slot="headline">
-                    How to review your allergies and reactions
-                  </h3>
-                  <p data-testid="allergies-reactions-review">
-                    Make sure your providers know about all your allergies and
-                    reactions to medications.
-                  </p>
-                  <p>
-                    If allergies or reactions are missing from your list, tell
-                    your care team right away.
-                  </p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'health-history',
-                    )}
-                    rel="noreferrer"
-                  >
-                    Go to your allergy and reaction records on the My HealtheVet
-                    website
-                  </a>
-                </va-accordion-item>
-                <va-accordion-item>
-                  <h3 className="vads-u-font-size--h6" slot="headline">
                     How to manage notifications for prescription shipments
                   </h3>
-                  <p data-testid="notifications">
+                  <p
+                    data-testid="notifications"
+                    className="vads-u-margin-top--0"
+                  >
                     You can sign up to get email notifications when we ship your
                     prescriptions. You can also opt out of notifications at any
                     time.
@@ -415,6 +423,32 @@ const LandingPage = () => {
                     rel="noreferrer"
                   >
                     Go to your profile on the My HealtheVet website
+                  </a>
+                </va-accordion-item>
+                <va-accordion-item>
+                  <h3 className="vads-u-font-size--h6" slot="headline">
+                    How to review your allergies and reactions
+                  </h3>
+                  <p
+                    data-testid="allergies-reactions-review"
+                    className="vads-u-margin-top--0"
+                  >
+                    Make sure your providers know about all your allergies and
+                    reactions to medications.
+                  </p>
+                  <p>
+                    If allergies or reactions are missing from your list, tell
+                    your care team right away.
+                  </p>
+                  <a
+                    href={mhvUrl(
+                      isAuthenticatedWithSSOe(fullState),
+                      'health-history',
+                    )}
+                    rel="noreferrer"
+                  >
+                    Go to your allergy and reaction records on the My HealtheVet
+                    website
                   </a>
                 </va-accordion-item>
               </va-accordion>
@@ -438,15 +472,23 @@ const LandingPage = () => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
   return (
-    <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
-      {content()}
-    </div>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.USER_PROFILE]}
+    >
+      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+        {content()}
+      </div>
+    </RequiredLoginView>
   );
 };
 

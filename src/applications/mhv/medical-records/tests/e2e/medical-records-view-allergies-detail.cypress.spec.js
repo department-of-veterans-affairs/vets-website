@@ -5,7 +5,7 @@ import AllergiesListPage from './pages/AllergiesListPage';
 import AllergyDetailsPage from './pages/AllergyDetailsPage';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies List', () => {
+  it('Visits Medical Records View Allergies Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records');
@@ -29,9 +29,6 @@ describe('Medical Records View Allergies', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

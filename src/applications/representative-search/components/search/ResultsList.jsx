@@ -2,57 +2,38 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
-// import DelayedRender from 'platform/utilities/ui/DelayedRender';
-// import DelayedRender from '@department-of-veterans-affairs/platform-utilities/ui/DelayedRender';
-import { representativeTypes, sortOptions } from '../../config';
-// import { Error } from '../../constants';
+// import mockData from '../../constants/mock-representative-data.json';
+
+import { representativeTypes } from '../../config';
 
 import { setFocus } from '../../utils/helpers';
-// import { recordSearchResultsEvents } from '../../utils/analytics';
+import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
 import SearchResult from './SearchResult';
 
 const ResultsList = props => {
   const searchResultTitle = useRef();
-  const sortTypeRef = useRef();
 
   const {
     inProgress,
-    // locationInputString,
     searchResults,
-    // searchError,
     // pagination,
     // currentQuery,
     query,
-    // sortedSearchResults,
-    // sortSearchResults,
-    onUpdateSortType,
-    sortType,
+    // sortType,
   } = props;
 
   useEffect(
     () => {
       setFocus(searchResultTitle.current);
+      recordSearchResultsEvents(searchResults, props);
     },
     [searchResults, inProgress, props.error],
   );
 
-  // method for triggering sortResults when sortType updates
-  const handleSortTypeChange = e => {
-    onUpdateSortType({ sortType: e.target.value });
-  };
-
   // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // const enrichedResultsData = searchResults.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationInputString,
-  //   currentPage,
-  // }));
 
   const renderResultItems = (
     searchQuery,
@@ -65,18 +46,27 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
+          <hr />
+
           {searchResults?.map((result, index) => {
             return (
               <>
-                <hr />
+                {index > 0 ? <hr /> : null}
+
                 <SearchResult
-                  organization={result.organization}
+                  organization={
+                    result.attributes.fullName || result.attributes.name
+                  }
                   key={result.id}
                   type={result.type}
-                  addressLine1={result.addressLine1}
-                  addressLine2={result.addressLine2}
-                  phone={result.phone}
-                  distance={result.distance}
+                  addressLine1={result.attributes.addressLine1}
+                  addressLine2={result.attributes.addressLine2}
+                  addressLine3={result.attributes.addressLine3}
+                  city={result.attributes.city}
+                  state={result.attributes.stateCode}
+                  zipCode={result.attributes.zipCode}
+                  phone={result.attributes.phone}
+                  distance={result.attributes.distance}
                   representative={result}
                   query={sQuery}
                   index={index}
@@ -89,63 +79,13 @@ const ResultsList = props => {
     );
   };
 
-  // const currentPage = pagination ? pagination.currentPage : 1;
-
-  // if (searchError) {
-  //   if (searchError.type === 'mapBox') {
-  //     return (
-  //       <SearchResultMessage
-  //         representativeType={representativeTypeName}
-  //         resultRef={searchResultTitle}
-  //         message={Error.LOCATION}
-  //       />
-  //     );
-  //   }
-  //   return (
-  //     <SearchResultMessage
-  //       representativeType={representativeTypeName}
-  //       resultRef={searchResultTitle}
-  //       message={Error.DEFAULT}
-  //       error={searchError}
-  //     />
-  //   );
-  // }
-
-  // const resultsData = searchResults?.map(result => ({
-  //   ...result,
-  //   resultItem: true,
-  //   locationInputString,
-  //   currentPage,
-  // }));
-
-  // if (resultsData.length > 0) {
-  //   recordSearchResultsEvents(props, resultsData);
-  // }
-
-  const options = Object.keys(sortOptions).map(option => (
-    <option key={option} value={option}>
-      {sortOptions[option]}
-    </option>
-  ));
-
   return (
     <>
-      {' '}
-      <label htmlFor="sort-by-dropdown">Sort by</label>
-      <select
-        id="representative-sorting-dropdown"
-        aria-label="Sort"
-        ref={sortTypeRef}
-        value={sortType}
-        title="Sort by:"
-        // className="bor-rad"
-        onChange={handleSortTypeChange}
-        style={{ fontWeight: 'bold' }}
-      >
-        {' '}
-        {options}{' '}
-      </select>
-      <div>{renderResultItems(query)}</div>
+      {searchResults?.length ? (
+        <>
+          <div>{renderResultItems(query)}</div>
+        </>
+      ) : null}
     </>
   );
 };
@@ -154,7 +94,6 @@ ResultsList.propTypes = {
   currentQuery: PropTypes.object,
   error: PropTypes.object,
   inProgress: PropTypes.bool,
-  locationInputString: PropTypes.string,
   pagination: PropTypes.object,
   query: PropTypes.object,
   representativeTypeName: PropTypes.string,
@@ -179,7 +118,7 @@ function mapStateToProps(state) {
     representativeType,
     inProgress,
     position,
-    locationInputString,
+    locationQueryString,
   } = state.searchQuery;
 
   const representativeTypeName = representativeTypes[representativeType];
@@ -193,7 +132,7 @@ function mapStateToProps(state) {
     searchError: state.searchResult.error,
     pagination: state.searchResult.pagination,
     position,
-    locationInputString,
+    locationQueryString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
   };

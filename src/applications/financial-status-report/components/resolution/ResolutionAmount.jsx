@@ -117,6 +117,11 @@ const ResolutionAmount = ({ formContext }) => {
             : content.debtCompromise.label
         }
         min={0}
+        max={
+          currentDebt.debtType === 'DEBT'
+            ? currentDebt?.currentAr
+            : currentDebt.pHAmtDue
+        }
         name="resolution-amount"
         onInput={onAmountChange}
         required
