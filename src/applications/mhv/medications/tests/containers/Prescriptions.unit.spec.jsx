@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
@@ -39,6 +39,28 @@ describe('Medications Prescriptions container', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('should display loading message when loading prescriptions', async () => {
+    const screen = setup({
+      rx: {
+        prescriptions: {
+          prescriptionsList: undefined,
+          prescriptionsPagination: undefined,
+        },
+        breadcrumbs: {
+          list: [
+            { url: '/my-health/about-medications' },
+            { label: 'About medications' },
+          ],
+        },
+        allergies: { error: true },
+      },
+    });
+    waitFor(() => {
+      expect(screen.getByTestId('loading-indicator')).to.exist;
+      expect(screen.getByText('Loading your medications...')).to.exist;
+    });
   });
 
   it('displays intro text ', async () => {
