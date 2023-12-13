@@ -155,8 +155,8 @@ describe('Pensions helpers', () => {
   });
   describe('formatCurrency', () => {
     it('should format US currency', () => {
-      expect(formatCurrency(0.0)).to.equal('$0.00');
-      expect(formatCurrency(1000)).to.equal('$1000');
+      expect(formatCurrency(0.01)).to.equal('$0.01');
+      expect(formatCurrency(1000)).to.equal('$1,000');
       expect(formatCurrency(12.75)).to.equal('$12.75');
     });
   });
