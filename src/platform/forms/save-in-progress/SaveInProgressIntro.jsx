@@ -72,6 +72,7 @@ class SaveInProgressIntro extends React.Component {
       ariaLabel = null,
       ariaDescribedby = null,
     } = this.props;
+    const { signInHelpList } = formConfig;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -234,17 +235,21 @@ class SaveInProgressIntro extends React.Component {
               ) : (
                 <>
                   <p>Here&rsquo;s how signing in now helps you:</p>
-                  <ul>
-                    <li>
-                      We can fill in some of your information for you to save
-                      you time.
-                    </li>
-                    <li>
-                      You can save your work in progress. You&rsquo;ll have{' '}
-                      {retentionPeriod} from when you start or make updates to
-                      your {appType} to come back and finish it.
-                    </li>
-                  </ul>
+                  {signInHelpList ? (
+                    signInHelpList()
+                  ) : (
+                    <ul>
+                      <li>
+                        We can fill in some of your information for you to save
+                        you time.
+                      </li>
+                      <li>
+                        You can save your work in progress. You&rsquo;ll have{' '}
+                        {retentionPeriod} from when you start or make updates to
+                        your {appType} to come back and finish it.
+                      </li>
+                    </ul>
+                  )}
                 </>
               )}
               <p>
@@ -412,6 +417,7 @@ SaveInProgressIntro.propTypes = {
   children: PropTypes.any,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
