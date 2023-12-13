@@ -182,7 +182,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any) => boolean,
+ *   'ui:required'?: (formData: any, index: boolean) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -212,6 +212,7 @@
 /**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
+ * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without maxlength being set.
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.

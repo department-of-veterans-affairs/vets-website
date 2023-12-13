@@ -1,7 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import notes from '../tests/fixtures/notes.json';
-import note from '../tests/fixtures/dischargeSummary.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -44,24 +43,23 @@ export const testableApiRequestWithRetry = (
   retryInterval,
   apiRequestFunc,
 ) => async (path, options, endTime) => {
-  try {
-    return await apiRequestFunc(path, options);
-  } catch (e) {
-    const errorCode = e.errors && e.errors[0] && e.errors[0].code;
-
-    // Check if the error code is 404 and if the retry time limit has not been reached
-    if (errorCode === '404' && Date.now() < endTime) {
-      await delay(retryInterval);
-      return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
-        path,
-        options,
-        endTime,
-      );
-    }
-
-    // If error is not 404 or time limit exceeded, throw the error
-    throw e;
+  if (Date.now() >= endTime) {
+    throw new Error('Timed out while waiting for response');
   }
+
+  const response = await apiRequestFunc(path, options);
+
+  // Check if the status code is 202 and if the retry time limit has not been reached
+  if (response?.status === 202 && Date.now() < endTime) {
+    await delay(retryInterval);
+    return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
+      path,
+      options,
+      endTime,
+    );
+  }
+
+  return response;
 };
 
 /**
@@ -124,7 +122,11 @@ export const getNote = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(note);
+      resolve(
+        notes.entry.find(item => {
+          return item.resource.id === id;
+        }).resource,
+      );
     }, 1000);
   });
 };

@@ -113,11 +113,7 @@ const generateResultItemContent = async (
   }
 
   if (hasHorizontalRule) {
-    results.add(
-      doc.struct('Artifact', () => {
-        addHorizontalRule(doc, 30, 1.5, 1.5);
-      }),
-    );
+    addHorizontalRule(doc, 30, 1.5, 1.5);
   }
 };
 
@@ -207,7 +203,7 @@ const generate = async data => {
     await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateFinalHeaderContent(doc, wrapper, data, config);
+  await generateFinalHeaderContent(doc, data, config);
   await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();
