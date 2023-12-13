@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnrollmentVerificationBreadcrumbs from './EnrollmentVerificationBreadcrumbs';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
+import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   return (
@@ -16,6 +17,14 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             {children}
+            <ChangeOfAddressWrapper
+              mailingAddress={{
+                street: '9027 Walnut Springs Road',
+                city: 'Universal City',
+                state: 'TX',
+                zip: '78148-2240',
+              }}
+            />
             <ChangeOfDirectDepositWrapper />
           </div>
         </div>

@@ -5,6 +5,7 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
+  DIRECT_DEPOSIT_BUTTON_TEXT,
   SMALL_SCREEN,
 } from '../constants/index';
 
@@ -106,12 +107,12 @@ const ChangeOfDirectDepositWrapper = () => {
   //   scroll to top of div when edit page is canceled or saved
   useEffect(
     () => {
-      if (!toggleDirectDepositForm) {
-        const element = document.getElementById('Direct deposit information');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+      // if (!toggleDirectDepositForm) {
+      const element = document.getElementById('Direct deposit information');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
       }
+      // }
     },
     [toggleDirectDepositForm],
   );
@@ -136,7 +137,7 @@ const ChangeOfDirectDepositWrapper = () => {
             <va-button
               id="VYE-add-new-account-button"
               onClick={handleAddNewClick}
-              text="Add new account"
+              text={DIRECT_DEPOSIT_BUTTON_TEXT}
             />
             <va-alert
               close-btn-aria-label="Close notification"
@@ -152,7 +153,7 @@ const ChangeOfDirectDepositWrapper = () => {
                 <span className="vads-u-margin-y--0">
                   <p>
                     This direct deposit information is only used for payments
-                    for Montgomery GI Bill Benefits
+                    for Montgomery GI Bill Benefits.
                   </p>
                   <p>
                     To change your direct deposit information for other VA
