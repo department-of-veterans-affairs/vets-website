@@ -387,15 +387,15 @@ export function FilterBeforeResults({
         class="vads-u-margin-y--4"
         label={
           <>
-            <h5>Specialized mission</h5>
+            <h5>Community Focus</h5>
             <button
               className="mobile-jump-link"
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to specialized mission details</>}
+              {smallScreen && <>Jump to community focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to specialized mission details"
+                  label="Jump to community focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
@@ -495,7 +495,7 @@ export function FilterBeforeResults({
             </div>
             <div id="smfAccordion" className="vads-u-margin-top--3">
               <AccordionItem
-                button="Learn more about specialized missions"
+                button="Learn more about community focus filters"
                 section
                 expanded={smfAccordionExpanded}
                 onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}

@@ -201,7 +201,7 @@ const CompareLayout = ({
       mapper: institution => schoolSize(institution.undergradEnrollment),
     },
     {
-      label: 'Specialized mission',
+      label: 'Community Focus',
       className: 'capitalize-value',
       mapper: institution => {
         const specialMission = [];
