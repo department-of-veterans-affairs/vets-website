@@ -106,6 +106,8 @@ export const INVALID_ZIP_ERROR =
   'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
 
 export const validateZipCode = (zipCode, stateCode, errors) => {
+  // console.log(zipCode)
+  // console.log(stateCode)
   if (
     stateCode in MILITARY_BASE_ZIP_REGEX &&
     !zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])
@@ -505,6 +507,13 @@ export const addressUISchema = (
         'ui:title': 'Postal Code',
         'ui:validations': [
           (errors, zipCode, formData, _schema, _uiSchema, _index) => {
+            // currently there are two outstanding issues here:
+            // 1: we are getting the zip code and it is evaluating against all statecodes on review and submit. this is triggering
+            // a validation error for a dc zip code (20016) in the Veteran Information portion of the form, despite the checkbox
+            // not being checked. Instead it's comparing it to the remove stepchild portion of the form (zipcode 34012, box is checked)
+            // 2: for stepchildren or any sort of array, on review and submit i think we should iterate through the state codes to compare to the zip
+            // vs passing the true/false value which we currently are doing. an idea is down below with using map, but it still needs to iterate when
+            // passing.
             // copied scheme from city ui:validations
             const livesOnMilitaryBaseHash = {
               base: get(livesOnMilitaryBasePath, formData),
@@ -521,8 +530,12 @@ export const addressUISchema = (
               'stepChildAddress',
               'stepChildAddressInfo',
             ];
-
+            // console.log(formData);
             if (window.location.href.includes('review-and-submit')) {
+              livesOnMilitaryBaseHash.base = get(
+                livesOnMilitaryBasePath,
+                formData.veteranContactInformation,
+              );
               livesOnMilitaryBaseHash.stepChildAddress = (
                 formData.stepChildren || []
               ).some(stepChild =>
@@ -537,7 +550,7 @@ export const addressUISchema = (
                 ),
               );
             }
-
+            // console.log('lives on military base hash', livesOnMilitaryBaseHash);
             if (
               isMilitaryBaseAddress &&
               Object.values(livesOnMilitaryBaseHash).includes(true)
@@ -553,18 +566,33 @@ export const addressUISchema = (
               };
 
               if (window.location.href.includes('review-and-submit')) {
+                // experiment - narrow down the formData to be evaluated
+                selectedStateHash.base = get(
+                  statePath,
+                  formData.veteranContactInformation,
+                );
+                // experiment - i think we need to map over the stepchild address statecodes, and then pass each code individually to validateZipCode.
+                // this is only for the review page.
                 selectedStateHash.stepChildAddress = (
                   formData.stepChildren || []
-                ).some(stepChild => get(`address['stateCode']`, stepChild));
+                ).map(stepChild => stepChild.address.stateCode);
+                // note - if the above works, change this to follow the same passing of state codes. right now this is just returning true/false.
                 selectedStateHash.stepChildAddressInfo = (
                   formData.childrenToAdd || []
                 ).some(stepChild =>
                   get(`childAddressInfo.address['stateCode']`, stepChild),
                 );
               }
+
+              // console.log(selectedStateHash);
+              // console.log(zipCode);
               validationKeys.forEach(e => {
                 if (livesOnMilitaryBaseHash[e]) {
+                  // console.log(e);
                   const selectedState = selectedStateHash[e];
+                  // experiment - if selectedState is one of the stepchildren hashes, loop over it with validate zip code calls instead of passing
+                  // the array.
+                  // console.log(selectedState);
                   validateZipCode(zipCode, selectedState, errors);
                 }
               });
