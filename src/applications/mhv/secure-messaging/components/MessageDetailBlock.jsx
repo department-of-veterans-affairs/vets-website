@@ -70,6 +70,7 @@ const MessageDetailBlock = props => {
       <header className="message-detail-header">
         <h1
           className="vads-u-margin-bottom--2"
+          data-dd-action-name="Link to Message Subject Details"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
           data-dd-privacy="mask"
         >
