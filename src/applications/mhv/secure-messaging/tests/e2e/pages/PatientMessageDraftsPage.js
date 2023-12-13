@@ -223,9 +223,14 @@ class PatientMessageDraftsPage {
   };
 
   saveMultiDraftMessage = (mockResponse, messageId) => {
+    const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
+      el => el.attributes.draftDate === null,
+    )[0].attributes.messageId;
     cy.intercept(
       'PUT',
-      `${Paths.SM_API_BASE}/message_drafts/3163320/replydraft/${messageId}`,
+      `${
+        Paths.SM_API_BASE
+      }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { data: mockResponse },
     ).as('saveDraft');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
