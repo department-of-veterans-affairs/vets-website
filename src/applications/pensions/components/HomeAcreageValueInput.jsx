@@ -42,6 +42,13 @@ const HomeAcreageValueInput = props => {
   const updateFormData = event => {
     event.preventDefault();
 
+    if (homeAcreageValue.value === '') {
+      const updatedFormData = { ...formData };
+      delete updatedFormData.homeAcreageValue;
+      setFormData(updatedFormData);
+      goForward(formData);
+    }
+
     validateCurrency(homeAcreageValue.value, setError);
 
     if (!isValidCurrency(homeAcreageValue.value)) {
