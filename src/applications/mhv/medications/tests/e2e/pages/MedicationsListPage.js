@@ -317,5 +317,13 @@ class MedicationsListPage {
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
     );
   };
+
+  verifyDiscontinuedMedicationNameIsVisibleOnListPage = prescriptionDetails => {
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > .no-print`,
+    ).should('be.visible');
+  };
 }
 export default MedicationsListPage;
