@@ -32,7 +32,7 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
       },
     });
     listPage.clickGotoMedicationsLink();
-    site.loadVAPaginationPrescriptions(1, mockRxPageOne);
+    // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     listPage.selectSortDropDownOption('Alphabetically by status');

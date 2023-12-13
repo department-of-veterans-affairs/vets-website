@@ -55,15 +55,21 @@ const Prescriptions = props => {
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [pdfGenerateStatus, setPdfGenerateStatus] = useState(
     PDF_GENERATE_STATUS.NotStarted,
   );
+
+  const updateLoadingStatus = (newIsLoading, newLoadingMessage) => {
+    setLoading(newIsLoading);
+    setLoadingMessage(newLoadingMessage);
+  };
 
   const sortRxList = sortOption => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
     if (sortOption !== selectedSortOption) {
       setSelectedSortOption(sortOption);
-      setLoading(true);
+      updateLoadingStatus(true, 'Sorting your medications...');
     }
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
     focusElement(document.getElementById('showingRx'));
@@ -92,7 +98,7 @@ const Prescriptions = props => {
   useEffect(
     () => {
       if (!paginatedPrescriptionsList) {
-        setLoading(true);
+        updateLoadingStatus(true, 'Loading your medications...');
       }
       if (!page) history.replace('/1');
       dispatch(
@@ -100,7 +106,7 @@ const Prescriptions = props => {
           page ?? 1,
           rxListSortingOptions[selectedSortOption].API_ENDPOINT,
         ),
-      ).then(() => setLoading(false));
+      ).then(() => updateLoadingStatus(false, ''));
       updatePageTitle('Medications | Veterans Affairs');
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
@@ -227,6 +233,7 @@ const Prescriptions = props => {
   );
 
   const handleDownloadPDF = async () => {
+    updateLoadingStatus(true, 'Downloading your file...');
     setPdfGenerateStatus(PDF_GENERATE_STATUS.InProgress);
     await Promise.allSettled([
       getPrescriptionSortedList(
@@ -240,6 +247,7 @@ const Prescriptions = props => {
       ),
       !allergies && dispatch(getAllergiesList()),
     ]);
+    updateLoadingStatus(false, '');
   };
 
   const handleModalClose = () => {
@@ -304,6 +312,7 @@ const Prescriptions = props => {
                 rxList={paginatedPrescriptionsList}
                 pagination={pagination}
                 selectedSortOption={selectedSortOption}
+                updateLoadingStatus={updateLoadingStatus}
               />
             </div>
           ) : (
@@ -315,7 +324,7 @@ const Prescriptions = props => {
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message={loadingMessage}
         setFocus
         data-testid="loading-indicator"
       />

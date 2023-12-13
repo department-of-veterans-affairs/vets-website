@@ -11,7 +11,7 @@ const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
-  const { rxList, pagination, selectedSortOption } = props;
+  const { rxList, pagination, selectedSortOption, updateLoadingStatus } = props;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -32,6 +32,7 @@ const MedicationsList = props => {
     "[data-testid='page-total-info']";
 
   const onPageChange = page => {
+    updateLoadingStatus(true, 'Loading your list...');
     history.push(`/${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
@@ -97,4 +98,5 @@ MedicationsList.propTypes = {
   rxList: PropTypes.array,
   selectedSortOption: PropTypes.string,
   setCurrentPage: PropTypes.func,
+  updateLoadingStatus: PropTypes.func,
 };

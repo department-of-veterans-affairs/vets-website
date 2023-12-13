@@ -219,5 +219,7 @@
   va-loading-indicator {
     display: flex;
     justify-content: left;
+    align-items: center;
+    gap: 1.5rem;
   }
 }
