@@ -84,8 +84,8 @@ export default function ClaimDetailLayout(props) {
         </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
-          <h2 className="claim-contentions-header vads-u-font-size--h6">
-            What you’ve claimed:
+          <h2 className="claim-contentions-header vads-u-font-size--h3">
+            What you’ve claimed
           </h2>
           <ClaimContentionList
             contentions={contentions}
