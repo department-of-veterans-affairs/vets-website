@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { isEmptyObject, getItemSchema } from '../../utils/helpers';
+import {
+  isEmptyObject,
+  getItemSchema,
+  returnPhoneObject,
+} from '../../utils/helpers';
 
 describe('isEmptyObject', () => {
   it('should return true for an empty object', () => {
@@ -30,5 +34,32 @@ describe('getItemSchema', () => {
   });
   it('should return additionalItems', () => {
     expect(getItemSchema(schema, 3)).to.deep.equal({ b: 1 });
+  });
+});
+
+describe('returnPhoneObject', () => {
+  const blankResult = {
+    countryCode: '',
+    areaCode: '',
+    phoneNumber: '',
+    phoneNumberExt: '',
+  };
+  it('should return invalid phone', () => {
+    expect(returnPhoneObject(undefined)).to.deep.equal(blankResult);
+    expect(returnPhoneObject(null)).to.deep.equal(blankResult);
+    expect(returnPhoneObject('')).to.deep.equal(blankResult);
+    expect(returnPhoneObject('800')).to.deep.equal(blankResult);
+    expect(returnPhoneObject('80055')).to.deep.equal(blankResult);
+    expect(returnPhoneObject('80055512')).to.deep.equal(blankResult);
+    expect(returnPhoneObject('800555121')).to.deep.equal(blankResult);
+  });
+  it('should return a phone object from a string', () => {
+    const result = returnPhoneObject('8005551212');
+    expect(result).to.deep.equal({
+      countryCode: '1',
+      areaCode: '800',
+      phoneNumber: '5551212',
+      phoneNumberExt: '',
+    });
   });
 });

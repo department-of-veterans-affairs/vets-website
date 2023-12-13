@@ -79,6 +79,7 @@ import servicePeriods from './chapters/02-military-history/servicePeriods';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 
@@ -1162,6 +1163,13 @@ const formConfig = {
           path: 'financial/total-net-worth',
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
+        },
+        netWorthEstimation: {
+          title: 'net worth estimation',
+          path: 'financial/net-worth-estimation',
+          uiSchema: netWorthEstimation.uiSchema,
+          schema: netWorthEstimation.schema,
+          depends: formData => !formData.totalNetWorth,
         },
         transferredAssets: {
           title: 'Transferred assets',
