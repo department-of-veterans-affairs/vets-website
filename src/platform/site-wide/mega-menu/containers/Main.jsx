@@ -25,12 +25,10 @@ export function flagCurrentPageInTopLevelLinks(
   pathname = window.location.pathname,
 ) {
   const currentPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
-  return links.map(link => {
-    const currentPage = currentPath.startsWith(link.href)
-      ? { currentPage: true }
-      : {};
-    return { ...link, ...currentPage };
-  });
+  return links.map(
+    link =>
+      currentPath.startsWith(link.href) ? { ...link, currentPage: true } : link,
+  );
 }
 
 export function getAuthorizedLinkData(
