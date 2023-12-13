@@ -4,9 +4,9 @@ import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import EmergencyNote from '../EmergencyNote';
+import { updatePageTitle } from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import ReplyDrafts from './ReplyDrafts';
-import { updatePageTitle } from '../../util/helpers';
 import { PageTitles } from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
 

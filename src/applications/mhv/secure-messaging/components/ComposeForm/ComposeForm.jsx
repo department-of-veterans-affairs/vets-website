@@ -18,6 +18,7 @@ import {
   setCaretToPos,
   navigateToFolderByFolderId,
   sortRecipients,
+  resetUserSession,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -73,6 +74,21 @@ const ComposeForm = props => {
     selectedRecipient,
     draftAutoSaveTimeout,
   );
+
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
+
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
+
+  const noTimeout = () => {
+    clearTimeout(timeoutId);
+  };
 
   const formattededSignature = useMemo(
     () => {
@@ -447,12 +463,28 @@ const ComposeForm = props => {
           (draft ? draft.recipientId.toString() : '0') ||
         category !== (draft ? draft.category : null) ||
         subject !== (draft ? draft.subject : '') ||
-        messageBody !== (draft ? draft.body : '')
+        messageBody !== (draft ? draft.body : '') ||
+        attachments.length
       ) {
-        e.returnValue = '';
+        e.preventDefault();
+        window.onbeforeunload = () => signOutMessage;
+        e.returnValue = true;
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        e.returnValue = false;
+        noTimeout();
       }
     },
-    [draft, selectedRecipient, category, subject, messageBody],
+    [
+      draft,
+      selectedRecipient,
+      category,
+      subject,
+      messageBody,
+      attachments,
+      timeoutId,
+    ],
   );
 
   useEffect(
@@ -460,6 +492,8 @@ const ComposeForm = props => {
       window.addEventListener('beforeunload', beforeUnloadHandler);
       return () => {
         window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
       };
     },
     [beforeUnloadHandler],
@@ -469,7 +503,7 @@ const ComposeForm = props => {
     <>
       <EmergencyNote dropDownFlag />
 
-      <form className="compose-form">
+      <form className="compose-form" id="sm-compose-form">
         {saveError && (
           <VaModal
             modalTitle={saveError.title}
@@ -479,6 +513,7 @@ const ComposeForm = props => {
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
+            data-dd-action-name="Save Error Modal Closed"
             visible
           >
             <p>{saveError.p1}</p>
@@ -521,6 +556,7 @@ const ComposeForm = props => {
                 data-testid="compose-recipient-select"
                 error={recipientError}
                 data-dd-privacy="mask"
+                data-dd-action-name="Compose Recipient Dropdown List"
               >
                 {sortRecipients(recipientsList)?.map(item => (
                   <option key={item.id} value={item.id}>
@@ -552,6 +588,7 @@ const ComposeForm = props => {
               value={subject}
               error={subjectError}
               data-dd-privacy="mask"
+              data-dd-action-name="Compose Message Subject Input Field"
             />
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">
@@ -569,6 +606,7 @@ const ComposeForm = props => {
                 setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
               }}
               data-dd-privacy="mask"
+              data-dd-action-name="Compose Message Body Textbox"
             />
           </div>
           <section className="attachments-section">
