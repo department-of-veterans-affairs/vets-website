@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -9,16 +9,13 @@ describe('re-save multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
-  it('verify first draft could be re-saved', () => {
+  beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
+  });
 
-    cy.wait('@multiDraft');
-    cy.wait('@firstDraft');
-    cy.wait('@secondDraft');
-    cy.wait('@firstSentMessage');
-
+  it('verify first draft could be re-saved', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -28,32 +25,19 @@ describe('re-save multiple drafts in one thread', () => {
       },
     });
 
-    // cy.get('[id="reply-message-body"]').shadow().find('#textarea', ).should('be.enabled', {timeout: 10000}).type('newText',{ waitForAnimations: true })
-    cy.get("h2:contains('drafts')").should('be.visible');
-    cy.get('va-textarea')
-      .shadow()
-      .find('textarea')
-      .should('be.visible')
-      .should('be.enabled')
-      .type('newText', { force: true, waitForAnimations: true });
-    // .type('newText', { delay: 1000, waitForAnimations: true });
-    // .click({ waitForAnimations: true });
-    // cy.wait(10000)
+    cy.get('#textarea').type('newText', { force: true });
+    draftPage.saveMultiDraftMessage(
+      mockMultiDraftsResponse.data[0],
+      mockMultiDraftsResponse.data[0].attributes.messageId,
+    );
 
-    // cy.get('[id="reply-message-body"]')
-    //   .shadow()
-    //   .find('textarea')
-    //   .should('be.enabled')
-    //   .type('newText', { waitForAnimations: true });
-
-    // cy.get('#textarea').should('be.enabled').type('newText', {waitForAnimations: true})
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+      'include.text',
+      'message was saved',
+    );
   });
 
   it('verify second draft could be re-saved', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread();
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -62,5 +46,17 @@ describe('re-save multiple drafts in one thread', () => {
         },
       },
     });
+
+    cy.get('#edit-draft-button').click({ waitForAnimations: true });
+    cy.get('#textarea').type('newText', { force: true });
+    draftPage.saveMultiDraftMessage(
+      mockMultiDraftsResponse.data[1],
+      mockMultiDraftsResponse.data[1].attributes.messageId,
+    );
+
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+      'include.text',
+      'message was saved',
+    );
   });
 });

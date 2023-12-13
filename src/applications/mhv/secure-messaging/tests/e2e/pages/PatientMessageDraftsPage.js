@@ -222,6 +222,21 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
+  saveMultiDraftMessage = (mockResponse, messageId) => {
+    const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
+      el => el.attributes.draftDate === null,
+    )[0].attributes.messageId;
+    cy.intercept(
+      'PUT',
+      `${
+        Paths.SM_API_BASE
+      }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
+      { data: mockResponse },
+    ).as('saveDraft');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.wait('@saveDraft');
+  };
+
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',
