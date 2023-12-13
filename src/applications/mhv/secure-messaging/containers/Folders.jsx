@@ -101,6 +101,7 @@ const Folders = () => {
           }}
           text="Create new folder"
           data-testid="create-new-folder"
+          data-dd-action-name="Create New Folder Button"
         />
         {folderCount > 0 && (
           <>

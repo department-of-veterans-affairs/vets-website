@@ -8,6 +8,7 @@ const RemoveAttachmentModal = props => {
     <VaModal
       id="remove-attachment-modal"
       data-testid="remove-attachment-modal"
+      data-dd-action-name="Remove Attachment Modal Closed"
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
       onCloseEvent={props.onClose}
       visible={props.visible}
@@ -27,12 +28,14 @@ const RemoveAttachmentModal = props => {
           data-testid="confirm-remove-attachment-button"
           text="Remove"
           onClick={props.onDelete}
+          data-dd-action-name="Confirm Remove Attachment Button"
         />
         <va-button
           data-testid="cancel-remove-attachment-button"
           secondary
           text="Cancel"
           onClick={props.onClose}
+          data-dd-action-name="Cancel Remove Attachment Button"
         />
       </div>
     </VaModal>

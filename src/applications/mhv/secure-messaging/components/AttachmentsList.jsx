@@ -188,6 +188,7 @@ const AttachmentsList = props => {
                     }}
                     aria-label={`remove ${file.name}`}
                     data-testid="remove-attachment-button"
+                    data-dd-action-name="Remove Attachment Button"
                     className="remove-attachment-button vads-u-flex--auto vads-u-margin-right--1p5 vads-u-padding-y--2"
                   >
                     <span className="remove-attachment-icon vads-u-padding-right--3" />

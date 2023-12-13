@@ -234,6 +234,7 @@ const ThreadListItem = props => {
           )}
         </div>
         <Link
+          data-dd-action-name="Link to Message Subject Details"
           aria-label={`${
             unreadMessages ? 'Unread message.' : ''
           } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
