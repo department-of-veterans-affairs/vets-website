@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
