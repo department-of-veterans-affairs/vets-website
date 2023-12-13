@@ -15,14 +15,13 @@ const { dependents } = fullSchemaPensions.properties;
 export default {
   uiSchema: {
     'ui:title': 'Dependent children',
-    hasDependents: yesNoUI({
+    'view:hasDependents': yesNoUI({
       title: 'Do you have any dependent children?',
-      uswds: true,
     }),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
-        expandUnder: 'hasDependents',
+        expandUnder: 'view:hasDependents',
         viewField: DependentField,
       },
       'ui:errorMessages': {
@@ -36,9 +35,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['hasDependents'],
+    required: ['view:hasDependents'],
     properties: {
-      hasDependents: yesNoSchema,
+      'view:hasDependents': yesNoSchema,
       dependents: {
         type: 'array',
         minItems: 1,
