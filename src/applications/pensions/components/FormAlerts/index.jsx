@@ -173,3 +173,23 @@ export const AssetTransferFormAlert = () => (
     </p>
   </va-alert>
 );
+
+export const LandMarketableAlert = () => (
+  <div>
+    <p>We want to know if the additional land is marketable.</p>
+    <div className="usa-alert usa-alert-info">
+      <div className="usa-alert-body">
+        <p className="usa-alert-heading">
+          The additional land might not be marketable in these situations:
+        </p>
+        <ul>
+          <li>The entire lot of land is only slightly more than 2 acres, or</li>
+          <li>The additional land isn’t accessible, or</li>
+          <li>
+            There are zoning rules that prevent selling the additional property
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+);
