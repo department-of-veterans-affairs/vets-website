@@ -52,3 +52,11 @@ export function validateCentralMailPostalCode(errors, address) {
     );
   }
 }
+
+export const validateCurrency = (errors, currencyAmount) => {
+  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+
+  if (!regex.test(currencyAmount) || Number(currencyAmount) < 0) {
+    errors.addError('Please enter a valid dollar amount.');
+  }
+};
