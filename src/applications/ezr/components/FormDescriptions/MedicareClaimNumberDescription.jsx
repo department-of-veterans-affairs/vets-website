@@ -2,11 +2,6 @@ import React from 'react';
 
 export const MedicareClaimNumberDescription = (
   <>
-    <div className="vads-u-color--gray-medium">
-      You’ll find this number on the front of your Medicare card. Enter all 11
-      numbers and letters.
-    </div>
-
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-top--3 vads-u-margin-bottom--4"
