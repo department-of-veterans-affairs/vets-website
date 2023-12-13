@@ -35,8 +35,9 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
       if (getReturnState() === 'true,' && editRef?.current) {
         // focus on edit button _after_ editing and returning
         clearReturnState();
-        setTimeout(() =>
-          focusElement('button', {}, editRef.current.shadowRoot),
+        setTimeout(
+          () => focusElement('va-button', {}, editRef.current?.shadowRoot),
+          0,
         );
       }
     },
