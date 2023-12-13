@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const MAX_CONTENTIONS = 3;
+export const MAX_CONTENTIONS = 3;
 
 const renderContentions = (contentions, limit = MAX_CONTENTIONS) => {
   const list = contentions.slice(0, limit);
@@ -30,6 +30,7 @@ function ClaimContentionList({ contentions, onClick }) {
       <ul>{renderContentions(contentions, limit)}</ul>
       {showButton && (
         <va-button
+          class="show-all-button"
           onClick={showAdditionalContentions}
           secondary
           text="Show full list"
