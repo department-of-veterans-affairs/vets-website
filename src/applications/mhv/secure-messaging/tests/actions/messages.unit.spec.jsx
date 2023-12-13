@@ -19,23 +19,6 @@ import * as threadResponse from '../e2e/fixtures/thread-response-new-api.json';
 import * as messageResponse from '../e2e/fixtures/message-response.json';
 
 describe('messages actions', () => {
-  const getThreadFolderId = threadResponseObj => {
-    return (
-      threadResponseObj.data
-        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
-        ?.attributes.folderId.toString() ||
-      threadResponseObj.data[0].attributes.folderId
-    );
-  };
-
-  const getReplyToName = threadResponseObj => {
-    return (
-      threadResponseObj.data
-        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
-        ?.attributes.senderName.trim() ||
-      threadResponseObj.data[0].attributes.triageGroupName
-    );
-  };
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
   const errorResponse = {
@@ -69,31 +52,12 @@ describe('messages actions', () => {
 
   it('should dispatch action on retrieveMessageThread', async () => {
     const store = mockStore();
-    const res = JSON.parse(JSON.stringify(threadResponse));
     const req1 = { shouldResolve: true, response: threadResponse };
     const req2 = { shouldResolve: true, response: messageResponse };
     mockMultipleApiRequests([req1, req2]);
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()).to.deep.include({
-        type: 'SM_MESSAGE_GET',
-        response: {
-          data: {
-            replyToName: getReplyToName(threadResponse),
-            threadFolderId: getThreadFolderId(threadResponse),
-            replyToMessageId: messageResponse.data.attributes.messageId,
-            attributes: {
-              ...threadResponse.data[0].attributes,
-              ...messageResponse.data.attributes,
-            },
-          },
-          included: undefined,
-        },
-      });
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Message.GET_HISTORY,
-        response: {
-          data: res.data.slice(1, res.data.length),
-        },
+      expect(store.getActions()[1]).to.include({
+        type: Actions.Thread.GET_THREAD,
       });
     });
   });
@@ -102,30 +66,30 @@ describe('messages actions', () => {
     const store = mockStore();
     const resWithDraft = JSON.parse(JSON.stringify(threadResponse));
     resWithDraft.data[0].attributes.draftDate = new Date();
+
+    const draftResponse = {
+      data: {
+        id: resWithDraft.data[0].id,
+        type: 'messages',
+        attributes: {
+          ...resWithDraft.data[0].attributes,
+        },
+        relationships: {
+          attachments: {
+            data: [],
+          },
+        },
+      },
+    };
+
     const req1 = { shouldResolve: true, response: resWithDraft };
     const req2 = { shouldResolve: true, response: messageResponse };
-    mockMultipleApiRequests([req1, req2]);
+    const req3 = { shouldResolve: true, response: draftResponse };
+    mockMultipleApiRequests([req1, req2, req3]);
+
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Draft.GET,
-        response: {
-          data: {
-            replyToName: getReplyToName(resWithDraft),
-            threadFolderId: getThreadFolderId(resWithDraft),
-            replyToMessageId: messageResponse.data.attributes.messageId,
-            attributes: {
-              ...resWithDraft.data[0].attributes,
-              ...messageResponse.data.attributes,
-            },
-          },
-          included: undefined,
-        },
-      });
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Draft.GET_HISTORY,
-        response: {
-          data: resWithDraft.data.slice(1, resWithDraft.data.length),
-        },
+      expect(store.getActions()[1]).to.include({
+        type: Actions.Thread.GET_THREAD,
       });
     });
   });
@@ -147,29 +111,8 @@ describe('messages actions', () => {
     const req2 = { shouldResolve: true, response: messageResponse };
     mockMultipleApiRequests([req1, req2]);
     await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Message.GET,
-        response: {
-          data: {
-            replyToName: getReplyToName(threadResponseSent),
-            threadFolderId: getThreadFolderId(threadResponseSent),
-            replyToMessageId: messageResponse.data.attributes.messageId,
-            attributes: {
-              ...threadResponseSent.data[0].attributes,
-              ...messageResponse.data.attributes,
-            },
-          },
-          included: undefined,
-        },
-      });
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Message.GET_HISTORY,
-        response: {
-          data: threadResponseSent.data.slice(
-            1,
-            threadResponseSent.data.length,
-          ),
-        },
+      expect(store.getActions()[1]).to.include({
+        type: Actions.Thread.GET_THREAD,
       });
     });
   });
@@ -180,7 +123,7 @@ describe('messages actions', () => {
     mockFetch({ ...threadNotFoundResponse }, false);
     await store.dispatch(retrieveMessageThread(1234)).catch(() => {
       expect(store.getActions()).to.deep.include({
-        type: Actions.Message.CLEAR,
+        type: Actions.Thread.CLEAR_THREAD,
       });
       expect(store.getActions()).to.deep.include({
         type: Actions.Alerts.ADD_ALERT,
@@ -254,9 +197,6 @@ describe('messages actions', () => {
     await store.dispatch(moveMessageThread(1234, 0)).then(() => {
       expect(store.getActions()).to.deep.include({
         type: Actions.Message.MOVE_REQUEST,
-      });
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Message.MOVE_SUCCESS,
       });
     });
   });

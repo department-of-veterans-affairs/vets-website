@@ -1,27 +1,29 @@
 {
-  "draftDetails": {
-    "draftMessage": {
-      "messageId": 2715950,
-      "category": "COVID",
-      "subject": "Covid Inquiry from OM",
-      "body": "This is a saved reply draft",
-      "attachment": null,
-      "sentDate": null,
-      "senderId": 251391,
-      "senderName": "MHVDAYMARK, MARK ",
-      "recipientId": 2710520,
-      "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "readReceipt": null,
-      "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "proxySenderName": null,
-      "threadId": 2710544,
-      "folderId": -2,
-      "messageBody": "This is a saved reply draft",
-      "draftDate": "2023-03-23T14:59:23.000+00:00",
-      "toDate": null,
-      "hasAttachments": false
-    },
-    "draftMessageHistory": [
+  "threadDetails": {
+    "drafts": [
+      {
+        "messageId": 2715950,
+        "category": "COVID",
+        "subject": "Covid Inquiry from OM",
+        "body": "This is a saved reply draft",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 2710520,
+        "recipientName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "readReceipt": null,
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2710544,
+        "folderId": -2,
+        "messageBody": "This is a saved reply draft",
+        "draftDate": "2023-03-23T14:59:23.000+00:00",
+        "toDate": null,
+        "hasAttachments": false
+      }
+    ],
+    "messages": [
       {
         "messageId": 2715943,
         "category": "COVID",
@@ -65,6 +67,7 @@
         "hasAttachments": false
       }
     ],
+    "replyToName": "MHVDAYMARK, MARK ",
     "lastSaveTime": null
   }
 }

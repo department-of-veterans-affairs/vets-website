@@ -10,9 +10,10 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { getTriageTeams } from '../actions/triageTeams';
-import { PrintMessageOptions } from '../util/constants';
+import { PageTitles, PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
+import { updatePageTitle } from '../util/helpers';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -124,6 +125,7 @@ const ThreadDetails = props => {
       );
     }
     if (drafts?.length === 1 && !messages?.length) {
+      updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">
           <h1 className="page-title vads-u-margin-top--0" ref={header}>

@@ -22,6 +22,7 @@ const ReplyForm = props => {
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
+  const signature = useSelector(state => state.sm.preferences.signature);
 
   useEffect(
     () => {
@@ -91,6 +92,7 @@ const ReplyForm = props => {
               replyToName={replyToName}
               replyMessage={replyMessage}
               setLastFocusableElement={setLastFocusableElement}
+              signature={signature}
             />
           </form>
         </section>
