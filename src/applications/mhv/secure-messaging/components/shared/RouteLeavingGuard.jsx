@@ -77,11 +77,16 @@ export const RouteLeavingGuard = ({
               .saveDraft && p1}
         </p>
         {p2 && <p>{p2}</p>}
-        <va-button text={confirmButtonText} onClick={closeModal} />
+        <va-button
+          text={confirmButtonText}
+          onClick={closeModal}
+          data-dd-action-name="Cancel Navigation Continue Editing Button"
+        />
         <va-button
           secondary
           text={cancelButtonText}
           onClick={handleConfirmNavigationClick}
+          data-dd-action-name="Confirm Navigation Leaving Button"
         />
       </VaModal>
     </>
