@@ -1,59 +1,58 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabilities';
+import { NULL_CONDITION_STRING } from '../../constants';
 
 describe('summaryOfDisabilitiesDescription', () => {
   it('renders selected rated disabilities', () => {
     const formData = {
+      newDisabilities: [],
+      ratedDisabilities: [
+        {
+          'view:selected': true,
+          name: 'condition 1',
+        },
+        {
+          'view:selected': true,
+          name: undefined,
+        },
+      ],
       'view:claimType': {
         'view:claimingIncrease': true,
         'view:claimingNew': false,
       },
-      ratedDisabilities: [
-        {
-          'view:selected': true,
-          name: 'Condition 1',
-        },
-        {
-          'view:selected': true,
-          name: 'Condition 2',
-        },
-      ],
     };
 
-    const wrapper = shallow(
-      <SummaryOfDisabilitiesDescription formData={formData} />,
-    );
-
-    expect(wrapper.find('li').length).to.equal(2);
-    wrapper.unmount();
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+    tree.getByText('Condition 1');
+    tree.getByText(NULL_CONDITION_STRING);
   });
 
   it('does not render unselected rated disabilities', () => {
     const formData = {
+      newDisabilities: [],
+      ratedDisabilities: [
+        {
+          'view:selected': true,
+          name: 'condition 1',
+        },
+        {
+          'view:selected': false,
+          name: 'condition 2',
+        },
+      ],
       'view:claimType': {
         'view:claimingIncrease': true,
         'view:claimingNew': false,
       },
-      ratedDisabilities: [
-        {
-          'view:selected': true,
-          name: 'Condition 1',
-        },
-        {
-          'view:selected': false,
-          name: 'Condition 2',
-        },
-      ],
     };
 
-    const wrapper = shallow(
-      <SummaryOfDisabilitiesDescription formData={formData} />,
-    );
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
 
-    expect(wrapper.find('li').length).to.equal(1);
-    wrapper.unmount();
+    tree.getByText('Condition 1');
+    expect(tree.queryByText('Condition 2')).to.be.null;
   });
 
   it('renders new disabilities', () => {
