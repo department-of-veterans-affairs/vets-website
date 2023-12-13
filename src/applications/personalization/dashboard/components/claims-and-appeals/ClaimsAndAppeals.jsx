@@ -108,8 +108,8 @@ const ClaimsAndAppeals = ({
   dataLoadingDisabled = false,
   hasAPIError,
   isLOA1,
-  loadAppeals,
-  loadClaims,
+  getAppeals,
+  getClaims,
   shouldLoadAppeals,
   shouldLoadClaims,
   shouldShowLoadingIndicator,
@@ -117,19 +117,19 @@ const ClaimsAndAppeals = ({
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadAppeals) {
-        loadAppeals();
+        getAppeals();
       }
     },
-    [dataLoadingDisabled, loadAppeals, shouldLoadAppeals],
+    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
   );
 
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
-        loadClaims();
+        getClaims();
       }
     },
-    [dataLoadingDisabled, loadClaims, shouldLoadClaims],
+    [dataLoadingDisabled, getClaims, shouldLoadClaims],
   );
 
   // the most recently updated open claim or appeal or
@@ -188,8 +188,8 @@ const ClaimsAndAppeals = ({
 
 ClaimsAndAppeals.propTypes = {
   hasAPIError: PropTypes.bool.isRequired,
-  loadAppeals: PropTypes.func.isRequired,
-  loadClaims: PropTypes.func.isRequired,
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
@@ -246,8 +246,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  loadAppeals: getAppealsAction,
-  loadClaims: getClaimsAction,
+  getAppeals: getAppealsAction,
+  getClaims: getClaimsAction,
 };
 
 export default connect(
