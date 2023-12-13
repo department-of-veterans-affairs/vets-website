@@ -3,102 +3,59 @@ import { expect } from 'chai';
 import {
   flagCurrentPageInTopLevelLinks,
   getAuthorizedLinkData,
-  removeTrailingSlash,
 } from '../containers/Main';
+
+import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
+import MY_VA_LINK from '../constants/MY_VA_LINK';
 
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
-    describe('removeTrailingSlash', () => {
-      it('should remove trailing slash from a URI', () => {
-        expect(removeTrailingSlash('/test/')).to.eql('/test');
-        expect(removeTrailingSlash('/test')).to.eql('/test');
-        expect(removeTrailingSlash('/')).to.eql('/');
-      });
-    });
-    describe('flagCurrentPageIntopLevelLinks', () => {
-      it('should return object with currentPage: true when path name matches href', () => {
-        // Test using pathName
-        let links = [
-          {
-            href: '/test',
-          },
-          {
-            href: '/test/',
-          },
-          {
-            href: '/test/otherpage',
-          },
-          {
-            href: 'not',
-          },
-          {
-            href: 'not/',
-          },
-        ];
-        let expectedResult = [
-          {
-            href: '/test',
-            currentPage: true,
-          },
-          {
-            href: '/test/',
-            currentPage: true,
-          },
-          {
-            href: '/test/otherpage',
-          },
-          {
-            href: 'not',
-          },
-          {
-            href: 'not/',
-          },
-        ];
-        let actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          undefined,
-          '/test',
-        );
-        expect(actualResult).to.eql(expectedResult);
-        actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          undefined,
-          '/test/',
-        );
-        expect(actualResult).to.eql(expectedResult);
+    const links = [MY_VA_LINK, MY_HEALTH_LINK];
 
-        // Test using href
-        links = [
-          {
-            href: '/test',
-          },
-          {
-            href: '/test/',
-          },
-          {
-            href: '/test/otherpage',
-          },
-        ];
-        expectedResult = [
-          {
-            href: '/test',
-            currentPage: true,
-          },
-          {
-            href: '/test/',
-            currentPage: true,
-          },
-          {
-            href: '/test/otherpage',
-          },
-        ];
-        actualResult = flagCurrentPageInTopLevelLinks(
-          links,
-          'http://example.com/test/somethingelse',
-        );
-        expect(actualResult).to.eql(expectedResult);
+    describe('link constants', () => {
+      links.forEach(({ href }) => {
+        it(`${href} must end with a forward-slash`, () => {
+          expect(href.endsWith('/')).to.be.true;
+        });
       });
     });
+
+    describe('flagCurrentPageInTopLevelLinks', () => {
+      ['/my-va', '/my-va/', '/my-va/abc', '/my-va/abc/'].forEach(path => {
+        it(`sets currentPage on the myVA link object for ${path} path`, () => {
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
+          expect(myVa.currentPage).to.be.true;
+          expect(myHealth.currentPage).to.be.undefined;
+        });
+      });
+
+      [
+        '/my-health',
+        '/my-health/',
+        '/my-health/messages',
+        '/my-health/messages/',
+      ].forEach(path => {
+        it(`sets currentPage on the myHealth link object for ${path} path`, () => {
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
+          expect(myVa.currentPage).to.be.undefined;
+          expect(myHealth.currentPage).to.be.true;
+        });
+      });
+
+      ['/', '/no', '', 'asdf', '/my-healthcare', '/my-va-benefits'].forEach(
+        path => {
+          it(`does not set currentPage for ${path} path`, () => {
+            const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
+              links,
+              path,
+            );
+            expect(myVa.currentPage).to.be.undefined;
+            expect(myHealth.currentPage).to.be.undefined;
+          });
+        },
+      );
+    });
+
     describe('maybeMergeAuthorizedLinkData', () => {
       it('should merge Authorized links when loggedIn is true', () => {
         const AuthorizedLinks = ['test2', 'test3'];
