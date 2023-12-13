@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import PhoneNumberWidget from './PhoneNumberWidget';
 /*
@@ -17,7 +19,9 @@ export default function uiSchema(title = 'Phone') {
       required: 'Please enter a phone number',
     },
     'ui:options': {
-      widgetClassNames: 'phone',
+      widgetClassNames: !environment.isProduction()
+        ? 'phone'
+        : 'va-input-medium-large',
     },
   };
 }
