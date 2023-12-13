@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import { supportingEvidenceOrientation } from '../../content/supportingEvidenceOrientation';
 
 describe('supportingEvidenceOrientation', () => {
@@ -9,11 +9,9 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingIncrease': true,
       },
     };
-    const result = supportingEvidenceOrientation({ formData });
+    const result = render(supportingEvidenceOrientation({ formData }));
     const expectedString = 'Your rated service-connected disabilities';
-    expect(result.props.children[1].props.children[0].props.children).to.equal(
-      expectedString,
-    );
+    result.getByText(expectedString);
   });
 
   it('renders new only li if only claiming new', () => {
@@ -25,9 +23,7 @@ describe('supportingEvidenceOrientation', () => {
     };
     const expectedString =
       'Your new service-connected disabilities or conditions';
-    const result = supportingEvidenceOrientation({ formData });
-    expect(result.props.children[1].props.children[1].props.children).to.equal(
-      expectedString,
-    );
+    const result = render(supportingEvidenceOrientation({ formData }));
+    result.getByText(expectedString);
   });
 });
