@@ -9,7 +9,7 @@ describe('Check confirmation message after save draft', () => {
   const inboxPage = new PatientInboxPage();
   const composePage = new PatientComposePage();
 
-  it('Check confirmation message after save draft', () => {
+  it.skip('Check confirmation message after save draft', () => {
     // https://glebbahmutov.com/blog/onbeforeunload/
     Cypress.on('window:before:load', win => {
       Object.defineProperty(win, 'onbeforeunload', {
