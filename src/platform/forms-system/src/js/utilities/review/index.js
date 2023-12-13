@@ -44,7 +44,7 @@ export const openAndEditChapter = error => {
     `va-accordion-item[data-chapter="${error.chapterKey}"`,
   );
 
-  const accordionItemButton = accordionItem?.shadowRoot?.querySelector(
+  const accordionItemButton = accordionItem.shadowRoot.querySelector(
     "button[aria-controls='content']",
   );
 
