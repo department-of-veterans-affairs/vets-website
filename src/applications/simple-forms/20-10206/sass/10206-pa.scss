@@ -10,3 +10,12 @@
 .form-panel legend > h3 {
   margin-bottom: 0 !important;
 }
+
+// a11y - Change gray box to white box with gray border.
+// Needed because when using a memorable date which
+// has a gray color hint text, the hint text compared to
+// the background color is too low contrast.
+.rjsf-array-field .va-growable-background {
+  border: 1px solid $color-gray-medium;
+  background-color: $color-white;
+}
