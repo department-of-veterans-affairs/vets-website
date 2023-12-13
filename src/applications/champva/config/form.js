@@ -1,4 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
 import get from 'platform/utilities/data/get';
 
 import {
@@ -176,8 +175,7 @@ const formConfig = {
             sponsorInfoTitle: inlineTitleUI('Relationship to Sponsor'),
             // TODO: is this different from the certifier and applicant? Or is this one of those?
             certifierRelationshipToSponsor: {
-              // TODO: update wording on here to be past tense
-              ...relationshipToVeteranUI('Sponsor'),
+              ...relationshipToVeteranUI('Sponsor'), // TODO: update wording on here to be past tense
               'ui:required': () => true,
             },
           },
