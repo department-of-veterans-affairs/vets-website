@@ -419,7 +419,10 @@ const ReplyDraftItem = props => {
       {draftsCount > 1 && (
         <>
           <h3 className="vads-u-margin-bottom--0p5">Draft {draftsequence}</h3>
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          <p
+            className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+            data-testid="last-edit-date"
+          >
             Last edited {dateFormat(draft.draftDate)}
           </p>
         </>

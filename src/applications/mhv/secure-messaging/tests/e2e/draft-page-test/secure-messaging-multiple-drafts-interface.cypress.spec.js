@@ -9,10 +9,13 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
-  it('verify headers', () => {
+  beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread();
+  });
+
+  it('verify headers', () => {
     const draftsCount = mockMultiDraftsResponse.data.filter(
       el => el.attributes.draftDate !== null,
     ).length;
@@ -37,18 +40,12 @@ describe('handle multiple drafts in one thread', () => {
         cy.wrap(el).should('include.text', 'Draft');
       });
 
-    cy.get('[class="vads-u-margin-top--0 vads-u-margin-bottom--3"]').each(
-      el => {
-        cy.wrap(el).should('include.text', 'edited');
-      },
-    );
+    cy.get('[data-testid="last-edit-date"]').each(el => {
+      cy.wrap(el).should('include.text', 'edited');
+    });
   });
 
   it('verify drafts detailed vew', () => {
-    site.login();
-    landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread();
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
