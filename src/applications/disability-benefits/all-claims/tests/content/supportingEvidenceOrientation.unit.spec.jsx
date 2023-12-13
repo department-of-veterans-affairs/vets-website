@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { supportingEvidenceOrientation } from '../../content/supportingEvidenceOrientation';
 
 describe('supportingEvidenceOrientation', () => {
-  it('renders increase only li if only claiming increase', () => {
+  it('renders increase message when claiming only an increase', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': false,
@@ -14,7 +14,7 @@ describe('supportingEvidenceOrientation', () => {
     result.getByText(expectedString);
   });
 
-  it('renders new only li if only claiming new', () => {
+  it('renders new message when claiming a new condition', () => {
     const formData = {
       'view:claimType': {
         'view:claimingNew': true,
