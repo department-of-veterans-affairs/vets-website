@@ -310,6 +310,11 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": "true",
+    "receivesIncome": true,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",

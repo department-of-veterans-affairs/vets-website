@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -16,6 +15,8 @@ import {
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
+import { toggleValues } from '../../feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '../../../utilities/feature-toggles/featureFlagNames';
 
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -201,7 +202,9 @@ const mapStateToProps = (state, ownProps) => {
     defaultLinks.push(MY_VA_LINK);
   }
 
-  const authenticatedLinks = isLandingPageEnabled(state)
+  const authenticatedLinks = toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvLandingPageEnabled
+  ]
     ? [{ ...MY_HEALTH_LINK }]
     : undefined;
 

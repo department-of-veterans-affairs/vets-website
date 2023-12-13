@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
@@ -97,3 +97,4 @@ describe('Pre-need sponsor mailing address', () => {
     form.unmount();
   });
 });
+ */

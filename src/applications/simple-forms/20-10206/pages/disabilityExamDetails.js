@@ -1,5 +1,7 @@
 import React from 'react';
 
+import moment from 'moment';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 import { validateCurrentOrPastMemorableDate } from 'platform/forms-system/src/js/validation.js';
@@ -19,6 +21,13 @@ export default {
     disabilityExams: {
       'ui:options': {
         itemName: 'exam date',
+        itemAriaLabel: formData => {
+          const friendlyDateString = moment(
+            formData.disabilityExamDate,
+            'YYYY-MM-DD',
+          ).format('LL');
+          return `Exam Date for ${friendlyDateString}`;
+        },
         viewField: DisabilityExamDate,
         keepInPageOnReview: true,
         customTitle: ' ',
@@ -73,7 +82,7 @@ export default {
       disabilityExams: {
         type: 'array',
         minItems: 1,
-        maxItems: 100,
+        maxItems: 5,
         items: {
           type: 'object',
           properties: {
