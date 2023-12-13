@@ -9,7 +9,6 @@ import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
-  clearMessageHistory,
   deleteMessage,
   retrieveMessageThread,
   moveMessageThread,
@@ -67,15 +66,6 @@ describe('messages actions', () => {
       },
     ],
   };
-
-  it('should dispatch action on clearMessageHistory', async () => {
-    const store = mockStore();
-    await store.dispatch(clearMessageHistory()).then(() => {
-      expect(store.getActions()).to.deep.include({
-        type: Actions.Message.CLEAR_HISTORY,
-      });
-    });
-  });
 
   it('should dispatch action on retrieveMessageThread', async () => {
     const store = mockStore();

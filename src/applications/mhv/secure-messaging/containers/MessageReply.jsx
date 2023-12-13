@@ -12,11 +12,10 @@ import { getPatientSignature } from '../actions/preferences';
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const { error } = useSelector(state => state.sm.draftDetails);
-  const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  const { drafts, messages, threadViewCount } = useSelector(
+  const { drafts, error, messages, threadViewCount } = useSelector(
     state => state.sm.threadDetails,
   );
+  const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
 
   useEffect(
@@ -35,7 +34,7 @@ const MessageReply = () => {
   );
 
   const content = () => {
-    if (messages[0] === undefined) {
+    if (replyMessage === undefined) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -54,7 +53,7 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm drafts={drafts} replyMessage={messages[0]} />;
+    return <ReplyForm drafts={drafts} replyMessage={replyMessage} />;
   };
 
   const thread = () => {

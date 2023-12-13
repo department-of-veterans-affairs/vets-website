@@ -11,12 +11,8 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
-export const clearMessageHistory = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR_HISTORY });
-};
-
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
+export const clearThread = () => async dispatch => {
+  dispatch({ type: Actions.Thread.CLEAR_THREAD });
 };
 
 /**
@@ -43,14 +39,9 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
  */
-export const retrieveMessageThread = (
-  messageId,
-  refresh = false,
-) => async dispatch => {
-  if (!refresh) {
-    dispatch(clearMessage());
-  }
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
+    dispatch(clearThread());
     const response = await getMessageThread(messageId);
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (msgResponse.errors) {
@@ -156,7 +147,6 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
     await moveThreadCall(threadId, folderId);
-    dispatch({ type: Actions.Message.MOVE_SUCCESS });
   } catch (e) {
     dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(

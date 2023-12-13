@@ -18,10 +18,7 @@ import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MessageThreadItem from './MessageThreadItem';
-import {
-  clearMessageHistory,
-  markMessageAsReadInThread,
-} from '../../actions/messages';
+import { markMessageAsReadInThread } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
 import useInterval from '../../hooks/use-interval';
 
@@ -91,15 +88,6 @@ const MessageThread = props => {
       }
     }
   }, 500);
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(clearMessageHistory());
-      };
-    },
-    [dispatch],
-  );
 
   useEffect(
     () => {

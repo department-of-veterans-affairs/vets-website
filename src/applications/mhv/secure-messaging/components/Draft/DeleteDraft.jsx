@@ -12,7 +12,6 @@ import {
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
-import { clearMessageHistory } from '../../actions/messages';
 
 const DeleteDraft = props => {
   const history = useHistory();
@@ -58,7 +57,6 @@ const DeleteDraft = props => {
       setIsModalVisible(false);
       dispatch(deleteDraft(draftId)).then(() => {
         if (draftsCount === 1) {
-          dispatch(clearMessageHistory());
           navigateToFolderByFolderId(
             activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
             history,

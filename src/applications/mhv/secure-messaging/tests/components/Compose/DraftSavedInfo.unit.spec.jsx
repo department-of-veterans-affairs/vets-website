@@ -33,7 +33,7 @@ describe('DraftSavedInfo component', () => {
     const customState = {
       sm: {
         threadDetails: {
-          ...initialState.sm.draftDetails,
+          ...initialState.sm.threadDetails,
           isSaving: true,
         },
       },
