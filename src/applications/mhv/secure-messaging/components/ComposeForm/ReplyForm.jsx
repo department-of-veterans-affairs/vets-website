@@ -451,6 +451,7 @@ const ReplyForm = props => {
                 data-testid="message-reply-to"
                 style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
                 data-dd-privacy="mask"
+                data-dd-action-name="Reply To Message Sender Input"
               >
                 <i
                   className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
@@ -469,6 +470,7 @@ const ReplyForm = props => {
               {!cannotReply ? (
                 <va-textarea
                   data-dd-privacy="mask"
+                  data-dd-action-name="Reply Message Body Textbox"
                   label="Message"
                   required
                   id="reply-message-body"
