@@ -148,13 +148,7 @@ const ComposeForm = props => {
         const filteredRecipients = recipients.allowedRecipients.filter(
           recipient => recipient.preferredTeam === true,
         );
-        // setRecipientsList(prevRecipientsList => [
-        //   ...prevRecipientsList.filter(
-        //     oldRecip =>
-        //       !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
-        //   ),
-        //   ...filteredRecipients,
-        // ]);
+
         setRecipientsList([...defaultRecipientsList, ...filteredRecipients]);
       }
 
@@ -623,7 +617,7 @@ const ComposeForm = props => {
               type="text"
               id="message-subject"
               name="message-subject"
-              className="message-subject"
+              class="message-subject"
               data-testid="message-subject-field"
               onInput={subjectHandler}
               value={subject}
@@ -637,7 +631,7 @@ const ComposeForm = props => {
               required
               id="compose-message-body"
               name="compose-message-body"
-              className="message-body"
+              class="message-body"
               data-testid="message-body-field"
               onInput={messageBodyHandler}
               value={messageBody || formattededSignature} // populate with the signature, unless theee is a saved draft
