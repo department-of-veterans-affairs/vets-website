@@ -5,7 +5,6 @@ export default function SpecializedMissionModalContent() {
   return (
     <>
       <h3>
-        {' '}
         {environment.isProduction() ? 'Specialized mission' : 'Community Focus'}
       </h3>
       <p>
