@@ -31,7 +31,7 @@ const PrintBtn = props => {
 
   const printModal = () => {
     return (
-      <div className="Print Modal message-actions-buttons-modal">
+      <div className="message-actions-buttons-modal">
         <VaModal
           data-dd-action-name="Print Modal Closed"
           id="print-modal"
