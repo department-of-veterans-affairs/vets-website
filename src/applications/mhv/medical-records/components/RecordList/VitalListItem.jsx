@@ -41,7 +41,7 @@ const VitalListItem = props => {
         to={`/vitals/${_.kebabCase(record.type)}-history`}
         className="vads-u-margin-y--0p5"
       >
-        <strong>View {displayName.toLowerCase()} over time</strong>
+        <strong>Review {displayName.toLowerCase()} over time</strong>
         <i
           className="fas fa-angle-right details-link-icon"
           aria-hidden="true"
