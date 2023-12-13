@@ -6,28 +6,24 @@ import ClaimContentionList, {
   MAX_CONTENTIONS,
 } from '../../components/ClaimContentionList';
 
+const mockContentions = [];
+for (let i = 0; i < MAX_CONTENTIONS + 1; i += 1) {
+  mockContentions.push({ name: `Condition ${i}` });
+}
+
 describe('ClaimContentionList', () => {
-  it('renders the first MAX_CONTENTIONS amount of contentions by default', () => {
-    const contentions = [];
-    for (let i = 0; i < MAX_CONTENTIONS + 1; i += 1) {
-      contentions.push({ name: `Contention ${i}` });
-    }
+  it(`renders the first ${MAX_CONTENTIONS} contentions by default`, () => {
     const { queryByText } = render(
-      <ClaimContentionList contentions={contentions} />,
+      <ClaimContentionList contentions={mockContentions} />,
     );
 
-    expect(queryByText(contentions[MAX_CONTENTIONS - 1].name)).to.exist;
-    expect(queryByText(contentions[MAX_CONTENTIONS].name)).to.not.exist;
+    expect(queryByText(mockContentions[MAX_CONTENTIONS - 1].name)).to.exist;
+    expect(queryByText(mockContentions[MAX_CONTENTIONS].name)).to.not.exist;
   });
 
-  it('should render a button to show all contentions if there are more than MAX_CONTENTIONS', () => {
-    const contentions = [];
-    for (let i = 0; i < MAX_CONTENTIONS + 1; i += 1) {
-      contentions.push({ name: `Contention ${i}` });
-    }
-
+  it(`should render a button to show all contentions if there are more than ${MAX_CONTENTIONS}`, () => {
     const { container } = render(
-      <ClaimContentionList contentions={contentions} />,
+      <ClaimContentionList contentions={mockContentions} />,
     );
 
     expect($('.show-all-button', container)).to.exist;
