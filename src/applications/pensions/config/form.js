@@ -81,6 +81,7 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
@@ -1373,6 +1374,13 @@ const formConfig = {
           path: 'financial/total-net-worth',
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
+        },
+        netWorthEstimation: {
+          title: 'net worth estimation',
+          path: 'financial/net-worth-estimation',
+          uiSchema: netWorthEstimation.uiSchema,
+          schema: netWorthEstimation.schema,
+          depends: formData => !formData.totalNetWorth,
         },
         transferredAssets: {
           title: 'Transferred assets',
