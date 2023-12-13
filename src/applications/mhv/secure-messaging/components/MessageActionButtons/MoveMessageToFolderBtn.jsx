@@ -116,6 +116,7 @@ const MoveMessageToFolderBtn = props => {
           modalTitle="Move to:"
           onCloseEvent={closeModal}
           visible={isMoveModalVisible}
+          data-dd-action-name="Move To Modal Closed"
         >
           <p>
             This conversation will be moved. Any replies to this message will
@@ -127,6 +128,7 @@ const MoveMessageToFolderBtn = props => {
             enable-analytics
             error={folderInputError}
             onVaValueChange={handleOnChangeFolder}
+            data-dd-action-name="Select Move to Radio Button"
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (
@@ -156,13 +158,23 @@ const MoveMessageToFolderBtn = props => {
                 name="defaultName"
                 value="newFolder"
                 checked={selectedFolder === 'newFolder'}
+                data-dd-action-name="Select Move to Radio Button"
               />
             </>
           </VaRadio>
           <p /> {/* to create extra margin between radio and action buttons */}
           {/* For creating a new folder and moving the thread */}
-          <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
-          <va-button secondary text="Cancel" onClick={closeModal} />
+          <va-button
+            text="Confirm"
+            onClick={handleConfirmMoveFolderTo}
+            data-dd-action-name="Confirm Move to Button"
+          />
+          <va-button
+            secondary
+            text="Cancel"
+            onClick={closeModal}
+            data-dd-action-name="Cancel Move to Button"
+          />
         </VaModal>
       </div>
     );
