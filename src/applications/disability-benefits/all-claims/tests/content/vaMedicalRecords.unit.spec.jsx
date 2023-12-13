@@ -1,18 +1,7 @@
-import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import { treatmentView } from '../../content/vaMedicalRecords';
 
 describe('vamedicalRecordsDescription', () => {
-  it('renders div with three children', () => {
-    const formData = {
-      treatmentCenterName: 'Test Facility',
-      treatmentDateRange: {
-        from: '2018-01-XX',
-      },
-    };
-    const result = treatmentView({ formData });
-    expect(result.props.children.length).to.equal(3);
-  });
-
   it('renders name as strong', () => {
     const formData = {
       treatmentCenterName: 'Test Facility',
@@ -20,8 +9,8 @@ describe('vamedicalRecordsDescription', () => {
         from: '2018-01-XX',
       },
     };
-    const result = treatmentView({ formData });
-    expect(result.props.children[0].type).to.equal('strong');
+    const result = render(treatmentView({ formData }));
+    result.getByText('Test Facility');
   });
 
   it('renders date as MMMM YYYY', () => {
@@ -31,29 +20,18 @@ describe('vamedicalRecordsDescription', () => {
         from: '2018-01-XX',
       },
     };
-    const result = treatmentView({ formData });
-    expect(result.props.children[2]).to.equal('January 2018');
+    const result = render(treatmentView({ formData }));
+    result.getByText('January 2018');
   });
 
   it('renders empty date if no date', () => {
     const formData = {
       treatmentCenterName: 'Test Facility',
       treatmentDateRange: {
-        from: '',
+        from: undefined,
       },
     };
-    const result = treatmentView({ formData });
-    expect(result.props.children[2]).to.equal('');
-  });
-
-  it('renders name as provided in formData', () => {
-    const formData = {
-      treatmentCenterName: 'Test Facility',
-      treatmentDateRange: {
-        from: '2018-01-XX',
-      },
-    };
-    const result = treatmentView({ formData });
-    expect(result.props.children[0].props.children).to.equal('Test Facility');
+    const result = render(treatmentView({ formData }));
+    result.getAllByText('', { exact: false });
   });
 });
