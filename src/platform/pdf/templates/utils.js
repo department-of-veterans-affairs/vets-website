@@ -331,7 +331,19 @@ const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 6 };
   let titleText = item.title ?? '';
   const content = [];
-  if (item.inline === true) {
+  if (item.value.type === 'image') {
+    content.push(
+      doc.struct('Div', () => {
+        doc.image(
+          Buffer.from(
+            item.value.image.replace(/^data:image\/\w+;base64,/, ''),
+            'base64',
+          ),
+          item.value.options,
+        );
+      }),
+    );
+  } else if (item.inline === true) {
     paragraphOptions.continued = true;
     titleText += ': ';
     content.push(

@@ -75,8 +75,6 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    // Image (to be added later)
-    // const cmopNdcNumber = rx.rxRfRecords.length && rx.rxRfRecords[0][1]?.[0]?.cmopNdcNumber || rx.cmopNdcNumber;
     if (rx?.prescriptionSource === 'NV') {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
@@ -164,16 +162,22 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            // {
-            //   title: 'Image of the medication or supply',
-            //   value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
-            //   inline: false,
-            // },
-            // {
-            //   title: 'Note',
-            //   value: 'This image is from your last refill of this medication.',
-            //   inline: true,
-            // }
+            {
+              title: 'Image of the medication or supply',
+              value: rx.prescriptionImage
+                ? {
+                    type: 'image',
+                    image: rx.prescriptionImage,
+                    options: { width: 200, height: 100 },
+                  }
+                : 'Image not available',
+              inline: false,
+            },
+            {
+              title: 'Note',
+              value: 'This image is from your last refill of this medication.',
+              inline: true,
+            },
           ],
         },
       ],
