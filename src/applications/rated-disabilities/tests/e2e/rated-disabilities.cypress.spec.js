@@ -14,7 +14,10 @@ const testHappyPath = () => {
   cy.intercept('GET', TOTAL_RATING_ENDPOINT, mockTotalRating).as(
     'mockTotalRating',
   );
-
+  cy.login();
+  cy.visit(RATED_DISABILITIES_PATH);
+  cy.injectAxe();
+  cy.wait('@mockDisabilities');
   cy.findByText(/90%/).should('exist');
   cy.findAllByText(/Diabetes mellitus0/).should('have.length', 2);
 };
@@ -28,7 +31,9 @@ const testErrorStates = () => {
     body: mockErrorResponse,
     statusCode: 404,
   }).as('totalRatingClientError');
-
+  cy.login();
+  cy.visit(RATED_DISABILITIES_PATH);
+  cy.injectAxe();
   cy.findByText(
     /We don’t have a combined disability rating on file for you/,
   ).should('exist');
@@ -38,12 +43,6 @@ const testErrorStates = () => {
 };
 
 describe('View rated disabilities', () => {
-  beforeEach(() => {
-    cy.login();
-    cy.visit(RATED_DISABILITIES_PATH);
-    cy.injectAxe();
-  });
-
   it('should display a total rating and a list of ratings', () => {
     testHappyPath();
     cy.axeCheck();
