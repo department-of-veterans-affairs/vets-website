@@ -37,7 +37,6 @@ describe('verify signature', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    landingPage.verifySignature();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

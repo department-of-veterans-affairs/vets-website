@@ -26,10 +26,7 @@ describe('Secure Messaging Delete Reply Draft', () => {
       force: true,
     });
     cy.realPress(['Enter']).then(() => {
-      PatientReplyPage.saveReplyDraft(
-        messageDetails,
-        `\n\n\nName\nTitleTest${testMessageBody}`,
-      );
+      PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
       cy.log(
         `the message details after saveReplyDraft ${JSON.stringify(
           messageDetails,

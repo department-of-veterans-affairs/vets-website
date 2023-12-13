@@ -413,7 +413,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+    cy.get('.vads-u-color--gray-dark')
       .eq(messageIndex)
       .should(
         'have.text',
