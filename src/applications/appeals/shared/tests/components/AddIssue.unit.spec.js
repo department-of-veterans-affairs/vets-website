@@ -69,12 +69,34 @@ describe('<AddIssue>', () => {
     expect($('va-text-input', container)).to.exist;
     expect($('va-memorable-date', container)).to.exist;
   });
+  it('should render with no data', () => {
+    const { container } = render(setup({ data: undefined }));
+    expect($('h3', container)).to.exist;
+    expect($('va-text-input', container)).to.exist;
+    expect($('va-memorable-date', container)).to.exist;
+  });
   it('should render description', () => {
     const page = setup({ description: <span id="test-span" /> });
     const { container } = render(page);
     expect($('h3', container)).to.exist;
     expect($('#test-span', container)).to.exist;
   });
+
+  it('should submit when valid', () => {
+    const goToPathSpy = sinon.spy();
+    const { container } = render(
+      setup({
+        goToPath: goToPathSpy,
+        data: {
+          additionalIssues: [{}, { issue: 'abcd', decisionDate: validDate }],
+        },
+        index: 1,
+      }),
+    );
+    fireEvent.click($('#submit', container));
+    expect(goToPathSpy.called).to.be.true;
+  });
+
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
@@ -113,7 +135,10 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { years: +200 } });
     const { container } = render(
       setup({
-        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
+        data: {
+          contestedIssues,
+          additionalIssues: [{ issue: 'abcd', decisionDate }],
+        },
         index: 1,
       }),
     );
@@ -129,7 +154,10 @@ describe('<AddIssue>', () => {
     const decisionDate = getDate({ offset: { months: +13 } });
     const { container } = render(
       setup({
-        data: { contestedIssues, additionalIssues: [{ decisionDate }] },
+        data: {
+          contestedIssues,
+          additionalIssues: [{ issue: 'abcd', decisionDate }],
+        },
         index: 1,
       }),
     );
