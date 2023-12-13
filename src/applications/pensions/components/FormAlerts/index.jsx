@@ -120,7 +120,7 @@ export const TotalNetWorthOverTwentyFiveThousand = () => (
     </p>
     <p>
       We’ll ask you to upload this form at the end of this application. Or you
-      can mail it to us.
+      can send it to us by mail.
     </p>
     <p>
       <a
