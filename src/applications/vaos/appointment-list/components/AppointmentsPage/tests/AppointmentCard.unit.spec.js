@@ -115,6 +115,36 @@ describe('AppointmentCard component', () => {
     expect(await wrapper.findByText(/VA Video Connect using a VA device/i)).to
       .exist;
   });
+  it('should return using a VA device as VideoAppointmentDescription if kind is ADHOC', async () => {
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isAtlas: false,
+        kind: 'ADHOC',
+        extension: {
+          patientHasMobileGfe: true,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findByText(/VA Video Connect using a VA device/i)).to
+      .exist;
+  });
   it('should return at home as VideoAppointmentDescription', async () => {
     const appointment = {
       ...appointmentData,
@@ -144,8 +174,73 @@ describe('AppointmentCard component', () => {
 
     expect(await wrapper.findByText(/VA Video Connect at home/i)).to.exist;
   });
+  it('should return at home as VideoAppointmentDescription if kind is ADHOC', async () => {
+    const appointment = {
+      ...appointmentData,
+      videoData: {
+        isAtlas: false,
+        kind: 'ADHOC',
+        extension: {
+          patientHasMobileGfe: false,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findByText(/VA Video Connect at home/i)).to.exist;
+  });
 
   it('should return correct Provider Name', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isVideo: false,
+        isCommunityCare: true,
+      },
+      communityCareProvider: {
+        providerName: ['MICHAEL BERMEL'],
+      },
+      videoData: {
+        isAtlas: false,
+        kind: 'MOBILE_ANY',
+        extension: {
+          patientHasMobileGfe: false,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findByText(/MICHAEL BERMEL/i)).to.exist;
+  });
+  it('should return correct Provider Name if practice name and name fields are null', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -256,6 +351,44 @@ describe('AppointmentCard component', () => {
 
     expect(await wrapper.findAllByText(/Community Care/i)).to.exist;
   });
+  it('should return community Care as provider name if no provider name is available', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isVideo: false,
+        isCommunityCare: true,
+      },
+      communityCareProvider: {
+        practiceName: null,
+        providerName: null,
+        name: null,
+      },
+      videoData: {
+        isAtlas: false,
+        kind: 'MOBILE_ANY',
+        extension: {
+          patientHasMobileGfe: false,
+        },
+      },
+    };
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facilityData}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    expect(await wrapper.findAllByText(/Community Care/i)).to.exist;
+  });
   it('should return facility name', async () => {
     const appointment = {
       ...appointmentData,
@@ -287,6 +420,39 @@ describe('AppointmentCard component', () => {
       },
     );
     expect(await wrapper.findAllByText(/Cheyenne VA Medical Center/i)).to.exist;
+  });
+  it('should return facility name as VA appointment', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isVideo: false,
+        isCommunityCare: false,
+      },
+      videoData: {
+        isAtlas: false,
+        kind: 'MOBILE_ANY',
+        extension: {
+          patientHasMobileGfe: false,
+        },
+      },
+    };
+    const facility = null;
+
+    const handleClick = sinon.spy();
+    const handleKeyDown = sinon.spy();
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCard
+        appointment={appointment}
+        facility={facility}
+        handleClick={handleClick}
+        handleKeyDown={handleKeyDown}
+      />,
+      {
+        initialState,
+      },
+    );
+    expect(await wrapper.findAllByText(/VA appointment/i)).to.exist;
   });
   it('should return correct label', async () => {
     const appointment = {

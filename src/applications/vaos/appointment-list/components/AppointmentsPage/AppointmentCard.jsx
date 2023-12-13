@@ -140,6 +140,7 @@ export default function AppointmentCard({
             onClick={e => e.preventDefault()}
             text="Details"
             role="link"
+            id="link"
           />
           <i
             aria-hidden="true"
@@ -180,9 +181,9 @@ AppointmentCard.propTypes = {
 AppointmentCard.defaultProps = {
   appointment: {
     communityCareProvider: {
-      providerName: [],
-      practiceName: '',
-      name: '',
+      providerName: null,
+      practiceName: null,
+      name: null,
     },
     status: '',
     start: '',
