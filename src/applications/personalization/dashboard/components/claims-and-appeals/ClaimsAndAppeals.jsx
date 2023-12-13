@@ -187,17 +187,17 @@ const ClaimsAndAppeals = ({
 };
 
 ClaimsAndAppeals.propTypes = {
-  hasAPIError: PropTypes.bool.isRequired,
+  appealsData: PropTypes.arrayOf(PropTypes.object),
+  claimsData: PropTypes.arrayOf(PropTypes.object),
+  dataLoadingDisabled: PropTypes.bool,
   getAppeals: PropTypes.func.isRequired,
   getClaims: PropTypes.func.isRequired,
+  hasAPIError: PropTypes.bool.isRequired,
+  isLOA1: PropTypes.bool,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
   userFullName: PropTypes.object.isRequired,
-  appealsData: PropTypes.arrayOf(PropTypes.object),
-  claimsData: PropTypes.arrayOf(PropTypes.object),
-  dataLoadingDisabled: PropTypes.bool,
-  isLOA1: PropTypes.bool,
 };
 
 PopularActionsForClaimsAndAppeals.propTypes = {

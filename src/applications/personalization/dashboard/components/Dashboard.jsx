@@ -137,10 +137,13 @@ const Dashboard = ({
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // use Drupal based Cerner facility data
-    connectDrupalSourceOfTruthCerner(dispatch);
-  }, []);
+  useEffect(
+    () => {
+      // use Drupal based Cerner facility data
+      connectDrupalSourceOfTruthCerner(dispatch);
+    },
+    [dispatch],
+  );
 
   // focus on the name tag or the header when we are done loading
   useEffect(
