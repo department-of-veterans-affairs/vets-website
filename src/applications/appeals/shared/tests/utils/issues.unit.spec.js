@@ -1,18 +1,21 @@
 import { expect } from 'chai';
 
-import { SELECTED } from '../../constants';
+import { SELECTED, LEGACY_TYPE } from '../../constants';
 import {
   appStateSelector,
   calculateIndexOffset,
   getIssueDate,
   getIssueName,
   getIssueNameAndDate,
+  getLegacyAppealsLength,
+  getIssuesListItems,
   getSelected,
   getSelectedCount,
   hasDuplicates,
   hasSomeSelected,
   issuesNeedUpdating,
   processContestableIssues,
+  returnUniqueIssues,
   someSelected,
 } from '../../utils/issues';
 
@@ -65,6 +68,37 @@ describe('getIssueNameAndDate', () => {
   });
 });
 
+describe('getLegacyAppealsLength', () => {
+  it('should return no legacy issues', () => {
+    const issues = [{ type: '' }, { type: '' }];
+    expect(getLegacyAppealsLength()).to.eq(0);
+    expect(getLegacyAppealsLength([])).to.eq(0);
+    expect(getLegacyAppealsLength(issues)).to.eq(0);
+    expect(
+      getLegacyAppealsLength([{ type: LEGACY_TYPE, attributes: {} }]),
+    ).to.eq(0);
+  });
+
+  it('should return 3 legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([
+        { type: '' },
+        { type: '' },
+        { type: LEGACY_TYPE, attributes: { issues: ['', '', ''] } },
+      ]),
+    ).to.eq(3);
+    expect(
+      getLegacyAppealsLength([
+        { type: '' },
+        { type: '' },
+        { type: LEGACY_TYPE, attributes: { issues: ['', '', ''] } },
+        // unlikely to have multiple legacy type entries
+        { type: LEGACY_TYPE, attributes: { issues: [''] } },
+      ]),
+    ).to.eq(4);
+  });
+});
+
 describe('someSelected', () => {
   it('should return true for issues that have some selected values', () => {
     expect(someSelected([{ [SELECTED]: true }, {}])).to.be.true;
@@ -92,6 +126,7 @@ describe('hasSomeSelected', () => {
     ).to.be.true;
   });
   it('should return false for no selected issues', () => {
+    expect(hasSomeSelected()).to.be.false;
     expect(testIssues()).to.be.false;
     expect(testIssues([], [])).to.be.false;
     expect(testIssues([{}], [{}])).to.be.false;
@@ -104,7 +139,12 @@ describe('hasSomeSelected', () => {
   });
 });
 
-describe('getSelected & getSelectedCount', () => {
+describe('getSelected,  getSelectedCount, & getIssuesListItems', () => {
+  it('should return an empty array', () => {
+    expect(getSelected()).to.deep.equal([]);
+    expect(getSelectedCount()).to.eq(0);
+    expect(getIssuesListItems().length).to.eq(0);
+  });
   it('should return selected contestable issues', () => {
     const data = {
       contestedIssues: [
@@ -116,6 +156,7 @@ describe('getSelected & getSelectedCount', () => {
       { type: 'ok', [SELECTED]: true, index: 0 },
     ]);
     expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
+    expect(getIssuesListItems(data).length).to.eq(1);
   });
   it('should return selected additional issues', () => {
     const data = {
@@ -128,6 +169,7 @@ describe('getSelected & getSelectedCount', () => {
       { type: 'ok', [SELECTED]: true, index: 0 },
     ]);
     expect(getSelectedCount(data, data.additionalIssues)).to.eq(1);
+    expect(getIssuesListItems(data).length).to.eq(1);
   });
   it('should return all selected issues', () => {
     const data = {
@@ -145,6 +187,7 @@ describe('getSelected & getSelectedCount', () => {
       { type: 'ok2', [SELECTED]: true, index: 1 },
     ]);
     expect(getSelectedCount(data, data.additionalIssues)).to.eq(2);
+    expect(getIssuesListItems(data).length).to.eq(2);
   });
 });
 
@@ -194,6 +237,32 @@ describe('hasDuplicates', () => {
   });
 });
 
+describe('returnUniqueIssues', () => {
+  const issues = [
+    { attributes: { issue: 'test', decisionDate: '2023-01-01' } },
+    { attributes: { issue: 'test', decisionDate: '2023-01-02' } },
+    { attributes: { issue: 'test', decisionDate: '2023-01-03' } },
+  ];
+  it('should return an empty array', () => {
+    expect(returnUniqueIssues([])).to.deep.equal([]);
+  });
+  it('should return same issues', () => {
+    expect(returnUniqueIssues(issues)).to.deep.equal(issues);
+  });
+  it('should return only unique issues', () => {
+    const duplicates = [
+      { attributes: { issue: 'test', decisionDate: '2023-01-01' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-02' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-01' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-03' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-03' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-02' } },
+      { attributes: { issue: 'test', decisionDate: '2023-01-01' } },
+    ];
+    expect(returnUniqueIssues(duplicates)).to.deep.equal(issues);
+  });
+});
+
 describe('processContestableIssues', () => {
   const getIssues = dates =>
     dates.map(date => ({
@@ -203,6 +272,8 @@ describe('processContestableIssues', () => {
     dates.map(date => date.attributes.approxDecisionDate);
 
   it('should return an empty array with undefined issues', () => {
+    expect(processContestableIssues()).to.deep.equal([]);
+    expect(processContestableIssues([{}])).to.deep.equal([]);
     expect(getDates(processContestableIssues())).to.deep.equal([]);
   });
   it('should filter out issues missing a title', () => {
@@ -211,6 +282,30 @@ describe('processContestableIssues', () => {
     const result = processContestableIssues(issues);
     expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
   });
+  it('should return partial data', () => {
+    expect(
+      processContestableIssues([
+        { attributes: { ratingIssueSubjectText: '1', approxDecisionDate: '' } },
+        { attributes: { ratingIssueSubjectText: '2', approxDecisionDate: '' } },
+      ]),
+    ).to.deep.equal([
+      {
+        attributes: {
+          ratingIssueSubjectText: '1',
+          description: '',
+          approxDecisionDate: '',
+        },
+      },
+      {
+        attributes: {
+          ratingIssueSubjectText: '2',
+          description: '',
+          approxDecisionDate: '',
+        },
+      },
+    ]);
+  });
+
   it('should sort issues spanning months with newest date first', () => {
     const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
     const result = processContestableIssues(getIssues(dates));
@@ -254,6 +349,11 @@ describe('issuesNeedUpdating', () => {
       ratingIssueSubjectText,
       approxDecisionDate,
     },
+  });
+  it('should return false with empty data', () => {
+    expect(issuesNeedUpdating()).to.be.false;
+    expect(issuesNeedUpdating([])).to.be.false;
+    expect(issuesNeedUpdating([{}])).to.be.false;
   });
   it('should return true if array lengths are different', () => {
     expect(issuesNeedUpdating([createEntry()], [createEntry('a')])).to.be.true;
