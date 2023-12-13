@@ -10,17 +10,10 @@ describe('Check confirmation message after save draft', () => {
   const composePage = new PatientComposePage();
 
   it('Check confirmation message after save draft', () => {
-    // https://glebbahmutov.com/blog/onbeforeunload/
-    Cypress.on('window:before:load', win => {
-      Object.defineProperty(win, 'onbeforeunload', {
-        value: undefined,
-        writable: false,
-      });
-    });
     site.login();
     inboxPage.loadInboxMessages();
 
-    inboxPage.navigateToComposePage();
+    inboxPage.navigateToComposePage(true);
     composePage.selectRecipient(requestBody.recipientId);
     composePage
       .getCategory(requestBody.category)
@@ -43,7 +36,6 @@ describe('Check confirmation message after save draft', () => {
       },
     });
     // next line is for checking if assertion works properly
-
     cy.get('#save-draft-button')
       .should('exist')
       .and('be.focused');

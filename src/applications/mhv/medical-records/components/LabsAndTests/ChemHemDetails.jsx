@@ -5,17 +5,28 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../../util/helpers';
+import InfoAlert from '../shared/InfoAlert';
+import {
+  makePdf,
+  processList,
+  generateTextFile,
+  getNameDateAndTime,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
+  formatName,
 } from '../../../shared/util/helpers';
+import {
+  txtLine,
+  txtLineDotted,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../../shared/util/constants';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
@@ -123,11 +134,43 @@ const ChemHemDetails = props => {
       })),
     };
 
-    makePdf(
-      'microbiology_report',
-      scaffold,
-      'Microbiology details',
-      runningUnitTest,
+    makePdf('chem/hem_report', scaffold, 'Chem/Hem details', runningUnitTest);
+  };
+
+  const generateChemHemTxt = async () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Type of test: ${record.type} \n
+Sample tested: ${record.sampleTested} \n
+Ordered by: ${record.orderedBy} \n
+Order location: ${record.orderingLocation} \n
+Collecting location: ${record.collectingLocation} \n
+Provider notes: ${processList(record.comments)} \n
+${txtLine}\n\n
+Results:
+${record.results
+      .map(
+        entry => `
+${txtLine}\n
+${entry.name}
+${txtLineDotted}
+Result: ${entry.result}
+Standard range: ${entry.standardRange}
+Status: ${entry.status}
+Lab location: ${entry.labLocation}
+Interpretation: ${entry.interpretation}\n`,
+      )
+      .join('')}`;
+
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
   };
 
@@ -142,6 +185,7 @@ const ChemHemDetails = props => {
       <div className="no-print">
         <PrintDownload
           download={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
@@ -177,28 +221,7 @@ const ChemHemDetails = props => {
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p className="vads-u-margin-bottom--1">
-            If your results are outside the standard range, this doesn’t
-            automatically mean you have a health problem. Your provider will
-            review your results and explain what they mean for your health.
-          </p>
-          <p>To ask a question now, send a secure message to your care team.</p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-              rel="noreferrer" // check dis
-            >
-              Compose a message.
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean
