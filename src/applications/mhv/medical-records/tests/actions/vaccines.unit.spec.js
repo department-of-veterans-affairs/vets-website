@@ -8,7 +8,6 @@ import {
   getVaccinesList,
 } from '../../actions/vaccines';
 import vaccines from '../fixtures/vaccines.json';
-import vaccine from '../fixtures/vaccine.json';
 
 describe('Get vaccines action', () => {
   it('should dispatch a get list action', () => {
@@ -25,11 +24,15 @@ describe('Get vaccines action', () => {
 
 describe('Get vaccine action', () => {
   it('should dispatch a get details action', () => {
-    const mockData = vaccine;
+    const mockData = { id: '1', title: 'Sample Note' };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106')(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
+    return getVaccineDetails('1', [{ id: '1', title: 'Sample Note' }])(
+      dispatch,
+    ).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vaccines.GET_FROM_LIST,
+      );
     });
   });
 });

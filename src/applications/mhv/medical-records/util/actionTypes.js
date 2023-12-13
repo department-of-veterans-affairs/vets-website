@@ -25,7 +25,6 @@ export const Actions = {
   Vitals: {
     GET: 'MR_VITALS_GET',
     GET_LIST: 'MR_VITALS_GET_LIST',
-    GET_FROM_LIST: 'MR_VITALS_GET_FROM_LIST',
     CLEAR_DETAIL: 'MR_VITAL_CLEAR_DETAIL',
   },
   Conditions: {

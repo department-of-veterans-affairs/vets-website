@@ -213,64 +213,20 @@ export const dispatchDetails = async (
   actionsGetFROMLIST,
   actionsGET,
 ) => {
-  // Determine the property to match based on getDetail
-  const propertyToMatch = getDetail.name === 'getVitals' ? 'type' : 'id';
-  // Find the matching item in the list
-  const matchingItem = list.find(item => item[propertyToMatch] === id);
-  console.log('The propertyToMatch: ', propertyToMatch);
-  console.log('The matchingItem : ', matchingItem);
-  console.log('This is id : ', id);
+  if (!list || list.length === 0) {
+    const response = await getDetail(id);
+    dispatch({ type: actionsGET, response });
+  } else {
+    const matchingItem = list.find(item => item.id === id);
 
-  if (!list || list.length === 0 || !matchingItem) {
-    if (getDetail.name === 'getVitals') {
-      console.log('I am here ty barnes:', getDetail.name);
-      // If the function name is 'getVitals', call it and then dispatch the action
-      dispatch(getDetail());
-      dispatch({ type: actionsGET, id });
+    if (matchingItem) {
+      dispatch({
+        type: actionsGetFROMLIST,
+        response: matchingItem,
+      });
     } else {
-      console.log('I am in not list: hello');
-      // List has no data or is empty, fetch the data using getDetail(id)
       const response = await getDetail(id);
       dispatch({ type: actionsGET, response });
     }
-    return;
   }
-  // If a matching item is found, dispatch it
-  console.log('I am inside the else: Hi');
-  dispatch({
-    type: actionsGetFROMLIST,
-    response: matchingItem,
-  });
 };
-
-// export const dispatchDetails = async (
-//   id,
-//   list,
-//   dispatch,
-//   getDetail,
-//   actionsGetFROMLIST,
-//   actionsGET,
-// ) => {
-//   // Determine the property to match based on getDetail
-//   const propertyToMatch = getDetail.name === 'getVitals' ? 'type' : 'id';
-//   // Find the matching item in the list
-//   const matchingItem = list.find(item => item[propertyToMatch] === id);
-
-//   if (!list || list.length === 0 || !matchingItem) {
-//     if (getDetail.name === 'getVitals') {
-//       // If the function name is 'getVitals', call it and then dispatch the action
-//       dispatch(getDetail());
-//       dispatch({ type: actionsGET, id });
-//     } else {
-//       // List has no data or is empty, fetch the data using getDetail(id)
-//       const response = await getDetail(id);
-//       dispatch({ type: actionsGET, response });
-//     }
-//     return;
-//   }
-//   // If a matching item is found, dispatch it
-//   dispatch({
-//     type: actionsGetFROMLIST,
-//     response: matchingItem,
-//   });
-// };

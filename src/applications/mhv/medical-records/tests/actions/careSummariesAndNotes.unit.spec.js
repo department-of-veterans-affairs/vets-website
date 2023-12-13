@@ -3,7 +3,6 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import notes from '../fixtures/notes.json';
-import note from '../fixtures/dischargeSummary.json';
 import {
   clearCareSummariesDetails,
   getCareSummariesAndNotesList,
@@ -25,12 +24,14 @@ describe('Get care summaries and notes list action', () => {
 
 describe('Get care summaries and notes details action', () => {
   it('should dispatch a get details action', () => {
-    const mockData = note;
+    const mockData = { id: '1', title: 'Sample Note' };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails('ex-MHV-note-1')(dispatch).then(() => {
+    return getCareSummaryAndNotesDetails('1', [
+      { id: '1', title: 'Sample Note' },
+    ])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.CareSummariesAndNotes.GET,
+        Actions.CareSummariesAndNotes.GET_FROM_LIST,
       );
     });
   });

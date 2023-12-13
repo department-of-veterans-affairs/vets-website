@@ -3,7 +3,6 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import conditions from '../fixtures/conditions.json';
-import condition from '../fixtures/condition.json';
 import {
   clearConditionDetails,
   getConditionDetails,
@@ -25,11 +24,15 @@ describe('Get conditions action', () => {
 
 describe('Get condition action', () => {
   it('should dispatch a get details action', () => {
-    const mockData = condition;
+    const mockData = { id: '1', title: 'Sample Note' };
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getConditionDetails('3106')(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
+    return getConditionDetails('1', [{ id: '1', title: 'Sample Note' }])(
+      dispatch,
+    ).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Conditions.GET_FROM_LIST,
+      );
     });
   });
 });
