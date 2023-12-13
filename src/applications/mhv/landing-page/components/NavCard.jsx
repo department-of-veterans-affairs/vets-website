@@ -1,8 +1,6 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { getTextFromElement } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -13,13 +11,13 @@ const NavCard = ({ icon = null, title, links }) => {
         aria-label={ariaLabel}
         onClick={() => {
           const header =
-            typeof text === 'object' && text !== null
-              ? getTextFromElement(text)
-              : text;
+            typeof text === 'object' && text !== null ? 'Inbox' : text;
+          const sectionHeader =
+            typeof text === 'object' && text !== null ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
             'links-list-header': header,
-            'links-list-section-header': title,
+            'links-list-section-header': sectionHeader,
           });
         }}
       >
