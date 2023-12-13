@@ -33,6 +33,7 @@ export default function vaTextInputFieldMapping(props) {
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     type: inputType,
     width: uiOptions?.width,
+    charcount: uiOptions?.charcount,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;

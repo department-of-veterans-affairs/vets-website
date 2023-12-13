@@ -5,25 +5,18 @@ import SkinDeep from 'skin-deep';
 import SpouseMarriageTitle from '../../components/SpouseMarriageTitle';
 
 describe('Pensions SpouseMarriageTitle', () => {
-  it('should render first marriage title', () => {
+  it('should render single marriage title', () => {
     const tree = SkinDeep.shallowRender(
-      <SpouseMarriageTitle id="id" formContext={{ pagePerItemIndex: 0 }} />,
+      <SpouseMarriageTitle id="id" formData={{ spouseMarriages: [{}] }} />,
     );
 
-    expect(tree.text()).to.contain('Spouse’s first marriage');
+    expect(tree.text()).to.contain('Spouse’s former marriage');
   });
-  it('should render eleventh marriage title', () => {
+  it('should render multi-marriage title', () => {
     const tree = SkinDeep.shallowRender(
-      <SpouseMarriageTitle id="id" formContext={{ pagePerItemIndex: 10 }} />,
+      <SpouseMarriageTitle id="id" formData={{ spouseMarriages: [{}, {}] }} />,
     );
 
-    expect(tree.text()).to.contain('Spouse’s eleventh marriage');
-  });
-  it('should render 50th marriage title', () => {
-    const tree = SkinDeep.shallowRender(
-      <SpouseMarriageTitle id="id" formContext={{ pagePerItemIndex: 49 }} />,
-    );
-
-    expect(tree.text()).to.contain('Spouse’s 50th marriage');
+    expect(tree.text()).to.contain('Spouse’s former marriages');
   });
 });
