@@ -3,12 +3,11 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import { fileHelp, submit } from '../helpers.jsx';
-
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
+import { fileHelp, formatCurrency, submit } from '../helpers.jsx';
 
 describe('Pensions helpers', () => {
   const FileHelp = fileHelp;
@@ -152,6 +151,13 @@ describe('Pensions helpers', () => {
     });
     afterEach(() => {
       delete window.URL;
+    });
+  });
+  describe('formatCurrency', () => {
+    it('should format US currency', () => {
+      expect(formatCurrency(0.0)).to.equal('$0.00');
+      expect(formatCurrency(1000)).to.equal('$1000');
+      expect(formatCurrency(12.75)).to.equal('$12.75');
     });
   });
 });
