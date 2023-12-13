@@ -10,9 +10,17 @@ import MY_VA_LINK from '../constants/MY_VA_LINK';
 
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
-    describe('flagCurrentPageInTopLevelLinks', () => {
-      const links = [MY_VA_LINK, MY_HEALTH_LINK];
+    const links = [MY_VA_LINK, MY_HEALTH_LINK];
 
+    describe('link constants', () => {
+      links.forEach(({ href }) => {
+        it(`${href} must end with a forward-slash`, () => {
+          expect(href.endsWith('/')).to.be.true;
+        });
+      });
+    });
+
+    describe('flagCurrentPageInTopLevelLinks', () => {
       ['/my-va', '/my-va/', '/my-va/abc', '/my-va/abc/'].forEach(path => {
         it(`sets currentPage on the myVA link object for ${path} path`, () => {
           const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
@@ -34,13 +42,18 @@ describe('mega-menu', () => {
         });
       });
 
-      ['/', '/no', '', 'asdf'].forEach(path => {
-        it(`does not set currentPage for ${path} path`, () => {
-          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
-          expect(myVa.currentPage).to.be.undefined;
-          expect(myHealth.currentPage).to.be.undefined;
-        });
-      });
+      ['/', '/no', '', 'asdf', '/my-healthcare', '/my-va-benefits'].forEach(
+        path => {
+          it(`does not set currentPage for ${path} path`, () => {
+            const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
+              links,
+              path,
+            );
+            expect(myVa.currentPage).to.be.undefined;
+            expect(myHealth.currentPage).to.be.undefined;
+          });
+        },
+      );
     });
 
     describe('maybeMergeAuthorizedLinkData', () => {
