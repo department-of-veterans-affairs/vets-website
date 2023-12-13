@@ -15,7 +15,7 @@ describe('Child address page', () => {
     uiSchema,
     arrayPath,
     title,
-  } = formConfig.chapters.householdInformation.pages.childrenAddress;
+  } = formConfig.chapters.householdInformation.pages.dependentChildAddress;
   const nameData = {
     'view:hasDependents': true,
     dependents: [
