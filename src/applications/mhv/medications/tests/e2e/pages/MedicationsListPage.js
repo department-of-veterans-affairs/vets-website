@@ -322,7 +322,7 @@ class MedicationsListPage {
     cy.get(
       `#card-header-${
         prescriptionDetails.data.attributes.prescriptionId
-      } > .no-print`,
+      } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
   };
 }
