@@ -222,6 +222,16 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
+  saveMultiDraftMessage = (mockResponse, messageId) => {
+    cy.intercept(
+      'PUT',
+      `${Paths.SM_API_BASE}/message_drafts/3163320/replydraft/${messageId}`,
+      { data: mockResponse },
+    ).as('saveDraft');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.wait('@saveDraft');
+  };
+
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
     cy.intercept(
       'DELETE',

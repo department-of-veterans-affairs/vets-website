@@ -48,8 +48,11 @@ const DraftSavedInfo = () => {
           status="success"
           visible
           aria-describedby="save-draft-button"
+          data-test-id="save-alert-message"
         >
-          <p className="vads-u-margin-y--0">{content()}</p>
+          <p className="vads-u-margin-y--0" id="messagetext">
+            {content()}
+          </p>
         </va-alert>
       </>
     );

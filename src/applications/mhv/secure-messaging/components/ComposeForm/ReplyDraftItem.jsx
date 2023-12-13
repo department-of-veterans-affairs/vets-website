@@ -510,6 +510,7 @@ const ReplyDraftItem = props => {
           <va-button
             secondary
             text={`Edit draft ${draftsequence}`}
+            id="edit-draft-button"
             onClick={() => {
               toggleEditHandler(draft.messageId);
               setFocusToTextarea(true);
