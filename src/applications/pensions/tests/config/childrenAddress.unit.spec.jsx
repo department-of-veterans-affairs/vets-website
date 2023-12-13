@@ -61,9 +61,8 @@ describe('Child address page', () => {
     const formDOM = getFormDOM(form);
     formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-      13,
-    );
+    expect(formDOM.querySelectorAll('va-select').length).to.equal(1);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(5);
   });
 
   it('should show errors when required fields are empty', () => {
