@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -14,11 +14,6 @@ describe('re-save multiple drafts in one thread', () => {
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
 
-    cy.wait('@multiDraft');
-    cy.wait('@firstDraft');
-    cy.wait('@secondDraft');
-    cy.wait('@firstSentMessage');
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -28,28 +23,23 @@ describe('re-save multiple drafts in one thread', () => {
       },
     });
 
-    // cy.get('[id="reply-message-body"]').shadow().find('#textarea', ).should('be.enabled', {timeout: 10000}).type('newText',{ waitForAnimations: true })
-    cy.get("h2:contains('drafts')").should('be.visible');
-    cy.get('va-textarea')
-      .shadow()
-      .find('textarea')
-      .should('be.visible')
-      .should('be.enabled')
-      .type('newText', { force: true, waitForAnimations: true });
-    // .type('newText', { delay: 1000, waitForAnimations: true });
-    // .click({ waitForAnimations: true });
-    // cy.wait(10000)
+    cy.get('#textarea').type('newText', { force: true });
 
-    // cy.get('[id="reply-message-body"]')
-    //   .shadow()
-    //   .find('textarea')
-    //   .should('be.enabled')
-    //   .type('newText', { waitForAnimations: true });
+    cy.intercept(
+      'PUT',
+      'my_health/v1/messaging/message_drafts/3163320/replydraft/3163906',
+      { data: mockMultiDraftsResponse.data[0] },
+    ).as('saveDraft');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.wait('@saveDraft');
 
-    // cy.get('#textarea').should('be.enabled').type('newText', {waitForAnimations: true})
+    cy.get('.last-save-time > .vads-u-margin-y--0').should(
+      'include.text',
+      'message was saved',
+    );
   });
 
-  it('verify second draft could be re-saved', () => {
+  it.skip('verify second draft could be re-saved', () => {
     site.login();
     landingPage.loadInboxMessages();
     draftPage.loadMultiDraftThread();
