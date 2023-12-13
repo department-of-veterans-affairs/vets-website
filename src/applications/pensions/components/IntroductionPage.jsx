@@ -19,7 +19,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
           startText="Start the pension application"
-          retentionPeriod="a year"
+          retentionPeriod="one year"
           retentionPeriodStart="when you start"
         />
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
