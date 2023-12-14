@@ -154,7 +154,6 @@ export default Object.freeze({
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   show526Wizard: 'show526_wizard',
-  showAuthenticatedMenuEnhancements: 'show_authenticated_menu_enhancements',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
