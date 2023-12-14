@@ -7,6 +7,7 @@ const PaginationWrapper = ({ handlePageSelect, currentPage, totalPages }) => {
     return (
       <div className="pagination-container vads-u-padding-bottom--2">
         <VaPagination
+          max-page-list-length={7}
           onPageSelect={handlePageSelect}
           page={currentPage}
           pages={totalPages}

@@ -32,6 +32,8 @@ export const orgSortOptions = {
  */
 export const useStagingDataLocally = true;
 
+export const claimsAgentIsEnabled = false;
+
 const railsEngineApi = {
   baseUrl:
     useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
