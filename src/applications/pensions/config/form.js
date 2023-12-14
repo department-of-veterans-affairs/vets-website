@@ -19,6 +19,10 @@ import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
 import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import createNonRequiredFullName from '@department-of-veterans-affairs/platform-forms/nonRequiredFullName';
 import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+import {
+  addressSchema,
+  addressUI,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
   getMarriageTitleWithCurrent,
@@ -85,6 +89,7 @@ import netWorthEstimation from './chapters/05-financial-information/netWorthEsti
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -931,7 +936,7 @@ const formConfig = {
                   'ui:widget': 'yesNo',
                 },
                 married: {
-                  'ui:title': 'Are they currently married?',
+                  'ui:title': 'Is your child currently married?',
                   'ui:widget': 'yesNo',
                   'ui:required': (formData, index) =>
                     !!get(['dependents', index, 'previouslyMarried'], formData),
@@ -960,7 +965,9 @@ const formConfig = {
                   properties: {
                     childInHousehold:
                       dependents.items.properties.childInHousehold,
-                    childAddress: dependents.items.properties.childAddress,
+                    childAddress: addressSchema({
+                      omit: ['street3', 'isMilitary'],
+                    }),
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -977,21 +984,25 @@ const formConfig = {
                   'ui:title': 'Does your child live with you?',
                   'ui:widget': 'yesNo',
                 },
-                childAddress: merge(
-                  {},
-                  address.uiSchema(
-                    'Address',
-                    false,
-                    (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
-                  ),
-                  {
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
+                childAddress: {
+                  ...addressUI({
+                    omit: ['street3', 'isMilitary'],
+                    required: {
+                      country: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      street: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      city: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
+                      postalCode: (form, index) =>
+                        !get(['dependents', index, 'childInHousehold'], form),
                     },
+                  }),
+                  'ui:options': {
+                    expandUnder: 'childInHousehold',
+                    expandUnderCondition: false,
                   },
-                ),
+                },
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
                   'ui:options': {
@@ -1010,7 +1021,7 @@ const formConfig = {
                 monthlyPayment: merge(
                   {},
                   currencyUI(
-                    'How much do you contribute per month to their support?',
+                    "How much do you contribute per month to your child's support?",
                   ),
                   {
                     'ui:required': (form, index) =>
@@ -1395,13 +1406,24 @@ const formConfig = {
           schema: homeOwnership.schema,
         },
         homeAcreageMoreThanTwo: {
-          title: 'home acreage',
+          title: 'home acreage size',
           path: 'financial/home-ownership/acres',
           depends: formData => {
             return formData.homeOwnership !== false;
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
+        },
+        homeAcreageValue: {
+          title: 'home acreage value',
+          path: 'financial/home-ownership/acres/value',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo !== false;
+          },
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          CustomPage: HomeAcreageValueInput,
+          CustomPageReview: null,
         },
         receivesIncome: {
           title: 'Receives income',
