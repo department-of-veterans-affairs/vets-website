@@ -8,7 +8,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { makeSelectApp } from '../../../selectors';
+import { makeSelectApp, makeSelectCurrentContext } from '../../../selectors';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
@@ -34,6 +34,8 @@ const ConfirmablePage = ({
 
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
   const { jumpToPage } = useFormRouting(router);
   const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
   useLayoutEffect(() => {
@@ -44,14 +46,22 @@ const ConfirmablePage = ({
 
   const onYesClick = () => {
     recordEvent({
-      event: createAnalyticsSlug(`yes-to-${pageType}-clicked`, 'nav'),
+      event: createAnalyticsSlug(
+        `yes-to-${pageType}${setECheckinStartedCalled ? '-15MR' : ''}-clicked`,
+        'nav',
+      ),
     });
     yesAction();
   };
 
   const onNoClick = () => {
     recordEvent({
-      event: createAnalyticsSlug(`no-to-${pageType}-clicked`, 'nav'),
+      event: createAnalyticsSlug(
+        `no-to-${pageType}${pageType}${
+          setECheckinStartedCalled ? '-15MR' : ''
+        }-clicked`,
+        'nav',
+      ),
     });
     noAction();
   };

@@ -6,7 +6,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({ token, checkInType }) => {
+  getSession: async ({
+    token,
+    checkInType = 'day-of',
+    setECheckinStartedCalled = false,
+  }) => {
     const url = '/check_in/v2/sessions/';
     let requestUrl = `${environment.API_URL}${url}${token}`;
     if (checkInType) {
@@ -14,7 +18,9 @@ const v2 = {
         checkInType,
       });
     }
-    const eventLabel = `${checkInType || 'day-of'}-get-current-session-dob`;
+    const eventLabel = `${checkInType || 'day-of'}-get-current-session-dob${
+      setECheckinStartedCalled ? '45min' : ''
+    }`;
 
     const json = await makeApiCallWithSentry(
       apiRequest(requestUrl),
@@ -96,7 +102,7 @@ const v2 = {
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      'check-in-user',
+      `check-in-user${setECheckinStartedCalled ? '-15MR' : ''}`,
       uuid,
     );
     return {
