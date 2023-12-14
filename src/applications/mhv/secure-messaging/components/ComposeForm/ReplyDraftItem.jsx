@@ -51,11 +51,7 @@ const ReplyDraftItem = props => {
 
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
 
-  // const defaultRecipientsList = [{ id: 0, name: ' ' }];
-  // const [newDraftId, setNewDraftId] = useState(draft ? draft.messageId : null);
-  // const [editedDraft, setEditedDraft] = useState(null);
   const replyToMessageId = draft?.messageId || replyMessage.messageId;
-  // const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [category, setCategory] = useState(null);
   const [subject, setSubject] = useState('');
   const [selectedRecipient, setSelectedRecipient] = useState(null);
@@ -74,7 +70,6 @@ const ReplyDraftItem = props => {
   const [bodyError, setBodyError] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [saveError, setSaveError] = useState(null);
-  // const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
 
   const localStorageValues = useMemo(() => {
@@ -340,16 +335,6 @@ const ReplyDraftItem = props => {
   );
 
   const populateForm = () => {
-    // if (!recipientExists(draft.recipientId)) {
-    //   const newRecipient = {
-    //     id: draft.recipientId,
-    //     name: draft.recipientName,
-    //   };
-    //   setRecipientsList(prevRecipientsList => [
-    //     ...prevRecipientsList,
-    //     newRecipient,
-    //   ]);
-    // }
     setSelectedRecipient(draft?.recipientId);
     setCategory(draft.category);
     setSubject(draft.subject);
