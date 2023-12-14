@@ -84,6 +84,7 @@ export default Object.freeze({
   financialStatusReportReviewPageNavigation: 'financial_status_report_review_page_navigation',
   findARepresentative: 'find_a_representative',
   form10182Nod: 'form10182_nod',
+  form2010206: 'form2010206',
   form2110210: 'form2110210',
   form210845: 'form210845',
   form210966: 'form210966',
@@ -245,5 +246,6 @@ export default Object.freeze({
   virtualAgentEnableParamErrorDetection: 'virtual_agent_enable_param_error_detection',
   virtualAgentVoice: 'virtual_agent_voice',
   virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
+  virtualAgentEnableMsftPvaTesting: 'virtual_agent_enable_msft_pva_testing',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
