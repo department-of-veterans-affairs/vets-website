@@ -20,11 +20,13 @@ const apiSettings = {
   },
 };
 
-export const orgSortOptions = {
+export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
   // distance_desc: 'Distance (farthest to closest)',
-  name_asc: 'Name (A - Z)',
-  name_desc: 'Name (Z - A)',
+  first_name_asc: 'First Name (A - Z)',
+  first_name_desc: 'First Name (Z - A)',
+  last_name_asc: 'Last Name (A - Z)',
+  last_name_desc: 'Last Name (Z - A)',
 };
 
 /*
