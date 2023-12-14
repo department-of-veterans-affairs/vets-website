@@ -7,9 +7,9 @@ import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/search/SearchResultsHeader';
-import ResultsList from '../components/search/ResultsList';
-import PaginationWrapper from '../components/search/PaginationWrapper';
+import SearchResultsHeader from '../components/results/SearchResultsHeader';
+import ResultsList from '../components/results/ResultsList';
+import PaginationWrapper from '../components/results/PaginationWrapper';
 // import { fetchRepresentativeSearchResults } from '../actions/index';
 
 // import { setFocus } from '../utils/helpers';

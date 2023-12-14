@@ -22,7 +22,7 @@ const apiSettings = {
 
 export const orgSortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  distance_desc: 'Distance (farthest to closest)',
+  // distance_desc: 'Distance (farthest to closest)',
   name_asc: 'Name (A - Z)',
   name_desc: 'Name (Z - A)',
 };

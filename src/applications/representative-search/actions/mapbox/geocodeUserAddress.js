@@ -1,5 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../../components/MapboxClient';
+import mapboxClient from '../../components/mapbox/MapboxClient';
 import { MAPBOX_QUERY_TYPES, CountriesList } from '../../constants';
 import {
   GEOCODE_STARTED,
