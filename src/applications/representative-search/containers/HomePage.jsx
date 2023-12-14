@@ -37,13 +37,13 @@ export default function HomePage() {
           <FormTitle title="Find an accredited representative" />
           {claimsAgentIsEnabled ? (
             <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
-              An accredited attorney, claims agent, or Veterans Service
-              Organization (VSO) can help you file VA claims and appeals.
+              An accredited attorney, claims agent, or Veterans Service Officer
+              (VSO) can help you file VA claims and appeals.
             </p>
           ) : (
             <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
-              Accredited attorneys and Veterans Service Organizations (VSO) can
-              help you file VA claims and appeals.
+              Accredited attorneys and Veterans Service Officers (VSO) can help
+              you file VA claims and appeals.
             </p>
           )}
           <h2>Follow these steps to find and appoint a representative</h2>
@@ -152,7 +152,7 @@ export default function HomePage() {
           <h2>Manually print and fill out your form</h2>
           <p>
             If you'd like to appoint a VSO, fill out an Appointment of Veterans
-            Service Organization as Claimant's Representative (VA Form 21-22).
+            Service Officer as Claimant's Representative (VA Form 21-22).
           </p>
 
           <va-link

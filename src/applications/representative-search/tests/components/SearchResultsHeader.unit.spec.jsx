@@ -205,7 +205,7 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render results where sort option is last name (non-organization)', () => {
+  it('should render results where sort option is last name (non-officer)', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={testDataResponse.data}

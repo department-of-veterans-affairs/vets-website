@@ -4,7 +4,7 @@ import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
-  organization,
+  officer,
   // type,
   addressLine1,
   addressLine2,
@@ -31,9 +31,9 @@ const SearchResult = ({
             <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
           </div>
         )}
-        {organization && (
+        {officer && (
           <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-            <h3>{organization}</h3>
+            <h3>{officer}</h3>
           </div>
         )}
         {addressExists && (
@@ -67,7 +67,7 @@ SearchResult.propTypes = {
   addressLine3: PropTypes.string.isRequired,
   city: PropTypes.string,
   distance: PropTypes.number.isRequired,
-  organization: PropTypes.string.isRequired,
+  officer: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   query: PropTypes.object.isRequired,
   representative: PropTypes.string,

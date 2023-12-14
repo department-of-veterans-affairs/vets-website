@@ -54,9 +54,7 @@ const ResultsList = props => {
                 {index > 0 ? <hr /> : null}
 
                 <SearchResult
-                  organization={
-                    result.attributes.fullName || result.attributes.name
-                  }
+                  officer={result.attributes.fullName || result.attributes.name}
                   key={result.id}
                   type={result.type}
                   addressLine1={result.attributes.addressLine1}

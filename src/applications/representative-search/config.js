@@ -60,7 +60,7 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'organization',
+  type = 'officer',
 }) => {
   const api = getAPI();
 
@@ -73,13 +73,13 @@ export const resolveParamsWithUrl = ({
     updated in a way that's doesn't correspond with the current sort type
   */
 
-  if (type !== 'organization') {
+  if (type !== 'officer') {
     if (sort === 'name_asc') {
       newSort = 'last_name_asc';
     } else if (sort === 'name_desc') {
       newSort = 'last_name_desc';
     }
-  } else if (type === 'organization') {
+  } else if (type === 'officer') {
     if (sort === 'last_name_asc') {
       newSort = 'name_asc';
     } else if (sort === 'last_name_desc') {
@@ -107,14 +107,14 @@ export const resolveParamsWithUrl = ({
 // except 'Vet Centers' and acronyms like IDES.
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
