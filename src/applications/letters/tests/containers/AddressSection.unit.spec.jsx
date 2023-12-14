@@ -12,7 +12,6 @@ import * as VAProfileWrapper from '../../containers/VAProfileWrapper';
 // Stubbing out VAProfileWrapper because we're not interested
 // in setting up all of the redux state needed to test it
 const stub = sinon.stub(VAProfileWrapper, 'default');
-stub.returns(<div />);
 
 const address = {
   addressOne: '2476 Main Street',
@@ -36,6 +35,14 @@ const emptyAddress = {
 };
 
 describe('<AddressSection>', () => {
+  beforeEach(() => {
+    stub.returns(<div />);
+  });
+
+  afterEach(() => {
+    stub.restore();
+  });
+
   it('should enable the View Letters button with default props', () => {
     const screen = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
