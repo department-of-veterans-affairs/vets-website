@@ -35,11 +35,11 @@ const emptyAddress = {
 };
 
 describe('<AddressSection>', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     stub.returns(<div />);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     stub.restore();
   });
 
