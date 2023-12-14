@@ -2,6 +2,7 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { INCLUDE_IMAGES_ENDPOINT } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -16,12 +17,19 @@ export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   );
 };
 
-export const getPrescriptionSortedList = sortEndpoint => {
-  return apiRequest(`${apiBasePath}/prescriptions?${sortEndpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
+export const getPrescriptionSortedList = (
+  sortEndpoint,
+  includeImages = false,
+) => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions?${sortEndpoint}${includeImages &&
+      INCLUDE_IMAGES_ENDPOINT}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 export const getPrescription = id => {
