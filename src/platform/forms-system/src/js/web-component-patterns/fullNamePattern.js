@@ -9,6 +9,16 @@ function validateName(errors, pageData) {
   validateWhiteSpace(errors.last, last);
 }
 
+function validateSymbols(errors, value, _uiSchema, _schema, messages) {
+  const invalidChars = /[~!@#$%^&*+=[\]\\;:"`<>/_|]/;
+  if (invalidChars.test(value)) {
+    errors.addError(messages.symbols);
+  }
+}
+
+const SYMBOLS_ERROR_MESSAGE =
+  'You entered a character we can’t accept. Try removing any special characters.';
+
 /**
  * Web component uiSchema for `first`, `middle`, and `last name`
  *
@@ -27,8 +37,10 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       'ui:title': formatTitle ? formatTitle('first name') : 'First name',
       'ui:autocomplete': 'given-name',
       'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateSymbols],
       'ui:errorMessages': {
         required: 'Please enter a first name',
+        symbols: SYMBOLS_ERROR_MESSAGE,
       },
       'ui:options': {
         uswds: true,
@@ -39,6 +51,10 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       'ui:title': formatTitle ? formatTitle('middle name') : 'Middle name',
       'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'additional-name',
+      'ui:validations': [validateSymbols],
+      'ui:errorMessages': {
+        symbols: SYMBOLS_ERROR_MESSAGE,
+      },
       'ui:options': {
         uswds: true,
         ...uiOptions,
@@ -48,8 +64,10 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
       'ui:autocomplete': 'family-name',
       'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateSymbols],
       'ui:errorMessages': {
         required: 'Please enter a last name',
+        symbols: SYMBOLS_ERROR_MESSAGE,
       },
       'ui:options': {
         uswds: true,
@@ -101,6 +119,7 @@ const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
     maiden: {
       'ui:title': "Mother's maiden name",
       'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateSymbols],
       'ui:options': {
         uswds: true,
         ...uiOptions,
