@@ -58,7 +58,12 @@ const getFormattedGenerationDate = avs => {
   )} ${shortTimeZone}`;
 };
 
+const fieldHasValue = value => {
+  return value !== null && value !== '';
+};
+
 export {
+  fieldHasValue,
   getFormattedAppointmentDate,
   getFormattedAppointmentTime,
   getFormattedGenerationDate,

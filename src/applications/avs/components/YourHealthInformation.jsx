@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
+  fieldHasValue,
   getFormattedAppointmentDate,
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES } from '../utils/constants';
+import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
+import {
+  filterMedicationsByType,
+  getCombinedMedications,
+  getMedicationsTaking,
+  getMedicationsNotTaking,
+} from '../utils/medications';
 
-import ParagraphBlock from './ParagraphBlock';
 import ItemsBlock from './ItemsBlock';
+import MedicationTerms from './MedicationTerms';
+import ParagraphBlock from './ParagraphBlock';
 
 const getAppointments = (type, appointments) => {
   return appointments.filter(appointment => appointment.type === type.label);
@@ -218,6 +227,121 @@ const labResults = avs => {
   return null;
 };
 
+const getMyMedications = avs => {
+  return filterMedicationsByType(
+    getMedicationsTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMyMedicationsNotTaking = avs => {
+  return filterMedicationsByType(
+    getMedicationsNotTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMySupplies = avs => {
+  return filterMedicationsByType(
+    getCombinedMedications(avs),
+    MEDICATION_TYPES.SUPPLY,
+  );
+};
+
+const medsIntro = avs => {
+  return (
+    <>
+      <p>
+        The medications listed below were reviewed with you by your provider and
+        is provided to you as an updated list of medications. Please remember to
+        inform your provider of any medication changes or discrepancies that you
+        note. Otherwise, please continue these medications as prescribed.
+      </p>
+      <MedicationTerms avs={avs} />
+    </>
+  );
+};
+
+const getDateLastFilled = medication => {
+  if (fieldHasValue(medication.dateLastFilled))
+    return medication.dateLastFilled;
+  if (fieldHasValue(medication.dateLastReleased))
+    return medication.dateLastReleased;
+
+  return '';
+};
+
+const renderFieldWithBreak = (field, prefix = '') => {
+  if (fieldHasValue(field)) {
+    if (prefix) {
+      return (
+        <>
+          {prefix}: {String(field)} <br />
+        </>
+      );
+    }
+    return (
+      <>
+        {String(field)}
+        <br />
+      </>
+    );
+  }
+
+  return '';
+};
+
+const renderMedication = medication => {
+  return (
+    <>
+      <p>
+        {renderFieldWithBreak(medication.name)}
+        {renderFieldWithBreak(medication.sig)}
+        {renderFieldWithBreak(medication.description, 'Description')}
+        {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
+        Notes: {fieldHasValue(medication.comment) && String(medication.comment)}
+        <br />
+        <br />
+        {renderFieldWithBreak(medication.stationName, 'Facility')}
+        {!!medication.facilityPhone && (
+          <>
+            Main phone: [
+            <va-telephone
+              contact={medication.facilityPhone.replace(/\D/g, '')}
+            />
+            ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
+          </>
+        )}
+        {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
+        <br />
+        {renderFieldWithBreak(medication.status, 'Status')}
+        {renderFieldWithBreak(medication.quantity, 'Quantity')}
+        {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
+        {renderFieldWithBreak(medication.dateExpires, 'Expires')}
+        {renderFieldWithBreak(getDateLastFilled(medication), 'Last filled')}
+      </p>
+    </>
+  );
+};
+
+const renderNotTakingMedication = medication => {
+  return (
+    <p>
+      {renderFieldWithBreak(medication.name)}
+      {renderFieldWithBreak(medication.sig)}
+      {renderFieldWithBreak(medication.comment, 'Notes')}
+      <br />
+      Facility: NON-VA
+      <br />
+      Documenting Facility & Provider: {medication.documentingFacility},{' '}
+      {medication.documentor}
+      <br />
+      <br />
+      {renderFieldWithBreak(medication.status, 'Status')}
+    </p>
+  );
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -258,6 +382,29 @@ const YourHealthInformation = props => {
         itemType="allergies-reactions"
         items={avs.allergiesReactions?.allergies}
         renderItem={renderAllergy}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My medications"
+        intro={medsIntro(avs)}
+        itemType="my-medications"
+        items={getMyMedications(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My VA supplies"
+        itemType="my-va-supplies"
+        items={getMySupplies(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="Medications you are not taking"
+        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
+        itemType="medications-not-taking"
+        items={getMyMedicationsNotTaking(avs)}
+        renderItem={renderNotTakingMedication}
         showSeparators
       />
       {labResults(avs)}

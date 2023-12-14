@@ -279,7 +279,7 @@ const PrescriptionDetails = () => {
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />
