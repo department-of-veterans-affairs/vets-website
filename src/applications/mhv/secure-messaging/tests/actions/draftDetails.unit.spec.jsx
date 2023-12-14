@@ -61,7 +61,6 @@ describe('draftDetails actions', () => {
           },
           'excluding payload.draftDate',
         );
-        // payload: { messageId: id, draftDate: Date.now(), ...messageData },
       });
   });
 
@@ -183,7 +182,6 @@ describe('draftDetails actions', () => {
           response: undefined,
         },
       });
-      // expect(store.getActions()).to.deep.contain({ type: 'SM_DRAFT_CLEAR' });
     });
   });
 });
