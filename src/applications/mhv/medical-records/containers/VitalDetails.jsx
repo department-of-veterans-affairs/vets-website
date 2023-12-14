@@ -221,6 +221,7 @@ Provider Notes: ${vital.notes}\n\n`,
                 className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
               >
                 <h3
+                  data-testid="vital-date"
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
@@ -230,6 +231,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   Measurement:
                 </h4>
                 <p
+                  data-testid="vital-result"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
@@ -239,6 +241,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   Location:
                 </h4>
                 <p
+                  data-testid="vital-location"
                   className="vads-u-margin-top--0 vads-u-margin-bottom--1"
                   data-dd-privacy="mask"
                 >
@@ -247,7 +250,11 @@ Provider Notes: ${vital.notes}\n\n`,
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
                   Provider notes:
                 </h4>
-                <p className="vads-u-margin--0" data-dd-privacy="mask">
+                <p
+                  data-testid="vital-provider-note"
+                  className="vads-u-margin--0"
+                  data-dd-privacy="mask"
+                >
                   {vital.notes}
                 </p>
               </li>
