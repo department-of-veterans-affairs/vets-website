@@ -90,13 +90,14 @@ import careExpenses from './chapters/05-financial-information/careExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
+import incomeSources from './chapters/05-financial-information/incomeSources';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
-import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -1437,6 +1438,13 @@ const formConfig = {
           path: 'financial/receives-income',
           uiSchema: receivesIncome.uiSchema,
           schema: receivesIncome.schema,
+        },
+        incomeSources: {
+          title: 'Gross monthly income',
+          path: 'household/income-sources',
+          depends: formData => formData.receivesIncome !== false,
+          uiSchema: incomeSources.uiSchema,
+          schema: incomeSources.schema,
         },
       },
     },
