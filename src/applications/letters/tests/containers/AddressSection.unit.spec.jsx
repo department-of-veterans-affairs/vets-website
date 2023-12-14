@@ -9,10 +9,6 @@ import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { AddressSection } from '../../containers/AddressSection';
 import * as VAProfileWrapper from '../../containers/VAProfileWrapper';
 
-// Stubbing out VAProfileWrapper because we're not interested
-// in setting up all of the redux state needed to test it
-const stub = sinon.stub(VAProfileWrapper, 'default');
-
 const address = {
   addressOne: '2476 Main Street',
   addressTwo: '',
@@ -35,11 +31,16 @@ const emptyAddress = {
 };
 
 describe('<AddressSection>', () => {
-  beforeEach(async () => {
+  let stub;
+
+  before(() => {
+    // Stubbing out VAProfileWrapper because we're not interested
+    // in setting up all of the redux state needed to test it
+    stub = sinon.stub(VAProfileWrapper, 'default');
     stub.returns(<div />);
   });
 
-  afterEach(async () => {
+  after(() => {
     stub.restore();
   });
 
