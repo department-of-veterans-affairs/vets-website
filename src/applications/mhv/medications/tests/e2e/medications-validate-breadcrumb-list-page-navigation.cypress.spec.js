@@ -26,8 +26,6 @@ describe('Medications Breadcrumb Navigation To List Page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-
-    site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     site.verifyPaginationPrescriptionsDisplayed(21, 29, listLength);
