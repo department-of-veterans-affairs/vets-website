@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import InfoAlert from '../../../components/InfoAlert';
 import {
   APPOINTMENT_STATUS,
@@ -10,14 +10,17 @@ import {
   GA_PREFIX,
 } from '../../../utils/constants';
 import { startNewAppointmentFlow } from '../../redux/actions';
+// eslint-disable-next-line import/no-restricted-paths
+import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
+import { selectFeatureAfterVisitSummary } from '../../../redux/selectors';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, typeOfCare) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push(typeOfCare.url);
   };
 }
 
@@ -26,12 +29,16 @@ export default function StatusAlert({ appointment, facility }) {
   const dispatch = useDispatch();
 
   const { search } = useLocation();
-
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
+  const featureAfterVisitSummary = useSelector(state =>
+    selectFeatureAfterVisitSummary(state),
+  );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { isPastAppointment } = appointment.vaos;
+  const avsLink = appointment.avsPath;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -50,11 +57,33 @@ export default function StatusAlert({ appointment, facility }) {
       </>
     );
   }
-  if (isPastAppointment) {
+  if (isPastAppointment && !featureAfterVisitSummary) {
     return (
       <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
       </InfoAlert>
+    );
+  }
+  if (isPastAppointment && featureAfterVisitSummary) {
+    return (
+      <>
+        <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
+          This appointment occurred in the past.
+        </p>
+        {avsLink && (
+          <va-link
+            text="Go to after-visit summary"
+            href={appointment.avsPath}
+            data-testid="after-vist-summary-link"
+            onClick={() =>
+              recordEvent({
+                event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
+              })
+            }
+          />
+        )}
+        <br />
+      </>
     );
   }
   if (showConfirmMsg) {
@@ -66,7 +95,7 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Review your appointments"
             data-testid="review-appointments-link"
-            href="/health-care/schedule-view-va-appointments/appointments/"
+            href={root.url}
             onClick={() =>
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -78,7 +107,7 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch)}
+            onClick={handleClick(history, dispatch, typeOfCare)}
           />
         </div>
       </InfoAlert>
@@ -89,6 +118,28 @@ export default function StatusAlert({ appointment, facility }) {
 }
 
 StatusAlert.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    cancelationReason: PropTypes.string,
+    avsPath: PropTypes.string,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
+  }),
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+};
+StatusAlert.defaultProps = {
+  appointment: {
+    status: 'booked',
+    cancelationReason: '',
+    avsPath: '',
+    vaos: {
+      isPastAppointment: false,
+    },
+  },
+  facility: {
+    name: '',
+  },
 };

@@ -198,19 +198,72 @@
   text-align: left !important;
 }
 
-/* checkboxes labels on VAMC surveys */
+/* checkboxes labels */
 ._md-label {
   color: $color-gray-dark !important;
   font-size: 16px !important;
+  font-family: "Source Sans Pro", sans-serif !important;
 }
 
 /* space between checkboxes on VAMC surveys */
 .neb-content .checkbox {
-  margin-bottom: 10px
+  margin-bottom: 10px !important;
 }
 
 /*  next button on VAMC muli-page surveys in-line style override*/
 .form-next-btn[style] {
   background-color: $color-blue !important;
   margin-right: 10px !important
+}
+
+.modal-live-form a {
+  cursor: pointer;
+  color: $color-link-default!important;
+  text-decoration: underline !important;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+.modal-live-form {
+  color: $color-gray-dark !important;
+}
+
+.omb_heading h2 {
+  color: $color-gray-dark !important;
+  font-weight: 700 !important;
+}
+
+/* Unordered list styling for crisis header */
+.omb_crises>div>p>ul {
+  padding: 0 0 0 1.5em !important;
+  list-style: square !important;
+}
+
+.omb_crises>div>p>ul>li {
+  line-height: 1.5 !important;
+  margin-bottom: 0.5em !important;
+}
+
+.modal-live-form strong {
+  font-weight: bold !important;
+}
+
+/* temp styles until VSignals team can change */
+.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(3) {
+  font-weight: 400 !important;
+}
+
+.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(2)>a {
+  font-weight: 400 !important;
+}
+
+.omb_crises>div>p>ul>li:nth-child(2)>span>strong:nth-child(2) > a {
+  font-weight: 400 !important;
+}
+/* end temp styles */
+
+.powered-by-link {
+  color: $color-gray-dark !important;
+  text-decoration: none !important;
 }

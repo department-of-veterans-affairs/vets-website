@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+
 import { merge } from 'lodash';
 import sinon from 'sinon';
 import set from '../../../../utilities/data/set';
@@ -40,17 +42,10 @@ describe('<MHVApp>', () => {
   const context = { router: {} };
 
   const expectAlert = (wrapper, expectedStatus, expectedHeadline) => {
-    const alertBox = wrapper.find('AlertBox');
-    const headlineProp = alertBox.prop('headline');
-    const headlineText =
-      typeof headlineProp === 'string'
-        ? headlineProp
-        : shallow(headlineProp).text();
-    expect(alertBox.prop('status')).to.eq(expectedStatus);
-    expect(headlineText).to.eq(expectedHeadline);
-    if (headlineText.unmount) {
-      headlineText.unmount();
-    }
+    const vaAlert = wrapper.container.querySelector('va-alert');
+    const [headline] = vaAlert.children;
+    expect(vaAlert.getAttribute('status')).to.eq(expectedStatus);
+    expect(headline.innerHTML).to.contain(expectedHeadline);
   };
 
   beforeEach(setup);
@@ -62,7 +57,7 @@ describe('<MHVApp>', () => {
   it('should show a loading indicator when fetching an account', () => {
     const newProps = set('mhvAccount.loading', true, props);
     const wrapper = shallow(<MHVApp {...newProps} />, { context });
-    expect(wrapper.find('LoadingIndicator').exists()).to.be.true;
+    expect(wrapper.find('va-loading-indicator').exists()).to.be.true;
     wrapper.unmount();
   });
 
@@ -84,7 +79,7 @@ describe('<MHVApp>', () => {
       location: { ...props.location, query: { tc_accepted: true } }, // eslint-disable-line camelcase
       availableServices: ['rx'],
     });
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'success',
@@ -147,7 +142,7 @@ describe('<MHVApp>', () => {
     ];
 
     const newProps = set('mhvAccount.errors', errors, props);
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -158,7 +153,7 @@ describe('<MHVApp>', () => {
 
   it('should show error if unable to determine MHV account level', () => {
     const newProps = set('mhvAccount.accountLevel', 'Unknown', props);
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -169,7 +164,7 @@ describe('<MHVApp>', () => {
 
   it('should show error if failed to register MHV account', () => {
     const newProps = set('mhvAccount.accountState', 'register_failed', props);
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -180,7 +175,7 @@ describe('<MHVApp>', () => {
 
   it('should show error if failed to upgrade MHV account', () => {
     const newProps = set('mhvAccount.accountState', 'upgrade_failed', props);
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -195,7 +190,7 @@ describe('<MHVApp>', () => {
       'needs_ssn_resolution',
       props,
     );
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -206,7 +201,7 @@ describe('<MHVApp>', () => {
 
   it('should show error if the user is not a VA patient', () => {
     const newProps = set('mhvAccount.accountState', 'needs_va_patient', props);
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -221,7 +216,7 @@ describe('<MHVApp>', () => {
       'has_deactivated_mhv_ids',
       props,
     );
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',
@@ -236,7 +231,7 @@ describe('<MHVApp>', () => {
       'has_multiple_active_mhv_ids',
       props,
     );
-    const wrapper = shallow(<MHVApp {...newProps} />, { context });
+    const wrapper = render(<MHVApp {...newProps} />, { context });
     expectAlert(
       wrapper,
       'error',

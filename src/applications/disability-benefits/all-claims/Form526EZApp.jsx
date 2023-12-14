@@ -3,40 +3,42 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
-} from 'platform/site-wide/wizard';
+} from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
-  WIZARD_STATUS,
-  SHOW_8940_4192,
-  PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
+  PAGE_TITLE_SUFFIX,
+  SHOW_8940_4192,
+  SHOW_TOXIC_EXPOSURE,
+  WIZARD_STATUS,
 } from './constants';
 import {
-  show526Wizard,
   isBDD,
   getPageTitle,
+  isExpired,
+  show526Wizard,
   showSubform8940And4192,
   wrapWithBreadcrumb,
-  isExpired,
   form526RequiredIdentifiersInUserObject,
 } from './utils';
 import {
-  getBranches,
-  fetchBranches,
   clearBranches,
+  fetchBranches,
+  getBranches,
 } from './utils/serviceBranches';
 import { Missing526Identifiers } from './containers/Missing526Identifiers';
 import {
@@ -91,7 +93,10 @@ export const Form526Entry = ({
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showToxicExposurePages = useToggleValue(
+    TOGGLE_NAMES.disability526ToxicExposure,
+  );
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
@@ -126,6 +131,9 @@ export const Form526Entry = ({
         setPageFocus('h1');
         // save feature flag for 8940/4192
         sessionStorage.setItem(SHOW_8940_4192, showSubforms);
+
+        // save feature flag for Toxic Exposure pages
+        sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, showToxicExposurePages);
       }
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors
@@ -134,7 +142,14 @@ export const Form526Entry = ({
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
     },
-    [showSubforms, wizardStatus, inProgressFormId, profile, location],
+    [
+      inProgressFormId,
+      location,
+      profile,
+      showSubforms,
+      showToxicExposurePages,
+      wizardStatus,
+    ],
   );
 
   useEffect(

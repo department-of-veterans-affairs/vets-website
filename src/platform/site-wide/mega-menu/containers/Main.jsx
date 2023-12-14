@@ -1,11 +1,7 @@
-// Node modules.
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-// Relative imports.
-import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -19,6 +15,8 @@ import {
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
+import { toggleValues } from '../../feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '../../../utilities/feature-toggles/featureFlagNames';
 
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -58,7 +56,6 @@ export class Main extends Component {
     toggleMobileDisplayHidden: PropTypes.func.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     updateCurrentSection: PropTypes.func.isRequired,
-    // From mapStateToProps.
     currentDropdown: PropTypes.string,
     currentSection: PropTypes.string,
     data: PropTypes.arrayOf(
@@ -185,14 +182,17 @@ const mapStateToProps = (state, ownProps) => {
 
   // If user is not logged in, open login modal on current page with a redirect param to my-va
   if (!loggedIn) {
-    MY_VA_LINK.href = `${
-      window.location.href.split('?')[0]
-    }?next=%2Fmy-va%2F${useOAuth}`;
+    const urlWithoutParams = window.location.href.split('?')[0];
+    MY_VA_LINK.href = `${urlWithoutParams}?next=%2Fmy-va%2F${useOAuth}`;
   }
 
-  defaultLinks.push(MY_VA_LINK);
+  if (loggedIn) {
+    defaultLinks.push(MY_VA_LINK);
+  }
 
-  const authenticatedLinks = isLandingPageEnabled(state)
+  const authenticatedLinks = toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvLandingPageEnabled
+  ]
     ? [{ ...MY_HEALTH_LINK }]
     : undefined;
 

@@ -1,11 +1,13 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
 import { setJobIndex } from '../../utils/session';
-import { dateFormatter } from '../../utils/helpers';
+import { dateFormatter, firstLetterLowerCase } from '../../utils/helpers';
 
 const EmploymentHistorySummaryCard = ({
   job,
@@ -23,7 +25,6 @@ const EmploymentHistorySummaryCard = ({
     deductions,
     isCurrent,
   } = job ?? {};
-
   const dispatch = useDispatch();
 
   const editDestination = isSpouse
@@ -61,6 +62,13 @@ const EmploymentHistorySummaryCard = ({
       }),
     );
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+  } = useDeleteModal(onDelete);
 
   const employmentCardHeading = `${type} employment at ${employerName}`;
 
@@ -129,9 +137,7 @@ const EmploymentHistorySummaryCard = ({
         class="vads-u-margin-y--3"
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <h3 className="vads-u-margin-y--0 vads-u-font-size--h4">
-            {employmentCardHeading}
-          </h3>
+          <h4 className="vads-u-margin-y--0">{employmentCardHeading}</h4>
           {cardBody}
         </div>
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">
@@ -155,7 +161,7 @@ const EmploymentHistorySummaryCard = ({
             type="button"
             aria-label={`Delete ${ariaLabel}`}
             className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
-            onClick={() => onDelete(index)}
+            onClick={() => handleDeleteClick(index)}
           >
             <i
               aria-hidden="true"
@@ -163,6 +169,14 @@ const EmploymentHistorySummaryCard = ({
             />
             <span>DELETE</span>
           </button>
+          {isModalOpen ? (
+            <DeleteConfirmationModal
+              isOpen={isModalOpen}
+              onClose={handleModalCancel}
+              onDelete={handleModalConfirm}
+              modalTitle={firstLetterLowerCase(employmentCardHeading)}
+            />
+          ) : null}
         </div>
       </va-card>
     )

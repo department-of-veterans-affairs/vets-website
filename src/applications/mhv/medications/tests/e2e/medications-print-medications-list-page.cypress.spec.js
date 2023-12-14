@@ -7,6 +7,14 @@ describe('Medications List Page Print List', () => {
     const listPage = new MedicationsListPage();
     cy.visit('my-health/about-medications/');
     site.login();
+    cy.injectAxe();
+    cy.axeCheck('main', {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
     listPage.clickGotoMedicationsLink();
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyPrintMedicationsListEnabledOnListPage();

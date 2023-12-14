@@ -1,11 +1,11 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 
-import PreSubmitInfo from '../../containers/PreSubmitInfo';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 import { commonReducer } from 'platform/startup/store';
+import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 const fakeStore = createStore(
   combineReducers({
@@ -15,19 +15,45 @@ const fakeStore = createStore(
 
 describe('<PreSubmitInfo>', () => {
   it('should render', () => {
-    const tree = mount(
+    const tree = render(
       <Provider store={fakeStore}>
         <PreSubmitInfo
-          formData={{}}
+          formData={{
+            activeDuty: true,
+          }}
           showError={() => {}}
           onSectionComplete={() => {}}
           setPreSubmit={() => {}}
         />
       </Provider>,
     );
+
+    const privacyCheckbox = tree.container.querySelector(
+      'va-privacy-agreement',
+    );
+
     expect(tree).to.not.be.undefined;
-    expect(tree.text()).to.contain('By submitting this form you certify');
-    expect(tree.text()).to.contain('privacy policy');
-    tree.unmount();
+    expect(privacyCheckbox).does.exist;
+  });
+  it('should render else option', () => {
+    const tree = render(
+      <Provider store={fakeStore}>
+        <PreSubmitInfo
+          formData={{
+            activeDuty: false,
+          }}
+          showError={() => {}}
+          onSectionComplete={() => {}}
+          setPreSubmit={() => {}}
+        />
+      </Provider>,
+    );
+
+    const privacyCheckbox = tree.container.querySelector(
+      'va-privacy-agreement',
+    );
+
+    expect(tree).to.not.be.undefined;
+    expect(privacyCheckbox).does.exist;
   });
 });

@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import moment from 'moment';
 
 import formConfig from '../../config/form';
-import initialData from '../schema/initialData';
+import initialData from '../initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import { WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../../constants';
@@ -89,6 +89,28 @@ describe('Confirmation page', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.find('span.dd-privacy-hidden').length).to.eq(3);
     expect(tree.find('li .dd-privacy-hidden').length).to.eq(1);
+    tree.unmount();
+  });
+
+  it('should render with no data', () => {
+    const fakeStore2 = {
+      getState: () => ({
+        ...data,
+        user: {
+          profile: {},
+        },
+        form: {
+          formId: formConfig.formId,
+          submission: {
+            response: Date.now(),
+          },
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+    const tree = mount(<ConfirmationPage store={fakeStore2} />);
+    expect(tree.text()).to.contain('Your request has been submitted');
     tree.unmount();
   });
 });

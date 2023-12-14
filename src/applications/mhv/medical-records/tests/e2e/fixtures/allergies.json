@@ -1,0 +1,374 @@
+{
+  "id": "02c87d02-de44-4bdf-aa1d-93dd4d68b89d",
+  "meta": {
+      "lastUpdated": "2023-08-07T13:58:30.150-04:00"
+  },
+  "type": "searchset",
+  "total": 5,
+  "link": [
+      {
+          "relation": "self",
+          "url": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=100&patient=7005"
+      }
+  ],
+  "entry": [
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7006",
+          "resource": {
+              "id": "7006",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69143"
+                  }
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "F",
+                          "display": "FOOD"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "food"
+              ],
+              "code": {
+                  "text": "NUTS"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:06:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:07:21-04:00",
+                      "text": "maruf's test comment "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4538635",
+                                      "display": "RASH"
+                                  }
+                              ],
+                              "text": "RASH"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7009",
+          "resource": {
+              "id": "7009",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69146"
+                  }
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "M",
+                          "display": "MEDICATION"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "medication"
+              ],
+              "code": {
+                  "text": "HUMAPEN"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:10:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:11:37-04:00",
+                      "text": "maruf's test comment "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637184",
+                                      "display": "RENAL IMPAIRMENT"
+                                  }
+                              ],
+                              "text": "RENAL IMPAIRMENT"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7010",
+          "resource": {
+              "id": "7010",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69149"
+                  }
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "M",
+                          "display": "MEDICATION"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "medication"
+              ],
+              "code": {
+                  "text": "PENNYROYAL"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-08-04T11:14:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-08-04T11:16:26-04:00",
+                      "text": "testing with Dan , -Maruf "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7007",
+          "resource": {
+              "id": "7007",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69144"
+                  }
+              ],
+              "clinicalStatus": {
+                  "coding": [
+                      {
+                          "code": "F",
+                          "display": "FOOD"
+                      }
+                  ],
+                  "text": "active"
+              },
+              "category": [
+                  "food"
+              ],
+              "code": {
+                  "text": "RED MEAT"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:08:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:08:49-04:00",
+                      "text": "maruf's test data "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4538635",
+                                      "display": "RASH"
+                                  }
+                              ],
+                              "text": "RASH"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637156",
+                                      "display": "URTICARIA"
+                                  }
+                              ],
+                              "text": "URTICARIA"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
+      },
+      {
+          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7008",
+          "resource": {
+              "id": "7008",
+              "meta": {
+                  "versionId": "1",
+                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
+                  "source": "#AsINRCGkVRY6tpNO"
+              },
+              "identifier": [
+                  {
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "991.69145"
+                  }
+              ],
+              "clinicalStatus": {
+                  "text": "active"
+              },
+              "code": {
+                  "text": "POLLEN"
+              },
+              "patient": {
+                  "reference": "Patient/7005"
+              },
+              "onsetDateTime": "2023-07-27T17:09:00-04:00",
+              "note": [
+                  {
+                      "time": "2023-07-27T17:10:21-04:00",
+                      "text": "maruf's test comment intb "
+                  }
+              ],
+              "reaction": [
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637183",
+                                      "display": "RESPIRATORY DISTRESS"
+                                  }
+                              ],
+                              "text": "RESPIRATORY DISTRESS"
+                          }
+                      ]
+                  },
+                  {
+                      "manifestation": [
+                          {
+                              "coding": [
+                                  {
+                                      "system": "http://snomed.info/sct",
+                                      "code": "4637164",
+                                      "display": "SWELLING"
+                                  }
+                              ],
+                              "text": "SWELLING"
+                          }
+                      ]
+                  }
+              ],
+              "resourceType": "AllergyIntolerance"
+          },
+          "search": {
+              "mode": "match"
+          }
+      }
+  ],
+  "resourceType": "Bundle"
+}

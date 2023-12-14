@@ -8,7 +8,6 @@ describe('<RadioButtons>', () => {
 
   it('calls onChange with value', () => {
     let valueChanged;
-    // shallowly render component with callback that alters valueChanged with passed argument
     const wrapper = mount(
       <RadioButtons
         label="test"
@@ -20,21 +19,17 @@ describe('<RadioButtons>', () => {
         }}
       />,
     );
-
-    // simulate change event on first input
     wrapper
       .find('input')
       .first()
       .simulate('change');
 
-    // verify that change event value matches first value in options passed to component
     expect(valueChanged).to.eql(options[0]);
     wrapper.unmount();
   });
 
   it('does not call onChange with value', () => {
     let valueChanged;
-    // shallowly render component with callback that alters valueChanged with passed argument
     const wrapper = mount(
       <RadioButtons
         label="test"
@@ -61,8 +56,6 @@ describe('<RadioButtons>', () => {
         onChange={() => {}}
       />,
     );
-
-    // gather input id and label for attributes from render component
     const inputIds = wrapper.find('input').map(inputId => inputId.prop('id'));
     const labelFors = wrapper
       .find('label')
@@ -90,6 +83,99 @@ describe('<RadioButtons>', () => {
     // assert that legend element was rendered with label value as its text
     const legendText = wrapper.find('.gibct-legend').text();
     expect(legendText).to.eql(labelValue);
+    wrapper.unmount();
+  });
+
+  it('should add requiredSpan', () => {
+    const labelValue = 'test';
+    const wrapper = shallow(
+      <RadioButtons
+        label={labelValue}
+        name="test"
+        options={options}
+        value={options[0]}
+        onChange={() => {}}
+        required
+      />,
+    );
+    const legendText = wrapper.find('span.form-required-span').text();
+    expect(legendText).to.eql('*');
+    wrapper.unmount();
+  });
+
+  it('should add errorSpanId', () => {
+    const labelValue = 'test';
+    const wrapper = shallow(
+      <RadioButtons
+        label={labelValue}
+        name="test"
+        options={options}
+        value={options[0]}
+        onChange={() => {}}
+        required
+        errorMessage
+      />,
+    );
+    const legendText = wrapper.find('span.usa-input-error-message').text();
+    expect(legendText).to.eql('Error ');
+
+    wrapper.unmount();
+  });
+
+  it('should render option', () => {
+    const labelValue = 'test';
+    const wrapper = mount(
+      <RadioButtons
+        label={labelValue}
+        name="test"
+        options={[
+          {
+            value: 'value1',
+            label: 'label1',
+            additional: 'additional',
+            learnMore: 'learnMore1',
+          },
+          {
+            value: 'value2',
+            label: 'label2',
+            additional: 'additional',
+            learnMore: 'learnMore2',
+          },
+        ]}
+        value={options[0]}
+        onChange={() => {}}
+        required
+        errorMessage
+      />,
+    );
+    const legendText = wrapper
+      .find('div')
+      .first()
+      .text();
+    expect(legendText).to.eql('test*Error label1learnMore1label2learnMore2');
+    wrapper.unmount();
+  });
+
+  it('should return emtpy array if options not in array', () => {
+    const labelValue = 'test';
+    const wrapper = mount(
+      <RadioButtons
+        label={labelValue}
+        name="test"
+        options={{
+          value: 'value1',
+          label: 'label1',
+          additional: 'additional',
+          learnMore: 'learnMore1',
+        }}
+        value={options[0]}
+        onChange={() => {}}
+        required
+        errorMessage
+      />,
+    );
+    expect(wrapper.props().options).to.not.eql([]);
+
     wrapper.unmount();
   });
 });

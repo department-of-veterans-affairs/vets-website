@@ -1,6 +1,10 @@
 {
   "apps": [
     {
+      "rootFolder": "avs",
+      "slackGroup": "<@C04UBETRY8N>"
+    },
+    {
       "rootFolder": "burials",
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
@@ -22,10 +26,6 @@
     },
     {
       "rootFolder": "coronavirus-vaccination",
-      "slackGroup": "@cto-health-products"
-    },
-    {
-      "rootFolder": "coronavirus-vaccination-expansion",
       "slackGroup": "@cto-health-products"
     },
     {
@@ -61,7 +61,7 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
-      "rootFolder": "terms-and-conditions",
+      "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },
     {
@@ -79,6 +79,14 @@
     },
     {
       "rootFolder": "claims-status",
+      "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "rated-disabilities",
+      "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "letters",
       "slackGroup": "@benefits-app-builds"
     }
   ]

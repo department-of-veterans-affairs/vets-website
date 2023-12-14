@@ -82,6 +82,7 @@ describe('check-in', () => {
                 'travel-address': 'yes',
                 'travel-mileage': 'yes',
                 'travel-vehicle': 'yes',
+                'travel-review': 'yes',
               },
               pages: [],
             },
@@ -130,6 +131,7 @@ describe('check-in', () => {
                 'travel-address': 'yes',
                 'travel-mileage': 'yes',
                 'travel-vehicle': 'yes',
+                'travel-review': 'yes',
               },
               pages: [],
             },
@@ -144,7 +146,7 @@ describe('check-in', () => {
           </Provider>,
         );
         expect(component.getByTestId('travelPayData')).to.contain.text(
-          '2022-08-12T15:15:00',
+          '2022-08-12T15:15:00Z',
         );
       });
     });

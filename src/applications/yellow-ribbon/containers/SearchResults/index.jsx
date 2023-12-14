@@ -156,7 +156,7 @@ export class SearchResults extends Component {
     // Show loading indicator if we are fetching.
     if (fetching) {
       return (
-        <va-loading-indicator setFocus message="Loading search results..." />
+        <va-loading-indicator set-focus message="Loading search results..." />
       );
     }
 

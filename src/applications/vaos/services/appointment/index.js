@@ -565,18 +565,15 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  */
 export async function cancelAppointment({ appointment, useAcheron = false }) {
   const additionalEventData = {
-    custom_string_1:
+    appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'appointmentType: pending'
-        : 'appointmentType: confirmed',
-    custom_string_2: appointment.vaos?.isCommunityCare
-      ? 'facilityType: cc'
-      : 'facilityType: va',
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
   };
 
   recordEvent({
-    event: 'interaction',
-    action: eventPrefix,
+    event: eventPrefix,
     ...additionalEventData,
   });
 
@@ -862,15 +859,25 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({ featureStatusImprovement, appointment }) {
+export function getLink({
+  featureBreadcrumbUrlUpdate,
+  featureStatusImprovement,
+  appointment,
+}) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-        appointment.id
-      }`;
+
+  if (!featureBreadcrumbUrlUpdate) {
+    return isCommunityCare
+      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
+          appointment.id
+        }`
+      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
+          appointment.id
+        }`;
+  }
+  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
+    appointment.id
+  }`;
 }
 
 export function getPractitionerName(appointment) {

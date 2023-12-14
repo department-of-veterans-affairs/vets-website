@@ -256,16 +256,36 @@ const DEFAULT_SCHEMA_COUNTRY_CODE =
   })?.schemaValue || 'USA';
 
 export function getLTSCountryCode(schemaCountryValue) {
-  const country = countries.find(countryInfo => {
-    return countryInfo.schemaValue === schemaCountryValue;
-  });
-  return country?.ltsValue ? country.ltsValue : 'ZZ'; // ZZ is LTS code for unknown
+  // Start by assuming the input is a three-character code.
+  let country = countries.find(
+    countryInfo => countryInfo.schemaValue === schemaCountryValue,
+  );
+  // If no match was found, and the input is a two-character code, try to match against the ltsValue.
+  if (!country && schemaCountryValue.length === 2) {
+    country = countries.find(
+      countryInfo => countryInfo.ltsValue === schemaCountryValue,
+    );
+  }
+  // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
+  return country?.ltsValue ? country.ltsValue : 'ZZ'; // 'ZZ' is the LTS code for unknown.
 }
 
-export function getSchemaCountryCode(ltsCountryValue) {
-  const country = countries.find(countryInfo => {
-    return countryInfo.ltsValue === ltsCountryValue;
-  });
+export function getSchemaCountryCode(inputSchemaValue) {
+  // Check if inputSchemaValue is undefined or not a string, and return the default value right away.
+  if (typeof inputSchemaValue !== 'string') {
+    return DEFAULT_SCHEMA_COUNTRY_CODE;
+  }
+  // Try to find the country based on a three-character code
+  let country = countries.find(
+    countryInfo => countryInfo.schemaValue === inputSchemaValue,
+  );
+  // If not found and the input is a two-character code, try finding it based on the LTS value
+  if (!country && inputSchemaValue.length === 2) {
+    country = countries.find(
+      countryInfo => countryInfo.ltsValue === inputSchemaValue,
+    );
+  }
+  // Return the found schemaValue or the default one if no country was found
   return country?.schemaValue
     ? country.schemaValue
     : DEFAULT_SCHEMA_COUNTRY_CODE;
@@ -368,6 +388,13 @@ export function createRelinquishedBenefit(submissionForm) {
     };
   }
 
+  if (submissionForm?.showMebEnhancements09) {
+    return submissionForm?.showMebDgi42Features
+      ? {
+          relinquishedBenefit: 'NotEligible',
+        }
+      : {};
+  }
   return submissionForm?.showMebDgi42Features
     ? {
         relinquishedBenefit: 'CannotRelinquish',
@@ -376,10 +403,62 @@ export function createRelinquishedBenefit(submissionForm) {
 }
 
 function setAdditionalConsideration(consideration) {
-  return consideration ? consideration.toUpperCase() : 'N/A';
+  return typeof consideration === 'string'
+    ? consideration.toUpperCase()
+    : 'N/A';
 }
-
+function getExclusionMessage(exclusionType, exclusionPeriods) {
+  const messages = {
+    ROTC:
+      'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
+    LRP:
+      'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
+    Academy:
+      'Dept. of Defense data shows you have graduated from a Military Service Academy',
+  };
+  return exclusionPeriods.includes(exclusionType)
+    ? messages[exclusionType]
+    : null;
+}
 export function createAdditionalConsiderations(submissionForm) {
+  if (submissionForm?.mebExclusionPeriodEnabled) {
+    const exclusionPeriods = submissionForm.exclusionPeriods || [];
+    const mapping = {
+      academyRotcScholarship: {
+        formKey: 'federallySponsoredAcademy',
+        exclusionType: 'Academy',
+      },
+      seniorRotcScholarship: {
+        formKey: 'seniorRotcCommission',
+        exclusionType: 'ROTC',
+      },
+      activeDutyDodRepayLoan: {
+        formKey: 'loanPayment',
+        exclusionType: 'LRP',
+      },
+      activeDutyKicker: {
+        formKey: 'activeDutyKicker',
+        exclusionType: null,
+      },
+      reserveKicker: {
+        formKey: 'selectedReserveKicker',
+        exclusionType: null,
+      },
+    };
+    return Object.entries(mapping).reduce(
+      (acc, [key, { formKey, exclusionType }]) => {
+        const value = submissionForm[formKey];
+        const exclusionMessage = exclusionType
+          ? getExclusionMessage(exclusionType, exclusionPeriods)
+          : '';
+        acc[key] =
+          setAdditionalConsideration(value) +
+          (exclusionMessage ? ` - ${exclusionMessage}` : '');
+        return acc;
+      },
+      {},
+    );
+  }
   return {
     activeDutyKicker: setAdditionalConsideration(
       submissionForm.activeDutyKicker,
@@ -410,7 +489,10 @@ export function createComments(submissionForm) {
       return {
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm.incorrectServiceHistoryExplanation,
+          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
+            ? submissionForm.incorrectServiceHistoryExplanation
+            : submissionForm.incorrectServiceHistoryExplanation
+                .incorrectServiceHistoryText,
         },
         disagreeWithServicePeriod: true,
       };

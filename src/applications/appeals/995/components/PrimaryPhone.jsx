@@ -6,13 +6,14 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getFormattedPhone } from '../utils/contactInfo';
-import { checkValidations, missingPrimaryPhone } from '../validations';
+import { missingPrimaryPhone } from '../validations';
 import {
   PRIMARY_PHONE,
   PRIMARY_PHONE_TYPES,
   errorMessages,
 } from '../constants';
 import { content } from '../content/primaryPhone';
+import { checkValidations } from '../../shared/validations';
 
 export const PrimaryPhone = ({
   data,

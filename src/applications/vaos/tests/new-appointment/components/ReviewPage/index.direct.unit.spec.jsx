@@ -146,7 +146,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     expect(clinicHeading).to.contain.text('Some VA clinic');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
 
-    expect(reasonHeading).to.contain.text('Follow-up/Routine');
+    expect(reasonHeading).to.contain.text('Routine/Follow-up');
     expect(screen.baseElement).to.contain.text('I need an appt');
 
     expect(contactHeading).to.contain.text('Your contact details');

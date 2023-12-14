@@ -1,7 +1,8 @@
 import merge from 'lodash/merge';
+import { format, isValid, parseISO } from 'date-fns';
 // import * as Sentry from '@sentry/browser';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
@@ -20,6 +21,7 @@ const phaseMap = {
   8: 'Complete',
 };
 
+// Gets the user phase for LH or EVSS claim
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }
@@ -49,6 +51,23 @@ export function getUserPhase(phase) {
   }
 
   return phase - 3;
+}
+
+function isInEvidenceGathering(claim) {
+  const allowedClaimTypes = ['evss_claims', 'claim'];
+  const isEvssClaim = claim.type === 'evss_claims';
+  const isLighthouseClaim = claim.type === 'claim';
+
+  if (!allowedClaimTypes.includes(claim.type)) {
+    return false;
+  }
+
+  if (isEvssClaim) return claim.attributes.phase === 3;
+  if (isLighthouseClaim) {
+    return claim.attributes.status === 'EVIDENCE_GATHERING_REVIEW_DECISION';
+  }
+
+  return false;
 }
 
 // START lighthouse_migration
@@ -147,12 +166,14 @@ export function displayFileSize(size) {
 }
 
 export function groupClaimsByDocsNeeded(list) {
-  const claimsWithOpenRequests = list.filter(
-    claim => claim.attributes.documentsNeeded,
-  );
+  const groupingPredicate = c => {
+    return c.attributes.documentsNeeded && isInEvidenceGathering(c);
+  };
+
+  const claimsWithOpenRequests = list.filter(groupingPredicate);
 
   const claimsWithoutOpenRequests = list.filter(
-    claim => !claim.attributes.documentsNeeded,
+    claim => !groupingPredicate(claim),
   );
 
   return claimsWithOpenRequests.concat(claimsWithoutOpenRequests);
@@ -327,9 +348,7 @@ export function getCompletedDate(claim) {
 }
 
 export function getClaimType(claim) {
-  return (
-    claim?.attributes?.claimType || 'disability compensation'
-  ).toLowerCase();
+  return claim?.attributes?.claimType || 'Disability Compensation';
 }
 
 export const mockData = {
@@ -910,3 +929,19 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
+
+// Takes a format string and returns a function that formats the given date
+// `date` must be in ISO format ex. 2020-01-28
+export const buildDateFormatter = formatString => {
+  return date => {
+    const parsedDate = parseISO(date);
+
+    return isValid(parsedDate)
+      ? format(parsedDate, formatString)
+      : 'Invalid date';
+  };
+};

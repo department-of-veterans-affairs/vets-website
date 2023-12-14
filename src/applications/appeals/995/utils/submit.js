@@ -1,11 +1,9 @@
 import {
-  SELECTED,
-  MAX_LENGTH,
   CLAIMANT_TYPES,
-  PRIMARY_PHONE,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_VA,
+  PRIMARY_PHONE,
 } from '../constants';
 import {
   hasHomeAndMobilePhone,
@@ -13,26 +11,17 @@ import {
   hasMobilePhone,
 } from './contactInfo';
 import {
-  replaceSubmittedData,
-  fixDateFormat,
-} from '../../shared/utils/replace';
-import {
-  buildVaLocationString,
   buildPrivateString,
+  buildVaLocationString,
 } from '../validations/evidence';
-import { returnUniqueIssues } from '../../shared/utils/issues';
-import '../../shared/definitions';
 
-/**
- * Remove objects with empty string values; Lighthouse doesn't like `null`
- *  values
- * @param {Object}
- * @returns {Object} minus any empty string values
- */
-export const removeEmptyEntries = object =>
-  Object.fromEntries(
-    Object.entries(object).filter(([_, value]) => value !== ''),
-  );
+import { MAX_LENGTH } from '../../shared/constants';
+import '../../shared/definitions';
+import {
+  fixDateFormat,
+  replaceSubmittedData,
+} from '../../shared/utils/replace';
+import { removeEmptyEntries } from '../../shared/utils/submit';
 
 export const getTimeZone = () =>
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
@@ -62,100 +51,10 @@ export const getClaimantData = ({
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
     result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
       0,
-      MAX_LENGTH.CLAIMANT_OTHER,
+      MAX_LENGTH.SC_CLAIMANT_OTHER,
     );
   }
   return result;
-};
-
-/**
- * Combine issues values into one field
- * @param {ContestableIssueAttributes} attributes
- * @returns {String} Issue name - rating % - description combined
- */
-export const createIssueName = ({ attributes } = {}) => {
-  const {
-    ratingIssueSubjectText,
-    ratingIssuePercentNumber,
-    description,
-  } = attributes;
-  const result = [
-    ratingIssueSubjectText,
-    `${ratingIssuePercentNumber || '0'}%`,
-    description,
-  ]
-    .filter(part => part)
-    .join(' - ');
-  return replaceSubmittedData(result).substring(0, MAX_LENGTH.ISSUE_NAME);
-};
-
-/* submitted contested issue format
-[{
-  "type": "contestableIssue",
-  "attributes": {
-    "issue": "tinnitus - 10% - some longer description",
-    "decisionDate": "1900-01-01",
-    "decisionIssueId": 1,
-    "ratingIssueReferenceId": "2",
-    "ratingDecisionReferenceId": "3",
-    "socDate": "2000-01-01"
-  }
-}]
-*/
-export const getContestedIssues = ({ contestedIssues } = {}) =>
-  (contestedIssues || []).filter(issue => issue[SELECTED]).map(issue => {
-    const attr = issue.attributes;
-    const attributes = [
-      'decisionIssueId',
-      'ratingIssueReferenceId',
-      'ratingDecisionReferenceId',
-      'socDate',
-    ].reduce(
-      (acc, key) => {
-        // Don't submit null or empty strings
-        if (attr[key]) {
-          acc[key] = attr[key];
-        }
-        return acc;
-      },
-      {
-        issue: createIssueName(issue),
-        decisionDate: fixDateFormat(attr.approxDecisionDate),
-      },
-    );
-
-    return {
-      // type: "contestableIssues"
-      type: issue.type,
-      attributes,
-    };
-  });
-
-/**
- * Combine included issues and additional issues
- * @param {FormData}
- * @returns {ContestableIssueSubmittable}
- */
-export const addIncludedIssues = formData => {
-  const issues = getContestedIssues(formData);
-
-  const result = issues.concat(
-    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-        // match contested issue pattern
-        issuesToAdd.push({
-          type: 'contestableIssue',
-          attributes: {
-            issue: replaceSubmittedData(issue.issue),
-            decisionDate: fixDateFormat(issue.decisionDate),
-          },
-        });
-      }
-      return issuesToAdd;
-    }, []),
-  );
-  // Ensure only unique entries are submitted
-  return returnUniqueIssues(result);
 };
 
 /**
@@ -172,10 +71,22 @@ export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
+  // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
     MAX_LENGTH.POSTAL_CODE,
   );
+  // zipCode5 is always required, set to 00000 for addresses outside the U.S.
+  // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+  const zipCode5 =
+    countryCodeISO2 !== 'US'
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
     // Long addresses will overflow to an attachment page
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
@@ -184,13 +95,9 @@ export const getAddress = formData => {
     city: truncate('city', MAX_LENGTH.CITY),
     // stateCode is from enum
     stateCode: truncate('stateCode'),
-    // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
-    countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY),
-    // zipCode5 is always required, set to 00000 for international codes
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
-    zipCode5: internationalPostalCode
-      ? '00000'
-      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    countryCodeISO2,
+    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
+    zipCode5,
     internationalPostalCode,
   });
 };
@@ -200,6 +107,8 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
+
+// NOTE: This one stays in 995 because 995 includes a mobile phone number while 996 and 10182 do not
 export const getPhone = formData => {
   const data = formData || {};
   const { veteran = {} } = data;
@@ -317,7 +226,7 @@ export const getEvidence = formData => {
     evidenceType: [],
   };
   // Add VA evidence data
-  if (formData[EVIDENCE_VA] && formData.locations.length) {
+  if (formData[EVIDENCE_VA] && formData.locations?.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {

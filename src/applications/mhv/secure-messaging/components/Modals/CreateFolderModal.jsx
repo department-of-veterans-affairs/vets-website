@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -8,48 +8,61 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { Alerts } from '../../util/constants';
 
 const CreateFolderModal = props => {
-  const { isModalVisible, setIsModalVisible, onConfirm, folders } = props;
+  const {
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+    onConfirm,
+    folders,
+  } = props;
   const [folderName, setFolderName] = useState('');
   const [nameWarning, setNameWarning] = useState('');
   const folderNameInput = useRef();
-  let folderMatch = null;
 
   useEffect(
     () => {
       if (nameWarning.length)
-        focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
     },
     [nameWarning],
   );
 
-  const closeNewModal = () => {
-    setFolderName('');
-    setNameWarning('');
-    setIsModalVisible(false);
-  };
+  const closeNewModal = useCallback(
+    () => {
+      setFolderName('');
+      setNameWarning('');
+      setIsCreateNewModalVisible(false);
+    },
+    [setFolderName, setNameWarning, setIsCreateNewModalVisible],
+  );
 
-  const confirmNewFolder = async () => {
-    folderMatch = null;
-    await setNameWarning('');
-    folderMatch = folders.filter(folder => folder.name === folderName);
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
-    } else if (folderMatch.length > 0) {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      onConfirm(folderName, closeNewModal);
-    } else {
-      setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
-    }
-  };
+  const confirmNewFolder = useCallback(
+    () => {
+      let folderMatch = null;
+      folderMatch = folders.filter(folder => folder.name === folderName);
+      if (folderName === '' || folderName.match(/^[\s]+$/)) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_NOT_BLANK);
+      } else if (folderMatch.length > 0) {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_EXSISTING_NAME);
+      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+        onConfirm(folderName, closeNewModal);
+      } else {
+        setNameWarning(Alerts.Folder.CREATE_FOLDER_ERROR_CHAR_TYPE);
+      }
+    },
+    [folders, folderName, onConfirm, closeNewModal],
+  );
 
   return (
     <VaModal
       className="modal"
-      visible={isModalVisible}
+      visible={isCreateNewModalVisible}
       large="true"
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
+      data-testid="create-folder-modal"
+      data-dd-action-name="Create New Folder Modal Closed"
     >
       <VaTextInput
         data-dd-privacy="mask"
@@ -64,17 +77,30 @@ const CreateFolderModal = props => {
         maxlength="50"
         error={nameWarning}
         name="folder-name"
+        data-testid="folder-name"
+        data-dd-action-name="Create New Folder Modal Input Field"
       />
-      <va-button text="Create" onClick={confirmNewFolder} />
-      <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
+      <va-button
+        text="Create"
+        onClick={confirmNewFolder}
+        data-testid="create-folder-button"
+        data-dd-action-name="Confirm Create New Folder Button"
+      />
+      <va-button
+        secondary="true"
+        text="Cancel"
+        onClick={closeNewModal}
+        data-testid="cancel-folder-button"
+        data-dd-action-name="Cancel Create New Folder Button"
+      />
     </VaModal>
   );
 };
 
 CreateFolderModal.propTypes = {
   folders: PropTypes.array.isRequired,
-  isModalVisible: PropTypes.bool.isRequired,
-  setIsModalVisible: PropTypes.func.isRequired,
+  isCreateNewModalVisible: PropTypes.bool.isRequired,
+  setIsCreateNewModalVisible: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
 

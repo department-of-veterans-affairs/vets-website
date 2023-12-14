@@ -66,12 +66,16 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--review-page');
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--appointments');
       Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithBtsssSubmission();
-      Confirmation.validateExtraFooterMessage();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--confirmation-success');
     });
@@ -122,6 +126,23 @@ describe('Check In Experience', () => {
       cy.createScreenshots(
         'Day-of-check-in--travel-pay--confirmation-ineligible',
       );
+    });
+    it('Routes to appointments on no to review terms.', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Confirmation.validatePageLoadedWithNoBtsssClaim();
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

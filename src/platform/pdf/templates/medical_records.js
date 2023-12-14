@@ -10,14 +10,15 @@ import { MissingFieldsException } from '../utils/exceptions/MissingFieldsExcepti
 
 import {
   createAccessibleDoc,
-  createArtifactText,
   addHorizontalRule,
   createDetailItem,
   createHeading,
-  createSpan,
   createSubHeading,
   getTestResultBlockHeight,
   registerVaGovFonts,
+  generateInitialHeaderContent,
+  generateFinalHeaderContent,
+  generateFooterContent,
 } from './utils';
 
 const config = {
@@ -112,11 +113,7 @@ const generateResultItemContent = async (
   }
 
   if (hasHorizontalRule) {
-    results.add(
-      doc.struct('Artifact', () => {
-        addHorizontalRule(doc, 30, 1.5);
-      }),
-    );
+    addHorizontalRule(doc, 30, 1.5, 1.5);
   }
 };
 
@@ -164,162 +161,6 @@ const generateResultsContent = async (doc, parent, data) => {
   results.end();
 };
 
-const generateHeaderBanner = async (doc, header, data) => {
-  doc.moveDown(1);
-  const currentHeight = doc.y;
-
-  // Calculate text width
-  let width = 0;
-  for (let i = 0; i < data.headerBanner.length; i += 1) {
-    const element = data.headerBanner[i];
-    const font =
-      element.weight === 'bold' ? config.text.boldFont : config.text.font;
-
-    doc.font(font);
-    doc.fontSize(config.text.size);
-    width += doc.widthOfString(element.text);
-  }
-
-  // This math is based on US Letter page size and will have to be adjusted
-  // if we ever offer document size as a parameter.
-  const leftMargin = (612 - 32 - width) / 2 + 20;
-
-  for (let i = 0; i < data.headerBanner.length; i += 1) {
-    const element = data.headerBanner[i];
-    const font =
-      element.weight === 'bold' ? config.text.boldFont : config.text.font;
-    const paragraphOptions = {};
-    if (i < data.headerBanner.length) {
-      paragraphOptions.continued = true;
-    }
-
-    header.add(
-      doc.struct('Span', () => {
-        doc
-          .font(font)
-          .fontSize(config.text.size)
-          .text(element.text, leftMargin, doc.y, paragraphOptions);
-      }),
-    );
-  }
-
-  const height = doc.y - currentHeight + 25;
-
-  doc.rect(20, currentHeight - 4, 580, height).stroke();
-
-  doc.moveDown(3);
-
-  // This is an ugly hack that resets the document X position
-  // so that the document header is shown correctly.
-  header.add(
-    doc.struct('Artifact', () => {
-      doc.text('', 20, doc.y);
-    }),
-  );
-};
-
-const generateInitialHeaderContent = async (doc, parent, data) => {
-  // Adjust page margins so that we can write in the header/footer area.
-  // eslint-disable-next-line no-param-reassign
-  doc.page.margins = {
-    top: 0,
-    bottom: 0,
-    left: 20,
-    right: 16,
-  };
-
-  const header = doc.struct('Sect', {
-    type: 'Pagination',
-    title: 'Header',
-    attached: 'Top',
-  });
-  parent.add(header);
-  const leftOptions = { continued: true, x: 20, y: 12 };
-  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
-  const rightOptions = { align: 'right' };
-  header.add(createSpan(doc, config, data.headerRight, rightOptions));
-
-  if (data.headerBanner) {
-    generateHeaderBanner(doc, header, data);
-  }
-
-  header.end();
-
-  // eslint-disable-next-line no-param-reassign
-  doc.page.margins = config.margins;
-};
-
-const generateFinalHeaderContent = async (doc, parent, data) => {
-  const pages = doc.bufferedPageRange();
-  for (let i = 1; i < pages.count; i += 1) {
-    doc.switchToPage(i);
-
-    // Adjust page margins so that we can write in the header/footer area.
-    // eslint-disable-next-line no-param-reassign
-    doc.page.margins = {
-      top: 0,
-      bottom: 0,
-      left: 20,
-      right: 16,
-    };
-
-    const header = doc.struct('Artifact', {
-      type: 'Pagination',
-      title: 'Header',
-      attached: 'Top',
-    });
-    parent.add(header);
-    const leftOptions = { continued: true, x: 16, y: 12 };
-    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
-    const rightOptions = { align: 'right' };
-    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
-    header.end();
-  }
-};
-
-const generateFooterContent = async (doc, parent, data) => {
-  const pages = doc.bufferedPageRange();
-  for (let i = 0; i < pages.count; i += 1) {
-    doc.switchToPage(i);
-
-    // Adjust page margins so that we can write in the header/footer area.
-    // eslint-disable-next-line no-param-reassign
-    doc.page.margins = {
-      top: 0,
-      bottom: 0,
-      left: 20,
-      right: 16,
-    };
-
-    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
-    const footer = doc.struct(groupingStruct, {
-      type: 'Pagination',
-      title: 'Footer',
-      attached: 'Bottom',
-    });
-    parent.add(footer);
-
-    let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
-    footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    const footerLeftOptions = { continued: true, x: 20, y: 766 };
-    const footerRightOptions = { align: 'right' };
-
-    // Only allow the last footer element to be read by screen readers.
-    if (i === pages.count - 1) {
-      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
-      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
-    } else {
-      footer.add(
-        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
-      );
-      footer.add(
-        createArtifactText(doc, config, footerRightText, footerRightOptions),
-      );
-    }
-    footer.end();
-  }
-};
-
 const validate = data => {
   const requiredFields = [
     'title',
@@ -338,7 +179,7 @@ const validate = data => {
 const generate = async data => {
   validate(data);
 
-  const doc = createAccessibleDoc(data);
+  const doc = createAccessibleDoc(data, config);
 
   await registerVaGovFonts(doc);
 
@@ -350,7 +191,7 @@ const generate = async data => {
   // Add content synchronously to ensure that reading order
   // is left intact for screen reader users.
 
-  await generateInitialHeaderContent(doc, wrapper, data);
+  await generateInitialHeaderContent(doc, wrapper, data, config);
 
   await generateIntroductionContent(doc, wrapper, data);
 
@@ -362,8 +203,8 @@ const generate = async data => {
     await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateFinalHeaderContent(doc, wrapper, data);
-  await generateFooterContent(doc, wrapper, data);
+  await generateFinalHeaderContent(doc, data, config);
+  await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();
 

@@ -9,11 +9,12 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
+import { onFormLoaded } from '../utils/redirect';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
-import AddIssue from '../components/AddIssue';
-import reviewErrors from '../content/reviewErrors';
+import AddContestableIssue from '../components/AddContestableIssue';
 
 import {
   canUploadEvidence,
@@ -22,8 +23,6 @@ import {
   showPart3,
   showExtensionReason,
 } from '../utils/helpers';
-
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 // Pages
 import veteranInfo from '../pages/veteranInfo';
@@ -51,6 +50,8 @@ import {
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import reviewErrors from '../../shared/content/reviewErrors';
 
 // import initialData from '../tests/schema/initialData';
 
@@ -59,16 +60,16 @@ import manifest from '../manifest.json';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/notice_of_disagreements',
+  submitUrl: 'notice_of_disagreements',
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
     requiredForPrefill: true,
     dependencies: [
-      services.vaProfile,
-      services.bgs,
-      services.mvi,
-      services.appeals,
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
     ],
   },
 
@@ -86,14 +87,13 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
-
+  onFormLoaded,
   // SaveInProgress messages
   customText,
   savedFormMessages,
   saveInProgress,
   // errorText: '',
   // submissionError: '',
-
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 
@@ -165,7 +165,7 @@ const formConfig = {
           depends: () => false, // accessed from contestableIssues page
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
@@ -198,7 +198,7 @@ const formConfig = {
           schema: boardReview.schema,
         },
         evidenceIntro: {
-          title: 'Evidence submission',
+          title: 'Additional evidence',
           path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,

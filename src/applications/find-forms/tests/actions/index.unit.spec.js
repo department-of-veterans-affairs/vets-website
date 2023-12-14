@@ -1,7 +1,5 @@
-// Dependencies.
 import { expect } from 'chai';
 import sinon from 'sinon';
-// Relative imports.
 import {
   fetchFormsAction,
   fetchFormsFailure,

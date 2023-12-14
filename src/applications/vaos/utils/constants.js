@@ -30,48 +30,17 @@ export const VIDEO_TYPES = {
   storeForward: 'STORE_FORWARD',
 };
 
-export const PURPOSE_TEXT = [
-  {
-    id: 'routine-follow-up',
-    short: 'Follow-up/Routine',
-    commentShort: 'ROUTINEVISIT',
-    label: 'This is a routine or follow-up visit.',
-    serviceName: 'Routine Follow-up',
-  },
-  {
-    id: 'new-issue',
-    short: 'New issue',
-    commentShort: 'MEDICALISSUE',
-    label: 'I have a new medical issue.',
-    serviceName: 'New Issue',
-  },
-  {
-    id: 'medication-concern',
-    short: 'Medication concern',
-    commentShort: 'QUESTIONMEDS',
-    label: 'I have a concern or question about my medication.',
-    serviceName: 'Medication Concern',
-  },
-  {
-    id: 'other',
-    short: 'My reason isn’t listed',
-    commentShort: 'OTHER_REASON',
-    label: 'My reason isn’t listed here.',
-    serviceName: 'Other',
-  },
-];
-
 export const PURPOSE_TEXT_V2 = [
   {
     id: 'routine-follow-up',
-    short: 'Routine Follow-up',
+    short: 'Routine/Follow-up',
     commentShort: 'ROUTINEVISIT',
     label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
-    short: 'New problem',
+    short: 'New medical issue',
     commentShort: 'MEDICALISSUE',
     label: 'I have a new medical problem.',
     serviceName: 'New Problem',
@@ -111,6 +80,20 @@ export const COMP_AND_PEN = 'COMPENSATION & PENSION';
 
 export const PRIMARY_CARE = '323';
 export const MENTAL_HEALTH = '502';
+export const PHARMACY_ID = '160';
+export const SOCIAL_WORK_ID = '125';
+export const AMPUTATION_ID = '211';
+export const AUDIOLOGY_ID = '203';
+export const MOVE_PROGRAM_ID = '372';
+export const FOOD_AND_NUTRITION_ID = '123';
+export const SLEEP_MEDICINE_ID = 'SLEEP';
+export const EYE_CARE_ID = 'EYE';
+export const CPAP_ID = '349';
+export const HOME_SLEEP_TESTING_ID = '143';
+export const OPTOMETRY_ID = '408';
+export const OPHTHALMOLOGY_ID = '407';
+export const AUDIOLOGY_ROUTINE_ID = 'CCAUDRTNE';
+export const AUDIOLOGY_HEARING_ID = 'CCAUDHEAR';
 
 export const TYPES_OF_CARE = [
   {
@@ -348,6 +331,21 @@ export const TYPE_OF_VISIT = [
   },
 ];
 
+/**
+ * @typedef TYPE_OF_VISIT_ID
+ * @type {Object}
+ * @property {string} clinic
+ * @property {string} phone
+ * @property {string} telehealth
+ */
+/**
+ * @type {TYPE_OF_VISIT_ID}
+ */
+export const TYPE_OF_VISIT_ID = TYPE_OF_VISIT.reduce((acc, visit) => {
+  acc[visit.id] = visit.id;
+  return acc;
+}, {});
+
 // todo: not used, delete?
 export const DISTANCES = [
   {
@@ -448,6 +446,10 @@ export const ERROR_CODES = [
   {
     code: 10000,
     detail: 'Failure to fetch - Generic Error',
+  },
+  {
+    code: 10001,
+    detail: 'Failure to fetch requests from VSP, VVS and/or HSRM',
   },
   {
     code: 10005,

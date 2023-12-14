@@ -69,6 +69,30 @@ describe('<AreaOfDisagreement>', () => {
     });
   });
 
+  it('should render with no data', () => {
+    const data = getData();
+    const { container } = render(
+      <div>
+        <AreaOfDisagreement {...data} data={undefined} />
+      </div>,
+    );
+
+    expect($('h3', container).textContent).to.contain(
+      'Disagreement with  decision on',
+    );
+    expect($('va-checkbox-group', container)).to.exist;
+
+    // RTL doesn't handle shadow dom
+    const html = container.innerHTML;
+    Object.keys(DISAGREEMENT_TYPES).forEach(type => {
+      if (type === 'otherEntry') {
+        expect(html).to.contain('va-text-input');
+      } else {
+        expect(html).to.contain(`va-checkbox name="${type}"`);
+      }
+    });
+  });
+
   it('should submit with only checkboxes set', () => {
     const goSpy = sinon.spy();
     const aod = {
@@ -127,6 +151,32 @@ describe('<AreaOfDisagreement>', () => {
     expect(goSpy.called).to.be.true;
   });
 
+  it('should submit on review page', () => {
+    const updateSpy = sinon.spy();
+    const aod = {
+      ...aod2,
+      disagreementOptions: {
+        serviceConnection: true,
+        effectiveDate: true,
+        evaluation: true,
+      },
+      otherEntry: 'something',
+    };
+    const data = getData({
+      updatePage: updateSpy,
+      data: [aod],
+      onReviewPage: true,
+    });
+    const { container } = render(
+      <div>
+        <AreaOfDisagreement {...data} />
+      </div>,
+    );
+
+    fireEvent.click($('va-button', container));
+    expect(updateSpy.called).to.be.true;
+  });
+
   it('should not submit page when nothing is checked or input is empty', async () => {
     const goSpy = sinon.spy();
     const data = getData({ goForward: goSpy });
@@ -172,5 +222,28 @@ describe('<AreaOfDisagreement>', () => {
         $('va-text-input[error]', container)?.getAttribute('error'),
       ).to.contain('This field should be less than 34 characters');
     });
+  });
+
+  it('should not throw a JS error for undefined disagreementOptions', () => {
+    const goSpy = sinon.spy();
+    const data = {
+      data: {
+        areaOfDisagreement: [{}, { evaluation: undefined }],
+      },
+      pagePerItemIndex: 1,
+      goForward: goSpy,
+      setFormData: () => {},
+    };
+    const { container } = render(
+      <div>
+        <AreaOfDisagreement {...data} />
+      </div>,
+    );
+    const cbGroup = $('va-checkbox-group', container);
+    cbGroup.__events.vaChange({
+      target: { getAttribute: () => 'evaluation' },
+      detail: true,
+    });
+    expect(cbGroup).to.exist;
   });
 });

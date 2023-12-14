@@ -33,8 +33,8 @@ const MissingInfo = ({ hasSsn, hasDob }) => {
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
         </dfn>
-        . If you have hearing loss, call TTY:{' '}
-        <va-telephone contact="8663632883" />.
+        . If you have hearing loss, call{' '}
+        <va-telephone contact="8663632883" tty />.
       </p>
     </va-alert>
   );

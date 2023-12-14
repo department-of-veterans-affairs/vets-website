@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { selectProfile, isLoggedIn } from 'platform/user/selectors';
-import environment from 'platform/utilities/environment';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
@@ -17,8 +17,6 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
-import user from '../tests/fixtures/mocks/user.json';
-
 import formConfig from '../config/form';
 import {
   removeNonSelectedIssuesFromEvidence,
@@ -27,8 +25,14 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import { WIP } from '../components/WIP';
-import { SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
+import {
+  DATA_DOG_ID,
+  DATA_DOG_TOKEN,
+  DATA_DOG_SERVICE,
+  SUPPORTED_BENEFIT_TYPES_LIST,
+} from '../constants';
 
+import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
   processContestableIssues,
@@ -38,7 +42,6 @@ export const App = ({
   loggedIn,
   location,
   children,
-  profile,
   formData,
   setFormData,
   router,
@@ -51,18 +54,6 @@ export const App = ({
   inProgressFormId,
   show995,
 }) => {
-  // vapContactInfo is an empty object locally, so mock it
-  const data = environment.isLocalhost()
-    ? user.data.attributes.vet360ContactInformation
-    : profile?.vapContactInfo || {};
-
-  const {
-    email = {},
-    homePhone = {},
-    mobilePhone = {},
-    mailingAddress = {},
-  } = data;
-
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -96,16 +87,11 @@ export const App = ({
             benefitType: subTaskBenefitType,
           });
         } else if (loggedIn && formData.benefitType) {
-          const { veteran = {} } = formData || {};
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
-            email?.emailAddress !== veteran.email ||
-            homePhone?.updatedAt !== veteran.homePhone?.updatedAt ||
-            mobilePhone?.updatedAt !== veteran.mobilePhone?.updatedAt ||
-            mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
             issuesNeedUpdating(
               contestableIssues?.issues,
               formData?.contestedIssues,
@@ -115,13 +101,6 @@ export const App = ({
             // resetStoredSubTask();
             setFormData({
               ...formData,
-              veteran: {
-                ...veteran,
-                address: mailingAddress,
-                mobilePhone,
-                homePhone,
-                email: email?.emailAddress,
-              },
               contestedIssues: processContestableIssues(
                 contestableIssues?.issues,
               ),
@@ -136,15 +115,12 @@ export const App = ({
     },
     [
       contestableIssues,
-      email,
       formData,
       getContestableIssues,
-      homePhone,
       isLoadingIssues,
       legacyCount,
       loggedIn,
-      mailingAddress,
-      mobilePhone,
+
       setFormData,
       subTaskBenefitType,
       show995,
@@ -172,6 +148,19 @@ export const App = ({
       </ITFWrapper>
     </RoutedSavableApp>
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
+    version: '1.0.0',
+    // record 100% of staging sessions, but only 10% of production
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 10,
+    applicationId: DATA_DOG_ID,
+    clientToken: DATA_DOG_TOKEN,
+    service: DATA_DOG_SERVICE,
+  });
 
   if (isLoadingFeatures) {
     return wrapInH1(<va-loading-indicator message="Loading application..." />);
@@ -217,7 +206,6 @@ App.propTypes = {
     benefitType: PropTypes.string,
     contestedIssues: PropTypes.array,
     legacyCount: PropTypes.number,
-    informalConferenceRep: PropTypes.shape({}),
   }),
   inProgressFormId: PropTypes.number,
   isLoadingFeatures: PropTypes.bool,
@@ -242,7 +230,6 @@ const mapStateToProps = state => ({
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   loggedIn: isLoggedIn(state),
   formData: state.form?.data || {},
-  profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,

@@ -4,11 +4,12 @@ import sinon from 'sinon';
 import {
   validateCurrency,
   validateDependentDate,
+  validatePolicyNumberGroupCode,
 } from '../../../utils/validation';
 
 describe('ezr validation utils', () => {
-  describe('when `validateDependentDate` executes', () => {
-    describe('when form data is valid', () => {
+  context('when `validateDependentDate` executes', () => {
+    context('when form data is valid', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -20,7 +21,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when birth date is after dependent date', () => {
+    context('when birth date is after dependent date', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -33,8 +34,8 @@ describe('ezr validation utils', () => {
     });
   });
 
-  describe('when `validateCurrency` executes', () => {
-    describe('when form data is valid', () => {
+  context('when `validateCurrency` executes', () => {
+    context('when form data is valid', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -44,7 +45,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has three decimals', () => {
+    context('when value has three decimals', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -54,7 +55,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has trailing whitespace', () => {
+    context('when value has trailing whitespace', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -64,7 +65,7 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value has leading whitespace', () => {
+    context('when value has leading whitespace', () => {
       it('should set error message', () => {
         const errors = {
           addError: sinon.spy(),
@@ -74,13 +75,55 @@ describe('ezr validation utils', () => {
       });
     });
 
-    describe('when value includes dollar sign', () => {
+    context('when value includes dollar sign', () => {
       it('should not set error message', () => {
         const errors = {
           addError: sinon.spy(),
         };
         validateCurrency(errors, '$234,234');
         expect(errors.addError.called).to.be.false;
+      });
+    });
+  });
+
+  context('when `validatePolicyNumberGroupCode` executes', () => {
+    context('when a valid policy number is provided', () => {
+      it('should not set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validatePolicyNumberGroupCode(errors, {
+          insurancePolicyNumber: '006655',
+        });
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    context('when a valid group code is provided', () => {
+      it('should not set error message', () => {
+        const errors = {
+          addError: sinon.spy(),
+        };
+        validatePolicyNumberGroupCode(errors, {
+          insuranceGroupCode: '006655',
+        });
+        expect(errors.addError.called).to.be.false;
+      });
+    });
+
+    context('when required fields are missing', () => {
+      it('should set error message', () => {
+        const errors = {
+          insuranceGroupCode: {
+            addError: sinon.spy(),
+          },
+          insurancePolicyNumber: {
+            addError: sinon.spy(),
+          },
+        };
+        validatePolicyNumberGroupCode(errors, {});
+        expect(errors.insuranceGroupCode.addError.called).to.be.true;
+        expect(errors.insurancePolicyNumber.addError.called).to.be.true;
       });
     });
   });

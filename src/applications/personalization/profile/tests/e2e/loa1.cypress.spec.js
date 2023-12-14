@@ -30,12 +30,17 @@ context('when user is LOA1', () => {
   });
   it('should only have access to the Account Security section and not call personal data APIs', () => {
     // should show a loading indicator
-    cy.findByRole('progressbar').should('exist');
-    cy.findByText(/loading your information/i).should('exist');
+    cy.get('va-loading-indicator')
+      .should('exist')
+      .then($container => {
+        cy.wrap($container)
+          .shadow()
+          .findByRole('progressbar')
+          .should('contain', /loading your information/i);
+      });
 
     // and then the loading indicator should be removed
-    cy.findByRole('progressbar').should('not.exist');
-    cy.findByText(/loading your information/i).should('not.exist');
+    cy.get('va-loading-indicator').should('not.exist');
 
     // should redirect to profile/account-security on load
     cy.url().should(

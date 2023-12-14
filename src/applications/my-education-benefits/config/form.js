@@ -27,17 +27,19 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
-import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
-import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
+import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
-import CannotRelinquishLabel from '../components/CannotRelinquishLabel';
+import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
 // import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
+import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget';
+
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -127,7 +129,7 @@ const formPages = {
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
         info:
-          'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
+          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
       },
     },
     loanPayment: {
@@ -149,21 +151,8 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const benefits = [
   ELIGIBILITY.CHAPTER30,
   ELIGIBILITY.CHAPTER1606,
-  'CannotRelinquish',
+  'NotEligible',
 ];
-
-const filterEligibility = (form, state) => {
-  const eligibility = state?.eligibility;
-  if (!eligibility || !eligibility.length) {
-    return { enum: benefits };
-  }
-  return {
-    enum: benefits.filter(
-      benefit =>
-        eligibility.includes(benefit) || benefit === 'CannotRelinquish',
-    ),
-  };
-};
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -239,7 +228,7 @@ function phoneSchema() {
 }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
-  const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
+  const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
   const pageNumber = isUnsure ? order - 1 : order;
   const totalPages = isUnsure ? 3 : 4;
 
@@ -268,28 +257,49 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
   );
 }
 
-function AdditionalConsiderationTemplate(page, formField) {
+function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
   const additionalInfoViewName = `view:${page.name}AdditionalInfo`;
+  const displayTypeMapping = {
+    [formFields.federallySponsoredAcademy]: 'Academy',
+    [formFields.seniorRotcCommission]: 'ROTC',
+    [formFields.loanPayment]: 'LRP',
+  };
+  // Use the mapping to determine the display type
+  const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
-  if (additionalInfo) {
-    additionalInfoView = {
-      [additionalInfoViewName]: {
-        'ui:description': (
+  const uiDescription = (
+    <>
+      {options.includeExclusionWidget && (
+        <ExclusionPeriodsWidget displayType={displayType} />
+      )}
+      {additionalInfo && (
+        <>
+          <br />
           <va-additional-info trigger={additionalInfo.trigger}>
             <p>{additionalInfo.info}</p>
           </va-additional-info>
-        ),
+        </>
+      )}
+    </>
+  );
+  if (additionalInfo || options.includeExclusionWidget) {
+    additionalInfoView = {
+      [additionalInfoViewName]: {
+        'ui:description': uiDescription,
       },
     };
   }
-
   return {
     path: page.name,
     title: data => {
       return additionalConsiderationsQuestionTitleText(
-        data[formFields.viewBenefitSelection][formFields.benefitRelinquished],
+        (data[(formFields?.viewBenefitSelection)] &&
+          data[(formFields?.viewBenefitSelection)][
+            (formFields?.benefitRelinquished)
+          ]) ||
+          'NotEligible',
         page.order,
       );
     },
@@ -301,10 +311,6 @@ function AdditionalConsiderationTemplate(page, formField) {
           ],
           page.order,
         );
-      },
-      [formFields[formField]]: {
-        'ui:title': title,
-        'ui:widget': 'radio',
       },
       [formFields[formField]]: {
         'ui:title': title,
@@ -357,6 +363,18 @@ const isValidAccountNumber = accountNumber => {
     return accountNumber;
   }
   return false;
+};
+
+const checkBoxValidation = {
+  pattern: (errors, values, formData) => {
+    if (
+      !Object.keys(values).some(key => values[key]) &&
+      formData?.showMebServiceHistoryCategorizeDisagreement &&
+      formData['view:serviceHistory']?.serviceHistoryIncorrect
+    ) {
+      errors.addError('Please check at least one of the options below');
+    }
+  },
 };
 
 const validateAccountNumber = (
@@ -636,6 +654,7 @@ const formConfig = {
         [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
+          CustomPageReview: ContactInformationReviewPanel,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1349,8 +1368,6 @@ const formConfig = {
               },
             },
             [formFields.incorrectServiceHistoryExplanation]: {
-              'ui:title':
-                'Please explain what is incorrect and/or incomplete about your service history (250 character limit)',
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
@@ -1358,7 +1375,60 @@ const formConfig = {
                     formFields.serviceHistoryIncorrect
                   ],
               },
-              'ui:widget': 'textarea',
+              incorrectServiceHistoryInputs: {
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                    true &&
+                  formData?.showMebServiceHistoryCategorizeDisagreement,
+                'ui:errorMessages': {
+                  required: 'Please check at least one of the options below',
+                },
+                'ui:title': (
+                  <>
+                    <p className="check-box-label">
+                      Choose all that apply{' '}
+                      <span className="text-restriction">
+                        (*You must choose at least one)
+                      </span>
+                    </p>
+                  </>
+                ),
+                'ui:validations': [checkBoxValidation.pattern],
+                'ui:options': {
+                  showFieldLabel: true,
+                  forceDivWrapper: true,
+                  hideIf: formData =>
+                    !formData?.showMebServiceHistoryCategorizeDisagreement,
+                },
+                servicePeriodMissingForActiveDuty: {
+                  'ui:title':
+                    'I am currently on Active Duty orders and that service period is missing.',
+                },
+                servicePeriodMissing: {
+                  'ui:title':
+                    'I am not currently on Active Duty orders and one or more of my service periods is missing.',
+                },
+                servicePeriodNotMine: {
+                  'ui:title':
+                    'One or more service periods displayed are not mine.',
+                },
+                servicePeriodIncorrect: {
+                  'ui:title':
+                    'The service dates of one or more of my service periods are incorrect.',
+                },
+              },
+              incorrectServiceHistoryText: {
+                'ui:title':
+                  'Please explain what is missing and/or incorrect about your service history.',
+                'ui:required': formData =>
+                  formData['view:serviceHistory']?.serviceHistoryIncorrect ===
+                  true,
+                'ui:widget': 'textarea',
+                'ui:errorMessages': {
+                  required:
+                    'Please include your description of the issue below',
+                },
+              },
             },
           },
           schema: {
@@ -1390,8 +1460,22 @@ const formConfig = {
                 },
               },
               [formFields.incorrectServiceHistoryExplanation]: {
-                type: 'string',
-                maxLength: 250,
+                type: 'object',
+                properties: {
+                  incorrectServiceHistoryInputs: {
+                    type: 'object',
+                    properties: {
+                      servicePeriodMissingForActiveDuty: { type: 'boolean' },
+                      servicePeriodMissing: { type: 'boolean' },
+                      servicePeriodNotMine: { type: 'boolean' },
+                      servicePeriodIncorrect: { type: 'boolean' },
+                    },
+                  },
+                  incorrectServiceHistoryText: {
+                    type: 'string',
+                    maxLength: 250,
+                  },
+                },
               },
             },
           },
@@ -1453,32 +1537,7 @@ const formConfig = {
               ),
               [formFields.benefitRelinquished]: {
                 'ui:title': <BenefitRelinquishedLabel />,
-                'ui:reviewField': BenefitGivenUpReviewField,
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
-                    Chapter1606:
-                      'Montgomery GI Bill Selected Reserve (Chapter 1606)',
-                    CannotRelinquish: <CannotRelinquishLabel />,
-                  },
-                  widgetProps: {
-                    Chapter30: { 'data-info': 'Chapter30' },
-                    Chapter1606: { 'data-info': 'Chapter1606' },
-                    CannotRelinquish: { 'data-info': 'CannotRelinquish' },
-                  },
-                  selectedProps: {
-                    Chapter30: { 'aria-describedby': 'Chapter30' },
-                    Chapter1606: { 'aria-describedby': 'Chapter1606' },
-                    CannotRelinquish: {
-                      'aria-describedby': 'CannotRelinquish',
-                    },
-                  },
-                  updateSchema: (() => {
-                    // Returns the filterEligibility function, which will be used at runtime.
-                    return filterEligibility;
-                  })(),
-                },
+                'ui:widget': BenefitRelinquishWidget,
                 'ui:errorMessages': {
                   required: 'Please select an answer.',
                 },
@@ -1543,7 +1602,7 @@ const formConfig = {
                 hideIf: formData =>
                   formData[formFields.viewBenefitSelection][
                     formFields.benefitRelinquished
-                  ] !== 'CannotRelinquish',
+                  ] !== 'NotEligible',
                 expandUnder: [formFields.viewBenefitSelection],
               },
             },
@@ -1610,18 +1669,22 @@ const formConfig = {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.militaryAcademy,
             formFields.federallySponsoredAcademy,
+            { includeExclusionWidget: true },
           ),
         },
+
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
             formFields.seniorRotcCommission,
+            { includeExclusionWidget: true },
           ),
         },
         [formPages.additionalConsiderations.loanPayment.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.loanPayment,
             formFields.loanPayment,
+            { includeExclusionWidget: true },
           ),
         },
       },

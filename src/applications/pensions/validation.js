@@ -12,6 +12,26 @@ export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
   }
 }
 
+export function validateAfterMarriageDates(errors, dateOfSeparation, formData) {
+  formData.spouseMarriages?.forEach(marriage => {
+    if (marriage.dateOfSeparation === dateOfSeparation) {
+      validateAfterMarriageDate(errors, dateOfSeparation, marriage);
+    }
+  });
+}
+
+export function validateUniqueMarriageDates(errors, dateOfMarriage, formData) {
+  let count = 0;
+  formData.spouseMarriages?.forEach(marriage => {
+    if (dateOfMarriage === marriage.dateOfMarriage) {
+      count += 1;
+    }
+  });
+  if (count > 1) {
+    errors.addError('Date of marriage must be unique');
+  }
+}
+
 export function validateServiceBirthDates(errors, service, formData) {
   const fromDate = convertToDateField(formData.veteranDateOfBirth);
   const toDate = convertToDateField(
@@ -32,3 +52,9 @@ export function validateCentralMailPostalCode(errors, address) {
     );
   }
 }
+
+// Does not allow a dollar sign
+export const isValidCurrency = currencyAmount => {
+  const regex = /^(?!.*\$)(([1-9]\d{0,2}(,\d{3})*|\d+)(\.\d{1,2})?)?$/;
+  return regex.test(currencyAmount);
+};

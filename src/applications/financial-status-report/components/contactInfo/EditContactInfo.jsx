@@ -56,6 +56,7 @@ const BuildPage = ({ title, field, id, goToPath }) => {
           isDeleteDisabled
           cancelCallback={handlers.cancel}
           successCallback={handlers.success}
+          saveButtonText="Update"
         />
       </InitializeVAPServiceID>
     </div>

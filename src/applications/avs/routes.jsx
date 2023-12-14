@@ -1,7 +1,18 @@
 import React from 'react';
-import { Route } from 'react-router';
-import App from './containers/App';
+import { Route } from 'react-router-dom';
 
-const routes = <Route path="/" component={App} />;
+import ErrorBoundary from './components/ErrorBoundary';
+
+import Avs from './containers/Avs';
+
+const ErrorBoundaryWrapper = props => (
+  <ErrorBoundary>
+    <Avs {...props} />
+  </ErrorBoundary>
+);
+
+const routes = [
+  <Route path="/:id" key="/:id" component={ErrorBoundaryWrapper} />,
+];
 
 export default routes;

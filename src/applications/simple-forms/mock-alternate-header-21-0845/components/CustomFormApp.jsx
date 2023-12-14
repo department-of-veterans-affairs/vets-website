@@ -4,10 +4,10 @@ import Scroll from 'react-scroll';
 
 import { isLoggedIn } from 'platform/user/selectors';
 
-import FormNav from 'platform/forms-system/src/js/components/FormNav';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { isInProgress } from 'platform/forms-system/src/js/helpers';
 import { setGlobalScroll } from 'platform/forms-system/src/js/utilities/ui';
+import FormNav from './CustomFormNav';
 
 const { Element } = Scroll;
 

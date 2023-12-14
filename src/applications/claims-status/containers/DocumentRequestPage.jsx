@@ -18,6 +18,9 @@ import {
   addFile,
   removeFile,
   submitFiles,
+  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
   resetUploads,
   updateField,
   cancelUpload,
@@ -31,7 +34,7 @@ import {
 import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
-import { cstUseLighthouse } from '../selectors';
+import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 
 const scrollToError = () => {
@@ -151,13 +154,23 @@ class DocumentRequestPage extends React.Component {
             uploading={this.props.uploading}
             files={this.props.files}
             backUrl={this.props.lastPage || filesPath}
-            onSubmit={() =>
-              this.props.submitFiles(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              )
-            }
+            onSubmit={() => {
+              // START lighthouse_migration
+              if (this.props.documentsUseLighthouse) {
+                this.props.submitFilesLighthouse(
+                  this.props.claim.id,
+                  trackedItem,
+                  this.props.files,
+                );
+              } else {
+                this.props.submitFiles(
+                  this.props.claim.id,
+                  trackedItem,
+                  this.props.files,
+                );
+              }
+              // END lighthouse_migration
+            }}
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
             onFieldChange={this.props.updateField}
@@ -209,7 +222,7 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
-  const useLighthouse = cstUseLighthouse(state);
+  const useLighthouse = cstUseLighthouse(state, 'show');
 
   let trackedItems = [];
   let trackedItem = null;
@@ -243,6 +256,7 @@ function mapStateToProps(state, ownProps) {
     message: claimsState.notifications.message,
     // START lighthouse_migration
     useLighthouse,
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
 }
@@ -256,6 +270,7 @@ const mapDispatchToProps = {
   // START lighthouse_migration
   getClaimEVSS: getClaimEVSSAction,
   getClaimLighthouse: getClaimAction,
+  submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
@@ -274,6 +289,9 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
+  // START lighthouse_migration
+  documentsUseLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   files: PropTypes.array,
   // START lighthouse_migration
   getClaimEVSS: PropTypes.func,
@@ -288,6 +306,9 @@ DocumentRequestPage.propTypes = {
   router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
+  // START lighthouse_migration
+  submitFilesLighthouse: PropTypes.func,
+  // END lighthouse_migration
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,

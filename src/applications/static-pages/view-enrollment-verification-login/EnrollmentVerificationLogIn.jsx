@@ -16,12 +16,12 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
 
   const visitorUI = (
     <va-alert status="continue" visible>
-      <h1
+      <h3
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
       >
         Sign in to verify your school enrollment
-      </h1>
+      </h3>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
         <strong>Login.gov</strong> account. If you don’t have any of these

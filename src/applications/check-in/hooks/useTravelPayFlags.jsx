@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { format, formatISO } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { removeTimezoneOffset } from '../utils/formatters';
 
 const useTravelPayFlags = appointment => {
   const [travelPayClaimSent, setTravelPayClaimSent] = useState();
@@ -14,17 +15,17 @@ const useTravelPayFlags = appointment => {
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-
   // These will be undefined if the travel pay pages are skipped.
   const {
     'travel-question': travelQuestion,
     'travel-address': travelAddress,
     'travel-mileage': travelMileage,
     'travel-vehicle': travelVehicle,
+    'travel-review': travelReview,
   } = data;
 
   const startDate = isTravelLogicEnabled
-    ? formatISO(new Date(appointment.startTime))
+    ? removeTimezoneOffset(formatISO(new Date(appointment.startTime)))
     : format(new Date(appointment.startTime), 'yyyy-LL-dd');
 
   let travelPayData = {
@@ -56,11 +57,19 @@ const useTravelPayFlags = appointment => {
       travelVehicle: travelVehicle === 'yes',
     };
   }
+  if (travelReview !== undefined) {
+    travelPayData = {
+      ...travelPayData,
+      travelReview: travelReview === 'yes',
+    };
+  }
 
   const travelPayEligible =
-    travelPayData.travelAddress &&
-    travelPayData.travelMileage &&
-    travelPayData.travelVehicle;
+    (travelPayData.travelAddress &&
+      travelPayData.travelMileage &&
+      travelPayData.travelVehicle &&
+      travelPayData.travelReview) ||
+    false;
 
   return {
     travelPayData,

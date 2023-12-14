@@ -1,17 +1,12 @@
 import { expect } from 'chai';
 
 import {
-  returnPhoneObject,
   getPhoneString,
   getFormattedPhone,
   hasHomePhone,
   hasMobilePhone,
   hasHomeAndMobilePhone,
-  setReturnState,
-  getReturnState,
-  clearReturnState,
 } from '../../utils/contactInfo';
-import { CONTACT_EDIT } from '../../constants';
 
 const getPhone = ({
   country = '1',
@@ -22,20 +17,6 @@ const getPhone = ({
   areaCode: area,
   phoneNumber: number,
   phoneNumberExt: '',
-});
-
-describe('returnPhoneObject', () => {
-  const emptyPhone = getPhone({ country: '', area: '', number: '' });
-  it('should return empty phone object', () => {
-    expect(returnPhoneObject()).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(undefined)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(null)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject([])).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject('1234')).to.deep.equal(emptyPhone);
-  });
-  it('should return a phone object', () => {
-    expect(returnPhoneObject('8005551212')).to.deep.equal(getPhone());
-  });
 });
 
 describe('getPhoneString', () => {
@@ -191,31 +172,5 @@ describe('hasHomeAndMobilePhone', () => {
         getBoth('1234', '12345678901234', '1234', '12345678901234'),
       ),
     ).to.be.true;
-  });
-});
-
-describe('contact editing state', () => {
-  describe('setReturnState', () => {
-    it('should combine the key and state into a comma separated string', () => {
-      setReturnState();
-      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq(',');
-      setReturnState('key', 'state');
-      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq('key,state');
-    });
-  });
-  describe('getReturnState', () => {
-    it('should get the key and state comma separated string', () => {
-      window.sessionStorage.removeItem(CONTACT_EDIT);
-      expect(getReturnState()).to.eq('');
-      window.sessionStorage.setItem(CONTACT_EDIT, 'foo,bar');
-      expect(getReturnState()).to.eq('foo,bar');
-    });
-  });
-  describe('clearReturnState', () => {
-    it('should clear storage state', () => {
-      window.sessionStorage.setItem(CONTACT_EDIT, 'foo,bar');
-      clearReturnState();
-      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq(null);
-    });
   });
 });

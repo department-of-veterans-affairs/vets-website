@@ -36,13 +36,17 @@ class MedicationsLandingPage {
   };
 
   clickExpandAccordionsOnMedicationsLandingPage = () => {
-    cy.expandAccordions();
+    // cy.expandAccordions();
+    cy.get('[data-testid="more-ways-to-manage"]')
+      .shadow()
+      .find('[aria-label="Expand all accordions"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
     cy.get('[data-testid="renew-information-button"]')
       .contains(
-        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
+        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal.',
       )
       .should('be.visible');
   };
@@ -61,6 +65,26 @@ class MedicationsLandingPage {
         'Make sure your providers know about all your allergies and reactions to medications.',
       )
       .should('be.visible');
+  };
+
+  verifyNavigationToLandingPageAfterClickingBreadcrumb = () => {
+    cy.get('[data-testid="landing-page-heading"]')
+      .should('be.visible')
+      .and('contain', 'About medications');
+  };
+
+  verifyHowToManageNotificationsAccordionDropDown = () => {
+    cy.get('[data-testid="notifications"]').contains(
+      'You can sign up to get email notifications when we ship your prescriptions.',
+    );
+  };
+
+  verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
+    // cy.get('[data-testid="empty-list-alert"] >div ').should(
+    cy.get('[data-testid="alert-message"]').should(
+      'contain.text',
+      'You don’t have any medications in your medications list',
+    );
   };
 }
 export default MedicationsLandingPage;

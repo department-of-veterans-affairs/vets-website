@@ -25,7 +25,7 @@ describe('SIP Autosave Test', () => {
     cy.title().should('contain', 'Mock SIP Form');
     cy.get('va-button', { timeout: Timeouts.slow }).should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('va-button')
+    cy.get('va-button[data-testid="continue-your-application"]')
       .first()
       .shadow()
       .find('button')

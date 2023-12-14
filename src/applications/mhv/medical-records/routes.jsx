@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import HealthConditions from './containers/HealthConditions';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -25,6 +27,36 @@ const routes = (
       <Route exact path="/" key="Medical Records Home">
         <LandingPage />
       </Route>
+      <Route exact path="/allergies" key="Allergies">
+        <Allergies />
+      </Route>
+      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
+        <AllergyDetails />
+      </Route>
+      <FeatureFlagRoute
+        exact
+        path="/vaccines"
+        key="Vaccines"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <Vaccines />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        path="/vaccines/:vaccineId"
+        key="Vaccine"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <VaccineDetails />
+      </FeatureFlagRoute>
+      <Route exact path="/conditions" key="Health Conditions">
+        <HealthConditions />
+      </Route>
+      <Route path="/conditions/:conditionId" key="Condition Details">
+        <ConditionDetails />
+      </Route>
+      <Route path="/download-all" key="DownloadRecords">
+        <DownloadRecordsPage />
+      </Route>
       <Route exact path="/labs-and-tests" key="LabsAndTests">
         <LabsAndTests />
       </Route>
@@ -45,45 +77,24 @@ const routes = (
       >
         <RadiologySingleImage />
       </Route>
-      <Route path="/download-your-medical-records" key="DownloadRecords">
-        <DownloadRecordsPage />
-      </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
       </Route>
-      <Route exact path="/allergies" key="Allergies">
-        <Allergies />
-      </Route>
-      <Route exact path="/allergies/:allergyId" key="AllergyDetails">
-        <AllergyDetails />
-      </Route>
-      <Route exact path="/care-summaries-and-notes" key="CareSummariesAndNotes">
+      <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
         <CareSummariesAndNotes />
       </Route>
       <Route
         exact
-        path="/care-summaries-and-notes/:summaryId"
+        path="/summaries-and-notes/:summaryId"
         key="CareSummaryAndNotesDetails"
       >
         <CareSummariesDetails />
       </Route>
-      <Route exact path="/vaccines" key="Vaccines">
-        <Vaccines />
-      </Route>
-      <Route path="/vaccines/:vaccineId" key="Vaccine">
-        <VaccineDetails />
-      </Route>
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
       </Route>
-      <Route path="/vitals/:vitalType" key="VitalDetails">
+      <Route path="/vitals/:vitalType-history" key="VitalDetails">
         <VitalDetails />
-      </Route>
-      <Route exact path="/health-conditions" key="Health Conditions">
-        <HealthConditions />
-      </Route>
-      <Route path="/health-conditions/:conditionId" key="Condition Details">
-        <ConditionDetails />
       </Route>
     </Switch>
   </App>

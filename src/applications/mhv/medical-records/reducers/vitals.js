@@ -1,6 +1,11 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { LoincCodes, emptyField } from '../util/constants';
-import { isArrayAndHasItems, macroCase } from '../util/helpers';
+import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
+import {
+  isArrayAndHasItems,
+  macroCase,
+  extractContainedResource,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -15,16 +20,28 @@ const initialState = {
 };
 
 const getMeasurement = (record, type) => {
-  if (type === 'BLOOD_PRESSURE') {
+  if (type === vitalTypes.BLOOD_PRESSURE) {
     const systolic = record.component.find(
-      item => item.code.coding[0].code === LoincCodes.SYSTOLIC,
+      item => item.code.coding[0].code === loincCodes.SYSTOLIC,
     );
     const diastolic = record.component.find(
-      item => item.code.coding[0].code === LoincCodes.DIASTOLIC,
+      item => item.code.coding[0].code === loincCodes.DIASTOLIC,
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  return record.valueQuantity?.value + record.valueQuantity?.code;
+  return `${record.valueQuantity?.value} ${record.valueQuantity?.code}`;
+};
+
+export const extractLocation = vital => {
+  if (
+    isArrayAndHasItems(vital.performer) &&
+    isArrayAndHasItems(vital.performer[0].extension)
+  ) {
+    const refId = vital.performer[0].extension[0].valueReference?.reference;
+    const location = extractContainedResource(vital, refId);
+    return location?.name || EMPTY_FIELD;
+  }
+  return EMPTY_FIELD;
 };
 
 export const convertVital = record => {
@@ -36,11 +53,13 @@ export const convertVital = record => {
         record.code?.coding[0].display),
     type,
     id: record.id,
-    measurement: getMeasurement(record, type) || emptyField,
-    date: record.effectiveDateTime || emptyField,
-    location: record.encounter || emptyField,
+    measurement: getMeasurement(record, type) || EMPTY_FIELD,
+    date: record?.effectiveDateTime
+      ? formatDateLong(record.effectiveDateTime)
+      : EMPTY_FIELD,
+    location: extractLocation(record),
     notes:
-      (isArrayAndHasItems(record.note) && record.note[0].text) || emptyField,
+      (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
   };
 };
 
@@ -61,6 +80,12 @@ export const vitalReducer = (state = initialState, action) => {
           action.response.entry?.map(vital => {
             return convertVital(vital.resource);
           }) || [],
+      };
+    }
+    case Actions.Vitals.CLEAR_DETAIL: {
+      return {
+        ...state,
+        vitalDetails: undefined,
       };
     }
     default:

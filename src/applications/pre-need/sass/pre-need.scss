@@ -51,8 +51,104 @@ h3.name-of-deceased-text {
   padding-left: 1rem;
 }
 
-article#pre-need[data-location="veteran-applicant-information"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: 0 !important;
+    margin-top: -1em !important;
   }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+  .schemaform-field-template {
+    margin-top: 1em;
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
+  }
+}
+
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+}
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: 0em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
+
+.schemaform-first-field .schemaform-label {
+  padding-top: 1em;
+}
+
+.vads-u-font-size--h5 {
+  margin-top: 0em;
+}
+
+.preparer-contact-details-title {
+  margin-bottom: -0.5em;
+}
+
+.preparer-contact-details-additional-info {
+  padding-top: 1em;
+}
+.preparer-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.preparer-va-radio {
+  padding-top: 0.5em;
+}
+
+.desiredCemeteryNoteTitle {
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.applicantDetailsSubHeader,
+.sponsorDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  margin-bottom: -1em;
+}
+
+.ApplicantDescriptionWrapper {
+  padding-bottom: 1em;
+}
+
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
+
+.militaryDetailsSubHeader {
+  margin-bottom: -1em;
 }

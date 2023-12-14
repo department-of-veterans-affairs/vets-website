@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 
@@ -10,6 +11,11 @@ import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import {
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../flow';
 
 const initialSchema = {
   type: 'object',
@@ -66,17 +72,24 @@ export function ContactInfoPage({
   openFormPage,
   pageChangeInProgress,
   prefillContactInfo,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
   schema,
   updateFormData,
+  changeCrumb,
 }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     prefillContactInfo();
     openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -88,12 +101,16 @@ export function ContactInfoPage({
           title="Contact info"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
           onChange={newData => updateFormData(pageKey, uiSchema, newData)}
           data={data}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -103,14 +120,22 @@ export function ContactInfoPage({
   );
 }
 
+ContactInfoPage.propTypes = {
+  changeCrumb: PropTypes.func,
+  data: PropTypes.object,
+  openFormPage: PropTypes.func,
+  pageChangeInProgress: PropTypes.bool,
+  prefillContactInfo: PropTypes.func,
+  schema: PropTypes.object,
+  updateFormData: PropTypes.func,
+};
+
 function mapStateToProps(state) {
   return getCovid19VaccineFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {
   openFormPage: actions.openFormPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   prefillContactInfo: actions.prefillContactInfo,
   updateFormData: actions.updateFormData,
 };

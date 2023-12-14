@@ -322,7 +322,9 @@ export default class ArrayField extends React.Component {
       : null;
     const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+    const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
+    const { generateIndividualItemHeaders } = uiOptions;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -334,6 +336,7 @@ export default class ArrayField extends React.Component {
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
+      'rjsf-array-field': true,
     });
 
     return (
@@ -345,6 +348,7 @@ export default class ArrayField extends React.Component {
                 id={`${idSchema.$id}__title`}
                 title={title}
                 formContext={formContext}
+                useHeaderStyling={uiOptions.useHeaderStyling}
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
@@ -364,8 +368,9 @@ export default class ArrayField extends React.Component {
               definitions,
             );
             const { showSave } = uiOptions;
-            const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
+            // if showSave is true, all items show Update except the last item
+            const updateText = showSave && isLast ? 'Save' : 'Update';
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
@@ -390,6 +395,13 @@ export default class ArrayField extends React.Component {
                       {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
                           New {uiItemName}
+                        </h3>
+                      ) : null}
+                      {!isLast &&
+                      multipleRows &&
+                      generateIndividualItemHeaders ? (
+                        <h3 className="vads-u-font-size--h5">
+                          {uiItemNameOriginal}
                         </h3>
                       ) : null}
                       <div className="input-section">

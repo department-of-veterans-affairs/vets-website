@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
@@ -58,6 +57,9 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
+      if (userInput.length > 255) {
+        return;
+      }
       this.props.fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
@@ -98,6 +100,10 @@ class SearchApp extends React.Component {
     const pageFromURL = rawPageFromURL
       ? parseInt(rawPageFromURL, 10)
       : undefined;
+
+    if (userInput.length > 255 || userInputFromURL > 255) {
+      return;
+    }
 
     const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
 
@@ -220,6 +226,10 @@ class SearchApp extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
+    if (inputValue.length > 255) {
+      return;
+    }
+
     this.props.fetchSearchResults(inputValue, 1, {
       trackEvent: true,
       eventName: 'view_search_results',
@@ -294,6 +304,10 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
+      if (inputValue.length > 255) {
+        return [];
+      }
+
       const apiRequestOptions = {
         method: 'GET',
       };
@@ -318,6 +332,18 @@ class SearchApp extends React.Component {
       Sentry.captureException(error);
     }
     return [];
+  };
+
+  handleInputChange = e => {
+    this.setState({
+      userInput: e.target.value,
+    });
+  };
+
+  fetchInputValue = input => {
+    this.setState({
+      userInput: input,
+    });
   };
 
   renderResults() {
@@ -349,11 +375,11 @@ class SearchApp extends React.Component {
                 type="text"
                 name="query"
                 aria-label="Enter a keyword"
-                value={this.state.userInput}
+                value={userInput}
                 onChange={this.handleInputChange}
               />
               <button type="submit">
-                <IconSearch color="#fff" />
+                <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
                 <span className="button-text">Search</span>
               </button>
             </form>
@@ -375,6 +401,7 @@ class SearchApp extends React.Component {
               startingValue={userInput}
               submitOnClick
               submitOnEnter
+              fetchInputValue={this.fetchInputValue}
               fetchSuggestions={this.fetchSuggestions}
               onInputSubmit={this.onInputSubmit}
               onSuggestionSubmit={this.onSuggestionSubmit}
@@ -384,16 +411,19 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if (hasErrors && !loading) {
+    if ((hasErrors && !loading) || userInput.length > 255) {
+      const errorMessage =
+        userInput.length > 255
+          ? 'The search is over the character limit. Shorten the search and try again.'
+          : `We’re sorry. Something went wrong on our end, and your search
+      didn't go through. Please try again`;
+
       return (
-        <div className="columns error">
+        <div className="columns error vads-u-margin-bottom--4">
           {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
-            <h3 slot="headline">Your search didn't go through</h3>
-            <div>
-              We’re sorry. Something went wrong on our end, and your search
-              didn't go through. Please try again
-            </div>
+            <h2 slot="headline">Your search didn't go through</h2>
+            <p>{errorMessage}</p>
           </va-alert>
           {searchInput}
         </div>

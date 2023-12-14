@@ -23,7 +23,10 @@ export const uiSchema = {
       'ui:validations': [validateName],
       first: {
         'ui:title': 'Former spouse’s first name',
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
@@ -32,10 +35,16 @@ export const uiSchema = {
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       last: {
         'ui:title': 'Former spouse’s last name',
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
         'ui:required': formData =>
           isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
       },
@@ -74,7 +83,7 @@ export const uiSchema = {
       'ui:title': 'Reason marriage ended',
       'ui:widget': 'radio',
       'ui:errorMessages': {
-        required: 'Please select an option',
+        required: 'Select an option',
       },
       'ui:options': {
         updateSchema: () => ({
@@ -83,7 +92,7 @@ export const uiSchema = {
       },
     },
     explanationOfOther: {
-      'ui:title': 'Please give a brief explanation',
+      'ui:title': 'Give a brief explanation',
       'ui:required': formData =>
         formData?.reportDivorce?.reasonMarriageEnded === 'Other',
       'ui:options': {

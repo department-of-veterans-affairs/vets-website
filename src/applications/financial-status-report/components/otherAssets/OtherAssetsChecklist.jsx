@@ -4,17 +4,23 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import { otherAssetOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAssets } from '../../utils/streamlinedDepends';
+import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 
 const OtherAssetsChecklist = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { otherAssets = [] } = assets;
 
   // Calculate total assets as necessary
@@ -27,7 +33,10 @@ const OtherAssetsChecklist = ({
     )
       return;
 
-    const calculatedAssets = calculateTotalAssets(data);
+    // liquid assets are caluclated in cash in bank with this ff
+    if (data['view:streamlinedWaiverAssetUpdate']) return;
+
+    const calculatedAssets = calculateLiquidAssets(data);
     setFormData({
       ...data,
       gmtData: {
@@ -56,6 +65,18 @@ const OtherAssetsChecklist = ({
         });
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (!otherAssets?.length && reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const isBoxChecked = option => {
     return otherAssets.some(asset => asset.name === option);
   };
@@ -64,12 +85,7 @@ const OtherAssetsChecklist = ({
     'Select any other items of value (called assets) you own, not including items passed down in your family for generations:';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -112,9 +128,12 @@ OtherAssetsChecklist.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 

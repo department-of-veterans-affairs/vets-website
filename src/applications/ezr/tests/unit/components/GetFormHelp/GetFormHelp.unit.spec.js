@@ -9,7 +9,7 @@ describe('ezr <GetFormHelp>', () => {
     it('should render with the correct number of sections', () => {
       const { container } = render(<GetFormHelp />);
       const selector = container.querySelectorAll('.help-talk');
-      expect(selector).to.have.lengthOf(2);
+      expect(selector).to.have.lengthOf(3);
     });
   });
 });

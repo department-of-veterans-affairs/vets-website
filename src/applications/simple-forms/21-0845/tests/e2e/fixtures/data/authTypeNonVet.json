@@ -7,14 +7,13 @@
       "last": "Authorizer"
     },
     "authorizerAddress": {
+      "country": "USA",
       "street": "123 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
     "authorizerPhone": "5555555555",
-    "authorizerEmail": "jack.authorizer@example.com",
-    "authorizerEmailConsent": true,
     "veteranFullName": {
       "first": "John",
       "middle": "",
@@ -29,14 +28,16 @@
       "last": "Person"
     },
     "personAddress": {
+      "country": "USA",
       "street": "124 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12346"
     },
     "organizationName": "ACME Org",
-    "organizationRepresentatives": [{ "representativeName": "Joe Rep" }],
+    "organizationRepresentative": "Joe Rep",
     "organizationAddress": {
+      "country": "USA",
       "street": "125 Any St",
       "city": "Anycity",
       "state": "CA",

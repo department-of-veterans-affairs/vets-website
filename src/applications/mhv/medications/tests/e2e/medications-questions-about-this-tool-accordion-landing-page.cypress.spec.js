@@ -5,8 +5,9 @@ describe('Medications Landing Page', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
-    cy.visit('my-health/about-medications/');
     site.login();
+    cy.visit('my-health/about-medications/');
+
     landingPage.clickExpandAllAccordionButton();
     landingPage.verifyListMedicationsAndSuppliesAccordionDropDown();
     landingPage.verifyWhatTypeOfPrescriptionsAccordionDropDown();
@@ -16,9 +17,6 @@ describe('Medications Landing Page', () => {
     cy.axeCheck('main', {
       rules: {
         'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
           enabled: false,
         },
       },

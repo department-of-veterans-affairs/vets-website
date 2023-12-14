@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import {
   ProfileInformationFieldController,
   mapStateToProps,
-} from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+} from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
 
 describe('<ProfileInformationFieldController/>', () => {
   let props = null;
@@ -219,9 +219,19 @@ describe('mapStateToProps', () => {
       });
       expect(mappedProps.blockEditMode).to.be.false;
     });
-    it('should be true if currently editing another field', () => {
+    it('should be false if currently editing another field but no changes have been made yet', () => {
       const state = getBasicState();
       state.vapService.modal = 'homePhone';
+      state.vapService.hasUnsavedEdits = false;
+      const mappedProps = mapStateToProps(state, {
+        fieldName: FIELD_NAMES.MOBILE_PHONE,
+      });
+      expect(mappedProps.blockEditMode).to.be.false;
+    });
+    it('should be true if currently editing another field and changes have been made', () => {
+      const state = getBasicState();
+      state.vapService.modal = 'homePhone';
+      state.vapService.hasUnsavedEdits = true;
       const mappedProps = mapStateToProps(state, {
         fieldName: FIELD_NAMES.MOBILE_PHONE,
       });

@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -62,8 +64,13 @@ const uiSchema = {
 };
 
 const pageKey = 'audiologyCareType';
+const pageTitle = 'Choose the type of audiology care you need';
 
-export default function TypeOfAudiologyCarePage() {
+export default function TypeOfAudiologyCarePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -72,14 +79,16 @@ export default function TypeOfAudiologyCarePage() {
   const history = useHistory();
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+    document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
     <div className="vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">
-        Choose the type of audiology care you need
-      </h1>
+      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
@@ -106,3 +115,7 @@ export default function TypeOfAudiologyCarePage() {
     </div>
   );
 }
+
+TypeOfAudiologyCarePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

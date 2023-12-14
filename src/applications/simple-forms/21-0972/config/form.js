@@ -88,6 +88,7 @@ const statementOfTruthBody = (
   </>
 );
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -132,11 +133,11 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     preparerPersonalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Alternate signer’s personal information',
       pages: {
         preparerPersonalInformation: {
           path: 'preparer-personal-information',
-          title: 'Your personal information',
+          title: 'Alternate signer’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
@@ -149,33 +150,33 @@ const formConfig = {
       },
     },
     preparerAddressChapter: {
-      title: 'Your mailing address',
+      title: 'Alternate signer’s mailing address',
       pages: {
         preparerAddress: {
           path: 'preparer-address',
-          title: 'Your mailing address',
+          title: 'Alternate signer’s mailing address',
           uiSchema: preparerAddress.uiSchema,
           schema: preparerAddress.schema,
         },
       },
     },
     preparerContactInformationChapter: {
-      title: 'Your contact information',
+      title: 'Alternate signer’s contact information',
       pages: {
         preparerContactInformation: {
           path: 'preparer-contact-information',
-          title: 'Your contact information',
+          title: 'Alternate signer’s contact information',
           uiSchema: preparerContactInformation.uiSchema,
           schema: preparerContactInformation.schema,
         },
       },
     },
     claimantIdentificationChapter: {
-      title: 'Who you’ll be signing for',
+      title: 'Who the alternate signer will be signing for',
       pages: {
         claimantIdentification: {
           path: 'claimant-identification',
-          title: 'Who you’ll be signing for',
+          title: 'Who the alternate signer will be signing for',
           uiSchema: claimantIdentification.uiSchema,
           schema: claimantIdentification.schema,
         },

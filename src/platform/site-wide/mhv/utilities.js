@@ -13,6 +13,7 @@ const mhvToEauthRoutes = {
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
   'labs-tests': 'eauth?deeplinking=labs-tests',
+  profiles: 'eauth?deeplinking=profiles',
 };
 
 // An MHV URL is a function of the following parameters:

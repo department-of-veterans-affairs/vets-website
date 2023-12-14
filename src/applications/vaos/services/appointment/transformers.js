@@ -1,7 +1,6 @@
 import moment from 'moment';
 import {
   APPOINTMENT_TYPES,
-  PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
   PURPOSE_TEXT_V2,
@@ -256,9 +255,7 @@ export function transformVAOSAppointment(appt) {
     appointmentType === APPOINTMENT_TYPES.ccRequest;
   const isUpcoming = isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
-  const timezone = getTimezoneByFacilityId(appt.locationId);
-
-  const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
+  const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   const isCancellable = appt.cancellable;
@@ -281,6 +278,7 @@ export function transformVAOSAppointment(appt) {
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
+      extension: appt.extension,
     };
   }
 
@@ -322,7 +320,7 @@ export function transformVAOSAppointment(appt) {
         ? commentsReasonCode[0]
         : appt.reasonCode?.coding?.[0];
     const reason = hasReasonCode
-      ? PURPOSE_TEXT.find(
+      ? PURPOSE_TEXT_V2.find(
           purpose =>
             purpose.serviceName === reasonCode.code ||
             purpose.commentShort === reasonCode.code,
@@ -362,7 +360,7 @@ export function transformVAOSAppointment(appt) {
     purpose =>
       purpose.serviceName === (coding?.[0]?.code || coding) ||
       purpose.commentShort === (coding?.[0]?.code || coding),
-  )?.serviceName;
+  )?.short;
   const comments =
     appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
   const reasonCodeText = getReasonCodeDS(appt, 'comments')
@@ -381,6 +379,7 @@ export function transformVAOSAppointment(appt) {
     id: appt.id,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    avsPath: isPast && appt.avsPath,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status

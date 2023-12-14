@@ -1,18 +1,19 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import moment from '../../../lib/moment-tz';
 import { startAppointmentCancel } from '../../redux/actions';
 import { selectFeatureCancel } from '../../../redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../../utils/constants';
 
 function formatAppointmentDate(date) {
-  if (!date.isValid()) {
+  const parsedDate = moment.parseZone(date);
+  if (!parsedDate.isValid()) {
     return null;
   }
 
-  return date.format('MMMM D, YYYY');
+  return parsedDate.format('MMMM D, YYYY');
 }
 
 export default function CancelLink({ appointment }) {
@@ -35,27 +36,49 @@ export default function CancelLink({ appointment }) {
       <button
         onClick={() => {
           recordEvent({
-            event: 'interaction',
-            action: `${GA_PREFIX}-cancel-booked-clicked`,
+            event: `${GA_PREFIX}-cancel-booked-clicked`,
           });
           dispatch(startAppointmentCancel(appointment));
         }}
-        aria-label={`Cancel appointment on ${formatAppointmentDate(
-          moment.parseZone(appointment.start),
-        )}`}
+        aria-label={
+          formatAppointmentDate(appointment.start)
+            ? `Cancel appointment on ${formatAppointmentDate(
+                appointment.start,
+              )}`
+            : 'Cancel appointment'
+        }
         className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+        data-testid="cancelButton"
         type="button"
       >
         Cancel appointment
-        <span className="sr-only">
-          {' '}
-          on {formatAppointmentDate(moment.parseZone(appointment.start))}
-        </span>
+        {formatAppointmentDate(appointment.start) && (
+          <span className="sr-only">
+            {' '}
+            on {formatAppointmentDate(appointment.start)}
+          </span>
+        )}
       </button>
     </div>
   );
 }
 
 CancelLink.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    start: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
+  }),
+};
+
+CancelLink.defaultProps = {
+  appointment: {
+    start: '',
+    status: '',
+    vaos: {
+      isPastAppointment: false,
+    },
+  },
 };

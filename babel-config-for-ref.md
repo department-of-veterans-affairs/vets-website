@@ -60,18 +60,13 @@
               "~": "./src",
               "@@vap-svc": "./src/platform/user/profile/vap-svc",
               "@@profile": "./src/applications/personalization/profile",
-              "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
-              "@department-of-veterans-affairs/component-library/AlertBox": "@department-of-veterans-affairs/react-components/AlertBox",
               "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
               "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
               "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
               "@department-of-veterans-affairs/component-library/Modal": "@department-of-veterans-affairs/react-components/Modal",
               "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
               "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
-              "@department-of-veterans-affairs/component-library/Pagination": "@department-of-veterans-affairs/react-components/Pagination",
-              "@department-of-veterans-affairs/component-library/Checkbox": "@department-of-veterans-affairs/react-components/Checkbox",
               "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
-              "@department-of-veterans-affairs/component-library/AdditionalInfo": "@department-of-veterans-affairs/react-components/AdditionalInfo"
             }
           }
         ]

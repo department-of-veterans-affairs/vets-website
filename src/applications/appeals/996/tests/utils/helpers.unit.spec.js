@@ -1,27 +1,29 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { LEGACY_TYPE } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
-import { getDate } from '../../utils/dates';
-
 import {
   getEligibleContestableIssues,
-  getLegacyAppealsLength,
   mayHaveLegacyAppeals,
   isVersion1Data,
-  someSelected,
-  hasSomeSelected,
+} from '../../utils/helpers';
+
+import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
+import { getDate } from '../../../shared/utils/dates';
+import {
+  isEmptyObject,
+  returnPhoneObject,
+} from '../../../shared/utils/helpers';
+import {
+  getIssueDate,
+  getIssueName,
+  getIssueNameAndDate,
+  getLegacyAppealsLength,
   getSelected,
   getSelectedCount,
-  getIssueName,
-  getIssueDate,
-  getIssueNameAndDate,
   hasDuplicates,
-  isEmptyObject,
-  readableList,
-  returnPhoneObject,
-} from '../../utils/helpers';
+  hasSomeSelected,
+  someSelected,
+} from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
   const date = moment().startOf('day');
@@ -337,22 +339,6 @@ describe('isEmptyObject', () => {
     expect(isEmptyObject(true)).to.be.false;
     expect(isEmptyObject(() => {})).to.be.false;
     expect(isEmptyObject({ test: '' })).to.be.false;
-  });
-});
-
-describe('readableList', () => {
-  it('should return an empty string', () => {
-    expect(readableList([])).to.eq('');
-    expect(readableList(['', null, 0])).to.eq('');
-  });
-  it('should return a combined list with commas with "and" for the last item', () => {
-    expect(readableList(['one'])).to.eq('one');
-    expect(readableList(['', 'one', null])).to.eq('one');
-    expect(readableList(['one', 'two'])).to.eq('one and two');
-    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
-    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
-      'v, w, x, y and z',
-    );
   });
 });
 

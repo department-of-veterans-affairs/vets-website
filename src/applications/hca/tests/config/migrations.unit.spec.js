@@ -263,10 +263,6 @@ describe('HCA migrations', () => {
     it('should unset required fields that are blank strings', () => {
       const data = {
         formData: {
-          veteranFullName: {
-            first: '   ',
-            last: ' ',
-          },
           veteranAddress: {
             street: '                    ',
             city: ' ',
@@ -274,7 +270,6 @@ describe('HCA migrations', () => {
         },
       };
       const { formData } = migration(data);
-      expect(formData.veteranFullName).to.eql({});
       expect(formData.veteranAddress).to.eql({});
     });
 
@@ -291,22 +286,6 @@ describe('HCA migrations', () => {
       expect(formData.veteranAddress).to.eql({});
       expect(metadata.returnUrl).to.equal(
         'veteran-information/veteran-address',
-      );
-    });
-
-    it('set the return URL to veteran information when veteranFullName updated', () => {
-      const data = {
-        formData: {
-          veteranFullName: {
-            first: '   ',
-            last: ' ',
-          },
-        },
-      };
-      const { formData, metadata } = migration(data);
-      expect(formData.veteranFullName).to.eql({});
-      expect(metadata.returnUrl).to.equal(
-        'veteran-information/personal-information',
       );
     });
   });

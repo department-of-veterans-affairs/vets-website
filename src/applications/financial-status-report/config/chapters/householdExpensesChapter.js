@@ -1,5 +1,4 @@
 import {
-  expensesExplainer,
   expenses,
   householdExpensesChecklist,
   householdExpensesInputList,
@@ -30,6 +29,8 @@ import HouseholdExpensesSummaryReview from '../../components/householdExpenses/H
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
+import HouseholdExpensesExplainerWidget from '../../components/householdExpenses/HouseholdExpensesExplainerWidget';
+import ExpenseExplainerReview from '../../components/householdExpenses/ExpenseExplainerReview';
 
 import {
   isStreamlinedLongForm,
@@ -44,8 +45,10 @@ export default {
       expensesExplainer: {
         path: 'expenses-explainer',
         title: 'Household expenses explainer',
-        uiSchema: expensesExplainer.uiSchema,
-        schema: expensesExplainer.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: HouseholdExpensesExplainerWidget,
+        CustomPageReview: ExpenseExplainerReview,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),

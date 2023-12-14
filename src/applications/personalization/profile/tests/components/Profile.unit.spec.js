@@ -45,8 +45,10 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
-      useLighthouseDirectDepositEndpoint: false,
       togglesLoaded: true,
+      profileToggles: {
+        profileUseFieldEditingPage: true,
+      },
     };
   });
 
@@ -286,8 +288,8 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
-      'useLighthouseDirectDepositEndpoint',
       'togglesLoaded',
+      'profileToggles',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
@@ -297,6 +299,28 @@ describe('mapStateToProps', () => {
       const state = makeDefaultState();
       const props = mapStateToProps(state);
       expect(props.user).to.deep.equal(state.user);
+    });
+  });
+
+  describe('#shouldFetchTotalDisabilityRating', () => {
+    it('is falsey when the user is LOA3 and has no claim in user object', () => {
+      const state = makeDefaultState();
+      const props = mapStateToProps(state);
+      expect(props.shouldFetchTotalDisabilityRating).to.not.be.true;
+    });
+
+    it('is falsey when the user is LOA3 and profile.claims.ratingInfo is explicitly false', () => {
+      const state = makeDefaultState();
+      state.user.profile.claims = { ratingInfo: false };
+      const props = mapStateToProps(state);
+      expect(props.shouldFetchTotalDisabilityRating).to.not.be.true;
+    });
+
+    it('is truthy when the user is LOA3 and profile.claims.ratingInfo is explicitly true', () => {
+      const state = makeDefaultState();
+      state.user.profile.claims = { ratingInfo: true };
+      const props = mapStateToProps(state);
+      expect(props.shouldFetchTotalDisabilityRating).to.be.true;
     });
   });
 

@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
@@ -21,25 +22,29 @@ export const App = ({
   children,
   claimantInfo,
   eligibility,
+  exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
   // Commenting out until we update the component to handle astrisks
   // getDirectDeposit,
   getEligibility,
+  getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
+  mebExclusionPeriodEnabled,
   setFormData,
+  showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
   showMebDgi42Features,
-  showMebCh33SelfForm,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
+  showMebServiceHistoryCategorizeDisagreement,
   email,
   duplicateEmail,
   duplicatePhone,
@@ -47,7 +52,7 @@ export const App = ({
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
-
+  const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
   document.addEventListener(
@@ -77,7 +82,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebCh33SelfForm);
+        getPersonalInfo(showMebEnhancements09);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -95,7 +100,8 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
+      showMebEnhancements09,
     ],
   );
 
@@ -156,6 +162,37 @@ export const App = ({
 
   useEffect(
     () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+      if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods();
+      }
+      if (exclusionPeriods && !formData.exclusionPeriods) {
+        const updatedFormData = {
+          ...formData,
+          mebExclusionPeriodEnabled,
+          exclusionPeriods, // Update form data with fetched exclusion periods
+        };
+        setFormData(updatedFormData);
+      }
+    },
+    [
+      mebExclusionPeriodEnabled,
+      fetchedExclusionPeriods,
+      getExclusionPeriods,
+      exclusionPeriods,
+      formData,
+      setFormData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (showMebDgi40Features !== formData.showMebDgi40Features) {
         setFormData({
           ...formData,
@@ -168,10 +205,12 @@ export const App = ({
           showMebDgi42Features,
         });
       }
-      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+      if (
+        showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
+      ) {
         setFormData({
           ...formData,
-          showMebCh33SelfForm,
+          showMeb1990EZMaintenanceAlert,
         });
       }
 
@@ -240,10 +279,20 @@ export const App = ({
         });
       }
 
+      if (
+        showMebServiceHistoryCategorizeDisagreement !==
+        formData.showMebServiceHistoryCategorizeDisagreement
+      ) {
+        setFormData({
+          ...formData,
+          showMebServiceHistoryCategorizeDisagreement,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
@@ -253,11 +302,12 @@ export const App = ({
       setFormData,
       showMebDgi40Features,
       showMebDgi42Features,
-      showMebCh33SelfForm,
+      showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
+      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -313,23 +363,29 @@ App.propTypes = {
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
+  exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
+  getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showMebCh33SelfForm: PropTypes.bool,
+  showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
+  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -338,6 +394,7 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
+  const exclusionPeriods = state?.data?.exclusionPeriods;
 
   return {
     ...getAppData(state),
@@ -345,12 +402,14 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
+    exclusionPeriods,
   };
 };
 
 const mapDispatchToProps = {
   // getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
+  getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,

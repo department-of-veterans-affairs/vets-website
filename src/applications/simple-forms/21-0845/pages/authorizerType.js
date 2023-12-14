@@ -3,22 +3,27 @@ import React from 'react';
 import { AUTHORIZER_TYPE_ITEMS } from '../definitions/constants';
 import { getEnumsFromConstants, getLabelsFromConstants } from '../utils';
 
+const labelString = 'Who is submitting this authorization?';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     authorizerType: {
       'ui:title': (
         <>
-          <h2 className="custom-header authorizer-type vads-u-font-size--h3">
-            Who is submitting this authorization?{' '}
-            <span className="custom-required-span">(*Required)</span>
-          </h2>
-          <p className="custom-description">
-            Select the description that fits you.
-          </p>
+          <h2 className="vads-u-font-size--h3">{labelString}</h2>
+          Select the description that fits you.
         </>
       ),
       'ui:widget': 'radio',
+      'ui:reviewField': ({ children }) => (
+        // prevent ui:title's <h2> from getting pulled into
+        // review-field's <dt> & causing a11y headers-hierarchy errors.
+        <div className="review-row">
+          <dt>{labelString}</dt>
+          <dd>{children}</dd>
+        </div>
+      ),
       'ui:options': {
         labels: getLabelsFromConstants(AUTHORIZER_TYPE_ITEMS),
       },

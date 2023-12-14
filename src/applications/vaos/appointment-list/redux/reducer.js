@@ -113,17 +113,18 @@ export default function appointmentsReducer(state = initialState, action) {
       } = action;
       const past = appointments
         ?.filter(appt => {
-          const apptDateTime = moment(appt.start);
+          const apptDateTime = moment(appt.start, 'YYYY-MM-DD');
           return (
-            apptDateTime.isValid() && apptDateTime.isBetween(startDate, endDate)
+            apptDateTime.isValid() &&
+            apptDateTime.isBetween(startDate, endDate, undefined, '[]')
           );
         })
         .concat(
           requests.filter(appt => {
-            const apptDateTime = moment(appt.created);
+            const apptDateTime = moment(appt.created, 'YYYY-MM-DD');
             return (
               apptDateTime.isValid() &&
-              apptDateTime.isBetween(startDate, endDate)
+              apptDateTime.isBetween(startDate, endDate, undefined, '[]')
             );
           }),
         );

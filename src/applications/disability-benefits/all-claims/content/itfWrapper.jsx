@@ -7,7 +7,7 @@ import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'dddd MMMM Do[,] Y [at] h[:]ma';
+const outputDateFormat = 'dddd[,] MMMM Do[,] Y [at] h[:]mm a';
 // Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
 // is in the central timezone
 const displayDate = dateString =>
@@ -36,6 +36,7 @@ const expander = (
   <VaAdditionalInfo
     trigger="What is an Intent to File?"
     disableAnalytics
+    disable-border
     onClick={recordITFHelpEvent}
   >
     <p className="vads-u-font-size--base">
@@ -104,8 +105,9 @@ export const itfActive = expirationDate => (
     <p className="vads-u-font-size--base">
       Our records show that you already have an Intent to File for disability
       compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)} ET. You’ll need to submit your claim by this
-      date in order to receive payments starting from your effective date.
+      <strong>{displayDate(expirationDate)} ET</strong>. You’ll need to submit
+      your claim by this date in order to receive payments starting from your
+      effective date.
     </p>
     {expander}
   </div>

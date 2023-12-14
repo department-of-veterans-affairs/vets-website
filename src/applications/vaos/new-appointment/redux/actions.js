@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
 import { createAppointment } from '../../services/appointment';
-import newAppointmentFlow from '../newAppointmentFlow';
+import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
@@ -14,6 +14,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -196,8 +197,7 @@ export function updateFacilityType(facilityType) {
 
 export function startDirectScheduleFlow() {
   recordEvent({
-    event: 'interaction',
-    action: 'vaos-direct-path-started',
+    event: 'vaos-direct-path-started',
   });
 
   return {
@@ -732,6 +732,7 @@ export function submitAppointmentOrRequest(history) {
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       state,
     );
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -741,17 +742,14 @@ export function submitAppointmentOrRequest(history) {
     });
 
     let additionalEventData = {
-      custom_string_1: `health-TypeOfCare: ${typeOfCare}`,
-      custom_string_2: `health-ReasonForAppointment: ${
-        data?.reasonForAppointment
-      }`,
+      'health-TypeOfCare': typeOfCare,
+      'health-ReasonForAppointment': data?.reasonForAppointment,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
       const flow = GA_FLOWS.DIRECT;
       recordEvent({
-        event: 'interaction',
-        action: `${GA_PREFIX}-direct-submission`,
+        event: `${GA_PREFIX}-direct-submission`,
         flow,
         ...additionalEventData,
       });
@@ -775,7 +773,11 @@ export function submitAppointmentOrRequest(history) {
         resetDataLayer();
 
         if (featureVAOSServiceVAAppointments) {
-          history.push(`/va/${appointment.id}?confirmMsg=true`);
+          if (featureBreadcrumbUrlUpdate) {
+            history.push(`/${appointment.id}?confirmMsg=true`);
+          } else {
+            history.push(`/va/${appointment.id}?confirmMsg=true`);
+          }
         } else {
           history.push('/new-appointment/confirmation');
         }
@@ -867,7 +869,11 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(`/requests/${requestData.id}?confirmMsg=true`);
+        history.push(
+          `${featureBreadcrumbUrlUpdate ? '/pending' : '/requests'}/${
+            requestData.id
+          }?confirmMsg=true`,
+        );
       } catch (error) {
         let extraData = null;
         if (requestBody) {
@@ -971,8 +977,10 @@ export function requestAppointmentDateChoice(history) {
   };
 }
 
-export function routeToPageInFlow(flow, history, current, action, data) {
+export function routeToPageInFlow(callback, history, current, action, data) {
   return async (dispatch, getState) => {
+    const flow = callback(getState());
+
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
@@ -981,6 +989,14 @@ export function routeToPageInFlow(flow, history, current, action, data) {
 
     let nextPage;
     let nextStateKey;
+    const checkPage = page => {
+      if (!page) {
+        throw new Error('Tried to route to page that does not exist');
+      }
+      if (page.url === null || page.url === undefined) {
+        throw new Error(`Tried to route to a page without a url: ${page}`);
+      }
+    };
 
     if (action === 'next') {
       const nextAction = flow[current][action];
@@ -991,35 +1007,60 @@ export function routeToPageInFlow(flow, history, current, action, data) {
         nextStateKey = await nextAction(getState(), dispatch);
         nextPage = flow[nextStateKey];
       }
+      checkPage(nextPage);
+
+      history.push(nextPage.url);
     } else {
       const state = getState();
       const previousPage = state.newAppointment.previousPages[current];
       nextPage = flow[previousPage];
+
+      checkPage(nextPage);
+
+      if (
+        // HACK: For new CC primary care facility flow, very hacky
+        // TODO: Clean up how we handle new flow
+        !nextPage.url.endsWith('/') &&
+        (previousPage !== 'typeOfFacility' &&
+          previousPage !== 'audiologyCareType' &&
+          previousPage !== 'vaFacilityV2')
+      ) {
+        history.push(nextPage.url);
+      } else if (
+        !nextPage.url.endsWith('/') &&
+        previousPage === 'audiologyCareType'
+      ) {
+        history.push(`../${nextPage.url}`);
+      } else if (
+        history.location.pathname.endsWith('/') ||
+        (nextPage.url.endsWith('/') && nextPage.url !== flow.home.url)
+      )
+        history.push(`../${nextPage.url}`);
+      else history.push(nextPage.url);
     }
 
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        pageKeyNext: nextStateKey,
-        direction: action,
-      });
-      history.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
-    }
+    dispatch({
+      type: FORM_PAGE_CHANGE_COMPLETED,
+      pageKey: current,
+      pageKeyNext: nextStateKey,
+      direction: action,
+    });
   };
 }
 
 export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newAppointmentFlow, history, current, 'next', data);
+  return routeToPageInFlow(
+    getNewAppointmentFlow,
+    history,
+    current,
+    'next',
+    data,
+  );
 }
 
 export function routeToPreviousAppointmentPage(history, current, data) {
   return routeToPageInFlow(
-    newAppointmentFlow,
+    getNewAppointmentFlow,
     history,
     current,
     'previous',

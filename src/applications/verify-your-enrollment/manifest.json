@@ -1,0 +1,7 @@
+{
+  "appName": "Verify Your Enrollment",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "verify-your-enrollment",
+  "rootUrl": "/education/verify-your-enrollment",
+  "productId": "90b61c25-80ce-444f-89fb-eb186b52bfe6"
+}

@@ -14,6 +14,7 @@ describe('Child address page', () => {
     schema,
     uiSchema,
     arrayPath,
+    title,
   } = formConfig.chapters.householdInformation.pages.childrenAddress;
   const nameData = {
     'view:hasDependents': true,
@@ -60,9 +61,8 @@ describe('Child address page', () => {
     const formDOM = getFormDOM(form);
     formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
 
-    expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-      13,
-    );
+    expect(formDOM.querySelectorAll('va-select').length).to.equal(1);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(5);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -104,5 +104,15 @@ describe('Child address page', () => {
 
     formDOM.submitForm(form);
     expect(onSubmit.called).to.be.true;
+  });
+
+  it('should set the title to the dependents name if available', () => {
+    const pageTitle = title;
+    expect(
+      pageTitle({
+        fullName: { first: 'Jane', last: 'Doe' },
+      }),
+    ).to.eql('Jane Doe address');
+    expect(pageTitle({ fullName: {} })).to.eql('  address');
   });
 });

@@ -1,14 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
 } from '../shared/MiniSummaryCard';
-import { currency as currencyFormatter } from '../../utils/helpers';
-
+import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
+import { useDeleteModal } from '../../hooks/useDeleteModal';
+import {
+  currency as currencyFormatter,
+  firstLetterLowerCase,
+  generateUniqueKey,
+} from '../../utils/helpers';
 import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
+
+export const keyFieldsOtherIncome = ['amount', 'name'];
 
 const OtherIncomeSummary = ({
   data,
@@ -18,8 +25,19 @@ const OtherIncomeSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalIncome, gmtData, questions } = data;
+  const {
+    additionalIncome,
+    gmtData,
+    questions,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { addlIncRecords = [] } = additionalIncome;
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    !questions?.isMarried && reviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   // Calculate income properties as necessary
   useEffect(
@@ -48,17 +66,37 @@ const OtherIncomeSummary = ({
       additionalIncome: {
         ...additionalIncome,
         addlIncRecords: addlIncRecords.filter(
-          (source, index) => index !== deleteIndex,
+          (_, index) => index !== deleteIndex,
         ),
       },
     });
   };
+
+  const {
+    isModalOpen,
+    handleModalCancel,
+    handleModalConfirm,
+    handleDeleteClick,
+    deleteIndex,
+  } = useDeleteModal(onDelete);
 
   const goBack = () => {
     if (addlIncRecords.length === 0) {
       return goToPath('/additional-income-checklist');
     }
     return goToPath('/additional-income-values');
+  };
+
+  const onSubmit = event => {
+    event.preventDefault();
+    if (showReviewNavigation && !questions?.isMarried && reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
   };
 
   const cardBody = text => (
@@ -69,7 +107,7 @@ const OtherIncomeSummary = ({
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-income-summary"
@@ -92,8 +130,8 @@ const OtherIncomeSummary = ({
                   search: `?index=${index}`,
                 }}
                 heading={asset.name}
-                key={asset.name + asset.amount}
-                onDelete={() => onDelete(index)}
+                key={generateUniqueKey(asset, keyFieldsOtherIncome, index)}
+                onDelete={() => handleDeleteClick(index)}
                 showDelete
                 index={index}
               />
@@ -109,13 +147,31 @@ const OtherIncomeSummary = ({
             Add additional other income
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons
-            goBack={goBack}
-            goForward={goForward}
-            submitToContinue
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack,
+                secondary: true,
+                iconLeft: '«',
+              },
+              {
+                label: continueButtonText,
+                type: 'submit',
+                iconRight: '»',
+              },
+            ]}
           />
           {contentAfterButtons}
         </div>
+        {isModalOpen ? (
+          <DeleteConfirmationModal
+            isOpen={isModalOpen}
+            onClose={handleModalCancel}
+            onDelete={handleModalConfirm}
+            modalTitle={firstLetterLowerCase(addlIncRecords[deleteIndex]?.name)}
+          />
+        ) : null}
       </fieldset>
     </form>
   );
@@ -138,6 +194,8 @@ OtherIncomeSummary.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

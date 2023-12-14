@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 // Relative imports
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import AdditionalInstructions from '../components/gpMinorComponents/AdditionalInstructions';
 import AirForcePortalLink from '../components/AirForcePortalLink';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
@@ -17,14 +18,20 @@ import StepThree from '../components/gpSteps/StepThree';
 import Warnings from '../components/gpMinorComponents/Warnings';
 import { deriveIsAirForceAFRBAPortal } from '../helpers';
 import { applyAirForcePortalLink } from '../helpers/selectors';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
-export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
+export const GuidancePage = ({ formValues, showNewAirForcePortal, router }) => {
   const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
   const [accordionQuestionsState, setAccordionQuestionsState] = useState({
     q1: false,
     q2: false,
   });
+
+  useEffect(() => {
+    // Redirect to the discharge wizard homepage if there isn't any form values in state.
+    if (formValues?.questions?.length <= 1) {
+      router.replace('');
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -53,35 +60,42 @@ export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
     }
   };
 
-  return (
-    <article className="dw-guidance">
-      <h1>Your Steps for Upgrading Your Discharge</h1>
-      <div className="medium-8">
-        <ResultsSummary formValues={formValues} />
-        {showNewAirForcePortal && airForceAFRBAPortal ? (
-          <AirForcePortalLink />
-        ) : (
-          <>
-            <CarefulConsiderationStatement formValues={formValues} />
-            <Warnings formValues={formValues} />
-            <OptionalStep formValues={formValues} />
-            <section>
-              <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
-                <StepOne formValues={formValues} />
-                <StepTwo formValues={formValues} />
-                <StepThree formValues={formValues} handlePrint={handlePrint} />
-              </ul>
-            </section>
-          </>
-        )}
-        <AdditionalInstructions
-          formValues={formValues}
-          handleFAQToggle={handleFAQToggle}
-          parentState={accordionQuestionsState}
-        />
-      </div>
-    </article>
-  );
+  if (formValues?.questions?.length > 1) {
+    return (
+      <article className="dw-guidance">
+        <h1>Your Steps for Upgrading Your Discharge</h1>
+        <div className="medium-8">
+          <ResultsSummary formValues={formValues} />
+          {showNewAirForcePortal && airForceAFRBAPortal ? (
+            <AirForcePortalLink />
+          ) : (
+            <>
+              <CarefulConsiderationStatement formValues={formValues} />
+              <Warnings formValues={formValues} />
+              <OptionalStep formValues={formValues} />
+              <section>
+                <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
+                  <StepOne formValues={formValues} />
+                  <StepTwo formValues={formValues} />
+                  <StepThree
+                    formValues={formValues}
+                    handlePrint={handlePrint}
+                  />
+                </ul>
+              </section>
+            </>
+          )}
+          <AdditionalInstructions
+            formValues={formValues}
+            handleFAQToggle={handleFAQToggle}
+            parentState={accordionQuestionsState}
+          />
+        </div>
+      </article>
+    );
+  }
+
+  return null;
 };
 
 const mapStateToProps = state => ({

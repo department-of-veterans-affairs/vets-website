@@ -5,10 +5,7 @@
  * @testrailinfo groupId 3026
  * @testrailinfo runName FF-e2e-Required
  */
-// Dependencies.
 import chunk from 'lodash/chunk';
-
-// Relative Imports
 import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
 import stub from '../../constants/stub.json';
@@ -19,7 +16,7 @@ const SELECTORS = {
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
   NEXT_PAGE: '.pagination-next > li > button',
-  SORT_SELECT_WIDGET: 'select.find-forms-search--sort-select',
+  SORT_SELECT_WIDGET: 'va-select[name="findFormsSortBySelect"]',
 };
 
 describe('functionality of Find Forms', () => {
@@ -94,11 +91,14 @@ describe('functionality of Find Forms', () => {
 
     // Ensure Sort Widget exists
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`);
-    cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option`).should(
-      'have.length',
-      FAF_SORT_OPTIONS.length,
-    );
-    cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
+    cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`)
+      .shadow()
+      .get(`option`)
+      // Finds both the shadow DOM option and the React Fiber option, so have to multiply 'expected' by 2
+      .should('have.length', FAF_SORT_OPTIONS.length * 2);
+    cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`)
+      .shadow()
+      .get(`option:first`)
       .should('be.selected')
       .should('contain', FAF_SORT_OPTIONS[0]);
   });

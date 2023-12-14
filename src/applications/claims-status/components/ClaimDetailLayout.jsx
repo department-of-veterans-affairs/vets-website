@@ -2,16 +2,36 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import TabNav from './TabNav';
-import ClaimSyncWarning from './ClaimSyncWarning';
-import AskVAQuestions from './AskVAQuestions';
+import { DATE_FORMATS } from '../constants';
+import {
+  buildDateFormatter,
+  getClaimType,
+  isPopulatedClaim,
+} from '../utils/helpers';
+import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
-import Notification from './Notification';
+import AskVAQuestions from './AskVAQuestions';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
+import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
-import { isPopulatedClaim, getClaimType } from '../utils/helpers';
+import ClaimContentionList from './ClaimContentionList';
+import Notification from './Notification';
+import TabNav from './TabNav';
 
-const MAX_CONTENTIONS = 3;
+const focusHeader = () => {
+  setFocus('.claim-contentions-header');
+};
+
+const getBreadcrumbText = (currentTab, claimType) => {
+  let joiner;
+  if (currentTab === 'Status' || currentTab === 'Details') {
+    joiner = 'of';
+  } else {
+    joiner = 'for';
+  }
+
+  return `${currentTab} ${joiner} your ${claimType} claim`;
+};
 
 export default function ClaimDetailLayout(props) {
   const {
@@ -26,6 +46,8 @@ export default function ClaimDetailLayout(props) {
   const tabs = ['Status', 'Files', 'Details'];
   const claimsPath = `your-claims/${id}`;
 
+  const claimType = getClaimType(claim).toLowerCase();
+
   let bodyContent;
   let headingContent;
   if (loading) {
@@ -36,18 +58,13 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claim !== null) {
-    const claimTitle = `Your ${getClaimType(claim)} claim`;
+    const claimTitle = `Your ${claimType} claim`;
     const { closeDate, contentions, status } = claim.attributes || {};
 
-    const hasContentions = contentions && contentions.length;
     const isOpen = status !== 'COMPLETE' && closeDate === null;
 
-    const contentionsText = hasContentions
-      ? contentions
-          .slice(0, MAX_CONTENTIONS)
-          .map(cond => cond.name)
-          .join(', ')
-      : 'Not available';
+    const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+    const formattedClaimDate = formatDate(claim.attributes.claimDate);
 
     headingContent = (
       <>
@@ -59,22 +76,21 @@ export default function ClaimDetailLayout(props) {
             onClose={clearNotification}
           />
         )}
-        <h1 className="claim-title">{claimTitle}</h1>
+        <h1 className="claim-title">
+          {claimTitle}
+          <span className="claim-subtitle vads-u-margin-top--1">
+            Submitted on {formattedClaimDate}
+          </span>
+        </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
-          <h2 className="claim-contentions-header vads-u-font-size--h6">
-            What you’ve claimed:
+          <h2 className="claim-contentions-header vads-u-font-size--h3">
+            What you’ve claimed
           </h2>
-          <span>{contentionsText}</span>
-          {hasContentions && contentions.length > MAX_CONTENTIONS ? (
-            <span>
-              <br />
-              <Link to={`your-claims/${claim.id}/details`}>
-                See all your claimed contentions
-              </Link>
-              .
-            </span>
-          ) : null}
+          <ClaimContentionList
+            contentions={contentions}
+            onClick={focusHeader}
+          />
         </div>
       </>
     );
@@ -83,14 +99,9 @@ export default function ClaimDetailLayout(props) {
       <div className="claim-container">
         <TabNav id={props.claim.id} />
         {tabs.map(tab => (
-          <div
-            key={tab}
-            role="tabpanel"
-            id={`tabPanel${tab}`}
-            aria-labelledby={`tab${tab}`}
-          >
+          <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
             {currentTab === tab && (
-              <div className="va-tab-content claim-tab-content">
+              <div className="tab-content claim-tab-content">
                 {isPopulatedClaim(claim.attributes || {}) || !isOpen ? null : (
                   <AddingDetails />
                 )}
@@ -117,7 +128,9 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>Status details</Link>
+              <Link to={claimsPath}>
+                {getBreadcrumbText(currentTab, claimType)}
+              </Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>

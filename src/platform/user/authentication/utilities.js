@@ -79,6 +79,12 @@ export const sanitizePath = to => {
   return to.startsWith('/') ? to : `/${to}`;
 };
 
+export const sanitizeCernerParams = path => {
+  if (!path) return '/?authenticated=true';
+  const [updatedPath] = decodeURIComponent(path).split('?');
+  return `${updatedPath}?authenticated=true`;
+};
+
 export const generateReturnURL = returnUrl => {
   return [
     `${environment.BASE_URL}/?next=loginModal`,
@@ -98,6 +104,8 @@ export const createExternalApplicationUrl = () => {
 
   switch (application) {
     case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+      URL = externalRedirectUrl;
+      break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
       break;
@@ -114,7 +122,7 @@ export const createExternalApplicationUrl = () => {
       );
       break;
     case EXTERNAL_APPS.MY_VA_HEALTH:
-      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizePath(to));
+      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizeCernerParams(to));
       break;
     default:
       break;
@@ -347,11 +355,11 @@ export async function verify({
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
-export function logout(
+export function logout({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.LOGOUT,
   queryParams = {},
-) {
+} = {}) {
   clearSentryLoginType();
   return redirect(
     sessionTypeUrl({ type: POLICY_TYPES.SLO, version, queryParams }),
@@ -366,6 +374,7 @@ export async function signupOrVerify({
   isLink = false,
   useOAuth = false,
   allowVerification = true,
+  config = 'default',
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
@@ -374,8 +383,8 @@ export async function signupOrVerify({
     ...(useOAuth && {
       // acr determined by signup or verify
       acr: isSignup
-        ? 'min'
-        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+        ? externalApplicationsConfig[config].oAuthOptions.acrSignup[type]
+        : externalApplicationsConfig[config].oAuthOptions.acrVerify[policy],
       useOauth: useOAuth,
     }),
     // just verify (<csp>_signup_verified)

@@ -5,7 +5,6 @@ import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
 import classNames from 'classnames';
-import { getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -20,8 +19,7 @@ import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
-const { Element, scroller } = Scroll;
-const scrollOffset = -40;
+const { Element } = Scroll;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -39,7 +37,6 @@ class ReviewCollapsibleChapter extends React.Component {
 
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
     if (editing) {
       // pressing "Update page" will call handleSubmit, which moves focus from
       // the edit button to the this target
@@ -109,7 +106,21 @@ class ReviewCollapsibleChapter extends React.Component {
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
     }
-    return chapterTitle;
+
+    return chapterTitle || '';
+  };
+
+  getPageTitle = rawPageTitle => {
+    const { form } = this.props;
+    const formData = form.data;
+
+    let pageTitle = rawPageTitle;
+
+    if (typeof rawPageTitle === 'function') {
+      pageTitle = rawPageTitle({ formData });
+    }
+
+    return pageTitle;
   };
 
   getSchemaformPageContent = (page, props, editing) => {
@@ -194,7 +205,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            title,
+            this.getPageTitle(title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
@@ -235,6 +246,8 @@ class ReviewCollapsibleChapter extends React.Component {
                   `${page.pageKey}${
                     typeof page.index === 'number' ? page.index : ''
                   }`,
+                  'va-button',
+                  'button',
                 );
               }}
               buttonText="Update page"
@@ -273,6 +286,23 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
+    const pageState = props.form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+    } else {
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+    }
+
     if (editing) {
       // noop defined as a function for unit tests
       const noop = function noop() {};
@@ -288,6 +318,8 @@ class ReviewCollapsibleChapter extends React.Component {
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}
+          schema={pageSchema}
+          uiSchema={pageUiSchema}
           // noop for navigation to prevent JS error
           goBack={noop}
           goForward={noop}
@@ -318,10 +350,7 @@ class ReviewCollapsibleChapter extends React.Component {
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
     return (
-      <div
-        className="usa-accordion-content schemaform-chapter-accordion-content"
-        aria-hidden="false"
-      >
+      <div data-testid="accordion-item-content">
         {ChapterDescription && (
           <ChapterDescription
             viewedPages={viewedPages}
@@ -331,7 +360,7 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => {
+        {expandedPages?.map(page => {
           const pageConfig = form.pages[page.pageKey];
           const editing = pageConfig.showPagePerItem
             ? pageConfig.editMode[page.index]
@@ -344,7 +373,7 @@ class ReviewCollapsibleChapter extends React.Component {
           return showCustomPage
             ? this.getCustomPageContent(page, props, editing)
             : this.getSchemaformPageContent(page, props, editing);
-        })}
+        }) ?? null}
       </div>
     );
   };
@@ -373,77 +402,29 @@ class ReviewCollapsibleChapter extends React.Component {
     }, 0);
   };
 
-  scrollToPage = key => {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      getScrollOptions({ offset: scrollOffset }),
-    );
-  };
-
   render() {
-    let pageContent = null;
-
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
-
-    if (this.props.open) {
-      pageContent = this.getChapterContent(this.props);
-    }
-
-    const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
-    });
-
-    const headerClasses = classNames(
-      'accordion-header',
-      'clearfix',
-      'schemaform-chapter-accordion-header',
-      'vads-u-font-size--h4',
-      'vads-u-margin-top--0',
-    );
+    const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <div
-        id={`${this.id}-collapsiblePanel`}
-        className={classes}
+      <va-accordion-item
         data-chapter={this.props.chapterKey}
+        header={chapterTitle}
+        level={3}
+        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+        onClick={this.handleChapterClick}
+        data-unviewed-pages={this.props.hasUnviewedPages}
       >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="usa-unstyled-list" role="list">
-          <li>
-            <h3 className={headerClasses}>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-error-icon"
-                />
-              )}
-              <button
-                className="usa-button-unstyled"
-                aria-expanded={this.props.open ? 'true' : 'false'}
-                aria-controls={`collapsible-${this.id}`}
-                onClick={this.props.toggleButtonClicked}
-                id={`collapsibleButton${this.id}`}
-                type="button"
-              >
-                {chapterTitle || ''}
-              </button>
-            </h3>
-            {this.props.hasUnviewedPages && (
-              <va-alert
-                role="alert"
-                status="error"
-                background-only
-                aria-describedby={`collapsibleButton${this.id}`}
-              >
-                <span className="sr-only">Error</span>
-                <span>Some information has changed. Please review.</span>
-              </va-alert>
-            )}
-            <div id={`collapsible-${this.id}`}>{pageContent}</div>
-          </li>
-        </ul>
-      </div>
+        {this.props.hasUnviewedPages && (
+          <i
+            aria-hidden="true"
+            className="fas fa-exclamation-circle vads-u-color--secondary"
+            slot="subheader-icon"
+          />
+        )}
+        {this.getChapterContent(this.props)}
+      </va-accordion-item>
     );
   }
 }
@@ -457,10 +438,13 @@ const mapDispatchToProps = {
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
+  chapterKey: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  hasUnviewedPages: PropTypes.bool.isRequired,
   pageList: PropTypes.array.isRequired,
+  setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

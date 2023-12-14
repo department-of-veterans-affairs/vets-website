@@ -1,3 +1,19 @@
+// all the active feature toggles for the profile app with a default value of false
+export const PROFILE_TOGGLES = {
+  profileContacts: false,
+  profileShowPronounsAndSexualOrientation: false,
+  profileHideDirectDepositCompAndPen: false,
+  profileShowPaymentsNotificationSetting: false,
+  profileUseFieldEditingPage: false,
+  profileUseHubPage: false,
+  profileShowMhvNotificationSettings: false,
+  profileLighthouseDirectDeposit: false,
+  profileUseExperimental: false,
+  profileShowQuickSubmitNotificationSetting: false,
+  profileUseNotificationSettingsCheckboxes: false,
+  profileShowEmailNotificationSettings: false,
+};
+
 // The values of these constants map to the possible values that come back from
 // the GET profile/service_history API.
 export const USA_MILITARY_BRANCHES = Object.freeze({
@@ -6,6 +22,7 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   airForce: 'Air Force',
   navy: 'Navy',
   marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
 });
 
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
@@ -14,7 +31,15 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.airForce, '/img/vic-air-force-coat-of-arms.png'],
   [USA_MILITARY_BRANCHES.navy, '/img/vic-navy-emblem.png'],
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
+  [USA_MILITARY_BRANCHES.spaceForce, '/img/vic-space-force-logo.png'],
 ]);
+
+// These breadcrumbs are the base breadcrumbs for the profile app
+// They are used when the user is on the profile root page
+export const PROFILE_BREADCRUMB_BASE = [
+  { href: '/', label: 'Home' },
+  { href: '/profile', label: 'Profile' },
+];
 
 export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
@@ -25,10 +50,12 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
+  CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
+  PROFILE_ROOT: 'Profile',
   DIRECT_DEPOSIT: 'Direct deposit information',
   PERSONAL_INFORMATION: 'Personal information',
   CONTACT_INFORMATION: 'Contact information',
@@ -36,8 +63,15 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
+  CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
 });
+
+export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
+  ([key, path]) => {
+    return { path, name: PROFILE_PATH_NAMES[key] };
+  },
+);
 
 export const ACCOUNT_TYPES_OPTIONS = {
   checking: 'Checking',

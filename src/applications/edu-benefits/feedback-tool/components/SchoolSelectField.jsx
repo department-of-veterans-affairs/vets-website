@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import {
   VaPagination,
   VaLoadingIndicator,
+  VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import {
@@ -249,7 +249,7 @@ export class SchoolSelectField extends React.Component {
               className={labelClassNames}
               htmlFor="school-search-input"
             >
-              {'School Information'}
+              School Information
               {!manualSchoolEntryChecked && (
                 <span className="schemaform-required-span">(*Required)</span>
               )}
@@ -302,13 +302,13 @@ export class SchoolSelectField extends React.Component {
               </div>
             </div>
           </div>
-          <Checkbox
+          <VaCheckbox
             checked={manualSchoolEntryChecked}
-            onValueChange={() =>
-              this.handleManualSchoolEntryToggled(manualSchoolEntryChecked)
+            onVaChange={event =>
+              this.handleManualSchoolEntryToggled(event.detail.checked)
             }
-            labelAboveCheckbox="If you don’t find your school in the search results, then check the box to enter in your school information manually."
-            label={<span>I want to type in my school’s name and address.</span>}
+            description="If you don’t find your school in the search results, then check the box to enter in your school information manually."
+            label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">
             {showSearchResults &&
@@ -407,8 +407,7 @@ export class SchoolSelectField extends React.Component {
                     ),
                   )}
                 </div>
-              )}
-            ={' '}
+              )}{' '}
             {showSearchResults &&
               showInstitutionsLoading && (
                 <div>
@@ -456,7 +455,7 @@ export class SchoolSelectField extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const currentPageNumber = selectCurrentPageNumber(state);
   const errorMessages = selectFacilityCodeErrorMessages(ownProps);
   const facilityCodeSelected = ownProps.formData

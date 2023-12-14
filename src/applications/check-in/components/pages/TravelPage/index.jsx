@@ -19,8 +19,13 @@ const TravelPage = ({
   eyebrow,
   bodyText,
   helpText,
+  additionalInfoItems,
   pageType,
   router,
+  yesButtonText,
+  yesFunction,
+  noButtonText,
+  noFunction,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -36,8 +41,12 @@ const TravelPage = ({
       event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
-    if (answer === 'no') {
+    if (answer === 'no' && noFunction) {
+      noFunction();
+    } else if (answer === 'no') {
       jumpToPage(URLS.DETAILS);
+    } else if (yesFunction) {
+      yesFunction();
     } else {
       goToNextPage();
     }
@@ -69,6 +78,14 @@ const TravelPage = ({
             {bodyText}
           </div>
         )}
+        {additionalInfoItems &&
+          additionalInfoItems.map((infoData, index) => (
+            <React.Fragment key={index}>
+              <va-additional-info uswds trigger={infoData.trigger}>
+                {infoData.info}
+              </va-additional-info>
+            </React.Fragment>
+          ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
@@ -89,7 +106,7 @@ const TravelPage = ({
             type="button"
             value="yes"
           >
-            {t('yes')}
+            {yesButtonText || t('yes')}
           </button>
           <button
             onClick={onClick}
@@ -98,7 +115,7 @@ const TravelPage = ({
             type="button"
             value="no"
           >
-            {t('no')}
+            {noButtonText || t('no')}
           </button>
         </>
       </Wrapper>
@@ -109,8 +126,13 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfoItems: PropTypes.arrayOf(PropTypes.object),
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
+  noButtonText: PropTypes.string,
+  noFunction: PropTypes.func,
+  yesButtonText: PropTypes.string,
+  yesFunction: PropTypes.func,
 };
 export default TravelPage;

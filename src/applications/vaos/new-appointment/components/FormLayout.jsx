@@ -9,14 +9,12 @@ import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 
-export default function FormLayout({ children, isReviewPage }) {
+export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
-        <a href="/health-care/schedule-view-va-appointments/appointments/new-appointment">
-          New appointment
-        </a>
+        <a href="/my-health/appointments/schedule/type-of-care">{pageTitle}</a>
       </Breadcrumbs>
       {location.pathname.endsWith('new-appointment') && (
         <DowntimeNotification
@@ -45,4 +43,5 @@ export default function FormLayout({ children, isReviewPage }) {
 FormLayout.propTypes = {
   children: PropTypes.object,
   isReviewPage: PropTypes.bool,
+  pageTitle: PropTypes.string,
 };

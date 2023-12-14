@@ -10,4 +10,10 @@ describe('<IconWithInfo/>', () => {
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
+
+  it('should render JSX if present is provided', () => {
+    const wrapper = shallow(<IconWithInfo present />);
+    expect(wrapper.find('p.icon-with-info')).to.lengthOf(1);
+    wrapper.unmount();
+  });
 });

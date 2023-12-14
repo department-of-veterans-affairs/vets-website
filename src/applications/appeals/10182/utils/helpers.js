@@ -17,6 +17,6 @@ export const noticeOfDisagreementFeature = state =>
 export const nodPart3UpdateFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.nodPart3Update];
 
-export const showPart3 = formData => formData[SHOW_PART3];
+export const showPart3 = formData => formData?.[SHOW_PART3];
 export const showExtensionReason = formData =>
   showPart3(formData) && formData.requestingExtension;

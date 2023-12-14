@@ -3,9 +3,10 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect, useRef } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import PropTypes from 'prop-types';
 import { navigateToFoldersPage } from '../util/helpers';
 import {
   delFolder,
@@ -14,18 +15,16 @@ import {
   retrieveFolder,
 } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { Alerts, ErrorMessages, Paths } from '../util/constants';
+import * as Constants from '../util/constants';
 
-const ManageFolderButtons = () => {
+const ManageFolderButtons = props => {
+  const { ErrorMessages, Alerts } = Constants;
   const dispatch = useDispatch();
   const history = useHistory();
-  const params = useParams();
-  const location = useLocation();
-  const [folderId, setFolderId] = useState(null);
+  const { folder } = props;
   const folders = useSelector(state => state.sm.folders.folderList);
-  const messages = useSelector(state => state.sm.messages.messageList);
-  const folder = useSelector(state => state.sm.folders.folder);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const threads = useSelector(state => state.sm.threads);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [deleteModal, setDeleteModal] = useState(false);
@@ -35,16 +34,12 @@ const ManageFolderButtons = () => {
   const renameModalReference = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
-  let folderMatch = null;
 
-  useEffect(
-    () => {
-      if (location.pathname.includes(Paths.FOLDERS)) {
-        setFolderId(params.folderId);
-      }
-    },
-    [dispatch, location.pathname, params.folderId],
-  );
+  useEffect(() => {
+    if (!folders) {
+      dispatch(getFolders());
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -58,14 +53,16 @@ const ManageFolderButtons = () => {
   useEffect(
     () => {
       if (nameWarning.length)
-        focusElement(folderNameInput.current.shadowRoot.querySelector('input'));
+        focusElement(
+          folderNameInput.current.shadowRoot?.querySelector('input'),
+        );
     },
     [nameWarning],
   );
 
   const openDelModal = () => {
     dispatch(closeAlert());
-    if (messages?.length > 0) {
+    if (threads.threadList.length > 0) {
       setIsEmptyWarning(true);
     } else {
       setIsEmptyWarning(false);
@@ -79,13 +76,13 @@ const ManageFolderButtons = () => {
 
   const confirmDelFolder = () => {
     closeDelModal();
-    dispatch(delFolder(folderId)).then(
+    dispatch(delFolder(folder.folderId)).then(
       dispatch(getFolders()).then(navigateToFoldersPage(history)),
     );
   };
 
   const openRenameModal = () => {
-    dispatch(closeAlert());
+    if (alertStatus) dispatch(closeAlert());
     setRenameModal(true);
   };
 
@@ -97,8 +94,9 @@ const ManageFolderButtons = () => {
   };
 
   const confirmRenameFolder = async () => {
-    folderMatch = null;
-    folderMatch = folders.filter(testFolder => testFolder.name === folderName);
+    const folderMatch = folders.filter(
+      testFolder => testFolder.name === folderName,
+    );
     await setNameWarning(''); // Clear any previous warnings, so that the warning state can be updated and refocuses back to input if on repeat Save clicks.
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_REQUIRED);
@@ -106,11 +104,11 @@ const ManageFolderButtons = () => {
       setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeRenameModal();
-      dispatch(renameFolder(folderId, folderName)).then(() => {
+      dispatch(renameFolder(folder.folderId, folderName)).then(() => {
         // Refresh the folder name in the "My folders" page--otherwise the old name flashes on-screen for a second.
         dispatch(getFolders());
         // Refresh the folder name on the folder detail page.
-        dispatch(retrieveFolder(folderId));
+        dispatch(retrieveFolder(folder.folderId));
       });
     } else {
       setNameWarning(
@@ -147,6 +145,7 @@ const ManageFolderButtons = () => {
       {isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="error-folder-not-empty"
           visible={isEmptyWarning}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
@@ -168,6 +167,7 @@ const ManageFolderButtons = () => {
       {!isEmptyWarning && (
         <VaModal
           className="modal"
+          data-testid="remove-this-folder"
           visible={deleteModal}
           large="true"
           modalTitle={Alerts.Folder.DELETE_FOLDER_CONFIRM_HEADER}
@@ -177,18 +177,26 @@ const ManageFolderButtons = () => {
           <p>{Alerts.Folder.DELETE_FOLDER_CONFIRM_BODY}</p>
           <va-button
             ref={removeButton}
-            text="Remove"
+            text="Yes, remove this folder"
             onClick={confirmDelFolder}
+            data-dd-action-name="Confirm Remove Folder Button"
           />
-          <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
+          <va-button
+            secondary
+            text="No, keep this folder"
+            onClick={closeDelModal}
+            data-dd-action-name="Cancel Remove Folder Button"
+          />
         </VaModal>
       )}
       <VaModal
         className="modal"
+        data-testid="rename-folder-modal"
         visible={renameModal}
         large="true"
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
+        data-dd-action-name="Rename Folder Modal Closed"
       >
         <VaTextInput
           data-dd-privacy="mask"
@@ -203,12 +211,26 @@ const ManageFolderButtons = () => {
           }}
           maxlength="50"
           name="new-folder-name"
+          data-dd-action-name="Rename Folder Input Field"
         />
-        <va-button text="Save" onClick={confirmRenameFolder} />
-        <va-button secondary="true" text="Cancel" onClick={closeRenameModal} />
+        <va-button
+          text="Save"
+          onClick={confirmRenameFolder}
+          data-dd-action-name="Save Rename Folder Button"
+        />
+        <va-button
+          secondary="true"
+          text="Cancel"
+          onClick={closeRenameModal}
+          data-dd-action-name="Cancel Rename Folder Button"
+        />
       </VaModal>
     </>
   );
+};
+
+ManageFolderButtons.propTypes = {
+  folder: PropTypes.object,
 };
 
 export default ManageFolderButtons;

@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
@@ -16,6 +17,7 @@ const formConfig = {
     showNavLinks: false,
   },
   v3SegmentedProgressBar: true,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'mock-form-patterns-',
