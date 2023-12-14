@@ -456,6 +456,7 @@ const ReplyDraftItem = props => {
         <>
           <span
             className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+            data-testid="draft-reply-to"
             style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
             data-dd-privacy="mask"
           >
