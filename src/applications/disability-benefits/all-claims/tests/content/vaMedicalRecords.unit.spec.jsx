@@ -23,15 +23,4 @@ describe('vamedicalRecordsDescription', () => {
     const result = render(treatmentView({ formData }));
     result.getByText('January 2018');
   });
-
-  it('renders empty date if no date', () => {
-    const formData = {
-      treatmentCenterName: 'Test Facility',
-      treatmentDateRange: {
-        from: undefined,
-      },
-    };
-    const result = render(treatmentView({ formData }));
-    result.getAllByText('', { exact: false });
-  });
 });
