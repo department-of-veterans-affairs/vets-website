@@ -17,7 +17,7 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CATEGORIES: '/categories',
-  RECIPIENTS: '/recipients',
+  RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
 };
 
