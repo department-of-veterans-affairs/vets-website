@@ -38,6 +38,9 @@ class ReadOnlyArrayField extends React.Component {
             itemIdPrefix,
             definitions,
           );
+          const H = uiOptions.reviewItemHeaderLevel
+            ? `h${uiOptions.reviewItemHeaderLevel}`
+            : 'h5';
 
           return (
             <div
@@ -46,9 +49,9 @@ class ReadOnlyArrayField extends React.Component {
             >
               <div className="row small-collapse">
                 <div className="small-12 columns">
-                  <h5 className="schemaform-array-readonly-header">
+                  <H className="schemaform-array-readonly-header">
                     {uiOptions.itemName}
-                  </h5>
+                  </H>
                   {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
                     * rendering of a <dl> around the schemaform-field-container
                     */}
