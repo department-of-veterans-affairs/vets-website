@@ -62,7 +62,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from './chapters/01-applicant-information/applicantInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
-import servicePeriods from './chapters/02-military-history/servicePeriods';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import pow from './chapters/02-military-history/pow';
 import age from './chapters/03-health-and-employment-information/age';
@@ -302,11 +302,11 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
         },
         general: {
           path: 'military/general',
