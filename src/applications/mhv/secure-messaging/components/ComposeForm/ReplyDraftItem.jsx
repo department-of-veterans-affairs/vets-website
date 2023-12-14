@@ -397,7 +397,7 @@ const ReplyDraftItem = props => {
         setTimeout(() => {
           focusElement(
             cannotReply
-              ? composeFormActionButtonsRef.current.querySelector(
+              ? composeFormActionButtonsRef.current?.querySelector(
                   '#delete-draft-button',
                 )
               : textareaRef.current,
