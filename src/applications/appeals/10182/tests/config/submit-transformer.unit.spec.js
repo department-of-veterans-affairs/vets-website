@@ -15,8 +15,35 @@ import transformedMinimalData from '../fixtures/data/transformed-minimal-test.js
 import { SHOW_PART3 } from '../../constants';
 
 describe('transform', () => {
+  it('should transform empty data correctly', () => {
+    const transformedResult = JSON.parse(transform(formConfig, {}));
+    // copy over variables that change based on date & location
+    transformedResult.data.attributes.timezone = 'America/Los_Angeles';
+
+    const emptyResult = {
+      data: {
+        attributes: {
+          boardReviewOption: '',
+          socOptIn: false,
+          timezone: 'America/Los_Angeles',
+          veteran: {
+            address: { zipCode5: '00000' },
+            emailAddressText: '',
+            homeless: false,
+            phone: {},
+          },
+        },
+        type: 'noticeOfDisagreement',
+      },
+      included: [],
+      nodUploads: [],
+    };
+
+    expect(transformedResult).to.deep.equal(emptyResult);
+  });
   it('should transform maximal-test.json correctly', () => {
-    const transformedResult = JSON.parse(transform(formConfig, maximalData));
+    const data = { data: { ...maximalData.data, [SHOW_PART3]: false } };
+    const transformedResult = JSON.parse(transform(formConfig, data));
     // copy over variables that change based on date & location
     transformedResult.data.attributes.timezone = 'America/Los_Angeles';
 
@@ -31,7 +58,7 @@ describe('transform', () => {
   });
 
   it('should transform maximal-test.json with part3 data correctly', () => {
-    const data = { data: { [SHOW_PART3]: true, ...maximalData.data } };
+    const data = { data: { ...maximalData.data, [SHOW_PART3]: true } };
     const transformedResult = JSON.parse(transform(formConfig, data));
     // copy over variables that change based on date & location
     transformedResult.data.attributes.timezone = 'America/Los_Angeles';

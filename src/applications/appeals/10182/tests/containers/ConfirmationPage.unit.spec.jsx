@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import moment from 'moment';
 
 import formConfig from '../../config/form';
-import initialData from '../schema/initialData';
+import initialData from '../initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import { SELECTED, FORMAT_READABLE } from '../../../shared/constants';
