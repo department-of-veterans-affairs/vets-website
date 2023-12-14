@@ -42,6 +42,16 @@ export const AssetTransferInformationAlert = () => (
   </va-alert-expandable>
 );
 
+export const IncomeInformationAlert = () => (
+  <va-alert-expandable status="info" trigger="What is income?">
+    <p>
+      Your income is how much you earn. It includes your Social Security
+      benefits, investment and retirement payments, and any income your spouse
+      and dependents receive.
+    </p>
+  </va-alert-expandable>
+);
+
 const RequestFormAlert = ({ title, formName, formLink, children }) => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">

@@ -11,10 +11,10 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import getData from '../../../fixtures/mocks/mockStore';
+import getData from '../../fixtures/mocks/mockStore';
 
-import formConfig from '../../../../config/form';
-import spouseMarriageHistory from '../../../../config/chapters/04-household-information/currentSpouseFormerMarriages';
+import formConfig from '../../../config/form';
+import spouseMarriageHistory from '../../../config/chapters/04-household-information/currentSpouseFormerMarriages';
 
 const definitions = formConfig.defaultDefinitions;
 

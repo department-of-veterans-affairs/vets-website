@@ -189,6 +189,8 @@ export function createSpouseLabelSelector(nameTemplate) {
   );
 }
 
+export const formatCurrency = num => `$${num.toLocaleString()}`;
+
 export const spouseContribution = (
   <span>
     How much do you <strong>contribute monthly</strong> to your spouse’s
@@ -584,5 +586,15 @@ export const contactWarningMulti = (
         first.
       </div>
     </div>
+  </div>
+);
+
+export const IncomeSourceDescription = (
+  <div>
+    <p>
+      We want to know more about the gross monthly income you, your spouse, and
+      your dependents receive.
+    </p>
+    <p>List the sources of income for you, your spouse, and your dependents.</p>
   </div>
 );
