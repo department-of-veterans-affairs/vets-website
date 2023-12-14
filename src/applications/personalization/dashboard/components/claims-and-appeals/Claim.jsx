@@ -5,12 +5,10 @@ import { format } from 'date-fns';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import {
-  getLighthouseClaimStatusDescription,
-  getPhaseDescription,
+  getClaimStatusDescription,
   isClaimComplete,
-  isLighthouseClaimComplete,
   getClaimType,
-} from '../../utils/claims-helpers';
+} from '../../utils/claims-and-appeals-helpers';
 import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import CTALink from '../CTALink';
@@ -20,10 +18,6 @@ const capitalizeFirstLetter = input => {
   return `${capitalizedFirstLetter}${input.slice(1)}`;
 };
 
-function listPhase(phase) {
-  return phase === 8 ? 'Closed' : getPhaseDescription(phase);
-}
-
 function handleViewClaim() {
   recordEvent({
     event: 'dashboard-navigation',
@@ -32,31 +26,21 @@ function handleViewClaim() {
   });
 }
 
-const claimInfo = (claim, useLighthouseClaims) => {
-  if (useLighthouseClaims) {
-    return {
-      inProgress: !isLighthouseClaimComplete(claim),
-      claimDate: claim.attributes.claimDate,
-      status: getLighthouseClaimStatusDescription(claim.attributes.status),
-    };
-  }
+const claimInfo = claim => {
   return {
     inProgress: !isClaimComplete(claim),
-    claimDate: claim.attributes.dateFiled,
-    status: listPhase(claim.attributes.phase),
+    claimDate: claim.attributes.claimDate,
+    status: getClaimStatusDescription(claim.attributes.status),
   };
 };
 
-const Claim = ({ claim, useLighthouseClaims = false }) => {
+const Claim = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
     );
   }
-  const { inProgress, claimDate, status } = claimInfo(
-    claim,
-    useLighthouseClaims,
-  );
+  const { inProgress, claimDate, status } = claimInfo(claim);
   const dateRecd = format(new Date(replace(claimDate)), 'MMMM d, yyyy');
 
   const content = (
@@ -115,7 +99,6 @@ const Claim = ({ claim, useLighthouseClaims = false }) => {
 
 Claim.propTypes = {
   claim: PropTypes.object.isRequired,
-  useLighthouseClaims: PropTypes.bool,
 };
 
 export default Claim;

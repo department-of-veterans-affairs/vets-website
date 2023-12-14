@@ -25,7 +25,7 @@ describe('My VA - Benefit payments - error-states', () => {
     mockLocalStorage();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
     cy.intercept(
       '/v0/disability_compensation_form/rating_info',

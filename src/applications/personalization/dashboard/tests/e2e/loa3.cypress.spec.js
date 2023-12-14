@@ -57,7 +57,8 @@ function loa3DashboardTest(mobile) {
 }
 
 function nameTagIsFocused() {
-  cy.focused().contains(/Wesley Watson Ford/i);
+  cy.focused();
+  cy.contains(/Wesley Watson Ford/i);
 }
 
 describe('The My VA Dashboard', () => {
@@ -65,7 +66,7 @@ describe('The My VA Dashboard', () => {
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
 
     cy.intercept('/v0/folders/0', mockFolderResponse);
@@ -77,6 +78,7 @@ describe('The My VA Dashboard', () => {
     );
     cy.intercept('/vaos/v0/appointments?type=cc', MOCK_CC_APPOINTMENTS);
   });
+
   context('when it can load the total disability rating', () => {
     beforeEach(() => {
       cy.intercept(
@@ -84,16 +86,22 @@ describe('The My VA Dashboard', () => {
         disabilityRating,
       );
     });
+
     it('should handle LOA3 users at desktop size', () => {
       loa3DashboardTest(false);
       nameTagIsFocused();
+      cy.injectAxe();
+      cy.axeCheck();
     });
 
     it('should handle LOA3 users at mobile phone size', () => {
       loa3DashboardTest(true);
       nameTagIsFocused();
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
+
   context('when there is a 401 fetching the total disability rating', () => {
     beforeEach(() => {
       cy.intercept('/v0/disability_compensation_form/rating_info', {
@@ -101,12 +109,16 @@ describe('The My VA Dashboard', () => {
         body: error401,
       });
     });
+
     it('should totally hide the disability rating in the header', () => {
       cy.visit(manifest.rootUrl);
       nameTagRendersWithoutDisabilityRating();
       nameTagIsFocused();
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
+
   context('when there is a 500 fetching the total disability rating', () => {
     beforeEach(() => {
       cy.intercept('/v0/disability_compensation_form/rating_info', {
@@ -114,10 +126,13 @@ describe('The My VA Dashboard', () => {
         body: error500,
       });
     });
+
     it('should show the fallback link in the header', () => {
       cy.visit(manifest.rootUrl);
       nameTagRendersWithFallbackLink();
       nameTagIsFocused();
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });
