@@ -58,10 +58,6 @@ function resetFetch() {
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
 function setupJSDom() {
-  // if (global.document || global.window) {
-  //   throw new Error('Refusing to override existing document and window.');
-  // }
-
   // Prevent warnings from displaying
   /* eslint-disable no-console */
   if (process.env.LOG_LEVEL === 'debug') {
@@ -90,53 +86,20 @@ function setupJSDom() {
 
   const { window } = dom;
 
+  /* sets up `global` for testing */
   global.dom = dom;
   global.window = window;
   global.document = window.document;
   global.navigator = { userAgent: 'node.js' };
-
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
-
   global.cancelAnimationFrame = function(id) {
     clearTimeout(id);
   };
-
   global.Blob = window.Blob;
-  window.dataLayer = [];
-  window.matchMedia = () => ({
-    matches: false,
-    addListener: f => f,
-    removeListener: f => f,
-  });
-  window.scrollTo = () => {};
 
-  window.VetsGov = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
-  };
-
-  window.Forms = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
-  };
-
-  window.getSelection = () => '';
-
-  window.Mocha = true;
-
-  copyProps(window, global);
-
-  // The following properties provided by JSDom are read-only by default.
-  // Some tests rely on modifying them, so set them to writable to enable that.
-
+  /* Overwrites JSDOM global defaults from read-only to configurable */
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
@@ -157,6 +120,22 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
+
+  /* sets up `window` for testing */
+  const scroll = { duration: 0, delay: 0, smooth: false };
+  window.dataLayer = [];
+  window.matchMedia = () => ({
+    matches: false,
+    addListener: f => f,
+    removeListener: f => f,
+  });
+  window.scrollTo = () => {};
+  window.VetsGov = { scroll };
+  window.Forms = { scroll };
+  window.getSelection = () => '';
+  window.Mocha = true;
+
+  copyProps(window, global);
 
   Object.defineProperty(window, 'location', {
     value: window.location,
@@ -180,15 +159,21 @@ const checkAllowList = testContext => {
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
 
+const cleanupStorage = () => {
+  localStorage.clear();
+  sessionStorage.clear();
+};
+
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
+    cleanupStorage();
     if (!isStressTest) {
       checkAllowList(this);
     }
   },
   afterEach() {
-    localStorage.clear();
+    cleanupStorage();
   },
 };
