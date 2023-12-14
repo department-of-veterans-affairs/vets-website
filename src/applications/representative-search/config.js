@@ -68,27 +68,6 @@ export const resolveParamsWithUrl = ({
 
   const { url } = api;
 
-  let newSort = sort;
-
-  /* 
-    Converting sort type for scenarios where the rep type is 
-    updated in a way that's doesn't correspond with the current sort type
-  */
-
-  if (type !== 'officer') {
-    if (sort === 'name_asc') {
-      newSort = 'last_name_asc';
-    } else if (sort === 'name_desc') {
-      newSort = 'last_name_desc';
-    }
-  } else if (type === 'officer') {
-    if (sort === 'last_name_asc') {
-      newSort = 'name_asc';
-    } else if (sort === 'last_name_desc') {
-      newSort = 'name_desc';
-    }
-  }
-
   const params = [
     address ? `address=${address}` : null,
     lat ? `lat=${lat}` : null,
@@ -96,7 +75,7 @@ export const resolveParamsWithUrl = ({
     name ? `name=${name}` : null,
     `page=${page || 1}`,
     `per_page=${perPage}`,
-    `sort=${newSort}`,
+    `sort=${sort}`,
     type ? `type=${type}` : null,
   ];
 
