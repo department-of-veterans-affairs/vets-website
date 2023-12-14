@@ -86,7 +86,7 @@ import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCur
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
-import unreimbursedCareExpenses from './chapters/05-financial-information/unreimbursedCareExpenses';
+import careExpenses from './chapters/05-financial-information/careExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
@@ -1393,11 +1393,11 @@ const formConfig = {
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
         },
-        unreimbursedCareExpenses: {
-          path: 'financial/unreimbursed-care-expenses',
+        careExpenses: {
+          path: 'financial/care-expenses',
           title: 'Care expenses',
-          uiSchema: unreimbursedCareExpenses.uiSchema,
-          schema: unreimbursedCareExpenses.schema,
+          uiSchema: careExpenses.uiSchema,
+          schema: careExpenses.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',

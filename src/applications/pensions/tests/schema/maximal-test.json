@@ -311,7 +311,7 @@
       }
     ],
     "totalNetWorth": true,
-    "unreimbursedCareExpenses": true,
+    "careExpenses": true,
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": "true",

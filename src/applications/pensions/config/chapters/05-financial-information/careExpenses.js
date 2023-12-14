@@ -20,7 +20,7 @@ export default {
   uiSchema: {
     'ui:title': 'Care expenses',
     'ui:description': description,
-    unreimbursedCareExpenses: yesNoUI({
+    careExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay recurring care expenses that aren't reimbursed?",
       uswds: true,
@@ -28,9 +28,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['unreimbursedCareExpenses'],
+    required: ['careExpenses'],
     properties: {
-      unreimbursedCareExpenses: yesNoSchema,
+      careExpenses: yesNoSchema,
       'view:warningAlert': {
         type: 'object',
         properties: {},
