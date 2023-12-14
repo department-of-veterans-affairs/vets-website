@@ -20,7 +20,7 @@ function ClaimContentionList({ contentions, onClick }) {
     onClick();
   };
 
-  if (!hasContentions) return 'Not Available';
+  if (!hasContentions) return <div>Not Available</div>;
   const limit = showAllContentions ? contentions.length : MAX_CONTENTIONS;
   const showButton =
     !showAllContentions && contentions.length > MAX_CONTENTIONS;
