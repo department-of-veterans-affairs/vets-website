@@ -89,6 +89,7 @@ import netWorthEstimation from './chapters/05-financial-information/netWorthEsti
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -1405,13 +1406,24 @@ const formConfig = {
           schema: homeOwnership.schema,
         },
         homeAcreageMoreThanTwo: {
-          title: 'home acreage',
+          title: 'home acreage size',
           path: 'financial/home-ownership/acres',
           depends: formData => {
             return formData.homeOwnership !== false;
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
+        },
+        homeAcreageValue: {
+          title: 'home acreage value',
+          path: 'financial/home-ownership/acres/value',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo !== false;
+          },
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          CustomPage: HomeAcreageValueInput,
+          CustomPageReview: null,
         },
         receivesIncome: {
           title: 'Receives income',
