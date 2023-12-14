@@ -75,7 +75,7 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
-  useLighthouse: PropTypes.bool,
+  shouldUseLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
