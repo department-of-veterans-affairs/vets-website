@@ -28,6 +28,14 @@ const extractType = record => {
 const extractAuthor = record => {
   return extractContainedResource(
     record,
+    isArrayAndHasItems(record.authenticator) &&
+      record.authenticator[0].reference,
+  )?.name[0].text;
+};
+
+const extractApprover = record => {
+  return extractContainedResource(
+    record,
     isArrayAndHasItems(record.author) && record.author[0].reference,
   )?.name[0].text;
 };
@@ -78,6 +86,7 @@ const convertProgressNote = record => {
     type: extractType(record),
     dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
+    coSignedBy: extractApprover(record || EMPTY_FIELD),
     location: extractLocation(record) || EMPTY_FIELD,
     note: extractNote(record) || EMPTY_FIELD,
   };

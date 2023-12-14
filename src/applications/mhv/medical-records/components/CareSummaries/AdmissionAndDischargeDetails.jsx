@@ -50,7 +50,9 @@ const AdmissionAndDischargeDetails = props => {
       record.dischargeDate,
     )}`;
     const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
+    const preface =
+      'Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).';
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
 
     scaffold.details = {
       header: 'Details',
@@ -61,20 +63,10 @@ const AdmissionAndDischargeDetails = props => {
           inline: true,
         },
         {
-          title: 'Admission date',
-          value: record.admissionDate,
-          inline: true,
-        },
-        {
           title: 'Discharge date',
           value: record.dischargeDate,
           inline: true,
         },
-        // {
-        //   title: 'Admitted by',
-        //   value: record.admittedBy,
-        //   inline: true,
-        // },
         {
           title: 'Discharged by',
           value: record.dischargedBy,
@@ -112,13 +104,11 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Admission and discharge summary\n
+Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
-Admission date: ${record.admissionDate}\n
 Discharge date: ${record.dischargeDate}\n
-Admitted by: ${record.admittedBy}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
 Summary\n
@@ -129,11 +119,6 @@ ${record.summary}`;
       `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
   };
-
-  const dates =
-    record.admissionDate &&
-    record.dischargeDate &&
-    `${record.admissionDate} to ${record.dischargeDate}`;
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
@@ -146,8 +131,8 @@ ${record.summary}`;
       </h1>
 
       <DateSubheading
-        date={dates}
-        label="Discharged on"
+        date={record.admissionDate}
+        label="Admission date"
         id="admission-discharge-date"
       />
 
@@ -169,19 +154,11 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location"> {record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Admission date
-        </h3>
         <p data-testid="note-admission-date">{record.admissionDate}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
         <p data-testid="note-discharge-date">{record.dischargeDate}</p>
-        {/* <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Admitted by
-        </h3>
-        <p>{record.admittedBy}</p> */}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
