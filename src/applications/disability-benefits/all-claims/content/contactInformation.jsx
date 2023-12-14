@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
@@ -38,6 +39,13 @@ const EffectiveDateViewField = ({ formData }) => {
   );
 };
 
+EffectiveDateViewField.propTypes = {
+  formData: PropTypes.shape({
+    from: PropTypes.string,
+    to: PropTypes.string,
+  }),
+};
+
 export const ForwardingAddressViewField = ({ formData }) => {
   const { effectiveDate } = formData;
   return (
@@ -46,6 +54,14 @@ export const ForwardingAddressViewField = ({ formData }) => {
       <AddressViewField formData={formData} />
     </div>
   );
+};
+ForwardingAddressViewField.propTypes = {
+  formData: PropTypes.shape({
+    effectiveDate: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
+  }),
 };
 
 export const phoneEmailViewField = ({ formData }) => {

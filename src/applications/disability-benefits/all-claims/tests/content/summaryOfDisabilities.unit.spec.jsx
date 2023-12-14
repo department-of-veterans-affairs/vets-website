@@ -1,7 +1,5 @@
-import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabilities';
 import { NULL_CONDITION_STRING } from '../../constants';
 
@@ -62,47 +60,38 @@ describe('summaryOfDisabilitiesDescription', () => {
         'view:claimingNew': true,
       },
       newDisabilities: [
-        { condition: 'Condition 1' },
+        { condition: 'condition 1' },
         { condition: 'Condition 2' },
-        { condition: 'Condition 3' },
+        { condition: undefined },
       ],
     };
 
-    const wrapper = shallow(
-      <SummaryOfDisabilitiesDescription formData={formData} />,
-    );
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
 
-    expect(wrapper.find('li').length).to.equal(3);
-    wrapper.unmount();
+    tree.getByText('Condition 1');
+    tree.getByText('Condition 2');
+    tree.getByText('Unknown Condition');
   });
 
-  it('renders both new disabilities and rated disabilities', () => {
+  it('renders with ptsd types', () => {
     const formData = {
       'view:claimType': {
-        'view:claimingIncrease': true,
+        'view:claimingIncrease': false,
         'view:claimingNew': true,
       },
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
       newDisabilities: [
-        { condition: 'Condition 1' },
+        { condition: 'PTSD (post traumatic stress disorder)' },
         { condition: 'Condition 2' },
-      ],
-      ratedDisabilities: [
-        {
-          'view:selected': false,
-          name: 'Rated Disability 1',
-        },
-        {
-          'view:selected': true,
-          name: 'Rated Disability 2',
-        },
       ],
     };
 
-    const wrapper = shallow(
-      <SummaryOfDisabilitiesDescription formData={formData} />,
-    );
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
 
-    expect(wrapper.find('li').length).to.equal(3);
-    wrapper.unmount();
+    const ptsd = tree.getByText('PTSD (Post Traumatic Stress Disorder)');
+    within(ptsd).getByText('Combat');
+    tree.getByText('Condition 2');
   });
 });
