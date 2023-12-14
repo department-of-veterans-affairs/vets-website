@@ -86,15 +86,18 @@ import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCur
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
+import careExpenses from './chapters/05-financial-information/careExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
+import incomeSources from './chapters/05-financial-information/incomeSources';
+import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
-import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -1392,6 +1395,12 @@ const formConfig = {
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
         },
+        careExpenses: {
+          path: 'financial/care-expenses',
+          title: 'Care expenses',
+          uiSchema: careExpenses.uiSchema,
+          schema: careExpenses.schema,
+        },
         transferredAssets: {
           title: 'Transferred assets',
           path: 'financial/transferred-assets',
@@ -1405,7 +1414,7 @@ const formConfig = {
           schema: homeOwnership.schema,
         },
         homeAcreageMoreThanTwo: {
-          title: 'home acreage',
+          title: 'home acreage size',
           path: 'financial/home-ownership/acres',
           depends: formData => {
             return formData.homeOwnership !== false;
@@ -1413,11 +1422,29 @@ const formConfig = {
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
         },
+        homeAcreageValue: {
+          title: 'home acreage value',
+          path: 'financial/home-ownership/acres/value',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo !== false;
+          },
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          CustomPage: HomeAcreageValueInput,
+          CustomPageReview: null,
+        },
         receivesIncome: {
           title: 'Receives income',
           path: 'financial/receives-income',
           uiSchema: receivesIncome.uiSchema,
           schema: receivesIncome.schema,
+        },
+        incomeSources: {
+          title: 'Gross monthly income',
+          path: 'household/income-sources',
+          depends: formData => formData.receivesIncome !== false,
+          uiSchema: incomeSources.uiSchema,
+          schema: incomeSources.schema,
         },
       },
     },

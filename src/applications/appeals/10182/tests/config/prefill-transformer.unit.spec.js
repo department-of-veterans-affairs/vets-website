@@ -24,7 +24,7 @@ describe('NOD prefill transformer', () => {
     formData: {
       testData: 'This is not getting transformed',
       data: {},
-      nonPrefill: {},
+      // nonPrefill: {}, // test fallback
     },
     pages: { testPage: 'Page 1' },
   };
