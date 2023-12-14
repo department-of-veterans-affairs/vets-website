@@ -2,7 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { selectVAPContactInfo } from 'platform/user/selectors';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import {
+  getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
+} from '../actions/letters';
+import noAddressBanner from '../components/NoAddressBanner';
+import systemDownMessage from '../components/systemDownMessage';
+import { lettersUseLighthouse } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -10,15 +18,6 @@ import {
   // eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
 } from '../utils/helpers';
-import noAddressBanner from '../components/NoAddressBanner';
-import systemDownMessage from '../components/systemDownMessage';
-
-import {
-  getLetterListAndBSLOptions,
-  profileHasEmptyAddress,
-} from '../actions/letters';
-
-import { lettersUseLighthouse } from '../selectors';
 
 const {
   awaitingResponse,

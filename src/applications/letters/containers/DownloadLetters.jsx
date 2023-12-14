@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/findIndex';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 
 import { chapters } from '../utils/chapters';
 
