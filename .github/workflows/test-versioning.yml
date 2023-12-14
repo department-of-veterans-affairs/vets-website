@@ -15,6 +15,9 @@ jobs:
         id: get-latest-tag
         run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
 
+      - name: Echo output
+        run: echo ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+
   update-versioning:
       name: Update Versioning
       runs-on: ubuntu-latest
