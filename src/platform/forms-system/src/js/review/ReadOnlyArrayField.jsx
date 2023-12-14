@@ -23,10 +23,15 @@ class ReadOnlyArrayField extends React.Component {
     } = this.props;
     const { definitions } = registry;
     const { SchemaField } = registry.fields;
+    const { onReviewPage } = registry.formContext;
     const uiOptions = uiSchema['ui:options'] || {};
 
     const items = formData || [];
     const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+    const H =
+      uiOptions.reviewItemHeaderLevel && onReviewPage
+        ? `h${uiOptions.reviewItemHeaderLevel}`
+        : 'h5';
 
     return (
       <div className="schemaform-field-container rjsf-array-field">
@@ -38,9 +43,6 @@ class ReadOnlyArrayField extends React.Component {
             itemIdPrefix,
             definitions,
           );
-          const H = uiOptions.reviewItemHeaderLevel
-            ? `h${uiOptions.reviewItemHeaderLevel}`
-            : 'h5';
 
           return (
             <div
