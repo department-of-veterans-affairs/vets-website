@@ -3,6 +3,7 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import vitals from '../fixtures/vitals.json';
+import vital from '../fixtures/vital.json';
 import {
   clearVitalDetails,
   getVitalDetails,
@@ -20,8 +21,19 @@ describe('Get vitals action', () => {
   });
 });
 
+describe('Get vital action', () => {
+  it('should dispatch a get details action', () => {
+    const mockData = vital;
+    mockApiRequest(mockData);
+    const dispatch = sinon.spy();
+    return getVitalDetails('3106')(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
+    });
+  });
+});
+
 describe('Get vital details action', () => {
-  it('should dispatch a get vital action when vitalList is provided', async () => {
+  it('it should dispatch a details action and pull from the list', async () => {
     const dispatch = sinon.spy();
     await getVitalDetails('vitalType', [{ id: '1', name: 'Vital 1' }])(
       dispatch,

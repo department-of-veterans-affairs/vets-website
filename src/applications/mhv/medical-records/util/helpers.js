@@ -209,23 +209,23 @@ export const dispatchDetails = async (
   list,
   dispatch,
   getDetail,
-  actionsGetFROMLIST,
-  actionsGET,
+  actionsGetFromList,
+  actionsGet,
 ) => {
   if (!list || list.length === 0) {
     const response = await getDetail(id);
-    dispatch({ type: actionsGET, response });
+    dispatch({ type: actionsGet, response });
   } else {
     const matchingItem = list.find(item => item.id === id);
 
     if (matchingItem) {
       dispatch({
-        type: actionsGetFROMLIST,
+        type: actionsGetFromList,
         response: matchingItem,
       });
     } else {
       const response = await getDetail(id);
-      dispatch({ type: actionsGET, response });
+      dispatch({ type: actionsGet, response });
     }
   }
 };
