@@ -200,7 +200,7 @@ IntroductionPage.propTypes = {
   formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      downtime: PropTypes.string,
+      downtime: PropTypes.object,
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.object,
       verifyRequiredPrefill: PropTypes.string,

@@ -11,13 +11,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../content/addIssue';
 
-import {
-  CONTESTABLE_ISSUES_PATH,
-  REVIEW_AND_SUBMIT,
-  MAX_LENGTH,
-  REVIEW_ISSUES,
-  SELECTED,
-} from '../constants';
+import { CONTESTABLE_ISSUES_PATH, MAX_LENGTH, SELECTED } from '../constants';
 import { calculateIndexOffset, getSelected } from '../utils/issues';
 import { setStorage } from '../utils/addIssue';
 import { checkValidations } from '../validations';
@@ -45,11 +39,7 @@ const AddIssue = ({
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
-
-  const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
-  const returnPath = onReviewPage
-    ? REVIEW_AND_SUBMIT
-    : `/${CONTESTABLE_ISSUES_PATH}`;
+  const returnPath = `/${CONTESTABLE_ISSUES_PATH}`;
 
   const nameValidations = [
     missingIssueName,
@@ -75,6 +65,7 @@ const AddIssue = ({
     issueDate || '',
     data,
   );
+
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
     contestedIssues,
@@ -87,7 +78,7 @@ const AddIssue = ({
   });
 
   const showIssueNameError = nameErrorMessage[0] || uniqueErrorMessage[0];
-  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage || [];
+  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage;
 
   const isInvalid = part =>
     invalidDateParts.includes(part) || invalidDateParts.includes('other');
@@ -232,7 +223,6 @@ AddIssue.propTypes = {
     maxNameLength: PropTypes.func,
     validateDate: PropTypes.func,
   }),
-  onReviewPage: PropTypes.bool,
 };
 
 export default AddIssue;
