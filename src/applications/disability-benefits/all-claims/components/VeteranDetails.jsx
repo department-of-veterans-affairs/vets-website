@@ -25,13 +25,13 @@ function VeteranDetails({ profile }) {
         {ssn && (
           <p>
             Social Security number: {mask}
-            {ssn.slice(-4)}
+            {ssn.slice(5)}
           </p>
         )}
         {vaFileNumber && (
           <p>
             VA file number: {mask}
-            {vaFileNumber.slice(-5)}
+            {vaFileNumber.slice(5)}
           </p>
         )}
         <p>Date of birth: {dob ? formatDate(dob) : ''}</p>
