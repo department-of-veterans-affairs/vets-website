@@ -33,9 +33,9 @@ jobs:
 
         - name: Get next tag version
           id: bump-tag-version
-          uses: WyriHaximus/github-action-next-semvers@v1
+          uses: codacy/git-version@2.7.1
           with:
             version: ${{ needs.test-versioning.outputs.LATEST_TAG_VERSION }}
 
         - name: Echo tag version
-          run: echo ${{ steps.bump-tag-version.outputs.v_patch }}
+          run: echo ${{ steps.bump-tag-version.outputs.version }}
