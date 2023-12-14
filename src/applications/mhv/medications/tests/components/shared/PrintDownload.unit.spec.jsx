@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { generateMedicationsPDF } from '../../../util/helpers';
 import PrintDownload from '../../../components/shared/PrintDownload';
 import prescription from '../../fixtures/prescriptionDetails.json';
@@ -68,9 +68,21 @@ describe('Medicaitons Print/Download button component', () => {
   it('button displays different text for list', () => {
     const screen = setup(handleDownloadPDF, true, true);
 
-    const sucessMessage = screen.getByText(
+    const successMessage = screen.getByText(
       'Download your medication list as a PDF',
     );
-    expect(sucessMessage).to.exist;
+    expect(successMessage).to.exist;
+  });
+
+  it('should display loading message when downloading file', () => {
+    const screen = setup(handleDownloadPDF, false, true);
+    const downloadButton = screen.getByText(
+      'Download your medication list as a PDF',
+    );
+    fireEvent.click(downloadButton);
+    waitFor(() => {
+      expect(screen.getByTestId('loading-indicator')).to.exist;
+      expect(screen.getByText('Downloading your file...')).to.exist;
+    });
   });
 });
