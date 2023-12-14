@@ -107,7 +107,7 @@ describe('<ContestableIssuesWidget>', () => {
     });
     render(
       <Provider store={mockStore}>
-        <ContestableIssuesWidget {...props} value={[]} />
+        <ContestableIssuesWidget {...props} value={[]} formData={undefined} />
       </Provider>,
     );
 
