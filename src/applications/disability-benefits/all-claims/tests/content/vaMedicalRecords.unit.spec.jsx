@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { treatmentView } from '../../content/vaMedicalRecords';
 
 describe('vamedicalRecordsDescription', () => {
-  it('renders name as strong', () => {
+  it('renders with treatment center name', () => {
     const formData = {
       treatmentCenterName: 'Test Facility',
       treatmentDateRange: {
