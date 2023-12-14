@@ -18,7 +18,7 @@ describe('Medical Records View Allergies', () => {
 
     AllergyDetailsPage.verifyAllergyDetailType('Food');
     // allergy type = food
-    AllergyDetailsPage.verifyAllergyDetailLocation(allergy.recorder.display);
+    AllergyDetailsPage.verifyAllergyDetailLocation('None noted');
 
     AllergyDetailsPage.verifyAllergyDetailObserved('None noted');
 
