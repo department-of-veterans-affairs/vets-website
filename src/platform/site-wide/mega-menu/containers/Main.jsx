@@ -20,29 +20,23 @@ import FEATURE_FLAG_NAMES from '../../../utilities/feature-toggles/featureFlagNa
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-export function removeTrailingSlash(uri) {
-  // Does not remove the slash in the case the URI is just '/'
-  return uri.length > 1 && uri.endsWith('/') ? uri.slice(0, -1) : uri;
-}
-
+/**
+ * Adds { currentPage: true } to a link object when the current path starts
+ * with link.href.
+ *
+ * @param {Array} links - links to be displayed on right-side of header
+ * @param {String} [pathname=window.location.pathname] - optional pathname arg
+ * @return {Array}
+ */
 export function flagCurrentPageInTopLevelLinks(
   links = [],
-  href = window.location.href,
-  pathName = window.location.pathname,
+  pathname = window.location.pathname,
 ) {
-  // Removing the trailing slash allows for a page's URL to have it or not.
-  const noTrailingSlashPathName = removeTrailingSlash(pathName);
-  return links.map(link => {
-    let processedLink = link;
-    if (link.href !== undefined) {
-      processedLink =
-        noTrailingSlashPathName.endsWith(removeTrailingSlash(link.href)) ||
-        href.includes(link.href)
-          ? { ...link, currentPage: true }
-          : link;
-    }
-    return processedLink;
-  });
+  const currentPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  return links.map(
+    link =>
+      currentPath.startsWith(link.href) ? { ...link, currentPage: true } : link,
+  );
 }
 
 export function getAuthorizedLinkData(

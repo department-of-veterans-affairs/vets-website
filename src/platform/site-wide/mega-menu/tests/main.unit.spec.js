@@ -23,11 +23,7 @@ describe('mega-menu', () => {
     describe('flagCurrentPageInTopLevelLinks', () => {
       ['/my-va', '/my-va/', '/my-va/abc', '/my-va/abc/'].forEach(path => {
         it(`sets currentPage on the myVA link object for ${path} path`, () => {
-          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
-            links,
-            undefined,
-            path,
-          );
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
           expect(myVa.currentPage).to.be.true;
           expect(myHealth.currentPage).to.be.undefined;
         });
@@ -40,11 +36,7 @@ describe('mega-menu', () => {
         '/my-health/messages/',
       ].forEach(path => {
         it(`sets currentPage on the myHealth link object for ${path} path`, () => {
-          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
-            links,
-            undefined,
-            path,
-          );
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
           expect(myVa.currentPage).to.be.undefined;
           expect(myHealth.currentPage).to.be.true;
         });
@@ -55,7 +47,6 @@ describe('mega-menu', () => {
           it(`does not set currentPage for ${path} path`, () => {
             const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
               links,
-              undefined,
               path,
             );
             expect(myVa.currentPage).to.be.undefined;
