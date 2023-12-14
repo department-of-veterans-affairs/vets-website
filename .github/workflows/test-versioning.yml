@@ -1,0 +1,33 @@
+name: Test Versioning
+
+on:
+  push
+
+jobs:
+  test-versioning:
+    name: Test versioning
+    runs-on: ubuntu-latest
+    outputs:
+      LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+
+    steps:
+      - name: Get latest tag
+        id: get-latest-tag
+        run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
+
+  update-versioning:
+      name: Update Versioning
+      runs-on: ubuntu-latest
+      needs: [test-versioning]
+      steps: 
+        - name: Echo output
+          run: echo ${{ needs.test-versioning.outputs.LATEST_TAG_VERSION }}
+
+        - name: Get next tag version
+          id: bump-tag-version
+          uses: WyriHaximus/github-action-next-semvers@v1
+          with:
+            version: ${{ needs.test-versioning.outputs.LATEST_TAG_VERSION }}
+
+        - name: Echo tag version
+          run: echo ${{ steps.bump-tag-version.outputs.v_patch }}
