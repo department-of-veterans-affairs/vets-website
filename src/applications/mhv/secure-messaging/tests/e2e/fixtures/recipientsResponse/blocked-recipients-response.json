@@ -1,0 +1,479 @@
+{
+  "data": [
+    {
+      "id": "1013155",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1013155,
+        "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2323849",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2323849,
+        "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2336822",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2336822,
+        "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2666935",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2666935,
+        "name": "Ademonow",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2343333",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2343333,
+        "name": "AnTran_TGTest",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2938067",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2938067,
+        "name": "An_Test20230803",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2416527",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2416527,
+        "name": "Anna-TEST",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1188616",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1188616,
+        "name": "CernerUAT_Day29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1285326",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1285326,
+        "name": "DESIGNATED WH PCMM_DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "678848",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 678848,
+        "name": "DIMITAR TRIAGE GROUP_UAT2929",
+        "stationNumber": "989",
+        "blockedStatus": true,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2575207",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2575207,
+        "name": "Demotoday",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "725671",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 725671,
+        "name": "GPK_ENSEMBLE_GROUP",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2298137",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2298137,
+        "name": "Good times",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "896786",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 896786,
+        "name": "JAZZ 1253528_MULTIPLE_TYPES OF ASSOCIATION_DAYT29 ",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "788263",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 788263,
+        "name": "JAZZ 711180 TG_APPOINTMENT_DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "893821",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 893821,
+        "name": "JAZZ 939559 TG_CPRS ERROR IN PROD_LILETTA _DAYT29",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "708008",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 708008,
+        "name": "Lisa-Anisha",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2050381",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2050381,
+        "name": "New Triage Group 9-14",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1429487",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1429487,
+        "name": "PCMM TEST DAYT29 AUG 24 2020",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1285336",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1285336,
+        "name": "PCMM-R Code 11",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1285333",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1285333,
+        "name": "PCMMTestSiri",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "529552",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 529552,
+        "name": "Rajesh-PCMM-WEB_TST",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "803571",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 803571,
+        "name": "Ro Test",
+        "stationNumber": "989",
+        "blockedStatus": true,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "909305",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 909305,
+        "name": "SMTG-Test Apr18",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2710520",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2710520,
+        "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "stationNumber": "989",
+        "blockedStatus": true,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2343332",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2343332,
+        "name": "SQA Demo TG",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "863002",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 863002,
+        "name": "Siri111",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "3188767",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 3188767,
+        "name": "TG API TESTING",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1357456",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1357456,
+        "name": "TG with &",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2396583",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2396583,
+        "name": "Test TG 07-09-22 ",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "2162340",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 2162340,
+        "name": "Test TG 1",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1342959",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1342959,
+        "name": "TestUATJune30",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "882825",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 882825,
+        "name": "UAT - Escalation Job ",
+        "stationNumber": "989",
+        "blockedStatus": true,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "885264",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 885264,
+        "name": "UAT - PCMM Primary Providers",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1330002",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1330002,
+        "name": "UAT Search By Patient Multiple Clinics",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "857189",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 857189,
+        "name": "UAT Test 11-09-18",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "816092",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 816092,
+        "name": "UAT Test Rename TG",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "893823",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 893823,
+        "name": "UAT_Reg_Mar19 ++",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
+    },
+    {
+      "id": "1301282",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 1301282,
+        "name": "new",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": false,
+        "relationshipType": "PATIENT"
+      }
+    }
+  ],
+  "meta": {
+    "associatedTriageGroups": 39,
+    "associatedBlockedTriageGroups": 4,
+    "sort": {
+      "name": "ASC"
+    }
+  }
+}

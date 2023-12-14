@@ -40,9 +40,9 @@ class PatientInboxPage {
   mockRecipients = mockRecipients;
 
   loadInboxMessages = (
+    recipients = mockRecipients,
     inboxMessages = mockMessages,
     detailedMessage = mockSingleMessage,
-    recipients = mockRecipients,
     getFoldersStatus = 200,
   ) => {
     this.mockInboxMessages = inboxMessages;
