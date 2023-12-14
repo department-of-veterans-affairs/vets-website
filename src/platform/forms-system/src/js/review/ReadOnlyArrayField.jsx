@@ -23,10 +23,15 @@ class ReadOnlyArrayField extends React.Component {
     } = this.props;
     const { definitions } = registry;
     const { SchemaField } = registry.fields;
+    const { onReviewPage } = registry.formContext;
     const uiOptions = uiSchema['ui:options'] || {};
 
     const items = formData || [];
     const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+    const H =
+      uiOptions.reviewItemHeaderLevel && onReviewPage
+        ? `h${uiOptions.reviewItemHeaderLevel}`
+        : 'h5';
 
     return (
       <div className="schemaform-field-container rjsf-array-field">
@@ -46,9 +51,9 @@ class ReadOnlyArrayField extends React.Component {
             >
               <div className="row small-collapse">
                 <div className="small-12 columns">
-                  <h5 className="schemaform-array-readonly-header">
+                  <H className="schemaform-array-readonly-header">
                     {uiOptions.itemName}
-                  </h5>
+                  </H>
                   {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
                     * rendering of a <dl> around the schemaform-field-container
                     */}
