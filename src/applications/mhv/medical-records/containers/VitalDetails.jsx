@@ -200,11 +200,12 @@ Provider Notes: ${vital.notes}\n`,
             {currentVitals?.length > 0 &&
               currentVitals?.map((vital, idx) => (
                 <li key={idx}>
-                  <h2 data-dd-privacy="mask">
+                  <h2 data-testid="vital-date" data-dd-privacy="mask">
                     {moment(vital.date).format('LLL')}
                   </h2>
                   <h3>Result:</h3>
                   <p
+                    data-testid="vital-result"
                     className="vads-u-margin-bottom--1 vads-u-margin-top--0"
                     data-dd-privacy="mask"
                   >
@@ -212,6 +213,7 @@ Provider Notes: ${vital.notes}\n`,
                   </p>
                   <h3>Location:</h3>
                   <p
+                    data-testid="vital-location"
                     className="vads-u-margin-bottom--1 vads-u-margin-top--0"
                     data-dd-privacy="mask"
                   >
@@ -219,6 +221,7 @@ Provider Notes: ${vital.notes}\n`,
                   </p>
                   <h3>Provider notes:</h3>
                   <p
+                    data-testid="vital-provider-note"
                     className="vads-u-margin-bottom--1 vads-u-margin-top--0"
                     data-dd-privacy="mask"
                   >
