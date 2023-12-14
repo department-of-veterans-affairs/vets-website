@@ -35,7 +35,8 @@ jobs:
           id: bump-tag-version
           uses: codacy/git-version@2.7.1
           with:
-            version: ${{ needs.test-versioning.outputs.LATEST_TAG_VERSION }}
+            release-branch: main
+            prefix: "v"
 
         - name: Echo tag version
           run: echo ${{ steps.bump-tag-version.outputs.version }}
