@@ -3,33 +3,9 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import mockSpecialCharsMessage from './fixtures/message-response-specialchars.json';
 import mockMessages from './fixtures/messages-response.json';
-// import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT } from './utils/constants';
+import mockRecipients from './fixtures/recipients-response.json';
 
-// const recipientsResponseDefault = {
-//   data: [
-//     {
-//       id: '7026562',
-//       type: 'triage_teams',
-//       attributes: {
-//         triageTeamId: 7026562,
-//         name: '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
-//         relationType: 'PATIENT',
-//         preferredTeam: true,
-//       },
-//     },
-//     {
-//       id: '7026564',
-//       type: 'triage_teams',
-//       attributes: {
-//         triageTeamId: 7026564,
-//         name: 'test',
-//         relationType: 'family',
-//         preferredTeam: true,
-//       },
-//     },
-//   ],
-// };
 const recipientsResponseFalse = {
   data: [
     {
@@ -60,12 +36,7 @@ describe('recipients dropdown box', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage
-      .loadInboxMessages
-      // mockMessages,
-      // mockSpecialCharsMessage,
-      // recipientsResponseDefault,
-      ();
+    landingPage.loadInboxMessages();
 
     cy.get('[data-testid="compose-message-link"]').click();
     PatientInterstitialPage.getContinueButton().click();
@@ -77,17 +48,17 @@ describe('recipients dropdown box', () => {
         },
       },
     });
-    // cy.get('[data-testid="compose-recipient-select"]').should('exist');
-    // cy.get('[data-testid="compose-recipient-select"]')
-    //   .find('select')
-    //   .find('option')
-    //   .its('length')
-    //   .should('equal', 3);
+    cy.get('[data-testid="compose-recipient-select"]').should('exist');
+    cy.get('[data-testid="compose-recipient-select"]')
+      .find('select')
+      .find('option')
+      .its('length')
+      .should('equal', mockRecipients.data.length + 1);
     cy.get('[data-testid="compose-message-categories"]')
       .first()
       .click();
   });
-  it.skip('preferredTriageTeam select dropdown false', () => {
+  it('preferredTriageTeam select dropdown false', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
