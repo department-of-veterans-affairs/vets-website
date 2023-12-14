@@ -57,7 +57,7 @@ export default {
           },
           'ui:reviewField': ({ children }) => (
             <div className="review-row">
-              <dt>{dateUiTitle}!</dt>
+              <dt>{dateUiTitle}</dt>
               <dd>
                 {children.props.formData && (
                   <>
