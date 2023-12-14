@@ -58,4 +58,10 @@ export default {
     en: '/health-care/after-you-apply/',
     es: '/health-care/after-you-apply-esp/',
   },
+  compAssistanceForFamily: {
+    en:
+      '/family-member-benefits/comprehensive-assistance-for-family-caregivers/',
+    es:
+      '/family-member-benefits/comprehensive-assistance-for-family-caregivers-esp/',
+  },
 };
