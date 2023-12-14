@@ -25,6 +25,7 @@ const ComposeFormActionButtons = ({
           class={`vads-u-width--full vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0
                       small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
           data-testid="Send-Button"
+          data-dd-action-name="Send Button"
           onClick={onSend}
         />
       )}

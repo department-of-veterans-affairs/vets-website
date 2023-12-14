@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { connect } from 'react-redux';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
+import manifest from '../manifest.json';
 import { ADDITIONAL_INFO_THIRD_PARTY } from '../config/constants';
 
 const ombInfo = {
@@ -69,7 +70,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         .
       </p>
       <p>Or you can submit a PDF version of this form.</p>
-      <h2>Type of information you can request</h2>
+      <h2>What type of information can I request?</h2>
       <p>You can request any of these kinds of personal records:</p>
       <p>
         <strong>Compensation and pension records</strong>
@@ -109,35 +110,23 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
-            <va-alert
-              class="vads-u-margin-bottom--1"
-              close-btn-aria-label="Close notification"
-              disable-analytics="false"
-              full-width="false"
-              slim
-              status="error"
-              uswds
-              visible="true"
-            >
-              <h3 slot="headline">We need to verify your identity</h3>
-              <p className="vads-u-font-size--base">
-                We’re sorry, but you’ll need to verify your identity before you
-                can continue with this request online.
-              </p>
+            <va-alert status="continue">
+              <h3 slot="headline">
+                You’ll need to verify your identity to request your records
+              </h3>
               <p>
-                To manage certain tasks and information on VA.gov, like
-                requesting personal records or changing your direct deposit
-                information, you’ll need to create a <strong>Login.gov</strong>{' '}
-                or <strong>ID.me</strong> account and verify your identity.
+                We need to make sure you’re you — and not someone pretending to
+                be you — before we can give you access to your personal
+                information. This helps to keep your information safe, and to
+                prevent fraud and identity theft.
               </p>
+              <strong>This one-time process takes about 5-10 minutes.</strong>
               <p>
                 <a
-                  href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="vads-c-action-link--green"
+                  href={`/verify?next=${manifest.rootUrl}/introduction`}
+                  className="verify-link vads-c-action-link--green"
                 >
-                  Verify your identity (opens in new tab)
+                  Verify your identity
                 </a>
               </p>
             </va-alert>
