@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { isValidCurrency } from '../utils/validations';
+import { isValidCurrency } from '../validation';
 
 const validateCurrency = (value, setError) => {
   if (value === '') {
