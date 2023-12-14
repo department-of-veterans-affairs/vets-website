@@ -42,7 +42,7 @@ const TravelQuestion = props => {
   };
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('review-body-text-unified')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2>{t('claim-informaiton')}</h2>
         <a
