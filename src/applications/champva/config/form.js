@@ -9,8 +9,6 @@ import {
   ssnUI,
   addressSchema,
   addressUI,
-  checkboxGroupSchema,
-  checkboxGroupUI,
   relationshipToVeteranSchema,
   relationshipToVeteranUI,
   phoneSchema,
@@ -80,11 +78,25 @@ const formConfig = {
       title: 'Sponsor Information',
       pages: {
         page1: {
-          path: 'sponsor-information/personal-information',
+          path: 'sponsor-information/name',
           title: 'Sponsor name and date of birth',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor name and date of birth'),
+            sponsorInfoTitle: inlineTitleUI('Sponsor name'),
             veteransFullName: fullNameUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              sponsorInfoTitle: titleSchema,
+              veteransFullName: fullNameSchema,
+            },
+          },
+        },
+        page1a: {
+          path: 'sponsor-information/date-of-birth',
+          title: 'Sponsor date of birth',
+          uiSchema: {
+            sponsorInfoTitle: inlineTitleUI('Sponsor date of birth'),
             sponsorDOB: dateOfBirthUI(),
           },
           schema: {
@@ -92,7 +104,6 @@ const formConfig = {
             required: ['sponsorDOB'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              veteransFullName: fullNameSchema,
               sponsorDOB: dateOfBirthSchema,
             },
           },
@@ -101,7 +112,7 @@ const formConfig = {
           path: 'sponsor-information/ssn',
           title: 'Sponsor SSN and VA file number',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor SSN and VA file number'),
+            sponsorInfoTitle: inlineTitleUI('Sponsor SSN or VA file number'),
             ssn: ssnOrVaFileNumberUI(),
           },
           schema: {
@@ -109,14 +120,11 @@ const formConfig = {
             required: ['ssn'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
-              // TODO: update transformer to accomodate VA file num being optional
+              ssn: ssnOrVaFileNumberSchema, // TODO: update transformer to accomodate VA file num being optional
             },
           },
         },
         page3: {
-          // TODO:
-          // - verify that date of death is not before date of birth?
           path: 'sponsor-information/status',
           title: 'Sponsor status',
           uiSchema: {
@@ -141,12 +149,28 @@ const formConfig = {
         },
         // IF sponsor IS dead - date of death/how he died
         page4: {
-          path: 'sponsor-information/status-continued',
+          path: 'sponsor-information/status-date',
           title: 'Sponsor status continued',
           depends: formData => get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI('Sponsor status continued'), // TODO: different keyname for inline titles?
-            sponsorDOD: dateOfDeathUI(),
+            sponsorDOD: dateOfDeathUI(), // TODO: verify not before birth?
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorDOD'],
+            properties: {
+              sponsorInfoTitle: titleSchema,
+              sponsorDOD: dateOfDeathSchema,
+            },
+          },
+        },
+        page4a: {
+          path: 'sponsor-information/status-detail',
+          title: 'Sponsor status continued',
+          depends: formData => get('sponsorIsDeceased', formData),
+          uiSchema: {
+            sponsorInfoTitle: inlineTitleUI('Sponsor status continued'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor pass away on active military service?',
               labels: {
@@ -158,32 +182,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['sponsorDOD', 'sponsorDeathConditions'],
+            required: ['sponsorDeathConditions'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              sponsorDOD: dateOfDeathSchema,
               sponsorDeathConditions: yesNoSchema,
-            },
-          },
-        },
-        // IF sponsor IS dead - relationship to sponsor with deceased wording
-        page5: {
-          path: 'sponsor-information/status-relationship',
-          title: 'Relationship to Sponsor',
-          depends: formData => get('sponsorIsDeceased', formData),
-          uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Relationship to Sponsor'),
-            // TODO: is this different from the certifier and applicant? Or is this one of those?
-            certifierRelationshipToSponsor: {
-              ...relationshipToVeteranUI('Sponsor'), // TODO: update wording on here to be past tense
-              'ui:required': () => true,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              sponsorInfoTitle: titleSchema,
-              certifierRelationshipToSponsor: relationshipToVeteranSchema,
             },
           },
         },
@@ -194,39 +196,20 @@ const formConfig = {
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's address"),
-            sponsorNoAddress: checkboxGroupUI({
-              title: ' ',
-              required: false,
-              labels: {
-                hasNoAddress:
-                  "My sponsor does not have a permanent address/I don't know my sponsor's permanent address.",
-              },
-            }),
             sponsorAddress: {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
                     'My sponsor lives on a United States military base outside the country.',
                 },
-                required: {
-                  country: formData => !formData.sponsorNoAddress.hasNoAddress,
-                  street: formData => !formData.sponsorNoAddress.hasNoAddress,
-                  city: formData => !formData.sponsorNoAddress.hasNoAddress,
-                  state: formData => !formData.sponsorNoAddress.hasNoAddress,
-                  postalCode: formData =>
-                    !formData.sponsorNoAddress.hasNoAddress,
-                },
               }),
             },
           },
-          // TODO: Conditionally require address based on checkbox
-          // - will need to move checkbox to a previous page.
           schema: {
             type: 'object',
             required: ['sponsorAddress'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              sponsorNoAddress: checkboxGroupSchema(['hasNoAddress']),
               sponsorAddress: addressSchema(),
             },
           },
@@ -237,19 +220,11 @@ const formConfig = {
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's phone number"),
-            sponsorNoPhone: checkboxGroupUI({
-              title: ' ',
-              required: false,
-              labels: {
-                hasNoPhone:
-                  "My sponsor does not have a phone number/I don't know my sponsor's phone number",
-              },
-            }),
             sponsorPhone: {
               ...phoneUI({
                 title: 'Home phone number',
               }),
-              'ui:required': formData => !formData.sponsorNoPhone.hasNoPhone,
+              'ui:required': () => true,
             },
             sponsorPhoneAlt: {
               ...phoneUI({ title: 'Mobile phone number' }),
@@ -260,30 +235,8 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              sponsorNoPhone: checkboxGroupSchema(['hasNoPhone']),
               sponsorPhone: phoneSchema,
               sponsorPhoneAlt: phoneSchema,
-            },
-          },
-        },
-        // IF sponsor IS alive - relationship to sponsor
-        page8_: {
-          path: 'sponsor-information/status-relationship-current',
-          title: 'Relationship to Sponsor',
-          depends: formData => !get('sponsorIsDeceased', formData),
-          // TODO: is this different from the certifier and applicant? Or is this one of those?
-          uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Relationship to Sponsor'),
-            certifierRelationshipToSponsorCurrent: {
-              ...relationshipToVeteranUI('Sponsor'),
-              'ui:required': () => true,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              sponsorInfoTitle: titleSchema,
-              certifierRelationshipToSponsorCurrent: relationshipToVeteranSchema,
             },
           },
         },
