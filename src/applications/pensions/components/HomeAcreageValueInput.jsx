@@ -52,8 +52,6 @@ const HomeAcreageValueInput = props => {
       return;
     }
 
-    validateCurrency(inputValue, setError);
-
     if (!isValidCurrency(inputValue)) {
       setError('Please enter a valid dollar amount');
       return;
