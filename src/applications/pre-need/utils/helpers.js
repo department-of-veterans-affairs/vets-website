@@ -92,14 +92,9 @@ export const sponsorDeceasedSubheader = (
   </div>
 );
 
-// prod flag for MBMS-47182
-export const sponsorDateOfDeathSubheader = !environment.isProduction() ? (
+export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
     <p>When did the sponsor pass away?</p>
-  </div>
-) : (
-  <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
   </div>
 );
 
