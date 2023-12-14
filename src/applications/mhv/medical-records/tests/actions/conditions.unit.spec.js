@@ -9,9 +9,6 @@ import {
   getConditionDetails,
   getConditionsList,
 } from '../../actions/conditions';
-import { dispatchDetails } from '../../util/helpers';
-import * as Constants from '../../util/constants';
-import { addAlert } from '../../actions/alerts';
 
 describe('Get conditions action', () => {
   it('should dispatch a get list action', () => {
@@ -27,41 +24,20 @@ describe('Get conditions action', () => {
 });
 
 describe('Get condition action', () => {
-  it('should dispatch a get details action', async () => {
-    const conditionList = [];
+  it('should dispatch a get details action', () => {
     const mockData = condition;
+    mockApiRequest(mockData);
     const dispatch = sinon.spy();
-
-    const getDetail = async () => mockData;
-
-    try {
-      await dispatchDetails(
-        '3106',
-        conditionList,
-        dispatch,
-        getDetail,
-        Actions.Conditions.GET_FROM_LIST,
-        Actions.Conditions.GET,
-      );
-      expect(dispatch.called).to.be.true;
-      expect(dispatch.firstCall.args[0]).to.exist;
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Conditions.GET_FROM_LIST,
-      );
-    } catch (error) {
-      dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
-    }
+    return getConditionDetails('3106', undefined)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
+    });
   });
 });
 
 describe('Get condition action', () => {
   it('should dispatch a get details action and pull from the list', () => {
-    const mockData = { id: '1', title: 'Sample Note' };
-    mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getConditionDetails('1', [{ id: '1', title: 'Sample Note' }])(
-      dispatch,
-    ).then(() => {
+    return getConditionDetails('1', [{ id: '1' }])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Conditions.GET_FROM_LIST,
       );

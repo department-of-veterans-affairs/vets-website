@@ -9,9 +9,6 @@ import {
 } from '../../actions/vaccines';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
-import { dispatchDetails } from '../../util/helpers';
-import { addAlert } from '../../actions/alerts';
-import * as Constants from '../../util/constants';
 
 describe('Get vaccines action', () => {
   it('should dispatch a get list action', () => {
@@ -26,42 +23,21 @@ describe('Get vaccines action', () => {
   });
 });
 
-describe('Get vaccine action test', () => {
-  it('should dispatch a get details action', async () => {
-    const vaccineList = [];
+describe('Get vaccine action', () => {
+  it('should dispatch a get details action', () => {
     const mockData = vaccine;
+    mockApiRequest(mockData);
     const dispatch = sinon.spy();
-
-    const getDetail = async () => mockData;
-
-    try {
-      await dispatchDetails(
-        '3106',
-        vaccineList,
-        dispatch,
-        getDetail,
-        Actions.Vaccines.GET_FROM_LIST,
-        Actions.Vaccines.GET,
-      );
-      expect(dispatch.called).to.be.true;
-      expect(dispatch.firstCall.args[0]).to.exist;
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Vaccines.GET_FROM_LIST,
-      );
-    } catch (error) {
-      dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
-    }
+    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
+    });
   });
 });
 
 describe('Get vaccine details action', () => {
   it('should dispatch a details action and pull from the list', () => {
-    const mockData = { id: '1', title: 'Sample Note' };
-    mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('1', [{ id: '1', title: 'Sample Note' }])(
-      dispatch,
-    ).then(() => {
+    return getVaccineDetails('1', [{ id: '1' }])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Vaccines.GET_FROM_LIST,
       );

@@ -18,7 +18,7 @@ export const getCareSummaryAndNotesDetails = (
   noteList,
 ) => async dispatch => {
   try {
-    dispatchDetails(
+    await dispatchDetails(
       noteId,
       noteList,
       dispatch,

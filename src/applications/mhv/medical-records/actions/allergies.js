@@ -15,7 +15,7 @@ export const getAllergiesList = () => async dispatch => {
 
 export const getAllergyDetails = (id, allergyList) => async dispatch => {
   try {
-    dispatchDetails(
+    await dispatchDetails(
       id,
       allergyList,
       dispatch,

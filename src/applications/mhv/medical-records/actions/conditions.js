@@ -18,7 +18,7 @@ export const getConditionDetails = (
   conditionList,
 ) => async dispatch => {
   try {
-    dispatchDetails(
+    await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,

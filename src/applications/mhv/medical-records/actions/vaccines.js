@@ -16,7 +16,7 @@ export const getVaccinesList = () => async dispatch => {
 
 export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
   try {
-    dispatchDetails(
+    await dispatchDetails(
       vaccineId,
       vaccineList,
       dispatch,

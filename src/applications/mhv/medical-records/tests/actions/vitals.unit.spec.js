@@ -26,7 +26,7 @@ describe('Get vital action', () => {
     const mockData = vital;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVitalDetails('3106')(dispatch).then(() => {
+    return getVitalDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.secondCall.args[0].type).to.equal(Actions.Vitals.GET);
     });
   });
@@ -35,9 +35,7 @@ describe('Get vital action', () => {
 describe('Get vital details action', () => {
   it('it should dispatch a details action and pull from the list', async () => {
     const dispatch = sinon.spy();
-    await getVitalDetails('vitalType', [{ id: '1', name: 'Vital 1' }])(
-      dispatch,
-    );
+    await getVitalDetails('vitalType', [{ id: '1' }])(dispatch);
     expect(dispatch.firstCall.args[0]?.type).to.equal(Actions.Vitals.GET);
   });
 });
