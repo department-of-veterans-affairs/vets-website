@@ -15,5 +15,28 @@ class AllergiesListPage {
       cy.wait('@allergiesList');
     }
   };
+
+  loadVAPaginationNextAllergies = () => {
+    cy.get('va-pagination')
+      .shadow()
+      .find('[class="usa-pagination__link usa-pagination__next-page"]')
+      .click({ waitForAnimations: true });
+  };
+
+  verifyPaginationAllergiesDisplayed = (
+    displayedStartNumber,
+    displayedEndNumber,
+    numRecords,
+  ) => {
+    cy.get('#showingRecords').should(
+      'have.text',
+      `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+    );
+  };
+
+  // cy.get('#showingRecords').should(
+  //   'have.text',
+  //   'Showing 11 to 14 of 14 records from newest to oldest',
+  // );
 }
 export default new AllergiesListPage();
