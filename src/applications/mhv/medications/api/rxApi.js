@@ -2,7 +2,7 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { INCLUDE_IMAGES_ENDPOINT } from '../util/constants';
+import { INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -17,13 +17,24 @@ export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   );
 };
 
+export const getPrescriptionImage = cmopNdcNumber => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions/get_prescription_image/${cmopNdcNumber}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
 export const getPrescriptionSortedList = (
   sortEndpoint,
-  includeImages = false,
+  includeImage = false,
 ) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?${sortEndpoint}${includeImages &&
-      INCLUDE_IMAGES_ENDPOINT}`,
+    `${apiBasePath}/prescriptions?${sortEndpoint}${includeImage &&
+      INCLUDE_IMAGE_ENDPOINT}`,
     {
       headers: {
         'Content-Type': 'application/json',

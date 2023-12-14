@@ -155,7 +155,7 @@ export const dispStatusObj = {
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 
-export const INCLUDE_IMAGES_ENDPOINT = '&include_images=true';
+export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 
 export const PDF_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',

@@ -235,7 +235,7 @@ export const buildAllergiesPDFList = allergies => {
 /**
  * Return VA prescription PDF list
  */
-export const buildVAPrescriptionPDFList = prescription => {
+export const buildVAPrescriptionPDFList = (prescription, image = null) => {
   return [
     {
       header: 'About your prescription',
@@ -301,6 +301,22 @@ export const buildVAPrescriptionPDFList = prescription => {
             {
               title: 'Pharmacy phone number',
               value: validateField(prescription.phoneNumber),
+              inline: true,
+            },
+            {
+              title: 'Image of the medication or supply',
+              value: image
+                ? {
+                    type: 'image',
+                    image,
+                    options: { width: 200, height: 100 },
+                  }
+                : 'Image not available',
+              inline: false,
+            },
+            {
+              title: 'Note',
+              value: 'This image is from your last refill of this medication.',
               inline: true,
             },
           ],

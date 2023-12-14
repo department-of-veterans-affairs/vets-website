@@ -22,6 +22,7 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { PDF_GENERATE_STATUS } from '../util/constants';
+import { getPrescriptionImage } from '../api/rxApi';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -178,7 +179,19 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescription) {
+      if (!prescription) return;
+
+      if (prescription.cmopNdcNumber) {
+        getPrescriptionImage(prescription.cmopNdcNumber).then(
+          ({ data: image }) => {
+            setPrescriptionPdfList(
+              nonVaPrescription
+                ? buildNonVAPrescriptionPDFList(prescription)
+                : buildVAPrescriptionPDFList(prescription, image),
+            );
+          },
+        );
+      } else {
         setPrescriptionPdfList(
           nonVaPrescription
             ? buildNonVAPrescriptionPDFList(prescription)
