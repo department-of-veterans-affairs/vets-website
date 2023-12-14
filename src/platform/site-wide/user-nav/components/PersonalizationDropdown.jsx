@@ -7,7 +7,6 @@ import {
   signInServiceName,
 } from 'platform/user/authentication/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -22,33 +21,8 @@ const recordProfileEvent = recordNavUserEvent('profile');
 const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
 
-const LinksForEnhancedMenu = () => {
-  return (
-    <>
-      <li>
-        <a href="/view-change-dependents/view" onClick={recordDependentsEvent}>
-          Dependents
-        </a>
-      </li>
-      <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--1">
-        <a
-          href="/records/download-va-letters/letters"
-          onClick={recordLettersEvent}
-        >
-          Letters
-        </a>
-      </li>
-    </>
-  );
-};
-
 export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showAuthenticatedMenuEnhancements = useToggleValue(
-    TOGGLE_NAMES.showAuthenticatedMenuEnhancements,
-  );
 
   const createSignout = useCallback(
     () => (
@@ -75,7 +49,19 @@ export function PersonalizationDropdown(props) {
           Profile
         </a>
       </li>
-      {showAuthenticatedMenuEnhancements && <LinksForEnhancedMenu />}
+      <li>
+        <a href="/view-change-dependents/view" onClick={recordDependentsEvent}>
+          Dependents
+        </a>
+      </li>
+      <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--1">
+        <a
+          href="/records/download-va-letters/letters"
+          onClick={recordLettersEvent}
+        >
+          Letters
+        </a>
+      </li>
       <li>{createSignout()}</li>
     </ul>
   );
