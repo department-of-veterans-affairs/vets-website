@@ -42,21 +42,35 @@ const HomeAcreageValueInput = props => {
   const updateFormData = event => {
     event.preventDefault();
 
-    if (homeAcreageValue.value === '') {
+    const inputValue = homeAcreageValue.value;
+
+    if (inputValue === '') {
       const updatedFormData = { ...formData };
       delete updatedFormData.homeAcreageValue;
       setFormData(updatedFormData);
       goForward(formData);
+      return;
     }
 
-    validateCurrency(homeAcreageValue.value, setError);
+    validateCurrency(inputValue, setError);
 
-    if (!isValidCurrency(homeAcreageValue.value)) {
+    if (!isValidCurrency(inputValue)) {
       setError('Please enter a valid dollar amount');
       return;
     }
 
-    const numericValue = parseFloat(homeAcreageValue.value.replace(/,/g, ''));
+    let numericValue;
+
+    if (typeof inputValue === 'string') {
+      numericValue = parseFloat(inputValue.replace(/,/g, ''));
+
+      if (Number.isNaN(numericValue)) {
+        setError('Please enter a valid dollar amount');
+        return;
+      }
+    } else {
+      numericValue = inputValue;
+    }
 
     if (numericValue > MAXIMUM_ACRE_VALUE) {
       setError('Please enter an amount less than $999,999,999');
