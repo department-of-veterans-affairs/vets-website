@@ -14,7 +14,6 @@ import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messag
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockFirstMessage from '../fixtures/first-message-from-thread-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -165,6 +164,8 @@ class PatientInboxPage {
   };
 
   loadSingleThread = (testThread = mockThread) => {
+    const currentDate = new Date();
+    mockThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.log('loading single thread details.');
     cy.intercept(
       'GET',
@@ -181,7 +182,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${testThread.data[0].attributes.messageId}`,
-      mockFirstMessage,
+      { data: testThread.data[0] },
     ).as('fist-message-in-thread');
 
     cy.contains(mockMessages.data[0].attributes.subject).click({
