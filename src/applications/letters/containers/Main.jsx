@@ -1,9 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Outlet } from 'react-router-dom-v5-compat';
 
-import { selectVAPContactInfo } from 'platform/user/selectors';
+import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import {
+  getLetterListAndBSLOptions,
+  profileHasEmptyAddress,
+} from '../actions/letters';
+import noAddressBanner from '../components/NoAddressBanner';
+import systemDownMessage from '../components/systemDownMessage';
+import { lettersUseLighthouse } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -11,15 +18,6 @@ import {
   // eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
 } from '../utils/helpers';
-import noAddressBanner from '../components/NoAddressBanner';
-import systemDownMessage from '../components/systemDownMessage';
-
-import {
-  getLetterListAndBSLOptions,
-  profileHasEmptyAddress,
-} from '../actions/letters';
-
-import { lettersUseLighthouse } from '../selectors';
 
 const {
   awaitingResponse,
@@ -33,10 +31,10 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
+    const { shouldUseLighthouse } = this.props;
+
     // eslint-disable-next-line -- LH_MIGRATION
-    const LH_MIGRATION__options = LH_MIGRATION__getOptions(
-      this.props.useLighthouse,
-    );
+    const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
@@ -53,18 +51,13 @@ export class Main extends React.Component {
         : lettersAvailability;
     switch (status) {
       case available:
-        return <Outlet />;
+        return this.props.children;
       case awaitingResponse:
-        return (
-          <va-loading-indicator
-            data-testid="letters-loading"
-            message="Loading your letters..."
-          />
-        );
+        return <va-loading-indicator message="Loading your letters..." />;
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:
-        return <Outlet />;
+        return this.props.children;
       case hasEmptyAddress:
         return noAddressBanner;
       case unavailable: // fall-through to default
@@ -76,6 +69,7 @@ export class Main extends React.Component {
 }
 
 Main.propTypes = {
+  children: PropTypes.any,
   emptyAddress: PropTypes.bool,
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
@@ -95,7 +89,7 @@ function mapStateToProps(state) {
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
     // TODO: change to conform to LH_MIGRATION style
-    useLighthouse: lettersUseLighthouse(state),
+    shouldUseLighthouse: lettersUseLighthouse(state),
   };
 }
 
