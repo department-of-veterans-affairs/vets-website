@@ -172,49 +172,49 @@ describe('Pensions financial disclosure', () => {
   }
   describe('Monthly income', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.monthlyIncome,
+      formConfig.chapters.financialInformation.pages.monthlyIncome,
       'veteranFullName',
       6,
     );
   });
   describe('Spouse monthly income', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.spouseMonthlyIncome,
+      formConfig.chapters.financialInformation.pages.spouseMonthlyIncome,
       'spouseFullName',
       6,
     );
   });
   describe('Net worth', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.netWorth,
+      formConfig.chapters.financialInformation.pages.netWorth,
       'veteranFullName',
       5,
     );
   });
   describe('Spouse net worth', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.spouseNetWorth,
+      formConfig.chapters.financialInformation.pages.spouseNetWorth,
       'spouseFullName',
       5,
     );
   });
   describe('Expected income', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.expectedIncome,
+      formConfig.chapters.financialInformation.pages.expectedIncome,
       'veteranFullName',
       2,
     );
   });
   describe('Spouse expected income', () => {
     runTests(
-      formConfig.chapters.financialDisclosure.pages.spouseExpectedIncome,
+      formConfig.chapters.financialInformation.pages.spouseExpectedIncome,
       'spouseFullName',
       2,
     );
   });
   describe('Dependent expected income', () => {
     const page =
-      formConfig.chapters.financialDisclosure.pages.dependentsExpectedIncome;
+      formConfig.chapters.financialInformation.pages.dependentsExpectedIncome;
     runTests(
       {
         title: page.title,
@@ -227,7 +227,7 @@ describe('Pensions financial disclosure', () => {
   });
   describe('Dependent monthly income', () => {
     const page =
-      formConfig.chapters.financialDisclosure.pages.dependentsMonthlyIncome;
+      formConfig.chapters.financialInformation.pages.dependentsMonthlyIncome;
     runTests(
       {
         title: page.title,
@@ -240,7 +240,7 @@ describe('Pensions financial disclosure', () => {
   });
   describe('Dependent net worth', () => {
     const page =
-      formConfig.chapters.financialDisclosure.pages.dependentsNetWorth;
+      formConfig.chapters.financialInformation.pages.dependentsNetWorth;
     runTests(
       {
         title: page.title,

@@ -1,5 +1,5 @@
-import VaTextAreaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 /** @type {PageSchema} */
 export default {
@@ -12,7 +12,10 @@ export default {
       'ui:widget': 'textarea',
       'ui:title':
         'Describe the financial records you’d like to request (optional)',
-      'ui:webComponentField': VaTextAreaField,
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        charcount: true,
+      },
     },
   },
   schema: {
@@ -20,6 +23,7 @@ export default {
     properties: {
       financialRecordDetails: {
         type: 'string',
+        maxLength: 40,
       },
     },
   },
