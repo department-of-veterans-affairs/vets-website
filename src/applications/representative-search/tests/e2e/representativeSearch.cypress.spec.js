@@ -1,6 +1,7 @@
 import mockRepresentativesSearchResults from '../../constants/mock-representative-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
+import { claimsAgentIsEnabled } from '../../config';
 
 const representativeTypeOptions = [
   'Veteran Service Organization',
@@ -14,8 +15,10 @@ Cypress.Commands.add('verifyOptions', () => {
     .find('input')
     .should('be.checked');
 
+  const iteratorLength = claimsAgentIsEnabled ? 3 : 2;
+
   // Verify options available
-  for (let i = 0; i < representativeTypeOptions.length; i++) {
+  for (let i = 0; i < iteratorLength; i++) {
     cy.get('va-radio')
       .children()
       .eq(i)
