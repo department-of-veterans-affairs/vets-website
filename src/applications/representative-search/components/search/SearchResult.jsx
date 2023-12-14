@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
+import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
   organization,
@@ -20,6 +21,8 @@ const SearchResult = ({
 }) => {
   const addressExists =
     addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
+
+  const { contact, extension } = parsePhoneNumber(phone);
   return (
     <>
       <div>
@@ -50,7 +53,7 @@ const SearchResult = ({
         {phone && (
           <div>
             <strong>Main Number: </strong>
-            <va-telephone contact={phone} />
+            <va-telephone contact={contact} extension={extension} />
           </div>
         )}
       </div>
@@ -61,11 +64,18 @@ const SearchResult = ({
 SearchResult.propTypes = {
   addressLine1: PropTypes.string.isRequired,
   addressLine2: PropTypes.string.isRequired,
-  // handleRedirect: PropTypes.func.isRequired,
+  addressLine3: PropTypes.string.isRequired,
+  city: PropTypes.string,
+  distance: PropTypes.number.isRequired,
   organization: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
+  query: PropTypes.object.isRequired,
+  representative: PropTypes.string,
+  state: PropTypes.string,
   type: PropTypes.string.isRequired,
-  distance: PropTypes.number.isRequired,
+  zipCode: PropTypes.string,
+
+  // handleRedirect: PropTypes.func.isRequired,
 };
 
 export default SearchResult;
