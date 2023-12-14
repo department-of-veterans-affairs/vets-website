@@ -41,9 +41,9 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       messageAriaDescribedby:
-        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       fullNamePath: 'applicantFullName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
