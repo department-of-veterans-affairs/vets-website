@@ -54,6 +54,9 @@ jobs:
       - name: Get latest tag
         id: get-latest-tag
         run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
+      
+      - name: Echo Latest Tag
+        run: echo ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
@@ -248,12 +251,18 @@ jobs:
         uses: whatnick/wait-action@master
         with:
           time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
+          
+      - name: Echo latest tag
+        run: echo ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
       - name: Get next tag version
         id: bump-tag-version
         uses: WyriHaximus/github-action-next-semvers@v1
         with:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+      
+      - name: Echo new tag version
+        run: echo ${{ steps.bump-tag-version.outputs.v_patch }}
 
       - name: Create tag
         run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }}
