@@ -18,7 +18,7 @@ export default function uiSchema(title = 'Phone') {
       required: 'Please enter a phone number',
     },
     'ui:options': {
-      widgetClassNames: 'va-input-medium-large',
+      widgetClassNames: 'phone',
     },
   };
 }
