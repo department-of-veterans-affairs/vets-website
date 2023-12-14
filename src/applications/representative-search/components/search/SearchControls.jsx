@@ -137,11 +137,7 @@ const SearchControls = props => {
           />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'officer'
-                ? 'Officer name'
-                : 'Accredited representative name'
-            }
+            label="Accredited representative name"
             message-aria-describedby="Text input for officer or Accredited representative name"
             name="Officer or Accredited Representative Name"
             onChange={handleRepOfficerChange}
