@@ -7,23 +7,38 @@ import { isFullDate } from '@department-of-veterans-affairs/platform-forms/valid
 import {
   serviceNumberSchema,
   serviceNumberUI,
+  checkboxGroupUI,
+  checkboxGroupSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
 import { wartimeWarning, servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 
+const serviceBranchOptions = {
+  ARMY: 'Army',
+  NAVY: 'Navy',
+  AIR_FORCE: 'Air Force',
+  COAST_GUARD: 'Coast Guard',
+  MARIVE_CORPS: 'Marine Corps',
+  SPACE_FORCE: 'Space Force',
+  USPHS: 'USPHS',
+  NOAA: 'NOAA',
+};
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': 'Service period',
-    serviceBranch: {
-      'ui:title': 'Branch of service',
-    },
+    serviceBranch: checkboxGroupUI({
+      title: 'Branch of service',
+      labels: serviceBranchOptions,
+      required: true,
+    }),
     activeServiceDateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'Date entered service must be before date left service',
+      'Date initially entered active duty',
+      'Final release date from activity duty',
+      'Date initially entered active duty must be before final date released from active duty',
     ),
     serviceNumber: serviceNumberUI(),
     'ui:validations': [validateServiceBirthDates],
@@ -56,9 +71,7 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange', 'serviceNumber'],
     properties: {
-      serviceBranch: {
-        type: 'string',
-      },
+      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchOptions)),
       activeServiceDateRange: {
         ...dateRange,
         required: ['from', 'to'],
