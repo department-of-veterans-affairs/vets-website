@@ -50,3 +50,9 @@ export const validateCurrency = (errors, currencyAmount) => {
     errors.addError('Please enter a valid dollar amount.');
   }
 };
+
+// Does not allow a dollar sign
+export const isValidCurrency = currencyAmount => {
+  const regex = /^(?!.*\$)(([1-9]\d{0,2}(,\d{3})*|\d+)(\.\d{1,2})?)?$/;
+  return regex.test(currencyAmount);
+};

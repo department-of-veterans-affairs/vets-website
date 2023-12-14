@@ -313,6 +313,7 @@
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": "true",
+    "homeAcreageValue": 75000,
     "receivesIncome": true,
     "incomeSources": [{
       "typeOfIncome": "Social Security",
