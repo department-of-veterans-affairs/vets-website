@@ -15,6 +15,5 @@ describe('ptsdFirstIncidentIntro', () => {
       'On the next few screens, we’ll ask about the first event that caused your combat and non-combat PTSD.',
       { exact: false },
     );
-    tree.debug();
   });
 });
