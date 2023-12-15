@@ -88,6 +88,7 @@ import specialMonthlyPension from './chapters/03-health-and-employment-informati
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import careExpenses from './chapters/05-financial-information/careExpenses';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 
@@ -1189,6 +1190,12 @@ const formConfig = {
           title: 'Care expenses',
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses',
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',
