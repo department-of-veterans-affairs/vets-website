@@ -52,7 +52,7 @@ describe('<ClaimsListItemV3>', () => {
         decisionLetterSent: false,
         developmentLetterSent: true,
         documentsNeeded: false,
-        status: 'INITIAL_REVIEW',
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
       },
     };
 
@@ -60,18 +60,21 @@ describe('<ClaimsListItemV3>', () => {
     expect(screen.getByText('We sent you a development letter')).to.exist;
   });
 
-  it('should show decision letter flag', () => {
+  it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
     const claim = {
       id: 1,
       attributes: {
         decisionLetterSent: true,
-        developmentLetterSent: false,
-        documentsNeeded: false,
+        developmentLetterSent: true,
+        documentsNeeded: true,
         status: 'INITIAL_REVIEW',
       },
     };
 
     const screen = render(<ClaimsListItemV3 claim={claim} />);
+    expect(screen.queryByText('We sent you a development letter')).to.be.null;
+    expect(screen.queryByText('An item in the claim needs your attention')).to
+      .be.null;
     expect(screen.getByText('You have a decision letter ready')).to.exist;
   });
 
