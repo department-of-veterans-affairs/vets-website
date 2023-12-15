@@ -3,21 +3,28 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
 
-function validateName(errors, pageData) {
+export function validateEmpty(errors, pageData) {
   const { first, last } = pageData;
   validateWhiteSpace(errors.first, first);
   validateWhiteSpace(errors.last, last);
 }
 
-function validateSymbols(errors, value, _uiSchema, _schema, messages) {
-  const invalidChars = /[~!@#$%^&*+=[\]\\;:"`<>/_|]/;
-  if (invalidChars.test(value)) {
-    errors.addError(messages.symbols);
+// Some back end services such as benefits intake api only accept
+// a-z, A-Z, hyphen, and spaces, but this is a minimal set of
+// symbols to validate, and we let our local backend handle the rest,
+// for example what to do with a name like José Ramírez
+export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
+  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
+  const matches = value.match(invalidCharsPattern);
+
+  if (matches) {
+    const uniqueInvalidChars = [...new Set(matches)].join(', ');
+    const staticText =
+      messages.symbols ||
+      'You entered a character we can’t accept. Try removing any special characters such as:';
+    errors.addError(`${staticText} ${uniqueInvalidChars}`);
   }
 }
-
-const SYMBOLS_ERROR_MESSAGE =
-  'You entered a character we can’t accept. Try removing any special characters.';
 
 /**
  * Web component uiSchema for `first`, `middle`, and `last name`
@@ -32,15 +39,14 @@ const SYMBOLS_ERROR_MESSAGE =
  */
 const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
-    'ui:validations': [validateName],
+    'ui:validations': [validateEmpty],
     first: {
       'ui:title': formatTitle ? formatTitle('first name') : 'First name',
       'ui:autocomplete': 'given-name',
       'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateSymbols],
+      'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
         required: 'Please enter a first name',
-        symbols: SYMBOLS_ERROR_MESSAGE,
       },
       'ui:options': {
         uswds: true,
@@ -51,10 +57,7 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       'ui:title': formatTitle ? formatTitle('middle name') : 'Middle name',
       'ui:webComponentField': VaTextInputField,
       'ui:autocomplete': 'additional-name',
-      'ui:validations': [validateSymbols],
-      'ui:errorMessages': {
-        symbols: SYMBOLS_ERROR_MESSAGE,
-      },
+      'ui:validations': [validateNameSymbols],
       'ui:options': {
         uswds: true,
         ...uiOptions,
@@ -64,10 +67,9 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
       'ui:autocomplete': 'family-name',
       'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateSymbols],
+      'ui:validations': [validateNameSymbols],
       'ui:errorMessages': {
         required: 'Please enter a last name',
-        symbols: SYMBOLS_ERROR_MESSAGE,
       },
       'ui:options': {
         uswds: true,
@@ -119,7 +121,7 @@ const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
     maiden: {
       'ui:title': "Mother's maiden name",
       'ui:webComponentField': VaTextInputField,
-      'ui:validations': [validateSymbols],
+      'ui:validations': [validateNameSymbols],
       'ui:options': {
         uswds: true,
         ...uiOptions,
