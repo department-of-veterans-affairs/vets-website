@@ -8,6 +8,9 @@ const addressConfirmationPage = {
         title: 'Veteran Address Confirmation',
       }),
       'ui:widget': AddressValidationRadio,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
   },
   schema: {

@@ -48,7 +48,7 @@ describe('whoHasAQuestionPage', () => {
       'Who are you asking a question for?',
     ];
 
-    expect($('h4', container).textContent).to.eq('Tell us who has a question');
+    expect($('h3', container).textContent).to.eq('Tell us who has a question');
 
     radioLabels.forEach(
       radio =>

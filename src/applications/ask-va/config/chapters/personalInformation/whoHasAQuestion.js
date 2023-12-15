@@ -1,4 +1,4 @@
-import React from 'react';
+import FormElementTitle from '../../../components/FormElementTitle';
 import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import { CHAPTER_3, yesNoOptions } from '../../../constants';
 
@@ -11,11 +11,9 @@ const askingQuestionForOptions = {
 
 const whoHasAQuestionPage = {
   uiSchema: {
-    'ui:description': (
-      <h4 className="vads-u-margin-bottom--1p5">
-        {CHAPTER_3.PAGE_2.PAGE_DESCRIPTION}
-      </h4>
-    ),
+    'ui:description': FormElementTitle({
+      title: CHAPTER_3.PAGE_2.PAGE_DESCRIPTION,
+    }),
     isVAEmployee: radioUI({
       title: CHAPTER_3.PAGE_2.QUESTION_1,
       description: '',

@@ -1,4 +1,4 @@
-import React from 'react';
+import FormElementTitle from '../../../components/FormElementTitle';
 import { CHAPTER_4 } from '../../../constants';
 import ProfileLink from '../../../components/ProfileLink';
 import {
@@ -6,7 +6,7 @@ import {
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = <h4>{CHAPTER_4.PAGE_1.TITLE}</h4>;
+const question = FormElementTitle({ title: CHAPTER_4.PAGE_2.TITLE });
 
 const aboutTheVeteranPage = {
   uiSchema: {

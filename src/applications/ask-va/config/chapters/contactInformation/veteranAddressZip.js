@@ -1,4 +1,5 @@
 import React from 'react';
+import PageFieldSummary from '../../../components/PageFieldSummary';
 import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import {
   CHAPTER_4,
@@ -6,26 +7,28 @@ import {
   regionOptions,
 } from '../../../constants';
 
-const question = <h4>{CHAPTER_4.PAGE_2.TITLE}</h4>;
+const question = <h4>{CHAPTER_4.PAGE_1.TITLE}</h4>;
 
 const veteransAddressZipPage = {
   uiSchema: {
     'ui:description': question,
+    'ui:objectViewField': PageFieldSummary,
     isVetMilitaryBase: {
-      'ui:title': CHAPTER_4.PAGE_2.QUESTION_1,
+      'ui:title': CHAPTER_4.PAGE_1.QUESTION_1,
     },
     militaryBasePostOffice: radioUI({
-      title: CHAPTER_4.PAGE_2.QUESTION_2,
+      title: CHAPTER_4.PAGE_1.QUESTION_2,
       labels: postOfficeOptions,
       hideIf: form => !form.isVetMilitaryBase,
     }),
     militaryBaseRegion: radioUI({
-      title: CHAPTER_4.PAGE_2.QUESTION_3,
+      title: CHAPTER_4.PAGE_1.QUESTION_3,
       labels: regionOptions,
       hideIf: form => !form.isVetMilitaryBase,
     }),
     veteranPostalCode: {
-      'ui:title': CHAPTER_4.PAGE_2.QUESTION_4,
+      'ui:title': CHAPTER_4.PAGE_1.QUESTION_4,
+      'ui:require': form => !form.isVetMilitaryBase,
       'ui:options': {
         hideIf: form => form.isVetMilitaryBase,
       },
@@ -38,7 +41,7 @@ const veteransAddressZipPage = {
   },
   schema: {
     type: 'object',
-    required: ['veteranPostalCode'],
+    required: [],
     properties: {
       isVetMilitaryBase: {
         type: 'boolean',

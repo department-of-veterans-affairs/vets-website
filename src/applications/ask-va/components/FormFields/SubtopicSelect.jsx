@@ -69,7 +69,6 @@ const SubtopicSelect = props => {
       id={id}
       name={id}
       value={value}
-      label="Select a topic"
       error={showError() || null}
       onVaSelect={handleChange}
       onBlur={handleBlur}

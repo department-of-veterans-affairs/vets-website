@@ -79,7 +79,6 @@ const CategorySelect = props => {
         id={id}
         name={id}
         value={value}
-        label="Select a category"
         error={showError() || null}
         onVaSelect={handleChange}
         onBlur={handleBlur}

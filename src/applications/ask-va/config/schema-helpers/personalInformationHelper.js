@@ -3,7 +3,6 @@ import { mapValues } from 'lodash';
 import merge from 'lodash/merge';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 
 export const createBooleanSchemaPropertiesFromOptions = obj =>
   mapValues(obj, () => {
@@ -97,16 +96,10 @@ export const personalInformationFormSchemas = {
     enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
   },
   preferredName: {
-    type: 'object',
-    properties: {
-      preferredName: {
-        type: 'string',
-        pattern: '^[A-Za-z]+$',
-        minLength: 1,
-        maxLength: 25,
-      },
-    },
-    required: [],
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
   },
   socialOrServiceNum: {
     type: 'object',
@@ -180,12 +173,9 @@ export const personalInformationUiSchemas = {
     },
   },
   preferredName: {
-    preferredName: {
-      'ui:widget': TextWidget,
-      'ui:title': `Preferred name`,
-      'ui:errorMessages': {
-        pattern: 'This field accepts alphabetic characters only',
-      },
+    'ui:title': `Preferred name`,
+    'ui:errorMessages': {
+      pattern: 'This field accepts alphabetic characters only',
     },
   },
   socialOrServiceNum: {

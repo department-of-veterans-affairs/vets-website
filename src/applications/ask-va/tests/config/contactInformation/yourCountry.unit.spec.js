@@ -32,7 +32,7 @@ describe('yourCountryPage', () => {
     const checkboxText =
       'I live on a United States military base outside of the country';
 
-    expect($('h4', container).textContent).to.eq('Your address');
+    expect($('h4', container).textContent).to.eq('Your country');
     expect($('.form-checkbox > label', container).textContent).to.eq(
       checkboxText,
     );
