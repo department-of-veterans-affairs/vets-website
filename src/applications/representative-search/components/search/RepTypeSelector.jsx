@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { claimsAgentIsEnabled } from '../../config';
 
 const RepTypeSelector = ({ onChange, representativeType }) => {
   const handleRadioButtonSelect = event => {
@@ -35,14 +36,16 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
-          <va-radio-option
-            label="Claims agent"
-            name="group"
-            value="claim_agents"
-            checked={representativeType === 'claim_agents'}
-            radioOptionSelected={handleRadioButtonSelect}
-            vaValueChange={handleRadioButtonSelect}
-          />
+          {claimsAgentIsEnabled && (
+            <va-radio-option
+              label="Claims agent"
+              name="group"
+              value="claim_agents"
+              checked={representativeType === 'claim_agents'}
+              radioOptionSelected={handleRadioButtonSelect}
+              vaValueChange={handleRadioButtonSelect}
+            />
+          )}
         </VaRadio>
 
         <div style={{ marginTop: '2em' }}>
@@ -80,12 +83,14 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
                 must be a member in good standing of the bar association.
                 Attorneys can charge fees for their services.
               </p>
-              <p>
-                <strong>Claims agents</strong> usually work on decision reviews
-                and appeals. They’re independent professionals who have passed a
-                test about VA claims and benefits. Claims agents can charge fees
-                for their services.
-              </p>
+              {claimsAgentIsEnabled && (
+                <p>
+                  <strong>Claims agents</strong> usually work on decision
+                  reviews and appeals. They’re independent professionals who
+                  have passed a test about VA claims and benefits. Claims agents
+                  can charge fees for their services.
+                </p>
+              )}
             </va-accordion-item>
           </va-accordion>
         </div>
