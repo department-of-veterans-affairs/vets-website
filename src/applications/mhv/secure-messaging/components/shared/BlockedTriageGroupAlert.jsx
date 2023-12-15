@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const BlockedTriageGroupAlert = () => {
-  const { recipients } = useSelector(state => state.sm);
+const BlockedTriageGroupAlert = props => {
+  const { blockedTriageList } = props;
   const [careTeamTitleText, setCareTeamTitleText] = useState(
     'certain providers',
+  );
+  const [multipleGroupsText, setMultipleGroupsText] = useState(
+    'these care teams',
   );
 
   useEffect(
     () => {
-      if (recipients.associatedBlockedTriageGroupsQty === 1) {
-        setCareTeamTitleText(recipients.blockedRecipients[0].name);
+      if (blockedTriageList.length === 1) {
+        setCareTeamTitleText(blockedTriageList[0].name);
+        setMultipleGroupsText('this care team');
       }
     },
-    [recipients],
+    [blockedTriageList],
   );
 
   return (
@@ -23,9 +27,9 @@ const BlockedTriageGroupAlert = () => {
       data-testid="blocked-triage-group-alert"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
-        {recipients.associatedBlockedTriageGroupsQty > 1 && (
+        {blockedTriageList.length > 1 && (
           <ul>
-            {recipients.blockedRecipients.map((blockedTriageGroup, i) => (
+            {blockedTriageList.map((blockedTriageGroup, i) => (
               <li data-testid="blocked-triage-group" key={i}>
                 {blockedTriageGroup.name}
               </li>
@@ -33,13 +37,17 @@ const BlockedTriageGroupAlert = () => {
           </ul>
         )}
         <p className="vads-u-margin-bottom--1p5">
-          If you need help contacting this care team, call your VA health
+          If you need help contacting {multipleGroupsText}, call your VA health
           facility.
         </p>
         <a href="/find-locations/">Find your VA health facility</a>
       </div>
     </va-alert-expandable>
   );
+};
+
+BlockedTriageGroupAlert.propTypes = {
+  blockedTriageList: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default BlockedTriageGroupAlert;

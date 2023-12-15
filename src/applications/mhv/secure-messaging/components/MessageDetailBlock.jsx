@@ -39,6 +39,7 @@ const MessageDetailBlock = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
+  const [blockedTriageList, setBlockedTriageList] = useState([]);
 
   const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
     state =>
@@ -59,11 +60,7 @@ const MessageDetailBlock = props => {
   );
 
   useEffect(() => {
-    if (
-      mhvSecureMessagingBlockedTriageGroup1p0 &&
-      message &&
-      recipients.associatedBlockedTriageGroupsQty
-    ) {
+    if (mhvSecureMessagingBlockedTriageGroup1p0 && message) {
       const tempRecipient =
         message.triageGroupName !== message.recipientName
           ? messageHistory.find(
@@ -71,14 +68,33 @@ const MessageDetailBlock = props => {
             ) || { recipientId: 0, triageGroupName: '' }
           : { recipientId: 0, triageGroupName: '' };
 
-      setShowBlockedTriageGroupAlert(
-        recipients.blockedRecipients.some(
-          recipient =>
-            recipient.id === recipientId ||
-            recipient.name === tempRecipient.triageGroupName,
-        ),
-      );
+      const isBlocked = () => {
+        return recipient =>
+          recipient.id === recipientId ||
+          recipient.name === tempRecipient.triageGroupName;
+      };
+
+      if (!recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(
+          !recipients.allowedRecipients.some(isBlocked()),
+        );
+        setBlockedTriageList([
+          { id: message.recipientId, name: message.triageGroupName },
+          ...recipients.blockedRecipients,
+        ]);
+      } else if (recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(
+          recipients.blockedRecipients.some(isBlocked()),
+        );
+
+        setBlockedTriageList(
+          recipients.blockedRecipients.filter(
+            recipient => recipient.name === message.triageGroupName,
+          ),
+        );
+      }
     }
+
     // The Blocked Triage Group alert should stay visible until the user navigates away
   }, []);
 
@@ -136,7 +152,7 @@ const MessageDetailBlock = props => {
       {mhvSecureMessagingBlockedTriageGroup1p0 &&
         (showBlockedTriageGroupAlert && (
           <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-            <BlockedTriageGroupAlert />
+            <BlockedTriageGroupAlert blockedTriageList={blockedTriageList} />
           </div>
         ))}
 

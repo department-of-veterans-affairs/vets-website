@@ -68,6 +68,7 @@ const ComposeForm = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
+  const [blockedTriageList, setBlockedTriageList] = useState([]);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -163,16 +164,31 @@ const ComposeForm = props => {
   );
 
   useEffect(() => {
-    if (
-      mhvSecureMessagingBlockedTriageGroup1p0 &&
-      draft &&
-      recipients.associatedBlockedTriageGroupsQty
-    ) {
-      setShowBlockedTriageGroupAlert(
-        recipients.blockedRecipients.some(
-          recipient => recipient.id === draft.recipientId,
-        ),
-      );
+    if (mhvSecureMessagingBlockedTriageGroup1p0) {
+      if (draft) {
+        if (!recipients.associatedBlockedTriageGroupsQty) {
+          setShowBlockedTriageGroupAlert(
+            !recipients.allowedRecipients.some(
+              recipient => recipient.id === draft.recipientId,
+            ),
+          );
+          setBlockedTriageList([
+            { id: draft.recipientId, name: draft.triageGroupName },
+            ...recipients.blockedRecipients,
+          ]);
+        } else if (recipients.associatedBlockedTriageGroupsQty) {
+          setShowBlockedTriageGroupAlert(
+            recipients.blockedRecipients.some(
+              recipient => recipient.id === draft.recipientId,
+            ),
+          );
+
+          setBlockedTriageList(recipients.blockedRecipients);
+        }
+      } else if (!draft) {
+        setShowBlockedTriageGroupAlert(recipients.blockedRecipients.length > 0);
+        setBlockedTriageList(recipients.blockedRecipients);
+      }
     }
     // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
   }, []);
@@ -575,7 +591,9 @@ const ComposeForm = props => {
                   vads-u-margin-top--3
                   vads-u-margin-bottom--neg2"
               >
-                <BlockedTriageGroupAlert />
+                <BlockedTriageGroupAlert
+                  blockedTriageList={blockedTriageList}
+                />
               </div>
             ))}
 

@@ -60,6 +60,7 @@ const ReplyForm = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
+  const [blockedTriageList, setBlockedTriageList] = useState([]);
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
@@ -107,15 +108,30 @@ const ReplyForm = props => {
   );
 
   useEffect(() => {
-    if (
-      mhvSecureMessagingBlockedTriageGroup1p0 &&
-      recipients.associatedBlockedTriageGroupsQty
-    ) {
-      setShowBlockedTriageGroupAlert(
-        recipients.blockedRecipients.some(
-          recipient => recipient.id === draftToEdit.recipientId,
-        ),
-      );
+    if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
+      if (!recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(
+          !recipients.allowedRecipients.some(
+            recipient => recipient.id === draftToEdit.recipientId,
+          ),
+        );
+        setBlockedTriageList([
+          { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
+          ...recipients.blockedRecipients,
+        ]);
+      } else if (recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(
+          recipients.blockedRecipients.some(
+            recipient => recipient.id === draftToEdit.recipientId,
+          ),
+        );
+
+        setBlockedTriageList(
+          recipients.blockedRecipients.filter(
+            recipient => recipient.name === draftToEdit.triageGroupName,
+          ),
+        );
+      }
     }
     // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
   }, []);
@@ -442,7 +458,9 @@ const ReplyForm = props => {
         )}
 
         {mhvSecureMessagingBlockedTriageGroup1p0 &&
-          showBlockedTriageGroupAlert && <BlockedTriageGroupAlert />}
+          showBlockedTriageGroupAlert && (
+            <BlockedTriageGroupAlert blockedTriageList={blockedTriageList} />
+          )}
 
         <section>
           <h2 className="sr-only">Reply draft edit mode.</h2>
