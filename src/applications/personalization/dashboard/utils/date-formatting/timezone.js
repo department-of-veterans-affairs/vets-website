@@ -1,6 +1,6 @@
 import timezones from './timezones.json';
 import vaosTimeZones from './vaos-timezones.json';
-import moment from '~/applications/personalization/dashboard/lib/moment-tz';
+import moment from './moment-tz';
 
 export const stripDST = abbr => {
   if (/^[PMCE][DS]T$/.test(abbr)) {

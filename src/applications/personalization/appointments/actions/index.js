@@ -4,12 +4,12 @@ import recordEvent from 'platform/monitoring/record-event';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 
-import moment from '~/applications/personalization/dashboard/lib/moment-tz';
+import moment from '~/applications/personalization/dashboard/utils/date-formatting/moment-tz';
 import {
   getCCTimeZone,
   getVATimeZone,
   getTimezoneBySystemId,
-} from '~/applications/personalization/dashboard/utils/timezone';
+} from '~/applications/personalization/dashboard/utils/date-formatting/timezone';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
