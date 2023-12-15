@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
 
 import IntroductionPage from '../containers/IntroductionPage';
-import signInHelpList from '../components/SignInHelpList';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
@@ -59,7 +58,6 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
-  signInHelpList, // custom SIP-alert content
   formId: '20-10206',
   hideUnauthedStartLink: true,
   transformForSubmit,
