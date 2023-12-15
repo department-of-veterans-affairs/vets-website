@@ -36,7 +36,7 @@
           "cause": "NEW",
           "primaryDescription": "This disability is related to my military service.",
           "condition": "asthma",
-          "classificationCode": "540"
+          "classificationCode": "42"
         }
       ],
       "standardClaim": false
