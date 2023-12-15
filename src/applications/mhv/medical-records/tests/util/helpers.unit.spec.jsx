@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+import { useDispatch } from 'react-redux';
+import sinon from 'sinon';
+import React from 'react';
 import {
   concatObservationInterpretations,
   dateFormat,
@@ -7,6 +10,7 @@ import {
   nameFormat,
   processList,
   extractContainedResource,
+  useAutoFetchData,
 } from '../../util/helpers';
 
 describe('Name formatter', () => {
@@ -109,5 +113,49 @@ describe('extractContainedResource', () => {
 
     const result = extractContainedResource(resource, '#b2');
     expect(result).to.eq(null);
+  });
+});
+
+describe('useAutoFetchData', () => {
+  // Mock functions and objects as needed
+
+  let fetchDataFunctionFactory;
+  let useDispatchStub;
+
+  beforeEach(() => {
+    useDispatchStub = sinon.stub(React, 'useDispatch');
+    useDispatchStub.returns(() => {}); // Mock the useDispatch function
+    fetchDataFunctionFactory = () => {};
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore(); // Restore the original useDispatch function
+  });
+
+  it('should throw an error if dispatch is not provided', () => {
+    expect(() => {
+      useAutoFetchData(undefined, fetchDataFunctionFactory);
+    }).to.throw(
+      'useAutoFetchData requires dispatch and fetchDataFunctionFactory as arguments.',
+    );
+  });
+
+  it('should throw an error if fetchDataFunctionFactory is not provided', () => {
+    expect(() => {
+      useAutoFetchData(useDispatch, undefined);
+    }).to.throw(
+      'useAutoFetchData requires dispatch and fetchDataFunctionFactory as arguments.',
+    );
+  });
+
+  it('should not throw an error if both dispatch and fetchDataFunctionFactory are provided', () => {
+    const dispatchProvided = useDispatchStub.returns(() => {});
+    const fetchDataFunctionFactoryProvided = fetchDataFunctionFactory;
+
+    expect(() => {
+      useAutoFetchData(dispatchProvided, fetchDataFunctionFactoryProvided);
+    }).to.not.throw(
+      'useAutoFetchData requires dispatch and fetchDataFunctionFactory as arguments.',
+    );
   });
 });
