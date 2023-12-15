@@ -5,6 +5,7 @@ const SERVICES = {
   EVSS: 'evss',
   MVI: 'mvi',
   GLOBAL: 'global',
+  MHV: 'mhv',
 };
 
 const beforeNow = moment()
