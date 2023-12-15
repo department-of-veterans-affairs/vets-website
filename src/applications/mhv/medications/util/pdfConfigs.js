@@ -163,21 +163,26 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
             },
             {
-              title: 'Image of the medication or supply',
+              title: 'Image of the medication or supply:',
               value: rx.prescriptionImage
                 ? {
                     type: 'image',
                     image: rx.prescriptionImage,
-                    options: { width: 200, height: 100 },
+                    options: { width: 182.75, height: 182.75 },
                   }
                 : 'Image not available',
               inline: false,
             },
-            {
-              title: 'Note',
-              value: 'This image is from your last refill of this medication.',
-              inline: true,
-            },
+            ...(rx.prescriptionImage
+              ? [
+                  {
+                    title: 'Note',
+                    value:
+                      'This image is from your last refill of this medication.',
+                    inline: true,
+                  },
+                ]
+              : []),
           ],
         },
       ],
@@ -235,7 +240,10 @@ export const buildAllergiesPDFList = allergies => {
 /**
  * Return VA prescription PDF list
  */
-export const buildVAPrescriptionPDFList = (prescription, image = null) => {
+export const buildVAPrescriptionPDFList = (
+  prescription,
+  prescriptionImage = null,
+) => {
   return [
     {
       header: 'About your prescription',
@@ -303,22 +311,6 @@ export const buildVAPrescriptionPDFList = (prescription, image = null) => {
               value: validateField(prescription.phoneNumber),
               inline: true,
             },
-            {
-              title: 'Image of the medication or supply',
-              value: image
-                ? {
-                    type: 'image',
-                    image,
-                    options: { width: 200, height: 100 },
-                  }
-                : 'Image not available',
-              inline: false,
-            },
-            {
-              title: 'Note',
-              value: 'This image is from your last refill of this medication.',
-              inline: true,
-            },
           ],
         },
       ],
@@ -343,6 +335,27 @@ export const buildVAPrescriptionPDFList = (prescription, image = null) => {
               value: validateField(prescription.quantity),
               inline: true,
             },
+            {
+              title: 'Image of the medication or supply:',
+              value: prescriptionImage
+                ? {
+                    type: 'image',
+                    image: prescriptionImage,
+                    options: { width: 182.75, height: 182.75 },
+                  }
+                : 'Image not available',
+              inline: false,
+            },
+            ...(prescriptionImage
+              ? [
+                  {
+                    title: 'Note',
+                    value:
+                      'This image is from your last refill of this medication.',
+                    inline: true,
+                  },
+                ]
+              : []),
           ],
         },
       ],

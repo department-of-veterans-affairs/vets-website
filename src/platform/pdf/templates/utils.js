@@ -331,33 +331,39 @@ const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 6 };
   let titleText = item.title ?? '';
   const content = [];
-  if (item.value.type === 'image') {
-    content.push(
-      doc.struct('Div', () => {
-        doc.image(
-          Buffer.from(
-            item.value.image.replace(/^data:image\/\w+;base64,/, ''),
-            'base64',
-          ),
-          item.value.options,
-        );
-      }),
-    );
-  } else if (item.inline === true) {
+  if (item.inline === true) {
     paragraphOptions.continued = true;
     titleText += ': ';
-    content.push(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.boldFont)
-          .fontSize(config.text.size)
-          .text(titleText, x, doc.y, paragraphOptions);
-        doc
-          .font(config.text.font)
-          .fontSize(config.text.size)
-          .text(item.value);
-      }),
-    );
+    if (!item.value?.type) {
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(titleText, x, doc.y, paragraphOptions);
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .text(item.value);
+        }),
+      );
+    } else if (item.value?.type === 'image') {
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(titleText, x, doc.y, paragraphOptions);
+          doc.image(
+            Buffer.from(
+              item.value?.image.replace(/^data:image\/\w+;base64,/, ''),
+              'base64',
+            ),
+            item.value?.options,
+          );
+        }),
+      );
+    }
   } else {
     const blockValueOptions = { lineGap: 6 };
     paragraphOptions.lineGap = 2;
@@ -372,14 +378,30 @@ const createDetailItem = async (doc, config, x, item) => {
         }),
       );
     }
-    content.push(
-      doc.struct('P', () => {
-        doc
-          .font(config.text.font)
-          .fontSize(config.text.size)
-          .text(item.value, x, doc.y, blockValueOptions);
-      }),
-    );
+    if (!item.value?.type) {
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .text(item.value, x, doc.y, blockValueOptions);
+        }),
+      );
+    } else if (item.value?.type === 'image') {
+      content.push(
+        doc.struct('Div', () => {
+          doc.moveDown(0.5);
+          doc.image(
+            Buffer.from(
+              item.value?.image.replace(/^data:image\/\w+;base64,/, ''),
+              'base64',
+            ),
+            item.value?.options,
+          );
+          doc.moveDown(0.5);
+        }),
+      );
+    }
   }
 
   return content;

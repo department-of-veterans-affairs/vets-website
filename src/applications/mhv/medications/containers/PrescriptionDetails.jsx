@@ -180,17 +180,17 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (!prescription) return;
-
-      if (prescription.cmopNdcNumber) {
-        getPrescriptionImage(prescription.cmopNdcNumber).then(
-          ({ data: image }) => {
-            setPrescriptionPdfList(
-              nonVaPrescription
-                ? buildNonVAPrescriptionPDFList(prescription)
-                : buildVAPrescriptionPDFList(prescription, image),
-            );
-          },
-        );
+      const cmopNdcNumber =
+        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription.cmopNdcNumber;
+      if (cmopNdcNumber) {
+        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
+          setPrescriptionPdfList(
+            nonVaPrescription
+              ? buildNonVAPrescriptionPDFList(prescription)
+              : buildVAPrescriptionPDFList(prescription, image),
+          );
+        });
       } else {
         setPrescriptionPdfList(
           nonVaPrescription

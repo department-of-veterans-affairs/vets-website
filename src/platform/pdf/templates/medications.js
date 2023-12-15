@@ -128,13 +128,12 @@ const generateResultsMedicationListContent = async (
       }
 
       // If the next item does not fit - move to the next page
-      let height = doc.heightOfString(
-        `${resultItem.title}: ${resultItem.value}`,
-        {
-          font: config.text.font,
-          size: config.text.size,
-        },
-      );
+      let height = !resultItem.value?.type
+        ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, {
+            font: config.text.font,
+            size: config.text.size,
+          })
+        : resultItem.value?.options?.height;
       height = resultItem.inline ? height : height + 24;
       if (doc.y + height > doc.page.height - doc.page.margins.bottom)
         await doc.addPage();
