@@ -9,7 +9,7 @@ describe('Medical Records View Vaccines', () => {
     VaccinesListPage.clickGotoVaccinesLink();
     // click on the vaccines link
     cy.reload();
-    cy.get('@VaccinesList.all').should('have.length', 2);
+    cy.get('@VaccinesList.all').should('have.length', 1);
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {

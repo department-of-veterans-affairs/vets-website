@@ -7,9 +7,9 @@ describe('Medical Records View Allergies', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records');
-
     AllergiesListPage.clickGotoAllergiesLink(allergies);
-
+    cy.reload();
+    cy.get('@allergiesList.all').should('have.length', 1);
     cy.get('[data-testid="print-records-button"]')
       .should('be.visible')
       .click({ force: true });
