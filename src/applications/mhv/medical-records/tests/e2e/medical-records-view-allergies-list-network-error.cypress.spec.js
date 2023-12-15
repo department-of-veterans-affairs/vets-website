@@ -27,12 +27,6 @@ describe('Medical Records View Allergies', () => {
 
     cy.get('[data-testid="expired-alert-message"]').should('be.visible');
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

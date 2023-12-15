@@ -15,12 +15,6 @@ describe('Medications Details Page Refill Button', () => {
     detailsPage.clickMedicationDetailsLink(prescriptionRefillDetails);
     detailsPage.verifyRefillButtonEnabledOnMedicationsDetailsPage();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

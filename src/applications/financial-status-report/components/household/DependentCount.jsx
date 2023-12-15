@@ -4,6 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
+import useClearSpouseData from '../../hooks/useClearSpouseData';
 
 const WHOLE_NUMBER_PATTERN = /^\d+$/;
 
@@ -19,7 +20,7 @@ const DependentCount = ({
   const headerRef = useRef(null);
 
   const {
-    questions: { hasDependents },
+    questions: { hasDependents, isMarried },
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
@@ -28,7 +29,8 @@ const DependentCount = ({
 
   const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
-
+  // Hook will handle the logic based on isMarried.
+  useClearSpouseData(isMarried, data, setFormData);
   // Header ref for setting focus
   useEffect(
     () => {
@@ -162,6 +164,7 @@ DependentCount.propTypes = {
   data: PropTypes.shape({
     questions: PropTypes.shape({
       hasDependents: PropTypes.string,
+      isMarried: PropTypes.bool,
     }),
     personalData: PropTypes.shape({
       dependents: PropTypes.array,
