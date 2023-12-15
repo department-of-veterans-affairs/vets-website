@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-export const VAMockProvider = {
+/* eslint-disable-next-line no-unused-vars */
+const VAMockProvider = {
   defaultMockSignUp: true,
   defaultMockSignIn: true,
 };
