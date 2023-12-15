@@ -85,14 +85,11 @@ export default {
             },
           ],
         },
-        careDateRange: {
-          ...dateRangeUI(
-            'Care start date',
-            'Care end date',
-            'End of care must be after start of care',
-          ),
-          'ui:description': 'Add an unreimbursed care expense',
-        },
+        careDateRange: dateRangeUI(
+          'Care start date',
+          'Care end date',
+          'End of care must be after start of care',
+        ),
         noCareEndDate: {
           'ui:title': 'No end date',
         },
