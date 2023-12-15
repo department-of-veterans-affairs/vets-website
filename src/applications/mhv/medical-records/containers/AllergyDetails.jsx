@@ -15,6 +15,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  useAutoFetchData,
 } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
@@ -33,6 +34,7 @@ import { txtLine } from '../../shared/util/constants';
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
+  const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -44,12 +46,12 @@ const AllergyDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      if (allergyId) dispatch(getAllergyDetails(allergyId));
-    },
-    [allergyId, dispatch],
-  );
+  useAutoFetchData(dispatch, () => {
+    if (allergyId) {
+      return getAllergyDetails(allergyId, allergyList);
+    }
+    return () => dispatch;
+  });
 
   useEffect(
     () => {

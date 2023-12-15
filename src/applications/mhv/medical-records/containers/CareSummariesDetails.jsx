@@ -15,6 +15,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { useAutoFetchData } from '../util/helpers';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -41,14 +42,12 @@ const CareSummariesDetails = () => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId));
-      }
-    },
-    [summaryId, dispatch],
-  );
+  useAutoFetchData(dispatch, () => {
+    if (summaryId) {
+      return getCareSummaryAndNotesDetails(summaryId);
+    }
+    return () => dispatch;
+  });
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 

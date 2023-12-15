@@ -5,6 +5,7 @@ import RecordList from '../components/RecordList/RecordList';
 import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { useAutoFetchData } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -25,12 +26,7 @@ const CareSummariesAndNotes = () => {
   );
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getCareSummariesAndNotesList());
-    },
-    [dispatch],
-  );
+  useAutoFetchData(dispatch, () => getCareSummariesAndNotesList());
 
   useEffect(
     () => {

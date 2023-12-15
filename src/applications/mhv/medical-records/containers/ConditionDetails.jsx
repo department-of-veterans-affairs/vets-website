@@ -9,6 +9,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  useAutoFetchData,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
@@ -65,12 +66,12 @@ const ConditionDetails = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      if (conditionId) dispatch(getConditionDetails(conditionId));
-    },
-    [conditionId, dispatch],
-  );
+  useAutoFetchData(dispatch, () => {
+    if (conditionId) {
+      return getConditionDetails(conditionId);
+    }
+    return () => dispatch;
+  });
 
   useEffect(
     () => {

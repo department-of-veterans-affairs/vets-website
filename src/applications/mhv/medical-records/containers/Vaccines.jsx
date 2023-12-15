@@ -23,6 +23,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  useAutoFetchData,
 } from '../util/helpers';
 import {
   updatePageTitle,
@@ -50,12 +51,7 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getVaccinesList());
-    },
-    [dispatch],
-  );
+  useAutoFetchData(dispatch, () => getVaccinesList());
 
   useEffect(
     () => {

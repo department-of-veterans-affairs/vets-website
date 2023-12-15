@@ -20,6 +20,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  useAutoFetchData,
 } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
@@ -43,12 +44,7 @@ const Allergies = props => {
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
-  );
+  useAutoFetchData(dispatch, () => getAllergiesList());
 
   useEffect(
     () => {

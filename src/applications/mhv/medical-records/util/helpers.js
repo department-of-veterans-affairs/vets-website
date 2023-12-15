@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { useEffect, useRef, useCallback } from 'react';
 import { EMPTY_FIELD, interpretationMap } from './constants';
 
 /**
@@ -193,4 +194,57 @@ export const getNameDateAndTime = user => {
   return `${user.userFullName.first}-${user.userFullName.last}-${moment()
     .format('M-D-YYYY_hhmmssa')
     .replace(/\./g, '')}`;
+};
+
+/**
+ * Custom hook for automatic data fetching at regular intervals.
+ *
+ * @param {function} dispatch - The Redux dispatch function.
+ * @param {function} fetchDataFunction - The function responsible for fetching data.
+ * @throws {Error} - Throws an error if dispatch or fetchDataFunction is not provided.
+ */
+export const useAutoFetchData = (dispatch, fetchDataFunctionFactory) => {
+  const INTERVAL = 2 * 60 * 1000;
+  if (
+    typeof dispatch !== 'function' ||
+    typeof fetchDataFunctionFactory !== 'function'
+  ) {
+    throw new Error(
+      'useAutoFetchData requires dispatch and fetchDataFunctionFactory as arguments.',
+    );
+  }
+
+  const lastFetchTime = useRef(0);
+
+  const fetchData = useCallback(
+    () => {
+      const fetchDataFunction = fetchDataFunctionFactory(); // Call the factory function to get the fetch function
+      if (typeof fetchDataFunction === 'function') {
+        dispatch(fetchDataFunction);
+        lastFetchTime.current = Date.now();
+      }
+    },
+    [dispatch, fetchDataFunctionFactory],
+  );
+
+  useEffect(
+    () => {
+      const timerId = setInterval(() => {
+        const currentTime = Date.now();
+
+        if (currentTime - lastFetchTime.current >= INTERVAL) {
+          fetchData();
+        }
+      }, INTERVAL);
+
+      // Initial fetch when the component mounts
+      fetchData();
+
+      // Cleanup function to clear the interval when the component unmounts
+      return () => {
+        clearInterval(timerId);
+      };
+    },
+    [dispatch, fetchData, INTERVAL],
+  );
 };

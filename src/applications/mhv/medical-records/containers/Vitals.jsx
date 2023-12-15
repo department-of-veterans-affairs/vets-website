@@ -12,6 +12,7 @@ import {
   accessAlertTypes,
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { useAutoFetchData } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 
@@ -21,12 +22,7 @@ const Vitals = () => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getVitals());
-    },
-    [dispatch],
-  );
+  useAutoFetchData(dispatch, () => getVitals());
 
   useEffect(
     () => {

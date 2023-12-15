@@ -17,6 +17,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  useAutoFetchData,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -115,14 +116,12 @@ const VitalDetails = props => {
 
   const displayNums = fromToNums(currentPage, records?.length);
 
-  useEffect(
-    () => {
-      if (vitalType) {
-        dispatch(getVitalDetails(macroCase(vitalType)));
-      }
-    },
-    [vitalType, dispatch],
-  );
+  useAutoFetchData(dispatch, () => {
+    if (vitalType) {
+      return getVitalDetails(macroCase(vitalType));
+    }
+    return () => dispatch;
+  });
 
   const generateVitalsPdf = async () => {
     const title = `Vitals`;
