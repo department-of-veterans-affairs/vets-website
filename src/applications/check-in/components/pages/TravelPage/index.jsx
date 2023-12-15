@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
-import { makeSelectForm } from '../../../selectors';
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
@@ -34,7 +33,6 @@ const TravelPage = ({
     goToPreviousPage,
     jumpToPage,
     getPreviousPageFromRouter,
-    // getNextPageFromRouter,
   } = useFormRouting(router);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -44,7 +42,6 @@ const TravelPage = ({
 
   const onClick = event => {
     const answer = event.target.value;
-    // const nextPage = getNextPageFromRouter();
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
@@ -60,12 +57,6 @@ const TravelPage = ({
       jumpToPage(`complete/${data.activeAppointmentId}`);
     } else if (yesFunction) {
       yesFunction();
-      // =======
-      //     if (answer === 'no') {
-      //       jumpToPage(`complete/${data.activeAppointmentId}`);
-      //     } else if (answer === 'yes' && nextPage === 'complete') {
-      //       jumpToPage(`complete/${data.activeAppointmentId}`);
-      // >>>>>>> cf620ce629 (Check in/68865/remove appointment details list view (#26849))
     } else {
       goToNextPage();
     }
