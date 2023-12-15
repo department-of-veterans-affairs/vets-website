@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -7,7 +8,10 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import {
+  validateBooleanGroup,
+  validateCurrentOrPastDate,
+} from 'platform/forms-system/src/js/validation';
 import { isFullDate } from 'platform/forms/validations';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
@@ -39,9 +43,11 @@ import {
   serviceRecordNotification,
   serviceRecordWarning,
   submit,
+  generateHelpText,
+  generateDescription,
 } from '../helpers';
 import {
-  // relationshipLabels,
+  relationshipLabels,
   locationOfDeathLabels,
   allowanceLabels,
 } from '../labels';
@@ -54,7 +60,6 @@ import migrations from '../migrations';
 import manifest from '../manifest.json';
 
 const {
-  // relationship,
   claimantFullName,
   claimantSocialSecurityNumber,
   claimantDateOfBirth,
@@ -85,6 +90,7 @@ const {
   officialPosition,
   firmName,
   vaFileNumber,
+  relationship,
   // facilityName,
   // facilityLocation,
 } = fullSchemaBurials.properties;
@@ -151,23 +157,47 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
-      title: 'Claimant Information',
+      title: 'Your Information',
       pages: {
-        claimantInformation: {
-          title: 'Claimant information',
-          path: 'claimant-information',
+        claimantInformationPartOne: {
+          title: 'Your information',
+          path: 'claimant-information/part-one',
           uiSchema: {
-            'ui:description': ApplicantDescription,
+            'ui:description': formContext => (
+              <>
+                <ApplicantDescription formContext={formContext} />
+                {generateDescription('Personal information')}
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="info"
+                  uswds
+                  visible
+                >
+                  <p className="vads-u-margin-y--0">
+                    We’ve prefilled some of your information from your account.
+                    If you need to correct anything, you can edit the form
+                    fields below.
+                  </p>
+                </va-alert>
+              </>
+            ),
+            // 'ui:description': ApplicantDescription,
             claimantFullName: {
               ...fullNameUI,
               first: {
                 'ui:title': 'Your first name',
+                'ui:errorMessages': {
+                  required: 'Enter your first name',
+                },
               },
               middle: {
                 'ui:title': 'Your middle name',
               },
               last: {
                 'ui:title': 'Your last name',
+                'ui:errorMessages': {
+                  required: 'Enter your last name',
+                },
               },
               suffix: {
                 'ui:title': 'Your suffix',
@@ -176,34 +206,19 @@ const formConfig = {
             claimantSocialSecurityNumber: {
               ...ssnUI,
               'ui:title': 'Your Social Security number',
+              'ui:errorMessages': {
+                required: 'Enter your Social Security number',
+              },
             },
-            claimantDateOfBirth: currentOrPastDateUI('Your date of birth'),
-            // relationship: {
-            //   type: {
-            //     'ui:title': 'Relationship to the deceased Veteran',
-            //     'ui:widget': 'radio',
-            //     'ui:options': {
-            //       labels: relationshipLabels,
-            //     },
-            //   },
-            //   other: {
-            //     'ui:title': 'Please specify',
-            //     'ui:required': form =>
-            //       get('relationship.type', form) === 'other',
-            //     'ui:options': {
-            //       expandUnder: 'type',
-            //       expandUnderCondition: 'other',
-            //     },
-            //   },
-            //   isEntity: {
-            //     'ui:title': 'Claiming as a firm, corporation or state agency',
-            //     'ui:options': {
-            //       expandUnder: 'type',
-            //       expandUnderCondition: 'other',
-            //       widgetClassNames: 'schemaform-label-no-top-margin',
-            //     },
-            //   },
-            // },
+            claimantDateOfBirth: {
+              'ui:title': 'Your date if birth',
+              'ui:widget': 'date',
+              'ui:validations': [validateCurrentOrPastDate],
+              'ui:errorMessages': {
+                required: 'Enter your date of birth',
+                pattern: 'Enter a valid date',
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -219,6 +234,92 @@ const formConfig = {
             },
           },
         },
+        claimantInformationPartTwo: {
+          title: 'Your information',
+          path: 'claimant-information/part-two',
+          uiSchema: {
+            'ui:title': 'Relationship to Veteran',
+            relationship: {
+              type: {
+                'ui:title': 'What’s your relationship to the deceased Veteran?',
+                'ui:widget': 'radio',
+                'ui:options': {
+                  labels: relationshipLabels,
+                },
+                'ui:errorMessages': {
+                  required: 'Select your relationship to the deceased Veteran',
+                },
+              },
+              other: {
+                'ui:title': 'Please specify',
+                'ui:required': form =>
+                  get('relationship.type', form) === 'other',
+                'ui:options': {
+                  hideIf: form => get('relationship.type', form) !== 'other',
+                },
+                'ui:errorMessages': {
+                  required: 'Enter your relationship to the deceased Veteran',
+                },
+              },
+              isEntity: {
+                'ui:title': 'Claiming as a firm, corporation or state agency',
+                'ui:options': {
+                  hideIf: form => get('relationship.type', form) !== 'other',
+                  widgetClassNames: 'schemaform-label-no-top-margin',
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['relationship'],
+            properties: {
+              relationship,
+            },
+          },
+        },
+        claimantInformationPartThree: {
+          title: 'Your information',
+          path: 'claimant-information/part-three',
+          uiSchema: {
+            'ui:title': 'Mailing address',
+            firmName: {
+              'ui:title': 'Full name of firm, corporation or state agency',
+              'ui:options': {
+                hideIf: form => get('relationship.isEntity', form) !== true,
+              },
+            },
+            officialPosition: {
+              'ui:title':
+                'Position of person signing on behalf of firm, corporation or state agency',
+              'ui:options': {
+                hideIf: form => get('relationship.isEntity', form) !== true,
+              },
+            },
+            claimantAddress: set(
+              'ui:validations[1]',
+              validateCentralMailPostalCode,
+              address.uiSchema(),
+            ),
+            claimantEmail: emailUI(),
+            claimantPhone: phoneUI('Phone number'),
+          },
+          schema: {
+            type: 'object',
+            required: ['claimantAddress'],
+            properties: {
+              firmName,
+              officialPosition,
+              claimantAddress: address.schema(
+                fullSchemaBurials,
+                true,
+                'centralMailAddress',
+              ),
+              claimantEmail,
+              claimantPhone,
+            },
+          },
+        },
       },
     },
     veteranInformation: {
@@ -228,6 +329,11 @@ const formConfig = {
           title: 'Deceased Veteran information',
           path: 'veteran-information/part-one',
           uiSchema: {
+            'ui:description': (
+              <>
+                <h3>Personal information</h3>
+              </>
+            ),
             veteranFullName: {
               ...fullNameUI,
               first: {
@@ -253,10 +359,12 @@ const formConfig = {
           title: 'Deceased Veteran information',
           path: 'veteran-information/part-two',
           uiSchema: {
+            'ui:description': generateDescription('Personal information'),
             veteranSocialSecurityNumber: {
               ...ssnUI,
               'ui:title': 'Social Security number',
               'ui:required': form => !form.vaFileNumber,
+              'ui:description': generateHelpText('Testing help text'),
             },
             vaFileNumber: {
               'ui:title':
@@ -284,6 +392,7 @@ const formConfig = {
           title: 'Burial information',
           path: 'veteran-information/burial/1',
           uiSchema: {
+            'ui:description': generateDescription('Burial information'),
             deathDate: currentOrPastDateUI('Date of death'),
             burialDate: currentOrPastDateUI(
               'Date of burial (includes cremation or interment)',
@@ -318,6 +427,7 @@ const formConfig = {
           title: 'Burial information',
           path: 'veteran-information/burial/2',
           uiSchema: {
+            'ui:description': generateDescription('Burial information'),
             locationOfDeath: {
               location: {
                 'ui:title': 'Where did the Veteran’s death occur?',
