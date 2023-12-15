@@ -10,24 +10,12 @@
     "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
-    "servicePeriods": [
-      {
-        "serviceBranch": "Army",
-        "activeServiceDateRange": {
-          "from": "2003-03-02",
-          "to": "2007-03-20"
-        },
-        "serviceNumber": "123456"
-      },
-      {
-        "serviceBranch": "Navy",
-        "activeServiceDateRange": {
-          "from": "1970-03-02",
-          "to": "1976-03-02"
-        },
-        "serviceNumber": "123456"
-      }
-    ],
+    "serviceBranch": "Army",
+    "activeServiceDateRange": {
+      "from": "2003-03-02",
+      "to": "2007-03-20"
+    },
+    "serviceNumber": "123456",
     "view:serveUnderOtherNames": true,
     "previousNames": [
       {
@@ -311,6 +299,7 @@
     ],
     "totalNetWorth": true,
     "careExpenses": true,
+    "medicalExpenses": true,
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": "true",

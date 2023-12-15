@@ -14,12 +14,6 @@ describe('Medications Landing Page', () => {
     landingPage.verifyPrescriptionRefillRequestInformationAccordionDropDown();
     landingPage.verifyMoreQuestionsAccordionDropDown();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

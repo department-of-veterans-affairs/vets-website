@@ -62,7 +62,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from './chapters/01-applicant-information/applicantInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
-import servicePeriods from './chapters/02-military-history/servicePeriods';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import pow from './chapters/02-military-history/pow';
 import age from './chapters/03-health-and-employment-information/age';
@@ -87,6 +87,7 @@ import reasonForCurrentSeparation from './chapters/04-household-information/reas
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import careExpenses from './chapters/05-financial-information/careExpenses';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
@@ -302,11 +303,11 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
         },
         general: {
           path: 'military/general',
@@ -1400,6 +1401,12 @@ const formConfig = {
           title: 'Care expenses',
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses',
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',
