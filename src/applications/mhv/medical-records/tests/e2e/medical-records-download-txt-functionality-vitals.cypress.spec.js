@@ -15,7 +15,6 @@ describe('Medical Records Vitals', () => {
     VitalsListPage.clickVitalsDetailsLink(0);
     // should display a toggle menu button
     // Verify  PrintDownload button
-    cy.pause();
     VitalsListPage.verifyPrintOrDownload();
     // Click PrintDownload button
     VitalsListPage.clickPrintOrDownload();
