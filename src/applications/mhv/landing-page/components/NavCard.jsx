@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -10,6 +11,7 @@ const NavCard = ({ icon = null, title, links }) => {
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
+          console.log('text', typeof text, text);
           const header =
             typeof text === 'object' && text !== null ? 'Inbox' : text;
           const sectionHeader =
