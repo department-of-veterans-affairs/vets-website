@@ -2,7 +2,13 @@
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
 import manifest from '../manifest.json';
-import { requiredForSubtopicPage, CHAPTER_3, CHAPTER_4 } from '../constants';
+import {
+  requiredForSubtopicPage,
+  CHAPTER_1,
+  CHAPTER_2,
+  CHAPTER_3,
+  CHAPTER_4,
+} from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -33,6 +39,18 @@ import yourCountryPage from './chapters/contactInformation/yourCountry';
 import yourAddressPage from './chapters/contactInformation/yourAddress';
 // import veteransAddressPage from './chapters/contactInformation/veteransAddress';
 import addressConfirmationPage from './chapters/contactInformation/addressConfirmation';
+
+// Review Page
+import ReviewPage from '../containers/ReviewPage';
+
+const review = {
+  uiSchema: {},
+  schema: {
+    definitions: {},
+    type: 'object',
+    properties: {},
+  },
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -65,26 +83,24 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     categoryAndTopic: {
-      title: 'Category and Topic',
+      title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
         selectCategory: {
-          path: 'category-topic-1',
-          title: 'Category Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_1.PATH,
+          title: CHAPTER_1.PAGE_1.TITLE,
           uiSchema: selectCategoryPage.uiSchema,
           schema: selectCategoryPage.schema,
+          editModeOnReviewPage: false,
         },
         selectTopic: {
-          path: 'category-topic-2',
-          title: 'Topic Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_2.PATH,
+          title: CHAPTER_1.PAGE_2.TITLE,
           uiSchema: selectTopicPage.uiSchema,
           schema: selectTopicPage.schema,
         },
         selectSubtopic: {
-          path: 'category-topic-3',
-          title: 'SubTopic Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_3.PATH,
+          title: CHAPTER_1.PAGE_3.TITLE,
           uiSchema: selectSubtopicPage.uiSchema,
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
@@ -92,11 +108,11 @@ const formConfig = {
       },
     },
     yourQuestion: {
-      title: 'Your Question',
+      title: CHAPTER_2.CHAPTER_TITLE,
       pages: {
         tellUsYourQuestion: {
-          path: 'question-1',
-          title: 'Tell us your question',
+          path: CHAPTER_2.PAGE_1.PATH,
+          title: CHAPTER_2.PAGE_1.TITLE,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
         },
@@ -152,17 +168,17 @@ const formConfig = {
     contactInformation: {
       title: CHAPTER_4.CHAPTER_TITLE,
       pages: {
-        aboutTheVeteran: {
+        veteransAddressZip: {
           path: CHAPTER_4.PAGE_1.PATH,
           title: CHAPTER_4.PAGE_1.TITLE,
-          uiSchema: aboutTheVeteranPage.uiSchema,
-          schema: aboutTheVeteranPage.schema,
-        },
-        veteransAddressZip: {
-          path: CHAPTER_4.PAGE_2.PATH,
-          title: CHAPTER_4.PAGE_2.TITLE,
           uiSchema: veteransAddressZipPage.uiSchema,
           schema: veteransAddressZipPage.schema,
+        },
+        aboutTheVeteran: {
+          path: CHAPTER_4.PAGE_2.PATH,
+          title: CHAPTER_4.PAGE_2.TITLE,
+          uiSchema: aboutTheVeteranPage.uiSchema,
+          schema: aboutTheVeteranPage.schema,
         },
         aboutYourself: {
           path: CHAPTER_4.PAGE_3.PATH,
@@ -194,6 +210,19 @@ const formConfig = {
           uiSchema: addressConfirmationPage.uiSchema,
           schema: addressConfirmationPage.schema,
           depends: form => !form.onBaseOutsideUS,
+        },
+      },
+    },
+    review: {
+      title: 'Review and submit',
+      pages: {
+        reviewForm: {
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
         },
       },
     },
