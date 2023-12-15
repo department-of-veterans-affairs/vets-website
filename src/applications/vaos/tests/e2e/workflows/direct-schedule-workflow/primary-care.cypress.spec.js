@@ -133,10 +133,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickConfirmButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review your appointment details/i,
+            })
+            .assertHeading({
+              level: 2,
+              name: /You.re scheduling a primary care appointment/i,
+            })
+            .clickConfirmButton();
 
-          ConfirmationPageObject.assertUrl();
-          cy.findByText('We’ve scheduled and confirmed your appointment.');
+          ConfirmationPageObject.assertUrl().assertText({
+            text: /We.ve scheduled and confirmed your appointment/i,
+          });
 
           // Assert
           cy.axeCheckBestPractice();
@@ -194,9 +203,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickConfirmButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review your appointment details/i,
+            })
+            .assertHeading({
+              level: 2,
+              name: /You.re scheduling a primary care appointment/i,
+            })
+            .clickConfirmButton();
 
-          ConfirmationPageObject.assertUrl();
+          ConfirmationPageObject.assertUrl().assertText({
+            text: /We.ve scheduled and confirmed your appointment/i,
+          });
 
           // Assert
           cy.axeCheckBestPractice();
@@ -259,10 +278,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickConfirmButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review your appointment details/i,
+            })
+            .assertHeading({
+              level: 2,
+              name: /You.re scheduling a primary care appointment/i,
+            })
+            .clickConfirmButton();
 
-          ConfirmationPageObject.assertUrl();
-          cy.findByText('We’ve scheduled and confirmed your appointment.');
+          ConfirmationPageObject.assertUrl().assertText({
+            text: /We.ve scheduled and confirmed your appointment/i,
+          });
 
           // Assert
           cy.axeCheckBestPractice();
@@ -424,9 +452,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickConfirmButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review your appointment details/i,
+            })
+            .assertHeading({
+              level: 2,
+              name: /You.re scheduling a primary care appointment/i,
+            })
+            .clickConfirmButton();
 
-          ConfirmationPageObject.assertUrl();
+          ConfirmationPageObject.assertUrl().assertText({
+            text: /We.ve scheduled and confirmed your appointment/i,
+          });
 
           // Assert
           cy.axeCheckBestPractice();
@@ -479,9 +517,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .typePhoneNumber('5555555555')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickConfirmButton();
+          ReviewPageObject.assertUrl()
+            .assertHeading({
+              name: /Review your appointment details/i,
+            })
+            .assertHeading({
+              level: 2,
+              name: /You.re scheduling a primary care appointment/i,
+            })
+            .clickConfirmButton();
 
-          ConfirmationPageObject.assertUrl();
+          ConfirmationPageObject.assertUrl().assertText({
+            text: /We.ve scheduled and confirmed your appointment/i,
+          });
 
           // Assert
           cy.axeCheckBestPractice();
@@ -612,9 +660,19 @@ describe('VAOS direct schedule flow - Primary care', () => {
           .typePhoneNumber('5555555555')
           .clickNextButton();
 
-        ReviewPageObject.assertUrl().clickConfirmButton();
+        ReviewPageObject.assertUrl()
+          .assertHeading({
+            name: /Review your appointment details/i,
+          })
+          .assertHeading({
+            level: 2,
+            name: /You.re scheduling a primary care appointment/i,
+          })
+          .clickConfirmButton();
 
-        ConfirmationPageObject.assertUrl();
+        ConfirmationPageObject.assertUrl().assertText({
+          text: /We.ve scheduled and confirmed your appointment/i,
+        });
 
         // Assert
         cy.axeCheckBestPractice();

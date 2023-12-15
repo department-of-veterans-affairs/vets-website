@@ -336,6 +336,7 @@ export default class ArrayField extends React.Component {
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
+      'rjsf-array-field': true,
     });
 
     return (
@@ -367,8 +368,9 @@ export default class ArrayField extends React.Component {
               definitions,
             );
             const { showSave } = uiOptions;
-            const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
+            // if showSave is true, all items show Update except the last item
+            const updateText = showSave && isLast ? 'Save' : 'Update';
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;

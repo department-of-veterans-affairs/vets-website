@@ -28,10 +28,12 @@ export default {
   FACILITY_PATIENT_SATISFACTION_SCORES: 'facility-patient-satisfaction-scores',
   FACILITY_PATIENT_SATISFACTION_SCORES_SATELLITE_LOCATIONS:
     'facility-patient-satisfaction-scores-satellite-locations',
+  FIND_A_REP_LANDING_CONTENT: 'find-a-rep-landing-content',
   FIND_VA_FORMS: 'find-va-forms',
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
   FORM_10182_CTA: 'form-10182-cta',
   FORM_686_CTA: 'form-686-CTA',
+  FORM_2010206_CTA: 'form2010206',
   FORM_210845_CTA: 'form210845',
   FORM_210966_CTA: 'form210966',
   FORM_210972_CTA: 'form210972',

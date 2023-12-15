@@ -82,6 +82,7 @@ class PatientComposePage {
   };
 
   selectRecipient = (recipient = 1) => {
+    cy.get('[data-testid="compose-recipient-select"]').click();
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
@@ -112,7 +113,9 @@ class PatientComposePage {
   };
 
   verifyFocusonMessageAttachment = () => {
-    cy.get('.editable-attachment > span').should('have.focus');
+    cy.get('[data-testid="close-success-alert-button"]')
+      .should('be.visible')
+      .should('have.focus');
   };
 
   verifyFocusOnErrorMessageToSelectRecipient = () => {
@@ -256,9 +259,36 @@ class PatientComposePage {
     });
   };
 
+  verifyAttachmentButtonText = (numberOfAttachments = 0) => {
+    if (numberOfAttachments < 1) {
+      cy.get('[data-testid="attach-file-button"]')
+        .shadow()
+        .find('[type="button"]')
+        .should('contain', 'Attach file');
+    } else {
+      cy.get('[data-testid="attach-file-button"]')
+        .shadow()
+        .find('[type="button"]')
+        .should('contain', 'Attach additional file');
+    }
+  };
+
+  verifyExpectedAttachmentsCount = expectedCount => {
+    cy.get('[data-testid="attachments-count"]').should(
+      'contain',
+      expectedCount,
+    );
+  };
+
   removeAttachMessageFromFile = () => {
     cy.get('.remove-attachment-button').click();
     cy.contains('Remove').click();
+  };
+
+  verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {
+    cy.get('.remove-attachment-button')
+      .eq(_attachmentIndex)
+      .should('have.focus');
   };
 
   //* Refactor*Remove and consolidate

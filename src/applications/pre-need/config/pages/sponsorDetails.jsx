@@ -1,7 +1,6 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import { merge, pick } from 'lodash';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
@@ -9,15 +8,21 @@ import {
   veteranUI,
   ssnDashesUI,
   sponsorDetailsSubHeader,
+  sponsorDetailsDescription,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   'ui:title': sponsorDetailsSubHeader,
-  'ui:description': applicantDescription,
   application: {
     veteran: merge({}, veteranUI, {
+      'view:sponsorDetailsDescription': {
+        'ui:description': sponsorDetailsDescription,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
+      },
       currentName: merge({}, fullNameUI, {
         first: {
           'ui:title': 'Sponsor’s first name',
@@ -57,12 +62,21 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['ssn'],
-          properties: pick(veteran.properties, [
-            'currentName',
-            'ssn',
-            'dateOfBirth',
-            'placeOfBirth',
-          ]),
+          properties: merge(
+            {},
+            {
+              'view:sponsorDetailsDescription': {
+                type: 'object',
+                properties: {},
+              },
+            },
+            pick(veteran.properties, [
+              'currentName',
+              'ssn',
+              'dateOfBirth',
+              'placeOfBirth',
+            ]),
+          ),
         },
       },
     },

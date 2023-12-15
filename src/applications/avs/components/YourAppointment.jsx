@@ -122,7 +122,7 @@ const clinicMedications = avs => {
           Medications ordered for administration during your visit to a VA
           clinic or emergency department.
         </p>
-        <MedicationTerms />
+        <MedicationTerms avs={avs} />
       </div>
     );
   }

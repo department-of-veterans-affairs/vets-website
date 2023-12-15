@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
+  const user = useSelector(selectUser);
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -42,12 +47,22 @@ const App = ({ children }) => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
-  return children;
+  return (
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.USER_PROFILE]}
+    >
+      {children}
+    </RequiredLoginView>
+  );
 };
 
 App.propTypes = {

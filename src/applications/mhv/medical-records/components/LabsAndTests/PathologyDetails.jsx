@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import {
   makePdf,
   getNameDateAndTime,
@@ -18,6 +17,8 @@ import {
   generatePdfScaffold,
 } from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
+import { txtLine } from '../../../shared/util/constants';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -75,24 +76,18 @@ const PathologyDetails = props => {
 
   const generatePathologyTxt = async () => {
     const content = `
-    ${record.name} \n
-    Details about this test: \n
-    _____________________________________________________ \n
-    Sample tested: ${record.sampleTested} \n
-    Lab location: ${record.labLocation} \n
-    Date completed: ${record.date} \n
-    Results: \n
-    ${record.results} \n`;
+${record.name} \n
+Details about this test: \n
+${txtLine} \n
+Sample tested: ${record.sampleTested} \n
+Lab location: ${record.labLocation} \n
+Date completed: ${record.date} \n
+Results: \n
+${record.results} \n`;
 
     const fileName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
 
-    generateTextFile(
-      content
-        .split('\n')
-        .map(line => line.trim())
-        .join('\n'),
-      fileName,
-    );
+    generateTextFile(content, fileName);
   };
 
   return (
@@ -101,15 +96,8 @@ const PathologyDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="pathology-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="pathology-date"
-        >
-          Date:{' '}
-          <span className="vads-u-font-weight--normal">{record.date}</span>
-        </h2>
-      </div>
+      <DateSubheading date={record.date} id="pathology-date" />
+
       <div className="no-print">
         <PrintDownload
           download={generatePathologyPdf}
@@ -135,26 +123,7 @@ const PathologyDetails = props => {
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results and explain what they mean
-            for your health. To ask a question now, send a secure message to
-            your care team.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Start a new message
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert fullState={fullState} />
         <p>{record.results}</p>
       </div>
     </div>

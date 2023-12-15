@@ -15,7 +15,7 @@ export const uiSchema = {
     veteran: merge({}, veteranUI, {
       militaryServiceNumber: {
         'ui:title':
-          'Sponsor’s military Service number (if they have one that’s different than their Social Security number)',
+          'Sponsor’s military Service number (if it’s different than their Social Security number)',
         'ui:errorMessages': {
           pattern:
             'Sponsor’s Military Service number must be between 4 to 9 characters',

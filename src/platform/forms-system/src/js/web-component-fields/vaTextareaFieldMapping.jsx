@@ -12,12 +12,17 @@ export default function vaTextareaFieldMapping(props) {
     childrenProps,
   } = props;
 
+  const commonFieldProps = commonFieldMapping(props);
+
   return {
-    ...commonFieldMapping(props),
+    ...commonFieldProps,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
+    messageAriaDescribedby:
+      commonFieldProps.messageAriaDescribedby || textDescription || undefined,
+    charcount: uiOptions?.charcount,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;

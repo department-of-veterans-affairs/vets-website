@@ -142,7 +142,10 @@ const VaPrescription = prescription => {
                   </h4>
                   <div className="no-print">
                     {entry.cmopNdcNumber ? (
-                      <va-additional-info trigger="Review image">
+                      <va-additional-info
+                        trigger="Review image"
+                        data-testid="review-rx-image"
+                      >
                         <img
                           src={getImageUri(entry.cmopNdcNumber)}
                           alt={entry.prescriptionName}
@@ -178,7 +181,7 @@ const VaPrescription = prescription => {
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />

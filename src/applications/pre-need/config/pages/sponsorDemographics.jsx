@@ -15,15 +15,14 @@ export const uiSchema = {
   application: {
     veteran: merge({}, veteranUI, {
       gender: {
-        'ui:title':
-          "Sponsor's sex (information will be used for statistical purposes only)",
+        'ui:title': 'What’s the sponsor’s sex?',
       },
       race: {
         'ui:title':
-          'Which categories best describe your sponsor? (You may check more than one.)',
+          'Which categories best describe the sponsor? (You may check more than one.)',
       },
       maritalStatus: {
-        'ui:title': 'Sponsor’s marital status',
+        'ui:title': 'What’s the sponsor’s marital status?',
       },
     }),
   },

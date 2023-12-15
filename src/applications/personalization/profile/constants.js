@@ -12,7 +12,6 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -23,6 +22,7 @@ export const USA_MILITARY_BRANCHES = Object.freeze({
   airForce: 'Air Force',
   navy: 'Navy',
   marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
 });
 
 export const SERVICE_BADGE_IMAGE_PATHS = new Map([
@@ -31,6 +31,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
   [USA_MILITARY_BRANCHES.airForce, '/img/vic-air-force-coat-of-arms.png'],
   [USA_MILITARY_BRANCHES.navy, '/img/vic-navy-emblem.png'],
   [USA_MILITARY_BRANCHES.marineCorps, '/img/vic-usmc-emblem.png'],
+  [USA_MILITARY_BRANCHES.spaceForce, '/img/vic-space-force-logo.png'],
 ]);
 
 // These breadcrumbs are the base breadcrumbs for the profile app

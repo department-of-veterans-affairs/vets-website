@@ -14,6 +14,10 @@ import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
 import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 import ScheduleCernerPageObject from '../../page-objects/ScheduleCernerPageObject';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { PRIMARY_CARE } from '../../../../utils/constants';
+
+const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 
 describe('VAOS direct schedule flow - Cerner', () => {
   beforeEach(() => {
@@ -33,7 +37,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
       mockFacilitiesApi({
         response: [new MockFacilityResponse()],
       });
-      mockEligibilityCCApi({ isEligible: false });
+      mockEligibilityCCApi({ cceType, isEligible: false });
       mockSchedulingConfigurationApi({
         facilityIds: ['983'],
         typeOfCareId: 'primaryCare',
@@ -73,7 +77,7 @@ describe('VAOS direct schedule flow - Cerner', () => {
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityCCApi({ isEligible: false });
+      mockEligibilityCCApi({ cceType, isEligible: false });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId: 'primaryCare',

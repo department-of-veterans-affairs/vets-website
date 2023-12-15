@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import VeteranInfoBox from './VeteranInfoBox';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const VeteranInformation = ({
   data,
@@ -27,6 +28,7 @@ const VeteranInformation = ({
     personalData,
     personalIdentification,
     reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const {
     veteranFullName: { first, last, middle },
@@ -54,6 +56,9 @@ const VeteranInformation = ({
             Veteran information
           </h3>
         </legend>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert data={data} title="veteran information" />
+        ) : null}
         <VeteranInfoBox
           first={first}
           middle={middle}
@@ -62,14 +67,14 @@ const VeteranInformation = ({
           ssnLastFour={ssn}
           fileNumber={fileNumber}
         />
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handleBackNavigation}
+          goForward={goForward}
+          submitToContinue
+        />
+        {contentAfterButtons}
       </fieldset>
-      {contentBeforeButtons}
-      <FormNavButtons
-        goBack={handleBackNavigation}
-        goForward={goForward}
-        submitToContinue
-      />
-      {contentAfterButtons}
     </form>
   );
 };
@@ -91,6 +96,7 @@ VeteranInformation.propTypes = {
       fileNumber: PropTypes.string,
     }),
     reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

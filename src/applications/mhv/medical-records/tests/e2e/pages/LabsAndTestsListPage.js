@@ -25,6 +25,7 @@ class LabsAndTestsListPage {
       .eq(_LabsAndTestsIndex)
       .click();
   };
+
 */
   clickLabsAndTestsRadiologyLink = () => {
     cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').should(
@@ -44,7 +45,7 @@ class LabsAndTestsListPage {
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
     cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
+
 
   verifyDownloadPDF = () => {
     // should display a download pdf file button "Download PDF of this page"
@@ -54,12 +55,17 @@ class LabsAndTestsListPage {
   verifyDownloadTextFile = () => {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-2"]').should('be.visible');
-  };
+
+    // cy.get('[data-testid="printButton-2').click();
+
 
   clickDownloadPDFFile = () => {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-1"]').click();
   };
+
+  */
+
 }
 
 export default new LabsAndTestsListPage();

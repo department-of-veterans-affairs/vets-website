@@ -86,6 +86,8 @@
           "@department-of-veterans-affairs/platform-utilities/ui" : "./src/platform/utilities/ui/index.js",
           "@department-of-veterans-affairs/platform-utilities/scrollTo" : "./src/platform/utilities/ui/scrollTo.js",
           "@department-of-veterans-affairs/platform-utilities/scrollToTop" : "./src/platform/utilities/ui/scrollToTop.js",
+          "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
+          "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",
 
           "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
@@ -196,9 +198,10 @@
 
           "@department-of-veterans-affairs/platform-forms/exports": "./src/platform/forms/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms/labels": "./src/platform/forms/address/data/labels.js",
+          "@department-of-veterans-affairs/platform-forms/preSubmitInfo": "./src/platform/forms/preSubmitInfo.js",
           "@department-of-veterans-affairs/platform-forms/addressHelpers": "./src/platform/forms/address/helpers.js",
           "@department-of-veterans-affairs/platform-forms/address": "./src/platform/forms/address/index.js",
-          "@department-of-veterans-affairs/platform-forms/validations": "./src/platform/forms/address/validations.js",
+          "@department-of-veterans-affairs/platform-forms/validations": "./src/platform/forms/validations.js",
           "@department-of-veterans-affairs/platform-forms/ErrorMessage": "./src/platform/forms/components/common/alerts/ErrorMessage.jsx",
           "@department-of-veterans-affairs/platform-forms/grid": "./src/platform/forms/components/commong/grid/index.js",
           "@department-of-veterans-affairs/platform-forms/BurialModalContent": "./src/platform/forms/components/OMBInfoModalContent/BurialModalContent.jsx",
@@ -265,6 +268,7 @@
           "@department-of-veterans-affairs/platform-forms-system/ObjectField": "./src/platform/forms-system/src/js/fields/ObjectField.jsx",
           "@department-of-veterans-affairs/platform-forms-system/review/PhoneNumberWidget": "./src/platform/forms-system/src/js/review/PhoneNumberWidget.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ReviewChapters": "./src/platform/forms-system/src/js/review/ReviewChapters.jsx",
+          "@department-of-veterans-affairs/platform-forms-system/ReviewCollapsibleChapter": "./src/platform/forms-system/src/js/review/ReviewCollapsibleChapter.jsx",
           "@department-of-veterans-affairs/platform-forms-system/SubmitController": "./src/platform/forms-system/src/js/review/SubmitController.jsx",
           "@department-of-veterans-affairs/platform-forms-system/state/helpers": "./src/platform/forms-system/src/js/state/helpers.js",
           "@department-of-veterans-affairs/platform-forms-system/reducers": "./src/platform/forms-system/src/js/state/reducers.js",
@@ -288,6 +292,8 @@
           "@department-of-veterans-affairs/platform-forms-system/helpers": "./src/platform/forms-system/src/js/helpers.js",
           "@department-of-veterans-affairs/platform-forms-system/routing": "./src/platform/forms-system/src/js/routing.js",
           "@department-of-veterans-affairs/platform-forms-system/validation": "./src/platform/forms-system/src/js/validation.js",
+          "@department-of-veterans-affairs/platform-forms-system/web-component-patterns": "./src/platform/forms-system/src/js/web-component-patterns/index.js",
+          "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",
 
           "@department-of-veterans-affairs/platform-monitoring/exports": "./src/platform/monitoring/exportsFile.js",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/index.jsx",

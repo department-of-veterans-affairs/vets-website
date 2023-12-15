@@ -1,12 +1,13 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import numberToWords from '@department-of-veterans-affairs/platform-forms-system/numberToWords';
+import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
 import Scroll from 'react-scroll';
+import { createSelector } from 'reselect';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -160,11 +161,6 @@ export function getMarriageTitle(index) {
   return `${titleCase(desc)} marriage`;
 }
 
-export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `Spouse’s ${desc} marriage`;
-}
-
 export function getMarriageTitleWithCurrent(form, index) {
   if (isMarried(form) && form.marriages.length - 1 === index) {
     return 'Current marriage';
@@ -173,11 +169,47 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
+export function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(
+    form =>
+      form.marriages && form.marriages.length
+        ? form.marriages[form.marriages.length - 1].spouseFullName
+        : null,
+    spouseFullName => {
+      if (spouseFullName) {
+        return {
+          title: nameTemplate(spouseFullName),
+        };
+      }
+
+      return {
+        title: null,
+      };
+    },
+  );
+}
+
+export const formatCurrency = num => `$${num.toLocaleString()}`;
+
 export const spouseContribution = (
   <span>
     How much do you <strong>contribute monthly</strong> to your spouse’s
     support?
   </span>
+);
+
+export const specialMonthlyPensionDescription = (
+  <section>
+    <p>
+      If you have certain health needs or disabilities, you may be eligible for
+      additional pension. We call this special monthly pension (SMP).
+    </p>
+    <p>
+      You may be eligible for SMP if you need the regular assistance of another
+      person, have severe visual impairment, or are generally confined to your
+      immediate premises.
+    </p>
+  </section>
 );
 
 export function fileHelp({ formData }) {
@@ -522,4 +554,47 @@ export const dependentExpectedIncomeDescription = (
     Any income you didn’t already report in this form that your dependent
     expects to receive in the next 12 months
   </span>
+);
+
+export const dependentSeriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="What do we mean by seriously disabled?">
+      <span>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </span>
+    </va-additional-info>
+  </div>
+);
+
+export const contactWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact this person without contacting you first.
+      </div>
+    </div>
+  </div>
+);
+
+export const contactWarningMulti = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact any of the people listed here without contacting you
+        first.
+      </div>
+    </div>
+  </div>
+);
+
+export const IncomeSourceDescription = (
+  <div>
+    <p>
+      We want to know more about the gross monthly income you, your spouse, and
+      your dependents receive.
+    </p>
+    <p>List the sources of income for you, your spouse, and your dependents.</p>
+  </div>
 );

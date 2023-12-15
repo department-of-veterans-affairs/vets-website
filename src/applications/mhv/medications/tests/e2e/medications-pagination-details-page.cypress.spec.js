@@ -26,14 +26,11 @@ describe('Medications List Page Pagination', () => {
         'aria-required-children': {
           enabled: false,
         },
-        'link-name': {
-          enabled: false,
-        },
       },
     });
     listPage.clickGotoMedicationsLink();
     // cy.get('[href="/my-health/medications/"]').click();
-    site.loadVAPaginationPrescriptions(1, mockRxPageOne);
+    // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
     site.verifyPaginationPrescriptionsDisplayed(1, 20, threadLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);

@@ -84,18 +84,21 @@ const Vitals = () => {
       );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 
   return (
     <div id="vitals">
-      <h1 className="vads-u-margin--0">Vitals</h1>
+      <h1 data-testid="vitals" className="vads-u-margin--0">
+        Vitals
+      </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
         Vitals are basic health numbers your providers check at your
         appointments.

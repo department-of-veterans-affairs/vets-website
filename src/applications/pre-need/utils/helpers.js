@@ -54,6 +54,16 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
+export const sponsorDeceasedDescription = (
+  <div className="sponsorDeceasedDescription">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+);
+
 export const sponsorDetailsSubHeader = (
   <div className="sponsorDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Sponsor details</h3>
@@ -84,7 +94,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
+    <p>When did the sponsor pass away?</p>
   </div>
 );
 
@@ -147,6 +157,25 @@ export const applicantDetailsDescription = (
       provide their details below. As the preparer, we’ll ask for your own
       details later.
     </p>
+  </va-additional-info>
+);
+
+export const sponsorDetailsDescription = (
+  <va-additional-info trigger="What is a sponsor?">
+    <ul>
+      <>
+        <li>
+          You’re considered the sponsor if you’re the service member or Veteran
+          sponsoring the applicant’s benefits. We’ll ask you to provide your
+          details.
+        </li>
+        <li>
+          If you’re not the sponsor, you’ll still need to provide the details
+          for the service member or Veteran who is sponsoring the applicant’s
+          benefits.
+        </li>
+      </>
+    </ul>
   </va-additional-info>
 );
 

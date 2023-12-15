@@ -2,17 +2,13 @@ import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { expect } from 'chai';
 import { getAppointmentTimezone } from '../../../utils/timezone';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { AppointmentsCard } from '../../../components/health-care/AppointmentsCard';
 
 describe('<AppointmentsCard />', () => {
-  // delete instances of Toggler when new appts URL is launched
   const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
-    },
+    user: {},
   };
 
   it('should render with appointments', () => {
@@ -31,22 +27,25 @@ describe('<AppointmentsCard />', () => {
     const startFns = parseISO(appointments[0].startsAt);
     const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
     const timeZone = getAppointmentTimezone(appointments[0]);
-    const tree = renderWithStoreAndRouter(
+    const tree = renderInReduxProvider(
       <AppointmentsCard appointments={appointments} />,
-      { initialState },
+      {
+        ...initialState,
+        health: {
+          appointments: { appointments },
+        },
+      },
     );
 
     tree.getByTestId('health-care-appointments-card');
     tree.getByText('Next appointment');
     tree.getByText('Schedule and manage your appointments');
-    expect(
-      tree.getByRole('link', {
-        name: /schedule and manage your appointments/i,
-        value: {
-          text: '/my-health/appointments',
-        },
-      }),
-    ).to.exist;
+    tree.getByRole('link', {
+      name: /schedule and manage your appointments/i,
+      value: {
+        text: '/my-health/appointments',
+      },
+    });
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
     tree.getByText(
@@ -63,9 +62,15 @@ describe('<AppointmentsCard />', () => {
           additionalInfo: 'testing',
         },
       ];
-      const tree = renderWithStoreAndRouter(
+
+      const tree = renderInReduxProvider(
         <AppointmentsCard appointments={appointments} />,
-        { initialState },
+        {
+          ...initialState,
+          health: {
+            appointments: { appointments },
+          },
+        },
       );
 
       tree.getByText('VA Video Connect testing');
@@ -89,20 +94,23 @@ describe('<AppointmentsCard />', () => {
           providerName,
         },
       ];
-      const tree = renderWithStoreAndRouter(
+      const tree = renderInReduxProvider(
         <AppointmentsCard appointments={appointments} />,
-        { initialState },
+        {
+          ...initialState,
+          health: {
+            appointments: { appointments },
+          },
+        },
       );
 
       tree.getByText(providerName);
-      expect(
-        tree.getByRole('link', {
-          name: /schedule and manage your appointments/i,
-          value: {
-            text: '/my-health/appointments',
-          },
-        }),
-      ).to.exist;
+      tree.getByRole('link', {
+        name: /schedule and manage your appointments/i,
+        value: {
+          text: '/my-health/appointments',
+        },
+      });
     });
   });
 });
