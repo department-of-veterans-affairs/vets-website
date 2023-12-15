@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   DefinitionTester,
   getFormDOM,
-} from '@department-of-veterans-affairs/platform-testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Child information page', () => {
