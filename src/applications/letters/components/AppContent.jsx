@@ -11,6 +11,7 @@ const UNREGISTERED_ERROR = 'vets_letters_user_unregistered';
 export default class AppContent extends React.Component {
   constructor(props) {
     super(props);
+
     if (props.isDataAvailable === false) {
       Sentry.captureException(new Error(UNREGISTERED_ERROR));
       this.state = { errorLogged: true };
@@ -58,7 +59,10 @@ export default class AppContent extends React.Component {
 }
 
 AppContent.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   featureFlagsLoading: PropTypes.bool,
   isDataAvailable: PropTypes.bool,
 };

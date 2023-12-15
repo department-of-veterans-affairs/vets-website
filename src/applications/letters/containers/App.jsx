@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -10,7 +11,7 @@ import { DowntimeBanner } from '@department-of-veterans-affairs/platform-monitor
 import AppContent from '../components/AppContent';
 import { isLoadingFeatures } from '../selectors';
 
-export function LettersApp({ children, featureFlagsLoading, user }) {
+export function App({ featureFlagsLoading, user }) {
   return (
     <RequiredLoginView
       serviceRequired={backendServices.EVSS_CLAIMS}
@@ -22,14 +23,13 @@ export function LettersApp({ children, featureFlagsLoading, user }) {
           appTitle="Letters Generator"
           dependencies={[externalServices.evss]}
         />
-        <div>{children}</div>
+        <Outlet />
       </AppContent>
     </RequiredLoginView>
   );
 }
 
-LettersApp.propTypes = {
-  children: PropTypes.node,
+App.propTypes = {
   featureFlagsLoading: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -39,4 +39,4 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(LettersApp);
+export default connect(mapStateToProps)(App);
