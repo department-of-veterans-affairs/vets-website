@@ -63,7 +63,8 @@ const ComposeFormActionButtons = ({
               data-testid="Send-Button"
               onClick={onSend}
             />
-          )}
+          )
+      }
 
       {!cannotReply && (
         <button
