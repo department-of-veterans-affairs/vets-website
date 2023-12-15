@@ -2,17 +2,13 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
+import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { Main } from '../../containers/Main';
 import { AVAILABILITY_STATUSES } from '../../utils/constants';
 
-/**
- * Define a simple child element for our component to render in tests. This
- * gets passed in on props.children per defaultProps below. We'll use the
- * testText to assert against as needed
- */
-const testText = 'test child element';
-const childElement = <span>{testText}</span>;
+const TestComponent = () => <div data-testid="children" />;
 
 // Destructure AVAILABILITY_STATUSES object for easier access
 const {
@@ -34,7 +30,6 @@ const defaultProps = {
   },
   optionsAvailable: {},
   getLetterListAndBSLOptions: () => {},
-  children: childElement,
 };
 
 describe('<Main>', () => {
@@ -51,9 +46,17 @@ describe('<Main>', () => {
 
   it('renders its children when letters are available', () => {
     const props = { ...defaultProps, lettersAvailability: available };
-    const tree = SkinDeep.shallowRender(<Main {...props} />);
-    const childText = tree.subTree('span').text();
-    expect(childText).to.equal(testText);
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Main {...props} />}>
+            <Route path="/" element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId('children')).to.exist;
   });
 
   it('shows a system down message for backend service error', () => {
@@ -76,9 +79,17 @@ describe('<Main>', () => {
       ...defaultProps,
       lettersAvailability: letterEligibilityError,
     };
-    const tree = SkinDeep.shallowRender(<Main {...props} />);
-    const childText = tree.subTree('span').text();
-    expect(childText).to.equal(testText);
+    const screen = render(
+      <MemoryRouter>
+        <Routes>
+          <Route element={<Main {...props} />}>
+            <Route path="/" element={<TestComponent />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId('children')).to.exist;
   });
 
   it('should show system down message when service is unavailable', () => {
