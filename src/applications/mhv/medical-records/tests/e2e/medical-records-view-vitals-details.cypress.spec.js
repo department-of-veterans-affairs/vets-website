@@ -62,13 +62,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalProviderNotes('a bit fast');
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 
   it('Vitals Details Weight', () => {
@@ -86,13 +80,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalProviderNotes('Here is a provider note');
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
   it('Vitals Details Pain', () => {
     // Click Vitals Page Pain Link
@@ -109,13 +97,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.verifyVitalProviderNotes('None noted');
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 
   afterEach(() => {
