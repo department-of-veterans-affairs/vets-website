@@ -1,8 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
-import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('verify signature', () => {
@@ -27,16 +24,9 @@ describe('verify signature', () => {
   });
 
   it('signature added on replying', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
     site.login();
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage);
-
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
+    landingPage.loadInboxMessages();
+    landingPage.replyToMessage();
     landingPage.verifySignature();
 
     cy.injectAxe();

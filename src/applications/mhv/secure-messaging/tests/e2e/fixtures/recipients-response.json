@@ -17,7 +17,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6832726,
-        "name": "###PQR TRIAGE_TEAM 747###",
+        "name": "Dimitar's TG",
         "stationNumber": "989",
         "blockedStatus": false,
         "relationType": "PATIENT",
@@ -29,7 +29,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6910405,
-        "name": "***Jeasmitha-Cardio-Clinic***",
+        "name": "Jeasmitha-Cardio-Clinic",
         "stationNumber": "989",
         "blockedStatus": false,
         "relationType": "PATIENT",

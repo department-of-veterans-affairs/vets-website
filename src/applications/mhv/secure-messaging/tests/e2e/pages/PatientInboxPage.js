@@ -39,7 +39,6 @@ class PatientInboxPage {
   mockRecipients = mockRecipients;
 
   loadInboxMessages = (
-    // featureFlag,
     inboxMessages = mockMessages,
     detailedMessage = mockSingleMessage,
     recipients = mockRecipients,
@@ -48,18 +47,6 @@ class PatientInboxPage {
     this.mockInboxMessages = inboxMessages;
     this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
-    // cy.intercept('GET', '/v0/feature_toggles?*', {
-    //   data: {
-    //     type: 'feature_toggles',
-    //     features: [
-    //       {
-    //         name: 'mhv_secure_messaging_to_va_gov_release',
-    //         value: true,
-    //       },
-    //       // featureFlag
-    //     ],
-    //   },
-    // }).as('featureToggle');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
@@ -170,11 +157,6 @@ class PatientInboxPage {
     const currentDate = new Date();
     this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.log('loading single thread details.');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-      mockFolders,
-    ).as('folders');
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
@@ -338,9 +320,10 @@ class PatientInboxPage {
     return this.loadedMessagesData;
   };
 
-  replyToMessage = () => {
+  replyToMessage = (testReplyThread = mockSingleThread) => {
+    this.mockReplyThread = testReplyThread;
     const currentDate = new Date();
-    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
+    this.mockReplyThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
