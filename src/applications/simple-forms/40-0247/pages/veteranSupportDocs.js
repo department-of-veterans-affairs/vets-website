@@ -13,7 +13,10 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Upload documents (preferably DD214)'),
+    ...titleUI(
+      'Upload the Veteran’s or Reservist’s files (preferably DD214)',
+      'We don’t require that you submit anything with this form. But to speed up the process, we encourage you to submit military records or discharge documents if they’re available.',
+    ),
     'ui:description': supportingDocsDescription,
     'ui:objectViewField': SupportingDocsViewField,
     veteranSupportingDocuments: {

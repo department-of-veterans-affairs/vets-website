@@ -104,7 +104,6 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "marriageType": "Proxy",
         "reasonForSeparation": "Widowed",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
@@ -116,6 +115,8 @@
       "last": "Doe"
     },
     "dateOfCurrentMarriage": "1989-03-02",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "marriages": [
       {
         "spouseFullName": {
@@ -308,6 +309,20 @@
         "paidTo": "vendor"
       }
     ],
+    "totalNetWorth": true,
+    "careExpenses": true,
+    "medicalExpenses": true,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": "true",
+    "homeAcreageValue": 75000,
+    "receivesIncome": true,
+    "incomeSources": [{
+      "typeOfIncome": "Social Security",
+      "receiver": "Jane Doe",
+      "payer": "John Doe",
+      "amount": 2.0
+    }],
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",

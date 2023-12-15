@@ -37,7 +37,6 @@ const {
 const initialState = {
   form: createFormStore(SHORT_NAME_MAP),
   viewedIntroPage: false,
-  viewedResultsPage1: false,
 };
 
 const pactAct = (state = initialState, action) => {
