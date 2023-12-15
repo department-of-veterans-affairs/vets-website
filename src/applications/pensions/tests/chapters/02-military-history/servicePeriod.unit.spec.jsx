@@ -14,11 +14,11 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import getData from '../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../config/form';
-import servicePeriods from '../../../config/chapters/02-military-history/servicePeriods';
+import servicePeriod from '../../../config/chapters/02-military-history/servicePeriod';
 
 const definitions = formConfig.defaultDefinitions;
 
-const { schema, uiSchema } = servicePeriods;
+const { schema, uiSchema } = servicePeriod;
 
 describe('pension service periods page', () => {
   const middleware = [];
@@ -40,10 +40,10 @@ describe('pension service periods page', () => {
       </Provider>,
     );
 
-    waitFor(() => {
-      expect($$('input', container).length).to.equal(3);
+    await waitFor(() => {
+      expect($$('va-checkbox-group', container).length).to.equal(1);
+      expect($$('input', container).length).to.equal(2);
       expect($$('select', container).length).to.equal(4);
-      expect($('.va-growable-add-btn', container)).to.exist;
       expect($('button[type="submit"]', container)).to.exist;
     });
   });
@@ -66,14 +66,15 @@ describe('pension service periods page', () => {
     );
 
     fireEvent.submit($('form', container));
-    waitFor(() => {
-      expect($$('.usa-input-error', container).length).to.equal(3);
+    await waitFor(() => {
+      expect($$('.usa-input-error-message', container).length).to.equal(2);
+      expect($$('.usa-input-error', container).length).to.equal(2);
       expect(onSubmit.called).to.be.false;
     });
   });
   it('should submit with no errors with all required fields filled in', async () => {
     const { data } = getData({ loggedIn: false });
-    const { queryByText, queryByRole, container } = render(
+    const { queryByText, container } = render(
       <Provider store={mockStore(data)}>
         <DefinitionTester
           schema={schema}
@@ -85,37 +86,37 @@ describe('pension service periods page', () => {
     );
 
     const submitBtn = queryByText('Submit');
-    const branchOfService = queryByRole('textbox', {
-      name: /Branch of service/i,
-    });
+    const branchOfService = container.querySelector(
+      'va-checkbox[name="root_serviceBranch_ARMY"]',
+    );
     const startMonth = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromMonth',
+      '#root_activeServiceDateRange_fromMonth',
     );
     const startDay = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromDay',
+      '#root_activeServiceDateRange_fromDay',
     );
     const startYear = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromYear',
+      '#root_activeServiceDateRange_fromYear',
     );
     const endMonth = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toMonth',
+      '#root_activeServiceDateRange_toMonth',
     );
     const endDay = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toDay',
+      '#root_activeServiceDateRange_toDay',
     );
     const endYear = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toYear',
+      '#root_activeServiceDateRange_toYear',
     );
-    const serviceNumber = queryByRole('textbox', {
-      name: /Service number/i,
-    });
+    const serviceNumber = container.querySelector(
+      'va-text-input[name="root_serviceNumber"]',
+    );
 
     fireEvent.click(submitBtn);
-    waitFor(() => {
+    await waitFor(() => {
       expect($$('.usa-input-error-message', container)).not.to.be.empty;
-
-      fireEvent.change(branchOfService, { target: { value: 'Air Force' } });
-      fireEvent.change(serviceNumber, { target: { value: '123456' } });
+      expect($$('.usa-input-error', container)).not.to.be.empty;
+      fireEvent.click(branchOfService);
+      fireEvent.change(serviceNumber, { value: '123456' });
       fireEvent.change(startMonth, { target: { value: '2' } });
       fireEvent.change(startDay, { target: { value: '15' } });
       fireEvent.change(startYear, { target: { value: '1975' } });
@@ -124,13 +125,14 @@ describe('pension service periods page', () => {
       fireEvent.change(endYear, { target: { value: '1985' } });
       fireEvent.click(submitBtn);
       expect($$('.usa-input-error-message', container)).to.be.empty;
+      expect($$('.usa-input-error', container)).to.be.empty;
     });
   });
-  it('should display warning if the veteran did not serve during a wartime period', () => {
+  it('should display warning if the veteran did not serve during a wartime period', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });
     const store = mockStore(data);
-    const { queryByText, queryByRole, container } = render(
+    const { queryByText, container } = render(
       <Provider store={store}>
         <DefinitionTester
           definitions={definitions}
@@ -144,36 +146,36 @@ describe('pension service periods page', () => {
     );
 
     const submitBtn = queryByText('Submit');
-    const branchOfService = queryByRole('textbox', {
-      name: /Branch of service/i,
-    });
+    const branchOfService = container.querySelector(
+      'va-checkbox[name="root_serviceBranch_ARMY"]',
+    );
     const startMonth = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromMonth',
+      '#root_activeServiceDateRange_fromMonth',
     );
     const startDay = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromDay',
+      '#root_activeServiceDateRange_fromDay',
     );
     const startYear = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_fromYear',
+      '#root_activeServiceDateRange_fromYear',
     );
     const endMonth = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toMonth',
+      '#root_activeServiceDateRange_toMonth',
     );
     const endDay = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toDay',
+      '#root_activeServiceDateRange_toDay',
     );
     const endYear = container.querySelector(
-      '#root_servicePeriods_0_activeServiceDateRange_toYear',
+      '#root_activeServiceDateRange_toYear',
     );
-    const serviceNumber = queryByRole('textbox', {
-      name: /Military service number/i,
-    });
+    const serviceNumber = container.querySelector(
+      'va-text-input[name="root_serviceNumber"]',
+    );
 
     fireEvent.click(submitBtn);
-    waitFor(() => {
-      expect($$('va-alert', container).length).to.equal(0);
-      fireEvent.change(branchOfService, { target: { value: 'Air Force' } });
-      fireEvent.change(serviceNumber, { target: { value: '123456' } });
+    await waitFor(() => {
+      expect($$('.usa-alert', container).length).to.equal(0);
+      fireEvent.click(branchOfService);
+      fireEvent.change(serviceNumber, { value: '123456' });
       fireEvent.change(startMonth, { target: { value: '2' } });
       fireEvent.change(startDay, { target: { value: '15' } });
       fireEvent.change(startYear, { target: { value: '1983' } });
@@ -181,7 +183,7 @@ describe('pension service periods page', () => {
       fireEvent.change(endDay, { target: { value: '15' } });
       fireEvent.change(endYear, { target: { value: '1984' } });
       fireEvent.click(submitBtn);
-      expect($$('va-alert', container).length).to.equal(1);
+      expect($$('.usa-alert', container).length).to.equal(1);
     });
   });
 });
