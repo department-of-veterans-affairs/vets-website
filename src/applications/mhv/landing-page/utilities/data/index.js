@@ -20,27 +20,25 @@ const resolveToggleLink = (link, featureToggles) => {
 };
 
 const countUnreadMessages = folders => {
-  let unreadMessageCount = 0;
   if (Array.isArray(folders?.data)) {
-    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+    return folders.data.reduce((accumulator, currentFolder) => {
       return accumulator + currentFolder.attributes?.unreadCount;
     }, 0);
-  } else if (folders?.data?.attributes?.unreadCount > 0) {
-    unreadMessageCount = folders.data.attributes.unreadCount;
+  }
+  if (folders?.data?.attributes?.unreadCount > 0) {
+    return folders.data.attributes.unreadCount;
   }
 
-  return unreadMessageCount;
+  return 0;
 };
 
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
 const resolveUnreadMessageAriaLabel = unreadMessageCount => {
-  let unreadMessageAriaLabel = null;
-  if (unreadMessageCount > 0) {
-    unreadMessageAriaLabel = 'You have unread messages. Go to your inbox.';
-  }
-  return unreadMessageAriaLabel;
+  return unreadMessageCount > 0
+    ? 'You have unread messages. Go to your inbox.'
+    : null;
 };
 
 const resolveLandingPageLinks = (
