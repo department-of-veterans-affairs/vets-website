@@ -189,13 +189,33 @@ const formConfig = {
             },
           },
         },
-        // IF sponsor IS dead - skip sponsor address
-        page6: {
-          path: 'sponsor-information/address',
+        // Skip sponsor address and phone if deceased
+        page5a: {
+          path: 'sponsor-information/has-address',
           title: 'Sponsor Address',
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's address"),
+            sponsorHasAddress: yesNoUI({
+              title: "Do you know your sponsor's permanent address?",
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasAddress'],
+            properties: {
+              sponsorInfoTitle: titleSchema,
+              sponsorHasAddress: yesNoSchema,
+            },
+          },
+        },
+        page6: {
+          path: 'sponsor-information/address',
+          title: 'Sponsor Address',
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) && formData.sponsorHasAddress,
+          uiSchema: {
+            sponsorInfoTitle: inlineTitleUI("Sponsor's address continued"),
             sponsorAddress: {
               ...addressUI({
                 labels: {
@@ -214,12 +234,32 @@ const formConfig = {
             },
           },
         },
-        page7: {
-          path: 'sponsor-information/phone',
-          title: "Sponsor's phone",
+        page6a: {
+          path: 'sponsor-information/has-phone',
+          title: 'Sponsor Address',
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's phone number"),
+            sponsorHasPhone: yesNoUI({
+              title: "Do you know your sponsor's phone number?",
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasPhone'],
+            properties: {
+              sponsorInfoTitle: titleSchema,
+              sponsorHasPhone: yesNoSchema,
+            },
+          },
+        },
+        page7: {
+          path: 'sponsor-information/phone',
+          title: "Sponsor's phone",
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) && formData.sponsorHasPhone,
+          uiSchema: {
+            sponsorInfoTitle: inlineTitleUI("Sponsor's phone number continued"),
             sponsorPhone: {
               ...phoneUI({
                 title: 'Home phone number',
