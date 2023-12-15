@@ -2792,7 +2792,7 @@
 
 "@department-of-veterans-affairs/formation@^10.0.1":
   version "10.0.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-10.0.1.tgz#0300dada40e4e49f441725c6ed59038e00d8323c"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-10.0.1.tgz#0300dada40e4e49f441725c6ed59038e00d8323c"
   integrity sha512-D6rcJlrVS+LbYvjvrmfsmhSxgkrcNcdZ2VPuSvSHhwMTAd4wcsRxC7MtuLU2D3NcAayvHWd9lGm4cqJsp+L1DQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
