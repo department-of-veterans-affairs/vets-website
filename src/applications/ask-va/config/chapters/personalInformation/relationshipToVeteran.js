@@ -7,7 +7,7 @@ import {
 } from '../../../constants';
 
 const question = (
-  <h4 className="vads-u-display--inline">{CHAPTER_3.PAGE_5.QUESTION_1}</h4>
+  <h4 className="vads-u-display--inline">{CHAPTER_3.PAGE_5.TITLE}</h4>
 );
 
 const personal = <strong>Personal relationship</strong>;
