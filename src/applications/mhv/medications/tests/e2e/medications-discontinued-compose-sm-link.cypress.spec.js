@@ -9,13 +9,7 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
     cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink(true);
     cy.get('[data-testid="discontinued-compose-message-link"]')
       .invoke('attr', 'href')
