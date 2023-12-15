@@ -69,6 +69,11 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
+
       Confirmation.validatePageLoaded();
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
@@ -92,6 +97,91 @@ describe('Check In Experience | Day Of |', () => {
 
       Confirmation.validatePageLoaded();
       Confirmation.validatePageLoadedWithBtsssIneligible();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete check in if does not agree to terms and chooses to file later', () => {
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.checkForValidationError();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+      Confirmation.validatePageLoaded();
+      Confirmation.validatePageLoadedWithNoBtsssClaim();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete check in if edits at review and continues', () => {
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.clickEditLink();
+
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
+
+      Confirmation.validatePageLoaded();
+      Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
     });
   });
