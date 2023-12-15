@@ -39,6 +39,7 @@ class PatientInboxPage {
   mockRecipients = mockRecipients;
 
   loadInboxMessages = (
+    // featureFlag,
     inboxMessages = mockMessages,
     detailedMessage = mockSingleMessage,
     recipients = mockRecipients,
@@ -47,17 +48,18 @@ class PatientInboxPage {
     this.mockInboxMessages = inboxMessages;
     this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'mhv_secure_messaging_to_va_gov_release',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggle');
+    // cy.intercept('GET', '/v0/feature_toggles?*', {
+    //   data: {
+    //     type: 'feature_toggles',
+    //     features: [
+    //       {
+    //         name: 'mhv_secure_messaging_to_va_gov_release',
+    //         value: true,
+    //       },
+    //       // featureFlag
+    //     ],
+    //   },
+    // }).as('featureToggle');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
@@ -66,7 +68,7 @@ class PatientInboxPage {
     if (getFoldersStatus === 200) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
+        `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
         mockFolders,
       ).as('folders');
     } else {
@@ -163,9 +165,10 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleThread = (testThread = mockThread) => {
+  loadSingleThread = (testSingleThread = mockThread) => {
+    this.singleThread = testSingleThread;
     const currentDate = new Date();
-    mockThread.data[0].attributes.sentDate = currentDate.toISOString();
+    this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.log('loading single thread details.');
     cy.intercept(
       'GET',
@@ -177,12 +180,14 @@ class PatientInboxPage {
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
       }/thread`,
-      testThread,
+      this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${testThread.data[0].attributes.messageId}`,
-      { data: testThread.data[0] },
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
+      { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
     cy.contains(mockMessages.data[0].attributes.subject).click({

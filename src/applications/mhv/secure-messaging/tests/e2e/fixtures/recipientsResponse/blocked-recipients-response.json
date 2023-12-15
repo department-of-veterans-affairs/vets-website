@@ -31,7 +31,7 @@
         "triageTeamId": 6910405,
         "name": "***Jeasmitha-Cardio-Clinic***",
         "stationNumber": "989",
-        "blockedStatus": true,
+        "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -41,9 +41,9 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978853,
-        "name": "***Mohammad_Fort Belovoir TG 100_SLC4%",
+        "name": "DIMITAR TRIAGE GROUP_UAT2929",
         "stationNumber": "989",
-        "blockedStatus": false,
+        "blockedStatus": true,
         "relationType": "PATIENT",
         "preferredTeam": true
       }

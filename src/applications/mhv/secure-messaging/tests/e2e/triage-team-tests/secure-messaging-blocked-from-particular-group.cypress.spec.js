@@ -7,11 +7,17 @@ import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipi
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Secure Messaging Compose', () => {
+  // const featureFlag = {
+  //     name: 'mhv_secure_messaging_blocked_triage_group_1_0',
+  //     value: true,
+  //   }
   it('can send message', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
+
     landingPage.loadInboxMessages(
+      // featureFlag,
       mockMessages,
       mockSingleMessage,
       mockBlockedRecipients,
@@ -27,5 +33,9 @@ describe('Secure Messaging Compose', () => {
         },
       },
     });
+
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and('include.text', `You can't send messages to`);
   });
 });
