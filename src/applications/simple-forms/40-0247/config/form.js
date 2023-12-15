@@ -105,11 +105,11 @@ const formConfig = {
       },
     },
     veteranSupportingDocumentationChapter: {
-      title: 'Veteran’s supporting documentation',
+      title: 'Supporting documentation',
       pages: {
         veteranSupportDocsPage: {
-          path: 'veteran-supporting-documentation',
-          title: 'Upload documents (preferably DD214)',
+          path: 'supporting-documentation',
+          title: 'Supporting documentation',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',

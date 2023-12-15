@@ -35,11 +35,6 @@ export const pageFocusScroll = () => {
 
 export const supportingDocsDescription = (
   <>
-    <p>
-      We don’t require that you submit anything with this form. But to speed up
-      the process, we encourage you to submit military records or discharge
-      documents if they’re available.
-    </p>
     <p className="hideOnReviewPage">
       We prefer that you upload the Veteran’s or Reservist’s DD214.
     </p>
