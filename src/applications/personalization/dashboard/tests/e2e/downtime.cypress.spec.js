@@ -146,7 +146,7 @@ describe('The My VA Dashboard', () => {
   });
 
   it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
     // start time is 25 hours in the future
     const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);

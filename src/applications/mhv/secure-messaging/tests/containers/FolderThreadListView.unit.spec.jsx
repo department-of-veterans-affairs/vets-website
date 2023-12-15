@@ -22,14 +22,29 @@ import {
 import reducer from '../../reducers';
 import FolderThreadListView from '../../containers/FolderThreadListView';
 import threadListResponse from '../fixtures/thread-list-response.json';
+import {
+  drupalStaticData,
+  cernerFacilities,
+  userProfileFacilities,
+} from '../fixtures/cerner-facility-mock-data.json';
 
 describe('Folder Thread List View container', () => {
   const initialState = {
     sm: {
       messageDetails: { message: messageResponse },
       folders: { folder: inbox, folderList },
+      facilities: {
+        cernerFacilities,
+      },
+    },
+    drupalStaticData,
+    user: {
+      profile: {
+        facilities: [],
+      },
     },
   };
+
   const setup = (state = initialState, path = Paths.INBOX) => {
     return renderWithStoreAndRouter(<FolderThreadListView testing />, {
       initialState: state,
@@ -39,7 +54,14 @@ describe('Folder Thread List View container', () => {
   };
 
   it(`verifies page title tag, folder name, folder description and displays "Start a new message" link for INBOX`, async () => {
-    const screen = setup();
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          facilities: userProfileFacilities,
+        },
+      },
+    });
 
     await waitFor(() => {
       expect(global.document.title).to.equal(

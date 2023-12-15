@@ -6,17 +6,11 @@ describe('Medications Landing Page', () => {
     site.login(true, false);
     cy.visit('my-health/about-medications/');
 
-    cy.url().should('include', '/health-care/refill-track-prescriptions');
+    cy.url().should('include', '/my-health/about-medications');
 
     site.login(true, true);
     cy.visit('my-health/about-medications/');
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });
