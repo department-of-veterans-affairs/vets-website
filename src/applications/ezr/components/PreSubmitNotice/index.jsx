@@ -7,7 +7,13 @@ import content from '../../locales/en/content.json';
 import NoticeAgreement from './NoticeAgreement';
 
 const PreSubmitNotice = props => {
-  const { onSectionComplete, preSubmitInfo, showError, submission } = props;
+  const {
+    onSectionComplete,
+    preSubmitInfo,
+    showError,
+    submission,
+    formData,
+  } = props;
   const { field, required } = preSubmitInfo;
 
   const [accepted, setAccepted] = useState(false);
@@ -17,8 +23,12 @@ const PreSubmitNotice = props => {
   // set section complete value--unset if user navigates away from the page before submitting the form.
   useEffect(
     () => {
+      // eslint-disable-next-line no-console
+      console.log(formData);
       onSectionComplete(accepted);
       return () => {
+        // eslint-disable-next-line no-console
+        console.log(formData);
         onSectionComplete(false);
       };
     },
