@@ -27,10 +27,10 @@ class FindFormComponent {
         .find(SELECTORS.FINDFORM_INPUT)
         .as('formInput');
       cy.get('@formInput').scrollIntoView();
-      cy.get('@formInput').clear();
       cy.get('@formInput').focus();
-      cy.get('@formInput').type(str, { force: true });
+      cy.get('@formInput').clear();
       cy.get('@formInput').should('not.be.disabled');
+      cy.get('@formInput').type(str, { force: true });
     }
   };
 
@@ -54,10 +54,7 @@ class FindFormComponent {
   };
 
   inputTextAndSearch = str => {
-    // Find input field, clear, and enter the string
     this.inputText(str);
-
-    // Click search button
     this.clickSearch();
   };
 
@@ -84,7 +81,7 @@ class FindFormComponent {
 }
 
 // Tests for find-forms application
-xdescribe('Find a VA form smoke test', () => {
+describe('Find a VA form smoke test', () => {
   const findFormComponent = new FindFormComponent();
 
   it('does not display an error on initial page load with no URL query', () => {
