@@ -14,9 +14,9 @@ export default {
       labelHeaderLevel: '3',
       labels: {
         Y:
-          'Yes, this is my first time requesting a presidential memorial certificate',
+          'Yes, this is my first time requesting a certificate for this Veteran or Reservist',
         N:
-          'No, I either need to replace a presidential memorial certificate or request more copies',
+          'No, I either need to replace a Presidential Memorial Certificate or request more copies',
       },
       errorMessages: {
         required:
