@@ -9,13 +9,7 @@ describe('Medications Refill Submit Error Message List Page', () => {
     cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.clickRefillButtonForVerifyingError();
     listPage.verifyInlineErrorMessageForRefillRequest();

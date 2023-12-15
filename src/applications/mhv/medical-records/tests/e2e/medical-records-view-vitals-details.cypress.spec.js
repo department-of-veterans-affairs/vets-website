@@ -11,16 +11,26 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Page title Text', () => {
     // Verify "Vitals" Page title Text
+
+    // Verify "Vitals" Page title Text
     VitalsDetailsPage.verifyVitalsPageText('Vitals');
+
+    // Click Vitals Page Blood Pressure Link
+    VitalsDetailsPage.clickBloodPressureLink(0);
+
+    // Verify Vital Date
+    VitalsDetailsPage.verifyVitalDate('September 24, 2004');
+
+    // Verify Vital Result
+    VitalsDetailsPage.verifyVitalResult('126/70');
+    // Verify Vital Details Location
+    VitalsDetailsPage.verifyVitalLocation('None noted');
+    // Verify Vital Details  Provider Notes
+    VitalsDetailsPage.verifyVitalProviderNotes('None noted');
+
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 
   it('Vitals Details Blood Pressure ', () => {

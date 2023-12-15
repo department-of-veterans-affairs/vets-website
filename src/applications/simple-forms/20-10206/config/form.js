@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
 
 import IntroductionPage from '../containers/IntroductionPage';
-// import IdVerificationPage from '../containers/IdVerificationPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
@@ -85,16 +84,6 @@ const formConfig = {
     },
   },
   v3SegmentedProgressBar: true,
-  // additionalRoutes: [
-  //   {
-  //     // for User not identity-verified
-  //     path: 'identity-verification',
-  //     pageKey: 'identity-verification',
-  //     component: IdVerificationPage,
-  //     // user-state view-field below was added by App.jsx
-  //     depends: formData => !formData['view:userIdVerified'],
-  //   },
-  // ],
   chapters: {
     preparerTypeChapter: {
       title: 'Requester information',
@@ -102,9 +91,6 @@ const formConfig = {
         preparerTypePage: {
           path: 'preparer-type',
           title: 'Preparer type',
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
@@ -120,9 +106,6 @@ const formConfig = {
         personalInfoPage: {
           path: 'personal-information',
           title: 'Name and date of birth',
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           uiSchema: persInfoPg.uiSchema,
           schema: persInfoPg.schema,
           pageClass: 'personal-information',
@@ -134,7 +117,6 @@ const formConfig = {
       pages: {
         citizenIdentificationInfoPage: {
           depends: {
-            // 'view:userIdVerified': true,
             preparerType: PREPARER_TYPES.CITIZEN,
           },
           path: 'citizen-identification-information',
@@ -145,7 +127,6 @@ const formConfig = {
         },
         nonCitizenIdentificationInfoPage: {
           depends: {
-            // 'view:userIdVerified': true,
             preparerType: PREPARER_TYPES.NON_CITIZEN,
           },
           path: 'non-citizen-identification-information',
@@ -162,9 +143,6 @@ const formConfig = {
         addressPage: {
           path: 'contact-information',
           title: 'Mailing address',
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           uiSchema: addressPg.uiSchema,
           schema: addressPg.schema,
           pageClass: 'address',
@@ -177,9 +155,6 @@ const formConfig = {
         phoneEmailPage: {
           path: 'phone-email',
           title: 'Phone and email address',
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           uiSchema: phoneEmailPg.uiSchema,
           schema: phoneEmailPg.schema,
           pageClass: 'phone-email',
@@ -192,9 +167,6 @@ const formConfig = {
         recordSelectionsPage: {
           path: 'record-selections',
           title: 'Select at least one record',
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           uiSchema: recordSelectionsPg.uiSchema,
           schema: recordSelectionsPg.schema,
           pageClass: 'record-selections',
@@ -206,7 +178,6 @@ const formConfig = {
       pages: {
         disabilityExamDetailsPage: {
           depends: {
-            // 'view:userIdVerified': true,
             recordSelections: {
               [RECORD_TYPES.DISABILITY_EXAMS]: true,
             },
@@ -226,7 +197,6 @@ const formConfig = {
           path: 'financial-record-details',
           title: 'Financial record details',
           depends: {
-            // 'view:userIdVerified': true,
             recordSelections: {
               [RECORD_TYPES.FINANCIAL]: true,
             },
@@ -242,7 +212,6 @@ const formConfig = {
       pages: {
         lifeInsuranceBenefitDetailsPage: {
           depends: {
-            // 'view:userIdVerified': true,
             recordSelections: {
               [RECORD_TYPES.LIFE_INS]: true,
             },
@@ -260,7 +229,6 @@ const formConfig = {
       pages: {
         otherCompensationAndPensionDetailsPage: {
           depends: {
-            // 'view:userIdVerified': true,
             recordSelections: {
               [RECORD_TYPES.OTHER_COMP_PEN]: true,
             },
@@ -295,9 +263,6 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         additionalRecordsInformationPage: {
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           path: 'additional-records-information',
           title: 'Additional records information',
           uiSchema: additionalRecordsInformationPg.uiSchema,
@@ -310,9 +275,6 @@ const formConfig = {
       title: 'VA regional office',
       pages: {
         associatedVARegionalOfficePage: {
-          // depends: {
-          //   'view:userIdVerified': true,
-          // },
           path: 'associated-va-regional-office',
           title: 'Associated VA regional office',
           uiSchema: associatedVARegionalOfficePg.uiSchema,

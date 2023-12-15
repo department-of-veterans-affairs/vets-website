@@ -12,24 +12,12 @@ describe('Medications Details Page Active Submmitted Status DropDown', () => {
     cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(submittedRx);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     detailsPage.verifySubmittedStatusDropDownDefinition();
   });
 });
