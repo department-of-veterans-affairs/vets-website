@@ -101,7 +101,7 @@
         "treatedDisabilityNames": {
           "diabetesmellitus0": true,
           "diabetesmellitus1": true,
-          "heart attack (myocardial infarction)": true
+          "heartattackmyocardialinfarction": true
         }
       },
       {
@@ -115,8 +115,8 @@
         },
         "treatedDisabilityNames": {
           "asthma": true,
-          "phlebitis": true,
-          "ankylosis in knee, bilateral": true
+          "heartattackmyocardialinfarction": true,
+          "ankylosisinkneebilateral": true
         }
       }
     ],
