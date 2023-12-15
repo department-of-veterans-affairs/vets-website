@@ -123,7 +123,6 @@ export default Object.freeze({
   myVaUseExperimental: 'my_va_experimental',
   myVaUseExperimentalFrontend: 'my_va_experimental_frontend',
   myVaUseExperimentalFullstack: 'my_va_experimental_fullstack',
-  myVaUseLighthouseClaims: 'my_va_lighthouse_claims',
   myVaHideNotificationsSection: 'my_va_hide_notifications_section',
   myVaNotificationDotIndicator: 'my_va_notification_dot_indicator',
   myVaEnableMhvLink: 'my_va_enable_mhv_link',

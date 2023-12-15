@@ -1,7 +1,7 @@
 const subDays = require('date-fns/subDays');
 const format = require('date-fns/format');
 
-const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
+const createClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
   const daysAgo = subDays(new Date(), updatedDaysAgo);
   const formattedDaysAgo = format(daysAgo, 'yyyy-MM-dd');
   return {
@@ -68,5 +68,5 @@ const createLighthouseClaimsSuccess = (updatedDaysAgo = 1, open = true) => {
 };
 
 module.exports = {
-  createLighthouseClaimsSuccess,
+  createClaimsSuccess,
 };
