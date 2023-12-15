@@ -62,20 +62,18 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
-  addressLine1: PropTypes.string.isRequired,
-  addressLine2: PropTypes.string.isRequired,
-  addressLine3: PropTypes.string.isRequired,
+  addressLine1: PropTypes.string,
+  addressLine2: PropTypes.string,
+  addressLine3: PropTypes.string,
   city: PropTypes.string,
-  distance: PropTypes.number.isRequired,
-  officer: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  query: PropTypes.object.isRequired,
+  distance: PropTypes.number,
+  officer: PropTypes.string,
+  phone: PropTypes.string,
+  query: PropTypes.object,
   representative: PropTypes.string,
   state: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   zipCode: PropTypes.string,
-
-  // handleRedirect: PropTypes.func.isRequired,
 };
 
 export default SearchResult;
