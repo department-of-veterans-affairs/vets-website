@@ -87,6 +87,7 @@ import reasonForCurrentSeparation from './chapters/04-household-information/reas
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import careExpenses from './chapters/05-financial-information/careExpenses';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
@@ -1400,6 +1401,12 @@ const formConfig = {
           title: 'Care expenses',
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses',
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',
