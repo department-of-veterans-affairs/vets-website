@@ -299,10 +299,8 @@ const formConfig = {
             claimantAddress: set(
               'ui:validations[1]',
               validateCentralMailPostalCode,
-              address.uiSchema(),
+              address.uiSchema(''),
             ),
-            claimantEmail: emailUI(),
-            claimantPhone: phoneUI('Phone number'),
           },
           schema: {
             type: 'object',
@@ -315,6 +313,20 @@ const formConfig = {
                 true,
                 'centralMailAddress',
               ),
+            },
+          },
+        },
+        claimantInformationPartFour: {
+          title: 'Your information',
+          path: 'claimant-information/part-four',
+          uiSchema: {
+            'ui:title': 'Contact information',
+            claimantEmail: emailUI(),
+            claimantPhone: phoneUI('Phone number'),
+          },
+          schema: {
+            type: 'object',
+            properties: {
               claimantEmail,
               claimantPhone,
             },
