@@ -115,7 +115,7 @@ describe('Vitals list container with no vitals', () => {
 
   it('displays a no vitals message', () => {
     expect(
-      screen.getByText('You don’t have any records in Vitals', {
+      screen.getByText('There are no vitals in your VA medical records.', {
         exact: true,
       }),
     ).to.exist;

@@ -73,7 +73,7 @@ const CareSummariesAndNotes = () => {
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
-          message="Loading..."
+          message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
         />

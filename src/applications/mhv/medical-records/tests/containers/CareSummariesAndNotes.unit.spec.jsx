@@ -84,7 +84,7 @@ describe('CareSummariesAndNotes list container with no records', () => {
   });
 });
 
-describe('Labs and tests list container with errors', () => {
+describe('CareSummariesAndNotes list container with errors', () => {
   it('displays an error', async () => {
     const initialState = {
       user,
