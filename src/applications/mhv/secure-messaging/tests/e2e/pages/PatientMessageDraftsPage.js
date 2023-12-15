@@ -383,7 +383,7 @@ class PatientMessageDraftsPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
@@ -391,7 +391,7 @@ class PatientMessageDraftsPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);
