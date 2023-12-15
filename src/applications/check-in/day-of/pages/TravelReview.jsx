@@ -6,33 +6,36 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import { recordAnswer } from '../../actions/universal';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { makeSelectVeteranData } from '../../selectors';
+import { makeSelectVeteranData, makeSelectForm } from '../../selectors';
 import AddressBlock from '../../components/AddressBlock';
 import TravelPage from '../../components/pages/TravelPage';
 
 const TravelQuestion = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { jumpToPage, goToNextPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
   const validation = () => {
     if (agree) {
       dispatch(recordAnswer({ 'travel-question': 'yes' }));
-      goToNextPage();
+      jumpToPage(`complete/${data.activeAppointmentId}`);
     } else {
       setError(true);
     }
   };
   const fileLater = () => {
     dispatch(recordAnswer({ 'travel-question': 'no' }));
-    goToNextPage();
+    jumpToPage(`complete/${data.activeAppointmentId}`);
   };
   const agreementLink = e => {
     e.preventDefault();
@@ -45,7 +48,7 @@ const TravelQuestion = props => {
 
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('review-body-text-unified')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
       </div>
