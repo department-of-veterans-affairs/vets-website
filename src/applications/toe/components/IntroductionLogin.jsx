@@ -37,7 +37,9 @@ function IntroductionLogin({
   const headlineText =
     'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
   const shouldShowLoadingIndicator =
-    (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete;
+    ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete) &&
+    !isPersonalInfoFetchFailed &&
+    !showMeb1990EMaintenanceAlert;
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -192,7 +194,7 @@ const mapStateToProps = state => ({
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
   showMeb1990EMaintenanceAlert:
-    state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
+    state.featureToggles[featureFlagNames.showMeb1990EMaintenanceAlert],
 });
 
 const mapDispatchToProps = {
