@@ -20,8 +20,8 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
   if (matches) {
     const uniqueInvalidChars = [...new Set(matches)].join(', ');
     const staticText =
-      messages.symbols ||
-      'You entered a character we can’t accept. Try removing any special characters such as:';
+      messages?.symbols ||
+      'You entered a character we can’t accept. Try removing';
     errors.addError(`${staticText} ${uniqueInvalidChars}`);
   }
 }

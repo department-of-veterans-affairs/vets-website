@@ -1,6 +1,6 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
 import { validateDateOfBirth } from 'platform/forms/validations';
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import ClaimantPersInfoUiTitle from '../components/ClaimantPersInfoUiTitle';
 

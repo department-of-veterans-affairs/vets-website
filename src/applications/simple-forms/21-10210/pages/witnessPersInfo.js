@@ -1,4 +1,4 @@
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,

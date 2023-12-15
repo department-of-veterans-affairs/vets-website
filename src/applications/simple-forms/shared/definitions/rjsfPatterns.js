@@ -1,11 +1,11 @@
 import {
   validateEmpty,
   validateNameSymbols,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 
 // RJSF version of web-component fullNameUI
 // Deprecated because web-components are preferred
-const fullNameDeprecatedUI = {
+export const fullNameDeprecatedUI = {
   'ui:validations': [validateEmpty],
   first: {
     'ui:title': 'First name',
@@ -36,5 +36,3 @@ const fullNameDeprecatedUI = {
     },
   },
 };
-
-export default fullNameDeprecatedUI;

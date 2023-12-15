@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { intersection, pick } from 'lodash';
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import {
   preparerIdentificationFields,
   veteranDirectRelative,

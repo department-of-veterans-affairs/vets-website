@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 const authorizerFullNameUI = cloneDeep(fullNameDeprecatedUI);

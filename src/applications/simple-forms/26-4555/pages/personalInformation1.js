@@ -4,7 +4,7 @@ import { intersection, pick } from 'lodash';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { veteranFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[

@@ -2,7 +2,7 @@ import React from 'react';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { intersection, pick } from 'lodash';
-import fullNameDeprecatedUI from '../../shared/definitions/rjsfPatterns';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { veteranFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
