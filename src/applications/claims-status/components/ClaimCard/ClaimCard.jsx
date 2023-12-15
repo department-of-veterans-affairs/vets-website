@@ -10,7 +10,9 @@ export default function ClaimCard({ title, children, label, subtitle }) {
           {label && <span className="usa-label">{label}</span>}
           {title}
           {subtitle && (
-            <span className="vads-u-margin-top--0p5">{subtitle}</span>
+            <span className="vads-u-margin-top--0p5 submitted-on">
+              {subtitle}
+            </span>
           )}
         </div>
       </h3>
