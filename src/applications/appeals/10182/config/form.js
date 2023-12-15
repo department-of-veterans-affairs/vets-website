@@ -53,7 +53,7 @@ import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import reviewErrors from '../../shared/content/reviewErrors';
 
-// import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/initialData';
 
 import manifest from '../manifest.json';
 
