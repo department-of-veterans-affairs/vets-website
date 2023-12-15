@@ -457,7 +457,7 @@ const formConfig = {
         },
         burialInformationPartTwo: {
           title: 'Burial information',
-          path: 'veteran-information/burial/2',
+          path: 'veteran-information/burial/part-two',
           uiSchema: {
             'ui:description': generateDescription('Burial information'),
             locationOfDeath: {
@@ -476,14 +476,20 @@ const formConfig = {
                   'ui:title':
                     'Name of the facility or nursing home that VA pays for',
                   'ui:required': form => !form.facilityName,
+                  'ui:errorMessages': {
+                    required:
+                      'Enter the name of the facility or nursing home that VA pays for',
+                  },
                 },
                 facilityLocation: {
                   'ui:title':
                     'City and state of the facility or nursing home that VA pays for',
                   'ui:required': form => !form.facilityLocation,
+                  'ui:errorMessages': {
+                    required:
+                      'Enter the city and state of the facility or nursing home that VA pays for',
+                  },
                 },
-                // 'ui:required': form =>
-                //   get('locationOfDeath.location', form) === 'nursingHomePaid',
                 'ui:options': {
                   hideIf: form =>
                     get('locationOfDeath.location', form) !== 'nursingHomePaid',
@@ -493,28 +499,38 @@ const formConfig = {
                 facilityName: {
                   'ui:title': 'Name of the VA medical center',
                   'ui:required': form => !form.facilityName,
+                  'ui:errorMessages': {
+                    required: 'Enter the Name of the VA medical center',
+                  },
                 },
                 facilityLocation: {
                   'ui:title': 'City and state of the VA medical center',
                   'ui:required': form => !form.facilityLocation,
+                  'ui:errorMessages': {
+                    required:
+                      'Enter the city and state of the VA medical center',
+                  },
                 },
-                // 'ui:required': form =>
-                //   get('locationOfDeath.location', form) === 'nursingHomePaid',
                 'ui:options': {
                   hideIf: form =>
                     get('locationOfDeath.location', form) !== 'vaMedicalCenter',
-                  // expandUnder: 'location',
-                  // expandUnderCondition: 'vaMedicalCenter',
                 },
               },
               stateVeteransHome: {
                 facilityName: {
                   'ui:title': 'Name of the state Veterans facility',
                   'ui:required': form => !form.facilityName,
+                  'ui:errorMessages': {
+                    required: 'Enter the name of the state Veterans facility',
+                  },
                 },
                 facilityLocation: {
                   'ui:title': 'City and state of the state Veterans facility',
                   'ui:required': form => !form.facilityLocation,
+                  'ui:errorMessages': {
+                    required:
+                      'Enter the city and state of the state Veterans facility',
+                  },
                 },
                 // 'ui:required': form =>
                 //   get('locationOfDeath.location', form) === 'nursingHomePaid',
