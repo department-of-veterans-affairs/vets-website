@@ -25,6 +25,7 @@ describe('Pensions dependent list', () => {
     );
     const formDOM = getFormDOM(form);
 
+    // expect(formDOM.querySelectorAll('va-radio-option').length).to.equal(2);
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
       2,
     );
