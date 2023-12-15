@@ -6,7 +6,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import ResponseInboxPage from '../../containers/ResponseInboxPage';
+import ResponseInboxPage from '../../../containers/ResponseInboxPage';
 
 describe('<ResponseInboxPage>', () => {
   const apiRequestWithUrl = `${
