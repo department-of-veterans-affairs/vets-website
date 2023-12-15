@@ -60,7 +60,7 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 10,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.COMPLETE,
     order: 11,
   },
   {
@@ -80,7 +80,6 @@ const updateForm = (
   travelPaySent,
 ) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
-
   return updateFormPages(
     patientDemographicsStatus,
     pages,
