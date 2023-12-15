@@ -149,8 +149,8 @@
         }
       ],
       "powDisabilities": {
-        "ankylosis in knee, bilateral": true,
-        "heart attack (myocardial infarction)": true
+        "ankylosisinkneebilateral": true,
+        "heartattackmyocardialinfarction": true
       }
     },
     "newDisabilities": [
