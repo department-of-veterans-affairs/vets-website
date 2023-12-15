@@ -206,6 +206,7 @@ const formConfig = {
             claimantSocialSecurityNumber: {
               ...ssnUI,
               'ui:title': 'Your Social Security number',
+              'ui:description': generateHelpText('example, 123 45 6789'),
               'ui:errorMessages': {
                 required: 'Enter your Social Security number',
               },
@@ -283,6 +284,8 @@ const formConfig = {
           path: 'claimant-information/part-three',
           uiSchema: {
             'ui:title': 'Mailing address',
+            'ui:description':
+              'We’ll send any important information about your application to this address',
             firmName: {
               'ui:title': 'Full name of firm, corporation or state agency',
               'ui:options': {
@@ -374,21 +377,28 @@ const formConfig = {
             'ui:description': generateDescription('Personal information'),
             veteranSocialSecurityNumber: {
               ...ssnUI,
-              'ui:title': 'Social Security number',
+              'ui:title': 'Veteran’s Social Security number',
               'ui:required': form => !form.vaFileNumber,
-              'ui:description': generateHelpText('Testing help text'),
+              'ui:description': generateHelpText('example, 123 45 6789'),
+              'ui:errorMessages': {
+                required: 'Enter the Veteran’s Social Security number',
+              },
             },
             vaFileNumber: {
-              'ui:title':
-                'VA file number (must have this or a Social Security number)',
+              'ui:title': 'Veteran’s VA file number',
+              'ui:description': generateHelpText(
+                'Enter Veteran’s VA file number if it doesn’t match their SSN',
+              ),
               'ui:options': {
                 widgetClassNames: 'usa-input-medium',
               },
+            },
+            veteranDateOfBirth: {
+              ...currentOrPastDateUI('Veteran’s date of birth'),
               'ui:errorMessages': {
-                pattern: 'Your VA file number must be 8 or 9 digits',
+                required: 'Enter the Veteran’s date of birth',
               },
             },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
           },
           schema: {
             type: 'object',
@@ -402,13 +412,23 @@ const formConfig = {
         },
         burialInformationPartOne: {
           title: 'Burial information',
-          path: 'veteran-information/burial/1',
+          path: 'veteran-information/burial/part-one',
           uiSchema: {
             'ui:description': generateDescription('Burial information'),
-            deathDate: currentOrPastDateUI('Date of death'),
-            burialDate: currentOrPastDateUI(
-              'Date of burial (includes cremation or interment)',
-            ),
+            deathDate: {
+              ...currentOrPastDateUI('Date of death'),
+              'ui:errorMessages': {
+                required: 'Enter the Veteran’s date of death',
+              },
+            },
+            burialDate: {
+              ...currentOrPastDateUI(
+                'Date of burial (includes cremation or interment)',
+              ),
+              'ui:errorMessages': {
+                required: 'Enter the Veteran’s date of burial',
+              },
+            },
             'view:burialDateWarning': {
               'ui:description': BurialDateWarning,
               'ui:options': {
