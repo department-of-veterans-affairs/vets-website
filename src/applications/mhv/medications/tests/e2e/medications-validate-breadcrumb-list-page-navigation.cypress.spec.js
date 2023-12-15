@@ -24,13 +24,7 @@ describe('Medications Breadcrumb Navigation To List Page', () => {
     });
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);

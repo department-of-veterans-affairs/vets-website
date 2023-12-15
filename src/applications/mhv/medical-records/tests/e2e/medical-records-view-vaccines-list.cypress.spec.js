@@ -11,12 +11,6 @@ describe('Medical Records View Vaccines', () => {
 
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

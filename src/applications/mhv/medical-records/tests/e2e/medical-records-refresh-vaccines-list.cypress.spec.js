@@ -12,12 +12,6 @@ describe('Medical Records View Vaccines', () => {
     cy.get('@VaccinesList.all').should('have.length', 2);
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

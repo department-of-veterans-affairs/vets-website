@@ -14,12 +14,6 @@ describe('Medical Records View Vaccines', () => {
     cy.get('[data-testid="print-records-button"]').should('not.exist');
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

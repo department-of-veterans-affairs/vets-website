@@ -54,12 +54,6 @@ describe('Medical Records View Notes', () => {
     // NotesDetailsPage.clickBreadCrumbsLink(0);
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

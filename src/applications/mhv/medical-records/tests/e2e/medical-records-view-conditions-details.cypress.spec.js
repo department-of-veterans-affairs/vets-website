@@ -10,12 +10,6 @@ describe('Medical Records View Conditions', () => {
     ConditionsListPage.clickConditionsDetailsLink(0);
     // Axe check
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

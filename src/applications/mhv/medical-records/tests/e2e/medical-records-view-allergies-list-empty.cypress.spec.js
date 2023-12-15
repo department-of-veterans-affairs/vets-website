@@ -18,12 +18,6 @@ describe('Medical Records View Allergies', () => {
     // .click({ force: true });
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

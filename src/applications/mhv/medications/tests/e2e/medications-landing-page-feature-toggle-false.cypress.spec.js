@@ -11,12 +11,6 @@ describe('Medications Landing Page', () => {
     site.login(true, true);
     cy.visit('my-health/about-medications/');
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

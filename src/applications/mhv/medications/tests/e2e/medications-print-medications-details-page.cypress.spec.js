@@ -13,13 +13,7 @@ describe('Navigate to Print DropDown on Details Page', () => {
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     detailsPage.clickPrintOrDownloadThisPageDropDownOnDetailsPage();
     detailsPage.verifyPrintButtonEnabledOnDetailsPage();
   });

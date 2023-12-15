@@ -11,13 +11,7 @@ describe('Medications List Page Renew Rx Link', () => {
     cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.verifyLearnHowToRenewPrescriptionsLinkExists();
     listPage.clickLearnHowToRenewPrescriptionsLink();

@@ -12,13 +12,7 @@ describe('Medications Details Page Transferred Status DropDown', () => {
     cy.visit('my-health/about-medications/');
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(transferredRx);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();

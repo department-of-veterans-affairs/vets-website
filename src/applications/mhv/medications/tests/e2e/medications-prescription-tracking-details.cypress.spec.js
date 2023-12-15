@@ -15,12 +15,6 @@ describe('Medications Details Page Download', () => {
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails);
     detailsPage.verifyPrescriptionTrackingInformation();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

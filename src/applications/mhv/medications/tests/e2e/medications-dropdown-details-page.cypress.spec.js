@@ -16,12 +16,6 @@ describe('Medications Details Page DropDown', () => {
     detailsPage.clickWhatToKnowAboutMedicationsDropDown();
     detailsPage.verifyTextInsideDropDownOnDetailsPage();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

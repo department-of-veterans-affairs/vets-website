@@ -30,12 +30,6 @@ describe('Medical Records View Allergies', () => {
     AllergyDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });
