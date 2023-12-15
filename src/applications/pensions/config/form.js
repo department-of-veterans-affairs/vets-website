@@ -57,6 +57,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 // chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
 import applicantInformation from './chapters/01-applicant-information/applicantInformation';
+import careExpenses from './chapters/05-financial-information/careExpenses';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
 import currentSpouse from './chapters/04-household-information/currentSpouse';
@@ -78,17 +79,16 @@ import maritalStatus from './chapters/04-household-information/maritalStatus';
 import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
 import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
 import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
+import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
 import pow from './chapters/02-military-history/pow';
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import receivesIncome from './chapters/05-financial-information/receivesIncome';
-import servicePeriods from './chapters/02-military-history/servicePeriods';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
-import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
-import careExpenses from './chapters/05-financial-information/careExpenses';
-import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 
@@ -280,11 +280,11 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
         },
         general: {
           path: 'military/general',

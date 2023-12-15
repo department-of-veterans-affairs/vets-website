@@ -15,12 +15,6 @@ describe('Medications Details Page Download', () => {
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });
