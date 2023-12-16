@@ -18,13 +18,7 @@ describe('Medications details Page Back Browser', () => {
       currentItem.attributes.threadPageSize = threadLength;
     });
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails);
