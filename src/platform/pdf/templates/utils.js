@@ -334,36 +334,18 @@ const createDetailItem = async (doc, config, x, item) => {
   if (item.inline === true) {
     paragraphOptions.continued = true;
     titleText += ': ';
-    if (!item.value?.type) {
-      content.push(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.boldFont)
-            .fontSize(config.text.size)
-            .text(titleText, x, doc.y, paragraphOptions);
-          doc
-            .font(config.text.font)
-            .fontSize(config.text.size)
-            .text(item.value);
-        }),
-      );
-    } else if (item.value?.type === 'image') {
-      content.push(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.boldFont)
-            .fontSize(config.text.size)
-            .text(titleText, x, doc.y, paragraphOptions);
-          doc.image(
-            Buffer.from(
-              item.value?.image.replace(/^data:image\/\w+;base64,/, ''),
-              'base64',
-            ),
-            item.value?.options,
-          );
-        }),
-      );
-    }
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.boldFont)
+          .fontSize(config.text.size)
+          .text(titleText, x, doc.y, paragraphOptions);
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(item.value);
+      }),
+    );
   } else {
     const blockValueOptions = { lineGap: 6 };
     paragraphOptions.lineGap = 2;
@@ -378,30 +360,14 @@ const createDetailItem = async (doc, config, x, item) => {
         }),
       );
     }
-    if (!item.value?.type) {
-      content.push(
-        doc.struct('P', () => {
-          doc
-            .font(config.text.font)
-            .fontSize(config.text.size)
-            .text(item.value, x, doc.y, blockValueOptions);
-        }),
-      );
-    } else if (item.value?.type === 'image') {
-      content.push(
-        doc.struct('Div', () => {
-          doc.moveDown(0.5);
-          doc.image(
-            Buffer.from(
-              item.value?.image.replace(/^data:image\/\w+;base64,/, ''),
-              'base64',
-            ),
-            item.value?.options,
-          );
-          doc.moveDown(0.5);
-        }),
-      );
-    }
+    content.push(
+      doc.struct('P', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(item.value, x, doc.y, blockValueOptions);
+      }),
+    );
   }
 
   return content;
@@ -440,9 +406,17 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     const paragraphOptions = {
       continued: !!element.continued,
       lineGap: 2,
-      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+      ...(i === item.value.length - 1 && {
+        paragraphGap: element?.paragraphGap ?? 6,
+      }),
     };
-
+    if (element?.itemSeperator) {
+      if (doc.y > doc.page.height - doc.page.margins.bottom) {
+        // eslint-disable-next-line no-await-in-loop
+        await doc.addPage();
+      }
+      addHorizontalRule(doc, ...Object.values(element.itemSeperatorOptions));
+    }
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
@@ -457,7 +431,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       content.push(
         doc.struct('Span', () => {
           doc
-            .font(font)
+            .font(element?.font ?? font)
             .fontSize(config.text.size)
             .text(element.value, x, doc.y, paragraphOptions);
         }),
@@ -493,17 +467,21 @@ const createImageDetailItem = async (doc, config, x, item) => {
       }),
     );
   }
-
-  const image = await fetch(item.value.value);
-  const contentType = image.headers.get('Content-type');
-  const imageBuffer = await image.arrayBuffer();
-  const base64 = `data:${contentType};base64,${Buffer.from(
-    imageBuffer,
-  ).toString('base64')}`;
+  let image = item.value.value;
+  if (!item.value.isBase64) {
+    const fetchedImage = await fetch(item.value.value);
+    const contentType = fetchedImage.headers.get('Content-type');
+    const imageBuffer = await fetchedImage.arrayBuffer();
+    image = `data:${contentType};base64,${Buffer.from(imageBuffer).toString(
+      'base64',
+    )}`;
+  }
 
   content.push(
     doc.struct('P', () => {
-      doc.image(base64, x, doc.y);
+      doc.moveDown(0.5);
+      doc.image(image, x, doc.y, item.value?.options);
+      doc.moveDown(0.5);
     }),
   );
 
