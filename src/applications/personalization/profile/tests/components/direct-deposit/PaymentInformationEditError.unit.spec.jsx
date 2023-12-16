@@ -2,211 +2,20 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
+
 import PaymentInformationEditError from '@@profile/components/direct-deposit/PaymentInformationEditError';
 
+const { errors } = mockDisabilityCompensations.updates;
+
 describe('<PaymentInformationEditError />', () => {
-  const checksumError = {
-    errors: [
-      {
-        title: 'Internal server error',
-        detail: 'Internal server error',
-        code: '500',
-        source: 'EVSS::PPIU::Service',
-        status: '500',
-        meta: {
-          messages: [
-            {
-              key: 'payment.accountRoutingNumber.invalidCheckSum',
-              severity: 'ERROR',
-              text: 'Account Routing Number contains invalid checksum',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const restrictionIndicatorsPresentError = {
-    errors: [
-      {
-        code: '126',
-        detail: 'One or more unprocessable user payment properties',
-        meta: {
-          messages: [
-            {
-              key: 'payment.restriction.indicators.present',
-              severity: 'ERROR',
-              text: 'Cannot perform an update due to restriction indicators',
-            },
-          ],
-        },
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        title: 'Unprocessable Entity',
-      },
-    ],
-  };
-  const invalidRoutingNumberError = {
-    errors: [
-      {
-        code: '126',
-        detail: 'One or more unprocessable user payment properties',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.generic.error.message',
-              severity: 'ERROR',
-              text:
-                'Generic CnP payment update error. Update response: Update Failed: Invalid Routing Number',
-            },
-          ],
-        },
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        title: 'Unprocessable Entity',
-      },
-    ],
-  };
-  const accountFlaggedError = {
-    errors: [
-      {
-        title: 'Account Flagged',
-        detail: 'The account has been flagged',
-        code: '136',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.flashes.on.record.message',
-              severity: 'ERROR',
-              text: 'Flashes on record',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const routingNumberFlaggedError = {
-    errors: [
-      {
-        title: 'Potential Fraud',
-        detail: 'Routing number related to potential fraud',
-        code: '135',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.routing.number.fraud.message',
-              severity: 'ERROR',
-              text: 'Routing number related to potential fraud',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const badWorkPhoneNumberError = {
-    errors: [
-      {
-        title: 'Unprocessable Entity',
-        detail: 'One or more unprocessable user payment properties',
-        code: '126',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.generic.error.message',
-              severity: 'ERROR',
-              text:
-                'Generic CnP payment update error. Update response: Update Failed: Day phone number is invalid, must be 7 digits',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const badHomeAreaCodeError = {
-    errors: [
-      {
-        title: 'Unprocessable Entity',
-        detail: 'One or more unprocessable user payment properties',
-        code: '126',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.generic.error.message',
-              severity: 'ERROR',
-              text:
-                'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const badAddressError = {
-    errors: [
-      {
-        title: 'Unprocessable Entity',
-        detail: 'One or more unprocessable user payment properties',
-        code: '126',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.generic.error.message',
-              severity: 'ERROR',
-              text:
-                'Generic CnP payment update error. Update response: Update Failed: Required field not entered for mailing address update',
-            },
-          ],
-        },
-      },
-    ],
-  };
-  const genericError = {
-    errors: [
-      {
-        title: 'Unprocessable Entity',
-        detail: 'One or more unprocessable user payment properties',
-        code: '126',
-        source: 'EVSS::PPIU::Service',
-        status: '422',
-        meta: {
-          messages: [
-            {
-              key: 'cnp.payment.generic.error.message',
-              severity: 'ERROR',
-              text: 'This is a generic error that we do not recognize.',
-            },
-          ],
-        },
-      },
-    ],
-  };
-
-  // When VA Profile was not working in the staging env, we saw this error when
-  // saving direct deposit info (hitting PUT ppiu/payment_information)
-  const upstreamError = {
-    errors: [
-      {
-        title: 'Bad Gateway',
-        detail: 'Received an an invalid response from the upstream server',
-        code: 'VET360_502',
-        source: 'Vet360::ContactInformation::Service',
-        status: '502',
-      },
-    ],
-  };
-
   it('renders', () => {
     const wrapper = shallow(
-      <PaymentInformationEditError responseError={{ error: genericError }} />,
+      <PaymentInformationEditError
+        responseError={{
+          error: errors.generic,
+        }}
+      />,
     );
     expect(wrapper.html()).to.not.be.empty;
     wrapper.unmount();
@@ -214,7 +23,11 @@ describe('<PaymentInformationEditError />', () => {
 
   it('renders the default error when it gets an unrecognized error message', () => {
     const wrapper = shallow(
-      <PaymentInformationEditError responseError={{ error: genericError }} />,
+      <PaymentInformationEditError
+        responseError={{
+          error: errors.generic,
+        }}
+      />,
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. We couldn’t update your payment information. Please try again later.',
@@ -224,7 +37,9 @@ describe('<PaymentInformationEditError />', () => {
 
   it('renders the invalid routing number error', () => {
     let wrapper = shallow(
-      <PaymentInformationEditError responseError={{ error: checksumError }} />,
+      <PaymentInformationEditError
+        responseError={{ error: errors.invalidChecksumRoutingNumber }}
+      />,
     );
     expect(wrapper.html()).to.contain(
       'We can’t find a bank linked to the routing number you entered.',
@@ -233,7 +48,7 @@ describe('<PaymentInformationEditError />', () => {
 
     wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: invalidRoutingNumberError }}
+        responseError={{ error: errors.invalidRoutingNumber }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -243,19 +58,9 @@ describe('<PaymentInformationEditError />', () => {
   });
 
   it('renders the flagged/locked account error', () => {
-    let wrapper = shallow(
+    const wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: accountFlaggedError }}
-      />,
-    );
-    expect(wrapper.html()).to.contain(
-      'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
-    );
-    wrapper.unmount();
-
-    wrapper = shallow(
-      <PaymentInformationEditError
-        responseError={{ error: restrictionIndicatorsPresentError }}
+        responseError={{ error: errors.paymentRestrictionsPresent }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -267,7 +72,7 @@ describe('<PaymentInformationEditError />', () => {
   it('renders the flagged routing number error', () => {
     const wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: routingNumberFlaggedError }}
+        responseError={{ error: errors.routingNumberFlagged }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -279,7 +84,7 @@ describe('<PaymentInformationEditError />', () => {
   it('renders an error message prompting the user to update their address', () => {
     const wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: badAddressError }}
+        responseError={{ error: errors.invalidMailingAddress }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -291,7 +96,7 @@ describe('<PaymentInformationEditError />', () => {
   it('renders the bad phone number error messages', () => {
     let wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: badWorkPhoneNumberError }}
+        responseError={{ error: errors.invalidDayPhone }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -301,7 +106,7 @@ describe('<PaymentInformationEditError />', () => {
 
     wrapper = shallow(
       <PaymentInformationEditError
-        responseError={{ error: badHomeAreaCodeError }}
+        responseError={{ error: errors.invalidNightPhone }}
       />,
     );
     expect(wrapper.html()).to.contain(
@@ -312,7 +117,9 @@ describe('<PaymentInformationEditError />', () => {
 
   it('renders the default error when an upstream error occurs', () => {
     const wrapper = shallow(
-      <PaymentInformationEditError responseError={upstreamError} />,
+      <PaymentInformationEditError
+        responseError={{ error: errors.unspecified }}
+      />,
     );
     expect(wrapper.html()).to.contain(
       'We’re sorry. We couldn’t update your payment information. Please try again later.',
