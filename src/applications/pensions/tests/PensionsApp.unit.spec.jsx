@@ -52,8 +52,8 @@ describe('PensionsApp', () => {
       </Provider>,
     );
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.not.exist;
       expect($('va-alert', container)).to.exist;
+      expect($('va-loading-indicator', container)).to.not.exist;
     });
   });
 });
