@@ -14,10 +14,7 @@ import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import UpcomingAppointmentLayout from './AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
@@ -32,9 +29,6 @@ export default function UpcomingAppointmentsList() {
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
-  );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(() => {
@@ -129,7 +123,6 @@ export default function UpcomingAppointmentsList() {
             >
               {UpcomingAppointmentLayout({
                 featureStatusImprovement,
-                featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
               })}
