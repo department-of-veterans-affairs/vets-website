@@ -25,7 +25,9 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
-          isMedicaidEligible: false,
+          'view:isMedicaidEligible': {
+            isMedicaidEligible: true,
+          },
           'view:isEnrolledMedicarePartA': {
             isEnrolledMedicarePartA: false,
           },
@@ -74,7 +76,7 @@ describe('ezr submit transformer', () => {
             last: 'Doe',
           },
           veteranSocialSecurityNumber: '234243444',
-          isMedicaidEligible: false,
+          isMedicaidEligible: true,
           isEnrolledMedicarePartA: false,
           deductibleMedicalExpenses: 234,
           deductibleFuneralExpenses: 11,
@@ -129,7 +131,9 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
-          isMedicaidEligible: false,
+          'view:isMedicaidEligible': {
+            isMedicaidEligible: false,
+          },
           'view:isEnrolledMedicarePartA': {
             isEnrolledMedicarePartA: false,
           },
@@ -233,7 +237,9 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
-          isMedicaidEligible: false,
+          'view:isMedicaidEligible': {
+            isMedicaidEligible: false,
+          },
           'view:isEnrolledMedicarePartA': {
             isEnrolledMedicarePartA: false,
           },
@@ -337,7 +343,9 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
-          isMedicaidEligible: false,
+          'view:isMedicaidEligible': {
+            isMedicaidEligible: false,
+          },
           'view:isEnrolledMedicarePartA': {
             isEnrolledMedicarePartA: false,
           },
