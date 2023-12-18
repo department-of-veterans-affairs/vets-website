@@ -110,6 +110,7 @@ const formConfig = {
   trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: false,
   formId: VA_FORM_IDS.FORM_21P_530,
   saveInProgress: {
     messages: {
