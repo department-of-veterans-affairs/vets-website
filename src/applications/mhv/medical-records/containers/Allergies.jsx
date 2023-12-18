@@ -34,6 +34,7 @@ const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const refresh = useSelector(state => state.mr.refresh);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -45,9 +46,11 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      dispatch(getAllergiesList());
+      if (typeof allergies === 'undefined') {
+        dispatch(getAllergiesList());
+      }
     },
-    [dispatch],
+    [refresh, dispatch, allergies],
   );
 
   useEffect(

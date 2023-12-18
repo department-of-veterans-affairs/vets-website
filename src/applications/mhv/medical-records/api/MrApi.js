@@ -25,6 +25,12 @@ export const createSession = () => {
   });
 };
 
+export const getRefreshStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session/status`, {
+    headers,
+  });
+};
+
 /**
  * Helper function to create a delay
  */

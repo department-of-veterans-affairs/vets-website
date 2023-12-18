@@ -41,4 +41,8 @@ export const Actions = {
     UPDATE: 'MR_SHARING_UPDATE',
     CLEAR: 'MR_SHARING_CLEAR',
   },
+  Refresh: {
+    GET_STATUS: 'MR_REFRESH_GET_STATUS',
+    UPDATE_PHASE: 'MR_REFRESH_UPDATE_PHASE',
+  },
 };

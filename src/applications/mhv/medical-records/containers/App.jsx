@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -9,9 +9,23 @@ import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import { fetchRefreshStatus, updatePhase } from '../actions/refresh';
+import {
+  EXTRACT_LIST,
+  VALID_REFRESH_DURATION,
+  STATUS_POLL_INTERVAL,
+  refreshPhases,
+} from '../util/constants';
 
 const App = ({ children }) => {
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const refresh = useSelector(state => state.mr.refresh);
+  const refreshStatus = useSelector(state => state.mr.refresh.refreshStatus);
+  const refreshStatusDate = useSelector(
+    state => state.mr.refresh.refreshStatusDate,
+  );
+
   const { featureTogglesLoading, appEnabled, showSideNav } = useSelector(
     state => {
       return {
@@ -48,6 +62,48 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+
+  useEffect(
+    /**
+     * Fetch the refresh status from the backend when the app loads.
+     */
+    () => {
+      dispatch(fetchRefreshStatus());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    /**
+     * When the refresh status updates, populate the overall refresh phase.
+     */
+    () => {
+      dispatch(updatePhase(refresh.status));
+    },
+    [refresh.status, dispatch],
+  );
+
+  useEffect(
+    /**
+     * If the status has been fetched and the refresh phase is anything other than current, continue
+     * polling the status endpoint until the refresh is current.
+     */
+    () => {
+      let timeoutId;
+      if (refresh.status && refresh.phase !== refreshPhases.CURRENT) {
+        timeoutId = setTimeout(() => {
+          dispatch(fetchRefreshStatus());
+        }, STATUS_POLL_INTERVAL);
+      }
+      return () => {
+        // Clear the timeout if the component unmounts.
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+      };
+    },
+    [refresh.status, refresh.phase, dispatch],
+  );
 
   useEffect(
     () => {
