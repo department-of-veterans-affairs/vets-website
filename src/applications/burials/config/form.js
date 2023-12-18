@@ -29,6 +29,10 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import {
+  addressSchema,
+  addressUI,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import ApplicantDescription from '../components/ApplicantDescription';
 import ErrorText from '../components/ErrorText';
@@ -299,11 +303,15 @@ const formConfig = {
                 hideIf: form => get('relationship.isEntity', form) !== true,
               },
             },
-            claimantAddress: set(
-              'ui:validations[1]',
-              validateCentralMailPostalCode,
-              address.uiSchema(''),
-            ),
+            claimantAddress: {
+              ...addressUI({
+                labels: {
+                  militaryCheckbox:
+                    'I receive mail outside of the United States on a U.S. military base',
+                },
+                omit: ['street3'],
+              }),
+            },
           },
           schema: {
             type: 'object',
@@ -311,11 +319,7 @@ const formConfig = {
             properties: {
               firmName,
               officialPosition,
-              claimantAddress: address.schema(
-                fullSchemaBurials,
-                true,
-                'centralMailAddress',
-              ),
+              claimantAddress: addressSchema({ omit: ['street3'] }),
             },
           },
         },
