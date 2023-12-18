@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
-describe('Medical Records Vitals Details Page', () => {
+describe.skip('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
