@@ -7,8 +7,7 @@ const isWithinPast60Days = date => {
 
 const isClaimOpen = claim => {
   if (!claim?.attributes) return false;
-  if ('open' in claim.attributes) return claim.attributes.open; // evss
-  return claim.attributes.closeDate === null; // lighthouse
+  return claim.attributes.closeDate === null;
 };
 
 const getAppealUpdateDate = appeal => {
@@ -18,10 +17,8 @@ const getAppealUpdateDate = appeal => {
 
 const getClaimUpdateDate = claim => {
   let updateDate;
-  const filedDate = claim?.attributes.dateFiled || claim?.attributes.claimDate;
-  const changeDate =
-    claim?.attributes.phaseChangeDate ||
-    claim?.attributes.claimPhaseDates?.phaseChangeDate;
+  const filedDate = claim?.attributes.claimDate;
+  const changeDate = claim?.attributes.claimPhaseDates?.phaseChangeDate;
   if (changeDate && filedDate) {
     updateDate =
       new Date(filedDate).getTime() > new Date(changeDate).getTime()

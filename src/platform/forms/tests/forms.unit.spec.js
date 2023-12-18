@@ -50,6 +50,7 @@ const formConfigKeys = [
   'chapters',
   'defaultDefinitions',
   'introduction',
+  'signInHelpList',
   'prefillEnabled',
   'prefillTransformer',
   'trackingPrefix',
@@ -336,6 +337,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'onFormLoaded', false);
           validComponentProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
+          validFunctionProperty(formConfig, 'signInHelpList', false);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validComponentProperty(formConfig, 'CustomHeader', false);

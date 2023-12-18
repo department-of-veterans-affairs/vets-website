@@ -101,7 +101,7 @@ DetailsVA.propTypes = {
   appointment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     start: PropTypes.string.isRequired,
-    comment: PropTypes.string.isRequired,
+    comment: PropTypes.string,
     status: PropTypes.string.isRequired,
     vaos: PropTypes.shape({
       isPastAppointment: PropTypes.bool.isRequired,
@@ -120,9 +120,11 @@ DetailsVA.propTypes = {
     }),
   }),
   facilityData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    vistaId: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    locationId: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      vistaId: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
   }),
 };
 
@@ -148,8 +150,10 @@ DetailsVA.defaultProps = {
     },
   },
   facilityData: {
-    id: '',
-    vistaId: '',
-    name: '',
+    locationId: {
+      id: '',
+      vistaId: '',
+      name: '',
+    },
   },
 };

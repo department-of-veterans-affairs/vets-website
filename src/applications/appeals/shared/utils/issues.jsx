@@ -139,7 +139,7 @@ export const issuesNeedUpdating = (loaded = [], formIssues = []) => {
   return loadedIssues.length !== existingIssues.length
     ? true
     : !loadedIssues.every(({ attributes }, index) => {
-        const existing = existingIssues[index]?.attributes || {};
+        const existing = existingIssues[index]?.attributes;
         return (
           attributes.ratingIssueSubjectText ===
             existing.ratingIssueSubjectText &&
