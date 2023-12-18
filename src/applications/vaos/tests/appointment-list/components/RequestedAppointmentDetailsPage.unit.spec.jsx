@@ -105,7 +105,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
-      path: `/requests/${appointment.id}`,
+      path: `/pending/${appointment.id}`,
     });
 
     // Verify page content...
@@ -240,7 +240,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
-      path: `/requests/${ccAppointmentRequest.id}`,
+      path: `/pending/${ccAppointmentRequest.id}`,
     });
 
     // Verify page content...
@@ -371,7 +371,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       store,
-      path: `/requests/${ccAppointmentRequest.id}`,
+      path: `/pending/${ccAppointmentRequest.id}`,
     });
 
     // Verify page content...
@@ -496,7 +496,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
-      path: `/requests/${appointment.id}`,
+      path: `/pending/${appointment.id}`,
     });
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
@@ -570,7 +570,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     });
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
-      path: `/requests/${appointment.id}`,
+      path: `/pending/${appointment.id}`,
     });
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
@@ -645,7 +645,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
-      path: `/requests/${ccAppointmentRequest.id}`,
+      path: `/pending/${ccAppointmentRequest.id}`,
     });
 
     // Verify page content...
