@@ -46,6 +46,7 @@ const sharedModules = [
   'redux',
   'redux-thunk',
   '@sentry/browser',
+  getAbsolutePath('src/platform/site-wide/wc-loader.js'),
 ];
 
 const globalEntryFiles = {
@@ -60,10 +61,10 @@ const globalEntryFiles = {
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
-  'web-components': {
-    import: getAbsolutePath('src/platform/site-wide/wc-loader.js'),
-    dependOn: 'vendor',
-  },
+  // 'web-components': {
+  //   import: getAbsolutePath('src/platform/site-wide/wc-loader.js'),
+  //   dependOn: 'vendor',
+  // },
 };
 
 function getEntryManifests(entry) {
