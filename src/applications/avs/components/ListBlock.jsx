@@ -31,7 +31,7 @@ export default ListBlock;
 ListBlock.propTypes = {
   heading: PropTypes.string.isRequired,
   itemType: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
   itemName: PropTypes.string,
+  items: PropTypes.array,
   keyName: PropTypes.string,
 };
