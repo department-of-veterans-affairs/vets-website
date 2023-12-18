@@ -8,7 +8,6 @@ describe('Medications Download PDF on List Page', () => {
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
     site.login();
-    // cy.visit('my-health/about-medications/');
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
