@@ -21,13 +21,7 @@ describe('Medications List Page Pagination', () => {
     });
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     // cy.get('[href="/my-health/medications/"]').click();
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
