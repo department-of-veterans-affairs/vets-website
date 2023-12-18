@@ -2,7 +2,7 @@
   "threadDetails": {
     "messages": [
       {
-        "replyToName": "MORGUN, OLEKSII",
+        "replyToName": "FREEMAN, GORDON",
         "messageId": 2715943,
         "category": "COVID",
         "subject": "Covid Inquiry from OM",
@@ -10,7 +10,7 @@
         "attachment": null,
         "sentDate": "2023-03-23T14:58:03.000Z",
         "senderId": 2708253,
-        "senderName": "MORGUN, OLEKSII ",
+        "senderName": "FREEMAN, GORDON ",
         "recipientId": 251391,
         "recipientName": "MHVDAYMARK, MARK ",
         "readReceipt": "READ",
@@ -31,7 +31,7 @@
         "attachment": null,
         "sentDate": "2023-03-20T14:11:09.000Z",
         "senderId": 2708253,
-        "senderName": "MORGUN, OLEKSII ",
+        "senderName": "FREEMAN, GORDON ",
         "recipientId": 251391,
         "recipientName": "MHVDAYMARK, MARK ",
         "readReceipt": "READ",
@@ -46,7 +46,7 @@
       }
     ],
     "isLoading": false,
-    "replyToName": "MORGUN, OLEKSII ",
+    "replyToName": "FREEMAN, GORDON ",
     "threadFolderId": "0",
     "replyToMessageId": 2715943,
     "cannotReply": false,
