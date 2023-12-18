@@ -7,7 +7,7 @@ const initialState = {
    */
   allRecipients: undefined,
   blockedRecipients: [],
-  allowedRecipients: [],
+  preferredTeams: [],
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
 };
@@ -34,7 +34,11 @@ export const recipientsReducer = (state = initialState, action) => {
         }),
 
         blockedRecipients: action.response.data
-          .filter(recipient => recipient.attributes.blockedStatus === true)
+          .filter(
+            recipient =>
+              recipient.attributes.blockedStatus === true &&
+              recipient.attributes.preferredTeam === true,
+          )
           .map(recipient => {
             return {
               id: recipient.attributes.triageTeamId,
@@ -46,8 +50,12 @@ export const recipientsReducer = (state = initialState, action) => {
             };
           }),
 
-        allowedRecipients: action.response.data
-          .filter(recipient => recipient.attributes.blockedStatus === false)
+        preferredTeams: action.response.data
+          .filter(
+            recipient =>
+              recipient.attributes.blockedStatus === false &&
+              recipient.attributes.preferredTeam === true,
+          )
           .map(recipient => {
             return {
               id: recipient.attributes.triageTeamId,

@@ -110,7 +110,7 @@
       "relationshipType": "PATIENT"
     }
   ],
-  "mockAllowedRecipients": [
+  "mockPreferredTeams": [
     {
       "id": 2336822,
       "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",

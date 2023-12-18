@@ -110,7 +110,7 @@
       "relationshipType": "PATIENT"
     }
   ],
-  "mockAllowedRecipients": [
+  "mockPreferredTeams": [
     {
       "id": 1013155,
       "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",

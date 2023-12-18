@@ -69,6 +69,7 @@ const ComposeForm = props => {
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
   const [blockedTriageList, setBlockedTriageList] = useState([]);
+  const [hideSendButton, setHideSendButton] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -145,12 +146,11 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients?.length) {
-        const filteredRecipients = recipients.allowedRecipients.filter(
-          recipient => recipient.preferredTeam === true,
-        );
-
-        setRecipientsList([...defaultRecipientsList, ...filteredRecipients]);
+      if (recipients.associatedTriageGroupsQty) {
+        setRecipientsList([
+          ...defaultRecipientsList,
+          ...recipients.preferredTeams,
+        ]);
       }
 
       if (!draft) {
@@ -166,27 +166,45 @@ const ComposeForm = props => {
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0) {
       if (draft) {
-        if (!recipients.associatedBlockedTriageGroupsQty) {
-          setShowBlockedTriageGroupAlert(
-            !recipients.allowedRecipients.some(
-              recipient => recipient.id === draft.recipientId,
-            ),
-          );
+        if (!recipients.associatedTriageGroupsQty) {
+          setShowBlockedTriageGroupAlert(true);
           setBlockedTriageList([
             { id: draft.recipientId, name: draft.triageGroupName },
-            ...recipients.blockedRecipients,
           ]);
-        } else if (recipients.associatedBlockedTriageGroupsQty) {
-          setShowBlockedTriageGroupAlert(
-            recipients.blockedRecipients.some(
-              recipient => recipient.id === draft.recipientId,
-            ),
+          setRecipientsList(false);
+          setHideSendButton(true);
+        } else {
+          const checkAssociation = () => {
+            return recipient =>
+              recipient.id === draft.recipientId ||
+              recipient.name === draft.triageGroupName;
+          };
+
+          const isAssociated = recipients.allRecipients.some(
+            checkAssociation(),
           );
 
-          setBlockedTriageList(recipients.blockedRecipients);
+          if (!recipients.associatedBlockedTriageGroupsQty) {
+            setShowBlockedTriageGroupAlert(!isAssociated);
+          } else {
+            setShowBlockedTriageGroupAlert(
+              recipients.blockedRecipients.some(checkAssociation()) ||
+                !isAssociated,
+            );
+          }
+          setBlockedTriageList(
+            isAssociated
+              ? recipients.blockedRecipients
+              : [
+                  { id: draft.recipientId, name: draft.triageGroupName },
+                  ...recipients.blockedRecipients,
+                ],
+          );
         }
-      } else if (!draft) {
-        setShowBlockedTriageGroupAlert(recipients.blockedRecipients.length > 0);
+      } else {
+        setShowBlockedTriageGroupAlert(
+          recipients.associatedBlockedTriageGroupsQty > 0,
+        );
         setBlockedTriageList(recipients.blockedRecipients);
       }
     }
@@ -277,7 +295,8 @@ const ComposeForm = props => {
     );
   };
 
-  if (draft && recipients.allRecipients && !formPopulated) populateForm();
+  if (draft && recipients.associatedTriageGroupsQty > 0 && !formPopulated)
+    populateForm();
 
   const checkMessageValidity = useCallback(
     () => {
@@ -594,6 +613,7 @@ const ComposeForm = props => {
               >
                 <BlockedTriageGroupAlert
                   blockedTriageList={blockedTriageList}
+                  status="alert"
                 />
               </div>
             ))}
@@ -664,29 +684,31 @@ const ComposeForm = props => {
               data-dd-action-name="Compose Message Body Textbox"
             />
           </div>
-          <section className="attachments-section">
-            <AttachmentsList
-              compose
-              attachments={attachments}
-              setAttachments={setAttachments}
-              attachFileSuccess={attachFileSuccess}
-              setAttachFileSuccess={setAttachFileSuccess}
-              setNavigationError={setNavigationError}
-              editingEnabled
-            />
+          {recipientsList && (
+            <section className="attachments-section">
+              <AttachmentsList
+                compose
+                attachments={attachments}
+                setAttachments={setAttachments}
+                attachFileSuccess={attachFileSuccess}
+                setAttachFileSuccess={setAttachFileSuccess}
+                setNavigationError={setNavigationError}
+                editingEnabled
+              />
 
-            <FileInput
-              attachments={attachments}
-              setAttachments={setAttachments}
-              setAttachFileSuccess={setAttachFileSuccess}
-            />
-          </section>
+              <FileInput
+                attachments={attachments}
+                setAttachments={setAttachments}
+                setAttachFileSuccess={setAttachFileSuccess}
+              />
+            </section>
+          )}
           <DraftSavedInfo />
           <ComposeFormActionButtons
             deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             formPopulated={formPopulated}
-            hideSendButton={false}
+            hideSendButton={hideSendButton}
             navigationError={navigationError}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             onSend={sendMessageHandler}

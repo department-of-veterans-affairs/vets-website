@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
 import { handleHeader, updatePageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -15,6 +17,17 @@ const FolderHeader = props => {
 
   const cernerFacilitiesPresent = useSelector(
     state => state.sm.facilities.cernerFacilities.length > 0,
+  );
+
+  const associatedTriageGroupsQty = useSelector(
+    state => state.sm.recipients.associatedTriageGroupsQty,
+  );
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
   );
 
   const folderDescription = useMemo(
@@ -68,17 +81,41 @@ const FolderHeader = props => {
       {folder.folderId === Folders.INBOX.id &&
         cernerFacilitiesPresent && <CernerFacilityAlert />}
 
-      <>{handleFolderDescription()}</>
-      {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
-      <ManageFolderButtons folder={folder} />
-      {threadCount > 0 && (
-        <SearchForm
-          folder={folder}
-          keyword=""
-          resultsCount={searchProps.searchResults?.length}
-          {...searchProps}
-          threadCount={threadCount}
-        />
+      {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+        <>
+          {!associatedTriageGroupsQty && (
+            <BlockedTriageGroupAlert status="info" />
+          )}
+
+          <>{handleFolderDescription()}</>
+          {folder.folderId === Folders.INBOX.id &&
+            associatedTriageGroupsQty > 0 && <ComposeMessageButton />}
+          <ManageFolderButtons folder={folder} />
+          {threadCount > 0 && (
+            <SearchForm
+              folder={folder}
+              keyword=""
+              resultsCount={searchProps.searchResults?.length}
+              {...searchProps}
+              threadCount={threadCount}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <>{handleFolderDescription()}</>
+          {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
+          <ManageFolderButtons folder={folder} />
+          {threadCount > 0 && (
+            <SearchForm
+              folder={folder}
+              keyword=""
+              resultsCount={searchProps.searchResults?.length}
+              {...searchProps}
+              threadCount={threadCount}
+            />
+          )}
+        </>
       )}
     </>
   );

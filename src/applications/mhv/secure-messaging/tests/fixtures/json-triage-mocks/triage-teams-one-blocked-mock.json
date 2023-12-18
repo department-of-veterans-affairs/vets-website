@@ -110,7 +110,7 @@
       "relationshipType": "PATIENT"
     }
   ],
-  "mockAllowedRecipients": [
+  "mockPreferredTeams": [
     {
       "id": 2323849,
       "name": "ALPHA_PCMM ASSOCIATION_DAYT29",

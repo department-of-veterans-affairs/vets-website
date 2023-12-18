@@ -109,9 +109,15 @@ const ReplyForm = props => {
 
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
-      if (!recipients.associatedBlockedTriageGroupsQty) {
+      if (!recipients.associatedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(true);
+        setBlockedTriageList([
+          { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
+        ]);
+        setRecipientsList([]);
+      } else if (!recipients.associatedBlockedTriageGroupsQty) {
         setShowBlockedTriageGroupAlert(
-          !recipients.allowedRecipients.some(
+          !recipients.preferredTeams.some(
             recipient => recipient.id === draftToEdit.recipientId,
           ),
         );
@@ -119,7 +125,7 @@ const ReplyForm = props => {
           { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
           ...recipients.blockedRecipients,
         ]);
-      } else if (recipients.associatedBlockedTriageGroupsQty) {
+      } else {
         setShowBlockedTriageGroupAlert(
           recipients.blockedRecipients.some(
             recipient => recipient.id === draftToEdit.recipientId,
@@ -459,7 +465,10 @@ const ReplyForm = props => {
 
         {mhvSecureMessagingBlockedTriageGroup1p0 &&
           showBlockedTriageGroupAlert && (
-            <BlockedTriageGroupAlert blockedTriageList={blockedTriageList} />
+            <BlockedTriageGroupAlert
+              blockedTriageList={blockedTriageList}
+              status="alert"
+            />
           )}
 
         <section>

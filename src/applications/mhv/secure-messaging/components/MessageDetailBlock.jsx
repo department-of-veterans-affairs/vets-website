@@ -61,37 +61,45 @@ const MessageDetailBlock = props => {
 
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0 && message) {
+      const emptyRecipient = { recipientId: 0, triageGroupName: '' };
       const tempRecipient =
         message.triageGroupName !== message.recipientName
           ? messageHistory.find(
               m => m.triageGroupName === message.triageGroupName,
-            ) || { recipientId: 0, triageGroupName: '' }
-          : { recipientId: 0, triageGroupName: '' };
+            ) || emptyRecipient
+          : emptyRecipient;
 
-      const isBlocked = () => {
+      const checkAssociation = () => {
         return recipient =>
           recipient.id === recipientId ||
           recipient.name === tempRecipient.triageGroupName;
       };
 
+      const isAssociated = recipients.preferredTeams.some(checkAssociation());
+
       if (!recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(
-          !recipients.allowedRecipients.some(isBlocked()),
-        );
+        setShowBlockedTriageGroupAlert(!isAssociated);
         setBlockedTriageList([
           { id: message.recipientId, name: message.triageGroupName },
-          ...recipients.blockedRecipients,
         ]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(
-          recipients.blockedRecipients.some(isBlocked()),
-        );
+        if (isAssociated) {
+          setShowBlockedTriageGroupAlert(
+            recipients.blockedRecipients.some(checkAssociation()),
+          );
 
-        setBlockedTriageList(
-          recipients.blockedRecipients.filter(
-            recipient => recipient.name === message.triageGroupName,
-          ),
-        );
+          setBlockedTriageList(
+            recipients.blockedRecipients.filter(
+              recipient => recipient.name === message.triageGroupName,
+            ),
+          );
+        } else {
+          setShowBlockedTriageGroupAlert(!isAssociated);
+
+          setBlockedTriageList([
+            { id: message.recipientId, name: message.triageGroupName },
+          ]);
+        }
       }
     }
 
@@ -153,7 +161,10 @@ const MessageDetailBlock = props => {
       {mhvSecureMessagingBlockedTriageGroup1p0 &&
         (showBlockedTriageGroupAlert && (
           <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
-            <BlockedTriageGroupAlert blockedTriageList={blockedTriageList} />
+            <BlockedTriageGroupAlert
+              blockedTriageList={blockedTriageList}
+              status="alert"
+            />
           </div>
         ))}
 
