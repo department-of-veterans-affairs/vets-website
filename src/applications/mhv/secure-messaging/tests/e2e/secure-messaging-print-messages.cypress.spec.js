@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Print Functionality', () => {
   const landingPage = new PatientInboxPage();
@@ -24,7 +24,7 @@ describe('Secure Messaging - Print Functionality', () => {
   });
 
   it('print messages', () => {
-    cy.get('[data-testid="print-button"]')
+    cy.get(Locators.BUTTONS.PRINT)
       .should('be.visible')
       .click({ force: true });
 
