@@ -69,7 +69,6 @@ const responses = {
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowQuickSubmitNotificationSetting: true,
-            showAuthenticatedMenuEnhancements: true,
             profileUseExperimental: true,
           }),
         ),
