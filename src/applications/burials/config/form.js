@@ -475,7 +475,9 @@ const formConfig = {
                 facilityName: {
                   'ui:title':
                     'Name of the facility or nursing home that VA pays for',
-                  'ui:required': form => !form.facilityName,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'nursingHomePaid' && !form.facilityName,
                   'ui:errorMessages': {
                     required:
                       'Enter the name of the facility or nursing home that VA pays for',
@@ -484,7 +486,9 @@ const formConfig = {
                 facilityLocation: {
                   'ui:title':
                     'City and state of the facility or nursing home that VA pays for',
-                  'ui:required': form => !form.facilityLocation,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'nursingHomePaid' && !form.facilityLocation,
                   'ui:errorMessages': {
                     required:
                       'Enter the city and state of the facility or nursing home that VA pays for',
@@ -498,14 +502,18 @@ const formConfig = {
               vaMedicalCenter: {
                 facilityName: {
                   'ui:title': 'Name of the VA medical center',
-                  'ui:required': form => !form.facilityName,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'vaMedicalCenter' && !form.facilityName,
                   'ui:errorMessages': {
                     required: 'Enter the Name of the VA medical center',
                   },
                 },
                 facilityLocation: {
                   'ui:title': 'City and state of the VA medical center',
-                  'ui:required': form => !form.facilityLocation,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'vaMedicalCenter' && !form.facilityLocation,
                   'ui:errorMessages': {
                     required:
                       'Enter the city and state of the VA medical center',
@@ -519,14 +527,18 @@ const formConfig = {
               stateVeteransHome: {
                 facilityName: {
                   'ui:title': 'Name of the state Veterans facility',
-                  'ui:required': form => !form.facilityName,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'stateVeteransHome' && !form.facilityName,
                   'ui:errorMessages': {
                     required: 'Enter the name of the state Veterans facility',
                   },
                 },
                 facilityLocation: {
                   'ui:title': 'City and state of the state Veterans facility',
-                  'ui:required': form => !form.facilityLocation,
+                  'ui:required': form =>
+                    get('locationOfDeath.location', form) ===
+                      'stateVeteransHome' && !form.facilityLocation,
                   'ui:errorMessages': {
                     required:
                       'Enter the city and state of the state Veterans facility',
@@ -554,7 +566,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['locationOfDeath', 'facilityName', 'facilityLocation'],
+            required: ['locationOfDeath'],
             properties: {
               locationOfDeath,
             },
