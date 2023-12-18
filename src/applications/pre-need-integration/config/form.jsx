@@ -29,6 +29,7 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as burialCemetery from './pages/burialCemetery';
 
 import Footer from '../components/Footer';
 
@@ -527,6 +528,11 @@ const formConfig = {
           depends: formData => buriedWSponsorsEligibility(formData),
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
+        },
+        burialCemetery: {
+          path: 'burial-cemetery',
+          uiSchema: burialCemetery.uiSchema,
+          schema: burialCemetery.schema,
         },
       },
     },
