@@ -83,11 +83,7 @@
     "reference": "Patient/ex-MHV-patient-1"
   },
   "date": "",
-  "author": [
-    {
-      "reference": "#ex-MHV-practitioner-36556"
-    }
-  ],
+  "author": [],
   "authenticator": {
     "extension": [
       {
