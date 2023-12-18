@@ -303,6 +303,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.',
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantName: fullNameUI(),
               },
             },
@@ -338,6 +339,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.',
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantSSN: ssnUI(),
                 applicantDOB: dateOfBirthUI(),
               },
@@ -376,6 +378,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.', // TODO: better msg
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantAddress: addressUI(),
               },
             },
@@ -412,6 +415,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.', // TODO: better msg
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
@@ -450,6 +454,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.', // TODO: better msg
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantGender: radioUI({
                   title: 'Gender',
                   required: true,
@@ -493,6 +498,7 @@ const formConfig = {
                 minItems: 'Must have at least one applicant listed.', // TODO: better msg
               },
               items: {
+                'ui:title': ApplicantField,
                 applicantEnrolledInMedicare: radioUI({
                   title: 'Enrolled in Medicare',
                   required: true,
