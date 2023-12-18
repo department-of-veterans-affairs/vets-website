@@ -71,6 +71,7 @@ import federalTreatmentHistory from './chapters/03-health-and-employment-informa
 import generalHistory from './chapters/02-military-history/generalHistory';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
+import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
 import incomeSources from './chapters/05-financial-information/incomeSources';
@@ -1185,9 +1186,16 @@ const formConfig = {
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
         },
-        careExpenses: {
+        hasCareExpenses: {
           path: 'financial/care-expenses',
           title: 'Care expenses',
+          uiSchema: hasCareExpenses.uiSchema,
+          schema: hasCareExpenses.schema,
+        },
+        careExpenses: {
+          path: 'financial/care-expenses/add',
+          title: 'Unreimbursed care expenses',
+          depends: formData => formData.hasCareExpenses,
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
