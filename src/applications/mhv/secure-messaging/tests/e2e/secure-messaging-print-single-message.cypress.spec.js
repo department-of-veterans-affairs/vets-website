@@ -50,6 +50,7 @@ describe('Secure Messaging - Print Functionality', () => {
     });
   });
   // TODO the concept of printing has changed, this test needs to be updated once the final design is implemented
+  // TODO check with UCD team if the popup should be the same for both scenarios
   it.skip('print single message', () => {
     cy.get('[data-testid="print-button"]').click({ force: true });
     cy.get('[data-testid="print-modal-popup"]')
