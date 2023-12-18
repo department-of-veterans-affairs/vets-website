@@ -137,7 +137,6 @@ export default Object.freeze({
   profileContacts: 'profile_contacts',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
-  profileLighthouseDirectDeposit: 'profile_lighthouse_direct_deposit',
   profileShowEmailNotificationSettings: 'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
