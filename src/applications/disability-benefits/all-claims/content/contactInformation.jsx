@@ -19,11 +19,23 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   );
 };
 
+PhoneViewField.propTypes = {
+  formData: PropTypes.shape({
+    phoneNumber: PropTypes.string,
+  }),
+  name: PropTypes.string,
+};
+
 const EmailViewField = ({ formData, name }) => (
   <p>
     <strong>{name}</strong>: {formData || ''}
   </p>
 );
+
+EmailViewField.propTypes = {
+  formData: PropTypes.string,
+  name: PropTypes.string,
+};
 
 const EffectiveDateViewField = ({ formData }) => {
   const { from, to } = formData;
