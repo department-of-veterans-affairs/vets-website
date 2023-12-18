@@ -1,11 +1,11 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
@@ -44,7 +44,7 @@ describe('Pre-need burial benefits', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.burialBenefits.pages.currentlyBuriedPersons;
+  } = formConfig.chapters.burialBenefits.pages.burialCemetery;
 
   it('should render', () => {
     const form = mount(
@@ -57,7 +57,7 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
@@ -79,5 +79,42 @@ describe('Pre-need burial benefits', () => {
     expect(form.find('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
+  });
+
+  it('should fill in desired cemetery', done => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
+    );
+
+    const cemeteryField = form.find(
+      'input#root_application_claimant_desiredCemetery',
+    );
+    cemeteryField.simulate('focus').simulate('change', {
+      target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' },
+    });
+
+    setTimeout(() => {
+      cemeteryField
+        .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
+        .simulate('keyDown', { key: 'Enter', keyCode: 13 })
+        .simulate('blur');
+
+      // have to pull this again, doesn't work if we use cemeteryField
+      expect(
+        form.find('input#root_application_claimant_desiredCemetery').props()
+          .value,
+      ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+
+      form.unmount();
+      done();
+    });
   });
 });
