@@ -1,6 +1,6 @@
 import definitions from 'vets-json-schema/dist/definitions.json';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { validateDateOfBirth } from 'platform/forms/validations';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 import ClaimantPersInfoUiTitle from '../components/ClaimantPersInfoUiTitle';
 
@@ -8,7 +8,7 @@ import ClaimantPersInfoUiTitle from '../components/ClaimantPersInfoUiTitle';
 export default {
   uiSchema: {
     'ui:title': ClaimantPersInfoUiTitle,
-    claimantFullName: fullNameUI,
+    claimantFullName: fullNameDeprecatedUI,
     claimantDateOfBirth: {
       'ui:title': 'Date of birth',
       'ui:widget': 'date',
