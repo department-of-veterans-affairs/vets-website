@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
-import { getDestinationDomain } from '../utilities';
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
@@ -11,12 +10,14 @@ const NavCard = ({ icon = null, title, links }) => {
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
-          const destinationDomain = getDestinationDomain(href);
+          const header =
+            typeof text === 'object' && text !== null ? 'Inbox' : text;
+          const sectionHeader =
+            typeof text === 'object' && text !== null ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-header': text,
-            'links-list-section-header': String(text) === text ? text : 'Inbox', // hack to handle 'the dot',
-            'destination-domain': destinationDomain,
+            'links-list-header': header,
+            'links-list-section-header': sectionHeader,
           });
         }}
       >
@@ -25,7 +26,7 @@ const NavCard = ({ icon = null, title, links }) => {
       </a>
     </li>
   ));
-  const slug = `mhv-c-card-${title.replaceAll(/[^\w]+/g, '-').toLowerCase()}`;
+  const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
     <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
       <div className="vads-u-display--flex vads-u-align-items--start">
