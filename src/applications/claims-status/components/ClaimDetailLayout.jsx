@@ -65,6 +65,7 @@ export default function ClaimDetailLayout(props) {
 
     const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
     const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const claimSubheader = `Submitted on ${formattedClaimDate}`;
 
     headingContent = (
       <>
@@ -78,8 +79,8 @@ export default function ClaimDetailLayout(props) {
         )}
         <h1 className="claim-title">
           {claimTitle}
-          <span className="claim-subtitle vads-u-margin-top--1">
-            Submitted on {formattedClaimDate}
+          <span className="vads-u-font-family--sans vads-u-margin-top--1">
+            {claimSubheader}
           </span>
         </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
