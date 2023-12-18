@@ -41,7 +41,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978853,
-        "name": "DIMITAR TRIAGE GROUP_UAT2929",
+        "name": "TRIAGE GROUP_UAT2929",
         "stationNumber": "989",
         "blockedStatus": true,
         "relationType": "PATIENT",
@@ -53,7 +53,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978854,
-        "name": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+        "name": "***TG 200_APPT_SLC4%",
         "stationNumber": "989",
         "blockedStatus": false,
         "relationType": "PATIENT",
@@ -77,7 +77,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "name": "Liana's SLC4 PCMM",
+        "name": "SLC4 PCMM",
         "stationNumber": "989",
         "blockedStatus": false,
         "relationType": "PATIENT",
