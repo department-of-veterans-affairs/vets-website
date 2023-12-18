@@ -6,11 +6,13 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import formConfig from './config/form';
+import formConfigV2 from './config/form-v2';
 import { NoFormPage } from './components/NoFormPage';
 
 function BurialsEntry({ location, children, isLoadingFeatures }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const burialFormEnabled = useToggleValue(TOGGLE_NAMES.burialFormEnabled);
+  const burialFormV2 = useToggleValue(TOGGLE_NAMES.burialFormV2);
   const redirectToHowToPage =
     burialFormEnabled === false && location.pathname !== '/introduction';
   if (redirectToHowToPage === true) {
@@ -23,6 +25,13 @@ function BurialsEntry({ location, children, isLoadingFeatures }) {
 
   if (!burialFormEnabled) {
     return <NoFormPage />;
+  }
+  if (burialFormV2) {
+    return (
+      <RoutedSavableApp formConfig={formConfigV2} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
   }
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

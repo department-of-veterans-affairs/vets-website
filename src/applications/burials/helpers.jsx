@@ -210,3 +210,13 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+
+export const generateDescription = text => {
+  return <h3>{text}</h3>;
+};
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0p25">{text}</span>
+  );
+};
