@@ -18,7 +18,7 @@ class LabsAndTestsListPage {
     });
   }
   */
-  /*
+
   clickLabsAndTestsDetailsLink = (_LabsAndTestsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
@@ -26,7 +26,6 @@ class LabsAndTestsListPage {
       .click();
   };
 
-*/
   clickLabsAndTestsRadiologyLink = () => {
     cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').should(
       'be.visible',
@@ -45,7 +44,7 @@ class LabsAndTestsListPage {
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
     cy.get('[data-testid="printButton-0"]').should('be.visible');
-
+  };
 
   verifyDownloadPDF = () => {
     // should display a download pdf file button "Download PDF of this page"
@@ -57,15 +56,11 @@ class LabsAndTestsListPage {
     cy.get('[data-testid="printButton-2"]').should('be.visible');
 
     // cy.get('[data-testid="printButton-2').click();
-
+  };
 
   clickDownloadPDFFile = () => {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-1"]').click();
   };
-
-  */
-
 }
-
 export default new LabsAndTestsListPage();
