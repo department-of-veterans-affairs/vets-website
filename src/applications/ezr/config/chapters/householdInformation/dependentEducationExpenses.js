@@ -8,7 +8,7 @@ import { replaceStrValues } from '../../../utils/helpers/general';
 import { validateCurrency } from '../../../utils/validation';
 import { LAST_YEAR } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
-import { DependentEducationExpensesDescription } from '../../../components/FormDescriptions/DependentEducationExpensesDescription';
+import DependentEducationExpensesDescription from '../../../components/FormDescriptions/DependentEducationExpensesDescription';
 
 const {
   dependents: { items: dependent },
