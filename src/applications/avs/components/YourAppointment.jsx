@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  fieldHasValue,
-  getFormattedAppointmentTime,
-  getShortTimezone,
-} from '../utils';
+import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
-import MedicationTerms from './MedicationTerms';
 import ItemsBlock from './ItemsBlock';
+import ListBlock from './ListBlock';
+import MedicationTerms from './MedicationTerms';
 
 const clinicsVisited = avs => {
   const shortTimezone = getShortTimezone(avs);
@@ -38,58 +35,6 @@ const clinicsVisited = avs => {
     );
   });
   return <div>{clinics}</div>;
-};
-
-const providers = avs => {
-  const providerListItems = avs.providers.map((provider, idx) => (
-    <li key={`provider-${idx}`}>{provider}</li>
-  ));
-  return (
-    <div>
-      <h3>Providers</h3>
-      <ul data-testid="provider-list">{providerListItems}</ul>
-    </div>
-  );
-};
-
-const reasonForAppointment = avs => {
-  // Filter out null/empty field values.
-  let reasonForVisitListItems =
-    avs.reasonForVisit?.filter(reason => fieldHasValue(reason.diagnosis)) || [];
-
-  if (reasonForVisitListItems.length === 0) {
-    return null;
-  }
-
-  reasonForVisitListItems = avs.reasonForVisit.map(reason => (
-    <li key={reason.code}>{reason.diagnosis}</li>
-  ));
-
-  return (
-    <div>
-      <h3>Reason for appointment</h3>
-      <ul data-testid="reason-for-appt-list">{reasonForVisitListItems}</ul>
-    </div>
-  );
-};
-
-const youWereDiagnosedWith = avs => {
-  if (avs.diagnoses?.length > 0) {
-    const diagnosisListItems = avs.diagnoses.map(diagnosis => (
-      <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
-    ));
-
-    return (
-      <div>
-        <h3>You were diagnosed with</h3>
-        <ul className="bulleted-list" data-testid="diagnoses-list">
-          {diagnosisListItems}
-        </ul>
-      </div>
-    );
-  }
-
-  return null;
 };
 
 const renderVitalSign = vitalSignItem => {
@@ -144,9 +89,25 @@ const YourAppointment = props => {
   return (
     <div className="avs-accordion-item">
       {clinicsVisited(avs)}
-      {providers(avs)}
-      {reasonForAppointment(avs)}
-      {youWereDiagnosedWith(avs)}
+      <ListBlock
+        heading="Providers"
+        itemType="provider-list"
+        items={avs.providers}
+      />
+      <ListBlock
+        heading="Reason for appointment"
+        itemType="reason-for-appt-list"
+        items={avs.reasonForVisit}
+        itemName="diagnosis"
+        keyName="code"
+      />
+      <ListBlock
+        heading="You were diagnosed with"
+        itemType="diagnoses-list"
+        items={avs.diagnoses}
+        itemName="diagnosis"
+        keyName="code"
+      />
       <ItemsBlock
         heading="Vitals as of this appointment"
         items={avs.vitals}
