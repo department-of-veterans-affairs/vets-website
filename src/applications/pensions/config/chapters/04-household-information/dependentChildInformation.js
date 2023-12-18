@@ -23,6 +23,12 @@ import {
 
 const { dependents } = fullSchemaPensions.properties;
 
+const childRelationshipOptions = {
+  biological: "They're my biological child",
+  adopted: "They're my adopted child",
+  stepchild: "They're my stepchild",
+};
+
 function isBetween18And23(childDOB) {
   return moment(childDOB).isBetween(
     moment()
@@ -62,11 +68,7 @@ export default {
         childRelationship: radioUI({
           title: "What's your relationship?",
           // uiOptions
-          labels: {
-            biological: "They're my biological child",
-            adopted: "They're my adopted child",
-            stepchild: "They're my stepchild",
-          },
+          labels: childRelationshipOptions,
         }),
         attendingCollege: merge(
           {},
@@ -155,11 +157,9 @@ export default {
             childPlaceOfBirth: dependents.items.properties.childPlaceOfBirth,
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
-            childRelationship: radioSchema([
-              'biological',
-              'adopted',
-              'stepchild',
-            ]),
+            childRelationship: radioSchema(
+              Object.values(childRelationshipOptions),
+            ),
             attendingCollege: yesNoSchema,
             'view:schoolWarning': { type: 'object', properties: {} },
             disabled: yesNoSchema,
