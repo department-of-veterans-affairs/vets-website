@@ -21,8 +21,7 @@ describe('supportingEvidenceOrientation', () => {
         'view:claimingIncrease': false,
       },
     };
-    const expectedString =
-      'Your new service-connected disabilities or conditions';
+    const expectedString = 'Your new service-connected conditions';
     const result = render(supportingEvidenceOrientation({ formData }));
     result.getByText(expectedString);
   });
