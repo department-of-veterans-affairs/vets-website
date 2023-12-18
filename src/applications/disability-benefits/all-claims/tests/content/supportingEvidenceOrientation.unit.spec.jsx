@@ -10,7 +10,7 @@ describe('supportingEvidenceOrientation', () => {
       },
     };
     const result = render(supportingEvidenceOrientation({ formData }));
-    const expectedString = 'Your rated service-connected disabilities';
+    const expectedString = 'Your rated service-connected conditions';
     result.getByText(expectedString);
   });
 
