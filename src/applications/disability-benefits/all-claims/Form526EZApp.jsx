@@ -33,7 +33,6 @@ import {
   show526Wizard,
   showSubform8940And4192,
   wrapWithBreadcrumb,
-  form526RequiredIdentifiersInUserObject,
 } from './utils';
 import {
   clearBranches,
@@ -67,11 +66,19 @@ export const hasRequiredId = profile =>
 
 export const hasRequiredDob = profile => !!profile.dob;
 
-// Will replace hasRequiredServices, hasRequiredId and hasRequiredDob when form526RequiredIdentifiersInUserObject feature flag is removed
-const missingRequiredIdentifiers = profile => {
-  return Object.values(profile.claims.form526RequiredIdentifierPresence).some(
-    idPresence => idPresence === false,
-  );
+const listMissingIdentifiers = profile => {
+  // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
+  // We simply check for the presence of it here instead of toggling a feature flag on the front end as well
+  const identiferDetail = profile?.claims?.form526RequiredIdentifierPresence;
+
+  // If we do have this information, are any of the identifiers marked false, meaning we are missing that identifer on the back end?
+  if (identiferDetail && typeof identiferDetail === 'object') {
+    return Object.values(identiferDetail).some(
+      idPresence => idPresence === false,
+    );
+  }
+
+  return false;
 };
 
 export const isIntroPage = ({ pathname = '' } = {}) =>
@@ -88,7 +95,6 @@ export const Form526Entry = ({
   savedForms,
   showSubforms,
   showWizard,
-  displayMissing526Identifiers,
   user,
 }) => {
   const { profile = {} } = user;
@@ -214,23 +220,10 @@ export const Form526Entry = ({
   }
 
   if (profile.verified) {
-    // Render old style Missing ID Messages (to be deprecated)
-    if (!displayMissing526Identifiers) {
-      // EVSS requires user DOB for submission - see #27374
-      if (!hasRequiredDob(profile)) {
-        return wrapWithBreadcrumb(title, <MissingDob title={title} />);
-      }
-      // User is missing either their SSN, EDIPI, or BIRLS ID
-      if (!hasRequiredId(profile)) {
-        return wrapWithBreadcrumb(title, <MissingId title={title} />);
-      }
-      // User doesn't have the required services. Show an alert
-      if (!hasRequiredServices(profile)) {
-        return wrapWithBreadcrumb(title, <MissingServices title={title} />);
-      }
-    } else if (missingRequiredIdentifiers(profile)) {
-      // Render new style Missing ID Messages with clearer info
+    if (listMissingIdentifiers(profile)) {
+      // Render more descriptive Missing526Identifiers component which will replace the misleading MissingDob, MissingId and MissingServices components
       const identifiers = profile.claims.form526RequiredIdentifierPresence;
+
       return wrapWithBreadcrumb(
         title,
         <Missing526Identifiers
@@ -238,6 +231,22 @@ export const Form526Entry = ({
           form526RequiredIdentifers={identifiers}
         />,
       );
+    }
+
+    // EVSS requires user DOB for submission - see #27374
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
+    if (!hasRequiredDob(profile)) {
+      return wrapWithBreadcrumb(title, <MissingDob title={title} />);
+    }
+    // User is missing either their SSN, EDIPI, or BIRLS ID
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
+    if (!hasRequiredId(profile)) {
+      return wrapWithBreadcrumb(title, <MissingId title={title} />);
+    }
+    // User doesn't have the required services. Show an alert
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
+    if (!hasRequiredServices(profile)) {
+      return wrapWithBreadcrumb(title, <MissingServices title={title} />);
     }
   }
 
@@ -272,7 +281,6 @@ Form526Entry.propTypes = {
   savedForms: PropTypes.array,
   showSubforms: PropTypes.bool,
   showWizard: PropTypes.bool,
-  displayMissing526Identifiers: PropTypes.bool,
   user: PropTypes.shape({
     profile: PropTypes.shape({}),
   }),
@@ -287,8 +295,6 @@ const mapStateToProps = state => ({
   mvi: state.mvi,
   savedForms: state?.user?.profile?.savedForms || [],
   showSubforms: showSubform8940And4192(state),
-  // Missing526Identifiers component needs identifiers mapping in user profile (toggled by feature flag):
-  displayMissing526Identifiers: form526RequiredIdentifiersInUserObject(state),
   showWizard: show526Wizard(state),
   user: state.user,
 });

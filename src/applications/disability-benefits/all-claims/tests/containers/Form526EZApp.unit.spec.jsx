@@ -47,20 +47,11 @@ describe('Form 526EZ Entry Page', () => {
     savedForms = [],
     mvi = '',
     show526Wizard = true,
-    form526RequiredIdentifiersInUserObject = true,
     dob = '2000-01-01',
     pathname = '/introduction',
     router = [],
     addBranches = true,
-    claims = {
-      form526RequiredIdentifierPresence: {
-        participantId: true,
-        birlsId: true,
-        ssn: true,
-        birthDate: true,
-        edipi: true,
-      },
-    },
+    claims = [],
   } = {}) => {
     const initialState = {
       form: {
@@ -95,7 +86,6 @@ describe('Form 526EZ Entry Page', () => {
       },
       featureToggles: {
         show526Wizard,
-        form526RequiredIdentifiersInUserObject,
       },
     };
     const fakeStore = createStore(
@@ -160,7 +150,8 @@ describe('Form 526EZ Entry Page', () => {
   });
 
   describe('Missing user identifiers', () => {
-    describe('When the form526RequiredIdentifiersInUserObject feature toggle is off', () => {
+    // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
+    describe('When there is no form526RequiredIdentifierPresence object in the profile claims object', () => {
       // Logged in & verified, but missing ID
       it('should render Missing ID page', () => {
         sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
@@ -168,8 +159,8 @@ describe('Form 526EZ Entry Page', () => {
           currentlyLoggedIn: true,
           verified: true,
           services: [],
-          form526RequiredIdentifiersInUserObject: false,
         });
+
         expect(tree.find('main')).to.have.lengthOf(0);
         expect(tree.find('h1').text()).to.contain('File for disability');
         expect(tree.find('va-alert')).to.have.lengthOf(1);
@@ -188,8 +179,8 @@ describe('Form 526EZ Entry Page', () => {
           verified: true,
           // only include 'EVSS_CLAIMS' service
           services: [idRequired[0]],
-          form526RequiredIdentifiersInUserObject: false,
         });
+
         expect(tree.find('main')).to.have.lengthOf(0);
         expect(tree.find('h1').text()).to.contain('File for disability');
         expect(tree.find('va-alert')).to.have.lengthOf(1);
@@ -211,7 +202,6 @@ describe('Form 526EZ Entry Page', () => {
           // only include 'EVSS_CLAIMS' service
           services: [idRequired[0]],
           dob: '',
-          form526RequiredIdentifiersInUserObject: false,
         });
         expect(tree.find('main')).to.have.lengthOf(0);
         expect(tree.find('h1').text()).to.contain('File for disability');
@@ -222,36 +212,36 @@ describe('Form 526EZ Entry Page', () => {
         expect(recordedEvent['error-key']).to.include('missing_dob');
         tree.unmount();
       });
+    });
 
-      describe('When the form526RequiredIdentifiersInUserObject feature flag is on', () => {
-        it('should render Missing identifers page and log an event in Google Analytics', () => {
-          sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-          const tree = testPage({
-            verified: true,
-            form526RequiredIdentifiersInUserObject: true,
-            claims: {
-              form526RequiredIdentifierPresence: {
-                participantId: false,
-                birlsId: true,
-                ssn: false,
-                birthDate: true,
-                edipi: false,
-              },
+    // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
+    describe('When a form526RequiredIdentifierPresence object is in the profile claims object', () => {
+      it('should render Missing identifers page and log an event in Google Analytics', () => {
+        sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+        const tree = testPage({
+          verified: true,
+          claims: {
+            form526RequiredIdentifierPresence: {
+              participantId: false,
+              birlsId: true,
+              ssn: false,
+              birthDate: true,
+              edipi: false,
             },
-          });
-
-          expect(tree.find('va-alert')).to.have.lengthOf(1);
-          expect(tree.find('va-alert').text()).to.contain(
-            'We’re missing your Participant ID, Social Security Number, and EDIPI',
-          );
-
-          const recordedEvent = getLastEvent();
-          expect(recordedEvent.event).to.equal('visible-alert-box');
-          expect(recordedEvent['error-key']).to.include(
-            'missing_526_identifiers_participantId_ssn_edipi',
-          );
-          tree.unmount();
+          },
         });
+
+        expect(tree.find('va-alert')).to.have.lengthOf(1);
+        expect(tree.find('va-alert').text()).to.contain(
+          'We’re missing your Participant ID, Social Security Number, and EDIPI',
+        );
+
+        const recordedEvent = getLastEvent();
+        expect(recordedEvent.event).to.equal('visible-alert-box');
+        expect(recordedEvent['error-key']).to.include(
+          'missing_526_identifiers_participantId_ssn_edipi',
+        );
+        tree.unmount();
       });
     });
   });
