@@ -258,7 +258,7 @@ export function addressUI(options) {
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
-        required: 'Country is required',
+        required: 'Select a country',
       },
       'ui:options': {
         /**
@@ -299,8 +299,8 @@ export function addressUI(options) {
       'ui:title': options?.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
-        required: 'Street address is required',
-        pattern: 'Please fill in a valid street address',
+        required: 'Enter a street address',
+        pattern: 'Enter a valid street address',
       },
       'ui:webComponentField': VaTextInputField,
     };
@@ -335,7 +335,7 @@ export function addressUI(options) {
       'ui:required': customRequired('city') || (() => true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'City is required',
+        required: 'Enter a city',
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -357,6 +357,9 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:errorMessages'] = {
+              required: 'Select a post office',
+            };
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -391,7 +394,7 @@ export function addressUI(options) {
         return false;
       },
       'ui:errorMessages': {
-        required: 'Please enter a valid State, Province, or Region',
+        required: 'Select a valid State, Province, or Region',
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
