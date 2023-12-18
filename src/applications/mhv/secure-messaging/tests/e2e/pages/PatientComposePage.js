@@ -4,6 +4,7 @@ import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
@@ -349,12 +350,12 @@ class PatientComposePage {
     );
   };
 
-  verifyRecipient = recipient => {
+  verifyRecipient = (recipient = mockRecipients.data[0].id) => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('select')
       .select(recipient)
-      .should('contain', 'PQR TRIAGE');
+      .should('contain', mockRecipients.data[0].attributes.name);
   };
 
   verifySubjectField = subject => {
