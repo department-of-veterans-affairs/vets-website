@@ -88,7 +88,12 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Provider notes
           </h3>
-          <p>{validateField(prescription.remarks)}</p>
+          <p>
+            {validateField(
+              (prescription.remarks ?? '') +
+                (prescription.disclaimer ? ` ${prescription.disclaimer}` : ''),
+            )}
+          </p>
         </section>
       </div>
     );
