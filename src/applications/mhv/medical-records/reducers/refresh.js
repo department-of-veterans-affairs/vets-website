@@ -6,7 +6,7 @@ import {
 } from '../util/constants';
 
 const initialState = {
-  refreshPhase: undefined,
+  phase: undefined,
   statusDate: undefined,
   status: undefined,
 };
@@ -41,27 +41,35 @@ export const getPhase = (extractStatus, retrieved) => {
   return refreshPhases.CURRENT;
 };
 
+/**
+ * Determine the overall phase for a PHR refresh, based on the phases of each component extract.
+ * The highest-priority extract phase takes precedence. For example, if one extract phase is
+ * IN_PROGRESS, then the overall status is IN_PROGRESS.
+ *
+ * @param {Object} refreshStatus the list of individual extract statuses
+ * @returns the current overall refresh phase, or null if needed data is missing
+ */
 const getOverallPhase = refreshStatus => {
   if (!refreshStatus || refreshStatus.length === 0) {
     return null;
   }
-  let anyInProgress = false;
-  let anyStale = false;
-  let anyCurrent = false;
-  let anyFailed = false;
-  refreshStatus
+
+  const phaseList = refreshStatus
     .filter(status => EXTRACT_LIST.includes(status.extract))
-    .forEach(status => {
-      anyInProgress =
-        anyInProgress || status.phase === refreshPhases.IN_PROGRESS;
-      anyStale = anyStale || status.phase === refreshPhases.STALE;
-      anyCurrent = anyCurrent || status.phase === refreshPhases.CURRENT;
-      anyFailed = anyFailed || status.phase === refreshPhases.FAILED;
-    });
-  if (anyInProgress) return refreshPhases.IN_PROGRESS;
-  if (anyStale) return refreshPhases.STALE;
-  if (anyCurrent) return refreshPhases.CURRENT;
-  if (anyFailed) return refreshPhases.FAILED;
+    .map(status => status.phase);
+
+  const phasePriority = [
+    refreshPhases.IN_PROGRESS,
+    refreshPhases.STALE,
+    refreshPhases.CURRENT,
+    refreshPhases.FAILED,
+  ];
+
+  for (const phase of phasePriority) {
+    if (phaseList.includes(phase)) {
+      return phase;
+    }
+  }
   return null;
 };
 

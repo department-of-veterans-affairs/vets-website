@@ -166,14 +166,18 @@ export const refreshExtractTypes = {
   VPR: 'VPR',
   CHEM_HEM: 'ChemistryHematology',
 };
+
 export const EXTRACT_LIST = [
   refreshExtractTypes.ALLERGY,
   refreshExtractTypes.IMAGING,
   refreshExtractTypes.VPR,
   refreshExtractTypes.CHEM_HEM,
 ];
+
 export const VALID_REFRESH_DURATION = 3600000; // 1 hour
+
 export const STATUS_POLL_INTERVAL = 2000;
+
 export const refreshPhases = {
   STALE: 'stale',
   IN_PROGRESS: 'in_progress',
