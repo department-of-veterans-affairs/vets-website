@@ -16,7 +16,7 @@ describe('<FilterYourResults>', () => {
     });
   });
 
-  it('should click on Historically Black college or university and change status to clicked', async () => {
+  it('should click on Historically Black Colleges and Universities and change status to clicked', async () => {
     const screen = renderWithStoreAndRouter(<FilterYourResults />, {
       initialState: {
         constants: mockConstants(),
@@ -29,7 +29,7 @@ describe('<FilterYourResults>', () => {
 
     const HBCUCheckBox = screen.getByRole('checkbox', {
       name:
-        'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university',
+        'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black Colleges and Universities',
     });
     fireEvent.click(HBCUCheckBox);
 

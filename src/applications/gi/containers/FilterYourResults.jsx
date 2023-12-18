@@ -7,6 +7,7 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
+import environment from 'platform/utilities/environment';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import {
   getStateNameForCode,
@@ -262,53 +263,54 @@ export function FilterYourResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: 'Historically Black college or university',
+        optionLabel: environment.isProduction() ?  'Historically Black college or university' : 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: 'Men-only',
+        optionLabel: environment.isProduction() ? 'Men-only' : 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: 'Women-only',
+        optionLabel: environment.isProduction() ? 'Women-only' : 'Women’s colleges and universities',
+              // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: 'Religious affiliation',
+        optionLabel: environment.isProduction() ? 'Religious affiliation' : 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: 'Hispanic-serving institutions',
+        optionLabel: environment.isProduction() ? 'Hispanic-serving institutions' : 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: 'Native American-serving institutions',
+        optionLabel: environment.isProduction() ? 'Native American-serving institutions' : 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: 'Alaska Native-serving institutions',
+        optionLabel: environment.isProduction() ? 'Alaska Native-serving institutions' : 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel:
-          'Asian American Native American Pacific Islander-serving institutions',
+        optionLabel: environment.isProduction() ? 
+          'Asian American Native American Pacific Islander-serving institutions' : 'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel: 'Predominantly Black institutions',
+        optionLabel:  environment.isProduction() ? 'Predominantly Black institutions' : 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: 'Tribal college and university',
+        optionLabel: environment.isProduction() ? 'Tribal college and university' : 'Tribal Colleges and Universities',
       },
     ];
 
