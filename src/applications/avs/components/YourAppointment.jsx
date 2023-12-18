@@ -48,22 +48,6 @@ const renderVitalSign = vitalSignItem => {
   );
 };
 
-const procedures = avs => {
-  if (avs.procedures?.length > 0) {
-    // TODO: get procedures and add test case.
-
-    return (
-      <div>
-        <h3>Procedures</h3>
-
-        {/* TODO: use bulleted list. */}
-      </div>
-    );
-  }
-
-  return null;
-};
-
 const clinicMedications = avs => {
   if (avs.vaMedications?.length > 0) {
     // TODO: get clinic meds.
@@ -115,7 +99,12 @@ const YourAppointment = props => {
         renderItem={renderVitalSign}
         showSeparators
       />
-      {procedures(avs)}
+      {/* TODO: test procedures when sample data is available. */}
+      <ListBlock
+        heading="Procedures"
+        items={avs.procedures}
+        itemType="procedure-list"
+      />
       {clinicMedications(avs)}
     </div>
   );
