@@ -23,7 +23,7 @@ describe('Secure Messaging - Print Functionality', () => {
     );
   });
 
-  it('print all messages', () => {
+  it('print messages', () => {
     cy.get('[data-testid="print-button"]')
       .should('be.visible')
       .click({ force: true });
@@ -47,34 +47,6 @@ describe('Secure Messaging - Print Functionality', () => {
           },
         },
       });
-    });
-  });
-  // TODO the concept of printing has changed, this test needs to be updated once the final design is implemented
-  // TODO check with UCD team if the popup should be the same for both scenarios
-  it.skip('print single message', () => {
-    cy.get('[data-testid="print-button"]').click({ force: true });
-    cy.get('[data-testid="print-modal-popup"]')
-      .shadow()
-      .find('h1')
-      .should('have.text', 'What do you want to print?')
-      .should('be.visible');
-    cy.get('[data-testid="radio-print-one-message"]').click({ force: true });
-    cy.window().then(win => {
-      win.print();
-
-      expect(win.print).to.be.calledOnce;
-    });
-    cy.get('va-button[secondary]').click({ force: true });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
     });
   });
 });
