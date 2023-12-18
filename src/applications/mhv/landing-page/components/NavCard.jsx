@@ -2,31 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-function containsIndicator(ariaLabel) {
-  return ariaLabel?.includes('unread') || false;
-}
-
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
-        className={`mhv-c-navlink ${
-          ariaLabel?.includes('unread') ? 'indicator' : ''
-        }`}
+        className="mhv-c-navlink"
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
-          const hasIndicator = containsIndicator(ariaLabel);
-          const header = hasIndicator ? 'Inbox' : text;
-          const sectionHeader = hasIndicator ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-header': header,
-            'links-list-section-header': sectionHeader,
+            'links-list-header': text,
+            'links-list-section-header': title,
           });
         }}
       >
-        {text}
+        <span className={ariaLabel?.includes('unread') ? 'indicator' : ''}>
+          {text}
+        </span>
         <i aria-hidden="true" />
       </a>
     </li>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
@@ -44,7 +43,7 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount = 0,
+  unreadMessageCount,
   unreadMessageAriaLabel,
   userHasHealthData = false,
 ) => {
@@ -72,12 +71,7 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        text: (
-          <>
-            Inbox
-            <dot-notification unread-count={unreadMessageCount} />
-          </>
-        ),
+        text: 'Inbox',
         toggle: null,
         ariaLabel: unreadMessageAriaLabel,
       },
