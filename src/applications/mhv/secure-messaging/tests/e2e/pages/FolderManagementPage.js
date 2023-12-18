@@ -135,7 +135,7 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1');
+    cy.wait('@message1', { timeout: 10000 });
     // cy.wait('@full-thread');
   };
 

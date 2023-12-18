@@ -67,7 +67,7 @@ class PatientInboxPage {
     if (getFoldersStatus === 200) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
+        `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
         mockFolders,
       ).as('folders');
     } else {
