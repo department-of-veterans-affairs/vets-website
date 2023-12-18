@@ -1,16 +1,32 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
+// Simplify relationship to a single key/value.
+function transformRelationship(relationship) {
+  let ret;
+  if (typeof relationship === 'string') {
+    ret = relationship; // Nothing to do here
+  } else if (relationship?.relationshipToVeteran) {
+    // If they chose "other" and typed a freeform answer, grab the text
+    ret = relationship.otherRelationshipToVeteran
+      ? relationship.otherRelationshipToVeteran
+      : relationship.relationshipToVeteran;
+  }
+  return ret || ''; // '' if we got an undef val
+}
+
 function transformApplicants(applicants) {
   const applicantsPostTransform = [];
 
   applicants.forEach(app => {
     const transformedApp = {
       full_name: app.applicantName,
-      ssh_or_tin: app.applicantSSN,
+      ssh_or_tin: app.applicantSSN.ssn,
       date_of_birth: app.applicantDOB,
       phone_number: app.applicantPhone,
-      vet_relationship: app.applicantRelationshipToSponsor,
+      vet_relationship: transformRelationship(
+        app.applicantRelationshipToSponsor.relationshipToVeteran,
+      ),
       address: app.applicantAddress,
       gender: app.applicantGender,
     };
@@ -41,7 +57,7 @@ export default function transformForSubmit(formConfig, form) {
   const dataPostTransform = {
     veteran: {
       full_name: transformedData.veteransFullName || {},
-      ssn_or_tin: transformedData.ssn || '',
+      ssn_or_tin: transformedData.ssn.ssn || '',
       va_claim_number: transformedData.vaFileNumber || '',
       date_of_birth: transformedData.sponsorDOB || '',
       phone_number: transformedData?.sponsorPhone || '',
@@ -62,7 +78,9 @@ export default function transformForSubmit(formConfig, form) {
       middleInitial: transformedData.certifierName?.middle || '',
       firstName: transformedData.certifierName.first || '',
       phone_number: transformedData?.certifierPhone || '',
-      relationship: transformedData?.certifierRelationshipToSponsor || '',
+      relationship: transformRelationship(
+        transformedData?.certifierRelationship,
+      ),
       streetAddress: transformedData?.certifierAddress.street || '',
       city: transformedData?.certifierAddress.city || '',
       state: transformedData?.certifierAddress.state || '',
@@ -78,5 +96,8 @@ export default function transformForSubmit(formConfig, form) {
   // eslint-disable-next-line no-console
   // console.log('Transformed to: ', dataPostTransform);
 
-  return JSON.stringify({ ...dataPostTransform });
+  return JSON.stringify({
+    ...dataPostTransform,
+    formNumber: formConfig.formId,
+  });
 }
