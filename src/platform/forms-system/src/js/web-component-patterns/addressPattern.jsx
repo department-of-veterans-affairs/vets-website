@@ -223,16 +223,6 @@ export function addressUI(options) {
   /** @type {UISchemaOptions} */
   const uiSchema = {};
 
-  function requiredFunc(key, def) {
-    return (formData, index) => {
-      if (customRequired(key)) {
-        return customRequired(key)(formData, index);
-      }
-
-      return def;
-    };
-  }
-
   if (!omit('isMilitary')) {
     uiSchema.isMilitary = {
       'ui:title':
@@ -242,7 +232,7 @@ export function addressUI(options) {
       'ui:options': {
         hideEmptyValueInReview: true,
       },
-      'ui:required': requiredFunc('isMilitary', false),
+      'ui:required': customRequired('isMilitary') || (() => false),
     };
   }
 
@@ -254,9 +244,9 @@ export function addressUI(options) {
 
   if (!omit('country')) {
     uiSchema.country = {
-      'ui:required': (formData, index) => {
+      'ui:required': formData => {
         if (customRequired('country')) {
-          return customRequired('country')(formData, index);
+          return customRequired('country')(formData);
         }
         if (cachedPath) {
           const { isMilitary } = get(cachedPath, formData) ?? {};
@@ -268,7 +258,7 @@ export function addressUI(options) {
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
-        required: 'Country is required',
+        required: 'Select a country',
       },
       'ui:options': {
         /**
@@ -305,12 +295,12 @@ export function addressUI(options) {
 
   if (!omit('street')) {
     uiSchema.street = {
-      'ui:required': requiredFunc('street', true),
+      'ui:required': customRequired('street') || (() => true),
       'ui:title': options?.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
-        required: 'Street address is required',
-        pattern: 'Please fill in a valid street address',
+        required: 'Enter a street address',
+        pattern: 'Enter a valid street address',
       },
       'ui:webComponentField': VaTextInputField,
     };
@@ -320,7 +310,7 @@ export function addressUI(options) {
     uiSchema.street2 = {
       'ui:title': options?.labels?.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
-      'ui:required': requiredFunc('street2', false),
+      'ui:required': customRequired('street2') || (() => false),
       'ui:options': {
         hideEmptyValueInReview: true,
       },
@@ -332,7 +322,7 @@ export function addressUI(options) {
     uiSchema.street3 = {
       'ui:title': options?.labels?.street3 || 'Street address line 3',
       'ui:autocomplete': 'address-line3',
-      'ui:required': requiredFunc('street3', false),
+      'ui:required': customRequired('street3') || (() => false),
       'ui:options': {
         hideEmptyValueInReview: true,
       },
@@ -342,10 +332,10 @@ export function addressUI(options) {
 
   if (!omit('city')) {
     uiSchema.city = {
-      'ui:required': requiredFunc('city', true),
+      'ui:required': customRequired('city') || (() => true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'City is required',
+        required: 'Enter a city',
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -367,6 +357,9 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:errorMessages'] = {
+              required: 'Select a post office',
+            };
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
@@ -389,9 +382,9 @@ export function addressUI(options) {
   if (!omit('state')) {
     uiSchema.state = {
       'ui:autocomplete': 'address-level1',
-      'ui:required': (formData, index) => {
+      'ui:required': formData => {
         if (customRequired('state')) {
-          return customRequired('state')(formData, index);
+          return customRequired('state')(formData);
         }
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
@@ -401,7 +394,7 @@ export function addressUI(options) {
         return false;
       },
       'ui:errorMessages': {
-        required: 'Please enter a valid State, Province, or Region',
+        required: 'Select a valid State, Province, or Region',
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -454,7 +447,7 @@ export function addressUI(options) {
 
   if (!omit('postalCode')) {
     uiSchema.postalCode = {
-      'ui:required': requiredFunc('postalCode', true),
+      'ui:required': customRequired('postalCode') || (() => true),
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
