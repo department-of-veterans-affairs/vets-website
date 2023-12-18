@@ -41,6 +41,15 @@ describe('Blocked Triage Group', () => {
   });
 
   it('alert message expandable', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
     cy.get('[data-testid="blocked-triage-group-alert"]').click({
       waitForAnimations: true,
     });
@@ -56,6 +65,15 @@ describe('Blocked Triage Group', () => {
   });
 
   it('reply btn does not exist', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });
