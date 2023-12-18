@@ -112,13 +112,7 @@ const responses = {
     //   ]),
     // );
 
-    return res.json(
-      maintenanceWindows.createDowntimeActiveNotification([
-        maintenanceWindows.SERVICES.MHV,
-      ]),
-    );
-
-    // return res.json(maintenanceWindows.noDowntime);
+    return res.json(maintenanceWindows.noDowntime);
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
