@@ -532,8 +532,6 @@ const formConfig = {
                       'Enter the city and state of the state Veterans facility',
                   },
                 },
-                // 'ui:required': form =>
-                //   get('locationOfDeath.location', form) === 'nursingHomePaid',
                 'ui:options': {
                   hideIf: form =>
                     get('locationOfDeath.location', form) !==
