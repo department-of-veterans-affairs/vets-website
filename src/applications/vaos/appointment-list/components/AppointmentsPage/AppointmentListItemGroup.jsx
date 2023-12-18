@@ -5,10 +5,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
@@ -106,9 +103,6 @@ export default function AppointmentListItemGroup({ data }) {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   // <ul className="vads-u-border-bottom--1px">
   if (Array.isArray(data) === false) return null;
@@ -123,7 +117,6 @@ export default function AppointmentListItemGroup({ data }) {
   return appointments.map((appointment, index) => {
     const facilityId = getVAAppointmentLocationId(appointment);
     const link = getLink({
-      featureBreadcrumbUrlUpdate,
       featureStatusImprovement,
       appointment,
     });

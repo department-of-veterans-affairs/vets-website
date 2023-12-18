@@ -859,22 +859,8 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({
-  featureBreadcrumbUrlUpdate,
-  featureStatusImprovement,
-  appointment,
-}) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
-
-  if (!featureBreadcrumbUrlUpdate) {
-    return isCommunityCare
-      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-          appointment.id
-        }`
-      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-          appointment.id
-        }`;
-  }
+export function getLink({ featureStatusImprovement, appointment }) {
+  const { isPastAppointment } = appointment.vaos;
   return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
     appointment.id
   }`;

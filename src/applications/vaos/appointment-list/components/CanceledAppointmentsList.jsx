@@ -26,10 +26,7 @@ import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import AppointmentCard from './AppointmentsPage/AppointmentCard';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -60,9 +57,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
   } = useSelector(state => getCanceledAppointmentListInfo(state), shallowEqual);
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
-  );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
   );
 
   useEffect(
@@ -136,7 +130,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                 const facilityId = getVAAppointmentLocationId(appt);
                 const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                 const link = getLink({
-                  featureBreadcrumbUrlUpdate,
                   featureStatusImprovement,
                   appointment: appt,
                 });
