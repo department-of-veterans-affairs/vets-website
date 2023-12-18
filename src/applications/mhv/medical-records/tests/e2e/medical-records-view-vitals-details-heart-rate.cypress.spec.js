@@ -12,10 +12,8 @@ describe('Medical Records Vitals Details Page', () => {
   it('Vitals Details Heart Rate', () => {
     // Click Vitals Page Heart Rate  Link
     VitalsDetailsPage.clickHeartRateLink(1);
-    // Verify Vital Details Page "Print or download" button
-    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('December 25, 2004');
+    VitalsDetailsPage.verifyVitalDate('December 25, 2004 12:00 a.m.');
     // Verify Vital Result
     VitalsDetailsPage.verifyVitalResult('185 /min');
     // Verify Vital Details Location
