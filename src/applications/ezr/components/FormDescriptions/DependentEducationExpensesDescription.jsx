@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const DependentEducationExpensesDescription = (
+const DependentEducationExpensesDescription = (
   <>
     <span className="vads-u-display--block vads-u-color--gray-medium">
       Only enter an amount if they had gross income to report to the IRS in
@@ -9,3 +9,5 @@ export const DependentEducationExpensesDescription = (
     </span>
   </>
 );
+
+export default DependentEducationExpensesDescription;
