@@ -42,6 +42,16 @@ export const AssetTransferInformationAlert = () => (
   </va-alert-expandable>
 );
 
+export const IncomeInformationAlert = () => (
+  <va-alert-expandable status="info" trigger="What is income?">
+    <p>
+      Your income is how much you earn. It includes your Social Security
+      benefits, investment and retirement payments, and any income your spouse
+      and dependents receive.
+    </p>
+  </va-alert-expandable>
+);
+
 const RequestFormAlert = ({ title, formName, formLink, children }) => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">
@@ -101,6 +111,37 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     physician assistant, certified nurse practitioner (CNP), or clinical nurse
     specialist (CNS).
   </RequestFormAlert>
+);
+
+export const TotalNetWorthOverTwentyFiveThousand = () => (
+  <va-alert status="warning" uswds slim>
+    <p className="vads-u-margin-y--0">
+      You answered that you have more than $25,000 in assets. You’ll need to
+      submit an Income and Asset Statement in Support of Claim for Pension or
+      Parents' Dependency and Indemnity Compensation (
+      <a
+        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        VA Form 21P-0969
+      </a>
+      ).
+    </p>
+    <p>
+      We’ll ask you to upload this form at the end of this application. Or you
+      can send it to us by mail.
+    </p>
+    <p>
+      <a
+        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Get VA Form 21P-0969 to download.
+      </a>
+    </p>
+  </va-alert>
 );
 
 export const AssetTransferFormAlert = () => (

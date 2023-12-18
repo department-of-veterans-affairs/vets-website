@@ -7,6 +7,7 @@ import {
   isStreamlinedShortForm,
   isStreamlinedLongForm,
 } from '../utils/streamlinedDepends';
+import { setGlobalState } from '../utils/checkGlobalState';
 
 // helper function to get the streamlined value
 const getStreamlinedValue = (isStreamlinedShort, isStreamlinedLong) => {
@@ -83,6 +84,7 @@ const useDetectFieldChanges = formData => {
       const spouseIncomplete = isSpouseDetailsIncomplete(currentQuestions);
 
       if (didSpouseChange && spouseIncomplete) {
+        setGlobalState({ spouseChanged: true });
         setShouldShowReviewButton(false);
       } else if (prevStreamlinedValue !== currentStreamlinedValue) {
         setShouldShowReviewButton(false);

@@ -9,6 +9,9 @@ export default {
       'ui:title':
         'Do you have more details that could help us locate your records? (optional)',
       'ui:webComponentField': VaTextareaField,
+      'ui:options': {
+        charcount: true,
+      },
     },
   },
   schema: {
@@ -16,6 +19,7 @@ export default {
     properties: {
       additionalRecordsInformation: {
         type: 'string',
+        maxLength: 335,
       },
     },
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 
@@ -51,13 +52,13 @@ export class Main extends React.Component {
         : lettersAvailability;
     switch (status) {
       case available:
-        return this.props.children;
+        return <Outlet />;
       case awaitingResponse:
         return <va-loading-indicator message="Loading your letters..." />;
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:
-        return this.props.children;
+        return <Outlet />;
       case hasEmptyAddress:
         return noAddressBanner;
       case unavailable: // fall-through to default
@@ -74,7 +75,7 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
-  useLighthouse: PropTypes.bool,
+  shouldUseLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {

@@ -73,7 +73,7 @@ const CareSummariesAndNotes = () => {
     return (
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
-          message="Loading..."
+          message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
         />
@@ -83,7 +83,9 @@ const CareSummariesAndNotes = () => {
 
   return (
     <div id="care-summaries-and-notes">
-      <h1 className="page-title">Care summaries and notes</h1>
+      <h1 data-testid="care-summaries-and-notes" className="page-title">
+        Care summaries and notes
+      </h1>
       <p>
         Most care summaries and notes are available{' '}
         <span className="vads-u-font-weight--bold">36 hours</span> after

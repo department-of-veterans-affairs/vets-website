@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -115,7 +115,7 @@ export class LetterList extends React.Component {
           . It’s free.
         </p>
         <p>
-          <Link to="confirm-address">Go back to edit address</Link>
+          <Link to="/confirm-address">Go back to edit address</Link>
         </p>
         <va-accordion bordered>{letterItems}</va-accordion>
         {eligibilityMessage}
