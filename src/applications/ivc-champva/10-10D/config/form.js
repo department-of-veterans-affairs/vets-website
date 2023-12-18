@@ -1,5 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
