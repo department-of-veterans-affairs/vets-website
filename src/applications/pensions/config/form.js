@@ -62,7 +62,7 @@ import otherExpensesUI from '../definitions/otherExpenses';
 import applicantInformation from './chapters/01-applicant-information/applicantInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
-import servicePeriods from './chapters/02-military-history/servicePeriods';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import pow from './chapters/02-military-history/pow';
 import age from './chapters/03-health-and-employment-information/age';
@@ -86,16 +86,20 @@ import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCur
 import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
+import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
+import careExpenses from './chapters/05-financial-information/careExpenses';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
+import incomeSources from './chapters/05-financial-information/incomeSources';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
-import receivesIncome from './chapters/05-financial-information/receivesIncome';
 
 const {
   spouseDateOfBirth,
@@ -300,11 +304,11 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
         },
         general: {
           path: 'military/general',
@@ -1393,6 +1397,25 @@ const formConfig = {
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
         },
+        hasCareExpenses: {
+          path: 'financial/care-expenses',
+          title: 'Care expenses',
+          uiSchema: hasCareExpenses.uiSchema,
+          schema: hasCareExpenses.schema,
+        },
+        careExpenses: {
+          path: 'financial/care-expenses/add',
+          title: 'Unreimbursed care expenses',
+          depends: formData => formData.hasCareExpenses,
+          uiSchema: careExpenses.uiSchema,
+          schema: careExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses',
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
+        },
         transferredAssets: {
           title: 'Transferred assets',
           path: 'financial/transferred-assets',
@@ -1430,6 +1453,13 @@ const formConfig = {
           path: 'financial/receives-income',
           uiSchema: receivesIncome.uiSchema,
           schema: receivesIncome.schema,
+        },
+        incomeSources: {
+          title: 'Gross monthly income',
+          path: 'household/income-sources',
+          depends: formData => formData.receivesIncome !== false,
+          uiSchema: incomeSources.uiSchema,
+          schema: incomeSources.schema,
         },
       },
     },
