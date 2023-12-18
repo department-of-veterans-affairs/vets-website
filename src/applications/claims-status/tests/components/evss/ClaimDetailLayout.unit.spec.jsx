@@ -110,6 +110,27 @@ describe('<ClaimDetailLayoutEVSS>', () => {
     );
   });
 
+  it('should render when the claim was submitted', () => {
+    const claim = {
+      attributes: {
+        claimType: 'Compensation',
+        dateFiled: '2023-11-23',
+        vaRepresentative: 'Somebody',
+        contentionList: ['Condition 1', 'Condition 2'],
+      },
+    };
+
+    const screen = render(
+      <Provider store={store}>
+        <ClaimDetailLayout claim={claim} />
+      </Provider>,
+    );
+
+    expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
+      'Submitted on November 23, 2023',
+    );
+  });
+
   it('should render adding details info if open', () => {
     const claim = {
       attributes: {

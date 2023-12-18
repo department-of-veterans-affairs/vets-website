@@ -3,11 +3,11 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+
 import { render } from '@testing-library/react';
+import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 
 const store = createStore(() => ({}));
-
-import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
