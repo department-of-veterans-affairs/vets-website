@@ -39,6 +39,7 @@ describe('Avs: Your Appointment', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     delete avs.reasonForVisit;
     delete avs.diagnoses;
+    avs.providers = null;
     avs.vitals = [];
     delete avs.procedures;
     delete avs.vaMedications;
@@ -46,6 +47,7 @@ describe('Avs: Your Appointment', () => {
     const screen = render(<YourAppointment {...props} />);
     expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
     expect(screen.queryByTestId('diagnoses-list')).to.not.exist;
+    expect(screen.queryByTestId('provider-list')).to.not.exist;
     expect(screen.queryByTestId('vitals')).to.not.exist;
     expect(screen.queryByTestId('procedures')).to.not.exist;
     expect(screen.queryByTestId('clinic-medications')).to.not.exist;
