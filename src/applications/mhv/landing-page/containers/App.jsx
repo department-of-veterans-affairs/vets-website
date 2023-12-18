@@ -70,8 +70,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = vamcEhrData || featureToggles.loading || profile.loading;
 
   const redirecting = signedIn && !loading && !enabled;
 

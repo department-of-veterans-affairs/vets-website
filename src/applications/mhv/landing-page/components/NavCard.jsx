@@ -1,21 +1,24 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+
+function containsIndicator(ariaLabel) {
+  return ariaLabel?.includes('unread') || false;
+}
 
 const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(({ ariaLabel, href, text }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
-        className="mhv-c-navlink"
+        className={`mhv-c-navlink ${
+          ariaLabel?.includes('unread') ? 'indicator' : ''
+        }`}
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
-          console.log('text', typeof text, text);
-          const header =
-            typeof text === 'object' && text !== null ? 'Inbox' : text;
-          const sectionHeader =
-            typeof text === 'object' && text !== null ? 'Messages' : title;
+          const hasIndicator = containsIndicator(ariaLabel);
+          const header = hasIndicator ? 'Inbox' : text;
+          const sectionHeader = hasIndicator ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
             'links-list-header': header,

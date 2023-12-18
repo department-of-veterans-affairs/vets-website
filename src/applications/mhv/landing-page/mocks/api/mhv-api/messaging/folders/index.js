@@ -84,7 +84,7 @@ const oneFolderWithNoUnreadMessages = {
   },
 };
 
-module.exports = {
+export default {
   allFoldersWithUnreadMessages,
   oneFolderWithUnreadMessages,
   oneFolderWithNoUnreadMessages,

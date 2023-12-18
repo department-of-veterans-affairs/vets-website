@@ -4,34 +4,6 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
 // Links with only an href should be links to Va.gov pages and shouldn't need resolving
 
-class DotNotification extends HTMLElement {
-  static get observedAttributes() {
-    return ['unread-count'];
-  }
-
-  connectedCallback() {
-    this.render();
-  }
-
-  attributeChangedCallback(name, _oldValue, _newValue) {
-    if (name === 'unread-count') {
-      this.render();
-    }
-  }
-
-  render() {
-    const unreadCount = this.getAttribute('unread-count');
-    this.innerHTML = `
-        ${
-          unreadCount > 0
-            ? '<span class="indicator" role="status" aria-label="You have unread messages in your Inbox"></span>'
-            : ''
-        }`;
-  }
-}
-
-customElements.define('dot-notification', DotNotification);
-
 const hasOwn = (object, prop) =>
   Object.prototype.hasOwnProperty.call(object, prop);
 
@@ -39,7 +11,7 @@ const resolveToggleLink = (link, featureToggles) => {
   const { text, oldHref, href: newHref, toggle, ariaLabel } = link;
   let href = newHref || oldHref;
   // If the link's toggle matches a feature toggle
-  // check if the toggle is on. If so, show new href. Otherwise show old href
+  // check if the toggle is on. If so, show new href. Otherwise, show old href
   if (hasOwn(featureToggles, toggle)) {
     const showNewHref = featureToggles[toggle] === true;
     href = showNewHref ? newHref : oldHref;
