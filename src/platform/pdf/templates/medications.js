@@ -127,13 +127,7 @@ const generateResultsMedicationListContent = async (
       let structs;
       // image item
       if (resultItem.value?.type === 'image') {
-        structs = await createImageDetailItem(
-          doc,
-          config,
-          32,
-          resultItem,
-          true,
-        );
+        structs = await createImageDetailItem(doc, config, 32, resultItem);
         // rich text item
       } else if (resultItem.isRich) {
         structs = await createRichTextDetailItem(doc, config, 32, resultItem);
