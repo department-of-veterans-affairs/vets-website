@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
+import {
+  fieldHasValue,
+  getFormattedAppointmentTime,
+  getShortTimezone,
+} from '../utils';
 
 import MedicationTerms from './MedicationTerms';
 import ItemsBlock from './ItemsBlock';
@@ -49,20 +53,24 @@ const providers = avs => {
 };
 
 const reasonForAppointment = avs => {
-  if (avs.reasonForVisit?.length > 0) {
-    const reasonForVisitListItems = avs.reasonForVisit.map(reason => (
-      <li key={reason.code}>{reason.diagnosis}</li>
-    ));
+  // Filter out null/empty field values.
+  let reasonForVisitListItems =
+    avs.reasonForVisit?.filter(reason => fieldHasValue(reason.diagnosis)) || [];
 
-    return (
-      <div>
-        <h3>Reason for appointment</h3>
-        <ul data-testid="reason-for-appt-list">{reasonForVisitListItems}</ul>
-      </div>
-    );
+  if (reasonForVisitListItems.length === 0) {
+    return null;
   }
 
-  return null;
+  reasonForVisitListItems = avs.reasonForVisit.map(reason => (
+    <li key={reason.code}>{reason.diagnosis}</li>
+  ));
+
+  return (
+    <div>
+      <h3>Reason for appointment</h3>
+      <ul data-testid="reason-for-appt-list">{reasonForVisitListItems}</ul>
+    </div>
+  );
 };
 
 const youWereDiagnosedWith = avs => {

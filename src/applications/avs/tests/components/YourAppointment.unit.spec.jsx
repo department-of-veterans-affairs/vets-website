@@ -50,4 +50,17 @@ describe('Avs: Your Appointment', () => {
     expect(screen.queryByTestId('procedures')).to.not.exist;
     expect(screen.queryByTestId('clinic-medications')).to.not.exist;
   });
+
+  it('Reason for visit section is not shown when it contains only empty values', async () => {
+    const avs = replacementFunctions.cloneDeep(avsData);
+    avs.reasonForVisit = [
+      {
+        diagnosis: null,
+        code: null,
+      },
+    ];
+    const props = { avs };
+    const screen = render(<YourAppointment {...props} />);
+    expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
+  });
 });
