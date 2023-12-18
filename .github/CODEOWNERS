@@ -108,7 +108,7 @@ src/applications/find-forms @department-of-veterans-affairs/vfs-public-websites-
 src/applications/discharge-wizard @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/income-limits @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/public-outreach-materials @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/search @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/search @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/BTSSS-login @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/cta-widget @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -117,7 +117,7 @@ src/applications/static-pages/homepage-veteran-banner @department-of-veterans-af
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/letters-mobile-cta @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/shifted-vets-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Public Websites - unauthed experience only
@@ -128,9 +128,9 @@ src/applications/static-pages/health-care-manage-benefits/view-test-and-lab-resu
 
 # Facility Locator and VAMC pages
 
-src/applications/facility-locator @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/facility-locator @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Caregiver
 
