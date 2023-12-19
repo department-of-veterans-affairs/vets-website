@@ -33,12 +33,6 @@ describe('Medical Records View Allergies', () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
     cy.get('[data-testid="print-records-button"]').click({ force: true });
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

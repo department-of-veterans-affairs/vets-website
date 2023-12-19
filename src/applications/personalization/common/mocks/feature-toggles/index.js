@@ -6,7 +6,6 @@ const generateFeatureToggles = (toggles = {}) => {
     myVaUseExperimental = true,
     myVaUseExperimentalFrontend = true,
     myVaUseExperimentalFullstack = true,
-    myVaUseLighthouseClaims = true,
     myVaNotificationDotIndicator = true,
     myVaEnableMhvLink = true,
     myVaUpdateErrorsWarnings = true,
@@ -40,10 +39,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'my_va_experimental_fullstack',
           value: myVaUseExperimentalFullstack,
-        },
-        {
-          name: 'my_va_lighthouse_claims',
-          value: myVaUseLighthouseClaims,
         },
         {
           name: 'my_va_notification_dot_indicator',
