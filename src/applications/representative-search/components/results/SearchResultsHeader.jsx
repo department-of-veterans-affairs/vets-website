@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { orgSortOptions } from '../../config';
+import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
 
@@ -18,7 +18,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    organization: 'Veteran Service Organizations',
+    officer: 'Veteran Service Officers',
     attorney: 'Attorneys',
     claim_agents: 'Claims agents',
   };
@@ -46,9 +46,9 @@ export const SearchResultsHeader = props => {
     return 'Results';
   };
 
-  const options = Object.keys(orgSortOptions).map(option => (
+  const options = Object.keys(sortOptions).map(option => (
     <option key={option} value={option}>
-      {orgSortOptions[option]}
+      {sortOptions[option]}
     </option>
   ));
 

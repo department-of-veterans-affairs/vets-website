@@ -9,3 +9,12 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 export const isLandingPageEnabled = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPageEnabled];
 };
+
+/**
+ * Determines if the Landing Page Personalization changes are enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean}
+ */
+export const personalizationEnabled = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
+};
