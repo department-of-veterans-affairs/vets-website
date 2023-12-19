@@ -229,7 +229,7 @@ describe('Thread Details container', () => {
     expect(document.querySelector('section.old-reply-message-body')).to.exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+      '(Draft) To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
     expect(
