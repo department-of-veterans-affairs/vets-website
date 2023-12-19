@@ -39,7 +39,7 @@ const App = ({ children }) => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
