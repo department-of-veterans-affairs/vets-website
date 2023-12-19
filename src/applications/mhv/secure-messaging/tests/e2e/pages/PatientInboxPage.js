@@ -177,7 +177,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        this.singleThread.data[0].attributes.messageId
+        mockMessages.data[0].attributes.messageId
       }/thread`,
       this.singleThread,
     ).as('full-thread');
@@ -189,7 +189,7 @@ class PatientInboxPage {
       mockFirstMessage,
     ).as('fist-message-in-thread');
 
-    cy.contains(this.singleThread.data[0].attributes.subject).click({
+    cy.contains(mockMessages.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
