@@ -545,13 +545,12 @@ const formConfig = {
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf'],
+                fileTypes: ['pdf', 'jpg', '.jpeg', '.png'],
                 maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: file => {
                   const payload = new FormData();
                   payload.append('preneed_attachment[file_data]', file);
-
                   return payload;
                 },
                 parseResponse: (response, file) => ({
