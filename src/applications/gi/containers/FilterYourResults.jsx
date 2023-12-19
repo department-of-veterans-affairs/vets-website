@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import environment from 'platform/utilities/environment';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import {
   getStateNameForCode,
@@ -263,54 +263,73 @@ export function FilterYourResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: environment.isProduction() ?  'Historically Black college or university' : 'Historically Black Colleges and Universities',
+        optionLabel: !environment.isProduction()
+          ? 'Historically Black college or university'
+          : 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: environment.isProduction() ? 'Men-only' : 'Men’s colleges and universities',
+        optionLabel: environment.isProduction()
+          ? 'Men-only'
+          : 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: environment.isProduction() ? 'Women-only' : 'Women’s colleges and universities',
-              // optionLabel: 'Women-only',
+        optionLabel: environment.isProduction()
+          ? 'Women-only'
+          : 'Women’s colleges and universities',
+        // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: environment.isProduction() ? 'Religious affiliation' : 'Religiously affiliated institutions',
+        optionLabel: environment.isProduction()
+          ? 'Religious affiliation'
+          : 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: environment.isProduction() ? 'Hispanic-serving institutions' : 'Hispanic-Serving Institutions',
+        optionLabel: environment.isProduction()
+          ? 'Hispanic-serving institutions'
+          : 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: environment.isProduction() ? 'Native American-serving institutions' : 'Native American-Serving Nontribal Institutions',
+        optionLabel: environment.isProduction()
+          ? 'Native American-serving institutions'
+          : 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: environment.isProduction() ? 'Alaska Native-serving institutions' : 'Alaska Native-Serving Institutions',
+        optionLabel: environment.isProduction()
+          ? 'Alaska Native-serving institutions'
+          : 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel: environment.isProduction() ? 
-          'Asian American Native American Pacific Islander-serving institutions' : 'Asian American and Native American Pacific Islander-Serving Institutions',
+        optionLabel: environment.isProduction()
+          ? 'Asian American Native American Pacific Islander-serving institutions'
+          : 'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel:  environment.isProduction() ? 'Predominantly Black institutions' : 'Predominantly Black Institutions',
+        optionLabel: environment.isProduction()
+          ? 'Predominantly Black institutions'
+          : 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: environment.isProduction() ? 'Tribal college and university' : 'Tribal Colleges and Universities',
+        optionLabel: environment.isProduction()
+          ? 'Tribal college and university'
+          : 'Tribal Colleges and Universities',
       },
     ];
 
