@@ -6,7 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({ token, checkInType = 'day-of' }) => {
+  getSession: async ({ token, checkInType }) => {
     const url = '/check_in/v2/sessions/';
     let requestUrl = `${environment.API_URL}${url}${token}`;
     if (checkInType) {
@@ -96,7 +96,7 @@ const v2 = {
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      `check-in-user${setECheckinStartedCalled ? '-15MR' : ''}`,
+      `check-in-user${setECheckinStartedCalled ? '-45MR' : ''}`,
       uuid,
     );
     return {

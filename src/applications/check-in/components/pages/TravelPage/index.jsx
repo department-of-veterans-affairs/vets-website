@@ -45,7 +45,7 @@ const TravelPage = ({
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
-          setECheckinStartedCalled ? '-15MR' : ''
+          setECheckinStartedCalled ? '-45MR' : ''
         }-clicked`,
         'nav',
       ),
