@@ -14,6 +14,7 @@ const SearchResult = ({
   zipCode,
   phone,
   distance,
+  email,
   // result,
   representative,
   query,
@@ -37,7 +38,7 @@ const SearchResult = ({
           </div>
         )}
         {addressExists && (
-          <div className="vads-u-padding-y--1p5">
+          <div className="vads-u-margin-top--1p5">
             <div>
               {addressLine1}, {addressLine2}
             </div>
@@ -51,9 +52,14 @@ const SearchResult = ({
           </div>
         )}
         {phone && (
-          <div>
-            <strong>Main Number: </strong>
+          <div className="vads-u-margin-top--1p5">
+            <strong>Main number: </strong>
             <va-telephone contact={contact} extension={extension} />
+          </div>
+        )}
+        {email && (
+          <div className="vads-u-margin-top--1p5">
+            <strong>E-mail: </strong> <a href={`mailto:${email}`}>{email}</a>
           </div>
         )}
       </div>

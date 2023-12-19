@@ -49,6 +49,7 @@ const ResultsList = props => {
                   state={result.attributes.stateCode}
                   zipCode={result.attributes.zipCode}
                   phone={result.attributes.phone}
+                  email={result.attributes.email}
                   distance={result.attributes.distance}
                   representative={result}
                   query={sQuery}
