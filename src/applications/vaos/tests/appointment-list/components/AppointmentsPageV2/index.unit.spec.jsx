@@ -221,7 +221,7 @@ describe('VAOS <AppointmentsPage>', () => {
       );
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Appointments | VA online scheduling | Veterans Affairs`,
+          `Appointments | Veterans Affairs`,
         );
       });
 
@@ -314,7 +314,7 @@ describe('VAOS <AppointmentsPage>', () => {
       });
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Pending appointments | VA online scheduling | Veterans Affairs`,
+          `Pending appointments | Veterans Affairs`,
         );
       });
 
@@ -389,7 +389,7 @@ describe('VAOS <AppointmentsPage>', () => {
       ).to.be.ok;
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Past appointments | VA online scheduling | Veterans Affairs`,
+          `Past appointments | Veterans Affairs`,
         );
       });
 

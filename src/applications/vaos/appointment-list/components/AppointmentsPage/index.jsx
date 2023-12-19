@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
   selectFeaturePrintList,
-  selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -128,9 +127,7 @@ export default function AppointmentsPage() {
     selectPendingAppointments(state),
   );
   const isPrintList = useSelector(state => selectFeaturePrintList(state));
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const {
     dropdownValue,
     subPageTitle,
@@ -154,10 +151,7 @@ export default function AppointmentsPage() {
   }
   useEffect(
     () => {
-      if (featureStatusImprovement && !featureBreadcrumbUrlUpdate) {
-        document.title = `${pageTitle} | VA online scheduling | Veterans Affairs`;
-        scrollAndFocus('h1');
-      } else if (featureStatusImprovement && featureBreadcrumbUrlUpdate) {
+      if (featureStatusImprovement) {
         document.title = `${pageTitle} | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
@@ -171,7 +165,6 @@ export default function AppointmentsPage() {
       location.pathname,
       prefix,
       pageTitle,
-      featureBreadcrumbUrlUpdate,
     ],
   );
 

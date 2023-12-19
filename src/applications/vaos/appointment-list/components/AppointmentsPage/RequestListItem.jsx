@@ -7,10 +7,7 @@ import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -44,12 +41,7 @@ export default function RequestListItem({ appointment, facility }) {
     selectFeatureStatusImprovement(state),
   );
 
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
-    appointment.id
-  }`;
+  const link = `pending/${appointment.id}`;
 
   return (
     <li

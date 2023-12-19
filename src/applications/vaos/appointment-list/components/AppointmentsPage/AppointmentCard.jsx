@@ -10,10 +10,7 @@ import {
   getLink,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
@@ -109,11 +106,8 @@ export default function AppointmentCard({
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const link = getLink({
-    featureBreadcrumbUrlUpdate,
     featureStatusImprovement,
     appointment,
   });

@@ -15,7 +15,6 @@ import {
   selectApptDetailAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>
@@ -33,12 +32,8 @@ export default function RequestAppointmentLayout({ appointment }) {
   const detailAriaLabel = useSelector(() =>
     selectApptDetailAriaText(appointment, true),
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
-    appointment.id
-  }`;
+
+  const link = `pending/${appointment.id}`;
 
   return (
     <ListItem appointment={appointment} borderBottom status="pending">
