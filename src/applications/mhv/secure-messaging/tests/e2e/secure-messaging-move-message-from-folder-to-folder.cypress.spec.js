@@ -24,7 +24,7 @@ describe('Secure Messaging Move Message tests', () => {
       folderName,
       folderId,
       mockCustomFolderResponse,
-      mockCustomMessagesResponse,
+      mockMessages,
     );
 
     landingPage.loadSingleThread(mockCustomMessagesResponse);
