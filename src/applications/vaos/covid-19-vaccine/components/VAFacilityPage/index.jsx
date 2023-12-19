@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { usePrevious } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -19,7 +19,6 @@ import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
 import InfoAlert from '../../../components/InfoAlert';
 import useFormState from '../../../hooks/useFormState';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -48,9 +47,7 @@ function VAFacilityPage({
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const dispatch = useDispatch();
 
   const pageTitle = singleValidVALocation
@@ -58,9 +55,7 @@ function VAFacilityPage({
     : 'Choose a location';
 
   useEffect(() => {
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   useEffect(

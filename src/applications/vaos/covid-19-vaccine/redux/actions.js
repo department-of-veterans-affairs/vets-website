@@ -11,7 +11,6 @@ import {
   selectFeatureFacilitiesServiceV2,
   selectSystemIds,
   selectFeatureAcheronService,
-  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -387,9 +386,6 @@ export function confirmAppointment(history) {
     const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
       getState(),
     );
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
-      getState(),
-    );
 
     dispatch({
       type: FORM_SUBMIT,
@@ -427,11 +423,7 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push(
-        featureBreadcrumbUrlUpdate
-          ? `/${appointment.id}?confirmMsg=true`
-          : '/new-covid-19-vaccine-appointment/confirmation',
-      );
+      history.push(`/${appointment.id}?confirmMsg=true`);
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({

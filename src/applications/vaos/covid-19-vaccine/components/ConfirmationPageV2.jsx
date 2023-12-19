@@ -17,7 +17,6 @@ import {
 } from '../../services/location';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 import { startNewAppointmentFlow } from '../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const pageTitle = 'We’ve scheduled your appointment';
@@ -42,17 +41,13 @@ function ConfirmationPageV2({
 }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   if (submitStatus !== FETCH_STATUS.succeeded) {

@@ -4,82 +4,57 @@ import {
   getReceivedDoseScreenerNextPage,
   getVAFacilityNextPage,
 } from './redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 /**
- * Function to get new COVID appointment page flow.
+ * Function to get COVID appointment page flow.
  * The URL displayed in the browser address bar is changed when the feature flag
  * is true.
  *
  * @export
- * @param {boolean} state - New COVID appointment state
+ * @param {boolean} state - COVID appointment state
  * @returns {object} COVID appointment workflow object
  */
-export default function getPageFlow(state) {
-  const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
-
+export default function getPageFlow() {
   return {
     clinicChoice: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'clinic'
-        : '/new-covid-19-vaccine-appointment/choose-clinic',
+      url: 'clinic',
       next: 'selectDate1',
     },
     contactFacilities: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'contact-facility'
-        : '/new-covid-19-vaccine-appointment/contact-facility',
+      url: 'contact-facility',
     },
     contactInfo: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'contact-information'
-        : '/new-covid-19-vaccine-appointment/contact-info',
+      url: 'contact-information',
       next: 'review',
     },
     home: {
-      url: featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : '/new-appointment',
+      url: '/schedule/type-of-care',
     },
     planAhead: {
-      url: featureBreadcrumbUrlUpdate
-        ? './'
-        : '/new-covid-19-vaccine-appointment',
+      url: './',
       next: 'receivedDoseScreener',
     },
     receivedDoseScreener: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'doses-received'
-        : '/new-covid-19-vaccine-appointment/confirm-doses-received',
+      url: 'doses-received',
       next: getReceivedDoseScreenerNextPage(),
     },
     review: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'review'
-        : '/new-covid-19-vaccine-appointment/review',
+      url: 'review',
       next: '',
     },
     root: {
-      url: featureBreadcrumbUrlUpdate
-        ? '/my-health/appointments'
-        : '/health-care/schedule-view-va-appointments/appointments/',
+      url: '/my-health/appointments',
     },
     secondDosePage: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'second-dose'
-        : '/new-covid-19-vaccine-appointment/second-dose-info',
+      url: 'second-dose',
       next: 'contactInfo',
     },
     selectDate1: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'date-time'
-        : '/new-covid-19-vaccine-appointment/select-date',
+      url: 'date-time',
       next: 'secondDosePage',
     },
     vaFacility: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'location'
-        : '/new-covid-19-vaccine-appointment/choose-facility',
+      url: 'location',
       next: getVAFacilityNextPage(),
     },
   };
@@ -87,7 +62,7 @@ export default function getPageFlow(state) {
 
 export function routeToPageInFlow(history, current, action, data) {
   return async (dispatch, getState) => {
-    const pageFlow = getPageFlow(getState());
+    const pageFlow = getPageFlow();
 
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,

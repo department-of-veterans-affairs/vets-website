@@ -8,7 +8,6 @@ import {
   getCovid19VaccineFormPageInfo,
   selectCovid19VaccineFormData,
 } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { openFormPage, updateFormData } from '../redux/actions';
 import {
@@ -46,10 +45,6 @@ const pageKey = 'receivedDoseScreener';
 const pageTitle = 'Have you received a COVID-19 vaccine?';
 
 export default function ReceivedDoseScreenerPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
   const { schema, data, selectPageChangeInProgress } = useSelector(
     state => getCovid19VaccineFormPageInfo(state, pageKey),
     shallowEqual,
@@ -61,9 +56,7 @@ export default function ReceivedDoseScreenerPage({ changeCrumb }) {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   return (

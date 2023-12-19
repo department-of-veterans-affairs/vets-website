@@ -12,7 +12,6 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 import { getAppointmentSlots, onCalendarChange } from '../redux/actions';
 import {
@@ -99,9 +98,6 @@ export default function SelectDate1Page({ changeCrumb }) {
     appointmentSlotsStatus === FETCH_STATUS.loading ||
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(() => {
     dispatch(
@@ -117,9 +113,7 @@ export default function SelectDate1Page({ changeCrumb }) {
       ),
     );
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   useEffect(

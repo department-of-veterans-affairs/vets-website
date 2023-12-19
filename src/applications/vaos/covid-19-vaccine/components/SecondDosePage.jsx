@@ -6,7 +6,6 @@ import moment from 'moment';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -24,16 +23,11 @@ export default function SecondDosePage({ changeCrumb }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { date1 } = data;
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   return (

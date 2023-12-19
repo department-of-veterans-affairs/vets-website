@@ -7,7 +7,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { openContactFacilitiesPage } from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   FACILITY_SORT_METHODS,
   FETCH_STATUS,
@@ -26,10 +25,6 @@ import { routeToPreviousAppointmentPage } from '../flow';
 const pageKey = 'contactFacilities';
 
 export default function ContactFacilitiesPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
   const dispatch = useDispatch();
   const {
     facilitiesStatus,
@@ -56,9 +51,7 @@ export default function ContactFacilitiesPage({ changeCrumb }) {
   useEffect(
     () => {
       scrollAndFocus();
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
+      changeCrumb(pageTitle);
     },
     [facilitiesStatus],
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
@@ -11,7 +11,6 @@ import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -76,9 +75,6 @@ export function ContactInfoPage({
   updateFormData,
   changeCrumb,
 }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -87,9 +83,7 @@ export function ContactInfoPage({
     openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    changeCrumb(pageTitle);
   }, []);
 
   return (
