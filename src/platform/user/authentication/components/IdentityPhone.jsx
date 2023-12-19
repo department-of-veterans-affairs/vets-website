@@ -4,7 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 export default function IdentityPhone({ startSentance }) {
   return (
     <span>
-      {startSentance ? 'Call' : 'call'} us at{' '}
+      {startSentance ? 'Call' : 'call'} our MyVA411 main information line at{' '}
       <va-telephone contact={CONTACTS.VA_411} /> and select 0(
       <va-telephone contact={CONTACTS[711]} tty />
       ).

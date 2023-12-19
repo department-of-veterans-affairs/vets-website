@@ -88,16 +88,35 @@ export default function TermsOfUse() {
 
   return (
     <>
-      <style>{touStyles}</style>
+      {isAuthenticated && !isAuthenticatedWithSiS && <style>{touStyles}</style>}
       <section className="vads-l-grid-container vads-u-padding-y--5">
         <div className="usa-content">
           <h1 className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
             VA online services terms of use
           </h1>
-          <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
-            To sign in, you’ll need to accept the updated terms of use. Read the
-            updated terms on this page. Then confirm if you accept.
-          </p>
+          {isAuthenticated ? (
+            <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+              To sign in, you’ll need to accept the updated terms of use. Read
+              the updated terms on this page. Then confirm if you accept.
+            </p>
+          ) : (
+            <p>
+              We’ve recently updated our terms of use for VA.gov and other VA
+              online services. Read the updated terms on this page. If you
+              haven’t yet accepted these terms, you can sign in and accept them
+              now.
+            </p>
+          )}
+          {!isAuthenticated && (
+            <div className="vads-u-margin-y--5">
+              <a
+                className="vads-c-action-link--blue"
+                href="https://www.va.gov/?next=loginModal"
+              >
+                Sign in to VA.gov
+              </a>
+            </div>
+          )}
           <article>
             <div>
               <p>
@@ -157,12 +176,14 @@ export default function TermsOfUse() {
                 <li>Update your personal information</li>
               </ul>
             </va-alert>
-            <TermsAcceptance
-              error={error}
-              isAuthenticated={isAuthenticated}
-              handleTouClick={handleTouClick}
-              setShowDeclineModal={setShowDeclineModal}
-            />
+            {isAuthenticated && (
+              <TermsAcceptance
+                error={error}
+                isAuthenticated={isAuthenticated}
+                handleTouClick={handleTouClick}
+                setShowDeclineModal={setShowDeclineModal}
+              />
+            )}
           </article>
         </div>
         <VaModal
