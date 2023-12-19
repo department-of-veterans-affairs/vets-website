@@ -271,7 +271,7 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
-          replyToName: 'MORGUN, OLEKSII',
+          replyToName: 'FREEMAN, GORDON',
           threadViewCount: 5,
           cannotReply: isOlderThan(
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
@@ -318,7 +318,7 @@ describe('Thread Details container', () => {
       .exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
+      `(Draft) To: FREEMAN, GORDON\n(Team: ${triageGroupName})`,
     );
 
     expect(screen.getByTestId('message-body-field')).to.exist;
