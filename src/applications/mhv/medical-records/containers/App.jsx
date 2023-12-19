@@ -78,7 +78,7 @@ const App = ({ children }) => {
      * When the refresh status updates, populate the overall refresh phase.
      */
     () => {
-      dispatch(updatePhase(refresh.status));
+      if (refresh.status) dispatch(updatePhase(refresh.status));
     },
     [refresh.status, dispatch],
   );

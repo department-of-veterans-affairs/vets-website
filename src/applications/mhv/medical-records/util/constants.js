@@ -184,3 +184,9 @@ export const refreshPhases = {
   CURRENT: 'current',
   FAILED: 'failed',
 };
+
+export const loadStates = {
+  PRE_FETCH: 'pre-fetch',
+  FETCHING: 'fetching',
+  FETCHED: 'fetched',
+};
