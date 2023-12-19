@@ -152,7 +152,7 @@ export default function HomePage() {
           <h2>Manually print and fill out your form</h2>
           <p>
             If you'd like to appoint a VSO, fill out an Appointment of Veterans
-            Service Organization as Claimant's Representative (VA Form 21-22).
+            Service Officer as Claimant's Representative (VA Form 21-22).
           </p>
 
           <va-link

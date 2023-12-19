@@ -15,7 +15,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOrganizationInputString,
+    repOfficerInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -35,9 +35,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOrganizationChange = e => {
+  const handleRepOfficerChange = e => {
     onChange({
-      repOrganizationInputString: onlySpaces(e.target.value)
+      repOfficerInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -137,19 +137,15 @@ const SearchControls = props => {
           />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'organization'
-                ? 'Organization name'
-                : 'Accredited representative name'
-            }
-            message-aria-describedby="Text input for organization or Accredited representative name"
-            name="Organization or Accredited Representative Name"
-            onChange={handleRepOrganizationChange}
-            onInput={handleRepOrganizationChange}
+            label="Accredited representative name"
+            message-aria-describedby="Text input for officer or Accredited representative name"
+            name="Officer or Accredited Representative Name"
+            onChange={handleRepOfficerChange}
+            onInput={handleRepOfficerChange}
             onKeyPress={e => {
               if (e.key === 'Enter') onSubmit();
             }}
-            value={repOrganizationInputString}
+            value={repOfficerInputString}
             uswds
           />
 
@@ -176,7 +172,7 @@ SearchControls.propTypes = {
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
-  repOrganizationInputString: PropTypes.string.isRequired,
+  repOfficerInputString: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

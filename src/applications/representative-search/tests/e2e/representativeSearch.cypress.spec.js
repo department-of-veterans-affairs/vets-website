@@ -4,14 +4,14 @@ import { generateFeatureToggles } from '../../mocks/feature-toggles';
 import { claimsAgentIsEnabled } from '../../config';
 
 const representativeTypeOptions = [
-  'Veteran Service Organization',
+  'Veteran Service Officer',
   'Attorney',
   'Claims agent',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
   // Verify VSO is checked by default
-  cy.contains('va-radio-option', 'Veteran Service Organization')
+  cy.contains('va-radio-option', 'Veteran Service Officer')
     .find('input')
     .should('be.checked');
 

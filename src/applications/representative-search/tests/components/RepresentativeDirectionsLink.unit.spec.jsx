@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import RepresentativeDirectionsLink from '../../components/search/RepresentativeDirectionsLink';
+import RepresentativeDirectionsLink from '../../components/results/RepresentativeDirectionsLink';
 import testDataRepresentative from '../../constants/mock-representative-v0.json';
 
 const verifyLink = data => {

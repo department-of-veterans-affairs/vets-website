@@ -21,10 +21,10 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           onVaValueChange={handleRadioButtonSelect}
         >
           <va-radio-option
-            label="Veteran Service Organization"
+            label="Veteran Service Officer"
             name="group"
-            value="organization"
-            checked={representativeType === 'organization'}
+            value="officer"
+            checked={representativeType === 'officer'}
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
@@ -64,12 +64,12 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
                 How can each type of accredited representative help me?
               </h3>
               <p>
-                <strong>Veteran Service Organization (VSO)</strong>{' '}
-                representatives can help you gather evidence and file your
-                claims, decision reviews, and appeals. They can also communicate
-                with VA about your case on your behalf. Examples of VSOs include
-                the American Legion, County Veteran Service Offices, Disabled
-                American Veterans, and Veterans of Foreign Wars.
+                <strong>Veteran Service Officer (VSO)</strong> representatives
+                can help you gather evidence and file your claims, decision
+                reviews, and appeals. They can also communicate with VA about
+                your case on your behalf. Examples of VSOs include the American
+                Legion, County Veteran Service Offices, Disabled American
+                Veterans, and Veterans of Foreign Wars.
               </p>
               <p>
                 VSO representatives have completed training and passed tests
