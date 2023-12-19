@@ -52,7 +52,7 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/about-medications',
+              url: '/my-health/medications/about',
               label: 'About medications',
             },
             {
