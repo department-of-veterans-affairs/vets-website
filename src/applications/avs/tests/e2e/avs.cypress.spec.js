@@ -16,4 +16,27 @@ describe('After-visit Summary', () => {
     cy.get('h1').contains('After-visit summary');
     cy.injectAxeThenAxeCheck();
   });
+
+  it('only the top accordion is open by default', () => {
+    cy.visit(testUrl);
+    cy.get('h1').contains('After-visit summary');
+    cy.get("[header='Your appointment on January 1, 2023'][open='true']")
+      .shadow()
+      .get('.avs-accordion-item')
+      .contains('You were diagnosed with')
+      .should('be.visible');
+    cy.get("[header='Your treatment plan from this appointment']")
+      .shadow()
+      .find('button[aria-expanded=false]')
+      .should('exist');
+    cy.get("[header='Your health information as of this appointment']")
+      .shadow()
+      .find('button[aria-expanded=false]')
+      .should('exist');
+    cy.get("[header='More information']")
+      .shadow()
+      .find('button[aria-expanded=false]')
+      .should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
 });
