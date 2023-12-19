@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import environment from 'platform/utilities/environment';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 
 export default function SchoolClassification({
@@ -24,19 +25,55 @@ export default function SchoolClassification({
     facilityCode,
   } = institution;
 
+  const getLabel = (condition, prodLabel, devLabel) => {
+    if (!condition) return '';
+    return environment.isProduction() ? prodLabel : devLabel;
+  };
+
   const institutionTraits = displayTraits
     ? [
-        menonly === 1 && 'Men-only',
-        womenonly === 1 && 'Women-only',
-        hbcu && 'Historically Black College or University',
+        getLabel(menonly === 1, 'Men-only', 'Men’s colleges and universities'),
+        getLabel(
+          womenonly === 1,
+          'Women-only',
+          'Women’s colleges and universities',
+        ),
+        getLabel(
+          hbcu,
+          'Historically Black College or University',
+          'Historically Black Colleges and Universities',
+        ),
         relaffil && religiousAffiliations[relaffil],
-        hsi === 1 && 'Hispanic-serving institutions',
-        nanti === 1 && 'Native American-serving institutions',
-        annhi === 1 && 'Alaska Native-serving institutions',
-        aanapii === 1 &&
+        getLabel(
+          hsi === 1,
+          'Hispanic-serving institutions',
+          'Hispanic-Serving Institutions',
+        ),
+        getLabel(
+          nanti === 1,
+          'Native American-serving institutions',
+          'Native American-Serving Nontribal Institutions',
+        ),
+        getLabel(
+          annhi === 1,
+          'Alaska Native-serving institutions',
+          'Alaska Native-Serving Institutions',
+        ),
+        getLabel(
+          aanapii === 1,
           'Asian American Native American Pacific Islander-serving institutions',
-        pbi === 1 && 'Predominantly Black institutions',
-        tribal === 1 && 'Tribal college and university',
+          'Asian American and Native American Pacific Islander-Serving Institutions',
+        ),
+        getLabel(
+          pbi === 1,
+          'Predominantly Black institutions',
+          'Predominantly Black Institutions',
+        ),
+        getLabel(
+          tribal === 1,
+          'Tribal college and university',
+          'Tribal Colleges and Universities',
+        ),
       ].filter(Boolean)
     : [];
 
