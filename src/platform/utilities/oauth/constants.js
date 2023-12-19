@@ -10,7 +10,7 @@ export const ALL_STATE_AND_VERIFIERS = [
   'logingov_signup_code_verifier',
 ];
 
-export const SIS_API_VERSION = 'v0';
+const SIS_API_VERSION = 'v0';
 export const OAUTH_ENDPOINTS = {
   TOKEN: 'token',
   AUTHORIZE: 'authorize',
@@ -119,11 +119,3 @@ export const OAUTH_ERROR_RESPONSES = {
   // Default | Unknown
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
 };
-
-export const TOKEN_KEYS = generateOAuthKeysWithout([
-  'SCOPE',
-  'RESPONSE_TYPE',
-  'STATE',
-  'CODE_CHALLENGE_METHOD',
-  'CODE_CHALLENGE',
-]);
