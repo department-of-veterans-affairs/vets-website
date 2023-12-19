@@ -29,6 +29,17 @@ function RepresentativeDirectionsLink({ representative, query }) {
 
 RepresentativeDirectionsLink.propTypes = {
   location: PropTypes.object,
+  representative: {
+    attributes: {
+      fullName: PropTypes.string,
+      name: PropTypes.string,
+    },
+  },
+  query: {
+    context: {
+      location: PropTypes.string,
+    },
+  },
 };
 
 export default RepresentativeDirectionsLink;

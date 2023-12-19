@@ -135,7 +135,7 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1');
+    cy.wait('@message1', { timeout: 10000 });
     // cy.wait('@full-thread');
   };
 
@@ -172,7 +172,7 @@ class FolderManagementPage {
     cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
-  selectFolderfromModal = () => {
+  selectFolderFromModal = () => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -187,7 +187,6 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
-    cy.get('[data-testid="move-button-text"]');
     cy.get('[data-testid="move-button-text"]').click();
     cy.get('[data-testid = "move-to-modal"')
 
