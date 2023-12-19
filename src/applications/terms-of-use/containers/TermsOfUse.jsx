@@ -6,7 +6,7 @@ import {
   isAuthenticatedWithOAuth,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import {
   parseRedirectUrl,
@@ -127,10 +127,7 @@ export default function TermsOfUse() {
               Your decision to decline these terms won’t affect your eligibility
               for VA health care and benefits in any way. You can still get VA
               health care and benefits without using online services. If you
-              need help or have questions, call us at{' '}
-              <va-telephone contact={CONTACTS.VA_411} />, select 0 (
-              <va-telephone contact={CONTACTS[711]} tty />
-              ). We’re here 24/7.
+              need help or have questions, <IdentityPhone /> We’re here 24/7.
             </p>
             <va-alert status="warning" visible>
               <h3 slot="headline" id="what-happens-if-you-decline">
