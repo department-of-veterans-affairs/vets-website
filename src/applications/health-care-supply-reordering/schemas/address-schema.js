@@ -25,7 +25,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
 import React from 'react';
 import ReviewCardField from '../components/ReviewCardField';
-import { militaryCities, states50AndDC } from '../constants';
+import { militaryCities, states50AndDCAndTerritories } from '../constants';
 
 /**
  * CONSTANTS:
@@ -499,8 +499,8 @@ export const addressUISchema = (
             };
           }
           return {
-            enum: states50AndDC.map(state => state.value),
-            enumNames: states50AndDC.map(state => state.label),
+            enum: states50AndDCAndTerritories.map(state => state.value),
+            enumNames: states50AndDCAndTerritories.map(state => state.label),
           };
         },
       },

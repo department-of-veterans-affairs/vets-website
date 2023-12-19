@@ -34,6 +34,7 @@ const testConfig = createTestConfig(
             cy.findByText('Add a temporary address', {
               selector: 'button',
             }).click({ force: true });
+            cy.findByLabelText('State').select('Puerto Rico');
             cy.findByLabelText(/Country/i).select('Canada');
             cy.findAllByLabelText(/Street address/i)
               .first()
