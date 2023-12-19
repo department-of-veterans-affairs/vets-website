@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import omit from 'platform/utilities/data/omit';
 import {
   sanitizeAddress,
   prefillTransformer,
@@ -317,5 +318,35 @@ describe('ezr prefill transformer', () => {
         });
       },
     );
+
+    context('when viewfield data is omitted', () => {
+      const state = {
+        user: {
+          profile: {
+            vapContactInfo: {},
+          },
+        },
+      };
+      const withoutViewFields = omit(
+        [
+          'email',
+          'homePhone',
+          'maritalStatus',
+          'isMedicaidEligible',
+          'isEnrolledMedicarePartA',
+        ],
+        formData,
+      );
+
+      it('should auto-fill correct formData from user state', () => {
+        const { formData: prefillData } = prefillTransformer(
+          null,
+          withoutViewFields,
+          null,
+          state,
+        );
+        expect(Object.keys(prefillData)).to.have.lengthOf(9);
+      });
+    });
   });
 });
