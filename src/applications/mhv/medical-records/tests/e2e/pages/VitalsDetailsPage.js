@@ -7,11 +7,11 @@ class VitalsDetailsPage {
     cy.get('[data-testid="vitals"]').contains(Vitals);
   };
 
-  clickBreadCrumbsLink = (_breadcrumb = 0) => {
+  clickBreadCrumbsLink = (breadcrumb = 0) => {
     // Click Back to "Vitals" Page
     cy.get('[data-testid="breadcrumbs"]')
       .find('a')
-      .eq(_breadcrumb)
+      .eq(breadcrumb)
       .click();
   };
 
@@ -20,6 +20,30 @@ class VitalsDetailsPage {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(bloodPressure)
+      .click();
+  };
+
+  clickHeartRateLink = (HeartRate = 1) => {
+    // Click Vitals Page Heart Rate Link
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(HeartRate)
+      .click();
+  };
+
+  clickWeightLink = (Weight = 2) => {
+    // Click Vitals Page Weight Link
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(Weight)
+      .click();
+  };
+
+  clickPainLink = (Pain = 3) => {
+    // Click Vitals Page Blood Pressure Link
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(Pain)
       .click();
   };
 

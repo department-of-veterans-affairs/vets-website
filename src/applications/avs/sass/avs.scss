@@ -1,5 +1,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+/* Breadcrumb arrow */
+.avs-breadcrumb a::before {
+    content: " \2039 ";
+    display: inline-block;
+    padding: 0 2.4px;
+}
+
 .clinic-information i {
     padding-right: 0.5em;
 }
