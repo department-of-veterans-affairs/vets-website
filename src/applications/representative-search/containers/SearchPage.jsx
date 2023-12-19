@@ -309,6 +309,7 @@ const SearchPage = props => {
             )}
         </div>
         {paginationWrapper()}
+        <hr />
       </div>
     );
   };
