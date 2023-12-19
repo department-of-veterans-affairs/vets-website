@@ -63,7 +63,11 @@ const SearchControls = props => {
         status="warning"
         visible={currentQuery.geocodeError > 0}
         uswds
-      />
+      >
+        <p>
+          Please enable location sharing in your browser to use this feature.
+        </p>
+      </VaModal>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
