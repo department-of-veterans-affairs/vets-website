@@ -21,13 +21,6 @@ const template = (props, title, content, submissionMessage, messageType) => {
     ? 'Benefits Delivery at Discharge Claim'
     : 'Disability Compensation Claim';
 
-  const renderableContent =
-    typeof content === 'string' && content !== '' ? (
-      <p className="vads-u-font-size--base vads-u-margin-top--0">{content}</p>
-    ) : (
-      content
-    );
-
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
       <div className="small-6 usa-width-one-half columns">
@@ -41,7 +34,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
       <>
         <va-alert visible status={messageType}>
           <h2 slot="headline">{title}</h2>
-          {renderableContent}
+          {content}
         </va-alert>
         {isSubmittingBDD && <BddConfirmationAlert />}
         {backButtonContent}
@@ -62,7 +55,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
       <va-alert visible status={messageType}>
         <h2 slot="headline">{title}</h2>
-        {renderableContent}
+        {content}
       </va-alert>
       {isSubmittingBDD && <BddConfirmationAlert />}
 
@@ -254,7 +247,7 @@ export const successfulSubmitContent = props =>
   template(
     props,
     'Your claim has successfully been submitted.',
-    '',
+    <></>,
     successMessage(props.claimId),
     'success',
   );
