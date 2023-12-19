@@ -9,6 +9,14 @@
       {
         "name": "mhv_landing_page_enabled",
         "value": false
+      },
+      {
+        "name": "mhvLandingPagePersonalization",
+        "value": false
+      },
+      {
+        "name": "mhv_landing_page_personalization",
+        "value": false
       }
     ]
   }
