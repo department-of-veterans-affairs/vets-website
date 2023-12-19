@@ -2,7 +2,7 @@
   "data": [
     {
       "id": "2664983",
-      "type": "message_threads",
+      "type": "message_thread_details",
       "attributes": {
         "threadId": 2664983,
         "folderId": 0,
