@@ -17,7 +17,7 @@ export const rxListSortingOptions = {
 export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  MEDICATIONS_ABOUT: '/my-health/about-medications',
+  MEDICATIONS_ABOUT: '/my-health/medications/about',
 };
 
 export const dispStatusForRefillsLeft = [
@@ -154,6 +154,8 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+
+export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 
 export const PDF_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
