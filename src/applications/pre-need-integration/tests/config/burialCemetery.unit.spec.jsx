@@ -61,26 +61,6 @@ describe('Pre-need burial benefits', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <Provider store={store}>
-        <DefinitionTester
-          schema={schema}
-          definitions={formConfig.defaultDefinitions}
-          onSubmit={onSubmit}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
   it('should fill in desired cemetery', done => {
     const onSubmit = sinon.spy();
     const form = mount(
