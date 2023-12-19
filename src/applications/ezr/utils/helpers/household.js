@@ -39,15 +39,15 @@ export function getDependentPageList(pages, formData = {}) {
           Some values are objects themselves. In those cases, we need to grab the value of the
           first key in the object
         */
-        const value = isPlainObject(formData[depends.key])
+        const formDataValue = isPlainObject(formData[depends.key])
           ? Object.values(formData[depends.key])[0]
           : formData[depends.key];
 
         if (depends.value instanceof Function) {
-          if (depends.value(value)) {
+          if (depends.value(formDataValue)) {
             truthyConditionalCount += 1;
           }
-        } else if (formData[depends.key] === depends.value) {
+        } else if (formDataValue === depends.value) {
           truthyConditionalCount += 1;
         }
       }

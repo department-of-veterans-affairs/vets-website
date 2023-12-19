@@ -86,7 +86,7 @@ describe('ezr household information helpers', () => {
         depends: [
           { key: 'key3', value: true },
           { key: 'key4', value: true },
-          { key: { key: 'test', value: true }, value: true },
+          { key: 'key5', value: true },
         ],
       },
     ];
@@ -109,7 +109,7 @@ describe('ezr household information helpers', () => {
           key2: true,
           key3: true,
           key4: true,
-          key: { key5: false },
+          key5: { key: false },
         };
         expect(getDependentPageList(pages, formData)).to.have.lengthOf(3);
       });
@@ -122,7 +122,7 @@ describe('ezr household information helpers', () => {
           key2: true,
           key3: true,
           key4: true,
-          key5: { key: true },
+          key5: { key: false },
         };
         expect(getDependentPageList(pages, formData)).to.have.lengthOf(4);
       });
@@ -135,7 +135,7 @@ describe('ezr household information helpers', () => {
           key2: false,
           key3: true,
           key4: true,
-          key5: true,
+          key5: { key: true },
         };
         const altPages = [
           ...pages,
@@ -144,7 +144,7 @@ describe('ezr household information helpers', () => {
             title: 'Page 6',
             depends: [
               {
-                key: 'key2',
+                key: 'key3',
                 value: val => val === true,
               },
             ],
@@ -159,7 +159,7 @@ describe('ezr household information helpers', () => {
           key2: true,
           key3: true,
           key4: true,
-          key5: { key: true },
+          key5: true,
         };
         const altPages = [
           ...pages,
