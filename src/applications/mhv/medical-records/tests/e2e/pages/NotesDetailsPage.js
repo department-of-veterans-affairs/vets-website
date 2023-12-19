@@ -23,43 +23,43 @@ class NotesDetailsPage {
     cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
   };
 
-  clickProgressNoteLink = (_ProgressNote = 0) => {
+  clickProgressNoteLink = (ProgressNote = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_ProgressNote)
+      .eq(ProgressNote)
       .click();
   };
 
-  clickDischargeSummaryLink = (_DischargeSummary = 1) => {
+  clickDischargeSummaryLink = (DischargeSummary = 1) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_DischargeSummary)
+      .eq(DischargeSummary)
       .click();
   };
 
-  clickBreadCrumbsLink = (_breadcrumb = 0) => {
+  clickBreadCrumbsLink = breadcrumb => {
     // Click Back to Care summaries and notes
     cy.get('[data-testid="breadcrumbs"]')
       .find('a')
-      .eq(_breadcrumb)
+      .eq(breadcrumb)
       .click();
   };
 
-  verifyProgressNoteLocation = dischargeLocation => {
+  verifyProgressNoteLocation = progressLocation => {
     // Verify Progress Note Details Location
-    cy.get('[data-testid="note-record-location"]').should('be.visible');
-    cy.get('[data-testid="note-record-location"]').contains(dischargeLocation);
+    cy.get('[data-testid="progress-location"]').should('be.visible');
+    cy.get('[data-testid="progress-location"]').contains(progressLocation);
   };
 
-  verifyProgressNoteSignedBy = signedBy => {
+  verifyProgressNoteSignedBy = progressSignedBy => {
     // Progress Note Details Signed by
-    cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-by"]').contains(signedBy);
+    cy.get('[data-testid="progress-signed-by"]').should('be.visible');
+    cy.get('[data-testid="progress-signed-by"]').contains(progressSignedBy);
   };
 
-  verifyProgressNoteSignedDate = notesSignedDate => {
-    cy.get('[data-testid="note-record-signed-date"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-date"]').contains(notesSignedDate);
+  verifyProgressNoteSignedDate = progressSignedDate => {
+    cy.get('[data-testid="progress-signed-date"]').should('be.visible');
+    cy.get('[data-testid="progress-signed-date"]').contains(progressSignedDate);
   };
 
   verifyProgressNoteRecord = progressNote => {
