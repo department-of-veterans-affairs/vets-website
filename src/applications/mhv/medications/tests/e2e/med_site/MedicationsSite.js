@@ -60,7 +60,7 @@ class MedicationsSite {
   };
 
   verifyloadLogInModal = () => {
-    cy.visit('my-health/about-medications/');
+    cy.visit('my-health/medications/about');
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
   };
 

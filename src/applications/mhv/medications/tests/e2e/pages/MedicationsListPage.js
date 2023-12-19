@@ -54,7 +54,7 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
 
       .shadow()
-      .find('[href="/my-health/about-medications/accordion-renew-rx"]')
+      .find('[href="/my-health/medications/about/accordion-renew-rx"]')
       .click({ waitForAnimations: true });
   };
 
