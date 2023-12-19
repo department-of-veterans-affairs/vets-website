@@ -17,7 +17,7 @@ export const rxListSortingOptions = {
 export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  MEDICATIONS_ABOUT: '/my-health/about-medications',
+  MEDICATIONS_ABOUT: '/my-health/medications/about',
 };
 
 export const dispStatusForRefillsLeft = [
