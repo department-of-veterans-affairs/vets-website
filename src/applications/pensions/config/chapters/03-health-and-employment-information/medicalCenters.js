@@ -6,9 +6,9 @@ import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms
 // View component for Medical Center
 const MedicalCenterView = ({ formData }) => {
   return (
-    <p>
-      <strong>{formData.medicalCenter}</strong>
-    </p>
+    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
+      {formData.medicalCenter}
+    </h3>
   );
 };
 

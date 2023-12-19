@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 export default function SpouseMarriageView({ formData }) {
   return (
-    <div>
-      <strong>
-        {formData.spouseFullName.first} {formData.spouseFullName.last}
-      </strong>
-    </div>
+    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
+      {formData.spouseFullName.first} {formData.spouseFullName.last}
+    </h3>
   );
 }
 
