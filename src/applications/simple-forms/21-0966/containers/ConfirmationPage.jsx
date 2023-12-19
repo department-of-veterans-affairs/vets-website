@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
@@ -22,8 +22,8 @@ import {
 import { benefitPhrases, veteranBenefits } from '../definitions/constants';
 
 export const ConfirmationPage = props => {
-  useEffect(() => {
-    focusElement('h2');
+  useLayoutEffect(() => {
+    focusElement('h2', null, 'va-alert');
     scrollToTop('topScrollElement');
   }, []);
 
@@ -71,6 +71,16 @@ export const ConfirmationPage = props => {
   );
   const nextStepsLinks = getNextStepsLinks(data);
 
+  const alertType = getAlertType(data, alreadySubmittedIntents);
+  const alertTitle =
+    alertType === 'info'
+      ? getInfoAlertTitle()
+      : getSuccessAlertTitle(data, alreadySubmittedIntents);
+  const alertText =
+    alertType === 'info'
+      ? getInfoAlertText(data, alreadySubmittedIntents)
+      : getSuccessAlertText(data, alreadySubmittedIntents);
+
   return (
     <div>
       <div className="print-only">
@@ -80,27 +90,14 @@ export const ConfirmationPage = props => {
           width="300"
         />
       </div>
-      {getAlertType(data, alreadySubmittedIntents) === 'info' ? (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          <h2 slot="headline">{getInfoAlertTitle()}</h2>
-          <p>{getInfoAlertText(data, alreadySubmittedIntents)}</p>
-        </va-alert>
-      ) : (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="success"
-          visible
-        >
-          <h2 slot="headline">
-            {getSuccessAlertTitle(data, alreadySubmittedIntents)}
-          </h2>
-          <p>{getSuccessAlertText(data, alreadySubmittedIntents)}</p>
-        </va-alert>
-      )}
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status={alertType}
+        visible
+      >
+        <h2 slot="headline">{alertTitle}</h2>
+        <p>{alertText}</p>
+      </va-alert>
       <div className="inset">
         <h3 className="v.ads-u-margin-top--0">Your application information</h3>
         {veteranFullName && (
