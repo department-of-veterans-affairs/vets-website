@@ -54,7 +54,7 @@ const DashboardUnreadMessages = props => {
         >
           Go to your inbox
         </Link>
-        {mhvSecureMessagingBlockedTriageGroup1p0 &&
+        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
           associatedTriageGroupsQty > 0 && (
             <>
               <HorizontalRule />
@@ -66,7 +66,19 @@ const DashboardUnreadMessages = props => {
                 Start a new message
               </Link>
             </>
-          )}
+          )
+        ) : (
+          <>
+            <HorizontalRule />
+            <Link
+              data-testid="compose-message-link"
+              className="vads-c-action-link--blue"
+              to={Paths.COMPOSE}
+            >
+              Start a new message
+            </Link>
+          </>
+        )}
       </div>
     </va-alert>
   );
