@@ -78,7 +78,7 @@ const SearchControls = props => {
               style={{ order: 1 }}
               error={(() => {
                 if (showEmptyError) {
-                  return 'Please fill in a city, state or postal code.';
+                  return 'Please fill in a city, state, postal code or address.';
                 }
                 if (showGeolocationError) {
                   return 'Please enter a valid location.';
@@ -87,9 +87,9 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, state or postal code"
+              label="City, state, postal code or address"
               message-aria-describedby="Text input for location"
-              name="City, state or postal code"
+              name="City, state, postal code or address"
               onInput={handleLocationChange}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();

@@ -29,13 +29,16 @@ describe('Accessibility', () => {
     // Verify focused on input location
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get('input[name="City, state or postal code"]').focused();
+    cy.get('input[name="City, state, postal code or address"]').focused();
     // Tab
-    cy.get('input[name="City, state or postal code"]').focus();
-    cy.get('input[name="City, state or postal code"]').trigger('keydown', {
-      keyCode: 9,
-      which: 9,
-    });
+    cy.get('input[name="City, state, postal code or address"]').focus();
+    cy.get('input[name="City, state, postal code or address"]').trigger(
+      'keydown',
+      {
+        keyCode: 9,
+        which: 9,
+      },
+    );
 
     // Verify focused radio button
     cy.get('va-radio').trigger('keydown', {
