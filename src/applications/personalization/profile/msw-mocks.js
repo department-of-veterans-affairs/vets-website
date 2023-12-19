@@ -843,10 +843,6 @@ export const getServiceHistory401 = [
   rest.get(`${prefix}/v0/profile/service_history`, errorResponseHandler401),
 ];
 
-export const getDD4CNPFailure = [
-  rest.get(`${prefix}/v0/ppiu/payment_information`, errorResponseHandler401),
-];
-
 export const getDD4EDUFailure = [
   rest.get(`${prefix}/v0/profile/ch33_bank_accounts`, errorResponseHandler401),
 ];
