@@ -9,22 +9,13 @@ import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
-import { fetchRefreshStatus, updatePhase } from '../actions/refresh';
-import {
-  EXTRACT_LIST,
-  VALID_REFRESH_DURATION,
-  STATUS_POLL_INTERVAL,
-  refreshPhases,
-} from '../util/constants';
+import { fetchRefreshStatus } from '../actions/refresh';
+import { STATUS_POLL_INTERVAL, refreshPhases } from '../util/constants';
 
 const App = ({ children }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const refresh = useSelector(state => state.mr.refresh);
-  const refreshStatus = useSelector(state => state.mr.refresh.refreshStatus);
-  const refreshStatusDate = useSelector(
-    state => state.mr.refresh.refreshStatusDate,
-  );
 
   const { featureTogglesLoading, appEnabled, showSideNav } = useSelector(
     state => {
@@ -71,16 +62,6 @@ const App = ({ children }) => {
       dispatch(fetchRefreshStatus());
     },
     [dispatch],
-  );
-
-  useEffect(
-    /**
-     * When the refresh status updates, populate the overall refresh phase.
-     */
-    () => {
-      if (refresh.status) dispatch(updatePhase(refresh.status));
-    },
-    [refresh.status, dispatch],
   );
 
   useEffect(

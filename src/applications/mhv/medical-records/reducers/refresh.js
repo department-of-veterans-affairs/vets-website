@@ -49,14 +49,14 @@ export const getPhase = (extractStatus, retrieved) => {
  * @param {Object} refreshStatus the list of individual extract statuses
  * @returns the current overall refresh phase, or null if needed data is missing
  */
-const getOverallPhase = refreshStatus => {
+const getOverallPhase = (refreshStatus, retrieved) => {
   if (!refreshStatus || refreshStatus.length === 0) {
     return null;
   }
 
   const phaseList = refreshStatus
     .filter(status => EXTRACT_LIST.includes(status.extract))
-    .map(status => status.phase);
+    .map(status => getPhase(status, retrieved));
 
   const phasePriority = [
     refreshPhases.IN_PROGRESS,
@@ -74,11 +74,17 @@ const getOverallPhase = refreshStatus => {
 };
 
 export const refreshReducer = (state = initialState, action) => {
+  // We currently only have one action for this reducer. This may change.
+  // eslint-disable-next-line sonarjs/no-small-switch
   switch (action.type) {
     case Actions.Refresh.GET_STATUS: {
       const { facilityExtractStatusList } = action.payload;
       return {
         ...state,
+        phase: getOverallPhase(
+          facilityExtractStatusList,
+          action.payload.retrievedDate,
+        ),
         statusDate: safeNewDate(action.payload.retrievedDate),
         status: facilityExtractStatusList.map(statusRec => {
           return {
@@ -88,12 +94,6 @@ export const refreshReducer = (state = initialState, action) => {
             phase: getPhase(statusRec, action.payload.retrievedDate),
           };
         }),
-      };
-    }
-    case Actions.Refresh.UPDATE_PHASE: {
-      return {
-        ...state,
-        phase: getOverallPhase(action.payload),
       };
     }
     default:
