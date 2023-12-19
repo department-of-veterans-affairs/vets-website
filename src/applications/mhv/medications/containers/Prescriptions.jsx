@@ -238,6 +238,7 @@ const Prescriptions = props => {
     await Promise.allSettled([
       getPrescriptionSortedList(
         rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+        true,
       ).then(response =>
         setFullPrescriptionsList(
           response.data.map(rx => {
