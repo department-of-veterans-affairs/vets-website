@@ -11,8 +11,7 @@ const BreadCrumb = () => {
   const link = referrer || '#';
 
   return (
-    <div className="vads-u-padding-top--1p5 vads-u-padding-bottom--3">
-      &lt;{' '}
+    <div className="avs-breadcrumb vads-u-padding-top--1p5 vads-u-padding-bottom--3">
       <a onClick={goBack} href={link}>
         Back to appointment details
       </a>

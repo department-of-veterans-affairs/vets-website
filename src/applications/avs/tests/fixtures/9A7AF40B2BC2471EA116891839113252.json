@@ -38,6 +38,7 @@
         "DOCTOR,GREAT B - ACOS/EDUC.",
         "NURSE,GREAT - LVN"
       ],
+      "procedures": null,
       "reasonForVisit": [
         {
           "T": "Diagnosis",
