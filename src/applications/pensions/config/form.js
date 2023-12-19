@@ -459,7 +459,7 @@ const formConfig = {
           schema: dateOfCurrentMarriage.schema,
         },
         currentSpouseMonthlySupport: {
-          title: 'Financial support for you spouse',
+          title: 'Financial support for your spouse',
           path: 'household/marital-status/spouse-monthly-support',
           depends: isMarried,
           uiSchema: currentSpouseMonthlySupport.uiSchema,
@@ -1385,13 +1385,13 @@ const formConfig = {
           },
         },
         totalNetWorth: {
-          title: 'total net worth',
+          title: 'Total net worth',
           path: 'financial/total-net-worth',
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
         netWorthEstimation: {
-          title: 'net worth estimation',
+          title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
@@ -1436,13 +1436,13 @@ const formConfig = {
           schema: transferredAssets.schema,
         },
         homeOwnership: {
-          title: 'home ownership',
+          title: 'Home ownership',
           path: 'financial/home-ownership',
           uiSchema: homeOwnership.uiSchema,
           schema: homeOwnership.schema,
         },
         homeAcreageMoreThanTwo: {
-          title: 'home acreage size',
+          title: 'Home acreage size',
           path: 'financial/home-ownership/acres',
           depends: formData => {
             return formData.homeOwnership !== false;
@@ -1451,7 +1451,7 @@ const formConfig = {
           schema: homeAcreageMoreThanTwo.schema,
         },
         homeAcreageValue: {
-          title: 'home acreage value',
+          title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
           depends: formData => {
             return formData.homeAcreageMoreThanTwo !== false;
