@@ -85,6 +85,9 @@ describe('ezr prefill transformer', () => {
       veteranSocialSecurityNumber: '796121200',
       homePhone: '4445551212',
       email: 'test2@test1.net',
+      isMedicaidEligible: false,
+      isEnrolledMedicarePartA: false,
+      maritalStatus: 'never married',
     };
 
     context('when profile data omits all addresses', () => {
@@ -103,7 +106,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(7);
+        expect(Object.keys(prefillData)).to.have.lengthOf(9);
         expect(Object.keys(prefillData).veteranAddress).to.not.exist;
         expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -154,7 +157,7 @@ describe('ezr prefill transformer', () => {
           null,
           state,
         );
-        expect(Object.keys(prefillData)).to.have.lengthOf(8);
+        expect(Object.keys(prefillData)).to.have.lengthOf(10);
         expect(prefillData.veteranAddress).to.equal(undefined);
         expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(8);
         expect(prefillData['view:doesMailingMatchHomeAddress']).to.equal(
@@ -230,7 +233,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(9);
+          expect(Object.keys(prefillData)).to.have.lengthOf(11);
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(Object.keys(prefillData.veteranHomeAddress)).to.have.lengthOf(
             8,
@@ -307,7 +310,7 @@ describe('ezr prefill transformer', () => {
             null,
             state,
           );
-          expect(Object.keys(prefillData)).to.have.lengthOf(8);
+          expect(Object.keys(prefillData)).to.have.lengthOf(10);
           expect(Object.keys(prefillData).veteranHomeAddress).to.not.exist;
           expect(Object.keys(prefillData.veteranAddress)).to.have.lengthOf(8);
           expect(prefillData['view:doesMailingMatchHomeAddress']).to.be.true;
