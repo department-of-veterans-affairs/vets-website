@@ -7,19 +7,20 @@ import {
 export const description = (
   <section>
     <p>
-      We want to know if you, your spouse, or your dependents paid any medical
-      expenses or certain other expenses that aren’t reimbursed.
+      We want to know if you, your spouse, or your dependents pay medical or
+      certain other expenses that aren’t reimbursed.
     </p>
     <p>
       Examples include these types of expenses:
       <ul>
         <li>
           Recurring medical expenses for yourself, or someone in your household,
-          over the past year that insurance doesn’t cover
+          that insurance doesn’t cover
         </li>
         <li>
           One-time medical expenses for yourself, or someone in your household,
-          over the past year that insurance doesn’t cover
+          after you started this online application or after you submitted an
+          Intent to File, that insurance doesn’t cover
         </li>
         <li>
           Tuition, materials, and other expenses for educational courses or
@@ -42,7 +43,7 @@ export default {
     'ui:description': description,
     medicalExpenses: yesNoUI({
       title:
-        "Did you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
+        "Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
       uswds: true,
     }),
   },
