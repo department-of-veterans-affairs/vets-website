@@ -36,8 +36,6 @@ const ResultsList = props => {
           {searchResults?.map((result, index) => {
             return (
               <>
-                {index > 0 ? <hr /> : null}
-
                 <SearchResult
                   officer={result.attributes.fullName || result.attributes.name}
                   key={result.id}
@@ -55,6 +53,7 @@ const ResultsList = props => {
                   query={sQuery}
                   index={index}
                 />
+                <hr />
               </>
             );
           })}
