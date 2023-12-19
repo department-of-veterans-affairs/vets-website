@@ -164,7 +164,10 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleThread = (testThread = mockThread) => {
+  loadSingleThread = (testSingleThread = mockThread) => {
+    this.singleThread = testSingleThread;
+    const currentDate = new Date();
+    this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.log('loading single thread details.');
     cy.intercept(
       'GET',
@@ -174,17 +177,19 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
+        this.singleThread.data[0].attributes.messageId
       }/thread`,
-      testThread,
+      this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${testThread.data[0].attributes.messageId}`,
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
       mockFirstMessage,
     ).as('fist-message-in-thread');
 
-    cy.contains(mockMessages.data[0].attributes.subject).click({
+    cy.contains(this.singleThread.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
