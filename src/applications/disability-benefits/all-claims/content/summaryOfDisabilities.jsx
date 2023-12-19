@@ -99,5 +99,8 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
 };
 
 SummaryOfDisabilitiesDescription.propTypes = {
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    newDisabilities: PropTypes.arrayOf(PropTypes.object),
+    ratedDisabilities: PropTypes.arrayOf(PropTypes.object),
+  }),
 };

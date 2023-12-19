@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import { genderLabels } from 'platform/static-data/labels';
 import { srSubstitute, formatDate } from '../utils';
-import { editNote } from './common';
+import { editNote } from '../content/common';
 
-const unconnectedVetInfoView = profile => {
+function VeteranDetails({ profile }) {
   // NOTE: ssn and vaFileNumber will be undefined for the foreseeable future; they're kept in here as a reminder.
   const { ssn, vaFileNumber, dob, gender } = profile;
   const { first, middle, last, suffix } = profile.userFullName;
@@ -39,8 +40,25 @@ const unconnectedVetInfoView = profile => {
       {editNote('personal information')}
     </div>
   );
+}
+
+VeteranDetails.propTypes = {
+  profile: PropTypes.shape({
+    dob: PropTypes.string,
+    gender: PropTypes.string,
+    ssn: PropTypes.string,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string,
+      middle: PropTypes.string,
+      last: PropTypes.string,
+      suffix: PropTypes.string,
+    }),
+    vaFileNumber: PropTypes.string,
+  }),
 };
 
-export const veteranInfoDescription = connect(state => state.user.profile)(
-  unconnectedVetInfoView,
-);
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+});
+
+export default connect(mapStateToProps)(VeteranDetails);

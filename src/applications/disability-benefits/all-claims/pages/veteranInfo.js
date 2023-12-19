@@ -1,11 +1,11 @@
 import React from 'react';
-import { veteranInfoDescription } from '../content/veteranDetails';
+import VeteranDetails from '../components/VeteranDetails';
 import UpdateMilitaryHistory from '../components/UpdateMilitaryHistory';
 
 export const uiSchema = {
   // update separation date from wizard (BDD)
   'ui:title': <UpdateMilitaryHistory />,
-  'ui:description': veteranInfoDescription,
+  'ui:description': <VeteranDetails />,
   'ui:options': {
     forceDivWrapper: true,
     showFieldLabel: false,
