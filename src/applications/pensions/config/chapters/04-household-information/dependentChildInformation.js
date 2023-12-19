@@ -60,7 +60,7 @@ export default {
         },
         childSocialSecurityNumber: merge({}, ssnUI(), {
           'ui:required': (formData, index) =>
-            !get(`dependents.${index}.view:noSSN`, formData),
+            !get(['dependents', index, 'view:noSSN'], formData),
         }),
         'view:noSSN': {
           'ui:title': "Doesn't have a Social Security number",
@@ -126,7 +126,9 @@ export default {
                 false,
           },
         },
-        previouslyMarried: yesNoUI('Has your child ever been married?'),
+        previouslyMarried: yesNoUI({
+          title: 'Has your child ever been married?',
+        }),
         married: merge(
           {},
           yesNoUI({
@@ -138,7 +140,7 @@ export default {
               get(['dependents', index, 'previouslyMarried'], formData),
           },
         ),
-      },
+      }, // uiSchema.dependents.items
     },
   },
   schema: {
@@ -158,7 +160,7 @@ export default {
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
-              Object.values(childRelationshipOptions),
+              Object.keys(childRelationshipOptions),
             ),
             attendingCollege: yesNoSchema,
             'view:schoolWarning': { type: 'object', properties: {} },
