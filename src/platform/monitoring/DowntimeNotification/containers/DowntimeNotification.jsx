@@ -75,11 +75,11 @@ const DowntimeNotification = ({
   };
 
   const appType = customText?.appType || APP_TYPE_DEFAULT;
+  const contentToRender = children || content;
 
   if (globalDowntime) {
     return renderGlobalDowntimeOverride(appType);
   }
-
   if (!isReady) {
     return (
       loadingIndicator || (
@@ -87,25 +87,20 @@ const DowntimeNotification = ({
       )
     );
   }
-
-  const childElements = children || content;
-
   if (render) {
     return render(
       { externalService, status, startTime, endTime, description },
-      childElements,
+      contentToRender,
     );
   }
-
   if (status === externalServiceStatus.downtimeApproaching) {
     return <DowntimeApproaching {...props} />;
   }
-
   if (status === externalServiceStatus.down) {
     return <Down {...props} />;
   }
 
-  return childElements;
+  return contentToRender;
 };
 
 DowntimeNotification.propTypes = {
