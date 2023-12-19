@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { formatDowntime } from 'platform/utilities/date';
+import { formatDowntime } from '@department-of-veterans-affairs/platform-utilities';
 
 import {
   getGlobalDowntime,
@@ -21,15 +21,15 @@ import { getSoonestDowntime } from '../util/helpers';
 import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
 
 /**
- * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
+ * Functional React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
  * @property {string} [appTitle] - The name of the consuming application, which will be displayed in downtime messaging.
  * @property {node} [children] - React components to be rendered based on downtime.
  * @property {node} [content] - Alias for React.children.
  * @property {Array<string>} dependencies - An array of services that the consuming application requires in order to operate.
- * @property {function} getScheduledDowntime - [Provided by container] An action creator that retrieves the array of downtime from the API downtime endpoint.
- * @property {boolean} isReady - [Provided by container] A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
+ * @property {function} getScheduledDowntime - An action creator that retrieves the array of downtime from the API downtime endpoint.
+ * @property {boolean} isReady - A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
  * @property {Node} [loadingIndicator] - A React component that will be rendered while the request to the API for downtime information is pending.
- * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
+ * @property {function} [render] - A function for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
  * @module platform/monitoring/DowntimeNotification
  */
 const DowntimeNotification = ({
