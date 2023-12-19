@@ -60,7 +60,12 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Provider notes',
-              value: validateField(prescription.remarks),
+              value: validateField(
+                (prescription.remarks ?? '') +
+                  (prescription.disclaimer
+                    ? ` ${prescription.disclaimer}`
+                    : ''),
+              ),
               inline: true,
             },
           ],
