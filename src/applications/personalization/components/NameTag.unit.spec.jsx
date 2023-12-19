@@ -1,6 +1,6 @@
 import React from 'react';
-import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 import { expect } from 'chai';
+import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 
 import NameTag from './NameTag';
 
@@ -106,6 +106,66 @@ describe('<NameTag>', () => {
           text: /view disability rating/i,
           href: /disability\/view-disability-rating\/rating/i,
         });
+      });
+    },
+  );
+
+  context('when user has middle initials', () => {
+    const initialState = getInitialState();
+    initialState.vaProfile.hero.userFullName = {
+      first: 'Max',
+      middle: 'H g',
+      last: 'Miller',
+    };
+    let view;
+    beforeEach(() => {
+      view = render(<NameTag />, {
+        initialState,
+      });
+    });
+
+    it('should capitalize middle initials', () => {
+      view.getAllByText('Max H G Miller');
+    });
+  });
+
+  context('when user has middle initials with punctuation', () => {
+    const initialState = getInitialState();
+    initialState.vaProfile.hero.userFullName = {
+      first: 'Max',
+      middle: 'h. G.',
+      last: 'Miller',
+    };
+    let view;
+    beforeEach(() => {
+      view = render(<NameTag />, {
+        initialState,
+      });
+    });
+
+    it('should capitalize middle initials with punctuation', () => {
+      view.getAllByText('Max H. G. Miller');
+    });
+  });
+
+  context(
+    'when user has middle name(s) that start with lowercase letter',
+    () => {
+      const initialState = getInitialState();
+      initialState.vaProfile.hero.userFullName = {
+        first: 'Max',
+        middle: 'de Rosa',
+        last: 'Miller',
+      };
+      let view;
+      beforeEach(() => {
+        view = render(<NameTag />, {
+          initialState,
+        });
+      });
+
+      it('should not capitalize full middle names', () => {
+        view.getAllByText('Max de Rosa Miller');
       });
     },
   );
