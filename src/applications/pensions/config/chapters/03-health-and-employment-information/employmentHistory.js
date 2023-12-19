@@ -10,9 +10,9 @@ import {
 // View component for Employer
 const employerView = ({ formData }) => {
   return (
-    <p>
-      <strong>{formData.jobTitle}</strong>
-    </p>
+    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
+      {formData.jobTitle}
+    </h3>
   );
 };
 
