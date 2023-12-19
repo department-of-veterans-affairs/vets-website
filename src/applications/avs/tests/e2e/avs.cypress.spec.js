@@ -39,4 +39,23 @@ describe('After-visit Summary', () => {
       .should('exist');
     cy.injectAxeThenAxeCheck();
   });
+
+  it('lower accordions can be expanded', () => {
+    cy.visit(testUrl);
+    cy.get('h1').contains('After-visit summary');
+
+    cy.contains('Consultations').should('not.be.visible');
+    cy.get("[header='Your treatment plan from this appointment']").click();
+    cy.contains('Consultations').should('be.visible');
+
+    cy.contains('Primary care team').should('not.be.visible');
+    cy.get("[header='Your health information as of this appointment']").click();
+    cy.contains('Primary care team').should('be.visible');
+
+    cy.contains('More help and information').should('not.be.visible');
+    cy.get("[header='More information']").click();
+    cy.contains('More help and information').should('be.visible');
+
+    cy.injectAxeThenAxeCheck();
+  });
 });
