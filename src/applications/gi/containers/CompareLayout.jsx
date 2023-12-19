@@ -208,17 +208,29 @@ const CompareLayout = ({
       mapper: institution => {
         const specialMission = [];
         if (institution.hbcu) {
-          specialMission.push(environment.isProduction() ? 'Historically black college or university': 'Historically Black Colleges and Universities');
+          specialMission.push(
+            environment.isProduction()
+              ? 'Historically black college or university'
+              : 'Historically Black Colleges and Universities',
+          );
         }
         if (institution.relaffil) {
           specialMission.push(religiousAffiliations[institution.relaffil]);
         }
         if (institution.womenonly) {
-          specialMission.push(environment.isProduction() ? 'Women-only' : 'Women’s colleges and universities');
+          specialMission.push(
+            environment.isProduction()
+              ? 'Women-only'
+              : 'Women’s colleges and universities',
+          );
           // specialMission.push('Women-only');
         }
         if (institution.menonly) {
-          specialMission.push(environment.isProduction() ? 'Men-only': 'Men’s colleges and universities');
+          specialMission.push(
+            environment.isProduction()
+              ? 'Men-only'
+              : 'Men’s colleges and universities',
+          );
         }
         return specialMission.length > 0 ? specialMission.join(', ') : 'N/A';
       },
