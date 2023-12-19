@@ -20,6 +20,7 @@ export const desiredCemeteryNoteTitleWrapper = (
 
 export const uiSchema = {
   application: {
+    'ui:title': ' ',
     hasCurrentlyBuried: {
       'ui:widget': 'radio',
       'ui:options': {
