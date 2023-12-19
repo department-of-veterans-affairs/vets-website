@@ -54,7 +54,7 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
 
       .shadow()
-      .find('[href="/my-health/about-medications/accordion-renew-rx"]')
+      .find('[href="/my-health/medications/about/accordion-renew-rx"]')
       .click({ waitForAnimations: true });
   };
 
@@ -316,6 +316,14 @@ class MedicationsListPage {
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
     );
+  };
+
+  verifyDiscontinuedMedicationNameIsVisibleOnListPage = prescriptionDetails => {
+    cy.get(
+      `#card-header-${
+        prescriptionDetails.data.attributes.prescriptionId
+      } > [data-testid="medications-history-details-link"]`,
+    ).should('be.visible');
   };
 }
 export default MedicationsListPage;
