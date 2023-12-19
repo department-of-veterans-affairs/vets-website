@@ -31,11 +31,10 @@ const ResultsList = props => {
           className="representative-results-list"
           style={{ marginBottom: 25 }}
         >
-          <hr />
-
           {searchResults?.map((result, index) => {
             return (
               <>
+                <hr />
                 <SearchResult
                   officer={result.attributes.fullName || result.attributes.name}
                   key={result.id}
@@ -53,7 +52,6 @@ const ResultsList = props => {
                   query={sQuery}
                   index={index}
                 />
-                <hr />
               </>
             );
           })}
