@@ -1,6 +1,5 @@
 import timezones from './timezones.json';
 import vaosTimeZones from './vaos-timezones.json';
-import moment from './moment-tz';
 
 export const stripDST = abbr => {
   if (/^[PMCE][DS]T$/.test(abbr)) {
@@ -54,7 +53,7 @@ export function getTimezoneAbbrByFacilityId(id) {
     return null;
   }
 
-  let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
+  let abbreviation = getTimezoneBySystemId(id);
 
   // Strip out middle char in abbreviation so we can ignore DST
   if (matchingZone.includes('America')) {
@@ -84,67 +83,12 @@ export function getTimezoneNameFromAbbr(abbreviation) {
 }
 
 export function getUserTimezone() {
-  return moment.tz.guess();
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 export function getUserTimezoneAbbr() {
-  return moment()
-    .tz(getUserTimezone())
-    .zoneAbbr();
-}
-
-/**
- * Returns an object with timezone identifiers for a given appointment
- *
- * @export
- * @param {Appointment} appointment The appointment to get a timezone for
- * @returns {Object} An object with:
- *   - identifier: The full timezone identifier (like America/New_York)
- *   - abbreviation: The timezone abbreviation (e.g. ET)
- *   - description: The written out description (e.g. Eastern time)
- */
-export function getAppointmentTimezone(appointment) {
-  if (appointment?.timeZone) {
-    return {
-      identifier: appointment.timeZone,
-      abbreviation: appointment.timeZone,
-      description: getTimezoneNameFromAbbr(appointment.timeZone),
-    };
-  }
-
-  // Most VA appointments will use this, since they're associated with a facility
-  if (appointment?.location?.vistaId) {
-    const locationId =
-      appointment.location.stationId || appointment.location.vistaId;
-    const abbreviation = getTimezoneAbbrByFacilityId(locationId);
-
-    return {
-      identifier: moment.tz
-        .zone(getTimezoneByFacilityId(locationId))
-        ?.abbr(appointment.start),
-      abbreviation,
-      description: getTimezoneNameFromAbbr(abbreviation),
-    };
-  }
-
-  // Community Care appointments with timezone included
-  if (appointment?.vaos?.timeZone) {
-    const abbreviation = stripDST(
-      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
-    );
-
-    return {
-      identifier: null,
-      abbreviation,
-      description: getTimezoneNameFromAbbr(abbreviation),
-    };
-  }
-
-  // Everything else will use the local timezone
-  const abbreviation = stripDST(getUserTimezoneAbbr());
-  return {
-    identifier: getUserTimezone(),
-    abbreviation,
-    description: getTimezoneNameFromAbbr(abbreviation),
-  };
+  const zone = new Date()
+    .toLocaleTimeString('en-us', { timeZoneName: 'short' })
+    .split(' ')[2];
+  return stripDST(zone);
 }
