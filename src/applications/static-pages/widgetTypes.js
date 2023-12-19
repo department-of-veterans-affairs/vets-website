@@ -17,6 +17,7 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
+  EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
