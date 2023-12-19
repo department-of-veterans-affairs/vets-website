@@ -17,13 +17,19 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
     cy.tabToElement('[data-testid="compose-message-link"]').should(
       'have.focus',
     );
-    cy.tabToElement('.welcome-message > :nth-child(3) > a').should(
-      'have.focus',
-    );
-    cy.tabToElement('.welcome-message > :nth-child(4) > a').should(
-      'have.focus',
-    );
-    cy.tabToElement('va-back-to-top').should('have.focus');
+    cy.realPress('Tab');
+    cy.get('.welcome-message')
+      .find('a')
+      .should('have.focus');
+    cy.realPress('Tab');
+    cy.get('[data-testid="faq-accordion-item"]').each(el => {
+      cy.get(el).should('have.focus');
+      cy.realPress('Tab');
+    });
+    // cy.tabToElement('.welcome-message > :nth-child(4) > a').should(
+    //   'have.focus',
+    // );
+    // cy.tabToElement('va-back-to-top').should('have.focus');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
