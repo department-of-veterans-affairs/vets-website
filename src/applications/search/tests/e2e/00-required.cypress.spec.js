@@ -117,7 +117,8 @@ describe('Sitewide Search smoke test', () => {
       // Check contain error message
       .should(
         'contain',
-        "We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again",
+        `We’re sorry. Something went wrong on our end, and your search
+      didn't go through. Please try again`,
       );
 
     // A11y check the search results.

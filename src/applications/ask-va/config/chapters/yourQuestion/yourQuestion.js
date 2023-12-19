@@ -1,14 +1,17 @@
 import FormElementTitle from '../../../components/FormElementTitle';
+import PageFieldSummary from '../../../components/PageFieldSummary';
+import { CHAPTER_2 } from '../../../constants';
 
 const yourQuestionPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: 'Tell us your question' }),
+    'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
+    'ui:objectViewField': PageFieldSummary,
     question: {
-      'ui:title': 'What is your question?',
+      'ui:title': CHAPTER_2.PAGE_1.QUESTION_1,
       'ui:widget': 'textarea',
     },
     reason: {
-      'ui:title': `Tell us the reason you're contacting us:`,
+      'ui:title': CHAPTER_2.PAGE_1.QUESTION_2,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
