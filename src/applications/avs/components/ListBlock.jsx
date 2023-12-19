@@ -5,9 +5,10 @@ import { fieldHasValue } from '../utils';
 
 const ListBlock = props => {
   const { heading, items, itemType, keyName, itemName } = props;
+  if (!Array.isArray(items)) return null;
 
   // Filter out null/empty field values.
-  let listItems = items?.filter(item => fieldHasValue(item[itemName])) || [];
+  let listItems = items.filter(item => fieldHasValue(item[itemName])) || [];
 
   if (!listItems.length) return null;
 
