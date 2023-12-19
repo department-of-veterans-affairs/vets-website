@@ -196,13 +196,17 @@ export const getNameDateAndTime = user => {
 };
 
 /**
- * Helper function to dispatch details id if a matching is found in the list.
- * If no matching is found, it fetches the details id using getDetail().
+ * Helper function to retrieve details for a given item.
+ *
+ * If a matching item is found in the list, those details are returned.
+ * If no matching item is found, it fetches the details for the given id using getDetail().
  *
  * @param {string} id - The ID of the detail to retrieve.
  * @param {Array} list - The list of detail object to search in.
  * @param {Function} dispatch - The Redux dispatch function.
  * @param {Function} getDetail - The function to fetch detail's object by ID from an API.
+ * @param {string} actionsGetFromList - The action type to dispatch when a matching item is found in the list.
+ * @param {string} actionsGet - The action type to dispatch when a matching item is not found in the list.
  */
 export const dispatchDetails = async (
   id,
