@@ -35,7 +35,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978853,
-        "name": "***Mohammad_Fort Belovoir TG 100_SLC4%",
+        "name": "***TG 100_SLC4%",
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -45,7 +45,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978854,
-        "name": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+        "name": "***TG 200_APPT_SLC4%",
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -65,7 +65,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "name": "Liana's SLC4 PCMM",
+        "name": "SLC4 PCMM",
         "relationType": "PATIENT",
         "preferredTeam": true
       }
