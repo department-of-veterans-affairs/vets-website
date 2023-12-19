@@ -139,6 +139,7 @@ function ClaimsStatusApp({
       serviceRequired={[
         backendServices.EVSS_CLAIMS,
         backendServices.APPEALS_STATUS,
+        backendServices.LIGHTHOUSE,
       ]}
       user={user}
     >
