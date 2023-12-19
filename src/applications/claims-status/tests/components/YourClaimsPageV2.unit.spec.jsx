@@ -32,7 +32,7 @@ Object.defineProperty(window, 'sessionStorage', {
 
 describe('<YourClaimsPageV2>', () => {
   const defaultProps = {
-    canAccessClaimsEVSS: true,
+    canAccessClaims: true,
     canAccessAppeals: true,
     claimsLoading: false,
     appealsLoading: false,
@@ -66,7 +66,7 @@ describe('<YourClaimsPageV2>', () => {
     ],
     pages: 1,
     page: 1,
-    getClaimsEVSS: sinon.spy(),
+    getClaims: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
   };
