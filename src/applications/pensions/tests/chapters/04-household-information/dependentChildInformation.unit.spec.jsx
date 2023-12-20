@@ -1,15 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import moment from 'moment';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
-  DefinitionTester,
-  getFormDOM,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+  $, // get first
+  $$, // get all
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
 
+const definitions = formConfig.defaultDefinitions;
 const {
   schema,
   uiSchema,
@@ -33,72 +36,79 @@ const dependentData = {
 };
 
 describe('Child information page', () => {
-  // it('should render', () => {
-  //   const form = ReactTestUtils.renderIntoDocument(
-  //     <DefinitionTester
-  //       arrayPath={arrayPath}
-  //       pagePerItemIndex={0}
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       data={dependentData}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-  //   const formDOM = getFormDOM(form);
+  it('should render all fields', async () => {
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={definitions}
+        schema={schema}
+        data={dependentData}
+        uiSchema={uiSchema}
+      />,
+    );
 
-  //   expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-  //     8,
-  //   );
-  // });
+    expect($$('input[type=text], va-text-input', container).length).to.equal(2);
+    expect($$('va-radio', container).length).to.equal(4);
+    expect($('input#root_view\\:noSSN', container)).to.exist;
+    expect($('button[type="submit"]', container)).to.exist;
+  });
 
-  // it('should show errors when required fields are empty', () => {
+  it('should show errors when required fields are empty', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={definitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={dependentData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
+      expect($$(errors, container).length).to.equal(6);
+      expect(onSubmit.called).to.be.false;
+    });
+  });
+
+  it('should not require ssn if noSSN is checked', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={definitions}
+        schema={schema}
+        onSubmit={onSubmit}
+        data={dependentData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    const noSSN = $('input#root_view\\:noSSN', container);
+    fireEvent.click(noSSN);
+
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
+      expect($$(errors, container).length).to.equal(5);
+      expect(noSSN.checked).to.be.true;
+      expect(onSubmit.called).to.be.false;
+    });
+  });
+
+  // it('should submit with valid data', async () => {
   //   const onSubmit = sinon.spy();
-  //   const form = ReactTestUtils.renderIntoDocument(
+  //   const { container, queryByRole } = render(
   //     <DefinitionTester
   //       arrayPath={arrayPath}
   //       pagePerItemIndex={0}
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       onSubmit={onSubmit}
-  //       data={dependentData}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-  //   const formDOM = getFormDOM(form);
-  //   formDOM.submitForm(form);
-  //   expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
-  //   expect(onSubmit.called).not.to.be.true;
-  // });
-
-  // it('should not require ssn if noSSN is checked', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = ReactTestUtils.renderIntoDocument(
-  //     <DefinitionTester
-  //       arrayPath={arrayPath}
-  //       pagePerItemIndex={0}
-  //       definitions={formConfig.defaultDefinitions}
-  //       schema={schema}
-  //       onSubmit={onSubmit}
-  //       data={dependentData}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-  //   const formDOM = getFormDOM(form);
-  //   formDOM.setCheckbox('#root_view\\:noSSN', true);
-  //   formDOM.submitForm(form);
-  //   const errors = formDOM.querySelectorAll('.usa-input-error-label');
-
-  //   expect(errors.length).to.equal(3);
-  //   expect(onSubmit.called).not.to.be.true;
-  // });
-
-  // it('should submit with valid data', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = ReactTestUtils.renderIntoDocument(
-  //     <DefinitionTester
-  //       arrayPath={arrayPath}
-  //       pagePerItemIndex={0}
-  //       definitions={formConfig.defaultDefinitions}
+  //       definitions={definitions}
   //       schema={schema}
   //       data={dependentData}
   //       onSubmit={onSubmit}
@@ -106,20 +116,47 @@ describe('Child information page', () => {
   //     />,
   //   );
 
-  //   const formDOM = getFormDOM(form);
+  //   const placeOfBirth = $('input#root_childPlaceOfBirth', container);
+  //   fireEvent.change(placeOfBirth, { target: { value: 'Dagobah' } });
 
-  //   formDOM.fillData('#root_childPlaceOfBirth', 'sf');
-  //   formDOM.fillData('#root_childSocialSecurityNumber', '123123123');
-  //   formDOM.fillData('#root_childRelationship_0', 'biological');
-  //   formDOM.fillData('#root_previouslyMarriedNo', 'Y');
+  //   // const ssn = $(
+  //   //   'va-text-input[name="root_childSocialSecurityNumber"]',
+  //   //   container,
+  //   // );
+  //   const ssn = queryByRole('textbox', {
+  //     name: /Social Security Number/i,
+  //   });
+  //   fireEvent.change(ssn, { target: { value: '111223333' } });
 
-  //   formDOM.submitForm(form);
-  //   expect(onSubmit.called).to.be.true;
+  //   const relation = $('va-radio[name="root_childRelationship"]', container);
+  //   relation.__events.vaValueChange(
+  //     new CustomEvent('selected', { detail: { value: 'biological' } }),
+  //   );
+
+  //   const college = $('va-radio[name="root_attendingCollege"]', container);
+  //   college.__events.vaValueChange(
+  //     new CustomEvent('selected', { detail: { value: 'N' } }),
+  //   );
+
+  //   const disabled = $('va-radio[name="root_disabled"]', container);
+  //   disabled.__events.vaValueChange(
+  //     new CustomEvent('selected', { detail: { value: 'N' } }),
+  //   );
+
+  //   const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
+  //   prevMarried.__events.vaValueChange(
+  //     new CustomEvent('selected', { detail: { value: 'N' } }),
+  //   );
+
+  //   fireEvent.submit($('form', container));
+  //   await waitFor(() => {
+  //     expect(onSubmit.called).to.be.true;
+  //   });
   // });
 
   it('should ask if the child is in school', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -131,13 +168,12 @@ describe('Child information page', () => {
       />,
     );
 
-    const formDOM = getFormDOM(form);
-    expect(formDOM.querySelector('#root_attendingCollegeYes')).to.not.be.null;
+    expect($('#root_attendingCollegeYes', container)).to.not.be.null;
   });
 
   it('should ask if the child is disabled', () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -149,15 +185,11 @@ describe('Child information page', () => {
       />,
     );
 
-    const formDOM = getFormDOM(form);
-    expect(formDOM.querySelector('#root_disabledYes')).to.not.be.null;
+    expect($('#root_disabledYes', container)).to.not.be.null;
   });
 
   it('should set the title to the dependents name if available', () => {
-    const pageTitle = title;
-    expect(pageTitle(dependentData.dependents[0])).to.eql(
-      'Jane Doe information',
-    );
-    expect(pageTitle({ fullName: {} })).to.eql('  information');
+    expect(title(dependentData.dependents[0])).to.eql('Jane Doe information');
+    expect(title({ fullName: {} })).to.eql('  information');
   });
 });
