@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import ListItemView from '../../../components/ListItemView';
 
-// View component for Medical Center
-const MedicalCenterView = ({ formData }) => {
-  return (
-    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
-      {formData.medicalCenter}
-    </h3>
-  );
-};
+const MedicalCenterView = ({ formData }) => (
+  <ListItemView title={formData.medicalCenter} />
+);
 
 MedicalCenterView.propTypes = {
   formData: PropTypes.shape({

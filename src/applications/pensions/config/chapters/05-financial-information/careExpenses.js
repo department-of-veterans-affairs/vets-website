@@ -8,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+import ListItemView from '../../../components/ListItemView';
 
 const { dateRange } = fullSchemaPensions.definitions;
 
@@ -29,9 +30,7 @@ const frequencyOptions = {
 };
 
 const CareExpenseView = ({ formData }) => (
-  <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
-    {formData.provider}
-  </h3>
+  <ListItemView title={formData.provider} />
 );
 
 CareExpenseView.propTypes = {
