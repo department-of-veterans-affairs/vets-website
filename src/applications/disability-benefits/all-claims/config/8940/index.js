@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { SHOW_8940_4192 } from '../../constants';
 import {
   unemployabilityAdditionalInformation,
@@ -20,7 +21,6 @@ import {
   medicalCare,
   hospitalizationHistory,
 } from '../../pages';
-import environment from 'platform/utilities/environment';
 
 import {
   needsToEnterUnemployability,
@@ -64,7 +64,7 @@ export default function() {
     },
     // 8940 - Contentions
     unemployabilityDisabilities: {
-      title: 'Unemployability disabilities',
+      title: 'Unemployability conditions',
       path: 'unemployability-disabilities',
       depends: needsToAnswerUnemployability,
       uiSchema: unemployabilityDisabilities.uiSchema,

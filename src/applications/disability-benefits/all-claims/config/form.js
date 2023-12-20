@@ -295,10 +295,10 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: 'Disabilities', // this probably needs to change
+      title: 'Conditions', // this probably needs to change
       pages: {
         claimType: {
-          title: 'Claim type',
+          title: 'Reason for claim',
           path: 'claim-type',
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
@@ -342,7 +342,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
-              'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.',
+              'Now we’re going to ask you some follow-up questions about each of your conditions. We’ll go through them one by one.',
           },
           schema: { type: 'object', properties: {} },
         },
@@ -551,7 +551,7 @@ const formConfig = {
             'ui:description': ancillaryFormsWizardDescription,
             'view:ancillaryFormsWizard': {
               'ui:title':
-                'Would you like to learn more about additional benefits?',
+                'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
           },
@@ -599,7 +599,7 @@ const formConfig = {
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
-          title: 'Summary of disabilities',
+          title: 'Summary of conditions',
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,

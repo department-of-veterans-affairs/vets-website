@@ -26,7 +26,7 @@ export const uiSchema = {
       selectedPropName: 'unemployabilityDisability',
       widgetClassNames: 'widget-outline widget-outline-group',
       keepInPageOnReview: true,
-      customTitle: 'Rated disabilities',
+      customTitle: 'Rated service-connected disabilities',
       // On the review & submit page, both this SelectArrayItemsWidget and the
       // main ratedDisabilities widget could be in edit mode causing duplicate
       // input ids/names... this appends a value on the ID to make it unique
@@ -45,7 +45,7 @@ export const uiSchema = {
       label: disabilityOption,
       widgetClassNames: 'widget-outline',
       keepInPageOnReview: true,
-      customTitle: 'New unrated disabilities',
+      customTitle: 'New conditions',
       appendId: '2',
     },
   },

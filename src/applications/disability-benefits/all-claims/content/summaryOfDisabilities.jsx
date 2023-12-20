@@ -90,8 +90,8 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   return (
     <>
       <p>
-        Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please {showLink}.
+        This is a list of the conditions you’re claiming in this application. If
+        a condition is missing, please {showLink}.
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>

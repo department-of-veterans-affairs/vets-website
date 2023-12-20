@@ -28,9 +28,9 @@ const carAssistanceContent = (
   <va-accordion-item>
     <h4 slot="headline">Automobile allowance</h4>
     <p>
-      To file a claim for a one-time payment to help you buy a specially
-      equipped vehicle, you’ll need to fill out an Application for Automobile or
-      Other Conveyance and Adaptive Equipment (VA Form 21-4502).
+      To apply for a one-time payment to help you buy a specially equipped
+      vehicle, you’ll need to fill out an Application for Automobile or Other
+      Conveyance and Adaptive Equipment (VA Form 21-4502).
     </p>
     <p>
       <DownloadLink
@@ -41,8 +41,8 @@ const carAssistanceContent = (
       .
     </p>
     <p>
-      To file a claim for adaptive equipment, you’ll need to fill out an
-      Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394).
+      To apply for an adaptive equipment grant, you’ll need to fill out an
+      Application for Adaptive Equipment-Motor Vehicle (VA Form 10-1394).
     </p>
     <p>
       <DownloadLink
