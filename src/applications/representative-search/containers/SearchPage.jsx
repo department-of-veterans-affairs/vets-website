@@ -10,9 +10,6 @@ import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
 import ResultsList from '../components/results/ResultsList';
 import PaginationWrapper from '../components/results/PaginationWrapper';
-// import { fetchRepresentativeSearchResults } from '../actions/index';
-
-// import { setFocus } from '../utils/helpers';
 
 import {
   clearSearchText,
@@ -342,22 +339,42 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
-  clearSearchText: PropTypes.func.isRequired,
-  currentQuery: PropTypes.object.isRequired,
-  geolocateUser: PropTypes.func.isRequired,
-  searchWithBounds: PropTypes.func.isRequired,
-  searchResults: PropTypes.array.isRequired,
-  sortType: PropTypes.string.isRequired,
-  updateSearchQuery: PropTypes.func.isRequired,
-  // updateSortType: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  clearGeocodeError: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  clearSearchText: PropTypes.func,
+  currentQuery: PropTypes.object,
+  fetchRepresentatives: PropTypes.func,
+  geocodeUserAddress: PropTypes.func,
+  geolocateUser: PropTypes.func,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    query: PropTypes.shape({
+      address: PropTypes.string,
+      name: PropTypes.string,
+      lat: PropTypes.number,
+      long: PropTypes.number,
+      page: PropTypes.number,
+      per_page: PropTypes.number,
+      sort: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    search: PropTypes.string,
+  }),
   pagination: PropTypes.shape({
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  searchWithInputInProgress: PropTypes.bool,
+  results: PropTypes.array,
   searchError: PropTypes.object,
+  searchResults: PropTypes.array,
+  searchWithBounds: PropTypes.func,
+  searchWithInput: PropTypes.func,
+  searchWithInputInProgress: PropTypes.bool,
+  sortType: PropTypes.string,
+  updateSearchQuery: PropTypes.func,
+  updateSortType: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
