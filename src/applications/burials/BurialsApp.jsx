@@ -26,15 +26,18 @@ function BurialsEntry({ location, children, isLoadingFeatures }) {
   if (!burialFormEnabled) {
     return <NoFormPage />;
   }
-  if (burialFormV2) {
-    return (
-      <RoutedSavableApp formConfig={formConfigV2} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    );
-  }
+  // if (burialFormV2) {
+  //   return (
+  //     <RoutedSavableApp formConfig={formConfigV2} currentLocation={location}>
+  //       {children}
+  //     </RoutedSavableApp>
+  //   );
+  // }
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp
+      formConfig={burialFormV2 ? formConfigV2 : formConfig}
+      currentLocation={location}
+    >
       {children}
     </RoutedSavableApp>
   );

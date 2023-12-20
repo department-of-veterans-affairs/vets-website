@@ -4,7 +4,6 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { createSelector } from 'reselect';
-
 // import { transform } from '../helpers';
 
 import {
