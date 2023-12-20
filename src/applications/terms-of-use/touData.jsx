@@ -1,5 +1,5 @@
 import React from 'react';
-import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default [
   {
@@ -96,7 +96,9 @@ export default [
         <p>
           If you don’t accept these terms, you won’t be able to sign in to
           VA.gov or other VA online services covered by these terms. If you have
-          concerns or questions, or want to report an issue, <IdentityPhone />
+          concerns or questions, or want to report an issue, call our MyVA411
+          main information line at <va-telephone contact={CONTACTS.VA_411} />{' '}
+          <va-telephone contact={CONTACTS[711]} tty />
         </p>
         <p>
           We take the responsibility of protecting your information seriously.
@@ -145,7 +147,9 @@ export default [
         </p>
         <p>
           If you disagree with the content included in your VA records, or you
-          suspect an error in your record, <IdentityPhone />
+          suspect an error in your record, call our MyVA411 main information
+          line at <va-telephone contact={CONTACTS.VA_411} />{' '}
+          <va-telephone contact={CONTACTS[711]} tty />
         </p>
       </>
     ),

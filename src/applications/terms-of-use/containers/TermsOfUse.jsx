@@ -4,6 +4,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/e
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isAuthenticatedWithOAuth,
+  isAuthenticatedWithSSOe,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
 import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
@@ -20,7 +21,8 @@ const touUpdatedDate = `September 2023`;
 
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const isAUthenticatedWithIAN = useSelector(isAuthenticatedWithSSOe);
+  const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
   const redirectLocation = new URL(window.location);
@@ -28,6 +30,10 @@ export default function TermsOfUse() {
     redirectLocation.searchParams.get('terms_code')?.length > 1;
   const redirectUrl = validateWhichRedirectUrlToUse(redirectLocation);
   const shouldRedirectToMobile = sessionStorage.getItem('ci') === 'vamobile';
+  const isUnathenticated =
+    !isMiddleAuth && !isAuthenticatedWithSiS && !isAUthenticatedWithIAN;
+  const isFullyAuthenticated =
+    isMiddleAuth && (isAUthenticatedWithIAN || isAuthenticatedWithSiS);
 
   useEffect(
     () => {
@@ -35,7 +41,7 @@ export default function TermsOfUse() {
         apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
           const [{ code, title }] = response.errors;
           if (code === '401' || title?.includes('Not authorized')) {
-            setIsAuthenticated(false);
+            setIsMiddleAuth(false);
           }
         });
       }
@@ -88,35 +94,36 @@ export default function TermsOfUse() {
 
   return (
     <>
-      {isAuthenticated && !isAuthenticatedWithSiS && <style>{touStyles}</style>}
+      {isMiddleAuth &&
+        !isFullyAuthenticated &&
+        !isUnathenticated && <style>{touStyles}</style>}
       <section className="vads-l-grid-container vads-u-padding-y--5">
         <div className="usa-content">
           <h1 className="vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
             VA online services terms of use
           </h1>
-          {isAuthenticated ? (
-            <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
-              To sign in, you’ll need to accept the updated terms of use. Read
-              the updated terms on this page. Then confirm if you accept.
-            </p>
-          ) : (
-            <p>
-              We’ve recently updated our terms of use for VA.gov and other VA
-              online services. Read the updated terms on this page. If you
-              haven’t yet accepted these terms, you can sign in and accept them
-              now.
-            </p>
-          )}
-          {!isAuthenticated && (
-            <div className="vads-u-margin-y--5">
-              <a
-                className="vads-c-action-link--blue"
-                href="https://www.va.gov/?next=loginModal"
-              >
-                Sign in to VA.gov
-              </a>
-            </div>
-          )}
+          <p className="va-introtext va-introtext vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+            {`${
+              isUnathenticated &&
+              !isMiddleAuth &&
+              !isAUthenticatedWithIAN &&
+              isAuthenticatedWithSiS
+                ? 'We’ve recently updated our terms of use for VA.gov and other VA online services. Read the updated terms on this page. If you haven’t yet accepted these terms, you can sign in and accept them now.'
+                : 'To sign in, you’ll need to accept the updated terms of use. Readthe updated terms on this page. Then confirm if you accept.'
+            }`}
+          </p>
+          {isUnathenticated &&
+            !isMiddleAuth &&
+            !isFullyAuthenticated && (
+              <div className="vads-u-margin-y--2p5">
+                <a
+                  className="vads-c-action-link--blue"
+                  href="https://www.va.gov/terms-of-use/?next=loginModal"
+                >
+                  Sign in to VA.gov
+                </a>
+              </div>
+            )}
           <article>
             <div>
               <p>
@@ -176,14 +183,12 @@ export default function TermsOfUse() {
                 <li>Update your personal information</li>
               </ul>
             </va-alert>
-            {isAuthenticated && (
-              <TermsAcceptance
-                error={error}
-                isAuthenticated={isAuthenticated}
-                handleTouClick={handleTouClick}
-                setShowDeclineModal={setShowDeclineModal}
-              />
-            )}
+            <TermsAcceptance
+              error={error}
+              isAuthenticated={isMiddleAuth}
+              handleTouClick={handleTouClick}
+              setShowDeclineModal={setShowDeclineModal}
+            />
           </article>
         </div>
         <VaModal
