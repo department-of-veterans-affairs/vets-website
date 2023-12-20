@@ -57,6 +57,7 @@ export default {
         title: 'Available Debts',
         uiSchema: combinedDebts.uiSchema,
         schema: combinedDebts.schema,
+        depends: formData => !formData.reviewNavigation,
       },
       contactInfo: {
         initialData: {
