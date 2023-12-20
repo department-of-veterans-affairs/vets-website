@@ -20,7 +20,7 @@ const serviceBranchOptions = {
   NAVY: 'Navy',
   AIR_FORCE: 'Air Force',
   COAST_GUARD: 'Coast Guard',
-  MARIVE_CORPS: 'Marine Corps',
+  MARINE_CORPS: 'Marine Corps',
   SPACE_FORCE: 'Space Force',
   USPHS: 'USPHS',
   NOAA: 'NOAA',
