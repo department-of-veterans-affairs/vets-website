@@ -114,8 +114,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <ul>
           <li>The type of claim you filed</li>
           <li>
-            How many injuries or disabilities you claimed and how complex they
-            are
+            How many injuries or conditions you claimed and how complex they are
           </li>
           <li>
             How long it takes us to collect the evidence needed to decide your
