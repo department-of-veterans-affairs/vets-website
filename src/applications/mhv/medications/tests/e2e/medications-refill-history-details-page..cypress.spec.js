@@ -27,6 +27,6 @@ describe('Medications Refill History on Details Page', () => {
     detailsPage.verifyRxShippedOnDateOnDetailsPage(
       refillHistoryDetails.data.attributes.dispensedDate,
     );
-    detailsPage.verifyNoImageFieldMessageOnDetailsPage();
+    // No image available added as a separate test
   });
 });

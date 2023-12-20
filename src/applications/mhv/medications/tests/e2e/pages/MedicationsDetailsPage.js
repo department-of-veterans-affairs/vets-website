@@ -285,5 +285,22 @@ class MedicationsDetailsPage {
   verifyNoImageFieldMessageOnDetailsPage = () => {
     cy.get('[data-testid="no-image"]').should('contain', 'No image available');
   };
+
+  verifyCmopNdcNumberIsNull = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get('@prescriptionDetails')
+      .its('response')
+      .then(res => {
+        expect(res.body.data.attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
 }
 export default MedicationsDetailsPage;
