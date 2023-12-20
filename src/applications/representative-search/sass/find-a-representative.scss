@@ -6,6 +6,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+$large-screen-content-width: 940px;
+
 .find-a-representative {
   h1:first-child {
     margin-top: 0;
@@ -90,6 +92,10 @@
 
   .representative-search-results-container {
     .pagination-container .hydrated {
+      @media (min-width: $large-screen) {
+        width: $large-screen-content-width;
+      }
+
       border-top: none !important;
     }
     #search-results-title {
@@ -119,20 +125,34 @@
           width: 32em;
         }
       }
+      padding-bottom: 3em;
+
       .sort-dropdown {
         label {
           @media (min-width: $large-screen) {
             margin-top: 0 !important;
           }
         }
-
-        // @media (min-width: $large-screen) {
-        //   position: absolute;
-        //   top: -67px;
-        //   left: 750px;
-        //   width: 271px;
-        // }
       }
+    }
+
+    .representative-results-list {
+      @media (min-width: $large-screen) {
+        width: $large-screen-content-width;
+      }
+
+      > * {
+        border-bottom: 2px solid $color-gray-lighter;
+        &:first-child {
+          border-top: 2px solid $color-gray-lighter;
+        }
+      }
+    }
+  }
+
+  .help-footer-container {
+    @media (min-width: $large-screen) {
+      width: $large-screen-content-width;
     }
   }
 
