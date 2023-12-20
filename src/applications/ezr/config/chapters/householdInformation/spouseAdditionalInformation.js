@@ -1,5 +1,6 @@
 import {
   titleUI,
+  descriptionUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,10 +11,10 @@ import content from '../../../locales/en/content.json';
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['household-spouse-addtl-info-title'],
-      SpouseInfoDescription,
-    ),
+    ...titleUI(content['household-spouse-addtl-info-title']),
+    ...descriptionUI(SpouseInfoDescription, {
+      hideOnReview: true,
+    }),
     cohabitedLastYear: yesNoUI(
       replaceStrValues(content['household-spouse-cohabitate-label'], LAST_YEAR),
     ),
