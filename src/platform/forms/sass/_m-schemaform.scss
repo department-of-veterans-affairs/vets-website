@@ -474,6 +474,15 @@ legend.schemaform-label.schemaform-file-label {
   outline: none;
 }
 
+.form-review-panel-page-header {
+  padding-right: 1rem;
+  line-height: 2.5rem;
+}
+.form-review-panel-page-header-row {
+  align-items: flex-start;
+  justify-content: flex-end; /* ensures edit is on right side */
+}
+
 .schemaform-review-array-error {
   margin: -1em -0.8em 0;
   border: 2px solid $color-gold-lightest;
