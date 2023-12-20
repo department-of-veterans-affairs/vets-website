@@ -414,7 +414,7 @@ module.exports = async (env = {}) => {
     optimization: {
       // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
       // consistency between full and single app builds
-      chunkIds: 'named',
+      chunkIds: 'deterministic',
       moduleIds: 'named',
       minimizer: [
         new TerserPlugin({
@@ -428,7 +428,7 @@ module.exports = async (env = {}) => {
           parallel: true,
         }),
       ],
-      runtimeChunk: 'single',
+      // runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
