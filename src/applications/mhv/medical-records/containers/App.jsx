@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -12,7 +12,6 @@ import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 
 const App = ({ children }) => {
-  const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
   const { featureTogglesLoading, appEnabled, showSideNav } = useSelector(
