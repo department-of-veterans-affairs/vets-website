@@ -30,7 +30,7 @@ const getAppointmentContent = (type, appointments) => {
   const items = getAppointments(type, appointments);
   if (items.length > 0) {
     return items.map((item, idx) => (
-      <div key={idx}>
+      <li key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
         <p className="vads-u-margin-top--0">
           {item.location}
@@ -38,7 +38,7 @@ const getAppointmentContent = (type, appointments) => {
           <br />
           Clinic location: {item.site}
         </p>
-      </div>
+      </li>
     ));
   }
 
@@ -103,7 +103,7 @@ const appointments = avs => {
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="scheduled-appointments"
             >
               {scheduledAppointments}
@@ -121,7 +121,7 @@ const appointments = avs => {
               time.
             </p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="recall-appointments"
             >
               {recallAppointments}
