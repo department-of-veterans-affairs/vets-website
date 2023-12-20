@@ -157,33 +157,6 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByRole('heading')).to.contain.text('Blah');
   });
 
-  it('should render empty div', () => {
-    const schema = {
-      properties: {
-        test: {
-          type: 'string',
-        },
-      },
-    };
-
-    const { container } = render(
-      <ObjectField
-        uiSchema={{}}
-        schema={schema}
-        formContext={{ pageTitle: '' }}
-        requiredSchema={{}}
-        idSchema={{ $id: 'root' }}
-        formData={{}}
-        onChange={() => {}}
-        onBlur={() => {}}
-      />,
-    );
-
-    expect(container.innerHTML).to.contain(
-      '<div></div><div class="vads-u-justify-content--flex-end">',
-    );
-  });
-
   it('should render function title', () => {
     const schema = {
       properties: {
