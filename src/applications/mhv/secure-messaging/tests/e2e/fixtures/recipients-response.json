@@ -17,7 +17,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6832726,
-        "name": "Dimitar's TG",
+        "name": "TG-7410",
         "stationNumber": "989",
         "blockedStatus": false,
         "relationType": "PATIENT",
