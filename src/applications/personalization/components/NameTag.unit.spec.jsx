@@ -4,6 +4,13 @@ import { renderWithProfileReducers as render } from '../profile/tests/unit-test-
 
 import NameTag from './NameTag';
 
+const NULL_USER = {
+  first: '',
+  middle: '',
+  last: '',
+  suffix: '',
+};
+
 const getInitialState = () => ({
   vaProfile: {
     hero: {
@@ -11,6 +18,7 @@ const getInitialState = () => ({
         first: 'Johnnie',
         middle: 'Leonard',
         last: 'Weaver',
+        suffix: '',
       },
     },
     militaryInformation: {
@@ -36,6 +44,12 @@ const getInitialState = () => ({
     },
   },
 });
+
+const withUserFullName = (userFullName = { ...NULL_USER }) => {
+  const initialState = getInitialState();
+  initialState.vaProfile.hero.userFullName = userFullName;
+  return render(<NameTag />, { initialState });
+};
 
 describe('<NameTag>', () => {
   context(
@@ -111,39 +125,23 @@ describe('<NameTag>', () => {
   );
 
   context('when user has middle initials', () => {
-    const initialState = getInitialState();
-    initialState.vaProfile.hero.userFullName = {
-      first: 'Max',
-      middle: 'H g',
-      last: 'Miller',
-    };
-    let view;
-    beforeEach(() => {
-      view = render(<NameTag />, {
-        initialState,
-      });
-    });
-
     it('should capitalize middle initials', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'H g',
+        last: 'Miller',
+      });
       view.getAllByText('Max H G Miller');
     });
   });
 
   context('when user has middle initials with punctuation', () => {
-    const initialState = getInitialState();
-    initialState.vaProfile.hero.userFullName = {
-      first: 'Max',
-      middle: 'h. G.',
-      last: 'Miller',
-    };
-    let view;
-    beforeEach(() => {
-      view = render(<NameTag />, {
-        initialState,
-      });
-    });
-
     it('should capitalize middle initials with punctuation', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'h. G.',
+        last: 'Miller',
+      });
       view.getAllByText('Max H. G. Miller');
     });
   });
@@ -151,20 +149,12 @@ describe('<NameTag>', () => {
   context(
     'when user has middle name(s) that start with lowercase letter',
     () => {
-      const initialState = getInitialState();
-      initialState.vaProfile.hero.userFullName = {
-        first: 'Max',
-        middle: 'de Rosa',
-        last: 'Miller',
-      };
-      let view;
-      beforeEach(() => {
-        view = render(<NameTag />, {
-          initialState,
-        });
-      });
-
       it('should not capitalize full middle names', () => {
+        const view = withUserFullName({
+          first: 'Max',
+          middle: 'de Rosa',
+          last: 'Miller',
+        });
         view.getAllByText('Max de Rosa Miller');
       });
     },
