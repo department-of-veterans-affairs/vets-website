@@ -28,7 +28,7 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const { goToPreviousPage, jumpToPage, pages } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
@@ -75,6 +75,17 @@ const AppointmentDetails = props => {
     recordEvent({
       event: createAnalyticsSlug('details-phone-link-clicked', 'nav', app),
     });
+  };
+
+  const handleReviewClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(
+        'details-review-information-button-clicked',
+        'nav',
+        app,
+      ),
+    });
+    jumpToPage('contact-information');
   };
 
   const clinic = appointment && clinicName(appointment);
@@ -217,6 +228,20 @@ const AppointmentDetails = props => {
                       router={router}
                       event="check-in-clicked-VAOS-design"
                     />
+                  </div>
+                )}
+              {isPreCheckIn &&
+              !isUpcoming &&
+              pages.length > 4 && ( // pre-check-in is not completed
+                  <div className="vads-u-margin-top--2">
+                    <button
+                      type="button"
+                      className="usa-button usa-button-big vads-u-font-size--md"
+                      onClick={handleReviewClick}
+                      data-testid="review-information-button"
+                    >
+                      {t('review-your-information-now')}
+                    </button>
                   </div>
                 )}
             </div>

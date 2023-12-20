@@ -74,6 +74,21 @@ describe('check-in experience', () => {
     const preCheckInStore = {
       app: 'preCheckIn',
       appointments: initAppointments,
+      upcomingAppointments,
+    };
+    const preCheckInStoreWithPreCheckInIncomplete = {
+      app: 'preCheckIn',
+      appointments: initAppointments,
+      upcomingAppointments,
+      formPages: [
+        'verify',
+        'appointments',
+        'contact-information',
+        'emergency-contact',
+        'next-of-kin',
+        'complete',
+        'appointment-details',
+      ],
     };
     const preCheckInStoreWith45MinuteFlag = {
       app: 'preCheckIn',
@@ -157,6 +172,30 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByRole('heading', { name: 'Clinic', level: 2 })).to.exist;
+        });
+      });
+      describe('Pre-check-in appointments', () => {
+        it('renders review button when appointment is not upcoming and pre-check-in is not complete', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWithPreCheckInIncomplete}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('review-information-button')).to.exist;
+        });
+        it('does not render review button when appointment is upcoming only', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWithPreCheckInIncomplete}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('review-information-button')).to.not.exist;
         });
       });
       describe('In person pre-check-in appointment', () => {
