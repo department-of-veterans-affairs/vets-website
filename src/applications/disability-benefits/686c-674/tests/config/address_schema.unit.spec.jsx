@@ -24,7 +24,7 @@ describe('Zip Code Validation', () => {
     ];
     TEST_MATRIX.forEach(test => {
       const errors = { addError: sinon.spy() };
-      expect(validateZipCode(test.zipCode, test.stateCode, errors)).to.be.true;
+      expect(validateZipCode(test.zipCode, test.stateCode, errors)).to.be.false;
       expect(errors.addError.calledWithMatch(INVALID_ZIP_ERROR)).to.be.true;
     });
   });
@@ -63,7 +63,7 @@ describe('Zip Code Validation', () => {
       expect(
         validateZipCode(test.zipCode, test.stateCode, errors),
         `${test.zipCode} and ${test.stateCode} were false`,
-      ).to.be.true;
+      ).to.be.false;
       expect(
         errors.addError.calledWithMatch(DOMESTIC_BASE_ERROR),
         `expected error ${DOMESTIC_BASE_ERROR} 

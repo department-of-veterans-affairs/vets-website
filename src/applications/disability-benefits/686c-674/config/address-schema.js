@@ -107,8 +107,6 @@ export const INVALID_ZIP_ERROR =
   'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
 
 export const validateZipCode = (zipCode, stateCode, errors) => {
-  // console.log(zipCode)
-  // console.log(stateCode)
   if (stateCode in MILITARY_BASE_ZIP_REGEX) {
     if (!zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])) {
       errors.addError(INVALID_ZIP_ERROR);
