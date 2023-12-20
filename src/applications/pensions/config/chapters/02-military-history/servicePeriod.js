@@ -37,7 +37,7 @@ export default {
     }),
     activeServiceDateRange: dateRangeUI(
       'Date initially entered active duty',
-      'Final release date from activity duty',
+      'Final release date from active duty',
       'Date initially entered active duty must be before final date released from active duty',
     ),
     serviceNumber: serviceNumberUI(),
