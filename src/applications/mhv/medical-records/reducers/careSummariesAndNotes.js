@@ -142,6 +142,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: action.response,
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
