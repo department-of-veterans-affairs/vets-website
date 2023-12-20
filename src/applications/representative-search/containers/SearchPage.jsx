@@ -7,9 +7,9 @@ import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/search/SearchResultsHeader';
-import ResultsList from '../components/search/ResultsList';
-import PaginationWrapper from '../components/search/PaginationWrapper';
+import SearchResultsHeader from '../components/results/SearchResultsHeader';
+import ResultsList from '../components/results/ResultsList';
+import PaginationWrapper from '../components/results/PaginationWrapper';
 // import { fetchRepresentativeSearchResults } from '../actions/index';
 
 // import { setFocus } from '../utils/helpers';
@@ -45,7 +45,7 @@ const SearchPage = props => {
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.repOrganizationInputString,
+      name: currentQuery.repOfficerInputString,
 
       ...params,
     };
@@ -85,8 +85,8 @@ const SearchPage = props => {
           latitude: location.query.lat,
           longitude: location.query.long,
         },
-        repOrganizationQueryString: location.query.name,
-        repOrganizationInputString: location.query.name,
+        repOfficerQueryString: location.query.name,
+        repOfficerInputString: location.query.name,
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
@@ -98,7 +98,7 @@ const SearchPage = props => {
     const { currentQuery } = props;
     const {
       context,
-      repOrganizationInputString,
+      repOfficerInputString,
       representativeType,
       position,
       sortType,
@@ -111,7 +111,7 @@ const SearchPage = props => {
 
     updateUrlParams({
       address: context.location,
-      name: repOrganizationInputString || null,
+      name: repOfficerInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
@@ -124,7 +124,7 @@ const SearchPage = props => {
         address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
-        name: repOrganizationInputString,
+        name: repOfficerInputString,
         page,
         per_page: 10,
         sort: sortType,

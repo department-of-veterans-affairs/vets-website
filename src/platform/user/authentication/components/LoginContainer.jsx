@@ -10,7 +10,7 @@ import environment from 'platform/utilities/environment';
 const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-export const LoginContainer = props => {
+const LoginContainer = props => {
   const { externalApplication, isUnifiedSignIn, loggedOut } = props;
 
   return (

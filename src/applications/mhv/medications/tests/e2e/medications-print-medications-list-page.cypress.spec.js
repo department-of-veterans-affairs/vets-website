@@ -8,13 +8,7 @@ describe('Medications List Page Print List', () => {
     cy.visit('my-health/about-medications/');
     site.login();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.verifyPrintMedicationsListEnabledOnListPage();

@@ -45,6 +45,10 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "health-care-supply-reordering",
+      "slackGroup": "<@C05DFSM57FW>"
+    },
+    {
       "rootFolder": "login",
       "slackGroup": "@vsp-identity-group"
     },

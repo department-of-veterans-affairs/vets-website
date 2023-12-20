@@ -211,7 +211,7 @@ const LandingPage = () => {
                     And if you have prescriptions that are too old to refill or
                     have no refills left, you’ll need to renew them to get more.
                   </p>
-                  <a href="/my-health/about-medications/accordion-renew-rx">
+                  <a href="/my-health/medications/about/accordion-renew-rx">
                     Learn how to renew prescriptions
                   </a>
                 </va-accordion-item>
@@ -464,7 +464,7 @@ const LandingPage = () => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
