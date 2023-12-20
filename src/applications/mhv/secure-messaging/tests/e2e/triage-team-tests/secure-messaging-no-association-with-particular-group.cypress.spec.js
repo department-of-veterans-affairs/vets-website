@@ -5,12 +5,17 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-// import mockBlockedRecipient from '../fixtures/recipientsResponse/blocked-recipients-response.json'
 
 describe('No association with particular Triage Group', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  // const removedFirstRecipientsList = mockRecipients.data.slice(1);
+
+  const updatedData = mockRecipients.data.slice(1);
+  const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
+  const removedFirstRecipientsList = {
+    data: updatedData,
+    meta: updatedMeta,
+  };
 
   const threadWithNoAssociatedTG = {
     ...blockedThread,
@@ -21,19 +26,19 @@ describe('No association with particular Triage Group', () => {
           ...blockedThread.data[0].attributes,
           recipientName: mockRecipients.data[0].attributes.name,
           triageGroupName: mockRecipients.data[0].attributes.name,
+          recipientId: mockRecipients.data[0].attributes.triageTeamId,
         },
       },
     ],
   };
 
-  // TODO check if only one recipient disassociated
   it('inbox view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
-      mockRecipients,
+      removedFirstRecipientsList,
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -43,18 +48,24 @@ describe('No association with particular Triage Group', () => {
         },
       },
     });
-    // cy.get('[close-btn-aria-label="Close notification"]')
-    //   .find('h2')
-    //   .should('include.text', 'not connected');
+
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
+      waitForAnimations: true,
+    });
+    cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+    cy.get('#select').should(
+      'not.contain',
+      mockRecipients.data[0].attributes.name,
+    );
   });
 
-  it.skip('alert message in detailed view', () => {
+  it('alert message in detailed view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
-      mockRecipients,
+      removedFirstRecipientsList,
     );
     landingPage.loadSingleThread(threadWithNoAssociatedTG);
 
