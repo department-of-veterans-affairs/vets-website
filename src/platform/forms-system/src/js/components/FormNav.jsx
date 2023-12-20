@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
+import { useSelector } from 'react-redux';
 
 import {
   getChaptersLengthDisplay,
@@ -19,13 +20,8 @@ import {
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const {
-    formConfig = {},
-    currentPath,
-    formData,
-    isLoggedIn,
-    inProgressFormId,
-  } = props;
+  const inProgressFormId = useSelector(state => state?.form?.inProgressFormId);
+  const { formConfig = {}, currentPath, formData, isLoggedIn } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -147,14 +143,21 @@ export default function FormNav(props) {
   return (
     <div>
       {!hideFormNavProgress && (
-        <va-segmented-progress-bar
-          total={chaptersLengthDisplay}
-          current={currentChapterDisplay}
-          uswds={v3SegmentedProgressBar}
-          heading-text={chapterName ?? ''} // functionality only available for v3
-          name="v3SementedProgressBar"
-          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
-        />
+        <>
+          <va-segmented-progress-bar
+            total={chaptersLengthDisplay}
+            current={currentChapterDisplay}
+            uswds={v3SegmentedProgressBar}
+            heading-text={chapterName ?? ''} // functionality only available for v3
+            name="v3SementedProgressBar"
+            {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
+          />
+          {formConfig?.V3InProgressMessage && (
+            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+              {inProgressMessage}
+            </div>
+          )}
+        </>
       )}
       {!v3SegmentedProgressBar &&
         !hideFormNavProgress && (
@@ -186,7 +189,6 @@ FormNav.defaultProps = {
   currentPath: '',
   formData: {},
   isLoggedIn: false,
-  inProgressFormId: null,
 };
 
 FormNav.propTypes = {
