@@ -9,6 +9,7 @@ const initialState = {
   phase: undefined,
   statusDate: undefined,
   status: undefined,
+  refreshCompleted: undefined,
 };
 
 const safeNewDate = dateStr => (dateStr ? new Date(dateStr) : null);
@@ -73,6 +74,22 @@ const getOverallPhase = (refreshStatus, retrieved) => {
   return null;
 };
 
+/**
+ * Looks at all of the extracts within the PHR refresh status and returns the date of the one that
+ * was completed most recently.
+ *
+ * @param {*} statusList the list of individual extract statuses
+ * @returns the max lastCompleted date of the status
+ */
+export const refreshCompleted = statusList => {
+  return statusList
+    .filter(
+      status => EXTRACT_LIST.includes(status.extract) && status.lastCompleted,
+    )
+    .map(status => status.lastCompleted)
+    .reduce((a, b) => Math.max(a, b), -Infinity);
+};
+
 export const refreshReducer = (state = initialState, action) => {
   // We currently only have one action for this reducer. This may change.
   // eslint-disable-next-line sonarjs/no-small-switch
@@ -94,6 +111,9 @@ export const refreshReducer = (state = initialState, action) => {
             phase: getPhase(statusRec, action.payload.retrievedDate),
           };
         }),
+        refreshCompleted: safeNewDate(
+          refreshCompleted(facilityExtractStatusList),
+        ),
       };
     }
     default:
