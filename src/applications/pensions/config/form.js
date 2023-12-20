@@ -1454,7 +1454,7 @@ const formConfig = {
           title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
           depends: formData => {
-            return formData.homeAcreageMoreThanTwo !== false;
+            return formData.homeAcreageMoreThanTwo === true;
           },
           uiSchema: {},
           schema: { type: 'object', properties: {} },
