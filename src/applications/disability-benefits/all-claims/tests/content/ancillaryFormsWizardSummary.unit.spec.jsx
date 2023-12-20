@@ -1,8 +1,10 @@
 import React from 'react';
-import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
-import { SummaryDescription } from '../../content/ancillaryFormsWizardSummary';
+import {
+  SummaryDescription,
+  SummaryTitle,
+} from '../../content/ancillaryFormsWizardSummary';
 
 describe('526 All Claims -- Ancillary forms wizard summary content', () => {
   it('should render only the appropriate panels', () => {
@@ -13,22 +15,17 @@ describe('526 All Claims -- Ancillary forms wizard summary content', () => {
       'view:unemployable': true,
       'view:unemployabilityUploadChoice': false,
     };
-    const tree = shallow(<SummaryDescription formData={formData} />);
+    const tree = render(<SummaryDescription formData={formData} />);
+    tree.getByText('Adapted housing assistance');
+    tree.getByText('Automobile allowance');
+    tree.getByText('Aid and Attendance');
+    tree.getByText('Individual Unemployability');
+  });
 
-    const accordion = tree.find('va-accordion-item');
-    expect(accordion.length).to.equal(4);
-    expect(
-      accordion
-        .first()
-        .find('h4')
-        .text(),
-    ).to.equal('Adapted housing assistance');
-    expect(
-      accordion
-        .last()
-        .find('h4')
-        .text(),
-    ).to.equal('Individual Unemployability');
-    tree.unmount();
+  // for coverage
+  it('renders summary title', () => {
+    const tree = render(SummaryTitle());
+
+    tree.getByText('Summary of additional benefits');
   });
 });

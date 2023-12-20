@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
@@ -16,7 +15,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOrganizationInputString,
+    repOfficerInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -28,33 +27,6 @@ const SearchControls = props => {
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
 
-  const handleSearchButtonClick = e => {
-    e.preventDefault();
-    // const {
-    //   representativeType,
-    //   isValid,
-    // } = currentQuery;
-
-    if (!locationInputString) {
-      onChange({ locationInputString: '' });
-      focusElement('.location-input-container');
-      return;
-    }
-
-    // if (!isValid) {
-    //   return;
-    // }
-
-    // Report event here to only send analytics event when a user clicks on the button
-    // recordEvent({
-    //   event: 'fl-search',
-    //   'fl-search-fac-type': facilityType,
-    //   'fl-search-svc-type': analyticsServiceType,
-    // });
-
-    onSubmit();
-  };
-
   const handleLocationChange = e => {
     onChange({
       locationInputString: onlySpaces(e.target.value)
@@ -63,9 +35,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOrganizationChange = e => {
+  const handleRepOfficerChange = e => {
     onChange({
-      repOrganizationInputString: onlySpaces(e.target.value)
+      repOfficerInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -115,6 +87,9 @@ const SearchControls = props => {
               message-aria-describedby="Text input for location"
               name="City, state or postal code"
               onInput={handleLocationChange}
+              onKeyPress={e => {
+                if (e.key === 'Enter') onSubmit();
+              }}
               value={locationInputString}
               uswds
               required
@@ -162,16 +137,15 @@ const SearchControls = props => {
           />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'organization'
-                ? 'Organization name'
-                : 'Accredited representative name'
-            }
-            message-aria-describedby="Text input for organization or Accredited representative name"
-            name="Organization or Accredited Representative Name"
-            onChange={handleRepOrganizationChange}
-            onInput={handleRepOrganizationChange}
-            value={repOrganizationInputString}
+            label="Accredited representative name"
+            message-aria-describedby="Text input for officer or Accredited representative name"
+            name="Officer or Accredited Representative Name"
+            onChange={handleRepOfficerChange}
+            onInput={handleRepOfficerChange}
+            onKeyPress={e => {
+              if (e.key === 'Enter') onSubmit();
+            }}
+            value={repOfficerInputString}
             uswds
           />
 
@@ -179,7 +153,10 @@ const SearchControls = props => {
             id="representative-search"
             type="submit"
             value="Search"
-            onClick={handleSearchButtonClick}
+            onClick={e => {
+              e.preventDefault();
+              onSubmit();
+            }}
           >
             <i className="fas fa-search" /> Search
           </button>
@@ -195,7 +172,7 @@ SearchControls.propTypes = {
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
-  repOrganizationInputString: PropTypes.string.isRequired,
+  repOfficerInputString: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

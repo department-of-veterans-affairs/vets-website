@@ -9,6 +9,7 @@
 import { MissingFieldsException } from '../utils/exceptions/MissingFieldsException';
 
 import {
+  createImageDetailItem,
   createAccessibleDoc,
   addHorizontalRule,
   createDetailItem,
@@ -94,6 +95,11 @@ const generateResultsMedicationListContent = async (
   doc,
   results,
   hasHorizontalRule,
+  horizontalRuleOptions = {
+    spaceFromEdge: 16,
+    linesAbove: 0,
+    linesBelow: 1,
+  },
 ) => {
   // medication header
   if (medication.header) {
@@ -119,8 +125,11 @@ const generateResultsMedicationListContent = async (
     // medication section items
     for (const resultItem of section.items) {
       let structs;
-      // rich text item
-      if (resultItem.isRich) {
+      // image item
+      if (resultItem.value?.type === 'image') {
+        structs = await createImageDetailItem(doc, config, 32, resultItem);
+        // rich text item
+      } else if (resultItem.isRich) {
         structs = await createRichTextDetailItem(doc, config, 32, resultItem);
         // regular item
       } else {
@@ -128,13 +137,12 @@ const generateResultsMedicationListContent = async (
       }
 
       // If the next item does not fit - move to the next page
-      let height = doc.heightOfString(
-        `${resultItem.title}: ${resultItem.value}`,
-        {
-          font: config.text.font,
-          size: config.text.size,
-        },
-      );
+      let height = !resultItem.value?.type
+        ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`, {
+            font: config.text.font,
+            size: config.text.size,
+          })
+        : resultItem.value?.options?.height;
       height = resultItem.inline ? height : height + 24;
       if (doc.y + height > doc.page.height - doc.page.margins.bottom)
         await doc.addPage();
@@ -151,7 +159,7 @@ const generateResultsMedicationListContent = async (
   if (hasHorizontalRule) {
     // if horizontal line won't fit - move to the next page
     if (doc.y > doc.page.height - doc.page.margins.bottom) await doc.addPage();
-    addHorizontalRule(doc, 16, 0, 1);
+    addHorizontalRule(doc, ...Object.values(horizontalRuleOptions));
   }
 };
 
@@ -190,6 +198,7 @@ const generateResultsContent = async (doc, parent, data) => {
         doc,
         results,
         hasHorizontalRule,
+        listItem.sectionSeperatorOptions,
       );
     }
 
@@ -234,7 +243,7 @@ const generate = async data => {
     await generateResultsContent(doc, wrapper, data);
   }
 
-  await generateFinalHeaderContent(doc, wrapper, data, config);
+  await generateFinalHeaderContent(doc, data, config);
   await generateFooterContent(doc, wrapper, data, config);
 
   wrapper.end();

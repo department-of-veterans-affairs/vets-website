@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { ClaimsStatusApp, AppContent } from '../../containers/ClaimsStatusApp';
 
@@ -20,6 +20,7 @@ describe('<ClaimsStatusApp>', () => {
     expect(tree.subTree('RequiredLoginView').props.serviceRequired).to.eql([
       backendServices.EVSS_CLAIMS,
       backendServices.APPEALS_STATUS,
+      backendServices.LIGHTHOUSE,
     ]);
     expect(tree.subTree('RequiredLoginView').props.verify).to.be.true;
   });

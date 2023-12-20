@@ -22,6 +22,7 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { PDF_GENERATE_STATUS } from '../util/constants';
+import { getPrescriptionImage } from '../api/rxApi';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -52,7 +53,7 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/about-medications',
+              url: '/my-health/medications/about',
               label: 'About medications',
             },
             {
@@ -178,7 +179,19 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescription) {
+      if (!prescription) return;
+      const cmopNdcNumber =
+        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription.cmopNdcNumber;
+      if (cmopNdcNumber) {
+        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
+          setPrescriptionPdfList(
+            nonVaPrescription
+              ? buildNonVAPrescriptionPDFList(prescription)
+              : buildVAPrescriptionPDFList(prescription, image),
+          );
+        });
+      } else {
         setPrescriptionPdfList(
           nonVaPrescription
             ? buildNonVAPrescriptionPDFList(prescription)
@@ -279,7 +292,7 @@ const PrescriptionDetails = () => {
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />
