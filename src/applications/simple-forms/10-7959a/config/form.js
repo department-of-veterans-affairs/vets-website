@@ -40,19 +40,73 @@ const formConfig = {
       title: 'Personal Information',
       pages: {
         page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
+          path: 'first-page',
+          title: 'SECTION I - PATIENT INFORMATION',
           uiSchema: {
             firstName: {
               'ui:title': 'First Name',
             },
+            lastName: {
+              'ui:title': 'Last Name',
+            },
+            middleInitial: {
+              'ui:title': 'MI',
+            },
+            memberNumber: {
+              'ui:title': 'CHAMPVA Member Number',
+            },
+            streetAddress: {
+              'ui:title': 'Street Address',
+            },
+            dateOfBirth: {
+              'ui:title': 'Date of Birth (mm/dd/yyyy)',
+            },
+            city: {
+              'ui:title': 'City',
+            },
+            state: {
+              'ui:title': 'State',
+            },
+            zipCode: {
+              'ui:title': 'Zip Code',
+            },
+            phoneNumber: {
+              'ui:title': 'Phone Number (include area code)',
+            },
           },
           schema: {
-            required: ['firstName'],
+            required: ['firstName', 'lastName', 'memberNumber'],
             type: 'object',
             properties: {
               firstName: {
                 type: 'string',
+              },
+              lastName: {
+                type: 'string',
+              },
+              middleInitial: {
+                type: 'string',
+              },
+              memberNumber: {
+                type: 'number',
+              },
+              streetAddress: {
+                type: 'string',
+              },
+              dateOfBirth: {
+                type: 'string',
+              },
+              city: {
+                type: 'string',
+              },
+              state: {
+                type: 'string',
+              },
+              zipCode: {
+                type: 'number',
+              },
+              phoneNumber: {
+                type: 'number',
               },
             },
           },
