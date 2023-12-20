@@ -238,5 +238,36 @@ class MedicationsDetailsPage {
   verifyMedicationImageVisibleOnDetailsPage = () => {
     cy.get('[data-testid="review-rx-image"] > img').should('be.visible');
   };
+
+  verifyRefillHistoryHeaderOnDetailsPage = () => {
+    cy.get('[data-testid="refill-History"]').should(
+      'contain',
+      'Refill history',
+    );
+  };
+
+  verifyFirstRefillHeaderTextOnDetailsPage = () => {
+    cy.get('[data-testid="refill"]')
+      .first()
+      .should('contain', 'Refill 1');
+  };
+
+  verifyFillDateFieldOnDetailsPage = () => {
+    cy.get('[data-testid="fill-date"]').should(
+      'contain',
+      'Filled by pharmacy on',
+    );
+  };
+
+  verifyShippedOnDateFieldOnDetailsPage = () => {
+    cy.get('[data-testid="shipped-date"]').should('contain', 'Shipped on');
+  };
+
+  verifyImageOfMedicationFieldOnDetailsPage = () => {
+    cy.get('[data-testid="med-image"]').should(
+      'contain',
+      'Image of the medication or supply',
+    );
+  };
 }
 export default MedicationsDetailsPage;
