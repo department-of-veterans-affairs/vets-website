@@ -663,7 +663,6 @@ const FileField = props => {
                     content.ariaLabelAdditionalText
                   }`}
                   text={uploadText}
-                  aria-describedby={content.uploadAriaDescribedBy}
                   uswds={uswds}
                 />
               </label>
