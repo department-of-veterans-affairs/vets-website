@@ -512,17 +512,26 @@ export const addressUISchema = (
         },
         'ui:title': 'Postal Code',
         'ui:validations': [
-          (errors, zipCode, formData, _schema, _uiSchema, _index) => {
-            // let militaryBasePath = livesOnMilitaryBasePath;
-            // let countryNamePath = `${path}.countryName`;
-            //
-            // if (typeof index === 'number') {
-            //   militaryBasePath = insertArrayIndex(livesOnMilitaryBasePath, index);
-            //   countryNamePath = insertArrayIndex(countryNamePath, index);
-            // }
-            const address = get(path, formData, get('address', formData));
+          (errors, zipCode, formData, _schema, _uiSchema, index) => {
+            // consider splitting on "[INDEX]." and taking the second string as path when index is null
+            let address;
+            if (typeof index === 'number') {
+              const addressPath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
+              address = get(addressPath, formData);
+            } else if (
+              path === 'childrenToAdd[INDEX].childAddressInfo.address'
+            ) {
+              address = get('childAddressInfo.address', formData);
+            } else if (path === 'stepChildren[INDEX].address') {
+              address = get('address', formData);
+            } else {
+              address = get(path, formData);
+            }
             const livesOnMilitaryBase =
-              address[alternativeLivesOnMilitaryBasePath];
+              address?.[alternativeLivesOnMilitaryBasePath];
             if (!address || !livesOnMilitaryBase) {
               // if (!address) console.log("no address!");
               return true;
