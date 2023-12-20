@@ -208,10 +208,6 @@ src/applications/static-pages/view-modify-dependents @department-of-veterans-aff
 src/applications/static-pages/subscription-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
-# VA CTO Health Products
-
-src/applications/static-pages/covid-vaccine-updates-cta @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-
 # VAOS
 
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/va-platform-cop-frontend
