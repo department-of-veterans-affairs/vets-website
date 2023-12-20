@@ -187,7 +187,7 @@ export const profileAddressSchema = {
           enum: [ADDRESS_TYPES.international],
         },
         zipCode: {
-          type: 'string',
+          type: ['string', 'null'],
         },
       },
     },
@@ -224,10 +224,10 @@ export const profileAddressSchema = {
       pattern: REJECT_WHITESPACE_ONLY,
     },
     addressLine2: {
-      type: 'string',
+      type: ['string', 'null'],
     },
     addressLine3: {
-      type: 'string',
+      type: ['string', 'null'],
     },
     city: {
       type: 'string',
@@ -235,13 +235,13 @@ export const profileAddressSchema = {
     },
     stateCode: {
       // state is not required
-      type: 'string',
+      type: ['string', 'null'],
     },
     province: {
-      type: 'string',
+      type: ['string', 'null'],
     },
     internationalPostalCode: {
-      type: 'string',
+      type: ['string', 'null'],
     },
   },
 };

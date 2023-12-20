@@ -41,10 +41,19 @@ describe('profile utilities', () => {
 
   describe('profiledAddressSchema', () => {
     it('should return international address required array', () => {
-      expect(profileAddressSchema.oneOf[0].required.length).to.eq(3);
+      expect(profileAddressSchema.oneOf[0].required).to.deep.equal([
+        'countryName',
+        'addressLine1',
+        'city',
+      ]);
     });
     it('should return U.S. address required array', () => {
-      expect(profileAddressSchema.oneOf[1].required.length).to.eq(4);
+      expect(profileAddressSchema.oneOf[1].required).to.deep.equal([
+        'countryName',
+        'addressLine1',
+        'city',
+        'zipCode',
+      ]);
     });
   });
 
