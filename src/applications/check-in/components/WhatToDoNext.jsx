@@ -75,23 +75,26 @@ const WhatToDoNext = props => {
               >
                 {cardTitle}
               </h4>
-              <p>
-                <a
-                  data-testid={`details-link-${index}`}
-                  href={`${
-                    router.location.basename
-                  }/appointment-details/${getAppointmentId(appointment)}`}
-                  onClick={e => goToDetails(e, appointment)}
-                  aria-label={t('details-for-appointment', {
-                    time: new Date(appointment.startTime),
-                    type: appointment.clinicStopCodeName
-                      ? appointment.clinicStopCodeName
-                      : 'VA',
-                  })}
-                >
-                  {t('details')}
-                </a>
-              </p>
+              {checkInableAppointments > 1 &&
+                app === APP_NAMES.PRE_CHECK_IN && (
+                  <p>
+                    <a
+                      data-testid={`details-link-${index}`}
+                      href={`${
+                        router.location.basename
+                      }/appointment-details/${getAppointmentId(appointment)}`}
+                      onClick={e => goToDetails(e, appointment)}
+                      aria-label={t('details-for-appointment', {
+                        time: new Date(appointment.startTime),
+                        type: appointment.clinicStopCodeName
+                          ? appointment.clinicStopCodeName
+                          : 'VA',
+                      })}
+                    >
+                      {t('details')}
+                    </a>
+                  </p>
+                )}
               <ActionLink
                 app={app}
                 action={action}
