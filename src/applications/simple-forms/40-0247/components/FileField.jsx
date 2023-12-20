@@ -1,4 +1,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
+/* Customized copy of Platform's FileField component
+  * - Adds new optional prop `ariaLabelAdditionalText` to append additional
+  *   text to the upload button's aria-label attribute.
+*/
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
