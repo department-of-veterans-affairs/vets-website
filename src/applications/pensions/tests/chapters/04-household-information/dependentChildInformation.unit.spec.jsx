@@ -102,57 +102,51 @@ describe('Child information page', () => {
     });
   });
 
-  // it('should submit with valid data', async () => {
-  //   const onSubmit = sinon.spy();
-  //   const { container, queryByRole } = render(
-  //     <DefinitionTester
-  //       arrayPath={arrayPath}
-  //       pagePerItemIndex={0}
-  //       definitions={definitions}
-  //       schema={schema}
-  //       data={dependentData}
-  //       onSubmit={onSubmit}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
+  it('should submit with valid data', async () => {
+    const onSubmit = sinon.spy();
+    const { container, getByLabelText } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={definitions}
+        schema={schema}
+        data={dependentData}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
 
-  //   const placeOfBirth = $('input#root_childPlaceOfBirth', container);
-  //   fireEvent.change(placeOfBirth, { target: { value: 'Dagobah' } });
+    const placeOfBirth = $('input#root_childPlaceOfBirth', container);
+    fireEvent.change(placeOfBirth, { target: { value: 'Dagobah' } });
 
-  //   // const ssn = $(
-  //   //   'va-text-input[name="root_childSocialSecurityNumber"]',
-  //   //   container,
-  //   // );
-  //   const ssn = queryByRole('textbox', {
-  //     name: /Social Security Number/i,
-  //   });
-  //   fireEvent.change(ssn, { target: { value: '111223333' } });
+    const ssn = getByLabelText(/Social Security Number/i);
+    fireEvent.change(ssn, { target: { value: '111223333' } });
 
-  //   const relation = $('va-radio[name="root_childRelationship"]', container);
-  //   relation.__events.vaValueChange(
-  //     new CustomEvent('selected', { detail: { value: 'biological' } }),
-  //   );
+    const relation = $('va-radio[name="root_childRelationship"]', container);
+    relation.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'biological' } }),
+    );
 
-  //   const college = $('va-radio[name="root_attendingCollege"]', container);
-  //   college.__events.vaValueChange(
-  //     new CustomEvent('selected', { detail: { value: 'N' } }),
-  //   );
+    const college = $('va-radio[name="root_attendingCollege"]', container);
+    college.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'N' } }),
+    );
 
-  //   const disabled = $('va-radio[name="root_disabled"]', container);
-  //   disabled.__events.vaValueChange(
-  //     new CustomEvent('selected', { detail: { value: 'N' } }),
-  //   );
+    const disabled = $('va-radio[name="root_disabled"]', container);
+    disabled.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'N' } }),
+    );
 
-  //   const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
-  //   prevMarried.__events.vaValueChange(
-  //     new CustomEvent('selected', { detail: { value: 'N' } }),
-  //   );
+    const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
+    prevMarried.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'N' } }),
+    );
 
-  //   fireEvent.submit($('form', container));
-  //   await waitFor(() => {
-  //     expect(onSubmit.called).to.be.true;
-  //   });
-  // });
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      expect(onSubmit.called).to.be.true;
+    });
+  });
 
   it('should ask if the child is in school', () => {
     const onSubmit = sinon.spy();
