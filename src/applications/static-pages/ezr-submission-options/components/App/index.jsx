@@ -20,12 +20,24 @@ export const App = ({ isEzrEnabled }) => {
         You’ll need to sign in to VA.gov to update your health benefits
         information online.
       </p>
-      <a
-        className="vads-c-action-link--green"
-        href="/my-health/update-benefits-information-form-10-10ezr/"
-      >
-        Update your health benefits information online
-      </a>
+      <p>
+        <a
+          className="vads-c-action-link--green"
+          href="/my-health/update-benefits-information-form-10-10ezr/"
+        >
+          Update your health benefits information online
+        </a>
+      </p>
+      <p>
+        <strong>Note:</strong> You can also update some information (like your
+        address and other contact information) in your VA.gov profile.
+      </p>
+      <p>
+        <va-link
+          href="/resources/managing-your-vagov-profile/"
+          text="Learn more about managing your VA.gov profile"
+        />
+      </p>
 
       <h3>Option 2: By phone</h3>
       <PhoneDescription />
