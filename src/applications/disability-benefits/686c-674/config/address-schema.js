@@ -26,6 +26,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import constants from 'vets-json-schema/dist/constants.json';
+import { isValidZipcode } from 'platform/forms/validations';
 
 /**
  * CONSTANTS:
@@ -106,15 +107,21 @@ export const INVALID_ZIP_ERROR =
   'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
 
 export const validateZipCode = (zipCode, stateCode, errors) => {
-  if (
-    stateCode in MILITARY_BASE_ZIP_REGEX &&
-    !zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])
-  ) {
-    errors.addError(INVALID_ZIP_ERROR);
-  } else if (
-    !Object.values(MILITARY_BASE_ZIP_REGEX).some(regex => zipCode.match(regex))
-  ) {
-    errors.addError(DOMESTIC_BASE_ERROR);
+  // console.log(zipCode)
+  // console.log(stateCode)
+  if (stateCode in MILITARY_BASE_ZIP_REGEX) {
+    if (!zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])) {
+      errors.addError(INVALID_ZIP_ERROR);
+      return false;
+    }
+  } else if (isValidZipcode(zipCode)) {
+    const isDomesticZipCode = !Object.values(MILITARY_BASE_ZIP_REGEX).some(
+      regex => zipCode.match(regex),
+    );
+    if (isDomesticZipCode) {
+      errors.addError(DOMESTIC_BASE_ERROR);
+      return false;
+    }
   }
   return true;
 };
@@ -199,6 +206,7 @@ export const addressUISchema = (
   // As mentioned above, there are certain fields that depend on the values of other fields when using updateSchema, replaceSchema, and hideIf.
   // The two constants below are paths used to retrieve the values in those other fields.
   const livesOnMilitaryBasePath = `${path}[${MILITARY_BASE_PATH}]`;
+  const alternativeLivesOnMilitaryBasePath = MILITARY_BASE_PATH;
   const checkBoxTitleState = path.includes('veteran') ? 'I' : 'They';
 
   return (function returnAddressUI() {
@@ -504,72 +512,32 @@ export const addressUISchema = (
         },
         'ui:title': 'Postal Code',
         'ui:validations': [
-          (errors, zipCode, formData, _schema, _uiSchema, _index) => {
-            // copied scheme from city ui:validations
-            const livesOnMilitaryBaseHash = {
-              base: get(livesOnMilitaryBasePath, formData),
-              address: get(`address[${MILITARY_BASE_PATH}]`, formData),
-              childAddressInfo: get(
-                `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
-                formData,
-              ),
-            };
-            const validationKeys = [
-              'base',
-              'address',
-              'childAddressInfo',
-              'stepChildAddress',
-              'stepChildAddressInfo',
-            ];
-
-            if (window.location.href.includes('review-and-submit')) {
-              livesOnMilitaryBaseHash.stepChildAddress = (
-                formData.stepChildren || []
-              ).some(stepChild =>
-                get(`address[${MILITARY_BASE_PATH}]`, stepChild),
+          (errors, zipCode, formData, _schema, _uiSchema, index) => {
+            // consider splitting on "[INDEX]." and taking the second string as path when index is null
+            let address;
+            if (typeof index === 'number') {
+              const addressPath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
               );
-              livesOnMilitaryBaseHash.stepChildAddressInfo = (
-                formData.childrenToAdd || []
-              ).some(stepChild =>
-                get(
-                  `childAddressInfo.address[${MILITARY_BASE_PATH}]`,
-                  stepChild,
-                ),
-              );
-            }
-
-            if (
-              isMilitaryBaseAddress &&
-              Object.values(livesOnMilitaryBaseHash).includes(true)
+              address = get(addressPath, formData);
+            } else if (
+              path === 'childrenToAdd[INDEX].childAddressInfo.address'
             ) {
-              const statePath = `${path}.stateCode`;
-              const selectedStateHash = {
-                base: get(statePath, formData),
-                address: get(`address[stateCode]`, formData),
-                childAddressInfo: get(
-                  `childAddressInfo.address['stateCode']`,
-                  formData,
-                ),
-              };
-
-              if (window.location.href.includes('review-and-submit')) {
-                selectedStateHash.stepChildAddress = (
-                  formData.stepChildren || []
-                ).some(stepChild => get(`address['stateCode']`, stepChild));
-                selectedStateHash.stepChildAddressInfo = (
-                  formData.childrenToAdd || []
-                ).some(stepChild =>
-                  get(`childAddressInfo.address['stateCode']`, stepChild),
-                );
-              }
-              validationKeys.forEach(e => {
-                if (livesOnMilitaryBaseHash[e]) {
-                  const selectedState = selectedStateHash[e];
-                  validateZipCode(zipCode, selectedState, errors);
-                }
-              });
+              address = get('childAddressInfo.address', formData);
+            } else if (path === 'stepChildren[INDEX].address') {
+              address = get('address', formData);
+            } else {
+              address = get(path, formData);
             }
-            return true;
+            const livesOnMilitaryBase =
+              address?.[alternativeLivesOnMilitaryBasePath];
+            if (!address || !livesOnMilitaryBase) {
+              // if (!address) console.log("no address!");
+              return true;
+            }
+
+            return validateZipCode(zipCode, address.stateCode, errors);
           },
         ],
         'ui:errorMessages': {
