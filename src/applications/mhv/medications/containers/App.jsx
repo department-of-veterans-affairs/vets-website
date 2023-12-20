@@ -8,7 +8,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { medicationsUrls } from '../util/constants';
 

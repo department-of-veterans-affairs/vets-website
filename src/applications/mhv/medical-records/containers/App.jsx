@@ -8,7 +8,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Navigation from '../components/Navigation';
