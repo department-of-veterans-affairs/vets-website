@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
-import notes from '../fixtures/notes.json';
 import note from '../fixtures/dischargeSummary.json';
+import notes from '../fixtures/notes.json';
 import {
   clearCareSummariesDetails,
   getCareSummariesAndNotesList,
@@ -28,11 +28,26 @@ describe('Get care summaries and notes details action', () => {
     const mockData = note;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getCareSummaryAndNotesDetails('ex-MHV-note-1')(dispatch).then(() => {
+    return getCareSummaryAndNotesDetails('ex-MHV-note-1', undefined)(
+      dispatch,
+    ).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET,
       );
     });
+  });
+});
+
+describe('Get care summaries and notes details action', () => {
+  it('should dispatch a get details action and pull from the list', () => {
+    const dispatch = sinon.spy();
+    return getCareSummaryAndNotesDetails('1', [{ id: '1' }])(dispatch).then(
+      () => {
+        expect(dispatch.firstCall.args[0].type).to.equal(
+          Actions.CareSummariesAndNotes.GET_FROM_LIST,
+        );
+      },
+    );
   });
 });
 

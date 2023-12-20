@@ -104,6 +104,12 @@ export const vaccineReducer = (state = initialState, action) => {
         vaccineDetails: convertVaccine(vaccine),
       };
     }
+    case Actions.Vaccines.GET_FROM_LIST: {
+      return {
+        ...state,
+        vaccineDetails: action.response,
+      };
+    }
     case Actions.Vaccines.GET_LIST: {
       const vaccineList = action.response.entry;
       return {

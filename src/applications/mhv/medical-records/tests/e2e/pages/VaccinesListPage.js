@@ -19,17 +19,20 @@ class VaccinesListPage {
   clickVaccinesDetailsLink = (
     _VaccinesIndex = 0,
     VaccinesDetails = defaultVaccineDetail,
+    wait = false,
   ) => {
     cy.intercept(
       'GET',
       `/my_health/v1/medical_records/vaccines/${VaccinesDetails.id}`,
       VaccinesDetails,
-    ).as('VaccinesDetails');
+    ).as('vaccineDetails');
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_VaccinesIndex)
       .click();
-    cy.wait('@VaccinesDetails');
+    if (wait) {
+      cy.wait('@vaccineDetails');
+    }
   };
 }
 

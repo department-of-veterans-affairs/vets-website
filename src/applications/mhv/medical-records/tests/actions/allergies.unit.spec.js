@@ -36,13 +36,30 @@ describe('Get allergy action', () => {
     const mockData = allergy;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getAllergyDetails('3106')(dispatch).then(() => {
+    return getAllergyDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
     });
   });
   it('should dispatch an add alert action', () => {
     const mockData = allergy;
     mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getAllergyDetails()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
+  });
+});
+
+describe('Get allergy details action ', () => {
+  it('should dispatch a get details action and pull the list', () => {
+    const dispatch = sinon.spy();
+    return getAllergyDetails('1', [{ id: '1' }])(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Allergies.GET_FROM_LIST,
+      );
+    });
+  });
+  it('should dispatch an add alert action', () => {
     const dispatch = sinon.spy();
     return getAllergyDetails()(dispatch).then(() => {
       expect(typeof dispatch.firstCall.args[0]).to.equal('function');

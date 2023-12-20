@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
@@ -7,6 +8,7 @@ import {
   nameFormat,
   processList,
   extractContainedResource,
+  dispatchDetails,
 } from '../../util/helpers';
 
 describe('Name formatter', () => {
@@ -109,5 +111,88 @@ describe('extractContainedResource', () => {
 
     const result = extractContainedResource(resource, '#b2');
     expect(result).to.eq(null);
+  });
+});
+
+describe('dispatchDetails function', () => {
+  it('should dispatch a GET action when list is empty', async () => {
+    // Create a spy for the dispatch function
+    const dispatchSpy = sinon.spy();
+
+    // Mock the getDetail function and provide a sample response
+    const getDetailStub = sinon
+      .stub()
+      .resolves({ id: '1', data: 'Sample Data' });
+
+    // Call the dispatchDetails function with an empty list
+    await dispatchDetails(
+      '1',
+      [],
+      dispatchSpy,
+      getDetailStub,
+      'GET_FROM_LIST',
+      'GET',
+    );
+
+    // Expectations
+    expect(dispatchSpy.calledOnce).to.be.true; // Check if dispatch was called
+    expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
+      type: 'GET',
+      response: { id: '1', data: 'Sample Data' },
+    }); // Check if dispatch was called with the expected arguments
+  });
+
+  it('should dispatch a GET_FROM_LIST action when a matching item is found', async () => {
+    // Create a spy for the dispatch function
+    const dispatchSpy = sinon.spy();
+
+    // Mock the getDetail function and provide a sample response
+    const getDetailStub = sinon
+      .stub()
+      .resolves({ id: '1', data: 'Sample Data' });
+
+    // Call the dispatchDetails function with a list containing a matching item
+    await dispatchDetails(
+      '1',
+      [{ id: '1', data: 'Sample Data' }],
+      dispatchSpy,
+      getDetailStub,
+      'GET_FROM_LIST',
+      'GET',
+    );
+
+    // Expectations
+    expect(dispatchSpy.calledOnce).to.be.true; // Check if dispatch was called
+    expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
+      type: 'GET_FROM_LIST',
+      response: { id: '1', data: 'Sample Data' },
+    }); // Check if dispatch was called with the expected arguments
+  });
+
+  it('should dispatch a GET action when no matching item is found', async () => {
+    // Create a spy for the dispatch function
+    const dispatchSpy = sinon.spy();
+
+    // Mock the getDetail function and provide a sample response
+    const getDetailStub = sinon
+      .stub()
+      .resolves({ id: '1', data: 'Sample Data' });
+
+    // Call the dispatchDetails function with a list without a matching item
+    await dispatchDetails(
+      '2',
+      [{ id: '1', data: 'Sample Data' }],
+      dispatchSpy,
+      getDetailStub,
+      'GET_FROM_LIST',
+      'GET',
+    );
+
+    // Expectations
+    expect(dispatchSpy.calledOnce).to.be.true; // Check if dispatch was called
+    expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
+      type: 'GET',
+      response: { id: '1', data: 'Sample Data' },
+    }); // Check if dispatch was called with the expected arguments
   });
 });
