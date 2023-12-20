@@ -153,7 +153,10 @@ export default function FormNav(props) {
             {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
           />
           {formConfig?.V3InProgressMessage && (
-            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+            <div
+              data-testid="navFormDiv"
+              className="vads-u-font-size--h4 progress-box progress-box-schemaform"
+            >
               {inProgressMessage}
             </div>
           )}
