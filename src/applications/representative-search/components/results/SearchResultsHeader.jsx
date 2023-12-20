@@ -65,7 +65,7 @@ export const SearchResultsHeader = props => {
     <div className="search-results-header">
       <h2
         id="search-results-subheader"
-        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
+        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding-y--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
         {handleNumberOfResults()} for

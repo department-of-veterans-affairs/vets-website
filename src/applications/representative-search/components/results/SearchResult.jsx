@@ -26,7 +26,7 @@ const SearchResult = ({
   const { contact, extension } = parsePhoneNumber(phone);
   return (
     <>
-      <div className="vads-u-padding-y--3">
+      <div className="vads-u-padding-y--4">
         {distance && (
           <div>
             <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
