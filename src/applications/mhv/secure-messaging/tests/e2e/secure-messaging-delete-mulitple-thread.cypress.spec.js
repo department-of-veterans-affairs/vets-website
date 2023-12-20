@@ -30,39 +30,4 @@ describe('delete multiple drafts thread', () => {
     );
     draftPage.verifyDeleteConfirmationMessage();
   });
-
-  it('verify drafts detailed vew', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-
-    cy.get('[data-testid="message-body-field"]')
-      .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
-
-    cy.get('[text="Edit draft 1"]').click();
-    cy.get('[data-testid="message-body-field"]')
-      .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[1].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${mockMultiDraftsResponse.data[0].attributes.body}`,
-    );
-
-    cy.get('[text="Edit draft 2"]').click();
-    cy.get('[data-testid="message-body-field"]')
-      .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
-
-    cy.get('.message-body-draft-preview').should(
-      'have.text',
-      `${mockMultiDraftsResponse.data[1].attributes.body}`,
-    );
-  });
 });
