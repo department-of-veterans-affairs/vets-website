@@ -26,11 +26,8 @@ const extractType = record => {
 };
 
 const extractAuthenticator = record => {
-  return extractContainedResource(
-    record,
-    isArrayAndHasItems(record.authenticator) &&
-      record.authenticator[0].reference,
-  )?.name[0].text;
+  return extractContainedResource(record, record.authenticator?.reference)
+    ?.name[0].text;
 };
 
 const extractAuthor = record => {
@@ -73,7 +70,7 @@ const convertAdmissionAndDischargeDetails = record => {
       .split('ATTENDING:')[1]
       .split('\n')[0]
       .trim(),
-    dischargedBy: extractAuthenticator(record) || EMPTY_FIELD,
+    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
   };
@@ -85,8 +82,8 @@ const convertProgressNote = record => {
     name: extractName(record),
     type: extractType(record),
     dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
-    signedBy: extractAuthenticator(record) || EMPTY_FIELD,
-    coSignedBy: extractAuthor(record) || EMPTY_FIELD,
+    signedBy: extractAuthor(record) || EMPTY_FIELD,
+    coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: extractNote(record) || EMPTY_FIELD,
   };

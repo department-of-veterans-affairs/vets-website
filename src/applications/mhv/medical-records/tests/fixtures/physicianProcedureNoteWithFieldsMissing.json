@@ -83,16 +83,12 @@
     "reference": "Patient/ex-MHV-patient-1"
   },
   "date": "",
-  "author": [],
-  "authenticator": {
-    "extension": [
-      {
-        "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
-        "valueDateTime": "2022-08-05T16:58:46Z"
-      }
-    ],
-    "reference": "#ex-MHV-practitioner-36556"
-  },
+  "author": [
+    {
+      "reference": "#ex-MHV-practitioner-36556"
+    }
+  ],
+  "authenticator": {},
   "content": [
     {
       "attachment": {
