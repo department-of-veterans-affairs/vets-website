@@ -42,6 +42,7 @@ export const Locators = {
     DELETE_DRAFT: '#delete-draft-button',
     CREATE_FOLDER: '[data-testid="create-new-folder"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
+    PRINT: '[data-testid="print-button"]',
   },
   ALERTS: {
     SAVE_DRAFT: '#messagetext',
