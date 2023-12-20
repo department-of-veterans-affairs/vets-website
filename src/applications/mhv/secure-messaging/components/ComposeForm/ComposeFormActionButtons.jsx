@@ -28,7 +28,7 @@ const ComposeFormActionButtons = ({
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {mhvSecureMessagingBlockedTriageGroup1p0
         ? !cannotReply &&
-          !hideSendButton && (
+          (!hideSendButton && (
             <va-button
               text="Send"
               label="Send"
@@ -45,7 +45,7 @@ const ComposeFormActionButtons = ({
               data-testid="Send-Button"
               onClick={onSend}
             />
-          )
+          ))
         : !cannotReply && (
             <va-button
               text="Send"
@@ -63,8 +63,7 @@ const ComposeFormActionButtons = ({
               data-testid="Send-Button"
               onClick={onSend}
             />
-          )
-      }
+          )}
 
       {!cannotReply && (
         <button

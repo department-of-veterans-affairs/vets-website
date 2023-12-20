@@ -16,6 +16,7 @@ import { sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
 import EmergencyNote from '../EmergencyNote';
 import {
+  checkTriageGroupAssociation,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   resetUserSession,
@@ -64,7 +65,7 @@ const ReplyForm = props => {
 
   const draftDetails = useSelector(state => state.sm.draftDetails);
   const folderId = useSelector(state => state.sm.folders.folder?.folderId);
-  const { isSaving } = draftDetails;
+  const { isSaving, draftMessageHistory } = draftDetails;
   const signature = useSelector(state => state.sm.preferences.signature);
 
   const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
@@ -109,32 +110,38 @@ const ReplyForm = props => {
 
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
-      if (!recipients.associatedTriageGroupsQty) {
+      const tempRecipient =
+        draftToEdit.triageGroupName !== draftToEdit.recipientName
+          ? draftMessageHistory.find(
+              m => m.triageGroupName === draftToEdit.triageGroupName,
+            ) || {
+              recipientId: draftToEdit.recipientId,
+              triageGroupName: draftToEdit.triageGroupName,
+            }
+          : {
+              recipientId: draftToEdit.recipientId,
+              triageGroupName: draftToEdit.triageGroupName,
+            };
+
+      const isAssociated = recipients.allRecipients.some(
+        checkTriageGroupAssociation(tempRecipient),
+      );
+
+      const isBlocked = recipients.blockedRecipients.some(
+        checkTriageGroupAssociation(tempRecipient),
+      );
+
+      if (!isAssociated) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageList([
           { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
         ]);
         setRecipientsList([]);
-      } else if (!recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(
-          !recipients.preferredTeams.some(
-            recipient => recipient.id === draftToEdit.recipientId,
-          ),
-        );
-        setBlockedTriageList([
-          { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
-          ...recipients.blockedRecipients,
-        ]);
-      } else {
-        setShowBlockedTriageGroupAlert(
-          recipients.blockedRecipients.some(
-            recipient => recipient.id === draftToEdit.recipientId,
-          ),
-        );
-
+      } else if (recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(isBlocked);
         setBlockedTriageList(
           recipients.blockedRecipients.filter(
-            recipient => recipient.name === draftToEdit.triageGroupName,
+            recipient => recipient.name === tempRecipient.triageGroupName,
           ),
         );
       }
@@ -507,10 +514,12 @@ const ReplyForm = props => {
               confirmButtonText={navigationError?.confirmButtonText}
               cancelButtonText={navigationError?.cancelButtonText}
             />
-            {!cannotReply &&
-              (mhvSecureMessagingBlockedTriageGroup1p0
-                ? !showBlockedTriageGroupAlert
-                : true) && <EmergencyNote dropDownFlag />}
+
+            {mhvSecureMessagingBlockedTriageGroup1p0
+              ? !cannotReply &&
+                !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />
+              : !cannotReply && <EmergencyNote dropDownFlag />}
+
             <div>
               <span
                 className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
@@ -563,24 +572,44 @@ const ReplyForm = props => {
                 </section>
               )}
 
-              {!cannotReply && (
-                <section className="attachments-section vads-u-margin-top--2">
-                  <AttachmentsList
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    setNavigationError={setNavigationError}
-                    editingEnabled
-                    attachFileSuccess={attachFileSuccess}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                  />
+              {mhvSecureMessagingBlockedTriageGroup1p0
+                ? !cannotReply &&
+                  (!showBlockedTriageGroupAlert && (
+                    <section className="attachments-section vads-u-margin-top--2">
+                      <AttachmentsList
+                        attachments={attachments}
+                        setAttachments={setAttachments}
+                        setNavigationError={setNavigationError}
+                        editingEnabled
+                        attachFileSuccess={attachFileSuccess}
+                        setAttachFileSuccess={setAttachFileSuccess}
+                      />
 
-                  <FileInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                  />
-                </section>
-              )}
+                      <FileInput
+                        attachments={attachments}
+                        setAttachments={setAttachments}
+                        setAttachFileSuccess={setAttachFileSuccess}
+                      />
+                    </section>
+                  ))
+                : !cannotReply && (
+                    <section className="attachments-section vads-u-margin-top--2">
+                      <AttachmentsList
+                        attachments={attachments}
+                        setAttachments={setAttachments}
+                        setNavigationError={setNavigationError}
+                        editingEnabled
+                        attachFileSuccess={attachFileSuccess}
+                        setAttachFileSuccess={setAttachFileSuccess}
+                      />
+
+                      <FileInput
+                        attachments={attachments}
+                        setAttachments={setAttachments}
+                        setAttachFileSuccess={setAttachFileSuccess}
+                      />
+                    </section>
+                  )}
 
               <DraftSavedInfo />
               {mhvSecureMessagingBlockedTriageGroup1p0 ? (

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MessageActionButtons from './MessageActionButtons';
 import { Categories, Paths, PageTitles } from '../util/constants';
-import { updatePageTitle } from '../util/helpers';
+import { checkTriageGroupAssociation, updatePageTitle } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -61,45 +61,42 @@ const MessageDetailBlock = props => {
 
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0 && message) {
-      const emptyRecipient = { recipientId: 0, triageGroupName: '' };
       const tempRecipient =
         message.triageGroupName !== message.recipientName
           ? messageHistory.find(
               m => m.triageGroupName === message.triageGroupName,
-            ) || emptyRecipient
-          : emptyRecipient;
+            ) || {
+              recipientId,
+              triageGroupName: message.triageGroupName,
+            }
+          : {
+              recipientId,
+              triageGroupName: message.triageGroupName,
+            };
 
-      const checkAssociation = () => {
-        return recipient =>
-          recipient.id === recipientId ||
-          recipient.name === tempRecipient.triageGroupName;
-      };
+      const isAssociated = recipients.allRecipients.some(
+        checkTriageGroupAssociation(tempRecipient),
+      );
 
-      const isAssociated = recipients.preferredTeams.some(checkAssociation());
+      const isBlocked = recipients.blockedRecipients.some(
+        checkTriageGroupAssociation(tempRecipient),
+      );
 
-      if (!recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(!isAssociated);
+      if (!isAssociated) {
+        setShowBlockedTriageGroupAlert(true);
         setBlockedTriageList([
-          { id: message.recipientId, name: message.triageGroupName },
+          {
+            id: tempRecipient.recipientId,
+            name: tempRecipient.triageGroupName,
+          },
         ]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
-        if (isAssociated) {
-          setShowBlockedTriageGroupAlert(
-            recipients.blockedRecipients.some(checkAssociation()),
-          );
-
-          setBlockedTriageList(
-            recipients.blockedRecipients.filter(
-              recipient => recipient.name === message.triageGroupName,
-            ),
-          );
-        } else {
-          setShowBlockedTriageGroupAlert(!isAssociated);
-
-          setBlockedTriageList([
-            { id: message.recipientId, name: message.triageGroupName },
-          ]);
-        }
+        setShowBlockedTriageGroupAlert(isBlocked);
+        setBlockedTriageList(
+          recipients.blockedRecipients.filter(
+            recipient => recipient.name === tempRecipient.triageGroupName,
+          ),
+        );
       }
     }
 

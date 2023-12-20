@@ -217,3 +217,20 @@ export const resetUserSession = localStorageValues => {
   }, 1000);
   return { signOutMessage: 'non-empty string', timeOutId: timeout };
 };
+
+export const checkTriageGroupAssociation = message => {
+  return recipient =>
+    recipient.id === message.recipientId ||
+    recipient.name === message.triageGroupName;
+};
+
+export const formatRecipient = recipient => {
+  return {
+    id: recipient.attributes.triageTeamId,
+    name: recipient.attributes.name,
+    stationNumber: recipient.attributes.stationNumber,
+    blockedStatus: recipient.attributes.blockedStatus,
+    preferredTeam: recipient.attributes.preferredTeam,
+    relationshipType: recipient.attributes.relationshipType,
+  };
+};

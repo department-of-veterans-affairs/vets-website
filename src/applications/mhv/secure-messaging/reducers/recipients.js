@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { formatRecipient } from '../util/helpers';
 
 const initialState = {
   /**
@@ -6,8 +7,9 @@ const initialState = {
    * @type {array}
    */
   allRecipients: undefined,
-  blockedRecipients: [],
   preferredTeams: [],
+  allowedRecipients: [],
+  blockedRecipients: [],
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
 };
@@ -22,16 +24,17 @@ export const recipientsReducer = (state = initialState, action) => {
         associatedBlockedTriageGroupsQty:
           action.response.meta.associatedBlockedTriageGroups,
 
-        allRecipients: action.response.data.map(recipient => {
-          return {
-            id: recipient.attributes.triageTeamId,
-            name: recipient.attributes.name,
-            stationNumber: recipient.attributes.stationNumber,
-            blockedStatus: recipient.attributes.blockedStatus,
-            preferredTeam: recipient.attributes.preferredTeam,
-            relationshipType: recipient.attributes.relationshipType,
-          };
-        }),
+        allRecipients: action.response.data.map(recipient =>
+          formatRecipient(recipient),
+        ),
+
+        allowedRecipients: action.response.data
+          .filter(
+            recipient =>
+              recipient.attributes.blockedStatus === false &&
+              recipient.attributes.preferredTeam === true,
+          )
+          .map(recipient => formatRecipient(recipient)),
 
         blockedRecipients: action.response.data
           .filter(
@@ -39,33 +42,11 @@ export const recipientsReducer = (state = initialState, action) => {
               recipient.attributes.blockedStatus === true &&
               recipient.attributes.preferredTeam === true,
           )
-          .map(recipient => {
-            return {
-              id: recipient.attributes.triageTeamId,
-              name: recipient.attributes.name,
-              stationNumber: recipient.attributes.stationNumber,
-              blockedStatus: recipient.attributes.blockedStatus,
-              preferredTeam: recipient.attributes.preferredTeam,
-              relationshipType: recipient.attributes.relationshipType,
-            };
-          }),
+          .map(recipient => formatRecipient(recipient)),
 
         preferredTeams: action.response.data
-          .filter(
-            recipient =>
-              recipient.attributes.blockedStatus === false &&
-              recipient.attributes.preferredTeam === true,
-          )
-          .map(recipient => {
-            return {
-              id: recipient.attributes.triageTeamId,
-              name: recipient.attributes.name,
-              stationNumber: recipient.attributes.stationNumber,
-              blockedStatus: recipient.attributes.blockedStatus,
-              preferredTeam: recipient.attributes.preferredTeam,
-              relationshipType: recipient.attributes.relationshipType,
-            };
-          }),
+          .filter(recipient => recipient.attributes.preferredTeam === true)
+          .map(recipient => formatRecipient(recipient)),
       };
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {

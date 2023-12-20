@@ -6,5 +6,9 @@
     "sort": {
       "name": "ASC"
     }
-  }
+  },
+  "mockAllRecipients": [],
+  "mockPreferredTeams": [],
+  "mockAllowedRecipients": [],
+  "mockBlockedRecipients": []
 }
