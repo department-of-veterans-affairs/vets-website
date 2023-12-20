@@ -1,7 +1,7 @@
 import React from 'react';
 import { LAST_YEAR } from '../../utils/constants';
 
-export const DependentDescription = () => (
+const DependentDescription = () => (
   <va-additional-info
     trigger="Who we consider a dependent"
     class="vads-u-margin-bottom--4"

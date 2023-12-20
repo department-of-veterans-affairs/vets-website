@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const MedicareClaimNumberDescription = (
+const MedicareClaimNumberDescription = (
   <>
     <va-additional-info
       trigger="Why we ask for this information"
