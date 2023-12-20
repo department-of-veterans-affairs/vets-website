@@ -10,10 +10,7 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
-  refreshPhases,
-  loadStates,
   refreshExtractTypes,
-  VALID_REFRESH_DURATION,
 } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';

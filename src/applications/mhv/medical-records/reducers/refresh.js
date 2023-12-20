@@ -6,10 +6,17 @@ import {
 } from '../util/constants';
 
 const initialState = {
+  /** The overall phase of the PHR refresh (stale, in progress, current, or failed) */
   phase: undefined,
+
+  /** The retrieved date from the PHR status response (date from server) */
   statusDate: undefined,
+
+  /** The list of extract statuses from the PHR status response */
   status: undefined,
-  refreshCompleted: undefined,
+
+  /** The final 'completed' date of the overall refresh (date from server) */
+  dateCompleted: undefined,
 };
 
 const safeNewDate = dateStr => (dateStr ? new Date(dateStr) : null);
@@ -111,9 +118,7 @@ export const refreshReducer = (state = initialState, action) => {
             phase: getPhase(statusRec, action.payload.retrievedDate),
           };
         }),
-        refreshCompleted: safeNewDate(
-          refreshCompleted(facilityExtractStatusList),
-        ),
+        dateCompleted: safeNewDate(refreshCompleted(facilityExtractStatusList)),
       };
     }
     default:

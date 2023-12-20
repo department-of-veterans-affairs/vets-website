@@ -167,6 +167,7 @@ export const refreshExtractTypes = {
   CHEM_HEM: 'ChemistryHematology',
 };
 
+/** These are the extracts that we are actively using from the status response. */
 export const EXTRACT_LIST = [
   refreshExtractTypes.ALLERGY,
   refreshExtractTypes.IMAGING,
