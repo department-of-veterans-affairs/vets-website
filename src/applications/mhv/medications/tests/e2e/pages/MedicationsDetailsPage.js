@@ -269,5 +269,21 @@ class MedicationsDetailsPage {
       'Image of the medication or supply',
     );
   };
+
+  verifyRxFilledByPharmacyDateOnDetailsPage = dispensedDate => {
+    cy.get('[data-testid="dispensedDate"]')
+      .first()
+      .should('contain', dispensedDate);
+  };
+
+  verifyRxShippedOnDateOnDetailsPage = shippedDate => {
+    cy.get('[data-testid="shipped-on"]')
+      .first()
+      .should('contain', shippedDate);
+  };
+
+  verifyNoImageFieldMessageOnDetailsPage = () => {
+    cy.get('[data-testid="no-image"]').should('contain', 'No image available');
+  };
 }
 export default MedicationsDetailsPage;

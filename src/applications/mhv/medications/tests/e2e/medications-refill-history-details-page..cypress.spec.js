@@ -21,5 +21,12 @@ describe('Medications Refill History on Details Page', () => {
     detailsPage.verifyFillDateFieldOnDetailsPage();
     detailsPage.verifyShippedOnDateFieldOnDetailsPage();
     detailsPage.verifyImageOfMedicationFieldOnDetailsPage();
+    detailsPage.verifyRxFilledByPharmacyDateOnDetailsPage(
+      refillHistoryDetails.data.attributes.refillDate,
+    );
+    detailsPage.verifyRxShippedOnDateOnDetailsPage(
+      refillHistoryDetails.data.attributes.dispensedDate,
+    );
+    detailsPage.verifyNoImageFieldMessageOnDetailsPage();
   });
 });
