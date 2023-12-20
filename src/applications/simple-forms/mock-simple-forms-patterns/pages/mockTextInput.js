@@ -72,9 +72,13 @@ export default {
       },
     },
     wcv3TextAreaNew: {
-      'ui:title': 'VaTextareaField',
+      'ui:title': 'VaTextareaField (short hint)',
       'ui:description': 'Text description',
       'ui:webComponentField': VaTextareaField,
+      'ui:options': {
+        charcount: true,
+        hint: 'Normal hint',
+      },
     },
     wcv3DisabledNew: {
       'ui:title': 'VaTextInputField - disabled',
@@ -116,6 +120,8 @@ export default {
       },
       wcv3TextAreaNew: {
         type: 'string',
+        maxLength: 20,
+        minLength: 10,
       },
       wcv3DisabledNew: {
         type: 'string',
