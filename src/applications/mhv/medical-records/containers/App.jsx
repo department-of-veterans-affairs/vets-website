@@ -108,33 +108,25 @@ const App = ({ children }) => {
           appTitle="Medical Records"
           dependencies={[externalServices.mhv]}
         >
-          <div className="vads-l-grid-container vads-u-padding-x--0">
-            <div
-              className="vads-u-display--flex
-                           vads-u-flex-direction--column
-                           small-screen:vads-u-flex-direction--row"
-            >
-              {showSideNav && (
-                <>
-                  <Navigation data-testid="mhv-mr-navigation" />
-                  <div className="vads-u-margin-right--4" />
-                </>
-              )}
-              <div className="vads-l-grid-container vads-u-padding-x--0">
-                <div className="vads-l-row">
-                  <div className="vads-l-col">
-                    <div className="">{children}</div>
-                  </div>
-                  {!showSideNav && (
-                    <div className="medium-screen:vads-l-col--4 no-print" />
-                  )}
-                </div>
+          <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+            {showSideNav && (
+              <>
+                <Navigation data-testid="mhv-mr-navigation" />
+                <div className="vads-u-margin-right--4" />
+              </>
+            )}
+            <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
+              <div className="vads-l-row">
+                <div className="vads-l-col">{children}</div>
+                {!showSideNav && (
+                  <div className="medium-screen:vads-l-col--4 no-print" />
+                )}
               </div>
-              <va-back-to-top hidden={isHidden} />
             </div>
           </div>
-          <ScrollToTop />
         </DowntimeNotification>
+        <va-back-to-top hidden={isHidden} />
+        <ScrollToTop />
       </div>
     </RequiredLoginView>
   );
