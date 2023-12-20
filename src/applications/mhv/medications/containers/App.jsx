@@ -5,6 +5,10 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { medicationsUrls } from '../util/constants';
 
@@ -60,7 +64,12 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      {children}
+      <DowntimeNotification
+        appTitle="Medications"
+        dependencies={[externalServices.mhv]}
+      >
+        {children}
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };
