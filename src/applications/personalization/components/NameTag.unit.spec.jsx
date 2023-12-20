@@ -124,8 +124,8 @@ describe('<NameTag>', () => {
     },
   );
 
-  context('when user has middle initials', () => {
-    it('should capitalize middle initials', () => {
+  context('when capitalizing middle initials', () => {
+    it('should capitalize single letter, middle initials', () => {
       const view = withUserFullName({
         first: 'Max',
         middle: 'H g',
@@ -133,9 +133,7 @@ describe('<NameTag>', () => {
       });
       view.getAllByText('Max H G Miller');
     });
-  });
 
-  context('when user has middle initials with punctuation', () => {
     it('should capitalize middle initials with punctuation', () => {
       const view = withUserFullName({
         first: 'Max',
@@ -144,19 +142,14 @@ describe('<NameTag>', () => {
       });
       view.getAllByText('Max H. G. Miller');
     });
-  });
 
-  context(
-    'when user has middle name(s) that start with lowercase letter',
-    () => {
-      it('should not capitalize full middle names', () => {
-        const view = withUserFullName({
-          first: 'Max',
-          middle: 'de Rosa',
-          last: 'Miller',
-        });
-        view.getAllByText('Max de Rosa Miller');
+    it('should not capitalize full word, middle names', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'de Rosa',
+        last: 'Miller',
       });
-    },
-  );
+      view.getAllByText('Max de Rosa Miller');
+    });
+  });
 });
