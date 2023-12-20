@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import manifest from '../manifest.json';
-import { ADDITIONAL_INFO_THIRD_PARTY } from '../config/constants';
+import {
+  ADDITIONAL_INFO_THIRD_PARTY,
+  SUBTITLE,
+  TITLE,
+} from '../config/constants';
 
 const ombInfo = {
   resBurden: '5',
@@ -16,9 +20,8 @@ const ombInfo = {
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
-    formTitle: 'Request personal records',
-    formSubTitle:
-      'Freedom of Information Act (FOIA) and Privacy Act (PA) Request (VA Form 20-10206)',
+    formTitle: TITLE,
+    formSubTitle: SUBTITLE,
     authStartFormText: 'Start your request',
     unauthStartText: 'Sign in to start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
