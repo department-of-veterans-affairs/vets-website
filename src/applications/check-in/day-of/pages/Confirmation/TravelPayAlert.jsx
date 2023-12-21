@@ -14,7 +14,7 @@ const TravelPayAlert = props => {
         <va-alert
           background-only
           show-icon
-          data-testid="travel-pay-message"
+          data-testid="travel-pay-message-error"
           status="warning"
         >
           <div>
@@ -45,7 +45,7 @@ const TravelPayAlert = props => {
             <va-alert
               background-only
               show-icon
-              data-testid="travel-pay-message"
+              data-testid="travel-pay-message-success"
               status="success"
             >
               <div>
@@ -68,7 +68,7 @@ const TravelPayAlert = props => {
             <va-alert
               background-only
               show-icon
-              data-testid="travel-pay-message"
+              data-testid="travel-pay-message-ineligible"
               status="warning"
             >
               <p

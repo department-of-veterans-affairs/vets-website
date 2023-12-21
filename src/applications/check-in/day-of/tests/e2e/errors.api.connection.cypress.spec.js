@@ -23,10 +23,11 @@ describe('Check In Experience | Day Of | API Errors', () => {
   beforeEach(() => {
     initializeFeatureToggle.withCurrentFeatures();
   });
-  describe('fail at session GET', () => {
-    it('attempt to sign in with an error', () => {
+  describe('Patient who encounters an error getting check in data', () => {
+    it('should redirect to the generic error page', () => {
       initializeSessionGet.withSuccessfulNewSession();
-      initializeSessionPost.withFailure(200);
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withFailure();
       cy.visitWithUUID();
       // page: Validate
       ValidateVeteran.validateVeteran();
@@ -35,8 +36,8 @@ describe('Check In Experience | Day Of | API Errors', () => {
       Error.validatePageLoaded();
     });
   });
-  describe('fail at check-in POST', () => {
-    it('attempt check in, failed with a 200 and error message in the body', () => {
+  describe('Patient who encounters an error when checking in', () => {
+    it('should redirect to the generic error page with check-in failed', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
@@ -72,8 +73,8 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.axeCheck();
     });
   });
-  describe('fail at travel-pay POST', () => {
-    it('attempt check in, failed on travel', () => {
+  describe('Patient who encounters an error when submitting a travel claim', () => {
+    it('should confirm the check-in but display a message about the BTSSS error', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
