@@ -10,24 +10,12 @@
     "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
-    "servicePeriods": [
-      {
-        "serviceBranch": "Army",
-        "activeServiceDateRange": {
-          "from": "2003-03-02",
-          "to": "2007-03-20"
-        },
-        "serviceNumber": "123456"
-      },
-      {
-        "serviceBranch": "Navy",
-        "activeServiceDateRange": {
-          "from": "1970-03-02",
-          "to": "1976-03-02"
-        },
-        "serviceNumber": "123456"
-      }
-    ],
+    "serviceBranch": "Army",
+    "activeServiceDateRange": {
+      "from": "2003-03-02",
+      "to": "2007-03-20"
+    },
+    "serviceNumber": "123456",
     "view:serveUnderOtherNames": true,
     "previousNames": [
       {
@@ -104,7 +92,6 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "marriageType": "Proxy",
         "reasonForSeparation": "Widowed",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
@@ -308,6 +295,51 @@
         "purpose": "to cover expense",
         "date": "2017-05-05",
         "paidTo": "vendor"
+      }
+    ],
+    "totalNetWorth": true,
+    "hasCareExpenses": true,
+    "careExpenses": [
+      {
+        "recipients": "Veteran",
+        "provider": "NYC Care Provider",
+        "careType": "Care facility",
+        "ratePerHour": 100,
+        "hoursPerWeek": 20,
+        "careDateRange": {
+          "from": "2020-08-01",
+          "to": "2023-05-25"
+        },
+        "paymentFrequency": "Once a month",
+        "paymentAmount": 2500
+      },
+      {
+        "recipients": "Veteran’s child",
+        "childName": "Joe Doe",
+        "provider": "LA Care Provider",
+        "careType": "Care facility",
+        "ratePerHour": 200,
+        "hoursPerWeek": 10,
+        "careDateRange": {
+          "from": "2020-08-01"
+        },
+        "noCareEndDate": true,
+        "paymentFrequency": "Once a year",
+        "paymentAmount": 22500
+      }
+    ],
+    "medicalExpenses": true,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": "true",
+    "homeAcreageValue": 75000,
+    "receivesIncome": true,
+    "incomeSources": [
+      {
+        "typeOfIncome": "Social Security",
+        "receiver": "Jane Doe",
+        "payer": "John Doe",
+        "amount": 2.0
       }
     ],
     "bankAccount": {

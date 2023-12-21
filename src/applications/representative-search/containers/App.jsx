@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import GetFormHelp from '../components/GetFormHelp';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import GetFormHelp from '../components/footer/GetFormHelp';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 // import DowntimeNotification, {
@@ -18,7 +18,6 @@ function App({ children }) {
   } = useFeatureToggle();
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.findARepresentative);
-  const isProduction = environment.isProduction();
 
   const togglesLoading = useToggleLoadingValue();
 
@@ -32,7 +31,7 @@ function App({ children }) {
     );
   }
 
-  if (!appEnabled && isProduction) {
+  if (!appEnabled && environment.isProduction()) {
     return document.location.replace('/');
   }
 

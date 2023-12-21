@@ -64,7 +64,7 @@ const ExtraDetails = rx => {
             renewal.
           </p>
           <va-link
-            href="/my-health/about-medications/accordion-renew-rx"
+            href="/my-health/medications/about/accordion-renew-rx"
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
           />
@@ -122,7 +122,7 @@ const ExtraDetails = rx => {
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
-              href="/my-health/about-medications/accordion-renew-rx"
+              href="/my-health/medications/about/accordion-renew-rx"
               text="Learn how to renew prescriptions"
               data-testid="learn-to-renew-prescriptions-link"
             />
