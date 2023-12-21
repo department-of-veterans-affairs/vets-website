@@ -13,7 +13,7 @@ const TravelPayAlert = props => {
       {travelPayClaimError ? (
         <va-alert
           show-icon
-          data-testid="travel-pay-message"
+          data-testid="travel-pay-message-error"
           status="warning"
           uswds
           slim
@@ -45,7 +45,7 @@ const TravelPayAlert = props => {
           {travelPayEligible && (
             <va-alert
               show-icon
-              data-testid="travel-pay-message"
+              data-testid="travel-pay-message-success"
               status="success"
               uswds
               slim
@@ -69,7 +69,7 @@ const TravelPayAlert = props => {
           {!travelPayEligible && (
             <va-alert
               show-icon
-              data-testid="travel-pay-message"
+              data-testid="travel-pay-message-ineligible"
               status="warning"
               uswds
               slim
