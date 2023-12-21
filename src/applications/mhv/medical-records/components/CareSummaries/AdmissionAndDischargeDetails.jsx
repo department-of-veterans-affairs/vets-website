@@ -154,7 +154,7 @@ ${record.summary}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-admission-date">{record.admissionDate}</p>
+        <p data-testid="note-record-location"> {record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharge date
         </h3>
