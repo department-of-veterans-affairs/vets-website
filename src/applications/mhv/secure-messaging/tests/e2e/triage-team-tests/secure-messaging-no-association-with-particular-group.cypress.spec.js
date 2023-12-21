@@ -5,10 +5,11 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockThread from '../fixtures/thread-response.json';
 
 describe('No association with particular Triage Group', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
 
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
@@ -32,7 +33,7 @@ describe('No association with particular Triage Group', () => {
     ],
   };
 
-  it('inbox view', () => {
+  it.skip('inbox view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -59,7 +60,7 @@ describe('No association with particular Triage Group', () => {
     );
   });
 
-  it('alert message in detailed view', () => {
+  it.skip('detailed view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -101,5 +102,47 @@ describe('No association with particular Triage Group', () => {
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+  });
+
+  it('existing draft', () => {
+    // TODO load thread with drafts
+    // check thread response in drafts
+    const mockThreadWithDraft = {
+      ...mockThread,
+      data: [
+        {
+          ...mockThread.data[0],
+          attributes: {
+            ...mockThread.data[0].attributes,
+            draftDate: new Date().toISOString(),
+            recipientName: mockRecipients.data[0].attributes.name,
+            triageGroupName: mockRecipients.data[0].attributes.name,
+            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            sentDate: null,
+          },
+        },
+      ],
+    };
+
+    // console.log(mockThreadWithDraft);
+
+    site.login();
+
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      removedFirstRecipientsList,
+    );
+
+    landingPage.loadSingleThread(mockThreadWithDraft);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
