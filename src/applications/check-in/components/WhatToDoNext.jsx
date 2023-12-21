@@ -75,8 +75,9 @@ const WhatToDoNext = props => {
               >
                 {cardTitle}
               </h4>
-              {checkInableAppointments > 1 &&
-                app === APP_NAMES.PRE_CHECK_IN && (
+              {(checkInableAppointments.length === 1 &&
+                app === APP_NAMES.PRE_CHECK_IN) ||
+                (app === APP_NAMES.CHECK_IN && (
                   <p>
                     <a
                       data-testid={`details-link-${index}`}
@@ -94,7 +95,7 @@ const WhatToDoNext = props => {
                       {t('details')}
                     </a>
                   </p>
-                )}
+                ))}
               <ActionLink
                 app={app}
                 action={action}
