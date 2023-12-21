@@ -122,7 +122,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  V3InProgressMessage: true,
+  v3InProgressMessage: true,
   formId: VA_FORM_IDS.FORM_21P_530,
   saveInProgress: {
     messages: {
@@ -305,7 +305,7 @@ const formConfig = {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
-                    'I receive mail outside of the United States on a U.S. military base',
+                    'I live on on a United States military base outside of the U.S.',
                 },
                 omit: ['street3'],
               }),

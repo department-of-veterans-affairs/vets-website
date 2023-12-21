@@ -8,9 +8,11 @@ export const relationshipLabels = {
 };
 
 export const locationOfDeathLabels = {
-  vaMedicalCenter: 'VA medical center',
-  stateVeteransHome: 'State Veterans home',
-  nursingHome: 'Nursing home under VA contract',
+  atHome: 'At home',
+  nursingHomePaid: 'In a nursing home or facility that VA pays for',
+  nursingHomeUnpaid: 'In a nursing home or facility that VA doesn’t pay for',
+  vaMedicalCenter: 'In a VA medical center',
+  stateVeteransHome: 'In a state Veterans facility',
   other: 'Other',
 };
 
