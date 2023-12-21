@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const DependentSupportDescription = (
+const DependentSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a dependent"
     class="vads-u-margin-bottom--4"
