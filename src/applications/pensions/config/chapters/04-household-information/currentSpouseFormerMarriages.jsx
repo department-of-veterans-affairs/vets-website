@@ -22,11 +22,6 @@ const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
 
-const reasonForSeparation = {
-  ...marriageProperties.reasonForSeparation,
-  enum: ['Death', 'Divorce', 'Other'],
-};
-
 const hasMultipleMarriages = form =>
   get(['spouseMarriages', 'length'], form) > 1;
 
@@ -79,6 +74,10 @@ export default {
         locationOfMarriage: {
           'ui:title': 'Place of marriage (city and state or foreign country)',
         },
+        locationOfSeparation: {
+          'ui:title':
+            'Place of marriage termination (city and state or foreign country)',
+        },
       },
     },
     'view:contactWarningI': {
@@ -100,14 +99,19 @@ export default {
             'dateOfMarriage',
             'dateOfSeparation',
             'locationOfMarriage',
+            'locationOfSeparation',
           ],
           properties: {
             spouseFullName: fullNameSchema,
-            reasonForSeparation,
+            reasonForSeparation: {
+              type: 'string',
+              enum: ['Death', 'Divorce', 'Other'],
+            },
             otherExplanation: marriageProperties.otherExplanation,
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,
             locationOfMarriage: marriageProperties.locationOfMarriage,
+            locationOfSeparation: { type: 'string' },
           },
         },
       },

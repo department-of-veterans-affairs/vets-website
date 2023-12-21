@@ -20,17 +20,21 @@ const apiSettings = {
   },
 };
 
-export const orgSortOptions = {
+export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  distance_desc: 'Distance (farthest to closest)',
-  name_asc: 'Name (A - Z)',
-  name_desc: 'Name (Z - A)',
+  // distance_desc: 'Distance (farthest to closest)',
+  first_name_asc: 'First Name (A - Z)',
+  first_name_desc: 'First Name (Z - A)',
+  last_name_asc: 'Last Name (A - Z)',
+  last_name_desc: 'Last Name (Z - A)',
 };
 
 /*
  * Toggle true for local development
  */
 export const useStagingDataLocally = true;
+
+export const claimsAgentIsEnabled = false;
 
 const railsEngineApi = {
   baseUrl:
@@ -58,32 +62,11 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'organization',
+  type = 'officer',
 }) => {
   const api = getAPI();
 
   const { url } = api;
-
-  let newSort = sort;
-
-  /* 
-    Converting sort type for scenarios where the rep type is 
-    updated in a way that's doesn't correspond with the current sort type
-  */
-
-  if (type !== 'organization') {
-    if (sort === 'name_asc') {
-      newSort = 'last_name_asc';
-    } else if (sort === 'name_desc') {
-      newSort = 'last_name_desc';
-    }
-  } else if (type === 'organization') {
-    if (sort === 'last_name_asc') {
-      newSort = 'name_asc';
-    } else if (sort === 'last_name_desc') {
-      newSort = 'name_desc';
-    }
-  }
 
   const params = [
     address ? `address=${address}` : null,
@@ -92,7 +75,7 @@ export const resolveParamsWithUrl = ({
     name ? `name=${name}` : null,
     `page=${page || 1}`,
     `per_page=${perPage}`,
-    `sort=${newSort}`,
+    `sort=${sort}`,
     type ? `type=${type}` : null,
   ];
 
@@ -105,14 +88,14 @@ export const resolveParamsWithUrl = ({
 // except 'Vet Centers' and acronyms like IDES.
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };

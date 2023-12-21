@@ -1,8 +1,4 @@
 /* eslint-disable camelcase */
-export const VAMockProvider = {
-  defaultMockSignUp: true,
-  defaultMockSignIn: true,
-};
 
 export const defaultSignInProviders = {
   logingov: true,

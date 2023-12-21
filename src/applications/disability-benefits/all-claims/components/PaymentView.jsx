@@ -27,7 +27,7 @@ const mask = (string, unmaskedLength) => {
 function accountsDifferContent(originalDataIsEmpty) {
   return (
     <p className="vads-u-font-size--base vads-u-margin-top--0">
-      We’ll add this new bank account to your disability application.{' '}
+      We’ll add this new bank account to your claim for disability compensation.{' '}
       <strong>
         This new account won’t be updated in all VA systems right away.
       </strong>{' '}
