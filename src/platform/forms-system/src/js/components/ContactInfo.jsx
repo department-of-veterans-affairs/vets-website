@@ -35,6 +35,7 @@ import {
   getPhoneString,
   getMissingInfo,
   REVIEW_CONTACT,
+  convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../utilities/data/profile';
 import { getValidationErrors } from '../utilities/validations';
@@ -149,13 +150,19 @@ const ContactInfo = ({
       ) {
         const wrapper = { ...data[keys.wrapper] };
         if (keys.address) {
-          wrapper[keys.address] = contactInfo.mailingAddress;
+          wrapper[keys.address] = convertNullishObjectValuesToEmptyString(
+            contactInfo.mailingAddress,
+          );
         }
         if (keys.homePhone) {
-          wrapper[keys.homePhone] = contactInfo.homePhone;
+          wrapper[keys.homePhone] = convertNullishObjectValuesToEmptyString(
+            contactInfo.homePhone,
+          );
         }
         if (keys.mobilePhone) {
-          wrapper[keys.mobilePhone] = contactInfo.mobilePhone;
+          wrapper[keys.mobilePhone] = convertNullishObjectValuesToEmptyString(
+            contactInfo.mobilePhone,
+          );
         }
         if (keys.email) {
           wrapper[keys.email] = contactInfo.email?.emailAddress;

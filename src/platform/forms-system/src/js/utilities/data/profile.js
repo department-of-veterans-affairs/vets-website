@@ -186,9 +186,6 @@ export const profileAddressSchema = {
           type: 'string',
           enum: [ADDRESS_TYPES.international],
         },
-        zipCode: {
-          type: 'string',
-        },
       },
     },
     // Schema for domestic addresses
@@ -237,6 +234,9 @@ export const profileAddressSchema = {
       // state is not required
       type: 'string',
     },
+    zipCode: {
+      type: 'string',
+    },
     province: {
       type: 'string',
     },
@@ -263,6 +263,11 @@ export const profileAddressSchema = {
 export const getPhoneString = (phoneObject = {}) =>
   `${phoneObject?.areaCode || ''}${phoneObject?.phoneNumber || ''}`.trim();
 
+/**
+ * Render telephone
+ * @param {phoneObject} phoneObject
+ * @returns {Element|null}
+ */
 export const renderTelephone = (phoneObject = {}) => {
   const phoneString = getPhoneString(phoneObject);
   return phoneString ? (
@@ -271,9 +276,9 @@ export const renderTelephone = (phoneObject = {}) => {
 };
 
 /**
- * Default review & submit page validations
+ * Review & submit page email validations
  * @param {Object} content
- * @param {*} email
+ * @param {String} email
  * @returns
  */
 export const validateEmail = (content, email) => {
@@ -287,6 +292,12 @@ export const validateEmail = (content, email) => {
   return '';
 };
 
+/**
+ * Review & submit page phone validation
+ * @param {Object} content
+ * @param {phoneObject} phoneObject
+ * @returns
+ */
 export const validatePhone = (content, phoneObject) => {
   const processedPhoneString = getPhoneString(phoneObject);
   if (!processedPhoneString) {
@@ -298,6 +309,12 @@ export const validatePhone = (content, phoneObject) => {
   return '';
 };
 
+/**
+ * Review & submit page zipcode validations
+ * @param {Object} content
+ * @param {phoneObject} phoneObject
+ * @returns
+ */
 export const validateZipcode = (content, zipcode) => {
   const processedZipcode = (zipcode || '').trim();
   if (!processedZipcode) {
@@ -308,6 +325,17 @@ export const validateZipcode = (content, zipcode) => {
   }
   return '';
 };
+
+/**
+ * Convert nullish with an empty string; needed to ensure the schema doesn't
+ * cause validation issues
+ * @param {Object} object
+ */
+export const convertNullishObjectValuesToEmptyString = object =>
+  Object.entries(object || {}).reduce(
+    (result, [key, value]) => ({ ...result, [key]: value ?? '' }),
+    {},
+  );
 
 /**
  * @typedef ContactInfoKeys
