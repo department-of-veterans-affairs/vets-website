@@ -11,6 +11,8 @@ export const URL = {
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
   'Compensation (Service-Connected Bens)',
+  'Veteran Affairs  - Debt', // *double space after 'Affairs'
+  'Benefits Issues Outside the US',
 ];
 
 export const requireSignInTopics = [
@@ -19,7 +21,12 @@ export const requireSignInTopics = [
 ];
 
 // list of topics required to render the subtopic page
-export const requiredForSubtopicPage = ['GI Bill'];
+export const requiredForSubtopicPage = [
+  'GI Bill',
+  'Caregiver support',
+  'Family member health benefits',
+  'Prosthetics',
+];
 
 // Used for yes/no radio questions
 export const yesNoOptions = {
@@ -79,20 +86,20 @@ export const CHAPTER_1 = {
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category selected',
-    PAGE_DESCRIPTION: 'Which category best describes your question?',
-    QUESTION_1: 'Category',
+    PAGE_DESCRIPTION: 'Category',
+    QUESTION_1: 'Select the category that best describes your question:',
   },
   PAGE_2: {
     PATH: 'category-topic-2',
     TITLE: 'Topic selected',
-    PAGE_DESCRIPTION: 'Which topic best describes your question?',
-    QUESTION_1: 'Topic',
+    PAGE_DESCRIPTION: 'Topic',
+    QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
     TITLE: 'Subtopic selected',
-    PAGE_DESCRIPTION: 'Which subtopic best describes your question?',
-    QUESTION_1: 'Subtopic',
+    PAGE_DESCRIPTION: 'Subtopic',
+    QUESTION_1: 'Select the subtopic that best describes your question:',
   },
 };
 
@@ -101,10 +108,21 @@ export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
     PATH: 'question-1',
-    TITLE: 'Tell us your question',
+    TITLE: "What's your question about?",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
-    QUESTION_2: "Tell us the reason you're contacting us:",
+    QUESTION_1: 'Select what your question is about:',
+  },
+  PAGE_2: {
+    PATH: 'question-2',
+    TITLE: "Reason you're contacting us",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+  },
+  PAGE_3: {
+    PATH: 'question-3',
+    TITLE: 'Your question',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: "What's your question?",
   },
 };
 
