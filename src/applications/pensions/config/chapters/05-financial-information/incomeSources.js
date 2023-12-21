@@ -42,6 +42,7 @@ export default {
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',
             expandUnderCondition: 'OTHER',
