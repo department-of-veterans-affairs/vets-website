@@ -36,10 +36,7 @@ import {
   noFDCWarning,
   expeditedProcessDescription,
   aidAttendanceEvidence,
-  expectedIncomeDescription,
-  spouseExpectedIncomeDescription,
   submit,
-  dependentExpectedIncomeDescription,
   createSpouseLabelSelector,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
@@ -48,11 +45,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import netWorthUI from '../definitions/netWorth';
-import monthlyIncomeUI from '../definitions/monthlyIncome';
-import expectedIncomeUI from '../definitions/expectedIncome';
-import { additionalSourcesSchema } from '../definitions/additionalSources';
-import otherExpensesUI from '../definitions/otherExpenses';
 
 // chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
@@ -122,7 +114,6 @@ const {
   ssn,
   centralMailVaFile,
   files,
-  otherExpenses,
   bankAccount,
 } = fullSchemaPensions.definitions;
 
@@ -197,15 +188,6 @@ const reasonForSeparation = {
   enum: ['Widowed', 'Divorced'],
 };
 
-function createFullNameReviewTitle(label) {
-  return item => {
-    const veteranFullName = item.formData
-      ? item.formData.veteranFullName
-      : item.veteranFullName;
-    return `${veteranFullName.first} ${veteranFullName.last} ${label}`;
-  };
-}
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -242,7 +224,6 @@ const formConfig = {
   errorText: ErrorText,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
-    additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,
@@ -835,344 +816,6 @@ const formConfig = {
       title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
-        netWorth: {
-          path: 'financial/net-worth',
-          title: createFullNameReviewTitle('net worth'),
-          schema: {
-            type: 'object',
-            required: ['netWorth'],
-            properties: {
-              netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Net worth',
-            ),
-            'ui:description': 'Bank accounts, investments, and property',
-            netWorth: netWorthUI,
-          },
-        },
-        monthlyIncome: {
-          path: 'financial/monthly-income',
-          title: createFullNameReviewTitle('monthly income'),
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['monthlyIncome'],
-            properties: {
-              monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Monthly income',
-            ),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            monthlyIncome: monthlyIncomeUI,
-          },
-        },
-        expectedIncome: {
-          path: 'financial/expected-income',
-          title: createFullNameReviewTitle('expected income'),
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['expectedIncome'],
-            properties: {
-              expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Expected income',
-            ),
-            'ui:description': expectedIncomeDescription,
-            expectedIncome: expectedIncomeUI,
-          },
-        },
-        otherExpenses: {
-          path: 'financial/other-expenses',
-          title: createFullNameReviewTitle('expenses'),
-          schema: {
-            type: 'object',
-            required: ['view:hasOtherExpenses'],
-            properties: {
-              'view:hasOtherExpenses': {
-                type: 'boolean',
-              },
-              otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:hasOtherExpenses': {
-              'ui:title':
-                'Do you have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            otherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses',
-              },
-            }),
-          },
-        },
-        spouseNetWorth: {
-          path: 'financial/net-worth/spouse',
-          title: 'Spouse net worth',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseNetWorth: netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Net worth'),
-            'ui:description': 'Bank accounts, investments, and property',
-            spouseNetWorth: netWorthUI,
-          },
-        },
-        spouseMonthlyIncome: {
-          path: 'financial/monthly-income/spouse',
-          title: 'Spouse monthly income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseMonthlyIncome: monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            spouseMonthlyIncome: monthlyIncomeUI,
-          },
-        },
-        spouseExpectedIncome: {
-          path: 'financial/expected-income/spouse',
-          title: 'Spouse expected income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseExpectedIncome: expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': spouseExpectedIncomeDescription,
-            spouseExpectedIncome: expectedIncomeUI,
-          },
-        },
-        spouseOtherExpenses: {
-          path: 'financial/other-expenses/spouse',
-          depends: isMarried,
-          title: 'Spouse other expenses',
-          schema: {
-            type: 'object',
-            required: ['view:spouseHasOtherExpenses'],
-            properties: {
-              'view:spouseHasOtherExpenses': {
-                type: 'boolean',
-              },
-              spouseOtherExpenses: otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'spouse',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:spouseHasOtherExpenses': {
-              'ui:title':
-                'Does your spouse have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            spouseOtherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses',
-              },
-            }),
-          },
-        },
-        dependentsNetWorth: {
-          path: 'financial/net-worth/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} net worth`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    netWorth,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Net worth'),
-                'ui:description': 'Bank accounts, investments, and property',
-                netWorth: netWorthUI,
-              },
-            },
-          },
-        },
-        dependentsMonthlyIncome: {
-          path: 'financial/monthly-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} monthly income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    monthlyIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Monthly income',
-                ),
-                'ui:description':
-                  'Social Security or other pensions (gross income)',
-                monthlyIncome: monthlyIncomeUI,
-              },
-            },
-          },
-        },
-        dependentsExpectedIncome: {
-          path: 'financial/expected-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} expected income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    expectedIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Expected income',
-                ),
-                'ui:description': dependentExpectedIncomeDescription,
-                expectedIncome: expectedIncomeUI,
-              },
-            },
-          },
-        },
-        dependentsOtherExpenses: {
-          path: 'financial/other-expenses/dependents/:index',
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} expenses`,
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['view:hasOtherExpenses'],
-                  properties: {
-                    'view:hasOtherExpenses': {
-                      type: 'boolean',
-                    },
-                    otherExpenses,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Medical, legal, or other unreimbursed expenses',
-                ),
-                'view:hasOtherExpenses': {
-                  'ui:title':
-                    'Does your child have any medical, legal or other unreimbursed expenses?',
-                  'ui:widget': 'yesNo',
-                  'ui:options': {
-                    // HACK: Forcing this to be a <div> instead of <dl>
-                    // in order to avoid breaking accessibility.
-                    customTitle: ' ',
-                    useDlWrap: true,
-                  },
-                },
-                otherExpenses: merge({}, otherExpensesUI, {
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses',
-                  },
-                }),
-              },
-            },
-          },
-        },
         totalNetWorth: {
           title: 'total net worth',
           path: 'financial/total-net-worth',
