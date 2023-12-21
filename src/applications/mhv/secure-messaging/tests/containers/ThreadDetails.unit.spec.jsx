@@ -229,7 +229,7 @@ describe('Thread Details container', () => {
     expect(document.querySelector('section.old-reply-message-body')).to.exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+      '(Draft) To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
     expect(
@@ -271,7 +271,7 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
-          replyToName: 'MORGUN, OLEKSII',
+          replyToName: 'FREEMAN, GORDON',
           threadViewCount: 5,
           cannotReply: isOlderThan(
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
@@ -318,7 +318,7 @@ describe('Thread Details container', () => {
       .exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
+      `(Draft) To: FREEMAN, GORDON\n(Team: ${triageGroupName})`,
     );
 
     expect(screen.getByTestId('message-body-field')).to.exist;
