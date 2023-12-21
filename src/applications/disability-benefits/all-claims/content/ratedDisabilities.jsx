@@ -53,9 +53,9 @@ export const disabilityOption = ({
 
 export const disabilitiesClarification = (
   <p>
-    <strong>Please note:</strong> This list only includes disabilities that
-    we’ve already rated. It doesn’t include any disabilities from claims that
-    are in progress.
+    <strong>Note:</strong> This list only includes disabilities that we’ve
+    already rated. It doesn’t include any conditions from claims that are in
+    progress.
   </p>
 );
 
