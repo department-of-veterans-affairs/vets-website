@@ -135,23 +135,31 @@ export function waitForShadowRoot(el, waitForPaint = true) {
  */
 export async function querySelectorWithShadowRoot(selector, root) {
   try {
-    let rootElement =
+    let selectorElement;
+    const rootElement =
       typeof root === 'string'
         ? document.querySelector(root)
         : root || document;
 
     if (isWebComponent(rootElement) && !isWebComponentReady(rootElement)) {
       const waitForPaint = false;
+      // we need to wait for this despite a child being in
+      // light dom or shadow dom, because async rendering
       await waitForShadowRoot(rootElement, waitForPaint);
-      // Fallback to root if shadowRoot is not available,
-      // for example in unit tests where shadowRoot is null
-      rootElement = rootElement?.shadowRoot || rootElement;
     }
 
-    const selectorElement =
-      typeof selector === 'string' && rootElement
-        ? rootElement.querySelector(selector)
-        : selector;
+    if (typeof selector === 'string') {
+      // check light dom first (outside of shadowRoot)
+      // (e.g. slot="something" will appear in light dom)
+      selectorElement = rootElement.querySelector(selector);
+
+      // check shadow dom if not in light dom
+      if (!selectorElement && rootElement.shadowRoot) {
+        selectorElement = rootElement.shadowRoot.querySelector(selector);
+      }
+    } else {
+      selectorElement = selector;
+    }
 
     if (
       selectorElement &&
