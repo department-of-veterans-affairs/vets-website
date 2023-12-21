@@ -33,7 +33,7 @@ describe('No association with particular Triage Group', () => {
     ],
   };
 
-  it.skip('inbox view', () => {
+  it('inbox view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -60,7 +60,7 @@ describe('No association with particular Triage Group', () => {
     );
   });
 
-  it.skip('detailed view', () => {
+  it('detailed view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -81,7 +81,10 @@ describe('No association with particular Triage Group', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', `You can't send messages to`);
+      .and(
+        'include.text',
+        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+      );
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .shadow()
@@ -105,8 +108,6 @@ describe('No association with particular Triage Group', () => {
   });
 
   it('existing draft', () => {
-    // TODO load thread with drafts
-    // check thread response in drafts
     const mockThreadWithDraft = {
       ...mockThread,
       data: [
@@ -121,10 +122,9 @@ describe('No association with particular Triage Group', () => {
             sentDate: null,
           },
         },
+        ...mockThread.data,
       ],
     };
-
-    // console.log(mockThreadWithDraft);
 
     site.login();
 
@@ -144,5 +144,32 @@ describe('No association with particular Triage Group', () => {
         },
       },
     });
+
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and(
+        'include.text',
+        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+      );
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'closed');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });
