@@ -44,7 +44,7 @@ describe('Pre-need burial benefits', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.burialBenefits.pages.burialBenefits;
+  } = formConfig.chapters.burialBenefits.pages.burialCemetery;
 
   it('should render', () => {
     const form = mount(
@@ -57,11 +57,11 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(1);
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it('should fill in desired cemetery', done => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={store}>
@@ -70,14 +70,31 @@ describe('Pre-need burial benefits', () => {
           definitions={formConfig.defaultDefinitions}
           onSubmit={onSubmit}
           uiSchema={uiSchema}
-        />
+        />{' '}
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
+    const cemeteryField = form.find(
+      'input#root_application_claimant_desiredCemetery',
+    );
+    cemeteryField.simulate('focus').simulate('change', {
+      target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' },
+    });
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    setTimeout(() => {
+      cemeteryField
+        .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
+        .simulate('keyDown', { key: 'Enter', keyCode: 13 })
+        .simulate('blur');
+
+      // have to pull this again, doesn't work if we use cemeteryField
+      expect(
+        form.find('input#root_application_claimant_desiredCemetery').props()
+          .value,
+      ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
+
+      form.unmount();
+      done();
+    });
   });
 });
