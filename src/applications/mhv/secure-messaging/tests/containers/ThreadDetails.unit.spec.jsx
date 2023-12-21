@@ -21,6 +21,11 @@ import {
   getLastSentMessage,
   isOlderThan,
 } from '../../util/helpers';
+import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
+// import twoBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
+import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
+import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Thread Details container', () => {
   const setup = state => {
@@ -148,6 +153,17 @@ describe('Thread Details container', () => {
           draftMessage: singleDraftThread.draftMessage,
           draftMessageHistory: [],
         },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          preferredTeams: noBlockedRecipients.mockPreferredTeams,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.meta.associatedBlockedTriageGroups,
+        },
+        messageDetails: { message: singleDraftThread.draftMessage },
       },
     };
 
@@ -464,5 +480,125 @@ describe('Thread Details container', () => {
       fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is blocked', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          preferredTeams: oneBlockedRecipient.mockPreferredTeams,
+          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            oneBlockedRecipient.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            oneBlockedRecipient.meta.associatedBlockedTriageGroups,
+        },
+        messageDetails: {
+          ...messageDetails,
+          message: {
+            ...messageDetails.message,
+            recipientId: 1013155,
+            recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+            triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is not associated', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          preferredTeams: lostAssociation.mockPreferredTeams,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            lostAssociation.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.meta.associatedBlockedTriageGroups,
+        },
+        messageDetails,
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
+          preferredTeams: noAssociationsAtAll.mockPreferredTeams,
+          allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+          blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.meta.associatedBlockedTriageGroups,
+        },
+        messageDetails,
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
   });
 });

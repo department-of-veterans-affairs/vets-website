@@ -44,7 +44,12 @@ const BlockedTriageGroupAlert = props => {
       </div>
     </va-alert-expandable>
   ) : (
-    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="info"
+      visible
+      data-testid="blocked-triage-group-alert"
+    >
       <h2 id="track-your-status-on-mobile" slot="headline">
         You’re not connected to any care teams in this messaging tool
       </h2>

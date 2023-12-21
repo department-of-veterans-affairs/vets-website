@@ -10,6 +10,8 @@ import draftMessage from '../../fixtures/message-draft-response.json';
 import oneBlockedRecipient from '../../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import twoBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
+import lostAssociation from '../../fixtures/json-triage-mocks/triage-teams-lost-association.json';
+import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
@@ -28,7 +30,18 @@ describe('Compose form component', () => {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
+      recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
+        preferredTeams: noBlockedRecipients.mockPreferredTeams,
+        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        associatedTriageGroupsQty:
+          noBlockedRecipients.meta.associatedTriageGroups,
+        associatedBlockedTriageGroupsQty:
+          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+      },
     },
+    featureToggles: {},
   };
 
   const draftState = {
@@ -36,12 +49,22 @@ describe('Compose form component', () => {
       triageTeams: { triageTeams },
       categories: { categories },
       draftDetails: { draftMessage },
+      recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
+        preferredTeams: noBlockedRecipients.mockPreferredTeams,
+        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        associatedTriageGroupsQty:
+          noBlockedRecipients.meta.associatedTriageGroups,
+        associatedBlockedTriageGroupsQty:
+          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+      },
     },
+    featureToggles: {},
   };
-
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} {...props} />,
+      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
       {
         initialState: customState,
         reducers: reducer,
@@ -142,10 +165,32 @@ describe('Compose form component', () => {
   });
 
   it('displays draft page if path is /draft/:id', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const screen = renderWithStoreAndRouter(
-      <ComposeForm draft={draftMessage} recipients={triageTeams} />,
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
       {
-        initialState: draftState,
+        initialState: customState,
         reducers: reducer,
         path: `/draft/${draftMessage.id}`,
       },
@@ -158,9 +203,29 @@ describe('Compose form component', () => {
   });
 
   it('renders without errors on send button click', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
     const sendMessageSpy = sinon.spy(messageActions, 'sendMessage');
-    const screen = setup(draftState, `/thread/${draftMessage.id}`, {
-      draft: draftMessage,
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
     });
 
     fireEvent.click(screen.getByTestId('Send-Button'));
@@ -173,17 +238,20 @@ describe('Compose form component', () => {
     const saveDraftSpy = sinon.spy(draftActions, 'saveDraft');
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
+      recipients: draftState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     await waitFor(() => {
-      expect(saveDraftSpy.calledOnce).to.be.true;
+      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     });
+    expect(saveDraftSpy.calledOnce).to.be.true;
   });
 
   it('displays user signature on /new-message when signature is enabled', async () => {
     const customState = {
+      ...initialState,
       sm: {
+        ...initialState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
         draftDetails: {},
@@ -203,6 +271,7 @@ describe('Compose form component', () => {
 
   it('does not display user signature on /new-message when signature is disabled', async () => {
     const customState = {
+      ...initialState,
       sm: {
         ...initialState.sm,
         preferences: signatureReducers.signatureDisabled,
@@ -216,16 +285,27 @@ describe('Compose form component', () => {
   });
 
   it('does not append an existing draft message body with enabled signature', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
     const customState = {
+      ...initialState,
       sm: {
+        ...initialState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { draftMessage },
+        draftDetails: { customDraftMessage },
         preferences: signatureReducers.signatureEnabled,
       },
+      featureToggles: {},
     };
-    const screen = setup(customState, `/draft/${draftMessage.id}`, {
-      draft: draftMessage,
+
+    const screen = setup(customState, `/draft/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
     });
 
     const messageInput = await screen.getByTestId('message-body-field');
@@ -266,7 +346,7 @@ describe('Compose form component', () => {
 
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
@@ -284,14 +364,14 @@ describe('Compose form component', () => {
 
   it('renders without errors to recipient selection', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
         path: Paths.COMPOSE,
       },
     );
-    const val = triageTeams[0].name;
+    const val = initialState.sm.recipients.allowedRecipients[0].name;
     selectVaSelect(screen.container, val);
     waitFor(() => {
       expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
@@ -300,7 +380,7 @@ describe('Compose form component', () => {
 
   it('renders without errors to subject input', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
@@ -316,7 +396,7 @@ describe('Compose form component', () => {
 
   it('renders without errors to message body input', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
@@ -332,7 +412,7 @@ describe('Compose form component', () => {
 
   it('adds eventListener if path is /new-message', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
@@ -350,17 +430,30 @@ describe('Compose form component', () => {
   });
 
   it('adds eventListener if path is /draft/:id', async () => {
-    const state = {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
       sm: {
+        ...draftState.sm,
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { draftMessage },
+        draftDetails: { customDraftMessage },
       },
     };
+
     const screen = renderWithStoreAndRouter(
-      <ComposeForm draft={draftMessage} recipients={triageTeams} />,
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
       {
-        initialState: state,
+        initialState: customState,
         reducers: reducer,
         path: `/draft/${draftMessage.id}`,
       },
@@ -375,34 +468,25 @@ describe('Compose form component', () => {
     expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
   });
 
-  it('does not display BlockedTriageGroupAlert if user is not blocked from groups', async () => {
-    const customState = {
-      sm: {
-        categories: { categories },
-        draftDetails: { draftMessage },
-        recipients: {
-          allRecipients: noBlockedRecipients.mockAllRecipients,
-          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            noBlockedRecipients.meta.associatedTriageGroups,
-          associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.meta.associatedBlockedTriageGroups,
-        },
-      },
-      featureToggles: {},
-    };
-
-    customState.featureToggles[
-      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
-    ] = true;
-
+  it('does not display BlockedTriageGroupAlert on a saved draft if user is not blocked from groups', async () => {
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
       recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
       triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
     };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
@@ -420,12 +504,21 @@ describe('Compose form component', () => {
   });
 
   it('displays BlockedTriageGroupAlert if saved-draft recipient is blocked from 1 group', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
     const customState = {
+      ...initialState,
       sm: {
-        categories: { categories },
-        draftDetails: { draftMessage },
+        ...initialState.sm,
+        draftDetails: { customDraftMessage },
         recipients: {
           allRecipients: oneBlockedRecipient.mockAllRecipients,
+          preferredTeams: oneBlockedRecipient.mockPreferredTeams,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -434,19 +527,11 @@ describe('Compose form component', () => {
             oneBlockedRecipient.meta.associatedBlockedTriageGroups,
         },
       },
-      featureToggles: {},
     };
 
     customState.featureToggles[
       `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
     ] = true;
-
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
@@ -460,22 +545,31 @@ describe('Compose form component', () => {
       },
     );
 
-    expect(screen.findByTestId('blocked-triage-group-alert')).to.exist;
-    expect(
-      screen.queryByTestId('blocked-triage-group-alert'),
-    ).to.have.attribute(
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
       "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
     );
   });
 
-  it('displays BlockedTriageGroupAlert with blocked group list if saved-draft recipient is blocked', async () => {
+  it('displays BlockedTriageGroupAlert if multiple groups are blocked, including saved-draft recipient', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
     const customState = {
       sm: {
         categories: { categories },
-        draftDetails: { draftMessage },
+        draftDetails: { customDraftMessage },
         recipients: {
           allRecipients: twoBlockedRecipients.mockAllRecipients,
+          preferredTeams: twoBlockedRecipients.mockPreferredTeams,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -491,12 +585,59 @@ describe('Compose form component', () => {
       `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
     ] = true;
 
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/thread/${customDraftMessage.id}`,
+      },
+    );
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to certain providers",
+    );
+    expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
+  });
+
+  it('displays BlockedTriageGroupAlert if saved-draft recipient is not associated with user', async () => {
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
       recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
       triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
     };
+
+    const customState = {
+      sm: {
+        categories: { categories },
+        draftDetails: { customDraftMessage },
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          preferredTeams: lostAssociation.mockPreferredTeams,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            lostAssociation.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.meta.associatedBlockedTriageGroups,
+        },
+      },
+      featureToggles: {},
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
@@ -510,13 +651,67 @@ describe('Compose form component', () => {
       },
     );
 
-    expect(screen.findByTestId('blocked-triage-group-alert')).to.exist;
-    expect(
-      screen.queryByTestId('blocked-triage-group-alert'),
-    ).to.have.attribute(
-      'trigger',
-      "You can't send messages to certain providers",
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
     );
-    expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
+
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      sm: {
+        categories: { categories },
+        draftDetails: { customDraftMessage },
+        recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
+          preferredTeams: noAssociationsAtAll.mockPreferredTeams,
+          allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+          blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.meta.associatedBlockedTriageGroups,
+        },
+      },
+      featureToggles: {},
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customDraftMessage}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/thread/${customDraftMessage.id}`,
+      },
+    );
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+    );
+    expect(screen.queryByTestId('Send-Button')).to.not.exist;
   });
 });
