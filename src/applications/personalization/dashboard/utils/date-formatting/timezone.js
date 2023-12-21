@@ -47,20 +47,7 @@ export function getTimezoneByFacilityId(id) {
 }
 
 export function getTimezoneAbbrByFacilityId(id) {
-  const matchingZone = getTimezoneByFacilityId(id);
-
-  if (!matchingZone) {
-    return null;
-  }
-
-  let abbreviation = getTimezoneBySystemId(id);
-
-  // Strip out middle char in abbreviation so we can ignore DST
-  if (matchingZone.includes('America')) {
-    abbreviation = stripDST(abbreviation);
-  }
-
-  return abbreviation;
+  return getVATimeZone(id);
 }
 
 const TIMEZONE_LABELS = {
