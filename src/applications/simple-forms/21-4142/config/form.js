@@ -72,6 +72,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your authorization to release non-VA medical information to VA.',
   },
+  hideUnauthedStartLink: true,
   title: 'Authorize the release of non-VA medical information to VA',
   subTitle:
     'Authorization to disclose information to the Department of Veterans Affairs (VA Forms 21-4142 and 21-4142a)',

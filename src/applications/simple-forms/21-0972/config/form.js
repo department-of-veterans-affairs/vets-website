@@ -128,6 +128,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for alternate signer.',
   },
+  hideUnauthedStartLink: true,
   title: 'Sign VA claim forms as an alternate signer',
   subTitle: 'Alternate signer certification (VA Form 21-0972)',
   defaultDefinitions: {},
