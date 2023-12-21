@@ -29,5 +29,6 @@ describe('delete multiple drafts thread', () => {
       mockMultiDraftsResponse.data[0].attributes.messageId,
     );
     draftPage.verifyDeleteConfirmationMessage();
+    draftPage.loadNonDeletedMultiDraftThread();
   });
 });

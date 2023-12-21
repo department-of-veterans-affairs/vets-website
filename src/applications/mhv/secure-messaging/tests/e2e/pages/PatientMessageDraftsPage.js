@@ -198,6 +198,41 @@ class PatientMessageDraftsPage {
     });
   };
 
+  loadNonDeletedMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/2666253/thread',
+      mockResponse,
+    ).as('multiDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[0].attributes.messageId
+      }`,
+      { data: mockResponse.data[0] },
+    ).as('firstDraft');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[1].attributes.messageId
+      }`,
+      { data: mockResponse.data[1] },
+    ).as('secondDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[3].attributes.messageId
+      }`,
+      { data: mockResponse.data[3] },
+    ).as('firstSentMessage');
+
+    cy.contains(mockMessages.data[2].attributes.subject).click({
+      waitForAnimations: true,
+    });
+  };
+
   clickDeleteButton = () => {
     cy.get('[data-testid="delete-draft-button"]').should('be.visible');
     cy.get('[data-testid="delete-draft-button"]').click({
