@@ -7,14 +7,21 @@ import {
   printErrorMessage,
   pushToRoute,
 } from './shared';
+import { SHORT_NAME_MAP } from '../constants/question-data-map';
 
 /** ================================================================
  * Responsible for determining next question in flow, or redirecting to a results screen
  *
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const navigateForward = (SHORT_NAME, formResponses, router) => {
+export const navigateForward = (
+  SHORT_NAME,
+  formResponses,
+  router,
+  updateCurrentPage,
+) => {
   const roadmap = makeRoadmap(getServicePeriodResponse(formResponses));
 
   if (roadmap?.length) {
@@ -23,7 +30,7 @@ export const navigateForward = (SHORT_NAME, formResponses, router) => {
     let nextIndex = CURRENT_INDEX + 1;
 
     if (CURRENT_INDEX === END_INDEX) {
-      determineResultsPage(formResponses, router);
+      determineResultsPage(formResponses, router, updateCurrentPage);
       return;
     }
 
@@ -33,14 +40,14 @@ export const navigateForward = (SHORT_NAME, formResponses, router) => {
       if (nextIndex > END_INDEX) {
         // No questions after this one in the flow have their display conditions met
         // Most likely a results page should show
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateCurrentPage);
         return;
       }
 
       if (DISPLAY_CONDITIONS?.[nextShortName]) {
         // Found entry in DISPLAY_CONDITIONS for next question
         if (displayConditionsMet(nextShortName, formResponses)) {
-          pushToRoute(nextShortName, router);
+          pushToRoute(nextShortName, router, updateCurrentPage);
           return;
         }
 
@@ -61,8 +68,14 @@ export const navigateForward = (SHORT_NAME, formResponses, router) => {
  *
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const navigateBackward = (SHORT_NAME, formResponses, router) => {
+export const navigateBackward = (
+  SHORT_NAME,
+  formResponses,
+  router,
+  updateCurrentPage,
+) => {
   const roadmap = makeRoadmap(getServicePeriodResponse(formResponses));
 
   if (roadmap?.length) {
@@ -70,6 +83,7 @@ export const navigateBackward = (SHORT_NAME, formResponses, router) => {
     let previousIndex = CURRENT_INDEX - 1;
 
     if (CURRENT_INDEX === 0) {
+      updateCurrentPage(SHORT_NAME_MAP.HOME);
       router.push(ROUTES.HOME);
     }
 
@@ -78,12 +92,8 @@ export const navigateBackward = (SHORT_NAME, formResponses, router) => {
 
       if (DISPLAY_CONDITIONS?.[previousShortName]) {
         // Found entry in DISPLAY_CONDITIONS for previous question
-        if (previousIndex < 0) {
-          router.push(ROUTES.HOME);
-        }
-
         if (displayConditionsMet(previousShortName, formResponses)) {
-          pushToRoute(previousShortName, router);
+          pushToRoute(previousShortName, router, updateCurrentPage);
           return;
         }
 

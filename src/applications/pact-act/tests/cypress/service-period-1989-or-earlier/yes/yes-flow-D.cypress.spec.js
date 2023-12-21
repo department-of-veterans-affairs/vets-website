@@ -1,5 +1,6 @@
 import * as h from '../../helpers';
 import { ROUTES } from '../../../../constants';
+import { QUESTION_MAP } from '../../../../constants/question-data-map';
 
 // Flow D
 // Service Period - 1989 or earlier
@@ -61,6 +62,7 @@ describe('PACT Act', () => {
       // RESULTS 2
       h.verifyUrl(ROUTES.RESULTS_2);
       h.verifyElement(h.RESULTS_2_HEADER);
+      h.verifyTextWithoutSelector(QUESTION_MAP.RESULTS_2);
       h.clickResultsBack();
 
       // LEJEUNE_2_4

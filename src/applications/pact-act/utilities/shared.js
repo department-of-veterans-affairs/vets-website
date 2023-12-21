@@ -30,9 +30,11 @@ export const printErrorMessage = message =>
 /** ================================================================
  * Move to given route or error if route not found
  * @param {number} shortName - question to route to
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const pushToRoute = (shortName, router) => {
+export const pushToRoute = (shortName, router, updateCurrentPage) => {
   const newRoute = ROUTES?.[shortName];
+  updateCurrentPage(shortName);
 
   if (newRoute) {
     router.push(newRoute);
@@ -70,16 +72,16 @@ export const getLastQuestionAnswered = formResponses => {
  * When the Back button is clicked, find the last question that was answered
  * in the flow based on service period response and direct user back there
  * @param {object} formResponses - all answers in the store
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const onResultsBackClick = (formResponses, router) => {
+export const onResultsBackClick = (
+  formResponses,
+  router,
+  updateCurrentPage,
+) => {
   const previousQuestion = getLastQuestionAnswered(formResponses);
 
-  if (previousQuestion) {
-    return router.push(ROUTES?.[previousQuestion]);
-  }
-
-  printErrorMessage('Unable to find previous question from results page');
-  return router.push(ROUTES.HOME);
+  return pushToRoute(previousQuestion, router, updateCurrentPage);
 };
 
 /** ================================================================

@@ -13,6 +13,7 @@ export const PAW_UPDATE_RADIATION_2_3_A = 'pact-act/PAW_UPDATE_RADIATION_2_3_A';
 export const PAW_UPDATE_RADIATION_2_3_B = 'pact-act/PAW_UPDATE_RADIATION_2_3_B';
 export const PAW_UPDATE_LEJEUNE_2_4 = 'pact-act/PAW_UPDATE_LEJEUNE_2_4';
 export const PAW_UPDATE_FORM_STORE = 'pact-act/PAW_UPDATE_FORM_STORE';
+export const PAW_UPDATE_CURRENT_PAGE = 'pact-act/PAW_UPDATE_CURRENT_PAGE';
 
 // Except for HOME and results pages, left side must match
 // short name codes in constants/question-data-map
@@ -31,8 +32,8 @@ export const ROUTES = Object.freeze({
   RADIATION_2_3_A: 'radiation-2-3-A',
   RADIATION_2_3_B: 'radiation-2-3-B',
   LEJEUNE_2_4: 'lejeune-2-4',
-  RESULTS_1_P1: 'results-1-1',
-  RESULTS_1_P2: 'results-1-2',
+  RESULTS_1_1: 'results-1-1',
+  RESULTS_1_2: 'results-1-2',
   RESULTS_2: 'results-2',
   RESULTS_3: 'results-3',
 });

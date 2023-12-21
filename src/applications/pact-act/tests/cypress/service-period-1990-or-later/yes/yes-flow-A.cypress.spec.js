@@ -1,5 +1,6 @@
 import * as h from '../../helpers';
 import { ROUTES } from '../../../../constants';
+import { QUESTION_MAP } from '../../../../constants/question-data-map';
 
 // Flow A
 // Service Period - 1990 or later
@@ -29,17 +30,19 @@ describe('PACT Act', () => {
       h.clickContinue();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
-      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
+      h.verifyElement(h.RESULTS_1_1_HEADER);
+      h.verifyTextWithoutSelector(QUESTION_MAP.RESULTS_1_1);
       h.clickResultsContinue();
 
       // RESULTS 1, P2
-      h.verifyUrl(ROUTES.RESULTS_1_P2);
-      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_2);
+      h.verifyElement(h.RESULTS_1_2_HEADER);
+      h.verifyTextWithoutSelector(QUESTION_MAP.RESULTS_1_2);
       h.clickResultsBack();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
 
       // BURN_PIT_2_1
