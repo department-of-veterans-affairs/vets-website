@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-// import mockData from '../../constants/mock-representative-data.json';
-
 import { representativeTypes } from '../../config';
-
 import { setFocus } from '../../utils/helpers';
 import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
@@ -16,14 +13,7 @@ import SearchResult from './SearchResult';
 const ResultsList = props => {
   const searchResultTitle = useRef();
 
-  const {
-    inProgress,
-    searchResults,
-    // pagination,
-    // currentQuery,
-    query,
-    // sortType,
-  } = props;
+  const { inProgress, searchResults, query } = props;
 
   useEffect(
     () => {
@@ -33,12 +23,7 @@ const ResultsList = props => {
     [searchResults, inProgress, props.error],
   );
 
-  // const currentPage = pagination ? pagination.currentPage : 1;
-
-  const renderResultItems = (
-    searchQuery,
-    // apiResults
-  ) => {
+  const renderResultItems = searchQuery => {
     const sQuery = searchQuery;
     return (
       <>
@@ -54,9 +39,7 @@ const ResultsList = props => {
                 {index > 0 ? <hr /> : null}
 
                 <SearchResult
-                  organization={
-                    result.attributes.fullName || result.attributes.name
-                  }
+                  officer={result.attributes.fullName || result.attributes.name}
                   key={result.id}
                   type={result.type}
                   addressLine1={result.attributes.addressLine1}

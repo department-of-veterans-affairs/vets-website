@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { getVitalsList } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
+import { isArrayAndHasItems } from '../util/helpers';
 
 export const getVitals = () => async dispatch => {
   try {
@@ -12,9 +13,11 @@ export const getVitals = () => async dispatch => {
   }
 };
 
-export const getVitalDetails = vitalType => async dispatch => {
+export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
   try {
-    await dispatch(getVitals());
+    if (!isArrayAndHasItems(vitalList)) {
+      await dispatch(getVitals());
+    }
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
