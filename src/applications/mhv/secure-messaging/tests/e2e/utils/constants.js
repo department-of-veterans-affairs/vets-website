@@ -48,7 +48,22 @@ export const Locators = {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
-  InboxPage: {
-    COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',
+  ALERTS: {
+    NO_ASSOCIATION: '',
+    NO_ASSOCIATION_AT_ALL: '',
+  },
+};
+
+export const Alerts = {
+  NO_ASSOCIATION: {
+    HEADER: '',
+    PARAGRAPH: '',
+    LINK: '',
+  },
+  NO_ASSOCIATION_AT_ALL: {
+    HEADER: 'You’re not connected to any care teams in this messaging tool',
+    PARAGRAPH:
+      'If you need to contact your care tam, call your VA health facility.',
+    LINK: 'Find your VA health facility',
   },
 };
