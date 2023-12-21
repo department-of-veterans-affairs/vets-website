@@ -58,11 +58,12 @@ export default {
         childName: {
           'ui:title': 'Enter the child’s name',
           'ui:options': {
+            classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'Veteran’s child',
+            expandUnderCondition: 'CHILD',
           },
-          'ui:required': form =>
-            get(['recipients'], form) === 'Veteran’s child',
+          'ui:required': (form, index) =>
+            get(['careExpenses', index, 'recipients'], form) === 'CHILD',
         },
         provider: {
           'ui:title': 'What’s the name of the care provider?',
@@ -117,10 +118,10 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.values(recipientOptions)),
+            recipients: radioSchema(Object.keys(recipientOptions)),
             childName: { type: 'string' },
             provider: { type: 'string' },
-            careType: radioSchema(Object.values(careOptions)),
+            careType: radioSchema(Object.keys(careOptions)),
             ratePerHour: { type: 'number' },
             hoursPerWeek: { type: 'number' },
             careDateRange: {
@@ -128,7 +129,7 @@ export default {
               required: ['from'],
             },
             noCareEndDate: { type: 'boolean' },
-            paymentFrequency: radioSchema(Object.values(frequencyOptions)),
+            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
             paymentAmount: { type: 'number' },
           },
         },

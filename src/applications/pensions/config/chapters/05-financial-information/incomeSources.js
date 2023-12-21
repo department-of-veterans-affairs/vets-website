@@ -44,11 +44,10 @@ export default {
           'ui:title': 'Please specify',
           'ui:options': {
             expandUnder: 'typeOfIncome',
-            expandUnderCondition: typeOfIncomeOptions.OTHER,
+            expandUnderCondition: 'OTHER',
           },
           'ui:required': (form, index) =>
-            get(['incomeSources', index, 'typeOfIncome'], form) ===
-            typeOfIncomeOptions.OTHER,
+            get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER',
         },
         receiver: {
           'ui:title': 'Who receives this income?',
@@ -86,7 +85,7 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.values(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
             otherTypeExplanation: { type: 'string' },
             receiver: { type: 'string' },
             payer: { type: 'string' },
