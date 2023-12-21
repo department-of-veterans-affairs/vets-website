@@ -8,10 +8,13 @@ import {
 } from '../../utilities/results-1-2-accordions';
 import { pageSetup } from '../../utilities/page-setup';
 import { BATCHES, BATCH_MAP } from '../../constants/question-batches';
-import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import {
+  QUESTION_MAP,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
 
 const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
-  const H1 = 'Apply for VA benefits now';
+  const H1 = QUESTION_MAP.RESULTS_1_2;
 
   useEffect(() => {
     pageSetup(H1);
@@ -28,7 +31,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
 
   return (
     <>
-      <h1 data-testid="paw-results-1-p2">{H1}</h1>
+      <h1 data-testid="paw-results-1-2">{H1}</h1>
       <p>
         Here’s how to apply for VA disability compensation and health care
         online now.
@@ -38,19 +41,17 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           File a claim for disability compensation
         </h2>
         <p>
-          If you think you’re eligible, we encourage you to file a claim for
-          disability compensation now.
+          If you think you might be eligible, we encourage you to file a claim
+          now.
         </p>
-        <h3>Check presumptive conditions</h3>
+        <h3>Related presumptive conditions</h3>
         <p>
           Here are the presumptive conditions we think may apply to you based on
-          your answers.
+          your answers. If your condition isn’t listed here, you can still file
+          a claim. If we don’t consider your condition presumptive, you’ll need
+          to provide evidence that your service caused your condition.
         </p>
-        <va-accordion
-          class="vads-u-margin-top--4"
-          bordered
-          data-testid="paw-results-s1p2"
-        >
+        <va-accordion class="vads-u-margin-top--4" bordered>
           {getDynamicAccordions(formResponses).map((accordion, index) => (
             <va-accordion-item
               level="4"
@@ -82,11 +83,11 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         <h3>
           How to file a claim for a condition you haven’t filed a claim for yet
         </h3>
-        <p>You can file a claim now.</p>
         <p>
-          Already get disability compensation for a different condition? We
-          still encourage you to file a claim for any condition you believe your
-          service caused. You may be able to get additional or other benefits.
+          You can file a claim now. Even if you already get disability payments,
+          we encourage you to file a claim for any other conditions you believe
+          your service caused. You may be able to get additional or other
+          benefits.
         </p>
         <a
           className="vads-c-action-link--blue"
@@ -94,7 +95,16 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         >
           File a disability compensation claim
         </a>
-        <h3>How to file a claim for a condition we’ve denied in the past</h3>
+        <a
+          className="vads-u-margin-top--3 vads-u-display--block"
+          href="/disability/eligibility/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more about eligibility for disability benefits (opens in a new
+          tab)
+        </a>
+        <h3>How to file a claim for a condition we denied in the past</h3>
         <p>
           If we now consider your condition presumptive under the PACT Act, you
           can file a Supplemental Claim. We’ll reconsider your claim.
@@ -147,7 +157,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         back
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
-        onClick={() => router.push(ROUTES.RESULTS_1_P1)}
+        onClick={() => router.push(ROUTES.RESULTS_1_1)}
       />
     </>
   );

@@ -6,12 +6,26 @@ import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
 import { getDynamicContent } from '../../utilities/results-1-1-dynamic-content';
+import {
+  QUESTION_MAP,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import { updateCurrentPage } from '../../actions';
 
-const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
-  const H1 = 'You may be eligible for VA benefits';
+const Results1Page1 = ({
+  formResponses,
+  router,
+  viewedIntroPage,
+  updateTheCurrentPage,
+}) => {
+  const H1 = QUESTION_MAP.RESULTS_1_1;
 
   useEffect(() => {
     pageSetup(H1);
+
+    // For setting the current page (for breadcrumbs)
+    // when coming back from Results 1-2
+    updateTheCurrentPage(SHORT_NAME_MAP.RESULTS_1_1);
   });
 
   useEffect(
@@ -25,16 +39,18 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
 
   return (
     <>
-      <h1 data-testid="paw-results-1-p1">{H1}</h1>
+      <h1 data-testid="paw-results-1-1">{H1}</h1>
       <p>
         You may be eligible for benefits, including a monthly disability
         compensation payment and VA health care.
       </p>
       <p>
         Based on where you told us you served, we think you may have had
-        exposure to a toxic substance. We call this a “presumption of exposure.”
+        exposure to a toxic substance. We automatically assume (or “presume”)
+        that these exposures cause certain health conditions. We call these
+        “presumptive conditions.”
       </p>
-      <h2>Presumptive exposure locations we think may apply to you</h2>
+      <h2>Exposures related to where you served</h2>
       <ul>{getDynamicContent(formResponses)}</ul>
       <h2>What this means for you</h2>
       <p>
@@ -48,8 +64,9 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
       </p>
       <Link
         className="vads-c-action-link--green"
-        data-testid="paw-results-1-p1-continue"
-        to={ROUTES.RESULTS_1_P2}
+        data-testid="paw-results-1-1-continue"
+        onClick={() => updateTheCurrentPage(SHORT_NAME_MAP.RESULTS_1_2)}
+        to={ROUTES.RESULTS_1_2}
       >
         Learn more about presumptive conditions and what to do next
       </Link>
@@ -57,7 +74,9 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
         back
         class="vads-u-margin-top--3 vads-u-display--block"
         data-testid="paw-results-back"
-        onClick={() => onResultsBackClick(formResponses, router)}
+        onClick={() =>
+          onResultsBackClick(formResponses, router, updateTheCurrentPage)
+        }
       />
     </>
   );
@@ -68,6 +87,7 @@ Results1Page1.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  updateTheCurrentPage: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -76,4 +96,11 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.pactAct?.viewedIntroPage,
 });
 
-export default connect(mapStateToProps)(Results1Page1);
+const mapDispatchToProps = {
+  updateTheCurrentPage: updateCurrentPage,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Results1Page1);
