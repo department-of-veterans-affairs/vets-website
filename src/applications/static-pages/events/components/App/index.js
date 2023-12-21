@@ -1,7 +1,5 @@
-// Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
 import Events from '../Events';
 import { fleshOutRecurringEvents, removeDuplicateEvents } from '../../helpers';
 

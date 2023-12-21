@@ -293,16 +293,21 @@ export const checkOrSetSessionExpiration = response => {
   return false;
 };
 
-export const logoutUrlSiS = () => {
+export const logoutUrlSiS = ({ queryParams = {} } = {}) => {
   const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
   const clientId = sessionStorage.getItem(COOKIES.CI);
+  const { searchParams } = url;
 
-  url.searchParams.append(
+  searchParams.append(
     OAUTH_KEYS.CLIENT_ID,
     clientId && Object.values(CLIENT_IDS).includes(clientId)
       ? clientId
       : CLIENT_IDS.VAWEB,
   );
+
+  Object.entries(queryParams).forEach(([key, value]) => {
+    searchParams.append(key, value);
+  });
 
   return url.href;
 };

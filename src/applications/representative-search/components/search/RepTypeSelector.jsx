@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { claimsAgentIsEnabled } from '../../config';
 
 const RepTypeSelector = ({ onChange, representativeType }) => {
   const handleRadioButtonSelect = event => {
@@ -20,10 +21,10 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           onVaValueChange={handleRadioButtonSelect}
         >
           <va-radio-option
-            label="Veteran Service Organization"
+            label="Veteran Service Officer"
             name="group"
-            value="organization"
-            checked={representativeType === 'organization'}
+            value="officer"
+            checked={representativeType === 'officer'}
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
@@ -35,14 +36,16 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
-          <va-radio-option
-            label="Claims agent"
-            name="group"
-            value="claim_agents"
-            checked={representativeType === 'claim_agents'}
-            radioOptionSelected={handleRadioButtonSelect}
-            vaValueChange={handleRadioButtonSelect}
-          />
+          {claimsAgentIsEnabled && (
+            <va-radio-option
+              label="Claims agent"
+              name="group"
+              value="claim_agents"
+              checked={representativeType === 'claim_agents'}
+              radioOptionSelected={handleRadioButtonSelect}
+              vaValueChange={handleRadioButtonSelect}
+            />
+          )}
         </VaRadio>
 
         <div style={{ marginTop: '2em' }}>
@@ -61,12 +64,12 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
                 How can each type of accredited representative help me?
               </h3>
               <p>
-                <strong>Veteran Service Organization (VSO)</strong>{' '}
-                representatives can help you gather evidence and file your
-                claims, decision reviews, and appeals. They can also communicate
-                with VA about your case on your behalf. Examples of VSOs include
-                the American Legion, County Veteran Service Offices, Disabled
-                American Veterans, and Veterans of Foreign Wars.
+                <strong>Veteran Service Officer (VSO)</strong> representatives
+                can help you gather evidence and file your claims, decision
+                reviews, and appeals. They can also communicate with VA about
+                your case on your behalf. Examples of VSOs include the American
+                Legion, County Veteran Service Offices, Disabled American
+                Veterans, and Veterans of Foreign Wars.
               </p>
               <p>
                 VSO representatives have completed training and passed tests
@@ -80,12 +83,14 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
                 must be a member in good standing of the bar association.
                 Attorneys can charge fees for their services.
               </p>
-              <p>
-                <strong>Claims agents</strong> usually work on decision reviews
-                and appeals. They’re independent professionals who have passed a
-                test about VA claims and benefits. Claims agents can charge fees
-                for their services.
-              </p>
+              {claimsAgentIsEnabled && (
+                <p>
+                  <strong>Claims agents</strong> usually work on decision
+                  reviews and appeals. They’re independent professionals who
+                  have passed a test about VA claims and benefits. Claims agents
+                  can charge fees for their services.
+                </p>
+              )}
             </va-accordion-item>
           </va-accordion>
         </div>

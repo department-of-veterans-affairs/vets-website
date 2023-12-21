@@ -32,12 +32,6 @@ describe('Medical Records Health Conditions', () => {
     // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
 
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

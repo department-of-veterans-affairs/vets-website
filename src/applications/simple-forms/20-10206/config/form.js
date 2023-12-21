@@ -6,7 +6,6 @@ import manifest from '../manifest.json';
 // we're NOT using JSON Schema for this form, so we don't need to import it
 
 import IntroductionPage from '../containers/IntroductionPage';
-import signInHelpList from '../components/SignInHelpList';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import persInfoPg from '../pages/personalInfo';
@@ -22,7 +21,7 @@ import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
 import additionalRecordsInformationPg from '../pages/additionalRecordsInformation';
 import associatedVARegionalOfficePg from '../pages/associatedVARegionalOffice';
-import { PREPARER_TYPES, RECORD_TYPES } from './constants';
+import { PREPARER_TYPES, RECORD_TYPES, SUBTITLE, TITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 
@@ -59,7 +58,6 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
-  signInHelpList, // custom SIP-alert content
   formId: '20-10206',
   // hideUnauthedStartLink: true,
   transformForSubmit,
@@ -78,7 +76,8 @@ const formConfig = {
     notFound: 'Please start over to request personal records.',
     noAuth: 'Please sign in again to continue your Personal records request.',
   },
-  title: 'Request personal records',
+  title: TITLE,
+  subTitle: SUBTITLE,
   defaultDefinitions: {
     privacyAgreementAccepted: {
       type: 'boolean',
