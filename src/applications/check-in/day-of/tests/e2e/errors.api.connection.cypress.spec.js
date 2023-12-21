@@ -123,13 +123,8 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
-<<<<<<< HEAD
   describe('Patient who encounters an error when patching demographics', () => {
     it('should redirect to the generic error page', () => {
-=======
-  describe('fail at demographics PATCH', () => {
-    it('attempt check in, failed on demographics update', () => {
->>>>>>> af99e5482f (updated to demo fail.)
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withFailure();
