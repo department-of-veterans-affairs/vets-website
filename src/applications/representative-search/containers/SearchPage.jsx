@@ -318,9 +318,9 @@ const SearchPage = props => {
         <div className="title-section vads-u-padding-y--1">
           <h1>Find a VA accredited representative</h1>
           <p>
-            Find an accredited representative to help you file a claim, submit
-            an appeal, or request a decision review. Then contact them to ask if
-            they’re available to help.
+            Find a representative who can help you file a claim or request a
+            decision review. Then contact them to ask if they’re available to
+            help.
           </p>
         </div>
 
