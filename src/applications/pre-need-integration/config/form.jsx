@@ -62,6 +62,10 @@ import {
   MailingAddressStateTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
+import {
+  ContactDetailsTitle,
+  PreparerDetailsTitle,
+} from '../components/PreparerHelpers';
 
 const {
   claimant,
@@ -167,14 +171,14 @@ const formConfig = {
           schema: preparer.schema,
         },
         preparerDetails: {
-          title: 'Preparer details',
+          title: PreparerDetailsTitle,
           path: 'preparer-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerDetails.uiSchema,
           schema: preparerDetails.schema,
         },
         preparerContactDetails: {
-          title: 'Preparer contact details',
+          title: ContactDetailsTitle,
           path: 'preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerContactDetails.uiSchema,
