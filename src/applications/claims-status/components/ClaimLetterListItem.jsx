@@ -8,7 +8,7 @@ import { DATE_FORMATS } from '../constants';
 import { buildDateFormatter } from '../utils/helpers';
 
 const getDownloadUrl = (id, docType) =>
-  `${environment.API_URL}/v0/claim_letters/${id}?documentType=${docType}`;
+  `${environment.API_URL}/v0/claim_letters/${id}?document_type=${docType}`;
 
 const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
