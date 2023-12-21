@@ -5,15 +5,17 @@ import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.js
 import mockRecipients from '../fixtures/recipients-response.json';
 
 class SecureMessagingLandingPage {
-  loadMainPage = (user = mockUser, messages = mockGeneralMessages) => {
+  loadMainPage = (
+    recipients = mockRecipients,
+    user = mockUser,
+    messages = mockGeneralMessages,
+  ) => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'featureToggles',
     );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/allrecipients',
-      mockRecipients,
-    ).as('Recipients');
+    cy.intercept('GET', '/my_health/v1/messaging/allrecipients', recipients).as(
+      'Recipients',
+    );
     cy.intercept('GET', '/v0/user', user).as('user');
     cy.intercept(
       'GET',

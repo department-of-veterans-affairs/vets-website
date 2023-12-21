@@ -4,6 +4,7 @@ import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-assosiations-recipients-response.json';
+import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 // import mockThread from '../fixtures/thread-response.json';
 
 describe('Verify thread - No association with particular Triage Group', () => {
@@ -11,6 +12,9 @@ describe('Verify thread - No association with particular Triage Group', () => {
   const landingPage = new PatientInboxPage();
 
   it('landing page view', () => {
+    site.login();
+    secureMessagingLandingPage.loadMainPage(mockNoRecipients);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -19,6 +23,8 @@ describe('Verify thread - No association with particular Triage Group', () => {
         },
       },
     });
+
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
   });
 
   it('inbox page view', () => {
