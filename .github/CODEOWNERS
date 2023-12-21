@@ -165,7 +165,6 @@ src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-v
 
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/health-care-supply-reordering @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 
 # My Education Benefits Team
@@ -208,10 +207,6 @@ src/applications/static-pages/view-modify-dependents @department-of-veterans-aff
 # Flagship Mobile Reviewers
 src/applications/static-pages/subscription-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
-
-# VA CTO Health Products
-
-src/applications/static-pages/covid-vaccine-updates-cta @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
 
 # VAOS
 

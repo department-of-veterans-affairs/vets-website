@@ -25,10 +25,6 @@
       "slackGroup": "@cto-health-products"
     },
     {
-      "rootFolder": "coronavirus-vaccination",
-      "slackGroup": "@cto-health-products"
-    },
-    {
       "rootFolder": "education-letters",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
       "continuousDeployment": false
