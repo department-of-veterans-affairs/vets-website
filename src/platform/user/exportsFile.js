@@ -62,7 +62,7 @@ export {
 } from './authentication/components/LoginButton';
 export {
   logoSrc,
-  LoginContainer,
+  default as LoginContainer,
 } from './authentication/components/LoginContainer';
 export {
   default as LoginGovSVG,
