@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import Results1P2 from '../../containers/results/Results1-P2';
+import Results12 from '../../containers/results/Results1-2';
 import { RESPONSES } from '../../constants/question-data-map';
 import { ROUTES } from '../../constants';
 
@@ -33,7 +33,7 @@ describe('Results Set 1 Page 2', () => {
 
       render(
         <Provider store={mockStoreNoIntroPage}>
-          <Results1P2 {...propsNoIntroPage} />
+          <Results12 {...propsNoIntroPage} />
         </Provider>,
       );
 
@@ -61,7 +61,7 @@ describe('Results Set 1 Page 2', () => {
     it('should correctly load the results page', () => {
       const screen = render(
         <Provider store={mockStore}>
-          <Results1P2 formResponses={{}} router={() => {}} viewedIntroPage />,
+          <Results12 formResponses={{}} router={() => {}} viewedIntroPage />,
         </Provider>,
       );
 
@@ -90,7 +90,7 @@ describe('Results Set 1 Page 2', () => {
     it('should correctly load the results page', () => {
       const screen = render(
         <Provider store={mockStore}>
-          <Results1P2 formResponses={{}} router={() => {}} viewedIntroPage />,
+          <Results12 formResponses={{}} router={() => {}} viewedIntroPage />,
         </Provider>,
       );
 
@@ -124,7 +124,7 @@ describe('Results Set 1 Page 2', () => {
     it('should correctly load the results page', () => {
       const screen = render(
         <Provider store={mockStore}>
-          <Results1P2 formResponses={{}} router={() => {}} viewedIntroPage />,
+          <Results12 formResponses={{}} router={() => {}} viewedIntroPage />,
         </Provider>,
       );
 
