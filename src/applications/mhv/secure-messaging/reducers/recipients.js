@@ -37,11 +37,7 @@ export const recipientsReducer = (state = initialState, action) => {
           .map(recipient => formatRecipient(recipient)),
 
         blockedRecipients: action.response.data
-          .filter(
-            recipient =>
-              recipient.attributes.blockedStatus === true &&
-              recipient.attributes.preferredTeam === true,
-          )
+          .filter(recipient => recipient.attributes.blockedStatus === true)
           .map(recipient => formatRecipient(recipient)),
 
         preferredTeams: action.response.data
