@@ -5,8 +5,6 @@ import { connect, useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors';
-import { ProfileLink } from '@@profile/components/ProfileLink';
-import { PROFILE_PATHS } from '@@profile/constants';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
@@ -166,11 +164,9 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
 
       {profileShowProofOfVeteranStatus && (
-        <ProfileLink
-          className="vads-u-display--block vads-u-margin-top--4"
-          href={PROFILE_PATHS.VETERAN_STATUS}
-          text="View proof of Veteran status"
-        />
+        <div className="vads-u-margin-top--4">
+          Proof of Veteran Status download placeholder
+        </div>
       )}
 
       <div className="vads-u-margin-top--4">

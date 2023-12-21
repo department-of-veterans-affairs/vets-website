@@ -79,12 +79,20 @@ export const Hub = () => {
 
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
-          content="Military branches and dates of service"
+          content={
+            profileShowProofOfVeteranStatus
+              ? 'Military branches, dates of service, and proof of Veteran status'
+              : 'Military branches and dates of service'
+          }
         >
           <>
             <ProfileLink
               className="vads-u-display--block vads-u-margin-bottom--2"
-              text="Review your military information"
+              text={
+                profileShowProofOfVeteranStatus
+                  ? 'Review your military information and download your proof of Veteran status'
+                  : 'Review your military information'
+              }
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
@@ -92,13 +100,6 @@ export const Hub = () => {
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />
-            {profileShowProofOfVeteranStatus && (
-              <ProfileLink
-                className="vads-u-display--block vads-u-margin-top--2"
-                href={PROFILE_PATHS.VETERAN_STATUS}
-                text="View proof of Veteran status"
-              />
-            )}
           </>
         </HubCard>
 

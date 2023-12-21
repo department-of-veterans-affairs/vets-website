@@ -9,7 +9,7 @@ import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
 // the routesForNav array is used in the routes file to build the routes
-// the veteran status, edit and hub routes are not present in the routesForNav array because
+// the edit and hub routes are not present in the routesForNav array because
 // they are not shown in nav UI
 export const routesForNav = [
   {
