@@ -1,16 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FacilityPhone from '../../../components/FacilityPhone';
 import InfoAlert from '../../../components/InfoAlert';
 import { getFacilityPhone } from '../../../services/location';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
-export default function NoOnlineCancelAlert({
-  appointment,
-  facility,
-  isCompAndPenAppointment,
-}) {
+export default function NoOnlineCancelAlert({ appointment, facility }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const { isPastAppointment } = appointment.vaos;
+  const { isPastAppointment, isCompAndPenAppointment } = appointment.vaos;
 
   if (canceled || isPastAppointment) {
     return null;
@@ -58,3 +55,30 @@ export default function NoOnlineCancelAlert({
     </InfoAlert>
   );
 }
+
+NoOnlineCancelAlert.propTypes = {
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool,
+      isCompAndPenAppointment: PropTypes.bool,
+    }),
+  }),
+
+  facility: PropTypes.shape({
+    name: PropTypes.string,
+    telecom: PropTypes.array,
+  }),
+};
+
+NoOnlineCancelAlert.defaultProps = {
+  appointment: {
+    status: 'booked',
+    vaos: {
+      isPastAppointment: false,
+      isCompAndPenAppointment: false,
+    },
+  },
+
+  facility: null,
+};
