@@ -32,7 +32,7 @@ import {
   setReturnState,
   getReturnState,
   clearReturnState,
-  renderTelephone,
+  getPhoneString,
   getMissingInfo,
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
@@ -231,6 +231,8 @@ const ContactInfo = ({
     </va-alert>
   );
 
+  const homePhoneString = getPhoneString(dataWrap[keys.homePhone]);
+  const mobilePhoneString = getPhoneString(dataWrap[keys.mobilePhone]);
   const editText = content.edit.toLowerCase();
 
   // Loop to separate pages when editing
@@ -243,7 +245,7 @@ const ContactInfo = ({
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-          {renderTelephone(dataWrap[keys.homePhone])}
+          <va-telephone contact={homePhoneString} not-clickable />
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
@@ -264,7 +266,7 @@ const ContactInfo = ({
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
-          {renderTelephone(dataWrap[keys.mobilePhone])}
+          <va-telephone contact={mobilePhoneString} not-clickable />
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">

@@ -264,18 +264,14 @@ export const getPhoneString = (phoneObject = {}) =>
   `${phoneObject?.areaCode || ''}${phoneObject?.phoneNumber || ''}`.trim();
 
 /**
- * Render telephone & extension
+ * Render telephone
  * @param {phoneObject} phoneObject
  * @returns {Element|null}
  */
 export const renderTelephone = (phoneObject = {}) => {
   const phoneString = getPhoneString(phoneObject);
   return phoneString ? (
-    <va-telephone
-      contact={phoneString}
-      extension={phoneObject?.extension}
-      not-clickable
-    />
+    <va-telephone contact={phoneString} not-clickable />
   ) : null;
 };
 
