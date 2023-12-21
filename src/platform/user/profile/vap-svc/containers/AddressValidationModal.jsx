@@ -11,12 +11,12 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { hasBadAddress } from '../selectors';
 import {
   openModal,
   createTransaction,
