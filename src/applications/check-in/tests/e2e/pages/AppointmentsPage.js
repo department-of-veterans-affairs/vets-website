@@ -98,6 +98,16 @@ class AppointmentsPage {
     });
   };
 
+  clickUpcomingAppointmentDetails = (appointment = 2) => {
+    cy.get(
+      `section[data-testid="upcoming-appointments"] li:nth-child(${appointment}) [data-testid="details-link"]`,
+    )
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
+  };
+
   attemptCheckIn = () => {
     cy.get('[data-testid="action-link"]')
       .first()

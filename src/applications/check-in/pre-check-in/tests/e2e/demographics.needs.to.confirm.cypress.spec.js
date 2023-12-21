@@ -7,7 +7,7 @@ import NextOfKin from '../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import AppointmentDetails from '../../../tests/e2e/pages/AppointmentDetails';
-import Appointments from '../../../day-of/tests/e2e/pages/Appointments';
+import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
 
 describe('Check In Experience | Pre-check-in', () => {
   describe('A patient who clicks details from appointments list page, then clicks to verify info from details and completes pre-check-in', () => {
@@ -36,8 +36,8 @@ describe('Check In Experience | Pre-check-in', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
-      Appointments.validatePageLoaded();
-      Appointments.clickDetails();
+      AppointmentsPage.validatePageLoaded();
+      AppointmentsPage.clickUpcomingAppointmentDetails();
 
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateSubtitleInPerson();
