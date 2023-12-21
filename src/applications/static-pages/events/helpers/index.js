@@ -1,4 +1,3 @@
-// Node modules.
 import moment from 'moment-timezone';
 import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
@@ -22,10 +21,8 @@ export const filterByOptions = [
 ];
 
 export const deriveDefaultSelectedOption = () => {
-  // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);
 
-  // Derive the default selected option.
   return filterByOptions?.find(
     option =>
       queryParams.get('selectedOption')
@@ -38,29 +35,23 @@ export const deriveMostRecentDate = (
   fieldDatetimeRangeTimezone,
   now = moment().unix(), // This is done so that we can mock the current time in tests.
 ) => {
-  // Escape early if no fieldDatetimeRangeTimezone was passed.
   if (!fieldDatetimeRangeTimezone) return fieldDatetimeRangeTimezone;
 
-  // Return back fieldDatetimeRangeTimezone if it is already a singular most recent date.
   if (!isArray(fieldDatetimeRangeTimezone)) {
     return fieldDatetimeRangeTimezone;
   }
 
-  // Return back fieldDatetimeRangeTimezone's first item if it only has 1 item.
   if (fieldDatetimeRangeTimezone?.length === 1) {
     return fieldDatetimeRangeTimezone[0];
   }
 
-  // Derive date times relative to now.
   const dates = sortBy(fieldDatetimeRangeTimezone, 'endValue');
   const futureDates = filter(dates, date => date?.endValue - now > 0);
 
-  // Return the most recent past date if there are no future dates.
   if (isEmpty(futureDates)) {
     return dates[dates?.length - 1];
   }
 
-  // Return the most recent future date if there are future dates.
   return futureDates[0];
 };
 
@@ -128,37 +119,29 @@ export const fleshOutRecurringEvents = events => {
 };
 
 export const deriveResults = (events, page, perPage) => {
-  // Escape early if we do not have events, page, or perPage.
   if (isEmpty(events) || !page || !perPage) {
     return events;
   }
 
-  // Derive the start and end indexes.
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
-  // Return the results.
   return events?.slice(start, end);
 };
 
 export const deriveResultsStartNumber = (page, perPage) => {
-  // Derive the end number.
   const endNumber = page * perPage;
 
-  // Derive the start number.
   return endNumber - (perPage - 1);
 };
 
 export const deriveResultsEndNumber = (page, perPage, totalResults) => {
-  // Derive the end number.
   const endNumber = page * perPage;
 
-  // If the end number is more than the total results, just show the total results.
   if (endNumber > totalResults) {
     return totalResults;
   }
 
-  // Show the end number.
   return endNumber;
 };
 
@@ -168,14 +151,11 @@ export const filterEvents = (
   options = {},
   now = moment(),
 ) => {
-  // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
   }
 
-  // Filter the events.
   switch (filterBy) {
-    // Upcoming events.
     case 'upcoming': {
       return events
         .filter(event => {
@@ -193,8 +173,6 @@ export const filterEvents = (
         })
         .reduce(keepUniqueEventsFromList, []);
     }
-
-    // Next week.
     case 'next-week': {
       return events
         ?.filter(event =>
@@ -211,8 +189,6 @@ export const filterEvents = (
         )
         .reduce(keepUniqueEventsFromList, []);
     }
-
-    // Next month.
     case 'next-month': {
       return events
         ?.filter(event =>
@@ -229,8 +205,6 @@ export const filterEvents = (
         )
         .reduce(keepUniqueEventsFromList, []);
     }
-
-    // Past events.
     case 'past': {
       // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
       const sortedEvents = [...events]?.sort(
@@ -247,8 +221,6 @@ export const filterEvents = (
         ).isBefore(now.clone()),
       );
     }
-
-    // Custom dates.
     case 'specific-date':
     case 'custom-date-range':
       // Return sorted events if the custom dates are not provided.
@@ -265,7 +237,6 @@ export const filterEvents = (
             options?.endsAtUnix,
           ),
       );
-
     // Default, just give back sorted events.
     default:
       return events;
@@ -277,25 +248,17 @@ export const deriveStartsAtUnix = (
   startDateDay,
   startDateYear,
 ) => {
-  // Escape early if arguments are missing.
   if (!startDateMonth || !startDateDay) {
     return undefined;
   }
 
-  // Derive the startsAt moment.
   let startsAt = moment(
     `${startDateMonth}/${startDateDay}/${startDateYear}`,
     'MM/DD/YYYY',
   );
 
-  // If startsAt is today, then set it to now + 1 hour.
   if (startsAt.isSame(moment(), 'day')) {
     startsAt = moment().add(1, 'hour');
-  }
-
-  // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
-  if (startsAt.isBefore(moment())) {
-    // startsAt.add(1, 'year').unix();
   }
 
   return startsAt.unix();
@@ -307,37 +270,23 @@ export const deriveEndsAtUnix = (
   endDateDay,
   endDateYear,
 ) => {
-  // Escape early if arguments are missing.
   if (!startsAtUnix && (!endDateMonth || !endDateDay)) {
     return undefined;
   }
 
-  // Set a default value for endsAt.
   let endsAt;
 
-  // Make the endsAt the end of the day if there is a start value.
   if (startsAtUnix) {
     endsAt = moment(startsAtUnix * 1000)
       .clone()
       .endOf('day');
   }
 
-  // If there are endsAt fields provided, use those.
   if (endDateMonth && endDateDay) {
     endsAt = moment(
       `${endDateMonth}/${endDateDay}/${endDateYear}`,
       'MM/DD/YYYY',
     ).endOf('day');
-  }
-
-  // If the endsAt is in the past, we need to increase it by a year (since there are only month/day fields).
-  if (endsAt.isBefore(moment())) {
-    // endsAt.add(1, 'year').unix();
-  }
-
-  // If the endsAt is before the startsAt, we need to increase it by another year (since there are only month/day fields).
-  if (endsAt.isBefore(startsAtUnix * 1000)) {
-    // endsAt.add(1, 'year').unix();
   }
 
   return endsAt.unix();
@@ -346,7 +295,6 @@ export const deriveEndsAtUnix = (
 export const deriveEventLocations = event => {
   const locations = [];
 
-  // Escape early if there is no event.
   if (!event) {
     return locations;
   }
@@ -395,18 +343,14 @@ export const deriveEventLocations = event => {
 };
 
 export const updateQueryParams = (queryParamsLookup = {}) => {
-  // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);
 
-  // Set/Delete query params.
   Object.entries(queryParamsLookup).forEach(([key, value]) => {
-    // Set the query param.
     if (value) {
       queryParams.set(key, value);
       return;
     }
 
-    // Remove the query param.
     queryParams.delete(key);
   });
 
@@ -428,14 +372,12 @@ export const deriveFilteredEvents = ({
   startDateMonth,
   startDateYear,
 }) => {
-  // Derive startsAtUnix.
   const startsAtUnix = deriveStartsAtUnix(
     startDateMonth,
     startDateDay,
     startDateYear,
   );
 
-  // Derive endsAtUnix.
   const endsAtUnix = deriveEndsAtUnix(
     startsAtUnix,
     endDateMonth,
@@ -443,7 +385,6 @@ export const deriveFilteredEvents = ({
     endDateYear,
   );
 
-  // Filter events.
   return filterEvents(rawEvents, selectedOption?.value, {
     startsAtUnix,
     endsAtUnix,

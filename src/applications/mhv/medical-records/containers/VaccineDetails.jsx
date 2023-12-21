@@ -12,7 +12,7 @@ import {
   processList,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
+import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -39,6 +39,7 @@ import {
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
+  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -52,9 +53,11 @@ const VaccineDetails = props => {
 
   useEffect(
     () => {
-      if (vaccineId) dispatch(getVaccineDetails(vaccineId));
+      if (vaccineId) {
+        dispatch(getVaccineDetails(vaccineId, vaccines));
+      }
     },
-    [vaccineId, dispatch],
+    [vaccineId, vaccines, dispatch],
   );
 
   useEffect(
