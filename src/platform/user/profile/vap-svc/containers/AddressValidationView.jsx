@@ -6,9 +6,11 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
-import { selectAddressValidation } from 'platform/user/profile/vap-svc/selectors';
+import {
+  selectAddressValidation,
+  hasBadAddress,
+} from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';

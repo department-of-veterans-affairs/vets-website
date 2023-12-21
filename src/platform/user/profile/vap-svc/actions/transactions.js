@@ -10,9 +10,9 @@ import {
   inferAddressType,
 } from 'platform/user/profile/vap-svc/util';
 import { apiRequest } from 'platform/utilities/api';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
+import { hasBadAddress } from '../selectors';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,

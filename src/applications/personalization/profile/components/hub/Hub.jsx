@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import {
-  hasBadAddress as hasBadAddressSelector,
-  selectProfileContactsToggle,
-} from '@@profile/selectors';
+import { selectProfileContactsToggle } from '@@profile/selectors';
+
+import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';

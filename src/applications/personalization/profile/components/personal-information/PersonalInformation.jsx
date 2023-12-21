@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
-import {
-  hasBadAddress,
-  personalInformationLoadError,
-} from '@@profile/selectors';
+import { personalInformationLoadError } from '@@profile/selectors';
+
+import { hasBadAddress } from '@@vap-svc/selectors';
+
 import { PROFILE_PATHS } from '@@profile/constants';
 import DowntimeNotification, {
   externalServices,

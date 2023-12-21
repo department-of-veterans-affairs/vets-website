@@ -159,3 +159,6 @@ export const selectCopyAddressModal = state => {
 export const selectTransactionIntervalId = state => {
   return state?.transactionsIntervalId;
 };
+
+export const hasBadAddress = state =>
+  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
