@@ -1,6 +1,6 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -9,6 +9,7 @@ import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { makeSelectCurrentContext } from '../../../selectors';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
@@ -22,6 +23,10 @@ const TravelPage = ({
   additionalInfoItems,
   pageType,
   router,
+  yesButtonText,
+  yesFunction,
+  noButtonText,
+  noFunction,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -31,14 +36,27 @@ const TravelPage = ({
     jumpToPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
+
   const onClick = event => {
     const answer = event.target.value;
     recordEvent({
-      event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
+      event: createAnalyticsSlug(
+        `${answer}-to-${pageType}${
+          setECheckinStartedCalled ? '-45MR' : ''
+        }-clicked`,
+        'nav',
+      ),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
-    if (answer === 'no') {
+    if (answer === 'no' && noFunction) {
+      noFunction();
+    } else if (answer === 'no') {
       jumpToPage(URLS.DETAILS);
+    } else if (yesFunction) {
+      yesFunction();
     } else {
       goToNextPage();
     }
@@ -98,7 +116,7 @@ const TravelPage = ({
             type="button"
             value="yes"
           >
-            {t('yes')}
+            {yesButtonText || t('yes')}
           </button>
           <button
             onClick={onClick}
@@ -107,7 +125,7 @@ const TravelPage = ({
             type="button"
             value="no"
           >
-            {t('no')}
+            {noButtonText || t('no')}
           </button>
         </>
       </Wrapper>
@@ -122,5 +140,9 @@ TravelPage.propTypes = {
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
+  noButtonText: PropTypes.string,
+  noFunction: PropTypes.func,
+  yesButtonText: PropTypes.string,
+  yesFunction: PropTypes.func,
 };
 export default TravelPage;

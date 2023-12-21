@@ -8,6 +8,8 @@ import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import { PROFILE_PATHS } from '@@profile/constants';
 
+import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
+
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -211,7 +213,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Headline>Military information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
@@ -234,7 +236,15 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           </a>
         </div>
       </va-featured-content>
-    </>
+
+      <DevTools
+        alwaysShowChildren={false}
+        devToolsData={{ militaryInformation, veteranStatus }}
+        panel
+      >
+        <p>Profile devtools test, please ignore.</p>
+      </DevTools>
+    </div>
   );
 };
 

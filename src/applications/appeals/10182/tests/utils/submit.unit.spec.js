@@ -14,7 +14,6 @@ import {
 
 import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
-import { getPhone, removeEmptyEntries } from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
@@ -256,22 +255,6 @@ describe('addUploads', () => {
   });
 });
 
-describe('removeEmptyEntries', () => {
-  it('should remove empty string items', () => {
-    expect(removeEmptyEntries({ a: '', b: 1, c: 'x', d: '' })).to.deep.equal({
-      b: 1,
-      c: 'x',
-    });
-  });
-  it('should not remove null or undefined items', () => {
-    expect(removeEmptyEntries({ a: null, b: undefined, c: 3 })).to.deep.equal({
-      a: null,
-      b: undefined,
-      c: 3,
-    });
-  });
-});
-
 describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
@@ -375,34 +358,6 @@ describe('getAddress', () => {
       countryName: 'Great Britain',
       zipCode5: '00000',
       internationalPostalCode: '55555',
-    });
-  });
-});
-
-describe('getPhone', () => {
-  it('should return a cleaned up phone object', () => {
-    const wrap = obj => ({ veteran: { phone: obj } });
-    expect(getPhone()).to.deep.equal({});
-    expect(getPhone(wrap({}))).to.deep.equal({});
-    expect(getPhone(wrap({ temp: 'test' }))).to.deep.equal({});
-    expect(getPhone(wrap({ areaCode: '111' }))).to.deep.equal({
-      areaCode: '111',
-    });
-    expect(
-      getPhone(
-        wrap({
-          countryCode: '1',
-          areaCode: '222',
-          phoneNumber: '1234567',
-          phoneNumberExt: '0000',
-          extra: 'will not be included',
-        }),
-      ),
-    ).to.deep.equal({
-      countryCode: '1',
-      areaCode: '222',
-      phoneNumber: '1234567',
-      phoneNumberExt: '0000',
     });
   });
 });

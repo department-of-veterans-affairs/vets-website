@@ -25,9 +25,9 @@ export default function DetailsVA({ appointment, facilityData }) {
     isPastAppointment,
     isCompAndPenAppointment,
     isPhoneAppointment,
+    isCancellable: isAppointmentCancellable,
   } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isAppointmentCancellable = appointment.vaos.isCancellable;
 
   const typeOfCareName = selectTypeOfCareName(appointment);
   // we don't want to display the appointment type header for upcoming C&P appointments.
@@ -87,11 +87,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       <PrintLink appointment={appointment} />
       {isAppointmentCancellable && <CancelLink appointment={appointment} />}
       {!isAppointmentCancellable && (
-        <NoOnlineCancelAlert
-          appointment={appointment}
-          facility={facility}
-          isCompAndPenAppointment={isCompAndPenAppointment}
-        />
+        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
       )}
     </>
   );
@@ -101,7 +97,7 @@ DetailsVA.propTypes = {
   appointment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     start: PropTypes.string.isRequired,
-    comment: PropTypes.string.isRequired,
+    comment: PropTypes.string,
     status: PropTypes.string.isRequired,
     vaos: PropTypes.shape({
       isPastAppointment: PropTypes.bool.isRequired,
@@ -120,9 +116,11 @@ DetailsVA.propTypes = {
     }),
   }),
   facilityData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    vistaId: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    locationId: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      vistaId: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
   }),
 };
 
@@ -148,8 +146,10 @@ DetailsVA.defaultProps = {
     },
   },
   facilityData: {
-    id: '',
-    vistaId: '',
-    name: '',
+    locationId: {
+      id: '',
+      vistaId: '',
+      name: '',
+    },
   },
 };

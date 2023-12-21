@@ -72,6 +72,7 @@ class SaveInProgressIntro extends React.Component {
       ariaLabel = null,
       ariaDescribedby = null,
     } = this.props;
+    const { signInHelpList } = formConfig;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -191,7 +192,12 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const H = `h${this.props.headingLevel}`;
-      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const {
+        buttonOnly,
+        retentionPeriod,
+        retentionPeriodStart,
+        unauthStartText,
+      } = this.props;
       const unauthStartButton = (
         <button
           className="usa-button-primary"
@@ -227,24 +233,29 @@ class SaveInProgressIntro extends React.Component {
             <div className="usa-alert-text">
               {this.props.displayNonVeteranMessaging ? (
                 <p>
-                  By signing in, you can save your work in progress.
-                  You&rsquo;ll have {retentionPeriod} from when you start or
-                  make updates to your {appType} to come back and finish it.
+                  By signing in, you can save your work in progress.{' '}
+                  You&rsquo;ll have {retentionPeriod} from{' '}
+                  {retentionPeriodStart} your {appType} to come back and finish
+                  it.
                 </p>
               ) : (
                 <>
                   <p>Here&rsquo;s how signing in now helps you:</p>
-                  <ul>
-                    <li>
-                      We can fill in some of your information for you to save
-                      you time.
-                    </li>
-                    <li>
-                      You can save your work in progress. You&rsquo;ll have{' '}
-                      {retentionPeriod} from when you start or make updates to
-                      your {appType} to come back and finish it.
-                    </li>
-                  </ul>
+                  {signInHelpList ? (
+                    signInHelpList()
+                  ) : (
+                    <ul>
+                      <li>
+                        We can fill in some of your information for you to save
+                        you time.
+                      </li>
+                      <li>
+                        You can save your work in progress. You&rsquo;ll have{' '}
+                        {retentionPeriod} from {retentionPeriodStart} your{' '}
+                        {appType} to come back and finish it.
+                      </li>
+                    </ul>
+                  )}
                 </>
               )}
               <p>
@@ -412,6 +423,7 @@ SaveInProgressIntro.propTypes = {
   children: PropTypes.any,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
@@ -431,6 +443,7 @@ SaveInProgressIntro.propTypes = {
   renderSignInMessage: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
+  retentionPeriodStart: PropTypes.string,
   returnUrl: PropTypes.string,
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
@@ -442,7 +455,8 @@ SaveInProgressIntro.propTypes = {
 
 SaveInProgressIntro.defaultProps = {
   alertTitle: 'Sign in now to save your work in progress',
-  retentionPeriod: '60 days',
+  retentionPeriod: '60 days', // from
+  retentionPeriodStart: 'when you start or make updates to', // your {appType}
   unauthStartText: '',
   formConfig: {
     customText: {

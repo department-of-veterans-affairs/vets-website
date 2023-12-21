@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -10,6 +13,7 @@ import { medicationsUrls } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 
 const LandingPage = () => {
+  const user = useSelector(selectUser);
   const location = useLocation();
   const fullState = useSelector(state => state);
   const { featureTogglesLoading, appEnabled } = useSelector(
@@ -34,7 +38,7 @@ const LandingPage = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
     if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current.scrollIntoView();
+      manageMedicationsAccordionSection.current?.scrollIntoView();
     }
   };
 
@@ -207,7 +211,7 @@ const LandingPage = () => {
                     And if you have prescriptions that are too old to refill or
                     have no refills left, you’ll need to renew them to get more.
                   </p>
-                  <a href="/my-health/about-medications/accordion-renew-rx">
+                  <a href="/my-health/medications/about/accordion-renew-rx">
                     Learn how to renew prescriptions
                   </a>
                 </va-accordion-item>
@@ -460,7 +464,7 @@ const LandingPage = () => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
@@ -468,15 +472,23 @@ const LandingPage = () => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
   return (
-    <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
-      {content()}
-    </div>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.USER_PROFILE]}
+    >
+      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+        {content()}
+      </div>
+    </RequiredLoginView>
   );
 };
 

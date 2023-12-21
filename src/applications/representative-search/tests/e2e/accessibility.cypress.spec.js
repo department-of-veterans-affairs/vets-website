@@ -50,15 +50,14 @@ describe('Accessibility', () => {
     });
 
     // Verify focused on rep/org input
-    cy.get(
-      'input[name="Organization or Accredited Representative Name"]',
-    ).focused();
-    cy.get(
-      'input[name="Organization or Accredited Representative Name"]',
-    ).trigger('keydown', {
-      keyCode: 9,
-      which: 9,
-    });
+    cy.get('input[name="Officer or Accredited Representative Name"]').focused();
+    cy.get('input[name="Officer or Accredited Representative Name"]').trigger(
+      'keydown',
+      {
+        keyCode: 9,
+        which: 9,
+      },
+    );
 
     // Verify focused on Search button
     cy.get('button[id="representative-search"]').focused();

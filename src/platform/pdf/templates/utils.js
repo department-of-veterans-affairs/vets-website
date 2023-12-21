@@ -82,16 +82,15 @@ const addHorizontalRule = (
   linesAbove = 0.5,
   linesBelow = 0.5,
 ) => {
+  doc.markContent('Artifact');
   doc.moveDown(linesAbove);
-
-  // TODO add alternative text.
-  doc.markContent('Artifact', { type: 'Layout' });
   doc
     .moveTo(0 + spaceFromEdge, doc.y)
     .lineTo(doc.page.width - spaceFromEdge, doc.y)
     .stroke();
 
   doc.moveDown(linesBelow);
+  doc.endMarkedContent();
   return doc;
 };
 
@@ -221,7 +220,7 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
     right: 16,
   };
 
-  const header = doc.struct('Sect', {
+  const header = doc.struct('Div', {
     type: 'Pagination',
     title: 'Header',
     attached: 'Top',
@@ -246,13 +245,12 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
  * Generates Final Header Content
  *
  * @param {Object} doc
- * @param {Object} parent parent struct
  * @param {Object} data PDF data
  * @param {Object} config layout config
  *
  * @returns {void}
  */
-const generateFinalHeaderContent = async (doc, parent, data, config) => {
+const generateFinalHeaderContent = async (doc, data, config) => {
   const pages = doc.bufferedPageRange();
   for (let i = 1; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -266,22 +264,15 @@ const generateFinalHeaderContent = async (doc, parent, data, config) => {
       right: 16,
     };
 
-    const header = doc.struct('Artifact', {
-      type: 'Pagination',
-      title: 'Header',
-      attached: 'Top',
-    });
-    parent.add(header);
-    const leftOptions = { continued: true, x: 16, y: 12 };
-    header.add(createArtifactText(doc, config, data.headerLeft, leftOptions));
-    const rightOptions = { align: 'right' };
-    header.add(createArtifactText(doc, config, data.headerRight, rightOptions));
-    header.end();
+    doc.markContent('Artifact');
+    doc.text(data.headerLeft, 16, 12);
+    doc.text(data.headerRight, 16, 12, { align: 'right' });
+    doc.endMarkedContent();
   }
 };
 
 /**
- * Generates Final Header Content
+ * Generates Footer Content
  *
  * @param {Object} doc
  * @param {Object} parent parent struct
@@ -304,36 +295,24 @@ const generateFooterContent = async (doc, parent, data, config) => {
       right: 16,
     };
 
-    const groupingStruct = i === pages.count - 1 ? 'Struct' : 'Artifact';
-    const footer = doc.struct(groupingStruct, {
-      type: 'Pagination',
-      title: 'Footer',
-      attached: 'Bottom',
-    });
-    parent.add(footer);
+    // Only allow the last footer element to be read by screen readers
+    const footer =
+      i === pages.count - 1
+        ? doc.markStructureContent('Div')
+        : doc.markContent('Artifact');
 
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
-    const footerLeftOptions = {
-      continued: true,
-      x: config.margins.left,
-      y: 766,
-    };
-    const footerRightOptions = { align: 'right' };
 
-    // Only allow the last footer element to be read by screen readers.
+    doc.text(data.footerLeft, config.margins.left, 766);
+    doc.text(footerRightText, config.margins.left, 766, { align: 'right' });
+
+    doc.endMarkedContent();
+
+    // only structural content needs to be added to parent
     if (i === pages.count - 1) {
-      footer.add(createSpan(doc, config, data.footerLeft, footerLeftOptions));
-      footer.add(createSpan(doc, config, footerRightText, footerRightOptions));
-    } else {
-      footer.add(
-        createArtifactText(doc, config, data.footerLeft, footerLeftOptions),
-      );
-      footer.add(
-        createArtifactText(doc, config, footerRightText, footerRightOptions),
-      );
+      parent.add(footer);
     }
-    footer.end();
   }
 };
 
@@ -427,9 +406,17 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     const paragraphOptions = {
       continued: !!element.continued,
       lineGap: 2,
-      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+      ...(i === item.value.length - 1 && {
+        paragraphGap: element?.paragraphGap ?? 6,
+      }),
     };
-
+    if (element?.itemSeperator) {
+      if (doc.y > doc.page.height - doc.page.margins.bottom) {
+        // eslint-disable-next-line no-await-in-loop
+        await doc.addPage();
+      }
+      addHorizontalRule(doc, ...Object.values(element.itemSeperatorOptions));
+    }
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
@@ -444,7 +431,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       content.push(
         doc.struct('Span', () => {
           doc
-            .font(font)
+            .font(element?.font ?? font)
             .fontSize(config.text.size)
             .text(element.value, x, doc.y, paragraphOptions);
         }),
@@ -480,17 +467,21 @@ const createImageDetailItem = async (doc, config, x, item) => {
       }),
     );
   }
-
-  const image = await fetch(item.value.value);
-  const contentType = image.headers.get('Content-type');
-  const imageBuffer = await image.arrayBuffer();
-  const base64 = `data:${contentType};base64,${Buffer.from(
-    imageBuffer,
-  ).toString('base64')}`;
+  let image = item.value.value;
+  if (!item.value.isBase64) {
+    const fetchedImage = await fetch(item.value.value);
+    const contentType = fetchedImage.headers.get('Content-type');
+    const imageBuffer = await fetchedImage.arrayBuffer();
+    image = `data:${contentType};base64,${Buffer.from(imageBuffer).toString(
+      'base64',
+    )}`;
+  }
 
   content.push(
     doc.struct('P', () => {
-      doc.image(base64, x, doc.y);
+      doc.moveDown(0.5);
+      doc.image(image, x, doc.y, item.value?.options);
+      doc.moveDown(0.5);
     }),
   );
 

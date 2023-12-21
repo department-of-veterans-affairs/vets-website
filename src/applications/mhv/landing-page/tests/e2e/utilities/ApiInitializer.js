@@ -25,6 +25,7 @@ class ApiInitializer {
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
+          mhvLandingPagePersonalization: false,
         }),
       );
     },
@@ -34,6 +35,7 @@ class ApiInitializer {
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
+          mhvLandingPagePersonalization: true,
         }),
       );
     },

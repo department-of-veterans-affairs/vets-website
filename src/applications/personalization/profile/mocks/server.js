@@ -70,7 +70,7 @@ const responses = {
             profileShowPaymentsNotificationSetting: true,
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
-            showAuthenticatedMenuEnhancements: true,
+            profileUseExperimental: true,
           }),
         ),
       secondsOfDelay,

@@ -67,7 +67,7 @@ class PatientInboxPage {
     if (getFoldersStatus === 200) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
+        `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
         mockFolders,
       ).as('folders');
     } else {
@@ -164,7 +164,10 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleThread = (testThread = mockThread) => {
+  loadSingleThread = (testSingleThread = mockThread) => {
+    this.singleThread = testSingleThread;
+    const currentDate = new Date();
+    this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
     cy.log('loading single thread details.');
     cy.intercept(
       'GET',
@@ -176,11 +179,13 @@ class PatientInboxPage {
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
       }/thread`,
-      testThread,
+      this.singleThread,
     ).as('full-thread');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED}/${testThread.data[0].attributes.messageId}`,
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
       mockFirstMessage,
     ).as('fist-message-in-thread');
 
@@ -374,7 +379,7 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  navigateToComposePage = () => {
+  navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
@@ -382,7 +387,9 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    PatientInterstitialPage.CheckFocusOnVcl();
+    if (checkFocusOnVcl) {
+      PatientInterstitialPage.CheckFocusOnVcl();
+    }
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
@@ -577,6 +584,66 @@ class PatientInboxPage {
   getInboxHeader = text => {
     cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
+
+  verifyCernerFacilityNames(user, ehrData) {
+    this.user = user;
+    this.ehrData = ehrData;
+    let cernerIndex = 0;
+    let cernerCount = 0;
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      if (facility.isCerner) {
+        cernerCount += 1;
+      }
+    }
+
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      cy.log(` i = ${i}`);
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      let facilityName = '';
+
+      if (facility.isCerner) {
+        const facilityId = `vha_${facility.facilityId}`;
+        cy.log(`id = ${facilityId}`);
+        for (let j = 0; j < ehrData.data.nodeQuery.entities.length; j += 1) {
+          if (
+            ehrData.data.nodeQuery.entities[j].fieldFacilityLocatorApiId ===
+            facilityId
+          ) {
+            facilityName =
+              ehrData.data.nodeQuery.entities[j].fieldRegionPage.entity.title;
+          }
+        }
+        cy.log(`name = ${facilityName}`);
+        if (cernerCount === 0) {
+          cy.get('[data-testid="cerner-facilities-alert"]').should(
+            'not.be.visible',
+          );
+        } else if (cernerCount === 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="single-cerner-facility-text"]')
+            .contains(facilityName);
+          break;
+        } else if (cernerCount > 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="cerner-facility"]')
+            .eq(cernerIndex)
+            .contains(facilityName);
+        }
+        cernerIndex += 1;
+      }
+    }
+  }
 }
 
 export default PatientInboxPage;

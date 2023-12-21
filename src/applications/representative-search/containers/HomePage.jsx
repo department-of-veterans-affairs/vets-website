@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { claimsAgentIsEnabled } from '../config';
 
 export default function HomePage() {
   // const handleSearchRedirect = e => {
@@ -34,11 +35,17 @@ export default function HomePage() {
           style={{ marginBottom: 20 }}
         >
           <FormTitle title="Find an accredited representative" />
-          <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
-            An accredited attorney, claims agent, or Veterans Service Officer
-            (VSO) can help you file VA claims and appeals.
-          </p>
-
+          {claimsAgentIsEnabled ? (
+            <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
+              An accredited attorney, claims agent, or Veterans Service Officer
+              (VSO) can help you file VA claims and appeals.
+            </p>
+          ) : (
+            <p className="vads-u-font-family--serif vads-u-font-size--h3 vads-u-font-weight--normal vads-u-padding-bottom--1">
+              Accredited attorneys and Veterans Service Officers (VSO) can help
+              you file VA claims and appeals.
+            </p>
+          )}
           <h2>Follow these steps to find and appoint a representative</h2>
 
           <va-process-list>
@@ -145,7 +152,7 @@ export default function HomePage() {
           <h2>Manually print and fill out your form</h2>
           <p>
             If you'd like to appoint a VSO, fill out an Appointment of Veterans
-            Service Organization as Claimant's Representative (VA Form 21-22).
+            Service Officer as Claimant's Representative (VA Form 21-22).
           </p>
 
           <va-link
@@ -156,9 +163,9 @@ export default function HomePage() {
             text="Download VA Form 21-22"
           />
           <p>
-            If you'd like to appoint an attorney or claims agent, fill out an
-            Appointment of individual as Claimant's Representative (VA Form
-            21-22a).
+            If you'd like to appoint an attorney{' '}
+            {claimsAgentIsEnabled && `or claims agent`}, fill out an Appointment
+            of individual as Claimant's Representative (VA Form 21-22a).
           </p>
           <va-link
             download
