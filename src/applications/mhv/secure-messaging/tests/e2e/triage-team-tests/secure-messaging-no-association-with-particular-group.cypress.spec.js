@@ -107,7 +107,7 @@ describe('No association with particular Triage Group', () => {
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 
-  it('existing draft', () => {
+  it('existing draft in thread', () => {
     const mockThreadWithDraft = {
       ...mockThread,
       data: [
@@ -171,5 +171,213 @@ describe('No association with particular Triage Group', () => {
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+  });
+
+  it('existing single draft', () => {
+    const mockSingleDraft = {
+      ...mockThread,
+      data: [
+        {
+          ...mockThread.data[0],
+          attributes: {
+            ...mockThread.data[0].attributes,
+            draftDate: new Date().toISOString(),
+            recipientName: mockRecipients.data[0].attributes.name,
+            triageGroupName: mockRecipients.data[0].attributes.name,
+            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            sentDate: null,
+          },
+        },
+      ],
+    };
+
+    site.login();
+
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      removedFirstRecipientsList,
+    );
+
+    landingPage.loadSingleThread(mockSingleDraft);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and(
+        'include.text',
+        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+      );
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'closed');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+  });
+
+  it('detailed view - older than 45 day', () => {
+    const currentDate = new Date();
+    const fortyFiveDaysAgo = new Date();
+    fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
+
+    const oldThreadWithNoAssociatedTG = {
+      ...mockThread,
+      data: [
+        {
+          ...mockThread.data[0],
+          attributes: {
+            ...mockThread.data[0].attributes,
+            sentDate: fortyFiveDaysAgo.toISOString(),
+            recipientName: mockRecipients.data[0].attributes.name,
+            triageGroupName: mockRecipients.data[0].attributes.name,
+            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+          },
+        },
+        ...mockThread.data,
+      ],
+    };
+
+    site.login();
+
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      removedFirstRecipientsList,
+    );
+    landingPage.loadSingleThread(oldThreadWithNoAssociatedTG, fortyFiveDaysAgo);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and(
+        'include.text',
+        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+      );
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'closed');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+  });
+
+  it('existing draft - older than 45 days', () => {
+    const currentDate = new Date();
+    const fortyFiveDaysAgo = new Date();
+
+    fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
+    const mockThreadWithOldDraft = {
+      ...mockThread,
+      data: [
+        {
+          ...mockThread.data[0],
+          attributes: {
+            ...mockThread.data[0].attributes,
+            draftDate: fortyFiveDaysAgo.toISOString(),
+            recipientName: mockRecipients.data[0].attributes.name,
+            triageGroupName: mockRecipients.data[0].attributes.name,
+            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            sentDate: null,
+          },
+        },
+        ...mockThread.data,
+      ],
+    };
+
+    site.login();
+
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      removedFirstRecipientsList,
+    );
+
+    landingPage.loadSingleThread(
+      mockThreadWithOldDraft,
+      fortyFiveDaysAgo,
+      fortyFiveDaysAgo,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and(
+        'include.text',
+        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+      );
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'closed');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 });

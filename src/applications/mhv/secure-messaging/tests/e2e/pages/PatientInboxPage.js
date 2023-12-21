@@ -152,10 +152,14 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleThread = (testSingleThread = mockThread) => {
+  loadSingleThread = (
+    testSingleThread = mockThread,
+    sentDate = mockThread.data[0].attributes.sentDate,
+    draftDate = mockThread.data[0].attributes.draftDate,
+  ) => {
     this.singleThread = testSingleThread;
-    const currentDate = new Date();
-    this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
+    this.singleThread.data[0].attributes.sentDate = sentDate;
+    this.singleThread.data[0].attributes.draftDate = draftDate;
     cy.log('loading single thread details.');
     cy.intercept(
       'GET',
