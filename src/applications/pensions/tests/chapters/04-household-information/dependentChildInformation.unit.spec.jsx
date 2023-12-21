@@ -49,7 +49,7 @@ describe('Child information page', () => {
     );
 
     expect($$('input[type=text], va-text-input', container).length).to.equal(2);
-    expect($$('va-radio', container).length).to.equal(4);
+    expect($$('input[type=radio], va-radio', container).length).to.equal(5);
     expect($('input#root_view\\:noSSN', container)).to.exist;
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -136,10 +136,8 @@ describe('Child information page', () => {
       new CustomEvent('selected', { detail: { value: 'N' } }),
     );
 
-    const disabled = $('va-radio[name="root_disabled"]', container);
-    disabled.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'N' } }),
-    );
+    const disabled = $('input[name="root_disabled"]', container);
+    fireEvent.click(disabled);
 
     const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
     prevMarried.__events.vaValueChange(

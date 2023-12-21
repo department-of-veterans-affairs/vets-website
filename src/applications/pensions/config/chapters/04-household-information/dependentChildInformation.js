@@ -93,24 +93,22 @@ export default {
             expandUnder: 'attendingCollege',
           },
         },
-        disabled: merge(
-          {},
-          yesNoUI({
-            title: 'Is your child seriously disabled?',
-            description: dependentSeriouslyDisabledDescription,
-            // uiOptions
+        // unable to use yesNoUI, because description is not being respected
+        disabled: {
+          'ui:title': 'Is your child seriously disabled?',
+          'ui:description': dependentSeriouslyDisabledDescription,
+          'ui:required': (formData, index) =>
+            !isEligibleForDisabilitySupport(
+              get(['dependents', index, 'childDateOfBirth'], formData),
+            ),
+          'ui:options': {
             hideIf: (formData, index) =>
               isEligibleForDisabilitySupport(
                 get(['dependents', index, 'childDateOfBirth'], formData),
               ),
-          }),
-          {
-            'ui:required': (formData, index) =>
-              !isEligibleForDisabilitySupport(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
           },
-        ),
+          'ui:widget': 'yesNo',
+        },
         'view:disabilityDocs': {
           'ui:description': disabilityDocs,
           'ui:options': {
