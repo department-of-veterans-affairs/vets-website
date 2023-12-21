@@ -1,7 +1,5 @@
-// Node modules.
 import moment from 'moment-timezone';
 import { expect } from 'chai';
-// Relative imports.
 import {
   deriveEndsAtUnix,
   deriveEventLocations,
@@ -14,42 +12,35 @@ import { createEvent } from './event-generator';
 
 describe('deriveMostRecentDate', () => {
   it('returns the argument fieldDatetimeRangeTimezone when it is falsey', () => {
-    // Setup.
     const fieldDatetimeRangeTimezone = undefined;
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone)).to.eq(
       fieldDatetimeRangeTimezone,
     );
   });
 
   it('returns the most recent date when fieldDatetimeRangeTimezone is an object', () => {
-    // Setup.
     const fieldDatetimeRangeTimezone = {
       value: 1642014000,
       endValue: 1642017600,
     };
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone)).to.deep.eq(
       fieldDatetimeRangeTimezone,
     );
   });
 
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 1', () => {
-    // Setup.
     const fieldDatetimeRangeTimezone = [
       { value: 1642014000, endValue: 1642017600 },
     ];
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone)).to.deep.eq(
       fieldDatetimeRangeTimezone[0],
     );
   });
 
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only past dates', () => {
-    // Setup.
     const now = 1642030600;
     const fieldDatetimeRangeTimezone = [
       { value: 1642014000, endValue: 1642017600 },
@@ -57,7 +48,6 @@ describe('deriveMostRecentDate', () => {
       { value: 1642025600, endValue: 1642029600 },
     ];
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
       value: 1642025600,
       endValue: 1642029600,
@@ -65,7 +55,6 @@ describe('deriveMostRecentDate', () => {
   });
 
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are past and future dates', () => {
-    // Setup.
     const now = 1642019600;
     const fieldDatetimeRangeTimezone = [
       { value: 1642014000, endValue: 1642017600 },
@@ -73,7 +62,6 @@ describe('deriveMostRecentDate', () => {
       { value: 1642025600, endValue: 1642029600 },
     ];
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
       value: 1642017000,
       endValue: 1642020600,
@@ -81,7 +69,6 @@ describe('deriveMostRecentDate', () => {
   });
 
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only future dates', () => {
-    // Setup.
     const now = 1642014000;
     const fieldDatetimeRangeTimezone = [
       { value: 1642014000, endValue: 1642017600 },
@@ -89,7 +76,6 @@ describe('deriveMostRecentDate', () => {
       { value: 1642025600, endValue: 1642029600 },
     ];
 
-    // Assertions.
     expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
       value: 1642014000,
       endValue: 1642017600,
