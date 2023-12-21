@@ -1,8 +1,15 @@
 import React from 'react';
-import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 import { expect } from 'chai';
+import { renderWithProfileReducers as render } from '../profile/tests/unit-test-helpers';
 
 import NameTag from './NameTag';
+
+const NULL_USER = {
+  first: '',
+  middle: '',
+  last: '',
+  suffix: '',
+};
 
 const getInitialState = () => ({
   vaProfile: {
@@ -11,6 +18,7 @@ const getInitialState = () => ({
         first: 'Johnnie',
         middle: 'Leonard',
         last: 'Weaver',
+        suffix: '',
       },
     },
     militaryInformation: {
@@ -36,6 +44,12 @@ const getInitialState = () => ({
     },
   },
 });
+
+const withUserFullName = (userFullName = { ...NULL_USER }) => {
+  const initialState = getInitialState();
+  initialState.vaProfile.hero.userFullName = userFullName;
+  return render(<NameTag />, { initialState });
+};
 
 describe('<NameTag>', () => {
   context(
@@ -109,4 +123,33 @@ describe('<NameTag>', () => {
       });
     },
   );
+
+  context('when capitalizing middle initials', () => {
+    it('should capitalize single letter, middle initials', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'H g',
+        last: 'Miller',
+      });
+      view.getAllByText('Max H G Miller');
+    });
+
+    it('should capitalize middle initials with punctuation', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'h. G.',
+        last: 'Miller',
+      });
+      view.getAllByText('Max H. G. Miller');
+    });
+
+    it('should not capitalize full word, middle names', () => {
+      const view = withUserFullName({
+        first: 'Max',
+        middle: 'de Rosa',
+        last: 'Miller',
+      });
+      view.getAllByText('Max de Rosa Miller');
+    });
+  });
 });
