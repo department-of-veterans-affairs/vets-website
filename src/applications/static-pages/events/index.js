@@ -1,10 +1,8 @@
-// Node modules.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import cookie from 'js-cookie';
 
-// Related imports.
 import App from './components/App';
 import { generateTestEvents } from './helpers/event-generator';
 
