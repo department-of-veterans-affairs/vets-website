@@ -96,9 +96,12 @@ describe('Health conditions list container with no health conditions', () => {
     );
 
     expect(
-      screen.getByText('You don’t have any records in Health conditions', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no health conditions in your VA medical records.',
+        {
+          exact: false,
+        },
+      ),
     ).to.exist;
   });
 });
@@ -166,9 +169,12 @@ describe('Health conditions list container with no health conditions', () => {
     });
 
     expect(
-      screen.getByText('You don’t have any records in Health conditions', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no health conditions in your VA medical records.',
+        {
+          exact: false,
+        },
+      ),
     ).to.exist;
   });
 });
