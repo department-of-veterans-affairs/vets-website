@@ -6,8 +6,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+
+import formConfig from '../../config/form';
 
 describe('Child address page', () => {
   const {
@@ -15,7 +16,7 @@ describe('Child address page', () => {
     uiSchema,
     arrayPath,
     title,
-  } = formConfig.chapters.householdInformation.pages.childrenAddress;
+  } = formConfig.chapters.householdInformation.pages.dependentChildAddress;
   const nameData = {
     'view:hasDependents': true,
     dependents: [
