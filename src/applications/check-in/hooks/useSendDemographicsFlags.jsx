@@ -8,6 +8,7 @@ import { makeSelectCurrentContext } from '../selectors';
 const useSendDemographicsFlags = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [error, setError] = useState(false);
 
   const {
     getShouldSendDemographicsFlags,
@@ -30,12 +31,14 @@ const useSendDemographicsFlags = () => {
           .patchDayOfDemographicsData(demographicsData)
           .then(resp => {
             if (resp.data.error || resp.data.errors) {
-              throw new Error();
+              setError(true);
             } else {
               setShouldSendDemographicsFlags(window, false);
             }
           })
-          .catch(() => {})
+          .catch(() => {
+            setError(true);
+          })
           .finally(() => {
             setIsComplete(true);
             setIsLoading(false);
@@ -58,6 +61,7 @@ const useSendDemographicsFlags = () => {
     demographicsFlagsEmpty,
     isLoading,
     isComplete,
+    error,
   };
 };
 
