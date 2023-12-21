@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generateTextFile,
   getNameDateAndTime,
@@ -22,17 +23,21 @@ import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo'
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import {
   ALERT_TYPE_ERROR,
-  EMPTY_FIELD,
   accessAlertTypes,
   pageTitles,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import { txtLine } from '../../shared/util/constants';
+import {
+  txtLine,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../shared/util/constants';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -80,11 +85,8 @@ const ConditionDetails = props => {
     () => {
       if (record?.name) {
         focusElement(document.querySelector('h1'));
-        const titleDate = record !== EMPTY_FIELD ? `${record} - ` : '';
         updatePageTitle(
-          `${titleDate}${record.name} - ${
-            pageTitles.HEALTH_CONDITIONS_PAGE_TITLE
-          }`,
+          `${record.name} - ${pageTitles.HEALTH_CONDITIONS_PAGE_TITLE}`,
         );
       }
     },
@@ -142,7 +144,11 @@ const ConditionDetails = props => {
 
   const generateConditionTxt = async () => {
     const content = `
+${crisisLineHeader}\n\n
 ${record.name} \n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Date entered: ${record.date} \n
 ${txtLine} \n
 Provider: ${record.provider} \n
