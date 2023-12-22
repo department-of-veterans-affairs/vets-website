@@ -428,7 +428,7 @@ module.exports = async (env = {}) => {
           parallel: true,
         }),
       ],
-      // runtimeChunk: 'single',
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
