@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
+import { addDays, subDays, format } from 'date-fns';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 
@@ -33,6 +34,15 @@ describe('App', () => {
       breadcrumbs: {
         list: [],
       },
+    },
+  };
+  const noDowntime = {
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get() {} },
+      dismissedDowntimeWarnings: [],
     },
   };
 
@@ -97,6 +107,7 @@ describe('App', () => {
           mhv_secure_messaging_to_va_gov_release: true,
         },
         ...initialState,
+        ...noDowntime,
       },
       reducers: reducer,
       path: `/`,
@@ -106,6 +117,49 @@ describe('App', () => {
       screen.getByText(
         'Communicate privately and securely with your VA health care team online.',
       ),
+    );
+  });
+
+  it('renders the downtime notification', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: {
+            attributes: {
+              externalService: 'mhv',
+              startTime: format(
+                subDays(new Date(), 1),
+                "yyyy-LL-dd'T'HH:mm:ss",
+              ),
+              endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            },
+          },
+          isReady: true,
+          isPending: false,
+          serviceMap: {
+            get() {},
+          },
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(
+      screen.getByText('This tool is down for maintenance', {
+        selector: 'h3',
+        exact: true,
+      }),
+    );
+    expect(
+      screen.getByText('We’re making some updates to this tool', {
+        exact: false,
+      }),
     );
   });
 });
