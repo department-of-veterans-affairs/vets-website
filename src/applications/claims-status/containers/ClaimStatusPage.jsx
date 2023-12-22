@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
@@ -255,12 +256,16 @@ class ClaimStatusPage extends React.Component {
           <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
-          <ClaimTimeline
-            id={claim.id}
-            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-            currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={generateEventTimeline(claim)}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+            <Toggler.Disabled>
+              <ClaimTimeline
+                id={claim.id}
+                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            </Toggler.Disabled>
+          </Toggler>
         ) : null}
       </div>
     );

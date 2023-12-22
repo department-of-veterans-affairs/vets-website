@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, IndexRedirect, Redirect } from 'react-router';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import YourClaimLetters from './containers/YourClaimLetters';
 import ClaimPage from './containers/ClaimPage';
@@ -45,7 +46,11 @@ const routes = (
       <Route component={ClaimStatusPage} path="status" />,
       <Route component={FilesPage} path="files" />,
       <Route component={DetailsPage} path="details" />,
-      <Route component={OverviewPage} path="overview" />,
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <Toggler.Enabled>
+          <Route component={OverviewPage} path="overview" />,
+        </Toggler.Enabled>
+      </Toggler>
       <Route component={AskVAPage} path="ask-va-to-decide" />,
       <Route
         component={DocumentRequestPage}

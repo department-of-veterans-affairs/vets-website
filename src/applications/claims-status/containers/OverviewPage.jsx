@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
@@ -12,7 +12,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 // END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
-import ClaimTimelineV2 from '../components/ClaimTimelineV2';
+import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -180,7 +180,7 @@ const generateEventTimeline = claim => {
   return eventPhases;
 };
 
-class OverviewPage extends React.Component {
+class ClaimStatusPage extends React.Component {
   componentDidMount() {
     this.setTitle();
 
@@ -242,13 +242,6 @@ class OverviewPage extends React.Component {
 
     return (
       <div>
-        <h2>
-          Overview of the claim process
-          <p>
-            Learn about the VA claim process and what happens after you file your
-            claim.
-          </p>
-        </h2>
         {showDocsNeeded ? (
           <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
         ) : null}
@@ -262,7 +255,7 @@ class OverviewPage extends React.Component {
           <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
-          <ClaimTimelineV2
+          <ClaimTimeline
             id={claim.id}
             phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
             currentPhaseBack={claimPhaseDates.currentPhaseBack}
@@ -334,7 +327,7 @@ const mapDispatchToProps = {
   clearNotification,
 };
 
-OverviewPage.propTypes = {
+ClaimStatusPage.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
@@ -349,6 +342,6 @@ OverviewPage.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(OverviewPage);
+)(ClaimStatusPage);
 
-export { OverviewPage };
+export { ClaimStatusPage };
