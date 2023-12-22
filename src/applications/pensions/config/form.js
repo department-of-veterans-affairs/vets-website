@@ -903,12 +903,12 @@ const formConfig = {
                   'ui:title': 'Is your child seriously disabled?',
                   'ui:description': dependentSeriouslyDisabledDescription,
                   'ui:required': (formData, index) =>
-                    !isEligibleForDisabilitySupport(
+                    isEligibleForDisabilitySupport(
                       get(['dependents', index, 'childDateOfBirth'], formData),
                     ),
                   'ui:options': {
                     hideIf: (formData, index) =>
-                      isEligibleForDisabilitySupport(
+                      !isEligibleForDisabilitySupport(
                         get(
                           ['dependents', index, 'childDateOfBirth'],
                           formData,
