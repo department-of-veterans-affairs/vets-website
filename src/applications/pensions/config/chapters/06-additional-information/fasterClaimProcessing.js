@@ -4,7 +4,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 const { noRapidProcessing } = fullSchemaPensions.properties;
 
-const description = (
+const Description = (
   <div className="vads-u-margin-bottom--1">
     <p>
       If you’ve uploaded all your supporting documents, you may be able to get a
@@ -18,7 +18,7 @@ const description = (
   </div>
 );
 
-export const fdcWarning = (
+export const FdcWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
@@ -28,7 +28,7 @@ export const fdcWarning = (
   </div>
 );
 
-export const noFDCWarning = (
+export const NoFDCWarning = (
   <div className="usa-alert usa-alert-info background-color-only">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
@@ -44,7 +44,7 @@ export const noFDCWarning = (
 export default {
   uiSchema: {
     'ui:title': 'Faster claim processing (optional)',
-    'ui:description': description,
+    'ui:description': Description,
     noRapidProcessing: {
       'ui:title':
         'Do you want to use the Fully Developed Claims program to apply?',
@@ -59,14 +59,14 @@ export default {
       },
     },
     fdcWarning: {
-      'ui:description': fdcWarning,
+      'ui:description': FdcWarning,
       'ui:options': {
         expandUnder: 'noRapidProcessing',
         expandUnderCondition: false,
       },
     },
     noFDCWarning: {
-      'ui:description': noFDCWarning,
+      'ui:description': NoFDCWarning,
       'ui:options': {
         expandUnder: 'noRapidProcessing',
         expandUnderCondition: true,

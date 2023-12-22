@@ -1,6 +1,6 @@
 import React from 'react';
 
-function description({ formData }) {
+function Description({ formData }) {
   const hasSchoolChild = (formData.dependents || []).some(
     child => child.attendingCollege,
   );
@@ -146,7 +146,7 @@ function description({ formData }) {
 export default {
   uiSchema: {
     'ui:title': 'Supporting documents',
-    'ui:description': description,
+    'ui:description': Description,
   },
   schema: {
     type: 'object',

@@ -7,7 +7,7 @@ import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/
 
 const { files } = fullSchemaPensions.definitions;
 
-const description = (
+const Description = (
   <div>
     <p>
       You can submit your supporting documents using any of the options listed
@@ -29,7 +29,7 @@ const description = (
   </div>
 );
 
-const uploadMessage = (
+const UploadMessage = (
   <div>
     <h3>Option 2: Submit your documents online through AccessVA</h3>
 
@@ -64,13 +64,13 @@ const uploadMessage = (
 export default {
   uiSchema: {
     'ui:title': 'Submit your supporting documents',
-    'ui:description': description,
+    'ui:description': Description,
     files: fileUploadUI('', {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       hideLabelText: true,
     }),
     'view:uploadMessage': {
-      'ui:description': uploadMessage,
+      'ui:description': UploadMessage,
     },
   },
   schema: {
