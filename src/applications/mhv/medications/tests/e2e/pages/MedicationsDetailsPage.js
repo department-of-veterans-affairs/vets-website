@@ -238,5 +238,69 @@ class MedicationsDetailsPage {
   verifyMedicationImageVisibleOnDetailsPage = () => {
     cy.get('[data-testid="review-rx-image"] > img').should('be.visible');
   };
+
+  verifyRefillHistoryHeaderOnDetailsPage = () => {
+    cy.get('[data-testid="refill-History"]').should(
+      'contain',
+      'Refill history',
+    );
+  };
+
+  verifyFirstRefillHeaderTextOnDetailsPage = () => {
+    cy.get('[data-testid="refill"]')
+      .first()
+      .should('contain', 'Refill 1');
+  };
+
+  verifyFillDateFieldOnDetailsPage = () => {
+    cy.get('[data-testid="fill-date"]').should(
+      'contain',
+      'Filled by pharmacy on',
+    );
+  };
+
+  verifyShippedOnDateFieldOnDetailsPage = () => {
+    cy.get('[data-testid="shipped-date"]').should('contain', 'Shipped on');
+  };
+
+  verifyImageOfMedicationFieldOnDetailsPage = () => {
+    cy.get('[data-testid="med-image"]').should(
+      'contain',
+      'Image of the medication or supply',
+    );
+  };
+
+  verifyRxFilledByPharmacyDateOnDetailsPage = dispensedDate => {
+    cy.get('[data-testid="dispensedDate"]')
+      .first()
+      .should('contain', dispensedDate);
+  };
+
+  verifyRxShippedOnDateOnDetailsPage = shippedDate => {
+    cy.get('[data-testid="shipped-on"]')
+      .first()
+      .should('contain', shippedDate);
+  };
+
+  verifyNoImageFieldMessageOnDetailsPage = () => {
+    cy.get('[data-testid="no-image"]').should('contain', 'No image available');
+  };
+
+  verifyCmopNdcNumberIsNull = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get('@prescriptionDetails')
+      .its('response')
+      .then(res => {
+        expect(res.body.data.attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
 }
 export default MedicationsDetailsPage;
