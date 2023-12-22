@@ -117,7 +117,7 @@ class SaveInProgressIntro extends React.Component {
           const H = `h${this.props.headingLevel}`;
           includesFormControls = true;
           alert = (
-            <va-alert status="info" background-only uswds visible>
+            <va-alert status="info" uswds visible>
               <div className="schemaform-sip-alert-title">
                 <H className="usa-alert-heading vads-u-font-size--h3">
                   {inProgressMessage} {savedAt && 'and was last saved on '}
@@ -144,7 +144,7 @@ class SaveInProgressIntro extends React.Component {
         } else {
           alert = (
             <div>
-              <va-alert status="warning" background-only uswds visible>
+              <va-alert status="warning" uswds visible>
                 <div className="schemaform-sip-alert-title">
                   <strong>Your {appType} has expired</strong>
                 </div>
