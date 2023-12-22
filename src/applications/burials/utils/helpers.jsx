@@ -220,3 +220,11 @@ export const generateHelpText = text => {
     <span className="vads-u-color--gray vads-u-margin-left--0p25">{text}</span>
   );
 };
+
+// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
+export function isEligibleNonService(veteranBurialDate) {
+  return moment()
+    .startOf('day')
+    .subtract(2, 'years')
+    .isBefore(veteranBurialDate);
+}

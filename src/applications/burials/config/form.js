@@ -1,16 +1,9 @@
-import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import moment from 'moment';
 import { createSelector } from 'reselect';
-// import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import {
-  validateBooleanGroup,
-  validateCurrentOrPastDate,
-} from 'platform/forms-system/src/js/validation';
-import { isFullDate } from 'platform/forms/validations';
+import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -23,51 +16,39 @@ import * as address from 'platform/forms/definitions/address';
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import {
-  addressSchema,
-  addressUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import ApplicantDescription from '../components/ApplicantDescription';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
+import { validateCentralMailPostalCode } from '../utils/validation';
+
+import personalInformation from './chapters/01-claimant-information/personalInformation';
+import relationshipToVeteran from './chapters/01-claimant-information/relationshipToVeteran';
+import mailingAddress from './chapters/01-claimant-information/mailingAddress';
+import contactInformation from './chapters/01-claimant-information/contactInformation';
+import veteranInformationPartOne from './chapters/02-veteran-information/veteranInformationPartOne';
+import veteranInformationPartTwo from './chapters/02-veteran-information/veteranInformationPartTwo';
+import burialInformationPartOne from './chapters/02-veteran-information/burialInformationPartOne';
+import burialInformationPartTwo from './chapters/02-veteran-information/burialInformationPartTwo';
+
 import {
+  isEligibleNonService,
   BurialDateWarning,
   fileHelp,
   transportationWarning,
   serviceRecordNotification,
   serviceRecordWarning,
   submit,
-  generateHelpText,
-  generateDescription,
-} from '../helpers';
-import {
-  relationshipLabels,
-  locationOfDeathLabels,
-  allowanceLabels,
-} from '../labels';
-import {
-  validateBurialAndDeathDates,
-  validateCentralMailPostalCode,
-} from '../validation';
+} from '../utils/helpers';
+import { allowanceLabels } from '../utils/labels';
 import migrations from '../migrations';
 
 import manifest from '../manifest.json';
 
 const {
-  claimantFullName,
-  claimantSocialSecurityNumber,
-  claimantDateOfBirth,
-  veteranFullName,
-  locationOfDeath,
-  burialDate,
-  deathDate,
   claimantEmail,
   claimantPhone,
   toursOfDuty,
@@ -85,15 +66,8 @@ const {
   transportation,
   amountIncurred,
   previousNames,
-  veteranSocialSecurityNumber,
-  veteranDateOfBirth,
-  // placeOfBirth,
   officialPosition,
   firmName,
-  vaFileNumber,
-  relationship,
-  // facilityName,
-  // facilityLocation,
 } = fullSchemaBurials.properties;
 
 const {
@@ -105,14 +79,6 @@ const {
   files,
   dateRange,
 } = fullSchemaBurials.definitions;
-
-// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
-function isEligibleNonService(veteranBurialDate) {
-  return moment()
-    .startOf('day')
-    .subtract(2, 'years')
-    .isBefore(veteranBurialDate);
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -161,181 +127,29 @@ const formConfig = {
     claimantInformation: {
       title: 'Your Information',
       pages: {
-        claimantInformationPartOne: {
+        personalInformation: {
           title: 'Your information',
-          path: 'claimant-information/part-one',
-          uiSchema: {
-            'ui:description': formContext => (
-              <>
-                <ApplicantDescription formContext={formContext} />
-                {generateDescription('Personal information')}
-                <va-alert
-                  close-btn-aria-label="Close notification"
-                  status="info"
-                  uswds
-                  visible
-                >
-                  <p className="vads-u-margin-y--0">
-                    We’ve prefilled some of your information from your account.
-                    If you need to correct anything, you can edit the form
-                    fields below.
-                  </p>
-                </va-alert>
-              </>
-            ),
-            // 'ui:description': ApplicantDescription,
-            claimantFullName: {
-              ...fullNameUI,
-              first: {
-                'ui:title': 'Your first name',
-                'ui:errorMessages': {
-                  required: 'Enter your first name',
-                },
-              },
-              middle: {
-                'ui:title': 'Your middle name',
-              },
-              last: {
-                'ui:title': 'Your last name',
-                'ui:errorMessages': {
-                  required: 'Enter your last name',
-                },
-              },
-              suffix: {
-                'ui:title': 'Your suffix',
-              },
-            },
-            claimantSocialSecurityNumber: {
-              ...ssnUI,
-              'ui:title': 'Your Social Security number',
-              'ui:description': generateHelpText('example, 123 45 6789'),
-              'ui:errorMessages': {
-                required: 'Enter your Social Security number',
-              },
-            },
-            claimantDateOfBirth: {
-              'ui:title': 'Your date if birth',
-              'ui:widget': 'date',
-              'ui:validations': [validateCurrentOrPastDate],
-              'ui:errorMessages': {
-                required: 'Enter your date of birth',
-                pattern: 'Enter a valid date',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'claimantFullName',
-              'claimantSocialSecurityNumber',
-              'claimantDateOfBirth',
-            ],
-            properties: {
-              claimantFullName,
-              claimantSocialSecurityNumber,
-              claimantDateOfBirth,
-            },
-          },
+          path: 'claimant-information/personal-information',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
         },
-        claimantInformationPartTwo: {
+        relationshipToVeteran: {
           title: 'Your information',
-          path: 'claimant-information/part-two',
-          uiSchema: {
-            'ui:title': 'Relationship to Veteran',
-            relationship: {
-              type: {
-                'ui:title': 'What’s your relationship to the deceased Veteran?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: relationshipLabels,
-                },
-                'ui:errorMessages': {
-                  required: 'Select your relationship to the deceased Veteran',
-                },
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': form =>
-                  get('relationship.type', form) === 'other',
-                'ui:options': {
-                  hideIf: form => get('relationship.type', form) !== 'other',
-                },
-                'ui:errorMessages': {
-                  required: 'Enter your relationship to the deceased Veteran',
-                },
-              },
-              isEntity: {
-                'ui:title': 'Claiming as a firm, corporation or state agency',
-                'ui:options': {
-                  hideIf: form => get('relationship.type', form) !== 'other',
-                  widgetClassNames: 'schemaform-label-no-top-margin',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['relationship'],
-            properties: {
-              relationship,
-            },
-          },
+          path: 'claimant-information/relationship-to-veteran',
+          uiSchema: relationshipToVeteran.uiSchema,
+          schema: relationshipToVeteran.schema,
         },
-        claimantInformationPartThree: {
+        mailingAddress: {
           title: 'Your information',
-          path: 'claimant-information/part-three',
-          uiSchema: {
-            'ui:title': 'Mailing address',
-            'ui:description':
-              'We’ll send any important information about your application to this address',
-            firmName: {
-              'ui:title': 'Full name of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
-            officialPosition: {
-              'ui:title':
-                'Position of person signing on behalf of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
-            claimantAddress: {
-              ...addressUI({
-                labels: {
-                  militaryCheckbox:
-                    'I live on on a United States military base outside of the U.S.',
-                },
-                omit: ['street3'],
-              }),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantAddress'],
-            properties: {
-              firmName,
-              officialPosition,
-              claimantAddress: addressSchema({ omit: ['street3'] }),
-            },
-          },
+          path: 'claimant-information/mailing-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
         },
-        claimantInformationPartFour: {
+        contactInformation: {
           title: 'Your information',
-          path: 'claimant-information/part-four',
-          uiSchema: {
-            'ui:title': 'Contact information',
-            claimantEmail: emailUI(),
-            claimantPhone: phoneUI('Phone number'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              claimantEmail,
-              claimantPhone,
-            },
-          },
+          path: 'claimant-information/contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
       },
     },
@@ -345,234 +159,26 @@ const formConfig = {
         veteranInformationPartOne: {
           title: 'Deceased Veteran information',
           path: 'veteran-information/part-one',
-          uiSchema: {
-            'ui:description': (
-              <>
-                <h3>Personal information</h3>
-              </>
-            ),
-            veteranFullName: {
-              ...fullNameUI,
-              first: {
-                'ui:title': 'Veteran’s first name',
-              },
-              middle: {
-                'ui:title': 'Veteran’s middle name',
-              },
-              last: {
-                'ui:title': 'Veteran’s last name',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranFullName'],
-            properties: {
-              veteranFullName,
-            },
-          },
+          uiSchema: veteranInformationPartOne.uiSchema,
+          schema: veteranInformationPartOne.schema,
         },
         veteranInformationPartTwo: {
           title: 'Deceased Veteran information',
           path: 'veteran-information/part-two',
-          uiSchema: {
-            'ui:description': generateDescription('Personal information'),
-            veteranSocialSecurityNumber: {
-              ...ssnUI,
-              'ui:title': 'Veteran’s Social Security number',
-              'ui:required': form => !form.vaFileNumber,
-              'ui:description': generateHelpText('example, 123 45 6789'),
-              'ui:errorMessages': {
-                required: 'Enter the Veteran’s Social Security number',
-              },
-            },
-            vaFileNumber: {
-              'ui:title': 'Veteran’s VA file number',
-              'ui:description': generateHelpText(
-                'Enter Veteran’s VA file number if it doesn’t match their SSN',
-              ),
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium',
-              },
-            },
-            veteranDateOfBirth: {
-              ...currentOrPastDateUI('Veteran’s date of birth'),
-              'ui:errorMessages': {
-                required: 'Enter the Veteran’s date of birth',
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranSocialSecurityNumber', 'veteranDateOfBirth'],
-            properties: {
-              veteranSocialSecurityNumber,
-              vaFileNumber,
-              veteranDateOfBirth,
-            },
-          },
+          uiSchema: veteranInformationPartTwo.uiSchema,
+          schema: veteranInformationPartTwo.schema,
         },
         burialInformationPartOne: {
           title: 'Burial information',
           path: 'veteran-information/burial/part-one',
-          uiSchema: {
-            'ui:description': generateDescription('Burial information'),
-            deathDate: {
-              ...currentOrPastDateUI('Date of death'),
-              'ui:errorMessages': {
-                required: 'Enter the Veteran’s date of death',
-              },
-            },
-            burialDate: {
-              ...currentOrPastDateUI(
-                'Date of burial (includes cremation or interment)',
-              ),
-              'ui:errorMessages': {
-                required: 'Enter the Veteran’s date of burial',
-              },
-            },
-            'view:burialDateWarning': {
-              'ui:description': BurialDateWarning,
-              'ui:options': {
-                hideIf: formData => {
-                  // If they haven’t entered a complete year, don’t jump the gun and show the warning
-                  if (formData.burialDate && !isFullDate(formData.burialDate)) {
-                    return true;
-                  }
-
-                  // Show the warning if the burial date was more than 2 years ago
-                  return isEligibleNonService(formData.burialDate);
-                },
-              },
-            },
-            'ui:validations': [validateBurialAndDeathDates],
-          },
-          schema: {
-            type: 'object',
-            required: ['burialDate', 'deathDate'],
-            properties: {
-              deathDate,
-              burialDate,
-              'view:burialDateWarning': { type: 'object', properties: {} },
-            },
-          },
+          uiSchema: burialInformationPartOne.uiSchema,
+          schema: burialInformationPartOne.schema,
         },
         burialInformationPartTwo: {
           title: 'Burial information',
           path: 'veteran-information/burial/part-two',
-          uiSchema: {
-            'ui:description': generateDescription('Burial information'),
-            locationOfDeath: {
-              location: {
-                'ui:title': 'Where did the Veteran’s death occur?',
-                'ui:widget': 'radio',
-                'ui:errorMessages': {
-                  required: 'Select where the Veteran’s death happened',
-                },
-                'ui:options': {
-                  labels: locationOfDeathLabels,
-                },
-              },
-              nursingHomePaid: {
-                facilityName: {
-                  'ui:title':
-                    'Name of the facility or nursing home that VA pays for',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'nursingHomePaid' && !form.facilityName,
-                  'ui:errorMessages': {
-                    required:
-                      'Enter the name of the facility or nursing home that VA pays for',
-                  },
-                },
-                facilityLocation: {
-                  'ui:title':
-                    'City and state of the facility or nursing home that VA pays for',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'nursingHomePaid' && !form.facilityLocation,
-                  'ui:errorMessages': {
-                    required:
-                      'Enter the city and state of the facility or nursing home that VA pays for',
-                  },
-                },
-                'ui:options': {
-                  hideIf: form =>
-                    get('locationOfDeath.location', form) !== 'nursingHomePaid',
-                },
-              },
-              vaMedicalCenter: {
-                facilityName: {
-                  'ui:title': 'Name of the VA medical center',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'vaMedicalCenter' && !form.facilityName,
-                  'ui:errorMessages': {
-                    required: 'Enter the Name of the VA medical center',
-                  },
-                },
-                facilityLocation: {
-                  'ui:title': 'City and state of the VA medical center',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'vaMedicalCenter' && !form.facilityLocation,
-                  'ui:errorMessages': {
-                    required:
-                      'Enter the city and state of the VA medical center',
-                  },
-                },
-                'ui:options': {
-                  hideIf: form =>
-                    get('locationOfDeath.location', form) !== 'vaMedicalCenter',
-                },
-              },
-              stateVeteransHome: {
-                facilityName: {
-                  'ui:title': 'Name of the state Veterans facility',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'stateVeteransHome' && !form.facilityName,
-                  'ui:errorMessages': {
-                    required: 'Enter the name of the state Veterans facility',
-                  },
-                },
-                facilityLocation: {
-                  'ui:title': 'City and state of the state Veterans facility',
-                  'ui:required': form =>
-                    get('locationOfDeath.location', form) ===
-                      'stateVeteransHome' && !form.facilityLocation,
-                  'ui:errorMessages': {
-                    required:
-                      'Enter the city and state of the state Veterans facility',
-                  },
-                },
-                'ui:options': {
-                  hideIf: form =>
-                    get('locationOfDeath.location', form) !==
-                    'stateVeteransHome',
-                },
-              },
-              other: {
-                'ui:title': 'Place where the Veteran’s death happened',
-                'ui:errorMessages': {
-                  required: 'Enter where the Veteran’s death happened',
-                },
-                'ui:required': form =>
-                  get('locationOfDeath.location', form) === 'other',
-                'ui:options': {
-                  hideIf: form =>
-                    get('locationOfDeath.location', form) !== 'other',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['locationOfDeath'],
-            properties: {
-              locationOfDeath,
-            },
-          },
+          uiSchema: burialInformationPartTwo.uiSchema,
+          schema: burialInformationPartTwo.schema,
         },
       },
     },
