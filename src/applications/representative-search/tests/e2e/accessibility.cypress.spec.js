@@ -13,7 +13,7 @@ describe('Accessibility', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'GET',
-      '/services/veteran/v0/accredited_representatives',
+      '/services/veteran/v0/other_accredited_representatives',
       mockRepresentativeData,
     );
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
