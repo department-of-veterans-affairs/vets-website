@@ -6,17 +6,13 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import ListItemView from '../../../components/ListItemView';
 
-// View component for Employer
-const employerView = ({ formData }) => {
-  return (
-    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">
-      {formData.jobTitle}
-    </h3>
-  );
-};
+const EmployerView = ({ formData }) => (
+  <ListItemView title={formData.jobTitle} />
+);
 
-employerView.propTypes = {
+EmployerView.propTypes = {
   formData: PropTypes.shape({
     jobTitle: PropTypes.string,
   }),
@@ -53,7 +49,7 @@ const generateEmployersSchemas = (
         'ui:title': employerMessage,
         'ui:options': {
           itemName: 'employment',
-          viewField: employerView,
+          viewField: EmployerView,
           reviewTitle: employersReviewTitle,
         },
         items: {

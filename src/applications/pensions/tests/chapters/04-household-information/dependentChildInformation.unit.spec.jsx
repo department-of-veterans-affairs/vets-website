@@ -49,7 +49,7 @@ describe('Child information page', () => {
     );
 
     expect($$('input[type=text], va-text-input', container).length).to.equal(2);
-    expect($$('input[type=radio], va-radio', container).length).to.equal(5);
+    expect($$('input[type=radio], va-radio', container).length).to.equal(3);
     expect($('input#root_view\\:noSSN', container)).to.exist;
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -71,7 +71,7 @@ describe('Child information page', () => {
     fireEvent.submit($('form', container));
     await waitFor(() => {
       const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
-      expect($$(errors, container).length).to.equal(6);
+      expect($$(errors, container).length).to.equal(5);
       expect(onSubmit.called).to.be.false;
     });
   });
@@ -96,7 +96,7 @@ describe('Child information page', () => {
     fireEvent.submit($('form', container));
     await waitFor(() => {
       const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
-      expect($$(errors, container).length).to.equal(5);
+      expect($$(errors, container).length).to.equal(4);
       expect(noSSN.checked).to.be.true;
       expect(onSubmit.called).to.be.false;
     });
@@ -136,9 +136,6 @@ describe('Child information page', () => {
       new CustomEvent('selected', { detail: { value: 'N' } }),
     );
 
-    const disabled = $('input[name="root_disabled"]', container);
-    fireEvent.click(disabled);
-
     const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
     prevMarried.__events.vaValueChange(
       new CustomEvent('selected', { detail: { value: 'N' } }),
@@ -150,7 +147,7 @@ describe('Child information page', () => {
     });
   });
 
-  it('should ask if the child is in school', () => {
+  it('should ask if the child is in school (18-23 years old)', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -167,7 +164,61 @@ describe('Child information page', () => {
     expect($('#root_attendingCollegeYes', container)).to.not.be.null;
   });
 
-  it('should ask if the child is disabled', () => {
+  it('should not ask if the child is in school', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          ...dependentData,
+          dependents: [
+            {
+              ...dependentData.dependents[0],
+              childDateOfBirth: moment()
+                .subtract(5, 'years')
+                .toISOString(),
+            },
+          ],
+        }}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect($('#root_attendingCollegeYes', container)).to.be.null;
+  });
+
+  it('should ask if the child is disabled (Under 18 years old)', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          ...dependentData,
+          dependents: [
+            {
+              ...dependentData.dependents[0],
+              childDateOfBirth: moment()
+                .subtract(10, 'years')
+                .toISOString(),
+            },
+          ],
+        }}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect($('#root_disabledYes', container)).to.not.be.null;
+  });
+
+  it('should not ask if the child is disabled', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -181,7 +232,7 @@ describe('Child information page', () => {
       />,
     );
 
-    expect($('#root_disabledYes', container)).to.not.be.null;
+    expect($('#root_disabledYes', container)).to.be.null;
   });
 
   it('should set the title to the dependents name if available', () => {

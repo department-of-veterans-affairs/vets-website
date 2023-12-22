@@ -20,7 +20,7 @@ const serviceBranchOptions = {
   NAVY: 'Navy',
   AIR_FORCE: 'Air Force',
   COAST_GUARD: 'Coast Guard',
-  MARIVE_CORPS: 'Marine Corps',
+  MARINE_CORPS: 'Marine Corps',
   SPACE_FORCE: 'Space Force',
   USPHS: 'USPHS',
   NOAA: 'NOAA',
@@ -37,7 +37,7 @@ export default {
     }),
     activeServiceDateRange: dateRangeUI(
       'Date initially entered active duty',
-      'Final release date from activity duty',
+      'Final release date from active duty',
       'Date initially entered active duty must be before final date released from active duty',
     ),
     serviceNumber: serviceNumberUI(),
