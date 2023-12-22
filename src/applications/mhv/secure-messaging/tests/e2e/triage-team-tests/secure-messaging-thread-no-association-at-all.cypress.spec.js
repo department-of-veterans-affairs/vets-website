@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockNoRecipients from '../fixtures/recipientsResponse/no-assosiations-recipients-response.json';
+import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 // import mockThread from '../fixtures/thread-response.json';
 
@@ -27,7 +27,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
   });
 
-  it('inbox page view', () => {
+  it('inbox with messages page view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -56,6 +56,36 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get('[close-btn-aria-label="Close notification"]')
       .find('a')
       .should('have.text', Alerts.NO_ASSOCIATION_AT_ALL.LINK);
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+  });
+
+  it('inbox with no messages view', () => {
+    site.login();
+
+    landingPage.loadInboxMessages({ data: {} }, { data: {} }, mockNoRecipients);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
+    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
+    cy.get(Locators.LINKS.GO_TO_INBOX).should('not.exist');
+    cy.get('#track-your-status-on-mobile').should(
+      'include.text',
+      Alerts.NO_ASSOCIATION_AT_ALL.HEADER,
+    );
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION_AT_ALL.PARAGRAPH);
+    cy.get('[close-btn-aria-label="Close notification"]')
+      .find('a')
+      .should('include.text', Alerts.NO_ASSOCIATION_AT_ALL.LINK);
     cy.get('[close-btn-aria-label="Close notification"]')
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
