@@ -30,6 +30,7 @@ import {
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { reportGeneratedBy } from '../../shared/util/constants';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -147,29 +148,12 @@ const Prescriptions = props => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
         title: 'Medications',
         preface: [
           {
-            value: `This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-          },
-          {
-            continued: true,
-            value: 'Note: ',
-            weight: 'bold',
-          },
-          {
-            continued: true,
-            value:
-              'This list doesn’t include older prescriptions that have been inactive for more than ',
-          },
-          {
-            value: '6 months.',
-            weight: 'bold',
+            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
           },
         ],
         results: [

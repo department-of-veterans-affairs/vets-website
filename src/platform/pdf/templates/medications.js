@@ -25,26 +25,26 @@ import {
 const config = {
   margins: {
     top: 40,
-    bottom: 32,
+    bottom: 40,
     left: 16,
     right: 32,
   },
   headings: {
     H1: {
       font: 'Bitter-Bold',
-      size: 24,
+      size: 31,
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 18,
+      size: 23.5,
     },
     H3: {
       font: 'Bitter-Bold',
-      size: 16,
+      size: 15,
     },
     H4: {
       font: 'Bitter-Bold',
-      size: 14,
+      size: 12.75,
     },
   },
   subHeading: {
@@ -244,7 +244,7 @@ const generate = async data => {
   }
 
   await generateFinalHeaderContent(doc, data, config);
-  await generateFooterContent(doc, wrapper, data, config);
+  await generateFooterContent(doc, wrapper, data, config, true);
 
   wrapper.end();
 
