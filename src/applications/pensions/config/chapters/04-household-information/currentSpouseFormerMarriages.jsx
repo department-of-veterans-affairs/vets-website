@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
@@ -10,7 +12,7 @@ import {
 
 import { contactWarning, contactWarningMulti } from '../../../helpers';
 
-import SpouseMarriageView from '../../../components/SpouseMarriageView';
+import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 
 import {
@@ -24,6 +26,16 @@ const marriageProperties = marriages.items.properties;
 
 const hasMultipleMarriages = form =>
   get(['spouseMarriages', 'length'], form) > 1;
+
+const SpouseMarriageView = ({ formData }) => (
+  <ListItemView
+    title={`${formData.spouseFullName.first} ${formData.spouseFullName.last}`}
+  />
+);
+
+SpouseMarriageView.propTypes = {
+  formData: PropTypes.object,
+};
 
 /** @type {PageSchema} */
 export default {
