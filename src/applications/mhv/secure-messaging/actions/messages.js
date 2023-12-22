@@ -11,37 +11,21 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
-export const oldMessageAlert = sentDate => dispatch => {
-  dispatch({
-    type: Actions.Message.CANNOT_REPLY_ALERT,
-    payload: isOlderThan(sentDate, 45),
-  });
-};
-
-export const clearMessageHistory = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR_HISTORY });
-};
-
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
+export const clearThread = () => async dispatch => {
+  dispatch({ type: Actions.Thread.CLEAR_THREAD });
 };
 
 /**
  * @param {Long} messageId
  * @returns
  */
-export const markMessageAsReadInThread = (
-  messageId,
-  isDraftThread,
-) => async dispatch => {
+export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
     dispatch({
-      type: isDraftThread
-        ? Actions.Draft.GET_IN_THREAD
-        : Actions.Message.GET_IN_THREAD,
+      type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
   }
@@ -55,14 +39,9 @@ export const markMessageAsReadInThread = (
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
  */
-export const retrieveMessageThread = (
-  messageId,
-  refresh = false,
-) => async dispatch => {
-  if (!refresh) {
-    dispatch(clearMessage());
-  }
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
+    dispatch(clearThread());
     const response = await getMessageThread(messageId);
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (msgResponse.errors) {
@@ -73,9 +52,11 @@ export const retrieveMessageThread = (
       // finding last sent message in a thread to check if it is not too old for replies
       const lastSentDate = getLastSentMessage(response.data)?.attributes
         .sentDate;
-      dispatch(oldMessageAlert(lastSentDate));
 
-      const isDraft = response.data[0].attributes.draftDate !== null;
+      const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+      const messages = response.data.filter(
+        m => m.attributes.sentDate !== null,
+      );
       const replyToName =
         response.data
           .find(
@@ -92,24 +73,37 @@ export const retrieveMessageThread = (
           ?.attributes.folderId.toString() ||
         response.data[0].attributes.folderId;
 
+      const fullDrafts = async () => {
+        if (drafts?.length) {
+          const arr = await Promise.all(
+            drafts.map(async m => {
+              const fullDraft = await getMessage(m.attributes.messageId);
+              return { ...m.attributes, ...fullDraft.data.attributes };
+            }),
+          );
+          arr.sort((a, b) => {
+            const dateA = new Date(a.draftDate);
+            const dateB = new Date(b.draftDate);
+
+            return dateB - dateA;
+          });
+          return arr;
+        }
+        return undefined;
+      };
+
+      const fullDraftsArr = await fullDrafts();
+
       dispatch({
-        type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
-        response: {
-          data: {
-            replyToName,
-            threadFolderId,
-            replyToMessageId: msgResponse.data.attributes.messageId,
-            attributes: {
-              ...response.data[0].attributes,
-              ...msgResponse.data.attributes,
-            },
-          },
-          included: msgResponse.included,
+        type: Actions.Thread.GET_THREAD,
+        payload: {
+          replyToName,
+          threadFolderId,
+          cannotReply: isOlderThan(lastSentDate, 45),
+          replyToMessageId: msgResponse.data.attributes.messageId,
+          drafts: fullDraftsArr,
+          messages: messages.map(m => m.attributes),
         },
-      });
-      dispatch({
-        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-        response: { data: response.data.slice(1, response.data.length) },
       });
     }
   } catch (e) {
@@ -153,7 +147,6 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
     await moveThreadCall(threadId, folderId);
-    dispatch({ type: Actions.Message.MOVE_SUCCESS });
   } catch (e) {
     dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
@@ -234,6 +227,11 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
+    ) {
+      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
     } else {
       dispatch(
         addAlert(

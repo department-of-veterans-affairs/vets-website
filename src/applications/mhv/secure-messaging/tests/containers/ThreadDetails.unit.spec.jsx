@@ -14,7 +14,7 @@ import { inbox } from '../fixtures/folder-inbox-response.json';
 import singleDraftThread from '../fixtures/threads/single-draft-thread-reducer.json';
 import replyDraftThread from '../fixtures/threads/reply-draft-thread-reducer.json';
 import recipients from '../fixtures/recipients.json';
-import { messageDetails } from '../fixtures/threads/message-thread-reducer.json';
+import { threadDetails } from '../fixtures/threads/message-thread-reducer.json';
 import { inputVaTextInput } from '../../util/testUtils';
 import {
   threadsDateFormat,
@@ -30,18 +30,15 @@ describe('Thread Details container', () => {
       path: `/thread/2713217`,
     });
   };
-  const replyDraftMessage = replyDraftThread.draftDetails.draftMessage;
-  const { draftMessageHistory } = replyDraftThread.draftDetails;
-  const replyMessage = draftMessageHistory[0];
-  const olderMessage = draftMessageHistory[1];
+  const { drafts, messages } = replyDraftThread.threadDetails;
+  const replyDraftMessage = drafts[0];
+  const replyMessage = messages[0];
+  const olderMessage = messages[1];
 
   it('renders Thread Details with messages in a thread', async () => {
     const state = {
       sm: {
-        messageDetails: {
-          ...messageDetails,
-          threadViewCount: 5,
-        },
+        threadDetails,
       },
     };
     const screen = setup(state);
@@ -54,7 +51,7 @@ describe('Thread Details container', () => {
       recipientName,
       messageId,
       triageGroupName,
-    } = messageDetails.message;
+    } = threadDetails.messages[0];
 
     expect(
       await screen.findByText(`${category}: ${subject}`, {
@@ -90,12 +87,12 @@ describe('Thread Details container', () => {
   });
 
   it('renders Thread Details with NO message history in a thread', async () => {
+    const message = threadDetails.messages[0];
     const state = {
       sm: {
-        messageDetails: {
-          message: messageDetails.message,
-          messageHistory: [],
-          threadViewCount: 5,
+        threadDetails: {
+          ...threadDetails,
+          messages: [message],
         },
       },
     };
@@ -109,7 +106,7 @@ describe('Thread Details container', () => {
       recipientName,
       messageId,
       triageGroupName,
-    } = messageDetails.message;
+    } = message;
 
     expect(
       await screen.findByText(`${category}: ${subject}`, {
@@ -144,9 +141,15 @@ describe('Thread Details container', () => {
         triageTeams: {
           triageTeams: recipients,
         },
-        draftDetails: {
-          draftMessage: singleDraftThread.draftMessage,
-          draftMessageHistory: [],
+        threadDetails: {
+          drafts: [singleDraftThread.draftMessage],
+          messages: [],
+          isLoading: false,
+          replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+          threadFolderId: -2,
+          cannotReply: false,
+          printOption: 'PRINT_THREAD',
+          threadViewCount: 5,
         },
       },
     };
@@ -174,17 +177,7 @@ describe('Thread Details container', () => {
   });
 
   it('with a reply draft message on a replied to message is MORE than 45 days', async () => {
-    const { category, subject } = replyDraftThread.draftDetails.draftMessage;
-
-    const draftMessageHistoryUpdated = [
-      {
-        ...replyMessage,
-        sentDate: moment()
-          .subtract(46, 'days')
-          .format(),
-      },
-      olderMessage,
-    ];
+    const { category, subject } = replyDraftThread.threadDetails.messages[0];
 
     const state = {
       sm: {
@@ -194,19 +187,30 @@ describe('Thread Details container', () => {
         triageTeams: {
           triageTeams: recipients,
         },
-        messageDetails: {
+        threadDetails: {
           threadViewCount: 5,
-          cannotReply: isOlderThan(
-            getLastSentMessage(draftMessageHistoryUpdated).sentDate,
-            45,
-          ),
+          cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [
+            {
+              ...replyMessage,
+              sentDate: moment()
+                .subtract(46, 'days')
+                .format(),
+            },
+            olderMessage,
+          ],
+          isLoading: false,
+          replyToName: replyMessage.senderName,
+          threadFolderId: '0',
+          replyToMessageId: replyMessage.messageId,
+          printOption: 'PRINT_THREAD',
         },
-        draftDetails: {
-          ...replyDraftMessage,
-          draftDate: new Date(),
-        },
-        draftMessageHistory: draftMessageHistoryUpdated,
-        ...replyDraftThread,
       },
     };
     const screen = setup(state);
@@ -217,7 +221,7 @@ describe('Thread Details container', () => {
       .to.exist;
 
     expect(global.document.title).to.equal(
-      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+      `${category}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
     );
 
     expect(document.querySelector('va-textarea')).to.not.exist;
@@ -225,7 +229,7 @@ describe('Thread Details container', () => {
     expect(document.querySelector('section.old-reply-message-body')).to.exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      '(Draft) To: MORGUN, OLEKSII\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+      '(Draft) To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
     expect(
@@ -246,7 +250,7 @@ describe('Thread Details container', () => {
       triageGroupName,
       category,
       subject,
-    } = replyDraftThread.draftDetails.draftMessage;
+    } = replyDraftThread.threadDetails.messages[0];
 
     const draftMessageHistoryUpdated = [
       {
@@ -266,19 +270,21 @@ describe('Thread Details container', () => {
         triageTeams: {
           triageTeams: recipients,
         },
-        messageDetails: {
+        threadDetails: {
+          replyToName: 'FREEMAN, GORDON',
           threadViewCount: 5,
           cannotReply: isOlderThan(
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
             45,
           ),
+          drafts: [
+            {
+              ...replyDraftMessage,
+              draftDate: new Date(),
+            },
+          ],
+          messages: [...draftMessageHistoryUpdated],
         },
-        draftDetails: {
-          ...replyDraftMessage,
-          draftDate: new Date(),
-        },
-        draftMessageHistory: draftMessageHistoryUpdated,
-        ...replyDraftThread,
       },
     };
     const screen = setup(state);
@@ -293,7 +299,7 @@ describe('Thread Details container', () => {
     ).to.exist;
 
     expect(global.document.title).to.equal(
-      PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+      `${category}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
     );
 
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
@@ -312,7 +318,7 @@ describe('Thread Details container', () => {
       .exist;
 
     expect(document.querySelector('span').textContent).to.equal(
-      `(Draft) To: MORGUN, OLEKSII\n(Team: ${triageGroupName})`,
+      `(Draft) To: FREEMAN, GORDON\n(Team: ${triageGroupName})`,
     );
 
     expect(screen.getByTestId('message-body-field')).to.exist;
@@ -337,10 +343,10 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
-        draftDetails: {
-          ...replyDraftMessage,
+        threadDetails: {
+          drafts: [replyDraftMessage],
+          messages: [replyMessage],
         },
-        ...replyDraftThread,
       },
     };
     const screen = setup(state);
@@ -389,10 +395,10 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
-        draftDetails: {
-          ...replyDraftMessage,
+        threadDetails: {
+          drafts: [replyDraftMessage],
+          messages: [replyMessage],
         },
-        ...replyDraftThread,
       },
     };
     const screen = setup(state);
@@ -411,14 +417,15 @@ describe('Thread Details container', () => {
     const folderId = '112233';
     const state = {
       sm: {
-        ...replyDraftThread,
-        draftDetails: {
-          ...replyDraftThread.draftDetails,
-          draftMessage: {
-            ...replyDraftMessage,
-            threadFolderId: folderId,
-            replyToMessageId: 1234,
-          },
+        threadDetails: {
+          drafts: [
+            {
+              ...replyDraftMessage,
+              threadFolderId: folderId,
+              replyToMessageId: 1234,
+            },
+          ],
+          messages: [replyMessage],
         },
       },
     };
@@ -443,13 +450,9 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
-        ...replyDraftThread,
-        draftDetails: {
-          ...replyDraftThread.draftDetails,
-          draftMessage: {
-            ...replyDraftMessage,
-            replyToMessageId: 1234,
-          },
+        threadDetails: {
+          drafts: [{ ...replyDraftMessage, replyToMessageId: 1234 }],
+          messages: [replyMessage],
         },
       },
     };

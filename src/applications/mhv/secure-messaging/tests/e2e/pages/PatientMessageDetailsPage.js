@@ -413,7 +413,7 @@ class PatientMessageDetailsPage {
   };
 
   ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+    cy.get('[data-testid="draft-reply-to"')
       .eq(messageIndex)
       .should(
         'have.text',
@@ -435,7 +435,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
+  ReplyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message to recipient');
     cy.get('[data-testid="to"]')
       .eq(messageIndex)

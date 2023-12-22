@@ -10,7 +10,10 @@ const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const messageDetails = useSelector(state => state.sm.messageDetails.message);
+  const threadDetails = useSelector(state => state.sm.threadDetails);
+  const messageDetails = threadDetails.messages?.length
+    ? threadDetails.messages[0]
+    : null;
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
   const [isMobile, setIsMobile] = useState(false);

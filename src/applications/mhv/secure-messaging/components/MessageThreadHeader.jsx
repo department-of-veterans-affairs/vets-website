@@ -10,7 +10,7 @@ import { updatePageTitle } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 
-const MessageDetailBlock = props => {
+const MessageThreadHeader = props => {
   const {
     message,
     cannotReply,
@@ -89,7 +89,7 @@ const MessageDetailBlock = props => {
   );
 };
 
-MessageDetailBlock.propTypes = {
+MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
@@ -97,4 +97,4 @@ MessageDetailBlock.propTypes = {
   onReply: PropTypes.func,
 };
 
-export default MessageDetailBlock;
+export default MessageThreadHeader;

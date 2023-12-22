@@ -18,10 +18,7 @@ import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MessageThreadItem from './MessageThreadItem';
-import {
-  clearMessageHistory,
-  markMessageAsReadInThread,
-} from '../../actions/messages';
+import { markMessageAsReadInThread } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
 import useInterval from '../../hooks/use-interval';
 
@@ -94,15 +91,6 @@ const MessageThread = props => {
 
   useEffect(
     () => {
-      return () => {
-        dispatch(clearMessageHistory());
-      };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       if (viewCount > 5) {
         focusElement(
           `[data-testid="expand-message-button-${
@@ -115,7 +103,7 @@ const MessageThread = props => {
   );
 
   const setViewCount = count => {
-    dispatch({ type: Actions.Message.SET_THREAD_VIEW_COUNT, payload: count });
+    dispatch({ type: Actions.Thread.SET_THREAD_VIEW_COUNT, payload: count });
   };
 
   const handleLoadMoreMessages = () => {

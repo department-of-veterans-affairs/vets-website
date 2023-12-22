@@ -52,13 +52,13 @@ describe('Secure Messaging Reply', () => {
     );
 
     messageDetailsPage.ReplyToMessageTO(messageDetails);
-    // messageDetailsPage.ReplyToMessagesenderName(messageDetails); //TODO skipped for flakiness
-    messageDetailsPage.ReplyToMessagerecipientName(messageDetails);
+    // messageDetailsPage.ReplyToMessagesenderName(messageDetails); // TODO skipped for flakiness
+    messageDetailsPage.ReplyToMessageRecipientName(messageDetails);
     messageDetailsPage.ReplyToMessageDate(messageDetails);
     messageDetailsPage.ReplyToMessageId(messageDetails);
 
     messageDetails.data.attributes.body = messageDetailsBody;
-    // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); //TODO skipped for flakiness
+    // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); // TODO skipped for flakiness
 
     // Possibly move this to another test
     PatientReplyPage.sendReplyDraft(
