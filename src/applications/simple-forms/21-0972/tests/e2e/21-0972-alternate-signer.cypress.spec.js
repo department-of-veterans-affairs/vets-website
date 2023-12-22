@@ -5,10 +5,10 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
   selectGroupCheckboxWidget,
 } from '../../../shared/tests/e2e/helpers';
@@ -37,7 +37,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          cy.findByText(/^start the alternate signer application/i, {
+            selector: 'a',
+          }).click();
         });
       },
       [pagePaths.preparerAddress]: ({ afterHook }) => {
@@ -115,6 +117,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
+
+      cy.login(user);
     },
   },
   manifest,

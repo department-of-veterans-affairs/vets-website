@@ -1,9 +1,7 @@
-// Node modules.
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
-// Relative imports.
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
 import { generateTestEvents } from '../../helpers/event-generator';
@@ -13,13 +11,10 @@ describe('Events <Results>', () => {
     const props = {
       results: generateTestEvents(),
     };
-    // Set up.
     const wrapper = shallow(<Results {...props} />);
 
-    // Assertions.
     expect(wrapper.text()).not.includes('No results found');
 
-    // Clean up.
     wrapper.unmount();
   });
 });
