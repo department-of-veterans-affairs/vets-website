@@ -80,6 +80,16 @@ export const addressFields = {
   MILITARY_STATE: 'State',
 };
 
+// Reason options
+export const reasonOptions = {
+  question: 'I have a question',
+  nice: 'I want to say something nice',
+  complaint: 'I have a complaint about a service',
+  suggestion: 'I have a suggestion',
+  townHall: 'I attended a Town Hall and now I have a question',
+  somethingElse: 'I want to say something else',
+};
+
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
