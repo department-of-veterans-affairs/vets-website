@@ -43,7 +43,7 @@ describe('Child information page', () => {
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-      8,
+      10,
     );
   });
 
@@ -62,7 +62,7 @@ describe('Child information page', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -84,7 +84,7 @@ describe('Child information page', () => {
     formDOM.submitForm(form);
     const errors = formDOM.querySelectorAll('.usa-input-error-label');
 
-    expect(errors.length).to.equal(3);
+    expect(errors.length).to.equal(4);
     expect(onSubmit.called).not.to.be.true;
   });
 
@@ -107,6 +107,7 @@ describe('Child information page', () => {
     formDOM.fillData('#root_childPlaceOfBirth', 'sf');
     formDOM.fillData('#root_childSocialSecurityNumber', '123123123');
     formDOM.fillData('#root_childRelationship_0', 'biological');
+    formDOM.fillData('#root_disabledYes', 'Y');
     formDOM.fillData('#root_previouslyMarriedNo', 'Y');
 
     formDOM.submitForm(form);
@@ -156,7 +157,7 @@ describe('Child information page', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect(formDOM.querySelector('#root_disabledYes')).to.not.be.null;
+    expect(formDOM.querySelector('#root_disabledYes')).to.be.null;
   });
 
   it('should set the title to the dependents name if available', () => {
