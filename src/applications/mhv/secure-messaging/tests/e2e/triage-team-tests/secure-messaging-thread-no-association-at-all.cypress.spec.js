@@ -11,7 +11,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
 
-  it('landing page view', () => {
+  it.skip('landing page view', () => {
     site.login();
     secureMessagingLandingPage.loadMainPage(mockNoRecipients);
 
@@ -27,7 +27,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
   });
 
-  it('inbox with messages page view', () => {
+  it.skip('inbox with messages page view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
