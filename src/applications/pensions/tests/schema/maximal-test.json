@@ -92,7 +92,7 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "reasonForSeparation": "Widowed",
+        "reasonForSeparation": "Death",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
       }
@@ -157,43 +157,12 @@
           "first": "Bobby",
           "last": "Doe"
         },
-        "childDateOfBirth": "1997-03-02",
-        "netWorth": {
-          "bank": 34,
-          "interestBank": 23,
-          "ira": 23,
-          "stocks": 23,
-          "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "monthlyIncome": {
-          "socialSecurity": 40,
-          "civilService": 40,
-          "railroad": 40,
-          "blackLung": 30,
-          "serviceRetirement": 30,
-          "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "expectedIncome": {
-          "salary": 40,
-          "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "view:hasOtherExpenses": true,
-        "otherExpenses": [
-          {
-            "amount": 30,
-            "purpose": "to cover expense",
-            "date": "2017-05-05",
-            "paidTo": "vendor"
-          }
-        ]
+        "childDateOfBirth": "1997-03-02"
       },
       {
         "childInHousehold": true,
         "childPlaceOfBirth": "Troy, MT",
-        "view:noSSN": true,
+        "view:noSsN": true,
         "childRelationship": "adopted",
         "disabled": false,
         "previouslyMarried": false,
@@ -201,103 +170,11 @@
           "first": "Emily",
           "last": "Doe"
         },
-        "childDateOfBirth": "1993-03-02",
-        "netWorth": {
-          "bank": 34,
-          "interestBank": 23,
-          "ira": 23,
-          "stocks": 23,
-          "realProperty": 23,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "monthlyIncome": {
-          "socialSecurity": 40,
-          "civilService": 40,
-          "railroad": 40,
-          "blackLung": 30,
-          "serviceRetirement": 30,
-          "ssi": 30,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "expectedIncome": {
-          "salary": 40,
-          "interest": 40,
-          "additionalSources": [{ "name": "additional source", "amount": 23 }]
-        },
-        "view:hasOtherExpenses": true,
-        "otherExpenses": [
-          {
-            "amount": 30,
-            "purpose": "to cover expense",
-            "date": "2017-05-05",
-            "paidTo": "vendor"
-          }
-        ]
+        "childDateOfBirth": "1993-03-02"
       }
     ],
-    "netWorth": {
-      "bank": 34,
-      "interestBank": 23,
-      "ira": 23,
-      "stocks": 23,
-      "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "monthlyIncome": {
-      "socialSecurity": 40,
-      "civilService": 40,
-      "railroad": 40,
-      "blackLung": 30,
-      "serviceRetirement": 30,
-      "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "expectedIncome": {
-      "salary": 40,
-      "interest": 40,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "view:hasOtherExpenses": true,
-    "otherExpenses": [
-      {
-        "amount": 30,
-        "purpose": "to cover expense",
-        "date": "2017-05-05",
-        "paidTo": "vendor"
-      }
-    ],
-    "spouseNetWorth": {
-      "bank": 34,
-      "interestBank": 23,
-      "ira": 23,
-      "stocks": 23,
-      "realProperty": 23,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "spouseMonthlyIncome": {
-      "socialSecurity": 40,
-      "civilService": 40,
-      "railroad": 40,
-      "blackLung": 30,
-      "serviceRetirement": 30,
-      "ssi": 30,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "spouseExpectedIncome": {
-      "salary": 23,
-      "interest": 34,
-      "additionalSources": [{ "name": "additional source", "amount": 23 }]
-    },
-    "view:spouseHasOtherExpenses": true,
-    "spouseOtherExpenses": [
-      {
-        "amount": 30,
-        "purpose": "to cover expense",
-        "date": "2017-05-05",
-        "paidTo": "vendor"
-      }
-    ],
-    "totalNetWorth": true,
+    "totalNetWorth": false,
+    "netWorthEstimation": 18000,
     "hasCareExpenses": true,
     "careExpenses": [
       {
@@ -331,7 +208,7 @@
     "medicalExpenses": true,
     "transferredAssets": true,
     "homeOwnership": true,
-    "homeAcreageMoreThanTwo": "true",
+    "homeAcreageMoreThanTwo": true,
     "homeAcreageValue": 75000,
     "receivesIncome": true,
     "incomeSources": [
@@ -339,14 +216,14 @@
         "typeOfIncome": "Social Security",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 2.0
+        "amount": 278.0
       }
     ],
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
-      "accountNumber": 123123123,
-      "routingNumber": 123123123
+      "accountNumber": "001122334455",
+      "routingNumber": "123123123"
     },
     "veteranAddress": {
       "street": "123 8th st",
@@ -358,9 +235,9 @@
       "isMilitary": false
     },
     "email": "test@example.com",
-    "phone": 1231231231,
-    "mobilePhone": 1231231231,
-    "internationalPhone": 1231231231,
+    "phone": "212-867-5309",
+    "mobilePhone": "313-867-5309",
+    "internationalPhone": "001-212-456-7890",
     "view:aidAttendance": true,
     "isOver65": false
   }
