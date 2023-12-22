@@ -470,7 +470,6 @@ export default class ArrayField extends React.Component {
                         this.closeRemoveModal(index)
                       }
                       visible={isRemoving}
-                      uswds
                     >
                       {uiOptions.confirmRemoveDescription && (
                         <p>{uiOptions.confirmRemoveDescription}</p>
