@@ -73,6 +73,7 @@ SearchResult.propTypes = {
   addressLine3: PropTypes.string,
   city: PropTypes.string,
   distance: PropTypes.number,
+  email: PropTypes.string,
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.object,

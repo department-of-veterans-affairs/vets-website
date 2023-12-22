@@ -20,6 +20,7 @@ const ResultsList = props => {
       setFocus(searchResultTitle.current);
       recordSearchResultsEvents(searchResults, props);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchResults, inProgress, props.error],
   );
 

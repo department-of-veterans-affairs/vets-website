@@ -106,9 +106,18 @@ export const SearchResultsHeader = props => {
 };
 
 SearchResultsHeader.propTypes = {
-  results: PropTypes.array,
-  representativeType: PropTypes.string,
-  context: PropTypes.string,
+  searchResults: PropTypes.array,
+  pagination: PropTypes.object,
+  query: PropTypes.shape({
+    inProgress: PropTypes.bool,
+    context: PropTypes.shape({
+      repOrgName: PropTypes.string,
+      location: PropTypes.string,
+    }),
+    representativeType: PropTypes.string,
+    sortType: PropTypes.string,
+  }),
+  updateSearchQuery: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed
