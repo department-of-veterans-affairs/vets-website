@@ -80,14 +80,21 @@ export const addressFields = {
   MILITARY_STATE: 'State',
 };
 
+// Question About options
+export const questionAboutOptions = {
+  MY_OWN: 'My own VA benefits',
+  SOMEONE_ELSE: "Someone else's VA benefits",
+  GENERAL: "It's a general question",
+};
+
 // Reason options
 export const reasonOptions = {
-  question: 'I have a question',
-  nice: 'I want to say something nice',
-  complaint: 'I have a complaint about a service',
-  suggestion: 'I have a suggestion',
-  townHall: 'I attended a Town Hall and now I have a question',
-  somethingElse: 'I want to say something else',
+  QUESTION: 'I have a question',
+  NICE: 'I want to say something nice',
+  COMPLAINT: 'I have a complaint about a service',
+  SUGGESTION: 'I have a suggestion',
+  TOWN_HALL: 'I attended a Town Hall and now I have a question',
+  SOMETHING_ELSE: 'I want to say something else',
 };
 
 // Chapter 1 labels: titles, questions, descriptions
