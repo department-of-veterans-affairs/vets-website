@@ -120,7 +120,7 @@ export default {
       },
       wcv3TextAreaNew: {
         type: 'string',
-        maxLength: 20,
+        maxLength: 30,
         minLength: 10,
       },
       wcv3DisabledNew: {
