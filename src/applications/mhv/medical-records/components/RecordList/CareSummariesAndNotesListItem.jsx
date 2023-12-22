@@ -18,7 +18,7 @@ const CareSummariesAndNotesListItem = props => {
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
           aria-label={`${record.name} on ${
-            isDischargeSummary ? record.dischargeDate : record.dateSigned
+            isDischargeSummary ? record.admissionDate : record.dateSigned
           }`}
         >
           {record.name}
@@ -34,26 +34,20 @@ const CareSummariesAndNotesListItem = props => {
       </h3>
 
       <div>
-        <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Discharged on' : 'Date'}
-        </span>
-        {': '}
+        {isDischargeSummary && (
+          <span className="vads-u-display--inline">Admitted on </span>
+        )}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.dischargeDate : record.dateSigned}
-        </span>
-      </div>
-      <div>
-        <span className="vads-u-display--inline">Location:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.location}
+          {isDischargeSummary ? record.admissionDate : record.dateSigned}
         </span>
       </div>
+      <div data-dd-privacy="mask">{record.location}</div>
       <div>
         <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Admitted by' : 'Signed by'}:
-        </span>{' '}
+          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+        </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.admittedBy : record.signedBy}
+          {isDischargeSummary ? record.dischargedBy : record.signedBy}
         </span>
       </div>
     </div>

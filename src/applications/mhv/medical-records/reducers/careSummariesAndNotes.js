@@ -25,6 +25,11 @@ const extractType = record => {
   return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
 };
 
+const extractAuthenticator = record => {
+  return extractContainedResource(record, record.authenticator?.reference)
+    ?.name[0].text;
+};
+
 const extractAuthor = record => {
   return extractContainedResource(
     record,
@@ -78,6 +83,7 @@ const convertProgressNote = record => {
     type: extractType(record),
     dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
+    coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: extractNote(record) || EMPTY_FIELD,
   };
