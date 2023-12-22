@@ -829,6 +829,38 @@ const formConfig = {
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
         },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
+        },
+        homeOwnership: {
+          title: 'Home ownership',
+          path: 'financial/home-ownership',
+          uiSchema: homeOwnership.uiSchema,
+          schema: homeOwnership.schema,
+        },
+        homeAcreageMoreThanTwo: {
+          title: 'Home acreage size',
+          path: 'financial/home-ownership/acres',
+          depends: formData => {
+            return formData.homeOwnership === true;
+          },
+          uiSchema: homeAcreageMoreThanTwo.uiSchema,
+          schema: homeAcreageMoreThanTwo.schema,
+        },
+        homeAcreageValue: {
+          title: 'Home acreage value',
+          path: 'financial/home-ownership/acres/value',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo === true;
+          },
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          CustomPage: HomeAcreageValueInput,
+          CustomPageReview: null,
+        },
         receivesIncome: {
           title: 'Receives income',
           path: 'financial/receives-income',
@@ -860,38 +892,6 @@ const formConfig = {
           title: 'Medical expenses',
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
-        },
-        transferredAssets: {
-          title: 'Transferred assets',
-          path: 'financial/transferred-assets',
-          uiSchema: transferredAssets.uiSchema,
-          schema: transferredAssets.schema,
-        },
-        homeOwnership: {
-          title: 'Home ownership',
-          path: 'financial/home-ownership',
-          uiSchema: homeOwnership.uiSchema,
-          schema: homeOwnership.schema,
-        },
-        homeAcreageMoreThanTwo: {
-          title: 'Home acreage size',
-          path: 'financial/home-ownership/acres',
-          depends: formData => {
-            return formData.homeOwnership !== false;
-          },
-          uiSchema: homeAcreageMoreThanTwo.uiSchema,
-          schema: homeAcreageMoreThanTwo.schema,
-        },
-        homeAcreageValue: {
-          title: 'Home acreage value',
-          path: 'financial/home-ownership/acres/value',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          CustomPage: HomeAcreageValueInput,
-          CustomPageReview: null,
         },
       },
     },
