@@ -84,7 +84,10 @@ const FolderHeader = props => {
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>
           {!associatedTriageGroupsQty && (
-            <BlockedTriageGroupAlert status="info" />
+            <BlockedTriageGroupAlert
+              status="info"
+              blockedTriageGroupList={[]}
+            />
           )}
 
           <>{handleFolderDescription()}</>
