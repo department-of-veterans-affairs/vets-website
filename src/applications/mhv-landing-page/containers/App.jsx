@@ -10,7 +10,7 @@ import {
   countUnreadMessages,
   resolveUnreadMessageAriaLabel,
 } from '../utilities/data';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
