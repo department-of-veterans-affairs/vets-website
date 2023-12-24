@@ -28,3 +28,46 @@
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
     margin-top: 1rem;
 }
+
+.inbox-replies,
+.attachment-box {
+    width: 70%;
+
+    @media (max-width: $small-screen) {
+        width: 100%;
+    }
+}
+
+.empty-message {
+    width: 50%;
+    padding: 1.25rem;
+    font-weight: 600;
+
+    @media (max-width: $small-screen) {
+        width: 92%;
+        padding: 1.25rem;
+        font-weight: 400;
+    }
+}
+
+.no-messages {
+    margin: 5rem 0;
+}
+
+.attachment-box {
+    padding: 1.25rem 2.5rem;
+    margin: 1rem 0;
+    align-items: center;
+
+    @media (max-width: $small-screen) {
+        flex-direction: column;
+        align-items: flex-start;
+        p {
+            margin: 0;
+        }
+    }
+}
+
+.need-help-footer {
+    margin: 3rem 0;
+}
