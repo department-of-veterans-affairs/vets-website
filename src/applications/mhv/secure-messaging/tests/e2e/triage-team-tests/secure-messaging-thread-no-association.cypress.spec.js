@@ -100,6 +100,13 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .should('have.class', 'open');
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should(
+        'contain.text',
+        'If you need help contacting this care team, call your VA health facility.',
+      );
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
