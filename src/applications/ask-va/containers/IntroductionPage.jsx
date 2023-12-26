@@ -40,35 +40,33 @@ const IntroductionPage = props => {
       <p className="schemaform-subtitle vads-u-font-size--lg vads-u-margin-bottom--4">
         You should receive a response within 7 business days.
       </p>
-      {!loggedIn ? (
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="continue"
-          visible
-          uswds
-        >
-          <h2 id="track-your-status-on-mobile" slot="headline">
-            Signing in is required if your question is about education benefits
-            and work study or debt
-          </h2>
-          <div>
-            <p className="vads-u-margin-top--0">
-              You need to sign in if your question is about education benefits
-              and work study or debt.
-            </p>
-            <va-button
-              primary-alternate
-              text="Sign in or create an account"
-              onClick={() => toggleLoginModal(true, 'cta-form')}
-            />
-          </div>
-        </va-alert>
-      ) : null}
 
       {loggedIn ? (
         <DashboardCards />
       ) : (
         <>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="continue"
+            visible
+            uswds
+          >
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              Signing in is required if your question is about education
+              benefits and work study or debt
+            </h2>
+            <div>
+              <p className="vads-u-margin-top--0">
+                You need to sign in if your question is about education benefits
+                and work study or debt.
+              </p>
+              <va-button
+                primary-alternate
+                text="Sign in or create an account"
+                onClick={() => toggleLoginModal(true, 'cta-form')}
+              />
+            </div>
+          </va-alert>
           <h2 slot="headline">Sign in for the best experience</h2>
           <div>
             <p className="vads-u-margin-top--0">
