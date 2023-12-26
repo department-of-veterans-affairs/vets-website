@@ -9,6 +9,7 @@ import mockThread from '../fixtures/thread-response.json';
 describe('Verify drafts - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
+  const newDate = new Date().toISOString();
 
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
@@ -27,7 +28,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     );
   });
 
-  it.skip('existing draft in thread', () => {
+  it('existing draft in thread', () => {
     const mockThreadWithDraft = {
       ...mockThread,
       data: [
@@ -35,18 +36,16 @@ describe('Verify drafts - No association with particular Triage Group', () => {
           ...mockThread.data[0],
           attributes: {
             ...mockThread.data[0].attributes,
-            draftDate: new Date().toISOString(),
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
-            sentDate: null,
           },
         },
         ...mockThread.data,
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft);
+    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -93,17 +92,15 @@ describe('Verify drafts - No association with particular Triage Group', () => {
           ...mockThread.data[0],
           attributes: {
             ...mockThread.data[0].attributes,
-            draftDate: new Date().toISOString(),
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
-            sentDate: null,
           },
         },
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft);
+    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
