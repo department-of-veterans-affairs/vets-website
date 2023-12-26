@@ -160,7 +160,11 @@ class PatientInboxPage {
     this.singleThread = testSingleThread;
     this.singleThread.data[0].attributes.sentDate = sentDate;
     this.singleThread.data[0].attributes.draftDate = draftDate;
-    cy.log('loading single thread details.');
+    cy.log(
+      `loading first message in thread details: ${JSON.stringify(
+        this.singleThread.data[0],
+      )}`,
+    );
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
