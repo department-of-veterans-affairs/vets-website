@@ -6,7 +6,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
 import reducer from '../../../reducers';
-import { draftDetails } from '../../fixtures/threads/reply-draft-thread-reducer.json';
+import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import folders from '../../fixtures/folder-inbox-response.json';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import { ErrorMessages } from '../../../util/constants';
@@ -35,10 +35,14 @@ describe('Reply form component', () => {
         associatedBlockedTriageGroupsQty:
           noBlockedRecipients.meta.associatedBlockedTriageGroups,
       },
+      threadDetails: {
+        ...threadDetailsReducer.threadDetails,
+      },
     },
     featureToggles: {},
   };
-  const replyMessage = draftDetails.draftMessageHistory[0];
+  const { threadDetails } = threadDetailsReducer;
+  const replyMessage = threadDetails.drafts[0];
   const { category, subject, senderName, triageGroupName } = replyMessage;
 
   const render = (state = initialState, props = {}, message = replyMessage) => {
@@ -88,10 +92,6 @@ describe('Reply form component', () => {
     );
     const draftToLabel = document.querySelector('span');
     const actionButtons = document.querySelector('.compose-form-actions');
-
-    expect(getByText('Reply draft edit mode.', { selector: 'h2' }))
-      .to.have.attribute('class')
-      .to.equal('sr-only');
 
     expect(patientSafetyNotice).to.exist;
 

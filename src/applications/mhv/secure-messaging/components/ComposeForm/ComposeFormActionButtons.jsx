@@ -11,7 +11,9 @@ const ComposeFormActionButtons = ({
   setDeleteButtonClicked,
   cannotReply,
   draftId,
+  draftsCount,
   navigationError,
+  refreshThreadCallback,
   setNavigationError,
   setUnsavedNavigationError,
   savedForm,
@@ -92,8 +94,10 @@ const ComposeFormActionButtons = ({
       {/* UCD requested to keep button even when not saved as draft */}
       <DeleteDraft
         draftId={draftId}
+        draftsCount={draftsCount}
         formPopulated={formPopulated}
         navigationError={navigationError}
+        refreshThreadCallback={refreshThreadCallback}
         savedForm={savedForm}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
@@ -108,11 +112,13 @@ const ComposeFormActionButtons = ({
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
+  draftsCount: PropTypes.number,
   formPopulated: PropTypes.bool,
   hideSaveDraftButton: PropTypes.bool,
   hideSendButton: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
+  refreshThreadCallback: PropTypes.func,
   savedForm: PropTypes.bool,
   setDeleteButtonClicked: PropTypes.func,
   setNavigationError: PropTypes.func,

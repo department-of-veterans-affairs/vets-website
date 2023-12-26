@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { clearDraft } from '../actions/draftDetails';
+import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
@@ -13,8 +13,9 @@ import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { recipients } = useSelector(state => state.sm);
+  const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
+  const draftMessage = drafts?.length && drafts[0];
   const { draftId } = useParams();
 
   const [acknowledged, setAcknowledged] = useState(false);
@@ -30,13 +31,13 @@ const Compose = () => {
       dispatch(getPatientSignature());
 
       if (location.pathname === Paths.COMPOSE) {
-        dispatch(clearDraft());
+        dispatch(clearThread());
         setDraftType('compose');
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
       return () => {
-        dispatch(clearDraft());
+        dispatch(clearThread());
       };
     },
     [dispatch, draftId, location.pathname],
@@ -96,7 +97,7 @@ const Compose = () => {
         />
       );
     }
-    if (error) {
+    if (saveError) {
       return (
         <va-alert status="error" visible class="vads-u-margin-y--9">
           <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>

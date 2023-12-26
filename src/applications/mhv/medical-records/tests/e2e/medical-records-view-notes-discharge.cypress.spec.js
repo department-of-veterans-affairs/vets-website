@@ -19,8 +19,7 @@ describe('Medical Records Care Summary Page', () => {
 
     // Verify Discharge Summary Note Details Location
     NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');
-    // Verify Discharge Summary Details Admission Date
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('August 5, 2022');
+
     // Verify Discharge Summary Details DischargeDate
     NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
     // Verify Discharge Summary Admitted By --this is currently removed

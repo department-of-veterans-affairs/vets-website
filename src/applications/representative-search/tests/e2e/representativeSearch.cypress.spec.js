@@ -40,7 +40,7 @@ describe('Representative Search', () => {
 
     cy.intercept(
       'GET',
-      '/services/veteran/v0/accredited_representatives?**',
+      '/services/veteran/v0/vso_accredited_representatives?**',
       mockRepresentativesSearchResults,
     ).as('searchRepresentatives');
   });
@@ -68,10 +68,14 @@ describe('Representative Search', () => {
   it('shows search result header even when no results are found', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
-    cy.intercept('GET', '/services/veteran/v0/accredited_representatives?**', {
-      data: [],
-      meta: { pagination: { totalEntries: 0 } },
-    }).as('searchFacilities');
+    cy.intercept(
+      'GET',
+      '/services/veteran/v0/vso_accredited_representatives?**',
+      {
+        data: [],
+        meta: { pagination: { totalEntries: 0 } },
+      },
+    ).as('searchFacilities');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
