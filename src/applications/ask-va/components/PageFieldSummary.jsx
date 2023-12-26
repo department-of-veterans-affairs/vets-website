@@ -27,7 +27,7 @@ const PageFieldSummary = props => {
       {currentPage[0]?.chapterTitle === alertPage[0].chapterTitle &&
         updateSubmitted}
       <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header">{title} WHATTTTT</h4>
+        <h4 className="form-review-panel-page-header">{title}</h4>
         <span>
           {!noEditBtn.includes(title) && defaultEditButton({ label: `Edit` })}
         </span>
