@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -15,10 +16,11 @@ import {
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine } from '../../../shared/util/constants';
+import { txtLine, crisisLineHeader } from '../../../shared/util/constants';
 import {
   generateLabsIntro,
   generatePathologyContent,
@@ -37,11 +39,8 @@ const PathologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record],
@@ -57,7 +56,10 @@ const PathologyDetails = props => {
 
   const generatePathologyTxt = async () => {
     const content = `
+${crisisLineHeader}\n\n    
 ${record.name} \n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
 Sample tested: ${record.sampleTested} \n
