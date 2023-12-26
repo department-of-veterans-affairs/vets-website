@@ -5,17 +5,12 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
+import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 
 describe('Verify old messages - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
 
-  const updatedData = mockRecipients.data.slice(1);
-  const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
-  const removedFirstRecipientsList = {
-    data: updatedData,
-    meta: updatedMeta,
-  };
   const currentDate = new Date();
   const fortyFiveDaysAgo = new Date();
   fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
@@ -26,7 +21,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
     landingPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
-      removedFirstRecipientsList,
+      mockNoRecipients,
     );
   });
 
@@ -106,11 +101,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       ],
     };
 
-    landingPage.loadSingleThread(
-      mockThreadWithOldDraft,
-      fortyFiveDaysAgo,
-      fortyFiveDaysAgo,
-    );
+    landingPage.loadSingleThread(mockThreadWithOldDraft, fortyFiveDaysAgo);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
