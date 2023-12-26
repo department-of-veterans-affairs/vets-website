@@ -63,7 +63,7 @@ const ComposeForm = props => {
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
 
-  const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const { isSaving } = useSelector(state => state.sm.threadDetails);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const signature = useSelector(state => state.sm.preferences.signature);
@@ -631,6 +631,7 @@ const ComposeForm = props => {
             onSend={sendMessageHandler}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             draftId={draft?.messageId}
+            draftsCount={1}
             formPopulated={formPopulated}
             navigationError={navigationError}
             setNavigationError={setNavigationError}
