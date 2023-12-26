@@ -170,6 +170,7 @@ const ReplyForm = props => {
               replyMessage={replyMessage}
               setLastFocusableElement={setLastFocusableElement}
               signature={signature}
+              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
             />
           </form>
         </section>
