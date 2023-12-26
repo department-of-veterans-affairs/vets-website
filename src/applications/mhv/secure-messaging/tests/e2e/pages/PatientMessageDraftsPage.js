@@ -500,6 +500,17 @@ class PatientMessageDraftsPage {
   verifyDraftMessageBannerTextHasFocus = () => {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
+
+  verifySendMessageConfirmationMessageText = () => {
+    cy.get('va-alert').should(
+      'have.text',
+      'Secure message was successfully sent.',
+    );
+  };
+
+  verifySendMessageConfirmationHasFocus = () => {
+    cy.get('va-alert').should('have.focus');
+  };
 }
 
 export default PatientMessageDraftsPage;
