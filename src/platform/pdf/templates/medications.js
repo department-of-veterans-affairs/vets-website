@@ -181,13 +181,22 @@ const generateResultsContent = async (doc, parent, data) => {
     }
 
     // results --> preface
-    if (resultItem.preface) {
+    if (resultItem.preface && !Array.isArray(resultItem.preface)) {
       results.add(
         createSubHeading(doc, config, resultItem.preface, {
           paragraphGap: 12,
           x: 16,
         }),
       );
+    } else if (resultItem.preface && Array.isArray(resultItem.preface)) {
+      for (const prefaceItem of resultItem.preface) {
+        results.add(
+          createSubHeading(doc, config, prefaceItem.value, {
+            paragraphGap: 12,
+            x: 16,
+          }),
+        );
+      }
     }
 
     // results --> items

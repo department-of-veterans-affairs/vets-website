@@ -205,23 +205,18 @@ export const buildAllergiesPDFList = allergies => {
         {
           items: [
             {
-              title: 'Reaction',
+              title: 'Date entered',
+              value: validateField(item.date),
+              inline: true,
+            },
+            {
+              title: 'Signs and symptoms',
               value: processList(item.reaction),
               inline: true,
             },
             {
               title: 'Type of allergy',
               value: validateField(item.type),
-              inline: true,
-            },
-            // {
-            //   title: 'VA drug class',
-            //   value: validateField(item.drugClasses),
-            //   inline: true,
-            // },
-            {
-              title: 'Date entered',
-              value: validateField(item.date),
               inline: true,
             },
             {
