@@ -103,8 +103,8 @@ export const dynamicContent = {
         <Fragment key={`${ORANGE_2_2_B}-2`}>
           <li>
             Agent Orange exposure from service on a U.S. military vessel that
-            operated in either of these waters <strong>January 9, 1962</strong>,
-            and <strong>May 7, 1975</strong>:
+            operated in either of these waters between{' '}
+            <strong>January 9, 1962</strong>, and <strong>May 7, 1975</strong>:
             <ul>
               <li>
                 The inland waterways of Vietnam, <strong>or</strong>
@@ -140,7 +140,7 @@ export const dynamicContent = {
       content: (
         <li key={`${ORANGE_2_2_1_B}-1`}>
           Agent Orange exposure from service in American Samoa or its
-          territorial waters <strong>January 9, 1962</strong>, through{' '}
+          territorial waters from <strong>January 9, 1962</strong>, through{' '}
           <strong>July 31, 1980</strong>. We’ve added this new location under
           the PACT Act.
         </li>
@@ -271,7 +271,7 @@ export const dynamicContent = {
           B-52 bomber carrying nuclear weapons near Thule Air Force Base in
           Greenland from <strong>January 21, 1968</strong>, to{' '}
           <strong>September 25, 1968</strong>. We’ve added this new location
-          under the 2022 PACT Act.
+          under the PACT Act.
         </li>
       ),
     },

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { medicationsUrls } from '../util/constants';
 
 const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1 
@@ -18,12 +18,14 @@ const getLinkUrl = crumb => {
 };
 
 const RxBreadcrumbs = () => {
+  const location = useLocation();
   const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const currentPath = useSelector(state => state.rx.breadcrumbs.location);
   const allCrumbs = [...crumbs, currentPath];
   return (
     <>
-      {allCrumbs.length > 0 &&
+      {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
+        allCrumbs.length > 0 &&
         allCrumbs[0]?.url && (
           <div className="no-print">
             <VaBreadcrumbs
@@ -33,11 +35,7 @@ const RxBreadcrumbs = () => {
             >
               {allCrumbs.map((crumb, idx) => (
                 <li key={idx}>
-                  {crumb.url === medicationsUrls.MEDICATIONS_ABOUT ? ( // Assign <a> tag for link outside app's router
-                    <a href={crumb.url}>{crumb.label}</a>
-                  ) : (
-                    <Link to={getLinkUrl(crumb)}>{crumb.label}</Link>
-                  )}
+                  <Link to={getLinkUrl(crumb)}>{crumb.label}</Link>
                 </li>
               ))}
             </VaBreadcrumbs>

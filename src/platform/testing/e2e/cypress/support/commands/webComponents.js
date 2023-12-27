@@ -12,7 +12,8 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
       .shadow()
       .find('input')
       .as('currentElement')
-      .type(strValue);
+      .clear({ force: true })
+      .type(strValue, { force: true });
 
     cy.get('@currentElement').should('have.value', strValue);
   }
@@ -30,7 +31,8 @@ Cypress.Commands.add('fillVaTextarea', (field, value) => {
       .shadow()
       .find('textarea')
       .as('currentElement')
-      .type(strValue);
+      .clear({ force: true })
+      .type(strValue, { force: true });
 
     cy.get('@currentElement').should('have.value', strValue);
   }

@@ -92,6 +92,7 @@ class IntroductionPage extends React.Component {
               <br />
             </div>
           }
+          hideUnauthedStartLink
           displayNonVeteranMessaging
         >
           Please complete the 21-0845 form to apply for disclosure

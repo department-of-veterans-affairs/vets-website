@@ -96,7 +96,7 @@ const v2 = {
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      'check-in-user',
+      `check-in-user${setECheckinStartedCalled ? '-45MR' : ''}`,
       uuid,
     );
     return {
