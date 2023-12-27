@@ -71,7 +71,6 @@ const ComposeForm = props => {
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
-  const [hideSendButton, setHideSendButton] = useState(false);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -168,10 +167,6 @@ const ComposeForm = props => {
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0) {
       if (draft) {
-        if (!recipients.associatedTriageGroupsQty > 0) {
-          setHideSendButton(true);
-        }
-
         const isAssociated = recipients.allRecipients.some(
           checkTriageGroupAssociation(draft),
         );
@@ -746,7 +741,6 @@ const ComposeForm = props => {
             draftId={draft?.messageId}
             draftsCount={1}
             formPopulated={formPopulated}
-            hideSendButton={hideSendButton}
             navigationError={navigationError}
             onSaveDraft={(type, e) => saveDraftHandler(type, e)}
             onSend={sendMessageHandler}

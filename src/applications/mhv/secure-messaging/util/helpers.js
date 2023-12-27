@@ -218,10 +218,10 @@ export const resetUserSession = localStorageValues => {
   return { signOutMessage: 'non-empty string', timeOutId: timeout };
 };
 
-export const checkTriageGroupAssociation = message => {
+export const checkTriageGroupAssociation = tempRecipient => {
   return recipient =>
-    recipient.id === message.recipientId ||
-    recipient.name === message.triageGroupName;
+    recipient.id === tempRecipient.recipientId ||
+    recipient.name === tempRecipient.name;
 };
 
 export const formatRecipient = recipient => {

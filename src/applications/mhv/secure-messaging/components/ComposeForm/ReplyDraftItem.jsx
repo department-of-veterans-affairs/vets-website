@@ -547,11 +547,6 @@ const ReplyDraftItem = props => {
               refreshThreadCallback={refreshThreadHandler}
               setDeleteButtonClicked={setDeleteButtonClicked}
               setNavigationError={setNavigationError}
-              hideSendButton={
-                mhvSecureMessagingBlockedTriageGroup1p0
-                  ? showBlockedTriageGroupAlert
-                  : false
-              }
             />
           </div>
         </>
