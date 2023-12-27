@@ -112,11 +112,7 @@ const CheckInConfirmation = props => {
     [checkInDataError, updateError],
   );
 
-  let pageTitle = t('youre-checked-in');
-
-  if (doTravelPay && (!travelPayEligible || travelPayClaimError)) {
-    pageTitle += ` ${t('we-couldnt-file-reimbursement')}`;
-  }
+  const pageTitle = t('youre-checked-in');
 
   const renderLoadingMessage = () => {
     return (
