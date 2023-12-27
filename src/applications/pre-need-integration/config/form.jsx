@@ -545,7 +545,7 @@ const formConfig = {
                 fileUploadUrl: `${
                   environment.API_URL
                 }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf', 'jpg', '.jpeg', '.png'],
+                fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,
                 createPayload: file => {
