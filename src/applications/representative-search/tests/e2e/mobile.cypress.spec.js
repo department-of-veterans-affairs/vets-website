@@ -3,10 +3,9 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 Cypress.Commands.add('checkSearch', () => {
-  cy.get('input[name="City, state or postal code"]', { timeout: 5000 }).type(
-    `Austin, TX`,
-    { force: true },
-  );
+  cy.get('input[name="City, state, postal code or address"]', {
+    timeout: 5000,
+  }).type(`Austin, TX`, { force: true });
 
   cy.get('#representative-search').click();
 
@@ -24,7 +23,7 @@ describe('Mobile', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'GET',
-      '/services/veteran/v0/accredited_representatives',
+      '/services/veteran/v0/vso_accredited_representatives',
       mockRepresentativeData,
     );
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);

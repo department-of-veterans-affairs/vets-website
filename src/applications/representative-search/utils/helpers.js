@@ -64,7 +64,7 @@ export const mockPaginatedResponse = (allResults, page) => {
   const endIndex = startIndex + itemsPerPage;
 
   const data = allResults.data.slice(startIndex, endIndex);
-  const link = `https://staging-api.va.gov/services/veteran/v0/accredited_representatives${window.location.search.substring(
+  const link = `https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives${window.location.search.substring(
     1,
   )}`;
   const links = {

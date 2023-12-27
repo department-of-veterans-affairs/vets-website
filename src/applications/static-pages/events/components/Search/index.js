@@ -1,7 +1,5 @@
-// Node modules.
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -11,10 +9,8 @@ import {
 } from '../../helpers';
 
 export const Search = ({ onSearch }) => {
-  // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);
 
-  // Derive the default selected option.
   const defaultSelectedOption = deriveDefaultSelectedOption();
 
   const getFullDate = (day, month, year) => {
@@ -25,7 +21,6 @@ export const Search = ({ onSearch }) => {
     return `${year}-${month}-${day}`;
   };
 
-  // Derive the state.
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
   const [startDateMonth, setStartDateMonth] = useState(
     queryParams.get('startDateMonth') || '',
@@ -54,7 +49,6 @@ export const Search = ({ onSearch }) => {
     getFullDate(endDateDay, endDateMonth, endDateYear),
   );
 
-  // Derive errors state.
   const [startDateMonthError, setStartDateMonthError] = useState(false);
   const [startDateDayError, setStartDateDayError] = useState(false);
   const [startDateYearError, setStartDateYearError] = useState(false);
@@ -108,12 +102,10 @@ export const Search = ({ onSearch }) => {
       option => option?.value === event?.target?.value,
     );
 
-    // Escape early if they selected the same field.
     if (filterByOption?.value === selectedOption?.value) {
       return;
     }
 
-    // Reset fields.
     setStartDateMonth('');
     setStartDateDay('');
     setStartDateYear('');
@@ -128,7 +120,6 @@ export const Search = ({ onSearch }) => {
     setEndDateYearError(false);
     setFullDateError(false);
 
-    // Update the selected option.
     setSelectedOption(filterByOption);
   };
 
@@ -137,7 +128,6 @@ export const Search = ({ onSearch }) => {
 
     let filterList;
 
-    // Escape early with error if we are missing a required field.
     if (selectedOption?.value === 'specific-date') {
       filterList = {
         startDateMonth,
@@ -158,7 +148,6 @@ export const Search = ({ onSearch }) => {
       }
     }
 
-    // Escape early with error if we are missing a required field.
     if (selectedOption?.value === 'custom-date-range') {
       filterList = {
         startDateMonth,

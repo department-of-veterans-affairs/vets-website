@@ -28,8 +28,19 @@ describe('Get condition action', () => {
     const mockData = condition;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getConditionDetails('3106')(dispatch).then(() => {
+    return getConditionDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
+    });
+  });
+});
+
+describe('Get condition action', () => {
+  it('should dispatch a get details action and pull from the list', () => {
+    const dispatch = sinon.spy();
+    return getConditionDetails('1', [{ id: '1' }])(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Conditions.GET_FROM_LIST,
+      );
     });
   });
 });
