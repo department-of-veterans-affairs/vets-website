@@ -28,7 +28,7 @@ describe('BlockedTriageGroupAlert component', () => {
 
   it('does not render a list of facilities if there is only 1', async () => {
     const screen = setup(initialState, {
-      blockedTriageList: [{ name: '###PQR TRIAGE_TEAM 747###' }],
+      blockedTriageGroupList: [{ name: '###PQR TRIAGE_TEAM 747###' }],
       status: 'alert',
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
@@ -45,7 +45,7 @@ describe('BlockedTriageGroupAlert component', () => {
 
   it('displays all facilities if more than 1 are blocked', async () => {
     const screen = setup(initialState, {
-      blockedTriageList: [
+      blockedTriageGroupList: [
         { name: '***Jeasmitha-Cardio-Clinic***' },
         { name: '###PQR TRIAGE_TEAM 747###' },
       ],

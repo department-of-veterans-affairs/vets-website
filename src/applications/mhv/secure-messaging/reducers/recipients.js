@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { formatRecipient } from '../util/helpers';
+import { findBlockedFacilities, formatRecipient } from '../util/helpers';
 
 const initialState = {
   /**
@@ -10,6 +10,7 @@ const initialState = {
   preferredTeams: [],
   allowedRecipients: [],
   blockedRecipients: [],
+  blockedFacilities: [],
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
 };
@@ -43,6 +44,8 @@ export const recipientsReducer = (state = initialState, action) => {
         preferredTeams: action.response.data
           .filter(recipient => recipient.attributes.preferredTeam === true)
           .map(recipient => formatRecipient(recipient)),
+
+        blockedFacilities: findBlockedFacilities(action.response.data),
       };
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {

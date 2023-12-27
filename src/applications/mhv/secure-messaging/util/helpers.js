@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders, Paths } from './constants';
+import { DefaultFolders as Folders, Paths, Recipients } from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -232,5 +232,28 @@ export const formatRecipient = recipient => {
     blockedStatus: recipient.attributes.blockedStatus,
     preferredTeam: recipient.attributes.preferredTeam,
     relationshipType: recipient.attributes.relationshipType,
+    type: Recipients.CARE_TEAM,
   };
+};
+
+export const findBlockedFacilities = recipients => {
+  const blockedFacilities = new Set();
+  const allowedFacilities = new Set();
+  const fullyBlockedFacilities = [];
+
+  recipients.forEach(recipient => {
+    if (recipient.attributes.blockedStatus === true) {
+      blockedFacilities.add(recipient.attributes.stationNumber);
+    } else {
+      allowedFacilities.add(recipient.attributes.stationNumber);
+    }
+  });
+
+  blockedFacilities.forEach(facility => {
+    if (!allowedFacilities.has(facility)) {
+      fullyBlockedFacilities.push(facility);
+    }
+  });
+
+  return fullyBlockedFacilities;
 };

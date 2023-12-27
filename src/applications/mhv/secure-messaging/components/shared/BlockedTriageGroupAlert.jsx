@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import { Recipients } from '../../util/constants';
 
 const BlockedTriageGroupAlert = props => {
-  const { blockedTriageList, status } = props;
+  const { blockedTriageGroupList, status } = props;
   const [careTeamTitleText, setCareTeamTitleText] = useState(
     'certain providers',
   );
@@ -10,11 +13,42 @@ const BlockedTriageGroupAlert = props => {
     'these care teams',
   );
 
+  const ehrDataByVhaId = useSelector(
+    state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
+  );
+
+  const { blockedFacilities } = useSelector(state => state.sm.recipients);
+
+  const blockedFacilityNames = blockedFacilities?.map(facility => {
+    return {
+      stationNumber: facility,
+      name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+      type: Recipients.FACILITY,
+    };
+  });
+
+  const blockedTriageList = useMemo(() => {
+    return blockedTriageGroupList.length > 1
+      ? [
+          ...blockedTriageGroupList.filter(
+            triageGroup =>
+              !blockedFacilities.includes(triageGroup.stationNumber),
+          ),
+          ...blockedFacilityNames,
+        ]
+      : blockedTriageGroupList;
+  }, []);
+
   useEffect(
     () => {
       if (blockedTriageList?.length === 1) {
         setCareTeamTitleText(blockedTriageList[0].name);
-        setMultipleGroupsText('this care team');
+        if (blockedTriageList[0].type === Recipients.CARE_TEAM) {
+          setMultipleGroupsText('this care team');
+        } else {
+          setCareTeamTitleText(`care teams at ${blockedTriageList[0].name}`);
+          setMultipleGroupsText('these care teams');
+        }
       }
     },
     [blockedTriageList],
@@ -31,13 +65,17 @@ const BlockedTriageGroupAlert = props => {
           <ul>
             {blockedTriageList?.map((blockedTriageGroup, i) => (
               <li data-testid="blocked-triage-group" key={i}>
-                {blockedTriageGroup.name}
+                {`${
+                  blockedTriageGroup.type === Recipients.FACILITY
+                    ? 'Care teams at '
+                    : ''
+                }${blockedTriageGroup.name}`}
               </li>
             ))}
           </ul>
         )}
         <p className="vads-u-margin-bottom--1p5">
-          If you need help contacting {multipleGroupsText}, call your VA health
+          If you need to contact {multipleGroupsText}, call your VA health
           facility.
         </p>
         <a href="/find-locations/">Find your VA health facility</a>
@@ -55,7 +93,7 @@ const BlockedTriageGroupAlert = props => {
       </h2>
       <div>
         <p className="vads-u-margin-bottom--1p5">
-          If you need to contact your care tam, call your VA health facility.
+          If you need to contact your care team, call your VA health facility.
         </p>
         <a href="/find-locations/">Find your VA health facility</a>
       </div>
@@ -64,7 +102,7 @@ const BlockedTriageGroupAlert = props => {
 };
 
 BlockedTriageGroupAlert.propTypes = {
-  blockedTriageList: PropTypes.arrayOf(PropTypes.object),
+  blockedTriageGroupList: PropTypes.arrayOf(PropTypes.object),
   status: PropTypes.string,
 };
 

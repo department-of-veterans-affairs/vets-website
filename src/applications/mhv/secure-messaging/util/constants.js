@@ -331,3 +331,8 @@ export const PageTitles = {
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
 };
+
+export const Recipients = {
+  CARE_TEAM: 'Care Team',
+  FACILITY: 'Facility',
+};

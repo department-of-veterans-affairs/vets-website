@@ -29,6 +29,7 @@ import {
   draftAutoSaveTimeout,
   DefaultFolders,
   ErrorMessages,
+  Recipients,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
@@ -69,7 +70,7 @@ const ComposeForm = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageList, setBlockedTriageList] = useState([]);
+  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
   const [hideSendButton, setHideSendButton] = useState(false);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
@@ -177,19 +178,23 @@ const ComposeForm = props => {
 
         if (!isAssociated) {
           setShowBlockedTriageGroupAlert(true);
-          setBlockedTriageList([
-            { id: draft.recipientId, name: draft.triageGroupName },
+          setBlockedTriageGroupList([
+            {
+              id: draft.recipientId,
+              name: draft.triageGroupName,
+              type: Recipients.CARE_TEAM,
+            },
             ...recipients.blockedRecipients,
           ]);
         } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
           setShowBlockedTriageGroupAlert(true);
-          setBlockedTriageList(recipients.blockedRecipients);
+          setBlockedTriageGroupList(recipients.blockedRecipients);
         }
       } else {
         setShowBlockedTriageGroupAlert(
           recipients.associatedBlockedTriageGroupsQty > 0,
         );
-        setBlockedTriageList(recipients.blockedRecipients);
+        setBlockedTriageGroupList(recipients.blockedRecipients);
       }
     }
     // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
@@ -279,8 +284,7 @@ const ComposeForm = props => {
     );
   };
 
-  if (draft && recipients.associatedTriageGroupsQty > 0 && !formPopulated)
-    populateForm();
+  if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
     () => {
@@ -596,7 +600,7 @@ const ComposeForm = props => {
                   vads-u-margin-bottom--neg2"
               >
                 <BlockedTriageGroupAlert
-                  blockedTriageList={blockedTriageList}
+                  blockedTriageGroupList={blockedTriageGroupList}
                   status="alert"
                 />
               </div>
@@ -737,6 +741,7 @@ const ComposeForm = props => {
 
           <DraftSavedInfo />
           <ComposeFormActionButtons
+            cannotReply={recipients.associatedTriageGroupsQty === 0}
             deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             draftsCount={1}

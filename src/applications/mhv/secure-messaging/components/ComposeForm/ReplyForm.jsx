@@ -12,7 +12,7 @@ import {
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
-import { PageTitles } from '../../util/constants';
+import { PageTitles, Recipients } from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
 
 const ReplyForm = props => {
@@ -31,7 +31,7 @@ const ReplyForm = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageList, setBlockedTriageList] = useState([]);
+  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const signature = useSelector(state => state.sm.preferences.signature);
   const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
@@ -44,18 +44,13 @@ const ReplyForm = props => {
   useEffect(() => {
     const draftToEdit = drafts[0];
     if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
-      const tempRecipient =
-        draftToEdit.triageGroupName !== draftToEdit.recipientName
-          ? messages.find(
-              m => m.triageGroupName === draftToEdit.triageGroupName,
-            ) || {
-              recipientId: draftToEdit.recipientId,
-              triageGroupName: draftToEdit.triageGroupName,
-            }
-          : {
-              recipientId: draftToEdit.recipientId,
-              triageGroupName: draftToEdit.triageGroupName,
-            };
+      const tempRecipient = {
+        recipientId: draftToEdit.recipientId,
+        name:
+          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
+            ?.triageGroupName || draftToEdit.triageGroupName,
+        type: Recipients.CARE_TEAM,
+      };
 
       const isAssociated = recipients.allRecipients.some(
         checkTriageGroupAssociation(tempRecipient),
@@ -67,14 +62,12 @@ const ReplyForm = props => {
 
       if (!isAssociated) {
         setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageList([
-          { id: draftToEdit.recipientId, name: draftToEdit.triageGroupName },
-        ]);
+        setBlockedTriageGroupList([tempRecipient]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
         setShowBlockedTriageGroupAlert(isBlocked);
-        setBlockedTriageList(
+        setBlockedTriageGroupList(
           recipients.blockedRecipients.filter(
-            recipient => recipient.name === tempRecipient.triageGroupName,
+            recipient => recipient.name === tempRecipient.name,
           ),
         );
       }
@@ -145,22 +138,20 @@ const ReplyForm = props => {
         {mhvSecureMessagingBlockedTriageGroup1p0 &&
           showBlockedTriageGroupAlert && (
             <BlockedTriageGroupAlert
-              blockedTriageList={blockedTriageList}
+              blockedTriageGroupList={blockedTriageGroupList}
               status="alert"
             />
           )}
-
-        {mhvSecureMessagingBlockedTriageGroup1p0
-          ? !cannotReply &&
-            !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />
-          : !cannotReply && <EmergencyNote dropDownFlag />}
 
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply && <EmergencyNote dropDownFlag />}
+            {mhvSecureMessagingBlockedTriageGroup1p0
+              ? !cannotReply &&
+                !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />
+              : !cannotReply && <EmergencyNote dropDownFlag />}
 
             <ReplyDrafts
               drafts={drafts}
@@ -183,6 +174,7 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
+  messages: PropTypes.object,
   recipients: PropTypes.object,
   replyMessage: PropTypes.object,
 };

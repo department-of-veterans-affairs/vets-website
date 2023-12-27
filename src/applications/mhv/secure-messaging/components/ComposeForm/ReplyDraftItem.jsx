@@ -535,7 +535,11 @@ const ReplyDraftItem = props => {
 
           <div ref={composeFormActionButtonsRef}>
             <ComposeFormActionButtons
-              cannotReply={cannotReply}
+              cannotReply={
+                mhvSecureMessagingBlockedTriageGroup1p0
+                  ? showBlockedTriageGroupAlert || cannotReply
+                  : cannotReply
+              }
               draftId={draft?.messageId}
               draftsCount={draftsCount}
               onSaveDraft={(type, e) => saveDraftHandler(type, e)}

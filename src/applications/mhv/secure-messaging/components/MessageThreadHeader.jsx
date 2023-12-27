@@ -6,7 +6,7 @@ import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MessageActionButtons from './MessageActionButtons';
-import { Categories, Paths, PageTitles } from '../util/constants';
+import { Categories, Paths, PageTitles, Recipients } from '../util/constants';
 import { checkTriageGroupAssociation, updatePageTitle } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
@@ -39,7 +39,7 @@ const MessageThreadHeader = props => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
-  const [blockedTriageList, setBlockedTriageList] = useState([]);
+  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
     state =>
@@ -48,9 +48,7 @@ const MessageThreadHeader = props => {
       ],
   );
 
-  const messageHistory = useSelector(
-    state => state.sm.messageDetails.messageHistory,
-  );
+  const messages = useSelector(state => state.sm.threadDetails.messages);
 
   const handleReplyButton = useCallback(
     () => {
@@ -61,18 +59,13 @@ const MessageThreadHeader = props => {
 
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0 && message) {
-      const tempRecipient =
-        message.triageGroupName !== message.recipientName
-          ? messageHistory.find(
-              m => m.triageGroupName === message.triageGroupName,
-            ) || {
-              recipientId,
-              triageGroupName: message.triageGroupName,
-            }
-          : {
-              recipientId,
-              triageGroupName: message.triageGroupName,
-            };
+      const tempRecipient = {
+        recipientId,
+        name:
+          messages.find(m => m.triageGroupName === message.triageGroupName)
+            ?.triageGroupName || message.triageGroupName,
+        type: Recipients.CARE_TEAM,
+      };
 
       const isAssociated = recipients.allRecipients.some(
         checkTriageGroupAssociation(tempRecipient),
@@ -84,17 +77,12 @@ const MessageThreadHeader = props => {
 
       if (!isAssociated) {
         setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageList([
-          {
-            id: tempRecipient.recipientId,
-            name: tempRecipient.triageGroupName,
-          },
-        ]);
+        setBlockedTriageGroupList([tempRecipient]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
         setShowBlockedTriageGroupAlert(isBlocked);
-        setBlockedTriageList(
+        setBlockedTriageGroupList(
           recipients.blockedRecipients.filter(
-            recipient => recipient.name === tempRecipient.triageGroupName,
+            recipient => recipient.name === tempRecipient.name,
           ),
         );
       }
@@ -159,7 +147,7 @@ const MessageThreadHeader = props => {
         (showBlockedTriageGroupAlert && (
           <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             <BlockedTriageGroupAlert
-              blockedTriageList={blockedTriageList}
+              blockedTriageGroupList={blockedTriageGroupList}
               status="alert"
             />
           </div>
