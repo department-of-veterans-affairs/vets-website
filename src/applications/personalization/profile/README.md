@@ -113,7 +113,7 @@ Open the mock api url, and visit `/v0/user` to test it. You should see a JSON re
 Since we are running the site as a static site, build the app in localhost mode. We need build for the locally environment so we can change the API url to the mock api we are running in this instance
 
 ```bash
- yarn build:webpack:local --env api="${instance-mock-api-url}"
+ yarn build:webpack:local --env api="http://localhost:3000"
 ```
 
 Use the the url from step 4 as your api url
