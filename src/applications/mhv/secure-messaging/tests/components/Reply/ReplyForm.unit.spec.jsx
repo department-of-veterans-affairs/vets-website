@@ -39,6 +39,22 @@ describe('Reply form component', () => {
         ...threadDetailsReducer.threadDetails,
       },
     },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: [
+            {
+              facilityId: '662',
+              isCerner: false,
+            },
+            {
+              facilityId: '636',
+              isCerner: false,
+            },
+          ],
+        },
+      },
+    },
     featureToggles: {},
   };
   const { threadDetails } = threadDetailsReducer;
@@ -47,7 +63,7 @@ describe('Reply form component', () => {
 
   const render = (state = initialState, props = {}, message = replyMessage) => {
     return renderWithStoreAndRouter(
-      <ReplyForm replyMessage={message} {...props} />,
+      <ReplyForm replyMessage={message} drafts={[]} {...props} />,
       {
         initialState: state,
         reducers: reducer,
@@ -180,12 +196,6 @@ describe('Reply form component', () => {
   });
 
   it('displays BlockedTriageGroupAlert if group is blocked', async () => {
-    const customReplyMessage = {
-      ...replyMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
     const customState = {
       ...initialState,
       sm: {
@@ -207,14 +217,11 @@ describe('Reply form component', () => {
       `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
     ] = true;
 
-    const screen = render(
-      customState,
-      {
-        draftToEdit: customReplyMessage,
-        recipients: customState.sm.recipients,
-      },
-      customReplyMessage,
-    );
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
 
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
@@ -223,17 +230,11 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 
   it('displays BlockedTriageGroupAlert with blocked group (only) if multiple groups are blocked', async () => {
-    const customReplyMessage = {
-      ...replyMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
     const customState = {
       ...initialState,
       sm: {
@@ -255,14 +256,11 @@ describe('Reply form component', () => {
       `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
     ] = true;
 
-    const screen = render(
-      customState,
-      {
-        draftToEdit: customReplyMessage,
-        recipients: customState.sm.recipients,
-      },
-      customReplyMessage,
-    );
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
 
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
@@ -270,17 +268,11 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 
   it('displays BlockedTriageGroupAlert with blocked group (only) if no associations at all', async () => {
-    const customReplyMessage = {
-      ...replyMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
     const customState = {
       ...initialState,
       sm: {
@@ -302,14 +294,11 @@ describe('Reply form component', () => {
       `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
     ] = true;
 
-    const screen = render(
-      customState,
-      {
-        draftToEdit: customReplyMessage,
-        recipients: customState.sm.recipients,
-      },
-      customReplyMessage,
-    );
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
 
     const blockedTriageGroupAlert = await screen.findByTestId(
       'blocked-triage-group-alert',
@@ -317,7 +306,7 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 });

@@ -12,6 +12,8 @@ import twoBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
 import lostAssociation from '../../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import blockedFacility from '../../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
+import blockedFacilityAndTeam from '../../fixtures/json-triage-mocks/triage-teams-facility-and-team-blocked-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
@@ -19,11 +21,13 @@ import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
+import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
 } from '../../../util/testUtils';
+import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
 describe('Compose form component', () => {
   const initialState = {
@@ -41,6 +45,7 @@ describe('Compose form component', () => {
           noBlockedRecipients.meta.associatedBlockedTriageGroups,
       },
     },
+    drupalStaticData,
     featureToggles: {},
   };
 
@@ -48,7 +53,7 @@ describe('Compose form component', () => {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
-      draftDetails: { draftMessage },
+      threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
         preferredTeams: noBlockedRecipients.mockPreferredTeams,
@@ -60,6 +65,7 @@ describe('Compose form component', () => {
           noBlockedRecipients.meta.associatedBlockedTriageGroups,
       },
     },
+    drupalStaticData,
     featureToggles: {},
   };
   const setup = (customState, path, props) => {
@@ -504,18 +510,10 @@ describe('Compose form component', () => {
   });
 
   it('displays BlockedTriageGroupAlert if saved-draft recipient is blocked from 1 group', async () => {
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
-
     const customState = {
-      ...initialState,
+      ...draftState,
       sm: {
-        ...initialState.sm,
-        draftDetails: { customDraftMessage },
+        ...draftState.sm,
         recipients: {
           allRecipients: oneBlockedRecipient.mockAllRecipients,
           preferredTeams: oneBlockedRecipient.mockPreferredTeams,
@@ -535,13 +533,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customDraftMessage}
+        draft={customState.sm.threadDetails.drafts[0]}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customDraftMessage.id}`,
+        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
       },
     );
 
@@ -551,34 +549,27 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 
   it('displays BlockedTriageGroupAlert if multiple groups are blocked, including saved-draft recipient', async () => {
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
-
     const customState = {
+      ...draftState,
       sm: {
-        categories: { categories },
-        draftDetails: { customDraftMessage },
+        ...draftState.sm,
         recipients: {
           allRecipients: twoBlockedRecipients.mockAllRecipients,
           preferredTeams: twoBlockedRecipients.mockPreferredTeams,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
+          blockedFacilities: [],
           associatedTriageGroupsQty:
             twoBlockedRecipients.meta.associatedTriageGroups,
           associatedBlockedTriageGroupsQty:
             twoBlockedRecipients.meta.associatedBlockedTriageGroups,
         },
       },
-      featureToggles: {},
     };
 
     customState.featureToggles[
@@ -587,13 +578,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customDraftMessage}
+        draft={customState.sm.threadDetails.drafts[0]}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customDraftMessage.id}`,
+        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
       },
     );
 
@@ -610,17 +601,10 @@ describe('Compose form component', () => {
   });
 
   it('displays BlockedTriageGroupAlert if saved-draft recipient is not associated with user', async () => {
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
-
     const customState = {
+      ...draftState,
       sm: {
-        categories: { categories },
-        draftDetails: { customDraftMessage },
+        ...draftState.sm,
         recipients: {
           allRecipients: lostAssociation.mockAllRecipients,
           preferredTeams: lostAssociation.mockPreferredTeams,
@@ -632,7 +616,6 @@ describe('Compose form component', () => {
             lostAssociation.meta.associatedBlockedTriageGroups,
         },
       },
-      featureToggles: {},
     };
 
     customState.featureToggles[
@@ -641,13 +624,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customDraftMessage}
+        draft={customState.sm.threadDetails.drafts[0]}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customDraftMessage.id}`,
+        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
       },
     );
 
@@ -658,22 +641,15 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 
   it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
-    const customDraftMessage = {
-      ...draftMessage,
-      recipientId: 1013155,
-      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-    };
-
     const customState = {
+      ...draftState,
       sm: {
-        categories: { categories },
-        draftDetails: { customDraftMessage },
+        ...draftState.sm,
         recipients: {
           allRecipients: noAssociationsAtAll.mockAllRecipients,
           preferredTeams: noAssociationsAtAll.mockPreferredTeams,
@@ -685,7 +661,6 @@ describe('Compose form component', () => {
             noAssociationsAtAll.meta.associatedBlockedTriageGroups,
         },
       },
-      featureToggles: {},
     };
 
     customState.featureToggles[
@@ -694,13 +669,13 @@ describe('Compose form component', () => {
 
     const screen = renderWithStoreAndRouter(
       <ComposeForm
-        draft={customDraftMessage}
+        draft={customState.sm.threadDetails.drafts[0]}
         recipients={customState.sm.recipients}
       />,
       {
         initialState: customState,
         reducers: reducer,
-        path: `/thread/${customDraftMessage.id}`,
+        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
       },
     );
 
@@ -710,8 +685,97 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
     expect(screen.queryByTestId('Send-Button')).to.not.exist;
+  });
+
+  it('displays BlockedTriageGroupAlert if blocked from one facility', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: blockedFacility.mockAllRecipients,
+          preferredTeams: blockedFacility.mockPreferredTeams,
+          allowedRecipients: blockedFacility.mockAllowedRecipients,
+          blockedRecipients: blockedFacility.mockBlockedRecipients,
+          blockedFacilities: blockedFacility.mockBlockedFacilities,
+          associatedTriageGroupsQty:
+            blockedFacility.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            blockedFacility.meta.associatedBlockedTriageGroups,
+        },
+        threadDetails: {},
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={customState.sm.recipients} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+      },
+    );
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to care teams at VA Indiana health care",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert with list if blocked from one facility and care team at another facility', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: blockedFacilityAndTeam.mockAllRecipients,
+          preferredTeams: blockedFacilityAndTeam.mockPreferredTeams,
+          allowedRecipients: blockedFacilityAndTeam.mockAllowedRecipients,
+          blockedRecipients: blockedFacilityAndTeam.mockBlockedRecipients,
+          blockedFacilities: blockedFacilityAndTeam.mockBlockedFacilities,
+          associatedTriageGroupsQty:
+            blockedFacilityAndTeam.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            blockedFacilityAndTeam.meta.associatedBlockedTriageGroups,
+        },
+        threadDetails: {},
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={customState.sm.recipients} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+      },
+    );
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to certain providers",
+    );
+    const blockedList = screen.queryAllByTestId('blocked-triage-group');
+    expect(blockedList.length).to.equal(2);
+    expect(
+      blockedTriageGroupAlert.querySelector('ul li:last-child').textContent,
+    ).to.equal('Care teams at VA Indiana health care');
   });
 });

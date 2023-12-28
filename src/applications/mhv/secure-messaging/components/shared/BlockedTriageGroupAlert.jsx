@@ -28,11 +28,11 @@ const BlockedTriageGroupAlert = props => {
   });
 
   const blockedTriageList = useMemo(() => {
-    return blockedTriageGroupList.length > 1
+    return blockedTriageGroupList?.length > 1
       ? [
           ...blockedTriageGroupList.filter(
             triageGroup =>
-              !blockedFacilities.includes(triageGroup.stationNumber),
+              !blockedFacilities?.includes(triageGroup.stationNumber),
           ),
           ...blockedFacilityNames,
         ]

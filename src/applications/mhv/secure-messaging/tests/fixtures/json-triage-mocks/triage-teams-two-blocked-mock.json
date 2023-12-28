@@ -1,11 +1,11 @@
 {
   "data": [
     {
-      "id": "1013155",
+      "id": "2710520",
       "type": "all_triage_teams",
       "attributes": {
-        "triageTeamId": 1013155,
-        "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+        "triageTeamId": 2710520,
+        "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
         "stationNumber": "662",
         "blockedStatus": true,
         "preferredTeam": true,
@@ -70,8 +70,8 @@
   },
   "mockAllRecipients": [
     {
-      "id": 1013155,
-      "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
       "stationNumber": "662",
       "blockedStatus": true,
       "preferredTeam": true,
@@ -112,8 +112,8 @@
   ],
   "mockPreferredTeams": [
     {
-      "id": 1013155,
-      "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
       "stationNumber": "662",
       "blockedStatus": true,
       "preferredTeam": true,
@@ -180,12 +180,13 @@
   ],
   "mockBlockedRecipients": [
     {
-      "id": 1013155,
-      "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
       "stationNumber": "662",
       "blockedStatus": true,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2323849,
@@ -193,7 +194,8 @@
       "stationNumber": "662",
       "blockedStatus": true,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     }
   ]
 }

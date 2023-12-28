@@ -22,7 +22,6 @@ import {
   isOlderThan,
 } from '../../util/helpers';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
-// import twoBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
@@ -491,6 +490,7 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
+        threadDetails,
         recipients: {
           allRecipients: oneBlockedRecipient.mockAllRecipients,
           preferredTeams: oneBlockedRecipient.mockPreferredTeams,
@@ -501,13 +501,20 @@ describe('Thread Details container', () => {
           associatedBlockedTriageGroupsQty:
             oneBlockedRecipient.meta.associatedBlockedTriageGroups,
         },
-        messageDetails: {
-          ...messageDetails,
-          message: {
-            ...messageDetails.message,
-            recipientId: 1013155,
-            recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
-            triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
           },
         },
       },
@@ -526,7 +533,7 @@ describe('Thread Details container', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to ***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
   });
 
@@ -536,6 +543,7 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
+        threadDetails,
         recipients: {
           allRecipients: lostAssociation.mockAllRecipients,
           preferredTeams: lostAssociation.mockPreferredTeams,
@@ -546,7 +554,22 @@ describe('Thread Details container', () => {
           associatedBlockedTriageGroupsQty:
             lostAssociation.meta.associatedBlockedTriageGroups,
         },
-        messageDetails,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
       },
       featureToggles: {},
     };
@@ -574,6 +597,7 @@ describe('Thread Details container', () => {
         folders: {
           folder: inbox,
         },
+        threadDetails,
         recipients: {
           allRecipients: noAssociationsAtAll.mockAllRecipients,
           preferredTeams: noAssociationsAtAll.mockPreferredTeams,
@@ -584,7 +608,22 @@ describe('Thread Details container', () => {
           associatedBlockedTriageGroupsQty:
             noAssociationsAtAll.meta.associatedBlockedTriageGroups,
         },
-        messageDetails,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
       },
       featureToggles: {},
     };

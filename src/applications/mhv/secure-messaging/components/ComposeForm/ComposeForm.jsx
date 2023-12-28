@@ -167,18 +167,20 @@ const ComposeForm = props => {
   useEffect(() => {
     if (mhvSecureMessagingBlockedTriageGroup1p0) {
       if (draft) {
+        const tempRecipient = {
+          recipientId: draft.recipientId,
+          name: draft.triageGroupName,
+          type: Recipients.CARE_TEAM,
+        };
+
         const isAssociated = recipients.allRecipients.some(
-          checkTriageGroupAssociation(draft),
+          checkTriageGroupAssociation(tempRecipient),
         );
 
         if (!isAssociated) {
           setShowBlockedTriageGroupAlert(true);
           setBlockedTriageGroupList([
-            {
-              id: draft.recipientId,
-              name: draft.triageGroupName,
-              type: Recipients.CARE_TEAM,
-            },
+            tempRecipient,
             ...recipients.blockedRecipients,
           ]);
         } else if (recipients.associatedBlockedTriageGroupsQty > 0) {

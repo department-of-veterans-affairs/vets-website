@@ -4,10 +4,27 @@ import { expect } from 'chai';
 import { cleanup, waitFor } from '@testing-library/react';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
+import { Recipients } from '../../../util/constants';
 
 describe('BlockedTriageGroupAlert component', () => {
   const initialState = {
     sm: {},
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: [
+            {
+              facilityId: '662',
+              isCerner: false,
+            },
+            {
+              facilityId: '636',
+              isCerner: false,
+            },
+          ],
+        },
+      },
+    },
   };
 
   const setup = (customState, props) => {
@@ -26,9 +43,11 @@ describe('BlockedTriageGroupAlert component', () => {
     expect(screen);
   });
 
-  it('does not render a list of facilities if there is only 1', async () => {
+  it('does not render a list of care teams if there is only 1', async () => {
     const screen = setup(initialState, {
-      blockedTriageGroupList: [{ name: '###PQR TRIAGE_TEAM 747###' }],
+      blockedTriageGroupList: [
+        { name: '###PQR TRIAGE_TEAM 747###', type: Recipients.CARE_TEAM },
+      ],
       status: 'alert',
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
@@ -46,8 +65,8 @@ describe('BlockedTriageGroupAlert component', () => {
   it('displays all facilities if more than 1 are blocked', async () => {
     const screen = setup(initialState, {
       blockedTriageGroupList: [
-        { name: '***Jeasmitha-Cardio-Clinic***' },
-        { name: '###PQR TRIAGE_TEAM 747###' },
+        { name: '***Jeasmitha-Cardio-Clinic***', type: Recipients.CARE_TEAM },
+        { name: '###PQR TRIAGE_TEAM 747###', type: Recipients.CARE_TEAM },
       ],
       status: 'alert',
     });

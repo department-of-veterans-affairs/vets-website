@@ -6,7 +6,7 @@
       "attributes": {
         "triageTeamId": 2710520,
         "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-        "stationNumber": "662",
+        "stationNumber": "583",
         "blockedStatus": true,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
@@ -18,8 +18,8 @@
       "attributes": {
         "triageTeamId": 2323849,
         "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-        "stationNumber": "662",
-        "blockedStatus": false,
+        "stationNumber": "583",
+        "blockedStatus": true,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
       }
@@ -31,7 +31,7 @@
         "triageTeamId": 2336822,
         "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
         "stationNumber": "636",
-        "blockedStatus": false,
+        "blockedStatus": true,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
       }
@@ -63,7 +63,7 @@
   ],
   "meta": {
     "associatedTriageGroups": 5,
-    "associatedBlockedTriageGroups": 1,
+    "associatedBlockedTriageGroups": 3,
     "sort": {
       "name": "ASC"
     }
@@ -72,16 +72,16 @@
     {
       "id": 2710520,
       "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "stationNumber": "662",
+      "stationNumber": "583",
       "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
     {
-      "id": 2323849,
+      "id": 323849,
       "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-      "stationNumber": "662",
-      "blockedStatus": false,
+      "stationNumber": "583",
+      "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
@@ -89,7 +89,7 @@
       "id": 2336822,
       "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
       "stationNumber": "636",
-      "blockedStatus": false,
+      "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
@@ -114,16 +114,16 @@
     {
       "id": 2710520,
       "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "stationNumber": "662",
+      "stationNumber": "583",
       "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
     {
-      "id": 2323849,
+      "id": 323849,
       "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-      "stationNumber": "662",
-      "blockedStatus": false,
+      "stationNumber": "583",
+      "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
@@ -131,7 +131,7 @@
       "id": 2336822,
       "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
       "stationNumber": "636",
-      "blockedStatus": false,
+      "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
     },
@@ -153,22 +153,7 @@
     }
   ],
   "mockAllowedRecipients": [
-    {
-      "id": 2323849,
-      "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-      "stationNumber": "662",
-      "blockedStatus": false,
-      "preferredTeam": true,
-      "relationshipType": "PATIENT"
-    },
-    {
-      "id": 2336822,
-      "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
-      "stationNumber": "636",
-      "blockedStatus": false,
-      "preferredTeam": true,
-      "relationshipType": "PATIENT"
-    },
+
     {
       "id": 2666935,
       "name": "Ademonow",
@@ -190,11 +175,29 @@
     {
       "id": 2710520,
       "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "stationNumber": "662",
+      "stationNumber": "583",
       "blockedStatus": true,
       "preferredTeam": true,
       "relationshipType": "PATIENT",
       "type": "Care Team"
+    },
+    {
+      "id": 323849,
+      "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
+    },
+    {
+      "id": 2336822,
+      "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
+      "stationNumber": "636",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
     }
-  ]
+  ],
+  "mockBlockedFacilities": ["583"]
 }

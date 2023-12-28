@@ -24,6 +24,7 @@ describe('allRecipients reducers', () => {
           blockedStatus: recipient.attributes.blockedStatus,
           preferredTeam: recipient.attributes.preferredTeam,
           relationshipType: recipient.attributes.relationshipType,
+          type: 'Care Team',
         };
       }),
     );

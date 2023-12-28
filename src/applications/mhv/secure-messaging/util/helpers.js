@@ -221,7 +221,8 @@ export const resetUserSession = localStorageValues => {
 export const checkTriageGroupAssociation = tempRecipient => {
   return recipient =>
     recipient.id === tempRecipient.recipientId ||
-    recipient.name === tempRecipient.name;
+    recipient.name === tempRecipient.name ||
+    recipient.name === tempRecipient.triageGroupName;
 };
 
 export const formatRecipient = recipient => {

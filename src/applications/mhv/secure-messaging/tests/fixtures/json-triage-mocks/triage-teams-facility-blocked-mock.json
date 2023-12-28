@@ -1,12 +1,12 @@
 {
   "data": [
     {
-      "id": "1013155",
+      "id": "2710520",
       "type": "all_triage_teams",
       "attributes": {
-        "triageTeamId": 1013155,
-        "name": "***MEDICATION_AWARENESS_100% @ MOH_DAYT29",
-        "stationNumber": "662",
+        "triageTeamId": 2710520,
+        "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "stationNumber": "583",
         "blockedStatus": true,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
@@ -18,7 +18,7 @@
       "attributes": {
         "triageTeamId": 2323849,
         "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-        "stationNumber": "662",
+        "stationNumber": "583",
         "blockedStatus": true,
         "preferredTeam": true,
         "relationshipType": "PATIENT"
@@ -63,9 +63,140 @@
   ],
   "meta": {
     "associatedTriageGroups": 5,
-    "associateBlockedTriageGroups": 2,
+    "associatedBlockedTriageGroups": 2,
     "sort": {
       "name": "ASC"
     }
-  }
+  },
+  "mockAllRecipients": [
+    {
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 323849,
+      "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2336822,
+      "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2666935,
+      "name": "Ademonow",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2343333,
+      "name": "AnTran_TGTest",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    }
+  ],
+  "mockPreferredTeams": [
+    {
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 323849,
+      "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2336822,
+      "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2666935,
+      "name": "Ademonow",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2343333,
+      "name": "AnTran_TGTest",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    }
+  ],
+  "mockAllowedRecipients": [
+    {
+      "id": 2336822,
+      "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2666935,
+      "name": "Ademonow",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2343333,
+      "name": "AnTran_TGTest",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT"
+    }
+  ],
+  "mockBlockedRecipients": [
+    {
+      "id": 2710520,
+      "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
+    },
+    {
+      "id": 323849,
+      "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
+      "stationNumber": "583",
+      "blockedStatus": true,
+      "preferredTeam": true,
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
+    }
+  ],
+  "mockBlockedFacilities": ["583"]
 }
