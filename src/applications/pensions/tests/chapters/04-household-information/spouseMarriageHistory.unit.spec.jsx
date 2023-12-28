@@ -40,7 +40,7 @@ describe('pension spouse marriage history page', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input,input', container).length).to.equal(7);
+    expect($$('va-text-input,input', container).length).to.equal(8);
     expect($$('va-memorable-date', container).length).to.equal(2);
     expect($$('va-select', container).length).to.equal(1);
     expect($('.va-growable-add-btn', container)).to.exist;

@@ -1,39 +1,41 @@
 import moment from 'moment';
-import defaultVaccineDetail from '../fixtures/vaccines/vaccine-8261.json';
+import defaultVaccines from '../fixtures/vaccines/vaccines.json';
 
 class VaccinesDetailsPage {
-  verifyVaccineName = (VaccinesDetails = defaultVaccineDetail) => {
+  verifyVaccineName = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="vaccine-name"]').contains(
-      VaccinesDetails.vaccineCode.text,
+      VaccinesDetails.resource.vaccineCode.text,
     );
   };
 
-  verifyVaccineDate = (VaccinesDetails = defaultVaccineDetail) => {
+  verifyVaccineDate = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="header-time"]').contains(
-      moment(VaccinesDetails.occurrenceDateTime).format('MMMM D, YYYY'),
+      moment(VaccinesDetails.resource.occurrenceDateTime).format(
+        'MMMM D, YYYY',
+      ),
     );
   };
 
-  verifyVaccineLocation = (VaccinesDetails = defaultVaccineDetail) => {
+  verifyVaccineLocation = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="vaccine-location"]').contains(
-      VaccinesDetails.contained[0].name,
+      VaccinesDetails.resource.contained[0].name,
     );
   };
 
   verifyVaccineNotes = (
-    VaccinesDetails = defaultVaccineDetail,
+    VaccinesDetails = defaultVaccines.entry[0],
     noteIndex = 0,
   ) => {
-    if (VaccinesDetails.note.length === 1) {
+    if (VaccinesDetails.resource.note.length === 1) {
       cy.get('[data-testid="list-item-single"]')
         .eq(noteIndex)
         .contains(VaccinesDetails.note[noteIndex].text);
     }
 
-    if (VaccinesDetails.note.length > 1) {
+    if (VaccinesDetails.resource.note.length > 1) {
       cy.get('[data-testid="list-item-multiple"]')
         .eq(noteIndex)
-        .contains(VaccinesDetails.note[noteIndex].text);
+        .contains(VaccinesDetails.resource.note[noteIndex].text);
     }
   };
 }

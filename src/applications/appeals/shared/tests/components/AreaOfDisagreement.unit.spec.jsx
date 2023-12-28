@@ -169,12 +169,39 @@ describe('<AreaOfDisagreement>', () => {
     });
     const { container } = render(
       <div>
-        <AreaOfDisagreement {...data} />
+        <AreaOfDisagreement {...data} pagePerItemIndex="0" />
       </div>,
     );
 
     fireEvent.click($('va-button', container));
     expect(updateSpy.called).to.be.true;
+  });
+
+  it('should not submit on review page with nothing is set', () => {
+    const updateSpy = sinon.spy();
+    const aod = {
+      ...aod2,
+      disagreementOptions: {
+        serviceConnection: false,
+        effectiveDate: false,
+        evaluation: false,
+      },
+      otherEntry: '',
+    };
+    const data = getData({
+      updatePage: updateSpy,
+      data: [aod],
+      onReviewPage: true,
+    });
+    const { container } = render(
+      <div>
+        <AreaOfDisagreement {...data} />
+      </div>,
+    );
+
+    fireEvent.click($('va-button', container));
+    expect(updateSpy.called).to.be.false;
+    expect($('va-checkbox-group[error]', container)).to.exist;
   });
 
   it('should not submit page when nothing is checked or input is empty', async () => {

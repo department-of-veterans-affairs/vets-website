@@ -92,11 +92,11 @@ const formConfig = {
       },
     },
     veteranIdentificationInfoChapter: {
-      title: 'Veteran’s identification information',
+      title: 'Identification information',
       pages: {
         veteranIdentificationInfoPage: {
-          path: 'veteran-identification-information',
-          title: 'Veteran’s identification information',
+          path: 'identification-information',
+          title: 'Identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
