@@ -45,7 +45,19 @@ const BehalfOfSomeoneElseContent = () => {
       <ul>
         <li>
           Appointment of Veterans Service Organization as Claimant’s
-          Representative (VA Form 21-22) Download VA Form 21-22 (PDF,4 pages)
+          Representative (VA Form 21-22){' '}
+          <div>
+            <a
+              className="vads-u-color--link-default"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"
+            >
+              <i
+                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                aria-hidden="true"
+              />
+              Download VA Form 21-22 (PDF, 4 pages)
+            </a>
+          </div>
         </li>
       </ul>
       <p>
@@ -53,8 +65,19 @@ const BehalfOfSomeoneElseContent = () => {
       </p>
       <ul>
         <li>
-          Appointment of Individual as Claimant’s Representative(VA Form 21-22a)
-          Download VA Form 21-22a (PDF,3 pages)
+          Appointment of Individual as Claimant’s Representative(VA Form 21-22a){' '}
+          <div>
+            <a
+              className="vads-u-color--link-default"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"
+            >
+              <i
+                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                aria-hidden="true"
+              />
+              Download VA Form 21-22a (PDF, 3 pages)
+            </a>
+          </div>
         </li>
       </ul>
       <p>
