@@ -44,9 +44,6 @@ export const Locators = {
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
     PRINT: '[data-testid="print-button"]',
   },
-  ALERTS: {
-    SAVE_DRAFT: '#messagetext',
-  },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
@@ -54,6 +51,7 @@ export const Locators = {
   ALERTS: {
     NO_ASSOCIATION: '',
     NO_ASSOCIATION_AT_ALL: '',
+    SAVE_DRAFT: '#messagetext',
   },
 };
 
