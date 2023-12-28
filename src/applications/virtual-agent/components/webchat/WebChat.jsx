@@ -177,23 +177,34 @@ const WebChat = ({
     [isRXSkill],
   );
 
-  if (isRXSkill === 'true') {
-    // check if window.WebChat exists
-    if (window.WebChat) {
-      // find the send box element
-      const sendBox = document.querySelector(
-        'input[class="webchat__send-box-text-box__input"]',
-      );
-      // change the placeholder text of send box
-      sendBox.setAttribute(
-        'aria-label',
-        'Type or enable the microphone to speak',
-      );
-      sendBox.setAttribute(
-        'placeholder',
-        'Type or enable the microphone to speak',
-      );
+  useEffect(() => {
+    let intervalId;
+    if (isRXSkill === 'true') {
+      intervalId = setInterval(() => {
+        if (window.WebChat) {
+          const sendBox = document.querySelector(
+            'input[class="webchat__send-box-text-box__input"]',
+          );
+          if (sendBox) {
+            sendBox.setAttribute(
+              'aria-label',
+              'Type or enable the microphone to speak',
+            );
+            sendBox.setAttribute(
+              'placeholder',
+              'Type or enable the microphone to speak',
+            );
+            clearInterval(intervalId);
+            intervalId = null;
+          }
+        }
+      }, 100);
     }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  });
+  if (isRXSkill === 'true') {
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
