@@ -77,7 +77,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     sponsorInformation: {
-      title: 'Sponsor Information',
+      title: 'Sponsor information',
       pages: {
         page1: {
           path: 'sponsor-information/name',
@@ -122,7 +122,7 @@ const formConfig = {
             required: ['ssn'],
             properties: {
               sponsorInfoTitle: titleSchema,
-              ssn: ssnOrVaFileNumberSchema, // TODO: update transformer to accomodate VA file num being optional
+              ssn: ssnOrVaFileNumberSchema,
             },
           },
         },
@@ -194,7 +194,7 @@ const formConfig = {
         // Skip sponsor address and phone if deceased
         page5a: {
           path: 'sponsor-information/has-address',
-          title: 'Sponsor Address',
+          title: "Sponsor's address",
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's address"),
@@ -213,7 +213,7 @@ const formConfig = {
         },
         page6: {
           path: 'sponsor-information/address',
-          title: 'Sponsor Address',
+          title: "Sponsor's address continued",
           depends: formData =>
             !get('sponsorIsDeceased', formData) && formData.sponsorHasAddress,
           uiSchema: {
@@ -238,7 +238,7 @@ const formConfig = {
         },
         page6a: {
           path: 'sponsor-information/has-phone',
-          title: 'Sponsor Address',
+          title: "Sponsor's phone number",
           depends: formData => !get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's phone number"),
@@ -257,7 +257,7 @@ const formConfig = {
         },
         page7: {
           path: 'sponsor-information/phone',
-          title: "Sponsor's phone",
+          title: "Sponsor's phone number continued",
           depends: formData =>
             !get('sponsorIsDeceased', formData) && formData.sponsorHasPhone,
           uiSchema: {
@@ -289,11 +289,12 @@ const formConfig = {
      * The following chapters/pages are not in any way final.
      */
     applicantInformation: {
-      title: 'Applicant Information',
+      title: 'Applicant information',
       pages: {
         page8: {
           path: 'applicant-information',
           arrayPath: 'applicants',
+          title: 'Applicants',
           uiSchema: {
             applicants: {
               'ui:options': {
@@ -332,7 +333,7 @@ const formConfig = {
           // This only shows up on the review page
           title: item =>
             `${item?.applicantName?.first ||
-              'Applicant'} - SSN and Date of Birth`,
+              'Applicant'} - SSN and date of birth`,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -372,17 +373,10 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - Address`,
+            `${item?.applicantName?.first || 'Applicant'} - address`,
           uiSchema: {
             'ui:title': 'Applicant Address',
             applicants: {
-              'ui:options': {
-                viewField: ApplicantField, // TODO: do we need this for each page?
-                keepInPageOnReview: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.', // TODO: better msg
-              },
               items: {
                 'ui:title': ApplicantField,
                 applicantAddress: addressUI(),
@@ -410,17 +404,10 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - Email and Phone`,
+            `${item?.applicantName?.first || 'Applicant'} - email and phone`,
           uiSchema: {
             'ui:title': 'Applicant Email and Phone',
             applicants: {
-              'ui:options': {
-                viewField: ApplicantField, // TODO: do we need this for each page?
-                keepInPageOnReview: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.', // TODO: better msg
-              },
               items: {
                 'ui:title': ApplicantField,
                 applicantEmailAddress: emailUI(),
@@ -450,17 +437,10 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - Gender`,
+            `${item?.applicantName?.first || 'Applicant'} - gender`,
           uiSchema: {
             'ui:title': 'Applicant Gender',
             applicants: {
-              'ui:options': {
-                viewField: ApplicantField, // TODO: do we need this for each page?
-                keepInPageOnReview: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.', // TODO: better msg
-              },
               items: {
                 'ui:title': ApplicantField,
                 applicantGender: radioUI({
@@ -495,17 +475,10 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - Health Insurance`,
+            `${item?.applicantName?.first || 'Applicant'} - health insurance`,
           uiSchema: {
             'ui:title': 'Applicant Health Insurance and Relationship',
             applicants: {
-              'ui:options': {
-                viewField: ApplicantField, // TODO: do we need this for each page?
-                keepInPageOnReview: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.', // TODO: better msg
-              },
               items: {
                 'ui:title': ApplicantField,
                 applicantEnrolledInMedicare: yesNoUI({
@@ -528,7 +501,7 @@ const formConfig = {
                   }),
                 },
                 applicantEnrolledInOHI: yesNoUI({
-                  title: 'Enrolled in Other Health Insurance',
+                  title: 'Enrolled in Other Health Insurance (OHI)',
                 }),
                 applicantOHICardFront: {
                   ...fileUploadUI('OHI card (Front)', {
@@ -576,13 +549,9 @@ const formConfig = {
           showPagePerItem: true,
           title: item =>
             `${item?.applicantName?.first ||
-              'Applicant'} - Relationship to Sponsor`,
+              'Applicant'} - relationship to sponsor`,
           uiSchema: {
             applicants: {
-              'ui:options': {
-                viewField: ApplicantField,
-                keepInPageOnReview: true,
-              },
               items: {
                 'ui:title': ApplicantField, // shows on each page of array
                 applicantRelationshipToSponsor: {
