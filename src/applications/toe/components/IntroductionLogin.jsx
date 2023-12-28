@@ -40,6 +40,7 @@ function IntroductionLogin({
     ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete) &&
     !isPersonalInfoFetchFailed &&
     !showMeb1990EMaintenanceAlert;
+  const shouldShowMaintenanceAlert = showMeb1990EMaintenanceAlert;
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -52,7 +53,7 @@ function IntroductionLogin({
 
       {shouldShowLoadingIndicator && <LoadingIndicator />}
 
-      {(isPersonalInfoFetchFailed || showMeb1990EMaintenanceAlert) && (
+      {shouldShowMaintenanceAlert && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
@@ -70,7 +71,8 @@ function IntroductionLogin({
       )}
 
       {!isLoggedIn &&
-        user?.login?.hasCheckedKeepAlive && (
+        user?.login?.hasCheckedKeepAlive &&
+        !shouldShowMaintenanceAlert && (
           <>
             <va-alert
               close-btn-aria-label="Close notification"
@@ -122,9 +124,7 @@ function IntroductionLogin({
           </>
         )}
       {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb1990EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        apiCallsComplete &&
+        !shouldShowMaintenanceAlert &&
         isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
