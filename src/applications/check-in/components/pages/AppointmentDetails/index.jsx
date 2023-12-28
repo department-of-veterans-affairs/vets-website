@@ -188,6 +188,7 @@ const AppointmentDetails = props => {
                       className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
                       aria-hidden="true"
                     />
+                    <va-icon icon="phone" size={4} />
                     <va-telephone
                       onClick={handlePhoneNumberClick}
                       contact={appointment.clinicPhoneNumber}
