@@ -31,14 +31,10 @@ export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
       const sendBox = theDocument.querySelector(
         'input[class="webchat__send-box-text-box__input"]',
       );
-      sendBox?.setAttribute(
-        'aria-label',
-        'Type or enable the microphone to speak',
-      );
-      sendBox?.setAttribute(
-        'placeholder',
-        'Type or enable the microphone to speak',
-      );
+      const attributeSetAMessage = attr =>
+        sendBox?.setAttribute(attr, 'Type or enable the microphone to speak');
+
+      ['aria-label', 'placeholder'].forEach(attributeSetAMessage);
     }, 0); // delay this code until all synchronous code runs.
   }
   return () => clearTimeout(intervalId);
