@@ -197,7 +197,7 @@ const EmploymentWorkDates = props => {
             className="usa-button-secondary vads-u-width--auto"
             onClick={handlers.onCancel}
           >
-            Cancel
+            Back
           </button>
           <button
             type="submit"
