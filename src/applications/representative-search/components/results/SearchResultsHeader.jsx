@@ -65,7 +65,7 @@ export const SearchResultsHeader = props => {
     <div className="search-results-header">
       <h2
         id="search-results-subheader"
-        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
+        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding-y--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
         {handleNumberOfResults()} for
@@ -106,9 +106,18 @@ export const SearchResultsHeader = props => {
 };
 
 SearchResultsHeader.propTypes = {
-  results: PropTypes.array,
-  representativeType: PropTypes.string,
-  context: PropTypes.string,
+  searchResults: PropTypes.array,
+  pagination: PropTypes.object,
+  query: PropTypes.shape({
+    inProgress: PropTypes.bool,
+    context: PropTypes.shape({
+      repOrgName: PropTypes.string,
+      location: PropTypes.string,
+    }),
+    representativeType: PropTypes.string,
+    sortType: PropTypes.string,
+  }),
+  updateSearchQuery: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed

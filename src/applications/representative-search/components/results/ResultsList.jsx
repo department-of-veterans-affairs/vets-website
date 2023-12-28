@@ -20,55 +20,37 @@ const ResultsList = props => {
       setFocus(searchResultTitle.current);
       recordSearchResultsEvents(searchResults, props);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchResults, inProgress, props.error],
   );
 
-  const renderResultItems = searchQuery => {
-    const sQuery = searchQuery;
-    return (
-      <>
-        <div
-          className="representative-results-list"
-          style={{ marginBottom: 25 }}
-        >
-          <hr />
-
-          {searchResults?.map((result, index) => {
-            return (
-              <>
-                {index > 0 ? <hr /> : null}
-
-                <SearchResult
-                  officer={result.attributes.fullName || result.attributes.name}
-                  key={result.id}
-                  type={result.type}
-                  addressLine1={result.attributes.addressLine1}
-                  addressLine2={result.attributes.addressLine2}
-                  addressLine3={result.attributes.addressLine3}
-                  city={result.attributes.city}
-                  state={result.attributes.stateCode}
-                  zipCode={result.attributes.zipCode}
-                  phone={result.attributes.phone}
-                  distance={result.attributes.distance}
-                  representative={result}
-                  query={sQuery}
-                  index={index}
-                />
-              </>
-            );
-          })}
-        </div>
-      </>
-    );
-  };
-
   return (
     <>
-      {searchResults?.length ? (
-        <>
-          <div>{renderResultItems(query)}</div>
-        </>
-      ) : null}
+      <div className="representative-results-list" style={{ marginBottom: 25 }}>
+        {searchResults?.map((result, index) => {
+          return (
+            <>
+              <SearchResult
+                officer={result.attributes.fullName || result.attributes.name}
+                key={result.id}
+                type={result.type}
+                addressLine1={result.attributes.addressLine1}
+                addressLine2={result.attributes.addressLine2}
+                addressLine3={result.attributes.addressLine3}
+                city={result.attributes.city}
+                state={result.attributes.stateCode}
+                zipCode={result.attributes.zipCode}
+                phone={result.attributes.phone}
+                email={result.attributes.email}
+                distance={result.attributes.distance}
+                representative={result}
+                query={query}
+                index={index}
+              />
+            </>
+          );
+        })}
+      </div>
     </>
   );
 };
