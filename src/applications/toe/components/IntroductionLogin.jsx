@@ -124,6 +124,7 @@ function IntroductionLogin({
           </>
         )}
       {isLoggedIn &&
+        apiCallsComplete &&
         !shouldShowMaintenanceAlert &&
         isLOA3 && (
           <SaveInProgressIntro
