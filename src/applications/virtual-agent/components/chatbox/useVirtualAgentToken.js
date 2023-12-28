@@ -32,6 +32,26 @@ function useWaitForCsrfToken(props) {
   return [csrfTokenLoading, csrfTokenLoadingError];
 }
 
+export function callVirtualAgentTokenApi(
+  virtualAgentEnableMsftPvaTesting,
+  virtualAgentEnableNluPvaTesting,
+  apiRequestFn,
+) {
+  return async () => {
+    if (virtualAgentEnableMsftPvaTesting) {
+      return apiRequestFn('/virtual_agent_token_msft', {
+        method: 'POST',
+      });
+    }
+    if (virtualAgentEnableNluPvaTesting) {
+      return apiRequestFn('/virtual_agent_token_nlu', { method: 'POST' });
+    }
+    return apiRequestFn('/virtual_agent_token', {
+      method: 'POST',
+    });
+  };
+}
+
 export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
   const [apiSession, setApiSession] = useState('');
@@ -45,17 +65,16 @@ export default function useVirtualAgentToken(props) {
       }
       if (csrfTokenLoading) return;
 
-      async function callVirtualAgentTokenApi() {
-        return apiRequest('/virtual_agent_token', {
-          method: 'POST',
-        });
-      }
-
       clearBotSessionStorage();
 
       async function getToken() {
         try {
-          const response = await retryOnce(callVirtualAgentTokenApi);
+          const apiCall = callVirtualAgentTokenApi(
+            props.virtualAgentEnableMsftPvaTesting,
+            props.virtualAgentEnableNluPvaTesting,
+            apiRequest,
+          );
+          const response = await retryOnce(apiCall);
 
           sessionStorage.setItem(CONVERSATION_ID_KEY, response.conversationId);
           sessionStorage.setItem(TOKEN_KEY, response.token);
