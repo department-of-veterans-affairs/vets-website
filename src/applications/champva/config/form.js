@@ -329,7 +329,10 @@ const formConfig = {
         page9: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
-          title: 'Applicant SSN and Date of Birth', // This only shows up on the review page
+          // This only shows up on the review page
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - SSN and Date of Birth`,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -368,7 +371,8 @@ const formConfig = {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: 'Applicant Address',
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - Address`,
           uiSchema: {
             'ui:title': 'Applicant Address',
             applicants: {
@@ -405,7 +409,8 @@ const formConfig = {
           path: 'applicant-information/:index/email-phone',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: 'Applicant Email and Phone',
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - Email and Phone`,
           uiSchema: {
             'ui:title': 'Applicant Email and Phone',
             applicants: {
@@ -444,7 +449,8 @@ const formConfig = {
           path: 'applicant-information/:index/gender',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: 'Applicant Gender',
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - Gender`,
           uiSchema: {
             'ui:title': 'Applicant Gender',
             applicants: {
@@ -488,7 +494,8 @@ const formConfig = {
           path: 'applicant-information/:index/additional-info',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: 'Applicant Health Insurance and Relationship',
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - Health Insurance`,
           uiSchema: {
             'ui:title': 'Applicant Health Insurance and Relationship',
             applicants: {
@@ -567,6 +574,9 @@ const formConfig = {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - Relationship to Sponsor`,
           uiSchema: {
             applicants: {
               'ui:options': {
