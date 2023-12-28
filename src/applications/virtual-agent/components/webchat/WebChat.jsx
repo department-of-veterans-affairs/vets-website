@@ -24,6 +24,26 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
+export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
+  let intervalId;
+  if (isRXSkill === 'true') {
+    intervalId = setTimeout(() => {
+      const sendBox = theDocument.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      sendBox?.setAttribute(
+        'aria-label',
+        'Type or enable the microphone to speak',
+      );
+      sendBox?.setAttribute(
+        'placeholder',
+        'Type or enable the microphone to speak',
+      );
+    }, 0); // delay this code until all synchronous code runs.
+  }
+  return () => clearTimeout(intervalId);
+};
+
 const WebChat = ({
   token,
   WebChatFramework,
@@ -177,33 +197,8 @@ const WebChat = ({
     [isRXSkill],
   );
 
-  useEffect(() => {
-    let intervalId;
-    if (isRXSkill === 'true') {
-      intervalId = setInterval(() => {
-        if (window.WebChat) {
-          const sendBox = document.querySelector(
-            'input[class="webchat__send-box-text-box__input"]',
-          );
-          if (sendBox) {
-            sendBox.setAttribute(
-              'aria-label',
-              'Type or enable the microphone to speak',
-            );
-            sendBox.setAttribute(
-              'placeholder',
-              'Type or enable the microphone to speak',
-            );
-            clearInterval(intervalId);
-            intervalId = null;
-          }
-        }
-      }, 100);
-    }
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  });
+  useEffect(setMicrophoneMessage(isRXSkill, document));
+
   if (isRXSkill === 'true') {
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
