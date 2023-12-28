@@ -29,6 +29,7 @@ import {
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import FormFooter from 'platform/forms/components/FormFooter';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -36,6 +37,7 @@ import ApplicantField from '../components/applicant/ApplicantField';
 import GetFormHelp from '../components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submit-transformer';
+import { fileTypes, attachmentsSchema } from './attachments';
 
 // const { } = fullSchema.properties;
 
@@ -499,25 +501,43 @@ const formConfig = {
               },
               items: {
                 'ui:title': ApplicantField,
-                applicantEnrolledInMedicare: radioUI({
+                applicantEnrolledInMedicare: yesNoUI({
                   title: 'Enrolled in Medicare',
-                  required: true,
-                  labels: {
-                    yes: 'Yes',
-                    no: 'No',
-                  },
                 }),
-                applicantEnrolledInOHI: radioUI({
+                applicantMedicareCardFront: {
+                  ...fileUploadUI('Medicare card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantMedicareCardBack: {
+                  ...fileUploadUI('Medicare card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantEnrolledInOHI: yesNoUI({
                   title: 'Enrolled in Other Health Insurance',
-                  required: true,
-                  labels: {
-                    yes: 'Yes',
-                    no: 'No',
-                  },
                 }),
-                applicantRelationshipToSponsor: {
-                  ...relationshipToVeteranUI('Sponsor'),
-                  'ui:required': () => true,
+                applicantOHICardFront: {
+                  ...fileUploadUI('OHI card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
+                },
+                applicantOHICardBack: {
+                  ...fileUploadUI('OHI card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
                 },
               },
             },
@@ -531,8 +551,45 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    applicantEnrolledInMedicare: radioSchema(['yes', 'no']),
-                    applicantEnrolledInOHI: radioSchema(['yes', 'no']),
+                    applicantEnrolledInMedicare: yesNoSchema,
+                    applicantMedicareCardFront: attachmentsSchema,
+                    applicantMedicareCardBack: attachmentsSchema,
+                    applicantEnrolledInOHI: yesNoSchema,
+                    applicantOHICardFront: attachmentsSchema,
+                    applicantOHICardBack: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page14c: {
+          path: 'applicant-information/:index/relationship',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              items: {
+                'ui:title': ApplicantField, // shows on each page of array
+                applicantRelationshipToSponsor: {
+                  ...relationshipToVeteranUI('Sponsor'),
+                  'ui:required': () => true,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
                     applicantRelationshipToSponsor: relationshipToVeteranSchema,
                   },
                 },
