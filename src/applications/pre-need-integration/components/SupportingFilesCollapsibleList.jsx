@@ -65,7 +65,8 @@ const BehalfOfSomeoneElseContent = () => {
       </p>
       <ul>
         <li>
-          Appointment of Individual as Claimant’s Representative(VA Form 21-22a){' '}
+          Appointment of Individual as Claimant’s Representative (VA Form
+          21-22a){' '}
           <div>
             <a
               className="vads-u-color--link-default"
