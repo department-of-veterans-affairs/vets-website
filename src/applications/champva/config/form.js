@@ -594,8 +594,11 @@ const formConfig = {
               'ui:required': formData => formData.verifyCertifier,
             },
             dateOfCertification: {
-              ...currentOrPastDateUI(),
-              'ui:required': formData => formData.verifyCertifier,
+              ...currentOrPastDateUI("Today's Date"),
+              'ui:required': () => true,
+              'ui:options': {
+                hideIf: formData => !get('signature', formData),
+              },
             },
             verifyCertifier: {
               ...yesNoUI({
@@ -608,9 +611,9 @@ const formConfig = {
             },
             certifierRelationship: {
               ...relationshipToVeteranUI('Applicant(s)'),
-              'ui:required': formData => formData.verifyCertifier,
               'ui:options': {
                 hideIf: formData => !get('verifyCertifier', formData),
+                required: [],
               },
             },
             certifierPhone: {
@@ -621,11 +624,18 @@ const formConfig = {
               'ui:required': formData => formData.verifyCertifier,
             },
             certifierAddress: {
-              ...addressUI(),
+              ...addressUI({
+                required: {
+                  country: formData => formData.verifyCertifier,
+                  street: formData => formData.verifyCertifier,
+                  city: formData => formData.verifyCertifier,
+                  state: formData => formData.verifyCertifier,
+                  postalCode: formData => formData.verifyCertifier,
+                },
+              }),
               'ui:options': {
                 hideIf: formData => !get('verifyCertifier', formData),
               },
-              'ui:required': formData => formData.verifyCertifier,
             },
           },
           schema: {
@@ -636,7 +646,10 @@ const formConfig = {
               certifierName: fullNameSchema,
               dateOfCertification: currentOrPastDateSchema,
               verifyCertifier: yesNoSchema,
-              certifierRelationship: relationshipToVeteranSchema,
+              certifierRelationship: {
+                ...relationshipToVeteranSchema,
+                required: [],
+              },
               certifierAddress: addressSchema(),
               certifierPhone: phoneSchema,
             },
