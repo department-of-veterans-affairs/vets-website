@@ -57,9 +57,7 @@ const ConfirmablePage = ({
   const onNoClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `no-to-${pageType}${pageType}${
-          setECheckinStartedCalled ? '' : '-45MR'
-        }-clicked`,
+        `no-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
         'nav',
       ),
     });
