@@ -34,6 +34,7 @@ function useWaitForCsrfToken(props) {
 
 export function callVirtualAgentTokenApi(
   virtualAgentEnableMsftPvaTesting,
+  virtualAgentEnableNluPvaTesting,
   apiRequestFn,
 ) {
   return async () => {
@@ -41,6 +42,9 @@ export function callVirtualAgentTokenApi(
       return apiRequestFn('/virtual_agent_token_msft', {
         method: 'POST',
       });
+    }
+    if (virtualAgentEnableNluPvaTesting) {
+      return apiRequestFn('/virtual_agent_token_nlu', { method: 'POST' });
     }
     return apiRequestFn('/virtual_agent_token', {
       method: 'POST',
@@ -67,6 +71,7 @@ export default function useVirtualAgentToken(props) {
         try {
           const apiCall = callVirtualAgentTokenApi(
             props.virtualAgentEnableMsftPvaTesting,
+            props.virtualAgentEnableNluPvaTesting,
             apiRequest,
           );
           const response = await retryOnce(apiCall);
