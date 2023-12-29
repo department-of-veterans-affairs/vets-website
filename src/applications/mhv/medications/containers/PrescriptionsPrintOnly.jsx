@@ -55,7 +55,7 @@ const PrescriptionsPrintOnly = () => {
             <PrintOnlyPage
               title="Medications"
               preface="This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records."
-              subtitle="Medications List"
+              subtitle="Medications list"
             >
               <MedicationsList
                 rxList={fullPrescriptionsList}
