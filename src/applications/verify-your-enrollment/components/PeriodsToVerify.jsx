@@ -82,13 +82,16 @@ const PeriodsToVerify = ({
         // add all previouslyVerified data into single array
         const { awardIds } = pendingVerifications;
         setCurrentPendingAwardIDs(awardIds);
-        const toBeVerifiedEnrollmentsArray = awardIds.map(id => {
+        const toBeVerifiedEnrollmentsArray = [];
+        awardIds.forEach(id => {
           // check for each id inside award_ids array
           if (awards.some(award => award.id === id)) {
-            return awards.find(award => award.id === id);
+            toBeVerifiedEnrollmentsArray.push(
+              awards.find(award => award.id === id),
+            );
           }
-          return []; // Do not believe this statement is needed. Will delete after testing further
         });
+
         setPendingEnrollments(toBeVerifiedEnrollmentsArray);
       }
     },

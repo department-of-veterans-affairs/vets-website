@@ -2,12 +2,16 @@ import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { waitFor, fireEvent, render } from '@testing-library/react';
+import { waitFor, fireEvent, render, cleanup } from '@testing-library/react';
 import USER_MOCK_DATA from '../../constants/mockData';
 import { renderWithStoreAndRouter } from '../helpers';
 import PeriodsToVerify from '../../components/PeriodsToVerify';
 
 describe('PeriodsToVerify', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<PeriodsToVerify />, {
       initialState: {

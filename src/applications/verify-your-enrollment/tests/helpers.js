@@ -10,7 +10,7 @@ import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-
 
 import reducers from '../reducers';
 
-export function createTestHistory(path = '/') {
+export function createTestHistory(path) {
   const history = createMemoryHistory({ initialEntries: [path] });
   sinon.spy(history, 'replace');
   sinon.spy(history, 'push');
