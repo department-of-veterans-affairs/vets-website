@@ -20,6 +20,7 @@ import {
   formatResponseString,
   truncateResponseString,
   removeDoubleBars,
+  isSearchStrInvalid,
 } from '../utils';
 import { fetchSearchResults } from '../actions';
 
@@ -57,7 +58,7 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      if (userInput.length > 255) {
+      if (isSearchStrInvalid(userInput)) {
         return;
       }
       this.props.fetchSearchResults(userInput, page, {
@@ -101,7 +102,7 @@ class SearchApp extends React.Component {
       ? parseInt(rawPageFromURL, 10)
       : undefined;
 
-    if (userInput.length > 255 || userInputFromURL > 255) {
+    if (isSearchStrInvalid(userInput) || isSearchStrInvalid(userInputFromURL)) {
       return;
     }
 
@@ -226,7 +227,7 @@ class SearchApp extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    if (inputValue.length > 255) {
+    if (isSearchStrInvalid(inputValue)) {
       return;
     }
 
@@ -304,7 +305,7 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
-      if (inputValue.length > 255) {
+      if (isSearchStrInvalid(inputValue)) {
         return [];
       }
 
@@ -411,11 +412,10 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if ((hasErrors && !loading) || userInput.length > 255) {
-      const errorMessage =
-        userInput.length > 255
-          ? 'The search is over the character limit. Shorten the search and try again.'
-          : `We’re sorry. Something went wrong on our end, and your search
+    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
+      const errorMessage = isSearchStrInvalid(userInput)
+        ? 'The search is over the character limit. Shorten the search and try again.'
+        : `We’re sorry. Something went wrong on our end, and your search
       didn't go through. Please try again`;
 
       return (
