@@ -7,6 +7,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
 export const formBenefits = {
+  [VA_FORM_IDS.FORM_10_7959C]: 'CHAMPVA other health insurance information',
   [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
@@ -76,6 +77,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 
 export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
+  [VA_FORM_IDS.FORM_10_7959C]: `${getAppUrl('10-7959C')}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
   [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
   [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
@@ -108,6 +110,7 @@ export const formLinks = {
 
 export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
+  [VA_FORM_IDS.FORM_10_7959C]: '10-7959C-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
   [VA_FORM_IDS.FORM_21_4142]: 'medical-release-4142-',
@@ -138,6 +141,7 @@ export const trackingPrefixes = {
 };
 
 export const sipEnabledForms = new Set([
+  VA_FORM_IDS.FORM_10_7959C,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,

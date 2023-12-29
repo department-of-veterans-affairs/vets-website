@@ -27,7 +27,7 @@ import CoverageDetailLargeField from '../components/coverages/CoverageDetailLarg
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { attachmentsSchema, attachmentsConfig } from './attachmentsSchema';
+import { attachmentsSchema, attachmentsConfig } from './AttachmentsSchema';
 
 // const { } = fullSchema.properties;
 
@@ -47,11 +47,14 @@ const formConfig = {
   formId: '10-7959C',
   transformForSubmit,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA other health insurance certification application (10-7959C) is in progress.',
-    //   expired: 'Your saved CHAMPVA other health insurance certification application (10-7959C) has expired. If you want to apply for CHAMPVA other health insurance certification, please start a new application.',
-    //   saved: 'Your CHAMPVA other health insurance certification application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your CHAMPVA other health insurance certification application (10-7959C) is in progress.',
+      expired:
+        'Your saved CHAMPVA other health insurance certification application (10-7959C) has expired. If you want to apply for CHAMPVA other health insurance certification, please start a new application.',
+      saved:
+        'Your CHAMPVA other health insurance certification application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
