@@ -512,7 +512,7 @@ class SearchDropdownComponent extends React.Component {
     } = this.state;
 
     const suggestionsCount = suggestions?.length;
-    if (isSearchStrInvalid(inputValue)) {
+    if (inputValue.length > 255) {
       this.setState({
         a11yStatusMessage:
           'The search is over the character limit. Shorten the search and try again.',

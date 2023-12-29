@@ -413,9 +413,10 @@ class SearchApp extends React.Component {
     );
 
     if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
-      const errorMessage = isSearchStrInvalid(userInput)
-        ? 'The search is over the character limit. Shorten the search and try again.'
-        : `We’re sorry. Something went wrong on our end, and your search
+      const errorMessage =
+        userInput.length > 255
+          ? 'The search is over the character limit. Shorten the search and try again.'
+          : `We’re sorry. Something went wrong on our end, and your search
       didn't go through. Please try again`;
 
       return (
