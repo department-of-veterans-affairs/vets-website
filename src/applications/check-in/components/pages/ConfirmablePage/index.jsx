@@ -47,7 +47,7 @@ const ConfirmablePage = ({
   const onYesClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `yes-to-${pageType}${setECheckinStartedCalled ? '-45MR' : ''}-clicked`,
+        `yes-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
         'nav',
       ),
     });
@@ -58,7 +58,7 @@ const ConfirmablePage = ({
     recordEvent({
       event: createAnalyticsSlug(
         `no-to-${pageType}${pageType}${
-          setECheckinStartedCalled ? '-45MR' : ''
+          setECheckinStartedCalled ? '' : '-45MR'
         }-clicked`,
         'nav',
       ),
