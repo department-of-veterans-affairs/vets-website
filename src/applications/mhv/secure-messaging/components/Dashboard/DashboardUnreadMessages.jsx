@@ -16,9 +16,10 @@ const DashboardUnreadMessages = props => {
       ],
   );
 
-  const { associatedTriageGroupsQty } = useSelector(
-    state => state.sm.recipients,
-  );
+  const {
+    associatedTriageGroupsQty,
+    associatedBlockedTriageGroupsQty,
+  } = useSelector(state => state.sm.recipients);
 
   const unreadCountHeader = useMemo(
     () => {
@@ -55,7 +56,8 @@ const DashboardUnreadMessages = props => {
           Go to your inbox
         </Link>
         {mhvSecureMessagingBlockedTriageGroup1p0 ? (
-          associatedTriageGroupsQty > 0 && (
+          associatedTriageGroupsQty > 0 &&
+          associatedTriageGroupsQty !== associatedBlockedTriageGroupsQty && (
             <>
               <HorizontalRule />
               <Link

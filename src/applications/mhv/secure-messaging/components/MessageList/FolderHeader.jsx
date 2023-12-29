@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
+import {
+  DefaultFolders as Folders,
+  PageTitles,
+  ParentComponent,
+} from '../../util/constants';
 import { handleHeader, updatePageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
@@ -19,9 +23,10 @@ const FolderHeader = props => {
     state => state.sm.facilities.cernerFacilities.length > 0,
   );
 
-  const associatedTriageGroupsQty = useSelector(
-    state => state.sm.recipients.associatedTriageGroupsQty,
-  );
+  const {
+    associatedTriageGroupsQty,
+    associatedBlockedTriageGroupsQty,
+  } = useSelector(state => state.sm.recipients);
 
   const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
     state =>
@@ -83,16 +88,21 @@ const FolderHeader = props => {
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>
-          {!associatedTriageGroupsQty && (
+          {(!associatedTriageGroupsQty ||
+            associatedTriageGroupsQty === associatedBlockedTriageGroupsQty) && (
             <BlockedTriageGroupAlert
-              status="info"
+              status={!associatedTriageGroupsQty ? 'info' : 'warning'}
               blockedTriageGroupList={[]}
+              parentComponent={ParentComponent.FOLDER_HEADER}
             />
           )}
 
           <>{handleFolderDescription()}</>
           {folder.folderId === Folders.INBOX.id &&
-            associatedTriageGroupsQty > 0 && <ComposeMessageButton />}
+            (mhvSecureMessagingBlockedTriageGroup1p0
+              ? associatedTriageGroupsQty > 0 &&
+                associatedTriageGroupsQty !== associatedBlockedTriageGroupsQty
+              : '') && <ComposeMessageButton />}
           <ManageFolderButtons folder={folder} />
           {threadCount > 0 && (
             <SearchForm

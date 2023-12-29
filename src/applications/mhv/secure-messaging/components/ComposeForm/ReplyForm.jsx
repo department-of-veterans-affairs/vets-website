@@ -12,7 +12,7 @@ import {
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
-import { PageTitles, Recipients } from '../../util/constants';
+import { PageTitles, ParentComponent, Recipients } from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
 
 const ReplyForm = props => {
@@ -42,7 +42,7 @@ const ReplyForm = props => {
   );
 
   useEffect(() => {
-    const draftToEdit = drafts[0];
+    const draftToEdit = drafts?.[0];
     if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
       const tempRecipient = {
         recipientId: draftToEdit.recipientId,
@@ -52,11 +52,13 @@ const ReplyForm = props => {
         type: Recipients.CARE_TEAM,
       };
 
-      const isAssociated = recipients.allRecipients.some(
-        checkTriageGroupAssociation(tempRecipient),
-      );
+      const isAssociated = Array.isArray(recipients.allRecipients)
+        ? recipients.allRecipients.some(
+            checkTriageGroupAssociation(tempRecipient),
+          )
+        : false;
 
-      const isBlocked = recipients.blockedRecipients.some(
+      const isBlocked = recipients.blockedRecipients?.some(
         checkTriageGroupAssociation(tempRecipient),
       );
 
@@ -140,6 +142,7 @@ const ReplyForm = props => {
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
               status="alert"
+              parentComponent={ParentComponent.REPLY_FORM}
             />
           )}
 

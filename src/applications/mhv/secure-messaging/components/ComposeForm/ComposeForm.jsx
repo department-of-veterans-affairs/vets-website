@@ -30,6 +30,7 @@ import {
   DefaultFolders,
   ErrorMessages,
   Recipients,
+  ParentComponent,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
@@ -39,6 +40,10 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
+  const {
+    associatedTriageGroupsQty,
+    associatedBlockedTriageGroupsQty,
+  } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -173,9 +178,11 @@ const ComposeForm = props => {
           type: Recipients.CARE_TEAM,
         };
 
-        const isAssociated = recipients.allRecipients.some(
-          checkTriageGroupAssociation(tempRecipient),
-        );
+        const isAssociated = Array.isArray(recipients.allRecipients)
+          ? recipients.allRecipients.some(
+              checkTriageGroupAssociation(tempRecipient),
+            )
+          : false;
 
         if (!isAssociated) {
           setShowBlockedTriageGroupAlert(true);
@@ -599,35 +606,38 @@ const ComposeForm = props => {
                 <BlockedTriageGroupAlert
                   blockedTriageGroupList={blockedTriageGroupList}
                   status="alert"
+                  parentComponent={ParentComponent.COMPOSE_FORM}
                 />
               </div>
             ))}
 
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
-              (recipients.associatedTriageGroupsQty > 0 && (
-                <>
-                  <VaSelect
-                    enable-analytics
-                    id="recipient-dropdown"
-                    label="To"
-                    name="to"
-                    value={selectedRecipient}
-                    onVaSelect={recipientHandler}
-                    class="composeSelect"
-                    data-testid="compose-recipient-select"
-                    error={recipientError}
-                    data-dd-privacy="mask"
-                    data-dd-action-name="Compose Recipient Dropdown List"
-                  >
-                    {sortRecipients(recipientsList)?.map(item => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </VaSelect>
-                </>
-              ))
+              (associatedTriageGroupsQty > 0 &&
+                associatedTriageGroupsQty !==
+                  associatedBlockedTriageGroupsQty && (
+                  <>
+                    <VaSelect
+                      enable-analytics
+                      id="recipient-dropdown"
+                      label="To"
+                      name="to"
+                      value={selectedRecipient}
+                      onVaSelect={recipientHandler}
+                      class="composeSelect"
+                      data-testid="compose-recipient-select"
+                      error={recipientError}
+                      data-dd-privacy="mask"
+                      data-dd-action-name="Compose Recipient Dropdown List"
+                    >
+                      {sortRecipients(recipientsList)?.map(item => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </VaSelect>
+                  </>
+                ))
             : recipientsList && (
                 <>
                   <VaSelect
@@ -697,25 +707,27 @@ const ComposeForm = props => {
           </div>
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
-              (recipients.associatedTriageGroupsQty > 0 && (
-                <section className="attachments-section">
-                  <AttachmentsList
-                    compose
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    attachFileSuccess={attachFileSuccess}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                    setNavigationError={setNavigationError}
-                    editingEnabled
-                  />
+              (associatedTriageGroupsQty > 0 &&
+                associatedTriageGroupsQty !==
+                  associatedBlockedTriageGroupsQty && (
+                  <section className="attachments-section">
+                    <AttachmentsList
+                      compose
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      attachFileSuccess={attachFileSuccess}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                      setNavigationError={setNavigationError}
+                      editingEnabled
+                    />
 
-                  <FileInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                  />
-                </section>
-              ))
+                    <FileInput
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                    />
+                  </section>
+                ))
             : recipientsList && (
                 <section className="attachments-section">
                   <AttachmentsList
@@ -738,7 +750,13 @@ const ComposeForm = props => {
 
           <DraftSavedInfo />
           <ComposeFormActionButtons
-            cannotReply={recipients.associatedTriageGroupsQty === 0}
+            cannotReply={
+              mhvSecureMessagingBlockedTriageGroup1p0
+                ? recipients.associatedTriageGroupsQty === 0 ||
+                  recipients.associatedTriageGroupsQty ===
+                    recipients.associatedBlockedTriageGroupsQty
+                : false
+            }
             deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             draftsCount={1}

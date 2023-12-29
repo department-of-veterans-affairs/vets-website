@@ -6,7 +6,13 @@ import { format, addDays } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import MessageActionButtons from './MessageActionButtons';
-import { Categories, Paths, PageTitles, Recipients } from '../util/constants';
+import {
+  Categories,
+  Paths,
+  PageTitles,
+  Recipients,
+  ParentComponent,
+} from '../util/constants';
 import { checkTriageGroupAssociation, updatePageTitle } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
@@ -67,11 +73,13 @@ const MessageThreadHeader = props => {
         type: Recipients.CARE_TEAM,
       };
 
-      const isAssociated = recipients.allRecipients.some(
-        checkTriageGroupAssociation(tempRecipient),
-      );
+      const isAssociated = Array.isArray(recipients.allRecipients)
+        ? recipients.allRecipients.some(
+            checkTriageGroupAssociation(tempRecipient),
+          )
+        : false;
 
-      const isBlocked = recipients.blockedRecipients.some(
+      const isBlocked = recipients.blockedRecipients?.some(
         checkTriageGroupAssociation(tempRecipient),
       );
 
@@ -149,6 +157,7 @@ const MessageThreadHeader = props => {
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
               status="alert"
+              parentComponent={ParentComponent.MESSAGE_THREAD}
             />
           </div>
         ))}
