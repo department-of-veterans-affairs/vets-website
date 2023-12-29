@@ -12,12 +12,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
-import PrintHeader from './PrintHeader';
-import PrintBottom from './PrintBottom';
+import { Actions } from '../util/actionTypes';
 import {
   PDF_GENERATE_STATUS,
   rxListSortingOptions,
   SESSION_SELECTED_SORT_OPTION,
+  defaultSelectedSortOption,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -49,9 +49,8 @@ const Prescriptions = props => {
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
-  const defaultSortOption = Object.keys(rxListSortingOptions)[0];
-  const [selectedSortOption, setSelectedSortOption] = useState(
-    sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) || defaultSortOption,
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
@@ -65,10 +64,17 @@ const Prescriptions = props => {
     setLoadingMessage(newLoadingMessage);
   };
 
+  const updateSortOption = sortOption => {
+    dispatch({
+      type: Actions.Prescriptions.UPDATE_SORT_OPTION,
+      payload: sortOption,
+    });
+  };
+
   const sortRxList = sortOption => {
     setPdfGenerateStatus(PDF_GENERATE_STATUS.NotStarted);
     if (sortOption !== selectedSortOption) {
-      setSelectedSortOption(sortOption);
+      updateSortOption(sortOption);
       updateLoadingStatus(true, 'Sorting your medications...');
     }
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
@@ -101,12 +107,14 @@ const Prescriptions = props => {
         updateLoadingStatus(true, 'Loading your medications...');
       }
       if (!page) history.replace('/1');
+      const sortOption = selectedSortOption ?? defaultSelectedSortOption;
       dispatch(
         getPrescriptionsPaginatedSortedList(
           page ?? 1,
-          rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+          rxListSortingOptions[sortOption].API_ENDPOINT,
         ),
       ).then(() => updateLoadingStatus(false, ''));
+      if (!selectedSortOption) updateSortOption(sortOption);
       updatePageTitle('Medications | Veterans Affairs');
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
@@ -263,25 +271,16 @@ const Prescriptions = props => {
   const content = () => {
     if (!isLoading) {
       return (
-        <div className="landing-page">
-          <PrintHeader />
+        <div className="landing-page no-print">
           <h1 className="vads-u-margin-top--neg3" data-testid="list-page-title">
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 no-print"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications
             in your VA medical records.
-          </div>
-          <div className="print-only vads-l-col--12 medium-screen:vads-l-col--6">
-            <p className="vads-u-margin-y--1">
-              <strong>Note:</strong>
-              This document may not include all medications in your VA medical
-              records. And it doesn’t include a list of your allergies and
-              reactions to medications.
-            </p>
           </div>
           <Alert
             isAlertVisible={isAlertVisible}
@@ -296,19 +295,17 @@ const Prescriptions = props => {
           />
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">
-              <div className="no-print">
-                <PrintDownload
-                  download={handleDownloadPDF}
-                  isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
-                  list
-                />
-                <BeforeYouDownloadDropdown />
-                <MedicationsListSort
-                  value={selectedSortOption}
-                  sortRxList={sortRxList}
-                />
-                <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-              </div>
+              <PrintDownload
+                download={handleDownloadPDF}
+                isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+                list
+              />
+              <BeforeYouDownloadDropdown />
+              <MedicationsListSort
+                value={selectedSortOption}
+                sortRxList={sortRxList}
+              />
+              <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               <MedicationsList
                 rxList={paginatedPrescriptionsList}
                 pagination={pagination}
@@ -319,7 +316,6 @@ const Prescriptions = props => {
           ) : (
             ''
           )}
-          <PrintBottom />
         </div>
       );
     }
