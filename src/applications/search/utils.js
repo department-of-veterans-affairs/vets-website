@@ -19,5 +19,5 @@ export function removeDoubleBars(string) {
 
 export function isSearchStrInvalid(str) {
   const formattedStr = str.trim();
-  return !formattedStr.length > 0 || !formattedStr.length < 255;
+  return !formattedStr.length > 0 || !formattedStr.length > 255;
 }
