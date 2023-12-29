@@ -1,5 +1,8 @@
 import { expect } from 'chai';
+import { sub, lastDayOfMonth } from 'date-fns';
+
 import { PAYMENT_PAUSED_DAY_OF_MONTH } from '../../constants';
+
 import {
   convertNumberToStringWithMinimumDigits,
   formatNumericalDate,
@@ -79,11 +82,7 @@ describe('helpers', () => {
     it('payments may be paused when two months have not been verified', () => {
       const now = new Date();
 
-      const lastDayOfTwoMonthsAgo = new Date(
-        now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear(),
-        (now.getMonth() + 11) % 12,
-        0,
-      );
+      const lastDayOfTwoMonthsAgo = lastDayOfMonth(sub(now, { months: 2 }));
 
       const paymentsPaused = monthlyPaymentsPaused(
         lastDayOfTwoMonthsAgo.toISOString(),
@@ -95,14 +94,10 @@ describe('helpers', () => {
       );
     });
 
-    it.skip('payments will be paused when three months have’t been verified', () => {
+    it('payments will be paused when three months have’t been verified', () => {
       const now = new Date();
 
-      const lastDayOfThreeMonthsAgo = new Date(
-        now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear(),
-        (now.getMonth() + 10) % 12,
-        0,
-      );
+      const lastDayOfThreeMonthsAgo = lastDayOfMonth(sub(now, { months: 3 }));
 
       const paymentsPaused = monthlyPaymentsPaused(
         lastDayOfThreeMonthsAgo.toISOString(),

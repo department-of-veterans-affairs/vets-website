@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { addMonths, setDate, parseISO, isAfter, isBefore } from 'date-fns';
 import {
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
@@ -135,33 +136,22 @@ export const convertNumberToStringWithMinimumDigits = (n, minDigits) => {
  * enrollments have been verified.
  */
 export const monthlyPaymentsPaused = earliestUncertifiedEndDate => {
-  const now = new Date().toISOString();
+  const earliestUncertifiedEndDateParsed = parseISO(earliestUncertifiedEndDate);
+  const now = new Date();
 
-  if (now <= earliestUncertifiedEndDate) {
+  if (isBefore(now, earliestUncertifiedEndDateParsed)) {
     return false;
   }
 
-  // Given the last certified-through date, generate the date
-  // when payments will paused and compare it with the current
-  // date.
-  const dateSplit = earliestUncertifiedEndDate.split('-');
-  let year = parseInt(dateSplit[0], 10);
-  let month =
-    (parseInt(dateSplit[1], 10) + PAYMENT_PAUSED_NUMBER_OF_MONTHS) % 12;
-  let day = parseInt(dateSplit[2], 10);
+  const paymentPausedDate = setDate(
+    addMonths(
+      earliestUncertifiedEndDateParsed,
+      PAYMENT_PAUSED_NUMBER_OF_MONTHS,
+    ),
+    PAYMENT_PAUSED_DAY_OF_MONTH,
+  );
 
-  if (month <= PAYMENT_PAUSED_NUMBER_OF_MONTHS) {
-    // If we rolled over to a near year, increment the year.
-    year += 1;
-  }
-  month = convertNumberToStringWithMinimumDigits(month, 2);
-  day = convertNumberToStringWithMinimumDigits(PAYMENT_PAUSED_DAY_OF_MONTH, 2);
-
-  // If the current date is equal to or after this date, payments may
-  // be paused.
-  const paymentPausedDate = [year, month, day].join('-');
-
-  return now >= paymentPausedDate;
+  return isAfter(now, paymentPausedDate);
 };
 
 export const getEnrollmentVerificationStatus = enrollmentVerification => {
