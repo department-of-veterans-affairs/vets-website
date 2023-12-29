@@ -24,18 +24,19 @@ const BlockedTriageGroupAlert = props => {
 
   const { blockedFacilities } = useSelector(state => state.sm.recipients);
 
-  const blockedFacilityNames = blockedFacilities
-    ?.filter(facility => getVamcSystemNameFromVhaId(ehrDataByVhaId, facility))
-    .map(facility => {
-      return {
-        stationNumber: facility,
-        name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
-        type: Recipients.FACILITY,
-      };
-    });
+  const blockedFacilityNames =
+    blockedFacilities
+      ?.filter(facility => getVamcSystemNameFromVhaId(ehrDataByVhaId, facility))
+      .map(facility => {
+        return {
+          stationNumber: facility,
+          name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+          type: Recipients.FACILITY,
+        };
+      }) || [];
 
   const blockedTriageList = useMemo(() => {
-    return blockedTriageGroupList?.length > 1
+    return blockedTriageGroupList?.length > 1 && blockedFacilityNames.length > 0
       ? [
           ...blockedTriageGroupList
             .filter(
@@ -45,8 +46,8 @@ const BlockedTriageGroupAlert = props => {
                     facilityName.stationNumber === triageGroup.stationNumber,
                 ),
             )
-            .sort((a, b) => a.name.localeCompare(b.name)),
-          ...blockedFacilityNames.sort((a, b) => a.name.localeCompare(b.name)),
+            ?.sort((a, b) => a.name.localeCompare(b.name)),
+          ...blockedFacilityNames?.sort((a, b) => a.name.localeCompare(b.name)),
         ]
       : blockedTriageGroupList;
   }, []);
@@ -76,7 +77,7 @@ const BlockedTriageGroupAlert = props => {
       data-testid="blocked-triage-group-alert"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
-        {parentComponent !== ParentComponent.COMPOSE_FORM &&
+        {parentComponent === ParentComponent.COMPOSE_FORM &&
           associatedTriageGroupsQty !== associatedBlockedTriageGroupsQty &&
           blockedTriageList?.length > 1 && (
             <ul>
