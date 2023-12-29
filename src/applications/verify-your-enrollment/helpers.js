@@ -1,23 +1,30 @@
 export const translateDateIntoMonthYearFormat = dateString => {
-  // Parse the date string
-  const date = new Date(dateString);
+  // Parse the date string as UTC
+  const [year, month, day] = dateString
+    .split('-')
+    .map(num => parseInt(num, 10));
+  const date = new Date(Date.UTC(year, month - 1, day));
 
-  // Format the date with the full month name and year
+  // Format the date with the full month name and year in UTC
   // Outputs: 'Month Year'
   return date.toLocaleDateString('en-US', {
     month: 'long',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 };
 
-export const translareDateIntoMonthDayYearFormat = dateString => {
-  // Parse the date string
-  const date = new Date(dateString);
+export const translateDateIntoMonthDayYearFormat = dateString => {
+  // Parse the date string as UTC
+  const [year, month, day] = dateString
+    .split('-')
+    .map(num => parseInt(num, 10));
+  const date = new Date(Date.UTC(year, month - 1, day));
 
   // Function to get the ordinal suffix for a given day
-  function getOrdinalSuffix(day) {
-    if (day > 3 && day < 21) return 'th'; // for days like 4th, 5th, ... 20th
-    switch (day % 10) {
+  function getOrdinalSuffix(dayOfTheMonth) {
+    if (dayOfTheMonth > 3 && dayOfTheMonth < 21) return 'th'; // for dayOfTheMonths like 4th, 5th, ... 20th
+    switch (dayOfTheMonth % 10) {
       case 1:
         return 'st';
       case 2:
@@ -30,25 +37,34 @@ export const translareDateIntoMonthDayYearFormat = dateString => {
   }
 
   // Get the day with ordinal suffix
-  const dayWithSuffix = date.getDate() + getOrdinalSuffix(date.getDate());
-
+  const dayWithSuffix = date.getUTCDate() + getOrdinalSuffix(date.getUTCDate());
   // Format the month and year
-  const formattedMonth = date.toLocaleDateString('en-US', { month: 'long' });
+  const formattedMonth = date.toLocaleDateString('en-US', {
+    month: 'long',
+    timeZone: 'UTC',
+  });
 
   // Combine everything
-  return `${formattedMonth} ${dayWithSuffix}, ${date.getFullYear()}`;
+  return `${formattedMonth} ${dayWithSuffix}, ${date.getUTCFullYear()}`;
 };
 
 export const translateDatePeriod = (startDateString, endDateString) => {
-  // Parse the date strings into Date objects
-  const date1 = new Date(startDateString);
-  const date2 = new Date(endDateString);
+  // Parse the date strings into Date objects as UTC
+  const parseDateUTC = dateString => {
+    const [year, month, day] = dateString
+      .split('-')
+      .map(num => parseInt(num, 10));
+    return new Date(Date.UTC(year, month - 1, day));
+  };
 
-  // Function to format a date into MM/DD/YYYY
+  const date1 = parseDateUTC(startDateString);
+  const date2 = parseDateUTC(endDateString);
+
+  // Function to format a date into MM/DD/YYYY in UTC
   function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-    const year = date.getFullYear();
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const year = date.getUTCFullYear();
     return `${month}/${day}/${year}`;
   }
 

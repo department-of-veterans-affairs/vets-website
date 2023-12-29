@@ -3,7 +3,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { focusElement } from 'platform/utilities/ui';
 import {
   translateDateIntoMonthYearFormat,
-  translareDateIntoMonthDayYearFormat,
+  translateDateIntoMonthDayYearFormat,
   formatCurrency,
   translateDatePeriod,
   scrollToElement,
@@ -48,7 +48,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   Verified
                 </h3>
                 <p>
-                  {`Payment for this month was deposited on ${translareDateIntoMonthDayYearFormat(
+                  {`Payment for this month was deposited on ${translateDateIntoMonthDayYearFormat(
                     paymentDate,
                   )}.`}
                 </p>
@@ -58,7 +58,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                 >
                   <div className="vads-u-font-style--italic">
                     Verified on{' '}
-                    {translareDateIntoMonthDayYearFormat(verifiedDate)}
+                    {translateDateIntoMonthDayYearFormat(verifiedDate)}
                   </div>
                   <p>
                     <span className="vads-u-font-weight--bold">
@@ -92,7 +92,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                   Verified
                 </h3>
                 <p>
-                  {`You verified enrollment on ${translareDateIntoMonthDayYearFormat(
+                  {`You verified enrollment on ${translateDateIntoMonthDayYearFormat(
                     PendingVerificationSubmitted,
                   )}.`}
                 </p>
@@ -107,7 +107,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
                 >
                   <div className="vads-u-font-style--italic">
                     Verified on{' '}
-                    {translareDateIntoMonthDayYearFormat(
+                    {translateDateIntoMonthDayYearFormat(
                       PendingVerificationSubmitted,
                     )}
                   </div>

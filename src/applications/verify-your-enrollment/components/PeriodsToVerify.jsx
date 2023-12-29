@@ -87,7 +87,7 @@ const PeriodsToVerify = ({
           if (awards.some(award => award.id === id)) {
             return awards.find(award => award.id === id);
           }
-          return [];
+          return []; // Do not believe this statement is needed. Will delete after testing further
         });
         setPendingEnrollments(toBeVerifiedEnrollmentsArray);
       }

@@ -1,11 +1,7 @@
 // import _ from 'lodash';
 import { USER_MOCK_DATA } from '../constants/mockData';
 
-import {
-  UPDATE_AWARDS,
-  UPDATE_PENDING_VERIFICATIONS,
-  UPDATE_VERIFICATIONS,
-} from '../actions';
+import { UPDATE_PENDING_VERIFICATIONS, UPDATE_VERIFICATIONS } from '../actions';
 
 const INITIAL_STATE = {
   mockData: USER_MOCK_DATA,
@@ -13,14 +9,6 @@ const INITIAL_STATE = {
 
 const mockData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case UPDATE_AWARDS:
-      return {
-        ...state,
-        'vye::UserInfo': {
-          ...state.mockData['vye::UserInfo'],
-          awards: action.payload,
-        },
-      };
     case UPDATE_PENDING_VERIFICATIONS:
       // this delets all pending verifications award_ids
       return {
