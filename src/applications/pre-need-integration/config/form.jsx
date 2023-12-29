@@ -29,6 +29,7 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as burialCemetery from './pages/burialCemetery';
 
 import Footer from '../components/Footer';
 
@@ -61,6 +62,10 @@ import {
   MailingAddressStateTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
+import {
+  ContactDetailsTitle,
+  PreparerDetailsTitle,
+} from '../components/PreparerHelpers';
 
 const {
   claimant,
@@ -166,14 +171,14 @@ const formConfig = {
           schema: preparer.schema,
         },
         preparerDetails: {
-          title: 'Preparer details',
+          title: PreparerDetailsTitle,
           path: 'preparer-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerDetails.uiSchema,
           schema: preparerDetails.schema,
         },
         preparerContactDetails: {
-          title: 'Preparer contact details',
+          title: ContactDetailsTitle,
           path: 'preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerContactDetails.uiSchema,
@@ -527,6 +532,11 @@ const formConfig = {
           depends: formData => buriedWSponsorsEligibility(formData),
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
+        },
+        burialCemetery: {
+          path: 'burial-cemetery',
+          uiSchema: burialCemetery.uiSchema,
+          schema: burialCemetery.schema,
         },
       },
     },

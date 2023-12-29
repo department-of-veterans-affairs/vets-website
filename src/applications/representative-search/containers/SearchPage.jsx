@@ -7,12 +7,9 @@ import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/search/SearchResultsHeader';
-import ResultsList from '../components/search/ResultsList';
-import PaginationWrapper from '../components/search/PaginationWrapper';
-// import { fetchRepresentativeSearchResults } from '../actions/index';
-
-// import { setFocus } from '../utils/helpers';
+import SearchResultsHeader from '../components/results/SearchResultsHeader';
+import ResultsList from '../components/results/ResultsList';
+import PaginationWrapper from '../components/results/PaginationWrapper';
 
 import {
   clearSearchText,
@@ -45,7 +42,7 @@ const SearchPage = props => {
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.repOrganizationInputString,
+      name: currentQuery.repOfficerInputString,
 
       ...params,
     };
@@ -85,8 +82,8 @@ const SearchPage = props => {
           latitude: location.query.lat,
           longitude: location.query.long,
         },
-        repOrganizationQueryString: location.query.name,
-        repOrganizationInputString: location.query.name,
+        repOfficerQueryString: location.query.name,
+        repOfficerInputString: location.query.name,
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
@@ -98,7 +95,7 @@ const SearchPage = props => {
     const { currentQuery } = props;
     const {
       context,
-      repOrganizationInputString,
+      repOfficerInputString,
       representativeType,
       position,
       sortType,
@@ -111,7 +108,7 @@ const SearchPage = props => {
 
     updateUrlParams({
       address: context.location,
-      name: repOrganizationInputString || null,
+      name: repOfficerInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
@@ -124,7 +121,7 @@ const SearchPage = props => {
         address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
-        name: repOrganizationInputString,
+        name: repOfficerInputString,
         page,
         per_page: 10,
         sort: sortType,
@@ -321,9 +318,9 @@ const SearchPage = props => {
         <div className="title-section vads-u-padding-y--1">
           <h1>Find a VA accredited representative</h1>
           <p>
-            Find an accredited representative to help you file a claim, submit
-            an appeal, or request a decision review. Then contact them to ask if
-            they’re available to help.
+            Find a representative who can help you file a claim or request a
+            decision review. Then contact them to ask if they’re available to
+            help.
           </p>
         </div>
 
@@ -342,22 +339,42 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
-  clearSearchText: PropTypes.func.isRequired,
-  currentQuery: PropTypes.object.isRequired,
-  geolocateUser: PropTypes.func.isRequired,
-  searchWithBounds: PropTypes.func.isRequired,
-  searchResults: PropTypes.array.isRequired,
-  sortType: PropTypes.string.isRequired,
-  updateSearchQuery: PropTypes.func.isRequired,
-  // updateSortType: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  clearGeocodeError: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  clearSearchText: PropTypes.func,
+  currentQuery: PropTypes.object,
+  fetchRepresentatives: PropTypes.func,
+  geocodeUserAddress: PropTypes.func,
+  geolocateUser: PropTypes.func,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    query: PropTypes.shape({
+      address: PropTypes.string,
+      name: PropTypes.string,
+      lat: PropTypes.number,
+      long: PropTypes.number,
+      page: PropTypes.number,
+      per_page: PropTypes.number,
+      sort: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    search: PropTypes.string,
+  }),
   pagination: PropTypes.shape({
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  searchWithInputInProgress: PropTypes.bool,
+  results: PropTypes.array,
   searchError: PropTypes.object,
+  searchResults: PropTypes.array,
+  searchWithBounds: PropTypes.func,
+  searchWithInput: PropTypes.func,
+  searchWithInputInProgress: PropTypes.bool,
+  sortType: PropTypes.string,
+  updateSearchQuery: PropTypes.func,
+  updateSortType: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

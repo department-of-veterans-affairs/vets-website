@@ -8,12 +8,16 @@ describe('Find a Representative error handling', () => {
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/services/veteran/v0/accredited_representatives?**', {
-      statusCode: 500,
-      body: {
-        error: 'server error',
+    cy.intercept(
+      'GET',
+      '/services/veteran/v0/vso_accredited_representatives?**',
+      {
+        statusCode: 500,
+        body: {
+          error: 'server error',
+        },
       },
-    }).as('getServerError');
+    ).as('getServerError');
 
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();

@@ -4,7 +4,7 @@ import { useLastLocation } from 'react-router-last-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import { hasBadAddress } from '@@profile/selectors';
+import { hasBadAddress } from '@@vap-svc/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,

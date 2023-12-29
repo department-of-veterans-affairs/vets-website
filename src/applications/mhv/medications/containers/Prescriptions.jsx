@@ -81,7 +81,7 @@ const Prescriptions = props => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/about-medications',
+              url: '/my-health/medications/about',
               label: 'About medications',
             },
           ],
@@ -238,6 +238,7 @@ const Prescriptions = props => {
     await Promise.allSettled([
       getPrescriptionSortedList(
         rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+        true,
       ).then(response =>
         setFullPrescriptionsList(
           response.data.map(rx => {
