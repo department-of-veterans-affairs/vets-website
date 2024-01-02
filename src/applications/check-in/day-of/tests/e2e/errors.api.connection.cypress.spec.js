@@ -123,41 +123,40 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
-  // describe('fail at demographics PATCH', () => {
-  //   it('attempt check in, failed on demographics update', () => {
-  //     initializeSessionGet.withSuccessfulNewSession();
-  //     initializeSessionPost.withSuccess();
-  //     initializeDemographicsPatch.withFailure();
-  //     initializeCheckInDataGet.withSuccess();
-  //     initializeCheckInDataPost.withSuccess();
-  //     cy.visitWithUUID();
-  //     ValidateVeteran.validateVeteran();
-  //     cy.injectAxeThenAxeCheck();
-  //     ValidateVeteran.attemptToGoToNextPage();
+  describe('Patient who encounters an error when patching demographics', () => {
+    it('should redirect to the generic error page', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withFailure();
+      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
 
-  //     AppointmentsPage.validatePageLoaded();
-  //     cy.injectAxeThenAxeCheck();
-  //     AppointmentsPage.attemptCheckIn();
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
 
-  //     Demographics.validatePageLoaded();
-  //     cy.injectAxeThenAxeCheck();
-  //     Demographics.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
 
-  //     EmergencyContact.validatePageLoaded();
-  //     cy.injectAxeThenAxeCheck();
-  //     EmergencyContact.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
 
-  //     NextOfKin.validatePage.dayOf();
-  //     cy.injectAxeThenAxeCheck();
-  //     NextOfKin.attemptToGoToNextPage();
+      NextOfKin.validatePage.dayOf();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
 
-  //     TravelPages.validatePageLoaded();
-  //     cy.injectAxeThenAxeCheck();
-  //     TravelPages.attemptToGoToNextPage('no');
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
 
-  //     Confirmation.validateBtsssIssue();
-  //     Confirmation.validatePageLoadedWithBtsssGenericFailure();
-  //     cy.injectAxeThenAxeCheck();
-  //   });
-  // });
+      Error.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
