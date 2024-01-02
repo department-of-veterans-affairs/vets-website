@@ -5,9 +5,8 @@ const SupportingFilesOrAffidavitInfo = () => {
   return (
     <>
       <p>
-        You can also upload supporting files or an affidavit (a written
-        statement of facts confirmed by an oath or affirmation) showing that
-        you’re:
+        You can upload supporting files or an affidavit (a written statement of
+        facts confirmed by an oath or affirmation) showing that you’re:
       </p>
       <ul>
         <li>
@@ -18,12 +17,12 @@ const SupportingFilesOrAffidavitInfo = () => {
           <strong>or</strong>
         </li>
         <li>
-          An attorney or agent acting on behalf of the applicant under a durable
-          power of attorney, <strong>or</strong>
+          An authorized attorney or agent acting on behalf of the applicant
+          under a durable power of attorney, <strong>or</strong>
         </li>
         <li>
-          The manager or principal officer of an institution in which the
-          applicant is being cared for{' '}
+          The manager or principal officer of an institution where the applicant
+          receives care{' '}
         </li>
       </ul>
     </>
@@ -34,32 +33,74 @@ const BehalfOfSomeoneElseContent = () => {
   return (
     <>
       <p>
-        You’ll need a copy of their sponsor’s DD214 or other separation papers.
-        If the applicant is a service member or Veteran, you will need to
-        provide a copy of their DD214 or other separation papers.
+        You can upload a copy of their sponsor’s DD214 or other separation
+        papers. If the applicant is a Veteran or service member, you can provide
+        a copy of their DD214 or other separation papers.
       </p>
       <SupportingFilesOrAffidavitInfo />
       <p>
-        <strong>
-          If you’re applying for an unmarried adult child of a Veteran or
-          service member,{' '}
-        </strong>
-        you can upload supporting files with information about the adult child’s
-        disability. The Veteran or guardian of the child should also ask the
-        child’s current doctor to verify the files. These files should include
-        the following details:
+        To show you have the authority to prepare the application on behalf of
+        the applicant, you can fill out and upload one of the following forms:
       </p>
       <ul>
         <li>
-          The date of the disability’s onset, <strong>and</strong>
+          Appointment of Veterans Service Organization as Claimant’s
+          Representative (VA Form 21-22){' '}
+          <div>
+            <a
+              className="vads-u-color--link-default"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"
+            >
+              <i
+                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                aria-hidden="true"
+              />
+              Download VA Form 21-22 (PDF, 4 pages)
+            </a>
+          </div>
+        </li>
+      </ul>
+      <p>
+        <strong>Or</strong>
+      </p>
+      <ul>
+        <li>
+          Appointment of Individual as Claimant’s Representative (VA Form
+          21-22a){' '}
+          <div>
+            <a
+              className="vads-u-color--link-default"
+              href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"
+            >
+              <i
+                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                aria-hidden="true"
+              />
+              Download VA Form 21-22a (PDF, 3 pages)
+            </a>
+          </div>
+        </li>
+      </ul>
+      <p>
+        <strong>
+          If you’re preparing the application for an unmarried adult dependent
+          child of a Veteran or service member,{' '}
+        </strong>
+        you can also upload files with details about the adult child’s
+        disability. The Veteran or guardian of the child should ask the child’s
+        current doctor to verify the files. These files should include:
+      </p>
+      <ul>
+        <li>
+          The date when the disability began, <strong>and</strong>
         </li>
         <li>
-          A description of the disability, mental or physical,{' '}
+          A description of the physical or mental disability,{' '}
           <strong>and</strong>
         </li>
         <li>
-          A description of how dependent the disabled child is on the Veteran,{' '}
-          <strong>and</strong>
+          A description of how dependent the child who has a disability is on
+          the Veteran, <strong>and</strong>
         </li>
         <li>The marital status of the child</li>
       </ul>
@@ -122,15 +163,15 @@ const CollapsibleList = () => {
                   <p>
                     You can upload a copy of your or your sponsor’s DD214 or
                     other separation papers. This will help us figure out if you
-                    qualify for burial in a VA national cemetery based on you or
-                    your sponsor’s military status and service history.
+                    qualify for burial in a VA national cemetery based on your
+                    or your sponsor’s military status and service history.
                   </p>
                 }
               />
             </li>
             <li>
               <CollapsiblePanel
-                header="If you're applying on behalf of someone else"
+                header="If you're preparing the application for someone else"
                 pageContent={<BehalfOfSomeoneElseContent />}
               />
             </li>
