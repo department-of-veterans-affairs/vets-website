@@ -26,6 +26,7 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
+  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const [error, setError] = useState(null);
   const history = useHistory();
 
@@ -155,6 +156,7 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
+              onClick={() => setShowFiltersBeforeSearch(false)}
             >
               <i
                 aria-hidden="true"
@@ -167,7 +169,8 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        !environment.isProduction() &&
+        showFiltersBeforeSearch && (
           <div>
             <FilterBeforeResults />
           </div>
