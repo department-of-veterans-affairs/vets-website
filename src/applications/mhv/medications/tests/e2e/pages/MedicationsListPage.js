@@ -141,7 +141,10 @@ class MedicationsListPage {
       } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
 
-    cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
+    )
+      // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
       .and('have.text', 'Active: Parked');
   };
@@ -199,14 +202,15 @@ class MedicationsListPage {
     cy.get(
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
-    //  cy.get(':nth-child(2) > .rx-card-detials > :nth-child(5) > [data-testid="refill-request-button"]')
-    // cy.get(
-    //   ':nth-child(2) > .rx-card-detials > :nth-child(2) > [data-testid="active-not-filled-rx"]',
-    // ).should('have.text', 'Not filled yet');
-    cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)').should(
-      'contain',
-      `${activeRxRefills.data.attributes.refillRemaining} refills left`,
-    );
+    cy.get(
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3)',
+    )
+
+      // cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)')
+      .should(
+        'contain',
+        `${activeRxRefills.data.attributes.refillRemaining} refills left`,
+      );
   };
 
   verifyInformationBaseOnStatusSubmitted = () => {
@@ -235,12 +239,14 @@ class MedicationsListPage {
       prescription,
     );
     cy.get(
-      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
     ).should('be.enabled');
 
     cy.get(
-      ':nth-child(1) > .rx-card-detials > .rx-fill-refill-button > [data-testid="refill-request-button"]',
-    ).click({ waitForAnimations: true });
+      '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   verifySuccessMessageAfterRefillRequest = () => {
@@ -276,6 +282,11 @@ class MedicationsListPage {
   clickSortAlphabeticallyByStatus = () => {
     cy.intercept(
       'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.intercept(
+      'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
@@ -289,7 +300,7 @@ class MedicationsListPage {
     listLength,
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
-      'have.text',
+      'contain',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
     );
   };
@@ -325,7 +336,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      ':nth-child(3) > .rx-card-detials > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(2) > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
