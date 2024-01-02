@@ -256,12 +256,22 @@ describe('MilitaryInformation', () => {
       view.getByText(
         /If you want to learn what military service records may be on file for you/i,
       );
+
+      // should render contact telephone link for DMDC
       expect(
         view.container.querySelector('va-telephone').getAttribute('contact'),
       ).to.equal('8005389552');
-      view.getByRole('link', {
-        name: /Learn how to correct your military service records on the National Archives website/i,
-      });
+
+      // should render link to National Archives website to correct service records
+      expect(view.container.querySelector('va-link').innerHTML).to.equal(
+        'Learn how to correct your military service records on the National Archives website',
+      );
+
+      expect(
+        view.container.querySelector('va-link').getAttribute('href'),
+      ).to.equal(
+        'https://www.archives.gov/veterans/military-service-records/correct-service-records.html',
+      );
     });
   });
   describe('when another error occurs', () => {
