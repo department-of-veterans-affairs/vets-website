@@ -14,6 +14,7 @@ const mockUser = {
         middle_name: 'E',
         last_name: 'Hunter',
         gender: 'M',
+        birth_date: '1851-11-18',
         verified: true,
       },
       veteran_status: {
