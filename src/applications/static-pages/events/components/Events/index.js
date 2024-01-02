@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import Results from '../Results';
 import Search from '../Search';
 import {
@@ -81,9 +81,7 @@ export const Events = ({ rawEvents }) => {
 
   const onPageSelect = newPage => {
     setPage(newPage);
-
     setResults(deriveResults(events, newPage, perPage));
-
     scrollToTop();
   };
 

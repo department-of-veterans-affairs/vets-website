@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
+import { shallow } from 'enzyme';
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
 import { generateTestEvents } from '../../helpers/event-generator';
@@ -17,16 +17,34 @@ describe('Events <Results>', () => {
 
     wrapper.unmount();
   });
+
+  it('renders what we expect when there are no results', () => {
+    const screen = render(<Results query="search" />);
+
+    expect(
+      screen.getByTestId('events-results-none-found').textContent,
+    ).to.equal('No results found for search');
+  });
+
+  it('renders what we expect when there are no results for custom date range', () => {
+    const screen = render(
+      <Results query="search" queryId="custom-date-range" results={[]} />,
+    );
+
+    expect(
+      screen.getByTestId('events-results-none-found').textContent,
+    ).to.equal('No results found for Custom date range');
+  });
 });
 
 describe('Events <ResultsWhereContent>', () => {
-  function getProps(locationObj, locationString, locationReadable) {
+  const getProps = (locationObj, locationString, locationReadable) => {
     return {
       fieldFacilityLocation: locationObj,
       fieldLocationType: locationString,
       fieldLocationHumanreadable: locationReadable,
     };
-  }
+  };
 
   it('renders online event prompt when event location type is online', () => {
     const onlineEvent = getProps({}, 'online', null);
