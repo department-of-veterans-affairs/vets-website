@@ -35,9 +35,13 @@ const Confirmation = props => {
 
   const { appointments } = useSelector(selectVeteranData);
 
-  const { appointmentId } = router.params;
+  const {
+    demographicsFlagsEmpty,
+    isComplete,
+    error,
+  } = useSendDemographicsFlags();
 
-  const { demographicsFlagsEmpty, isComplete } = useSendDemographicsFlags();
+  const { appointmentId } = router.params;
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
@@ -78,11 +82,13 @@ const Confirmation = props => {
           } else {
             updateError('check-in-post-error');
           }
-        } catch (error) {
+        } catch {
           updateError('error-completing-check-in');
         }
       }
-      if (
+      if (error) {
+        updateError('check-in-demographics-patch-error');
+      } else if (
         appointment &&
         !getCheckinComplete(window) &&
         (isComplete || demographicsFlagsEmpty)
@@ -94,6 +100,7 @@ const Confirmation = props => {
     },
     [
       isComplete,
+      error,
       appointment,
       demographicsFlagsEmpty,
       updateError,
