@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { waitFor, fireEvent, render, cleanup } from '@testing-library/react';
-import USER_MOCK_DATA from '../../constants/mockData';
+import { USER_MOCK_DATA } from '../../constants/mockData';
 import { renderWithStoreAndRouter } from '../helpers';
 import PeriodsToVerify from '../../components/PeriodsToVerify';
 
@@ -24,11 +24,14 @@ describe('PeriodsToVerify', () => {
   });
 
   it('displays the success message after verification', async () => {
-    const screen = renderWithStoreAndRouter(<PeriodsToVerify />, {
-      initialState: {
-        enrollmentData: USER_MOCK_DATA,
+    const screen = renderWithStoreAndRouter(
+      <PeriodsToVerify enrollmentData={USER_MOCK_DATA} />,
+      {
+        initialState: {
+          enrollmentData: USER_MOCK_DATA,
+        },
       },
-    });
+    );
 
     const verifyEnrollmentButton = screen.getByRole('button', {
       name: 'Verify enrollment',

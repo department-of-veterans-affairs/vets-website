@@ -189,15 +189,6 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     [setCurrentPage],
   );
 
-  const getPageCountStatement = () => {
-    return (
-      <p>
-        {`Showing ${subsetStart +
-          1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
-      </p>
-    );
-  };
-
   useEffect(
     () => {
       setUserEnrollmentData(enrollmentData);
@@ -306,7 +297,12 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           </p>
         </va-additional-info>
       </>
-      {totalEnrollmentCount > 0 && getPageCountStatement()}
+      {totalEnrollmentCount > 0 && (
+        <p id="vye-pagination-page-status-text">
+          {`Showing ${subsetStart +
+            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+        </p>
+      )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
       {totalEnrollmentCount === undefined && (
         <p className="vads-u-margin-bottom--6">
