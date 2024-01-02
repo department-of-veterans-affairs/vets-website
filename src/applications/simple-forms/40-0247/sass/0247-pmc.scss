@@ -6,9 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.form-review-panel-page .hideOnReviewPage {
-  display: none !important;
-}
 // Custom-style 'ui:title's as h3s, without using <h3> tags.
 // A11y best-practices say <label>s should not contain <h> tags.
 @mixin label-as-h3 {
