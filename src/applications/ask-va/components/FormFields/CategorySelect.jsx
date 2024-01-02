@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setCategoryID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
 import { URL, requireSignInCategories } from '../../constants';
@@ -108,8 +108,8 @@ const CategorySelect = props => {
 };
 
 CategorySelect.propTypes = {
-  loggedIn: PropTypes.bool,
   id: PropTypes.string,
+  loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
