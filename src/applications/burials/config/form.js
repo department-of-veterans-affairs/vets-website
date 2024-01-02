@@ -1,4 +1,3 @@
-// import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
