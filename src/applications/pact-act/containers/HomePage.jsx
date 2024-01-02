@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../constants';
-import { updateIntroPageViewed } from '../actions';
+import { updateCurrentPage, updateIntroPageViewed } from '../actions';
 import { pageSetup } from '../utilities/page-setup';
+import { QUESTION_MAP, SHORT_NAME_MAP } from '../constants/question-data-map';
 
-const HomePage = ({ router, setIntroPageViewed }) => {
-  const H1 = 'Learn how the PACT Act may affect you';
+const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
+  const H1 = QUESTION_MAP.HOME;
 
   useEffect(() => {
     pageSetup(H1);
@@ -15,6 +16,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
 
   const startForm = event => {
     event.preventDefault();
+    updateTheCurrentPage(SHORT_NAME_MAP.SERVICE_PERIOD);
     router.push(ROUTES.SERVICE_PERIOD);
   };
 
@@ -47,7 +49,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       </p>
       <p>
         Are you the surviving family member of a Veteran?{' '}
-        <a href="http://preview-prod.vfs.va.gov/preview?nodeId=47278#information-for-survivors">
+        <a href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors">
           Get PACT Act information for survivors
         </a>
       </p>
@@ -60,10 +62,12 @@ HomePage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setIntroPageViewed: PropTypes.func.isRequired,
+  updateTheCurrentPage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   setIntroPageViewed: updateIntroPageViewed,
+  updateTheCurrentPage: updateCurrentPage,
 };
 
 export default connect(

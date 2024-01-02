@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import {
+  PAW_UPDATE_CURRENT_PAGE,
   PAW_VIEWED_INTRO_PAGE,
   PAW_UPDATE_SERVICE_PERIOD,
   PAW_UPDATE_BURN_PIT_2_1,
@@ -18,9 +19,10 @@ import {
   PAW_UPDATE_FORM_STORE,
 } from '../../constants';
 
-import { RESPONSES } from '../../constants/question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 import {
+  updateCurrentPage,
   updateIntroPageViewed,
   updateServicePeriod,
   updateBurnPit21,
@@ -49,6 +51,15 @@ const {
 } = RESPONSES;
 
 describe('pact act actions', () => {
+  describe('updateCurrentPage', () => {
+    it('should return the correct action type and value', () => {
+      expect(updateCurrentPage(SHORT_NAME_MAP.SERVICE_PERIOD)).to.deep.equal({
+        type: PAW_UPDATE_CURRENT_PAGE,
+        payload: SHORT_NAME_MAP.SERVICE_PERIOD,
+      });
+    });
+  });
+
   describe('updateIntroPageViewed', () => {
     it('should return the correct action type and value', () => {
       expect(updateIntroPageViewed(true)).to.deep.equal({

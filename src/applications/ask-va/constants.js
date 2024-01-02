@@ -6,6 +6,7 @@ export const URL = {
   GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
   // TODO: Add address validation endpoint
   ADDRESS_VALIDATION: '',
+  GET_INQUIRY: '',
 };
 
 export const requireSignInCategories = [
@@ -20,6 +21,31 @@ export const requireSignInTopics = [
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = ['GI Bill'];
+
+// Response Page headers
+export const RESPONSE_PAGE = {
+  QUESTION_DETAILS: 'Question details',
+  INQUIRY_NUM: 'Inquiry number',
+  STATUS: 'Status',
+  YOUR_QUESTION: 'Your question',
+  ATTACHMENTS: 'Attachments',
+  INBOX: 'Inbox',
+  SEND_REPLY: 'Send reply',
+  UPLOAD_YOUR_FILES: 'Upload your files',
+  UPLOAD_BTN: 'Upload file',
+  EMPTY_INBOX: 'There are no messages in your inbox',
+  NO_ATTACHMENTS: 'There are no attachments',
+  YOUR_MESSAGE: 'Your message: ',
+  SUBMIT_MESSAGE: 'Send VA a message',
+  DELETE_FILE: 'Delete file',
+  UPLOAD_INFO: {
+    MESSAGE:
+      "You'll need to scan your document onto your device to submit this application, such as your computer, tablet, or mobile phone. You can upload your document from there.",
+    LIST_HEADING: 'Guidelines for uploading a file:',
+    LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
+    LIST_ITEM_2: 'Your file should be no larger than 25MB',
+  },
+};
 
 // Used for yes/no radio questions
 export const yesNoOptions = {
