@@ -1,14 +1,14 @@
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import * as userNavActions from '@department-of-veterans-affairs/platform-site-wide/actions';
 import {
   isLoggedIn,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import recordEvent from 'platform/monitoring/record-event';
-import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';

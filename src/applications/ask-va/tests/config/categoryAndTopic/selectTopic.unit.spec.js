@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -91,7 +91,7 @@ describe('selectTopic config', () => {
 
     await waitFor(() => {
       expect($$('h3', container)[1].textContent).to.eq(
-        'Which topic best describes your question?',
+        'Select the topic that best describes your question:',
       );
     });
   });
