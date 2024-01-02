@@ -195,7 +195,14 @@ export function FilterBeforeResults({
     return (
       <div className="filter-your-results">
         <CheckboxGroup
-          label={<h5>School types</h5>}
+          className="about-school-checkbox"
+          label={
+            <h5
+              className={environment.isProduction() ? '' : 'school-types-label'}
+            >
+              School types
+            </h5>
+          }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
           row={!smallScreen}
@@ -249,7 +256,14 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        label={<h5>About the school</h5>}
+        className={environment.isProduction() ? '' : 'about-school-checkbox'}
+        label={
+          <h5
+            className={environment.isProduction() ? '' : 'about-school-label'}
+          >
+            About the school
+          </h5>
+        }
         onChange={onChangeCheckbox}
         options={options}
         row={!smallScreen}
@@ -272,7 +286,14 @@ export function FilterBeforeResults({
     ];
     return (
       <CheckboxGroup
-        label={<h5>Other</h5>}
+        className={environment.isProduction() ? '' : 'other-checkbox'}
+        label={
+          <h5
+            className={environment.isProduction() ? '' : 'about-school-label'}
+          >
+            Other
+          </h5>
+        }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
         row={!smallScreen}
@@ -406,11 +427,20 @@ export function FilterBeforeResults({
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
+        className={environment.isProduction() ? '' : 'my-filters-margin'}
         label={
           <>
-            <h5>Community Focus</h5>
+            <h5
+              className={environment.isProduction() ? '' : 'school-types-label'}
+            >
+              Community Focus
+            </h5>
             <button
-              className="mobile-jump-link"
+              className={
+                environment.isProduction()
+                  ? 'mobile-jump-link'
+                  : 'mobile-jump-link labels-margin'
+              }
               onClick={() => jumpLinkClick()}
             >
               {smallScreen && <>Jump to community focus details</>}
@@ -514,7 +544,10 @@ export function FilterBeforeResults({
                 Clear filters
               </button>
             </div>
-            <div id="smfAccordion" className="vads-u-margin-top--3">
+            <div
+              id="learn-more-about-specialized-missions-accordion-button"
+              className="vads-u-margin-top--3"
+            >
               <AccordionItem
                 button="Learn more about community focus filters"
                 section

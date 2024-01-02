@@ -20,7 +20,7 @@
     }
   }
 
-  .vads-l-grid-container{
+  .vads-l-grid-container {
     padding-right: 0%;
     padding-left: 0%;
   }
@@ -33,11 +33,11 @@
     }
   }
 
-  .apply-filter-button{
+  .apply-filter-button {
     margin-left: 0% !important;
   }
 
-  .clear-filters-button{
+  .clear-filters-button {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     margin-top: 1em;
@@ -60,7 +60,19 @@
     text-decoration: underline;
   }
 
-  .mobile-clear-filter-button{
+  .mobile-clear-filter-button {
     margin-left: 0% !important;
   }
+  .my-filters-margin {
+    margin-top: -3rem;
+  }
+}
+.about-school-label {
+  margin-top: 0px;
+}
+.about-school-checkbox {
+  margin-top: -15px;
+}
+.other-checkbox {
+  margin-top: -15px;
 }

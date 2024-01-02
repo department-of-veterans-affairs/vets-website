@@ -107,7 +107,7 @@
   width: 80%;
 }
 
-.mobile-jump-link{
+.mobile-jump-link {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-appearance: none;
@@ -126,19 +126,21 @@
   padding: 0% !important;
   width: fit-content;
 
-  &:hover{
+  &:hover {
     background-color: transparent;
     color: $color-blue;
     text-decoration: underline;
   }
 
-  &:visited{
+  &:visited {
     background-color: transparent;
     color: $color-blue;
     text-decoration: underline;
   }
 }
-
+.labels-margin {
+  margin-top: -10px !important;
+}
 .accordion-dropdown {
   border: 1px solid $color-gray;
   position: relative;
