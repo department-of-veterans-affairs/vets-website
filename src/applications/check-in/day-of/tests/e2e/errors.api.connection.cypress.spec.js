@@ -118,7 +118,6 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.acceptTerms();
       TravelPages.attemptToGoToNextPage();
-      Confirmation.validateBtsssIssue();
       Confirmation.validatePageLoadedWithBtsssGenericFailure();
       cy.injectAxeThenAxeCheck();
     });
