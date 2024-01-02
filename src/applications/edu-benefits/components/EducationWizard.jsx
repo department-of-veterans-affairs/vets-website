@@ -76,7 +76,6 @@ class EducationWizard extends React.Component {
       <a
         id="apply-now-link"
         href={url}
-        className="usa-button va-button-primary"
         onClick={() => this.recordWizardValues()}
       >
         Apply now
