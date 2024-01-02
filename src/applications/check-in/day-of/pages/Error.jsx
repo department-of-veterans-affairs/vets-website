@@ -110,7 +110,7 @@ const Error = () => {
       break;
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      header = t('were-sorry-this-link-has-expired');
+      header = t('this-link-has-expired');
       alerts = [
         {
           type: 'info',
@@ -168,11 +168,12 @@ const Error = () => {
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`}>
           <va-alert
-            background-only
             show-icon
             status={alert.type}
             data-testid={`error-message-${index}`}
             class={index !== 0 ? 'vads-u-margin-top--2' : ''}
+            uswds
+            slim
           >
             <div>{alert.message}</div>
           </va-alert>
