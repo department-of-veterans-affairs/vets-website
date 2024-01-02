@@ -21,7 +21,7 @@ const CatAndTopicSummary = ({ category, topic }) => {
   );
 };
 
-CatAndTopicSummary.propTypes = {
+CatAndTopicSummary.prototype = {
   category: PropTypes.string,
   topic: PropTypes.string,
 };
