@@ -13,7 +13,6 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
       <div className="vads-u-margin-top--3 rep-type-radio-group">
         <VaRadio
           error={null}
-          header-aria-describedby="Select your Representative type:"
           hint=""
           label="Type of accredited representative"
           required
