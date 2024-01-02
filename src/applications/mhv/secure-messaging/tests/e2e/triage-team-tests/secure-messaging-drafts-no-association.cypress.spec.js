@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -60,7 +60,9 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
@@ -76,6 +78,14 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
@@ -115,7 +125,9 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('be.visible')
       .and(
         'include.text',
-        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
@@ -131,6 +143,14 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
