@@ -66,10 +66,10 @@ const NotInDEERSAlert = () => {
             </b>
             , you can apply for a correction.
           </p>
-          <va-link href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
-            Learn how to correct your military service records on the National
-            Archives website
-          </va-link>
+          <va-link
+            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+            text="Learn how to correct your military service records on the National Archives website"
+          />
           .
         </div>
       </va-alert>
@@ -105,10 +105,10 @@ const NoServiceHistoryAlert = () => {
             </b>
             , you can apply for a correction.
           </p>
-          <va-link href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
-            Learn how to correct your military service records on the National
-            Archives website
-          </va-link>
+          <va-link
+            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+            text="Learn how to correct your military service records on the National Archives website"
+          />
           .
         </div>
       </va-alert>
@@ -218,9 +218,10 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         <h3 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
         </h3>
-        <va-link href="/records/get-military-service-records">
-          Learn how to request your DD214 and other military records
-        </va-link>
+        <va-link
+          href="/records/get-military-service-records"
+          text="Learn how to request your DD214 and other military records"
+        />
       </va-featured-content>
 
       <DevTools
