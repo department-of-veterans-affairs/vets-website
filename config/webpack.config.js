@@ -62,8 +62,8 @@ const globalEntryFiles = {
   'shared-modules': sharedModules,
   'web-components': {
     import: getAbsolutePath('src/platform/site-wide/wc-loader.js'),
-    dependOn: 'vendor'
-  }
+    dependOn: 'vendor',
+  },
 };
 
 function getEntryManifests(entry) {

@@ -34,7 +34,7 @@ function getWebpackEntryPoints(manifests) {
     apps[next.entryName] = {
       import: next.entryFile,
       dependOn: 'vendor',
-    }
+    };
     return apps;
   }, {});
 }
