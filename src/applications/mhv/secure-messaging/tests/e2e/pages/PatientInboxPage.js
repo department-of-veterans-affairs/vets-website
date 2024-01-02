@@ -12,7 +12,6 @@ import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
-import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
@@ -328,29 +327,16 @@ class PatientInboxPage {
     return this.loadedMessagesData;
   };
 
-  replyToMessage = (testReplyThread = mockSingleThread) => {
-    this.mockReplyThread = testReplyThread;
-    const currentDate = new Date();
-    this.mockReplyThread.data[0].attributes.sentDate = currentDate.toISOString();
-    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
+  replyToMessage = () => {
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }/thread`,
-      mockSingleThread,
-    ).as('singleThread');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }`,
-      mockSingleMessage,
-    ).as('singleThread');
-    cy.get(Locators.THREADS)
-      .first()
-      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click({ waitForAnimations: true });
+      'my_health/v1/messaging/messages/7192838/thread',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
