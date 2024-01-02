@@ -149,10 +149,11 @@ const CheckInConfirmation = props => {
         </ul>
 
         <va-alert
-          background-only
           show-icon
           data-testid="confirmation-alert"
           class="vads-u-margin-bottom--2"
+          uswds
+          slim
         >
           <div>
             {`${t(
@@ -172,9 +173,10 @@ const CheckInConfirmation = props => {
         {isTravelReimbursementEnabled ? (
           !doTravelPay && (
             <va-alert
-              background-only
               show-icon
               data-testid="travel-pay-info-message"
+              uswds
+              slim
             >
               <p className="vads-u-margin-top--0">
                 {t('travel-pay-reimbursement--info-message')}

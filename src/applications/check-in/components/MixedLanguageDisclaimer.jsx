@@ -20,7 +20,13 @@ const MixedLanguageDisclaimer = () => {
 
   return displaySpanish || displayTagalog ? (
     <div className="vads-u-margin-bottom--2">
-      <va-alert status="info" show-icon data-testid="mixed-language-disclaimer">
+      <va-alert
+        uswds
+        slim
+        status="info"
+        show-icon
+        data-testid="mixed-language-disclaimer"
+      >
         <div className="vads-u-margin-top--0">
           {t('some-content-may-be-in-english')}
         </div>

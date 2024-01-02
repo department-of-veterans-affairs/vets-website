@@ -168,11 +168,12 @@ const Error = () => {
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`}>
           <va-alert
-            background-only
             show-icon
             status={alert.type}
             data-testid={`error-message-${index}`}
             class={index !== 0 ? 'vads-u-margin-top--2' : ''}
+            uswds
+            slim
           >
             <div>{alert.message}</div>
           </va-alert>

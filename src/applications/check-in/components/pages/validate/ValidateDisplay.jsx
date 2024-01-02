@@ -87,10 +87,11 @@ export default function ValidateDisplay({
       {showValidateError ? (
         <div className="validate-error-alert" tabIndex="-1">
           <va-alert
-            background-only
             status="error"
             show-icon
             data-testid="validate-error-alert"
+            uswds
+            slim
           >
             <div>{validateErrorMessage}</div>
           </va-alert>

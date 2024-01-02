@@ -192,10 +192,11 @@ const Error = () => {
   return (
     <Wrapper pageTitle={header}>
       <va-alert
-        background-only
         show-icon
         status={alertType}
         data-testid="error-message"
+        uswds
+        slim
       >
         <div>{messageText}</div>
       </va-alert>

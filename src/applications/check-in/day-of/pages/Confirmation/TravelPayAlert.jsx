@@ -12,10 +12,11 @@ const TravelPayAlert = props => {
     <>
       {travelPayClaimError ? (
         <va-alert
-          background-only
           show-icon
           data-testid="travel-pay-message"
           status="warning"
+          uswds
+          slim
         >
           <div>
             <p
@@ -43,10 +44,11 @@ const TravelPayAlert = props => {
         <>
           {travelPayEligible && (
             <va-alert
-              background-only
               show-icon
               data-testid="travel-pay-message"
               status="success"
+              uswds
+              slim
             >
               <div>
                 <p
@@ -66,10 +68,11 @@ const TravelPayAlert = props => {
 
           {!travelPayEligible && (
             <va-alert
-              background-only
               show-icon
               data-testid="travel-pay-message"
               status="warning"
+              uswds
+              slim
             >
               <p
                 className="vads-u-margin-top--0"
