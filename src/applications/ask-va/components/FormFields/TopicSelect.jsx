@@ -69,7 +69,7 @@ const TopicSelect = props => {
         }?mock=true`,
       );
     },
-    [loggedIn, categoryID],
+    [loggedIn],
   );
 
   // render loading indicator while we fetch
