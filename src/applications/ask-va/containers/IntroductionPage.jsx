@@ -45,7 +45,12 @@ const IntroductionPage = props => {
       </p>
 
       {loggedIn ? (
-        <DashboardCards />
+        <>
+          <p className="vads-u-margin-top--2">
+            <Link to={getStartPage}>Create new question</Link>
+          </p>
+          <DashboardCards />
+        </>
       ) : (
         <>
           <va-alert
