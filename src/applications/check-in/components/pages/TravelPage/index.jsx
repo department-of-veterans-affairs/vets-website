@@ -45,7 +45,7 @@ const TravelPage = ({
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
-          setECheckinStartedCalled ? '-45MR' : ''
+          setECheckinStartedCalled ? '' : '-45MR'
         }-clicked`,
         'nav',
       ),
@@ -99,10 +99,11 @@ const TravelPage = ({
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
-              background-only
               show-icon
               status="info"
               data-testid="help-message"
+              uswds
+              slim
             >
               <div>{helpText}</div>
             </va-alert>
