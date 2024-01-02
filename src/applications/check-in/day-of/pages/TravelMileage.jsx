@@ -24,7 +24,7 @@ const TravelMileage = props => {
 
   return (
     <TravelPage
-      header={t('are-you-claiming-only-mileage-and-no-other')}
+      header={t('are-you-claiming-only-mileage')}
       eyebrow={t('check-in')}
       additionalInfoItems={additionalInfoItems}
       pageType="travel-mileage"

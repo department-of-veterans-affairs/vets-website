@@ -110,7 +110,7 @@ const Error = () => {
       break;
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      header = t('were-sorry-this-link-has-expired');
+      header = t('this-link-has-expired');
       alerts = [
         {
           type: 'info',
