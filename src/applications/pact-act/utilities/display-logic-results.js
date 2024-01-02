@@ -55,8 +55,13 @@ export const responsesMatchResultsDCs = (yesShortNames, pageDCsForFlow) => {
  * Evaluate formResponses and decide which results page to show
  *
  * @param {object} formResponses - all answers in the store
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const determineResultsPage = (formResponses, router) => {
+export const determineResultsPage = (
+  formResponses,
+  router,
+  updateCurrentPage,
+) => {
   const responseToServicePeriod = getServicePeriodResponse(formResponses);
 
   const allResultsDCs = DISPLAY_CONDITIONS?.RESULTS;
@@ -72,7 +77,7 @@ export const determineResultsPage = (formResponses, router) => {
       pageDCsForFlow &&
       responsesMatchResultsDCs(yesShortNames, pageDCsForFlow)
     ) {
-      pushToRoute(resultsPage, router);
+      pushToRoute(resultsPage, router, updateCurrentPage);
       return;
     }
   }
