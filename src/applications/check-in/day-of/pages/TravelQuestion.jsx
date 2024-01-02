@@ -95,7 +95,7 @@ const TravelQuestion = props => {
 
   return (
     <TravelPage
-      header={t('would-you-like-to-file-a-travel-reimbursement-claim-now')}
+      header={t('would-you-like-to-file-a-travel-reimbursement-claim')}
       eyebrow={t('check-in')}
       bodyText={<p>{t('we-encourage-you-to-file-travel-reimbursement-now')}</p>}
       additionalInfoItems={additionalInfoItems}
