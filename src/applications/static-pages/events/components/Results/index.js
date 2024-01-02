@@ -20,7 +20,10 @@ export const Results = ({
 }) => {
   if (!results?.length) {
     return (
-      <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
+      <p
+        className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1"
+        data-testid="events-results-none-found"
+      >
         {queryId === 'custom-date-range' ? (
           <span>No results found for Custom date range</span>
         ) : (
@@ -50,7 +53,6 @@ export const Results = ({
           </span>
         </h2>
       )}
-
       {/* Events */}
       {results && (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -62,6 +64,7 @@ export const Results = ({
             const mostRecentDate = deriveMostRecentDate(
               event?.fieldDatetimeRangeTimezone[0],
             );
+
             const startsAtUnix = mostRecentDate?.value;
             const endsAtUnix = mostRecentDate?.endValue;
             const timezone = mostRecentDate?.timezone;
