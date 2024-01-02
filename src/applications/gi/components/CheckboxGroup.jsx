@@ -12,6 +12,7 @@ const CheckboxGroup = ({
   row = false,
   colNum = null,
   labelMargin = '1p5',
+  className,
 }) => {
   const inputId = _.uniqueId('checkbox-group-');
 
@@ -29,7 +30,7 @@ const CheckboxGroup = ({
     return displayOptions.map((option, index) => {
       const { checked, optionLabel, name, learnMore } = option;
       return (
-        <div key={index} className={checkBoxStyleCol}>
+        <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <input
             checked={checked}
             id={`${inputId}-${index}`}
