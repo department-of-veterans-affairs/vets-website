@@ -299,7 +299,7 @@ class ClaimStatusPage extends React.Component {
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}
-        currentTab="Status"
+        currentTab="Overview"
         message={message}
         synced={synced}
       >
