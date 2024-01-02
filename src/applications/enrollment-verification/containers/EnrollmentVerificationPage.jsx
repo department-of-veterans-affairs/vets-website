@@ -71,6 +71,15 @@ export const EnrollmentVerificationPage = ({
         each month. If it’s been more than 2 months since you verified your
         enrollment, we’ll pause your monthly education payments.
       </p>
+      {enrollmentVerificationFetchComplete && (
+        <EnrollmentVerificationMonths
+          status={status}
+          enrollmentVerification={enrollmentVerification}
+        />
+      )}
+      {enrollmentVerification?.enrollmentVerifications?.length > 0 && (
+        <EnrollmentVerificationAlert status={status} />
+      )}
       {showMebEnrollmentVerificationMaintenanceAlert && (
         <va-alert
           close-btn-aria-label="Close notification"
@@ -86,16 +95,6 @@ export const EnrollmentVerificationPage = ({
             </p>
           </div>
         </va-alert>
-      )}
-      {!showMebEnrollmentVerificationMaintenanceAlert &&
-        enrollmentVerificationFetchComplete && (
-          <EnrollmentVerificationMonths
-            status={status}
-            enrollmentVerification={enrollmentVerification}
-          />
-        )}
-      {enrollmentVerification?.enrollmentVerifications?.length > 0 && (
-        <EnrollmentVerificationAlert status={status} />
       )}
       <div className="ev-highlighted-content-container vads-u-margin-top--3">
         <header className="ev-highlighted-content-container_header">
