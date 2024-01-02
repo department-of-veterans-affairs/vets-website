@@ -108,8 +108,8 @@ const CategorySelect = props => {
 };
 
 CategorySelect.propTypes = {
-  loggedIn: PropTypes.bool,
   id: PropTypes.string,
+  loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
