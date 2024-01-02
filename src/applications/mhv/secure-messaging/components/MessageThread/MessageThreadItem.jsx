@@ -48,7 +48,6 @@ const MessageThreadItem = props => {
   useEffect(
     () => {
       if (open && !preloaded) {
-        dispatch(markMessageAsReadInThread(messageId, isDraftThread));
         // opening an accordion by triggering an event, as passsing in the open prop makes the accordion uncontrolled and rerender
         const accordionItemToggledEvent = new CustomEvent(
           'accordionItemToggled',

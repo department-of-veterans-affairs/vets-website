@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { addDays, subDays, format } from 'date-fns';
 import reducer from '../../reducers';
 import App from '../../containers/App';
 
@@ -21,6 +22,13 @@ describe('Medications <App>', () => {
           profile: {
             services: [backendServices.USER_PROFILE],
           },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
         },
       },
       path: `/`,
@@ -57,5 +65,62 @@ describe('Medications <App>', () => {
       initialStateFeatureFlag(false, true),
     );
     expect(screenFeatureToggle.queryByText('unit test paragraph')).to.exist;
+  });
+
+  it('renders the downtime notification', () => {
+    const screen = renderWithStoreAndRouter(
+      <App>
+        <p data-testid="app-unit-test-p">unit test paragraph</p>
+      </App>,
+      {
+        initialState: {
+          featureToggles: {
+            loading: false,
+            // eslint-disable-next-line camelcase
+            mhv_medications_to_va_gov_release: true,
+          },
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+            profile: {
+              services: [backendServices.USER_PROFILE],
+            },
+          },
+          scheduledDowntime: {
+            globalDowntime: {
+              attributes: {
+                externalService: 'mhv',
+                startTime: format(
+                  subDays(new Date(), 1),
+                  "yyyy-LL-dd'T'HH:mm:ss",
+                ),
+                endTime: format(
+                  addDays(new Date(), 1),
+                  "yyyy-LL-dd'T'HH:mm:ss",
+                ),
+              },
+            },
+            isReady: true,
+            isPending: false,
+            serviceMap: {
+              get() {},
+            },
+            dismissedDowntimeWarnings: [],
+          },
+        },
+      },
+    );
+    expect(
+      screen.getByText('This tool is down for maintenance', {
+        selector: 'h3',
+        exact: true,
+      }),
+    );
+    expect(
+      screen.getByText('We’re making some updates to this tool', {
+        exact: false,
+      }),
+    );
   });
 });

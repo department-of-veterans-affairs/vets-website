@@ -28,71 +28,62 @@ import {
   getMarriageTitleWithCurrent,
   spouseContribution,
   fileHelp,
-  dependentSeriouslyDisabledDescription,
   directDepositWarning,
   isMarried,
   uploadMessage,
-  dependentsMinItem,
-  disabilityDocs,
-  schoolAttendanceWarning,
   marriageWarning,
   fdcWarning,
   noFDCWarning,
   expeditedProcessDescription,
   aidAttendanceEvidence,
-  dependentWarning,
-  expectedIncomeDescription,
-  spouseExpectedIncomeDescription,
   submit,
-  dependentExpectedIncomeDescription,
   createSpouseLabelSelector,
 } from '../helpers';
+import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import DependentField from '../components/DependentField';
 import ErrorText from '../components/ErrorText';
 import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import netWorthUI from '../definitions/netWorth';
-import monthlyIncomeUI from '../definitions/monthlyIncome';
-import expectedIncomeUI from '../definitions/expectedIncome';
-import { additionalSourcesSchema } from '../definitions/additionalSources';
-import otherExpensesUI from '../definitions/otherExpenses';
 
-import applicantInformation from './chapters/01-applicant-information/applicantInformation';
-import mailingAddress from './chapters/01-applicant-information/mailingAddress';
-import contactInformation from './chapters/01-applicant-information/contactInformation';
-import servicePeriods from './chapters/02-military-history/servicePeriods';
-import generalHistory from './chapters/02-military-history/generalHistory';
-import pow from './chapters/02-military-history/pow';
+// chapter-pages
 import age from './chapters/03-health-and-employment-information/age';
-import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
+import applicantInformation from './chapters/01-applicant-information/applicantInformation';
+import careExpenses from './chapters/05-financial-information/careExpenses';
+import contactInformation from './chapters/01-applicant-information/contactInformation';
+import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
+import currentSpouse from './chapters/04-household-information/currentSpouse';
+import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
+import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
+import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
+import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
+import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import dependentChildren from './chapters/04-household-information/dependentChildren';
+import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
+import generalHistory from './chapters/02-military-history/generalHistory';
+import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
+import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
+import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
+import homeOwnership from './chapters/05-financial-information/homeOwnership';
+import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import incomeSources from './chapters/05-financial-information/incomeSources';
+import mailingAddress from './chapters/01-applicant-information/mailingAddress';
+import maritalStatus from './chapters/04-household-information/maritalStatus';
 import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
 import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
 import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
-import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
-import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
-import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
-import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
-import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
-import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
-import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
-import maritalStatus from './chapters/04-household-information/maritalStatus';
-import currentSpouse from './chapters/04-household-information/currentSpouse';
-import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
-import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
-import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
-import dateOfCurrentMarriage from './chapters/04-household-information/dateOfCurrentMarriage';
-import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
-import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
-import careExpenses from './chapters/05-financial-information/careExpenses';
-import transferredAssets from './chapters/05-financial-information/transferredAssets';
-import homeOwnership from './chapters/05-financial-information/homeOwnership';
-import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
+import pow from './chapters/02-military-history/pow';
+import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
 import receivesIncome from './chapters/05-financial-information/receivesIncome';
-import incomeSources from './chapters/05-financial-information/incomeSources';
-import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
+import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
+import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
+import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
+import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -123,7 +114,6 @@ const {
   ssn,
   centralMailVaFile,
   files,
-  otherExpenses,
   bankAccount,
 } = fullSchemaPensions.definitions;
 
@@ -177,26 +167,6 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
-function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
-      .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
-  );
-}
-
-// Checks to see if they’re under 17.75 years old
-function isEligibleForDisabilitySupport(childDOB) {
-  return moment()
-    .startOf('day')
-    .subtract(17, 'years')
-    .subtract(9, 'months')
-    .isBefore(childDOB);
-}
-
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
@@ -217,15 +187,6 @@ const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
   enum: ['Widowed', 'Divorced'],
 };
-
-function createFullNameReviewTitle(label) {
-  return item => {
-    const veteranFullName = item.formData
-      ? item.formData.veteranFullName
-      : item.veteranFullName;
-    return `${veteranFullName.first} ${veteranFullName.last} ${label}`;
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -263,7 +224,6 @@ const formConfig = {
   errorText: ErrorText,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
-    additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,
@@ -302,11 +262,11 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
         },
         general: {
           path: 'military/general',
@@ -457,7 +417,7 @@ const formConfig = {
           schema: dateOfCurrentMarriage.schema,
         },
         currentSpouseMonthlySupport: {
-          title: 'Financial support for you spouse',
+          title: 'Financial support for your spouse',
           path: 'household/marital-status/spouse-monthly-support',
           depends: isMarried,
           uiSchema: currentSpouseMonthlySupport.uiSchema,
@@ -749,208 +709,20 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents',
-          uiSchema: {
-            'ui:title': 'Dependent children',
-            'view:hasDependents': {
-              'ui:title': 'Do you have any dependent children?',
-              'ui:widget': 'yesNo',
-            },
-            dependents: {
-              'ui:options': {
-                itemName: 'Dependent',
-                expandUnder: 'view:hasDependents',
-                viewField: DependentField,
-              },
-              'ui:errorMessages': {
-                minItems: dependentsMinItem,
-              },
-              items: {
-                fullName: fullNameUI,
-                childDateOfBirth: currentOrPastDateUI('Date of birth'),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:hasDependents'],
-            properties: {
-              'view:hasDependents': {
-                type: 'boolean',
-              },
-              dependents: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['fullName', 'childDateOfBirth'],
-                  properties: {
-                    fullName: dependents.items.properties.fullName,
-                    childDateOfBirth:
-                      dependents.items.properties.childDateOfBirth,
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: dependentChildren.uiSchema,
+          schema: dependentChildren.schema,
         },
-        childrenInformation: {
+        dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} information`,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: [
-                    'childPlaceOfBirth',
-                    'childRelationship',
-                    'previouslyMarried',
-                  ],
-                  properties: {
-                    childPlaceOfBirth:
-                      dependents.items.properties.childPlaceOfBirth,
-                    childSocialSecurityNumber:
-                      dependents.items.properties.childSocialSecurityNumber,
-                    'view:noSSN': { type: 'boolean' },
-                    childRelationship:
-                      dependents.items.properties.childRelationship,
-                    attendingCollege:
-                      dependents.items.properties.attendingCollege,
-                    'view:schoolWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    disabled: dependents.items.properties.disabled,
-                    'view:disabilityDocs': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    'view:dependentWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    previouslyMarried:
-                      dependents.items.properties.previouslyMarried,
-                    married: dependents.items.properties.married,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Information',
-                ),
-                childPlaceOfBirth: {
-                  'ui:title':
-                    'Place of birth (city and state or foreign country)',
-                },
-                childSocialSecurityNumber: merge({}, ssnUI, {
-                  'ui:title': 'Social Security number',
-                  'ui:required': (formData, index) =>
-                    !get(`dependents.${index}.view:noSSN`, formData),
-                }),
-                'view:noSSN': {
-                  'ui:title':
-                    'Does not have a Social Security number (foreign national, etc.)',
-                },
-                childRelationship: {
-                  'ui:title': 'Relationship',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      biological: 'Biological child',
-                      adopted: 'Adopted child',
-                      stepchild: 'Stepchild',
-                    },
-                  },
-                },
-                attendingCollege: {
-                  'ui:title': 'Is your child in school?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    isBetween18And23(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      !isBetween18And23(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                },
-                'view:schoolWarning': {
-                  'ui:description': schoolAttendanceWarning,
-                  'ui:options': {
-                    expandUnder: 'attendingCollege',
-                  },
-                },
-                disabled: {
-                  'ui:title': 'Is your child seriously disabled?',
-                  'ui:description': dependentSeriouslyDisabledDescription,
-                  'ui:required': (formData, index) =>
-                    !isEligibleForDisabilitySupport(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      isEligibleForDisabilitySupport(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                  'ui:widget': 'yesNo',
-                },
-                'view:disabilityDocs': {
-                  'ui:description': disabilityDocs,
-                  'ui:options': {
-                    expandUnder: 'disabled',
-                  },
-                },
-                'view:dependentWarning': {
-                  'ui:description': dependentWarning,
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      get(['dependents', index, 'disabled'], formData) !==
-                        false ||
-                      get(
-                        ['dependents', index, 'attendingCollege'],
-                        formData,
-                      ) !== false,
-                  },
-                },
-                previouslyMarried: {
-                  'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
-                },
-                married: {
-                  'ui:title': 'Is your child currently married?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    !!get(['dependents', index, 'previouslyMarried'], formData),
-                  'ui:options': {
-                    expandUnder: 'previouslyMarried',
-                  },
-                },
-              },
-            },
-          },
+          schema: dependentChildInformation.schema,
+          uiSchema: dependentChildInformation.uiSchema,
         },
-        childrenAddress: {
+        dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
@@ -1044,362 +816,18 @@ const formConfig = {
       title: 'Financial information',
       reviewDescription: FinancialDisclosureDescription,
       pages: {
-        netWorth: {
-          path: 'financial/net-worth',
-          title: createFullNameReviewTitle('net worth'),
-          schema: {
-            type: 'object',
-            required: ['netWorth'],
-            properties: {
-              netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Net worth',
-            ),
-            'ui:description': 'Bank accounts, investments, and property',
-            netWorth: netWorthUI,
-          },
-        },
-        monthlyIncome: {
-          path: 'financial/monthly-income',
-          title: createFullNameReviewTitle('monthly income'),
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['monthlyIncome'],
-            properties: {
-              monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Monthly income',
-            ),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            monthlyIncome: monthlyIncomeUI,
-          },
-        },
-        expectedIncome: {
-          path: 'financial/expected-income',
-          title: createFullNameReviewTitle('expected income'),
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['expectedIncome'],
-            properties: {
-              expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Expected income',
-            ),
-            'ui:description': expectedIncomeDescription,
-            expectedIncome: expectedIncomeUI,
-          },
-        },
-        otherExpenses: {
-          path: 'financial/other-expenses',
-          title: createFullNameReviewTitle('expenses'),
-          schema: {
-            type: 'object',
-            required: ['view:hasOtherExpenses'],
-            properties: {
-              'view:hasOtherExpenses': {
-                type: 'boolean',
-              },
-              otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:hasOtherExpenses': {
-              'ui:title':
-                'Do you have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            otherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses',
-              },
-            }),
-          },
-        },
-        spouseNetWorth: {
-          path: 'financial/net-worth/spouse',
-          title: 'Spouse net worth',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseNetWorth: netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Net worth'),
-            'ui:description': 'Bank accounts, investments, and property',
-            spouseNetWorth: netWorthUI,
-          },
-        },
-        spouseMonthlyIncome: {
-          path: 'financial/monthly-income/spouse',
-          title: 'Spouse monthly income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseMonthlyIncome: monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            spouseMonthlyIncome: monthlyIncomeUI,
-          },
-        },
-        spouseExpectedIncome: {
-          path: 'financial/expected-income/spouse',
-          title: 'Spouse expected income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseExpectedIncome: expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': spouseExpectedIncomeDescription,
-            spouseExpectedIncome: expectedIncomeUI,
-          },
-        },
-        spouseOtherExpenses: {
-          path: 'financial/other-expenses/spouse',
-          depends: isMarried,
-          title: 'Spouse other expenses',
-          schema: {
-            type: 'object',
-            required: ['view:spouseHasOtherExpenses'],
-            properties: {
-              'view:spouseHasOtherExpenses': {
-                type: 'boolean',
-              },
-              spouseOtherExpenses: otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'spouse',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:spouseHasOtherExpenses': {
-              'ui:title':
-                'Does your spouse have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            spouseOtherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses',
-              },
-            }),
-          },
-        },
-        dependentsNetWorth: {
-          path: 'financial/net-worth/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} net worth`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    netWorth,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Net worth'),
-                'ui:description': 'Bank accounts, investments, and property',
-                netWorth: netWorthUI,
-              },
-            },
-          },
-        },
-        dependentsMonthlyIncome: {
-          path: 'financial/monthly-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} monthly income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    monthlyIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Monthly income',
-                ),
-                'ui:description':
-                  'Social Security or other pensions (gross income)',
-                monthlyIncome: monthlyIncomeUI,
-              },
-            },
-          },
-        },
-        dependentsExpectedIncome: {
-          path: 'financial/expected-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} expected income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    expectedIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Expected income',
-                ),
-                'ui:description': dependentExpectedIncomeDescription,
-                expectedIncome: expectedIncomeUI,
-              },
-            },
-          },
-        },
-        dependentsOtherExpenses: {
-          path: 'financial/other-expenses/dependents/:index',
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} expenses`,
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['view:hasOtherExpenses'],
-                  properties: {
-                    'view:hasOtherExpenses': {
-                      type: 'boolean',
-                    },
-                    otherExpenses,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Medical, legal, or other unreimbursed expenses',
-                ),
-                'view:hasOtherExpenses': {
-                  'ui:title':
-                    'Does your child have any medical, legal or other unreimbursed expenses?',
-                  'ui:widget': 'yesNo',
-                  'ui:options': {
-                    // HACK: Forcing this to be a <div> instead of <dl>
-                    // in order to avoid breaking accessibility.
-                    customTitle: ' ',
-                    useDlWrap: true,
-                  },
-                },
-                otherExpenses: merge({}, otherExpensesUI, {
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses',
-                  },
-                }),
-              },
-            },
-          },
-        },
         totalNetWorth: {
-          title: 'total net worth',
+          title: 'Total net worth',
           path: 'financial/total-net-worth',
           uiSchema: totalNetWorth.uiSchema,
           schema: totalNetWorth.schema,
         },
         netWorthEstimation: {
-          title: 'net worth estimation',
+          title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
           depends: formData => !formData.totalNetWorth,
-        },
-        careExpenses: {
-          path: 'financial/care-expenses',
-          title: 'Care expenses',
-          uiSchema: careExpenses.uiSchema,
-          schema: careExpenses.schema,
         },
         transferredAssets: {
           title: 'Transferred assets',
@@ -1408,25 +836,25 @@ const formConfig = {
           schema: transferredAssets.schema,
         },
         homeOwnership: {
-          title: 'home ownership',
+          title: 'Home ownership',
           path: 'financial/home-ownership',
           uiSchema: homeOwnership.uiSchema,
           schema: homeOwnership.schema,
         },
         homeAcreageMoreThanTwo: {
-          title: 'home acreage size',
+          title: 'Home acreage size',
           path: 'financial/home-ownership/acres',
           depends: formData => {
-            return formData.homeOwnership !== false;
+            return formData.homeOwnership === true;
           },
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
         },
         homeAcreageValue: {
-          title: 'home acreage value',
+          title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
           depends: formData => {
-            return formData.homeAcreageMoreThanTwo !== false;
+            return formData.homeAcreageMoreThanTwo === true;
           },
           uiSchema: {},
           schema: { type: 'object', properties: {} },
@@ -1441,10 +869,29 @@ const formConfig = {
         },
         incomeSources: {
           title: 'Gross monthly income',
-          path: 'household/income-sources',
+          path: 'financial/income-sources',
           depends: formData => formData.receivesIncome !== false,
           uiSchema: incomeSources.uiSchema,
           schema: incomeSources.schema,
+        },
+        hasCareExpenses: {
+          path: 'financial/care-expenses',
+          title: 'Care expenses',
+          uiSchema: hasCareExpenses.uiSchema,
+          schema: hasCareExpenses.schema,
+        },
+        careExpenses: {
+          path: 'financial/care-expenses/add',
+          title: 'Unreimbursed care expenses',
+          depends: formData => formData.hasCareExpenses,
+          uiSchema: careExpenses.uiSchema,
+          schema: careExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses',
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
         },
       },
     },
