@@ -55,6 +55,7 @@ const BlockedTriageGroupAlert = props => {
   useEffect(() => {
     if (
       parentComponent === ParentComponent.COMPOSE_FORM &&
+      associatedTriageGroupsQty > 0 &&
       associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
     ) {
       setCareTeamTitleText('your care teams right now');

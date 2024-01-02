@@ -10,5 +10,6 @@
   "mockAllRecipients": [],
   "mockPreferredTeams": [],
   "mockAllowedRecipients": [],
-  "mockBlockedRecipients": []
+  "mockBlockedRecipients": [],
+  "mockBlokedFacilities": []
 }

@@ -14,6 +14,7 @@ import lostAssociation from '../../fixtures/json-triage-mocks/triage-teams-lost-
 import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import blockedFacility from '../../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
 import blockedFacilityAndTeam from '../../fixtures/json-triage-mocks/triage-teams-facility-and-team-blocked-mock.json';
+import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
@@ -777,5 +778,50 @@ describe('Compose form component', () => {
     expect(
       blockedTriageGroupAlert.querySelector('ul li:last-child').textContent,
     ).to.equal('Care teams at VA Indiana health care');
+  });
+
+  it('displays BlockedTriageGroupAlert if blocked from all associated teams', async () => {
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        recipients: {
+          allRecipients: allBlockedAssociations.mockAllRecipients,
+          preferredTeams: allBlockedAssociations.mockPreferredTeams,
+          allowedRecipients: allBlockedAssociations.mockAllowedRecipients,
+          blockedRecipients: allBlockedAssociations.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            allBlockedAssociations.meta.associatedTriageGroups,
+          associatedBlockedTriageGroupsQty:
+            allBlockedAssociations.meta.associatedBlockedTriageGroups,
+        },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        draft={customState.sm.threadDetails.drafts[0]}
+        recipients={customState.sm.recipients}
+      />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/thread/${customState.sm.threadDetails.drafts[0].id}`,
+      },
+    );
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to your care teams right now",
+    );
+    expect(screen.queryByTestId('Send-Button')).to.not.exist;
   });
 });

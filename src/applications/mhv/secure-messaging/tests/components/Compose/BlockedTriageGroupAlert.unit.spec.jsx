@@ -12,16 +12,18 @@ describe('BlockedTriageGroupAlert component', () => {
     drupalStaticData: {
       vamcEhrData: {
         data: {
-          ehrDataByVhaId: [
-            {
+          ehrDataByVhaId: {
+            '662': {
               facilityId: '662',
+              vamcSystemName: 'Test Facility 1',
               isCerner: false,
             },
-            {
+            '636': {
               facilityId: '636',
+              vamcSystemName: 'Test Facility 2',
               isCerner: false,
             },
-          ],
+          },
         },
       },
     },
@@ -62,13 +64,31 @@ describe('BlockedTriageGroupAlert component', () => {
     expect(screen.getByText('Find your VA health facility')).to.exist;
   });
 
-  it('displays all facilities if more than 1 are blocked', async () => {
-    const screen = setup(initialState, {
+  it('displays all blocked teams if multiple are blocked', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        recipients: {
+          associatedTriageGroupsQty: 4,
+          associatedBlockedTriageGroupsQty: 2,
+        },
+      },
+    };
+    const screen = setup(customState, {
       blockedTriageGroupList: [
-        { name: '***Jeasmitha-Cardio-Clinic***', type: Recipients.CARE_TEAM },
-        { name: '###PQR TRIAGE_TEAM 747###', type: Recipients.CARE_TEAM },
+        {
+          name: '***Jeasmitha-Cardio-Clinic***',
+          type: Recipients.CARE_TEAM,
+          stationNumber: '662',
+        },
+        {
+          name: '###PQR TRIAGE_TEAM 747###',
+          type: Recipients.CARE_TEAM,
+          stationNumber: '636',
+        },
       ],
       status: 'alert',
+      parentComponent: 'Compose Form',
     });
     expect(
       screen.queryByTestId('blocked-triage-group-alert'),
