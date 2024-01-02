@@ -78,7 +78,10 @@ const MedicationsList = props => {
             />
           ))}
       </div>
-      <div className="vads-u-display--block vads-u-margin-top--3">
+      <div
+        className="vads-u-display--block vads-u-margin-top--3"
+        data-testid="medication-list"
+      >
         {rxList?.length > 0 &&
           rxList.map(
             (rx, idx) =>
