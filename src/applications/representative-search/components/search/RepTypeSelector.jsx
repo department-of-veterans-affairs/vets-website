@@ -14,7 +14,6 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
         <VaRadio
           error={null}
           hint=""
-          label="Type of accredited representative"
           required
           label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
