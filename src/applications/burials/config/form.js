@@ -67,8 +67,6 @@ const {
   transportation,
   amountIncurred,
   previousNames,
-  officialPosition,
-  firmName,
 } = fullSchemaBurials.properties;
 
 const {
@@ -476,19 +474,6 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
-            firmName: {
-              'ui:title': 'Full name of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
-            officialPosition: {
-              'ui:title':
-                'Position of person signing on behalf of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
             claimantAddress: set(
               'ui:validations[1]',
               validateCentralMailPostalCode,
@@ -501,8 +486,6 @@ const formConfig = {
             type: 'object',
             required: ['claimantAddress'],
             properties: {
-              firmName,
-              officialPosition,
               claimantAddress: address.schema(
                 fullSchemaBurials,
                 true,
