@@ -12,11 +12,7 @@ import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
-export default function DetailsCC({
-  appointment,
-  useV2 = false,
-  featureVaosV2Next = false,
-}) {
+export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
   const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
@@ -68,7 +64,6 @@ export default function DetailsCC({
         showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
-
       <CCInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
@@ -78,7 +73,72 @@ export default function DetailsCC({
 }
 
 DetailsCC.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.shape({
+    id: PropTypes.string,
+    start: PropTypes.string.isRequired,
+    comment: PropTypes.string,
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+      isUpcomingAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
+      isCompAndPenAppointment: PropTypes.bool,
+      isPhoneAppointment: PropTypes.bool,
+      apiData: PropTypes.shape({
+        serviceType: PropTypes.string,
+      }),
+    }),
+    location: PropTypes.shape({
+      vistaId: PropTypes.string.isRequired,
+      stationId: PropTypes.string,
+    }),
+    communityCareProvider: PropTypes.shape({
+      treatmentSpecialty: PropTypes.string,
+      providerName: PropTypes.array,
+      telecom: PropTypes.array,
+      address: PropTypes.shape({
+        postalCode: PropTypes.string.isRequired,
+        city: PropTypes.string.isRequired,
+        state: PropTypes.string.isRequired,
+        line: PropTypes.array.isRequired,
+      }),
+    }),
+  }),
   featureVaosV2Next: PropTypes.bool,
   useV2: PropTypes.bool,
+};
+DetailsCC.defaultProps = {
+  appointment: {
+    id: '',
+    start: '',
+    comment: '',
+    status: '',
+    vaos: {
+      isPastAppointment: false,
+      isUpcomingAppointment: true,
+      isPendingAppointment: false,
+    },
+    location: {
+      vistaId: '',
+      stationId: '',
+    },
+    communityCareProvider: {
+      treatmentSpecialty: '',
+      providerName: [''],
+      telecom: [
+        {
+          system: '',
+          value: '',
+        },
+      ],
+      address: {
+        postalCode: '',
+        city: '',
+        state: '',
+        line: [''],
+      },
+    },
+  },
+  featureVaosV2Next: false,
+  useV2: false,
 };
