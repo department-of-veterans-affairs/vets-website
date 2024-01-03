@@ -158,7 +158,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
-      <div className="vads-u-margin-top--4">
+      <div className="vads-u-margin-y--4">
         <va-additional-info trigger="What if I don't think my military service information is correct?">
           <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
