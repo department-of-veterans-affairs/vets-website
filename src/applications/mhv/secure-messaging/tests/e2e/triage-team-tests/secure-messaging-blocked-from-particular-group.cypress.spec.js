@@ -8,8 +8,6 @@ import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-gr
 
 describe('Blocked Triage Group', () => {
   beforeEach(() => {
-    // TODO get new array with blocked first recipient / update blockedThread accordingly / this will reduce quantity of mock responses
-
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -23,70 +21,92 @@ describe('Blocked Triage Group', () => {
     landingPage.loadSingleThread(blockedThread);
   });
 
-  // TODO add test trying to create a message to blocked group / probably in a new spec
-
-  it('alert message', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
+  describe('general alert', () => {
+    it('verify alert message', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
         },
-      },
+      });
+
+      cy.get('[class="alert-expandable-title"]')
+        .should('be.visible')
+        .and('include.text', Alerts.NO_ASSOCIATION.HEADER);
     });
 
-    cy.get('[class="alert-expandable-title"]')
-      .should('be.visible')
-      .and('include.text', Alerts.NO_ASSOCIATION.HEADER);
+    // TODO add test trying to create a message to blocked group / probably in a new spec
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .shadow()
-      .find('#alert-body')
-      .should('have.class', 'closed');
+    it('verify alert not expanded', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
+
+      cy.get('[data-testid="blocked-triage-group-alert"]')
+        .shadow()
+        .find('#alert-body')
+        .should('have.class', 'closed');
+    });
   });
 
-  it('alert message expandable', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
+  describe('expanded alert', () => {
+    beforeEach(() => {
+      cy.get('[data-testid="blocked-triage-group-alert"]').click({
+        waitForAnimations: true,
+      });
+    });
+    it('alert expanded', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
         },
-      },
+      });
+
+      cy.get('[data-testid="blocked-triage-group-alert"]')
+        .shadow()
+        .find('#alert-body')
+        .should('have.class', 'open');
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
-      waitForAnimations: true,
+    it('verify alert paragraph', () => {
+      cy.get('[data-testid="blocked-triage-group-alert"]')
+        .find('p')
+        .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .shadow()
-      .find('#alert-body')
-      .should('have.class', 'open');
+    it('verify link text', () => {
+      cy.get('[data-testid="blocked-triage-group-alert"]')
+        .find('a')
+        .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+    });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+    it('verify link', () => {
+      cy.get('[data-testid="blocked-triage-group-alert"]')
+        .find('a')
+        .should('have.attr', 'href', '/find-locations/');
+    });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('a')
-      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
-
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('a')
-      .should('have.attr', 'href', '/find-locations/');
-  });
-
-  it('reply btn does not exist', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
+    it('reply btn does not exist', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
         },
-      },
-    });
+      });
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+      cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    });
   });
 });
