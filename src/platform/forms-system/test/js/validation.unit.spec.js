@@ -12,6 +12,10 @@ import {
   validateMatch,
   validateDateRange,
   validateDateRangeAllowSameMonth,
+  UPLOADING_FILE,
+  NOT_UPLOADED,
+  MISSING_PASSWORD_ERROR,
+  getFileError,
   validateFileField,
   validateBooleanGroup,
   validateMonthYear,
@@ -446,9 +450,50 @@ describe('Schemaform validations', () => {
       expect(errors.to.addError.calledWith('Test message')).to.be.true;
     });
   });
+
+  describe('getFileError', () => {
+    it('should return errorMessage', () => {
+      expect(getFileError({ errorMessage: 'yep' })).to.eq('yep');
+      expect(
+        getFileError({
+          errorMessage: 'yep',
+          isEncrypted: true,
+          password: '123',
+          confirmationCode: '1',
+        }),
+      ).to.eq('yep');
+    });
+    it('should return uploading message', () => {
+      expect(
+        getFileError({
+          uploading: true,
+          confirmationCode: '1',
+          isEncrypted: true,
+          password: '123',
+        }),
+      ).to.eq(UPLOADING_FILE);
+    });
+    it('should return missing password message', () => {
+      expect(getFileError({ isEncrypted: true })).to.eq(MISSING_PASSWORD_ERROR);
+    });
+    it('should return null', () => {
+      expect(getFileError({ confirmationCode: '1' })).to.be.null;
+      expect(getFileError({ confirmationCode: 123 })).to.be.null;
+      expect(getFileError({ confirmationCode: '1', isEncrypted: true })).to.be
+        .null;
+      expect(
+        getFileError({
+          confirmationCode: '1',
+          isEncrypted: true,
+          password: '123',
+        }),
+      ).to.be.null;
+    });
+  });
+
   describe('validateFileField', () => {
     it('should mark uploading files as invalid', () => {
-      const errors = {};
+      const errors = [{ addError: sinon.spy() }];
       validateFileField(errors, [
         {
           uploading: true,
@@ -456,15 +501,10 @@ describe('Schemaform validations', () => {
         },
       ]);
 
-      expect(errors[0].__errors).not.to.be.empty;
+      expect(errors[0].addError.called).to.be.true;
     });
     it('should mark files with error message as invalid', () => {
-      const errors = {
-        __errors: [],
-        addError: function addError(error) {
-          this.__errors.push(error);
-        },
-      };
+      const errors = [{ addError: sinon.spy() }];
       validateFileField(errors, [
         {
           uploading: false,
@@ -472,28 +512,41 @@ describe('Schemaform validations', () => {
         },
       ]);
 
-      expect(errors[0].__errors[0]).to.equal('test');
+      expect(errors[0].addError.calledWith('test')).to.be.true;
     });
     it('should mark files without confirmation number as invalid', () => {
-      const errors = {};
+      const errors = [{ addError: sinon.spy() }];
       validateFileField(errors, [
         {
           uploading: false,
         },
       ]);
 
-      expect(errors[0].__errors).not.to.be.empty;
+      expect(errors[0].addError.calledWith(NOT_UPLOADED)).to.be.true;
     });
-    it('should not mark PDF file as invalid if still awaiting password entry', () => {
-      const errors = {};
+    it('should mark PDF file as invalid if still awaiting password entry', () => {
+      const errors = [{ addError: sinon.spy() }];
       validateFileField(errors, [
         {
           isEncrypted: true,
           // password: '',
+          // confirmationCode: '',
         },
       ]);
 
-      expect(errors).to.be.empty;
+      expect(errors[0].addError.calledWith(MISSING_PASSWORD_ERROR)).to.be.true;
+    });
+    it('should not mark PDF file as invalid if missing password but successfully uploaded', () => {
+      const errors = [{ addError: sinon.spy() }];
+      validateFileField(errors, [
+        {
+          isEncrypted: true,
+          // password: '',
+          confirmationCode: '1234',
+        },
+      ]);
+
+      expect(errors[0].addError.called).to.be.false;
     });
   });
   describe('validateBooleanGroup', () => {
