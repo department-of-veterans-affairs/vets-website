@@ -212,77 +212,6 @@ export const specialMonthlyPensionDescription = (
   </section>
 );
 
-export function fileHelp({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
-
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
-
-  return (
-    <div>
-      <p>
-        Please upload all documentation to support your claim.{' '}
-        {(hasSchoolChild || hasDisabledChild) && 'This includes:'}
-      </p>
-      <ul>
-        {hasSchoolChild && (
-          <li>
-            A completed Request for Approval of School Attendance (
-            <a
-              href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              VA Form 21-674
-            </a>
-            )
-          </li>
-        )}
-        {hasDisabledChild && (
-          <li>
-            Private medical records documenting your child’s disability before
-            the age of 18
-          </li>
-        )}
-      </ul>
-      <p>
-        If you’re claiming for Aid and Attendance or Housebound benefits, this
-        includes:
-      </p>
-      <ul>
-        <li>
-          A completed Examination for Housebound Status or Permanent Need for
-          Regular Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-2680
-          </a>
-          )
-        </li>
-        <li>
-          A completed Request for Nursing Home Information in Connection with
-          Claim for Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-0779
-          </a>
-          )
-        </li>
-      </ul>
-      <p>File types you can upload: PDF, JPG, PNG</p>
-    </div>
-  );
-}
-
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -350,85 +279,6 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const uploadMessage = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>If you have many documents to upload you can mail them to us.</p>
-        <p>
-          <em>We’ll provide an address after you finish the application.</em>
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const aidAttendanceEvidence = (
-  <div>
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming non-service-connected pension benefits with Aid
-              and Attendance benefits
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have corrected vision of 5/200 or less in both eyes,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Have contraction of the concentric visual field to 5 degrees or
-              less, <strong>or</strong>
-            </li>
-            <li>
-              Are a patient in a nursing home due to the loss of mental or
-              physical abilities, <strong>or</strong>
-            </li>
-            <li>
-              Need another person to help you with daily activities like
-              bathing, eating, dressing, adjusting prosthetic devices, or
-              protecting you from the hazards of your environment,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Are bedridden and have to spend most of the day in bed because of
-              your disability
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming for increased disability pension benefits based
-              on being housebound
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have a single permanent disability that’s 100% disabling, and
-              you’re confined to your home, <strong>or</strong>
-            </li>
-            <li>
-              Have a disability (rated 60% or higher) in addition to the
-              disability that qualifies you for a pension
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 export const disabilityDocs = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
@@ -476,44 +326,6 @@ export const marriageWarning = (
         </p>
       </div>
     </div>
-  </div>
-);
-
-export const fdcWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application will be submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
-);
-
-export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application doesn’t qualify for the Fully Developed Claim (FDC)
-        program. We’ll review your claim through the standard claim process.
-        Please turn in any information to support your claim as soon as you can
-        to the address provided after you finish the application.
-      </div>
-    </div>
-  </div>
-);
-
-export const expeditedProcessDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
-      If you have uploaded all the supporting documentation you have and any
-      forms for additional benefits, you can apply using the Fully Developed
-      Claim (FDC) program.
-    </p>
-    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
-      Learn more about the FDC program
-    </a>
-    .
   </div>
 );
 
