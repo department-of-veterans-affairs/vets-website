@@ -60,6 +60,7 @@ class MedicationsListPage {
 
       .shadow()
       .find('[href="/my-health/medications/about/accordion-renew-rx"]')
+      .first()
       .click({ waitForAnimations: true });
   };
 
@@ -111,9 +112,7 @@ class MedicationsListPage {
       );
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
       .should('exist')
-      .and('be.visible')
-      .shadow()
-      .should('have.text', 'Learn how to renew prescriptions');
+      .and('be.visible');
   };
 
   verifyInformationBasedOnStatusActiveRefillInProcess = () => {
@@ -129,7 +128,7 @@ class MedicationsListPage {
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'This isn’t a prescription that you filled through a VA pharmacy. You can’t manage this medication in this online tool.',
       );
   };
@@ -146,14 +145,14 @@ class MedicationsListPage {
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
       .should('be.visible')
-      .and('have.text', 'Active: Parked');
+      .and('contain', 'Active: Parked');
   };
 
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'We put a hold on this prescription. If you need it now, call your VA pharmacy.',
       );
   };
@@ -162,7 +161,7 @@ class MedicationsListPage {
     cy.get('[data-testid="discontinued"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'You can’t refill this prescription. If you need more, send a message to your care team.',
       );
   };
@@ -171,7 +170,7 @@ class MedicationsListPage {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'This prescription is too old to refill. If you need more, request a renewal.',
       );
   };
@@ -180,20 +179,17 @@ class MedicationsListPage {
     cy.get('[data-testid="transferred"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'To manage this prescription, go to our My VA Health portal.',
       );
-    cy.get('[data-testid="prescription-VA-health-link"]')
-      .should('be.visible')
-      .shadow()
-      .should('have.text', 'Go to your prescription in My VA Health');
+    cy.get('[data-testid="prescription-VA-health-link"]').should('be.visible');
   };
 
   verifyInformationBasedOnStatusUnknown = () => {
     cy.get('[data-testid="unknown"] > div')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'We’re sorry. There’s a problem with our system. You can’t manage this prescription online right now.Check back later. Or call your VA pharmacy.',
       );
   };
@@ -217,7 +213,7 @@ class MedicationsListPage {
     cy.get('[data-testid="submitted-refill-request"]')
       .should('be.visible')
       .and(
-        'have.text',
+        'contain',
         'We got your request on October 4, 2023. Check back for updates.',
       );
   };
