@@ -1,16 +1,15 @@
 import { replace, uniq } from 'lodash';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { addDays, formatISO, startOfDay } from 'date-fns';
+import recordEvent from 'platform/monitoring/record-event';
+
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 
-import moment from '~/applications/personalization/dashboard/utils/date-formatting/moment-tz';
-
+import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import {
   getCCTimeZone,
   getVATimeZone,
   getTimezoneBySystemId,
-} from '~/applications/personalization/dashboard/utils/date-formatting/timezone';
+} from '~/applications/personalization/dashboard/utils/timezone';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
@@ -94,19 +93,20 @@ function getAdditionalInfo(appointment) {
 
   return null;
 }
-/**
- * keep this function, remove fetchConfirmedFutureAppointments
- */
+
 export function fetchConfirmedFutureAppointmentsV2() {
   return async dispatch => {
     dispatch({
       type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
     });
 
-    const now = Date.now();
+    const now = moment().toISOString();
 
     // Maximum number of days you can schedule an appointment in advance in VAOS
-    const endDate = formatISO(startOfDay(addDays(Date.now(), 395)));
+    const endDate = moment()
+      .add(395, 'days')
+      .startOf('day')
+      .toISOString();
 
     try {
       const appointmentResponse = await apiRequest(

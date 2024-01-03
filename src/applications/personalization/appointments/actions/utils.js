@@ -1,5 +1,9 @@
 import differenceInMilliseconds from 'date-fns/differenceInMilliseconds';
-import { getVATimeZone } from '~/applications/personalization/dashboard/utils/date-formatting/timezone';
+import moment from '~/applications/personalization/dashboard/lib/moment-tz';
+import {
+  getVATimeZone,
+  getTimezoneBySystemId,
+} from '~/applications/personalization/dashboard/utils/timezone';
 import environment from '~/platform/utilities/environment';
 
 const getStagingID = facilityID => {
@@ -25,7 +29,12 @@ const getStagingID = facilityID => {
 const transformAppointment = appointment => {
   const isVideo = appointment.attributes?.kind === 'telehealth';
   const facilityStagingId = getStagingID(appointment.attributes.locationId);
-  const startsAt = appointment.attributes.start;
+  const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
+  const date = appointment.attributes.start;
+  const startsAt = (timezone
+    ? moment(date).tz(timezone)
+    : moment(date)
+  ).format();
   return {
     ...appointment.attributes,
     id: appointment.id,
