@@ -6,8 +6,12 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
-
-import { clearJobIndex } from '../../utils/session';
+import {
+  clearJobIndex,
+  setJobButton,
+  clearJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { getGMT } from '../../actions/geographicMeansThreshold';
 
 const EmploymentQuestion = props => {
@@ -45,6 +49,7 @@ const EmploymentQuestion = props => {
 
   useEffect(() => {
     clearJobIndex();
+    clearJobButton();
   }, []);
 
   useEffect(
@@ -93,6 +98,10 @@ const EmploymentQuestion = props => {
 
   const goForward = () => {
     if (hasJobToAdd) {
+      if (!hasJobs?.length) {
+        setJobButton(jobButtonConstants.FIRST_JOB);
+      }
+
       const path = hasJobs
         ? '/employment-history'
         : '/enhanced-employment-records';
