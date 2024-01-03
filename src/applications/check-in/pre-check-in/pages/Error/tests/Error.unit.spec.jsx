@@ -65,8 +65,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('We’re sorry. This link has expired.')).to
-          .exist;
+        expect(component.getByText('This link has expired.')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
