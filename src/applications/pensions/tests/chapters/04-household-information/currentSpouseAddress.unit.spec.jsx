@@ -8,7 +8,7 @@ import currentSpouseAddress from '../../../config/chapters/04-household-informat
 describe('current spouse address page', () => {
   it('should render web components in form correctly', () => {
     const pageTitle = 'current spouse address';
-    const expectedNumberOfFields = 7;
+    const expectedNumberOfFields = 6;
     testNumberOfWebComponentFields(
       formConfig,
       currentSpouseAddress.schema,
