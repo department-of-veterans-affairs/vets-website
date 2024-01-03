@@ -21,7 +21,7 @@ const mockUser = {
         is_veteran: true,
       },
       inProgressForms: [],
-      prefillsAvailable: ['1010ez'],
+      prefillsAvailable: ['10-10EZR'],
       services: [
         'facilities',
         'hca',

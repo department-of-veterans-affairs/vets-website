@@ -34,6 +34,7 @@ const {
 } = SHORT_NAME_MAP;
 
 const pushSpy = sinon.spy();
+const updateSpy = sinon.spy();
 
 const router = {
   push: pushSpy,
@@ -41,6 +42,7 @@ const router = {
 
 beforeEach(() => {
   pushSpy.reset();
+  updateSpy.reset();
 });
 
 describe('shared utilities', () => {
@@ -60,8 +62,10 @@ describe('shared utilities', () => {
 
   describe('pushToRoute', () => {
     it('should correctly push to the given route', () => {
-      pushToRoute(SHORT_NAME_MAP.RADIATION_2_3_A, router);
+      pushToRoute(SHORT_NAME_MAP.RADIATION_2_3_A, router, updateSpy);
 
+      expect(updateSpy.firstCall.calledWith(SHORT_NAME_MAP.RADIATION_2_3_A)).to
+        .be.true;
       expect(pushSpy.firstCall.calledWith(ROUTES.RADIATION_2_3_A)).to.be.true;
     });
   });
@@ -198,7 +202,7 @@ describe('shared utilities', () => {
     };
 
     it('should correctly push to the previous question', () => {
-      onResultsBackClick(formResponses, router);
+      onResultsBackClick(formResponses, router, updateSpy);
 
       expect(pushSpy.firstCall.calledWith(ROUTES.LEJEUNE_2_4)).to.be.true;
     });
