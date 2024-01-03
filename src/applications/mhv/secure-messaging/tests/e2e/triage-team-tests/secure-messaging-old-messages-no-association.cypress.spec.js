@@ -68,25 +68,25 @@ describe('Verify old messages - No association with particular Triage Group', ()
         }`,
       );
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
@@ -94,7 +94,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
 
     // TODO move this assertion up after alert text fixing
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
@@ -142,25 +142,25 @@ describe('Verify old messages - No association with particular Triage Group', ()
         }`,
       );
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
@@ -169,7 +169,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
 
     // TODO move this assertion up after alert text fixing
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });

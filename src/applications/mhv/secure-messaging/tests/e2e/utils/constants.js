@@ -49,9 +49,8 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
-    NO_ASSOCIATION: '',
-    NO_ASSOCIATION_AT_ALL: '',
     SAVE_DRAFT: '#messagetext',
+    BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
   },
 };
 
