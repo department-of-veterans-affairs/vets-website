@@ -236,7 +236,7 @@ const MilitaryInformation = ({
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
-        <va-button onClick={() => createPdf()}>Download</va-button>
+        <va-button onClick={() => createPdf()} text="Download" />
       </DowntimeNotification>
 
       <va-featured-content>
