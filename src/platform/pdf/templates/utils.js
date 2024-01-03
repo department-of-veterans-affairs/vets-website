@@ -278,10 +278,17 @@ const generateFinalHeaderContent = async (doc, data, config) => {
  * @param {Object} parent parent struct
  * @param {Object} data PDF data
  * @param {Object} config layout config
+ * @param {Boolean} addSeparator line separating footer from content
  *
  * @returns {void}
  */
-const generateFooterContent = async (doc, parent, data, config) => {
+const generateFooterContent = async (
+  doc,
+  parent,
+  data,
+  config,
+  addSeparator = false,
+) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -294,7 +301,14 @@ const generateFooterContent = async (doc, parent, data, config) => {
       left: config.margins.left,
       right: 16,
     };
-
+    if (addSeparator) {
+      doc.markContent('Artifact');
+      doc
+        .moveTo(config.margins.left, 766 - 12)
+        .lineTo(doc.page.width - 16, 766 - 12)
+        .stroke();
+      doc.endMarkedContent();
+    }
     // Only allow the last footer element to be read by screen readers
     const footer =
       i === pages.count - 1
