@@ -26,7 +26,11 @@ export const HasLetters = ({ claimStatus }) => {
         </p>
         <p>You applied for benefits on {receivedDate()}</p>
         <div>
-          <a className="vads-u-flex--1" download href={LETTER_ENDPOINT}>
+          <a
+            className="vads-u-flex--1 decision-letter-download"
+            download
+            href={LETTER_ENDPOINT}
+          >
             <i
               className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
               aria-hidden="true"
