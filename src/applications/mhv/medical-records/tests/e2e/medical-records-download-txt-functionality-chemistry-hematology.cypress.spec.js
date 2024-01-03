@@ -26,6 +26,14 @@ describe('Medical Records Health Chemistry And Hematology', () => {
 
     // should display a download text file button "Download Details as a text file"
     LabsAndTestsDetailsPage.verifyDownloadTextFile();
+    LabsAndTestsDetailsPage.clickDownloadTextFile();
+
+    // verify content of the downloaded text file when running in headless mode
+    LabsAndTestsDetailsPage.verifyDownloadTextFileHeadless(
+      'Safari',
+      'Mhvtp',
+      'Mhvtp, Safari',
+    );
 
     cy.injectAxe();
     cy.axeCheck('main', {
