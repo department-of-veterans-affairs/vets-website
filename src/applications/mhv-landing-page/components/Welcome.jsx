@@ -15,7 +15,11 @@ const Welcome = ({ name }) => {
         </h2>
       </div>
       <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-        <i className="fas fa-user vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5" />
+        <i
+          aria-hidden="true"
+          role="img"
+          className="fas fa-user vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
+        />
         <va-link href="/profile" text="Profile" />
       </div>
     </div>
