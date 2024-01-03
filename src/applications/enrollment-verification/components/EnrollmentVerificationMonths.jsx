@@ -74,7 +74,7 @@ function EnrollmentVerificationMonths({
           you are to be overpaid and incur a debt.
         </p>
       </va-additional-info>
-      {showMaintenanceAlert && months?.length === 0 ? null : (
+      {!showMaintenanceAlert && (
         <p>
           Showing {showingPages} of {months?.length || '0'} monthly enrollments
           listed by most recent

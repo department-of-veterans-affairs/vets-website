@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -27,13 +28,15 @@ export const EnrollmentVerificationPage = ({
   showMebEnrollmentVerificationMaintenanceAlert,
   submissionResult,
 }) => {
+  const history = useHistory();
+
   useEffect(
     () => {
       if (hasCheckedKeepAlive && !isLoggedIn) {
-        window.location.href = STATIC_CONTENT_ENROLLMENT_URL;
+        history.push(STATIC_CONTENT_ENROLLMENT_URL);
       }
     },
-    [hasCheckedKeepAlive, isLoggedIn],
+    [hasCheckedKeepAlive, isLoggedIn, history],
   );
   useEffect(
     () => {
