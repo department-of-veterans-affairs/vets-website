@@ -132,9 +132,9 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .find('#alert-body')
       .should('have.class', 'open');
 
-    // cy.get('[data-testid="blocked-triage-group-alert"]')
-    //   .find('p')
-    //   .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')

@@ -6,23 +6,24 @@ import mockSingleMessage from '../fixtures/inboxResponse/single-message-response
 import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipients-response.json';
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
-describe('Blocked Triage Group', () => {
+describe('Verify Thread - Blocked from particular Triage Group', () => {
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
     site.login();
-
     landingPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockBlockedRecipients,
     );
-
-    landingPage.loadSingleThread(blockedThread);
   });
 
   describe('general alert', () => {
-    it('verify alert message', () => {
+    beforeEach(() => {
+      landingPage.loadSingleThread(blockedThread);
+    });
+
+    it('verify alert header', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {
         rules: {
@@ -36,8 +37,6 @@ describe('Blocked Triage Group', () => {
         .should('be.visible')
         .and('include.text', Alerts.NO_ASSOCIATION.HEADER);
     });
-
-    // TODO add test trying to create a message to blocked group / probably in a new spec
 
     it('verify alert not expanded', () => {
       cy.injectAxe();
@@ -57,6 +56,10 @@ describe('Blocked Triage Group', () => {
   });
 
   describe('expanded alert', () => {
+    beforeEach(() => {
+      landingPage.loadSingleThread(blockedThread);
+    });
+
     beforeEach(() => {
       cy.get('[data-testid="blocked-triage-group-alert"]').click({
         waitForAnimations: true,
@@ -79,18 +82,42 @@ describe('Blocked Triage Group', () => {
     });
 
     it('verify alert paragraph', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
       cy.get('[data-testid="blocked-triage-group-alert"]')
         .find('p')
         .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
     });
 
     it('verify link text', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
       cy.get('[data-testid="blocked-triage-group-alert"]')
         .find('a')
         .should('include.text', Alerts.NO_ASSOCIATION.LINK);
     });
 
     it('verify link', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
       cy.get('[data-testid="blocked-triage-group-alert"]')
         .find('a')
         .should('have.attr', 'href', '/find-locations/');
@@ -107,6 +134,28 @@ describe('Blocked Triage Group', () => {
       });
 
       cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    });
+  });
+
+  describe('verify user can not create a message to blocked group', () => {
+    it('creating message view', () => {
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+        },
+      });
+
+      cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
+        waitForAnimations: true,
+      });
+      cy.get(Locators.BUTTONS.CONTINUE).click({ waitForAnimations: true });
+      cy.get('#select').should(
+        'not.contain',
+        mockBlockedRecipients.data[3].attributes.name,
+      );
     });
   });
 });
