@@ -49,12 +49,15 @@ describe('Verify thread - No association with particular Triage Group', () => {
       'have.text',
       Alerts.NO_ASSOCIATION.AT_ALL_HEADER,
     );
+
     cy.get('[close-btn-aria-label="Close notification"]')
       .find('p')
       .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
     cy.get('[close-btn-aria-label="Close notification"]')
       .find('a')
       .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+
     cy.get('[close-btn-aria-label="Close notification"]')
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
@@ -133,17 +136,19 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .should('have.class', 'open');
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+
+    // TODO move these assertion up after alert text fixing
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('p')
       .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
       .should('have.text', Alerts.NO_ASSOCIATION.LINK);
-
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('a')
-      .should('have.attr', 'href', '/find-locations/');
-
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });

@@ -80,10 +80,6 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('have.class', 'open');
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
-
-    cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
@@ -92,6 +88,12 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+
+    // TODO move this assertion up after alert text fixing
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 
   it('existing single draft', () => {
@@ -145,10 +147,6 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('have.class', 'open');
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
-
-    cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
@@ -157,5 +155,11 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+
+    // TODO move this assertion up after alert text fixing
+
+    cy.get('[data-testid="blocked-triage-group-alert"]')
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 });
