@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 
 export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
-export const HasLetters = ({ claimStatus }) => {
+export const HasLetters = ({ claimStatus, showMebLettersMaintenanceAlert }) => {
   const receivedDate = () => {
     const [year, month, day] = claimStatus?.receivedDate?.split('-');
     return format(new Date(`${month}-${day}-${year}`), 'MMMM dd, yyyy');
@@ -18,6 +18,16 @@ export const HasLetters = ({ claimStatus }) => {
         Check this page for your education decision letter for Post-9/11 GI Bill
         benefits.{' '}
       </p>
+      {showMebLettersMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <p>We’re currently updating our systems. Please check back later.</p>
+        </va-alert>
+      )}
       <h2>Your education decision letter is available</h2>
       <div className="vads-u-margin-bottom--4">
         <p>
@@ -95,7 +105,7 @@ export const HasLetters = ({ claimStatus }) => {
   );
 };
 
-export const NoLetters = () => {
+export const NoLetters = showMebLettersMaintenanceAlert => {
   return (
     <>
       <FormTitle title="Your VA education letter" />
@@ -106,6 +116,16 @@ export const NoLetters = () => {
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 slot="headline">Your education decision letter isn’t available</h2>
       </va-alert>
+      {showMebLettersMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <p>We’re currently updating our systems. Please check back later.</p>
+        </va-alert>
+      )}
       <div>
         <p>
           If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
