@@ -22,7 +22,7 @@ function answerQuestion(tree, name, value) {
 describe('<EducationWizard>', () => {
   it('should show button and no questions', () => {
     const tree = mount(<EducationWizard store={store} />);
-    expect(tree.find('button').length).to.eq(1);
+    expect(tree.find('va-button').length).to.eq(1);
     expect(tree.find('.wizard-content-closed').length).to.eq(1);
     tree.unmount();
   });
@@ -30,7 +30,7 @@ describe('<EducationWizard>', () => {
     const tree = mount(
       <EducationWizard store={store} levels={['newBenefit']} />,
     );
-    expect(tree.find('button').length).to.eq(1);
+    expect(tree.find('va-button').length).to.eq(1);
     expect(tree.find('va-radio').length).to.eq(1);
     tree.unmount();
   });
