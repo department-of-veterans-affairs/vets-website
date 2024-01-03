@@ -7,16 +7,17 @@ export const conditionsDescription = (
     class="vads-u-margin-bottom--4"
     trigger="What is toxic exposure?"
   >
-    <p>
-      Toxic exposures include exposures to substances like Agent Orange, burn
-      pits, radiation, asbestos, or contaminated water.
-    </p>
-    <br role="presentation" />
-    <p>
-      <va-link
-        href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
-        text="Learn more about toxic exposure"
-      />
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        Toxic exposures include exposures to substances like Agent Orange, burn
+        pits, radiation, asbestos, or contaminated water.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <va-link
+          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          text="Learn more about toxic exposure"
+        />
+      </p>
+    </div>
   </va-additional-info>
 );
