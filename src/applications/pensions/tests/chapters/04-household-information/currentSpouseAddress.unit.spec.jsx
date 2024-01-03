@@ -3,25 +3,25 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import currentSpouse from '../../../config/chapters/04-household-information/currentSpouse';
+import currentSpouseAddress from '../../../config/chapters/04-household-information/currentSpouseAddress';
 
-describe('current spouse full name page', () => {
+describe('current spouse address page', () => {
   it('should render web components in form correctly', () => {
-    const pageTitle = 'current spouse full name';
-    const expectedNumberOfFields = 4;
+    const pageTitle = 'current spouse address';
+    const expectedNumberOfFields = 7;
     testNumberOfWebComponentFields(
       formConfig,
-      currentSpouse.schema,
-      currentSpouse.uiSchema,
+      currentSpouseAddress.schema,
+      currentSpouseAddress.uiSchema,
       expectedNumberOfFields,
       pageTitle,
     );
 
-    const expectedNumberOfErrors = 2;
+    const expectedNumberOfErrors = 4;
     testNumberOfErrorsOnSubmitForWebComponents(
       formConfig,
-      currentSpouse.schema,
-      currentSpouse.uiSchema,
+      currentSpouseAddress.schema,
+      currentSpouseAddress.uiSchema,
       expectedNumberOfErrors,
       pageTitle,
     );
