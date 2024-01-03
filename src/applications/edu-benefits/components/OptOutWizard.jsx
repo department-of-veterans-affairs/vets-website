@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default class OptOutWizard extends React.Component {
   constructor(props) {
@@ -45,9 +46,10 @@ export default class OptOutWizard extends React.Component {
           <p>
             <strong>Please note:</strong> If you opt out and then change your
             mind, you’ll need to call the Education Call Center at{' '}
-            <a className="help-phone-number-link" href="tel:1-888-442-4551">
-              888-442-4551
-            </a>{' '}
+            <va-telephone
+              class="help-phone-number-link"
+              contact={CONTACTS.GI_BILL}
+            />{' '}
             to opt back in.
           </p>
           <div>
