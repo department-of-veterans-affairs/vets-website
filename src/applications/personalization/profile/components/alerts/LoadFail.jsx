@@ -11,7 +11,12 @@ export const defaultFailureMessage = (
 // alert with headline and body text that is shown for more 'global' failures
 export default function LoadFail() {
   return (
-    <va-alert status="warning" visible data-testid="service-is-down-banner">
+    <va-alert
+      status="warning"
+      visible
+      data-testid="service-is-down-banner"
+      uswds
+    >
       <h2 slot="headline">This page isn't available right now.</h2>
       <p>
         We’re sorry. Something went wrong on our end. Refresh this page or try
@@ -50,7 +55,7 @@ const renderSingleFieldFailMessage = (sectionName, children) => {
 export const SingleFieldLoadFailAlert = ({ sectionName, children }) => {
   const message = renderSingleFieldFailMessage(sectionName, children);
   return (
-    <va-alert status="warning" background-only show-icon>
+    <va-alert status="warning" background-only uswds>
       {message}
     </va-alert>
   );
