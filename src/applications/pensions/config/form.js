@@ -26,8 +26,6 @@ import {
   getMarriageTitleWithCurrent,
   directDepositWarning,
   isMarried,
-  directDepositWarning,
-  isMarried,
   submit,
   createSpouseLabelSelector,
 } from '../helpers';
