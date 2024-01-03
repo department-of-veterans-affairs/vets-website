@@ -39,7 +39,7 @@ describe('EZR Insurance Policies', () => {
     }).as('mockSubmit');
   });
 
-  it('should successfully fill maximum insurance information', () => {
+  it('should successfully fill insurance information', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
