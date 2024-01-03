@@ -91,7 +91,7 @@ const formConfig = {
       pages: {
         preparerIdentification: {
           path: 'preparer-identification',
-          title: 'Your identity',
+          title: 'Form Preparer',
           initialData:
             !!mockData && environment.isLocalhost() && !window.Cypress
               ? mockData
