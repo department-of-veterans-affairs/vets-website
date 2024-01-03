@@ -167,20 +167,18 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            {
-              title: 'Image of the medication or supply:',
-              value: rx.prescriptionImage
-                ? {
-                    isBase64: true,
-                    type: 'image',
-                    value: rx.prescriptionImage,
-                    options: { width: 182.75, height: 182.75 },
-                  }
-                : 'Image not available',
-              inline: false,
-            },
             ...(rx.prescriptionImage
               ? [
+                  {
+                    title: 'Image of the medication or supply:',
+                    value: {
+                      isBase64: true,
+                      type: 'image',
+                      value: rx.prescriptionImage,
+                      options: { width: 182.75, height: 182.75 },
+                    },
+                    inline: false,
+                  },
                   {
                     title: 'Note',
                     value:
@@ -207,18 +205,18 @@ export const buildAllergiesPDFList = allergies => {
         {
           items: [
             {
-              title: 'Reaction',
+              title: 'Date entered',
+              value: validateField(item.date),
+              inline: true,
+            },
+            {
+              title: 'Signs and symptoms',
               value: processList(item.reaction),
               inline: true,
             },
             {
               title: 'Type of allergy',
               value: validateField(item.type),
-              inline: true,
-            },
-            {
-              title: 'Date entered',
-              value: validateField(item.date),
               inline: true,
             },
             {
@@ -349,20 +347,18 @@ export const buildVAPrescriptionPDFList = (
               value: validateField(prescription.quantity),
               inline: true,
             },
-            {
-              title: 'Image of the medication or supply:',
-              value: prescriptionImage
-                ? {
-                    isBase64: true,
-                    type: 'image',
-                    value: prescriptionImage,
-                    options: { width: 182.75, height: 182.75 },
-                  }
-                : 'Image not available',
-              inline: false,
-            },
             ...(prescriptionImage
               ? [
+                  {
+                    title: 'Image of the medication or supply:',
+                    value: {
+                      isBase64: true,
+                      type: 'image',
+                      value: prescriptionImage,
+                      options: { width: 182.75, height: 182.75 },
+                    },
+                    inline: false,
+                  },
                   {
                     title: 'Note',
                     value:
@@ -379,7 +375,7 @@ export const buildVAPrescriptionPDFList = (
       header: 'Refill history',
       sectionSeparators: true,
       sectionSeperatorOptions: {
-        spaceFromEdge: 32,
+        spaceFromEdge: 16,
         linesAbove: 0,
         linesBelow: 1,
       },
@@ -395,8 +391,8 @@ export const buildVAPrescriptionPDFList = (
                       weight: 'bold',
                       itemSeperator: i !== refillHistory.length - 1,
                       itemSeperatorOptions: {
-                        spaceFromEdge: 32,
-                        linesAbove: 0.35,
+                        spaceFromEdge: 16,
+                        linesAbove: 0.5,
                         linesBelow: 0.7,
                       },
                       font: 'Bitter-Bold',
