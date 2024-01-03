@@ -219,7 +219,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
-        label: 'Find a VA accredited representative',
+        label: 'Find a VA accredited representative or VSO',
       },
     ];
   };
@@ -316,7 +316,7 @@ const SearchPage = props => {
 
       <div className="usa-grid usa-width-three-fourths search-page-container">
         <div className="title-section vads-u-padding-y--1">
-          <h1>Find a VA accredited representative</h1>
+          <h1>Find a VA accredited representative or VSO</h1>
           <p>
             Find a representative who can help you file a claim or request a
             decision review. Then contact them to ask if they’re available to
