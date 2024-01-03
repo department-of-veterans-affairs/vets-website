@@ -19,6 +19,9 @@ class AllergyDetailsPage {
     ).as('allergyDetails');
     cy.get('[data-testid="record-list-item"]')
       .contains(allergyTitle)
+      .should('be.visible');
+    cy.get('[data-testid="record-list-item"]')
+      .contains(allergyTitle)
       .click();
   };
 
