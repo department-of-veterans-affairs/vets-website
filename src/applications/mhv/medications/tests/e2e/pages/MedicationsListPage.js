@@ -259,7 +259,9 @@ class MedicationsListPage {
     );
     cy.get(
       '[data-testid="medication-list"] > :nth-child(1) > [data-testid="rx-card-info"] > [data-testid="fill-refill"] > [data-testid="refill-request-button"]',
-    ).click({ waitForAnimations: true });
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   verifyInlineErrorMessageForRefillRequest = () => {
