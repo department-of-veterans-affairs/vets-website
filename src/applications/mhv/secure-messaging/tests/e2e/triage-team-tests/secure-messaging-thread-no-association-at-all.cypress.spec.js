@@ -47,15 +47,18 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get(Locators.LINKS.GO_TO_INBOX).should('not.exist');
     cy.get('#track-your-status-on-mobile').should(
       'have.text',
-      Alerts.NO_ASSOCIATION_AT_ALL.HEADER,
+      Alerts.NO_ASSOCIATION.AT_ALL_HEADER,
     );
-    cy.get('[close-btn-aria-label="Close notification"]')
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION_AT_ALL.PARAGRAPH);
-    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.text', Alerts.NO_ASSOCIATION_AT_ALL.LINK);
-    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
   });
@@ -73,7 +76,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
       },
     });
 
-    // cy.get('[close-btn-aria-label="Close notification"]')  // TODO find solution to close alert message
+    // cy.get(Locators.ALERTS.BLOCKED_GROUP)  // TODO find solution to close alert message
     //   .shadow()
     //   .find('[class="va-alert-close"]')
     //   .click({ waitForAnimations: true });
@@ -81,16 +84,16 @@ describe('Verify thread - No association with particular Triage Group', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
     cy.get(Locators.LINKS.GO_TO_INBOX).should('not.exist');
     cy.get('#track-your-status-on-mobile').should(
-      'include.text',
-      Alerts.NO_ASSOCIATION_AT_ALL.HEADER,
+      'have.text',
+      Alerts.NO_ASSOCIATION.AT_ALL_HEADER,
     );
-    cy.get('[close-btn-aria-label="Close notification"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION_AT_ALL.PARAGRAPH);
-    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('include.text', Alerts.NO_ASSOCIATION_AT_ALL.LINK);
-    cy.get('[close-btn-aria-label="Close notification"]')
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
   });
@@ -118,31 +121,34 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .should('be.visible')
       .and('include.text', `You can't send messages to`);
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
-      .find('p')
-      .should(
-        'contain.text',
-        'If you need help contacting this care team, call your VA health facility.',
-      );
-
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+
+    // TODO move these assertion up after alert text fixing
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
   });
 });

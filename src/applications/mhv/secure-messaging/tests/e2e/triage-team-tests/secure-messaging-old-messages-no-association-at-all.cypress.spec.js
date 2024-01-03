@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -58,28 +58,40 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .should('be.visible')
       .and(
         'include.text',
-        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+
+    // TODO move these assertion up after alert text fixing
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 
   it('existing draft - older than 45 days', () => {
@@ -116,28 +128,40 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .should('be.visible')
       .and(
         'include.text',
-        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
+
+    // TODO move this assertion up after alert text fixing
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 });

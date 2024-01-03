@@ -49,22 +49,18 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
-    NO_ASSOCIATION: '',
-    NO_ASSOCIATION_AT_ALL: '',
     SAVE_DRAFT: '#messagetext',
+    BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
   },
 };
 
 export const Alerts = {
   NO_ASSOCIATION: {
-    HEADER: '',
-    PARAGRAPH: '',
-    LINK: '',
-  },
-  NO_ASSOCIATION_AT_ALL: {
-    HEADER: 'You’re not connected to any care teams in this messaging tool',
+    AT_ALL_HEADER:
+      'You’re not connected to any care teams in this messaging tool',
+    HEADER: "You can't send messages to",
     PARAGRAPH:
-      'If you need to contact your care tam, call your VA health facility.',
+      'If you need to contact your care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
 };
