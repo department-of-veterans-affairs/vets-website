@@ -1,4 +1,3 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import {
   addressSchema,
   addressUI,
@@ -12,19 +11,6 @@ export default {
     'ui:title': 'Mailing address',
     'ui:description':
       'We’ll send any important information about your application to this address',
-    firmName: {
-      'ui:title': 'Full name of firm, corporation or state agency',
-      'ui:options': {
-        hideIf: form => get('relationship.isEntity', form) !== true,
-      },
-    },
-    officialPosition: {
-      'ui:title':
-        'Position of person signing on behalf of firm, corporation or state agency',
-      'ui:options': {
-        hideIf: form => get('relationship.isEntity', form) !== true,
-      },
-    },
     claimantAddress: {
       ...addressUI({
         labels: {

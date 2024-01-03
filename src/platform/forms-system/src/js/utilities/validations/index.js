@@ -82,6 +82,15 @@ export function isValidCurrentOrFutureMonthYear(month, year) {
   return momentDate.isSameOrAfter(moment(), 'month');
 }
 
+export const isValidCentralMailPostalCode = ({ country, postalCode } = {}) => {
+  return !(
+    country === 'USA' &&
+    postalCode &&
+    !/^\d{5}$/.test(postalCode) &&
+    !/^\d{5}-\d{4}$/.test(postalCode)
+  );
+};
+
 function isBlank(value) {
   return value === '';
 }

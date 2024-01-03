@@ -45,7 +45,7 @@ import {
   submit,
 } from '../utils/helpers';
 import { allowanceLabels } from '../utils/labels';
-import migrations from '../migrations';
+import migrations from '../utils/migrations';
 
 import manifest from '../manifest.json';
 
