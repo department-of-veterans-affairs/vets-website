@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
+import {
+  clearJobIndex,
+  setJobButton,
+  clearJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 
 const SpouseEmploymentQuestion = props => {
   const {
@@ -24,6 +29,7 @@ const SpouseEmploymentQuestion = props => {
 
   useEffect(() => {
     clearJobIndex();
+    clearJobButton();
   }, []);
 
   useEffect(
@@ -56,6 +62,9 @@ const SpouseEmploymentQuestion = props => {
     const { value } = event?.detail || {};
     if (value === undefined) return;
     setHasJobToAdd(value === 'true');
+    if (!hasJobs) {
+      setJobButton(jobButtonConstants.FIRST_JOB);
+    }
   };
 
   return (

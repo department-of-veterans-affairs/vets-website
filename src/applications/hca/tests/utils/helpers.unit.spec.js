@@ -11,6 +11,7 @@ import {
   isOfCollegeAge,
   getDependentPageList,
   normalizeFullName,
+  parseVeteranDob,
   getDataToSet,
   getSearchAction,
   getSearchIndex,
@@ -640,6 +641,39 @@ describe('hca helpers', () => {
             );
           });
         });
+      });
+    });
+  });
+
+  context('when `parseVeteranDob` executes', () => {
+    context('when a value is omitted from the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob()).to.eq(null);
+      });
+    });
+
+    context('when an empty value is passed to the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('')).to.eq(null);
+      });
+    });
+
+    context('when an invalid value is passed to the function', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('1990-01-00')).to.eq(null);
+      });
+    });
+
+    context('when the value is passed to the function is pre-1900', () => {
+      it('should return `null`', () => {
+        expect(parseVeteranDob('1890-01-01')).to.eq(null);
+      });
+    });
+
+    context('when the value is between 1900-01-01 and today', () => {
+      it('should return the value', () => {
+        const validDate = '1990-01-01';
+        expect(parseVeteranDob(validDate)).to.eq(validDate);
       });
     });
   });
