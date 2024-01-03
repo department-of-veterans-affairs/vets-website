@@ -414,7 +414,7 @@ module.exports = async (env = {}) => {
     optimization: {
       // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
       // consistency between full and single app builds
-      chunkIds: 'deterministic',
+      chunkIds: 'named',
       moduleIds: 'named',
       minimizer: [
         new TerserPlugin({
