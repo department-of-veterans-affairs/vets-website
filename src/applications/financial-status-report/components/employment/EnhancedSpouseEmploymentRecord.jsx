@@ -7,7 +7,11 @@ import {
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getJobIndex } from '../../utils/session';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 
 const RETURN_PATH = '/spouse-employment-history';
@@ -138,6 +142,29 @@ const EmploymentRecord = props => {
       handleChange('isCurrent', value === 'true');
       setCurrentlyWorksHere(value === 'true');
     },
+    getContinueButtonText: () => {
+      if (
+        employmentRecord.isCurrent ||
+        getJobButton() === jobButtonConstants.FIRST_JOB
+      ) {
+        return 'Continue';
+      }
+
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Update employment record';
+      }
+      return 'Add employment record';
+    },
+    getCancelButtonText: () => {
+      if (getJobButton() === jobButtonConstants.FIRST_JOB) {
+        return 'Back';
+      }
+
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Cancel Edit Entry';
+      }
+      return 'Cancel Add Entry';
+    },
   };
 
   return (
@@ -209,7 +236,7 @@ const EmploymentRecord = props => {
             className="usa-button-secondary vads-u-width--auto"
             onClick={handlers.onCancel}
           >
-            Cancel
+            {handlers.getCancelButtonText()}
           </button>
           <button
             type="submit"
@@ -217,7 +244,7 @@ const EmploymentRecord = props => {
             className="vads-u-width--auto"
             onClick={updateFormData}
           >
-            {`${editIndex ? 'Update' : 'Add'} employment record`}
+            Continue
           </button>
         </p>
       </fieldset>
