@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
+
+import { generatePdf } from '~/platform/pdf';
+import { formatFullName } from '../../../common/helpers';
 
 import DowntimeNotification, {
   externalServices,
@@ -192,10 +196,33 @@ MilitaryInformationContent.propTypes = {
   veteranStatus: PropTypes.object,
 };
 
-const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
+const MilitaryInformation = ({
+  dob,
+  militaryInformation,
+  totalDisabilityRating,
+  userFullName: { first, middle, last, suffix },
+  veteranStatus,
+}) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
+
+  const createPdf = () => {
+    const pdfData = {
+      title: 'Veteran Status',
+      details: {
+        fullName: formatFullName({ first, middle, last, suffix }),
+        serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+        totalDisabilityRating,
+        dob: renderDOB(dob),
+        image: {
+          title: 'V-A logo',
+          url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+        },
+      },
+    };
+    generatePdf('veteranStatus', 'Veteran Status', pdfData);
+  };
 
   return (
     <div>
@@ -209,6 +236,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
         />
+        <va-button onClick={() => createPdf()}>Download</va-button>
       </DowntimeNotification>
 
       <va-featured-content>
@@ -234,6 +262,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 };
 
 MilitaryInformation.propTypes = {
+  dob: PropTypes.string,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       serviceHistory: PropTypes.arrayOf(
@@ -245,6 +274,13 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
+  totalDisabilityRating: PropTypes.number,
+  userFullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
+  }),
   veteranStatus: PropTypes.shape({
     isVeteran: PropTypes.bool,
     status: PropTypes.string,
@@ -253,7 +289,10 @@ MilitaryInformation.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  dob: state.vaProfile?.personalInformation?.birthDate,
   militaryInformation: state.vaProfile?.militaryInformation,
+  totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+  userFullName: state.vaProfile?.hero?.userFullName,
   veteranStatus: selectVeteranStatus(state),
 });
 
