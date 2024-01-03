@@ -5,7 +5,6 @@ import moment from 'moment';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import GetFormHelp from '@department-of-veterans-affairs/platform-forms/GetPensionOrBurialFormHelp';
 import preSubmitInfo from '@department-of-veterans-affairs/platform-forms/preSubmitInfo';
 import * as address from '@department-of-veterans-affairs/platform-forms-system/address';
@@ -16,7 +15,6 @@ import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-
 import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
 import ArrayCountWidget from '@department-of-veterans-affairs/platform-forms-system/ArrayCountWidget';
 import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
-import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 import createNonRequiredFullName from '@department-of-veterans-affairs/platform-forms/nonRequiredFullName';
 import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
 import {
@@ -26,14 +24,10 @@ import {
 
 import {
   getMarriageTitleWithCurrent,
-  fileHelp,
   directDepositWarning,
   isMarried,
-  uploadMessage,
-  fdcWarning,
-  noFDCWarning,
-  expeditedProcessDescription,
-  aidAttendanceEvidence,
+  directDepositWarning,
+  isMarried,
   submit,
   createSpouseLabelSelector,
 } from '../helpers';
@@ -56,13 +50,15 @@ import currentSpouseMaritalHistory from './chapters/04-household-information/cur
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
+import documentUpload from './chapters/06-additional-information/documentUpload';
+import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
 import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
-import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import homeOwnership from './chapters/05-financial-information/homeOwnership';
 import incomeSources from './chapters/05-financial-information/incomeSources';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import maritalStatus from './chapters/04-household-information/maritalStatus';
@@ -78,6 +74,7 @@ import receivesIncome from './chapters/05-financial-information/receivesIncome';
 import servicePeriod from './chapters/02-military-history/servicePeriod';
 import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
 import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
+import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
@@ -94,7 +91,6 @@ const {
   liveWithSpouse,
   spouseIsVeteran,
   dependents,
-  noRapidProcessing,
 } = fullSchemaPensions.properties;
 
 const {
@@ -108,7 +104,6 @@ const {
   expectedIncome,
   ssn,
   centralMailVaFile,
-  files,
   bankAccount,
 } = fullSchemaPensions.definitions;
 
@@ -902,97 +897,23 @@ const formConfig = {
           },
         },
         aidAttendance: {
-          path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance and Housebound benefits',
-          uiSchema: {
-            'ui:title': 'Aid and Attendance and Housebound Benefits',
-            'view:evidenceInfo': {
-              'ui:description': aidAttendanceEvidence,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:evidenceInfo': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          title: 'Supporting documents',
+          path: 'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
         documentUpload: {
           title: 'Document upload',
-          path: 'documents',
+          path: 'additional-information/document-upload',
           editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:title': 'Document upload',
-            'ui:description': fileHelp,
-            files: fileUploadUI('', {
-              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-              hideLabelText: true,
-            }),
-            'view:uploadMessage': {
-              'ui:description': uploadMessage,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              files,
-              'view:uploadMessage': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
         expedited: {
-          title: 'Fully Developed Claim program',
-          path: 'additional-information/fdc',
-          uiSchema: {
-            'ui:description': expeditedProcessDescription,
-            noRapidProcessing: {
-              'ui:title':
-                'Do you want to apply using the Fully Developed Claim program?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                yesNoReverse: true,
-                labels: {
-                  Y: 'Yes, I have uploaded all my documentation.',
-                  N:
-                    'No, I have some extra information that I will submit to VA later.',
-                },
-              },
-            },
-            fdcWarning: {
-              'ui:description': fdcWarning,
-              'ui:options': {
-                expandUnder: 'noRapidProcessing',
-                expandUnderCondition: false,
-              },
-            },
-            noFDCWarning: {
-              'ui:description': noFDCWarning,
-              'ui:options': {
-                expandUnder: 'noRapidProcessing',
-                expandUnderCondition: true,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              noRapidProcessing,
-              fdcWarning: {
-                type: 'object',
-                properties: {},
-              },
-              noFDCWarning: {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          title: 'Faster claim processing',
+          path: 'additional-information/faster-claim-processing',
+          uiSchema: fasterClaimProcessing.uiSchema,
+          schema: fasterClaimProcessing.schema,
         },
       },
     },
