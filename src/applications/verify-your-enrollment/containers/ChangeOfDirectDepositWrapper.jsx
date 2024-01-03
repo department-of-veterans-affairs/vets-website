@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../sass/change-of-direct-deposit-wrapper.scss';
-import ChangeOfDirectDepositForm from './ChangeOfDirectDepositForm';
+import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
+import { scrollToElement } from '../helpers';
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
   SMALL_SCREEN,
@@ -107,10 +108,11 @@ const ChangeOfDirectDepositWrapper = () => {
   useEffect(
     () => {
       if (!toggleDirectDepositForm) {
-        const element = document.getElementById('Direct deposit information');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToElement('Direct deposit information');
+        // const element = document.getElementById('Direct deposit information');
+        // if (element) {
+        //   element.scrollIntoView({ behavior: 'smooth' });
+        // }
       }
     },
     [toggleDirectDepositForm],
