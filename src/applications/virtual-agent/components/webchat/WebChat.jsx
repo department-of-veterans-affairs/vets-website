@@ -24,6 +24,22 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
+export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
+  let intervalId;
+  if (isRXSkill === 'true') {
+    intervalId = setTimeout(() => {
+      const sendBox = theDocument.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      const attributeSetAMessage = attr =>
+        sendBox?.setAttribute(attr, 'Type or enable the microphone to speak');
+
+      ['aria-label', 'placeholder'].forEach(attributeSetAMessage);
+    }, 0); // delay this code until all synchronous code runs.
+  }
+  return () => clearTimeout(intervalId);
+};
+
 const WebChat = ({
   token,
   WebChatFramework,
@@ -177,23 +193,9 @@ const WebChat = ({
     [isRXSkill],
   );
 
+  useEffect(setMicrophoneMessage(isRXSkill, document));
+
   if (isRXSkill === 'true') {
-    // check if window.WebChat exists
-    if (window.WebChat) {
-      // find the send box element
-      const sendBox = document.querySelector(
-        'input[class="webchat__send-box-text-box__input"]',
-      );
-      // change the placeholder text of send box
-      sendBox.setAttribute(
-        'aria-label',
-        'Type or enable the microphone to speak',
-      );
-      sendBox.setAttribute(
-        'placeholder',
-        'Type or enable the microphone to speak',
-      );
-    }
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
