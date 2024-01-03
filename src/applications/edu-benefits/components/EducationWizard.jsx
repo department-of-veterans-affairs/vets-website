@@ -164,9 +164,6 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.open,
-    });
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',
