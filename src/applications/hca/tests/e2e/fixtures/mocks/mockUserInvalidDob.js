@@ -14,6 +14,7 @@ const mockUser = {
         middle_name: 'E',
         last_name: 'Hunter',
         gender: 'M',
+        birth_date: '1851-11-18',
         verified: true,
       },
       veteran_status: {
@@ -21,7 +22,7 @@ const mockUser = {
         is_veteran: true,
       },
       inProgressForms: [],
-      prefillsAvailable: ['10-10EZR'],
+      prefillsAvailable: ['1010ez'],
       services: [
         'facilities',
         'hca',
@@ -33,6 +34,7 @@ const mockUser = {
       ],
       va_profile: {
         status: 'OK',
+        birth_date: '19511118',
         family_name: 'Hunter',
         gender: 'M',
         given_names: ['Julio', 'E'],
@@ -99,7 +101,6 @@ const mockUser = {
         temporaryPhone: null,
         faxNumber: null,
         textPermission: null,
-        'view:totalDisabilityRating': 90,
       },
     },
   },

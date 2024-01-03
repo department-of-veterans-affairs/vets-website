@@ -23,6 +23,7 @@ import {
 } from '../util/pdfConfigs';
 import { PDF_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
+import { reportGeneratedBy } from '../../shared/util/constants';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -105,10 +106,7 @@ const PrescriptionDetails = () => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
         title: 'Medication Details',
         preface: [
