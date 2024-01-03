@@ -12,8 +12,13 @@ import {
   PageTitles,
   Recipients,
   ParentComponent,
+  RecipientStatus,
 } from '../util/constants';
-import { checkTriageGroupAssociation, updatePageTitle } from '../util/helpers';
+import {
+  // checkTriageGroupAssociation,
+  updatePageTitle,
+  updateTriageGroupRecipientStatus,
+} from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -71,26 +76,39 @@ const MessageThreadHeader = props => {
           messages.find(m => m.triageGroupName === message.triageGroupName)
             ?.triageGroupName || message.triageGroupName,
         type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
       };
 
-      const isAssociated = Array.isArray(recipients.allRecipients)
-        ? recipients.allRecipients.some(
-            checkTriageGroupAssociation(tempRecipient),
-          )
-        : false;
+      // const isAssociated = Array.isArray(recipients.allRecipients)
+      //   ? recipients.allRecipients.some(
+      //       checkTriageGroupAssociation(tempRecipient),
+      //     )
+      //   : false;
 
-      const isBlocked = recipients.blockedRecipients?.some(
-        checkTriageGroupAssociation(tempRecipient),
-      );
+      // const isBlocked = recipients.blockedRecipients?.some(
+      //   checkTriageGroupAssociation(tempRecipient),
+      // );
+
+      // if (!isAssociated) {
+      //   tempRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+      // } else if (isBlocked) {
+      //   tempRecipient.status = RecipientStatus.BLOCKED;
+      // }
+
+      const {
+        isAssociated,
+        isBlocked,
+        formattedRecipient,
+      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
       if (!isAssociated) {
         setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([tempRecipient]);
+        setBlockedTriageGroupList([formattedRecipient]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
         setShowBlockedTriageGroupAlert(isBlocked);
         setBlockedTriageGroupList(
           recipients.blockedRecipients.filter(
-            recipient => recipient.name === tempRecipient.name,
+            recipient => recipient.name === formattedRecipient.name,
           ),
         );
       }
@@ -156,7 +174,7 @@ const MessageThreadHeader = props => {
           <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
-              status="alert"
+              alertStyle="alert"
               parentComponent={ParentComponent.MESSAGE_THREAD}
             />
           </div>
