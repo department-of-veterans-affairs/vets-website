@@ -18,12 +18,7 @@ export default class OptOutWizard extends React.Component {
   render() {
     return (
       <div>
-        <button
-          className="usa-button-primary va-button-primary"
-          onClick={this.openModal}
-        >
-          Opt Out
-        </button>
+        <va-button onClick={this.openModal} text="Opt Out" />
         <Modal
           clickToClose
           cssClass="va-modal va-modal-large"
@@ -62,9 +57,7 @@ export default class OptOutWizard extends React.Component {
             >
               Yes, I Want to Opt Out
             </a>
-            <button className="usa-button-secondary" onClick={this.closeModal}>
-              Cancel
-            </button>
+            <va-button onClick={this.closeModal} secondary text="Cancel" />
           </div>
         </Modal>
       </div>
