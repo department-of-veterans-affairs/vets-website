@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
@@ -21,7 +22,7 @@ function submitDependentInformation(dependent, showIncomePages) {
   cy.visit(manifest.rootUrl);
   cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
-  advanceToDependents(testData);
+  advanceToDependents();
 
   goToNextPage('/household-information/dependents');
   cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('Y');
@@ -71,11 +72,13 @@ describe('EZR Dependents', () => {
     }).as('mockSubmit');
   });
 
-  it('should successfully fill maximum dependent information', () => {
-    submitDependentInformation(testData.dependents[0], true);
+  describe('default behavior with maximum data', () => {
+    it('should successfully fill dependent information', () => {
+      submitDependentInformation(testData.dependents[0], true);
+    });
   });
 
-  describe('when a dependent is between 18 and 23 years old, but did not earn any income', () => {
+  describe('dependent is between 18 and 23 years old and earned no income', () => {
     it('does not show the income or education expenses pages, but still successfully fills the other dependent information', () => {
       submitDependentInformation(testData.dependents[1], false);
     });

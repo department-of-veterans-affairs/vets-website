@@ -31,9 +31,6 @@ const testConfig = createTestConfig(
       'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const fieldName = 'veteranAddress';
-            const fieldData = data.veteranAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
             selectYesNoWebComponent(
               'view:doesMailingMatchHomeAddress',
               data['view:doesMailingMatchHomeAddress'],

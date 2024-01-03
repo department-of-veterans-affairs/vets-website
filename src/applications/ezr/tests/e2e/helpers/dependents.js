@@ -5,10 +5,9 @@ import {
   selectDropdownWebComponent,
   selectYesNoWebComponent,
   fillDateWebComponentPattern,
-  fillAddressWebComponentPattern,
 } from '.';
 
-export const advanceToDependents = testData => {
+export const advanceToDependents = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -17,7 +16,6 @@ export const advanceToDependents = testData => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/mailing-address');
-  fillAddressWebComponentPattern('veteranAddress', testData.veteranAddress);
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');

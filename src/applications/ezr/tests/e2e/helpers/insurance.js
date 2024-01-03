@@ -4,7 +4,6 @@ import {
   fillTextWebComponent,
   selectDropdownWebComponent,
   selectYesNoWebComponent,
-  fillAddressWebComponentPattern,
 } from '.';
 
 export const advanceToInsurancePolicies = testData => {
@@ -16,7 +15,6 @@ export const advanceToInsurancePolicies = testData => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/mailing-address');
-  fillAddressWebComponentPattern('veteranAddress', testData.veteranAddress);
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');

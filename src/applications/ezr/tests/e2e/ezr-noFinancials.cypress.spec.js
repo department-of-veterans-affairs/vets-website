@@ -2,7 +2,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
-import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
@@ -10,8 +9,6 @@ import {
   advanceToHouseholdSection,
   advanceFromHouseholdToReview,
 } from './helpers/household';
-
-const { data: testData } = maxTestData;
 
 describe('EZR No Financial Submission', () => {
   beforeEach(() => {
@@ -43,7 +40,7 @@ describe('EZR No Financial Submission', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
 
-    advanceToHouseholdSection(testData);
+    advanceToHouseholdSection();
 
     goToNextPage('/household-information/financial-information-status');
     cy.injectAxeThenAxeCheck();

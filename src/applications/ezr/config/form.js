@@ -181,11 +181,10 @@ const formConfig = {
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
         },
-      },
-    },
-    householdInformation: {
-      title: 'Household financial information',
-      pages: {
+        /** NOTE: this page needs to live in the "Veteran Info" section to avoid
+         * having an empty/inactive "Household Info" accordion on the review page
+         * when the user does not need to fill out household financial info
+         */
         financialStatusConfirmation: {
           path: 'household-information/financial-information-status',
           title: 'Financial information status',
@@ -195,6 +194,11 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
+      },
+    },
+    householdInformation: {
+      title: 'Household financial information',
+      pages: {
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status',
