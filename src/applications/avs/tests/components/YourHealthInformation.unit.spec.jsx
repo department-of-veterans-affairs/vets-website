@@ -29,15 +29,23 @@ describe('Avs: Your Health Information', () => {
       'March 15, 2024TEST CLINIC (VETERANS LOCATION VIDEO )Clinic location: LOMA LINDA VA CLINIC',
     );
     expect(screen.getByTestId('smoking-status')).to.have.text('Current smoker');
-    expect(
-      screen.getByTestId('immunizations').children[1].children[1].children[0],
-    ).to.contain.text('COVID-19 (PFIZER)');
-    expect(
-      screen.getByTestId('allergies-reactions').children[1].children[1]
-        .children[0],
-    ).to.contain.text('SIMVASTATIN');
-    expect(screen.getByTestId('lab-results').children[2]).to.contain.text(
+    expect(screen.getByTestId('immunizations')).to.contain.text(
+      'COVID-19 (PFIZER)',
+    );
+    expect(screen.getByTestId('allergies-reactions')).to.contain.text(
+      'SIMVASTATIN',
+    );
+    expect(screen.getByTestId('lab-results')).to.contain.text(
       'RET-HeResult: 35.7',
+    );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
+      'INSULIN REGULAR 500',
+    );
+    expect(screen.getByTestId('my-va-supplies')).to.contain.text(
+      'TABLET CUTTER',
+    );
+    expect(screen.getByTestId('medications-not-taking')).to.contain.text(
+      'NELFINAVIR TAB',
     );
   });
 
@@ -51,6 +59,8 @@ describe('Avs: Your Health Information', () => {
     delete avs.immunizations;
     delete avs.allergiesReactions;
     delete avs.labResults;
+    delete avs.vaMedications;
+    delete avs.nonvaMedications;
     const props = { avs };
     const screen = render(<YourHealthInformation {...props} />);
     expect(screen.queryByTestId('primary-care-team')).to.not.exist;
@@ -61,5 +71,8 @@ describe('Avs: Your Health Information', () => {
     expect(screen.queryByTestId('immunizations')).to.not.exist;
     expect(screen.queryByTestId('allergies-reactions')).to.not.exist;
     expect(screen.queryByTestId('lab-results')).to.not.exist;
+    expect(screen.queryByTestId('my-medications')).to.not.exist;
+    expect(screen.queryByTestId('my-va-supplies')).to.not.exist;
+    expect(screen.queryByTestId('medications-not-taking')).to.not.exist;
   });
 });

@@ -20,31 +20,43 @@ const apiSettings = {
   },
 };
 
-export const orgSortOptions = {
+export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  distance_desc: 'Distance (farthest to closest)',
-  name_asc: 'Name (A - Z)',
-  name_desc: 'Name (Z - A)',
-};
-
-export const individualSortOptions = {
-  distance_asc: 'Distance (closest to farthest)',
-  distance_desc: 'Distance (farthest to closest)',
+  // distance_desc: 'Distance (farthest to closest)',
+  first_name_asc: 'First Name (A - Z)',
+  first_name_desc: 'First Name (Z - A)',
   last_name_asc: 'Last Name (A - Z)',
   last_name_desc: 'Last Name (Z - A)',
 };
 
-const railsEngineApi = {
-  baseUrl: `${
-    environment.API_URL
-  }/services/veteran/v0/accredited_representatives`,
-  url: `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
-  settings: apiSettings,
+/*
+ * Toggle true for local development
+ */
+export const useStagingDataLocally = true;
+
+export const claimsAgentIsEnabled = false;
+
+export const getAPI = repType => {
+  return {
+    baseUrl:
+      useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+        ? `https://staging-api.va.gov/services/veteran/v0/${
+            repType === 'officer' ? 'vso' : 'other'
+          }_accredited_representatives`
+        : `${environment.API_URL}/services/veteran/v0/${
+            repType === 'officer' ? 'vso' : 'other'
+          }_accredited_representatives`,
+    url:
+      useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+        ? `https://staging-api.va.gov/services/veteran/v0/${
+            repType === 'officer' ? 'vso' : 'other'
+          }_accredited_representatives`
+        : `${environment.API_URL}/services/veteran/v0/${
+            repType === 'officer' ? 'vso' : 'other'
+          }_accredited_representatives`,
+    settings: apiSettings,
+  };
 };
-
-export const useMockData = false;
-
-export const getAPI = () => railsEngineApi;
 
 /**
  * Build parameters and URL for representative API calls
@@ -58,21 +70,11 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'organization',
+  type = 'officer',
 }) => {
-  const api = getAPI();
+  const api = getAPI(type);
 
   const { url } = api;
-
-  let newSort = sort;
-
-  if (type !== 'organization') {
-    if (sort === 'name_asc') {
-      newSort = 'last_name_asc';
-    } else if (sort === 'name_dsc') {
-      newSort = 'last_name_dsc';
-    }
-  }
 
   const params = [
     address ? `address=${address}` : null,
@@ -81,7 +83,7 @@ export const resolveParamsWithUrl = ({
     name ? `name=${name}` : null,
     `page=${page || 1}`,
     `per_page=${perPage}`,
-    `sort=${newSort}`,
+    `sort=${sort}`,
     type ? `type=${type}` : null,
   ];
 
@@ -94,14 +96,14 @@ export const resolveParamsWithUrl = ({
 // except 'Vet Centers' and acronyms like IDES.
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'VSO',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'Attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
 };

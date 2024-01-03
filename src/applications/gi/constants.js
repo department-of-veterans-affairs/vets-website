@@ -105,7 +105,7 @@ export const ariaLabels = Object.freeze({
     scholarships: 'Learn more about what types of scholarships to include',
     singlePoint: 'Learn more about single point of contact for Veterans',
     sizeOfInstitution: 'Learn more about institution size',
-    specializedMission: 'Learn more about specialized mission',
+    specializedMission: 'Learn more about community filters',
     studentVeteranGroup: 'Learn more about Student Veteran Groups',
     tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
     tuitionFees: 'Learn more about tuition and fees',

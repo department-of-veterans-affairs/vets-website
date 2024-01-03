@@ -90,8 +90,8 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   return (
     <>
       <p>
-        Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please {showLink}.
+        This is a list of the conditions you’re claiming in this application. If
+        a condition is missing, please {showLink}.
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>
@@ -99,5 +99,8 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
 };
 
 SummaryOfDisabilitiesDescription.propTypes = {
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    newDisabilities: PropTypes.arrayOf(PropTypes.object),
+    ratedDisabilities: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
