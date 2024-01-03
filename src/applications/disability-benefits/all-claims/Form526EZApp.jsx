@@ -219,6 +219,8 @@ export const Form526Entry = ({
     return wrapWithBreadcrumb(title, <AddPerson title={title} />);
   }
 
+  // RequiredLoginView will handle unverified users by showing the
+  // appropriate link
   if (profile.verified) {
     if (listMissingIdentifiers(profile)) {
       // Render more descriptive Missing526Identifiers component which will replace the misleading MissingDob, MissingId and MissingServices components
