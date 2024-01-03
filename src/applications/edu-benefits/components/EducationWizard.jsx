@@ -164,6 +164,7 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',
@@ -213,8 +214,6 @@ class EducationWizard extends React.Component {
         this.answerQuestion(onChangeLabel, value);
       },
     };
-
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
 
     return (
       <div className="wizard-container">
