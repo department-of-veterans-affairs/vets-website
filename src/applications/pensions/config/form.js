@@ -443,7 +443,7 @@ const formConfig = {
           title: 'Marriage history',
           path: 'household/marriage-info',
           depends: formData => {
-            return formData.maritalStatus !== 'Never Married';
+            return formData.maritalStatus !== 'NEVER_MARRIED';
           },
           uiSchema: {
             marriages: {
