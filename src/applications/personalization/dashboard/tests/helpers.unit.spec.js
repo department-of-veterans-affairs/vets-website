@@ -4,7 +4,6 @@ import {
   formDescriptions,
   sipEnabledForms,
 } from 'applications/personalization/dashboard/helpers';
-import { replaceDashesWithSlashes } from '../utils/date-formatting/helpers';
 
 describe('profile helpers:', () => {
   describe('formDescriptions', () => {
@@ -13,11 +12,5 @@ describe('profile helpers:', () => {
         expect(formDescriptions[form]).to.exist;
       });
     });
-  });
-});
-
-describe('replaceDashesWithSlashes function', () => {
-  it('should replace the dashes in a string with slashes', () => {
-    expect(replaceDashesWithSlashes('2023-10-23')).to.equal('2023/10/23');
   });
 });

@@ -4,14 +4,13 @@ import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
-import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
   const startsAt = new Date(nextAppointment?.startsAt);
   let locationName;
 
-  const timeZone = getAppointmentTimezone(nextAppointment);
+  const timeZone = nextAppointment?.timeZone;
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -32,7 +31,7 @@ export const AppointmentsCard = ({ appointments }) => {
         {format(startsAt, 'eeee, MMMM d, yyyy')}
       </p>
       <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-        {`Time: ${format(startsAt, 'h:mm aaaa')} ${timeZone.abbreviation}`}
+        {`Time: ${format(startsAt, 'h:mm aaaa')} ${timeZone}`}
       </p>
       {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
       <CTALink

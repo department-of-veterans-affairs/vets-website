@@ -32,7 +32,7 @@ const responses = {
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
-  'GET /v0/user': user.cernerUser,
+  'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,

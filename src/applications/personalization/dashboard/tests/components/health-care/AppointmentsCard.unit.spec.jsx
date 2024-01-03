@@ -1,7 +1,6 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { expect } from 'chai';
-import { getAppointmentTimezone } from '../../../utils/timezone';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { AppointmentsCard } from '../../../components/health-care/AppointmentsCard';
@@ -26,7 +25,7 @@ describe('<AppointmentsCard />', () => {
 
     const startFns = parseISO(appointments[0].startsAt);
     const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
-    const timeZone = getAppointmentTimezone(appointments[0]);
+    const timeZone = appointments[0]?.timeZone;
     const tree = renderInReduxProvider(
       <AppointmentsCard appointments={appointments} />,
       {
@@ -48,9 +47,7 @@ describe('<AppointmentsCard />', () => {
     });
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
-    tree.getByText(
-      `Time: ${format(startFns, 'h:mm aaaa')} ${timeZone.abbreviation}`,
-    );
+    tree.getByText(`Time: ${format(startFns, 'h:mm aaaa')} ${timeZone}`);
   });
 
   context('renders the location name', () => {
