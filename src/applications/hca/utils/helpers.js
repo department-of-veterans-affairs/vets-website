@@ -442,6 +442,19 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
 }
 
 /**
+ * Helper that builds a full name string based on provided input values
+ * @param {String} birthdate - the value of the user's date of birth from the profile data
+ * @returns {String/NULL} - NULL if the passed-in value is not valid else the
+ * formatted string value of the date (YYYY-MM-DD)
+ */
+export function parseVeteranDob(birthdate) {
+  if (!birthdate) return null;
+  if (!moment(birthdate).isValid()) return null;
+  if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
+  return birthdate;
+}
+
+/**
  * Helper that takes query params and sets labels and return paths for
  * the multiresponse (list/loop) information pages
  * @param {Object} props - the original dataset, key name, localData object,
