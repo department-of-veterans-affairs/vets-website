@@ -8,12 +8,10 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
+import { selectGreetingName } from './selectGreetingName';
 
 const selectVamcEhrData = state =>
   selectDrupalStaticData(state)?.vamcEhrData || {};
-
-const selectGreetingName = state =>
-  state?.user?.profile?.userFullName?.first || state?.user?.profile?.email;
 
 export {
   hasHealthData,
