@@ -263,7 +263,9 @@ describe('MilitaryInformation', () => {
       ).to.equal('8005389552');
 
       // should render link to National Archives website to correct service records
-      expect(view.container.querySelector('va-link').innerHTML).to.equal(
+      expect(
+        view.container.querySelector('va-link').getAttribute('text'),
+      ).to.equal(
         'Learn how to correct your military service records on the National Archives website',
       );
 
