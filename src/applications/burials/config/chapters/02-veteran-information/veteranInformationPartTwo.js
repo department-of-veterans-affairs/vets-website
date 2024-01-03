@@ -19,6 +19,7 @@ export default {
       'ui:description': generateHelpText('example, 123 45 6789'),
       'ui:errorMessages': {
         required: 'Enter the Veteran’s Social Security number',
+        pattern: 'Enter a valid Social Security number',
       },
     },
     vaFileNumber: {
@@ -37,6 +38,7 @@ export default {
       ...currentOrPastDateUI('Veteran’s date of birth'),
       'ui:errorMessages': {
         required: 'Enter the Veteran’s date of birth',
+        pattern: 'Enter a valid date',
       },
     },
   },

@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { createSelector } from 'reselect';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
@@ -33,6 +33,7 @@ import veteranInformationPartOne from './chapters/02-veteran-information/veteran
 import veteranInformationPartTwo from './chapters/02-veteran-information/veteranInformationPartTwo';
 import burialInformationPartOne from './chapters/02-veteran-information/burialInformationPartOne';
 import burialInformationPartTwo from './chapters/02-veteran-information/burialInformationPartTwo';
+import separationDocuments from './chapters/03-military-history/separationDocuments';
 
 import {
   isEligibleNonService,
@@ -185,6 +186,12 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
+        separationDocuments: {
+          title: 'Separation Documents',
+          path: 'military-history/separation-documents',
+          uiSchema: separationDocuments.uiSchema,
+          schema: separationDocuments.schema,
+        },
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
