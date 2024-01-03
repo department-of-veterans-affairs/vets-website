@@ -9,6 +9,15 @@ import vaTextareaFieldMapping from './vaTextareaFieldMapping';
  *   'ui:title': 'A text area',
  *   'ui:description': 'Text description',
  *   'ui:webComponentField': VaTextareaField,
+ *   'ui:hint': 'hint',
+ *   'ui:errorMessages': {
+ *     required: 'This is a custom error message.',
+ *   },
+ *   'ui:options': {
+ *     charcount: true,
+ *     messageAriaDescribedby: 'text description to be read by screen reader',
+ *     enableAnalytics: true,
+ *   },
  * }
  * ```
  *
@@ -16,6 +25,8 @@ import vaTextareaFieldMapping from './vaTextareaFieldMapping';
  * ```
  * textArea: {
  *   type: 'string',
+ *   minLength: 1,
+ *   maxLength: 24,
  * }
  * ```
  * @param {WebComponentFieldProps} props */
