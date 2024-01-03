@@ -7,11 +7,11 @@ const MobileAppCallout = () => {
 
   const analyticsEvent = {
     'alert-box-type': 'info',
-    'alert-box-heading': 'If you have a presumptive condition',
+    'alert-box-heading': 'Access your Veteran status on your mobile device.',
     'alert-box-full-width': false,
     'alert-box-background-only': false,
     'alert-box-closeable': true,
-    'reason-for-alert': 'presumptive condition details',
+    'reason-for-alert': 'Mobile Download Callout',
   };
 
   const hideAlert = () => {
