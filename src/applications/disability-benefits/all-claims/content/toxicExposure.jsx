@@ -13,10 +13,13 @@ export const conditionsDescription = (
         pits, radiation, asbestos, or contaminated water.
       </p>
       <p className="vads-u-margin-bottom--0">
-        <va-link
+        <a
           href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
-          text="Learn more about toxic exposure"
-        />
+          target="_blank"
+          rel="noreferrer"
+        >
+          Learn more about toxic exposure (opens in new tab)
+        </a>
       </p>
     </div>
   </va-additional-info>
