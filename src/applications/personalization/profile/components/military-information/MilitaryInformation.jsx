@@ -159,7 +159,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
 
       <div className="vads-u-margin-y--4">
-        <va-additional-info trigger="What if I don't think my military service information is correct?">
+        <va-additional-info
+          trigger="What if I don't think my military service information is correct?"
+          uswds
+        >
           <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
