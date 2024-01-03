@@ -53,27 +53,29 @@ function EnrollmentVerificationMonths({
   return (
     <>
       <h2>Your monthly enrollment verifications</h2>
-      <va-additional-info trigger="What if I notice an error with my enrollment information?">
-        <p className="vads-u-padding-bottom--2">
-          <strong>You should:</strong>
-        </p>
-        <ul>
-          <li>
-            Work with your School Certifying Official (SCO) to make sure they
-            have the correct enrollment information and can update the
-            information on file.
-          </li>
-          <li>
-            After your information is corrected, verify the corrected
-            information.
-          </li>
-        </ul>
-        <p className="vads-u-padding-top--2">
-          If you notice a mistake, it’s best if you reach out to your SCO soon.
-          The sooner VA knows about changes to your enrollment, the less likely
-          you are to be overpaid and incur a debt.
-        </p>
-      </va-additional-info>
+      {!showMaintenanceAlert && (
+        <va-additional-info trigger="What if I notice an error with my enrollment information?">
+          <p className="vads-u-padding-bottom--2">
+            <strong>You should:</strong>
+          </p>
+          <ul>
+            <li>
+              Work with your School Certifying Official (SCO) to make sure they
+              have the correct enrollment information and can update the
+              information on file.
+            </li>
+            <li>
+              After your information is corrected, verify the corrected
+              information.
+            </li>
+          </ul>
+          <p className="vads-u-padding-top--2">
+            If you notice a mistake, it’s best if you reach out to your SCO
+            soon. The sooner VA knows about changes to your enrollment, the less
+            likely you are to be overpaid and incur a debt.
+          </p>
+        </va-additional-info>
+      )}
       {!showMaintenanceAlert && (
         <p>
           Showing {showingPages} of {months?.length || '0'} monthly enrollments
