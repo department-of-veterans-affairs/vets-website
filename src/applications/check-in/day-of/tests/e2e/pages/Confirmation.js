@@ -7,12 +7,6 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
-  validateBtsssIssue = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "But we couldn't file your travel claim.");
-  };
-
   validatePageLoadedWithNoBtsssClaim = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

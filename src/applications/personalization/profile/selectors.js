@@ -106,9 +106,6 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const hasBadAddress = state =>
-  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
-
 export const profileShowPronounsAndSexualOrientation = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation

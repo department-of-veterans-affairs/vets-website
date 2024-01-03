@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import PaginationWrapper from '../../components/search/PaginationWrapper';
+import PaginationWrapper from '../../components/results/PaginationWrapper';
 
 const handlePageSelect = () => {};
 

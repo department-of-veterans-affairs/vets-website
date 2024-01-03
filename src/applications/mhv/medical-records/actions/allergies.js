@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { getAllergies, getAllergy } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
+import { dispatchDetails } from '../util/helpers';
 
 export const getAllergiesList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -20,10 +21,16 @@ export const getAllergiesList = (isCurrent = false) => async dispatch => {
   }
 };
 
-export const getAllergyDetails = id => async dispatch => {
+export const getAllergyDetails = (id, allergyList) => async dispatch => {
   try {
-    const response = await getAllergy(id);
-    dispatch({ type: Actions.Allergies.GET, response });
+    await dispatchDetails(
+      id,
+      allergyList,
+      dispatch,
+      getAllergy,
+      Actions.Allergies.GET_FROM_LIST,
+      Actions.Allergies.GET,
+    );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }
