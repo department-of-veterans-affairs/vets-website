@@ -11,7 +11,5 @@ export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
     }
   };
 
-  return (
-    <va-button onClick={onClick} primary-alternate text="Exit application" />
-  );
+  return <va-button onClick={onClick} text="Exit application" />;
 };

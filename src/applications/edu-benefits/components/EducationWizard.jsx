@@ -214,16 +214,19 @@ class EducationWizard extends React.Component {
       },
     };
 
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
+
     return (
       <div className="wizard-container">
-        <va-button
+        <button
           id="findFormButton"
           aria-expanded={this.state.open ? 'true' : 'false'}
           aria-controls="wizardOptions"
-          primary-alternate={!this.state.open}
+          className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
-          text="Find your education benefits form"
-        />
+        >
+          Find your education benefits form
+        </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
             <VARadioButton
