@@ -51,6 +51,11 @@ function useListRefresh({
   );
 
   useEffect(
+    /**
+     * Dispatch the action to refresh list data if:
+     * 1. The list has not yet been fetched.
+     * 2. The list data is stale, the refresh is current, and list is not currently being fetched.
+     */
     () => {
       const shouldFetch =
         listState === loadStates.PRE_FETCH ||
