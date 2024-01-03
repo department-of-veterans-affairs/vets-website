@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
@@ -6,7 +7,11 @@ import { ENROLLMENT_VERIFICATION_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const MONTHS_PER_PAGE = 6;
 
-function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
+function EnrollmentVerificationMonths({
+  enrollmentVerification,
+  status,
+  showMaintenanceAlert,
+}) {
   // We assume that months come sorted from most recent to oldest.  If
   // that assumption is incorrect, sort here.
   const months = enrollmentVerification?.enrollmentVerifications?.map(
@@ -69,20 +74,19 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
           you are to be overpaid and incur a debt.
         </p>
       </va-additional-info>
-
-      <p>
-        Showing {showingPages} of {months?.length || '0'} monthly enrollments
-        listed by most recent
-      </p>
-
-      {months?.slice(minMonth, maxMonth)}
-
-      {!months?.length && (
-        <p className="vads-u-margin-bottom--6">
-          <strong>You currently have no enrollments.</strong>
+      {showMaintenanceAlert && months?.length === 0 ? null : (
+        <p>
+          Showing {showingPages} of {months?.length || '0'} monthly enrollments
+          listed by most recent
         </p>
       )}
-
+      {months?.slice(minMonth, maxMonth)}
+      {!showMaintenanceAlert &&
+        !months?.length && (
+          <p className="vads-u-margin-bottom--6">
+            <strong>You currently have no enrollments.</strong>
+          </p>
+        )}
       {months?.length > 0 && (
         <VaPagination
           onPageSelect={e => onPageSelect(e.detail.page)}
@@ -97,6 +101,7 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
 EnrollmentVerificationMonths.propTypes = {
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE.isRequired,
   status: STATUS_PROP_TYPE.isRequired,
+  showMaintenanceAlert: PropTypes.bool,
 };
 
 export default EnrollmentVerificationMonths;

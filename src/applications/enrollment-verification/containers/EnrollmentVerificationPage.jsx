@@ -75,6 +75,7 @@ export const EnrollmentVerificationPage = ({
         <EnrollmentVerificationMonths
           status={status}
           enrollmentVerification={enrollmentVerification}
+          showMaintenanceAlert={showMebEnrollmentVerificationMaintenanceAlert}
         />
       )}
       {enrollmentVerification?.enrollmentVerifications?.length > 0 && (
