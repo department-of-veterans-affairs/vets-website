@@ -25,7 +25,7 @@ describe('Pensions marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(19);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(14);
   });
 
   describe('hideIf current marriage', () => {
@@ -103,7 +103,7 @@ describe('Pensions marriage history', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(8);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -126,11 +126,10 @@ describe('Pensions marriage history', () => {
     formDOM.fillData('#root_dateOfMarriageDay', '3');
     formDOM.fillData('#root_dateOfMarriageYear', '2001');
     formDOM.fillData('#root_locationOfMarriage', 'The Pacific');
-    formDOM.fillData('#root_marriageType_4', 'Other');
-    formDOM.fillData('#root_otherExplanation', 'Something');
+
     formDOM.fillData(
       '#root_view\\:pastMarriage_reasonForSeparation_1',
-      'Divorced',
+      'Divorce',
     );
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationMonth', '3');
     formDOM.fillData('#root_view\\:pastMarriage_dateOfSeparationDay', '3');
