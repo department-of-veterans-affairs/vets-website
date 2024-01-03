@@ -1,7 +1,9 @@
 import '../../shared/definitions';
 
 /**
- * Combine area code and phone number in a string
+ * Combine area code and phone number & extension in a string; Not using the
+ * va-telephone component because the va-radio-option description only accepts a
+ * string value
  * @param {PhoneObject} phone
  * @returns {String} area code + phone number
  */
@@ -13,8 +15,9 @@ const phonePattern = '(###) ###-####';
 export const getFormattedPhone = phone => {
   const fullString = getPhoneString(phone);
   if (fullString.length === 10) {
+    const ext = phone.extension ? `, ext. ${phone.extension}` : '';
     let i = 0;
-    return phonePattern.replace(hashRegex, () => fullString[i++] || '');
+    return phonePattern.replace(hashRegex, () => fullString[i++] || '') + ext;
   }
   return fullString;
 };

@@ -271,7 +271,11 @@ export const getPhoneString = (phoneObject = {}) =>
 export const renderTelephone = (phoneObject = {}) => {
   const phoneString = getPhoneString(phoneObject);
   return phoneString ? (
-    <va-telephone contact={phoneString} not-clickable />
+    <va-telephone
+      contact={phoneString}
+      extension={phoneObject?.extension}
+      not-clickable
+    />
   ) : null;
 };
 
