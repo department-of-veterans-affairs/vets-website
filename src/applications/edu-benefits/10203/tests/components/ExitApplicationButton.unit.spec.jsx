@@ -34,7 +34,7 @@ describe('<ExitApplicationButton>', () => {
   it('should call captureEvents exitApplication', () => {
     const tree = shallow(<ExitApplicationButton {...props} />);
 
-    tree.find('va-button').simulate('click');
+    tree.find('a').simulate('click');
 
     expect(captureEvents.exitApplication.calledOnce).to.be.true;
     tree.unmount();
@@ -45,7 +45,7 @@ describe('<ExitApplicationButton>', () => {
       <ExitApplicationButton formId={formConfig.formId} isLoggedIn />,
     );
 
-    tree.find('va-button').simulate('click');
+    tree.find('a').simulate('click');
 
     expect(saveInProgressApi.removeFormApi.calledOnce).to.be.true;
     tree.unmount();
@@ -54,7 +54,7 @@ describe('<ExitApplicationButton>', () => {
   it('should not attempt to remove an in progress form when not logged in', () => {
     const tree = shallow(<ExitApplicationButton {...props} />);
 
-    tree.find('va-button').simulate('click');
+    tree.find('a').simulate('click');
 
     expect(saveInProgressApi.removeFormApi.notCalled).to.be.true;
     tree.unmount();

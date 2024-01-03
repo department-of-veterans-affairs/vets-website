@@ -11,5 +11,9 @@ export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
     }
   };
 
-  return <va-button onClick={onClick} text="Exit application" />;
+  return (
+    <a href="/education/" onClick={onClick}>
+      Exit application
+    </a>
+  );
 };
