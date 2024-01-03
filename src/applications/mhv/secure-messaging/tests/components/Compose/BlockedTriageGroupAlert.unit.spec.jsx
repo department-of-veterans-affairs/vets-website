@@ -8,7 +8,7 @@ import { Recipients } from '../../../util/constants';
 
 describe('BlockedTriageGroupAlert component', () => {
   const initialState = {
-    sm: {},
+    sm: { recipients: {} },
     drupalStaticData: {
       vamcEhrData: {
         data: {
@@ -41,7 +41,7 @@ describe('BlockedTriageGroupAlert component', () => {
   });
 
   it('renders without errors', async () => {
-    const screen = setup(initialState, { status: 'alert' });
+    const screen = setup(initialState, { alertStyle: 'alert' });
     expect(screen);
   });
 
@@ -50,7 +50,7 @@ describe('BlockedTriageGroupAlert component', () => {
       blockedTriageGroupList: [
         { name: '###PQR TRIAGE_TEAM 747###', type: Recipients.CARE_TEAM },
       ],
-      status: 'alert',
+      alertStyle: 'alert',
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
     await waitFor(() => {
@@ -87,26 +87,38 @@ describe('BlockedTriageGroupAlert component', () => {
           stationNumber: '636',
         },
       ],
-      status: 'alert',
+      alertStyle: 'alert',
       parentComponent: 'Compose Form',
     });
     expect(
       screen.queryByTestId('blocked-triage-group-alert'),
     ).to.have.attribute(
       'trigger',
-      "You can't send messages to certain providers",
+      "You can't send messages to some of your care teams",
     );
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 
-  it('renders a va-alert if no associations at all & status = "info"', async () => {
-    const screen = setup(initialState, { status: 'info' });
+  it('renders a va-alert if no associations at all & alertStyle = "info"', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          associatedTriageGroupsQty: 0,
+        },
+      },
+    };
+    const screen = setup(customState, {
+      parentComponent: 'Folder Header',
+      alertStyle: 'info',
+    });
     expect(
       screen.queryByTestId('blocked-triage-group-alert'),
     ).to.have.attribute('status', 'info');
     expect(
       screen.getByText(
-        'You’re not connected to any care teams in this messaging tool',
+        "You're not connected to any care teams in this messaging tool",
       ),
     ).to.exist;
   });

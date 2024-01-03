@@ -27,7 +27,6 @@ describe('Reply form component', () => {
       },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
-        preferredTeams: noBlockedRecipients.mockPreferredTeams,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -202,7 +201,6 @@ describe('Reply form component', () => {
         ...initialState.sm,
         recipients: {
           allRecipients: oneBlockedRecipient.mockAllRecipients,
-          preferredTeams: oneBlockedRecipient.mockPreferredTeams,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -241,7 +239,6 @@ describe('Reply form component', () => {
         ...initialState.sm,
         recipients: {
           allRecipients: twoBlockedRecipients.mockAllRecipients,
-          preferredTeams: twoBlockedRecipients.mockPreferredTeams,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -279,7 +276,6 @@ describe('Reply form component', () => {
         ...initialState.sm,
         recipients: {
           allRecipients: noAssociationsAtAll.mockAllRecipients,
-          preferredTeams: noAssociationsAtAll.mockPreferredTeams,
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -306,7 +302,7 @@ describe('Reply form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
     );
   });
 });

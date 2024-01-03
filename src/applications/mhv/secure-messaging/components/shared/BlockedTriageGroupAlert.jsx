@@ -66,20 +66,19 @@ const BlockedTriageGroupAlert = props => {
 
     if (
       parentComponent === ParentComponent.COMPOSE_FORM &&
+      associatedTriageGroupsQty > 0 &&
       associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
     ) {
-      if (associatedTriageGroupsQty > 0) {
-        setAlertTitleText(
-          "You can't send messages to your care teams right now",
-        );
-        setAlertInfoText(
-          'If you need to contact your care teams, call your VA health facility',
-        );
-      }
+      // if (associatedTriageGroupsQty > 0) {
+      setAlertTitleText("You can't send messages to your care teams right now");
+      setAlertInfoText(
+        'If you need to contact your care teams, call your VA health facility',
+      );
+      // }
       return;
     }
 
-    if (blockedTriageList.length === 1) {
+    if (blockedTriageList?.length === 1) {
       if (blockedTriageList[0].type === Recipients.FACILITY) {
         setAlertTitleText(
           `You can't send messages to care teams at ${

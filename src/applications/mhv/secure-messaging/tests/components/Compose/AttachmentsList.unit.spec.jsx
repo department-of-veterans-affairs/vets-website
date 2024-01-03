@@ -16,7 +16,6 @@ describe('Attachments List component', () => {
       categories: { categories },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
-        preferredTeams: noBlockedRecipients.mockPreferredTeams,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
