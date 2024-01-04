@@ -120,10 +120,40 @@ const NoServiceHistoryAlert = () => {
   );
 };
 
-const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
+const MilitaryInformationContent = ({
+  dob,
+  militaryInformation,
+  totalDisabilityRating,
+  userFullName = {
+    first: '',
+    middle: '',
+    last: '',
+    suffix: '',
+  },
+  veteranStatus,
+}) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
+
+  const { first, middle, last, suffix } = userFullName;
+
+  const createPdf = () => {
+    const pdfData = {
+      title: 'Veteran Status',
+      details: {
+        fullName: formatFullName({ first, middle, last, suffix }),
+        serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+        totalDisabilityRating,
+        dob: renderDOB(dob),
+        image: {
+          title: 'V-A logo',
+          url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+        },
+      },
+    };
+    generatePdf('veteranStatus', 'Veteran Status', pdfData);
+  };
 
   const invalidVeteranStatus =
     !veteranStatus?.status || veteranStatus?.status === 'NOT_AUTHORIZED';
@@ -162,6 +192,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
+      <va-button onClick={() => createPdf()} text="Download" />
+
       <div className="vads-u-margin-top--4">
         <va-additional-info trigger="What if I don't think my military service information is correct?">
           <p className="vads-u-padding-bottom--2">
@@ -192,7 +224,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
 };
 
 MilitaryInformationContent.propTypes = {
+  dob: PropTypes.string,
   militaryInformation: PropTypes.object,
+  totalDisabilityRating: PropTypes.number,
+  userFullName: PropTypes.object,
   veteranStatus: PropTypes.object,
 };
 
@@ -200,36 +235,12 @@ const MilitaryInformation = ({
   dob,
   militaryInformation,
   totalDisabilityRating,
-  userFullName = {
-    first: '',
-    middle: '',
-    last: '',
-    suffix: '',
-  },
+  userFullName,
   veteranStatus,
 }) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
-
-  const { first, middle, last, suffix } = userFullName;
-
-  const createPdf = () => {
-    const pdfData = {
-      title: 'Veteran Status',
-      details: {
-        fullName: formatFullName({ first, middle, last, suffix }),
-        serviceHistory: militaryInformation.serviceHistory.serviceHistory,
-        totalDisabilityRating,
-        dob: renderDOB(dob),
-        image: {
-          title: 'V-A logo',
-          url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
-        },
-      },
-    };
-    generatePdf('veteranStatus', 'Veteran Status', pdfData);
-  };
 
   return (
     <div>
@@ -242,8 +253,10 @@ const MilitaryInformation = ({
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
+          dob={dob}
+          totalDisabilityRating={totalDisabilityRating}
+          userFullName={userFullName}
         />
-        <va-button onClick={() => createPdf()} text="Download" />
       </DowntimeNotification>
 
       <va-featured-content>
