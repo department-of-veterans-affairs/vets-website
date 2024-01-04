@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import environment from 'platform/utilities/environment';
 import { format } from 'date-fns';
@@ -25,7 +26,11 @@ export const HasLetters = ({ claimStatus, showMebLettersMaintenanceAlert }) => {
           visible
         >
           <h2 slot="headline">System Maintenance</h2>
-          <p>We’re currently updating our systems. Please check back later.</p>
+          <p>
+            We’re currently making updates to the My Education Benefits
+            platform. We apologize for the inconvenience. Please check back
+            soon.{' '}
+          </p>
         </va-alert>
       )}
       <h2>Your education decision letter is available</h2>
@@ -105,7 +110,15 @@ export const HasLetters = ({ claimStatus, showMebLettersMaintenanceAlert }) => {
   );
 };
 
-export const NoLetters = showMebLettersMaintenanceAlert => {
+HasLetters.propTypes = {
+  claimStatus: PropTypes.shape({
+    receivedDate: PropTypes.string,
+    claimStatus: PropTypes.string,
+  }),
+  showMebLettersMaintenanceAlert: PropTypes.bool,
+};
+
+export const NoLetters = ({ showMebLettersMaintenanceAlert }) => {
   return (
     <>
       <FormTitle title="Your VA education letter" />
@@ -123,7 +136,11 @@ export const NoLetters = showMebLettersMaintenanceAlert => {
           visible
         >
           <h2 slot="headline">System Maintenance</h2>
-          <p>We’re currently updating our systems. Please check back later.</p>
+          <p>
+            We’re currently making updates to the My Education Benefits
+            platform. We apologize for the inconvenience. Please check back
+            soon.{' '}
+          </p>
         </va-alert>
       )}
       <div>
@@ -166,4 +183,8 @@ export const NoLetters = showMebLettersMaintenanceAlert => {
       <p />
     </>
   );
+};
+
+NoLetters.propTypes = {
+  showMebLettersMaintenanceAlert: PropTypes.bool,
 };
