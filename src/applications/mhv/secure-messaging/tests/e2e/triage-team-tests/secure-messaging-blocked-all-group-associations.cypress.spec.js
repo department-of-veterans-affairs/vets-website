@@ -66,7 +66,7 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Alerts.BLOCKED.HEADER);
+      .and('include.text', Alerts.BLOCKED.AT_ALL_HEADER);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
