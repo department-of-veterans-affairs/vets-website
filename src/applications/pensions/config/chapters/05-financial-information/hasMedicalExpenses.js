@@ -41,7 +41,7 @@ export default {
   uiSchema: {
     'ui:title': 'Medical expenses',
     'ui:description': description,
-    medicalExpenses: yesNoUI({
+    hasMedicalExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
       uswds: true,
@@ -49,9 +49,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['medicalExpenses'],
+    required: ['hasMedicalExpenses'],
     properties: {
-      medicalExpenses: yesNoSchema,
+      hasMedicalExpenses: yesNoSchema,
       'view:warningAlert': {
         type: 'object',
         properties: {},

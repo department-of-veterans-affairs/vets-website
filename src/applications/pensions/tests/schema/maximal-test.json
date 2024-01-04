@@ -202,7 +202,7 @@
         "paymentAmount": 22500
       }
     ],
-    "medicalExpenses": true,
+    "hasMedicalExpenses": true,
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
