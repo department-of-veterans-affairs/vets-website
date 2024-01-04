@@ -2,12 +2,10 @@ import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
@@ -17,6 +15,7 @@ import {
   isStreamlinedLongForm,
   isStreamlinedShortForm,
 } from '../utils/streamlinedDepends';
+import SurveyInformation from '../components/shared/SurveyInformation';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -121,35 +120,6 @@ const ConfirmationPage = ({ form, download }) => {
     scrollToTop();
   }, []);
 
-  const renderSurveyInformation = () => {
-    if (window.KAMPYLE_ONSITE_SDK?.showForm) {
-      return (
-        <>
-          <p>
-            We would appreciate feedback on your experience filling out this
-            form.
-          </p>
-          <VaButton
-            onClick={window.KAMPYLE_ONSITE_SDK?.showForm(41)}
-            text="Provide feedback"
-            uswds
-          />
-        </>
-      );
-    }
-
-    Sentry.withScope(scope => {
-      const message = '5655 Error loading end of form survey';
-      scope.setContext(message, {
-        KAMPYLE_ONSITE_SDK: window.KAMPYLE_ONSITE_SDK,
-        showForm: window.KAMPYLE_ONSITE_SDK?.showForm(41),
-      });
-      Sentry.captureMessage(message);
-    });
-
-    return null;
-  };
-
   const renderLongFormAlert = () => {
     return (
       <>
@@ -161,6 +131,7 @@ const ConfirmationPage = ({ form, download }) => {
             We’ll send you an email confirming your request to{' '}
             <strong>{data.personalData.emailAddress}.</strong>
           </p>
+          <SurveyInformation />
         </va-alert>
         <p>
           We’ll send you a letter with our decision and any next steps.{' '}
@@ -186,7 +157,7 @@ const ConfirmationPage = ({ form, download }) => {
             <strong> {data.personalData.emailAddress}</strong> for this
             submission.
           </p>
-          {renderSurveyInformation()}
+          <SurveyInformation />
         </va-alert>
         <p>You don’t need to do anything else at this time.</p>
         <p>
