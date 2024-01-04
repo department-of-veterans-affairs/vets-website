@@ -5,7 +5,7 @@ import { mockClaimStatus } from '../fixtures/mockClaimStatusEligible';
 
 describe('All Field, texts and links should be validated on letters app', () => {
   it('All texts are present for the letters page unauthenticated', () => {
-    cy.visit('http://localhost:3001/education/download-letters/');
+    cy.visit('/education/download-letters/');
 
     cy.injectAxeThenAxeCheck();
     cy.url().should('include', '/education/download-letters/');
@@ -33,7 +33,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
       '/meb_api/v0/claim_status?latest=true',
       mockClaimStatus,
     ).as('mockClaimStatus');
-    cy.visit('http://localhost:3001/education/download-letters/');
+    cy.visit('/education/download-letters/');
 
     cy.get('a[href*="/education/download-letters/letters"').click();
     cy.injectAxeThenAxeCheck();
@@ -63,7 +63,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
     ).as('mockClaimStatus');
     cy.login(mebUser);
 
-    cy.visit('http://localhost:3001/education/download-letters/letters');
+    cy.visit('/education/download-letters/letters');
     cy.injectAxeThenAxeCheck();
     cy.url().should('include', '/education/download-letters/letters');
     cy.findByTestId('form-title').should(
