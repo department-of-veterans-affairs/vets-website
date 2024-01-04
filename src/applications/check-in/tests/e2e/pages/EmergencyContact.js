@@ -49,9 +49,16 @@ class EmergencyContact {
   };
 
   attemptToGoToNextPage = (button = 'yes') => {
-    cy.get(`button[data-testid="${button}-button"]`).click({
-      waitForAnimations: true,
-    });
+    cy.get(`[data-testid="yes-no-buttons"]`)
+      .shadow()
+      .find(
+        `ul li${button === 'no' ? ':nth-child(2)' : ':nth-child(1)'} va-button`,
+      )
+      .shadow()
+      .find('button')
+      .click({
+        waitForAnimations: true,
+      });
   };
 }
 

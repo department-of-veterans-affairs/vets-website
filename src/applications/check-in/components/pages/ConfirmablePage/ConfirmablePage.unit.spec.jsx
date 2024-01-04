@@ -1,10 +1,15 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import ConfirmablePage from './index';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+
+const clickEvent = new MouseEvent('click', {
+  bubbles: true,
+  cancelable: true,
+});
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
@@ -94,23 +99,16 @@ describe('pre-check-in experience', () => {
         );
         expect(getByTestId('additional-info')).to.exist;
       });
-      it('renders the yes and no buttons with the usa-button-big css class', () => {
-        const { getByTestId } = render(
-          <CheckInProvider>
-            <ConfirmablePage />
-          </CheckInProvider>,
-        );
-        expect(getByTestId('yes-button')).to.have.class('usa-button-big');
-        expect(getByTestId('no-button')).to.have.class('usa-button-big');
-      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
+
         const screen = render(
           <CheckInProvider>
             <ConfirmablePage yesAction={yesClick} />
           </CheckInProvider>,
         );
-        fireEvent.click(screen.getByTestId('yes-button'));
+
+        screen.getByTestId('yes-no-buttons').__events.primaryClick(clickEvent);
         expect(yesClick.calledOnce).to.be.true;
       });
       it('fires the no function', () => {
@@ -120,7 +118,10 @@ describe('pre-check-in experience', () => {
             <ConfirmablePage noAction={noClick} />
           </CheckInProvider>,
         );
-        fireEvent.click(screen.getByTestId('no-button'));
+
+        screen
+          .getByTestId('yes-no-buttons')
+          .__events.secondaryClick(clickEvent);
         expect(noClick.calledOnce).to.be.true;
       });
     });

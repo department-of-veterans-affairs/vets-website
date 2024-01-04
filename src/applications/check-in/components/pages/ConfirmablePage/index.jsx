@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useStorage } from '../../../hooks/useStorage';
@@ -108,7 +109,14 @@ const ConfirmablePage = ({
         </ul>
       </div>
       {additionalInfo}
-      <>
+      <VaButtonPair
+        onPrimaryClick={onYesClick}
+        onSecondaryClick={onNoClick}
+        uswds
+        data-testid="yes-no-buttons"
+      />
+
+      {/* <>
         <button
           onClick={onYesClick}
           className="usa-button-primary usa-button-big"
@@ -125,7 +133,7 @@ const ConfirmablePage = ({
         >
           {t('no')}
         </button>
-      </>
+      </> */}
     </Wrapper>
   );
 };
