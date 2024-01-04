@@ -53,9 +53,8 @@ const PrintDownload = props => {
       ref={menu}
     >
       <button
-        className="vads-u-padding-x--2"
+        className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
-        className={toggleMenuButtonClasses}
         onClick={() => setMenuOpen(!menuOpen)}
         data-testid="print-records-button"
         aria-expanded={menuOpen}
