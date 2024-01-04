@@ -172,7 +172,7 @@ class ObjectField extends React.Component {
         <ObjectViewField
           {...this.props}
           renderedProperties={renderedProperties}
-          title={title}
+          title={!formContext?.hideTitle ? title : ''}
           defaultEditButton={defaultEditButton}
         />
       );
