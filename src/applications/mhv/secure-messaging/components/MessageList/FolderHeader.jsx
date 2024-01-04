@@ -91,7 +91,7 @@ const FolderHeader = props => {
           {(!associatedTriageGroupsQty ||
             associatedTriageGroupsQty === associatedBlockedTriageGroupsQty) && (
             <BlockedTriageGroupAlert
-              status={!associatedTriageGroupsQty ? 'info' : 'warning'}
+              alertStyle={!associatedTriageGroupsQty ? 'info' : 'warning'}
               blockedTriageGroupList={[]}
               parentComponent={ParentComponent.FOLDER_HEADER}
             />

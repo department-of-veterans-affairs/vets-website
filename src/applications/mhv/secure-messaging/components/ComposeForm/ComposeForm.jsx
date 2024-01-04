@@ -20,7 +20,7 @@ import {
   navigateToFolderByFolderId,
   sortRecipients,
   resetUserSession,
-  checkTriageGroupAssociation,
+  updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -31,6 +31,7 @@ import {
   ErrorMessages,
   Recipients,
   ParentComponent,
+  RecipientStatus,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
@@ -176,18 +177,18 @@ const ComposeForm = props => {
           recipientId: draft.recipientId,
           name: draft.triageGroupName,
           type: Recipients.CARE_TEAM,
+          status: RecipientStatus.ALLOWED,
         };
 
-        const isAssociated = Array.isArray(recipients.allRecipients)
-          ? recipients.allRecipients.some(
-              checkTriageGroupAssociation(tempRecipient),
-            )
-          : false;
+        const {
+          isAssociated,
+          formattedRecipient,
+        } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
         if (!isAssociated) {
           setShowBlockedTriageGroupAlert(true);
           setBlockedTriageGroupList([
-            tempRecipient,
+            formattedRecipient,
             ...recipients.blockedRecipients,
           ]);
         } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
@@ -605,7 +606,7 @@ const ComposeForm = props => {
               >
                 <BlockedTriageGroupAlert
                   blockedTriageGroupList={blockedTriageGroupList}
-                  status="alert"
+                  alertStyle="alert"
                   parentComponent={ParentComponent.COMPOSE_FORM}
                 />
               </div>

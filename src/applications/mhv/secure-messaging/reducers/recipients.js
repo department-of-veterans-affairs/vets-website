@@ -7,7 +7,6 @@ const initialState = {
    * @type {array}
    */
   allRecipients: undefined,
-  preferredTeams: [],
   allowedRecipients: [],
   blockedRecipients: [],
   blockedFacilities: [],
@@ -39,10 +38,6 @@ export const recipientsReducer = (state = initialState, action) => {
 
         blockedRecipients: action.response.data
           .filter(recipient => recipient.attributes.blockedStatus === true)
-          .map(recipient => formatRecipient(recipient)),
-
-        preferredTeams: action.response.data
-          .filter(recipient => recipient.attributes.preferredTeam === true)
           .map(recipient => formatRecipient(recipient)),
 
         blockedFacilities: findBlockedFacilities(action.response.data),

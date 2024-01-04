@@ -6,13 +6,18 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import EmergencyNote from '../EmergencyNote';
 import {
-  checkTriageGroupAssociation,
   updatePageTitle,
+  updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
-import { PageTitles, ParentComponent, Recipients } from '../../util/constants';
+import {
+  PageTitles,
+  ParentComponent,
+  RecipientStatus,
+  Recipients,
+} from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
 
 const ReplyForm = props => {
@@ -50,26 +55,23 @@ const ReplyForm = props => {
           messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
             ?.triageGroupName || draftToEdit.triageGroupName,
         type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
       };
 
-      const isAssociated = Array.isArray(recipients.allRecipients)
-        ? recipients.allRecipients.some(
-            checkTriageGroupAssociation(tempRecipient),
-          )
-        : false;
-
-      const isBlocked = recipients.blockedRecipients?.some(
-        checkTriageGroupAssociation(tempRecipient),
-      );
+      const {
+        isAssociated,
+        isBlocked,
+        formattedRecipient,
+      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
       if (!isAssociated) {
         setShowBlockedTriageGroupAlert(true);
-        setBlockedTriageGroupList([tempRecipient]);
+        setBlockedTriageGroupList([formattedRecipient]);
       } else if (recipients.associatedBlockedTriageGroupsQty) {
         setShowBlockedTriageGroupAlert(isBlocked);
         setBlockedTriageGroupList(
           recipients.blockedRecipients.filter(
-            recipient => recipient.name === tempRecipient.name,
+            recipient => recipient.name === formattedRecipient.name,
           ),
         );
       }
@@ -141,7 +143,7 @@ const ReplyForm = props => {
           showBlockedTriageGroupAlert && (
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
-              status="alert"
+              alertStyle="alert"
               parentComponent={ParentComponent.REPLY_FORM}
             />
           )}

@@ -346,5 +346,6 @@ export const ParentComponent = {
 
 export const RecipientStatus = {
   BLOCKED: 'Blocked',
+  ALLOWED: 'Allowed',
   NOT_ASSOCIATED: 'Not Associated',
 };

@@ -1,6 +1,11 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders, Paths, Recipients } from './constants';
+import {
+  DefaultFolders as Folders,
+  Paths,
+  RecipientStatus,
+  Recipients,
+} from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -225,6 +230,27 @@ export const checkTriageGroupAssociation = tempRecipient => {
     recipient.name === tempRecipient.triageGroupName;
 };
 
+export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
+  const formattedRecipient = tempRecipient;
+  const isAssociated = Array.isArray(recipients.allRecipients)
+    ? recipients.allRecipients.some(
+        checkTriageGroupAssociation(formattedRecipient),
+      )
+    : false;
+
+  const isBlocked = recipients.blockedRecipients?.some(
+    checkTriageGroupAssociation(formattedRecipient),
+  );
+
+  if (!isAssociated) {
+    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+  } else if (isBlocked) {
+    formattedRecipient.status = RecipientStatus.BLOCKED;
+  }
+
+  return { isAssociated, isBlocked, formattedRecipient };
+};
+
 export const formatRecipient = recipient => {
   return {
     id: recipient.attributes.triageTeamId,
@@ -234,6 +260,9 @@ export const formatRecipient = recipient => {
     preferredTeam: recipient.attributes.preferredTeam,
     relationshipType: recipient.attributes.relationshipType,
     type: Recipients.CARE_TEAM,
+    status: recipient.attributes.blockedStatus
+      ? RecipientStatus.BLOCKED
+      : RecipientStatus.ALLOWED,
   };
 };
 
@@ -257,4 +286,8 @@ export const findBlockedFacilities = recipients => {
   });
 
   return fullyBlockedFacilities;
+};
+
+export const sortTriageList = list => {
+  return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };

@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -17,7 +17,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
     meta: updatedMeta,
   };
 
-  it('inbox view', () => {
+  it('creating message view', () => {
     site.login();
 
     landingPage.loadInboxMessages(
@@ -78,37 +78,40 @@ describe('Verify thread - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('span')
       .should('be.visible')
       .and(
         'include.text',
-        `You can't send messages to ${mockRecipients.data[0].attributes.name}`,
+        `${Alerts.NO_ASSOCIATION.HEADER} ${
+          mockRecipients.data[0].attributes.name
+        }`,
       );
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should(
-        'contain.text',
-        'If you need help contacting this care team, call your VA health facility.',
-      );
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
-      .should('have.attr', 'href', '/find-locations/');
+      .first()
+      .should('have.attr', 'href', '/find-locations/')
+      .and('have.text', Alerts.NO_ASSOCIATION.LINK);
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });

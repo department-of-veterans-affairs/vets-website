@@ -37,7 +37,6 @@ describe('Compose form component', () => {
       categories: { categories },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
-        preferredTeams: noBlockedRecipients.mockPreferredTeams,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -57,7 +56,6 @@ describe('Compose form component', () => {
       threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
         allRecipients: noBlockedRecipients.mockAllRecipients,
-        preferredTeams: noBlockedRecipients.mockPreferredTeams,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -517,7 +515,6 @@ describe('Compose form component', () => {
         ...draftState.sm,
         recipients: {
           allRecipients: oneBlockedRecipient.mockAllRecipients,
-          preferredTeams: oneBlockedRecipient.mockPreferredTeams,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -561,7 +558,6 @@ describe('Compose form component', () => {
         ...draftState.sm,
         recipients: {
           allRecipients: twoBlockedRecipients.mockAllRecipients,
-          preferredTeams: twoBlockedRecipients.mockPreferredTeams,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           blockedFacilities: [],
@@ -596,7 +592,7 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to certain providers",
+      "You can't send messages to some of your care teams",
     );
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
@@ -608,7 +604,6 @@ describe('Compose form component', () => {
         ...draftState.sm,
         recipients: {
           allRecipients: lostAssociation.mockAllRecipients,
-          preferredTeams: lostAssociation.mockPreferredTeams,
           allowedRecipients: lostAssociation.mockAllowedRecipients,
           blockedRecipients: lostAssociation.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -642,7 +637,7 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
     );
   });
 
@@ -653,7 +648,6 @@ describe('Compose form component', () => {
         ...draftState.sm,
         recipients: {
           allRecipients: noAssociationsAtAll.mockAllRecipients,
-          preferredTeams: noAssociationsAtAll.mockPreferredTeams,
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -686,7 +680,7 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
     );
     expect(screen.queryByTestId('Send-Button')).to.not.exist;
   });
@@ -698,7 +692,6 @@ describe('Compose form component', () => {
         ...initialState.sm,
         recipients: {
           allRecipients: blockedFacility.mockAllRecipients,
-          preferredTeams: blockedFacility.mockPreferredTeams,
           allowedRecipients: blockedFacility.mockAllowedRecipients,
           blockedRecipients: blockedFacility.mockBlockedRecipients,
           blockedFacilities: blockedFacility.mockBlockedFacilities,
@@ -740,7 +733,6 @@ describe('Compose form component', () => {
         ...initialState.sm,
         recipients: {
           allRecipients: blockedFacilityAndTeam.mockAllRecipients,
-          preferredTeams: blockedFacilityAndTeam.mockPreferredTeams,
           allowedRecipients: blockedFacilityAndTeam.mockAllowedRecipients,
           blockedRecipients: blockedFacilityAndTeam.mockBlockedRecipients,
           blockedFacilities: blockedFacilityAndTeam.mockBlockedFacilities,
@@ -771,7 +763,7 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      "You can't send messages to certain providers",
+      "You can't send messages to some of your care teams",
     );
     const blockedList = screen.queryAllByTestId('blocked-triage-group');
     expect(blockedList.length).to.equal(2);
@@ -787,7 +779,6 @@ describe('Compose form component', () => {
         ...draftState.sm,
         recipients: {
           allRecipients: allBlockedAssociations.mockAllRecipients,
-          preferredTeams: allBlockedAssociations.mockPreferredTeams,
           allowedRecipients: allBlockedAssociations.mockAllowedRecipients,
           blockedRecipients: allBlockedAssociations.mockBlockedRecipients,
           associatedTriageGroupsQty:
