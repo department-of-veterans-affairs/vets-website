@@ -126,9 +126,17 @@ export const NoLetters = ({ showMebLettersMaintenanceAlert }) => {
         Check this page for your education decision letter for Post-9/11 GI Bill
         benefits.{' '}
       </p>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 slot="headline">Your education decision letter isn’t available</h2>
-      </va-alert>
+      {!showMebLettersMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2 slot="headline">
+            Your education decision letter isn’t available
+          </h2>
+        </va-alert>
+      )}
       {showMebLettersMaintenanceAlert && (
         <va-alert
           close-btn-aria-label="Close notification"
