@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
+import { renderDOB } from '../../util/personal-information/personalInformationUtils';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
 import { generatePdf } from '~/platform/pdf';
@@ -200,12 +200,19 @@ const MilitaryInformation = ({
   dob,
   militaryInformation,
   totalDisabilityRating,
-  userFullName: { first, middle, last, suffix },
+  userFullName = {
+    first: '',
+    middle: '',
+    last: '',
+    suffix: '',
+  },
   veteranStatus,
 }) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
+
+  const { first, middle, last, suffix } = userFullName;
 
   const createPdf = () => {
     const pdfData = {
