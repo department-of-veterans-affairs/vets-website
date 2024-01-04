@@ -49,8 +49,6 @@ export const generateChemHemContent = record => ({
   },
   results: {
     header: 'Results',
-    preface:
-      "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
     sectionSeparators: true,
     items: record.results.map(item => ({
       header: item.name,

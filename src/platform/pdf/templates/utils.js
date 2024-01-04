@@ -215,8 +215,9 @@ const generateInitialHeaderContent = async (
   parent,
   data,
   config,
-  headerBannerOnly,
+  options = {},
 ) => {
+  const { headerBannerOnly, nameDobOnly } = options;
   // Adjust page margins so that we can write in the header/footer area.
   // eslint-disable-next-line no-param-reassign
   doc.page.margins = {
@@ -240,7 +241,7 @@ const generateInitialHeaderContent = async (
     header.add(createSpan(doc, config, data.headerRight, rightOptions));
   }
 
-  if (data.headerBanner) {
+  if (data.headerBanner && !nameDobOnly) {
     generateHeaderBanner(doc, header, data, config);
   }
 

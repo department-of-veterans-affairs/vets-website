@@ -418,14 +418,18 @@ const generate = async data => {
   // is left intact for screen reader users.
 
   await generateCoverPage(doc, wrapper, data);
-
   doc.addPage({ margins: config.margins });
+  generateInitialHeaderContent(doc, wrapper, data, config, {
+    nameDobOnly: true,
+  });
 
   for (const recordSet of data.recordSets) {
     doc.addPage({ margins: config.margins });
     const startPage = doc.bufferedPageRange().count;
     tocPageData[recordSet.type] = { startPage };
-    generateInitialHeaderContent(doc, wrapper, data, config);
+    generateInitialHeaderContent(doc, wrapper, data, config, {
+      headerBannerOnly: true,
+    });
     generateRecordSetIntroduction(doc, wrapper, recordSet);
     if (Array.isArray(recordSet.records)) {
       for (const record of recordSet.records) {

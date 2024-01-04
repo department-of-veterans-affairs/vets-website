@@ -46,7 +46,7 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     title,
     subject,
   };
-  if (scaffold.preface) scaffold.preface = preface;
+  if (preface) scaffold.preface = preface;
   return scaffold;
 };
 
