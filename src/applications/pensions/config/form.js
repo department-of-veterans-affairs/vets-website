@@ -63,6 +63,7 @@ import maritalStatus from './chapters/04-household-information/maritalStatus';
 import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
 import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
 import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import hasMedicalExpenses from './chapters/05-financial-information/hasMedicalExpenses';
 import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
@@ -840,9 +841,16 @@ const formConfig = {
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
-        medicalExpenses: {
+        hasMedicalExpenses: {
           path: 'financial/medical-expenses',
           title: 'Medical expenses',
+          uiSchema: hasMedicalExpenses.uiSchema,
+          schema: hasMedicalExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses/add',
+          title: 'Medical expenses',
+          depends: formData => formData.hasMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
