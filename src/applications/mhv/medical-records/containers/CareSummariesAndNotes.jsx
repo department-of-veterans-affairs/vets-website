@@ -11,15 +11,12 @@ import {
   pageTitles,
   recordType,
 } from '../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
-  const fullState = useSelector(state => state);
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );

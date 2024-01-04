@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   DowntimeNotification,
   externalServices,
