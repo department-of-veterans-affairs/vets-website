@@ -3,9 +3,9 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../config/form';
-import medicalExpenses from '../../../config/chapters/05-financial-information/medicalExpenses';
+import hasMedicalExpenses from '../../../config/chapters/05-financial-information/hasMedicalExpenses';
 
-const { schema, uiSchema } = medicalExpenses;
+const { schema, uiSchema } = hasMedicalExpenses;
 
 describe('Unreimbursed medical expenses pension page', () => {
   const pageTitle = 'Medical expenses';
