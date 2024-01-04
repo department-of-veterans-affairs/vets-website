@@ -67,6 +67,34 @@
         "jobTitle": "Representative"
       }
     ],
+    "maritalStatus": "Separated",
+    "marriages": [
+      {
+        "spouseFullName": {
+          "first": "Jessica",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1989-03-02",
+        "locationOfMarriage": "Dallas",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Divorce",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Meg",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1994-03-02",
+        "locationOfMarriage": "North Adams, MA",
+        "view:currentMarriage": {
+          "marriageType": "Other",
+          "otherExplanation": "Personal"
+        }
+      }
+    ],
     "spouseDateOfBirth": "1960-01-01",
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
@@ -80,8 +108,10 @@
       "state": "MA",
       "postalCode": "01050"
     },
-    "reasonForNotLivingWithSpouse": "Personal choice",
-    "monthlySpousePayment": 2444,
+    "reasonForCurrentSeparation": "Other",
+    "otherExplanation": "Personal reason",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "spouseMarriages": [
       {
         "dateOfMarriage": "1980-03-02",
@@ -95,39 +125,6 @@
         "reasonForSeparation": "Death",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
-      }
-    ],
-    "maritalStatus": "Married",
-    "currentSpouseFullName": {
-      "first": "Jessica",
-      "last": "Doe"
-    },
-    "dateOfCurrentMarriage": "1989-03-02",
-    "currentSpouseMonthlySupport": 2444,
-    "currentSpouseMaritalHistory": "Yes",
-    "marriages": [
-      {
-        "spouseFullName": {
-          "first": "Jessica",
-          "last": "Doe"
-        },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
-        "marriageType": "Ceremonial",
-        "view:pastMarriage": {
-          "reasonForSeparation": "Divorced",
-          "dateOfSeparation": "1990-03-02",
-          "locationOfSeparation": "San Antonio, TX"
-        }
-      },
-      {
-        "spouseFullName": {
-          "first": "Meg",
-          "last": "Doe"
-        },
-        "dateOfMarriage": "1994-03-02",
-        "locationOfMarriage": "North Adams, MA",
-        "marriageType": "Ceremonial"
       }
     ],
     "view:hasDependents": true,
