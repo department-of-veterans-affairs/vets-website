@@ -865,6 +865,9 @@ const formConfig = {
         landMarketable: {
           title: 'Land marketable',
           path: 'financial/land-marketable',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo === true;
+          },
           uiSchema: landMarketable.uiSchema,
           schema: landMarketable.schema,
         },
