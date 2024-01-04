@@ -1,11 +1,11 @@
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import set from 'platform/utilities/data/set';
 
 import {
   yesNoUI,
   yesNoSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
 const { powDateRange } = fullSchemaPensions.properties;
 
