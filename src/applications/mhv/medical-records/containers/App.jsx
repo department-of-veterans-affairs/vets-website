@@ -89,6 +89,12 @@ const App = ({ children }) => {
           ],
         },
       ];
+      if (showNotes)
+        navPaths[0].subpaths.push({
+          path: '/summaries-and-notes',
+          label: 'Care summaries and notes',
+          datatestid: 'care-summaries-and-notes-sidebar',
+        });
       if (showVaccines)
         navPaths[0].subpaths.push({
           path: '/vaccines',
@@ -100,12 +106,6 @@ const App = ({ children }) => {
         label: 'Allergies and reactions',
         datatestid: 'allergies-sidebar',
       });
-      if (showNotes)
-        navPaths[0].subpaths.push({
-          path: '/summaries-and-notes',
-          label: 'Care summaries and notes',
-          datatestid: 'care-summaries-and-notes-sidebar',
-        });
       setPaths(navPaths);
     },
     [showNotes, showVaccines],
