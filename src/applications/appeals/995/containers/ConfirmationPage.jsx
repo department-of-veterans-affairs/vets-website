@@ -8,8 +8,6 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
 
-import GetFormHelp from '../content/GetFormHelp';
-
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
@@ -102,12 +100,18 @@ export const ConfirmationPage = () => {
         <va-telephone contact="711" tty />
         ).
       </p>
-      <a href="/track-claims/your-claims" className="usa-button">
-        Track the status of your claim
+      <br role="presentation" />
+      <a
+        href="/claim-or-appeal-status/"
+        className="vads-c-action-link--green"
+        aria-describedby="delay-note"
+      >
+        Check the status of your claim
       </a>
-      <p />
-      <h3 className="help-heading">Need help?</h3>
-      <GetFormHelp />
+      <p id="delay-note">
+        <strong>Note</strong>: It may take 7 to 10 days for your Supplemental
+        Claim request to appear online.
+      </p>
     </div>
   );
 };
