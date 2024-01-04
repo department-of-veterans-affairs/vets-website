@@ -94,7 +94,7 @@ ${record.results} \n`;
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       </div>
       <div className="test-details-container max-80">
-        <h4>Details about this test</h4>
+        <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
