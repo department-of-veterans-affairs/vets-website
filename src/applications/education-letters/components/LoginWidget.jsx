@@ -45,11 +45,9 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
         </a>{' '}
         account now.
       </div>
-      <va-button
-        onClick={toggleLogin}
-        primary-alternate
-        text="Sign in or create an account"
-      />
+      <button className="va-button-primary" type="button" onClick={toggleLogin}>
+        Sign in or create an account
+      </button>
     </va-alert>
   );
 

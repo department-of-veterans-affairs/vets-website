@@ -40,10 +40,8 @@ describe('Render Visitor UI', () => {
       </Provider>,
     );
 
-    const button = wrapper.find('va-button');
-
-    expect(button.props().text).to.include('Sign in or create an account');
-    expect(button.props().text).to.not.include('Login or create an account');
+    expect(wrapper.text()).to.include('Sign in or create an account');
+    expect(wrapper.text()).to.not.include('Login or create an account');
 
     wrapper.unmount();
   });
