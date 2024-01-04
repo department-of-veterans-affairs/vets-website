@@ -63,12 +63,11 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   BLOCKED: {
+    AT_ALL_HEADER: `You can't send message to your care team right now`,
+    AT_ALL_PARAGRAPH: `If you need to contact your care team, call your VA health facility.`,
     HEADER: `You can't send messages to`,
     PARAGRAPH:
       'If you need to contact this care team, call your VA health facility',
     LINK: 'Find your VA health facility',
-  },
-  ALL_ASSOCIATION: {
-    HEADER: `Your account is no longer connected to TRIAGE GROUP_UAT2929`,
   },
 };

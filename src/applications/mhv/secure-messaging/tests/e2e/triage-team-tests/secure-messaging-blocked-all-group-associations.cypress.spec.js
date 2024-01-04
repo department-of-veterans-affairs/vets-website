@@ -33,9 +33,9 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Alerts.ALL_ASSOCIATION.HEADER);
+      .and('include.text', Alerts.BLOCKED.AT_ALL_HEADER);
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'closed');
@@ -50,7 +50,8 @@ describe('All Group Association Blocked', () => {
         },
       },
     });
-    cy.get('[data-testid="blocked-triage-group-alert"]').click({
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
       waitForAnimations: true,
     });
 
@@ -58,15 +59,18 @@ describe('All Group Association Blocked', () => {
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
+
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Alerts.ALL_ASSOCIATION.HEADER);
+      .and('include.text', Alerts.BLOCKED.HEADER);
+
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
-      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+      .should('have.text', Alerts.BLOCKED.AT_ALL_PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
