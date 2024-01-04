@@ -680,7 +680,7 @@ describe('Compose form component', () => {
     expect(blockedTriageGroupAlert).to.exist;
     expect(blockedTriageGroupAlert).to.have.attribute(
       'trigger',
-      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+      "You're not connected to any care teams in this messaging tool",
     );
     expect(screen.queryByTestId('Send-Button')).to.not.exist;
   });

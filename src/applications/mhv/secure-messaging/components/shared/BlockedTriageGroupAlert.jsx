@@ -65,16 +65,23 @@ const BlockedTriageGroupAlert = props => {
       return;
     }
 
-    if (
-      parentComponent === ParentComponent.COMPOSE_FORM &&
-      associatedTriageGroupsQty > 0 &&
-      associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
-    ) {
-      setAlertTitleText("You can't send messages to your care teams right now");
-      setAlertInfoText(
-        'If you need to contact your care teams, call your VA health facility',
-      );
-      return;
+    if (parentComponent === ParentComponent.COMPOSE_FORM) {
+      if (associatedTriageGroupsQty === 0) {
+        return;
+      }
+
+      if (
+        associatedTriageGroupsQty > 0 &&
+        associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
+      ) {
+        setAlertTitleText(
+          "You can't send messages to your care teams right now",
+        );
+        setAlertInfoText(
+          'If you need to contact your care teams, call your VA health facility.',
+        );
+        return;
+      }
     }
 
     if (blockedTriageList?.length === 1) {
@@ -85,7 +92,7 @@ const BlockedTriageGroupAlert = props => {
           }`,
         );
         setAlertInfoText(
-          'If you need to contact these care teams, call the facility',
+          'If you need to contact these care teams, call the facility.',
         );
       } else {
         setAlertTitleText(
@@ -97,14 +104,14 @@ const BlockedTriageGroupAlert = props => {
         );
         if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
           setAlertInfoText(
-            'If you need to contact this care team, call your VA health facility',
+            'If you need to contact this care team, call your VA health facility.',
           );
         }
       }
     } else {
       setAlertTitleText("You can't send messages to some of your care teams");
       setAlertInfoText(
-        'If you need to contact these care teams, call your VA health facility',
+        'If you need to contact these care teams, call your VA health facility.',
       );
     }
   }, []);
