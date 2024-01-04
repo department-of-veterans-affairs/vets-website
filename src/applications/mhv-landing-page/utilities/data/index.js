@@ -20,19 +20,18 @@ const resolveToggleLink = (link, featureToggles) => {
 };
 
 const countUnreadMessages = folders => {
+  let unreadMessageCount = 0;
   if (Array.isArray(folders?.data)) {
-    return folders.data.reduce((accumulator, currentFolder) => {
-      // Only count inbox (id = 0) and custom folders (id > 0)
+    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
       return currentFolder.id >= 0
         ? accumulator + currentFolder.attributes?.unreadCount
         : accumulator;
     }, 0);
-  }
-  if (folders?.data?.attributes?.unreadCount > 0) {
-    return folders.data.attributes.unreadCount;
+  } else if (folders?.data?.attributes?.unreadCount > 0) {
+    unreadMessageCount = folders.data.attributes.unreadCount;
   }
 
-  return 0;
+  return unreadMessageCount;
 };
 
 const resolveLinkCollection = (links, featureToggles) =>
