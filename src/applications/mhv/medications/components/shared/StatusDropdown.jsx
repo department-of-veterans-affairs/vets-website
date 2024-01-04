@@ -28,17 +28,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -76,14 +72,10 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Non-VA</div>
-            <div className="no-print" data-testid="status-dropdown">
+            <div data-testid="status-dropdown">
               <va-additional-info trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -123,17 +115,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Parked</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -163,17 +151,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: On hold</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -193,14 +177,10 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Refill in process</div>
-            <div className="no-print">
+            <div>
               <va-additional-info trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -235,17 +215,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Discontinued</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -267,17 +243,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Active: Submitted</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -307,17 +279,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Expired</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -335,17 +303,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Transferred</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );
@@ -366,17 +330,13 @@ const StatusDropdown = props => {
         return (
           <>
             <div data-testid="status">Unknown</div>
-            <div className="no-print">
+            <div>
               <va-additional-info
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
                 {dropdownContent()}
               </va-additional-info>
-            </div>
-            <div className="print-only vads-u-margin-top--2">
-              {' '}
-              {dropdownContent()}
             </div>
           </>
         );

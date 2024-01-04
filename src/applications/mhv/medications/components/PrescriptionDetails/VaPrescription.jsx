@@ -85,9 +85,6 @@ const VaPrescription = prescription => {
                 'None noted'
               )}
             </div>
-            <div className="print-only">
-              {prescription?.phoneNumber || 'No phone number provided'}
-            </div>
           </div>
 
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3">
@@ -177,18 +174,6 @@ const VaPrescription = prescription => {
                       <p className="vads-u-margin--0" data-testid="no-image">
                         No image available
                       </p>
-                    )}
-                  </div>
-                  <div className="print-only">
-                    {entry.cmopNdcNumber ? (
-                      <img
-                        src={getImageUri(entry.cmopNdcNumber)}
-                        alt={entry.prescriptionName}
-                        width="350"
-                        height="350"
-                      />
-                    ) : (
-                      <p className="vads-u-margin--0">Image not available</p>
                     )}
                   </div>
                 </div>
