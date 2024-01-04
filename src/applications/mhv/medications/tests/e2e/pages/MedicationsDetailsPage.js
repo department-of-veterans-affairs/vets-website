@@ -1,4 +1,5 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
+import expiredRx from '../fixtures/expired-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -100,7 +101,7 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `#card-header-${
+      `[data-testid="rx-card-info"] > #card-header-${
         prescriptionDetails.data.attributes.prescriptionId
       } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
@@ -108,7 +109,9 @@ class MedicationsDetailsPage {
       `#card-header-${
         prescriptionDetails.data.attributes.prescriptionId
       } > [data-testid="medications-history-details-link"]`,
-    ).click({ waitForAnimations: true });
+    )
+      .first()
+      .click({ waitForAnimations: true });
   };
 
   clickMedicationsLandingPageBreadcrumbsOnListPage = () => {
@@ -150,6 +153,11 @@ class MedicationsDetailsPage {
   };
 
   clickWhatDoesThisStatusMeanDropDown = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00013264681',
+      expiredRx,
+    );
     cy.get('[data-testid="status-dropdown"]').should('exist');
     cy.get('[data-testid="status-dropdown"]').click({
       waitForAnimations: true,
@@ -191,6 +199,10 @@ class MedicationsDetailsPage {
   };
 
   verifyExpiredStatusDropDownDefinition = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00013264681',
+    );
     cy.get(
       '[data-testid="status-dropdown"] > [data-testid="expired-status-definition"]',
     ).should('contain', 'This prescription is too old to refill.');
@@ -219,6 +231,11 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionTrackingInformation = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="track-package"]').should('be.visible');
     // cy.get('[data-testid="tracking-number"]')
     //   .should('contain', `${rxTracking.data.attributes.trackingList[0][0].tracking[0].trackingNumber}`);
@@ -229,6 +246,11 @@ class MedicationsDetailsPage {
   };
 
   clickReviewImageDropDownOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="review-rx-image"]').should('exist');
     cy.get('[data-testid="review-rx-image"]').click({
       waitForAnimations: true,
