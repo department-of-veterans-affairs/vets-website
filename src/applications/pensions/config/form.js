@@ -76,6 +76,7 @@ import supportingDocuments from './chapters/06-additional-information/supporting
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
+import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -803,6 +804,15 @@ const formConfig = {
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
           CustomPageReview: null,
+        },
+        landMarketable: {
+          title: 'Land marketable',
+          path: 'financial/land-marketable',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo === true;
+          },
+          uiSchema: landMarketable.uiSchema,
+          schema: landMarketable.schema,
         },
         receivesIncome: {
           title: 'Receives income',
