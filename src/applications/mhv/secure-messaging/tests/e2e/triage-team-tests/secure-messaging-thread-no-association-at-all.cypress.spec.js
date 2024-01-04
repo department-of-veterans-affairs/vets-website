@@ -6,7 +6,7 @@ import mockSingleMessage from '../fixtures/inboxResponse/single-message-response
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
-describe('Verify thread - No association with particular Triage Group', () => {
+describe('Verify thread - No association at all', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
   beforeEach(() => {
