@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
@@ -33,7 +33,7 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Locators.ALERTS.BLOCK_ALL_GROUP);
+      .and('include.text', Alerts.ALL_ASSOCIATION.HEADER);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .shadow()
@@ -54,7 +54,7 @@ describe('All Group Association Blocked', () => {
       waitForAnimations: true,
     });
 
-    cy.get('[data-testid="blocked-triage-group-alert"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
       .find('#alert-body')
       .should('have.class', 'open');
@@ -63,7 +63,15 @@ describe('All Group Association Blocked', () => {
       .should('have.attr', 'href', '/find-locations/');
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Locators.ALERTS.BLOCK_ALL_GROUP);
+      .and('include.text', Alerts.ALL_ASSOCIATION.HEADER);
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .first()
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
   });
 
   it('reply btn does not exist', () => {

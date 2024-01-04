@@ -68,4 +68,7 @@ export const Alerts = {
       'If you need to contact this care team, call your VA health facility',
     LINK: 'Find your VA health facility',
   },
+  ALL_ASSOCIATION: {
+    HEADER: `Your account is no longer connected to TRIAGE GROUP_UAT2929`,
+  },
 };
