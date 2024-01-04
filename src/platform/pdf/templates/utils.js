@@ -278,10 +278,17 @@ const generateFinalHeaderContent = async (doc, data, config) => {
  * @param {Object} parent parent struct
  * @param {Object} data PDF data
  * @param {Object} config layout config
+ * @param {Boolean} addSeparator line separating footer from content
  *
  * @returns {void}
  */
-const generateFooterContent = async (doc, parent, data, config) => {
+const generateFooterContent = async (
+  doc,
+  parent,
+  data,
+  config,
+  addSeparator = false,
+) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -294,7 +301,14 @@ const generateFooterContent = async (doc, parent, data, config) => {
       left: config.margins.left,
       right: 16,
     };
-
+    if (addSeparator) {
+      doc.markContent('Artifact');
+      doc
+        .moveTo(config.margins.left, 766 - 12)
+        .lineTo(doc.page.width - 16, 766 - 12)
+        .stroke();
+      doc.endMarkedContent();
+    }
     // Only allow the last footer element to be read by screen readers
     const footer =
       i === pages.count - 1
@@ -406,9 +420,17 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
     const paragraphOptions = {
       continued: !!element.continued,
       lineGap: 2,
-      ...(i === item.value.length - 1 && { paragraphGap: 6 }),
+      ...(i === item.value.length - 1 && {
+        paragraphGap: element?.paragraphGap ?? 6,
+      }),
     };
-
+    if (element?.itemSeperator) {
+      if (doc.y > doc.page.height - doc.page.margins.bottom) {
+        // eslint-disable-next-line no-await-in-loop
+        await doc.addPage();
+      }
+      addHorizontalRule(doc, ...Object.values(element.itemSeperatorOptions));
+    }
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
@@ -423,7 +445,7 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       content.push(
         doc.struct('Span', () => {
           doc
-            .font(font)
+            .font(element?.font ?? font)
             .fontSize(config.text.size)
             .text(element.value, x, doc.y, paragraphOptions);
         }),
@@ -459,17 +481,21 @@ const createImageDetailItem = async (doc, config, x, item) => {
       }),
     );
   }
-
-  const image = await fetch(item.value.value);
-  const contentType = image.headers.get('Content-type');
-  const imageBuffer = await image.arrayBuffer();
-  const base64 = `data:${contentType};base64,${Buffer.from(
-    imageBuffer,
-  ).toString('base64')}`;
+  let image = item.value.value;
+  if (!item.value.isBase64) {
+    const fetchedImage = await fetch(item.value.value);
+    const contentType = fetchedImage.headers.get('Content-type');
+    const imageBuffer = await fetchedImage.arrayBuffer();
+    image = `data:${contentType};base64,${Buffer.from(imageBuffer).toString(
+      'base64',
+    )}`;
+  }
 
   content.push(
     doc.struct('P', () => {
-      doc.image(base64, x, doc.y);
+      doc.moveDown(0.5);
+      doc.image(image, x, doc.y, item.value?.options);
+      doc.moveDown(0.5);
     }),
   );
 

@@ -20,6 +20,8 @@ import {
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
+import SpouseTransitionExplainer from '../../components/householdIncome/SpouseTransitionExplainer';
+import { getGlobalState } from '../../utils/checkGlobalState';
 
 export default {
   veteranInformationChapter: {
@@ -55,6 +57,7 @@ export default {
         title: 'Available Debts',
         uiSchema: combinedDebts.uiSchema,
         schema: combinedDebts.schema,
+        depends: formData => !formData.reviewNavigation,
       },
       contactInfo: {
         initialData: {
@@ -126,6 +129,23 @@ export default {
         schema: spouseName.schema,
         depends: formData =>
           formData.questions.isMarried && formData['view:streamlinedWaiver'],
+      },
+      spouseTransition: {
+        path: 'spouse-transition',
+        title: 'Spouse Transition',
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: SpouseTransitionExplainer,
+        CustomPageReview: null,
+        depends: formData => {
+          const globalState = getGlobalState();
+          return (
+            formData.questions.isMarried &&
+            !formData.reviewNavigation &&
+            globalState.spouseChanged &&
+            formData['view:streamlinedWaiver']
+          );
+        },
       },
       dependentCount: {
         path: 'dependents-count',

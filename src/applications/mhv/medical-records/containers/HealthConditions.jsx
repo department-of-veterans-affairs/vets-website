@@ -12,6 +12,7 @@ import {
 } from '../util/constants';
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import useAlerts from '../hooks/use-alerts';
 
 const HealthConditions = () => {
@@ -47,18 +48,12 @@ const HealthConditions = () => {
         <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
       );
     }
+    if (conditions?.length === 0) {
+      return <NoRecordsMessage type={recordType.HEALTH_CONDITIONS} />;
+    }
     if (conditions?.length > 0) {
       return (
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
-      );
-    }
-    if (conditions?.length === 0) {
-      return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Health conditions
-          </va-alert>
-        </div>
       );
     }
     return (

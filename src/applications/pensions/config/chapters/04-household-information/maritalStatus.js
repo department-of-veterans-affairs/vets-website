@@ -16,7 +16,7 @@ export default {
   uiSchema: {
     'ui:title': 'Martial status',
     maritalStatus: radioUI({
-      title: 'What’s your marital status?',
+      title: 'What’s your current marital status?',
       labels: maritalStatusOptions,
     }),
   },
