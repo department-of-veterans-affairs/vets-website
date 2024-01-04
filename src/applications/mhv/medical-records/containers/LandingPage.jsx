@@ -117,7 +117,7 @@ const LandingPage = () => {
               )}
               rel="noreferrer"
             >
-              Go back to medical records on the My HealtheVet website
+              Go to medical records on the My HealtheVet website
             </a>
           </p>
         </section>
