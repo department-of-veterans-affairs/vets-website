@@ -10,7 +10,7 @@ import set from '../../../../utilities/data/set';
 import { FormPage } from '../../../src/js/containers/FormPage';
 
 // Build our mock objects
-function makeRoute(obj) {
+function makeRoute(obj, pageConfig = {}) {
   return {
     pageConfig: {
       pageKey: 'testPage',
@@ -18,6 +18,7 @@ function makeRoute(obj) {
       uiSchema: {},
       errorMessages: {},
       title: '',
+      ...pageConfig,
     },
     pageList: [
       {
@@ -179,6 +180,7 @@ describe('Schemaform <FormPage>', () => {
   describe('should handle', () => {
     let tree;
     let setData;
+    let route;
     let router;
     let onSubmit;
     beforeEach(() => {
@@ -187,15 +189,16 @@ describe('Schemaform <FormPage>', () => {
       router = {
         push: sinon.spy(),
       };
+      route = makeRoute({}, { onContinue: sinon.spy() });
 
       tree = SkinDeep.shallowRender(
         <FormPage
           router={router}
           setData={setData}
-          form={makeForm()}
+          form={makeForm({ data: { test: true } })}
           onSubmit={onSubmit}
           location={location}
-          route={makeRoute()}
+          route={route}
         />,
       );
     });
@@ -222,6 +225,15 @@ describe('Schemaform <FormPage>', () => {
       tree.getMountedInstance().goToPath('/last-page');
 
       expect(router.push.calledWith('/last-page')).to.be.true;
+    });
+    it('onContinue', () => {
+      tree.getMountedInstance().onContinue();
+
+      expect(route.pageConfig.onContinue.called).to.be.true;
+      expect(route.pageConfig.onContinue.args[0][0]).to.deep.equal({
+        test: true,
+      });
+      expect(route.pageConfig.onContinue.args[0][1]).to.deep.equal(setData);
     });
   });
 
