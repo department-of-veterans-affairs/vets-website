@@ -16,7 +16,7 @@ describe(`${appName} -- Auth Redirect`, () => {
 
   describe('unauthenticated user', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it.skip('prompts user to authenticate, redirecting to /my-health', () => {
+    it('prompts user to authenticate, redirecting to /my-health', () => {
       cy.visit(rootUrl);
       cy.get('#signin-signup-modal').should('be.visible');
       cy.url().should('contain', '?next=%2Fmy-health');

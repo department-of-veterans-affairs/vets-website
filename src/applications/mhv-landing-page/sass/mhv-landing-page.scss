@@ -14,7 +14,7 @@ $anchor-font-size: 1.9rem;
   }
 }
 
-.indicator::after {
+.indicator::before {
   background-color: $color-red;
   content: "";
   height: 1rem;
@@ -35,13 +35,13 @@ $anchor-font-size: 1.9rem;
     border-bottom: 1px solid $color-gray-light;
   }
 
-  .indicator::after {
+  .indicator::before {
     background-color: $color-red;
     border-radius: 1rem;
     content: "";
     display: inline-block;
     height: 1rem;
-    margin-right: .5rem;
+    margin-right: 1rem;
     width: 1rem;
   }
 

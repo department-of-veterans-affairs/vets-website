@@ -1,3 +1,4 @@
+import React from 'react';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
@@ -10,7 +11,7 @@ const resolveToggleLink = (link, featureToggles) => {
   const { text, oldHref, href: newHref, toggle, ariaLabel } = link;
   let href = newHref || oldHref;
   // If the link's toggle matches a feature toggle
-  // check if the toggle is on. If so, show new href. Otherwise, show old href
+  // check if the toggle is on. If so, show new href. Otherwise show old href
   if (hasOwn(featureToggles, toggle)) {
     const showNewHref = featureToggles[toggle] === true;
     href = showNewHref ? newHref : oldHref;
@@ -38,15 +39,17 @@ const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
 const resolveUnreadMessageAriaLabel = unreadMessageCount => {
-  return unreadMessageCount > 0
-    ? 'You have unread messages. Go to your inbox.'
-    : null;
+  let unreadMessageAriaLabel = null;
+  if (unreadMessageCount > 0) {
+    unreadMessageAriaLabel = 'You have unread messages. Go to your inbox.';
+  }
+  return unreadMessageAriaLabel;
 };
 
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount,
+  unreadMessageCount = 0,
   unreadMessageAriaLabel,
   userHasHealthData = false,
 ) => {
@@ -74,7 +77,14 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        text: 'Inbox',
+        text: (
+          <span>
+            Inbox
+            {unreadMessageCount > 0 && (
+              <span className="indicator" role="status" />
+            )}
+          </span>
+        ),
         toggle: null,
         ariaLabel: unreadMessageAriaLabel,
       },
