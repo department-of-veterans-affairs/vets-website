@@ -2,10 +2,12 @@ import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
@@ -119,10 +121,39 @@ const ConfirmationPage = ({ form, download }) => {
     scrollToTop();
   }, []);
 
+  const renderSurveyInformation = () => {
+    if (window.KAMPYLE_ONSITE_SDK?.showForm) {
+      return (
+        <>
+          <p>
+            We would appreciate feedback on your experience filling out this
+            form.
+          </p>
+          <VaButton
+            onClick={window.KAMPYLE_ONSITE_SDK?.showForm(41)}
+            text="Provide feedback"
+            uswds
+          />
+        </>
+      );
+    }
+
+    Sentry.withScope(scope => {
+      const message = '5655 Error loading end of form survey';
+      scope.setContext(message, {
+        KAMPYLE_ONSITE_SDK: window.KAMPYLE_ONSITE_SDK,
+        showForm: window.KAMPYLE_ONSITE_SDK?.showForm(41),
+      });
+      Sentry.captureMessage(message);
+    });
+
+    return null;
+  };
+
   const renderLongFormAlert = () => {
     return (
       <>
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h3 slot="headline" className="vads-u-font-size--h3">
             We’ve received your request
           </h3>
@@ -145,7 +176,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderSWConfirmationAlert = () => {
     return (
       <>
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h3 slot="headline" className="vads-u-font-size--h3">
             You’re tentatively eligible for debt relief
           </h3>
@@ -155,6 +186,7 @@ const ConfirmationPage = ({ form, download }) => {
             <strong> {data.personalData.emailAddress}</strong> for this
             submission.
           </p>
+          {renderSurveyInformation()}
         </va-alert>
         <p>You don’t need to do anything else at this time.</p>
         <p>
