@@ -21,6 +21,8 @@ export const getAppData = state => ({
   // showMebEnhancements06: !!toggleValues(state)[
   //   FEATURE_FLAG_NAMES.showMebEnhancements06
   // ],
+  showMeb1990EMaintenanceAlert:
+    state.featureToggles.showMeb1990EMaintenanceAlert,
   showMebEnhancements06: state.featureToggles.showMebEnhancements06,
   showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   user: state.user || {},
