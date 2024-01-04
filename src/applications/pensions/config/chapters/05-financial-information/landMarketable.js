@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   yesNoSchema,
   yesNoUI,
@@ -5,11 +6,18 @@ import {
 
 import { LandMarketableAlert } from '../../../components/FormAlerts';
 
+const LandMarketableDescription = () => (
+  <div>
+    <p>We want to know if the additional land is marketable.</p>
+    <LandMarketableAlert />
+  </div>
+);
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': 'Income and assets',
-    'ui:description': LandMarketableAlert,
+    'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',
       uswds: true,
