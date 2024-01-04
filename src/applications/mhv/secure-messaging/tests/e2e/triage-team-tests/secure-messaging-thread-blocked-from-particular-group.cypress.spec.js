@@ -35,7 +35,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
       cy.get('[class="alert-expandable-title"]')
         .should('be.visible')
-        .and('include.text', Alerts.NO_ASSOCIATION.HEADER);
+        .and('include.text', Alerts.BLOCKED.HEADER);
     });
 
     it('verify alert not expanded', () => {
@@ -92,7 +92,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       });
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('p')
-        .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+        .should('include.text', Alerts.BLOCKED.PARAGRAPH);
     });
 
     it('verify link text', () => {
@@ -106,7 +106,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       });
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('a')
-        .should('include.text', Alerts.NO_ASSOCIATION.LINK);
+        .should('include.text', Alerts.BLOCKED.LINK);
     });
 
     it('verify link', () => {

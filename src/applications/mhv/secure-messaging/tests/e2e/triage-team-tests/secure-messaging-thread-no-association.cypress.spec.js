@@ -78,7 +78,9 @@ describe('Verify thread - No association with particular Triage Group', () => {
       },
     });
 
-    cy.get('[class="alert-expandable-title"]')
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('span')
       .should('be.visible')
       .and(
         'include.text',
@@ -101,17 +103,16 @@ describe('Verify thread - No association with particular Triage Group', () => {
       .find('#alert-body')
       .should('have.class', 'open');
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-
-    // TODO move these assertion up after alert text fixing
-
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
       .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
+      .first()
       .should('have.attr', 'href', '/find-locations/')
       .and('have.text', Alerts.NO_ASSOCIATION.LINK);
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });

@@ -83,6 +83,10 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .should('have.class', 'open');
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
@@ -91,12 +95,6 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-
-    // TODO move this assertion up after alert text fixing
-
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 
   it('existing draft - older than 45 days', () => {
@@ -157,6 +155,10 @@ describe('Verify old messages - No association with particular Triage Group', ()
       .should('have.class', 'open');
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('a')
       .should('include.text', Alerts.NO_ASSOCIATION.LINK);
 
@@ -166,11 +168,5 @@ describe('Verify old messages - No association with particular Triage Group', ()
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
-
-    // TODO move this assertion up after alert text fixing
-
-    cy.get(Locators.ALERTS.BLOCKED_GROUP)
-      .find('p')
-      .should('include.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
   });
 });
