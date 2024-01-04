@@ -18,7 +18,7 @@ function App({ children }) {
   } = useFeatureToggle();
 
   const appEnabled = useToggleValue(
-    TOGGLE_NAMES.findARepresentativeFrontendEnabled,
+    TOGGLE_NAMES.findARepresentativeEnableFrontend,
   );
 
   const togglesLoading = useToggleLoadingValue();
