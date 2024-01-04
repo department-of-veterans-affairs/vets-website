@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import Layout from '../components/Layout';
 import { HasLetters, NoLetters } from '../components/LetterResults';
 import { fetchClaimStatus } from '../actions';
@@ -11,6 +12,7 @@ const InboxPage = ({
   user,
   MEBClaimStatusFetchInProgress,
   MEBClaimStatusFetchComplete,
+  showMebLettersMaintenanceAlert,
   TOEClaimStatusFetchInProgress,
   TOEClaimStatusFetchComplete,
 }) => {
@@ -65,9 +67,18 @@ const InboxPage = ({
 
     if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
       if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
-        return <HasLetters claimStatus={claimStatus} />;
+        return (
+          <HasLetters
+            claimStatus={claimStatus}
+            showMebLettersMaintenanceAlert={showMebLettersMaintenanceAlert}
+          />
+        );
       }
-      return <NoLetters />;
+      return (
+        <NoLetters
+          showMebLettersMaintenanceAlert={showMebLettersMaintenanceAlert}
+        />
+      );
     }
 
     if (MEBClaimStatusFetchComplete && TOEClaimStatusFetchComplete) {
@@ -99,6 +110,7 @@ InboxPage.propTypes = {
   getClaimStatus: PropTypes.func,
   MEBClaimStatusFetchInProgress: PropTypes.bool,
   MEBClaimStatusFetchComplete: PropTypes.bool,
+  showMebLettersMaintenanceAlert: PropTypes.bool,
   TOEClaimStatusFetchInProgress: PropTypes.bool,
   TOEClaimStatusFetchComplete: PropTypes.bool,
   user: PropTypes.object,
@@ -130,6 +142,8 @@ const mapStateToProps = state => {
     MEBClaimStatusFetchComplete: state?.data?.MEBClaimStatusFetchComplete,
     TOEClaimStatusFetchInProgress: state?.data?.TOEClaimStatusFetchInProgress,
     TOEClaimStatusFetchComplete: state?.data?.TOEClaimStatusFetchComplete,
+    showMebLettersMaintenanceAlert:
+      state.featureToggles[featureFlagNames.showMebLettersMaintenanceAlert],
     user: state.user,
   };
 };
