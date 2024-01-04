@@ -33,7 +33,7 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', `You can't send messages to`);
+      .and('include.text', Locators.ALERTS.BLOCK_ALL_GROUP);
 
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .shadow()
@@ -61,6 +61,9 @@ describe('All Group Association Blocked', () => {
     cy.get('[data-testid="blocked-triage-group-alert"]')
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
+    cy.get('[class="alert-expandable-title"]')
+      .should('be.visible')
+      .and('include.text', Locators.ALERTS.BLOCK_ALL_GROUP);
   });
 
   it('reply btn does not exist', () => {

@@ -52,6 +52,7 @@ export const Locators = {
     NO_ASSOCIATION: '',
     NO_ASSOCIATION_AT_ALL: '',
     SAVE_DRAFT: '#messagetext',
+    BLOCK_ALL_GROUP: `You can't send messages to`,
   },
 };
 
