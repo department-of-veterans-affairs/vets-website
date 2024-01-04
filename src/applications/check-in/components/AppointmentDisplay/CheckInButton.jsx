@@ -34,14 +34,26 @@ const CheckInButton = ({
     },
     [checkInWindowEnd, eventRecorder, getCurrentPageFromRouter, onClick],
   );
-
+  if (isCheckingIn) {
+    // Creating an new button because even having disabled=false results in a SR showing the button as dimmmed.
+    return (
+      <va-button
+        text={t('loading')}
+        uswds
+        data-testid="check-in-button-loading"
+        disabled
+        class="vads-u-display--flex"
+        role="status"
+      />
+    );
+  }
   return (
-    <button
-      type="button"
-      className="usa-button usa-button-big vads-u-font-size--md"
+    <va-button
+      text={t('check-in-now')}
+      uswds
       onClick={handleClick}
       data-testid="check-in-button"
-      disabled={isCheckingIn}
+      class="vads-u-display--flex"
       aria-label={
         appointmentTime
           ? t('check-in-now-for-your-time-appointment', {
@@ -49,13 +61,7 @@ const CheckInButton = ({
             })
           : t('check-in-now-for-your-appointment')
       }
-    >
-      {isCheckingIn ? (
-        <span role="status">{t('loading')}</span>
-      ) : (
-        <>{t('check-in-now')}</>
-      )}
-    </button>
+    />
   );
 };
 
