@@ -131,7 +131,7 @@ describe(manifest.appName, () => {
         });
         expect(count).to.equal(1);
 
-        // No unread messages
+        // No unread received messages for the user
         count = countUnreadMessages({
           data: [
             folder(folderIds.inbox, 0),
