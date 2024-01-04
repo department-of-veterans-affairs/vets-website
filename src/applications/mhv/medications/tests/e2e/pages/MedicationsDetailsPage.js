@@ -1,5 +1,6 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
+import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -323,6 +324,37 @@ class MedicationsDetailsPage {
           cmopNdcNumber: null,
         });
       });
+  };
+
+  verifyNonVaMedicationStatusOnDetailsPage = () => {
+    cy.get('[data-testid="rx-status"]').should(
+      'have.text',
+      `${nonVARx.data.attributes.dispStatus}`,
+    );
+  };
+
+  verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = prescriptionDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/prescriptions/${
+        prescriptionDetails.data.attributes.prescriptionId
+      }`,
+      prescriptionDetails,
+    ).as('prescriptionDetails');
+    cy.get('@prescriptionDetails')
+      .its('response')
+      .then(res => {
+        expect(res.body.data.attributes).to.include({
+          prescriptionSource: 'NV',
+        });
+      });
+  };
+
+  verifyAboutThisMedicationOrSupplyForNonVAMedicationOnDetailsPage = () => {
+    cy.get('[data-testid="non-VA-prescription"]').should(
+      'contain',
+      'This isn’t a prescription that you filled through a VA pharmacy.',
+    );
   };
 }
 export default MedicationsDetailsPage;
