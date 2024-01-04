@@ -15,7 +15,6 @@ import {
   RecipientStatus,
 } from '../util/constants';
 import {
-  // checkTriageGroupAssociation,
   updatePageTitle,
   updateTriageGroupRecipientStatus,
 } from '../util/helpers';
@@ -78,22 +77,6 @@ const MessageThreadHeader = props => {
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
-
-      // const isAssociated = Array.isArray(recipients.allRecipients)
-      //   ? recipients.allRecipients.some(
-      //       checkTriageGroupAssociation(tempRecipient),
-      //     )
-      //   : false;
-
-      // const isBlocked = recipients.blockedRecipients?.some(
-      //   checkTriageGroupAssociation(tempRecipient),
-      // );
-
-      // if (!isAssociated) {
-      //   tempRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-      // } else if (isBlocked) {
-      //   tempRecipient.status = RecipientStatus.BLOCKED;
-      // }
 
       const {
         isAssociated,

@@ -7,6 +7,7 @@ import {
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
+import { sortTriageList } from '../../util/helpers';
 
 const BlockedTriageGroupAlert = props => {
   const { blockedTriageGroupList, alertStyle, parentComponent } = props;
@@ -42,18 +43,18 @@ const BlockedTriageGroupAlert = props => {
   const blockedTriageList = useMemo(() => {
     return blockedTriageGroupList?.length > 1 && blockedFacilityNames.length > 0
       ? [
-          ...blockedTriageGroupList
-            .filter(
+          ...sortTriageList(
+            blockedTriageGroupList.filter(
               triageGroup =>
                 !blockedFacilityNames?.some(
                   facilityName =>
                     facilityName.stationNumber === triageGroup.stationNumber,
                 ),
-            )
-            ?.sort((a, b) => a.name.localeCompare(b.name)),
-          ...blockedFacilityNames?.sort((a, b) => a.name.localeCompare(b.name)),
+            ),
+          ),
+          ...sortTriageList(blockedFacilityNames),
         ]
-      : blockedTriageGroupList;
+      : sortTriageList(blockedTriageGroupList);
   }, []);
 
   useEffect(() => {
@@ -69,12 +70,10 @@ const BlockedTriageGroupAlert = props => {
       associatedTriageGroupsQty > 0 &&
       associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
     ) {
-      // if (associatedTriageGroupsQty > 0) {
       setAlertTitleText("You can't send messages to your care teams right now");
       setAlertInfoText(
         'If you need to contact your care teams, call your VA health facility',
       );
-      // }
       return;
     }
 

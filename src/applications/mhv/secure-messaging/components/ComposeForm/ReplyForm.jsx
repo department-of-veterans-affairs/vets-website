@@ -6,7 +6,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import EmergencyNote from '../EmergencyNote';
 import {
-  // checkTriageGroupAssociation,
   updatePageTitle,
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
@@ -58,22 +57,6 @@ const ReplyForm = props => {
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
-
-      // const isAssociated = Array.isArray(recipients.allRecipients)
-      //   ? recipients.allRecipients.some(
-      //       checkTriageGroupAssociation(tempRecipient),
-      //     )
-      //   : false;
-
-      // const isBlocked = recipients.blockedRecipients?.some(
-      //   checkTriageGroupAssociation(tempRecipient),
-      // );
-
-      // if (!isAssociated) {
-      //   tempRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-      // } else if (isBlocked) {
-      //   tempRecipient.status = RecipientStatus.BLOCKED;
-      // }
 
       const {
         isAssociated,

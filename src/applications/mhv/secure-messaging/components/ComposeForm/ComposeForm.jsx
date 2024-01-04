@@ -20,7 +20,6 @@ import {
   navigateToFolderByFolderId,
   sortRecipients,
   resetUserSession,
-  // checkTriageGroupAssociation,
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
@@ -181,25 +180,8 @@ const ComposeForm = props => {
           status: RecipientStatus.ALLOWED,
         };
 
-        // const isAssociated = Array.isArray(recipients.allRecipients)
-        //   ? recipients.allRecipients.some(
-        //       checkTriageGroupAssociation(tempRecipient),
-        //     )
-        //   : false;
-
-        // const isBlocked = recipients.blockedRecipients?.some(
-        //   checkTriageGroupAssociation(tempRecipient),
-        // );
-
-        // if (!isAssociated) {
-        //   tempRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-        // } else if (isBlocked) {
-        //   tempRecipient.status = RecipientStatus.BLOCKED;
-        // }
-
         const {
           isAssociated,
-          // isBlocked,
           formattedRecipient,
         } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 

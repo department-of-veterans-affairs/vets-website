@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { cleanup, waitFor } from '@testing-library/react';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
-import { Recipients } from '../../../util/constants';
+import { RecipientStatus, Recipients } from '../../../util/constants';
 
 describe('BlockedTriageGroupAlert component', () => {
   const initialState = {
@@ -48,7 +48,11 @@ describe('BlockedTriageGroupAlert component', () => {
   it('does not render a list of care teams if there is only 1', async () => {
     const screen = setup(initialState, {
       blockedTriageGroupList: [
-        { name: '###PQR TRIAGE_TEAM 747###', type: Recipients.CARE_TEAM },
+        {
+          name: '###PQR TRIAGE_TEAM 747###',
+          type: Recipients.CARE_TEAM,
+          status: RecipientStatus.BLOCKED,
+        },
       ],
       alertStyle: 'alert',
     });
@@ -68,6 +72,7 @@ describe('BlockedTriageGroupAlert component', () => {
     const customState = {
       ...initialState,
       sm: {
+        ...initialState.sm,
         recipients: {
           associatedTriageGroupsQty: 4,
           associatedBlockedTriageGroupsQty: 2,
@@ -80,22 +85,26 @@ describe('BlockedTriageGroupAlert component', () => {
           name: '***Jeasmitha-Cardio-Clinic***',
           type: Recipients.CARE_TEAM,
           stationNumber: '662',
+          status: RecipientStatus.BLOCKED,
         },
         {
           name: '###PQR TRIAGE_TEAM 747###',
           type: Recipients.CARE_TEAM,
           stationNumber: '636',
+          status: RecipientStatus.BLOCKED,
         },
       ],
       alertStyle: 'alert',
       parentComponent: 'Compose Form',
     });
-    expect(
-      screen.queryByTestId('blocked-triage-group-alert'),
-    ).to.have.attribute(
-      'trigger',
-      "You can't send messages to some of your care teams",
-    );
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('blocked-triage-group-alert'),
+      ).to.have.attribute(
+        'trigger',
+        "You can't send messages to some of your care teams",
+      );
+    });
     expect(screen.queryAllByTestId('blocked-triage-group').length).to.equal(2);
   });
 

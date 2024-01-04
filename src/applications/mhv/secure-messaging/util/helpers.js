@@ -287,3 +287,7 @@ export const findBlockedFacilities = recipients => {
 
   return fullyBlockedFacilities;
 };
+
+export const sortTriageList = list => {
+  return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
+};
