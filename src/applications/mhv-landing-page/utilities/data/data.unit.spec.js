@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { resolveToggleLink } from './index';
+import { resolveToggleLink, countUnreadMessages } from './index';
 import manifest from '../../manifest.json';
 
 const initializeFeatureToggles = ({
@@ -63,6 +63,99 @@ describe(manifest.appName, () => {
         const resolvedLink = resolveToggleLink(link, toggles);
 
         expect(resolvedLink.href).to.equal('/new');
+      });
+    });
+
+    describe('countUnreadMessages', () => {
+      it('unread count only uses inbox and custom folders', () => {
+        // Custom folder Ids are > 0
+        function customFolderId() {
+          return Math.round(Math.random() * 99999) + 1;
+        }
+
+        // Note the system folder IDs are constant and set by the API
+        const folderIds = {
+          inbox: 0,
+          sent: -1,
+          drafts: -2,
+          deleted: -3,
+        };
+
+        const folder = (id, unreadCount) => {
+          return {
+            id,
+            type: 'folders',
+            attributes: {
+              folderId: id,
+              unreadCount,
+              count: 10, // Helps check the count is not used
+              systemFolder: id <= 0,
+            },
+          };
+        };
+
+        // All empty folders
+        let count = countUnreadMessages({
+          data: [
+            folder(folderIds.inbox, 0),
+            folder(folderIds.sent, 0),
+            folder(folderIds.drafts, 0),
+            folder(folderIds.deleted, 0),
+            folder(customFolderId(), 0),
+          ],
+        });
+        expect(count).to.equal(0);
+
+        // Inbox has unread messages
+        count = countUnreadMessages({
+          data: [
+            folder(folderIds.inbox, 1),
+            folder(folderIds.sent, 0),
+            folder(folderIds.drafts, 0),
+            folder(folderIds.deleted, 0),
+            folder(customFolderId(), 0),
+          ],
+        });
+        expect(count).to.equal(1);
+
+        // Custom folder has unread messages
+        count = countUnreadMessages({
+          data: [
+            folder(folderIds.inbox, 0),
+            folder(folderIds.sent, 0),
+            folder(folderIds.drafts, 0),
+            folder(folderIds.deleted, 0),
+            folder(customFolderId(), 0),
+            folder(customFolderId(), 1),
+          ],
+        });
+        expect(count).to.equal(1);
+
+        // No unread messages
+        count = countUnreadMessages({
+          data: [
+            folder(folderIds.inbox, 0),
+            folder(folderIds.sent, 1),
+            folder(folderIds.drafts, 1),
+            folder(folderIds.deleted, 1),
+            folder(customFolderId(), 0),
+            folder(customFolderId(), 0),
+          ],
+        });
+        expect(count).to.equal(0);
+
+        // Multi count
+        count = countUnreadMessages({
+          data: [
+            folder(folderIds.inbox, 5),
+            folder(folderIds.sent, 1),
+            folder(folderIds.drafts, 1),
+            folder(folderIds.deleted, 1),
+            folder(customFolderId(), 2),
+            folder(customFolderId(), 3),
+          ],
+        });
+        expect(count).to.equal(10);
       });
     });
   });
