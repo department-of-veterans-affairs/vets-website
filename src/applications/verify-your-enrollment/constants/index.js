@@ -8,3 +8,5 @@ export const CHANGE_OF_ADDRESS_TITLE = 'Contact information';
 export const ADDRESS_BUTTON_TEXT = 'Edit';
 
 export const SMALL_SCREEN = 481;
+
+export const ENROLLMETS_PER_PAGE = 6;

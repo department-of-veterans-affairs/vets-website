@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EnrollmentVerificationBreadcrumbs from './EnrollmentVerificationBreadcrumbs';
-import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
+import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
+import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   return (

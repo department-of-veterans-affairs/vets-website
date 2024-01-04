@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../sass/change-of-direct-deposit-wrapper.scss';
-import ChangeOfDirectDepositForm from './ChangeOfDirectDepositForm';
+import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
+import { scrollToElement } from '../helpers';
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
   DIRECT_DEPOSIT_BUTTON_TEXT,
@@ -107,10 +108,12 @@ const ChangeOfDirectDepositWrapper = () => {
   //   scroll to top of div when edit page is canceled or saved
   useEffect(
     () => {
-      // if (!toggleDirectDepositForm) {
-      const element = document.getElementById('Direct deposit information');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+      if (!toggleDirectDepositForm) {
+        scrollToElement('Direct deposit information');
+        // const element = document.getElementById('Direct deposit information');
+        // if (element) {
+        //   element.scrollIntoView({ behavior: 'smooth' });
+        // }
       }
       // }
     },

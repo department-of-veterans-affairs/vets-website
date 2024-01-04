@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../sass/change-of-direct-deposit-wrapper.scss';
-import ChangeOfAddressForm from './ChangeOfAddressForm';
+import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
 import {
