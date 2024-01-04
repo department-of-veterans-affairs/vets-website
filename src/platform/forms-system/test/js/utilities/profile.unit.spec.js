@@ -77,11 +77,32 @@ describe('profile utilities', () => {
   });
 
   describe('renderTelephone', () => {
-    const phone = { areaCode: '800', phoneNumber: '5551212' };
-    it('should return empty string', () => {
-      const { container } = render(<div>{renderTelephone(phone)}</div>);
+    it('should return not throw an error', () => {
+      const { container } = render(<div>{renderTelephone([{}])}</div>);
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+    it('should return not render anything', () => {
+      const { container } = render(<div>{renderTelephone()}</div>);
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+    it('should return telephone object', () => {
+      const phoneObj = { areaCode: '800', phoneNumber: '5551212' };
+      const { container } = render(<div>{renderTelephone(phoneObj)}</div>);
       const vaPhone = $('va-telephone', container);
       expect(vaPhone.getAttribute('contact')).to.eq('8005551212');
+      expect(vaPhone.getAttribute('extension')).to.be.null;
+      expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
+    });
+    it('should return telephone object & extension', () => {
+      const phoneObj = {
+        areaCode: '800',
+        phoneNumber: '5551212',
+        extension: '45678',
+      };
+      const { container } = render(<div>{renderTelephone(phoneObj)}</div>);
+      const vaPhone = $('va-telephone', container);
+      expect(vaPhone.getAttribute('contact')).to.eq('8005551212');
+      expect(vaPhone.getAttribute('extension')).to.eq('45678');
       expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
     });
   });

@@ -5,7 +5,11 @@ import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from './EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
+import {
+  clearJobIndex,
+  setJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 
 const SpouseEmploymentHistoryWidget = props => {
   const {
@@ -64,6 +68,9 @@ const SpouseEmploymentHistoryWidget = props => {
               ? '/enhanced-spouse-employment-records'
               : '/spouse-employment-records'
           }
+          onClick={() => {
+            setJobButton(jobButtonConstants.ADD_ANOTHER);
+          }}
         >
           Add another job from the last 2 years
         </Link>
