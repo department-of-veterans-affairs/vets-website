@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import {
   USER_MOCK_DATA,
   USER_PENDINGVERIFICATION_MOCK_DATA,
@@ -54,7 +54,7 @@ describe('PreviousEnrollmentVerifications', () => {
     expect(getByText(additionalInfoText)).to.exist;
   });
 
-  it('simulates page change in VaPagination to page 2', () => {
+  it('simulates page change in VaPagination to page 2', async () => {
     const wrapper = mount(
       <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
     );
@@ -72,13 +72,15 @@ describe('PreviousEnrollmentVerifications', () => {
     // Get the text content of the element
     const textContent = pElement.text();
 
-    expect(textContent).to.equal(
-      'Showing 7-12 of 14 monthly enrollments listed by most recent',
-    );
+    await waitFor(() => {
+      expect(textContent).to.equal(
+        'Showing 7-12 of 14 monthly enrollments listed by most recent',
+      );
+    });
     wrapper.unmount();
   });
 
-  it('simulates page change in VaPagination to last page', () => {
+  it('simulates page change in VaPagination to last page', async () => {
     const wrapper = mount(
       <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
     );
@@ -96,9 +98,11 @@ describe('PreviousEnrollmentVerifications', () => {
     // Get the text content of the element
     const textContent = pElement.text();
 
-    expect(textContent).to.equal(
-      'Showing 13-14 of 14 monthly enrollments listed by most recent',
-    );
+    await waitFor(() => {
+      expect(textContent).to.equal(
+        'Showing 13-14 of 14 monthly enrollments listed by most recent',
+      );
+    });
     wrapper.unmount();
   });
 });
