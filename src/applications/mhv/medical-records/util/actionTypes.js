@@ -41,4 +41,8 @@ export const Actions = {
     UPDATE: 'MR_SHARING_UPDATE',
     CLEAR: 'MR_SHARING_CLEAR',
   },
+  Pagination: {
+    SET_PAGINATION: 'MR_SET_PAGINATION',
+    RESET_PAGINATION: 'MR_RESET_PAGINATION',
+  },
 };
