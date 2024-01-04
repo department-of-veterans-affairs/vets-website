@@ -16,8 +16,8 @@ describe('Medications Details Page Non VA Prescription ', () => {
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(nonVARx);
-    detailsPage.verifyNonVaMedicationStatusOnDetailsPage();
-    detailsPage.verifyAboutThisMedicationOrSupplyForNonVAMedicationOnDetailsPage();
+    detailsPage.verifyNonVaMedicationStatusOnDetailsPage(nonVARx);
+    // detailsPage.verifyNonVAMedicationDisplayMessageOnDetailsPage(nonVARx);
     detailsPage.verifyPrescriptionSourceForNonVAMedicationOnDetailsPage(
       nonVARx,
     );

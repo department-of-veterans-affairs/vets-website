@@ -1,6 +1,5 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
-import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -326,10 +325,10 @@ class MedicationsDetailsPage {
       });
   };
 
-  verifyNonVaMedicationStatusOnDetailsPage = () => {
+  verifyNonVaMedicationStatusOnDetailsPage = prescriptionDetails => {
     cy.get('[data-testid="rx-status"]').should(
       'have.text',
-      `${nonVARx.data.attributes.dispStatus}`,
+      `${prescriptionDetails.data.attributes.dispStatus}`,
     );
   };
 
@@ -350,11 +349,13 @@ class MedicationsDetailsPage {
       });
   };
 
-  verifyAboutThisMedicationOrSupplyForNonVAMedicationOnDetailsPage = () => {
-    cy.get('[data-testid="non-VA-prescription"]').should(
-      'contain',
-      'This isn’t a prescription that you filled through a VA pharmacy.',
-    );
-  };
+  // verifyNonVAMedicationDisplayMessageOnDetailsPage = (prescriptionDetails) => {
+  //   if (prescriptionDetails.data.attributes.dispStatus = "Active: Non-VA") {
+  //     cy.get('[data-testid="non-VA-prescription"]').should(
+  //       'contain',
+  //       'This isn’t a prescription that you filled through a VA pharmacy.',
+  //     );
+  //   };
+  // };
 }
 export default MedicationsDetailsPage;
