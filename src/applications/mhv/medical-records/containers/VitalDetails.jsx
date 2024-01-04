@@ -37,6 +37,10 @@ import {
   reportGeneratedBy,
 } from '../../shared/util/constants';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
+import {
+  generateVitalsContent,
+  generateVitalsIntro,
+} from '../util/pdfHelpers/vitals';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -128,40 +132,11 @@ const VitalDetails = props => {
   );
 
   const generateVitalsPdf = async () => {
-    const title = `Vitals`;
-    const subject = 'VA Medical Record';
-    const preface =
-      'This list includes vitals and other basic health numbers your providers check at your appointments.';
+    const { title, subject, preface } = generateVitalsIntro();
     const scaffold = generatePdfScaffold(user, title, subject, preface);
-
-    const results = records.map(record => ({
-      header: moment(record.date).format('LLL'),
-      items: [
-        {
-          title: 'Result',
-          value: record.measurement,
-          inline: true,
-        },
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: record.notes,
-          inline: true,
-        },
-      ],
-    }));
-
-    scaffold.results = {
-      header: vitalTypeDisplayNames[records[0].type],
-      items: results,
-    };
-
-    const pdfName = `VA-Vital-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, scaffold, 'Vital details', runningUnitTest);
+    const pdfData = { ...scaffold, ...generateVitalsContent(records) };
+    const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
   };
 
   const generateVitalsTxt = async () => {

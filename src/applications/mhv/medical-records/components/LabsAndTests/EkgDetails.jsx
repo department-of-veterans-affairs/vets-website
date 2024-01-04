@@ -12,10 +12,17 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import { updatePageTitle } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { reportGeneratedBy, txtLine } from '../../../shared/util/constants';
+import { txtLine } from '../../../shared/util/constants';
+import {
+  generateLabsIntro,
+  generateEkgContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -42,56 +49,11 @@ const EkgDetails = props => {
   );
 
   const generateEkgDetails = async () => {
-    const pdfData = {
-      headerLeft: 'Roberts, Jesse',
-      headerRight: 'Date of birth: January 1, 1970',
-      footerLeft: reportGeneratedBy,
-      footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      headerBanner: [
-        {
-          weight: 'normal',
-          text:
-            "If you're ever in crisis and need to talk to someone right away, call the Veterans Crisis line at ",
-        },
-        {
-          weight: 'bold',
-          text: '988',
-        },
-        {
-          weight: 'normal',
-          text: '. Then select 1.',
-        },
-      ],
-      title: `electrocardiogram: ${record.name} on ${formattedDate}`,
-      subject: 'VA Medical Record',
-      preface:
-        'Your VA electrocardiogram list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.',
-      results: {
-        items: [
-          {
-            items: [
-              {
-                title: 'Date',
-                value: record.date,
-                inline: true,
-              },
-              {
-                title: 'Location',
-                value: record.facility,
-                inline: true,
-              },
-              {
-                title: 'Provider',
-                value: record.orderedBy,
-                inline: true,
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    makePdf('electrocardiogram_report', pdfData, 'EKG', runningUnitTest);
+    const { title, subject, preface } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateEkgContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
   };
 
   const generateEkgTxt = async () => {
@@ -104,7 +66,7 @@ const EkgDetails = props => {
     results, you can request a copy of your complete medical record from
     your VA health facility.\n`;
 
-    const fileName = `VA-EKG-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };

@@ -53,7 +53,7 @@ const getBoundedYPosition = doc => {
  *
  * @returns {Object} doc
  */
-const createStruct = (doc, struct, font, fontSize, text, options) => {
+export const createStruct = (doc, struct, font, fontSize, text, options) => {
   const x = options.x ?? getBoundedXPosition(doc);
   const y = options.y ?? getBoundedYPosition(doc);
   unset(options.x);
@@ -210,7 +210,13 @@ const generateHeaderBanner = async (doc, header, data, config) => {
  *
  * @returns {void}
  */
-const generateInitialHeaderContent = async (doc, parent, data, config) => {
+const generateInitialHeaderContent = async (
+  doc,
+  parent,
+  data,
+  config,
+  headerBannerOnly,
+) => {
   // Adjust page margins so that we can write in the header/footer area.
   // eslint-disable-next-line no-param-reassign
   doc.page.margins = {
@@ -226,10 +232,13 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
     attached: 'Top',
   });
   parent.add(header);
-  const leftOptions = { continued: true, x: config.margins.left, y: 12 };
-  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
-  const rightOptions = { align: 'right' };
-  header.add(createSpan(doc, config, data.headerRight, rightOptions));
+
+  if (!headerBannerOnly) {
+    const leftOptions = { continued: true, x: config.margins.left, y: 12 };
+    header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createSpan(doc, config, data.headerRight, rightOptions));
+  }
 
   if (data.headerBanner) {
     generateHeaderBanner(doc, header, data, config);
@@ -250,9 +259,9 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
  *
  * @returns {void}
  */
-const generateFinalHeaderContent = async (doc, data, config) => {
+const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
   const pages = doc.bufferedPageRange();
-  for (let i = 1; i < pages.count; i += 1) {
+  for (let i = startPage; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
     // Adjust page margins so that we can write in the header/footer area.

@@ -200,7 +200,6 @@ const labsAndTestsConverterMap = {
   [labTypes.PATHOLOGY]: convertPathologyRecord,
   [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertRadiologyRecord,
-  [labTypes.OTHER]: record => record,
 };
 
 /**
@@ -210,7 +209,9 @@ const labsAndTestsConverterMap = {
 export const convertLabsAndTestsRecord = record => {
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
-  return convertRecord ? convertRecord(record) : record;
+  return convertRecord
+    ? convertRecord(record)
+    : { ...record, type: labTypes.OTHER };
 };
 
 export const labsAndTestsReducer = (state = initialState, action) => {
@@ -226,8 +227,9 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsList:
-          recordList.entry?.map(record => convertLabsAndTestsRecord(record)) ||
-          [],
+          recordList.entry
+            ?.map(record => convertLabsAndTestsRecord(record))
+            .filter(record => record.type !== labTypes.OTHER) || [],
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {
