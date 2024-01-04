@@ -175,34 +175,53 @@
     "hasCareExpenses": true,
     "careExpenses": [
       {
-        "recipients": "Veteran",
+        "recipients": "VETERAN",
         "provider": "NYC Care Provider",
-        "careType": "Care facility",
+        "careType": "CARE_FACILITY",
         "ratePerHour": 100,
         "hoursPerWeek": 20,
         "careDateRange": {
           "from": "2020-08-01",
           "to": "2023-05-25"
         },
-        "paymentFrequency": "Once a month",
+        "paymentFrequency": "ONCE_MONTH",
         "paymentAmount": 2500
       },
       {
-        "recipients": "Veteran’s child",
+        "recipients": "CHILD",
         "childName": "Joe Doe",
         "provider": "LA Care Provider",
-        "careType": "Care facility",
+        "careType": "CARE_FACILITY",
         "ratePerHour": 200,
         "hoursPerWeek": 10,
         "careDateRange": {
           "from": "2020-08-01"
         },
         "noCareEndDate": true,
-        "paymentFrequency": "Once a year",
+        "paymentFrequency": "ONCE_YEAR",
         "paymentAmount": 22500
       }
     ],
-    "medicalExpenses": true,
+    "hasMedicalExpenses": true,
+    "medicalExpenses": [
+      {
+        "recipients": "VETERAN",
+        "provider": "Funeral Home",
+        "purpose": "Burial expenses",
+        "paymentDate": "2020-03-15",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-1",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      }
+    ],
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
