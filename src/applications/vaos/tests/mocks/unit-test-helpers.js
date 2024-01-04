@@ -110,7 +110,7 @@ export class MockAppointment {
     this.version = 2;
     this.videoData = {
       kind: '',
-      isVideo: '',
+      isVideo: false,
     };
   }
 
