@@ -171,7 +171,12 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           </li>
         </ul>
 
-        <button className="link-button" type="button" onClick={generatePdf}>
+        <button
+          className="link-button"
+          type="button"
+          onClick={generatePdf}
+          data-testid="download-blue-button-pdf"
+        >
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"

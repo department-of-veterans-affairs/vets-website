@@ -86,6 +86,7 @@ export const generateChemHemContent = record => ({
 export const generateMicrobioContent = record => ({
   details: {
     header: 'Details about this test',
+    sectionSeparators: true,
     items: [
       {
         title: 'Sample tested',
@@ -160,12 +161,14 @@ export const generatePathologyContent = record => ({
   },
   results: {
     header: 'Results',
+    sectionSeparators: true,
     items: [{ items: [{ title: '', value: record.results, inline: true }] }],
   },
 });
 
 export const generateEkgContent = record => ({
   results: {
+    sectionSeparators: true,
     items: [
       {
         items: [
@@ -228,6 +231,7 @@ export const generateRadiologyContent = record => ({
   },
   results: {
     header: 'Results',
+    sectionSeparators: true,
     items: [{ items: [{ value: record.results }] }],
   },
 });
