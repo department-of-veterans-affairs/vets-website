@@ -114,6 +114,7 @@ export function NameSearchForm({
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
+      setShowFiltersBeforeSearch(false);
       doSearch(name);
     }
   };
@@ -156,7 +157,6 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
-              onClick={() => setShowFiltersBeforeSearch(false)}
             >
               <i
                 aria-hidden="true"
