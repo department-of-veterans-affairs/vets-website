@@ -2,9 +2,10 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
 
@@ -61,6 +62,69 @@ describe('<ClaimStatusPage>', () => {
     expect(content.subTree('ClaimsDecision')).to.be.false;
     expect(content.subTree('ClaimComplete')).not.to.be.false;
     expect(content.subTree('ClaimsTimeline')).to.be.false;
+  });
+
+  context('cstUseClaimDetailsV2 feature flag enabled', () => {
+    const claim = {
+      attributes: {
+        phase: 2,
+        open: true,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED',
+          },
+        ],
+      },
+    };
+
+    const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+      createStore(() => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
+        },
+      }));
+
+    it('should not render status page with a timeline when using lighthouse', () => {
+      const test = getStore();
+
+      const { container } = render(
+        <Provider store={test}>
+          <ClaimStatusPage
+            useLighthouse
+            claim={claim}
+            params={params}
+            clearNotification={() => {}}
+          />
+          ,
+        </Provider>,
+      );
+      const statusPage = $('#tabPanelStatus', container);
+      expect(statusPage).to.exist;
+      expect(within(statusPage).queryByRole('list')).to.not.exist;
+    });
+
+    it('should not render status page with a timeline when using evss', () => {
+      const test = getStore();
+
+      const { container } = render(
+        <Provider store={test}>
+          <ClaimStatusPage
+            claim={claim}
+            params={params}
+            clearNotification={() => {}}
+          />
+          ,
+        </Provider>,
+      );
+      const statusPage = $('#tabPanelStatus', container);
+      expect(statusPage).to.exist;
+      expect(within(statusPage).queryByRole('list')).to.not.exist;
+    });
   });
 
   context('DDL feature flag is enabled', () => {
