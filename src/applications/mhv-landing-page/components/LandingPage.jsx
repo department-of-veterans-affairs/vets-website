@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isLOA1 } from '~/platform/user/selectors';
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
 import HeaderLayoutV1 from './HeaderLayoutV1';
@@ -32,6 +34,9 @@ const LandingPage = ({ data = {} }) => {
             <HeaderLayout />
             <Welcome name={name} />
           </>
+        )}
+        {isLOA1 && (
+          <IdentityNotVerified headline="Verify your identity to access My HealtheVet tools and features" />
         )}
         {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}
       </div>
