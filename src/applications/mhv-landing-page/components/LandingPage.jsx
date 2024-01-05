@@ -19,8 +19,17 @@ import {
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
   const name = useSelector(selectGreetingName);
-  const showCards = useSelector(hasHealthData);
+  const isUnverified = useSelector(isLOA1);
+  const hasHealth = useSelector(hasHealthData);
   const showPersonalization = useSelector(personalizationEnabled);
+
+  const showCards = hasHealth && !isUnverified;
+
+  const noCardsDisplay = isUnverified ? (
+    <IdentityNotVerified headline="Verify your identity to access My HealtheVet tools and features" />
+  ) : (
+    <NoHealthAlert />
+  );
 
   return (
     <div
@@ -35,10 +44,7 @@ const LandingPage = ({ data = {} }) => {
             <Welcome name={name} />
           </>
         )}
-        {isLOA1 && (
-          <IdentityNotVerified headline="Verify your identity to access My HealtheVet tools and features" />
-        )}
-        {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}
+        {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
       <NewsletterSignup />
