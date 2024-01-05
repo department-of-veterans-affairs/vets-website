@@ -11,7 +11,7 @@ describe('<RatedDisabilityListItem />', () => {
     ratedDisability = {
       decisionText: 'Service Connected',
       diagnosticCode: 5238,
-      effectiveDate: moment('05/06/1999'),
+      effectiveDate: moment('1999-05-06'),
       relatedTo: 'Personal Trauma PTSD',
       name: 'Diabetes mellitus0',
       ratingPercentage: 100,
@@ -22,6 +22,7 @@ describe('<RatedDisabilityListItem />', () => {
     const formattedEffectiveDate = ratedDisability.effectiveDate.format(
       'MMMM DD, YYYY',
     );
+
     const wrapper = shallow(
       <RatedDisabilityListItem ratedDisability={ratedDisability} />,
     );

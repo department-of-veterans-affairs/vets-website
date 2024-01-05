@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { checkForDiscrepancies } from '../actions';
-import TotalRatedDisabilities from './TotalRatedDisabilities';
+import Learn from './Learn';
+import NeedHelp from './NeedHelp';
 import OnThisPage from './OnThisPage';
 import RatedDisabilityList from './RatedDisabilityList';
+import TotalRatedDisabilities from './TotalRatedDisabilities';
 
 const RatedDisabilityView = ({
   detectDiscrepancies,
@@ -54,26 +55,8 @@ const RatedDisabilityView = ({
             ratedDisabilities={ratedDisabilities}
             sortToggle={sortToggle}
           />
-          <h2
-            id="learn"
-            className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h3 vads-u-margin-top--2"
-          >
-            Learn about VA disability ratings
-          </h2>
-          <p>
-            To learn how we determined your VA combined disability rating, use
-            our disability rating calculator and ratings table.
-          </p>
-          <a href="/disability/about-disability-ratings/">
-            About VA disability ratings
-          </a>
-          <h3 className="vads-u-margin-top--3 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-            Need help?
-          </h3>
-          <p className="vads-u-padding-bottom--3">
-            You can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-            We’re here Monday through Friday, 8:00 a.m to 9:00 p.m. ET.
-          </p>
+          <Learn />
+          <NeedHelp />
         </div>
       </div>
     </div>
