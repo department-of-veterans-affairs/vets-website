@@ -221,29 +221,6 @@ describe('check-in experience', () => {
           // Restore the hook
           useStorageStub.restore();
         });
-        it('does not render review button when appointment is not upcoming, pre-check-in is complete,', () => {
-          // Mock the method that gets returned by the useStorage hook
-          const getPreCheckinCompleteStub = () => {
-            return { complete: false };
-          };
-          // Mock the return value for the useStorage hook
-          const useStorageStub = sinon
-            .stub(useStorageModule, 'useStorage')
-            .returns({ getPreCheckinComplete: getPreCheckinCompleteStub });
-
-          const { queryByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentTwoRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(queryByTestId('review-information-button')).to.not.exist;
-
-          // Restore the hook
-          useStorageStub.restore();
-        });
         it('does not render review button when appointment is upcoming only', () => {
           const { queryByTestId } = render(
             <CheckInProvider

@@ -29,7 +29,7 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { goToPreviousPage, jumpToPage, pages } = useFormRouting(router);
+  const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
@@ -41,7 +41,7 @@ const AppointmentDetails = props => {
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
   const isPreCheckIn = app === 'preCheckIn';
-  const { getPreCheckinComplete } = useStorage(false);
+  const { getPreCheckinComplete } = useStorage(isPreCheckIn);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
@@ -119,10 +119,7 @@ const AppointmentDetails = props => {
   }
 
   const showReviewButton =
-    isPreCheckIn &&
-    !isUpcoming &&
-    pages.length > 4 &&
-    !getPreCheckinComplete(window)?.complete;
+    isPreCheckIn && !isUpcoming && !getPreCheckinComplete(window)?.complete;
 
   return (
     <>

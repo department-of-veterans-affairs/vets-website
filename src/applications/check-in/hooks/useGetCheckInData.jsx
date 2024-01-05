@@ -150,7 +150,6 @@ const useGetCheckInData = ({
 
               if (preCheckinAlreadyCompleted(payload.appointments)) {
                 setPreCheckinComplete(window, true);
-                jumpToPage(URLS.COMPLETE);
               }
             })
             .catch(e => {
