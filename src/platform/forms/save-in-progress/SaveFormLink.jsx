@@ -26,11 +26,11 @@ class SaveFormLink extends React.Component {
     let { data } = form;
 
     // Save form on a specific page form exit callback
-    if (typeof route.pageConfig.onFormExit === 'function') {
+    if (typeof route.pageConfig?.onFormExit === 'function') {
       data = route.pageConfig.onFormExit(data);
     }
     // Save form global form exit callback
-    if (typeof this.props.formConfig.onFormExit === 'function') {
+    if (typeof this.props.formConfig?.onFormExit === 'function') {
       data = this.props.formConfig.onFormExit(data);
     }
 
