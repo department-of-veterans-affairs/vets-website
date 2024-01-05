@@ -6,17 +6,19 @@
       "last": "Doe",
       "suffix": "Sr."
     },
-    "veteranSocialSecurityNumber": "123123123",
+    "veteranSocialSecurityNumber": "987654321",
     "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
-    "serviceBranch": "Army",
+    "serviceBranch": {
+      "ARMY": true
+    },
     "activeServiceDateRange": {
       "from": "2003-03-02",
       "to": "2007-03-20"
     },
     "serviceNumber": "123456",
-    "view:serveUnderOtherNames": true,
+    "serveUnderOtherNames": true,
     "previousNames": [
       {
         "first": "John",
@@ -28,7 +30,7 @@
       }
     ],
     "placeOfSeparation": "Northampton, MA",
-    "view:powStatus": true,
+    "powStatus": true,
     "powDateRange": {
       "from": "1971-02-26",
       "to": "1973-03-02"
@@ -99,7 +101,7 @@
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
     "spouseVaFileNumber": "23423444",
-    "liveWithSpouse": false,
+    "view:liveWithSpouse": false,
     "spouseAddress": {
       "street": "123 7th st",
       "street2": "Apt 3",
@@ -108,7 +110,7 @@
       "state": "MA",
       "postalCode": "01050"
     },
-    "reasonForCurrentSeparation": "Other",
+    "reasonForCurrentSeparation": "OTHER",
     "otherExplanation": "Personal reason",
     "currentSpouseMonthlySupport": 2444,
     "currentSpouseMaritalHistory": "Yes",
@@ -236,6 +238,7 @@
         "amount": 278.0
       }
     ],
+    "view:noDirectDeposit": false,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
