@@ -49,8 +49,8 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit,
   // submitUrl: '/v0/api',
-  // submit: () =>
-  //  Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'champva-10-10d-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -215,7 +215,8 @@ const formConfig = {
           path: 'sponsor-information/address',
           title: "Sponsor's address continued",
           depends: formData =>
-            !get('sponsorIsDeceased', formData) && formData.sponsorHasAddress,
+            !get('sponsorIsDeceased', formData) &&
+            get('sponsorHasAddress', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's address continued"),
             sponsorAddress: {
@@ -259,7 +260,8 @@ const formConfig = {
           path: 'sponsor-information/phone',
           title: "Sponsor's phone number continued",
           depends: formData =>
-            !get('sponsorIsDeceased', formData) && formData.sponsorHasPhone,
+            !get('sponsorIsDeceased', formData) &&
+            get('sponsorHasPhone', formData),
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI("Sponsor's phone number continued"),
             sponsorPhone: {
@@ -479,6 +481,10 @@ const formConfig = {
           uiSchema: {
             'ui:title': 'Applicant Health Insurance and Relationship',
             applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
               items: {
                 'ui:title': ApplicantField,
                 applicantEnrolledInMedicare: yesNoUI({
