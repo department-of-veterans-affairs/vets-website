@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import formConfig from '../../config/form';
 import ApplicantField from '../../components/applicant/ApplicantField';
 
 const props = {
@@ -15,40 +14,8 @@ const props = {
   },
 };
 
-// TODO: this mock store is (probably) irrelevant. Remove/update?
 const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        verified: false,
-        dob: '2000-01-01',
-        claims: {
-          appeals: false,
-        },
-      },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
-      },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
+  getState: () => {},
   subscribe: () => {},
   dispatch: () => {},
 };
