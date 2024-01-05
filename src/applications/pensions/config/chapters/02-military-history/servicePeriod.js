@@ -40,7 +40,7 @@ export default {
       'Final release date from active duty',
       'Date initially entered active duty must be before final date released from active duty',
     ),
-    serviceNumber: serviceNumberUI(),
+    serviceNumber: serviceNumberUI('Military Service number if you have one'),
     'ui:validations': [validateServiceBirthDates],
     'view:wartimeWarning': (() => {
       const hideWartimeWarning = createSelector(
@@ -69,7 +69,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['serviceBranch', 'activeServiceDateRange', 'serviceNumber'],
+    required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchOptions)),
       activeServiceDateRange: {
