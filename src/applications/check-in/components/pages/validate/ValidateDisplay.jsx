@@ -126,19 +126,27 @@ export default function ValidateDisplay({
             uswds
           />
         </div>
-        <button
-          type="submit"
-          className="usa-button usa-button-big vads-u-margin-top--4"
-          data-testid="check-in-button"
-          disabled={isLoading}
-        >
-          {' '}
-          {isLoading ? (
-            <span role="status">{t('loading')}</span>
-          ) : (
-            <>{t('continue')}</>
-          )}
-        </button>
+        {isLoading ? (
+          <va-button
+            uswds
+            big
+            disabled
+            text={t('loading')}
+            role="status"
+            data-testid="check-in-button-loading"
+            class="vads-u-margin-top--4 vads-u-display--flex"
+          />
+        ) : (
+          <va-button
+            uswds
+            submit
+            big
+            text={t('continue')}
+            data-testid="check-in-button"
+            class="vads-u-margin-top--4 vads-u-display--flex"
+            onClick={handleFormSubmit}
+          />
+        )}
       </form>
     </Wrapper>
   );
