@@ -96,13 +96,11 @@ describe('pre-check-in experience', () => {
       });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
-
         const screen = render(
           <CheckInProvider>
             <ConfirmablePage yesAction={yesClick} />
           </CheckInProvider>,
         );
-
         fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
       });
@@ -113,7 +111,6 @@ describe('pre-check-in experience', () => {
             <ConfirmablePage noAction={noClick} />
           </CheckInProvider>,
         );
-
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
