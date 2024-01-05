@@ -11,10 +11,10 @@ class AllergiesListPage {
       allergies,
     ).as('allergiesList');
     cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
-    cy.get('[href="/my-health/medical-records/allergies"]')
+    cy.get('[data-testid="allergies-landing-page-link"]')
       .should('be.visible')
       .then(() => {
-        cy.get('[href="/my-health/medical-records/allergies"]').click();
+        cy.get('[data-testid="allergies-landing-page-link"]').click();
       });
     //
     if (waitForAllergies) {

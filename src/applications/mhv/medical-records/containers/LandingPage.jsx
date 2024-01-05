@@ -76,7 +76,11 @@ const LandingPage = () => {
             medical records. This includes medication side effects (also called
             adverse drug reactions).
           </p>
-          <Link to="/allergies" className="vads-c-action-link--blue">
+          <Link
+            to="/allergies"
+            className="vads-c-action-link--blue"
+            data-testid="allergies-landing-page-link"
+          >
             Go to your allergies and reactions
           </Link>
         </section>
