@@ -5,7 +5,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import localStorage from '@department-of-veterans-affairs/platform-utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {
