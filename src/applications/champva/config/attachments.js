@@ -9,14 +9,20 @@ export const attachmentsSchema = {
   items: {
     type: 'object',
     properties: {
-      name: {
+      fileName: {
         type: 'string',
       },
-      size: {
+      fileSize: {
         type: 'integer',
       },
-      confirmationCode: {
+      confirmationNumber: {
         type: 'string',
+      },
+      errorMessage: {
+        type: 'string',
+      },
+      uploading: {
+        type: 'boolean',
       },
     },
   },
