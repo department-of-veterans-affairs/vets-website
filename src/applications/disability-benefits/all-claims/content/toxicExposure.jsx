@@ -1,32 +1,26 @@
 import React from 'react';
 
-export const introQuestion = (
-  <b>Would you like to answer questions related to toxic exposure?</b>
-);
-
-export const introDescription = (
-  <>
-    <p>
-      Toxic exposures include exposures to substances like Agent Orange, burn
-      pits, radiation, asbestos, or contaminated water.
-    </p>
-    <p>
-      We’ll use the information you provide to help us locate your records and
-      make decisions on your claim.
-    </p>
-    <p>
-      If you’ve answered these questions in a disability compensation claim in
-      the past, you don’t need to answer them again.
-    </p>
-  </>
-);
-
-export const moreInfoDescription = (
-  <a
-    href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
-    target="_blank"
-    rel="noreferrer"
+export const conditionsTitle =
+  'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
+export const conditionsDescription = (
+  <va-additional-info
+    class="vads-u-margin-bottom--4"
+    trigger="What is toxic exposure?"
   >
-    Learn more about toxic exposure (opens in new tab)
-  </a>
+    <div>
+      <p className="vads-u-margin-top--0">
+        Toxic exposures include exposures to substances like Agent Orange, burn
+        pits, radiation, asbestos, or contaminated water.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <a
+          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Learn more about toxic exposure (opens in new tab)
+        </a>
+      </p>
+    </div>
+  </va-additional-info>
 );

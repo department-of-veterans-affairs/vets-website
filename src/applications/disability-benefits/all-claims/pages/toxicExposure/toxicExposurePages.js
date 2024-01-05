@@ -1,12 +1,12 @@
-import { toxicExposureIntro } from '..';
-import { showToxicExposurePages } from '../../utils/index';
+import { toxicExposureConditions } from '..';
+import { isClaimingNew, showToxicExposurePages } from '../../utils/index';
 
 export const toxicExposurePages = {
-  toxicExposureIntro: {
+  toxicExposureConditions: {
     title: 'Toxic Exposure',
-    path: 'toxic-exposure',
-    depends: () => showToxicExposurePages,
-    uiSchema: toxicExposureIntro.uiSchema,
-    schema: toxicExposureIntro.schema,
+    path: 'toxic-exposure-conditions',
+    depends: () => isClaimingNew && showToxicExposurePages,
+    uiSchema: toxicExposureConditions.uiSchema,
+    schema: toxicExposureConditions.schema,
   },
 };
