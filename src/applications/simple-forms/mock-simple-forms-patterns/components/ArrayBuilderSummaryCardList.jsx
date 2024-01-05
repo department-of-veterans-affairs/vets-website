@@ -33,12 +33,12 @@ const ArrayBuilderSummaryCardList = ({
     return null;
   }
 
-  function showRemoveConfirmationModel(index) {
+  function showRemoveConfirmationModal(index) {
     setCurrentIndex(index);
     setIsModalVisible(true);
   }
 
-  function hideRemoveConfirmationModel() {
+  function hideRemoveConfirmationModal() {
     setCurrentIndex(null);
     setIsModalVisible(false);
   }
@@ -51,7 +51,7 @@ const ArrayBuilderSummaryCardList = ({
     const newData = set(formDataPath, arrayWithRemovedItem, formData);
 
     setFormData(newData);
-    hideRemoveConfirmationModel();
+    hideRemoveConfirmationModal();
   }
 
   const Card = ({ item, index }) => (
@@ -70,7 +70,7 @@ const ArrayBuilderSummaryCardList = ({
           <button
             type="button"
             className="va-button-link vads-u-color--secondary-dark"
-            onClick={() => showRemoveConfirmationModel(index)}
+            onClick={() => showRemoveConfirmationModal(index)}
           >
             <i
               aria-hidden="true"
@@ -105,9 +105,9 @@ const ArrayBuilderSummaryCardList = ({
         modalTitle={removeTitle}
         primaryButtonText={removeYesLabel}
         secondaryButtonText="No, cancel"
-        onCloseEvent={hideRemoveConfirmationModel}
+        onCloseEvent={hideRemoveConfirmationModal}
         onPrimaryButtonClick={removeAction}
-        onSecondaryButtonClick={hideRemoveConfirmationModel}
+        onSecondaryButtonClick={hideRemoveConfirmationModal}
         visible={isModalVisible}
         uswds
       >
