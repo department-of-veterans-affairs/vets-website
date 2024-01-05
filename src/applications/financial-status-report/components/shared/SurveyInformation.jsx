@@ -38,14 +38,16 @@ const SurveyInformation = () => {
     );
   }
 
-  Sentry.withScope(scope => {
-    const message = '5655 Error loading end of form survey';
-    scope.setContext(message, {
-      KAMPYLE_ONSITE_SDK: window.KAMPYLE_ONSITE_SDK,
-      showForm: window.KAMPYLE_ONSITE_SDK?.showForm(41),
+  if (!formCanLoad) {
+    Sentry.withScope(scope => {
+      const message = '5655 Error loading end of form survey';
+      scope.setContext(message, {
+        KAMPYLE_ONSITE_SDK: window.KAMPYLE_ONSITE_SDK,
+        showForm: window.KAMPYLE_ONSITE_SDK?.showForm(41),
+      });
+      Sentry.captureMessage(message);
     });
-    Sentry.captureMessage(message);
-  });
+  }
 
   return null;
 };
