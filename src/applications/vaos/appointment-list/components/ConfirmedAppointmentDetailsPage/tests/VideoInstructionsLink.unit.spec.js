@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
-import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { render } from '@testing-library/react';
 import { MockAppointment } from '../../../../tests/mocks/unit-test-helpers';
 import { VIDEO_TYPES } from '../../../../utils/constants';
 import VideoInstructionsLink from '../VideoInstructionsLink';
@@ -14,11 +14,8 @@ describe('VAInstructionsLink component', () => {
     mockAppointment.setKind(VIDEO_TYPES.mobile);
 
     // Act
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <VideoInstructionsLink appointment={mockAppointment} />,
-      {
-        initialState: {},
-      },
     );
 
     // Assert
@@ -40,11 +37,8 @@ describe('VAInstructionsLink component', () => {
     mockAppointment.setKind(VIDEO_TYPES.mobile);
 
     // Act
-    const screen = renderWithStoreAndRouter(
+    const screen = render(
       <VideoInstructionsLink appointment={mockAppointment} />,
-      {
-        initialState: {},
-      },
     );
 
     // Assert
