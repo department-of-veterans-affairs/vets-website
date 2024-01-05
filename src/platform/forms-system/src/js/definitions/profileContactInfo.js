@@ -14,6 +14,7 @@ import {
   standardEmailSchema,
   profileAddressSchema,
   blankSchema,
+  clearReturnState,
 } from '../utilities/data/profile';
 
 /**
@@ -181,6 +182,10 @@ const profileContactInfo = ({
         },
       },
       depends,
+      onFormExit: formData => {
+        clearReturnState();
+        return formData;
+      },
     },
     // edit pages; only accessible via ContactInfo component links
     ...config,

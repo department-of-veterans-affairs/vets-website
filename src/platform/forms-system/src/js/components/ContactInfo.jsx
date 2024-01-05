@@ -123,6 +123,7 @@ const ContactInfo = ({
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         goForward(data);
       }
     },
