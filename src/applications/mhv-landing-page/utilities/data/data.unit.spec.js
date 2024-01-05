@@ -68,11 +68,6 @@ describe(manifest.appName, () => {
 
     describe('countUnreadMessages', () => {
       it('unread count only uses inbox and custom folders', () => {
-        // Custom folder Ids are > 0
-        function customFolderId() {
-          return Math.round(Math.random() * 99999) + 1;
-        }
-
         // Note the system folder IDs are constant and set by the API
         const folderIds = {
           inbox: 0,
@@ -101,7 +96,7 @@ describe(manifest.appName, () => {
             folder(folderIds.sent, 0),
             folder(folderIds.drafts, 0),
             folder(folderIds.deleted, 0),
-            folder(customFolderId(), 0),
+            folder(100, 0),
           ],
         });
         expect(count).to.equal(0);
@@ -113,7 +108,7 @@ describe(manifest.appName, () => {
             folder(folderIds.sent, 0),
             folder(folderIds.drafts, 0),
             folder(folderIds.deleted, 0),
-            folder(customFolderId(), 0),
+            folder(100, 0),
           ],
         });
         expect(count).to.equal(1);
@@ -125,8 +120,8 @@ describe(manifest.appName, () => {
             folder(folderIds.sent, 0),
             folder(folderIds.drafts, 0),
             folder(folderIds.deleted, 0),
-            folder(customFolderId(), 0),
-            folder(customFolderId(), 1),
+            folder(100, 0),
+            folder(101, 1),
           ],
         });
         expect(count).to.equal(1);
@@ -138,8 +133,8 @@ describe(manifest.appName, () => {
             folder(folderIds.sent, 1),
             folder(folderIds.drafts, 1),
             folder(folderIds.deleted, 1),
-            folder(customFolderId(), 0),
-            folder(customFolderId(), 0),
+            folder(100, 0),
+            folder(101, 0),
           ],
         });
         expect(count).to.equal(0);
@@ -151,8 +146,8 @@ describe(manifest.appName, () => {
             folder(folderIds.sent, 1),
             folder(folderIds.drafts, 1),
             folder(folderIds.deleted, 1),
-            folder(customFolderId(), 2),
-            folder(customFolderId(), 3),
+            folder(100, 2),
+            folder(101, 3),
           ],
         });
         expect(count).to.equal(10);
