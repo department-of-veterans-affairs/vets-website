@@ -2,8 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
-import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
+import {
+  selectAddressValidationType,
+  selectCurrentlyOpenEditModal,
+  selectVAPContactInfoField,
+  selectVAPServiceTransaction,
+  selectEditViewData,
+  selectMostRecentlyUpdatedField,
+  selectVAProfilePersonalInformation,
+} from '@@vap-svc/selectors';
+
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
 import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
 import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
@@ -33,15 +42,6 @@ import {
   clearTransactionRequest,
   openModal,
 } from '../actions';
-
-import {
-  selectAddressValidationType,
-  selectCurrentlyOpenEditModal,
-  selectVAPContactInfoField,
-  selectVAPServiceTransaction,
-  selectEditViewData,
-  selectMostRecentlyUpdatedField,
-} from '../selectors';
 
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '../constants';
 import VAPServiceTransaction from './base/VAPServiceTransaction';

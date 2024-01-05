@@ -1,6 +1,10 @@
+import {
+  captureError,
+  createApiEvent,
+  ERROR_SOURCES,
+} from '@@vap-svc/util/analytics';
 import recordEvent from '~/platform/monitoring/record-event';
 import { getData } from '../util';
-import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
 
 export * from './personalInformation';
 export { fetchProfileContacts } from './contacts';

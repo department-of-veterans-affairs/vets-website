@@ -9,7 +9,11 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
   clearTransaction,
 } from '@@vap-svc/actions';
-import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
+import {
+  captureError,
+  createApiEvent,
+  ERROR_SOURCES,
+} from '@@vap-svc/util/analytics';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';

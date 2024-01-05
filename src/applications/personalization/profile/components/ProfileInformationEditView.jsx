@@ -9,7 +9,8 @@ import {
   PERSONAL_INFO_FIELD_NAMES,
   ANALYTICS_FIELD_MAP,
   API_ROUTES,
-} from 'platform/user/profile/vap-svc/constants';
+} from '@@vap-svc/constants';
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
   createTransaction,
   refreshTransaction,
@@ -51,7 +52,6 @@ import {
   getErrorsFromDom,
   handleUpdateButtonClick,
 } from '../util/contact-information/addressUtils';
-import { recordCustomProfileEvent } from '../util/analytics';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {

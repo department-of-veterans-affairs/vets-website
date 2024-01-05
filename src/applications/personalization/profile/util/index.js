@@ -2,8 +2,6 @@ import { FIELD_NAMES } from '@@vap-svc/constants';
 import cloneDeep from 'lodash/cloneDeep';
 import { apiRequest } from '~/platform/utilities/api';
 
-export * from './analytics';
-
 // error keys for profile/direct_deposits/disability_compensations endpoint
 // easier to export and use than importing one by one constants
 export const LIGHTHOUSE_ERROR_KEYS = {
