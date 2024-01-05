@@ -51,6 +51,7 @@ const CheckInButton = ({
     <va-button
       text={t('check-in-now')}
       uswds
+      big
       onClick={handleClick}
       data-testid="check-in-button"
       class="vads-u-display--flex"
