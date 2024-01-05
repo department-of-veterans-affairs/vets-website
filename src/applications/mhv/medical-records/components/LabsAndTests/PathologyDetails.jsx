@@ -109,7 +109,7 @@ ${record.results} \n`;
         <p data-testid="pathology-date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
-        <h4>Results</h4>
+        <h2>Results</h2>
         <InfoAlert fullState={fullState} />
         <p data-testid="pathology-results">{record.results}</p>
       </div>
