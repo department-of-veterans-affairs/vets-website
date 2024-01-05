@@ -88,6 +88,8 @@ function showBot(
       virtualAgentEnableParamErrorDetection={
         props.virtualAgentEnableParamErrorDetection
       }
+      virtualAgentEnableMsftPvaTesting={props.virtualAgentEnableMsftPvaTesting}
+      virtualAgentEnableNluPvaTesting={props.virtualAgentEnableNluPvaTesting}
     />
   );
 }
@@ -191,6 +193,12 @@ function App(props) {
 const mapStateToProps = state => ({
   virtualAgentEnableParamErrorDetection: toggleValues(state)[
     FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection
+  ],
+  virtualAgentEnableMsftPvaTesting: toggleValues(state)[
+    FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting
+  ],
+  virtualAgentEnableNluPvaTesting: toggleValues(state)[
+    FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting
   ],
 });
 

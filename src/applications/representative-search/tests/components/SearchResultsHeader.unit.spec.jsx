@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { SearchResultsHeader } from '../../components/search/SearchResultsHeader';
+import { SearchResultsHeader } from '../../components/results/SearchResultsHeader';
 // import { RepresentativeType } from '../../constants';
 import testDataRepresentative from '../../constants/mock-representative-v0.json';
 import testDataResponse from '../../constants/mock-representative-data.json';
@@ -205,7 +205,7 @@ describe('SearchResultsHeader', () => {
     wrapper.unmount();
   });
 
-  it('should render results where sort option is last name (non-organization)', () => {
+  it('should render results where sort option is last name (non-officer)', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={testDataResponse.data}

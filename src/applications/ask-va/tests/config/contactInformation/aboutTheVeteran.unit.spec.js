@@ -59,7 +59,7 @@ describe('aboutTheVeteranPage', () => {
       'A gender not listed here',
     ];
 
-    expect($('h4', container).textContent).to.eq('Tell us about the Veteran');
+    expect($('h3', container).textContent).to.eq('Tell us about the Veteran');
 
     labels.forEach(
       label =>

@@ -6,11 +6,14 @@ export const URL = {
   GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
   // TODO: Add address validation endpoint
   ADDRESS_VALIDATION: '',
+  GET_INQUIRY: '',
 };
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
   'Compensation (Service-Connected Bens)',
+  'Veteran Affairs  - Debt', // *double space after 'Affairs'
+  'Benefits Issues Outside the US',
 ];
 
 export const requireSignInTopics = [
@@ -19,7 +22,37 @@ export const requireSignInTopics = [
 ];
 
 // list of topics required to render the subtopic page
-export const requiredForSubtopicPage = ['GI Bill'];
+export const requiredForSubtopicPage = [
+  'GI Bill',
+  'Caregiver support',
+  'Family member health benefits',
+  'Prosthetics',
+];
+
+// Response Page headers
+export const RESPONSE_PAGE = {
+  QUESTION_DETAILS: 'Question details',
+  INQUIRY_NUM: 'Inquiry number',
+  STATUS: 'Status',
+  YOUR_QUESTION: 'Your question',
+  ATTACHMENTS: 'Attachments',
+  INBOX: 'Inbox',
+  SEND_REPLY: 'Send reply',
+  UPLOAD_YOUR_FILES: 'Upload your files',
+  UPLOAD_BTN: 'Upload file',
+  EMPTY_INBOX: 'There are no messages in your inbox',
+  NO_ATTACHMENTS: 'There are no attachments',
+  YOUR_MESSAGE: 'Your message: ',
+  SUBMIT_MESSAGE: 'Send VA a message',
+  DELETE_FILE: 'Delete file',
+  UPLOAD_INFO: {
+    MESSAGE:
+      "You'll need to scan your document onto your device to submit this application, such as your computer, tablet, or mobile phone. You can upload your document from there.",
+    LIST_HEADING: 'Guidelines for uploading a file:',
+    LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
+    LIST_ITEM_2: 'Your file should be no larger than 25MB',
+  },
+};
 
 // Used for yes/no radio questions
 export const yesNoOptions = {
@@ -73,6 +106,69 @@ export const addressFields = {
   MILITARY_STATE: 'State',
 };
 
+// Question About options
+export const questionAboutOptions = {
+  MY_OWN: 'My own VA benefits',
+  SOMEONE_ELSE: "Someone else's VA benefits",
+  GENERAL: "It's a general question",
+};
+
+// Reason options
+export const reasonOptions = {
+  QUESTION: 'I have a question',
+  NICE: 'I want to say something nice',
+  COMPLAINT: 'I have a complaint about a service',
+  SUGGESTION: 'I have a suggestion',
+  TOWN_HALL: 'I attended a Town Hall and now I have a question',
+  SOMETHING_ELSE: 'I want to say something else',
+};
+
+// Chapter 1 labels: titles, questions, descriptions
+export const CHAPTER_1 = {
+  CHAPTER_TITLE: 'Category and Topic',
+  PAGE_1: {
+    PATH: 'category-topic-1',
+    TITLE: 'Category selected',
+    PAGE_DESCRIPTION: 'Category',
+    QUESTION_1: 'Select the category that best describes your question:',
+  },
+  PAGE_2: {
+    PATH: 'category-topic-2',
+    TITLE: 'Topic selected',
+    PAGE_DESCRIPTION: 'Topic',
+    QUESTION_1: 'Select the topic that best describes your question:',
+  },
+  PAGE_3: {
+    PATH: 'category-topic-3',
+    TITLE: 'Subtopic selected',
+    PAGE_DESCRIPTION: 'Subtopic',
+    QUESTION_1: 'Select the subtopic that best describes your question:',
+  },
+};
+
+// Chapter 2 labels: titles, questions, descriptions
+export const CHAPTER_2 = {
+  CHAPTER_TITLE: 'Your Question',
+  PAGE_1: {
+    PATH: 'question-1',
+    TITLE: "What's your question about?",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select what your question is about:',
+  },
+  PAGE_2: {
+    PATH: 'question-2',
+    TITLE: "Reason you're contacting us",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+  },
+  PAGE_3: {
+    PATH: 'question-3',
+    TITLE: 'Your question',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: "What's your question?",
+  },
+};
+
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
   CHAPTER_TITLE: 'VA Information',
@@ -91,33 +187,33 @@ export const CHAPTER_3 = {
   },
   PAGE_3: {
     PATH: 'va-info-3',
-    TITLE: '',
+    TITLE: 'Are you the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Are you the Veteran?',
+    QUESTION_1: 'Selection',
   },
   PAGE_4: {
     PATH: 'va-info-4',
-    TITLE: '',
+    TITLE: 'Are you the dependent?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Are you the dependent?',
+    QUESTION_1: 'Selection',
   },
   PAGE_5: {
     PATH: 'va-info-5',
-    TITLE: '',
+    TITLE: 'Your relationship to the Veteran',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Your relationship to the Veteran', // its now a dropdown
+    QUESTION_1: 'Selection',
   },
   PAGE_6: {
     PATH: 'va-info-6',
-    TITLE: '',
+    TITLE: 'Is the Veteran deceased?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Is the Veteran deceased?',
+    QUESTION_1: 'Selection',
   },
   PAGE_7: {
     PATH: 'va-info-7',
-    TITLE: '',
+    TITLE: 'When did the Veteran die?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'When did the Veteran die?', // use date picker
+    QUESTION_1: 'Date',
   },
 };
 
@@ -125,11 +221,6 @@ export const CHAPTER_3 = {
 export const CHAPTER_4 = {
   CHAPTER_TITLE: 'Contact Information',
   PAGE_1: {
-    PATH: 'contact-info-1',
-    TITLE: 'Tell us about the Veteran',
-    PAGE_DESCRIPTION: '',
-  },
-  PAGE_2: {
     PATH: 'contact-info-2',
     TITLE: "Veteran's address",
     PAGE_DESCRIPTION: '',
@@ -138,6 +229,11 @@ export const CHAPTER_4 = {
     QUESTION_2: 'Post office',
     QUESTION_3: 'Region',
     QUESTION_4: 'Postal code',
+  },
+  PAGE_2: {
+    PATH: 'contact-info-1',
+    TITLE: 'Tell us about the Veteran',
+    PAGE_DESCRIPTION: '',
   },
   PAGE_3: {
     PATH: 'contact-info-3',
@@ -154,7 +250,7 @@ export const CHAPTER_4 = {
   },
   PAGE_5: {
     PATH: 'contact-info-5',
-    TITLE: 'Your address', // country
+    TITLE: 'Your country', // country
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'I live on a United States military base outside of the country',
@@ -166,8 +262,15 @@ export const CHAPTER_4 = {
   },
   PAGE_7: {
     PATH: 'contact-info-7',
-    TITLE: 'Your address confirmation', // TODO: update confirmation page
+    TITLE: 'Your address confirmation',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
 };
+
+export const noEditBtn = [
+  CHAPTER_1.PAGE_1.TITLE,
+  CHAPTER_1.PAGE_2.TITLE,
+  CHAPTER_1.PAGE_3.TITLE,
+  CHAPTER_3.PAGE_2.TITLE,
+];

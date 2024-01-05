@@ -1,53 +1,13 @@
 import { expect } from 'chai';
-import React from 'react';
-import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-
-import { fileHelp, submit } from '../helpers.jsx';
 
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
+import { formatCurrency, submit } from '../helpers.jsx';
 
 describe('Pensions helpers', () => {
-  const FileHelp = fileHelp;
-
-  describe('fileHelp', () => {
-    it('should render', () => {
-      const formData = {
-        'view:aidAttendance': true,
-      };
-      const tree = SkinDeep.shallowRender(<FileHelp formData={formData} />);
-
-      expect(tree.text()).to.contain('Please upload all doc');
-      expect(tree.everySubTree('li').length).to.equal(2);
-    });
-    it('should show disabled child bullet', () => {
-      const formData = {
-        dependents: [
-          {
-            disabled: true,
-          },
-        ],
-      };
-      const tree = SkinDeep.shallowRender(<FileHelp formData={formData} />);
-
-      expect(tree.everySubTree('li').length).to.equal(3);
-    });
-    it('should show school child bullet', () => {
-      const formData = {
-        dependents: [
-          {
-            attendingCollege: true,
-          },
-        ],
-      };
-      const tree = SkinDeep.shallowRender(<FileHelp formData={formData} />);
-
-      expect(tree.everySubTree('li').length).to.equal(3);
-    });
-  });
   describe('submit', () => {
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
@@ -152,6 +112,13 @@ describe('Pensions helpers', () => {
     });
     afterEach(() => {
       delete window.URL;
+    });
+  });
+  describe('formatCurrency', () => {
+    it('should format US currency', () => {
+      expect(formatCurrency(0.01)).to.equal('$0.01');
+      expect(formatCurrency(1000)).to.equal('$1,000');
+      expect(formatCurrency(12.75)).to.equal('$12.75');
     });
   });
 });

@@ -16,7 +16,10 @@ class AllergyDetailsPage {
       'GET',
       `/my_health/v1/medical_records/allergies/${allergyId}`,
       allergyDetails,
-    ).as('Allergies_details');
+    ).as('allergyDetails');
+    cy.get('[data-testid="record-list-item"]')
+      .contains(allergyTitle)
+      .should('be.visible');
     cy.get('[data-testid="record-list-item"]')
       .contains(allergyTitle)
       .click();

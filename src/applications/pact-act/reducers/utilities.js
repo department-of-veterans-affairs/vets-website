@@ -8,7 +8,9 @@ export const createFormStore = shortNameMap => {
   const storeObject = {};
 
   for (const question of Object.keys(shortNameMap)) {
-    storeObject[question] = null;
+    if (!question.includes('HOME') && !question.includes('RESULTS')) {
+      storeObject[question] = null;
+    }
   }
 
   return storeObject;

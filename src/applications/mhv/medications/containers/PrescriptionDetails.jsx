@@ -7,7 +7,7 @@ import {
   getAllergiesList,
   clearAllergiesError,
 } from '../actions/prescriptions';
-import PrintHeader from './PrintHeader';
+import PrintOnlyPage from './PrintOnlyPage';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { dateFormat, generateMedicationsPDF } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -22,6 +22,9 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { PDF_GENERATE_STATUS } from '../util/constants';
+import { getPrescriptionImage } from '../api/rxApi';
+import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
+import { reportGeneratedBy } from '../../shared/util/constants';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -45,6 +48,13 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
+  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  refillHistory.push({
+    prescriptionName: prescription?.prescriptionName,
+    dispensedDate: prescription?.dispensedDate,
+    cmopNdcNumber: prescription?.cmopNdcNumber,
+    id: prescription?.prescriptionId,
+  });
 
   useEffect(() => {
     if (crumbs.length === 0 && prescription) {
@@ -52,7 +62,7 @@ const PrescriptionDetails = () => {
         setBreadcrumbs(
           [
             {
-              url: '/my-health/about-medications',
+              url: '/my-health/medications/about',
               label: 'About medications',
             },
             {
@@ -104,12 +114,9 @@ const PrescriptionDetails = () => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: 'Medication Details',
+        title: 'Medication details',
         preface: [
           {
             value:
@@ -178,7 +185,19 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescription) {
+      if (!prescription) return;
+      const cmopNdcNumber =
+        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription.cmopNdcNumber;
+      if (cmopNdcNumber) {
+        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
+          setPrescriptionPdfList(
+            nonVaPrescription
+              ? buildNonVAPrescriptionPDFList(prescription)
+              : buildVAPrescriptionPDFList(prescription, image),
+          );
+        });
+      } else {
         setPrescriptionPdfList(
           nonVaPrescription
             ? buildNonVAPrescriptionPDFList(prescription)
@@ -233,53 +252,62 @@ const PrescriptionDetails = () => {
     if (prescription) {
       return (
         <>
-          <PrintHeader />
-          <AllergiesErrorModal
-            onCloseButtonClick={handleModalClose}
-            onDownloadButtonClick={handleModalDownloadButton}
-            onCancelButtonClick={handleModalClose}
-            visible={Boolean(
-              pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress &&
-                allergiesError,
-            )}
-          />
-          <h1
-            aria-describedby="last-filled"
-            data-testid="prescription-name"
-            className="vads-u-margin-bottom--0"
-            id="prescription-name"
-          >
-            {prescriptionHeader}
-          </h1>
-          <p
-            id="last-filled"
-            className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
-            data-testid="rx-last-filled-date"
-          >
-            {filledEnteredDate()}
-          </p>
           <div className="no-print">
-            <PrintDownload
-              download={handleDownloadPDF}
-              isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+            <AllergiesErrorModal
+              onCloseButtonClick={handleModalClose}
+              onDownloadButtonClick={handleModalDownloadButton}
+              onCancelButtonClick={handleModalClose}
+              visible={Boolean(
+                pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress &&
+                  allergiesError,
+              )}
             />
-            <BeforeYouDownloadDropdown />
+            <h1
+              aria-describedby="last-filled"
+              data-testid="prescription-name"
+              className="vads-u-margin-bottom--0"
+              id="prescription-name"
+            >
+              {prescriptionHeader}
+            </h1>
+            <p
+              id="last-filled"
+              className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
+              data-testid="rx-last-filled-date"
+            >
+              {filledEnteredDate()}
+            </p>
+            <div className="no-print">
+              <PrintDownload
+                download={handleDownloadPDF}
+                isSuccess={pdfGenerateStatus === PDF_GENERATE_STATUS.Success}
+              />
+              <BeforeYouDownloadDropdown />
+            </div>
+            {nonVaPrescription ? (
+              <NonVaPrescription {...prescription} />
+            ) : (
+              <VaPrescription {...prescription} />
+            )}
           </div>
-          <div className="print-only">
-            <strong>Note:</strong> This file doesn’t include your allergies or
-            adverse reactions.
-          </div>
-          {nonVaPrescription ? (
-            <NonVaPrescription {...prescription} />
-          ) : (
-            <VaPrescription {...prescription} />
-          )}
+          <PrintOnlyPage
+            title="Medication details"
+            preface="This is a single medication record from your VA medical records. When you download a medication record, we
+        also include a list of allergies and reactions in your VA medical records."
+          >
+            <PrescriptionPrintOnly
+              hideLineBreak
+              rx={prescription}
+              refillHistory={!nonVaPrescription ? refillHistory : []}
+              isDetailsRx
+            />
+          </PrintOnlyPage>
         </>
       );
     }
     return (
       <va-loading-indicator
-        message="Loading..."
+        message="Loading your medication record..."
         setFocus
         data-testid="loading-indicator"
       />
