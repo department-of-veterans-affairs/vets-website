@@ -7,6 +7,7 @@ import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
@@ -72,6 +73,7 @@ export const ConfirmationPage = () => {
         ) : null}
         <IssuesSubmitted issues={issues} />
       </div>
+
       <h3>What to expect next</h3>
       <p>
         If we need more information, we’ll contact you to tell you what other
@@ -96,8 +98,8 @@ export const ConfirmationPage = () => {
         <a href="https://ask.va.gov/">Contact us through Ask VA</a>
       </p>
       <p>
-        You can also call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
+        You can also call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />{' '}
+        (<va-telephone contact={CONTACTS[711]} tty />
         ).
       </p>
       <br role="presentation" />
