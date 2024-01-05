@@ -140,7 +140,12 @@ const MilitaryInformationContent = ({
 
   const createPdf = () => {
     const pdfData = {
-      title: 'Veteran Status',
+      title: `Veteran status card for ${formatFullName({
+        first,
+        middle,
+        last,
+        suffix,
+      })}`,
       details: {
         fullName: formatFullName({ first, middle, last, suffix }),
         serviceHistory: militaryInformation.serviceHistory.serviceHistory,
@@ -192,7 +197,9 @@ const MilitaryInformationContent = ({
         asList
       />
 
-      <va-button onClick={() => createPdf()} text="Download" />
+      <div className="vads-u-margin-top--4">
+        <va-button onClick={() => createPdf()} text="Download" />
+      </div>
 
       <div className="vads-u-margin-top--4">
         <va-additional-info
