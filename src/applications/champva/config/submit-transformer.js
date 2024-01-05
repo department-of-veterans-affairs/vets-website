@@ -20,15 +20,15 @@ function transformApplicants(applicants) {
 
   applicants.forEach(app => {
     const transformedApp = {
-      full_name: app.applicantName,
-      ssh_or_tin: app.applicantSSN.ssn,
-      date_of_birth: app.applicantDOB,
-      phone_number: app.applicantPhone,
+      full_name: app.applicantName ?? '',
+      ssh_or_tin: app.applicantSSN?.ssn || '',
+      date_of_birth: app.applicantDOB ?? '',
+      phone_number: app.applicantPhone ?? '',
       vet_relationship: transformRelationship(
-        app.applicantRelationshipToSponsor.relationshipToVeteran,
+        app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
-      address: app.applicantAddress,
-      gender: app.applicantGender,
+      address: app.applicantAddress ?? '',
+      gender: app.applicantGender ?? '',
     };
 
     // eslint-disable-next-line dot-notation
@@ -56,35 +56,35 @@ export default function transformForSubmit(formConfig, form) {
   // Make changes to transformedData here...
   const dataPostTransform = {
     veteran: {
-      full_name: transformedData.veteransFullName || {},
-      ssn_or_tin: transformedData.ssn.ssn || '',
-      va_claim_number: transformedData.vaFileNumber || '',
-      date_of_birth: transformedData.sponsorDOB || '',
+      full_name: transformedData?.veteransFullName || {},
+      ssn_or_tin: transformedData?.ssn?.ssn || '',
+      va_claim_number: transformedData?.vaFileNumber || '',
+      date_of_birth: transformedData?.sponsorDOB || '',
       phone_number: transformedData?.sponsorPhone || '',
-      address: transformedData.sponsorAddress || {
+      address: transformedData?.sponsorAddress || {
         street: 'NA',
         city: 'NA',
         state: 'NA',
         postalCode: 'NA',
         country: 'NA',
       },
-      date_of_death: transformedData.sponsorDOD || '',
-      date_of_marriage: transformedData.sponsorDOM || '',
+      date_of_death: transformedData?.sponsorDOD || '',
+      date_of_marriage: transformedData?.sponsorDOM || '',
     },
-    applicants: transformApplicants(transformedData.applicants),
+    applicants: transformApplicants(transformedData.applicants ?? []),
     certification: {
       date: transformedData?.dateOfCertification || '', // TODO: add field
-      lastName: transformedData.certifierName.last || '',
-      middleInitial: transformedData.certifierName?.middle || '',
-      firstName: transformedData.certifierName.first || '',
+      lastName: transformedData?.certifierName?.last || '',
+      middleInitial: transformedData?.certifierName?.middle || '',
+      firstName: transformedData?.certifierName?.first || '',
       phone_number: transformedData?.certifierPhone || '',
       relationship: transformRelationship(
         transformedData?.certifierRelationship,
       ),
-      streetAddress: transformedData?.certifierAddress.street || '',
-      city: transformedData?.certifierAddress.city || '',
-      state: transformedData?.certifierAddress.state || '',
-      postal_code: transformedData?.certifierAddress.postalCode || '',
+      streetAddress: transformedData?.certifierAddress?.street || '',
+      city: transformedData?.certifierAddress?.city || '',
+      state: transformedData?.certifierAddress?.state || '',
+      postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
   };
 
