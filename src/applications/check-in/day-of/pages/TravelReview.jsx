@@ -3,10 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { recordAnswer } from '../../actions/universal';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { makeSelectVeteranData } from '../../selectors';
+import {
+  makeSelectVeteranData,
+  makeSelectCurrentContext,
+} from '../../selectors';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import AddressBlock from '../../components/AddressBlock';
 import TravelPage from '../../components/pages/TravelPage';
 
@@ -16,6 +21,8 @@ const TravelQuestion = props => {
   const { jumpToPage, goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
@@ -28,12 +35,26 @@ const TravelQuestion = props => {
   };
   const validation = () => {
     if (agree) {
+      recordEvent({
+        event: createAnalyticsSlug(
+          `yes-to-travel-review${
+            setECheckinStartedCalled ? '' : '-45MR'
+          }-clicked`,
+          'nav',
+        ),
+      });
       goToNextPage();
     } else {
       setError(true);
     }
   };
   const fileLater = () => {
+    recordEvent({
+      event: createAnalyticsSlug(
+        `no-to-travel-review${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
+        'nav',
+      ),
+    });
     dispatch(recordAnswer({ 'travel-question': 'no' }));
     goToNextPage();
   };

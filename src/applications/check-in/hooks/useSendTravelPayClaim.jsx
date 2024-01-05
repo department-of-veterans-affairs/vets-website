@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../api';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useStorage } from './useStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
+import { makeSelectCurrentContext } from '../selectors';
+import { createAnalyticsSlug } from '../utils/analytics';
 
 const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +23,9 @@ const useSendTravelPayClaim = appointment => {
     setTravelPayClaimSent,
     travelPayEligible,
   } = useTravelPayFlags(appointment);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   useEffect(
     () => {
@@ -45,6 +51,14 @@ const useSendTravelPayClaim = appointment => {
           setTravelPayClaimError(true);
         })
         .finally(() => {
+          recordEvent({
+            event: createAnalyticsSlug(
+              `submit-travel-pay-claim${
+                setECheckinStartedCalled ? '' : '-45MR'
+              }-success`,
+              'nav',
+            ),
+          });
           setTravelPayClaimSent(true);
           setIsLoading(false);
         });
@@ -52,6 +66,7 @@ const useSendTravelPayClaim = appointment => {
     [
       getShouldSendTravelPayClaim,
       isTravelReimbursementEnabled,
+      setECheckinStartedCalled,
       setTravelPayClaimSent,
       travelPayData,
       travelPayEligible,
