@@ -11,6 +11,8 @@ const props = {
     pageList: [],
     formConfig,
   },
+  userLoggedIn: false,
+  userIdVerified: true,
 };
 
 const mockStore = {
@@ -22,7 +24,11 @@ const mockStore = {
       profile: {
         savedForms: [],
         prefillsAvailable: [],
-        verified: false,
+        loa: {
+          current: 3,
+          highest: 3,
+        },
+        verified: true,
         dob: '2000-01-01',
         claims: {
           appeals: false,
