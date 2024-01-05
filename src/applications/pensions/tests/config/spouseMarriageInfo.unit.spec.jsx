@@ -111,7 +111,7 @@ describe('Pensions spouse info', () => {
     formDOM.fillData('#root_spouseDateOfBirthYear', '2000');
     formDOM.fillData('#root_spouseSocialSecurityNumber', '234432444');
     formDOM.fillData('#root_spouseIsVeteranNo', 'N');
-    formDOM.fillData('#root_liveWithSpouseYes', 'Y');
+    formDOM.fillData('#root_view\\:liveWithSpouseYes', 'Y');
 
     submitForm(form);
 

@@ -26,7 +26,7 @@ export default {
         expandUnderCondition: 'Other',
       },
       'ui:required': form =>
-        get(['reasonForCurrentSeparation'], form) === 'Other',
+        get(['reasonForCurrentSeparation'], form) === 'OTHER',
     },
   },
   schema: {
@@ -34,7 +34,7 @@ export default {
     required: ['reasonForCurrentSeparation'],
     properties: {
       reasonForCurrentSeparation: radioSchema(
-        Object.values(reasonForCurrentSeparationOptions),
+        Object.keys(reasonForCurrentSeparationOptions),
       ),
       otherExplanation: { type: 'string' },
     },

@@ -13,15 +13,14 @@ const { powDateRange } = fullSchemaPensions.properties;
 export default {
   uiSchema: {
     'ui:title': 'POW Status',
-    'ui:order': ['view:powStatus', 'powDateRange'],
-    'view:powStatus': yesNoUI({
+    powStatus: yesNoUI({
       title: 'Have you ever been a prisoner of war?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     powDateRange: set(
       'ui:options.expandUnder',
-      'view:powStatus',
+      'powStatus',
       dateRangeUI(
         'Start of confinement',
         'End of confinement',
@@ -31,9 +30,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['view:powStatus'],
+    required: ['powStatus'],
     properties: {
-      'view:powStatus': yesNoSchema,
+      powStatus: yesNoSchema,
       powDateRange,
     },
   },
