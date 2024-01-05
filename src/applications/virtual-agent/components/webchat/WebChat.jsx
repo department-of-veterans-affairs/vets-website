@@ -40,6 +40,16 @@ export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
   return () => clearTimeout(intervalId);
 };
 
+export const recordRxSession = isRXSkill => () => {
+  if (isRXSkill === 'true') {
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'Enter Chatbot Rx Skill',
+      'api-status': 'successful',
+    });
+  }
+};
+
 const WebChat = ({
   token,
   WebChatFramework,
@@ -184,9 +194,9 @@ const WebChat = ({
   const [isRXSkill, setIsRXSkill] = useState();
   useEffect(
     () => {
-      const getRXStorageSession = () =>
+      const getRXStorageSession = () => {
         setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
-
+      };
       window.addEventListener('rxSkill', getRXStorageSession);
       return () => window.removeEventListener('rxSkill', getRXStorageSession);
     },
@@ -194,6 +204,31 @@ const WebChat = ({
   );
 
   useEffect(setMicrophoneMessage(isRXSkill, document));
+
+  useEffect(recordRxSession(isRXSkill));
+
+  useEffect(() => {
+    const handleClick = event => {
+      if (event.target.classList.contains('webchat__suggested-action')) {
+        // This is a click event on a button
+        const buttonText = event.target.innerText;
+        recordEvent({
+          event: 'cta-button-click',
+          'button-type': 'PVA',
+          'button-click-label': buttonText,
+          'button-background-color': 'blue',
+          time: new Date(),
+        });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
 
   if (isRXSkill === 'true') {
     return (
