@@ -7,7 +7,7 @@ import * as AppointmentsPage from '../components/AppointmentsPage/index';
 import * as ConfirmedAppointmentDetailsPage from '../components/ConfirmedAppointmentDetailsPage';
 import * as RequestedAppointmentDetailsPage from '../components/RequestedAppointmentDetailsPage';
 
-describe('VAOS <Routes>', () => {
+describe('VAOS <Appointment list routes>', () => {
   const sandbox = Sinon.createSandbox();
   let ConfirmedAppointmentDetailsPageStub;
   let RequestedAppointmentDetailsPageStub;
