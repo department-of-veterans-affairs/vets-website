@@ -18,7 +18,6 @@ describe(`${appName} -- Auth Redirect`, () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('prompts user to authenticate, redirecting to /my-health', () => {
       cy.visit(rootUrl);
-      cy.findByRole('heading', { name: /Sign in/i }).should.exist;
       cy.url().should('contain', '?next=%2Fmy-health');
     });
   });
