@@ -443,10 +443,10 @@ export function FilterBeforeResults({
               }
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to community focus details</>}
+              {smallScreen && <>Jump to Community Focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to community focus details"
+                  label="Jump to Community Focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
@@ -549,7 +549,7 @@ export function FilterBeforeResults({
               className="vads-u-margin-top--3"
             >
               <AccordionItem
-                button="Learn more about community focus filters"
+                button="Learn more about Community Focus filters"
                 section
                 expanded={smfAccordionExpanded}
                 onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
