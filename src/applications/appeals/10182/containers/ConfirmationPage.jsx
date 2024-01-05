@@ -93,7 +93,9 @@ export const ConfirmationPage = () => {
       <p>
         If you requested an appeal and haven’t heard back from us yet, please
         don’t request another appeal. Call us at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS[711]} tty />
+        ).
       </p>
       <br role="presentation" />
       <a
