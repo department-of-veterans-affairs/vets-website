@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useStorage } from '../../../hooks/useStorage';
@@ -109,31 +108,27 @@ const ConfirmablePage = ({
         </ul>
       </div>
       {additionalInfo}
-      <VaButtonPair
-        onPrimaryClick={onYesClick}
-        onSecondaryClick={onNoClick}
-        uswds
-        data-testid="yes-no-buttons"
-      />
-
-      {/* <>
-        <button
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+        <va-button
+          uswds
+          big
           onClick={onYesClick}
-          className="usa-button-primary usa-button-big"
+          text={t('yes')}
           data-testid="yes-button"
-          type="button"
-        >
-          {t('yes')}
-        </button>
-        <button
+          class="vads-u-margin-top--2"
+          value="yes"
+        />
+        <va-button
+          uswds
+          big
           onClick={onNoClick}
-          className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+          text={t('no')}
           data-testid="no-button"
-          type="button"
-        >
-          {t('no')}
-        </button>
-      </> */}
+          secondary
+          class="vads-u-margin-top--2"
+          value="no"
+        />
+      </div>
     </Wrapper>
   );
 };

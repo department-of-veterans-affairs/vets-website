@@ -1,15 +1,10 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import ConfirmablePage from './index';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
-
-const clickEvent = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
 
 describe('pre-check-in experience', () => {
   describe('shared components', () => {
@@ -108,7 +103,7 @@ describe('pre-check-in experience', () => {
           </CheckInProvider>,
         );
 
-        screen.getByTestId('yes-no-buttons').__events.primaryClick(clickEvent);
+        fireEvent.click(screen.getByTestId('yes-button'));
         expect(yesClick.calledOnce).to.be.true;
       });
       it('fires the no function', () => {
@@ -119,9 +114,7 @@ describe('pre-check-in experience', () => {
           </CheckInProvider>,
         );
 
-        screen
-          .getByTestId('yes-no-buttons')
-          .__events.secondaryClick(clickEvent);
+        fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
     });
