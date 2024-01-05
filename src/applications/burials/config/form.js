@@ -34,6 +34,7 @@ import veteranInformationPartTwo from './chapters/02-veteran-information/veteran
 import burialInformationPartOne from './chapters/02-veteran-information/burialInformationPartOne';
 import burialInformationPartTwo from './chapters/02-veteran-information/burialInformationPartTwo';
 import separationDocuments from './chapters/03-military-history/separationDocuments';
+import uploadDD214 from './chapters/03-military-history/uploadDD214';
 
 import {
   isEligibleNonService,
@@ -190,9 +191,17 @@ const formConfig = {
           uiSchema: separationDocuments.uiSchema,
           schema: separationDocuments.schema,
         },
+        uploadDD214: {
+          title: 'Separation Documents',
+          path: 'military-history/separation-documents/upload',
+          depends: formData => formData['view:separationDocuments'],
+          uiSchema: uploadDD214.uiSchema,
+          schema: uploadDD214.schema,
+        },
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
+          depends: formData => !formData['view:separationDocuments'],
           uiSchema: {
             'view:serviceRecordNotification': {
               'ui:description': serviceRecordNotification,
