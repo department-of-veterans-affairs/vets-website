@@ -12,6 +12,12 @@ import {
 } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 
+/**
+ * ATTENTION!!! Are you looking for the SIP form variables like formBenefits, formLinks, or trackingPrefixes?
+ * if so, those variables have been moved to src/platform/forms/constants.js
+ * they have also been changed to be CONST_CASE, so they are now FORM_BENEFITS, FORM_LINKS, and TRACKING_PREFIXES
+ */
+
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
 // exception to this rule right now is the FEEDBACK-TOOL.
