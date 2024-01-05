@@ -63,6 +63,7 @@ import maritalStatus from './chapters/04-household-information/maritalStatus';
 import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
 import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
 import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import hasMedicalExpenses from './chapters/05-financial-information/hasMedicalExpenses';
 import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
@@ -76,6 +77,7 @@ import supportingDocuments from './chapters/06-additional-information/supporting
 import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
 import transferredAssets from './chapters/05-financial-information/transferredAssets';
 import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
+import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
@@ -804,6 +806,15 @@ const formConfig = {
           CustomPage: HomeAcreageValueInput,
           CustomPageReview: null,
         },
+        landMarketable: {
+          title: 'Land marketable',
+          path: 'financial/land-marketable',
+          depends: formData => {
+            return formData.homeAcreageMoreThanTwo === true;
+          },
+          uiSchema: landMarketable.uiSchema,
+          schema: landMarketable.schema,
+        },
         receivesIncome: {
           title: 'Receives income',
           path: 'financial/receives-income',
@@ -830,9 +841,16 @@ const formConfig = {
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
-        medicalExpenses: {
+        hasMedicalExpenses: {
           path: 'financial/medical-expenses',
           title: 'Medical expenses',
+          uiSchema: hasMedicalExpenses.uiSchema,
+          schema: hasMedicalExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses/add',
+          title: 'Medical expenses',
+          depends: formData => formData.hasMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
