@@ -67,6 +67,34 @@
         "jobTitle": "Representative"
       }
     ],
+    "maritalStatus": "Separated",
+    "marriages": [
+      {
+        "spouseFullName": {
+          "first": "Jessica",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1989-03-02",
+        "locationOfMarriage": "Dallas",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Divorce",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Meg",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1994-03-02",
+        "locationOfMarriage": "North Adams, MA",
+        "view:currentMarriage": {
+          "marriageType": "Other",
+          "otherExplanation": "Personal"
+        }
+      }
+    ],
     "spouseDateOfBirth": "1960-01-01",
     "spouseSocialSecurityNumber": "342342444",
     "spouseIsVeteran": true,
@@ -80,8 +108,10 @@
       "state": "MA",
       "postalCode": "01050"
     },
-    "reasonForNotLivingWithSpouse": "Personal choice",
-    "monthlySpousePayment": 2444,
+    "reasonForCurrentSeparation": "Other",
+    "otherExplanation": "Personal reason",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
     "spouseMarriages": [
       {
         "dateOfMarriage": "1980-03-02",
@@ -95,39 +125,6 @@
         "reasonForSeparation": "Death",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
-      }
-    ],
-    "maritalStatus": "Married",
-    "currentSpouseFullName": {
-      "first": "Jessica",
-      "last": "Doe"
-    },
-    "dateOfCurrentMarriage": "1989-03-02",
-    "currentSpouseMonthlySupport": 2444,
-    "currentSpouseMaritalHistory": "Yes",
-    "marriages": [
-      {
-        "spouseFullName": {
-          "first": "Jessica",
-          "last": "Doe"
-        },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
-        "marriageType": "Ceremonial",
-        "view:pastMarriage": {
-          "reasonForSeparation": "Divorced",
-          "dateOfSeparation": "1990-03-02",
-          "locationOfSeparation": "San Antonio, TX"
-        }
-      },
-      {
-        "spouseFullName": {
-          "first": "Meg",
-          "last": "Doe"
-        },
-        "dateOfMarriage": "1994-03-02",
-        "locationOfMarriage": "North Adams, MA",
-        "marriageType": "Ceremonial"
       }
     ],
     "view:hasDependents": true,
@@ -178,38 +175,58 @@
     "hasCareExpenses": true,
     "careExpenses": [
       {
-        "recipients": "Veteran",
+        "recipients": "VETERAN",
         "provider": "NYC Care Provider",
-        "careType": "Care facility",
+        "careType": "CARE_FACILITY",
         "ratePerHour": 100,
         "hoursPerWeek": 20,
         "careDateRange": {
           "from": "2020-08-01",
           "to": "2023-05-25"
         },
-        "paymentFrequency": "Once a month",
+        "paymentFrequency": "ONCE_MONTH",
         "paymentAmount": 2500
       },
       {
-        "recipients": "Veteran’s child",
+        "recipients": "CHILD",
         "childName": "Joe Doe",
         "provider": "LA Care Provider",
-        "careType": "Care facility",
+        "careType": "CARE_FACILITY",
         "ratePerHour": 200,
         "hoursPerWeek": 10,
         "careDateRange": {
           "from": "2020-08-01"
         },
         "noCareEndDate": true,
-        "paymentFrequency": "Once a year",
+        "paymentFrequency": "ONCE_YEAR",
         "paymentAmount": 22500
       }
     ],
-    "medicalExpenses": true,
+    "hasMedicalExpenses": true,
+    "medicalExpenses": [
+      {
+        "recipients": "VETERAN",
+        "provider": "Funeral Home",
+        "purpose": "Burial expenses",
+        "paymentDate": "2020-03-15",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-1",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      }
+    ],
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
     "homeAcreageValue": 75000,
+    "landMarketable": true,
     "receivesIncome": true,
     "incomeSources": [
       {

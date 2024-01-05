@@ -32,6 +32,7 @@ const usipPath = '/sign-in';
 const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
 const mhvUsipParams = '?application=mhv&to=home';
+const ebenefitsUsipParams = '?application=ebnefits';
 const cernerUsipParams = '?application=myvahealth';
 const cernerComplicatedParams = `&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252Fstaging-patientportal.myhealth.va.gov%252F&oauth=false`;
 const occUsipParams = '?application=vaoccmobile';
@@ -269,7 +270,7 @@ describe('Authentication Utilities', () => {
     });
 
     it('should NOT return session url with _verified appended for external applications other than OCC/Flagship', () => {
-      setup({ path: usipPathWithParams(mhvUsipParams) });
+      setup({ path: usipPathWithParams(ebenefitsUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
         '_verified',
       );
