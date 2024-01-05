@@ -180,7 +180,7 @@ const generateEventTimeline = claim => {
   return eventPhases;
 };
 
-class ClaimStatusPage extends React.Component {
+class OverviewPage extends React.Component {
   componentDidMount() {
     this.setTitle();
 
@@ -327,7 +327,7 @@ const mapDispatchToProps = {
   clearNotification,
 };
 
-ClaimStatusPage.propTypes = {
+OverviewPage.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
@@ -342,6 +342,6 @@ ClaimStatusPage.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ClaimStatusPage);
+)(OverviewPage);
 
-export { ClaimStatusPage };
+export { OverviewPage };
