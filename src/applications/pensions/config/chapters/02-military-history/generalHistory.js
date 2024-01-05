@@ -14,7 +14,7 @@ const { placeOfSeparation, previousNames } = fullSchemaPensions.properties;
 export default {
   uiSchema: {
     'ui:title': 'Other service names',
-    'view:serveUnderOtherNames': yesNoUI({
+    serveUnderOtherNames: yesNoUI({
       title: 'Did you serve under another name?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
@@ -22,7 +22,7 @@ export default {
     previousNames: {
       'ui:options': {
         itemName: 'Name',
-        expandUnder: 'view:serveUnderOtherNames',
+        expandUnder: 'serveUnderOtherNames',
         viewField: FullNameField,
         reviewTitle: 'Previous names',
       },
@@ -36,9 +36,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['view:serveUnderOtherNames'],
+    required: ['serveUnderOtherNames'],
     properties: {
-      'view:serveUnderOtherNames': yesNoSchema,
+      serveUnderOtherNames: yesNoSchema,
       previousNames: {
         ...previousNames,
         minItems: 1,
