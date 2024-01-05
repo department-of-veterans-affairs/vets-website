@@ -181,6 +181,15 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
+  onContinue = () => {
+    const { route } = this.props;
+    if (typeof route.pageConfig.onContinue === 'function') {
+      // pass in data & set form data function to allow modifying data or
+      // flags upon leaving a page
+      route.pageConfig.onContinue(this.formData(), this.props.setData);
+    }
+  };
+
   render() {
     const {
       route,
@@ -216,12 +225,6 @@ class FormPage extends React.Component {
     const isFirstRoutePage =
       route.pageList[0].path === this.props.location.pathname;
 
-    function callOnContinue() {
-      if (typeof route.pageConfig.onContinue === 'function') {
-        route.pageConfig.onContinue(data);
-      }
-    }
-
     const showNavLinks =
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
@@ -246,7 +249,7 @@ class FormPage extends React.Component {
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
-            callOnContinue={callOnContinue}
+            onContinue={this.onContinue}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
@@ -281,7 +284,7 @@ class FormPage extends React.Component {
               {contentBeforeButtons}
               <FormNavButtons
                 goBack={!isFirstRoutePage && this.goBack}
-                goForward={callOnContinue}
+                goForward={this.onContinue}
                 submitToContinue
               />
               {contentAfterButtons}
