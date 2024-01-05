@@ -8,17 +8,23 @@ import * as ConfirmedAppointmentDetailsPage from '../components/ConfirmedAppoint
 import * as RequestedAppointmentDetailsPage from '../components/RequestedAppointmentDetailsPage';
 
 describe('VAOS <Routes>', () => {
-  // Mock the real pages since they are tested seperately.
   const sandbox = Sinon.createSandbox();
-  const ConfirmedAppointmentDetailsPageStub = sandbox
-    .stub(ConfirmedAppointmentDetailsPage, 'default')
-    .returns(<div>Mock Page</div>);
-  const RequestedAppointmentDetailsPageStub = sandbox
-    .stub(RequestedAppointmentDetailsPage, 'default')
-    .returns(<div>Mock Page</div>);
-  const AppointmentsPageStub = sandbox
-    .stub(AppointmentsPage, 'default')
-    .returns(<div>Mock Page</div>);
+  let ConfirmedAppointmentDetailsPageStub;
+  let RequestedAppointmentDetailsPageStub;
+  let AppointmentsPageStub;
+
+  before(() => {
+    // Mock the real pages since they are tested seperately.
+    ConfirmedAppointmentDetailsPageStub = sandbox
+      .stub(ConfirmedAppointmentDetailsPage, 'default')
+      .returns(<div>Mock Page</div>);
+    RequestedAppointmentDetailsPageStub = sandbox
+      .stub(RequestedAppointmentDetailsPage, 'default')
+      .returns(<div>Mock Page</div>);
+    AppointmentsPageStub = sandbox
+      .stub(AppointmentsPage, 'default')
+      .returns(<div>Mock Page</div>);
+  });
 
   after(() => {
     sandbox.restore();
