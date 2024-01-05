@@ -63,6 +63,7 @@ import maritalStatus from './chapters/04-household-information/maritalStatus';
 import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
 import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
 import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import hasMedicalExpenses from './chapters/05-financial-information/hasMedicalExpenses';
 import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
 import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
 import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
@@ -157,7 +158,10 @@ export function isUnder65(formData, currentDate) {
 }
 
 function showSpouseAddress(form) {
-  return form.maritalStatus === 'Separated' || form.liveWithSpouse === false;
+  return (
+    form.maritalStatus === 'Separated' ||
+    get(['view:liveWithSpouse'], form) === false
+  );
 }
 
 function isCurrentMarriage(form, index) {
@@ -201,9 +205,15 @@ const formConfig = {
   version: 3,
   migrations,
   prefillEnabled: true,
+  // verifyRequiredPrefill: true,
+  // transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
+  // beforeLoad: props => { console.log('form config before load', props); },
+  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
+  //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
+  // },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth:
@@ -212,6 +222,10 @@ const formConfig = {
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   preSubmitInfo,
+  // showReviewErrors: true,
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -584,7 +598,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be 8 or 9 digits',
               },
             },
-            liveWithSpouse: {
+            'view:liveWithSpouse': {
               'ui:widget': 'yesNo',
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
@@ -600,14 +614,14 @@ const formConfig = {
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
               'spouseIsVeteran',
-              'liveWithSpouse',
+              'view:liveWithSpouse',
             ],
             properties: {
               spouseDateOfBirth,
               spouseSocialSecurityNumber,
               spouseIsVeteran,
               spouseVaFileNumber,
-              liveWithSpouse,
+              'view:liveWithSpouse': liveWithSpouse,
             },
           },
         },
@@ -769,9 +783,9 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
+          depends: formData => !formData.totalNetWorth,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
-          depends: formData => !formData.totalNetWorth,
         },
         transferredAssets: {
           title: 'Transferred assets',
@@ -840,9 +854,16 @@ const formConfig = {
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
-        medicalExpenses: {
+        hasMedicalExpenses: {
           path: 'financial/medical-expenses',
           title: 'Medical expenses',
+          uiSchema: hasMedicalExpenses.uiSchema,
+          schema: hasMedicalExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses/add',
+          title: 'Medical expenses',
+          depends: formData => formData.hasMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
