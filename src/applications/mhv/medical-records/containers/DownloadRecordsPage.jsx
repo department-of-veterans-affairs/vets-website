@@ -188,6 +188,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
+            data-testid="download-blue-button-txt"
           />
           Download Text file
         </button>
