@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
 import {
   VaAlert,
   VaCard,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { ServerErrorAlert } from '../config/helpers';
 
 const DashboardCards = () => {
@@ -39,7 +39,7 @@ const DashboardCards = () => {
 
   return !error ? (
     <div className="vads-l-grid-container">
-      <h1> Dashboard </h1>
+      <h2>Dashboard</h2>
       <div className="vads-l-row">
         {inquiries.map(card => (
           <VaCard

@@ -1,9 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
+import formConfig from '../config/form';
 import { noEditBtn } from '../constants';
 import { setupPages } from '../utils/reviewPageHelper';
-import formConfig from '../config/form';
 
 const updateSubmitted = (
   <p className="vads-u-width--full vads-u-background-color--green-lightest vads-u-padding--2">
