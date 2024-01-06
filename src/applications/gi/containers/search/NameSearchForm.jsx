@@ -56,7 +56,8 @@ export function NameSearchForm({
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(name || search?.query?.name);
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
       }
     },
     [filters.search],
@@ -172,7 +173,9 @@ export function NameSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
+            />
           </div>
         )}
     </div>

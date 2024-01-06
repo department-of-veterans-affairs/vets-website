@@ -30,6 +30,7 @@ export function FilterBeforeResults({
   preview,
   search,
   smallScreen,
+  setShowFiltersBeforeSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -345,6 +346,7 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
+    setShowFiltersBeforeSearch(false);
     updateResults();
     modalClose();
   };

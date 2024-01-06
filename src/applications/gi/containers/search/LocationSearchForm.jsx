@@ -307,7 +307,9 @@ export function LocationSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
+            />
           </div>
         )}
     </div>
