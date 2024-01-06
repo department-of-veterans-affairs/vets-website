@@ -32,6 +32,8 @@ class Appointments {
       },
     )
       .should('be.visible')
+      .shadow()
+      .find('button')
       .and('contain', 'Check in now');
   };
 
