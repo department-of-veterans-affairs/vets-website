@@ -56,7 +56,7 @@ describe('LabsAndTestsListItem component', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: /Details/,
+      name: 'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
     });
     expect(recordDetailsLink).to.exist;
   });

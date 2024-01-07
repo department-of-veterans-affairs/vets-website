@@ -96,9 +96,12 @@ describe('Labs and tests list container with no data', () => {
     });
 
     expect(
-      screen.getByText('You don’t have any records in Labs and tests', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no lab and test results in your VA medical records.',
+        {
+          exact: true,
+        },
+      ),
     ).to.exist;
   });
 });
