@@ -435,7 +435,7 @@ export function FilterBeforeResults({
             <h5
               className={environment.isProduction() ? '' : 'school-types-label'}
             >
-              Community Focus
+              Community focus
             </h5>
             <button
               className={
