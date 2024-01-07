@@ -16,7 +16,7 @@ const LabsAndTestsListItem = props => {
       {/* web view header */}
       <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5 no-print">
         <Link
-          to={`/summaries-and-notes/${record.id}`}
+          to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
           aria-label={`${record.name} ${formattedDate}`}
         >
