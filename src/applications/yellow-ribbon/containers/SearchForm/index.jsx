@@ -110,7 +110,7 @@ export class SearchForm extends Component {
 
   render() {
     const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
-    const { fetching, showMobileForm } = this.props;
+    const { showMobileForm } = this.props;
     const {
       city,
       contributionAmount,
