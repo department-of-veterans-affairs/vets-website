@@ -6,7 +6,6 @@ import {
 import recordEvent from '~/platform/monitoring/record-event';
 import { getData } from '../util';
 
-export * from './personalInformation';
 export { fetchProfileContacts } from './contacts';
 
 export const FETCH_HERO = 'FETCH_HERO';
