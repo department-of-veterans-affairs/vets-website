@@ -137,7 +137,7 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           checkInSteps,
           preCheckInValid: true,
-          appointmentIen: 1111,
+          appointmentIen: '0001',
           facilityAddress,
         }),
         createAppointment({
@@ -147,6 +147,7 @@ const createMockSuccessResponse = (
           startTime: dateFns.sub(new Date(), { hours: 1 }),
           checkInSteps,
           preCheckInValid: true,
+          appointmentIen: '0002',
           facilityAddress,
         }),
         createAppointment({
@@ -156,6 +157,7 @@ const createMockSuccessResponse = (
           startTime: dateFns.sub(new Date(), { hours: 2 }),
           checkInSteps,
           preCheckInValid: true,
+          appointmentIen: '0003',
           facilityAddress,
         }),
       ],
