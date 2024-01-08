@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { format, add } from 'date-fns';
@@ -10,6 +11,7 @@ import {
 } from '../../../tests/unit/mocks/mock-appointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
+import * as useStorageModule from '../../../hooks/useStorage';
 
 describe('check-in experience', () => {
   beforeEach(() => {
@@ -96,6 +98,21 @@ describe('check-in experience', () => {
     const preCheckInStore = {
       app: 'preCheckIn',
       appointments: initAppointments,
+      upcomingAppointments,
+    };
+    const preCheckInStoreWithPreCheckInIncomplete = {
+      app: 'preCheckIn',
+      appointments: initAppointments,
+      upcomingAppointments,
+      formPages: [
+        'verify',
+        'appointments',
+        'contact-information',
+        'emergency-contact',
+        'next-of-kin',
+        'complete',
+        'appointment-details',
+      ],
     };
     const dayOfCheckInStore = {
       app: 'dayOf',
@@ -197,6 +214,63 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByTestId('appointment-details--facility-info')).to.exist;
+        });
+      });
+      describe('Pre-check-in appointments', () => {
+        it('renders review button when appointment is not upcoming and pre-check-in is not complete', () => {
+          // Mock the method that gets returned by the useStorage hook
+          const getPreCheckinCompleteStub = () => {
+            return { complete: false };
+          };
+          // Mock the return value for the useStorage hook
+          const useStorageStub = sinon
+            .stub(useStorageModule, 'useStorage')
+            .returns({ getPreCheckinComplete: getPreCheckinCompleteStub });
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWithPreCheckInIncomplete}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('review-information-button')).to.exist;
+          // Restore the hook
+          useStorageStub.restore();
+        });
+        it('does not render review button when appointment is not upcoming, pre-check-in is complete', () => {
+          // Mock the method that gets returned by the useStorage hook
+          const getPreCheckinCompleteStub = () => {
+            return { complete: true };
+          };
+          // Mock the return value for the useStorage hook
+          const useStorageStub = sinon
+            .stub(useStorageModule, 'useStorage')
+            .returns({ getPreCheckinComplete: getPreCheckinCompleteStub });
+
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWithPreCheckInIncomplete}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('review-information-button')).to.not.exist;
+
+          // Restore the hook
+          useStorageStub.restore();
+        });
+        it('does not render review button when appointment is upcoming only', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStoreWithPreCheckInIncomplete}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('review-information-button')).to.not.exist;
         });
       });
       describe('In person pre-check-in appointment', () => {

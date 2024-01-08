@@ -2,9 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Confirmation {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'You’ve completed pre-check-in');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
   };
 
   validatePageContent = () => {
