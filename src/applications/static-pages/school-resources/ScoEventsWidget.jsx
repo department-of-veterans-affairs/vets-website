@@ -27,7 +27,8 @@ export default class ScoEventsWidget extends React.Component {
 
     if (!event.eventEndDate) {
       return `${startDate.format('MMMM D, Y')}`;
-    } else if (spansYears) {
+    }
+    if (spansYears) {
       return `${startDate.format('MMMM D, Y')} - ${endDate.format(
         'MMMM, D Y',
       )}`;
@@ -87,7 +88,7 @@ export default class ScoEventsWidget extends React.Component {
                 />
               </a>
               <br />
-              <span style={{ color: '#5B616B' }}>
+              <span style={{ color: '#565c65' }}>
                 <b>{`${this.displayDate(scoEvent)} — ${scoEvent.location}`}</b>
               </span>
             </li>
