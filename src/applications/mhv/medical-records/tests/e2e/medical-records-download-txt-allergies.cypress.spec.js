@@ -31,7 +31,7 @@ describe('Medical Records View Allergies', () => {
     // should display a download pdf file button "Download PDF of this page"
     AllergyDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
+    // should display a download text file button "Download a text file (.txt) of this list"
     AllergyDetailsPage.verifyDownloadTextFile();
 
     cy.reload({ force: true });

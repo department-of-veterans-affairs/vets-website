@@ -53,8 +53,8 @@ const PrintDownload = props => {
       ref={menu}
     >
       <button
+        className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
-        className={toggleMenuButtonClasses}
         onClick={() => setMenuOpen(!menuOpen)}
         data-testid="print-records-button"
         aria-expanded={menuOpen}
@@ -65,6 +65,7 @@ const PrintDownload = props => {
       <ul className={menuOptionsClasses}>
         <li>
           <button
+            className="vads-u-padding-x--2"
             type="button"
             onClick={window.print}
             id="printButton-0"
@@ -75,6 +76,7 @@ const PrintDownload = props => {
         </li>
         <li>
           <button
+            className="vads-u-padding-x--2"
             type="button"
             onClick={download}
             id="printButton-1"
@@ -86,12 +88,13 @@ const PrintDownload = props => {
         {allowTxtDownloads && (
           <li>
             <button
+              className="vads-u-padding-x--2"
               type="button"
               id="printButton-2"
               data-testid="printButton-2"
               onClick={downloadTxt}
             >
-              Download {list ? 'list' : 'page'} as a text file
+              Download a text file (.txt) of this {list ? 'list' : 'page'}
             </button>
           </li>
         )}
