@@ -48,7 +48,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
         </a>
       ) : (
         <va-button
-          onClick={toggleLoginModal(true)}
+          onClick={() => toggleLoginModal(true)}
           text="Sign in or create an account"
         />
       )}

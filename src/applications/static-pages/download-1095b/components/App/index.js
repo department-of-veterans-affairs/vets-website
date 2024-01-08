@@ -221,7 +221,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         <ServiceProvidersTextCreateAcct />
       </div>
       <va-button
-        onClick={toggleLoginModal(true)}
+        onClick={() => toggleLoginModal(true)}
         primary-alternate
         text="Sign in or create an account"
         className="vads-u-margin-top--2"
