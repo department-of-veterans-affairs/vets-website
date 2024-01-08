@@ -8,6 +8,8 @@ import LandingPage from '../../components/LandingPage';
 const stateFn = ({
   mhv_landing_page_personalization = false,
   facilities = [{ facilityId: 983, isCerner: false }],
+  loa = 3,
+  serviceName = 'logingov',
 } = {}) => ({
   featureToggles: {
     mhv_landing_page_personalization,
@@ -18,6 +20,8 @@ const stateFn = ({
         first: 'Sam',
       },
       facilities,
+      loa: { current: loa },
+      signIn: { serviceName },
     },
   },
 });
@@ -41,5 +45,13 @@ describe('LandingPage component', () => {
     const initialState = stateFn({ facilities: [] });
     const { getByText } = setup({ initialState });
     getByText('You don’t have access to My HealtheVet');
+  });
+
+  it('shows an alert when user is LOA1', () => {
+    const initialState = stateFn({ loa: 1, serviceName: 'idme' });
+    const { getByText } = setup({ initialState });
+    getByText(
+      'Verify your ID.me identity to access My HealtheVet tools and features',
+    );
   });
 });
