@@ -27,13 +27,16 @@ describe('buildSearchFilters', () => {
       preferredProvider: true,
     };
 
-    expect(buildSearchFilters(filters)).to.have.all.keys(
-      'excludeCautionFlags',
+    expect(buildSearchFilters(filters)).to.have.all.keys([
       'accredited',
+      'excludeCautionFlags',
+      'preferredProvider',
       'studentVeteran',
       'yellowRibbonScholarship',
-      'preferredProvider',
-    );
+      'excludeEmployers',
+      'excludeSchools',
+      'excludeVettec',
+    ]);
   });
 
   it('returns country, state, specialMission when does not have a value of ALL', () => {
@@ -44,11 +47,14 @@ describe('buildSearchFilters', () => {
       specialMission: 'hbcu',
     };
 
-    expect(buildSearchFilters(filters)).to.have.all.keys(
+    expect(buildSearchFilters(filters)).to.have.all.keys([
       'country',
-      'state',
+      'excludeEmployers',
+      'excludeSchools',
+      'excludeVettec',
       'specialMission',
-    );
+      'state',
+    ]);
   });
 
   it('returns excluded flip values schools, employers, vettec when false', () => {
@@ -78,6 +84,10 @@ describe('buildSearchFilters', () => {
       ],
     };
 
-    expect(buildSearchFilters(filters)).to.have.all.keys('excludedSchoolTypes');
+    expect(buildSearchFilters(filters)).to.have.all.keys([
+      'excludeEmployers',
+      'excludeSchools',
+      'excludeVettec',
+    ]);
   });
 });
