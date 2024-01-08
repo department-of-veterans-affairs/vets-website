@@ -162,3 +162,7 @@ export const PDF_GENERATE_STATUS = {
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
   Success: 'PDF_GENERATE_SUCESS',
 };
+
+export const defaultSelectedSortOption =
+  sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ??
+  Object.keys(rxListSortingOptions)[0];

@@ -12,6 +12,8 @@ export const URL = {
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
   'Compensation (Service-Connected Bens)',
+  'Veteran Affairs  - Debt', // *double space after 'Affairs'
+  'Benefits Issues Outside the US',
 ];
 
 export const requireSignInTopics = [
@@ -20,7 +22,12 @@ export const requireSignInTopics = [
 ];
 
 // list of topics required to render the subtopic page
-export const requiredForSubtopicPage = ['GI Bill'];
+export const requiredForSubtopicPage = [
+  'GI Bill',
+  'Caregiver support',
+  'Family member health benefits',
+  'Prosthetics',
+];
 
 // Response Page headers
 export const RESPONSE_PAGE = {
@@ -107,26 +114,43 @@ export const whoYourQuestionIsAbout = {
   ABOUT_SOMEONE_ELSE: 'About someone else',
 };
 
+// Question About options
+export const questionAboutOptions = {
+  MY_OWN: 'My own VA benefits',
+  SOMEONE_ELSE: "Someone else's VA benefits",
+  GENERAL: "It's a general question",
+};
+
+// Reason options
+export const reasonOptions = {
+  QUESTION: 'I have a question',
+  NICE: 'I want to say something nice',
+  COMPLAINT: 'I have a complaint about a service',
+  SUGGESTION: 'I have a suggestion',
+  TOWN_HALL: 'I attended a Town Hall and now I have a question',
+  SOMETHING_ELSE: 'I want to say something else',
+};
+
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category selected',
-    PAGE_DESCRIPTION: 'Which category best describes your question?',
-    QUESTION_1: 'Category',
+    PAGE_DESCRIPTION: 'Category',
+    QUESTION_1: 'Select the category that best describes your question:',
   },
   PAGE_2: {
     PATH: 'category-topic-2',
     TITLE: 'Topic selected',
-    PAGE_DESCRIPTION: 'Which topic best describes your question?',
-    QUESTION_1: 'Topic',
+    PAGE_DESCRIPTION: 'Topic',
+    QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
     TITLE: 'Subtopic selected',
-    PAGE_DESCRIPTION: 'Which subtopic best describes your question?',
-    QUESTION_1: 'Subtopic',
+    PAGE_DESCRIPTION: 'Subtopic',
+    QUESTION_1: 'Select the subtopic that best describes your question:',
   },
 };
 
@@ -135,10 +159,21 @@ export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
     PATH: 'question-1',
-    TITLE: 'Tell us your question',
+    TITLE: "What's your question about?",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
-    QUESTION_2: "Tell us the reason you're contacting us:",
+    QUESTION_1: 'Select what your question is about:',
+  },
+  PAGE_2: {
+    PATH: 'question-2',
+    TITLE: "Reason you're contacting us",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+  },
+  PAGE_3: {
+    PATH: 'question-3',
+    TITLE: 'Your question',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: "What's your question?",
   },
 };
 

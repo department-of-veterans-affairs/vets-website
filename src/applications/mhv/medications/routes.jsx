@@ -5,6 +5,7 @@ import PrescriptionDetails from './containers/PrescriptionDetails';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
+import PrescriptionsPrintOnly from './containers/PrescriptionsPrintOnly';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -31,6 +32,7 @@ const routes = (
             </Route>
           </Switch>
         </div>
+        <PrescriptionsPrintOnly />
       </App>
     </div>
   </div>

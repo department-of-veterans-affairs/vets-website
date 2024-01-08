@@ -1,7 +1,7 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   AssetTransferFormAlert,
@@ -15,7 +15,7 @@ export default {
     'view:informationAlert': {
       'ui:description': AssetTransferInformationAlert,
     },
-    assetTransfer: yesNoUI({
+    transferredAssets: yesNoUI({
       title:
         'Did you, your spouse or your dependents transfer any assets in the last 3 calendar years?',
       uswds: true,
@@ -24,19 +24,19 @@ export default {
     'view:warningAlert': {
       'ui:description': AssetTransferFormAlert,
       'ui:options': {
-        hideIf: formData => formData.assetTransfer !== true,
+        hideIf: formData => formData.transferredAssets !== true,
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['assetTransfer'],
+    required: ['transferredAssets'],
     properties: {
       'view:informationAlert': {
         type: 'object',
         properties: {},
       },
-      assetTransfer: yesNoSchema,
+      transferredAssets: yesNoSchema,
       'view:warningAlert': {
         type: 'object',
         properties: {},

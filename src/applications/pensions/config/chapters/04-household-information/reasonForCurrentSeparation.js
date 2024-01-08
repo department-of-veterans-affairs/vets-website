@@ -1,8 +1,8 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const reasonForCurrentSeparationOptions = {
   MEDICAL_CARE: 'One of us needs medical care in a dedicated facility',
@@ -26,7 +26,7 @@ export default {
         expandUnderCondition: 'Other',
       },
       'ui:required': form =>
-        get(['reasonForCurrentSeparation'], form) === 'Other',
+        get(['reasonForCurrentSeparation'], form) === 'OTHER',
     },
   },
   schema: {
@@ -34,7 +34,7 @@ export default {
     required: ['reasonForCurrentSeparation'],
     properties: {
       reasonForCurrentSeparation: radioSchema(
-        Object.values(reasonForCurrentSeparationOptions),
+        Object.keys(reasonForCurrentSeparationOptions),
       ),
       otherExplanation: { type: 'string' },
     },
