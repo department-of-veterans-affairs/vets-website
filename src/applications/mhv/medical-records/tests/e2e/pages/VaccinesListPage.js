@@ -7,6 +7,8 @@ class VaccinesListPage {
     Vaccines = defaultVaccines,
     waitForVaccines = false,
   ) => {
+    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    cy.wait('@session');
     cy.intercept('GET', '/my_health/v1/medical_records/vaccines', Vaccines).as(
       'VaccinesList',
     );
