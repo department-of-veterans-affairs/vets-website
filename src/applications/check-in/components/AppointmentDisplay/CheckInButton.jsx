@@ -37,33 +37,35 @@ const CheckInButton = ({
   if (isCheckingIn) {
     // Creating an new button because even having disabled=false results in a SR showing the button as dimmmed.
     return (
-      <va-button
-        text={t('loading')}
-        uswds
-        big
-        data-testid="check-in-button-loading"
-        disabled
-        class="vads-u-display--flex"
-        role="status"
-      />
+      <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+        <va-button
+          text={t('loading')}
+          uswds
+          big
+          data-testid="check-in-button-loading"
+          disabled
+          role="status"
+        />
+      </div>
     );
   }
   return (
-    <va-button
-      text={t('check-in-now')}
-      uswds
-      big
-      onClick={handleClick}
-      data-testid="check-in-button"
-      class="vads-u-display--flex"
-      aria-label={
-        appointmentTime
-          ? t('check-in-now-for-your-time-appointment', {
-              time: appointmentTime,
-            })
-          : t('check-in-now-for-your-appointment')
-      }
-    />
+    <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+      <va-button
+        text={t('check-in-now')}
+        uswds
+        big
+        onClick={handleClick}
+        data-testid="check-in-button"
+        aria-label={
+          appointmentTime
+            ? t('check-in-now-for-your-time-appointment', {
+                time: appointmentTime,
+              })
+            : t('check-in-now-for-your-appointment')
+        }
+      />
+    </div>
   );
 };
 

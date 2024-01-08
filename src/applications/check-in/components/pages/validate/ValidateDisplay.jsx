@@ -127,25 +127,29 @@ export default function ValidateDisplay({
           />
         </div>
         {isLoading ? (
-          <va-button
-            uswds
-            big
-            disabled
-            text={t('loading')}
-            role="status"
-            data-testid="check-in-button-loading"
-            class="vads-u-margin-top--4 vads-u-display--flex"
-          />
+          <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+            <va-button
+              uswds
+              big
+              disabled
+              text={t('loading')}
+              role="status"
+              data-testid="check-in-button-loading"
+              class="vads-u-margin-top--4"
+            />
+          </div>
         ) : (
-          <va-button
-            uswds
-            submit
-            big
-            text={t('continue')}
-            data-testid="check-in-button"
-            class="vads-u-margin-top--4 vads-u-display--flex"
-            onClick={handleFormSubmit}
-          />
+          <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+            <va-button
+              uswds
+              submit
+              big
+              text={t('continue')}
+              data-testid="check-in-button"
+              class="vads-u-margin-top--4"
+              onClick={handleFormSubmit}
+            />
+          </div>
         )}
       </form>
     </Wrapper>
