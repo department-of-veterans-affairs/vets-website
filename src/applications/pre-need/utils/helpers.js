@@ -45,8 +45,15 @@ export const applicantDemographicsSubHeader = (
   </div>
 );
 
-export const applicantDemographicsDescription = (
+export const applicantDemographicsDescription = environment.isProduction() ? (
   <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+) : (
+  <div className="applicantDemographicsDescriptionNotProd">
     <p>
       We require some basic details as part of your application. Please know we
       need to gather the data for statistical purposes.
