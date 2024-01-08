@@ -47,6 +47,7 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import hasDependents from './chapters/04-household-information/hasDependents';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
 import documentUpload from './chapters/06-additional-information/documentUpload';
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
@@ -664,9 +665,16 @@ const formConfig = {
           uiSchema: currentSpouseFormerMarriages.uiSchema,
           schema: currentSpouseFormerMarriages.schema,
         },
+        hasDependents: {
+          title: 'Dependents',
+          path: 'household/dependents',
+          uiSchema: hasDependents.uiSchema,
+          schema: hasDependents.schema,
+        },
         dependents: {
           title: 'Dependent children',
-          path: 'household/dependents',
+          path: 'household/dependents/add',
+          depends: form => get(['view:hasDependents'], form),
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
@@ -675,6 +683,7 @@ const formConfig = {
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} information`,
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -684,6 +693,7 @@ const formConfig = {
           path: 'household/dependents/children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
