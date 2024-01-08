@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
-import { conditionsTitle } from '../../../content/toxicExposure';
+import { conditionsQuestion } from '../../../content/toxicExposure';
 
 describe('Toxic Exposure Conditions', () => {
   const {
@@ -31,7 +31,7 @@ describe('Toxic Exposure Conditions', () => {
     );
 
     // check for the question
-    screen.getByText(conditionsTitle);
+    screen.getByText(conditionsQuestion);
 
     // additional info
     screen.getByText(
