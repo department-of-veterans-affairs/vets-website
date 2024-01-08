@@ -23,6 +23,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import {
+  getDependentChildTitle,
   getMarriageTitleWithCurrent,
   directDepositWarning,
   isMarried,
@@ -669,7 +670,9 @@ const formConfig = {
         spouseMarriageHistory: {
           title: 'Spouse’s former marriages',
           path: 'household/marital-status/spouse-marriages',
-          depends: formData => formData.currentSpouseMaritalHistory === 'Yes',
+          depends: formData =>
+            isMarried(formData) &&
+            formData.currentSpouseMaritalHistory === 'Yes',
           uiSchema: currentSpouseFormerMarriages.uiSchema,
           schema: currentSpouseFormerMarriages.schema,
         },
@@ -682,16 +685,14 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form),
+          depends: form => get(['view:hasDependents'], form) === true,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} information`,
-          depends: form => get(['view:hasDependents'], form),
+          title: item => getDependentChildTitle(item, 'information'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -699,8 +700,7 @@ const formConfig = {
         },
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+          title: item => getDependentChildTitle(item, 'address'),
           depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
