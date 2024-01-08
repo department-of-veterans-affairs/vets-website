@@ -491,8 +491,7 @@ const formConfig = {
                       'Other',
                     'ui:options': {
                       expandUnder: 'marriageType',
-                      expandUnderCondition:
-                        'Some other way (this is equivalent to the current option other)',
+                      expandUnderCondition: marriageTypeLabels.other,
                     },
                   },
                 },
