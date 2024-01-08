@@ -4,9 +4,9 @@ import {
   fullNameUI,
   yesNoUI,
   yesNoSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import FullNameField from '@department-of-veterans-affairs/platform-forms-system/FullNameField';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const { placeOfSeparation, previousNames } = fullSchemaPensions.properties;
 
