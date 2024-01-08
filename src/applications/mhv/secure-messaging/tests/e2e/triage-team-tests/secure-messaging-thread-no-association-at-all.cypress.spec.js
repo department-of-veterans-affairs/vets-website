@@ -62,13 +62,13 @@ describe('Verify thread - No association at all', () => {
       .should('have.attr', 'href', '/find-locations/');
   });
 
-  it.skip('detailed view', () => {
+  it('detailed view', () => {
     landingPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
     );
-    // landingPage.loadSingleThread();
+    landingPage.loadSingleThread();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -80,37 +80,38 @@ describe('Verify thread - No association at all', () => {
     });
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('[class="alert-expandable warning"]')
       .should('be.visible')
-      .and('include.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
+      .and('include.text', Alerts.NO_ASSOCIATION.HEADER);
 
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP)
-    //   .shadow()
-    //   .find('#alert-body')
-    //   .should('have.class', 'closed');
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'closed');
 
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
-    //   waitForAnimations: true,
-    // });
-    //
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP)
-    //   .shadow()
-    //   .find('#alert-body')
-    //   .should('have.class', 'open');
-    //
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP)
-    //   .find('a')
-    //   .should('have.attr', 'href', '/find-locations/');
-    //
-    // cy.get(Locators.BUTTONS.REPLY).should('not.exist');
-    //
-    // // TODO move these assertion up after alert text fixing
-    //
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP)
-    //   .find('p')
-    //   .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
-    //
-    // cy.get(Locators.ALERTS.BLOCKED_GROUP)
-    //   .find('a')
-    //   .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+    cy.get(Locators.ALERTS.BLOCKED_GROUP).click({
+      waitForAnimations: true,
+    });
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .shadow()
+      .find('#alert-body')
+      .should('have.class', 'open');
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('p')
+      .should('have.text', Alerts.NO_ASSOCIATION.PARAGRAPH);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .first()
+      .should('have.text', Alerts.NO_ASSOCIATION.LINK);
+
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
+      .find('a')
+      .should('have.attr', 'href', '/find-locations/');
+
+    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 });
