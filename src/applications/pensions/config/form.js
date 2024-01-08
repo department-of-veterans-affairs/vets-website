@@ -47,6 +47,7 @@ import currentSpouseFormerMarriages from './chapters/04-household-information/cu
 import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
 import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
 import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import hasDependents from './chapters/04-household-information/hasDependents';
 import dependentChildren from './chapters/04-household-information/dependentChildren';
 import documentUpload from './chapters/06-additional-information/documentUpload';
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
@@ -158,7 +159,10 @@ export function isUnder65(formData, currentDate) {
 }
 
 function showSpouseAddress(form) {
-  return form.maritalStatus === 'Separated' || form.liveWithSpouse === false;
+  return (
+    form.maritalStatus === 'Separated' ||
+    get(['view:liveWithSpouse'], form) === false
+  );
 }
 
 function isCurrentMarriage(form, index) {
@@ -202,9 +206,15 @@ const formConfig = {
   version: 3,
   migrations,
   prefillEnabled: true,
+  // verifyRequiredPrefill: true,
+  // transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
+  // beforeLoad: props => { console.log('form config before load', props); },
+  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
+  //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
+  // },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth:
@@ -213,6 +223,10 @@ const formConfig = {
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   preSubmitInfo,
+  // showReviewErrors: true,
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
@@ -585,7 +599,7 @@ const formConfig = {
                 pattern: 'Your VA file number must be 8 or 9 digits',
               },
             },
-            liveWithSpouse: {
+            'view:liveWithSpouse': {
               'ui:widget': 'yesNo',
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
@@ -601,14 +615,14 @@ const formConfig = {
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
               'spouseIsVeteran',
-              'liveWithSpouse',
+              'view:liveWithSpouse',
             ],
             properties: {
               spouseDateOfBirth,
               spouseSocialSecurityNumber,
               spouseIsVeteran,
               spouseVaFileNumber,
-              liveWithSpouse,
+              'view:liveWithSpouse': liveWithSpouse,
             },
           },
         },
@@ -651,9 +665,16 @@ const formConfig = {
           uiSchema: currentSpouseFormerMarriages.uiSchema,
           schema: currentSpouseFormerMarriages.schema,
         },
+        hasDependents: {
+          title: 'Dependents',
+          path: 'household/dependents',
+          uiSchema: hasDependents.uiSchema,
+          schema: hasDependents.schema,
+        },
         dependents: {
           title: 'Dependent children',
-          path: 'household/dependents',
+          path: 'household/dependents/add',
+          depends: form => get(['view:hasDependents'], form),
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
@@ -662,6 +683,7 @@ const formConfig = {
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last ||
               ''} information`,
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -671,6 +693,7 @@ const formConfig = {
           path: 'household/dependents/children/address/:index',
           title: item =>
             `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -770,9 +793,9 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
+          depends: formData => !formData.totalNetWorth,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
-          depends: formData => !formData.totalNetWorth,
         },
         transferredAssets: {
           title: 'Transferred assets',
