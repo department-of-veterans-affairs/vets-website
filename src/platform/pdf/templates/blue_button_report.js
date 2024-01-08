@@ -1,5 +1,5 @@
 /**
- * Lab and Test Results PDF template.
+ * Blue Button PDF template.
  *
  * NB: The order in which items are added to the document is important,
  * and thus PDFKit requires performing operations synchronously.
