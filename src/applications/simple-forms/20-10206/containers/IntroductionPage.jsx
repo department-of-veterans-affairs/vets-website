@@ -25,6 +25,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
     authStartFormText: 'Start your request',
     unauthStartText: 'Sign in to start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
+    displayNonVeteranMessaging: true,
   };
 
   const childContent = (
