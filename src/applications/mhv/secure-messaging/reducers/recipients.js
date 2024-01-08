@@ -6,6 +6,7 @@ const initialState = {
    * List of ALL triage teams recipients
    * @type {array}
    */
+  allRecipients: [],
   allowedRecipients: [],
   blockedRecipients: [],
   blockedFacilities: [],
@@ -32,6 +33,10 @@ export const recipientsReducer = (state = initialState, action) => {
         associatedTriageGroupsQty: associatedTriageGroups,
 
         associatedBlockedTriageGroupsQty: associatedBlockedTriageGroups,
+
+        allRecipients: action.response.data.map(recipient =>
+          formatRecipient(recipient),
+        ),
 
         allowedRecipients: action.response.data
           .filter(

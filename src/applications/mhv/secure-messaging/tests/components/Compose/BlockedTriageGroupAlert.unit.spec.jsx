@@ -4,7 +4,12 @@ import { expect } from 'chai';
 import { cleanup, waitFor } from '@testing-library/react';
 import reducer from '../../../reducers';
 import BlockedTriageGroupAlert from '../../../components/shared/BlockedTriageGroupAlert';
-import { RecipientStatus, Recipients } from '../../../util/constants';
+import {
+  BlockedTriageAlertStyles,
+  ParentComponent,
+  RecipientStatus,
+  Recipients,
+} from '../../../util/constants';
 
 describe('BlockedTriageGroupAlert component', () => {
   const initialState = {
@@ -41,7 +46,9 @@ describe('BlockedTriageGroupAlert component', () => {
   });
 
   it('renders without errors', async () => {
-    const screen = setup(initialState, { alertStyle: 'alert' });
+    const screen = setup(initialState, {
+      alertStyle: BlockedTriageAlertStyles.ALERT,
+    });
     expect(screen);
   });
 
@@ -54,7 +61,7 @@ describe('BlockedTriageGroupAlert component', () => {
           status: RecipientStatus.BLOCKED,
         },
       ],
-      alertStyle: 'alert',
+      alertStyle: BlockedTriageAlertStyles.ALERT,
     });
     expect(screen.queryByTestId('blocked-triage-group')).to.not.exist;
     await waitFor(() => {
@@ -94,8 +101,8 @@ describe('BlockedTriageGroupAlert component', () => {
           status: RecipientStatus.BLOCKED,
         },
       ],
-      alertStyle: 'alert',
-      parentComponent: 'Compose Form',
+      alertStyle: BlockedTriageAlertStyles.ALERT,
+      parentComponent: ParentComponent.COMPOSE_FORM,
     });
     await waitFor(() => {
       expect(
@@ -114,17 +121,19 @@ describe('BlockedTriageGroupAlert component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
-          associatedTriageGroupsQty: 0,
+          noAssociations: true,
+          allTriageGroupsBlocked: false,
         },
       },
     };
+
     const screen = setup(customState, {
-      parentComponent: 'Folder Header',
-      alertStyle: 'info',
+      parentComponent: ParentComponent.FOLDER_HEADER,
+      alertStyle: BlockedTriageAlertStyles.INFO,
     });
     expect(
       screen.queryByTestId('blocked-triage-group-alert'),
-    ).to.have.attribute('status', 'info');
+    ).to.have.attribute('status', BlockedTriageAlertStyles.INFO);
     expect(
       screen.getByText(
         "You're not connected to any care teams in this messaging tool",

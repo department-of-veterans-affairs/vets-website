@@ -1,12 +1,9 @@
 {
-  "data": [],
-  "meta": {
-    "associatedTriageGroups": 0,
-    "associatedBlockedTriageGroups": 0,
-    "sort": {
-      "name": "ASC"
-    }
-  },
+  "associatedTriageGroupsQty": 0,
+  "associatedBlockedTriageGroupsQty": 0,
+  "noAssociations": true,
+  "allTriageGroupsBlocked": false,
+
   "mockAllRecipients": [],
   "mockAllowedRecipients": [],
   "mockBlockedRecipients": [],

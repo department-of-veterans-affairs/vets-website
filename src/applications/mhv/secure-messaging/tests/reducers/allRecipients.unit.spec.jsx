@@ -37,6 +37,6 @@ describe('allRecipients reducers', () => {
     const store = mockStore();
     mockApiRequest({}, false);
     await store.dispatch(getAllTriageTeamRecipients());
-    expect(store.getState().allRecipients).to.deep.equal('error');
+    expect(store.getState().error).to.equal(true);
   });
 });

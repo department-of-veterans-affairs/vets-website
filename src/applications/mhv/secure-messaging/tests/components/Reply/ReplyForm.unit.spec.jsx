@@ -30,9 +30,11 @@ describe('Reply form component', () => {
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedTriageGroups,
+          noBlockedRecipients.associatedTriageGroupsQty,
         associatedBlockedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
       threadDetails: {
         ...threadDetailsReducer.threadDetails,
@@ -204,9 +206,11 @@ describe('Reply form component', () => {
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedTriageGroups,
+            oneBlockedRecipient.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedBlockedTriageGroups,
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
         },
       },
     };
@@ -242,9 +246,11 @@ describe('Reply form component', () => {
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            twoBlockedRecipients.meta.associatedTriageGroups,
+            twoBlockedRecipients.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            twoBlockedRecipients.meta.associatedBlockedTriageGroups,
+            twoBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: twoBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: twoBlockedRecipients.allTriageGroupsBlocked,
         },
       },
     };
@@ -279,9 +285,11 @@ describe('Reply form component', () => {
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedTriageGroups,
+            noAssociationsAtAll.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedBlockedTriageGroups,
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
         },
       },
     };

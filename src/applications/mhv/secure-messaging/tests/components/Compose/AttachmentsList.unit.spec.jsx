@@ -19,9 +19,11 @@ describe('Attachments List component', () => {
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedTriageGroups,
+          noBlockedRecipients.associatedTriageGroupsQty,
         associatedBlockedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
     },
   };

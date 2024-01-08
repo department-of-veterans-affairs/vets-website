@@ -160,9 +160,11 @@ describe('Thread Details container', () => {
           allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            noBlockedRecipients.meta.associatedTriageGroups,
+            noBlockedRecipients.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            noBlockedRecipients.meta.associatedBlockedTriageGroups,
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
         },
         messageDetails: { message: singleDraftThread.draftMessage },
       },
@@ -495,9 +497,11 @@ describe('Thread Details container', () => {
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedTriageGroups,
+            oneBlockedRecipient.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedBlockedTriageGroups,
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
         },
       },
       drupalStaticData: {
@@ -546,10 +550,11 @@ describe('Thread Details container', () => {
           allRecipients: lostAssociation.mockAllRecipients,
           allowedRecipients: lostAssociation.mockAllowedRecipients,
           blockedRecipients: lostAssociation.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            lostAssociation.meta.associatedTriageGroups,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            lostAssociation.meta.associatedBlockedTriageGroups,
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
         },
       },
       drupalStaticData: {
@@ -600,9 +605,11 @@ describe('Thread Details container', () => {
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedTriageGroups,
+            noAssociationsAtAll.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedBlockedTriageGroups,
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
         },
       },
       drupalStaticData: {

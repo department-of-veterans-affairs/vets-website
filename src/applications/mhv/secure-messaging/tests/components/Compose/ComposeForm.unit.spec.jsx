@@ -36,13 +36,14 @@ describe('Compose form component', () => {
       triageTeams: { triageTeams },
       categories: { categories },
       recipients: {
-        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedTriageGroups,
+          noBlockedRecipients.associatedTriageGroupsQty,
         associatedBlockedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
     },
     drupalStaticData,
@@ -55,13 +56,14 @@ describe('Compose form component', () => {
       categories: { categories },
       threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
-        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedTriageGroups,
+          noBlockedRecipients.associatedTriageGroupsQty,
         associatedBlockedTriageGroupsQty:
-          noBlockedRecipients.meta.associatedBlockedTriageGroups,
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
       },
     },
     drupalStaticData,
@@ -514,13 +516,14 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
-          allRecipients: oneBlockedRecipient.mockAllRecipients,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedTriageGroups,
+            oneBlockedRecipient.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            oneBlockedRecipient.meta.associatedBlockedTriageGroups,
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
         },
       },
     };
@@ -557,14 +560,15 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
-          allRecipients: twoBlockedRecipients.mockAllRecipients,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           blockedFacilities: [],
           associatedTriageGroupsQty:
-            twoBlockedRecipients.meta.associatedTriageGroups,
+            twoBlockedRecipients.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            twoBlockedRecipients.meta.associatedBlockedTriageGroups,
+            twoBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: twoBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: twoBlockedRecipients.allTriageGroupsBlocked,
         },
       },
     };
@@ -603,13 +607,13 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
-          allRecipients: lostAssociation.mockAllRecipients,
           allowedRecipients: lostAssociation.mockAllowedRecipients,
           blockedRecipients: lostAssociation.mockBlockedRecipients,
-          associatedTriageGroupsQty:
-            lostAssociation.meta.associatedTriageGroups,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            lostAssociation.meta.associatedBlockedTriageGroups,
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
         },
       },
     };
@@ -647,13 +651,14 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
-          allRecipients: noAssociationsAtAll.mockAllRecipients,
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedTriageGroups,
+            noAssociationsAtAll.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            noAssociationsAtAll.meta.associatedBlockedTriageGroups,
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
         },
       },
     };
@@ -691,14 +696,14 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
-          allRecipients: blockedFacility.mockAllRecipients,
           allowedRecipients: blockedFacility.mockAllowedRecipients,
           blockedRecipients: blockedFacility.mockBlockedRecipients,
           blockedFacilities: blockedFacility.mockBlockedFacilities,
-          associatedTriageGroupsQty:
-            blockedFacility.meta.associatedTriageGroups,
+          associatedTriageGroupsQty: blockedFacility.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            blockedFacility.meta.associatedBlockedTriageGroups,
+            blockedFacility.associatedBlockedTriageGroupsQty,
+          noAssociations: blockedFacility.noAssociations,
+          allTriageGroupsBlocked: blockedFacility.allTriageGroupsBlocked,
         },
         threadDetails: {},
       },
@@ -732,14 +737,15 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
-          allRecipients: blockedFacilityAndTeam.mockAllRecipients,
           allowedRecipients: blockedFacilityAndTeam.mockAllowedRecipients,
           blockedRecipients: blockedFacilityAndTeam.mockBlockedRecipients,
           blockedFacilities: blockedFacilityAndTeam.mockBlockedFacilities,
           associatedTriageGroupsQty:
-            blockedFacilityAndTeam.meta.associatedTriageGroups,
+            blockedFacilityAndTeam.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            blockedFacilityAndTeam.meta.associatedBlockedTriageGroups,
+            blockedFacilityAndTeam.associatedBlockedTriageGroupsQty,
+          noAssociations: blockedFacilityAndTeam.noAssociations,
+          allTriageGroupsBlocked: blockedFacilityAndTeam.allTriageGroupsBlocked,
         },
         threadDetails: {},
       },
@@ -778,13 +784,14 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
-          allRecipients: allBlockedAssociations.mockAllRecipients,
           allowedRecipients: allBlockedAssociations.mockAllowedRecipients,
           blockedRecipients: allBlockedAssociations.mockBlockedRecipients,
           associatedTriageGroupsQty:
-            allBlockedAssociations.meta.associatedTriageGroups,
+            allBlockedAssociations.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
-            allBlockedAssociations.meta.associatedBlockedTriageGroups,
+            allBlockedAssociations.associatedBlockedTriageGroupsQty,
+          noAssociations: allBlockedAssociations.noAssociations,
+          allTriageGroupsBlocked: allBlockedAssociations.allTriageGroupsBlocked,
         },
       },
     };

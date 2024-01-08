@@ -1,73 +1,9 @@
 {
-  "data": [
-    {
-      "id": "2710520",
-      "type": "all_triage_teams",
-      "attributes": {
-        "triageTeamId": 2710520,
-        "name": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-        "stationNumber": "583",
-        "blockedStatus": true,
-        "preferredTeam": true,
-        "relationshipType": "PATIENT"
-      }
-    },
-    {
-      "id": "2323849",
-      "type": "all_triage_teams",
-      "attributes": {
-        "triageTeamId": 2323849,
-        "name": "ALPHA_PCMM ASSOCIATION_DAYT29",
-        "stationNumber": "583",
-        "blockedStatus": true,
-        "preferredTeam": true,
-        "relationshipType": "PATIENT"
-      }
-    },
-    {
-      "id": "2336822",
-      "type": "all_triage_teams",
-      "attributes": {
-        "triageTeamId": 2336822,
-        "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
-        "stationNumber": "636",
-        "blockedStatus": true,
-        "preferredTeam": true,
-        "relationshipType": "PATIENT"
-      }
-    },
-    {
-      "id": "2666935",
-      "type": "all_triage_teams",
-      "attributes": {
-        "triageTeamId": 2666935,
-        "name": "Ademonow",
-        "stationNumber": "636",
-        "blockedStatus": false,
-        "preferredTeam": true,
-        "relationshipType": "PATIENT"
-      }
-    },
-    {
-      "id": "2343333",
-      "type": "all_triage_teams",
-      "attributes": {
-        "triageTeamId": 2343333,
-        "name": "AnTran_TGTest",
-        "stationNumber": "636",
-        "blockedStatus": false,
-        "preferredTeam": true,
-        "relationshipType": "PATIENT"
-      }
-    }
-  ],
-  "meta": {
-    "associatedTriageGroups": 5,
-    "associatedBlockedTriageGroups": 3,
-    "sort": {
-      "name": "ASC"
-    }
-  },
+  "associatedTriageGroupsQty": 5,
+  "associatedBlockedTriageGroupsQty": 3,
+  "noAssociations": false,
+  "allTriageGroupsBlocked": false,
+
   "mockAllRecipients": [
     {
       "id": 2710520,
