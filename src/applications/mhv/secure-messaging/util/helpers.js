@@ -232,15 +232,16 @@ export const checkTriageGroupAssociation = tempRecipient => {
 
 export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   const formattedRecipient = tempRecipient;
-  const isAssociated = Array.isArray(recipients.allRecipients)
-    ? recipients.allRecipients.some(
-        checkTriageGroupAssociation(formattedRecipient),
-      )
-    : false;
 
   const isBlocked = recipients.blockedRecipients?.some(
     checkTriageGroupAssociation(formattedRecipient),
   );
+
+  const isAssociated =
+    isBlocked ||
+    recipients.allowedRecipients.some(
+      checkTriageGroupAssociation(formattedRecipient),
+    );
 
   if (!isAssociated) {
     formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;

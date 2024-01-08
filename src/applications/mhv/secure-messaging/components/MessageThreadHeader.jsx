@@ -13,6 +13,7 @@ import {
   Recipients,
   ParentComponent,
   RecipientStatus,
+  BlockedTriageAlertStyles,
 } from '../util/constants';
 import {
   updatePageTitle,
@@ -157,29 +158,23 @@ const MessageThreadHeader = props => {
           <div className="vads-u-margin-top--3 vads-u-margin-bottom--2">
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
-              alertStyle="alert"
+              alertStyle={BlockedTriageAlertStyles.ALERT}
               parentComponent={ParentComponent.MESSAGE_THREAD}
             />
           </div>
         ))}
 
-      {mhvSecureMessagingBlockedTriageGroup1p0 ? (
-        <MessageActionButtons
-          threadId={threadId}
-          hideReplyButton={cannotReply || showBlockedTriageGroupAlert}
-          handleReplyButton={handleReplyButton}
-          isCreateNewModalVisible={isCreateNewModalVisible}
-          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        />
-      ) : (
-        <MessageActionButtons
-          threadId={threadId}
-          hideReplyButton={cannotReply}
-          handleReplyButton={handleReplyButton}
-          isCreateNewModalVisible={isCreateNewModalVisible}
-          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        />
-      )}
+      <MessageActionButtons
+        threadId={threadId}
+        hideReplyButton={
+          cannotReply ||
+          (mhvSecureMessagingBlockedTriageGroup1p0 &&
+            showBlockedTriageGroupAlert)
+        }
+        handleReplyButton={handleReplyButton}
+        isCreateNewModalVisible={isCreateNewModalVisible}
+        setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+      />
     </div>
   );
 };

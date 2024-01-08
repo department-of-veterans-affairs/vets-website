@@ -6,27 +6,32 @@ const initialState = {
    * List of ALL triage teams recipients
    * @type {array}
    */
-  allRecipients: undefined,
   allowedRecipients: [],
   blockedRecipients: [],
   blockedFacilities: [],
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
+  noAssociations: undefined,
+  allTriageGroupsBlocked: undefined,
+  error: undefined,
 };
 
 export const recipientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.AllRecipients.GET_LIST:
+    case Actions.AllRecipients.GET_LIST: {
+      const {
+        associatedTriageGroups,
+        associatedBlockedTriageGroups,
+      } = action.response.meta;
+      const noAssociations = associatedTriageGroups === 0;
+      const allTriageGroupsBlocked =
+        !noAssociations &&
+        associatedTriageGroups === associatedBlockedTriageGroups;
       return {
         ...state,
-        associatedTriageGroupsQty: action.response.meta.associatedTriageGroups,
+        associatedTriageGroupsQty: associatedTriageGroups,
 
-        associatedBlockedTriageGroupsQty:
-          action.response.meta.associatedBlockedTriageGroups,
-
-        allRecipients: action.response.data.map(recipient =>
-          formatRecipient(recipient),
-        ),
+        associatedBlockedTriageGroupsQty: associatedBlockedTriageGroups,
 
         allowedRecipients: action.response.data
           .filter(
@@ -41,11 +46,16 @@ export const recipientsReducer = (state = initialState, action) => {
           .map(recipient => formatRecipient(recipient)),
 
         blockedFacilities: findBlockedFacilities(action.response.data),
+
+        noAssociations,
+
+        allTriageGroupsBlocked,
       };
+    }
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {
         ...state,
-        allRecipients: 'error',
+        error: true,
       };
     default:
       return state;

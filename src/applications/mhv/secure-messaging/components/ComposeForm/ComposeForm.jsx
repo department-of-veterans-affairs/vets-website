@@ -32,6 +32,7 @@ import {
   Recipients,
   ParentComponent,
   RecipientStatus,
+  BlockedTriageAlertStyles,
 } from '../../util/constants';
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
@@ -41,10 +42,7 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
-  const {
-    associatedTriageGroupsQty,
-    associatedBlockedTriageGroupsQty,
-  } = recipients;
+  const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -606,7 +604,7 @@ const ComposeForm = props => {
               >
                 <BlockedTriageGroupAlert
                   blockedTriageGroupList={blockedTriageGroupList}
-                  alertStyle="alert"
+                  alertStyle={BlockedTriageAlertStyles.ALERT}
                   parentComponent={ParentComponent.COMPOSE_FORM}
                 />
               </div>
@@ -614,9 +612,8 @@ const ComposeForm = props => {
 
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
-              (associatedTriageGroupsQty > 0 &&
-                associatedTriageGroupsQty !==
-                  associatedBlockedTriageGroupsQty && (
+              (!noAssociations &&
+                !allTriageGroupsBlocked && (
                   <>
                     <VaSelect
                       enable-analytics
@@ -708,27 +705,25 @@ const ComposeForm = props => {
           </div>
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
-              (associatedTriageGroupsQty > 0 &&
-                associatedTriageGroupsQty !==
-                  associatedBlockedTriageGroupsQty && (
-                  <section className="attachments-section">
-                    <AttachmentsList
-                      compose
-                      attachments={attachments}
-                      setAttachments={setAttachments}
-                      attachFileSuccess={attachFileSuccess}
-                      setAttachFileSuccess={setAttachFileSuccess}
-                      setNavigationError={setNavigationError}
-                      editingEnabled
-                    />
+              (!allTriageGroupsBlocked && (
+                <section className="attachments-section">
+                  <AttachmentsList
+                    compose
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                  />
 
-                    <FileInput
-                      attachments={attachments}
-                      setAttachments={setAttachments}
-                      setAttachFileSuccess={setAttachFileSuccess}
-                    />
-                  </section>
-                ))
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
+                </section>
+              ))
             : recipientsList && (
                 <section className="attachments-section">
                   <AttachmentsList
@@ -753,9 +748,7 @@ const ComposeForm = props => {
           <ComposeFormActionButtons
             cannotReply={
               mhvSecureMessagingBlockedTriageGroup1p0
-                ? recipients.associatedTriageGroupsQty === 0 ||
-                  recipients.associatedTriageGroupsQty ===
-                    recipients.associatedBlockedTriageGroupsQty
+                ? noAssociations || allTriageGroupsBlocked
                 : false
             }
             deleteButtonClicked={deleteButtonClicked}

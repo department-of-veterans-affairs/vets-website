@@ -349,3 +349,31 @@ export const RecipientStatus = {
   ALLOWED: 'Allowed',
   NOT_ASSOCIATED: 'Not Associated',
 };
+
+export const BlockedTriageAlertStyles = {
+  INFO: 'info',
+  WARNING: 'warning',
+  ALERT: 'alert',
+};
+
+export const BlockedTriageAlertText = {
+  alertTitle: {
+    NO_ASSOCIATIONS:
+      "You're not connected to any care teams in this messaging tool",
+    ALL_TEAMS_BLOCKED: "You can't send messages to your care teams right now",
+    MULTIPLE_TEAMS_BLOCKED:
+      "You can't send messages to some of your care teams",
+  },
+  alertMessage: {
+    NO_ASSOCIATIONS:
+      'If you need to contact your care team, call your VA health facility.',
+    ALL_TEAMS_BLOCKED:
+      'If you need to contact your care teams, call your VA health facility.',
+    SINGLE_FACILITY_BLOCKED:
+      'If you need to contact these care teams, call the facility.',
+    SINGLE_TEAM_BLOCKED:
+      'If you need to contact this care team, call your VA health facility.',
+    MULTIPLE_TEAMS_BLOCKED:
+      'If you need to contact these care teams, call your VA health facility.',
+  },
+};

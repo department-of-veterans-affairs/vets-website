@@ -16,10 +16,9 @@ const DashboardUnreadMessages = props => {
       ],
   );
 
-  const {
-    associatedTriageGroupsQty,
-    associatedBlockedTriageGroupsQty,
-  } = useSelector(state => state.sm.recipients);
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
+  );
 
   const unreadCountHeader = useMemo(
     () => {
@@ -55,21 +54,9 @@ const DashboardUnreadMessages = props => {
         >
           Go to your inbox
         </Link>
-        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
-          associatedTriageGroupsQty > 0 &&
-          associatedTriageGroupsQty !== associatedBlockedTriageGroupsQty && (
-            <>
-              <HorizontalRule />
-              <Link
-                data-testid="compose-message-link"
-                className="vads-c-action-link--blue"
-                to={Paths.COMPOSE}
-              >
-                Start a new message
-              </Link>
-            </>
-          )
-        ) : (
+
+        {(!mhvSecureMessagingBlockedTriageGroup1p0 ||
+          (!noAssociations && !allTriageGroupsBlocked)) && (
           <>
             <HorizontalRule />
             <Link

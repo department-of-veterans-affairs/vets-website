@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import {
+  BlockedTriageAlertStyles,
+  BlockedTriageAlertText,
   ParentComponent,
   RecipientStatus,
   Recipients,
@@ -11,21 +13,23 @@ import { sortTriageList } from '../../util/helpers';
 
 const BlockedTriageGroupAlert = props => {
   const { blockedTriageGroupList, alertStyle, parentComponent } = props;
+
+  const { alertTitle, alertMessage } = BlockedTriageAlertText;
+
   const [alertTitleText, setAlertTitleText] = useState(
-    "You're not connected to any care teams in this messaging tool",
+    alertTitle.NO_ASSOCIATIONS,
   );
-  const [alertInfotText, setAlertInfoText] = useState(
-    'If you need to contact your care team, call your VA health facility.',
+  const [alertInfoText, setAlertInfoText] = useState(
+    alertMessage.NO_ASSOCIATIONS,
   );
 
   const ehrDataByVhaId = useSelector(
     state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
-  const {
-    associatedTriageGroupsQty,
-    associatedBlockedTriageGroupsQty,
-  } = useSelector(state => state.sm.recipients);
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
+  );
 
   const { blockedFacilities } = useSelector(state => state.sm.recipients);
 
@@ -60,26 +64,19 @@ const BlockedTriageGroupAlert = props => {
   useEffect(() => {
     if (
       parentComponent === ParentComponent.FOLDER_HEADER &&
-      associatedTriageGroupsQty === 0
+      (noAssociations || allTriageGroupsBlocked)
     ) {
       return;
     }
 
     if (parentComponent === ParentComponent.COMPOSE_FORM) {
-      if (associatedTriageGroupsQty === 0) {
+      if (noAssociations) {
         return;
       }
 
-      if (
-        associatedTriageGroupsQty > 0 &&
-        associatedTriageGroupsQty === associatedBlockedTriageGroupsQty
-      ) {
-        setAlertTitleText(
-          "You can't send messages to your care teams right now",
-        );
-        setAlertInfoText(
-          'If you need to contact your care teams, call your VA health facility.',
-        );
+      if (allTriageGroupsBlocked) {
+        setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+        setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
         return;
       }
     }
@@ -91,9 +88,7 @@ const BlockedTriageGroupAlert = props => {
             blockedTriageList[0].name
           }`,
         );
-        setAlertInfoText(
-          'If you need to contact these care teams, call the facility.',
-        );
+        setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
       } else {
         setAlertTitleText(
           blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
@@ -103,29 +98,25 @@ const BlockedTriageGroupAlert = props => {
             : `You can't send messages to ${blockedTriageList[0].name}`,
         );
         if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
-          setAlertInfoText(
-            'If you need to contact this care team, call your VA health facility.',
-          );
+          setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
         }
       }
     } else {
-      setAlertTitleText("You can't send messages to some of your care teams");
-      setAlertInfoText(
-        'If you need to contact these care teams, call your VA health facility.',
-      );
+      setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
+      setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
     }
   }, []);
 
-  return alertStyle === 'alert' ? (
+  return alertStyle === BlockedTriageAlertStyles.ALERT ? (
     <va-alert-expandable
       status="warning"
       trigger={alertTitleText}
       data-testid="blocked-triage-group-alert"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
-        <p className="vads-u-margin-bottom--1p5">{alertInfotText}</p>
+        <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
         {parentComponent === ParentComponent.COMPOSE_FORM &&
-          associatedTriageGroupsQty !== associatedBlockedTriageGroupsQty &&
+          !allTriageGroupsBlocked &&
           blockedTriageList?.length > 1 && (
             <ul>
               {blockedTriageList?.map((blockedTriageGroup, i) => (
@@ -151,7 +142,7 @@ const BlockedTriageGroupAlert = props => {
     >
       <h2 slot="headline">{alertTitleText}</h2>
       <div>
-        <p className="vads-u-margin-bottom--1p5">{alertInfotText}</p>
+        <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
         <a href="/find-locations/">Find your VA health facility</a>
       </div>
     </va-alert>

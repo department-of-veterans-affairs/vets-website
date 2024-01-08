@@ -83,7 +83,7 @@ const Compose = () => {
           </h1>
           <ComposeForm
             draft={draftMessage}
-            recipients={recipients.allRecipients !== 'error' && recipients}
+            recipients={!recipients.error && recipients}
           />
         </>
       );

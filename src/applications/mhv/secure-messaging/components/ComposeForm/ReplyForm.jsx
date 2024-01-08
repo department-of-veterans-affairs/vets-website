@@ -13,6 +13,7 @@ import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
 import {
+  BlockedTriageAlertStyles,
   PageTitles,
   ParentComponent,
   RecipientStatus,
@@ -143,7 +144,7 @@ const ReplyForm = props => {
           showBlockedTriageGroupAlert && (
             <BlockedTriageGroupAlert
               blockedTriageGroupList={blockedTriageGroupList}
-              alertStyle="alert"
+              alertStyle={BlockedTriageAlertStyles.ALERT}
               parentComponent={ParentComponent.REPLY_FORM}
             />
           )}
