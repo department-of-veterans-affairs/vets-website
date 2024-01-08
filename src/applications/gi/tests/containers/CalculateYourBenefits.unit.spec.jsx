@@ -110,12 +110,14 @@ describe('<CalculateYourBenefits>', () => {
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
+
     const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(
       global.window,
       'removeEventListener',
     );
-    const tree = mount(
+
+    const wrapper = mount(
       <Provider store={store}>
         <CalculateYourBenefits
           gibctEybBottomSheet={gibctEybBottomSheet}
@@ -124,15 +126,52 @@ describe('<CalculateYourBenefits>', () => {
         />
       </Provider>,
     );
+
     global.window.dispatchEvent(new Event('scroll'));
-    sinon.assert.calledWith(addEventListenerSpy, 'scroll', sinon.match.func);
-    const element = tree.find('div#eyb-summary-sheet').getDOMNode();
+    expect(addEventListenerSpy.calledWith('scroll', sinon.match.func)).to.be
+      .true;
+    const element = wrapper.find('div#eyb-summary-sheet').getDOMNode();
     expect(document.body.contains(element)).to.be.false;
-    tree.unmount();
-    sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
+    wrapper.unmount();
+    expect(removeEventListenerSpy.calledWith('scroll', sinon.match.func)).to.be
+      .true;
+
     addEventListenerSpy.restore();
     removeEventListenerSpy.restore();
   });
+
+  // new test
+  //   it('should toggle expansion and update body overflow style', () => {
+  //   const setExpandEybSheet = sinon.spy();
+  //   sinon.stub(React, 'useState').returns([false, setExpandEybSheet]);
+
+  //   const wrapper = mount(
+  //     <Provider store={store}>
+  //       <CalculateYourBenefits
+  //         gibctEybBottomSheet={gibctEybBottomSheet}
+  //         isOJT={isOJT}
+  //         {...props}
+  //       />
+  //     </Provider>,
+  //   );
+
+  //   expect(wrapper.state().expandEybSheet).to.be.false;
+  //   expect(document.body.style.overflow).to.equal('visible');
+
+  //   wrapper.instance().toggleEybExpansion();
+
+  //   expect(wrapper.state().expandEybSheet).to.be.true;
+  //   expect(document.body.style.overflow).to.equal('hidden');
+  //   expect(setExpandEybSheet.calledWith(true)).to.be.true;
+
+  //   wrapper.instance().toggleEybExpansion();
+
+  //   expect(wrapper.state().expandEybSheet).to.be.false;
+  //   expect(document.body.style.overflow).to.equal('visible');
+  //   expect(setExpandEybSheet.calledWith(false)).to.be.true;
+
+  // });
+
   it('should return no ', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
