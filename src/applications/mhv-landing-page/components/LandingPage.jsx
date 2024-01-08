@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLOA1 } from '~/platform/user/selectors';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
@@ -21,12 +23,15 @@ const LandingPage = ({ data = {} }) => {
   const name = useSelector(selectGreetingName);
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
+  const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
 
   const showCards = hasHealth && !isUnverified;
 
+  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+  const unVerifiedHeadline = `Verify your ${serviceLabel} identity to access My HealtheVet tools and features`;
   const noCardsDisplay = isUnverified ? (
-    <IdentityNotVerified headline="Verify your identity to access My HealtheVet tools and features" />
+    <IdentityNotVerified headline={unVerifiedHeadline} />
   ) : (
     <NoHealthAlert />
   );
