@@ -11,7 +11,7 @@ describe('getFiltersChanged', () => {
   });
 
   it('compares modified filters to initial state filters', () => {
-    expect(getFiltersChanged({ ...defaultState.filters, employers: false })).to
+    expect(getFiltersChanged({ ...defaultState.filters, employers: true })).to
       .be.true;
   });
 });
