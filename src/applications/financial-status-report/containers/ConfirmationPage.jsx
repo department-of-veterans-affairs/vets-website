@@ -15,6 +15,7 @@ import {
   isStreamlinedLongForm,
   isStreamlinedShortForm,
 } from '../utils/streamlinedDepends';
+import SurveyInformation from '../components/shared/SurveyInformation';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -122,7 +123,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderLongFormAlert = () => {
     return (
       <>
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h3 slot="headline" className="vads-u-font-size--h3">
             We’ve received your request
           </h3>
@@ -130,6 +131,7 @@ const ConfirmationPage = ({ form, download }) => {
             We’ll send you an email confirming your request to{' '}
             <strong>{data.personalData.emailAddress}.</strong>
           </p>
+          <SurveyInformation />
         </va-alert>
         <p>
           We’ll send you a letter with our decision and any next steps.{' '}
@@ -145,7 +147,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderSWConfirmationAlert = () => {
     return (
       <>
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h3 slot="headline" className="vads-u-font-size--h3">
             You’re tentatively eligible for debt relief
           </h3>
@@ -155,6 +157,7 @@ const ConfirmationPage = ({ form, download }) => {
             <strong> {data.personalData.emailAddress}</strong> for this
             submission.
           </p>
+          <SurveyInformation />
         </va-alert>
         <p>You don’t need to do anything else at this time.</p>
         <p>
