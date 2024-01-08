@@ -8,6 +8,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useStorage } from '../../../hooks/useStorage';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
 import {
@@ -42,6 +43,7 @@ const AppointmentDetails = props => {
   const isVvcAppointment = appointment?.kind === 'vvc';
   const { appointmentId } = router.params;
   const isPreCheckIn = app === 'preCheckIn';
+  const { getPreCheckinComplete } = useStorage(isPreCheckIn);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
@@ -77,6 +79,17 @@ const AppointmentDetails = props => {
     recordEvent({
       event: createAnalyticsSlug('details-phone-link-clicked', 'nav', app),
     });
+  };
+
+  const handleReviewClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(
+        'details-review-information-button-clicked',
+        'nav',
+        app,
+      ),
+    });
+    jumpToPage('contact-information');
   };
 
   const clinic = appointment && clinicName(appointment);
@@ -137,6 +150,9 @@ const AppointmentDetails = props => {
         return t('in-person-appointment');
     }
   };
+
+  const showReviewButton =
+    isPreCheckIn && !isUpcoming && !getPreCheckinComplete(window)?.complete;
 
   return (
     <>
@@ -246,6 +262,18 @@ const AppointmentDetails = props => {
                     />
                   </div>
                 )}
+              {showReviewButton && (
+                <div className="vads-u-margin-top--2">
+                  <button
+                    type="button"
+                    className="usa-button usa-button-big vads-u-font-size--md"
+                    onClick={handleReviewClick}
+                    data-testid="review-information-button"
+                  >
+                    {t('review-your-information-now')}
+                  </button>
+                </div>
+              )}
             </div>
           </Wrapper>
         </>

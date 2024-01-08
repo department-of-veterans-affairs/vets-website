@@ -136,6 +136,12 @@ class AppointmentDetails {
       waitForAnimations: true,
     });
   };
+
+  clickReview = () => {
+    cy.get('[data-testid="review-information-button"').click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new AppointmentDetails();
