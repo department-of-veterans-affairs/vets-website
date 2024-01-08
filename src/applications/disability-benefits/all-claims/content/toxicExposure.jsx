@@ -1,6 +1,19 @@
 import React from 'react';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
-export const conditionsTitle =
+/**
+ * Checks if user is claiming any conditions for toxic exposure
+ *
+ * @param {*} formData
+ * @returns true if at least one condition is claimed for toxic exposure, false otherwise
+ */
+export const isClaimingTECondition = formData =>
+  get('toxicExposureConditions', formData, {})
+    .values()
+    .includes(true);
+
+export const conditionsPageTitle = 'Toxic Exposure';
+export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
   <va-additional-info
@@ -24,3 +37,7 @@ export const conditionsDescription = (
     </div>
   </va-additional-info>
 );
+
+export const gulfWar1990PageTitle = 'Service locations after August 2, 1990';
+export const gulfWar1990Question =
+  'Did you serve in any of these Gulf War locations on or after August 2, 1990? Check any locations where you served.';

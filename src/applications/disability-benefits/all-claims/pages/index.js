@@ -15,6 +15,7 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
+import * as gulfWarHazard1990 from './toxicExposure/gulfWarHazard1990';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -117,6 +118,7 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  gulfWarHazard1990,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,
