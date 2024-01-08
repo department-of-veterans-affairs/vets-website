@@ -112,8 +112,9 @@ describe('Edu 5490 benefitRelinquishment', () => {
     });
 
     submitForm(form);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
+    expect(
+      Array.from(formDOM.querySelectorAll('.usa-input-error')).length,
+    ).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
