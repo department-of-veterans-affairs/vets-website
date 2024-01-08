@@ -1,72 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SectionGuideButton from './SectionGuideButton';
 
-const Navigation = () => {
+const Navigation = props => {
+  const { paths } = props;
+
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
-
-  const paths = [
-    {
-      path: '/',
-      label: 'Medical records',
-      datatestid: 'about-va-medical-records-sidebar',
-      subpaths: [
-        // {
-        //   path: '/labs-and-tests',
-        //   label: 'Lab and test results',
-        //   datatestid: 'labs-and-tests-sidebar',
-        // },
-        // {
-        //   path: '/summaries-and-notes',
-        //   label: 'Care summaries and notes',
-        //   datatestid: 'care-summaries-and-notes-sidebar',
-        // },
-        // {
-        //   path: '/vaccines',
-        //   label: 'Vaccines',
-        //   datatestid: 'vaccines-sidebar',
-        // },
-        // {
-        //   path: '/allergies',
-        //   label: 'Allergies',
-        //   datatestid: 'allergies-sidebar',
-        // },
-        // {
-        //   path: '/conditions',
-        //   label: 'Health conditions',
-        //   datatestid: 'health-conditions-sidebar',
-        // },
-        // {
-        //   path: '/vitals',
-        //   label: 'Vitals',
-        //   datatestid: 'vitals-sidebar',
-        // },
-        // {
-        //   path: '/download-all',
-        //   label: 'Download all medical records',
-        //   datatestid: 'download-your-medical-records-sidebar',
-        // },
-        // {
-        //   path: '/settings',
-        //   label: 'Medical records settings',
-        //   datatestid: 'settings-sidebar',
-        // },
-      ],
-    },
-  ];
-
-  paths[0].subpaths.push({
-    path: '/vaccines',
-    label: 'Vaccines',
-    datatestid: 'vaccines-sidebar',
-  });
-  paths[0].subpaths.push({
-    path: '/allergies',
-    label: 'Allergies and reactions',
-    datatestid: 'allergies-sidebar',
-  });
 
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -196,3 +138,7 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+Navigation.propTypes = {
+  paths: PropTypes.any,
+};

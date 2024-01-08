@@ -11,15 +11,12 @@ import {
   pageTitles,
   recordType,
 } from '../util/constants';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
-  const fullState = useSelector(state => state);
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -92,16 +89,6 @@ const CareSummariesAndNotes = () => {
         providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
-      <p>
-        To find after-visit summaries from your VA appointments, go to your
-        appointment records.
-      </p>
-      <a
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'appointments')}
-        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
-      >
-        Go to your appointments to find after-visit summaries
-      </a>
       {content()}
     </div>
   );

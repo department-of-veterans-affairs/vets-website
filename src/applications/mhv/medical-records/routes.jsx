@@ -48,6 +48,22 @@ const routes = (
       >
         <VaccineDetails />
       </FeatureFlagRoute>
+
+      <FeatureFlagRoute
+        exact
+        path="/summaries-and-notes"
+        key="CareSummariesAndNotes"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <CareSummariesAndNotes />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        path="/summaries-and-notes/:summaryId"
+        key="CareSummaryAndNotesDetails"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <CareSummariesDetails />
+      </FeatureFlagRoute>
       <Route exact path="/conditions" key="Health Conditions">
         <HealthConditions />
       </Route>
@@ -79,16 +95,6 @@ const routes = (
       </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
-      </Route>
-      <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
-        <CareSummariesAndNotes />
-      </Route>
-      <Route
-        exact
-        path="/summaries-and-notes/:summaryId"
-        key="CareSummaryAndNotesDetails"
-      >
-        <CareSummariesDetails />
       </Route>
       <Route exact path="/vitals" key="Vitals">
         <Vitals />
