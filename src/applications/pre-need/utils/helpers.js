@@ -61,8 +61,16 @@ export const applicantDemographicsDescription = environment.isProduction() ? (
   </div>
 );
 
-export const sponsorDeceasedDescription = (
+export const sponsorDeceasedDescription = environment.isProduction() ? (
   <div className="sponsorDeceasedDescription">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDeceasedDescriptionNotProd">
     <p>
       We’ll now ask you questions about the sponsor’s passing. We understand
       that the questions may be difficult to answer, but your answers will help
