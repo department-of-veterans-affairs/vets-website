@@ -1,4 +1,4 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import merge from 'lodash/merge';
 import moment from 'moment';
 
@@ -9,7 +9,7 @@ import {
   ssnUI,
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';

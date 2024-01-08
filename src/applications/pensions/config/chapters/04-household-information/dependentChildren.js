@@ -1,6 +1,7 @@
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
-import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import fullNameUI from 'platform/forms/definitions/fullName';
 
 import { dependentsMinItem } from '../../../helpers';
 import DependentField from '../../../components/DependentField';
