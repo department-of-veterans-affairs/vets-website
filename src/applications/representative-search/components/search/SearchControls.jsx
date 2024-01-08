@@ -15,7 +15,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOfficerInputString,
+    representativeInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -35,9 +35,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOfficerChange = e => {
+  const handleRepresentativeChange = e => {
     onChange({
-      repOfficerInputString: onlySpaces(e.target.value)
+      representativeInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -144,12 +144,12 @@ const SearchControls = props => {
             label="Accredited representative name"
             message-aria-describedby="Text input for officer or Accredited representative name"
             name="Officer or Accredited Representative Name"
-            onChange={handleRepOfficerChange}
-            onInput={handleRepOfficerChange}
+            onChange={handleRepresentativeChange}
+            onInput={handleRepresentativeChange}
             onKeyPress={e => {
               if (e.key === 'Enter') onSubmit();
             }}
-            value={repOfficerInputString}
+            value={representativeInputString}
             uswds
           />
 
@@ -176,7 +176,7 @@ SearchControls.propTypes = {
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
-  repOfficerInputString: PropTypes.string.isRequired,
+  representativeInputString: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

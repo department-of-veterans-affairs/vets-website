@@ -23,7 +23,10 @@ const countUnreadMessages = folders => {
   let unreadMessageCount = 0;
   if (Array.isArray(folders?.data)) {
     unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
-      return accumulator + currentFolder.attributes?.unreadCount;
+      // Only count inbox (id = 0) and custom folders (id > 0)
+      return currentFolder.id >= 0
+        ? accumulator + currentFolder.attributes?.unreadCount
+        : accumulator;
     }, 0);
   } else if (folders?.data?.attributes?.unreadCount > 0) {
     unreadMessageCount = folders.data.attributes.unreadCount;

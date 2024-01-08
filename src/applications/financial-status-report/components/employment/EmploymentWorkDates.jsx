@@ -4,7 +4,11 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import PropTypes from 'prop-types';
-import { getJobIndex } from '../../utils/session';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidPastDate } from '../../utils/helpers';
 
@@ -137,6 +141,19 @@ const EmploymentWorkDates = props => {
 
       setToDateError(isValidPastDate(employmentRecord.to) ? null : toError);
     },
+    getContinueButtonText: () => {
+      if (
+        employmentRecord.isCurrent ||
+        getJobButton() === jobButtonConstants.FIRST_JOB
+      ) {
+        return 'Continue';
+      }
+
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Update employment record';
+      }
+      return 'Add employment record';
+    },
   };
 
   const ShowWorkDates = () => {
@@ -180,7 +197,7 @@ const EmploymentWorkDates = props => {
             className="usa-button-secondary vads-u-width--auto"
             onClick={handlers.onCancel}
           >
-            Cancel
+            Back
           </button>
           <button
             type="submit"
@@ -188,9 +205,7 @@ const EmploymentWorkDates = props => {
             className="vads-u-width--auto"
             onClick={handlers.onUpdate}
           >
-            {`${
-              employmentRecords.length === index ? 'Update' : 'Add'
-            } employment record`}
+            {handlers.getContinueButtonText()}
           </button>
         </p>
       </fieldset>

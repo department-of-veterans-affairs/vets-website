@@ -9,6 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { parseVeteranDob } from '../utils/helpers';
 import { isUserLOA3 } from '../utils/selectors';
 import formConfig from '../config/form';
 
@@ -74,13 +75,13 @@ const App = props => {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:userDob': user.dob,
+          'view:userDob': parseVeteranDob(user.dob),
         });
       } else if (isLoggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:userDob': user.dob,
+          'view:userDob': parseVeteranDob(user.dob),
           'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
         });
       } else {
