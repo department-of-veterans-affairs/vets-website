@@ -57,7 +57,7 @@ export const geocodeUserAddress = query => {
             ...query,
             context: {
               location: query.locationInputString,
-              repOrgName: query.repOfficerInputString,
+              repOrgName: query.representativeInputString,
             },
             page: 1,
             id: Date.now(),
@@ -73,7 +73,7 @@ export const geocodeUserAddress = query => {
             searchArea: null,
             address: query.locationInputString,
             locationQueryString: query.locationInputString,
-            repOfficerQueryString: query.repOfficerInputString,
+            representativeQueryString: query.representativeInputString,
             representativeType: query.representativeType,
           },
         });
