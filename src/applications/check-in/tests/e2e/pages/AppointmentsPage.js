@@ -10,6 +10,10 @@ class AppointmentsPage {
     cy.get('[data-testid="pre-check-in-success-alert"]').should('be.visible');
   };
 
+  validatePreCheckInSuccessAlert = () => {
+    cy.get('[data-testid="pre-check-in-success-alert"]').should('be.visible');
+  };
+
   validateWhatNextHeader = () => {
     cy.get('[data-testid="what-next-header"]').should('be.visible');
   };
