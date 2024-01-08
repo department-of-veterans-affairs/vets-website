@@ -30,7 +30,6 @@ describe('fetchFacilities', () => {
       const expectedFacilities =
         mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
 
-      // expect(facilities).to.be.an('array');
       expect(facilities).to.deep.eq(expectedFacilities);
     });
   });
