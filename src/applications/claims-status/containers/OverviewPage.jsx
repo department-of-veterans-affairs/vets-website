@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
@@ -181,7 +180,7 @@ const generateEventTimeline = claim => {
   return eventPhases;
 };
 
-class ClaimStatusPage extends React.Component {
+class OverviewPage extends React.Component {
   componentDidMount() {
     this.setTitle();
 
@@ -256,16 +255,12 @@ class ClaimStatusPage extends React.Component {
           <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Disabled>
-              <ClaimTimeline
-                id={claim.id}
-                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-                currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                events={generateEventTimeline(claim)}
-              />
-            </Toggler.Disabled>
-          </Toggler>
+          <ClaimTimeline
+            id={claim.id}
+            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+            currentPhaseBack={claimPhaseDates.currentPhaseBack}
+            events={generateEventTimeline(claim)}
+          />
         ) : null}
       </div>
     );
@@ -304,7 +299,7 @@ class ClaimStatusPage extends React.Component {
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}
-        currentTab="Status"
+        currentTab="Overview"
         message={message}
         synced={synced}
       >
@@ -332,7 +327,7 @@ const mapDispatchToProps = {
   clearNotification,
 };
 
-ClaimStatusPage.propTypes = {
+OverviewPage.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
@@ -347,6 +342,6 @@ ClaimStatusPage.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ClaimStatusPage);
+)(OverviewPage);
 
-export { ClaimStatusPage };
+export { OverviewPage };
