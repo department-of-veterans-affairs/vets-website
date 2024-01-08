@@ -12,11 +12,13 @@ export function selectEnrollmentStatus(state) {
       hasServerError,
       loading,
       parsedStatus,
+      preferredFacility,
     },
   } = state;
   return {
     isLoading: isProfileLoading(state) || loading,
     isEnrolledinESR: parsedStatus === 'enrolled',
+    hasPreferredFacility: !!preferredFacility,
     canSubmitFinancialInfo,
     hasServerError,
   };

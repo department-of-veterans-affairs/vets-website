@@ -7,6 +7,7 @@ import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
+import PreferredFacilityAlert from '../FormAlerts/PreferredFacilityAlert';
 import FinancialMeansTestWarning from '../FormAlerts/FinancialStatusWarning';
 import content from '../../locales/en/content.json';
 
@@ -14,6 +15,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
   const {
     canSubmitFinancialInfo,
+    hasPreferredFacility,
     isEnrolledinESR,
     hasServerError,
   } = useSelector(selectEnrollmentStatus);
@@ -45,15 +47,15 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const LoggedInAlertToRender = () => {
     if (!isEnrolledinESR)
       return <EnrollmentStatusAlert showError={hasServerError} />;
-
-    return canSubmitFinancialInfo ? (
-      sipIntro
-    ) : (
-      <>
-        <FinancialMeansTestWarning />
-        {sipIntro}
-      </>
-    );
+    if (!hasPreferredFacility) return <PreferredFacilityAlert />;
+    if (!canSubmitFinancialInfo)
+      return (
+        <>
+          <FinancialMeansTestWarning />
+          {sipIntro}
+        </>
+      );
+    return sipIntro;
   };
 
   return isLoggedOut ? (
