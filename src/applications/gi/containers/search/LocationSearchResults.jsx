@@ -26,7 +26,7 @@ import {
 } from '../../actions';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
-import FilterByLocation from './FilterByLocation';
+// import FilterByLocation from './FilterByLocation';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 const LIST_TAB = 'List';
@@ -458,7 +458,8 @@ function LocationSearchResults({
             <>
               <TuitionAndHousingEstimates />
               {environment.isProduction() && <FilterYourResults />}
-              {!environment.isProduction() && <FilterByLocation />}
+              {!environment.isProduction() && <FilterYourResults />}
+              {/* {!environment.isProduction() && <FilterByLocation />} */}
             </>
           )}
           {environment.isProduction()

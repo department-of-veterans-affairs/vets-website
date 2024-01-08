@@ -338,8 +338,11 @@ export function FilterYourResults({
         class="vads-u-margin-y--4"
         label={
           <div className="vads-u-margin-left--neg0p25">
-            Specialized mission (i.e., Single-gender, Religious affiliation,
-            HBCU)
+            {`${
+              environment.isProduction()
+                ? 'Specialized mission'
+                : 'Community focus'
+            } (i.e., Single-gender, Religious affiliation, HBCU)`}
           </div>
         }
         onChange={onChangeCheckbox}
