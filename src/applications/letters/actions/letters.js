@@ -25,7 +25,7 @@ import {
 } from '../utils/constants';
 
 // eslint-disable-next-line -- LH_MIGRATION
-export function getLetterList(dispatch, LH_MIGRATION__options, shouldUseLettersDiscrepancies) {
+export function getLetterList(dispatch, LH_MIGRATION__options, shouldUseLettersDiscrepancies = false) {
   if (shouldUseLettersDiscrepancies) {
     // Call the endpoint to log evss vs lighthouse letter discrepancies
     apiRequest('/v0/letters_discrepancy');
