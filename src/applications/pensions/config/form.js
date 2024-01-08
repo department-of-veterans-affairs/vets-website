@@ -28,6 +28,7 @@ import {
   isMarried,
   submit,
   createSpouseLabelSelector,
+  generateHelpText,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
@@ -82,6 +83,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
+import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
@@ -178,7 +180,7 @@ const marriageProperties = marriages.items.properties;
 
 const marriageType = {
   ...marriageProperties.marriageType,
-  enum: ['Ceremonial', 'Other'],
+  enum: [marriageTypeLabels.ceremony, marriageTypeLabels.other],
 };
 
 const reasonForSeparation = {
@@ -475,7 +477,10 @@ const formConfig = {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
                   },
                   marriageType: {
-                    'ui:title': 'Type of marriage',
+                    'ui:title': 'How did you get married?',
+                    'ui:description': generateHelpText(
+                      'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
+                    ),
                     'ui:widget': 'radio',
                     'ui:required': (...args) => isCurrentMarriage(...args),
                   },
@@ -486,7 +491,8 @@ const formConfig = {
                       'Other',
                     'ui:options': {
                       expandUnder: 'marriageType',
-                      expandUnderCondition: 'Other',
+                      expandUnderCondition:
+                        'Some other way (this is equivalent to the current option other)',
                     },
                   },
                 },
