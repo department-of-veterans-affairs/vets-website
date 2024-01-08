@@ -1,5 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
+import NotesListPage from './pages/NotesListPage';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -7,7 +8,7 @@ describe('Medical Records Care Summary Page', () => {
   before(() => {
     site.login();
     // Given Navigate to Notes Page
-    cy.visit('my-health/medical-records/summaries-and-notes');
+    NotesListPage.clickGotoNotesLink();
   });
 
   it('Discharge Summary Details  ', () => {

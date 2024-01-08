@@ -21,6 +21,15 @@ describe('Get care summaries and notes list action', () => {
       );
     });
   });
+
+  it('should dispatch an add alert action', () => {
+    const mockData = notes;
+    mockApiRequest(mockData, false);
+    const dispatch = sinon.spy();
+    return getCareSummariesAndNotesList()(dispatch).then(() => {
+      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+    });
+  });
 });
 
 describe('Get care summaries and notes details action', () => {

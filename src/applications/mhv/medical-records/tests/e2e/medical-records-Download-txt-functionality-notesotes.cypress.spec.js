@@ -7,12 +7,13 @@ describe('Medical Records Care summaries and notes', () => {
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/summaries-and-notes');
+    cy.visit('my-health/medical-records');
+    NotesListPage.clickGotoNotesLink();
   });
 
   it('Care summaries and notes Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Notes Page
-
+    cy.pause();
     NotesListPage.clickNotesDetailsLink(0);
     // should display a toggle menu button
     NotesDetailsPage.clickPrintOrDownload();

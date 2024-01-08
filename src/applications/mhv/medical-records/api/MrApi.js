@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import notes from '../tests/fixtures/notes.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
@@ -101,34 +100,20 @@ export const getLabOrTest = (id, runningUnitTest) => {
   });
 };
 
-export const getNotes = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(notes);
-    }, 1000);
-  });
+export const getNotes = () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/clinical_notes`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
-export const getNote = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        notes.entry.find(item => {
-          return item.resource.id === id;
-        }).resource,
-      );
-    }, 1000);
-  });
+export const getNote = id => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/clinical_notes/${id}`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 export const getVitalsList = runningUnitTest => {
