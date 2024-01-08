@@ -77,10 +77,7 @@ const generate = async data => {
     const fetchedImage = await fetch(data.details.image.url);
     const contentType = fetchedImage.headers.get('Content-type');
 
-    const logo = doc.markStructureContent('Figure', {
-      alt: data.details.image.title,
-    });
-    doc.image(
+    const image = doc.image(
       `data:${contentType};base64,${Buffer.from(
         await fetchedImage.arrayBuffer(),
       ).toString('base64')}`,
@@ -88,7 +85,10 @@ const generate = async data => {
       105,
       { width: 150, alt: data.details.image.title },
     );
-    doc.endMarkedContent();
+
+    const logo = doc.struct('Figure', { alt: data.details.image.title }, [
+      () => image,
+    ]);
 
     wrapper.add(logo);
   }
