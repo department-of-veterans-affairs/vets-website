@@ -6,7 +6,8 @@ import { resolveLandingPageLinks } from '../../../utilities/data';
 
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
-const verifyIdentityHeading = /Verify your identity to access/i;
+// ID.me is LandingPage.visitPage default for serviceProvider
+const verifyIdentityHeading = /Verify your ID.me identity to access/i;
 
 // Validate a card has a heading and the correct number of links in it.
 function validateLinkGroup(cardHeadline, numLinks) {
