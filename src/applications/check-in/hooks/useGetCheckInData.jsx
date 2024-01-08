@@ -25,7 +25,6 @@ import {
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
 import { useStorage } from './useStorage';
-import { URLS } from '../utils/navigation';
 
 import { useUpdateError } from './useUpdateError';
 
@@ -150,7 +149,6 @@ const useGetCheckInData = ({
 
               if (preCheckinAlreadyCompleted(payload.appointments)) {
                 setPreCheckinComplete(window, true);
-                jumpToPage(URLS.COMPLETE);
               }
             })
             .catch(e => {

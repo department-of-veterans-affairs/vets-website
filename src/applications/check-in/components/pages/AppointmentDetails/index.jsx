@@ -8,6 +8,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useStorage } from '../../../hooks/useStorage';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
 import {
@@ -40,6 +41,7 @@ const AppointmentDetails = props => {
   const isPhoneAppointment = appointment?.kind === 'phone';
   const { appointmentId } = router.params;
   const isPreCheckIn = app === 'preCheckIn';
+  const { getPreCheckinComplete } = useStorage(isPreCheckIn);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
@@ -77,6 +79,17 @@ const AppointmentDetails = props => {
     });
   };
 
+  const handleReviewClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(
+        'details-review-information-button-clicked',
+        'nav',
+        app,
+      ),
+    });
+    jumpToPage('contact-information');
+  };
+
   const clinic = appointment && clinicName(appointment);
 
   let preCheckInSubTitle = (
@@ -104,6 +117,9 @@ const AppointmentDetails = props => {
       </p>
     );
   }
+
+  const showReviewButton =
+    isPreCheckIn && !isUpcoming && !getPreCheckinComplete(window)?.complete;
 
   return (
     <>
@@ -219,6 +235,18 @@ const AppointmentDetails = props => {
                     />
                   </div>
                 )}
+              {showReviewButton && (
+                <div className="vads-u-margin-top--2">
+                  <button
+                    type="button"
+                    className="usa-button usa-button-big vads-u-font-size--md"
+                    onClick={handleReviewClick}
+                    data-testid="review-information-button"
+                  >
+                    {t('review-your-information-now')}
+                  </button>
+                </div>
+              )}
             </div>
           </Wrapper>
         </>

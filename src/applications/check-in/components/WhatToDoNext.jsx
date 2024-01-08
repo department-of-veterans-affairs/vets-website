@@ -50,6 +50,10 @@ const WhatToDoNext = props => {
     return title;
   };
 
+  const showDetailsLink =
+    (checkInableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
+    app === APP_NAMES.CHECK_IN;
+
   return (
     <>
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
@@ -75,23 +79,25 @@ const WhatToDoNext = props => {
               >
                 {cardTitle}
               </h4>
-              <p>
-                <a
-                  data-testid={`details-link-${index}`}
-                  href={`${
-                    router.location.basename
-                  }/appointment-details/${getAppointmentId(appointment)}`}
-                  onClick={e => goToDetails(e, appointment)}
-                  aria-label={t('details-for-appointment', {
-                    time: new Date(appointment.startTime),
-                    type: appointment.clinicStopCodeName
-                      ? appointment.clinicStopCodeName
-                      : 'VA',
-                  })}
-                >
-                  {t('details')}
-                </a>
-              </p>
+              {showDetailsLink && (
+                <p>
+                  <a
+                    data-testid={`details-link-${index}`}
+                    href={`${
+                      router.location.basename
+                    }/appointment-details/${getAppointmentId(appointment)}`}
+                    onClick={e => goToDetails(e, appointment)}
+                    aria-label={t('details-for-appointment', {
+                      time: new Date(appointment.startTime),
+                      type: appointment.clinicStopCodeName
+                        ? appointment.clinicStopCodeName
+                        : 'VA',
+                    })}
+                  >
+                    {t('details')}
+                  </a>
+                </p>
+              )}
               <ActionLink
                 app={app}
                 action={action}
