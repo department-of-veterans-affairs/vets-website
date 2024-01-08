@@ -1059,6 +1059,86 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(queryByTestId('custom-page-review')).not.to.exist;
     });
 
+    it('should render array of CustomPage in edit mode', () => {
+      const onEdit = sinon.spy();
+      const { chapterKey, chapter } = getProps();
+      // Can't check array `key` so we're checking the index instead
+      const CustomPage = ({ pagePerItemIndex }) => (
+        <div data-testid={`custom-page${pagePerItemIndex}`} />
+      );
+      const CustomPageReview = ({ pagePerItemIndex }) => (
+        <div data-testid={`custom-page-review${pagePerItemIndex}`} />
+      );
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          path: 'path/0',
+          index: 0,
+          CustomPage,
+          CustomPageReview,
+        },
+        {
+          title: '',
+          pageKey: 'test',
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          path: 'path/1',
+          index: 1,
+          CustomPage,
+          CustomPageReview,
+        },
+      ];
+      const itemSchema = {
+        type: 'object',
+        properties: { foo: { type: 'string' } },
+      };
+      const form = {
+        pages: {
+          test: {
+            showPagePerItem: true,
+            arrayPath: 'testing',
+            title: '',
+            CustomPage,
+            CustomPageReview,
+            schema: {
+              type: 'object',
+              properties: {
+                testing: {
+                  items: [itemSchema, itemSchema],
+                },
+              },
+            },
+            uiSchema: {
+              testing: {
+                items: {},
+              },
+            },
+            editMode: [true, true],
+          },
+        },
+        data: {
+          testing: [{}, {}],
+        },
+      };
+      const { queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={onEdit}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+        />,
+      );
+
+      expect(queryByTestId('custom-page0')).to.exist;
+      expect(queryByTestId('custom-page1')).to.exist;
+      expect(queryByTestId('custom-page-review0')).not.to.exist;
+    });
+
     it('should include schema & uiSchema to CustomPage in edit mode', () => {
       const spy = sinon.spy();
       const { pages, chapterKey, chapter, form } = getProps();
