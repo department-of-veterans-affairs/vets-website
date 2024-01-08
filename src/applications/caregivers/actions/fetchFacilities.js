@@ -42,12 +42,8 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
         // Create a new address object without modifying the original facility
         const newPhysicalAddress = {
           address1: physical.address1,
-          address2: physical.address3
-            ? `${physical.address2}, ${physical.address3}`
-            : physical.address2,
-          address3: `${physical.city}, ${physical.state} ${physical.zip}`,
-          address4: joinAddressParts(physical.address2, physical.address3),
-          address5: joinAddressParts(
+          address2: joinAddressParts(physical.address2, physical.address3),
+          address3: joinAddressParts(
             physical.city,
             physical.state,
             physical.zip,
