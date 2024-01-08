@@ -12,11 +12,7 @@ import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
-export default function DetailsCC({
-  appointment,
-  useV2 = false,
-  featureVaosV2Next = false,
-}) {
+export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
   const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
@@ -68,7 +64,6 @@ export default function DetailsCC({
         showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
-
       <CCInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
@@ -81,4 +76,8 @@ DetailsCC.propTypes = {
   appointment: PropTypes.object.isRequired,
   featureVaosV2Next: PropTypes.bool,
   useV2: PropTypes.bool,
+};
+DetailsCC.defaultProps = {
+  featureVaosV2Next: false,
+  useV2: false,
 };

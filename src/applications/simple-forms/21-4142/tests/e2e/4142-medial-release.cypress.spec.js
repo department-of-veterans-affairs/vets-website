@@ -17,7 +17,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start the medical records authorization/i).click({
+          cy.findByText(/start the medical release authorization/i).click({
             force: true,
           });
         });
@@ -97,7 +97,10 @@ const testConfig = createTestConfig(
             ) {
               signerName = data.preparerIdentification?.preparerFullName;
             }
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(
+              signerName,
+              'Submit medical release authorization',
+            );
           });
         });
       },
