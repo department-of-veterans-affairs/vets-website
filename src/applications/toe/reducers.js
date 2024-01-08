@@ -53,17 +53,9 @@ export default {
           personalInfoFetchInProgress: true,
         };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
-        return {
-          ...state,
-          isPersonalInfoFetchFailed: false, // Set to false since the fetch was successful
-          personalInfoFetchComplete: true,
-          personalInfoFetchInProgress: false,
-          formData: action?.response || {},
-        };
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
-          isPersonalInfoFetchFailed: true,
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
