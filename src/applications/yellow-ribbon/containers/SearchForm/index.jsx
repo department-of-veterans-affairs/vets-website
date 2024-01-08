@@ -219,7 +219,11 @@ export class SearchForm extends Component {
           </div>
 
           {/* Submit Button */}
-          <va-button onClick={onSubmitHandler} text="Search" />
+          <va-button
+            onClick={onSubmitHandler}
+            text="Search"
+            class="vads-u-width--auto vads-u-padding-y--1p5"
+          />
         </fieldset>
       </form>
     );
