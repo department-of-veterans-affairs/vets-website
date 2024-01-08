@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { renderDOB } from '../../util/personal-information/personalInformationUtils';
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
-
-import { generatePdf } from '~/platform/pdf';
-import { formatFullName } from '../../../common/helpers';
 
 import DowntimeNotification, {
   externalServices,
@@ -22,6 +18,7 @@ import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
+import DownloadPdf from './DownloadPdf';
 
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
@@ -120,45 +117,10 @@ const NoServiceHistoryAlert = () => {
   );
 };
 
-const MilitaryInformationContent = ({
-  dob,
-  militaryInformation,
-  totalDisabilityRating,
-  userFullName = {
-    first: '',
-    middle: '',
-    last: '',
-    suffix: '',
-  },
-  veteranStatus,
-}) => {
+const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     focusElement('[data-focus-target]');
   }, []);
-
-  const { first, middle, last, suffix } = userFullName;
-
-  const createPdf = () => {
-    const pdfData = {
-      title: `Veteran status card for ${formatFullName({
-        first,
-        middle,
-        last,
-        suffix,
-      })}`,
-      details: {
-        fullName: formatFullName({ first, middle, last, suffix }),
-        serviceHistory: militaryInformation.serviceHistory.serviceHistory,
-        totalDisabilityRating,
-        dob: renderDOB(dob),
-        image: {
-          title: 'V-A logo',
-          url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
-        },
-      },
-    };
-    generatePdf('veteranStatus', 'Veteran Status', pdfData);
-  };
 
   const invalidVeteranStatus =
     !veteranStatus?.status || veteranStatus?.status === 'NOT_AUTHORIZED';
@@ -197,9 +159,7 @@ const MilitaryInformationContent = ({
         asList
       />
 
-      <div className="vads-u-margin-top--4">
-        <va-button onClick={() => createPdf()} text="Download" />
-      </div>
+      <DownloadPdf />
 
       <div className="vads-u-margin-top--4">
         <va-additional-info
@@ -234,20 +194,11 @@ const MilitaryInformationContent = ({
 };
 
 MilitaryInformationContent.propTypes = {
-  dob: PropTypes.string,
   militaryInformation: PropTypes.object,
-  totalDisabilityRating: PropTypes.number,
-  userFullName: PropTypes.object,
   veteranStatus: PropTypes.object,
 };
 
-const MilitaryInformation = ({
-  dob,
-  militaryInformation,
-  totalDisabilityRating,
-  userFullName,
-  veteranStatus,
-}) => {
+const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   useEffect(() => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
@@ -263,9 +214,6 @@ const MilitaryInformation = ({
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
           veteranStatus={veteranStatus}
-          dob={dob}
-          totalDisabilityRating={totalDisabilityRating}
-          userFullName={userFullName}
         />
       </DowntimeNotification>
 
@@ -291,7 +239,6 @@ const MilitaryInformation = ({
 };
 
 MilitaryInformation.propTypes = {
-  dob: PropTypes.string,
   militaryInformation: PropTypes.shape({
     serviceHistory: PropTypes.shape({
       serviceHistory: PropTypes.arrayOf(
@@ -303,13 +250,6 @@ MilitaryInformation.propTypes = {
       ),
     }).isRequired,
   }).isRequired,
-  totalDisabilityRating: PropTypes.number,
-  userFullName: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string,
-    suffix: PropTypes.string,
-  }),
   veteranStatus: PropTypes.shape({
     isVeteran: PropTypes.bool,
     status: PropTypes.string,
@@ -318,10 +258,7 @@ MilitaryInformation.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  dob: state.vaProfile?.personalInformation?.birthDate,
   militaryInformation: state.vaProfile?.militaryInformation,
-  totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-  userFullName: state.vaProfile?.hero?.userFullName,
   veteranStatus: selectVeteranStatus(state),
 });
 
