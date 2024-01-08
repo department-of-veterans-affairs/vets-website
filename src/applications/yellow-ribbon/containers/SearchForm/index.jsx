@@ -132,7 +132,6 @@ export class SearchForm extends Component {
         )}
         data-e2e-id="search-form"
         name="yellow-ribbon-form"
-        onSubmit={onSubmitHandler}
       >
         <fieldset>
           <legend className="vads-u-font-family--serif">
@@ -220,13 +219,7 @@ export class SearchForm extends Component {
           </div>
 
           {/* Submit Button */}
-          <button
-            className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
-            disabled={fetching}
-            type="submit"
-          >
-            Search
-          </button>
+          <va-button onClick={onSubmitHandler} text="Search" />
         </fieldset>
       </form>
     );
