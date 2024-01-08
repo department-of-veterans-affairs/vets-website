@@ -22,7 +22,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page1.schema,
   formConfig.chapters.sponsorInformation.pages.page1.uiSchema,
-  4, // Expected number of fields
+  5, // Expected number of fields
   'sponsor/veteran information', // Page title
 );
 
@@ -39,8 +39,8 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page4.schema,
   formConfig.chapters.sponsorInformation.pages.page4.uiSchema,
-  1,
-  'Sponsor status continued',
+  2,
+  'Sponsor status',
   { sponsorIsDeceased: false },
 );
 
@@ -51,6 +51,14 @@ testNumberOfWebComponentFields(
   2,
   "Sponsor's phone number continued",
   { sponsorIsDeceased: false, sponsorHasPhone: true },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page7a.schema,
+  formConfig.chapters.sponsorInformation.pages.page7a.uiSchema,
+  0,
+  'Sponsor information complete',
 );
 
 testNumberOfWebComponentFields(
