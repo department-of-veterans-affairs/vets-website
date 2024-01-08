@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
+import environment from 'platform/utilities/environment';
 import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import FilterYourResults from '../../containers/FilterYourResults';
 
@@ -26,10 +27,10 @@ describe('<FilterYourResults>', () => {
       name: 'Filter your results',
     });
     fireEvent.click(filterButton);
-
     const HBCUCheckBox = screen.getByRole('checkbox', {
-      name:
-        'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university',
+      name: environment.isProduction()
+        ? 'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university'
+        : 'Community focus (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university',
     });
     fireEvent.click(HBCUCheckBox);
 
