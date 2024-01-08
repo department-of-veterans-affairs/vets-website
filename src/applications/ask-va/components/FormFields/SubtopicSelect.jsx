@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { ServerErrorAlert } from '../../config/helpers';
 import { URL } from '../../constants';
 
@@ -72,6 +72,7 @@ const SubtopicSelect = props => {
       error={showError() || null}
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      uswds
     >
       <option value="">&nbsp;</option>
       {apiData.map(subTopic => (
