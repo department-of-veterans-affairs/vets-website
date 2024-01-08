@@ -42,7 +42,7 @@ const SearchPage = props => {
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.repOfficerInputString,
+      name: currentQuery.representativeInputString,
 
       ...params,
     };
@@ -82,8 +82,8 @@ const SearchPage = props => {
           latitude: location.query.lat,
           longitude: location.query.long,
         },
-        repOfficerQueryString: location.query.name,
-        repOfficerInputString: location.query.name,
+        representativeQueryString: location.query.name,
+        representativeInputString: location.query.name,
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
@@ -95,7 +95,7 @@ const SearchPage = props => {
     const { currentQuery } = props;
     const {
       context,
-      repOfficerInputString,
+      representativeInputString,
       representativeType,
       position,
       sortType,
@@ -108,7 +108,7 @@ const SearchPage = props => {
 
     updateUrlParams({
       address: context.location,
-      name: repOfficerInputString || null,
+      name: representativeInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
@@ -121,7 +121,7 @@ const SearchPage = props => {
         address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
-        name: repOfficerInputString,
+        name: representativeInputString,
         page,
         per_page: 10,
         sort: sortType,
