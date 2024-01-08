@@ -705,25 +705,26 @@ const ComposeForm = props => {
           </div>
           {mhvSecureMessagingBlockedTriageGroup1p0
             ? recipientsList &&
-              (!allTriageGroupsBlocked && (
-                <section className="attachments-section">
-                  <AttachmentsList
-                    compose
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    attachFileSuccess={attachFileSuccess}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                    setNavigationError={setNavigationError}
-                    editingEnabled
-                  />
+              (!noAssociations &&
+                !allTriageGroupsBlocked && (
+                  <section className="attachments-section">
+                    <AttachmentsList
+                      compose
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      attachFileSuccess={attachFileSuccess}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                      setNavigationError={setNavigationError}
+                      editingEnabled
+                    />
 
-                  <FileInput
-                    attachments={attachments}
-                    setAttachments={setAttachments}
-                    setAttachFileSuccess={setAttachFileSuccess}
-                  />
-                </section>
-              ))
+                    <FileInput
+                      attachments={attachments}
+                      setAttachments={setAttachments}
+                      setAttachFileSuccess={setAttachFileSuccess}
+                    />
+                  </section>
+                ))
             : recipientsList && (
                 <section className="attachments-section">
                   <AttachmentsList
