@@ -25,6 +25,7 @@ import { PDF_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import { reportGeneratedBy } from '../../shared/util/constants';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -176,6 +177,13 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
+      dispatch(getAllergiesList());
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       if (allergies && pdfGenerateStatus === PDF_GENERATE_STATUS.InProgress) {
         generatePDF(buildAllergiesPDFList(allergies));
       }
@@ -300,6 +308,10 @@ const PrescriptionDetails = () => {
               rx={prescription}
               refillHistory={!nonVaPrescription ? refillHistory : []}
               isDetailsRx
+            />
+            <AllergiesPrintOnly
+              allergies={allergies}
+              allergiesError={allergiesError}
             />
           </PrintOnlyPage>
         </>
