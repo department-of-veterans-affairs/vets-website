@@ -12,7 +12,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.contactInformation.pages.veteransAddressZip;
+} = formConfig.chapters.personalInformation.pages.veteransAddressZip;
 
 describe('veteransAddressZipPage', () => {
   it('should render', () => {

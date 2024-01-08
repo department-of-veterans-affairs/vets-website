@@ -7,7 +7,6 @@ import {
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
-  CHAPTER_4,
 } from '../constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -23,22 +22,24 @@ import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Personal Information
 import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
-import whoHasAQuestionPage from './chapters/personalInformation/whoHasAQuestion';
-import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
-import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
+import vaEmployeePage from './chapters/personalInformation/vaEmployee';
+import aboutTheFamilyMemberPage from './chapters/personalInformation/aboutTheFamilyMember';
+import aboutYourRelationshipToFamilyMemberPage from './chapters/personalInformation/relationshipToFamilyMember';
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
+import aboutYourRelationshipPage from './chapters/personalInformation/aboutYourRelationship';
+import whoQuestionAboutPage from './chapters/personalInformation/questionIsAbout';
 import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
 import deathDatePage from './chapters/personalInformation/deathDate';
+import howToContactPage from './chapters/personalInformation/howToContact';
 
 // Contact Information
-import aboutTheVeteranPage from './chapters/contactInformation/aboutTheVeteran';
-import veteransAddressZipPage from './chapters/contactInformation/veteranAddressZip';
-import aboutYourselfPage from './chapters/contactInformation/aboutYourself';
-import yourPhoneAndEmailPage from './chapters/contactInformation/yourPhoneAndEmail';
-import yourCountryPage from './chapters/contactInformation/yourCountry';
-import yourAddressPage from './chapters/contactInformation/yourAddress';
-// import veteransAddressPage from './chapters/contactInformation/veteransAddress';
-import addressConfirmationPage from './chapters/contactInformation/addressConfirmation';
+import aboutTheVeteranPage from './chapters/personalInformation/aboutTheVeteran';
+import veteransAddressZipPage from './chapters/personalInformation/veteranAddressZip';
+import aboutYourselfPage from './chapters/personalInformation/aboutYourself';
+import yourPhoneAndEmailPage from './chapters/personalInformation/yourPhoneAndEmail';
+import yourCountryPage from './chapters/personalInformation/yourCountry';
+import yourAddressPage from './chapters/personalInformation/yourAddress';
+import addressConfirmationPage from './chapters/personalInformation/addressConfirmation';
 
 // Review Page
 import ReviewPage from '../containers/ReviewPage';
@@ -118,98 +119,111 @@ const formConfig = {
         },
       },
     },
-    vaInformation: {
+    personalInformation: {
       title: CHAPTER_3.CHAPTER_TITLE,
       pages: {
-        searchVAMedicalCenter: {
+        relationshipToVeteran: {
           path: CHAPTER_3.PAGE_1.PATH,
           title: CHAPTER_3.PAGE_1.TITLE,
-          uiSchema: searchVAMedicalCenterPage.uiSchema,
-          schema: searchVAMedicalCenterPage.schema,
-        },
-        whoHasAQuestion: {
-          path: CHAPTER_3.PAGE_2.PATH,
-          title: CHAPTER_3.PAGE_2.TITLE,
-          uiSchema: whoHasAQuestionPage.uiSchema,
-          schema: whoHasAQuestionPage.schema,
-        },
-        areYouTheVeteran: {
-          path: CHAPTER_3.PAGE_3.PATH,
-          title: CHAPTER_3.PAGE_3.TITLE,
-          uiSchema: areYouTheVeteranPage.uiSchema,
-          schema: areYouTheVeteranPage.schema,
-        },
-        areYouTheDependent: {
-          path: CHAPTER_3.PAGE_4.PATH,
-          title: CHAPTER_3.PAGE_4.TITLE,
-          uiSchema: areYouTheDependentPage.uiSchema,
-          schema: areYouTheDependentPage.schema,
-        },
-        relationshipToVeteran: {
-          path: CHAPTER_3.PAGE_5.PATH,
-          title: CHAPTER_3.PAGE_5.TITLE,
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
         },
+        aboutYourRelationship: {
+          path: CHAPTER_3.PAGE_2.PATH,
+          title: CHAPTER_3.PAGE_2.TITLE,
+          uiSchema: aboutYourRelationshipPage.uiSchema,
+          schema: aboutYourRelationshipPage.schema,
+        },
+        aboutTheVeteran: {
+          path: CHAPTER_3.PAGE_3.PATH,
+          title: CHAPTER_3.PAGE_3.TITLE,
+          uiSchema: aboutTheVeteranPage.uiSchema,
+          schema: aboutTheVeteranPage.schema,
+        },
         veteranDeceased: {
-          path: CHAPTER_3.PAGE_6.PATH,
-          title: CHAPTER_3.PAGE_6.TITLE,
+          path: CHAPTER_3.PAGE_4.PATH,
+          title: CHAPTER_3.PAGE_4.TITLE,
           uiSchema: isTheVeteranDeceasedPage.uiSchema,
           schema: isTheVeteranDeceasedPage.schema,
         },
         dateOfDeath: {
-          path: CHAPTER_3.PAGE_7.PATH,
-          title: CHAPTER_3.PAGE_7.TITLE,
+          path: CHAPTER_3.PAGE_5.PATH,
+          title: CHAPTER_3.PAGE_5.TITLE,
           uiSchema: deathDatePage.uiSchema,
           schema: deathDatePage.schema,
         },
-      },
-    },
-    contactInformation: {
-      title: CHAPTER_4.CHAPTER_TITLE,
-      pages: {
         veteransAddressZip: {
-          path: CHAPTER_4.PAGE_1.PATH,
-          title: CHAPTER_4.PAGE_1.TITLE,
+          path: CHAPTER_3.PAGE_6.PATH,
+          title: CHAPTER_3.PAGE_6.TITLE,
           uiSchema: veteransAddressZipPage.uiSchema,
           schema: veteransAddressZipPage.schema,
         },
-        aboutTheVeteran: {
-          path: CHAPTER_4.PAGE_2.PATH,
-          title: CHAPTER_4.PAGE_2.TITLE,
-          uiSchema: aboutTheVeteranPage.uiSchema,
-          schema: aboutTheVeteranPage.schema,
+        whoIsAbout: {
+          path: CHAPTER_3.PAGE_7.PATH,
+          title: CHAPTER_3.PAGE_7.TITLE,
+          uiSchema: whoQuestionAboutPage.uiSchema,
+          schema: whoQuestionAboutPage.schema,
+        },
+        vaEmployee: {
+          path: CHAPTER_3.PAGE_8.PATH,
+          title: CHAPTER_3.PAGE_8.TITLE,
+          uiSchema: vaEmployeePage.uiSchema,
+          schema: vaEmployeePage.schema,
         },
         aboutYourself: {
-          path: CHAPTER_4.PAGE_3.PATH,
-          title: CHAPTER_4.PAGE_3.TITLE,
+          path: CHAPTER_3.PAGE_9.PATH,
+          title: CHAPTER_3.PAGE_9.TITLE,
           uiSchema: aboutYourselfPage.uiSchema,
           schema: aboutYourselfPage.schema,
         },
+        searchVAMedicalCenter: {
+          path: CHAPTER_3.PAGE_10.PATH,
+          title: CHAPTER_3.PAGE_10.TITLE,
+          uiSchema: searchVAMedicalCenterPage.uiSchema,
+          schema: searchVAMedicalCenterPage.schema,
+        },
         yourPhoneAndEmail: {
-          path: CHAPTER_4.PAGE_4.PATH,
-          title: CHAPTER_4.PAGE_4.TITLE,
+          path: CHAPTER_3.PAGE_11.PATH,
+          title: CHAPTER_3.PAGE_11.TITLE,
           uiSchema: yourPhoneAndEmailPage.uiSchema,
           schema: yourPhoneAndEmailPage.schema,
         },
+        howToContact: {
+          path: CHAPTER_3.PAGE_12.PATH,
+          title: CHAPTER_3.PAGE_12.TITLE,
+          uiSchema: howToContactPage.uiSchema,
+          schema: howToContactPage.schema,
+        },
         yourCountry: {
-          path: CHAPTER_4.PAGE_5.PATH,
-          title: CHAPTER_4.PAGE_5.TITLE,
+          path: CHAPTER_3.PAGE_13.PATH,
+          title: CHAPTER_3.PAGE_13.TITLE,
           uiSchema: yourCountryPage.uiSchema,
           schema: yourCountryPage.schema,
         },
         yourAddress: {
-          path: CHAPTER_4.PAGE_6.PATH,
-          title: CHAPTER_4.PAGE_6.TITLE,
+          path: CHAPTER_3.PAGE_14.PATH,
+          title: CHAPTER_3.PAGE_14.TITLE,
           uiSchema: yourAddressPage.uiSchema,
           schema: yourAddressPage.schema,
         },
         yourAddressConfirmation: {
-          path: CHAPTER_4.PAGE_7.PATH,
-          title: CHAPTER_4.PAGE_7.TITLE,
+          path: CHAPTER_3.PAGE_15.PATH,
+          title: CHAPTER_3.PAGE_15.TITLE,
           uiSchema: addressConfirmationPage.uiSchema,
           schema: addressConfirmationPage.schema,
           depends: form => !form.onBaseOutsideUS,
+        },
+        aboutYourFamilyMember: {
+          path: CHAPTER_3.PAGE_16.PATH,
+          title: CHAPTER_3.PAGE_16.TITLE,
+          uiSchema: aboutTheFamilyMemberPage.uiSchema,
+          schema: aboutTheFamilyMemberPage.schema,
+        },
+        aboutYourRelationshipToFamilyMember: {
+          path: CHAPTER_3.PAGE_17.PATH,
+          title: CHAPTER_3.PAGE_17.TITLE,
+          uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
+          schema: aboutYourRelationshipToFamilyMemberPage.schema,
         },
       },
     },

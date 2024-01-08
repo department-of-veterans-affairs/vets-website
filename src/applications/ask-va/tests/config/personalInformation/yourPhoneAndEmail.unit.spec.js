@@ -15,9 +15,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.contactInformation.pages.aboutTheVeteran;
+} = formConfig.chapters.personalInformation.pages.yourPhoneAndEmail;
 
-describe('aboutTheVeteranPage', () => {
+describe('yourPhoneAndEmailPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -32,39 +32,26 @@ describe('aboutTheVeteranPage', () => {
       </Provider>,
     );
 
-    const labels = $$('label', container);
-    const labelList = [
-      'First name',
-      'Middle name',
-      'Last name',
-      'Suffix',
-      'Preferred name',
-      'Social Security number',
-      'Service number',
-      'Month',
-      'Day',
-      'Year',
-      'He/him/his',
-      'She/her/hers',
-      'They/them/theirs',
-      'Ze/zir/zirs',
-      'Use my preferred name',
-      'If not listed, please provide your preferred pronouns',
-      'Man',
-      'Non-binary',
-      'Transgender man',
-      'Transgender woman',
-      'Woman',
-      'Prefer not to answer',
-      'A gender not listed here',
-    ];
+    const labels = $$('.schemaform-field-template > label', container);
+    const labelList = ['Phone', 'Email address'];
 
-    expect($('h3', container).textContent).to.eq('Tell us about the Veteran');
+    const radioLabels = $$('.form-radio-buttons > label', container);
+    const radioLabelList = ['Phone', 'Email', 'U.S. mail'];
+    const radioQuestion = removeReqFromLabel(
+      $('#root_howToContact-label', container).textContent,
+    );
+
+    expect($('h4', container).textContent).to.eq('Your phone number and email');
+    expect(radioQuestion).to.eq('How should we contact you?');
 
     labels.forEach(
       label =>
-        expect(labelList.includes(removeReqFromLabel(label.textContent).trim()))
-          .to.be.true,
+        expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be
+          .true,
+    );
+
+    radioLabels.forEach(
+      radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
 });

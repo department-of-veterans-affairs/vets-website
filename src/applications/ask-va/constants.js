@@ -54,18 +54,11 @@ export const yesNoOptions = {
 };
 
 // Relationship options
-export const personalOptions = {
-  GI_BILL_BENEFICIARY: 'GI Bill beneficiary',
-  OTHER_PERSONAL_RELATIONSHIP: 'Other personal relationship',
-};
-
-export const businessOptions = {
-  TRAINING_OR_APPRENTICESHIP:
-    'On-the-job training or apprenticeship supervisor',
-  SCHOOL_CERTIFYING_OFFICAL: 'School Certifying Official',
-  VA_EMPLOYEE: 'VA employee',
-  WORK_STUDY_SUPERVISOR: 'Work study site supervisor',
-  OTHER_BUSINESS_RELATIONSHIP: 'Other business relationship',
+export const relationshipOptions = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+  WORK:
+    "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
 };
 
 // Military base options
@@ -95,8 +88,23 @@ export const addressFields = {
   CITY: 'City',
   STATE: 'State/Province/Region',
   ZIP: 'Postal Code',
-  POST_OFFICE: 'Military post office',
-  MILITARY_STATE: 'State',
+  POST_OFFICE: 'Post office',
+  MILITARY_STATE: 'Region',
+};
+
+// Tell us about your relationship to Veteran
+export const aboutRelationship = {
+  SPOUSE: "I'm the Veteran's spouse",
+  CHILD: "I'm the Veteran's child",
+  STEPCHILD: "I'm the Veteran's stepchild",
+  PARENT: "I'm the Veteran's parent",
+  NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+};
+
+// Who your question is about
+export const whoYourQuestionIsAbout = {
+  ABOUT_VETERAN: 'About the Veteran',
+  ABOUT_SOMEONE_ELSE: 'About someone else',
 };
 
 // Chapter 1 labels: titles, questions, descriptions
@@ -136,56 +144,38 @@ export const CHAPTER_2 = {
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'VA Information',
+  CHAPTER_TITLE: 'Personal Information',
   PAGE_1: {
-    PATH: 'va-info-1',
-    TITLE: 'VA Medical Center',
-    PAGE_DESCRIPTION: '',
-    QUESTION_1: '',
-  },
-  PAGE_2: {
-    PATH: 'va-info-2',
-    TITLE: 'Who is asking a question',
-    PAGE_DESCRIPTION: 'Tell us who has a question',
-    QUESTION_1: 'Are you currently an employee of the VA?',
-    QUESTION_2: 'Who are you asking a question for?',
-  },
-  PAGE_3: {
-    PATH: 'va-info-3',
-    TITLE: 'Are you the Veteran?',
-    PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Selection',
-  },
-  PAGE_4: {
-    PATH: 'va-info-4',
-    TITLE: 'Are you the dependent?',
-    PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Selection',
-  },
-  PAGE_5: {
     PATH: 'va-info-5',
     TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Selection',
+    PAGE_DESCRIPTION:
+      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
+    QUESTION_1: 'Select your relationship to the Veteran:',
   },
-  PAGE_6: {
+  PAGE_2: {
+    PATH: 'va-info-8',
+    TITLE: 'Tell us more about your relationship to the Veteran',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select your relationship to the Veteran:',
+  },
+  PAGE_3: {
+    PATH: 'contact-info-1',
+    TITLE: 'Tell us about the Veteran',
+    PAGE_DESCRIPTION: '',
+  },
+  PAGE_4: {
     PATH: 'va-info-6',
     TITLE: 'Is the Veteran deceased?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Selection',
   },
-  PAGE_7: {
+  PAGE_5: {
     PATH: 'va-info-7',
     TITLE: 'When did the Veteran die?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Date',
   },
-};
-
-// Chapter 4 labels: titles, questions, descriptions
-export const CHAPTER_4 = {
-  CHAPTER_TITLE: 'Contact Information',
-  PAGE_1: {
+  PAGE_6: {
     PATH: 'contact-info-2',
     TITLE: "Veteran's address",
     PAGE_DESCRIPTION: '',
@@ -195,17 +185,31 @@ export const CHAPTER_4 = {
     QUESTION_3: 'Region',
     QUESTION_4: 'Postal code',
   },
-  PAGE_2: {
-    PATH: 'contact-info-1',
-    TITLE: 'Tell us about the Veteran',
+  PAGE_7: {
+    PATH: 'va-info-9',
+    TITLE: 'Who your question is about',
     PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      "Is your question about the Veteran's benefits or someone else's",
   },
-  PAGE_3: {
+  PAGE_8: {
+    PATH: 'va-info-2',
+    TITLE: 'VA employee',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Are you currently an employee of the VA?',
+  },
+  PAGE_9: {
     PATH: 'contact-info-3',
     TITLE: 'Tell us about yourself',
     PAGE_DESCRIPTION: '',
   },
-  PAGE_4: {
+  PAGE_10: {
+    PATH: 'va-info-1',
+    TITLE: 'VA Medical Center',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
+  PAGE_11: {
     PATH: 'contact-info-4',
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
@@ -213,23 +217,40 @@ export const CHAPTER_4 = {
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },
-  PAGE_5: {
+  PAGE_12: {
+    PATH: 'va-info-10',
+    TITLE: 'Your contact preference',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'How should we contact you?',
+  },
+  PAGE_13: {
     PATH: 'contact-info-5',
     TITLE: 'Your country', // country
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  PAGE_6: {
+  PAGE_14: {
     PATH: 'contact-info-6',
     TITLE: 'Your address', // full address
     PAGE_DESCRIPTION: '',
   },
-  PAGE_7: {
+  PAGE_15: {
     PATH: 'contact-info-7',
     TITLE: 'Your address confirmation',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
+  },
+  PAGE_16: {
+    PATH: 'va-info-11',
+    TITLE: 'Your relationship to the family member',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Select your relationship to the family member',
+  },
+  PAGE_17: {
+    PATH: 'va-info-12',
+    TITLE: 'Tell us about the family member',
+    PAGE_DESCRIPTION: '',
   },
 };
 

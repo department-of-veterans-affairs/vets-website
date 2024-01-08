@@ -15,7 +15,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.vaInformation.pages.whoHasAQuestion;
+} = formConfig.chapters.personalInformation.pages.whoHasAQuestion;
 
 describe('whoHasAQuestionPage', () => {
   it('should render', () => {

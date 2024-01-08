@@ -4,9 +4,9 @@ import {
   addressPageUISchema,
 } from '../../schema-helpers/addressHelper';
 import ProfileLink from '../../../components/ProfileLink';
-import { CHAPTER_4 } from '../../../constants';
+import { CHAPTER_3 } from '../../../constants';
 
-const title = <h4>{CHAPTER_4.PAGE_6.TITLE}</h4>;
+const title = <h4>{CHAPTER_3.PAGE_14.TITLE}</h4>;
 
 const yourAddressPage = {
   uiSchema: {
