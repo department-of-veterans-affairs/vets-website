@@ -21,6 +21,7 @@ import {
   isPresent,
   locationInfo,
   scrollToFocusedElement,
+  handleInputFocusWithPotentialOverLap,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -316,6 +317,28 @@ describe('GIBCT helpers:', () => {
 
       scrollToFocusedElement(getScrollOptions);
       expect(scrollToStub.called).to.be.true;
+    });
+    it('should scroll the page when elements overlap in mobile view', () => {
+      global.isMobileView = () => true;
+
+      const scrollIntoView = sinon.spy();
+      global.document = {
+        getElementById: id => ({
+          getBoundingClientRect: () => ({
+            top: id === 'fieldId1' ? 0 : 100,
+            bottom: id === 'fieldId1' ? 100 : 200,
+            left: 0,
+            right: 100,
+          }),
+          scrollIntoView,
+        }),
+      };
+      handleInputFocusWithPotentialOverLap(
+        'fieldId1',
+        'fieldId2',
+        'scrollableFieldId',
+      );
+      expect(scrollIntoView.called).to.be.false;
     });
   });
 });

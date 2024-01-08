@@ -307,7 +307,6 @@ describe('<SchoolLocations>', () => {
         expect(dataLabels.at(index).text()).equal(column);
       },
     );
-
     wrapper.unmount();
   });
 });
