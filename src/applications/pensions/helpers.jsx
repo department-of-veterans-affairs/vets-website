@@ -383,3 +383,9 @@ export const IncomeSourceDescription = (
     <p>List the sources of income for you, your spouse, and your dependents.</p>
   </div>
 );
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
+  );
+};
