@@ -27,7 +27,6 @@ describe('<FilterYourResults>', () => {
       name: 'Filter your results',
     });
     fireEvent.click(filterButton);
-
     const HBCUCheckBox = screen.getByRole('checkbox', {
       name: environment.isProduction()
         ? 'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university'
