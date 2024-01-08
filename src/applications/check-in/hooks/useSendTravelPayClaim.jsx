@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../api';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useStorage } from './useStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
 import { makeSelectCurrentContext } from '../selectors';
-import { createAnalyticsSlug } from '../utils/analytics';
 
 const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,19 +44,11 @@ const useSendTravelPayClaim = appointment => {
 
       setIsLoading(true);
       api.v2
-        .postDayOfTravelPayClaim(travelPayData)
+        .postDayOfTravelPayClaim(travelPayData, setECheckinStartedCalled)
         .catch(() => {
           setTravelPayClaimError(true);
         })
         .finally(() => {
-          recordEvent({
-            event: createAnalyticsSlug(
-              `submit-travel-pay-claim${
-                setECheckinStartedCalled ? '' : '-45MR'
-              }-success`,
-              'nav',
-            ),
-          });
           setTravelPayClaimSent(true);
           setIsLoading(false);
         });
