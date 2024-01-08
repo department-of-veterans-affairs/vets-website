@@ -31,7 +31,7 @@ export const desiredCemeteryNoteTitleWrapper = (
     target="_blank"
     className="desiredCemeteryNoteTitle"
   >
-    Find a VA national cemetery
+    Find a VA national cemetery (opens in a new tab)
   </a>
 );
 

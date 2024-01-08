@@ -225,21 +225,21 @@ export const sponsorMilitaryStatusDescription = (
 );
 
 export const desiredCemeteryNoteDescriptionVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
     unavailable, we’ll work with your family to assign a gravesite in a cemetery
     with available space at the time of need.
-  </va-alert>
+  </p>
 );
 
 export const desiredCemeteryNoteDescriptionNonVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
-    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
-    If space is unavailable, we’ll work with their family to assign a gravesite
-    in a cemetery with available space at the time of need.
-  </va-alert>
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </p>
 );
 
 export function preparerAddressHasState(item) {
