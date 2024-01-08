@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import {
   FILTERS_CHANGED,
   UPDATE_QUERY_PARAMS,
@@ -8,22 +9,24 @@ import { FILTERS_EXCLUDED_FLIP } from '../selectors/filters';
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
   search: false,
-  schools: true,
-  excludedSchoolTypes: [
-    'PUBLIC',
-    'FOR PROFIT',
-    'PRIVATE',
-    'FOREIGN',
-    'FLIGHT',
-    'CORRESPONDENCE',
-    'HIGH SCHOOL',
-  ],
+  schools: environment.isProduction(),
+  excludedSchoolTypes: environment.isProduction()
+    ? [
+        'PUBLIC',
+        'FOR PROFIT',
+        'PRIVATE',
+        'FOREIGN',
+        'FLIGHT',
+        'CORRESPONDENCE',
+        'HIGH SCHOOL',
+      ]
+    : [],
   excludeCautionFlags: false,
   accredited: false,
   studentVeteran: false,
   yellowRibbonScholarship: false,
-  employers: true,
-  vettec: true,
+  employers: environment.isProduction(),
+  vettec: environment.isProduction(),
   preferredProvider: false,
   country: 'ALL',
   state: 'ALL',
@@ -51,15 +54,17 @@ export default function(state = INITIAL_STATE, action) {
     case UPDATE_QUERY_PARAMS: {
       const queryParams = action.payload;
       const onLoadState = {
-        excludedSchoolTypes: [
-          'PUBLIC',
-          'FOR PROFIT',
-          'PRIVATE',
-          'FOREIGN',
-          'FLIGHT',
-          'CORRESPONDENCE',
-          'HIGH SCHOOL',
-        ],
+        excludedSchoolTypes: environment.isProduction()
+          ? [
+              'PUBLIC',
+              'FOR PROFIT',
+              'PRIVATE',
+              'FOREIGN',
+              'FLIGHT',
+              'CORRESPONDENCE',
+              'HIGH SCHOOL',
+            ]
+          : [],
       };
 
       Object.keys(INITIAL_STATE).forEach(key => {
