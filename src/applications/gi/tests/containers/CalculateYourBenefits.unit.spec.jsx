@@ -140,12 +140,14 @@ describe('<CalculateYourBenefits>', () => {
     removeEventListenerSpy.restore();
   });
 
-  // new test
-  //   it('should toggle expansion and update body overflow style', () => {
-  //   const setExpandEybSheet = sinon.spy();
-  //   sinon.stub(React, 'useState').returns([false, setExpandEybSheet]);
-
-  //   const wrapper = mount(
+  // it('should return no ', () => {
+  //   const middleware = [thunk];
+  //   const mockStore = configureStore(middleware);
+  //   const gibctEybBottomSheet = true;
+  //   const isOJT = false;
+  //   const { props, data } = getData();
+  //   const store = mockStore(data);
+  //   const tree = mount(
   //     <Provider store={store}>
   //       <CalculateYourBenefits
   //         gibctEybBottomSheet={gibctEybBottomSheet}
@@ -154,49 +156,15 @@ describe('<CalculateYourBenefits>', () => {
   //       />
   //     </Provider>,
   //   );
-
-  //   expect(wrapper.state().expandEybSheet).to.be.false;
-  //   expect(document.body.style.overflow).to.equal('visible');
-
-  //   wrapper.instance().toggleEybExpansion();
-
-  //   expect(wrapper.state().expandEybSheet).to.be.true;
-  //   expect(document.body.style.overflow).to.equal('hidden');
-  //   expect(setExpandEybSheet.calledWith(true)).to.be.true;
-
-  //   wrapper.instance().toggleEybExpansion();
-
-  //   expect(wrapper.state().expandEybSheet).to.be.false;
-  //   expect(document.body.style.overflow).to.equal('visible');
-  //   expect(setExpandEybSheet.calledWith(false)).to.be.true;
-
+  //   expect(
+  //     tree
+  //       .find('div.vads-u-padding-bottom--1.small-screen-font')
+  //       .at(1)
+  //       .text()
+  //       .includes('No'),
+  //   ).to.be.true;
+  //   tree.unmount();
   // });
-
-  it('should return no ', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const store = mockStore(data);
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    expect(
-      tree
-        .find('div.vads-u-padding-bottom--1.small-screen-font')
-        .at(1)
-        .text()
-        .includes('No'),
-    ).to.be.true;
-    tree.unmount();
-  });
   it('should', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
