@@ -40,6 +40,7 @@ const CheckInButton = ({
       <va-button
         text={t('loading')}
         uswds
+        big
         data-testid="check-in-button-loading"
         disabled
         class="vads-u-display--flex"
