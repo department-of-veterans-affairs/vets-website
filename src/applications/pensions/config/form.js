@@ -160,14 +160,19 @@ export function isUnder65(formData, currentDate) {
 
 function showSpouseAddress(form) {
   return (
-    form.maritalStatus === 'Separated' ||
-    get(['view:liveWithSpouse'], form) === false
+    isMarried(form) &&
+    (form.maritalStatus === 'Separated' ||
+      get(['view:liveWithSpouse'], form) === false)
   );
 }
 
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
+}
+
+function isHomeOwnerAndAcreageMorThanTwo(form) {
+  return form.homeOwnership === true && form.homeAcreageMoreThanTwo === true;
 }
 
 function usingDirectDeposit(formData) {
@@ -223,7 +228,7 @@ const formConfig = {
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   preSubmitInfo,
-  // showReviewErrors: true,
+  showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
@@ -324,7 +329,7 @@ const formConfig = {
           title: 'Medicaid coverage',
           path: 'medical/history/nursing/medicaid',
           depends: formData => {
-            return formData.nursingHome !== false;
+            return formData.nursingHome === true;
           },
           uiSchema: medicaidCoverage.uiSchema,
           schema: medicaidCoverage.schema,
@@ -333,7 +338,10 @@ const formConfig = {
           title: 'Medicaid application status',
           path: 'medical/history/nursing/medicaid/status',
           depends: formData => {
-            return formData.medicaidCoverage !== true;
+            return (
+              formData.nursingHome === true &&
+              formData.medicaidCoverage === false
+            );
           },
           uiSchema: medicaidStatus.uiSchema,
           schema: medicaidStatus.schema,
@@ -354,7 +362,7 @@ const formConfig = {
           title: 'VA medical centers',
           path: 'medical/history/va-treatment/medical-centers',
           depends: formData => {
-            return formData.vaTreatmentHistory !== false;
+            return formData.vaTreatmentHistory === true;
           },
           uiSchema: vaMedicalCenters.uiSchema,
           schema: vaMedicalCenters.schema,
@@ -369,7 +377,7 @@ const formConfig = {
           title: 'Federal medical facilities',
           path: 'medical/history/federal-treatment/medical-centers',
           depends: formData => {
-            return formData.federalTreatmentHistory !== false;
+            return formData.federalTreatmentHistory === true;
           },
           uiSchema: federalMedicalCenters.uiSchema,
           schema: federalMedicalCenters.schema,
@@ -385,7 +393,7 @@ const formConfig = {
           title: 'Current employment',
           path: 'employment/current/history',
           depends: formData => {
-            return formData.currentEmployment !== false && isUnder65(formData);
+            return formData.currentEmployment === true && isUnder65(formData);
           },
           uiSchema: currentEmployers.uiSchema,
           schema: currentEmployers.schema,
@@ -394,7 +402,7 @@ const formConfig = {
           title: 'Previous employment',
           path: 'employment/previous/history',
           depends: formData => {
-            return formData.currentEmployment !== true && isUnder65(formData);
+            return formData.currentEmployment === false && isUnder65(formData);
           },
           uiSchema: previousEmployers.uiSchema,
           schema: previousEmployers.schema,
@@ -821,9 +829,7 @@ const formConfig = {
         homeAcreageValue: {
           title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: formData => isHomeOwnerAndAcreageMorThanTwo(formData),
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
@@ -832,9 +838,7 @@ const formConfig = {
         landMarketable: {
           title: 'Land marketable',
           path: 'financial/land-marketable',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: formData => isHomeOwnerAndAcreageMorThanTwo(formData),
           uiSchema: landMarketable.uiSchema,
           schema: landMarketable.schema,
         },
