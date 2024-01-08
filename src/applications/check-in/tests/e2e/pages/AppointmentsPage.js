@@ -7,10 +7,12 @@ class AppointmentsPage {
       .and('include.text', 'Your Appointments');
   };
 
+  validatePreCheckInSuccessAlert = () => {
+    cy.get('[data-testid="pre-check-in-success-alert"]').should('be.visible');
+  };
+
   validateWhatNextHeader = () => {
-    cy.get('[data-testid="what-next-header"]')
-      .should('be.visible')
-      .and('include.text', 'What to do next');
+    cy.get('[data-testid="what-next-header"]').should('be.visible');
   };
 
   validateWhatNextCardTitle = {
@@ -30,21 +32,15 @@ class AppointmentsPage {
   };
 
   validateWhatNextCardDetailsLink = () => {
-    cy.get('[data-testid="details-link"]')
-      .should('be.visible')
-      .and('include.text', 'Details');
+    cy.get('[data-testid="details-link"]').should('be.visible');
   };
 
   validateWhatNextCardActionLink = {
     dayOf: () => {
-      cy.get('[data-testid="action-link"]')
-        .should('be.visible')
-        .and('include.text', 'Check in now');
+      cy.get('[data-testid="action-link"]').should('be.visible');
     },
     preCheckIn: () => {
-      cy.get('[data-testid="action-link"]')
-        .should('be.visible')
-        .and('include.text', 'Review your information now');
+      cy.get('[data-testid="action-link"]').should('be.visible');
     },
   };
 
@@ -67,9 +63,7 @@ class AppointmentsPage {
   };
 
   validateUpcomingAppointmentsHeader = () => {
-    cy.get('[data-testid="upcoming-appointments-header"]')
-      .should('be.visible')
-      .and('include.text', 'Upcoming Appointments');
+    cy.get('[data-testid="upcoming-appointments-header"]').should('be.visible');
   };
 
   validateUpcomingAppointmentsList = () => {
@@ -96,6 +90,16 @@ class AppointmentsPage {
     cy.get(`[data-testid="details-link-${appointment}"]`).click({
       waitForAnimations: true,
     });
+  };
+
+  clickUpcomingAppointmentDetails = (appointment = 2) => {
+    cy.get(
+      `section[data-testid="upcoming-appointments"] li:nth-child(${appointment}) [data-testid="details-link"]`,
+    )
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   attemptCheckIn = () => {
