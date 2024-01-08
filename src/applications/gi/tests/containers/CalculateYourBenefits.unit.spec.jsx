@@ -140,31 +140,31 @@ describe('<CalculateYourBenefits>', () => {
     removeEventListenerSpy.restore();
   });
 
-  // it('should return no ', () => {
-  //   const middleware = [thunk];
-  //   const mockStore = configureStore(middleware);
-  //   const gibctEybBottomSheet = true;
-  //   const isOJT = false;
-  //   const { props, data } = getData();
-  //   const store = mockStore(data);
-  //   const tree = mount(
-  //     <Provider store={store}>
-  //       <CalculateYourBenefits
-  //         gibctEybBottomSheet={gibctEybBottomSheet}
-  //         isOJT={isOJT}
-  //         {...props}
-  //       />
-  //     </Provider>,
-  //   );
-  //   expect(
-  //     tree
-  //       .find('div.vads-u-padding-bottom--1.small-screen-font')
-  //       .at(1)
-  //       .text()
-  //       .includes('No'),
-  //   ).to.be.true;
-  //   tree.unmount();
-  // });
+  it('should return no ', () => {
+    const middleware = [thunk];
+    const mockStore = configureStore(middleware);
+    const gibctEybBottomSheet = true;
+    const isOJT = false;
+    const { props, data } = getData();
+    const store = mockStore(data);
+    const tree = mount(
+      <Provider store={store}>
+        <CalculateYourBenefits
+          gibctEybBottomSheet={gibctEybBottomSheet}
+          isOJT={isOJT}
+          {...props}
+        />
+      </Provider>,
+    );
+    expect(
+      tree
+        .find('div.vads-u-padding-bottom--1.small-screen-font')
+        .at(1)
+        .text()
+        .includes('No'),
+    ).to.be.true;
+    tree.unmount();
+  });
   it('should', () => {
     const middleware = [thunk];
     const mockStore = configureStore(middleware);
