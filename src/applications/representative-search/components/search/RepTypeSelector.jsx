@@ -21,8 +21,8 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           <va-radio-option
             label="Veteran Service Officer"
             name="group"
-            value="officer"
-            checked={representativeType === 'officer'}
+            value="veteran_service_officer"
+            checked={representativeType === 'veteran_service_officer'}
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />

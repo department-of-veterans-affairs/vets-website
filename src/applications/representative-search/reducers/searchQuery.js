@@ -17,7 +17,7 @@ export const INITIAL_STATE = {
   repOfficerInputString: '',
   locationQueryString: '',
   repOfficerQueryString: '',
-  representativeType: 'officer',
+  representativeType: 'veteran_service_officer',
   sortType: 'distance_asc',
   position: {
     latitude: 40.17887331434698,
