@@ -6,7 +6,7 @@ import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
+import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityDescription from './GenderIdentityDescription';
