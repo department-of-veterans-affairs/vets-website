@@ -62,7 +62,11 @@ const LandingPage = () => {
               Get a list of all vaccines (immunizations) in your VA medical
               records.
             </p>
-            <Link to="/vaccines" className="vads-c-action-link--blue">
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+            >
               Go to your vaccines
             </Link>
           </section>

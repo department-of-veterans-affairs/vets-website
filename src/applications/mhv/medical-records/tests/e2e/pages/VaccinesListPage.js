@@ -10,7 +10,7 @@ class VaccinesListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/vaccines', Vaccines).as(
       'VaccinesList',
     );
-    cy.get('[href="/my-health/medical-records/vaccines"]').click();
+    cy.get('[data-testid="vaccines-landing-page-link"]').click();
     if (waitForVaccines) {
       cy.wait('@VaccinesList');
     }
