@@ -45,8 +45,15 @@ export const applicantDemographicsSubHeader = (
   </div>
 );
 
-export const applicantDemographicsDescription = (
+export const applicantDemographicsDescription = environment.isProduction() ? (
   <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+) : (
+  <div className="applicantDemographicsDescriptionNotProd">
     <p>
       We require some basic details as part of your application. Please know we
       need to gather the data for statistical purposes.
@@ -54,8 +61,16 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
-export const sponsorDeceasedDescription = (
+export const sponsorDeceasedDescription = environment.isProduction() ? (
   <div className="sponsorDeceasedDescription">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDeceasedDescriptionNotProd">
     <p>
       We’ll now ask you questions about the sponsor’s passing. We understand
       that the questions may be difficult to answer, but your answers will help
