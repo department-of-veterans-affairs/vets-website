@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import Dashboard from '../components/Dashboard';
 
-function App({ children, user }) {
+function App({ user }) {
   return (
     <RequiredLoginView
       // TODO: Determine the significance of this flag for us.
@@ -13,7 +14,9 @@ function App({ children, user }) {
       serviceRequired={[]}
       user={user}
     >
-      <div>{children}</div>
+      <div>
+        <Dashboard />
+      </div>
     </RequiredLoginView>
   );
 }

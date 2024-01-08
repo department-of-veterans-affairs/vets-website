@@ -1,1 +1,13 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+#rep-dashboard {
+    .dash-box {
+        // temporary height filler
+        height: 100px;
+        margin: 10px;
+        padding: 10px;
+    }
+    .left {
+        height: 400px;
+    }
+}
