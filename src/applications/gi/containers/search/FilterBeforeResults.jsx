@@ -30,6 +30,7 @@ export function FilterBeforeResults({
   preview,
   search,
   smallScreen,
+  setShowFiltersBeforeSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -345,6 +346,7 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
+    setShowFiltersBeforeSearch(false);
     updateResults();
     modalClose();
   };
@@ -433,7 +435,7 @@ export function FilterBeforeResults({
             <h5
               className={environment.isProduction() ? '' : 'school-types-label'}
             >
-              Community Focus
+              Community focus
             </h5>
             <button
               className={

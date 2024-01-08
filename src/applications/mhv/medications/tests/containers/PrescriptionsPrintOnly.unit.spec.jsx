@@ -1,16 +1,15 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import PrintHeader from '../../containers/PrintHeader';
 import reducers from '../../reducers';
-import userProfile from '../fixtures/userProfile.json';
+import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
 
-describe('Print Header Container', () => {
+describe('Medications List Print Page', () => {
   const setup = () => {
-    return renderWithStoreAndRouter(<PrintHeader />, {
+    return renderWithStoreAndRouter(<PrescriptionsPrintOnly />, {
       initialState: {},
       reducers,
-      path: '/',
+      path: '/1',
     });
   };
 
@@ -26,14 +25,9 @@ describe('Print Header Container', () => {
   });
   it('display user name and dob', () => {
     const screen = setup();
-    const name = userProfile.first
-      ? `${userProfile.last}, ${userProfile.first} ${userProfile.middle}, ${
-          userProfile.suffix
-        }`
-      : 'Doe, John R., Jr.';
-
-    expect(screen.getByTestId('name-date-of-birth')).to.have.text(
-      `${name} Date of birth: ${userProfile.dob}`,
-    );
+    const name = 'Doe, John R., Jr.';
+    const dob = 'March 15, 1982';
+    expect(screen.findByText(name)).to.exist;
+    expect(screen.findByText(`Date of birth: ${dob}`)).to.exist;
   });
 });
