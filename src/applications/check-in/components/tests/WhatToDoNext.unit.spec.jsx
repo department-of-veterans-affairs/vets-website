@@ -17,6 +17,10 @@ const mockStore = {
   app: 'dayOf',
 };
 
+const preCheckInMockStore = {
+  app: 'preCheckIn',
+};
+
 describe('unified check-in experience', () => {
   describe('WhatToDoNext', () => {
     it('displays the what next header', () => {
@@ -100,7 +104,7 @@ describe('unified check-in experience', () => {
         'Review your contact information for your Monday, January 3, 2:00 p.m., Monday, January 3, 2:30 p.m. and Monday, January 3, 3:00 p.m. appointments',
       );
     });
-    it('displays a clickable details link that calls go to details', () => {
+    it('check in displays a clickable details link that calls go to details', () => {
       const goToDetailsSpy = sinon.spy();
       const { getByTestId } = render(
         <CheckInProvider store={mockStore}>
@@ -114,6 +118,54 @@ describe('unified check-in experience', () => {
       const detailsLink = getByTestId('details-link-0');
       fireEvent.click(detailsLink);
       expect(goToDetailsSpy.calledOnce).to.be.true;
+    });
+    it('check in with multiple appointments displays a clickable details link that calls go to details', () => {
+      const goToDetailsSpy = sinon.spy();
+      const { getByTestId } = render(
+        <CheckInProvider store={mockStore}>
+          <WhatToDoNext
+            router={mockRouter}
+            appointments={multipleAppointments}
+            goToDetails={goToDetailsSpy}
+          />
+        </CheckInProvider>,
+      );
+      const detailsLink = getByTestId('details-link-0');
+      fireEvent.click(detailsLink);
+      expect(goToDetailsSpy.calledOnce).to.be.true;
+      const detailsLink1 = getByTestId('details-link-1');
+      expect(detailsLink1).to.exist;
+      const detailsLink2 = getByTestId('details-link-2');
+      expect(detailsLink2).to.exist;
+    });
+    it('pre check in with one appointment displays a clickable details link that calls go to details', () => {
+      const goToDetailsSpy = sinon.spy();
+      const { getByTestId } = render(
+        <CheckInProvider store={preCheckInMockStore}>
+          <WhatToDoNext
+            router={mockRouter}
+            appointments={singleAppointment}
+            goToDetails={goToDetailsSpy}
+          />
+        </CheckInProvider>,
+      );
+      const detailsLink = getByTestId('details-link-0');
+      fireEvent.click(detailsLink);
+      expect(goToDetailsSpy.calledOnce).to.be.true;
+    });
+    it('pre check in with multiple appointments does not display a clickable details link', () => {
+      const goToDetailsSpy = sinon.spy();
+      const { queryByTestId } = render(
+        <CheckInProvider store={preCheckInMockStore}>
+          <WhatToDoNext
+            router={mockRouter}
+            appointments={multipleAppointments}
+            goToDetails={goToDetailsSpy}
+          />
+        </CheckInProvider>,
+      );
+      const detailsLink = queryByTestId('details-link-0');
+      expect(detailsLink).to.not.exist;
     });
     it('displays a clickable action link that calls action', () => {
       const actionSpy = sinon.spy();
