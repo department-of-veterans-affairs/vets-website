@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import {
-  selectProfileContactsToggle,
-  selectProfileShowProofOfVeteranStatusToggle,
-} from '@@profile/selectors';
+import { selectProfileContactsToggle } from '@@profile/selectors';
 
 import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
@@ -20,10 +17,6 @@ export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
   const profileContactsEnabled = useSelector(selectProfileContactsToggle);
-
-  const profileShowProofOfVeteranStatus = useSelector(
-    selectProfileShowProofOfVeteranStatusToggle,
-  );
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -79,20 +72,12 @@ export const Hub = () => {
 
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
-          content={
-            profileShowProofOfVeteranStatus
-              ? 'Military branches, dates of service, and proof of Veteran status'
-              : 'Military branches and dates of service'
-          }
+          content="Military branches and dates of service"
         >
           <>
             <ProfileLink
               className="vads-u-display--block vads-u-margin-bottom--2"
-              text={
-                profileShowProofOfVeteranStatus
-                  ? 'Review your military information and download your proof of Veteran status'
-                  : 'Review your military information'
-              }
+              text="Review your military information"
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
