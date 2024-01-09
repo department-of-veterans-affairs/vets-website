@@ -6,7 +6,7 @@ const reasonContactPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_2.TITLE }),
     contactReason: radioUI({
-      title: CHAPTER_2.PAGE_2.contactReason_1,
+      title: CHAPTER_2.PAGE_2.QUESTION_1,
       labels: reasonOptions,
     }),
   },
