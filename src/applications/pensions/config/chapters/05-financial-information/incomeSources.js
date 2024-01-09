@@ -31,7 +31,7 @@ export default {
     },
     incomeSources: {
       'ui:options': {
-        itemName: 'income source',
+        itemName: 'Income source',
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
