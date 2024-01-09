@@ -1,5 +1,5 @@
 {
-  "appName": "Find a Representative",
+  "appName": "Find a VA accredited representative or VSO",
   "entryFile": "./app-entry.jsx",
   "entryName": "find-a-representative",
   "rootUrl": "/get-help-from-accredited-representative/find-rep",

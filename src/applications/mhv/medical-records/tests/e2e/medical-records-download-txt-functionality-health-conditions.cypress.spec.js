@@ -25,7 +25,7 @@ describe('Medical Records Health Conditions', () => {
     // should display a download pdf file button "Download PDF of this page"
     ConditionDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
+    // should display a download text file button "Download a text file (.txt) of this list"
     ConditionDetailsPage.verifyDownloadTextFile();
 
     ConditionDetailsPage.clickDownloadPDFFile();

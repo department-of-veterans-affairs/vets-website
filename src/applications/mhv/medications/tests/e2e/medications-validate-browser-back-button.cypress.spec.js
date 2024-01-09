@@ -22,7 +22,7 @@ describe('Medications details Page Back Browser', () => {
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails);
+    detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     cy.go('back');
     site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);
   });
