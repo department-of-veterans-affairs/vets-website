@@ -16,7 +16,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Status
           </h3>
-          <div>{validateField(status)}</div>
+          <div data-testid="rx-status">{validateField(status)}</div>
           <div className="no-print">
             <va-additional-info
               trigger="What does this status mean?"
