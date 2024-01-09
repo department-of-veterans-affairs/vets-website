@@ -248,6 +248,9 @@ const generateTableOfContents = (doc, parent, data, tocPageData) => {
   );
   parent.add(tableOfContents);
   for (const recordSet of data.recordSets) {
+    // TODO: Enable ToC to span multiple pages, possibly by generating
+    // separate PDFs and then combining them since the ToC is generated
+    // within the doc after the rest of the doc is generated
     generateTocItem(
       doc,
       tableOfContents,
