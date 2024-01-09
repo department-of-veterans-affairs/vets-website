@@ -88,17 +88,18 @@ const FolderHeader = props => {
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>
-          {(noAssociations || allTriageGroupsBlocked) && (
-            <BlockedTriageGroupAlert
-              alertStyle={
-                noAssociations
-                  ? BlockedTriageAlertStyles.INFO
-                  : BlockedTriageAlertStyles.WARNING
-              }
-              blockedTriageGroupList={[]}
-              parentComponent={ParentComponent.FOLDER_HEADER}
-            />
-          )}
+          {folder.folderId === Folders.INBOX.id &&
+            (noAssociations || allTriageGroupsBlocked) && (
+              <BlockedTriageGroupAlert
+                alertStyle={
+                  noAssociations
+                    ? BlockedTriageAlertStyles.INFO
+                    : BlockedTriageAlertStyles.WARNING
+                }
+                blockedTriageGroupList={[]}
+                parentComponent={ParentComponent.FOLDER_HEADER}
+              />
+            )}
 
           <>{handleFolderDescription()}</>
           {folder.folderId === Folders.INBOX.id &&
