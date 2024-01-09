@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+// import environment from 'platform/utilities/environment';
 
 import SpecializedMissionModalContent from '../../../../components/content/modals/SpecializedMissionModalContent';
 
