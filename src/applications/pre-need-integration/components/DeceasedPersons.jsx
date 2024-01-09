@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
-
 import {
   toIdSchema,
   getDefaultFormState,
@@ -49,6 +48,7 @@ export default class DeceasedPersons extends React.Component {
           )
         : [true],
       removing: props.formData ? props.formData.map(() => false) : [false],
+      showSave: Array(props.formData ? props.formData.length : 1).fill(false),
     };
 
     this.onItemChange = this.onItemChange.bind(this);
@@ -107,7 +107,9 @@ export default class DeceasedPersons extends React.Component {
   handleUpdate(index) {
     const id = this.props.name;
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
-      this.setState(set(['editing', index], false, this.state), () => {
+      const newEditing = set(['editing', index], false, this.state);
+      const newShowSave = set(['showSave', index], false, newEditing);
+      this.setState(newShowSave, () => {
         this.scrollToTop();
         this.focusOnFirstFocusableElement(index, id);
       });
@@ -133,10 +135,17 @@ export default class DeceasedPersons extends React.Component {
       const newEditing = this.state.editing.map(
         (val, index) => (index + 1 === this.state.editing.length ? false : val),
       );
+
+      // Update the showSave array to include a true value for the new item
+      const newShowSave = this.state.showSave.map(
+        (val, index) =>
+          index + 1 === this.state.showSave.length ? false : val,
+      );
       const editingState = this.props.uiSchema['ui:options'].reviewMode;
       const newState = {
         ...this.state,
         editing: newEditing.concat(!editingState),
+        showSave: newShowSave.concat(true), // Set the new item's showSave to true
       };
       this.setState(newState, () => {
         const newFormData = this.props.formData.concat(
@@ -368,8 +377,10 @@ export default class DeceasedPersons extends React.Component {
             const { showSave } = uiOptions;
             const isLast = items.length === index + 1;
             // if showSave is true, all items show Update except the last item
-            const updateText = showSave && isLast ? 'Save' : 'Update';
-            const isEditing = this.state.editing[index];
+            const showSaveButton = isLast && this.state.showSave[index];
+            const updateText = showSaveButton ? 'Save' : 'Update';
+            const isEditing =
+              items.length === 1 ? true : this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
             const ariaItemName =
