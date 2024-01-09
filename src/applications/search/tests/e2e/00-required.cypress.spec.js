@@ -115,10 +115,7 @@ describe('Sitewide Search smoke test', () => {
     // Ensure ERROR Alert Box exists
     cy.get(SELECTORS.ERROR_ALERT_BOX)
       // Check contain error message
-      .should(
-        'contain',
-        "We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again",
-      );
+      .should('contain', `Your search didn't go through`);
 
     // A11y check the search results.
     cy.axeCheck();

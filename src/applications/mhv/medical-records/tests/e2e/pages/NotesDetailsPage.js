@@ -18,20 +18,104 @@ class NotesDetailsPage {
     });
   }
   */
+  verifyCareSummaryPageText = () => {
+    // Very Care Summary Page title Text
+    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
+  };
 
-  clickNotesDetailsLink = (_NotesIndex = 0) => {
+  clickProgressNoteLink = (ProgressNote = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_NotesIndex)
+      .eq(ProgressNote)
       .click();
   };
 
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
+  clickDischargeSummaryLink = (DischargeSummary = 1) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(DischargeSummary)
+      .click();
   };
+
+  clickBreadCrumbsLink = breadcrumb => {
+    // Click Back to Care summaries and notes
+    cy.get('[data-testid="breadcrumbs"]')
+      .find('a')
+      .eq(breadcrumb)
+      .click();
+  };
+
+  verifyProgressNoteLocation = progressLocation => {
+    // Verify Progress Note Details Location
+    cy.get('[data-testid="progress-location"]').should('be.visible');
+    cy.get('[data-testid="progress-location"]').contains(progressLocation);
+  };
+
+  verifyProgressNoteSignedBy = progressSignedBy => {
+    // Progress Note Details Signed by
+    cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-signed-by"]').contains(progressSignedBy);
+  };
+
+  verifyProgressNoteSignedDate = progressSignedDate => {
+    cy.get('[data-testid="progress-signed-date"]').should('be.visible');
+    cy.get('[data-testid="progress-signed-date"]').contains(progressSignedDate);
+  };
+
+  verifyProgressNoteRecord = progressNote => {
+    cy.get('[data-testid="note-record"]').should('be.visible');
+    cy.get('[data-testid="note-record"]').contains(progressNote);
+  };
+
+  // ..........Discharge Summary
+
+  verifyDischargeSummaryLocation = summaryLocation => {
+    // Discharge Summary Note Details Location
+    cy.get('[data-testid="note-record-location"]').should('be.visible');
+    cy.get('[data-testid="note-record-location"]').contains(summaryLocation);
+  };
+
+  // There may no longer be Addmission date on discharge page
+  /*
+  verifyDischargeSummaryAdmissionDate = addmissionDate => {
+    // Discharge Summary Details Admission Date
+    cy.get('[data-testid="note-admission-date"]').should('be.visible');
+    cy.get('[data-testid="note-admission-date"]').contains(addmissionDate);
+  };
+  */
+  verifyDischargeSummaryDischargeDate = dischargeDate => {
+    // Discharge Summary Details DischargeDate
+    cy.get('[data-testid="note-discharge-date"]').should('be.visible');
+    cy.get('[data-testid="note-discharge-date"]').contains(dischargeDate);
+  };
+
+  verifyDischargeSummaryAdmittedBy = admittedBy => {
+    // Discharge Summary Admitted By
+    cy.get('[data-testid="note-admitted-by"]').should('be.visible');
+    cy.get('[data-testid="note-admitted-by"]').contains(admittedBy);
+  };
+
+  verifyDischargeSummaryDischargedBy = dischargedBy => {
+    // Discharge Summary discharged By
+    cy.get('[data-testid="note-discharged-by"]').should('be.visible');
+    cy.get('[data-testid="note-discharged-by"]').contains(dischargedBy);
+  };
+
+  verifyDischargeSummaryNote = summaryNote => {
+    // Discharge Summary Note
+    cy.get('[data-testid="note-summary"]').should('be.visible');
+    cy.get('[data-testid="note-summary"]').contains(summaryNote);
+  };
+
+  // ..............
 
   clickPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').click({ force: true });
+  };
+
+  verifyPrintOrDownload = () => {
+    // should display a toggle menu button
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
   };
 
   verifyPrintButton = () => {

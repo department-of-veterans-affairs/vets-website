@@ -4,9 +4,16 @@ import PropTypes from 'prop-types';
 import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
+import { QUESTION_MAP } from '../../constants/question-data-map';
+import { updateCurrentPage } from '../../actions';
 
-const Results3 = ({ formResponses, router, viewedIntroPage }) => {
-  const H1 = 'Learn more about VA benefit eligibility';
+const Results3 = ({
+  formResponses,
+  router,
+  updateTheCurrentPage,
+  viewedIntroPage,
+}) => {
+  const H1 = QUESTION_MAP.RESULTS_3;
 
   useEffect(() => {
     pageSetup(H1);
@@ -52,7 +59,9 @@ const Results3 = ({ formResponses, router, viewedIntroPage }) => {
         back
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
-        onClick={() => onResultsBackClick(formResponses, router)}
+        onClick={() =>
+          onResultsBackClick(formResponses, router, updateTheCurrentPage)
+        }
       />
     </>
   );
@@ -63,6 +72,7 @@ Results3.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  updateTheCurrentPage: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -71,4 +81,11 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.pactAct?.viewedIntroPage,
 });
 
-export default connect(mapStateToProps)(Results3);
+const mapDispatchToProps = {
+  updateTheCurrentPage: updateCurrentPage,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Results3);

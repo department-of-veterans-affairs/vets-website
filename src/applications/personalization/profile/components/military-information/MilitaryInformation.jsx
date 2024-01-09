@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
+
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -21,7 +23,7 @@ import { ProfileInfoCard } from '../ProfileInfoCard';
 const NotAVeteranAlert = () => {
   return (
     <>
-      <va-alert status="info" data-testid="not-a-veteran-alert">
+      <va-alert status="info" data-testid="not-a-veteran-alert" uswds>
         <h2 slot="headline">We don’t have military service records for you</h2>
 
         <p>
@@ -39,7 +41,7 @@ const NotAVeteranAlert = () => {
 const NotInDEERSAlert = () => {
   return (
     <>
-      <va-alert status="warning" data-testid="not-in-deers-alert">
+      <va-alert status="warning" data-testid="not-in-deers-alert" uswds>
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -64,10 +66,10 @@ const NotInDEERSAlert = () => {
             </b>
             , you can apply for a correction.
           </p>
-          <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
-            Learn how to correct your military service records on the National
-            Archives website
-          </a>
+          <va-link
+            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+            text="Learn how to correct your military service records on the National Archives website"
+          />
           .
         </div>
       </va-alert>
@@ -78,7 +80,7 @@ const NotInDEERSAlert = () => {
 const NoServiceHistoryAlert = () => {
   return (
     <>
-      <va-alert status="warning">
+      <va-alert status="warning" uswds>
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -103,10 +105,10 @@ const NoServiceHistoryAlert = () => {
             </b>
             , you can apply for a correction.
           </p>
-          <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
-            Learn how to correct your military service records on the National
-            Archives website
-          </a>
+          <va-link
+            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+            text="Learn how to correct your military service records on the National Archives website"
+          />
           .
         </div>
       </va-alert>
@@ -156,8 +158,11 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
-      <div className="vads-u-margin-top--4">
-        <va-additional-info trigger="What if I don't think my military service information is correct?">
+      <div className="vads-u-margin-y--4">
+        <va-additional-info
+          trigger="What if I don't think my military service information is correct?"
+          uswds
+        >
           <p className="vads-u-padding-bottom--2">
             Some Veterans have reported that their military service information
             in their VA.gov profiles doesn’t seem right. When this happens, it’s
@@ -196,7 +201,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   }, []);
 
   return (
-    <>
+    <div>
       <Headline>Military information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
@@ -209,17 +214,24 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </DowntimeNotification>
 
-      <va-featured-content>
-        <div className="vads-u-margin-y--0">
-          <h3 className="vads-u-margin-top--0" slot="headline">
-            Request your military records (DD214)
-          </h3>
-          <a href="/records/get-military-service-records">
-            Learn how to request your DD214 and other military records
-          </a>
-        </div>
+      <va-featured-content uswds>
+        <h3 className="vads-u-margin-top--0" slot="headline">
+          Request your military records (DD214)
+        </h3>
+        <va-link
+          href="/records/get-military-service-records"
+          text="Learn how to request your DD214 and other military records"
+        />
       </va-featured-content>
-    </>
+
+      <DevTools
+        alwaysShowChildren={false}
+        devToolsData={{ militaryInformation, veteranStatus }}
+        panel
+      >
+        <p>Profile devtools test, please ignore.</p>
+      </DevTools>
+    </div>
   );
 };
 

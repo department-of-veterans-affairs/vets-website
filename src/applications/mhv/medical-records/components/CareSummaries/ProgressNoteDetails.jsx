@@ -17,7 +17,7 @@ import {
   updatePageTitle,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   crisisLineHeader,
@@ -70,6 +70,15 @@ const ProgressNoteDetails = props => {
         },
       ],
     };
+
+    if (record.coSignedBy !== EMPTY_FIELD) {
+      scaffold.details.items.splice(2, 0, {
+        title: 'Co-signed by',
+        value: record.coSignedBy,
+        inline: true,
+      });
+    }
+
     scaffold.results = {
       header: 'Notes',
       items: [
@@ -100,11 +109,11 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Primary care progress note \n
 ${txtLine}\n\n
-Details
+Details\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
+${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
@@ -145,20 +154,28 @@ ${record.note}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p>{record.location}</p>
+        <p data-testid="progress-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Signed by
         </h3>
-        <p>{record.signedBy}</p>
+        <p data-testid="note-record-signed-by">{record.signedBy}</p>
+        {record.coSignedBy !== EMPTY_FIELD && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Co-signed by
+            </h3>
+            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
-        <p>{record.dateSigned}</p>
+        <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p>{record.note}</p>
+        <p data-testid="note-record">{record.note}</p>
       </div>
     </div>
   );

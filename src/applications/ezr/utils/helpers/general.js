@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 /**
@@ -30,6 +31,19 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
     ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
+}
+
+/**
+ * Helper that builds a full name string based on provided input values
+ * @param {String} birthdate - the value of the user's date of birth from the profile data
+ * @returns {String/NULL} - NULL if the passed-in value is not valid else the
+ * formatted string value of the date (YYYY-MM-DD)
+ */
+export function parseVeteranDob(birthdate) {
+  if (!birthdate) return null;
+  if (!moment(birthdate).isValid()) return null;
+  if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
+  return birthdate;
 }
 
 /**

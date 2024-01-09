@@ -21,6 +21,9 @@ const CareSummariesDetails = () => {
   const careSummary = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesDetails,
   );
+  const careSummariesList = useSelector(
+    state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
+  );
   const { summaryId } = useParams();
   const activeAlert = useAlerts();
 
@@ -44,10 +47,10 @@ const CareSummariesDetails = () => {
   useEffect(
     () => {
       if (summaryId) {
-        dispatch(getCareSummaryAndNotesDetails(summaryId));
+        dispatch(getCareSummaryAndNotesDetails(summaryId, careSummariesList));
       }
     },
-    [summaryId, dispatch],
+    [summaryId, careSummariesList, dispatch],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

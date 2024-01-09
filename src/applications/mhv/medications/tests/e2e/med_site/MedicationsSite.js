@@ -60,7 +60,7 @@ class MedicationsSite {
   };
 
   verifyloadLogInModal = () => {
-    cy.visit('my-health/about-medications/');
+    cy.visit('my-health/medications/about');
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
   };
 
@@ -70,6 +70,11 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      mockRx,
+    ).as('prescriptions');
     cy.get('[id="pagination"]')
       .shadow()
       .find('[class="usa-pagination__button usa-current"]')
@@ -83,6 +88,11 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      mockRx,
+    );
     cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
@@ -112,7 +122,7 @@ class MedicationsSite {
     threadLength,
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
-      'have.text',
+      'contain',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
     );
   };

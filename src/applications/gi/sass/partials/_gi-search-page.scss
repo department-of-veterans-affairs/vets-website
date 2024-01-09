@@ -358,7 +358,8 @@
     color: $color-white;
     cursor: pointer;
     display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -475,11 +476,14 @@
   }
 }
 
-.search-star-container{
+.search-star-container {
   padding: 0% !important;
 }
 
-.star-icons{
+.star-icons {
   position: relative;
   margin-right: 8px;
+}
+.school-types-label {
+  margin-top: -15px !important;
 }

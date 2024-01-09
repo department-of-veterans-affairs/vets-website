@@ -35,6 +35,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
+  VA_FORM_IDS.FORM_10_10D,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -49,6 +50,7 @@ const formConfigKeys = [
   'chapters',
   'defaultDefinitions',
   'introduction',
+  'signInHelpList',
   'prefillEnabled',
   'prefillTransformer',
   'trackingPrefix',
@@ -335,6 +337,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'onFormLoaded', false);
           validComponentProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
+          validFunctionProperty(formConfig, 'signInHelpList', false);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validComponentProperty(formConfig, 'CustomHeader', false);

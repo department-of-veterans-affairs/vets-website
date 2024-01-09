@@ -1,22 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import ListItemView from '../../../components/ListItemView';
 
-// View component for Employer
-const employerView = ({ formData }) => {
-  return (
-    <p>
-      <strong>{formData.jobTitle}</strong>
-    </p>
-  );
-};
+const EmployerView = ({ formData }) => (
+  <ListItemView title={formData.jobTitle} />
+);
 
-employerView.propTypes = {
+EmployerView.propTypes = {
   formData: PropTypes.shape({
     jobTitle: PropTypes.string,
   }),
@@ -53,7 +49,7 @@ const generateEmployersSchemas = (
         'ui:title': employerMessage,
         'ui:options': {
           itemName: 'employment',
-          viewField: employerView,
+          viewField: EmployerView,
           reviewTitle: employersReviewTitle,
         },
         items: {

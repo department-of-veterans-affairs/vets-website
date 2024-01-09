@@ -28,7 +28,7 @@ class RepresentativeFinderApi {
       type,
     });
 
-    const api = getAPI();
+    const api = getAPI(type);
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
