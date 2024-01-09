@@ -478,14 +478,14 @@ const formConfig = {
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
-                    'ui:description': generateHelpText(
-                      'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
-                    ),
                     'ui:widget': 'radio',
                     'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   otherExplanation: {
                     'ui:title': 'Please specify',
+                    'ui:description': generateHelpText(
+                      'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
+                    ),
                     'ui:required': (form, index) =>
                       get(['marriages', index, 'marriageType'], form) ===
                       'Other',
