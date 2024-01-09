@@ -1,7 +1,7 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
-import OtherTextField from '@@profile/components/personal-information/OtherTextField';
+import OtherTextField from '../../components/OtherTextField';
 import TextWidget from '../../../../../forms-system/src/js/widgets/TextWidget';
 import { NOT_SET_TEXT } from '../../constants';
 import DeselectableObjectField from '../../components/DeselectableObjectField';
