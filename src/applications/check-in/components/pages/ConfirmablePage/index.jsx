@@ -47,7 +47,7 @@ const ConfirmablePage = ({
   const onYesClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `yes-to-${pageType}${setECheckinStartedCalled ? '-45MR' : ''}-clicked`,
+        `yes-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
         'nav',
       ),
     });
@@ -57,9 +57,7 @@ const ConfirmablePage = ({
   const onNoClick = () => {
     recordEvent({
       event: createAnalyticsSlug(
-        `no-to-${pageType}${pageType}${
-          setECheckinStartedCalled ? '-45MR' : ''
-        }-clicked`,
+        `no-to-${pageType}${setECheckinStartedCalled ? '' : '-45MR'}-clicked`,
         'nav',
       ),
     });
@@ -110,24 +108,27 @@ const ConfirmablePage = ({
         </ul>
       </div>
       {additionalInfo}
-      <>
-        <button
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+        <va-button
+          uswds
+          big
           onClick={onYesClick}
-          className="usa-button-primary usa-button-big"
+          text={t('yes')}
           data-testid="yes-button"
-          type="button"
-        >
-          {t('yes')}
-        </button>
-        <button
+          class="vads-u-margin-top--2"
+          value="yes"
+        />
+        <va-button
+          uswds
+          big
           onClick={onNoClick}
-          className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+          text={t('no')}
           data-testid="no-button"
-          type="button"
-        >
-          {t('no')}
-        </button>
-      </>
+          secondary
+          class="vads-u-margin-top--2"
+          value="no"
+        />
+      </div>
     </Wrapper>
   );
 };

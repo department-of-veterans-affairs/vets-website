@@ -1,0 +1,7 @@
+{
+  "appName": "10-10d Application for CHAMPVA benefits",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "10-10D",
+  "rootUrl": "/ivc-champva/10-10D",
+  "productId": "c485d6da-8094-433d-9cd3-3d31e7813650"
+}

@@ -1,14 +1,41 @@
 import moment from 'moment-timezone';
 import { expect } from 'chai';
 import {
+  addUniqueEventsToList,
+  deriveDefaultSelectedOption,
   deriveEndsAtUnix,
   deriveEventLocations,
   deriveMostRecentDate,
+  deriveResults,
+  deriveResultsEndNumber,
+  deriveResultsStartNumber,
   deriveStartsAtUnix,
   filterByOptions,
   filterEvents,
+  fleshOutRecurringEvents,
+  removeDuplicateEvents,
 } from '.';
 import { createEvent } from './event-generator';
+
+describe('deriveDefaultSelectedOption', () => {
+  const oldLocation = global.window.location;
+
+  afterEach(() => {
+    global.window.location = oldLocation;
+  });
+
+  it('should take the queryParams from the window if they exist and return the correct filter', () => {
+    global.window.location = { search: '?selectedOption=specific-date' };
+
+    expect(deriveDefaultSelectedOption()).to.deep.eq(filterByOptions[1]);
+  });
+
+  it('should take the queryParams from the window if they exist and return the correct filter', () => {
+    global.window.location = { search: '' };
+
+    expect(deriveDefaultSelectedOption()).to.deep.eq(filterByOptions[0]);
+  });
+});
 
 describe('deriveMostRecentDate', () => {
   it('returns the argument fieldDatetimeRangeTimezone when it is falsey', () => {
@@ -83,9 +110,198 @@ describe('deriveMostRecentDate', () => {
   });
 });
 
+describe('addUniqueEventsToList', () => {
+  it('should return an empty array when all events are not given', () => {
+    expect(addUniqueEventsToList(null, { test: 'test' })).to.deep.eq([]);
+  });
+
+  it('should return an array with a single event when all events is empty', () => {
+    const event = {
+      id: 'upcoming',
+      entityId: 5,
+      entityUrl: { path: '/active-event' },
+      fieldDescription: 'Active Event description',
+      title: 'Active Event',
+      fieldDatetimeRangeTimezone: [
+        {
+          value: 1609480800,
+          endValue: 1609491600,
+          timezone: 'America/New_York',
+        },
+      ],
+      fieldLocationHumanreadable: '1234 Active Event street',
+    };
+
+    expect(addUniqueEventsToList([], event)).to.deep.eq([event]);
+  });
+
+  it('should add an event to the list if it is unique', () => {
+    const event = {
+      entityId: 8,
+    };
+
+    const allEvents = [{ entityId: 7 }, { entityId: 10 }];
+
+    expect(addUniqueEventsToList(allEvents, event)).to.deep.eq([
+      { entityId: 7 },
+      { entityId: 10 },
+      { entityId: 8 },
+    ]);
+  });
+
+  it('should return the original all events list if not given a unique event', () => {
+    const event = {
+      entityId: 10,
+    };
+
+    const allEvents = [{ entityId: 7 }, { entityId: 10 }];
+
+    expect(addUniqueEventsToList(allEvents, event)).to.deep.eq(allEvents);
+  });
+});
+
+describe('removeDuplicateEvents', () => {
+  it('should remove duplicate events from the list given', () => {
+    const allEvents = [
+      { entityId: 1 },
+      { entityId: 4 },
+      { entityId: 7 },
+      { entityId: 7 },
+      { entityId: 10 },
+      { entityId: 10 },
+      { entityId: 8 },
+    ];
+
+    expect(removeDuplicateEvents(allEvents)).to.deep.eq([
+      { entityId: 1 },
+      { entityId: 4 },
+      { entityId: 7 },
+      { entityId: 10 },
+      { entityId: 8 },
+    ]);
+  });
+});
+
+describe('fleshOutRecurringEvents', () => {
+  it('should create recurring events correctly', () => {
+    const recurringEvents = [
+      {
+        fieldDatetimeRangeTimezone: [{ value: 1 }, { value: 2 }],
+      },
+      {
+        fieldDatetimeRangeTimezone: [{ value: 3 }, { value: 4 }],
+      },
+    ];
+
+    expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq([
+      {
+        fieldDatetimeRangeTimezone: [{ value: 1 }, { value: 2 }],
+      },
+      {
+        fieldDatetimeRangeTimezone: [{ value: 2 }, { value: 1 }],
+      },
+      {
+        fieldDatetimeRangeTimezone: [{ value: 3 }, { value: 4 }],
+      },
+      {
+        fieldDatetimeRangeTimezone: [{ value: 4 }, { value: 3 }],
+      },
+    ]);
+  });
+
+  it('should return an empty array if no events are given', () => {
+    expect(fleshOutRecurringEvents([])).to.deep.eq([]);
+  });
+
+  it('should return an empty array if no date ranges', () => {
+    const recurringEvents = [{ test: 'test' }, { test: 'test1' }];
+
+    expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq([]);
+  });
+
+  it('should return the one event if there is only one occurrence', () => {
+    const recurringEvents = [{ fieldDatetimeRangeTimezone: [{ value: 1234 }] }];
+
+    expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq(
+      recurringEvents,
+    );
+  });
+});
+
+describe('deriveResults', () => {
+  it('should return if the correct arguments are not provided', () => {
+    expect(deriveResults([], 1, 10)).to.deep.equal([]);
+  });
+
+  it('should return if the correct arguments are not provided', () => {
+    expect(deriveResults([{ test: 'test' }], undefined, 10)).to.deep.equal([
+      { test: 'test' },
+    ]);
+  });
+
+  it('should return if the correct arguments are not provided', () => {
+    expect(deriveResults([{ test: 'test' }], 1, undefined)).to.deep.equal([
+      { test: 'test' },
+    ]);
+  });
+
+  it('should return the list of events for the desired page', () => {
+    const events = [
+      { event: 'test-event-1' },
+      { event: 'test-event-2' },
+      { event: 'test-event-3' },
+      { event: 'test-event-4' },
+      { event: 'test-event-5' },
+      { event: 'test-event-6' },
+    ];
+
+    expect(deriveResults(events, 1, 3)).to.deep.eq([
+      { event: 'test-event-1' },
+      { event: 'test-event-2' },
+      { event: 'test-event-3' },
+    ]);
+  });
+
+  it('should return early if no events were given', () => {
+    expect(deriveResults([], 1, 3)).to.deep.eq([]);
+  });
+
+  it('should return early if an invalid page was given', () => {
+    expect(deriveResults([], 0, 3)).to.deep.eq([]);
+  });
+
+  it('should return early if an invalid perPage was given', () => {
+    expect(deriveResults([], null, 0)).to.deep.eq([]);
+  });
+});
+
+describe('deriveResultsStartNumber', () => {
+  it('should return the correct start number', () => {
+    expect(deriveResultsStartNumber(1, 3)).to.eq(1);
+  });
+
+  it('should return the correct start number', () => {
+    expect(deriveResultsStartNumber(3, 10)).to.eq(21);
+  });
+});
+
+describe('deriveResultsEndNumber', () => {
+  it('should return the correct number', () => {
+    expect(deriveResultsEndNumber(3, 15, 100)).to.eq(45);
+  });
+
+  it('should return the correct number', () => {
+    expect(deriveResultsEndNumber(3, 15, 40)).to.eq(40);
+  });
+});
+
 describe('deriveEndsAtUnix', () => {
   it('returns what we expect with no arguments', () => {
     expect(deriveEndsAtUnix()).to.equal(undefined);
+  });
+
+  it('returns what we expact with one argument', () => {
+    expect(deriveEndsAtUnix(null, '05')).to.equal(undefined);
   });
 });
 
@@ -93,16 +309,9 @@ describe('deriveStartsAtUnix', () => {
   it('returns what we expect with no arguments', () => {
     expect(deriveStartsAtUnix()).to.equal(undefined);
   });
-});
 
-describe('filterByOptions', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(filterByOptions.map(option => option.value)).to.deep.equal([
-      'upcoming',
-      'specific-date',
-      'custom-date-range',
-      'past',
-    ]);
+  it('returns what we expect with one argument', () => {
+    expect(deriveStartsAtUnix('05')).to.equal(undefined);
   });
 });
 
@@ -250,7 +459,7 @@ describe('filterEvents', () => {
     ]);
   });
 
-  it('returns what we expect for specific-date and custom-date-range', () => {
+  it('returns what we expect for custom-date-range', () => {
     expect(
       filterEvents(
         events,
@@ -272,6 +481,13 @@ describe('filterEvents', () => {
         now.clone(),
       ),
     ).to.deep.equal([nextWeekEvent]);
+
+    expect(
+      filterEvents(events, 'custom-date-range', {}, now.clone()),
+    ).to.deep.equal(events);
+  });
+
+  it('returns what we expect for specific-date', () => {
     expect(
       filterEvents(
         events,
@@ -301,23 +517,33 @@ describe('deriveEventLocations', () => {
     expect(deriveEventLocations()).to.deep.equal([]);
   });
 
-  it('handles when fieldAddress?.addressLine1 is truthy', () => {
-    expect(
-      deriveEventLocations({ fieldAddress: { addressLine1: 'foo' } }),
-    ).to.deep.equal(['foo']);
-  });
-
-  it('handles when fieldAddress?.addressLine2 is truthy', () => {
-    expect(
-      deriveEventLocations({ fieldAddress: { addressLine2: 'foo' } }),
-    ).to.deep.equal(['foo']);
-  });
-
-  it('handles when fieldAddress?.locality is truthy', () => {
+  it('handles when a field facility location is provided', () => {
     expect(
       deriveEventLocations({
-        fieldAddress: { locality: 'foo', administrativeArea: 'bar' },
+        fieldFacilityLocation: {
+          entity: {
+            fieldAddress: {
+              addressLine1: 'foo',
+              addressLine2: 'bar',
+              locality: 'red',
+              administrativeArea: 'green',
+            },
+          },
+        },
       }),
-    ).to.deep.equal(['foo, bar']);
+    ).to.deep.equal(['foo', 'bar', 'red, green']);
+  });
+
+  it('handles when a field facility location is not provided', () => {
+    expect(
+      deriveEventLocations({
+        fieldAddress: {
+          addressLine1: 'foo',
+          addressLine2: 'bar',
+          locality: 'red',
+          administrativeArea: 'green',
+        },
+      }),
+    ).to.deep.equal(['foo', 'bar', 'red, green']);
   });
 });
