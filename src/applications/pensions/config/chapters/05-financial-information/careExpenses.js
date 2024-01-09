@@ -48,6 +48,7 @@ export default {
         itemName: 'Care Expense',
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
+        keepInPageOnReview: true,
       },
       items: {
         recipients: radioUI({

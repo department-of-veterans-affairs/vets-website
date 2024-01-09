@@ -22,6 +22,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
+  getDependentChildTitle,
   getMarriageTitleWithCurrent,
   directDepositWarning,
   isMarried,
@@ -33,7 +34,6 @@ import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
-import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 // chapter-pages
@@ -161,14 +161,19 @@ export function isUnder65(formData, currentDate) {
 
 function showSpouseAddress(form) {
   return (
-    form.maritalStatus === 'Separated' ||
-    get(['view:liveWithSpouse'], form) === false
+    isMarried(form) &&
+    (form.maritalStatus === 'Separated' ||
+      get(['view:liveWithSpouse'], form) === false)
   );
 }
 
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
+}
+
+function isHomeOwnerAndAcreageMorThanTwo(form) {
+  return form.homeOwnership === true && form.homeAcreageMoreThanTwo === true;
 }
 
 function usingDirectDeposit(formData) {
@@ -333,7 +338,7 @@ const formConfig = {
           title: 'Medicaid coverage',
           path: 'medical/history/nursing/medicaid',
           depends: formData => {
-            return formData.nursingHome !== false;
+            return formData.nursingHome === true;
           },
           uiSchema: medicaidCoverage.uiSchema,
           schema: medicaidCoverage.schema,
@@ -342,7 +347,10 @@ const formConfig = {
           title: 'Medicaid application status',
           path: 'medical/history/nursing/medicaid/status',
           depends: formData => {
-            return formData.medicaidCoverage !== true;
+            return (
+              formData.nursingHome === true &&
+              formData.medicaidCoverage === false
+            );
           },
           uiSchema: medicaidStatus.uiSchema,
           schema: medicaidStatus.schema,
@@ -363,7 +371,7 @@ const formConfig = {
           title: 'VA medical centers',
           path: 'medical/history/va-treatment/medical-centers',
           depends: formData => {
-            return formData.vaTreatmentHistory !== false;
+            return formData.vaTreatmentHistory === true;
           },
           uiSchema: vaMedicalCenters.uiSchema,
           schema: vaMedicalCenters.schema,
@@ -378,7 +386,7 @@ const formConfig = {
           title: 'Federal medical facilities',
           path: 'medical/history/federal-treatment/medical-centers',
           depends: formData => {
-            return formData.federalTreatmentHistory !== false;
+            return formData.federalTreatmentHistory === true;
           },
           uiSchema: federalMedicalCenters.uiSchema,
           schema: federalMedicalCenters.schema,
@@ -394,7 +402,7 @@ const formConfig = {
           title: 'Current employment',
           path: 'employment/current/history',
           depends: formData => {
-            return formData.currentEmployment !== false && isUnder65(formData);
+            return formData.currentEmployment === true && isUnder65(formData);
           },
           uiSchema: currentEmployers.uiSchema,
           schema: currentEmployers.schema,
@@ -403,7 +411,7 @@ const formConfig = {
           title: 'Previous employment',
           path: 'employment/previous/history',
           depends: formData => {
-            return formData.currentEmployment !== true && isUnder65(formData);
+            return formData.currentEmployment === false && isUnder65(formData);
           },
           uiSchema: previousEmployers.uiSchema,
           schema: previousEmployers.schema,
@@ -673,7 +681,9 @@ const formConfig = {
         spouseMarriageHistory: {
           title: 'Spouse’s former marriages',
           path: 'household/marital-status/spouse-marriages',
-          depends: formData => formData.currentSpouseMaritalHistory === 'Yes',
+          depends: formData =>
+            isMarried(formData) &&
+            formData.currentSpouseMaritalHistory === 'Yes',
           uiSchema: currentSpouseFormerMarriages.uiSchema,
           schema: currentSpouseFormerMarriages.schema,
         },
@@ -686,16 +696,14 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form),
+          depends: form => get(['view:hasDependents'], form) === true,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} information`,
-          depends: form => get(['view:hasDependents'], form),
+          title: item => getDependentChildTitle(item, 'information'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -703,8 +711,7 @@ const formConfig = {
         },
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+          title: item => getDependentChildTitle(item, 'address'),
           depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
@@ -794,7 +801,6 @@ const formConfig = {
     },
     financialInformation: {
       title: 'Financial information',
-      reviewDescription: FinancialDisclosureDescription,
       pages: {
         totalNetWorth: {
           title: 'Total net worth',
@@ -805,7 +811,7 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
-          depends: formData => !formData.totalNetWorth,
+          depends: formData => formData.totalNetWorth === false,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
         },
@@ -833,9 +839,7 @@ const formConfig = {
         homeAcreageValue: {
           title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: formData => isHomeOwnerAndAcreageMorThanTwo(formData),
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
@@ -844,9 +848,7 @@ const formConfig = {
         landMarketable: {
           title: 'Land marketable',
           path: 'financial/land-marketable',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: formData => isHomeOwnerAndAcreageMorThanTwo(formData),
           uiSchema: landMarketable.uiSchema,
           schema: landMarketable.schema,
         },
@@ -859,7 +861,7 @@ const formConfig = {
         incomeSources: {
           title: 'Gross monthly income',
           path: 'financial/income-sources',
-          depends: formData => formData.receivesIncome !== false,
+          depends: formData => formData.receivesIncome === true,
           uiSchema: incomeSources.uiSchema,
           schema: incomeSources.schema,
         },
@@ -872,7 +874,7 @@ const formConfig = {
         careExpenses: {
           path: 'financial/care-expenses/add',
           title: 'Unreimbursed care expenses',
-          depends: formData => formData.hasCareExpenses,
+          depends: formData => formData.hasCareExpenses === true,
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
@@ -885,7 +887,7 @@ const formConfig = {
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
           title: 'Medical expenses',
-          depends: formData => formData.hasMedicalExpenses,
+          depends: formData => formData.hasMedicalExpenses === true,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
@@ -956,7 +958,6 @@ const formConfig = {
         documentUpload: {
           title: 'Document upload',
           path: 'additional-information/document-upload',
-          editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
         },

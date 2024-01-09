@@ -23,7 +23,7 @@ export default {
       'ui:title': 'Describe the reason for your separation',
       'ui:options': {
         expandUnder: 'reasonForCurrentSeparation',
-        expandUnderCondition: 'Other',
+        expandUnderCondition: 'OTHER',
       },
       'ui:required': form =>
         get(['reasonForCurrentSeparation'], form) === 'OTHER',
