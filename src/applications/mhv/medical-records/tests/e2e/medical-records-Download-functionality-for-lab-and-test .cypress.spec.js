@@ -1,18 +1,18 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 
-describe('Medical Records Download Functionality For Radiology', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
+describe('Medical Records Labs And Tests Print or download  ', () => {
+  it('Visits Medical Records View Labs And Tests button Print or download ', () => {
     const site = new MedicalRecordsSite();
     site.login();
     // Given Navigate to Radiology Page
     cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.clickLabsAndTestsRadiologyLink();
 
-    // should display a toggle menu button
-    LabsAndTestsListPage.verifyPrintOrDownload();
+    // Verify Details Page PrintDownload button
+    LabsAndTestsListPage.verifyPrintOrDownload('Print or download');
 
-    // should display print button for a list "Print this list"
+    // Click Details Page PrintDownload button
     LabsAndTestsListPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
