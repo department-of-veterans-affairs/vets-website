@@ -199,23 +199,32 @@ SNOMED Clinical term: ${record.name} \n`;
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Status of health condition
             </h2>
-            <p data-dd-privacy="mask">{record.active}</p>
+            <p data-dd-privacy="mask" data-testid="condition-status">
+              {record.active}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
-            <p data-dd-privacy="mask">{record.provider}</p>
+            <p data-dd-privacy="mask" data-testid="condition-provider">
+              {record.provider}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">
+            <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               SNOMED Clinical term
             </h2>
-            <p data-dd-privacy="mask">{record.name}</p>
+            <p data-dd-privacy="mask" data-testid="condition-snomed">
+              {record.name}
+            </p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-            <ItemList list={record.comments} />
+            <ItemList
+              data-testid="condition-provider-notes"
+              list={record.comments}
+            />
           </div>
         </>
       );

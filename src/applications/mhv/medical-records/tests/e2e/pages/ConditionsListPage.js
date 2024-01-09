@@ -19,6 +19,11 @@ class ConditionsListPage {
 
 */
 
+  verifyConditionsPageTitle = () => {
+    // Verify Conditions Page Title
+    cy.get('[data-testid="health-conditions"]').should('be.visible');
+  };
+
   clickConditionsDetailsLink = (_conditionIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')

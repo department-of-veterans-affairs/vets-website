@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 const ItemList = props => {
   const { list } = props;
   if (typeof list === 'string')
-    return <span data-dd-privacy="mask">{list}</span>;
+    return (
+      <span data-dd-privacy="mask" data-testid="item-list-string">
+        {list}
+      </span>
+    );
   if (list?.length > 1) {
     return (
       <ul className="vads-u-margin-top--0 item-list">
