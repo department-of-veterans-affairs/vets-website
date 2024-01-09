@@ -32,7 +32,7 @@ export const sortOptions = {
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = true;
+export const useStagingDataLocally = false;
 
 export const claimsAgentIsEnabled = false;
 
@@ -41,18 +41,18 @@ export const getAPI = repType => {
     baseUrl:
       useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
         ? `https://staging-api.va.gov/services/veteran/v0/${
-            repType === 'officer' ? 'vso' : 'other'
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
           }_accredited_representatives`
         : `${environment.API_URL}/services/veteran/v0/${
-            repType === 'officer' ? 'vso' : 'other'
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
           }_accredited_representatives`,
     url:
       useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
         ? `https://staging-api.va.gov/services/veteran/v0/${
-            repType === 'officer' ? 'vso' : 'other'
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
           }_accredited_representatives`
         : `${environment.API_URL}/services/veteran/v0/${
-            repType === 'officer' ? 'vso' : 'other'
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
           }_accredited_representatives`,
     settings: apiSettings,
   };
@@ -70,7 +70,7 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'officer',
+  type = 'veteran_service_officer',
 }) => {
   const api = getAPI(type);
 
