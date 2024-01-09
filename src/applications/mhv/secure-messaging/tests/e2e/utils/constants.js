@@ -58,12 +58,13 @@ export const Alerts = {
   NO_ASSOCIATION: {
     AT_ALL_HEADER: `You're not connected to any care teams in this messaging tool`,
     HEADER: 'Your account is no longer connected to',
+
     PARAGRAPH:
       'If you need to contact your care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
   BLOCKED: {
-    AT_ALL_HEADER: `You can't send message to your care team right now`,
+    AT_ALL_HEADER: `Your account is no longer connected to TRIAGE GROUP_UAT2929`,
     AT_ALL_PARAGRAPH: `If you need to contact your care team, call your VA health facility.`,
     HEADER: `You can't send messages to`,
     PARAGRAPH:
