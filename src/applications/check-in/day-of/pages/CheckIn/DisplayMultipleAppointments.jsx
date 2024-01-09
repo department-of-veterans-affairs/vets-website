@@ -132,6 +132,7 @@ const DisplayMultipleAppointments = props => {
           <va-button
             secondary
             uswds
+            big
             onClick={handleClick}
             data-testid="refresh-appointments-button"
             text={t('refresh')}
