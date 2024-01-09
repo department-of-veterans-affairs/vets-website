@@ -87,10 +87,11 @@ export default function ValidateDisplay({
       {showValidateError ? (
         <div className="validate-error-alert" tabIndex="-1">
           <va-alert
-            background-only
             status="error"
             show-icon
             data-testid="validate-error-alert"
+            uswds
+            slim
           >
             <div>{validateErrorMessage}</div>
           </va-alert>
@@ -125,19 +126,31 @@ export default function ValidateDisplay({
             uswds
           />
         </div>
-        <button
-          type="submit"
-          className="usa-button usa-button-big vads-u-margin-top--4"
-          data-testid="check-in-button"
-          disabled={isLoading}
-        >
-          {' '}
-          {isLoading ? (
-            <span role="status">{t('loading')}</span>
-          ) : (
-            <>{t('continue')}</>
-          )}
-        </button>
+        {isLoading ? (
+          <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+            <va-button
+              uswds
+              big
+              disabled
+              text={t('loading')}
+              role="status"
+              data-testid="check-in-button-loading"
+              class="vads-u-margin-top--4"
+            />
+          </div>
+        ) : (
+          <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
+            <va-button
+              uswds
+              submit
+              big
+              text={t('continue')}
+              data-testid="check-in-button"
+              class="vads-u-margin-top--4"
+              onClick={handleFormSubmit}
+            />
+          </div>
+        )}
       </form>
     </Wrapper>
   );

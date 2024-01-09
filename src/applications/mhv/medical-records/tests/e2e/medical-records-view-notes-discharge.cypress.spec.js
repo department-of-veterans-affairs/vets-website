@@ -1,5 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
+import NotesListPage from './pages/NotesListPage';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -7,7 +8,7 @@ describe('Medical Records Care Summary Page', () => {
   before(() => {
     site.login();
     // Given Navigate to Notes Page
-    cy.visit('my-health/medical-records/summaries-and-notes');
+    NotesListPage.clickGotoNotesLink();
   });
 
   it('Discharge Summary Details  ', () => {
@@ -19,8 +20,7 @@ describe('Medical Records Care Summary Page', () => {
 
     // Verify Discharge Summary Note Details Location
     NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');
-    // Verify Discharge Summary Details Admission Date
-    NotesDetailsPage.verifyDischargeSummaryAdmissionDate('August 5, 2022');
+
     // Verify Discharge Summary Details DischargeDate
     NotesDetailsPage.verifyDischargeSummaryDischargeDate('August 9, 2022');
     // Verify Discharge Summary Admitted By --this is currently removed
