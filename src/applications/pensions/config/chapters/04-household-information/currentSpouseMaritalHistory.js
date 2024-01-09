@@ -1,7 +1,7 @@
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const radioOptions = {
   YES: 'Yes',
@@ -22,7 +22,7 @@ export default {
     type: 'object',
     required: ['currentSpouseMaritalHistory'],
     properties: {
-      currentSpouseMaritalHistory: radioSchema(Object.keys(radioOptions)),
+      currentSpouseMaritalHistory: radioSchema(Object.values(radioOptions)),
     },
   },
 };

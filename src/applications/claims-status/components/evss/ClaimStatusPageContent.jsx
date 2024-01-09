@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { getCompletedDate } from '../../utils/helpers';
 import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
@@ -44,12 +45,16 @@ export default function ClaimStatusPageContent({
         <ClaimComplete completedDate={getCompletedDate(claim)} />
       ) : null}
       {phase !== null && open ? (
-        <ClaimsTimeline
-          id={claim.id}
-          phase={phase}
-          currentPhaseBack={attributes.currentPhaseBack}
-          events={attributes.eventsTimeline}
-        />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <ClaimsTimeline
+              id={claim.id}
+              phase={phase}
+              currentPhaseBack={attributes.currentPhaseBack}
+              events={attributes.eventsTimeline}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       ) : null}
     </div>
   );
