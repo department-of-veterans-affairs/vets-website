@@ -15,6 +15,7 @@ describe('ezr <SaveInProgressInfo>', () => {
     enrollmentStatus = 'noneOfTheAbove',
     hasServerError = false,
     canSubmitFinancialInfo = false,
+    preferredFacility = '463 - CHEY6',
   }) => ({
     props: {
       formConfig,
@@ -26,6 +27,7 @@ describe('ezr <SaveInProgressInfo>', () => {
           loading: showLoader,
           parsedStatus: enrollmentStatus,
           hasServerError,
+          preferredFacility,
           canSubmitFinancialInfo,
         },
         form: {
@@ -183,6 +185,51 @@ describe('ezr <SaveInProgressInfo>', () => {
           expect(selector).to.contain.text(content['alert-server-title']);
         });
       });
+
+      context('when the user has a preferred facility on file', () => {
+        it('should not render preferred facility alert', () => {
+          const { props, mockStore } = getData({
+            showLoader: false,
+            loggedIn: true,
+            loaState: 3,
+            enrollmentStatus: 'enrolled',
+          });
+          const { container } = render(
+            <Provider store={mockStore}>
+              <SaveInProgressInfo {...props} />
+            </Provider>,
+          );
+          const selector = container.querySelector(
+            '[data-testid="ezr-preferred-facility-alert"]',
+          );
+          expect(selector).to.not.exist;
+        });
+      });
+
+      context(
+        'when the user does not have a preferred facility on file',
+        () => {
+          it('should render preferred facility alert', () => {
+            const { props, mockStore } = getData({
+              showLoader: false,
+              loggedIn: true,
+              loaState: 3,
+              enrollmentStatus: 'enrolled',
+              preferredFacility: null,
+            });
+            const { container } = render(
+              <Provider store={mockStore}>
+                <SaveInProgressInfo {...props} />
+              </Provider>,
+            );
+            const selector = container.querySelector(
+              '[data-testid="ezr-preferred-facility-alert"]',
+            );
+            expect(selector).to.exist;
+            expect(selector).to.have.attr('status', 'error');
+          });
+        },
+      );
     });
   });
 });
