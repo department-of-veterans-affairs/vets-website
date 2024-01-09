@@ -19,6 +19,7 @@ import { getAllFacilities } from '../actions/facilities';
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -84,6 +85,10 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
+      {user.login.currentlyLoggedIn &&
+        !userServices.includes(backendServices.MESSAGING) &&
+        window.location.replace('/health-care/secure-messaging')}
+
       <div className="vads-l-grid-container">
         <SmBreadcrumbs />
         <div
