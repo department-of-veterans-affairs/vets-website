@@ -6,12 +6,6 @@ import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import FilterYourResults from '../../containers/FilterYourResults';
 
 describe('<FilterYourResults>', () => {
-  beforeEach(() => {
-    global.window.buildType = true;
-  });
-  afterEach(() => {
-    global.window.buildType = false;
-  });
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<FilterYourResults />, {
       initialState: {
@@ -45,50 +39,50 @@ describe('<FilterYourResults>', () => {
     });
   });
 
-  // it('should click Public school and change status to unclicked', async () => {
-  //   const screen = renderWithStoreAndRouter(<FilterYourResults />, {
-  //     initialState: {
-  //       constants: mockConstants(),
-  //     },
-  //   });
-  //   const filterButton = screen.getByRole('button', {
-  //     name: 'Filter your results',
-  //   });
-  //   fireEvent.click(filterButton);
+  it('should click Public school and change status to unclicked', async () => {
+    const screen = renderWithStoreAndRouter(<FilterYourResults />, {
+      initialState: {
+        constants: mockConstants(),
+      },
+    });
+    const filterButton = screen.getByRole('button', {
+      name: 'Filter your results',
+    });
+    fireEvent.click(filterButton);
 
-  //   const publicSchoolCheckBox = screen.getByRole('checkbox', {
-  //     name: 'Include these school types: Public',
-  //   });
-  //   fireEvent.click(publicSchoolCheckBox);
+    const publicSchoolCheckBox = screen.getByRole('checkbox', {
+      name: 'Include these school types: Public',
+    });
+    fireEvent.click(publicSchoolCheckBox);
 
-  //   await waitFor(() => {
-  //     expect(publicSchoolCheckBox).to.have.property('checked', false);
-  //   });
-  // });
+    await waitFor(() => {
+      expect(publicSchoolCheckBox).to.have.property('checked', false);
+    });
+  });
 
-  // it('should click Public school checkbox twice and status should be clicked', async () => {
-  //   const screen = renderWithStoreAndRouter(<FilterYourResults />, {
-  //     initialState: {
-  //       constants: mockConstants(),
-  //     },
-  //   });
-  //   const filterButton = screen.getByRole('button', {
-  //     name: 'Filter your results',
-  //   });
-  //   fireEvent.click(filterButton);
+  it('should click Public school checkbox twice and status should be clicked', async () => {
+    const screen = renderWithStoreAndRouter(<FilterYourResults />, {
+      initialState: {
+        constants: mockConstants(),
+      },
+    });
+    const filterButton = screen.getByRole('button', {
+      name: 'Filter your results',
+    });
+    fireEvent.click(filterButton);
 
-  //   const publicSchoolCheckBox = screen.getByRole('checkbox', {
-  //     name: 'Include these school types: Public',
-  //   });
-  //   // first click unchecks the box
-  //   fireEvent.click(publicSchoolCheckBox);
-  //   // second click should check the box
-  //   fireEvent.click(publicSchoolCheckBox);
+    const publicSchoolCheckBox = screen.getByRole('checkbox', {
+      name: 'Include these school types: Public',
+    });
+    // first click unchecks the box
+    fireEvent.click(publicSchoolCheckBox);
+    // second click should check the box
+    fireEvent.click(publicSchoolCheckBox);
 
-  //   await waitFor(() => {
-  //     expect(publicSchoolCheckBox).to.have.property('checked', true);
-  //   });
-  // });
+    await waitFor(() => {
+      expect(publicSchoolCheckBox).to.have.property('checked', true);
+    });
+  });
 
   it('should click Vet Tec and change status to unclicked', async () => {
     const screen = renderWithStoreAndRouter(<FilterYourResults />, {
@@ -107,30 +101,30 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(VETTECCheckBox);
 
     await waitFor(() => {
-      expect(VETTECCheckBox).to.have.property('checked', true);
+      expect(VETTECCheckBox).to.have.property('checked', false);
     });
   });
 
-  // it('should click Preferred Provider and change status to clicked', async () => {
-  //   const screen = renderWithStoreAndRouter(<FilterYourResults />, {
-  //     initialState: {
-  //       constants: mockConstants(),
-  //     },
-  //   });
-  //   const filterButton = screen.getByRole('button', {
-  //     name: 'Filter your results',
-  //   });
-  //   fireEvent.click(filterButton);
+  it('should click Preferred Provider and change status to clicked', async () => {
+    const screen = renderWithStoreAndRouter(<FilterYourResults />, {
+      initialState: {
+        constants: mockConstants(),
+      },
+    });
+    const filterButton = screen.getByRole('button', {
+      name: 'Filter your results',
+    });
+    fireEvent.click(filterButton);
 
-  //   const VETTECPerferredProviderCheckBox = screen.getByRole('checkbox', {
-  //     name: 'VET TEC Preferred providers',
-  //   });
-  //   fireEvent.click(VETTECPerferredProviderCheckBox);
+    const VETTECPerferredProviderCheckBox = screen.getByRole('checkbox', {
+      name: 'VET TEC Preferred providers',
+    });
+    fireEvent.click(VETTECPerferredProviderCheckBox);
 
-  //   await waitFor(() => {
-  //     expect(VETTECPerferredProviderCheckBox).to.have.property('checked', true);
-  //   });
-  // });
+    await waitFor(() => {
+      expect(VETTECPerferredProviderCheckBox).to.have.property('checked', true);
+    });
+  });
 
   it('should click Update Results button', async () => {
     const screen = renderWithStoreAndRouter(<FilterYourResults />, {
@@ -189,7 +183,7 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(aboutTheSchoolCheckBox);
 
     await waitFor(() => {
-      expect(aboutTheSchoolCheckBox).to.have.property('checked', true);
+      expect(aboutTheSchoolCheckBox).to.have.property('checked', false);
     });
   });
 });
