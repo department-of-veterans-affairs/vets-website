@@ -9,6 +9,7 @@ import fullNameUI from '../../definitions/fullName';
 import EligibleBuriedView from '../../components/EligibleBuriedView';
 
 import { isVeteran, getCemeteries } from '../../utils/helpers';
+import DeceasedPersons from '../../components/DeceasedPersons';
 
 const {
   currentlyBuriedPersons,
@@ -44,6 +45,7 @@ export const uiSchema = {
   application: {
     currentlyBuriedPersons: {
       'ui:title': currentlyBuriedPersonsTitleWrapper,
+      'ui:field': DeceasedPersons,
       'ui:description': CurrentlyBuriedPersonsDescription,
       'ui:options': {
         viewField: EligibleBuriedView,
