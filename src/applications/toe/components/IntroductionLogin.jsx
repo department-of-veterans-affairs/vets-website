@@ -18,15 +18,12 @@ function IntroductionLogin({
   isLOA3,
   isPersonalInfoFetchComplete,
   isPersonalInfoFetchFailed,
-  isSponsorsFetchComplete,
   route,
   showHideLoginModal,
   showMeb1990EMaintenanceAlert,
   user,
 }) {
-  const apiCallsComplete =
-    isLOA3 === false ||
-    (isPersonalInfoFetchComplete && isSponsorsFetchComplete);
+  const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
 
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
@@ -184,7 +181,6 @@ IntroductionLogin.propTypes = {
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
-  isSponsorsFetchComplete: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
