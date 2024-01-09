@@ -824,7 +824,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
         /* eslint-disable camelcase */
         files.forEach(({ file, docType, password }) => {
           uploader.addFiles(file, {
-            tracked_item_ids: JSON.stringify([trackedItemId, 112]),
+            tracked_item_ids: JSON.stringify([trackedItemId]),
             document_type: docType.value,
             password: password.value,
           });
