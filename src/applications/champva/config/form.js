@@ -1,4 +1,5 @@
 import get from 'platform/utilities/data/get';
+import environment from 'platform/utilities/environment';
 
 import {
   fullNameSchema,
@@ -49,9 +50,9 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit,
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  // submit: () =>
+  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'champva-10-10d-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -444,7 +445,9 @@ const formConfig = {
                 applicantMedicareCardFront: {
                   ...fileUploadUI('Medicare card (Front)', {
                     fileTypes,
-                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
                     hideIf: (formData, index) =>
                       !formData.applicants[index].applicantEnrolledInMedicare,
                   }),
@@ -452,7 +455,9 @@ const formConfig = {
                 applicantMedicareCardBack: {
                   ...fileUploadUI('Medicare card (Back)', {
                     fileTypes,
-                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
                     hideIf: (formData, index) =>
                       !formData.applicants[index].applicantEnrolledInMedicare,
                   }),
@@ -463,7 +468,9 @@ const formConfig = {
                 applicantOHICardFront: {
                   ...fileUploadUI('OHI card (Front)', {
                     fileTypes,
-                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
                     hideIf: (formData, index) =>
                       !formData.applicants[index].applicantEnrolledInOHI,
                   }),
@@ -471,7 +478,9 @@ const formConfig = {
                 applicantOHICardBack: {
                   ...fileUploadUI('OHI card (Back)', {
                     fileTypes,
-                    fileUploadUrl: '/api/v0/doesnotexist', // TODO: add real URL
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
                     hideIf: (formData, index) =>
                       !formData.applicants[index].applicantEnrolledInOHI,
                   }),
