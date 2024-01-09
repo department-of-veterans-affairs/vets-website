@@ -98,7 +98,7 @@ export default Object.freeze({
     'financial_status_report_streamlined_waiver_assets',
   financialStatusReportReviewPageNavigation:
     'financial_status_report_review_page_navigation',
-  findARepresentative: 'find_a_representative',
+  findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
   form10182Nod: 'form10182_nod',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
@@ -133,6 +133,7 @@ export default Object.freeze({
     'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplayNotes: 'mhv_medical_records_display_notes',
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',

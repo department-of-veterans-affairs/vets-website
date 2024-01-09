@@ -80,7 +80,7 @@ import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
 import * as terminallyIll from './terminallyIll';
-import * as toxicExposureIntro from './toxicExposure/toxicExposureIntro';
+import * as toxicExposureConditions from './toxicExposure/toxicExposureConditions';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
@@ -182,7 +182,7 @@ export {
   summaryOfEvidence,
   supplementalBenefits,
   terminallyIll,
-  toxicExposureIntro,
+  toxicExposureConditions,
   trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,
