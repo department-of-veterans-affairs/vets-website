@@ -14,8 +14,20 @@ export const setPagination = (domain, value) => async dispatch => {
  * Resets Pagination in reducer where page needs to be modified by it's domain.
  */
 export const resetPagination = domain => async dispatch => {
+  let url = '';
+
+  if (domain.includes('labs-and-tests')) {
+    url = 'lab and test results';
+  } else if (domain.includes('allergies')) {
+    url = 'allergies';
+  } else if (domain.includes('vitals')) {
+    url = 'vitals';
+  } else {
+    url = 'other';
+  }
+
   dispatch({
     type: Actions.Pagination.RESET_PAGINATION,
-    payload: { domain },
+    payload: { domain: url, value: 1 },
   });
 };

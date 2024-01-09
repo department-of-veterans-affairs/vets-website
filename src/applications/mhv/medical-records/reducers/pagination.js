@@ -29,6 +29,10 @@ const initialState = {
       domain: 'care summaries and notes',
       value: 1,
     },
+    {
+      domain: 'other',
+      value: 1,
+    },
   ],
 };
 

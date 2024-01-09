@@ -40,7 +40,9 @@ const RecordList = props => {
 
   useEffect(
     () => {
-      dispatch(resetPagination(type));
+      return () => {
+        dispatch(resetPagination(location.pathname));
+      };
     },
     [dispatch, type],
   );

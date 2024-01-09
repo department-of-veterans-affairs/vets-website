@@ -20,11 +20,10 @@ const App = ({ children }) => {
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease
           ],
-        showSideNav: true,
-        // showSideNav:
-        //   state.featureToggles[
-        //     FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySidenav
-        //   ],
+        showSideNav:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySidenav
+          ],
       };
     },
     state => state.featureToggles,
