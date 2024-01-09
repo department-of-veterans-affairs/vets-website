@@ -122,10 +122,6 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     focusElement('[data-focus-target]');
   }, []);
 
-  const profileShowProofOfVeteranStatus = useSelector(
-    selectProfileShowProofOfVeteranStatusToggle,
-  );
-
   const invalidVeteranStatus =
     !veteranStatus?.status || veteranStatus?.status === 'NOT_AUTHORIZED';
 
@@ -162,12 +158,6 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         level={2}
         asList
       />
-
-      {profileShowProofOfVeteranStatus && (
-        <div className="vads-u-margin-top--4">
-          Proof of Veteran Status download placeholder
-        </div>
-      )}
 
       <div className="vads-u-margin-y--4">
         <va-additional-info
@@ -211,6 +201,10 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
 
+  const profileShowProofOfVeteranStatus = useSelector(
+    selectProfileShowProofOfVeteranStatusToggle,
+  );
+
   return (
     <div>
       <Headline>Military information</Headline>
@@ -224,6 +218,12 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+
+      {profileShowProofOfVeteranStatus && (
+        <div className="vads-u-margin-y--4">
+          Proof of Veteran Status download placeholder
+        </div>
+      )}
 
       <va-featured-content uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
