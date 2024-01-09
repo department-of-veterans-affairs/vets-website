@@ -6,7 +6,7 @@ import {
 import ProfileLink from '../../../components/ProfileLink';
 import { CHAPTER_3 } from '../../../constants';
 
-const title = <h4>{CHAPTER_3.PAGE_14.TITLE}</h4>;
+const title = <h3>{CHAPTER_3.PAGE_14.TITLE}</h3>;
 
 const yourAddressPage = {
   uiSchema: {

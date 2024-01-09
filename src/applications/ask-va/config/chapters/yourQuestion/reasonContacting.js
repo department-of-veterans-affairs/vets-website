@@ -5,8 +5,8 @@ import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 const reasonContactPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_2.TITLE }),
-    question: radioUI({
-      title: CHAPTER_2.PAGE_2.QUESTION_1,
+    contactReason: radioUI({
+      title: CHAPTER_2.PAGE_2.contactReason_1,
       labels: reasonOptions,
     }),
   },
@@ -14,7 +14,7 @@ const reasonContactPage = {
     type: 'object',
     required: [],
     properties: {
-      question: radioSchema(Object.keys(reasonOptions)),
+      contactReason: radioSchema(Object.keys(reasonOptions)),
     },
   },
 };

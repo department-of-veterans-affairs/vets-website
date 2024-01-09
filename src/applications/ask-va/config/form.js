@@ -172,7 +172,7 @@ const formConfig = {
           uiSchema: veteransAddressZipPage.uiSchema,
           schema: veteransAddressZipPage.schema,
         },
-        whoIsAbout: {
+        whoThisIsAbout: {
           path: CHAPTER_3.PAGE_7.PATH,
           title: CHAPTER_3.PAGE_7.TITLE,
           uiSchema: whoQuestionAboutPage.uiSchema,

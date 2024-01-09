@@ -181,37 +181,37 @@ export const CHAPTER_2 = {
 export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   PAGE_1: {
-    PATH: 'va-info-5',
+    PATH: 'personal-info-1',
     TITLE: 'Your relationship to the Veteran',
     PAGE_DESCRIPTION:
       "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
     QUESTION_1: 'Select your relationship to the Veteran:',
   },
   PAGE_2: {
-    PATH: 'va-info-8',
+    PATH: 'personal-info-2',
     TITLE: 'Tell us more about your relationship to the Veteran',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select your relationship to the Veteran:',
   },
   PAGE_3: {
-    PATH: 'contact-info-1',
+    PATH: 'personal-info-3',
     TITLE: 'Tell us about the Veteran',
     PAGE_DESCRIPTION: '',
   },
   PAGE_4: {
-    PATH: 'va-info-6',
+    PATH: 'personal-info-4',
     TITLE: 'Is the Veteran deceased?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Selection',
   },
   PAGE_5: {
-    PATH: 'va-info-7',
+    PATH: 'personal-info-5',
     TITLE: 'When did the Veteran die?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Date',
   },
   PAGE_6: {
-    PATH: 'contact-info-2',
+    PATH: 'personal-info-6',
     TITLE: "Veteran's address",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
@@ -221,31 +221,31 @@ export const CHAPTER_3 = {
     QUESTION_4: 'Postal code',
   },
   PAGE_7: {
-    PATH: 'va-info-9',
+    PATH: 'personal-info-7',
     TITLE: 'Who your question is about',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       "Is your question about the Veteran's benefits or someone else's",
   },
   PAGE_8: {
-    PATH: 'va-info-2',
+    PATH: 'personal-info-8',
     TITLE: 'VA employee',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Are you currently an employee of the VA?',
   },
   PAGE_9: {
-    PATH: 'contact-info-3',
+    PATH: 'personal-info-9',
     TITLE: 'Tell us about yourself',
     PAGE_DESCRIPTION: '',
   },
   PAGE_10: {
-    PATH: 'va-info-1',
+    PATH: 'personal-info-10',
     TITLE: 'VA Medical Center',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
   PAGE_11: {
-    PATH: 'contact-info-4',
+    PATH: 'personal-info-11',
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Mobile phone number',
@@ -253,37 +253,37 @@ export const CHAPTER_3 = {
     QUESTION_3: 'How should we contact you?',
   },
   PAGE_12: {
-    PATH: 'va-info-10',
+    PATH: 'personal-info-12',
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'How should we contact you?',
   },
   PAGE_13: {
-    PATH: 'contact-info-5',
+    PATH: 'personal-info-13',
     TITLE: 'Your country', // country
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
   PAGE_14: {
-    PATH: 'contact-info-6',
+    PATH: 'personal-info-14',
     TITLE: 'Your address', // full address
     PAGE_DESCRIPTION: '',
   },
   PAGE_15: {
-    PATH: 'contact-info-7',
+    PATH: 'personal-info-15',
     TITLE: 'Your address confirmation',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
   PAGE_16: {
-    PATH: 'va-info-11',
+    PATH: 'personal-info-16',
     TITLE: 'Your relationship to the family member',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select your relationship to the family member',
   },
   PAGE_17: {
-    PATH: 'va-info-12',
+    PATH: 'personal-info-17',
     TITLE: 'Tell us about the family member',
     PAGE_DESCRIPTION: '',
   },

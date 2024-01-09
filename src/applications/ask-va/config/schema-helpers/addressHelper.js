@@ -178,7 +178,7 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
     },
     'ui:order': fieldOrder,
     street: {
-      'ui:title': 'Street',
+      'ui:title': 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:required': () => true,
       'ui:errorMessages': {
@@ -186,11 +186,11 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
       },
     },
     street2: {
-      'ui:title': 'Street address line 2',
+      'ui:title': 'Street address 2',
       'ui:autocomplete': 'address-line2',
     },
     street3: {
-      'ui:title': 'Street address line 3',
+      'ui:title': 'Street address 3',
       'ui:autocomplete': 'address-line3',
     },
     militaryAddress: {

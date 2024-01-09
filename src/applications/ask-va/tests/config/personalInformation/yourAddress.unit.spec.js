@@ -34,15 +34,14 @@ describe('yourAddressPage', () => {
 
     const labels = $$('label', container);
     const labelList = [
-      'Country',
       'Street address',
       'Street address 2',
       'City',
       'State/Province/Region',
-      'Postal Code',
+      'Postal code',
     ];
 
-    expect($('h4', container).textContent).to.eq('Your address');
+    expect($('h3', container).textContent).to.eq('Your address');
     labels.forEach(
       label =>
         expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be

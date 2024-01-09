@@ -15,9 +15,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourPhoneAndEmail;
+} = formConfig.chapters.personalInformation.pages.howToContact;
 
-describe('yourPhoneAndEmailPage', () => {
+describe('howToContactPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -32,15 +32,17 @@ describe('yourPhoneAndEmailPage', () => {
       </Provider>,
     );
 
-    const labels = $$('.schemaform-field-template > label', container);
-    const labelList = ['Phone', 'Email address'];
+    const radioLabels = $$('.form-radio-buttons > label', container);
+    const radioLabelList = ['Phone', 'Email', 'U.S. mail'];
+    const radioQuestion = removeReqFromLabel(
+      $('#root_contactPreference-label', container).textContent,
+    );
 
-    expect($('h3', container).textContent).to.eq('Your phone number and email');
+    expect($('h3', container).textContent).to.eq('Your contact preference');
+    expect(radioQuestion).to.eq('How should we contact you?');
 
-    labels.forEach(
-      label =>
-        expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be
-          .true,
+    radioLabels.forEach(
+      radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
 });
