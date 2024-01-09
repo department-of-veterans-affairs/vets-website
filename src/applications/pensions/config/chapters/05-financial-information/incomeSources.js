@@ -34,6 +34,7 @@ export default {
         itemName: 'income source',
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
+        keepInPageOnReview: true,
       },
       items: {
         typeOfIncome: radioUI({

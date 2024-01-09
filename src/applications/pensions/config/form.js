@@ -34,7 +34,6 @@ import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
-import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 // chapter-pages
@@ -790,7 +789,6 @@ const formConfig = {
     },
     financialInformation: {
       title: 'Financial information',
-      reviewDescription: FinancialDisclosureDescription,
       pages: {
         totalNetWorth: {
           title: 'Total net worth',
@@ -801,7 +799,7 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
-          depends: formData => !formData.totalNetWorth,
+          depends: formData => formData.totalNetWorth === false,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
         },
@@ -851,7 +849,7 @@ const formConfig = {
         incomeSources: {
           title: 'Gross monthly income',
           path: 'financial/income-sources',
-          depends: formData => formData.receivesIncome !== false,
+          depends: formData => formData.receivesIncome === true,
           uiSchema: incomeSources.uiSchema,
           schema: incomeSources.schema,
         },
@@ -864,7 +862,7 @@ const formConfig = {
         careExpenses: {
           path: 'financial/care-expenses/add',
           title: 'Unreimbursed care expenses',
-          depends: formData => formData.hasCareExpenses,
+          depends: formData => formData.hasCareExpenses === true,
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
@@ -877,7 +875,7 @@ const formConfig = {
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
           title: 'Medical expenses',
-          depends: formData => formData.hasMedicalExpenses,
+          depends: formData => formData.hasMedicalExpenses === true,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
