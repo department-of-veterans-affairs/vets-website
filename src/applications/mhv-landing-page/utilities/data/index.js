@@ -20,7 +20,7 @@ const resolveToggleLink = (link, featureToggles) => {
 
 const countUnreadMessages = folders => {
   if (Array.isArray(folders?.data)) {
-    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+    return folders.data.reduce((accumulator, currentFolder) => {
       // Only count inbox (id = 0) and custom folders (id > 0)
       return currentFolder.id >= 0
         ? accumulator + currentFolder.attributes?.unreadCount
