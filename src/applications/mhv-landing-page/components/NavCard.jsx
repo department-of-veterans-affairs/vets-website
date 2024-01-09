@@ -17,7 +17,9 @@ const NavCard = ({ icon = null, title, links }) => {
           });
         }}
       >
-        <span className={ariaLabel?.includes('unread') ? 'indicator' : ''}>
+        <span
+          className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+        >
           {text}
         </span>
         <i aria-hidden="true" />
