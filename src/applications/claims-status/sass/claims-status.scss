@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 // TODO: Look at moving the .process-step css into this file
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
@@ -1117,7 +1119,7 @@ $marker-text-width: 9rem;
 
     .marker-text-spacer {
       display: inline-block;
-      min-width: $marker-text-width / 2;
+      min-width: $marker-text-width * 0.5;
       max-width: calc(100% - #{$marker-text-width} / 2);
     }
 
@@ -1128,14 +1130,14 @@ $marker-text-width: 9rem;
     .marker {
       display: inline-block;
       width: $marker-width;
-      margin: 0px $marker-width / -2;
+      margin: 0px math.div($marker-width, -2);
     }
 
     span.marker-text {
       font-weight: bold;
       color: $color-primary;
       width: $marker-text-width;
-      margin: 0px $marker-text-width / -2;
+      margin: 0px math.div($marker-text-width, -2);
     }
   }
 

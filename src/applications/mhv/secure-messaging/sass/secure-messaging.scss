@@ -1,9 +1,13 @@
+// @forward rules takes priority
+// commenting for build to generate successfully
+// will need to review this again if USWDS v3 will be added
+// locally or through formation.
+// @forward "usa-button-group";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
 @import "./folder-thread-list-view";
-@forward "usa-button-group";
 
 .bottom-container {
   background-color: $color-white;

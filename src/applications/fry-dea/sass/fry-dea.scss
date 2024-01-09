@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
@@ -132,7 +134,7 @@ $error-left-padding-width: 1.5rem;
 // Confirmation Page: Under Review
 .custom-fry-hr {
   margin: 1rem 0;
-  width: 62/16 + 0em;
+  width: math.div(62, 16) + 0em;
 }
 
 // END - Confirmation Page: Under Review
