@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
-import { resetStoredSubTask } from 'platform/forms/sub-task';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
@@ -34,7 +33,6 @@ export const ConfirmationPage = () => {
   const issues = data ? getIssuesListItems(data) : [];
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
   const submitDate = moment(submission?.timestamp);
-  resetStoredSubTask();
 
   return (
     <div>
