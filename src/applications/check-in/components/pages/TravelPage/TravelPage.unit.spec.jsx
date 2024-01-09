@@ -50,8 +50,12 @@ describe('Check-in experience', () => {
             />
           </CheckInProvider>,
         );
-        expect(getByTestId('yes-button')).to.have.text('yes test');
-        expect(getByTestId('no-button')).to.have.text('no test');
+        expect(getByTestId('yes-button').getAttribute('text')).to.equal(
+          'yes test',
+        );
+        expect(getByTestId('no-button').getAttribute('text')).to.equal(
+          'no test',
+        );
       });
       it('fires custom yes and no functions', () => {
         const yesFunc = sinon.spy();
