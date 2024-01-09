@@ -228,7 +228,7 @@ const formConfig = {
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
   preSubmitInfo,
-  showReviewErrors: true,
+  // showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
@@ -946,7 +946,6 @@ const formConfig = {
         documentUpload: {
           title: 'Document upload',
           path: 'additional-information/document-upload',
-          editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
         },
