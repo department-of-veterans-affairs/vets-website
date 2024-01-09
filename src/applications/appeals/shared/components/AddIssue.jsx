@@ -11,7 +11,13 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../content/addIssue';
 
-import { CONTESTABLE_ISSUES_PATH, MAX_LENGTH, SELECTED } from '../constants';
+import {
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  MAX_LENGTH,
+  SELECTED,
+} from '../constants';
 import { calculateIndexOffset, getSelected } from '../utils/issues';
 import { setStorage } from '../utils/addIssue';
 import { checkValidations } from '../validations';
@@ -39,7 +45,10 @@ const AddIssue = ({
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
-  const returnPath = `/${CONTESTABLE_ISSUES_PATH}`;
+  const returnPath =
+    window.sessionStorage.getItem(REVIEW_ISSUES) === 'true'
+      ? REVIEW_AND_SUBMIT
+      : `/${CONTESTABLE_ISSUES_PATH}`;
 
   const nameValidations = [
     missingIssueName,

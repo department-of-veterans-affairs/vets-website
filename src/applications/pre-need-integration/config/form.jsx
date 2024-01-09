@@ -544,6 +544,7 @@ const formConfig = {
       title: 'Supporting files',
       pages: {
         supportingDocuments: {
+          title: 'Upload supporting files',
           path: 'supporting-documents',
           editModeOnReviewPage: false,
           uiSchema: {
@@ -561,7 +562,6 @@ const formConfig = {
                 createPayload: file => {
                   const payload = new FormData();
                   payload.append('preneed_attachment[file_data]', file);
-
                   return payload;
                 },
                 parseResponse: (response, file) => ({
