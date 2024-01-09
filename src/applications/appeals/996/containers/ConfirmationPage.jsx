@@ -9,6 +9,8 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
+
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
@@ -25,6 +27,9 @@ export const ConfirmationPage = () => {
         scrollTo('topScrollElement');
         // delay focus for Safari
         waitForRenderThenFocus('h2', alertRef.current);
+        // reset the wizard
+        window.sessionStorage.removeItem(WIZARD_STATUS);
+        window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
       }
     },
     [alertRef],
