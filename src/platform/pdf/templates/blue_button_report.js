@@ -207,12 +207,15 @@ const generateTocItem = (doc, parent, data, pageData) => {
     pageData.startPage === pageData.endPage
       ? `page ${pageData.startPage}`
       : `pages ${pageData.startPage} - ${pageData.endPage}`;
+  const tocItemTitle =
+    pages.length > 13 ? data.title.slice(0, 13 - pages.length) : data.title;
+
   parent.add(
     doc.struct('P', () => {
       doc
         .font(config.tocHeading.font)
         .fontSize(config.tocHeading.size)
-        .text(`${data.title} ${pages}`, leftMargin, doc.y, {
+        .text(`${tocItemTitle} ${pages}`, leftMargin, doc.y, {
           lineGap: 6,
         });
     }),
