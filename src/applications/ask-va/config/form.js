@@ -21,12 +21,10 @@ import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 import questionAboutPage from './chapters/yourQuestion/questionAbout';
 import reasonContactPage from './chapters/yourQuestion/reasonContacting';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+
 // Personal Information
-import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
-import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
 import deathDatePage from './chapters/personalInformation/deathDate';
 import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
-import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
 import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
 import vaEmployeePage from './chapters/personalInformation/vaEmployee';
 import aboutTheFamilyMemberPage from './chapters/personalInformation/aboutTheFamilyMember';
@@ -34,11 +32,7 @@ import aboutYourRelationshipToFamilyMemberPage from './chapters/personalInformat
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
 import aboutYourRelationshipPage from './chapters/personalInformation/aboutYourRelationship';
 import whoQuestionAboutPage from './chapters/personalInformation/questionIsAbout';
-import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
-import deathDatePage from './chapters/personalInformation/deathDate';
 import howToContactPage from './chapters/personalInformation/howToContact';
-
-// Contact Information
 import aboutTheVeteranPage from './chapters/personalInformation/aboutTheVeteran';
 import veteransAddressZipPage from './chapters/personalInformation/veteranAddressZip';
 import aboutYourselfPage from './chapters/personalInformation/aboutYourself';
