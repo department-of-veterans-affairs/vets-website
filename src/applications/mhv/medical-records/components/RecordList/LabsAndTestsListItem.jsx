@@ -17,7 +17,7 @@ const LabsAndTestsListItem = props => {
         <Link
           to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
-          aria-label={`${record.name} ${formattedDate}`}
+          aria-label={`${record.name} on ${formattedDate}`}
         >
           {record.name}
         </Link>

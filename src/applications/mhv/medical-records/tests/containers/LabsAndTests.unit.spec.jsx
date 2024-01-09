@@ -48,7 +48,8 @@ describe('LabsAndTests list container', () => {
 
   it('displays a list of records', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+      // counting shown records plus all records due to print view
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(23);
     });
   });
 });
