@@ -132,6 +132,7 @@ export class SearchForm extends Component {
         )}
         data-e2e-id="search-form"
         name="yellow-ribbon-form"
+        onSubmit={onSubmitHandler}
       >
         <fieldset>
           <legend className="vads-u-font-family--serif">
