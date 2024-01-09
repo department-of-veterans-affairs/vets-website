@@ -12,7 +12,11 @@ export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
   };
 
   return (
-    <a href="/education/" onClick={onClick}>
+    <a
+      className="vads-c-action-link--green"
+      href="/education/"
+      onClick={onClick}
+    >
       Exit application
     </a>
   );

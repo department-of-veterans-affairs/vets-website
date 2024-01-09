@@ -75,6 +75,7 @@ class EducationWizard extends React.Component {
     return (
       <a
         id="apply-now-link"
+        className="vads-c-action-link--green"
         href={url}
         onClick={() => this.recordWizardValues()}
       >
