@@ -37,14 +37,19 @@ const IntroductionPage = props => {
     <div className="schemaform-intro">
       {/* TODO: Add breadcrumbs  - Ticket #228 */}
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-      <p className="schemaform-subtitle vads-u-font-size--lg vads-u-margin-bottom--4">
-        You should receive a response within 7 business days.
-      </p>
 
       {loggedIn ? (
-        <DashboardCards />
+        <>
+          <Link className="vads-c-action-link--blue" to={getStartPage}>
+            Create new question
+          </Link>
+          <DashboardCards />
+        </>
       ) : (
         <>
+          <p className="schemaform-subtitle vads-u-font-size--lg vads-u-margin-bottom--4">
+            You should receive a response within 7 business days.
+          </p>
           <va-alert
             close-btn-aria-label="Close notification"
             status="continue"
