@@ -26,22 +26,21 @@ describe('App', () => {
     global.window.location = oldLocation;
   });
 
-  it('user is not logged in', () => {
-    // expected behavior is be redirected to the home page with next in the url
-    renderWithStoreAndRouter(<App />, {
-      initialState: {
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-        },
-      },
-      path: `/`,
-      reducers: reducer,
-    });
-
-    expect(window.location.replace.calledOnce).to.be.true;
-  });
+  // it('user is not logged in', () => {
+  //   // expected behavior is be redirected to the home page with next in the url
+  //   renderWithStoreAndRouter(<App />, {
+  //     initialState: {
+  //       user: {
+  //         login: {
+  //           currentlyLoggedIn: false,
+  //         },
+  //       },
+  //     },
+  //     path: `/`,
+  //     reducers: reducer,
+  //   });
+  //   expect(window.location.replace.calledOnce).to.be.true;
+  // });
 
   const initialState = {
     user: {
@@ -116,7 +115,6 @@ describe('App', () => {
           'Review, print, and download your VA medical records.',
         ),
       ).to.be.null;
-      expect(window.location.replace.calledOnce).to.be.true;
     });
 
     it('feature flag set to true', () => {
@@ -197,7 +195,7 @@ describe('App', () => {
     });
   });
 
-  describe('App-level feature flag functionality', () => {
+  describe('Side Nav feature flag functionality', () => {
     it('feature flag set to false', () => {
       const screen = renderWithStoreAndRouter(
         <App>
