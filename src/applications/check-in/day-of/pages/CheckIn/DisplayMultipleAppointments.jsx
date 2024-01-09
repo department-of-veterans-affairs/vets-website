@@ -125,16 +125,19 @@ const DisplayMultipleAppointments = props => {
             values={{ date: new Date() }}
           />
         </p>
-        <p data-testid="refresh-link">
-          <button
-            className="usa-button-secondary"
+        <div
+          data-testid="refresh-link"
+          className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column"
+        >
+          <va-button
+            secondary
+            uswds
+            big
             onClick={handleClick}
             data-testid="refresh-appointments-button"
-            type="button"
-          >
-            {t('refresh')}
-          </button>
-        </p>
+            text={t('refresh')}
+          />
+        </div>
       </Wrapper>
     </>
   );

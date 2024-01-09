@@ -26,12 +26,14 @@ class Appointments {
 
   validateEligibleStatus = (appointmentNumber = 1) => {
     cy.get(
-      `.appointment-list > li:nth-child(${appointmentNumber}) button[data-testid="check-in-button"]`,
+      `.appointment-list > li:nth-child(${appointmentNumber}) [data-testid="check-in-button"]`,
       {
         timeout: Timeouts.slow,
       },
     )
       .should('be.visible')
+      .shadow()
+      .find('button')
       .and('contain', 'Check in now');
   };
 
