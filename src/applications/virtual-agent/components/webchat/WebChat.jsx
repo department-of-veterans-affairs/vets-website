@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
 import { ERROR } from '../chatbox/loadingStatus';
@@ -77,7 +78,7 @@ const WebChat = ({
         ),
       );
     },
-    [createStore],
+    [apiSession, createStore, csrfToken, userFirstName, userUuid],
   );
   let directLineToken = token;
   let conversationId = '';
@@ -90,6 +91,7 @@ const WebChat = ({
     conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   }
 
+  // eslint-disable-next-line no-restricted-globals
   addEventListener('beforeunload', () => {
     clearBotSessionStorage(false, isLoggedIn);
   });
@@ -113,7 +115,7 @@ const WebChat = ({
         conversationId,
         watermark: '',
       }),
-    [createDirectLine],
+    [conversationId, createDirectLine, directLineToken],
   );
 
   const BUTTONS = 49.2;
@@ -193,7 +195,7 @@ const WebChat = ({
     [isRXSkill],
   );
 
-  useEffect(setMicrophoneMessage(isRXSkill, document));
+  useEffect(() => setMicrophoneMessage(isRXSkill, document));
 
   if (isRXSkill === 'true') {
     return (
@@ -238,4 +240,10 @@ const WebChat = ({
   );
 };
 
+WebChat.propTypes = {
+  WebChatFramework: PropTypes.object,
+  apiSession: PropTypes.any,
+  setParamLoadingStatus: PropTypes.func,
+  token: PropTypes.string,
+};
 export default WebChat;

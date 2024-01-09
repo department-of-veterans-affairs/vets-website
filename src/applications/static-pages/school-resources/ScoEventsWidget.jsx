@@ -2,20 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-export default class ScoEventsWidget extends React.Component {
-  static propTypes = {
-    scoEvents: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        location: PropTypes.string.isRequired,
-        eventStartDate: PropTypes.string.isRequired,
-        eventEndDate: PropTypes.string,
-        displayStartDate: PropTypes.string.isRequired,
-      }),
-    ),
-  };
-
+class ScoEventsWidget extends React.Component {
   displayDate = event => {
     const startDate = moment(event.eventStartDate, 'YYYY-MM-DD').startOf('day');
     const endDate = moment(event.eventEndDate, 'YYYY-MM-DD').startOf('day');
@@ -126,3 +113,17 @@ export default class ScoEventsWidget extends React.Component {
     );
   }
 }
+
+ScoEventsWidget.propTypes = {
+  scoEvents: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      eventStartDate: PropTypes.string.isRequired,
+      eventEndDate: PropTypes.string,
+      displayStartDate: PropTypes.string.isRequired,
+    }),
+  ),
+};
+export default ScoEventsWidget;
