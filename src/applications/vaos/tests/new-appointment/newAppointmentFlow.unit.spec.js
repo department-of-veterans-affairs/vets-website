@@ -19,6 +19,7 @@ import { getParentSiteMock } from '../mocks/v0';
 import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
+  mockVAOSParentSites,
 } from '../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../mocks/v2';
 import { createMockFacilityByVersion } from '../mocks/data';
@@ -153,10 +154,50 @@ describe('VAOS newAppointmentFlow', () => {
       });
 
       it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
+        const siteIds = ['983'];
+
+        mockFetch();
+        mockVAOSParentSites(
+          siteIds,
+          [
+            createMockFacilityByVersion({
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              isParent: true,
+            }),
+          ],
+          true,
+        );
+        mockFacilitiesFetchByVersion({
+          children: true,
+          ids: ['983', '984'],
+          facilities: [
+            createMockFacilityByVersion({
+              id: '983',
+            }),
+          ],
+        });
+        mockSchedulingConfigurations(
+          [
+            getSchedulingConfigurationMock({
+              id: '983',
+              typeOfCareId: '411',
+              requestEnabled: true,
+              communityCare: false,
+            }),
+          ],
+          true,
+        );
+        mockV2CommunityCareEligibility({
+          parentSites: [],
+          careType: 'Podiatry',
+          eligible: false,
+        });
+
         const state = {
           user: {
             profile: {
-              facilities: [{ facilityId: '000' }],
+              facilities: [{ facilityId: '983' }],
             },
           },
           featureToggles: {
