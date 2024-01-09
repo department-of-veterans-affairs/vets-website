@@ -18,7 +18,7 @@ describe('Medical Records Download Functionality For Radiology', () => {
     // should display a download pdf file button "Download PDF of this page"
     LabsAndTestsListPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
+    // should display a download text file button "Download a text file (.txt) of this list"
     LabsAndTestsListPage.verifyDownloadTextFile();
     LabsAndTestsListPage.clickDownloadPDFFile();
 

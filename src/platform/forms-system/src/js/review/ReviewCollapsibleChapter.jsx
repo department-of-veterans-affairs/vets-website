@@ -308,7 +308,7 @@ class ReviewCollapsibleChapter extends React.Component {
       const noop = function noop() {};
       return (
         <page.CustomPage
-          key={page.pageKey}
+          key={`${page.pageKey}${page.index ?? ''}`}
           name={page.pageKey}
           title={page.title}
           trackingPrefix={props.form.trackingPrefix}
@@ -329,7 +329,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     return (
       <page.CustomPageReview
-        key={`${page.pageKey}Review`}
+        key={`${page.pageKey}Review${page.index ?? ''}`}
         editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
         name={page.pageKey}
         title={page.title}
