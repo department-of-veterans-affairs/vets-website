@@ -1,4 +1,4 @@
-import DeselectableObjectField from '@@profile/components/personal-information/DeselectableObjectField';
+import DeselectableObjectField from '@@vap-svc/components/DeselectableObjectField';
 import { personalInformationFormSchemas } from '@@vap-svc/util/personal-information/personalInformationUtils';
 
 import { expect } from 'chai';
