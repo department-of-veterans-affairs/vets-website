@@ -1,4 +1,58 @@
 {
   "data": {
+    "signature": true,
+    "certifierName": {
+      "first": "Franklin",
+      "middle": "A",
+      "last": "Lastname",
+      "suffix": "II"
+    },
+    "dateOfCertification": "2024-01-09",
+    "verifyCertifier": false,
+    "applicants": [
+      {
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 Avenue Cir",
+          "city": "Townscape",
+          "state": "AL",
+          "postalCode": "12312"
+        },
+        "applicantSSN": "123123123",
+        "applicantDOB": "2001-01-03",
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantEnrolledInMedicare": false,
+        "applicantEnrolledInOHI": false,
+        "applicantGender": "male",
+        "applicantEmailAddress": "jerry.lastname@email.gov",
+        "applicantName": {
+          "first": "Jerry",
+          "last": "Lastname",
+          "suffix": "Jr."
+        }
+      }
+    ],
+    "sponsorPhone": "555-555-5555",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Lane Av",
+      "city": "Anytown",
+      "state": "CO",
+      "postalCode": "31213"
+    },
+    "sponsorIsDeceased": false,
+    "ssn": {
+      "ssn": "123123123",
+      "vaFileNumber": "141141141"
+    },
+    "veteransFullName": {
+      "first": "John",
+      "middle": "Q",
+      "last": "Veteran",
+      "suffix": "Jr."
+    },
+    "sponsorDOB": "2000-01-01"
   }
 }
