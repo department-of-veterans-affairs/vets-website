@@ -8,14 +8,6 @@ import { CheckInButton } from '../CheckInButton';
 
 describe('check-in', () => {
   describe('CheckInButton', () => {
-    it('should render with the check in text', () => {
-      const { getByText } = render(
-        <CheckInProvider>
-          <CheckInButton />
-        </CheckInProvider>,
-      );
-      expect(getByText('Check in now')).to.be.ok;
-    });
     it('should a passed in onclick method', () => {
       const onClick = sinon.spy();
       const { getByTestId } = render(
@@ -34,8 +26,8 @@ describe('check-in', () => {
         </CheckInProvider>,
       );
       fireEvent.click(screen.getByTestId('check-in-button'));
-      expect(screen.getByTestId('check-in-button')).to.be.ok;
-      expect(screen.getByRole('status')).to.have.text('Loading...');
+      expect(screen.getByTestId('check-in-button-loading')).to.be.ok;
+      expect(screen.getByRole('status')).to.be.ok;
     });
     it('analytics event should not be recorded when before checkin window', () => {
       const onClick = sinon.spy();

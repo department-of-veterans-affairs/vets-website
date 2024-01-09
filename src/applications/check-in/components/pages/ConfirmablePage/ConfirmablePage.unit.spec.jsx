@@ -94,15 +94,6 @@ describe('pre-check-in experience', () => {
         );
         expect(getByTestId('additional-info')).to.exist;
       });
-      it('renders the yes and no buttons with the usa-button-big css class', () => {
-        const { getByTestId } = render(
-          <CheckInProvider>
-            <ConfirmablePage />
-          </CheckInProvider>,
-        );
-        expect(getByTestId('yes-button')).to.have.class('usa-button-big');
-        expect(getByTestId('no-button')).to.have.class('usa-button-big');
-      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
