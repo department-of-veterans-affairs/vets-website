@@ -162,4 +162,27 @@ describe('App', () => {
       }),
     );
   });
+
+  it('redirects Basic users to /health-care/secure-messaging', async () => {
+    renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_va_gov_release: true,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [],
+          },
+        },
+        ...noDowntime,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(window.location.replace.called).to.be.true;
+  });
 });
