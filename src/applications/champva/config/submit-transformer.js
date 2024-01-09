@@ -21,12 +21,18 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     const transformedApp = {
       full_name: app.applicantName ?? '',
-      ssh_or_tin: app.applicantSSN?.ssn || '',
+      ssh_or_tin: app.applicantSSN ?? '',
       date_of_birth: app.applicantDOB ?? '',
       phone_number: app.applicantPhone ?? '',
       vet_relationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
+      applicant_supporting_documents: [
+        app?.applicantMedicareCardFront,
+        app?.applicantMedicareCardBack,
+        app?.applicantOHICardFront,
+        app?.applicantOHICardBack,
+      ],
       address: app.applicantAddress ?? '',
       gender: app.applicantGender ?? '',
     };
@@ -86,7 +92,22 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
+    supporting_docs: [],
   };
+
+  // Flatten supporting docs for all applicants to a single array
+  const supDocs = [];
+  dataPostTransform.applicants.forEach(app => {
+    if (app.applicant_supporting_documents.length > 0) {
+      app.applicant_supporting_documents.forEach(doc => {
+        if (doc !== undefined) {
+          supDocs.push(...doc);
+        }
+      });
+    }
+  });
+
+  dataPostTransform.supporting_docs = supDocs;
 
   // eslint-disable-next-line dot-notation
   dataPostTransform.veteran.address['postal_code'] =
