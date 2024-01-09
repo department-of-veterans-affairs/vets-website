@@ -14,10 +14,10 @@ import {
 
 export const INITIAL_STATE = {
   locationInputString: '',
-  repOfficerInputString: '',
+  representativeInputString: '',
   locationQueryString: '',
-  repOfficerQueryString: '',
-  representativeType: 'officer',
+  representativeQueryString: '',
+  representativeType: 'veteran_service_officer',
   sortType: 'distance_asc',
   position: {
     latitude: 40.17887331434698,
@@ -47,8 +47,8 @@ export const validateForm = (oldState, payload) => {
     isErrorEmptyInput: newState.locationInputString?.length === 0,
     locationChanged:
       oldState.locationInputString !== newState.locationInputString,
-    repOfficerChanged:
-      oldState.repOfficerInputString !== newState.repOfficerInputString,
+    representativeChanged:
+      oldState.representativeInputString !== newState.representativeInputString,
     representativeTypeChanged:
       oldState.representativeType !== newState.representativeType,
   };

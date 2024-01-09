@@ -10,8 +10,8 @@ describe('Locator url and parameters builder', () => {
   const name = 'test';
   const sort = 'distance_asc';
 
-  it('should build VA request with type=officer', () => {
-    const type = 'officer';
+  it('should build VA request with type=veteran_service_officer', () => {
+    const type = 'veteran_service_officer';
 
     const result = resolveParamsWithUrl({
       address,
@@ -27,7 +27,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=officer`,
+      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer`,
     );
   });
 

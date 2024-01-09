@@ -1,11 +1,11 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { transformForSubmit } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import numberToWords from '@department-of-veterans-affairs/platform-forms-system/numberToWords';
-import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
 import { createSelector } from 'reselect';
 
@@ -383,3 +383,9 @@ export const IncomeSourceDescription = (
     <p>List the sources of income for you, your spouse, and your dependents.</p>
   </div>
 );
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
+  );
+};
