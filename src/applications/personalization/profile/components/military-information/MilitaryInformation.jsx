@@ -157,7 +157,6 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         level={2}
         asList
       />
-
       <div className="vads-u-margin-top--4">
         <va-additional-info trigger="What if I don't think my military service information is correct?">
           <p className="vads-u-padding-bottom--2">
@@ -183,6 +182,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           </p>
         </va-additional-info>
       </div>
+      <ProofOfVeteranStatus />
     </>
   );
 };
@@ -210,7 +210,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <ProofOfVeteranStatus />
       <va-featured-content>
         <div className="vads-u-margin-y--0">
           <h3 className="vads-u-margin-top--0" slot="headline">

@@ -1,36 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
 
 const MobileAppCallout = () => {
-  const [visibleAlert, setVisibleAlert] = useState(true);
-
-  const analyticsEvent = {
-    'alert-box-type': 'info',
-    'alert-box-heading': 'Access your Veteran status on your mobile device.',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': true,
-    'reason-for-alert': 'Mobile Download Callout',
-  };
-
-  const hideAlert = () => {
-    setVisibleAlert(false);
-    recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
-  };
-
-  if (visibleAlert) {
-    recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });
-  }
   return (
     <div id="mobile-app-callout">
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="info"
-        closeable
-        onCloseEvent={hideAlert}
-        visible={visibleAlert}
-      >
+      <VaAlert close-btn-aria-label="Close notification" status="info">
         <h2 id="track-your-status-on-mobile" slot="headline">
           Access your Veteran status on your mobile device.
         </h2>

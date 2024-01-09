@@ -30,7 +30,7 @@ const ProofOfVeteranStatus = () => {
         <i className="fa fa-download" aria-hidden="true" />{' '}
         <i className="fa fa-app-store" />{' '}
         <a href="#proof-of-veteran-status" onClick={openModal}>
-          Download and print your Veteran status card
+          Download and print your Veteran status card (PDF)
         </a>
       </div>
       <p>
