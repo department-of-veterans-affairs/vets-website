@@ -16,6 +16,7 @@ describe('Pensions expedited', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.additionalInformation.pages.expedited;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -30,6 +31,7 @@ describe('Pensions expedited', () => {
 
     expect(formDOM.querySelectorAll('input,select').length).to.equal(2);
   });
+
   it('should render warning on Yes', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -46,6 +48,7 @@ describe('Pensions expedited', () => {
       'will be submitted as',
     );
   });
+
   it('should render warning on No', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -62,7 +65,8 @@ describe('Pensions expedited', () => {
       'doesn’t qualify',
     );
   });
-  it('should submit', () => {
+
+  it('should fail to submit with no response', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -75,6 +79,24 @@ describe('Pensions expedited', () => {
     );
     const formDOM = getFormDOM(form);
 
+    formDOM.submitForm();
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit successfully with a response', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        data={{}}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.fillData('#root_noRapidProcessingNo', 'N');
     formDOM.submitForm();
     expect(onSubmit.called).to.be.true;
   });

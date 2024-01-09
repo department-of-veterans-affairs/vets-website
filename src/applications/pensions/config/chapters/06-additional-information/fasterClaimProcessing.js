@@ -43,7 +43,7 @@ export const NoFDCWarning = (
 
 export default {
   uiSchema: {
-    'ui:title': 'Faster claim processing (optional)',
+    'ui:title': 'Faster claim processing',
     'ui:description': Description,
     noRapidProcessing: {
       'ui:title':
@@ -75,6 +75,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['noRapidProcessing'],
     properties: {
       noRapidProcessing,
       fdcWarning: {
