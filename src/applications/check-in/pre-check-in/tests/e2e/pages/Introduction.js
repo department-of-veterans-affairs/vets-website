@@ -1,4 +1,4 @@
-import Timeouts from '@department-of-veterans-affairs/platform-testing/e2e/timeouts';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import { format } from 'date-fns';
 
 class Introduction {
