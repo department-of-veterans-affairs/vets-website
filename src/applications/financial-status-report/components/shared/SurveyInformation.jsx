@@ -30,7 +30,7 @@ const SurveyInformation = () => {
           We would appreciate feedback on your experience filling out this form.
         </p>
         <VaButton
-          onClick={window.KAMPYLE_ONSITE_SDK?.showForm(surveyNumber)}
+          onClick={() => window.KAMPYLE_ONSITE_SDK?.showForm(surveyNumber)}
           text="Provide feedback"
           uswds
         />
