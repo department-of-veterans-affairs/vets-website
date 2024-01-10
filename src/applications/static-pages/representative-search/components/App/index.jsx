@@ -68,7 +68,7 @@ export const App = ({ show }) => {
 };
 
 const mapStateToProps = state => ({
-  show: state?.featureToggles?.findARepresentative,
+  show: state?.featureToggles?.findARepresentativeEnableFrontend,
 });
 
 export default connect(

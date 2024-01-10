@@ -1,38 +1,58 @@
 // TODO: Add Ask-VA form schema when we know the full scope of the form
 // import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
 
+import {
+  CHAPTER_1,
+  CHAPTER_2,
+  CHAPTER_3,
+  CHAPTER_4,
+  requiredForSubtopicPage,
+} from '../constants';
 import manifest from '../manifest.json';
-import { requiredForSubtopicPage, CHAPTER_3, CHAPTER_4 } from '../constants';
 
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
 
 // Category and Topic pages
-import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
 import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
+import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 
 // Your Question
+import questionAboutPage from './chapters/yourQuestion/questionAbout';
+import reasonContactPage from './chapters/yourQuestion/reasonContacting';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
-
 // Personal Information
+import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
+import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
+import deathDatePage from './chapters/personalInformation/deathDate';
+import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
+import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
 import searchVAMedicalCenterPage from './chapters/personalInformation/searchVAMedicalCenter';
 import whoHasAQuestionPage from './chapters/personalInformation/whoHasAQuestion';
-import areYouTheVeteranPage from './chapters/personalInformation/areYouTheVeteran';
-import areYouTheDependentPage from './chapters/personalInformation/areYouTheDependent';
-import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
-import isTheVeteranDeceasedPage from './chapters/personalInformation/isTheVeteranDeceased';
-import deathDatePage from './chapters/personalInformation/deathDate';
 
 // Contact Information
 import aboutTheVeteranPage from './chapters/contactInformation/aboutTheVeteran';
-import veteransAddressZipPage from './chapters/contactInformation/veteranAddressZip';
 import aboutYourselfPage from './chapters/contactInformation/aboutYourself';
-import yourPhoneAndEmailPage from './chapters/contactInformation/yourPhoneAndEmail';
-import yourCountryPage from './chapters/contactInformation/yourCountry';
+import veteransAddressZipPage from './chapters/contactInformation/veteranAddressZip';
 import yourAddressPage from './chapters/contactInformation/yourAddress';
+import yourCountryPage from './chapters/contactInformation/yourCountry';
+import yourPhoneAndEmailPage from './chapters/contactInformation/yourPhoneAndEmail';
 // import veteransAddressPage from './chapters/contactInformation/veteransAddress';
 import addressConfirmationPage from './chapters/contactInformation/addressConfirmation';
+
+// Review Page
+import Footer from '../components/Footer';
+import ReviewPage from '../containers/ReviewPage';
+
+const review = {
+  uiSchema: {},
+  schema: {
+    definitions: {},
+    type: 'object',
+    properties: {},
+  },
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -62,29 +82,28 @@ const formConfig = {
   title: 'Ask VA',
   subTitle:
     'Get answers to your questions about VA benefits and services and send documents online',
+  footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
     categoryAndTopic: {
-      title: 'Category and Topic',
+      title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
         selectCategory: {
-          path: 'category-topic-1',
-          title: 'Category Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_1.PATH,
+          title: CHAPTER_1.PAGE_1.TITLE,
           uiSchema: selectCategoryPage.uiSchema,
           schema: selectCategoryPage.schema,
+          editModeOnReviewPage: false,
         },
         selectTopic: {
-          path: 'category-topic-2',
-          title: 'Topic Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_2.PATH,
+          title: CHAPTER_1.PAGE_2.TITLE,
           uiSchema: selectTopicPage.uiSchema,
           schema: selectTopicPage.schema,
         },
         selectSubtopic: {
-          path: 'category-topic-3',
-          title: 'SubTopic Selected',
-          editModeOnReviewPage: true,
+          path: CHAPTER_1.PAGE_3.PATH,
+          title: CHAPTER_1.PAGE_3.TITLE,
           uiSchema: selectSubtopicPage.uiSchema,
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
@@ -92,11 +111,23 @@ const formConfig = {
       },
     },
     yourQuestion: {
-      title: 'Your Question',
+      title: CHAPTER_2.CHAPTER_TITLE,
       pages: {
+        whatsYourQuestionAbout: {
+          path: CHAPTER_2.PAGE_1.PATH,
+          title: CHAPTER_2.PAGE_1.TITLE,
+          uiSchema: questionAboutPage.uiSchema,
+          schema: questionAboutPage.schema,
+        },
+        reasonYoureContactingUs: {
+          path: CHAPTER_2.PAGE_2.PATH,
+          title: CHAPTER_2.PAGE_2.TITLE,
+          uiSchema: reasonContactPage.uiSchema,
+          schema: reasonContactPage.schema,
+        },
         tellUsYourQuestion: {
-          path: 'question-1',
-          title: 'Tell us your question',
+          path: CHAPTER_2.PAGE_3.PATH,
+          title: CHAPTER_2.PAGE_3.TITLE,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
         },
@@ -152,17 +183,17 @@ const formConfig = {
     contactInformation: {
       title: CHAPTER_4.CHAPTER_TITLE,
       pages: {
-        aboutTheVeteran: {
+        veteransAddressZip: {
           path: CHAPTER_4.PAGE_1.PATH,
           title: CHAPTER_4.PAGE_1.TITLE,
-          uiSchema: aboutTheVeteranPage.uiSchema,
-          schema: aboutTheVeteranPage.schema,
-        },
-        veteransAddressZip: {
-          path: CHAPTER_4.PAGE_2.PATH,
-          title: CHAPTER_4.PAGE_2.TITLE,
           uiSchema: veteransAddressZipPage.uiSchema,
           schema: veteransAddressZipPage.schema,
+        },
+        aboutTheVeteran: {
+          path: CHAPTER_4.PAGE_2.PATH,
+          title: CHAPTER_4.PAGE_2.TITLE,
+          uiSchema: aboutTheVeteranPage.uiSchema,
+          schema: aboutTheVeteranPage.schema,
         },
         aboutYourself: {
           path: CHAPTER_4.PAGE_3.PATH,
@@ -194,6 +225,19 @@ const formConfig = {
           uiSchema: addressConfirmationPage.uiSchema,
           schema: addressConfirmationPage.schema,
           depends: form => !form.onBaseOutsideUS,
+        },
+      },
+    },
+    review: {
+      title: 'Review and submit',
+      pages: {
+        reviewForm: {
+          title: 'Review and submit',
+          path: 'review-then-submit',
+          CustomPage: ReviewPage,
+          CustomPageReview: null,
+          uiSchema: review.uiSchema,
+          schema: review.schema,
         },
       },
     },

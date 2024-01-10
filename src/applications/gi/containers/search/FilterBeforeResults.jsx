@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 import LearnMoreLabel from '../../components/LearnMoreLabel';
 import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
 import {
+  isProductionOfTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
@@ -29,6 +31,7 @@ export function FilterBeforeResults({
   preview,
   search,
   smallScreen,
+  setShowFiltersBeforeSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -194,7 +197,14 @@ export function FilterBeforeResults({
     return (
       <div className="filter-your-results">
         <CheckboxGroup
-          label={<h5>School types</h5>}
+          className="about-school-checkbox"
+          label={
+            <h5
+              className={environment.isProduction() ? '' : 'school-types-label'}
+            >
+              School types
+            </h5>
+          }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
           row={!smallScreen}
@@ -248,7 +258,14 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        label={<h5>About the school</h5>}
+        className={environment.isProduction() ? '' : 'about-school-checkbox'}
+        label={
+          <h5
+            className={environment.isProduction() ? '' : 'about-school-label'}
+          >
+            About the school
+          </h5>
+        }
         onChange={onChangeCheckbox}
         options={options}
         row={!smallScreen}
@@ -271,7 +288,14 @@ export function FilterBeforeResults({
     ];
     return (
       <CheckboxGroup
-        label={<h5>Other</h5>}
+        className={environment.isProduction() ? '' : 'other-checkbox'}
+        label={
+          <h5
+            className={environment.isProduction() ? '' : 'about-school-label'}
+          >
+            Other
+          </h5>
+        }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
         row={!smallScreen}
@@ -323,6 +347,7 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
+    setShowFiltersBeforeSearch(false);
     updateResults();
     modalClose();
   };
@@ -332,70 +357,99 @@ export function FilterBeforeResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: 'Historically Black college or university',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Historically Black college or university'
+          : 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: 'Men-only',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Men-only'
+          : 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: 'Women-only',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Women-only'
+          : 'Women’s colleges and universities',
+        // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: 'Religious affiliation',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Religious affiliation'
+          : 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: 'Hispanic-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Hispanic-serving institutions'
+          : 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: 'Native American-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Native American-serving institutions'
+          : 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: 'Alaska Native-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Alaska Native-serving institutions'
+          : 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel:
-          'Asian American Native American Pacific Islander-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Asian American Native American Pacific Islander-serving institutions'
+          : 'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel: 'Predominantly Black institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Predominantly Black institutions'
+          : 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: 'Tribal college and university',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Tribal college and university'
+          : 'Tribal Colleges and Universities',
       },
     ];
 
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
+        className={environment.isProduction() ? '' : 'my-filters-margin'}
         label={
           <>
-            <h5>Specialized mission</h5>
+            <h5
+              className={environment.isProduction() ? '' : 'school-types-label'}
+            >
+              Community focus
+            </h5>
             <button
-              className="mobile-jump-link"
+              className={
+                environment.isProduction()
+                  ? 'mobile-jump-link'
+                  : 'mobile-jump-link labels-margin'
+              }
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to specialized mission details</>}
+              {smallScreen && <>Jump to community focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to specialized mission details"
+                  label="Jump to community focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
@@ -493,9 +547,12 @@ export function FilterBeforeResults({
                 Clear filters
               </button>
             </div>
-            <div id="smfAccordion" className="vads-u-margin-top--3">
+            <div
+              id="learn-more-about-specialized-missions-accordion-button"
+              className="vads-u-margin-top--3"
+            >
               <AccordionItem
-                button="Learn more about specialized missions"
+                button="Learn more about community focus filters"
                 section
                 expanded={smfAccordionExpanded}
                 onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}

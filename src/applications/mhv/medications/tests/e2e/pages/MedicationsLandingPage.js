@@ -19,6 +19,10 @@ class MedicationsLandingPage {
       .should('be.visible');
   };
 
+  visitLandingPageURL = () => {
+    cy.visit('my-health/medications/about');
+  };
+
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
     cy.get('[data-testid="prescription-refill-info"]')
       .contains(

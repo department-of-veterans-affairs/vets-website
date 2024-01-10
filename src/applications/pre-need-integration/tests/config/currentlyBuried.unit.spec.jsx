@@ -44,7 +44,7 @@ describe('Pre-need burial benefits', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.burialBenefits.pages.burialBenefits;
+  } = formConfig.chapters.burialBenefits.pages.currentlyBuriedPersons;
 
   it('should render', () => {
     const form = mount(
@@ -57,7 +57,7 @@ describe('Pre-need burial benefits', () => {
       </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
@@ -76,7 +76,7 @@ describe('Pre-need burial benefits', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

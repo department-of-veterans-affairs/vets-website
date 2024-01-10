@@ -1,4 +1,5 @@
 import {
+  PAW_UPDATE_CURRENT_PAGE,
   PAW_VIEWED_INTRO_PAGE,
   PAW_UPDATE_SERVICE_PERIOD,
   PAW_UPDATE_BURN_PIT_2_1,
@@ -15,6 +16,13 @@ import {
   PAW_UPDATE_LEJEUNE_2_4,
   PAW_UPDATE_FORM_STORE,
 } from '../constants';
+
+export const updateCurrentPage = value => {
+  return {
+    type: PAW_UPDATE_CURRENT_PAGE,
+    payload: value,
+  };
+};
 
 export const updateIntroPageViewed = value => {
   return {

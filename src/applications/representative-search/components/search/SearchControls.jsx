@@ -15,7 +15,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOrganizationInputString,
+    representativeInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -35,9 +35,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOrganizationChange = e => {
+  const handleRepresentativeChange = e => {
     onChange({
-      repOrganizationInputString: onlySpaces(e.target.value)
+      representativeInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -63,7 +63,11 @@ const SearchControls = props => {
         status="warning"
         visible={currentQuery.geocodeError > 0}
         uswds
-      />
+      >
+        <p>
+          Please enable location sharing in your browser to use this feature.
+        </p>
+      </VaModal>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
@@ -74,7 +78,7 @@ const SearchControls = props => {
               style={{ order: 1 }}
               error={(() => {
                 if (showEmptyError) {
-                  return 'Please fill in a city, state or postal code.';
+                  return 'Please fill in a city, state, postal code or address.';
                 }
                 if (showGeolocationError) {
                   return 'Please enter a valid location.';
@@ -83,9 +87,9 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, state or postal code"
+              label="City, state, postal code or address"
               message-aria-describedby="Text input for location"
-              name="City, state or postal code"
+              name="City, state, postal code or address"
               onInput={handleLocationChange}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
@@ -137,19 +141,15 @@ const SearchControls = props => {
           />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'organization'
-                ? 'Organization name'
-                : 'Accredited representative name'
-            }
-            message-aria-describedby="Text input for organization or Accredited representative name"
-            name="Organization or Accredited Representative Name"
-            onChange={handleRepOrganizationChange}
-            onInput={handleRepOrganizationChange}
+            label="Accredited representative name"
+            message-aria-describedby="Text input for officer or Accredited representative name"
+            name="Officer or Accredited Representative Name"
+            onChange={handleRepresentativeChange}
+            onInput={handleRepresentativeChange}
             onKeyPress={e => {
               if (e.key === 'Enter') onSubmit();
             }}
-            value={repOrganizationInputString}
+            value={representativeInputString}
             uswds
           />
 
@@ -176,7 +176,7 @@ SearchControls.propTypes = {
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
-  repOrganizationInputString: PropTypes.string.isRequired,
+  representativeInputString: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

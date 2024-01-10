@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
-import { wait } from 'applications/personalization/profile/tests/unit-test-helpers';
-
 import {
   TRANSACTION_STATUS,
   TRANSACTION_CATEGORY_TYPES,
@@ -11,6 +9,12 @@ import {
 } from '../constants';
 
 import * as selectors from '../selectors';
+
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 let state = null;
 

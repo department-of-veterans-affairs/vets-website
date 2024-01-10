@@ -1,12 +1,16 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
-import { connect } from 'react-redux';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import manifest from '../manifest.json';
-import { ADDITIONAL_INFO_THIRD_PARTY } from '../config/constants';
+import {
+  ADDITIONAL_INFO_THIRD_PARTY,
+  SUBTITLE,
+  TITLE,
+} from '../config/constants';
 
 const ombInfo = {
   resBurden: '5',
@@ -16,12 +20,12 @@ const ombInfo = {
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
-    formTitle: 'Request personal records',
-    formSubTitle:
-      'Freedom of Information Act (FOIA) and Privacy Act (PA) Request (VA Form 20-10206)',
+    formTitle: TITLE,
+    formSubTitle: SUBTITLE,
     authStartFormText: 'Start your request',
     unauthStartText: 'Sign in to start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
+    displayNonVeteranMessaging: true,
   };
 
   const childContent = (
@@ -33,12 +37,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <h2>What to know before filling out this form</h2>
       <p>
         If you want to request your records through this online form, you’ll
-        need to sign in to your account. To manage certain tasks and information
-        on VA.gov, like requesting personal records or changing your direct
-        deposit information, you’ll need to log in with an account where you’ve
-        provided some personal information to verify your identity. We recommend
-        using <strong>ID.me</strong> or <strong>Login.gov</strong> accounts for
-        identity verification.
+        need to sign in to your account. You’ll need to verify your identity, so
+        we encourage you to use a <strong>Login.gov</strong> or{' '}
+        <strong>ID.me</strong> account.
       </p>
       <p>
         <a
@@ -70,7 +71,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         .
       </p>
       <p>Or you can submit a PDF version of this form.</p>
-      <h2>What type of information can I request?</h2>
+      <h2>What types of information can I request?</h2>
       <p>You can request any of these kinds of personal records:</p>
       <p>
         <strong>Compensation and pension records</strong>
@@ -107,6 +108,13 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       </div>
       <div className="vads-u-margin-y--4">{ADDITIONAL_INFO_THIRD_PARTY}</div>
       <h2 id="start-your-request">Start your request</h2>
+      <p>
+        <strong>Note</strong>: You’ll need to sign in with a verified{' '}
+        <strong>Login.gov</strong> or <strong>ID.me</strong> account or a
+        Premium <strong>DS Logon</strong> or <strong>My HealtheVet</strong>{' '}
+        account. If you don’t have any of those accounts, you can create a free{' '}
+        <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
+      </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">

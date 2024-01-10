@@ -5,12 +5,14 @@ import { termsOfUseEnabled } from '@department-of-veterans-affairs/platform-user
 
 export default function TermsAcceptance({
   error,
-  isAuthenticated,
+  isMiddleAuth,
   handleTouClick,
   setShowDeclineModal,
+  isFullyAuthenticated,
+  isUnauthenticated,
 }) {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
-  const className = !isAuthenticated ? 'hidden' : '';
+  const className = isUnauthenticated ? 'hidden' : '';
   return (
     <>
       <h2 id="do-you-accept-of-terms-of-use" className={className}>
@@ -28,12 +30,16 @@ export default function TermsAcceptance({
           {error.message}
         </va-alert>
       )}
-      {isAuthenticated &&
+      {(isMiddleAuth || isFullyAuthenticated) &&
         termsOfUseAuthorized && (
           <>
             <va-button
               data-testid="accept"
-              text="Accept"
+              text={`${
+                isFullyAuthenticated && !isMiddleAuth
+                  ? 'Continue to accept'
+                  : 'Accept'
+              }`}
               onClick={() => handleTouClick('accept')}
               ariaLabel="I accept the VA online services terms of use"
             />
@@ -53,6 +59,8 @@ export default function TermsAcceptance({
 TermsAcceptance.propTypes = {
   error: PropTypes.object,
   handleTouClick: PropTypes.func,
-  isAuthenticated: PropTypes.bool,
+  isFullyAuthenticated: PropTypes.bool,
+  isMiddleAuth: PropTypes.bool,
+  isUnauthenticated: PropTypes.bool,
   setShowDeclineModal: PropTypes.func,
 };

@@ -1,4 +1,6 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import React from 'react';
+import PropTypes from 'prop-types';
+import get from 'platform/utilities/data/get';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
@@ -6,11 +8,11 @@ import {
   fullNameUI,
   fullNameSchema,
   currentOrPastDateUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import { contactWarning, contactWarningMulti } from '../../../helpers';
 
-import SpouseMarriageView from '../../../components/SpouseMarriageView';
+import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 
 import {
@@ -22,13 +24,18 @@ const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
 
-const reasonForSeparation = {
-  ...marriageProperties.reasonForSeparation,
-  enum: ['Death', 'Divorce', 'Other'],
-};
-
 const hasMultipleMarriages = form =>
   get(['spouseMarriages', 'length'], form) > 1;
+
+const SpouseMarriageView = ({ formData }) => (
+  <ListItemView
+    title={`${formData.spouseFullName.first} ${formData.spouseFullName.last}`}
+  />
+);
+
+SpouseMarriageView.propTypes = {
+  formData: PropTypes.object,
+};
 
 /** @type {PageSchema} */
 export default {
@@ -79,6 +86,10 @@ export default {
         locationOfMarriage: {
           'ui:title': 'Place of marriage (city and state or foreign country)',
         },
+        locationOfSeparation: {
+          'ui:title':
+            'Place of marriage termination (city and state or foreign country)',
+        },
       },
     },
     'view:contactWarningI': {
@@ -100,14 +111,19 @@ export default {
             'dateOfMarriage',
             'dateOfSeparation',
             'locationOfMarriage',
+            'locationOfSeparation',
           ],
           properties: {
             spouseFullName: fullNameSchema,
-            reasonForSeparation,
+            reasonForSeparation: {
+              type: 'string',
+              enum: ['Death', 'Divorce', 'Other'],
+            },
             otherExplanation: marriageProperties.otherExplanation,
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,
             locationOfMarriage: marriageProperties.locationOfMarriage,
+            locationOfSeparation: { type: 'string' },
           },
         },
       },
