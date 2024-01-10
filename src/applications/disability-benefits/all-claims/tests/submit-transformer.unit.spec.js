@@ -15,6 +15,13 @@ import maximalData from './fixtures/data/maximal-test.json';
 import revisedFormWrapper from '../content/revisedFormWrapper';
 
 describe('transform', () => {
+  before(() => {
+    sinon.stub(revisedFormWrapper, 'isRevisedForm').callsFake(() => false);
+  });
+  after(() => {
+    revisedFormWrapper.isRevisedForm.restore();
+  });
+
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
@@ -59,21 +66,15 @@ describe('transform', () => {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
-        sinon.spy();
-        const stub = sinon
-          .stub(revisedFormWrapper, 'isRevisedForm')
-          .callsFake(() => false);
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,
         );
-        stub.restore();
       });
     });
 });
 
 describe('Test internal transform functions', () => {
   it('will truncate long descriptions', () => {
-    sinon.spy();
     const stub = sinon
       .stub(revisedFormWrapper, 'isRevisedForm')
       .callsFake(() => false);
@@ -168,7 +169,6 @@ describe('Test internal transform functions', () => {
 
 describe('Test transform functions in staging', () => {
   it('will not assign classification codes', () => {
-    sinon.spy();
     const stub = sinon
       .stub(revisedFormWrapper, 'isRevisedForm')
       .callsFake(() => true);
