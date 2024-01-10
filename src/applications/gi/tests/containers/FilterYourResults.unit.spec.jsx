@@ -186,4 +186,20 @@ describe('<FilterYourResults>', () => {
       expect(aboutTheSchoolCheckBox).to.have.property('checked', false);
     });
   });
+  it('should render', () => {
+    global.window.buildType = true;
+    const screen = renderWithStoreAndRouter(<FilterYourResults />, {
+      initialState: {
+        constants: mockConstants(),
+      },
+    });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Filter your results' }),
+    );
+    expect(
+      screen.queryByRole('label', {
+        name: 'Native American-serving institutions',
+      }),
+    ).to.not.exist;
+  });
 });

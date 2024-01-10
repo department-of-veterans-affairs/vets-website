@@ -7,6 +7,7 @@ import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
@@ -25,7 +26,12 @@ export const rubyifyKeys = query =>
     }),
     {},
   );
-
+export const isProductionOfTestProdEnv = () => {
+  return (
+    environment.isProduction() ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
