@@ -38,6 +38,7 @@ export const App = ({
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showDgiDirectDeposit1990EZ,
+  showMebDgi40Features,
   showMebDgi42Features,
   showMebEnhancements,
   showMebEnhancements06,
@@ -153,6 +154,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebDgi40Features,
     ],
   );
 
@@ -189,6 +191,12 @@ export const App = ({
 
   useEffect(
     () => {
+      if (showMebDgi40Features !== formData.showMebDgi40Features) {
+        setFormData({
+          ...formData,
+          showMebDgi40Features,
+        });
+      }
       if (showMebDgi42Features !== formData.showMebDgi42Features) {
         setFormData({
           ...formData,
@@ -298,6 +306,7 @@ export const App = ({
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
+      showMebDgi40Features,
       showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
@@ -381,6 +390,7 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
