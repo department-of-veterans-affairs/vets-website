@@ -1,15 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import { rxListSortingOptions } from '../util/constants';
 import { getPrescriptionSortedList } from '../api/rxApi';
+import { getAllergiesList } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
 const PrescriptionsPrintOnly = () => {
   const location = useLocation();
   const [fullPrescriptionsList, setFullPrescriptionsList] = React.useState([]);
-  // const allergies = useSelector(state => state.rx.allergies); TODO:// Use later
+  const dispatch = useDispatch();
+  const allergies = useSelector(state => state.rx.allergies.allergiesList);
+  const allergiesError = useSelector(state => state.rx.allergies.error);
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions.selectedSortOption,
   );
@@ -28,7 +32,7 @@ const PrescriptionsPrintOnly = () => {
             response.data.map(rx => ({ ...rx.attributes })),
           ),
         );
-        // if (!allergies) dispatch(getAllergiesList()); TODO:// Use later
+        dispatch(getAllergiesList());
       };
       if (
         LIST_PAGE_PATTERN.test(location.pathname) &&
@@ -45,6 +49,8 @@ const PrescriptionsPrintOnly = () => {
       fullPrescriptionsList.length,
       LIST_PAGE_PATTERN,
       currentSortOption,
+      allergies,
+      dispatch,
     ],
   );
   const content = () => {
@@ -64,6 +70,10 @@ const PrescriptionsPrintOnly = () => {
                   totalEntries: fullPrescriptionsList.length,
                 }}
                 selectedSortOption={selectedSortOption}
+              />
+              <AllergiesPrintOnly
+                allergies={allergies}
+                allergiesError={allergiesError}
               />
             </PrintOnlyPage>
           </div>
