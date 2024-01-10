@@ -110,12 +110,14 @@ describe('<CalculateYourBenefits>', () => {
     const isOJT = false;
     const { props, data } = getData();
     const store = mockStore(data);
+
     const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
     const removeEventListenerSpy = sinon.spy(
       global.window,
       'removeEventListener',
     );
-    const tree = mount(
+
+    const wrapper = mount(
       <Provider store={store}>
         <CalculateYourBenefits
           gibctEybBottomSheet={gibctEybBottomSheet}
@@ -124,12 +126,16 @@ describe('<CalculateYourBenefits>', () => {
         />
       </Provider>,
     );
+
     global.window.dispatchEvent(new Event('scroll'));
-    sinon.assert.calledWith(addEventListenerSpy, 'scroll', sinon.match.func);
-    const element = tree.find('div#eyb-summary-sheet').getDOMNode();
+    expect(addEventListenerSpy.calledWith('scroll', sinon.match.func)).to.be
+      .true;
+    const element = wrapper.find('div#eyb-summary-sheet').getDOMNode();
     expect(document.body.contains(element)).to.be.false;
-    tree.unmount();
-    sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
+    wrapper.unmount();
+    expect(removeEventListenerSpy.calledWith('scroll', sinon.match.func)).to.be
+      .true;
+
     addEventListenerSpy.restore();
     removeEventListenerSpy.restore();
   });
