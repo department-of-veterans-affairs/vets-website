@@ -722,7 +722,7 @@ const formConfig = {
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
           title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
+            `${item.fullName?.first || ''} ${item.fullName?.last ||
               ''} information`,
           depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
@@ -733,8 +733,9 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
+            `${item.fullName?.first || ''} ${item.fullName?.last ||
               ''} household`,
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
