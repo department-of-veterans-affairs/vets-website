@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { createMemoryHistory } from 'history';
-import { spy } from 'sinon';
 import { getSearchQueryChanged, updateUrlParams } from '../../selectors/search';
 import { getDefaultState } from '../helpers';
+import { createMemoryHistory } from 'history';
 import { TABS } from '../../constants';
+import { spy } from 'sinon';
 
 const defaultState = getDefaultState();
 
@@ -32,9 +32,7 @@ describe('updateUrlParams', () => {
       defaultState.filters,
     );
     expect(history.push.calledOnce).to.be.true;
-    expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&excludeSchools=true&excludeEmployers=true&excludeVettec=true',
-    );
+    expect(history.push.getCall(0).args[0]).to.equal('/?search=name');
   });
 
   it('pushes query name params to url', () => {
@@ -48,9 +46,7 @@ describe('updateUrlParams', () => {
     };
     updateUrlParams(history, TABS.name, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
-    expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&name=test&excludeSchools=true&excludeEmployers=true&excludeVettec=true',
-    );
+    expect(history.push.getCall(0).args[0]).to.equal('/?search=name&name=test');
   });
 
   it('pushes query location params to url', () => {
@@ -65,7 +61,7 @@ describe('updateUrlParams', () => {
     updateUrlParams(history, TABS.location, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=location&location=nowhere%2C%20ka&excludeSchools=true&excludeEmployers=true&excludeVettec=true',
+      '/?search=location&location=nowhere%2C%20ka',
     );
   });
 
@@ -81,7 +77,7 @@ describe('updateUrlParams', () => {
     updateUrlParams(history, TABS.location, query, defaultState.filters, 1);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=location&location=nowhere%2C%20ka&version=1&excludeSchools=true&excludeEmployers=true&excludeVettec=true',
+      '/?search=location&location=nowhere%2C%20ka&version=1',
     );
   });
 
@@ -102,7 +98,7 @@ describe('updateUrlParams', () => {
     updateUrlParams(history, TABS.name, query, filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=name&name=test&excludeCautionFlags=true&excludeSchools=true&excludeEmployers=true&excludeVettec=true',
+      '/?search=name&name=test&excludeCautionFlags=true',
     );
   });
 });
