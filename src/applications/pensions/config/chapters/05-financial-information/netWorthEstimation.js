@@ -4,6 +4,10 @@ import {
   TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
 
+export const hideIfUnder25000 = formData =>
+  formData.netWorthEstimation === undefined ||
+  parseInt(formData.netWorthEstimation, 10) <= 25000;
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -17,9 +21,7 @@ export default {
     'view:warningAlertOnHighValue': {
       'ui:description': TotalNetWorthOverTwentyFiveThousandAlert,
       'ui:options': {
-        hideIf: formData =>
-          formData.netWorthEstimation === undefined ||
-          parseInt(formData.netWorthEstimation, 10) <= 25000,
+        hideIf: hideIfUnder25000,
       },
     },
   },

@@ -1,13 +1,12 @@
 import React from 'react';
 
-function Description({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
+export const childAttendsCollege = child => child.attendingCollege;
+export const childIsDisabled = child => child.disabled;
 
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
+function Description({ formData }) {
+  const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
+
+  const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
 
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
 
