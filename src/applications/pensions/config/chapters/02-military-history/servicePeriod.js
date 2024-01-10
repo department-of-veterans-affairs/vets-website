@@ -2,14 +2,14 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import { createSelector } from 'reselect';
 
-import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
-import { isFullDate } from '@department-of-veterans-affairs/platform-forms/validations';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { isFullDate } from 'platform/forms/validations';
 import {
   serviceNumberSchema,
   serviceNumberUI,
   checkboxGroupUI,
   checkboxGroupSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
 import { wartimeWarning, servedDuringWartime } from '../../../helpers';
@@ -40,7 +40,7 @@ export default {
       'Final release date from active duty',
       'Date initially entered active duty must be before final date released from active duty',
     ),
-    serviceNumber: serviceNumberUI(),
+    serviceNumber: serviceNumberUI('Military Service number if you have one'),
     'ui:validations': [validateServiceBirthDates],
     'view:wartimeWarning': (() => {
       const hideWartimeWarning = createSelector(
@@ -69,7 +69,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['serviceBranch', 'activeServiceDateRange', 'serviceNumber'],
+    required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchOptions)),
       activeServiceDateRange: {

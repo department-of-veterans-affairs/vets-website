@@ -6,9 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
-.form-review-panel-page .hideOnReviewPage {
-  display: none !important;
-}
 // Custom-style 'ui:title's as h3s, without using <h3> tags.
 // A11y best-practices say <label>s should not contain <h> tags.
 @mixin label-as-h3 {
@@ -48,6 +45,9 @@
 .form-review-panel-page #root_veteranSupportingDocuments__title > h3 {
   font-size: 1.7rem !important;
   margin-bottom: 0 !important;
+}
+.form-review-panel-page-header-row .supp-docs-description {
+  display: none;
 }
 
 #root_veteranSupportingDocuments_add_label {

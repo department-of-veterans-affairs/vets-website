@@ -111,11 +111,11 @@ class AppointmentDetails {
   };
 
   validateCheckInButton = () => {
-    cy.get('button[data-testid="check-in-button"]').should('be.visible');
+    cy.get('[data-testid="check-in-button"]').should('be.visible');
   };
 
   validateNoCheckInButton = () => {
-    cy.get('button[data-testid="check-in-button"]').should('not.exist');
+    cy.get('[data-testid="check-in-button"]').should('not.exist');
   };
 
   validateReturnToAppointmentsPageButton = () => {
@@ -126,7 +126,7 @@ class AppointmentDetails {
   };
 
   clickCheckInButton = () => {
-    cy.get('button[data-testid="check-in-button"]').click({
+    cy.get('[data-testid="check-in-button"]').click({
       waitForAnimations: true,
     });
   };
