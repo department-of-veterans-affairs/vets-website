@@ -107,7 +107,7 @@ export function transform(formConfig, form) {
   // new disabilities that match a name on our mapped list need their
   // respective classification code added
   const addClassificationCodeToNewDisabilities = formData => {
-    if (revisedFormWrapper.isRevisedForm(!environment.isProduction())) {
+    if (revisedFormWrapper.isRevisedForm(environment.isStaging())) {
       return formData;
     }
     const { newDisabilities } = formData;
