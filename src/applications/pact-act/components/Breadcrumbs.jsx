@@ -6,7 +6,7 @@ import { QUESTION_MAP } from '../constants/question-data-map';
 const Breadcrumbs = ({ currentPage }) => {
   return (
     <VaBreadcrumbs
-      class="pact-act-breadcrumbs"
+      class="pact-act-breadcrumbs vads-u-margin-left--1p5"
       label="Breadcrumbs"
       uswds
       breadcrumbList={[
