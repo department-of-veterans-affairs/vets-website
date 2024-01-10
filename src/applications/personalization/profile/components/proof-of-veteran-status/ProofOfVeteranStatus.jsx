@@ -40,6 +40,7 @@ const ProofOfVeteranStatus = () => {
       <MobileAppCallout />
       <div>
         <VaModal
+          uswds
           modalTitle="Download this PDF and open it in Acrobat Reader"
           onCloseEvent={onModalCloseEvent}
           onPrimaryButtonClick={() => {
