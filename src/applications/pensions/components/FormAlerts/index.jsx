@@ -144,7 +144,7 @@ export const TotalNetWorthOverTwentyFiveThousandAlert = () => (
   </va-alert>
 );
 
-export const AssetTransferFormAlert = () => (
+export const IncomeAssetStatementFormAlert = () => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">
       You’ll need to submit an Income and Asset Statement in Support of Claim

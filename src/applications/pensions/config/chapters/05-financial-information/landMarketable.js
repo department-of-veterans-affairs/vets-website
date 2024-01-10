@@ -4,7 +4,10 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { LandMarketableAlert } from '../../../components/FormAlerts';
+import {
+  IncomeAssetStatementFormAlert,
+  LandMarketableAlert,
+} from '../../../components/FormAlerts';
 
 const LandMarketableDescription = () => (
   <div>
@@ -22,11 +25,21 @@ export default {
       title: 'Is the additional land marketable?',
       uswds: true,
     }),
+    'view:warningAlert': {
+      'ui:description': IncomeAssetStatementFormAlert,
+      'ui:options': {
+        hideIf: formData => formData.landMarketable !== true,
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       landMarketable: yesNoSchema,
+      'view:warningAlert': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
