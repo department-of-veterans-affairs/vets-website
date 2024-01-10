@@ -3,7 +3,7 @@ import VaccineDetailsPage from './pages/VaccineDetailsPage';
 import VaccinesListPage from './pages/VaccinesListPage';
 import defaultVaccines from './fixtures/vaccines/vaccines.json';
 
-describe('Medical Records View Vaccines Print or download ', () => {
+describe('Vaccines Page Toggle Menu button Print or download Details', () => {
   const site = new MedicalRecordsSite();
   before(() => {
     site.login();
