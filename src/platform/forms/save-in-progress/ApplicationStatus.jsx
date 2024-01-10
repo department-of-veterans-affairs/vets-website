@@ -248,7 +248,10 @@ export class ApplicationStatus extends React.Component {
           <div itemProp="itemListElement">
             {this.props.additionalText && <p>{this.props.additionalText}</p>}
             <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
-              <a className="vads-c-action-link--green" href={formLinks[formId]}>
+              <a
+                className="vads-c-action-link--green"
+                href={FORM_LINKS[formId]}
+              >
                 {applyText}
               </a>
               {this.props.showLearnMoreLink && (
