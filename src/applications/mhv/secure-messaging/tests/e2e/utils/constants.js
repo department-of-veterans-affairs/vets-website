@@ -65,7 +65,7 @@ export const Alerts = {
   BLOCKED: {
     HEADER: `You can't send messages to`,
     PARAGRAPH:
-      'If you need to contact this care team, call your VA health facility',
+      'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
 };
