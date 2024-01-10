@@ -41,11 +41,11 @@ const TravelPage = ({
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   const onClick = event => {
-    const answer = event.target.value;
+    const answer = event.target.attributes.value.value;
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
-          setECheckinStartedCalled ? '-45MR' : ''
+          setECheckinStartedCalled ? '' : '-45MR'
         }-clicked`,
         'nav',
       ),
@@ -99,35 +99,37 @@ const TravelPage = ({
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
-              background-only
               show-icon
               status="info"
               data-testid="help-message"
+              uswds
+              slim
             >
               <div>{helpText}</div>
             </va-alert>
           </div>
         )}
-        <>
-          <button
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+          <va-button
+            uswds
+            big
             onClick={onClick}
-            className="usa-button-primary usa-button-big"
+            text={yesButtonText || t('yes')}
             data-testid="yes-button"
-            type="button"
+            class="vads-u-margin-top--2"
             value="yes"
-          >
-            {yesButtonText || t('yes')}
-          </button>
-          <button
+          />
+          <va-button
+            uswds
+            big
             onClick={onClick}
-            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+            text={noButtonText || t('no')}
             data-testid="no-button"
-            type="button"
+            secondary
+            class="vads-u-margin-top--2"
             value="no"
-          >
-            {noButtonText || t('no')}
-          </button>
-        </>
+          />
+        </div>
       </Wrapper>
     </>
   );

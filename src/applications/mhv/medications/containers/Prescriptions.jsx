@@ -30,6 +30,7 @@ import {
 import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
+import { reportGeneratedBy } from '../../shared/util/constants';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -155,29 +156,12 @@ const Prescriptions = props => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
         title: 'Medications',
         preface: [
           {
-            value: `This is a list of recent prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-          },
-          {
-            continued: true,
-            value: 'Note: ',
-            weight: 'bold',
-          },
-          {
-            continued: true,
-            value:
-              'This list doesn’t include older prescriptions that have been inactive for more than ',
-          },
-          {
-            value: '6 months.',
-            weight: 'bold',
+            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
           },
         ],
         results: [
@@ -192,6 +176,20 @@ const Prescriptions = props => {
           },
           {
             header: 'Allergies',
+            ...(allergiesList &&
+              allergiesList.length > 0 && {
+                preface: [
+                  {
+                    value:
+                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+                  },
+                  {
+                    value: `Showing ${
+                      allergiesList.length
+                    } records from newest to oldest`,
+                  },
+                ],
+              }),
             list: allergiesList || [],
             ...(allergiesList &&
               !allergiesList.length && {

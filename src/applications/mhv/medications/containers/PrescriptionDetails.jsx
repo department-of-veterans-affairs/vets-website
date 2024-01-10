@@ -24,6 +24,8 @@ import {
 import { PDF_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
+import { reportGeneratedBy } from '../../shared/util/constants';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -113,10 +115,7 @@ const PrescriptionDetails = () => {
           ? `${userName.last}, ${userName.first}`
           : `${userName.last || ' '}`,
         headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: `My HealtheVet on VA.gov on ${dateFormat(
-          Date.now(),
-          'MMMM D, YYYY',
-        )}`,
+        footerLeft: reportGeneratedBy,
         footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
         title: 'Medication details',
         preface: [
@@ -132,6 +131,20 @@ const PrescriptionDetails = () => {
           },
           {
             header: 'Allergies',
+            ...(allergiesPdfList &&
+              allergiesPdfList.length > 0 && {
+                preface: [
+                  {
+                    value:
+                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
+                  },
+                  {
+                    value: `Showing ${
+                      allergiesPdfList.length
+                    } records from newest to oldest`,
+                  },
+                ],
+              }),
             list: allergiesPdfList || [],
             ...(allergiesPdfList &&
               !allergiesPdfList.length && {
@@ -174,6 +187,13 @@ const PrescriptionDetails = () => {
       if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
     },
     [prescriptionId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllergiesList());
+    },
+    [dispatch],
   );
 
   useEffect(
@@ -302,6 +322,10 @@ const PrescriptionDetails = () => {
               rx={prescription}
               refillHistory={!nonVaPrescription ? refillHistory : []}
               isDetailsRx
+            />
+            <AllergiesPrintOnly
+              allergies={allergies}
+              allergiesError={allergiesError}
             />
           </PrintOnlyPage>
         </>

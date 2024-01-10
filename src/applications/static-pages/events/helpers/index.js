@@ -55,12 +55,12 @@ export const deriveMostRecentDate = (
   return futureDates[0];
 };
 
-function keepUniqueEventsFromList(allEvents, event) {
-  if (!allEvents) {
+export const addUniqueEventsToList = (allEvents, event) => {
+  if (!Array.isArray(allEvents)) {
     return [];
   }
 
-  if (allEvents === []) {
+  if (allEvents?.length === 0) {
     return [event];
   }
 
@@ -71,10 +71,10 @@ function keepUniqueEventsFromList(allEvents, event) {
   }
 
   return allEvents;
-}
+};
 
 export const removeDuplicateEvents = events =>
-  events?.reduce(keepUniqueEventsFromList, []);
+  events?.reduce(addUniqueEventsToList, []);
 
 // This takes all repeating events and creates a separate event for
 // each repeated instance. Repeating events can still be identified as such,
@@ -171,7 +171,7 @@ export const filterEvents = (
             ) || now.clone().isBetween(start, end)
           );
         })
-        .reduce(keepUniqueEventsFromList, []);
+        .reduce(addUniqueEventsToList, []);
     }
     case 'next-week': {
       return events
@@ -187,7 +187,7 @@ export const filterEvents = (
               .endOf('week'),
           ),
         )
-        .reduce(keepUniqueEventsFromList, []);
+        .reduce(addUniqueEventsToList, []);
     }
     case 'next-month': {
       return events
@@ -203,7 +203,7 @@ export const filterEvents = (
               .endOf('month'),
           ),
         )
-        .reduce(keepUniqueEventsFromList, []);
+        .reduce(addUniqueEventsToList, []);
     }
     case 'past': {
       // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
@@ -223,7 +223,6 @@ export const filterEvents = (
     }
     case 'specific-date':
     case 'custom-date-range':
-      // Return sorted events if the custom dates are not provided.
       if (!options?.startsAtUnix || !options?.endsAtUnix) return events;
 
       return events?.filter(
@@ -237,7 +236,6 @@ export const filterEvents = (
             options?.endsAtUnix,
           ),
       );
-    // Default, just give back sorted events.
     default:
       return events;
   }
@@ -354,7 +352,6 @@ export const updateQueryParams = (queryParamsLookup = {}) => {
     queryParams.delete(key);
   });
 
-  // Update the URL with the new query params.
   window.history.replaceState(
     {},
     '',
@@ -388,14 +385,5 @@ export const deriveFilteredEvents = ({
   return filterEvents(rawEvents, selectedOption?.value, {
     startsAtUnix,
     endsAtUnix,
-  });
-};
-
-export const getDisabledEndDateOptions = (options, limit) => {
-  return options.map(option => {
-    return {
-      ...option,
-      disabled: parseInt(option.value, 10) < limit,
-    };
   });
 };

@@ -47,7 +47,10 @@ const MedicationsListCard = props => {
   };
   return (
     <div className="no-print rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
-      <div className="rx-card-details vads-u-padding--2">
+      <div
+        className="rx-card-details vads-u-padding--2"
+        data-testid="rx-card-info"
+      >
         <h3
           aria-describedby="status status-description fill-or-refill-button"
           className="vads-u-font-weight--bold"

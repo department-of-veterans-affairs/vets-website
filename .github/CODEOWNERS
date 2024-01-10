@@ -85,6 +85,9 @@ src/applications/pensions @department-of-veterans-affairs/pensions @department-o
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Dependent Benefits Experience
+src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
+
 # VSA Debt
 
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/va-cto-health-products @department-of-veterans-affairs/va-platform-cop-frontend
