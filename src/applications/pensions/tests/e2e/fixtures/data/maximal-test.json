@@ -219,6 +219,7 @@
         "paymentAmount": 1000
       }
     ],
+    "noRapidProcessing": true,
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
