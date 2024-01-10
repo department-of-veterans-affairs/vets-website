@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
@@ -34,7 +34,7 @@ const emptyMessage = message => (
 const getReplyHeader = messageType => messageType.split(':')[1].trim();
 const getMessageDate = date => moment(date).format('MMM D, YYYY');
 
-const ResponseInboxPage = ({ params, loggedIn }) => {
+const ResponseInboxPage = ({ loggedIn }) => {
   const [error, hasError] = useState(false);
   const [inboxMessage, setInboxMessage] = useState({});
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
@@ -51,25 +51,27 @@ const ResponseInboxPage = ({ params, loggedIn }) => {
       }
     },
   };
-
-  const INQUIRY_DATA = `${environment.API_URL}/ask_va_api/v0/inquiries/${
-    params.id
-  }?mock=true`;
+  // params will come from props
+  // const INQUIRY_DATA = `${environment.API_URL}/ask_va_api/v0/inquiries/${
+  //   params.id
+  // }?mock=true`;
 
   const getInquiry = async () => {
-    await apiRequest(INQUIRY_DATA)
-      // eslint-disable-next-line no-unused-vars
-      .then(res => {
-        // setInboxMessage(res.data);
-
-        // using Mock data till static data is updated
-        setInboxMessage(replyMessage);
-        isLoading(false);
-      })
-      .catch(() => {
-        hasError(true);
-        isLoading(false);
-      });
+    // using Mock data till static data is updated
+    setInboxMessage(replyMessage);
+    hasError(false);
+    isLoading(false);
+    /// ///
+    // await apiRequest(INQUIRY_DATA)
+    // eslint-disable-next-line no-unused-vars
+    // .then(res => {
+    //   setInboxMessage(res.data);
+    //   isLoading(false);
+    // })
+    // .catch(() => {
+    //   hasError(true);
+    //   isLoading(false);
+    // });
   };
 
   useEffect(() => {
@@ -82,7 +84,6 @@ const ResponseInboxPage = ({ params, loggedIn }) => {
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
     );
   }
-
   return !error && loggedIn ? (
     <div className="row">
       <article>
@@ -212,13 +213,13 @@ const ResponseInboxPage = ({ params, loggedIn }) => {
 };
 
 ResponseInboxPage.propTypes = {
-  params: PropTypes.object,
   loggedIn: PropTypes.bool,
+  params: PropTypes.object,
 };
 
-function mapStateToProps() {
+function mapStateToProps(state) {
   return {
-    loggedIn: isLoggedIn,
+    loggedIn: isLoggedIn(state),
   };
 }
 
