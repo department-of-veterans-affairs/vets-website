@@ -65,12 +65,12 @@ export function getTimezoneAbbrByFacilityId(id) {
 }
 
 const TIMEZONE_LABELS = {
-  PHT: 'Philippine time',
-  ET: 'Eastern time',
-  CT: 'Central time',
-  MT: 'Mountain time',
-  PT: 'Pacific time',
-  AKT: 'Alaska time',
+  PHT: 'Asia/Manila',
+  ET: 'America/New_York',
+  CT: 'America/Chicago',
+  MT: 'America/Denver',
+  PT: 'America/Los_Angeles',
+  AKT: 'America/Anchorage',
 };
 
 export function getTimezoneNameFromAbbr(abbreviation) {
