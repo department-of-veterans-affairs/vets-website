@@ -9,20 +9,6 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
-  // const updateDates = data => {
-  //   const currentDate = new Date().toISOString();
-  //
-  //   data.data.forEach(item => {
-  //     if (item.attributes.draftDate != null) {
-  //       item.attributes.draftDate = currentDate;
-  //     }
-  //     if (item.attributes.sentDate != null) {
-  //       item.attributes.sentDate = currentDate;
-  //     }
-  //   });
-  //   return data;
-  // };
-
   const updateDates = data => {
     const currentDate = new Date().toISOString();
     const newData = { ...data };
