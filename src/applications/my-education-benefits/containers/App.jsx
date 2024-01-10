@@ -11,7 +11,7 @@ import {
   fetchEligibility,
   fetchExclusionPeriods,
   fetchDuplicateContactInfo,
-  // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
+  fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
@@ -26,8 +26,7 @@ export const App = ({
   featureTogglesLoaded,
   firstName,
   formData,
-  // Commenting out until we update the component to handle astrisks
-  // getDirectDeposit,
+  getDirectDeposit,
   getEligibility,
   getExclusionPeriods,
   getPersonalInfo,
@@ -38,7 +37,7 @@ export const App = ({
   mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
-  showMebDgi40Features,
+  showDgiDirectDeposit1990ez,
   showMebDgi42Features,
   showMebEnhancements,
   showMebEnhancements06,
@@ -49,10 +48,12 @@ export const App = ({
   duplicateEmail,
   duplicatePhone,
 }) => {
-  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
-  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
+  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
   document.addEventListener(
@@ -69,10 +70,6 @@ export const App = ({
     },
     { passive: false },
   );
-
-  // Commenting out next line until component can handle astrisks (See TOE app)
-  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-
   useEffect(
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
@@ -156,7 +153,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebDgi40Features,
     ],
   );
 
@@ -193,12 +189,6 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showMebDgi40Features !== formData.showMebDgi40Features) {
-        setFormData({
-          ...formData,
-          showMebDgi40Features,
-        });
-      }
       if (showMebDgi42Features !== formData.showMebDgi42Features) {
         setFormData({
           ...formData,
@@ -289,6 +279,13 @@ export const App = ({
         });
       }
 
+      if (showDgiDirectDeposit1990ez !== formData.showDgiDirectDeposit1990ez) {
+        setFormData({
+          ...formData,
+          showDgiDirectDeposit1990ez,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -300,7 +297,7 @@ export const App = ({
       formData,
       isLOA3,
       setFormData,
-      showMebDgi40Features,
+      showDgiDirectDeposit1990ez,
       showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
@@ -329,16 +326,20 @@ export const App = ({
     [email, formData, setFormData],
   );
 
-  // Commenting out until Direct Deposit component is updated
-  // useEffect(
-  //   () => {
-  //     if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
-  //       setFetchedDirectDeposit(true);
-  //       getDirectDeposit();
-  //     }
-  //   },
-  //   [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
-  // );
+  useEffect(
+    () => {
+      if (showDgiDirectDeposit1990ez && isLoggedIn && !fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      isLoggedIn,
+      showDgiDirectDeposit1990ez,
+    ],
+  );
 
   return (
     <>
@@ -367,7 +368,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
-  // getDirectDeposit: PropTypes.func,
+  getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
   getExclusionPeriods: PropTypes.func,
@@ -378,8 +379,8 @@ App.propTypes = {
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
+  showDgiDirectDeposit1990ez: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
@@ -407,7 +408,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  // getDirectDeposit: fetchDirectDeposit,
+  getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
   getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
