@@ -10,7 +10,7 @@ describe('Medical Records View Allergies Print or download ', () => {
     cy.visit('my-health/medical-records');
   });
 
-  it('Allergies Toggle Menu button Print or download on Details Page ', () => {
+  it('Allergies Toggle Menu button Print or download  ', () => {
     // Given Navigate to Allergies List Page
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     // Verify List Page  PrintDownload button
