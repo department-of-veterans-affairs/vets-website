@@ -37,9 +37,9 @@ export default class DeceasedPersons extends React.Component {
     }
 
     /*
-     * We’re keeping the editing state in local state because it’s easier to manage and
-     * doesn’t need to persist from page to page
-     */
+         * We’re keeping the editing state in local state because it’s easier to manage and
+         * doesn’t need to persist from page to page
+         */
 
     this.state = {
       editing: props.formData
@@ -105,7 +105,7 @@ export default class DeceasedPersons extends React.Component {
    * @param {number} index - The index of the item to update
    */
   handleUpdate(index) {
-    const id = this.props.name;
+    const id = this.props?.name;
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       const newEditing = set(['editing', index], false, this.state);
       const newShowSave = set(['showSave', index], false, newEditing);
@@ -123,8 +123,8 @@ export default class DeceasedPersons extends React.Component {
   }
 
   /*
-   * Clicking Add another
-   */
+     * Clicking Add another
+     */
   handleAdd() {
     const numberOfItems = this.props.formData.length;
     const lastIndex = numberOfItems - 1;
@@ -330,10 +330,9 @@ export default class DeceasedPersons extends React.Component {
       : null;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
     const uiItemNameOriginal = uiOptions.itemName || 'item';
-    const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
+    const uiItemName = uiItemNameOriginal.toLowerCase();
     const { generateIndividualItemHeaders } = uiOptions;
 
-    // if we have form data, use that, otherwise use an array with a single default object
     const items =
       formData && formData.length
         ? formData
@@ -350,14 +349,15 @@ export default class DeceasedPersons extends React.Component {
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
           <div className="schemaform-block-header">
-            {title && !hideTitle ? (
-              <TitleField
-                id={`${idSchema.$id}__title`}
-                title={title}
-                formContext={formContext}
-                useHeaderStyling={uiOptions.useHeaderStyling}
-              />
-            ) : null}
+            {title &&
+              !hideTitle && (
+                <TitleField
+                  id={`${idSchema.$id}__title`}
+                  title={title}
+                  formContext={formContext}
+                  useHeaderStyling={uiOptions.useHeaderStyling}
+                />
+              )}
             {textDescription && <p>{textDescription}</p>}
             {DescriptionField && <DescriptionField options={uiOptions} />}
             {!textDescription && !DescriptionField && description}
@@ -366,7 +366,6 @@ export default class DeceasedPersons extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default DeceasedPersons
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
@@ -376,7 +375,6 @@ export default class DeceasedPersons extends React.Component {
             );
             const { showSave } = uiOptions;
             const isLast = items.length === index + 1;
-            // if showSave is true, all items show Update except the last item
             const showSaveButton = isLast && this.state.showSave[index];
             const updateText = showSaveButton ? 'Save' : 'Update';
             const isEditing =
@@ -388,6 +386,7 @@ export default class DeceasedPersons extends React.Component {
               uiItemName;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = !isLast || multipleRows;
+            const onReviewPage = this.props.formContext?.onReviewPage;
 
             if (isEditing) {
               return (
@@ -395,13 +394,20 @@ export default class DeceasedPersons extends React.Component {
                   key={index}
                   id={`${this.props.idSchema.$id}_${index}`}
                   className={
-                    notLastOrMultipleRows ? 'va-growable-background' : null
+                    notLastOrMultipleRows || onReviewPage
+                      ? 'va-growable-background'
+                      : null
                   }
                 >
                   <Element name={`table_${itemIdPrefix}`} />
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
-                      {isLast && multipleRows ? (
+                      {onReviewPage && (
+                        <h3 className="vads-u-font-size--h5">
+                          Name of deceased
+                        </h3>
+                      )}
+                      {!onReviewPage && isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
                           New {uiItemName}
                         </h3>
@@ -434,7 +440,7 @@ export default class DeceasedPersons extends React.Component {
                       {notLastOrMultipleRows && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
-                            {(!isLast || showSave) && (
+                            {!isLast || showSave ? (
                               <button
                                 type="button"
                                 className="float-left"
@@ -443,7 +449,7 @@ export default class DeceasedPersons extends React.Component {
                               >
                                 {updateText}
                               </button>
-                            )}
+                            ) : null}
                           </div>
                           <div className="small-6 right columns">
                             {multipleRows && (
@@ -485,7 +491,7 @@ export default class DeceasedPersons extends React.Component {
                         <p>
                           We'll remove{' '}
                           <strong>
-                            {item.name?.first} {item.name?.last}
+                            {item?.name?.first} {item?.name?.last}
                           </strong>
                         </p>
                       )}
@@ -494,34 +500,56 @@ export default class DeceasedPersons extends React.Component {
                 </div>
               );
             }
+
             return (
               <div
                 id={`${this.props.name}_${index}`}
                 key={index}
                 className="va-growable-background editable-row"
               >
-                <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
-                  <div className="vads-u-flex--fill">
-                    <ViewField
-                      formData={item}
-                      onEdit={() => this.handleEdit(index)}
-                    />
+                {!onReviewPage ? (
+                  <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
+                    <div className="vads-u-flex--fill">
+                      <ViewField
+                        formData={item}
+                        onEdit={() => this.handleEdit(index)}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="usa-button-secondary edit vads-u-flex--auto"
+                      aria-label={`Edit ${ariaItemName}`}
+                      onClick={() => this.handleEdit(index)}
+                    >
+                      Edit
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName}`}
-                    onClick={() => this.handleEdit(index)}
-                  >
-                    Edit
-                  </button>
-                </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="usa-button-secondary edit vads-u-flex--auto"
+                      aria-label={`Edit ${ariaItemName}`}
+                      onClick={() => this.handleEdit(index, item)}
+                    >
+                      Edit
+                    </button>
+                    <dl className="review">
+                      <h3 className="vads-u-font-size--h5">Name of deceased</h3>
+                      <div className="review-row">
+                        <dt>Deceased's first name</dt>
+                        <dd>{item?.name?.first}</dd>
+                      </div>
+                      <div className="review-row">
+                        <dt>Deceased's last name</dt>
+                        <dd>{item?.name?.last}</dd>
+                      </div>
+                    </dl>
+                  </>
+                )}
               </div>
             );
           })}
-          {/* Only show the 'Add another ..' button when another item can be added. This approach helps
-           improve accessibility by removing unnecessary elements from the DOM when they are not relevant 
-           or interactable. */}
           {showAddAnotherButton && (
             <button
               type="button"
@@ -534,7 +562,6 @@ export default class DeceasedPersons extends React.Component {
               Add another {uiItemName}
             </button>
           )}
-          {/* Show an alert when no more items can be added */}
           {!showAddAnotherButton && (
             <va-alert status="warning" uswds slim>
               <p className="vads-u-margin-y--0">

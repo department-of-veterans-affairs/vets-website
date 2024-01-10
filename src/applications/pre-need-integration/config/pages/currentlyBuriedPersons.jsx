@@ -26,7 +26,7 @@ function CurrentlyBuriedPersonsDescription() {
   if (isVeteran(data)) {
     return 'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.';
   }
-  return 'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.';
+  return 'Provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.';
 }
 
 export const currentlyBuriedPersonsTitle = (
