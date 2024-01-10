@@ -2764,22 +2764,22 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^33.0.0":
-  version "33.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-33.0.0.tgz#75484bacd6ef4e67fb9fa99ff19e701ac694e753"
-  integrity sha512-UMiFr7FWTypP8bc66CIT9Tc4PEgTw2FNbMEgA43SyJY4nfUlEn+Bcw1iLG/igKYmEmufUkTp8Zzvp7iF4/Yv2A==
+"@department-of-veterans-affairs/component-library@^34.0.0":
+  version "34.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-34.0.0.tgz#0f1e4ded365aabe14195646e716c2aff3b47ada6"
+  integrity sha512-TY7poo4cU+hyzb7TMMIHbS24FAtMiTSaQpTVcV/Vl/nVMfWkf49QN0JmsmerWQXBCZkdFjczTiXT/sYh+pUrtQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "26.0.0"
-    "@department-of-veterans-affairs/web-components" "4.51.0"
+    "@department-of-veterans-affairs/web-components" "4.53.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.0.2.tgz#3a040330f8e9782dada43582bd2230439278836d"
-  integrity sha512-1frOFN0OWye3SWymqUBJoHV2NtKvBYmhyL8WoHafikkmF8axIBcJvrw/NobPYEjkMZnIrcSZTIh7BlHTJ7jx8A==
+"@department-of-veterans-affairs/css-library@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.2.0.tgz#19d3c2a6428687034c9faf8aff4020167d274bad"
+  integrity sha512-Reaj5iUyg3WrSKD/fyiKyGkWFog5oJQzg4j9bC+uyazNXVFMmtqERvRI/FRsUhTV5cTrh52KGjoEWfRI/gdonA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
@@ -2790,10 +2790,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^9.0.1":
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-9.0.1.tgz#9207ffe1ff60cf6cff3afff1a2d082a1e5add118"
-  integrity sha512-tovSaOQJ8IOYOjeDGmG7tuocq0LZ3YA58FrZTW2HratFZiFwGPE7UYSGt0a2YuSagQzIibcz0ZetphHMS6WicQ==
+"@department-of-veterans-affairs/formation@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-10.1.0.tgz#3e2f4df2a0564674136e5ed6f8e1b6c08e069895"
+  integrity sha512-TEcsu55qpuSyTTHhuOwqzXjcIiJEhvOHSfkNr1oY/U2qQtxX2uYWvDArd7eTNXGzl8lbCWipCaduX5eXE20D0Q==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -2850,12 +2850,12 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.51.0":
-  version "4.51.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.51.0.tgz#db87e528cc22b9cc7f42bae59c7c054beffad94e"
-  integrity sha512-gZByyaxm6I5oXhGhs70at+pIv3xEV6Q2qMOHUy0O271JL6HMYwApkR7aP4StT3H/DfkKW+B+SI8cWJ0G0mkeFw==
+"@department-of-veterans-affairs/web-components@4.53.0":
+  version "4.53.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.53.0.tgz#37d34ca60e92110173ebfefce20f3116aea39e6f"
+  integrity sha512-kPnFtK1wG9ag+nxM3tmkX+SwG/tD7SWoonekdP7ABg3DEF6CV/6813YnkhJ/TqsQ82dqtDGll/rvAM4ITLWAsw==
   dependencies:
-    "@department-of-veterans-affairs/css-library" "^0.0.2"
+    "@department-of-veterans-affairs/css-library" "^0.2.0"
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
