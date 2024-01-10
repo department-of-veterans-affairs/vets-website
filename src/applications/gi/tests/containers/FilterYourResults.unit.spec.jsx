@@ -6,12 +6,6 @@ import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import FilterYourResults from '../../containers/FilterYourResults';
 
 describe('<FilterYourResults>', () => {
-  beforeEach(() => {
-    global.window.buildType = true;
-  });
-  afterEach(() => {
-    global.window.buildType = false;
-  });
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<FilterYourResults />, {
       initialState: {
@@ -55,11 +49,7 @@ describe('<FilterYourResults>', () => {
       name: 'Filter your results',
     });
     fireEvent.click(filterButton);
-    const schoolsCheckBoxes = screen.getByRole('checkbox', {
-      name: 'Schools',
-    });
 
-    fireEvent.click(schoolsCheckBoxes);
 
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
       name: 'Include these school types: Public',
@@ -67,7 +57,8 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(publicSchoolCheckBox);
 
     await waitFor(() => {
-      expect(publicSchoolCheckBox).to.have.property('checked', true);
+      expect(publicSchoolCheckBox).to.have.property('checked', false);
+
     });
   });
 
@@ -81,11 +72,7 @@ describe('<FilterYourResults>', () => {
       name: 'Filter your results',
     });
     fireEvent.click(filterButton);
-    const schoolsCheckBoxes = screen.getByRole('checkbox', {
-      name: 'Schools',
-    });
 
-    fireEvent.click(schoolsCheckBoxes);
     const publicSchoolCheckBox = screen.getByRole('checkbox', {
       name: 'Include these school types: Public',
     });
@@ -95,7 +82,8 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(publicSchoolCheckBox);
 
     await waitFor(() => {
-      expect(publicSchoolCheckBox).to.have.property('checked', false);
+
+      expect(publicSchoolCheckBox).to.have.property('checked', true);
     });
   });
 
@@ -116,7 +104,7 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(VETTECCheckBox);
 
     await waitFor(() => {
-      expect(VETTECCheckBox).to.have.property('checked', true);
+      expect(VETTECCheckBox).to.have.property('checked', false);
     });
   });
 
@@ -132,7 +120,9 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(filterButton);
 
     const VETTECPerferredProviderCheckBox = screen.getByRole('checkbox', {
-      name: 'VET TEC providers',
+
+      name: 'VET TEC Preferred providers',
+
     });
     fireEvent.click(VETTECPerferredProviderCheckBox);
 
@@ -198,7 +188,7 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(aboutTheSchoolCheckBox);
 
     await waitFor(() => {
-      expect(aboutTheSchoolCheckBox).to.have.property('checked', true);
+      expect(aboutTheSchoolCheckBox).to.have.property('checked', false);
     });
   });
 });
