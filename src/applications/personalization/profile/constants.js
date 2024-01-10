@@ -10,7 +10,6 @@ export const PROFILE_TOGGLES = {
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
 };
 

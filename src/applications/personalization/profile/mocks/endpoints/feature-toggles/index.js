@@ -13,7 +13,6 @@ const profileToggles = {
   profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
 };
 
