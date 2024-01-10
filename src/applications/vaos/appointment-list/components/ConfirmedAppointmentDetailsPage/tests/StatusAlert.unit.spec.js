@@ -32,7 +32,9 @@ const facilityData = new Facility();
 
 describe('VAOS <StatusAlert> component', () => {
   const initialState = {
-    featureToggles: {},
+    featureToggles: {
+      vaOnlineSchedulingAfterVisitSummary: false,
+    },
   };
   it('Should display confirmation of VA appointment alert message', () => {
     const appointment = {
@@ -156,6 +158,29 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
     );
     expect(screen.baseElement).to.not.contain('.usa-alert-warning');
     expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
+  });
+  it('Should display after visit summary link error message', async () => {
+    const appointment = {
+      ...appointmentData,
+      kind: 'clinic',
+      status: 'booked',
+      avsPath: 'Error retrieving AVS link',
+      vaos: {
+        isUpcomingAppointment: false,
+        isPastAppointment: true,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <StatusAlert appointment={appointment} facility={facilityData} />,
+      {
+        initialState,
+        path: `/${appointment.id}`,
+      },
+    );
+    await screen.findByRole('heading', {
+      name: /We can't access after-visit summaries at this time./i,
+    });
   });
   it('Should record google analytics when after visit summary link is clicked ', () => {
     const appointment = {

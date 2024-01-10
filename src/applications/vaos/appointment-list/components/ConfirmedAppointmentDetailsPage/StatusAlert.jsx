@@ -39,6 +39,41 @@ export default function StatusAlert({ appointment, facility }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { isPastAppointment } = appointment.vaos;
   const avsLink = appointment.avsPath;
+  const avsError = avsLink?.includes('Error');
+  const handleAvsLink = () => {
+    if (avsError) {
+      return (
+        <div
+          aria-atomic="true"
+          aria-live="assertive"
+          className="vads-u-margin-top--2 vads-u-margin-bottom--0"
+        >
+          <InfoAlert
+            status="error"
+            level={1}
+            headline="We can't access after-visit summaries at this time."
+          >
+            Were sorry. We’ve run into a problem.
+          </InfoAlert>
+        </div>
+      );
+    }
+    return (
+      <>
+        <va-link
+          text="Go to after-visit summary"
+          href={appointment.avsPath}
+          data-testid="after-vist-summary-link"
+          onClick={() =>
+            recordEvent({
+              event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
+            })
+          }
+        />
+        <br />
+      </>
+    );
+  };
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -68,21 +103,9 @@ export default function StatusAlert({ appointment, facility }) {
     return (
       <>
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
-          This appointment occurred in the past.
+          This appointment happened in the past.
         </p>
-        {avsLink && (
-          <va-link
-            text="Go to after-visit summary"
-            href={appointment.avsPath}
-            data-testid="after-vist-summary-link"
-            onClick={() =>
-              recordEvent({
-                event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
-              })
-            }
-          />
-        )}
-        <br />
+        {avsLink && <>{handleAvsLink()}</>}
       </>
     );
   }
