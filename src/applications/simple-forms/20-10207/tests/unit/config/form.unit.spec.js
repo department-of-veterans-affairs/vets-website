@@ -2,6 +2,17 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 
 describe('formConfig', () => {
+  let isLocalhostStub;
+
+  beforeEach(() => {
+    delete require.cache[require.resolve('../../../config/form')];
+  });
+
+  afterEach(() => {
+    if (isLocalhostStub) {
+      isLocalhostStub.restore();
+    }
+  });
   it('should be an object', () => {
     expect(formConfig).to.be.an('object');
   });
