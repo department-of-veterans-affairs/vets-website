@@ -6,13 +6,6 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 2,
     'jsx-a11y/label-has-associated-control': 1,
     'jsx-a11y/no-static-element-interactions': 2,
-    'jsx-a11y/aria-role': [
-      2,
-      {
-        allowedInvalidRoles: ['text'],
-        ignoreNonDOM: true,
-      },
-    ],
     '@department-of-veterans-affairs/prefer-table-component': 1,
     '@department-of-veterans-affairs/prefer-button-component': 1,
     '@department-of-veterans-affairs/prefer-telephone-component': 2,
