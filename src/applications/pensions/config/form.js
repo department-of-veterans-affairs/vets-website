@@ -173,7 +173,7 @@ export function isSeparated(formData) {
 }
 
 export function currentSpouseHasFormerMarriages(formData) {
-  return formData.currentSpouseMaritalHistory === 'Yes';
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
 }
 
 export function hasNoSocialSecurityDisability(formData) {
@@ -181,15 +181,17 @@ export function hasNoSocialSecurityDisability(formData) {
 }
 
 export function isInNursingHome(formData) {
-  return formData.nursingHome !== false;
+  return formData.nursingHome === true;
 }
 
 export function medicaidDoesNotCoverNursingHome(formData) {
-  return formData.medicaidCoverage !== true;
+  return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
 
 export function isHomeAcreageMoreThanTwo(formData) {
-  return formData.homeAcreageMoreThanTwo === true;
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
 }
 
 export function ownsHome(formData) {
@@ -197,36 +199,36 @@ export function ownsHome(formData) {
 }
 
 export function hasVaTreatmentHistory(formData) {
-  return formData.vaTreatmentHistory !== false;
+  return formData.vaTreatmentHistory === true;
 }
 
 export function hasFederalTreatmentHistory(formData) {
-  return formData.federalTreatmentHistory !== false;
+  return formData.federalTreatmentHistory === true;
 }
 
 export function isEmployedUnder65(formData) {
-  return formData.currentEmployment !== false && isUnder65(formData);
+  return formData.currentEmployment === true && isUnder65(formData);
 }
 
 export function isUnemployedUnder65(formData) {
-  return formData.currentEmployment !== true && isUnder65(formData);
+  return formData.currentEmployment === false && isUnder65(formData);
 }
 
 export function doesReceiveIncome(formData) {
-  return formData.receivesIncome !== false;
+  return formData.receivesIncome === true;
 }
 
 export function doesHaveCareExpenses(formData) {
-  return formData.hasMedicalExpenses;
+  return formData.hasCareExpenses === true;
+}
+
+export function doesHaveMedicalExpenses(formData) {
+  return formData.hasMedicalExpenses === true;
 }
 
 function isCurrentMarriage(form, index) {
   const numMarriages = form && form.marriages ? form.marriages.length : 0;
   return isMarried(form) && numMarriages - 1 === index;
-}
-
-function isHomeOwnerAndAcreageMorThanTwo(form) {
-  return form.homeOwnership === true && form.homeAcreageMoreThanTwo === true;
 }
 
 function usingDirectDeposit(formData) {
@@ -907,7 +909,7 @@ const formConfig = {
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
           title: 'Medical expenses',
-          depends: hasMedicalExpenses,
+          depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
