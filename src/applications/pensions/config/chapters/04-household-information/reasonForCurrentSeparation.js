@@ -11,6 +11,9 @@ const reasonForCurrentSeparationOptions = {
   OTHER: 'Other',
 };
 
+export const otherExplanationRequired = form =>
+  get(['reasonForCurrentSeparation'], form) === 'OTHER';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -25,8 +28,7 @@ export default {
         expandUnder: 'reasonForCurrentSeparation',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': form =>
-        get(['reasonForCurrentSeparation'], form) === 'OTHER',
+      'ui:required': otherExplanationRequired,
     },
   },
   schema: {
