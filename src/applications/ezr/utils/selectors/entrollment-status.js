@@ -17,7 +17,12 @@ export function selectEnrollmentStatus(state) {
   } = state;
   return {
     isLoading: isProfileLoading(state) || loading,
-    isEnrolledinESR: parsedStatus === 'enrolled',
+    // As of 1/9/24, only users with certain enrollment statuses can access the EZR form
+    isValidEnrollmentStatus: [
+      'enrolled',
+      'pending_mt',
+      'pending_other',
+    ].includes(parsedStatus),
     hasPreferredFacility: !!preferredFacility,
     canSubmitFinancialInfo,
     hasServerError,
