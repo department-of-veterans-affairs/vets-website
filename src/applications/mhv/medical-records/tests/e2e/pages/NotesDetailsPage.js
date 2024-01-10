@@ -53,8 +53,8 @@ class NotesDetailsPage {
 
   verifyProgressNoteSignedBy = progressSignedBy => {
     // Progress Note Details Signed by
-    cy.get('[data-testid="progress-signed-by"]').should('be.visible');
-    cy.get('[data-testid="progress-signed-by"]').contains(progressSignedBy);
+    cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-signed-by"]').contains(progressSignedBy);
   };
 
   verifyProgressNoteSignedDate = progressSignedDate => {
@@ -75,12 +75,14 @@ class NotesDetailsPage {
     cy.get('[data-testid="note-record-location"]').contains(summaryLocation);
   };
 
+  // There may no longer be Addmission date on discharge page
+  /*
   verifyDischargeSummaryAdmissionDate = addmissionDate => {
     // Discharge Summary Details Admission Date
     cy.get('[data-testid="note-admission-date"]').should('be.visible');
     cy.get('[data-testid="note-admission-date"]').contains(addmissionDate);
   };
-
+  */
   verifyDischargeSummaryDischargeDate = dischargeDate => {
     // Discharge Summary Details DischargeDate
     cy.get('[data-testid="note-discharge-date"]').should('be.visible');

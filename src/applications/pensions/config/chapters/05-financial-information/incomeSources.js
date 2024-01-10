@@ -1,12 +1,12 @@
 import merge from 'lodash/merge';
 
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
@@ -42,13 +42,13 @@ export default {
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',
-            expandUnderCondition: typeOfIncomeOptions.OTHER,
+            expandUnderCondition: 'OTHER',
           },
           'ui:required': (form, index) =>
-            get(['incomeSources', index, 'typeOfIncome'], form) ===
-            typeOfIncomeOptions.OTHER,
+            get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER',
         },
         receiver: {
           'ui:title': 'Who receives this income?',
@@ -86,7 +86,7 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.values(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
             otherTypeExplanation: { type: 'string' },
             receiver: { type: 'string' },
             payer: { type: 'string' },

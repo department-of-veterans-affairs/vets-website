@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
 import { ERROR } from '../chatbox/loadingStatus';
@@ -23,6 +24,22 @@ import {
 } from './helpers/webChat';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
+
+export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
+  let intervalId;
+  if (isRXSkill === 'true') {
+    intervalId = setTimeout(() => {
+      const sendBox = theDocument.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      const attributeSetAMessage = attr =>
+        sendBox?.setAttribute(attr, 'Type or enable the microphone to speak');
+
+      ['aria-label', 'placeholder'].forEach(attributeSetAMessage);
+    }, 0); // delay this code until all synchronous code runs.
+  }
+  return () => clearTimeout(intervalId);
+};
 
 const WebChat = ({
   token,
@@ -61,7 +78,7 @@ const WebChat = ({
         ),
       );
     },
-    [createStore],
+    [apiSession, createStore, csrfToken, userFirstName, userUuid],
   );
   let directLineToken = token;
   let conversationId = '';
@@ -74,6 +91,7 @@ const WebChat = ({
     conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   }
 
+  // eslint-disable-next-line no-restricted-globals
   addEventListener('beforeunload', () => {
     clearBotSessionStorage(false, isLoggedIn);
   });
@@ -97,7 +115,7 @@ const WebChat = ({
         conversationId,
         watermark: '',
       }),
-    [createDirectLine],
+    [conversationId, createDirectLine, directLineToken],
   );
 
   const BUTTONS = 49.2;
@@ -113,7 +131,7 @@ const WebChat = ({
     bubbleBorderWidth: 0,
     bubbleFromUserBorderWidth: 0,
     bubbleBackground: '#e1f3f8',
-    bubbleFromUserBackground: '#f1f1f1',
+    bubbleFromUserBackground: '#f0f0f0',
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
@@ -177,23 +195,9 @@ const WebChat = ({
     [isRXSkill],
   );
 
+  useEffect(() => setMicrophoneMessage(isRXSkill, document));
+
   if (isRXSkill === 'true') {
-    // check if window.WebChat exists
-    if (window.WebChat) {
-      // find the send box element
-      const sendBox = document.querySelector(
-        'input[class="webchat__send-box-text-box__input"]',
-      );
-      // change the placeholder text of send box
-      sendBox.setAttribute(
-        'aria-label',
-        'Type or enable the microphone to speak',
-      );
-      sendBox.setAttribute(
-        'placeholder',
-        'Type or enable the microphone to speak',
-      );
-    }
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
@@ -236,4 +240,10 @@ const WebChat = ({
   );
 };
 
+WebChat.propTypes = {
+  WebChatFramework: PropTypes.object,
+  apiSession: PropTypes.any,
+  setParamLoadingStatus: PropTypes.func,
+  token: PropTypes.string,
+};
 export default WebChat;

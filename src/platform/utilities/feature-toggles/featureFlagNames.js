@@ -19,25 +19,36 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
-  checkInExperienceTranslationDisclaimerTagalogEnabled: 'check_in_experience_translation_disclaimer_tagalog_enabled',
-  checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
-  checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
-  checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
-  checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
-  checkInExperiencePreCheckInActionLinkTopPlacement: 'check_in_experience_pre_check_in_action_link_top_placement',
-  checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
+  checkInExperienceTranslationDisclaimerSpanishEnabled:
+    'check_in_experience_translation_disclaimer_spanish_enabled',
+  checkInExperienceTranslationDisclaimerTagalogEnabled:
+    'check_in_experience_translation_disclaimer_tagalog_enabled',
+  checkInExperienceDayOfDemographicsFlagsEnabled:
+    'check_in_experience_day_of_demographics_flags_enabled',
+  checkInExperienceLorotaSecurityUpdatesEnabled:
+    'check_in_experience_lorota_security_updates_enabled',
+  checkInExperiencePhoneAppointmentsEnabled:
+    'check_in_experience_phone_appointments_enabled',
+  checkInExperienceLorotaDeletionEnabled:
+    'check_in_experience_lorota_deletion_enabled',
+  checkInExperiencePreCheckInActionLinkTopPlacement:
+    'check_in_experience_pre_check_in_action_link_top_placement',
+  checkInExperienceTravelReimbursement:
+    'check_in_experience_travel_reimbursement',
   checkInExperienceTravelLogic: 'check_in_experience_travel_logic',
   checkInExperience45MinuteReminder: 'check_in_experience_45_minute_reminder',
   checkInExperienceBrowserMonitoring: 'check_in_experience_browser_monitoring',
-  checkInExperienceUpdatedApptPresentation: 'check_in_experience_updated_appt_presentation',
-  checkInExperienceUnifiedLandingPage: "check_in_experience_unified_landing_page",
+  checkInExperienceUpdatedApptPresentation:
+    'check_in_experience_updated_appt_presentation',
+  checkInExperienceUnifiedLandingPage:
+    'check_in_experience_unified_landing_page',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   claimLettersAccess: 'claim_letters_access',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   combinedFinancialStatusReport: 'combined_financial_status_report',
-  combinedFinancialStatusReportEnhancements: 'combined_financial_status_report_enhancements',
+  combinedFinancialStatusReportEnhancements:
+    'combined_financial_status_report_enhancements',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
@@ -67,7 +78,8 @@ export default Object.freeze({
     'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
-  facilityLocatorShowHealthConnectNumber: 'facility_locator_show_health_connect_number',
+  facilityLocatorShowHealthConnectNumber:
+    'facility_locator_show_health_connect_number',
   facilityLocatorPredictiveLocationSearch:
     'facility_locator_predictive_location_search',
   facilityLocatorRailsEngine: 'facility_locator_rails_engine',
@@ -78,11 +90,15 @@ export default Object.freeze({
     'facility_locator_show_operational_hours_special_instructions',
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
-  financialStatusReportDebtsApiModule: 'financial_status_report_debts_api_module',
-  financialStatusReportStreamlinedWaiver: 'financial_status_report_streamlined_waiver',
-  financialStatusReportStreamlinedWaiverAssets: 'financial_status_report_streamlined_waiver_assets',
-  financialStatusReportReviewPageNavigation: 'financial_status_report_review_page_navigation',
-  findARepresentative: 'find_a_representative',
+  financialStatusReportDebtsApiModule:
+    'financial_status_report_debts_api_module',
+  financialStatusReportStreamlinedWaiver:
+    'financial_status_report_streamlined_waiver',
+  financialStatusReportStreamlinedWaiverAssets:
+    'financial_status_report_streamlined_waiver_assets',
+  financialStatusReportReviewPageNavigation:
+    'financial_status_report_review_page_navigation',
+  findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
   form10182Nod: 'form10182_nod',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
@@ -104,22 +120,27 @@ export default Object.freeze({
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrBrowserMonitoringEnabled: 'hlr_browser_monitoring_enabled',
+  lettersCheckDiscrepancies: 'letters_check_discrepancies',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
-  medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
+  medicalCopaysHtmlMedicalStatementsViewEnabled:
+    'medical_copays_html_medical_statements_view_enabled',
   mhvLandingPageEnabled: 'mhv_landing_page_enabled',
   mhvLandingPagePersonalization: 'mhv_landing_page_personalization',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvSecureMessagingToPhase1: 'mhv_secure_messaging_to_phase_1',
-  mhvSecureMessagingBlockedTriageGroup1p0: 'mhv_secure_messaging_blocked_triage_group_1_0',
+  mhvSecureMessagingBlockedTriageGroup1p0:
+    'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplayNotes: 'mhv_medical_records_display_notes',
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
-  mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
+  mhvToLogingovAccountTransitionModal:
+    'mhv_to_logingov_account_transition_modal',
   myVaEnableNotificationComponent: 'my_va_notification_component',
   myVaUseExperimental: 'my_va_experimental',
   myVaUseExperimentalFrontend: 'my_va_experimental_frontend',
@@ -135,20 +156,28 @@ export default Object.freeze({
   pensionFormEnabled: 'pension_form_enabled',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileContacts: 'profile_contacts',
-  profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
-  profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
-  profileShowEmailNotificationSettings: 'profile_show_email_notification_settings',
+  profileDoNotRequireInternationalZipCode:
+    'profile_do_not_require_international_zip_code',
+  profileHideDirectDepositCompAndPen:
+    'profile_hide_direct_deposit_comp_and_pen',
+  profileShowEmailNotificationSettings:
+    'profile_show_email_notification_settings',
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
-  profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
-  profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
-  profileShowQuickSubmitNotificationSetting: 'profile_show_quick_submit_notification_setting',
+  profileShowPronounsAndSexualOrientation:
+    'profile_show_pronouns_and_sexual_orientation',
+  profileShowPaymentsNotificationSetting:
+    'profile_show_payments_notification_setting',
+  profileShowQuickSubmitNotificationSetting:
+    'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes: 'profile_use_notification_settings_checkboxes',
+  profileUseNotificationSettingsCheckboxes:
+    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
-  ratedDisabilitiesDetectDiscrepancies: 'rated_disabilities_detect_discrepancies',
+  ratedDisabilitiesDetectDiscrepancies:
+    'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
@@ -183,8 +212,10 @@ export default Object.freeze({
   showMeb1990EZMaintenanceAlert: 'show_meb_1990EZ_maintenance_alert',
   showMeb1990EMaintenanceAlert: 'show_meb_1990E_maintenance_alert',
   showMebLettersMaintenanceAlert: 'show_meb_letters_maintenance_alert',
-  showMebEnrollmentVerificationMaintenanceAlert: 'show_meb_enrollment_verification_maintenance_alert',
-  showMebServiceHistoryCategorizeDisagreement: 'show_meb_service_history_categorize_disagreement',
+  showMebEnrollmentVerificationMaintenanceAlert:
+    'show_meb_enrollment_verification_maintenance_alert',
+  showMebServiceHistoryCategorizeDisagreement:
+    'show_meb_service_history_categorize_disagreement',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
@@ -222,28 +253,38 @@ export default Object.freeze({
     'va_online_scheduling_vaos_service_va_appointments',
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
-  vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
-  vaOnlineSchedulingStatusImprovementCanceled: 'va_online_scheduling_status_improvement_canceled',
+  vaOnlineSchedulingStatusImprovement:
+    'va_online_scheduling_status_improvement',
+  vaOnlineSchedulingStatusImprovementCanceled:
+    'va_online_scheduling_status_improvement_canceled',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
   vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineSchedulingClinicFilter: 'va_online_scheduling_clinic_filter',
   vaOnlineSchedulingAcheronService: 'va_online_scheduling_acheron_service',
-  vaOnlineSchedulingRequestFlowUpdate: 'va_online_scheduling_request_flow_update',
+  vaOnlineSchedulingRequestFlowUpdate:
+    'va_online_scheduling_request_flow_update',
   vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',
-  vaOnlineSchedulingConvertUtcToLocal: 'va_online_scheduling_convert_utc_to_local',
-  vaOnlineSchedulingBreadcrumbUrlUpdate: 'va_online_scheduling_breadcrumb_url_update',
+  vaOnlineSchedulingConvertUtcToLocal:
+    'va_online_scheduling_convert_utc_to_local',
+  vaOnlineSchedulingBreadcrumbUrlUpdate:
+    'va_online_scheduling_breadcrumb_url_update',
   vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
-  vaOnlineSchedulingStaticLandingPage: 'va_online_scheduling_static_landing_page',
+  vaOnlineSchedulingStaticLandingPage:
+    'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',
-  vaOnlineSchedulingAfterVisitSummary: 'va_online_scheduling_after_visit_summary',
-  vaOnlineSchedulingStartSchedulingLink: 'va_online_scheduling_start_scheduling_link',
+  vaOnlineSchedulingAfterVisitSummary:
+    'va_online_scheduling_after_visit_summary',
+  vaOnlineSchedulingStartSchedulingLink:
+    'va_online_scheduling_start_scheduling_link',
   vaOnlineSchedulingPhysicalLocation: 'va_online_scheduling_physical_location',
   vaViewDependentsAccess: 'va_view_dependents_access',
   virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
-  virtualAgentEnableParamErrorDetection: 'virtual_agent_enable_param_error_detection',
+  virtualAgentEnableParamErrorDetection:
+    'virtual_agent_enable_param_error_detection',
   virtualAgentVoice: 'virtual_agent_voice',
   virtualAgentUpgradeWebchat14158: 'virtual_agent_upgrade_webchat_14_15_8',
   virtualAgentEnableMsftPvaTesting: 'virtual_agent_enable_msft_pva_testing',
+  virtualAgentEnableNluPvaTesting: 'virtual_agent_enable_nlu_pva_testing',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

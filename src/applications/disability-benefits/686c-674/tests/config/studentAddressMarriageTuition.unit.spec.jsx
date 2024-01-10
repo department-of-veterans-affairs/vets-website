@@ -175,7 +175,7 @@ describe('Report 674 student address and marriage information', () => {
     fillData(
       form,
       'input#root_studentAddressMarriageTuition_address_zipCode',
-      '20500',
+      '34012',
     );
     selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
     selectRadio(
@@ -344,7 +344,7 @@ describe('Report 674 student address and marriage information', () => {
     fillData(
       form,
       'input#root_studentAddressMarriageTuition_address_city',
-      'FPO',
+      'APO',
     );
     changeDropdown(
       form,
@@ -399,7 +399,7 @@ describe('Report 674 student address and marriage information', () => {
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'For FPO addresses, you must check the “They live on a United States military base outside of the U.S.” checkbox above',
+      'For APO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
@@ -444,7 +444,7 @@ describe('Report 674 student address and marriage information', () => {
     fillData(
       form,
       'input#root_studentAddressMarriageTuition_address_zipCode',
-      '20500',
+      '09123',
     );
     selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'Y');
     changeDropdown(

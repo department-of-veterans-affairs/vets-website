@@ -32,23 +32,31 @@ export const sortOptions = {
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = true;
+export const useStagingDataLocally = false;
 
 export const claimsAgentIsEnabled = false;
 
-const railsEngineApi = {
-  baseUrl:
-    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
-      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
-  url:
-    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov/services/veteran/v0/accredited_representatives`
-      : `${environment.API_URL}/services/veteran/v0/accredited_representatives`,
-  settings: apiSettings,
+export const getAPI = repType => {
+  return {
+    baseUrl:
+      useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+        ? `https://staging-api.va.gov/services/veteran/v0/${
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
+          }_accredited_representatives`
+        : `${environment.API_URL}/services/veteran/v0/${
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
+          }_accredited_representatives`,
+    url:
+      useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+        ? `https://staging-api.va.gov/services/veteran/v0/${
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
+          }_accredited_representatives`
+        : `${environment.API_URL}/services/veteran/v0/${
+            repType === 'veteran_service_officer' ? 'vso' : 'other'
+          }_accredited_representatives`,
+    settings: apiSettings,
+  };
 };
-
-export const getAPI = () => railsEngineApi;
 
 /**
  * Build parameters and URL for representative API calls
@@ -62,9 +70,9 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'officer',
+  type = 'veteran_service_officer',
 }) => {
-  const api = getAPI();
+  const api = getAPI(type);
 
   const { url } = api;
 

@@ -4,33 +4,36 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import {
+  selectMhvMrEnabledFlag,
+  selectSidenavFlag,
+  selectVaccinesFlag,
+  selectNotesFlag,
+} from '../util/selectors';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const { featureTogglesLoading, appEnabled, showSideNav } = useSelector(
-    state => {
-      return {
-        featureTogglesLoading: state.featureToggles.loading,
-        appEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease
-          ],
-        showSideNav:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySidenav
-          ],
-      };
-    },
-    state => state.featureToggles,
+  const featureTogglesLoading = useSelector(
+    state => state.featureToggles.loading,
   );
+
+  // Individual feature flags
+  const appEnabled = useSelector(selectMhvMrEnabledFlag);
+  const showSideNav = useSelector(selectSidenavFlag);
+  const showVaccines = useSelector(selectVaccinesFlag);
+  const showNotes = useSelector(selectNotesFlag);
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
+  const [paths, setPaths] = useState([]);
   const location = useLocation();
   const measuredRef = useRef();
 
@@ -48,6 +51,64 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+
+  useEffect(
+    () => {
+      const navPaths = [
+        {
+          path: '/',
+          label: 'Medical records',
+          datatestid: 'about-va-medical-records-sidebar',
+          subpaths: [
+            // {
+            //   path: '/labs-and-tests',
+            //   label: 'Lab and test results',
+            //   datatestid: 'labs-and-tests-sidebar',
+            // },
+            // {
+            //   path: '/conditions',
+            //   label: 'Health conditions',
+            //   datatestid: 'health-conditions-sidebar',
+            // },
+            // {
+            //   path: '/vitals',
+            //   label: 'Vitals',
+            //   datatestid: 'vitals-sidebar',
+            // },
+            // {
+            //   path: '/download-all',
+            //   label: 'Download all medical records',
+            //   datatestid: 'download-your-medical-records-sidebar',
+            // },
+            // {
+            //   path: '/settings',
+            //   label: 'Medical records settings',
+            //   datatestid: 'settings-sidebar',
+            // },
+          ],
+        },
+      ];
+      if (showNotes)
+        navPaths[0].subpaths.push({
+          path: '/summaries-and-notes',
+          label: 'Care summaries and notes',
+          datatestid: 'care-summaries-and-notes-sidebar',
+        });
+      if (showVaccines)
+        navPaths[0].subpaths.push({
+          path: '/vaccines',
+          label: 'Vaccines',
+          datatestid: 'vaccines-sidebar',
+        });
+      navPaths[0].subpaths.push({
+        path: '/allergies',
+        label: 'Allergies and reactions',
+        datatestid: 'allergies-sidebar',
+      });
+      setPaths(navPaths);
+    },
+    [showNotes, showVaccines],
+  );
 
   useEffect(
     () => {
@@ -100,22 +161,27 @@ const App = ({ children }) => {
         className="vads-l-grid-container vads-u-padding-left--2"
       >
         <MrBreadcrumbs />
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-          {showSideNav && (
-            <>
-              <Navigation data-testid="mhv-mr-navigation" />
-              <div className="vads-u-margin-right--4" />
-            </>
-          )}
-          <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
-            <div className="vads-l-row">
-              <div className="vads-l-col">{children}</div>
-              {!showSideNav && (
-                <div className="medium-screen:vads-l-col--4 no-print" />
-              )}
+        <DowntimeNotification
+          appTitle="Medical Records"
+          dependencies={[externalServices.mhv]}
+        >
+          <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+            {showSideNav && (
+              <>
+                <Navigation paths={paths} data-testid="mhv-mr-navigation" />
+                <div className="vads-u-margin-right--4" />
+              </>
+            )}
+            <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
+              <div className="vads-l-row">
+                <div className="vads-l-col">{children}</div>
+                {!showSideNav && (
+                  <div className="medium-screen:vads-l-col--4 no-print" />
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        </DowntimeNotification>
         <va-back-to-top hidden={isHidden} />
         <ScrollToTop />
       </div>

@@ -140,11 +140,13 @@ class ObjectField extends React.Component {
       },
     );
 
-    let title = formContext?.pageTitle;
-    if (!formContext?.hideTitle && typeof title === 'function') {
+    let title;
+    if (typeof formContext?.pageTitle === 'function') {
       // the `formData` is local to the object, not the page.
       // A page would have access to properties that a child object wouldn't
-      title = isRoot && title(formData, formContext);
+      title = isRoot && formContext?.pageTitle(formData, formContext);
+    } else {
+      title = formContext?.pageTitle;
     }
     const uiOptions = uiSchema['ui:options'] || {};
     const ariaLabel = uiOptions.itemAriaLabel;
@@ -170,7 +172,7 @@ class ObjectField extends React.Component {
         <ObjectViewField
           {...this.props}
           renderedProperties={renderedProperties}
-          title={title}
+          title={!formContext?.hideTitle ? title : ''}
           defaultEditButton={defaultEditButton}
         />
       );

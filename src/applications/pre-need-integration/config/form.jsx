@@ -29,6 +29,7 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as burialCemetery from './pages/burialCemetery';
 
 import Footer from '../components/Footer';
 
@@ -532,12 +533,18 @@ const formConfig = {
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
         },
+        burialCemetery: {
+          path: 'burial-cemetery',
+          uiSchema: burialCemetery.uiSchema,
+          schema: burialCemetery.schema,
+        },
       },
     },
     supportingDocuments: {
       title: 'Supporting files',
       pages: {
         supportingDocuments: {
+          title: 'Upload supporting files',
           path: 'supporting-documents',
           editModeOnReviewPage: false,
           uiSchema: {
@@ -555,7 +562,6 @@ const formConfig = {
                 createPayload: file => {
                   const payload = new FormData();
                   payload.append('preneed_attachment[file_data]', file);
-
                   return payload;
                 },
                 parseResponse: (response, file) => ({
