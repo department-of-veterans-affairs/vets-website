@@ -14,14 +14,16 @@ const DemographicViewField = props => {
       <>
         <div className="review-row">
           <dt>{uiSchema['ui:title']}</dt>
-          <dd>
+          <dd className="dd-privacy-hidden" data-dd-action-name="data value">
             {categories.length > 0 && uiSchema[categories[0]]['ui:title']}
           </dd>
         </div>
         {categories.slice(1).map(prop => (
           <div key={prop} className="review-row">
             <dt />
-            <dd>{uiSchema[prop]['ui:title']}</dd>
+            <dd className="dd-privacy-hidden" data-dd-action-name="data value">
+              {uiSchema[prop]['ui:title']}
+            </dd>
           </div>
         ))}
       </>

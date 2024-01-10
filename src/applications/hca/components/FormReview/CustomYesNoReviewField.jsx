@@ -8,7 +8,9 @@ const CustomYesNoReviewField = ({
 }) => (
   <div className="review-row">
     <dt>{uiSchema['ui:title']}</dt>
-    <dd>{formData ? 'Yes' : 'No'}</dd>
+    <dd className="dd-privacy-hidden" data-dd-action-name="data value">
+      {formData ? 'Yes' : 'No'}
+    </dd>
   </div>
 );
 

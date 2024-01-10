@@ -48,7 +48,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
               </dt>
               <dd
                 className="dd-privacy-mask"
-                data-dd-action-name="Applied date"
+                data-dd-action-name="application date"
               >
                 {moment(timestamp).format('MMM D, YYYY')}
               </dd>

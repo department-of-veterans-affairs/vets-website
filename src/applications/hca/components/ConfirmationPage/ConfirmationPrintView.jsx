@@ -31,20 +31,25 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       </h2>
       <dl className="vads-u-margin-bottom--0">
         <div className="vads-u-margin-bottom--2">
-          <dt
-            className="vads-u-font-family--serif vads-u-font-weight--bold"
-            data-dd-action-name="Veteran name"
-          >
+          <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
             Veteran’s name
           </dt>
-          <dd className="hca-veteran-fullname dd-privacy-mask">{name}</dd>
+          <dd
+            className="hca-veteran-fullname dd-privacy-mask"
+            data-dd-action-name="Veteran name"
+          >
+            {name}
+          </dd>
         </div>
         {!!timestamp && (
           <div className="hca-application-date">
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Date you applied
             </dt>
-            <dd className="dd-privacy-mask" data-dd-action-name="Applied date">
+            <dd
+              className="dd-privacy-mask"
+              data-dd-action-name="application date"
+            >
               {moment(timestamp).format('MMM D, YYYY')}
             </dd>
           </div>
