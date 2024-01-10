@@ -33,7 +33,10 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Alerts.BLOCKED.AT_ALL_HEADER);
+      .and(
+        'include.text',
+        `${Alerts.BLOCKED.AT_ALL_HEADER} TRIAGE GROUP_UAT2929`,
+      );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .shadow()
@@ -66,7 +69,10 @@ describe('All Group Association Blocked', () => {
 
     cy.get('[class="alert-expandable-title"]')
       .should('be.visible')
-      .and('include.text', Alerts.BLOCKED.AT_ALL_HEADER);
+      .and(
+        'include.text',
+        `${Alerts.BLOCKED.AT_ALL_HEADER} TRIAGE GROUP_UAT2929`,
+      );
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find('p')
