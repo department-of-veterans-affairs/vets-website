@@ -9,14 +9,46 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
+  // const updateDates = data => {
+  //   const currentDate = new Date().toISOString();
+  //
+  //   data.data.forEach(item => {
+  //     if (item.attributes.draftDate != null) {
+  //       item.attributes.draftDate = currentDate;
+  //     }
+  //     if (item.attributes.sentDate != null) {
+  //       item.attributes.sentDate = currentDate;
+  //     }
+  //   });
+  //   return data;
+  // };
+
+  const updateDates = data => {
+    const currentDate = new Date().toISOString();
+    const newData = { ...data };
+    newData.data = newData.data.map(item => {
+      const updatedItem = { ...item };
+      if (updatedItem.attributes.draftDate !== null) {
+        updatedItem.attributes.draftDate = currentDate;
+      }
+      if (updatedItem.attributes.sentDate !== null) {
+        updatedItem.attributes.sentDate = currentDate;
+      }
+      return updatedItem;
+    });
+    return newData;
+  };
+
+  const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
+
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread();
+    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify headers', () => {
-    const draftsCount = mockMultiDraftsResponse.data.filter(
+    const draftsCount = updatedMultiDraftResponse.data.filter(
       el => el.attributes.draftDate !== null,
     ).length;
 
@@ -57,26 +89,26 @@ describe('handle multiple drafts in one thread', () => {
 
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get('[text="Edit draft 1"]').click();
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[1].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[1].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
       'have.text',
-      `${mockMultiDraftsResponse.data[0].attributes.body}`,
+      `${updatedMultiDraftResponse.data[0].attributes.body}`,
     );
 
     cy.get('[text="Edit draft 2"]').click();
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
       'have.text',
-      `${mockMultiDraftsResponse.data[1].attributes.body}`,
+      `${updatedMultiDraftResponse.data[1].attributes.body}`,
     );
   });
 });
