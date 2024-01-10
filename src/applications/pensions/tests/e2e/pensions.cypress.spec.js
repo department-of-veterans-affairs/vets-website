@@ -12,7 +12,6 @@ import manifest from '../../manifest.json';
 
 import {
   fillAddressWebComponentPattern,
-  selectCheckboxWebComponent,
   selectRadioWebComponent,
 } from './helpers';
 
@@ -42,16 +41,6 @@ export const pageHooks = cy => ({
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
-    });
-  },
-  [pagePaths.servicePeriod]: () => {
-    // Providing a hook for this page prevents the default fill, so we need to call that
-    cy.fillPage();
-
-    // Once that's done, go back and fill in the web component that it missed
-    cy.get('@testData').then(data => {
-      const value = `serviceBranch_${data.serviceBranch}`;
-      selectCheckboxWebComponent(value, true);
     });
   },
   [pagePaths.maritalStatus]: () => {
