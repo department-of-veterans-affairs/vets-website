@@ -10,8 +10,8 @@ import JumpLink from '../../components/profile/JumpLink';
 import LearnMoreLabel from '../../components/LearnMoreLabel';
 import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
-import { isProductionOfTestProdEnv } from '../../../edu-benefits/1995/helpers';
 import {
+  isProductionOfTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,

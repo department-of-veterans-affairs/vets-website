@@ -9,8 +9,8 @@ import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import { isProductionOfTestProdEnv } from '../../edu-benefits/1995/helpers';
 import {
+  isProductionOfTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
