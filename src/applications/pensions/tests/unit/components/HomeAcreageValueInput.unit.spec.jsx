@@ -53,17 +53,15 @@ describe('<HomeAcreageValueInput />', () => {
     );
 
     const input = container.querySelector('[name="home-acreage-value"]');
-    expect(input.getAttribute('error')).to.equal('');
+
+    await waitFor(() => expect(input.getAttribute('error')).to.equal(''));
 
     input.value = '250000.00';
-
     fireEvent.input(input);
-    fireEvent.submit($('form', container));
+    await waitFor(() => expect(input.value).to.equal('250000.00'));
 
-    await waitFor(() => {
-      expect(input.value).to.equal('250000.00');
-      expect(goForwardSpy.calledOnce).to.be.true;
-    });
+    fireEvent.submit($('form', container));
+    await waitFor(() => expect(goForwardSpy.calledOnce).to.be.true);
   });
   it('should not allow submit with non currency value', async () => {
     const goForwardSpy = sinon.spy();
@@ -81,7 +79,7 @@ describe('<HomeAcreageValueInput />', () => {
     );
 
     const input = container.querySelector('[name="home-acreage-value"]');
-    expect(input.getAttribute('error')).to.equal('');
+    await waitFor(() => expect(input.getAttribute('error')).to.equal(''));
 
     input.value = 'not a currency value';
 
@@ -109,7 +107,7 @@ describe('<HomeAcreageValueInput />', () => {
     );
 
     const input = container.querySelector('[name="home-acreage-value"]');
-    expect(input.getAttribute('error')).to.equal('');
+    await waitFor(() => expect(input.getAttribute('error')).to.equal(''));
 
     input.value = '250,000.001';
 
@@ -141,7 +139,7 @@ describe('<HomeAcreageValueInput />', () => {
     );
 
     const input = container.querySelector('[name="home-acreage-value"]');
-    expect(input.getAttribute('error')).to.equal('');
+    await waitFor(() => expect(input.getAttribute('error')).to.equal(''));
 
     input.value = '25000000000';
 
