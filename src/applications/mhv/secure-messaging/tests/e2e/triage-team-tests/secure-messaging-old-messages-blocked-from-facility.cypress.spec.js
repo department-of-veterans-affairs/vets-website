@@ -3,14 +3,17 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
 import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facility-blocked-recipients-response.json';
+import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
-describe('Verify drafts - blocked from facility', () => {
+describe('Verify old messages - blocked from facility', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
-  const newDate = new Date().toISOString();
+
+  const currentDate = new Date();
+  const fortyFiveDaysAgo = new Date();
+  fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
 
   beforeEach(() => {
     site.login();
@@ -22,14 +25,15 @@ describe('Verify drafts - blocked from facility', () => {
     );
   });
 
-  it('existing draft in thread', () => {
-    const mockThreadWithDraft = {
+  it('detailed view - older than 45 day', () => {
+    const oldThreadWithNoAssociatedTG = {
       ...mockThread,
       data: [
         {
           ...mockThread.data[0],
           attributes: {
             ...mockThread.data[0].attributes,
+            sentDate: fortyFiveDaysAgo.toISOString(),
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
@@ -39,7 +43,7 @@ describe('Verify drafts - blocked from facility', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
+    landingPage.loadSingleThread(oldThreadWithNoAssociatedTG, fortyFiveDaysAgo);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -86,23 +90,30 @@ describe('Verify drafts - blocked from facility', () => {
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
   });
 
-  it('existing single draft', () => {
-    const mockSingleDraft = {
+  it('existing draft - older than 45 days', () => {
+    const mockThreadWithOldDraft = {
       ...mockThread,
       data: [
         {
           ...mockThread.data[0],
           attributes: {
             ...mockThread.data[0].attributes,
+            draftDate: fortyFiveDaysAgo.toISOString(),
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
+            sentDate: null,
           },
         },
+        ...mockThread.data,
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
+    landingPage.loadSingleThread(
+      mockThreadWithOldDraft,
+      fortyFiveDaysAgo,
+      fortyFiveDaysAgo,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -147,5 +158,6 @@ describe('Verify drafts - blocked from facility', () => {
       .should('have.attr', 'href', '/find-locations/');
 
     cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 });
