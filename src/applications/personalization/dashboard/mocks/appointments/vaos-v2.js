@@ -50,6 +50,9 @@ const createVaosAppointment = ({
         id: '983',
         vistaSite: '983',
         name: 'Cheyenne VA Medical Center',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
         lat: 39.744507,
         long: -104.830956,
         phone: { main: '307-778-7550' },
@@ -60,6 +63,11 @@ const createVaosAppointment = ({
           postalCode: '82001-5356',
         },
       },
+    },
+    get localStartTime() {
+      return format(now, "yyyy-MM-dd'T'HH:mm:ss", {
+        timeZone: this.location.attributes.timezone.timeZoneId,
+      });
     },
     start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
     startsAt: format(now, "yyyy-MM-dd'T'HH:mm:ssxxx"),
