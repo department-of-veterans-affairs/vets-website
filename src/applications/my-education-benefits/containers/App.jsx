@@ -37,7 +37,7 @@ export const App = ({
   mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
-  showDgiDirectDeposit1990ez,
+  showDgiDirectDeposit1990EZ,
   showMebDgi42Features,
   showMebEnhancements,
   showMebEnhancements06,
@@ -279,10 +279,10 @@ export const App = ({
         });
       }
 
-      if (showDgiDirectDeposit1990ez !== formData.showDgiDirectDeposit1990ez) {
+      if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
         setFormData({
           ...formData,
-          showDgiDirectDeposit1990ez,
+          showDgiDirectDeposit1990EZ,
         });
       }
 
@@ -297,7 +297,7 @@ export const App = ({
       formData,
       isLOA3,
       setFormData,
-      showDgiDirectDeposit1990ez,
+      showDgiDirectDeposit1990EZ,
       showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMebEnhancements,
@@ -328,7 +328,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showDgiDirectDeposit1990ez && isLoggedIn && !fetchedDirectDeposit) {
+      if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
         setFetchedDirectDeposit(true);
         getDirectDeposit();
       }
@@ -337,7 +337,7 @@ export const App = ({
       fetchedDirectDeposit,
       getDirectDeposit,
       isLoggedIn,
-      showDgiDirectDeposit1990ez,
+      showDgiDirectDeposit1990EZ,
     ],
   );
 
@@ -379,7 +379,7 @@ App.propTypes = {
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
-  showDgiDirectDeposit1990ez: PropTypes.bool,
+  showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
