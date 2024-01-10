@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
 import { render, waitFor } from '@testing-library/react';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import {
