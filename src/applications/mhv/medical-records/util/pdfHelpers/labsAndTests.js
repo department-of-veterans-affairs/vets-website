@@ -1,10 +1,6 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-
 export const generateLabsIntro = record => {
   return {
-    title: `Lab and test results: ${record.name} on ${formatDateLong(
-      record.date,
-    )}`,
+    title: `Lab and test results: ${record.name} on ${record.date}`,
     subject: 'VA Medical Record',
     preface:
       'If you have questions about these results, send a secure message to your care team.',

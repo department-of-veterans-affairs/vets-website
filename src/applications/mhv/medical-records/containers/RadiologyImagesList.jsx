@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
@@ -55,8 +54,6 @@ const RadiologyImagesList = () => {
     ],
   };
 
-  const formattedDate = formatDateLong(labAndTestDetails?.date);
-
   const download = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
@@ -95,7 +92,7 @@ const RadiologyImagesList = () => {
           >
             Images: {labAndTestDetails.name}
           </h1>
-          <DateSubheading date={formattedDate} id="radiology-date" />
+          <DateSubheading date={labAndTestDetails?.date} id="radiology-date" />
 
           <div className="no-print">
             <PrintDownload

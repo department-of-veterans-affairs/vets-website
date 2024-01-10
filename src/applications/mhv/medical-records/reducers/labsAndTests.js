@@ -3,6 +3,7 @@ import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -59,7 +60,7 @@ const convertChemHemRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,

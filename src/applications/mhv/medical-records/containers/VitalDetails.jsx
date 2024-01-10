@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -202,7 +201,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {moment(vital.date).format('LLL')}
+                  {vital.date}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
                   Measurement:
@@ -261,7 +260,7 @@ Provider Notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {moment(vital.date).format('LLL')}
+                  {vital.date}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
                   <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">

@@ -1,4 +1,3 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { labTypes, loincCodes, recordType } from '../constants';
 import {
   generateChemHemContent,
@@ -38,7 +37,7 @@ export const generateBlueButtonData = ({
         subtitle: 'Review lab and test results in your VA medical records.',
       },
       records: labsAndTests.map(record => {
-        const title = `${record.name} on ${formatDateLong(record.date)}`;
+        const title = `${record.name} on ${record.date}`;
         let content;
 
         if (record.type === labTypes.CHEM_HEM) {

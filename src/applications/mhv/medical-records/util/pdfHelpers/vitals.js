@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { vitalTypeDisplayNames } from '../constants';
 
 export const generateVitalsIntro = () => {
@@ -11,7 +10,7 @@ export const generateVitalsIntro = () => {
 };
 
 export const generateVitalsItem = record => ({
-  header: moment(record.date).format('LLL'),
+  header: record.date,
   items: [
     {
       title: 'Result',
