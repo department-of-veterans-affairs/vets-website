@@ -20,6 +20,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
   addressSchema,
   addressUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -733,6 +735,38 @@ const formConfig = {
           schema: dependentChildInformation.schema,
           uiSchema: dependentChildInformation.uiSchema,
         },
+        dependentChildInHousehold: {
+          path: 'household/dependents/children/inhousehold/:index',
+          title: item =>
+            `${item.fullName.first || ''} ${item.fullName.last ||
+              ''} household`,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['childInHousehold'],
+                  properties: {
+                    childInHousehold: yesNoSchema,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                childInHousehold: yesNoUI({
+                  title: 'Does your child live with you?',
+                }),
+              },
+            },
+          },
+        },
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
@@ -746,10 +780,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: ['childInHousehold'],
                   properties: {
-                    childInHousehold:
-                      dependents.items.properties.childInHousehold,
                     childAddress: addressSchema({
                       omit: ['street3', 'isMilitary'],
                     }),
@@ -765,10 +796,6 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childInHousehold: {
-                  'ui:title': 'Does your child live with you?',
-                  'ui:widget': 'yesNo',
-                },
                 childAddress: {
                   ...addressUI({
                     omit: ['street3', 'isMilitary'],
@@ -783,10 +810,6 @@ const formConfig = {
                         !get(['dependents', index, 'childInHousehold'], form),
                     },
                   }),
-                  'ui:options': {
-                    expandUnder: 'childInHousehold',
-                    expandUnderCondition: false,
-                  },
                 },
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
@@ -799,8 +822,6 @@ const formConfig = {
                       }
                       return nonRequiredFullName;
                     },
-                    expandUnder: 'childInHousehold',
-                    expandUnderCondition: false,
                   },
                 }),
                 monthlyPayment: merge(
@@ -811,10 +832,6 @@ const formConfig = {
                   {
                     'ui:required': (form, index) =>
                       !get(['dependents', index, 'childInHousehold'], form),
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
-                    },
                   },
                 ),
               },

@@ -9,7 +9,9 @@ const CustomDateReviewField = ({
 }) => (
   <div className="review-row">
     <dt>{uiSchema['ui:title']}</dt>
-    <dd>{moment(formData).format('MM/DD/YYYY')}</dd>
+    <dd className="dd-privacy-hidden" data-dd-action-name="data value">
+      {moment(formData).format('MM/DD/YYYY')}
+    </dd>
   </div>
 );
 
