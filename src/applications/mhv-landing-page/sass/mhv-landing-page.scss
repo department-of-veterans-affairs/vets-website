@@ -14,7 +14,7 @@ $anchor-font-size: 1.9rem;
   }
 }
 
-.indicator::before {
+.mhv-c-indicator::after {
   background-color: $color-red;
   content: "";
   height: 1rem;
@@ -35,13 +35,13 @@ $anchor-font-size: 1.9rem;
     border-bottom: 1px solid $color-gray-light;
   }
 
-  .indicator::before {
+  .mhv-c-indicator::after {
     background-color: $color-red;
     border-radius: 1rem;
     content: "";
     display: inline-block;
     height: 1rem;
-    margin-right: 1rem;
+    margin-right: .5rem;
     width: 1rem;
   }
 
