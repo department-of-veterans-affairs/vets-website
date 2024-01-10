@@ -1,17 +1,16 @@
 import { expect } from 'chai';
 
 import {
-  FORM_DESCRIPTIONS,
-  SIP_ENABLED_FORMS,
-} from '~/platform/forms/constants';
-
+  formDescriptions,
+  sipEnabledForms,
+} from 'applications/personalization/dashboard/helpers';
 import { replaceDashesWithSlashes } from '../utils/date-formatting/helpers';
 
 describe('profile helpers:', () => {
-  describe('FORM_DESCRIPTIONS', () => {
+  describe('formDescriptions', () => {
     it('should have description information for each verified form', () => {
-      SIP_ENABLED_FORMS.forEach(form => {
-        expect(FORM_DESCRIPTIONS[form]).to.exist;
+      sipEnabledForms.forEach(form => {
+        expect(formDescriptions[form]).to.exist;
       });
     });
   });
