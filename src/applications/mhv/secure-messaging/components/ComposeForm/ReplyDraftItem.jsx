@@ -428,7 +428,9 @@ const ReplyDraftItem = props => {
       <HorizontalRule />
       {draftsCount > 1 && (
         <>
-          <h3 className="vads-u-margin-bottom--0p5">Draft {draftsequence}</h3>
+          <h3 className="vads-u-margin-bottom--0p5" data-testid="draft-header">
+            Draft {draftsequence}
+          </h3>
           <p
             className="vads-u-margin-top--0 vads-u-margin-bottom--3"
             data-testid="last-edit-date"
