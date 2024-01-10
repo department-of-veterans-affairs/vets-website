@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../../config/form';
 import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
@@ -12,9 +15,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.contactInformation.pages.veteransAddressZip;
+} = formConfig.chapters.personalInformation.pages.yourPhoneAndEmail;
 
-describe('veteransAddressZipPage', () => {
+describe('yourPhoneAndEmailPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -29,17 +32,15 @@ describe('veteransAddressZipPage', () => {
       </Provider>,
     );
 
-    const checkboxText =
-      'The Veteran lives on a United States military base outside of the country.';
+    const labels = $$('.schemaform-field-template > label', container);
+    const labelList = ['Phone', 'Email address'];
 
-    expect($('h4', container).textContent).to.eq("Veteran's address");
-    expect($('.form-checkbox > label', container).textContent).to.eq(
-      checkboxText,
+    expect($('h3', container).textContent).to.eq('Your phone number and email');
+
+    labels.forEach(
+      label =>
+        expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be
+          .true,
     );
-    expect(
-      removeReqFromLabel(
-        $('#root_veteranPostalCode-label', container).textContent,
-      ),
-    ).to.eq('Postal code');
   });
 });
