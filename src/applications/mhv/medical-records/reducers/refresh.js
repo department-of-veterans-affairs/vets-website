@@ -19,7 +19,11 @@ const initialState = {
   dateCompleted: undefined,
 };
 
-const safeNewDate = dateStr => (dateStr ? new Date(dateStr) : null);
+export const safeNewDate = dateStr => {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
 
 /**
  * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
@@ -40,7 +44,7 @@ export const getPhase = (extractStatus, retrieved) => {
   if (retrieved - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
     return refreshPhases.STALE;
   }
-  if (extractStatus.lastCompleted < extractStatus.lastRequestedsted) {
+  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
     return refreshPhases.IN_PROGRESS;
   }
   if (extractStatus.lastCompleted !== extractStatus.lastSuccessfulCompleted) {
@@ -57,7 +61,7 @@ export const getPhase = (extractStatus, retrieved) => {
  * @param {Object} refreshStatus the list of individual extract statuses
  * @returns the current overall refresh phase, or null if needed data is missing
  */
-const getOverallPhase = (refreshStatus, retrieved) => {
+export const getOverallPhase = (refreshStatus, retrieved) => {
   if (!refreshStatus || refreshStatus.length === 0) {
     return null;
   }
@@ -89,12 +93,13 @@ const getOverallPhase = (refreshStatus, retrieved) => {
  * @returns the max lastCompleted date of the status
  */
 export const refreshCompleted = statusList => {
-  return statusList
+  const timestamps = statusList
     .filter(
       status => EXTRACT_LIST.includes(status.extract) && status.lastCompleted,
     )
-    .map(status => status.lastCompleted)
-    .reduce((a, b) => Math.max(a, b), -Infinity);
+    .map(status => status.lastCompleted);
+  if (timestamps.length === 0) return null;
+  return new Date(Math.max(...timestamps));
 };
 
 export const refreshReducer = (state = initialState, action) => {
