@@ -9,7 +9,7 @@ describe('Medical Records Vitals Print or download ', () => {
     cy.visit('my-health/medical-records/vitals');
   });
 
-  it('Vitals Page Toggle Menu button Print or download ', () => {
+  it('VItals Page Toggle Menu Button Print or Download List ', () => {
     // Click Vitals Page Blood Pressure Link
     VitalsDetailsPage.clickBloodPressureLink(0);
     // Verify Details Page PrintDownload button
