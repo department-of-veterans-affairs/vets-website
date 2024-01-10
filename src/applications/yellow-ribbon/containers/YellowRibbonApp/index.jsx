@@ -1,40 +1,52 @@
-// Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// Relative imports.
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import FindYellowRibbonPage from '../../components/FindYellowRibbonPage';
 import SearchResultsPage from '../../components/SearchResultsPage';
 import manifest from '../../manifest.json';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
 
-export const YellowRibbonApp = ({ hasFetchedOnce }) => (
-  <div
-    className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4"
-    data-e2e-id="yellow-ribbon-app"
-  >
-    {/* Breadcrumbs */}
-    <va-breadcrumbs
-      label="Breadcrumb"
-      className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0"
-    >
-      <a href="/">Home</a>
-      <a href="/education/">Education and training</a>
-      <a href={manifest.rootUrl}>Find a Yellow Ribbon school</a>
-      {hasFetchedOnce && (
-        <li>
-          <a href={window.location.href}>Search results</a>
-        </li>
-      )}
-    </va-breadcrumbs>
+export const YellowRibbonApp = ({ hasFetchedOnce }) => {
+  const breadcrumbList = [
+    {
+      href: '/',
+      label: 'Home',
+    },
+    {
+      href: '/education',
+      label: 'Education and training',
+    },
+    {
+      href: manifest.rootUrl,
+      label: 'Find a Yellow Ribbon school',
+    },
+  ];
 
-    {/* Derive the Page */}
-    {hasFetchedOnce ? <SearchResultsPage /> : <FindYellowRibbonPage />}
-  </div>
-);
+  if (hasFetchedOnce) {
+    breadcrumbList.push({
+      href: window.location.href,
+      label: 'Search results',
+    });
+  }
+
+  return (
+    <div
+      className="vads-l-grid-container vads-u-padding-x--1p5 vads-u-padding-bottom--4"
+      data-e2e-id="yellow-ribbon-app"
+    >
+      <VaBreadcrumbs
+        class="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0"
+        label="Breadcrumbs"
+        uswds
+        breadcrumbList={breadcrumbList}
+      />
+      {hasFetchedOnce ? <SearchResultsPage /> : <FindYellowRibbonPage />}
+    </div>
+  );
+};
 
 YellowRibbonApp.propTypes = {
-  // From mapStateToProps.
   hasFetchedOnce: PropTypes.bool.isRequired,
 };
 
