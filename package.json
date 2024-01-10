@@ -175,7 +175,7 @@
     "eslint-plugin-deprecate": "^0.7.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
@@ -246,8 +246,8 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/css-library": "^0.0.2",
     "@department-of-veterans-affairs/component-library": "^33.0.0",
+    "@department-of-veterans-affairs/css-library": "^0.0.2",
     "@department-of-veterans-affairs/formation": "^9.0.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
