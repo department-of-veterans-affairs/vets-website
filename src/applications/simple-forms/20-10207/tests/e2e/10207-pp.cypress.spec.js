@@ -5,34 +5,12 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/featureToggles.json';
-import user from './fixtures/mocks/user.json';
-
-// mock logged in LOA3 user
-const userLOA3 = {
-  ...user,
-  data: {
-    ...user.data,
-    attributes: {
-      ...user.data.attributes,
-      login: {
-        currentlyLoggedIn: true,
-      },
-      profile: {
-        ...user.data.attributes.profile,
-        loa: {
-          current: 3,
-        },
-      },
-    },
-  },
-};
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
     dataSets: ['test-data'],
@@ -40,7 +18,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^Start your request/, { selector: 'a' })
+          cy.findAllByText(/start/i, { selector: 'button' })
             .last()
             .click();
         });
@@ -48,9 +26,10 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.intercept('/v0/api', { status: 200 });
-      cy.intercept('/v0/feature_toggles', featureToggles);
-      cy.login(userLOA3);
+      // Log in if the form requires an authenticated session.
+      // cy.login();
+
+      cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.

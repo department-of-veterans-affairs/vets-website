@@ -11,7 +11,6 @@ import manifest from '../manifest.json';
 
 const IntroductionPage = props => {
   const { route } = props;
-  // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
 
@@ -183,10 +182,7 @@ const IntroductionPage = props => {
       </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-          <div
-            className="id-not-verified-content vads-u-margin-top--4"
-            data-testid="verifyIdAlert"
-          >
+          <div className="id-not-verified-content vads-u-margin-top--4">
             <va-alert status="continue">
               <h3 slot="headline">
                 You’ll need to verify your identity to request your records

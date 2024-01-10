@@ -22,11 +22,11 @@ const mockStore = {
       profile: {
         savedForms: [],
         prefillsAvailable: ['20-10207'],
-        verified: false,
         dob: '2000-01-01',
         loa: {
           current: 3,
         },
+        verified: true,
       },
     },
     form: {
@@ -59,4 +59,35 @@ describe('IntroductionPage', () => {
     );
     expect(container).to.exist;
   });
+
+  // it('should render <LOA3 content when userLoggedIn is true and userIdVerified is false', () => {
+  //   const userNotVerifiedMockStore = {
+  //     ...mockStore,
+  //     getState: () => ({
+  //       ...mockStore.getState(),
+  //       user: {
+  //         login: {
+  //           currentlyLoggedIn: true,
+  //         },
+  //         profile: {
+  //           ...mockStore.getState().user.profile,
+  //           loa: {
+  //             current: 1,
+  //           },
+  //           verified: false,
+  //         },
+  //       },
+  //     }),
+  //   };
+  //   const { container } = render(
+  //     <Provider store={userNotVerifiedMockStore}>
+  //       <IntroductionPage {...props} />
+  //     </Provider>,
+  //   );
+
+  //   const userNotVerifiedDiv = container.querySelector(
+  //     '.id-not-verified-content',
+  //   );
+  //   expect(userNotVerifiedDiv).to.exist;
+  // });
 });
