@@ -1,8 +1,8 @@
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const reasonForCurrentSeparationOptions = {
   MEDICAL_CARE: 'One of us needs medical care in a dedicated facility',
@@ -10,6 +10,9 @@ const reasonForCurrentSeparationOptions = {
   RELATIONSHIP: 'We’re experiencing relationship differences or problems',
   OTHER: 'Other',
 };
+
+export const otherExplanationRequired = form =>
+  get(['reasonForCurrentSeparation'], form) === 'OTHER';
 
 /** @type {PageSchema} */
 export default {
@@ -25,8 +28,7 @@ export default {
         expandUnder: 'reasonForCurrentSeparation',
         expandUnderCondition: 'Other',
       },
-      'ui:required': form =>
-        get(['reasonForCurrentSeparation'], form) === 'OTHER',
+      'ui:required': otherExplanationRequired,
     },
   },
   schema: {
