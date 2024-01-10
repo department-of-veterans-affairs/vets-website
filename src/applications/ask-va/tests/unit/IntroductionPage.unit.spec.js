@@ -26,13 +26,13 @@ describe('IntroductionPage', () => {
     );
   });
 
-  it('should render Dashboard', () => {
+  it('should render Your questions when logged in', () => {
     const { props, mockStore } = getData({ loggedIn: true });
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('h2', container).textContent).to.eq('Dashboard');
+    expect($('h2', container).textContent).to.eq('Your questions');
   });
 });
