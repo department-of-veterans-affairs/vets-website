@@ -115,14 +115,58 @@ describe('<ContestableIssues>', () => {
     expect($$('.usa-input-error', container).length).to.equal(0);
   });
 
-  it('should show an error when submitted with no selections', () => {
+  it('should show an error when submitted with no selections', async () => {
     const props = getProps({ submitted: true });
     const { container } = render(<ContestableIssues {...props} />);
     expect($$('va-alert', container).length).to.equal(1);
-    expect($('va-alert', container).innerHTML).to.contain(
+    const alert = $('va-alert', container);
+    expect(alert.innerHTML).to.contain(
       'at least 1 issue before you can continue',
     );
+    await waitFor(() => {
+      expect(document.activeElement).to.equal(alert);
+    });
   });
+
+  it('should focus to error alert when submitted with no selections', async () => {
+    const props = getProps();
+    const { container, rerender } = render(
+      <>
+        <va-button type="button">foo</va-button>
+        <ContestableIssues
+          {...props}
+          formContext={{
+            onReviewPage: true,
+            reviewMode: false,
+            submitted: false,
+          }}
+        />
+      </>,
+    );
+
+    // focus on button to test that the focus is shifted to the alert after
+    // the page is submitted
+    $('va-button', container).focus();
+
+    rerender(
+      <>
+        <va-button type="button">foo</va-button>
+        <ContestableIssues
+          {...props}
+          formContext={{
+            onReviewPage: true,
+            reviewMode: false,
+            submitted: true, // submitting the page
+          }}
+        />
+      </>,
+    );
+
+    await waitFor(() => {
+      expect(document.activeElement).to.equal($('va-alert', container));
+    });
+  });
+
   it('should show a message when no issues selected on review page', () => {
     const props = getProps({ review: true });
     const { container } = render(<ContestableIssues {...props} />);
