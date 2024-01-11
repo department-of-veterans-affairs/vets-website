@@ -1,64 +1,59 @@
-const generateFeatureToggles = (toggles = {}) => {
-  const {
-    authExpVbaDowntimeMessage = true,
-    myVaEnableNotificationComponent = true,
-    myVaHideNotificationsSection = true,
-    myVaUseExperimental = true,
-    myVaUseExperimentalFrontend = true,
-    myVaUseExperimentalFullstack = true,
-    myVaNotificationDotIndicator = true,
-    myVaEnableMhvLink = true,
-    myVaUpdateErrorsWarnings = true,
-    vaOnlineSchedulingStaticLandingPage = true,
-  } = toggles;
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { keyBy } from 'lodash';
 
+const getFlag = (name = '', value = false) => {
+  const flag = FEATURE_FLAG_NAMES[name];
+  if (!flag) {
+    throw new Error(
+      `Feature flag "${name}" not found in the platform's feature-toggle list. Did you remember to add the toggle name(s) to @department-of-veterans-affairs/platform-utilities/featureFlagNames?`,
+    );
+  }
   return {
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          name: 'auth_exp_vba_downtime_message',
-          value: authExpVbaDowntimeMessage,
-        },
-        {
-          name: 'my_va_notification_component',
-          value: myVaEnableNotificationComponent,
-        },
-        {
-          name: 'my_va_hide_notifications_section',
-          value: myVaHideNotificationsSection,
-        },
-        {
-          name: 'my_va_experimental',
-          value: myVaUseExperimental,
-        },
-        {
-          name: 'my_va_experimental_frontend',
-          value: myVaUseExperimentalFrontend,
-        },
-        {
-          name: 'my_va_experimental_fullstack',
-          value: myVaUseExperimentalFullstack,
-        },
-        {
-          name: 'my_va_notification_dot_indicator',
-          value: myVaNotificationDotIndicator,
-        },
-        {
-          name: 'my_va_enable_mhv_link',
-          value: myVaEnableMhvLink,
-        },
-        {
-          name: 'my_va_update_errors_warnings',
-          value: myVaUpdateErrorsWarnings,
-        },
-        {
-          name: 'va_online_scheduling_static_landing_page',
-          value: vaOnlineSchedulingStaticLandingPage,
-        },
-      ],
-    },
+    name: flag,
+    value,
   };
 };
 
-module.exports = { generateFeatureToggles };
+const getFlagsByPrefix = (prefix = '', value = false) =>
+  Object.keys(FEATURE_FLAG_NAMES)
+    .filter(name => name.startsWith(prefix))
+    .map(name => getFlag(name, value));
+
+const generateDefaultToggles = (value = false) => [
+  ...getFlagsByPrefix('myVa', value),
+  getFlag('authExpVbaDowntimeMessage', value),
+  getFlag('vaOnlineSchedulingStaticLandingPage', value),
+  getFlag('profileUseExperimental', value),
+];
+
+const asApiResponseData = (featureToggles = []) => ({
+  data: {
+    type: 'feature_toggles',
+    features: featureToggles,
+  },
+});
+
+const generateFeatureToggles = (toggles = {}, defaultValue = false) => {
+  const defaultToggles = generateDefaultToggles(defaultValue);
+  const customToggles = [];
+  const toggleMap = keyBy(defaultToggles, o => o.name);
+
+  Object.keys(toggles).forEach(name => {
+    const serverName = FEATURE_FLAG_NAMES[name];
+    const foundInDefaults = serverName && toggleMap[serverName];
+    if (foundInDefaults) {
+      toggleMap[serverName].value = toggles[name];
+    } else {
+      customToggles.push(getFlag(name, toggles[name]));
+    }
+  });
+
+  return asApiResponseData([...Object.values(toggleMap), ...customToggles]);
+};
+
+module.exports = {
+  generateFeatureToggles,
+  getFlagsByPrefix,
+  getFlag,
+  asApiResponseData,
+};
