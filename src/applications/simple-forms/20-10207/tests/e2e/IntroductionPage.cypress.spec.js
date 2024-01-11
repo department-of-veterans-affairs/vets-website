@@ -5,7 +5,10 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
 import userUnauthed from './fixtures/mocks/user.json';
 
-describe('Introduction page', () => {
+// Skip in CI until the form is released.
+const testSuite = Cypress.env('CI') ? describe.skip : describe;
+
+testSuite('Introduction page', () => {
   Cypress.config({ defaultCommandTimeout: 10000, includeShadowDom: true });
 
   const userLOA3 = {
