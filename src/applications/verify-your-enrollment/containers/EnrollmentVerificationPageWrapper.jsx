@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
+import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
+import PeriodsToVerify from '../components/PeriodsToVerify';
+import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
+import { getMockData } from '../selectors/mockData';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
+  const mockData = useSelector(getMockData);
   return (
     <>
       <div name="topScrollElement" />
@@ -14,6 +20,15 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <MGIBEnrollmentStatement />
+            <PeriodsToVerify />
+            {/* will use this when benefits page is built */}
+            {/* <a className="vads-c-action-link--green" href="#"> */}
+            <button className="vads-c-action-link--green">
+              Manage your benefits profile
+              {/* </a> */}
+            </button>
+            <PreviousEnrollmentVerifications enrollmentData={mockData} />
             {children}
           </div>
         </div>
