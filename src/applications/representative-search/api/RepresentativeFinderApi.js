@@ -12,8 +12,7 @@ class RepresentativeFinderApi {
     long,
     name,
     page,
-    /* eslint-disable camelcase */
-    per_page,
+    perPage,
     sort,
     type,
   ) {
@@ -23,7 +22,7 @@ class RepresentativeFinderApi {
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
     });

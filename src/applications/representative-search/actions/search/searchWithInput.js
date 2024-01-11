@@ -15,7 +15,7 @@ export const searchWithInput = ({
   long,
   name,
   page,
-  per_page,
+  perPage,
   sort,
   type,
 }) => {
@@ -34,7 +34,7 @@ export const searchWithInput = ({
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
       dispatch,
