@@ -225,4 +225,37 @@ export default [
       metadata: newMetaData,
     };
   },
+
+  // 6 -> 7, send user back to fields with only spaces
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    [
+      'household-information-v2/financial-onboarding',
+      'household-information-v2/financial-disclosure',
+      'household-information-v2/confirm-financial-disclosure',
+      'household-information-v2/financial-information',
+      'household-information-v2/marital-status',
+      'household-information-v2/spouse-basic-information',
+      'household-information-v2/spouse-additional-information',
+      'household-information-v2/spouse-financial-support',
+      'household-information-v2/spouse-contact-information',
+      'household-information-v2/dependents',
+      'household-information-v2/dependent-information?index=',
+      'household-information-v2/veteran-annual-income',
+      'household-information-v2/spouse-annual-income',
+      'household-information-v2/deductible-expenses',
+    ].forEach(oldUrl => {
+      if (url === oldUrl) {
+        const returnUrl = oldUrl.replace(
+          /household-information-v2/,
+          'household-information',
+        );
+        newMetadata = set('returnUrl', returnUrl, newMetadata);
+      }
+    });
+
+    return { formData, metadata: newMetadata };
+  },
 ];
