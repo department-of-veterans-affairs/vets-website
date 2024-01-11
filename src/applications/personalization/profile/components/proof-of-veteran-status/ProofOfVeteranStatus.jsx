@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React from 'react';
 import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
 import ProofOfVeteranStatusCardExample from './proof-of-veteran-status-card-example';
 
 const ProofOfVeteranStatus = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const onModalCloseEvent = () => setIsModalVisible(false);
-  const openModal = () => setIsModalVisible(true);
-
   return (
     <div id="proof-of-veteran-status">
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
@@ -26,51 +21,21 @@ const ProofOfVeteranStatus = () => {
       <div className="vads-u-margin--1 vads-u-margin-y--2">
         <ProofOfVeteranStatusCardExample />
       </div>
-      <div style={{ fontSize: '18px' }}>
+      <div className="vads-u-font-size--h3">
         <i className="fa fa-download" aria-hidden="true" />{' '}
         <i className="fa fa-app-store" />{' '}
-        <a href="#proof-of-veteran-status" onClick={openModal}>
+        <a
+          href="#proof-of-veteran-status"
+          onClick={() => {
+            // eslint-disable-next-line no-console
+            console.log('download PDF');
+          }}
+        >
           Download and print your Veteran status card (PDF)
         </a>
       </div>
-      <p>
-        When you download our VA mobile app, your Veteran status will be
-        available once you are logged in.
-      </p>
-      <MobileAppCallout />
-      <div>
-        <VaModal
-          uswds
-          modalTitle="Download this PDF and open it in Acrobat Reader"
-          onCloseEvent={onModalCloseEvent}
-          onPrimaryButtonClick={() => {
-            // TODO download PDF
-            // eslint-disable-next-line no-console
-            console.log('TODO: download PDF');
-          }}
-          primaryButtonText="Download Veteran status card"
-          visible={isModalVisible}
-          clickToClose
-        >
-          <p>
-            Download this PDF to your desktop computer or laptop. Then use Adobe
-            Acrobat Reader to open and fill out the form. Don’t try to open the
-            PDF on a mobile device or fill it out in your browser.
-          </p>
-          <p>
-            If you just want to fill out a paper copy, open the PDF in your
-            browser and print it from there.
-          </p>
-          <p>
-            <a
-              href="https://get.adobe.com/reader/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Get Acrobat Reader for free from Adobe
-            </a>
-          </p>
-        </VaModal>
+      <div className="vads-u-margin-y--4">
+        <MobileAppCallout />
       </div>
     </div>
   );

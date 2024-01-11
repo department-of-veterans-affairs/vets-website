@@ -185,8 +185,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </va-additional-info>
+        <ProofOfVeteranStatus />
       </div>
-      <ProofOfVeteranStatus />
     </>
   );
 };

@@ -25,9 +25,7 @@ const MobileAppCallout = () => {
                   className="fab fa-app-store-ios fa-lg vads-u-margin--1"
                   aria-hidden="true"
                 />
-                <span className="vads-u-font-size--md">
-                  Download the app from the App Store
-                </span>
+                <span className="vads-u-font-size--md">App Store</span>
               </a>
             </p>
             <p>
@@ -40,9 +38,7 @@ const MobileAppCallout = () => {
                   className="fab fa-google-play fa-lg vads-u-margin--1"
                   aria-hidden="true"
                 />
-                <span className="vads-u-font-size--md">
-                  Download the app from Google Play
-                </span>
+                <span className="vads-u-font-size--md">Google Play</span>
               </a>
             </p>
           </div>
