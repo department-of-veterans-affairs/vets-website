@@ -140,6 +140,9 @@ export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
 export const selectProfileContactsToggle = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
 
+export const selectProfileShowProofOfVeteranStatusToggle = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowProofOfVeteranStatus];
+
 export const selectProfileContacts = state => state?.profileContacts || {};
 
 export const selectEmergencyContact = state => {
