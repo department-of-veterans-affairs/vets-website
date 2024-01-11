@@ -1,6 +1,10 @@
+/* eslint-disable camelcase */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+/* eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports */
 import { focusElement } from 'platform/utilities/ui';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isEmpty } from 'lodash';
@@ -38,7 +42,6 @@ const SearchPage = props => {
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
       page: currentQuery.page || 1,
-      /* eslint-disable camelcase */
       per_page: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,

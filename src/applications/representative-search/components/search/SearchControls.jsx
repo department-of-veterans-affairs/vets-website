@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+
 const SearchControls = props => {
   const {
     currentQuery,
@@ -152,7 +154,6 @@ const SearchControls = props => {
             value={representativeInputString}
             uswds
           />
-
           <button
             id="representative-search"
             type="submit"
@@ -171,14 +172,14 @@ const SearchControls = props => {
 };
 
 SearchControls.propTypes = {
-  currentQuery: PropTypes.object.isRequired,
   clearGeocodeError: PropTypes.func,
-  geolocateUser: PropTypes.func.isRequired,
-  locationChanged: PropTypes.bool.isRequired,
-  locationInputString: PropTypes.string.isRequired,
-  representativeInputString: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  currentQuery: PropTypes.object,
+  geolocateUser: PropTypes.func,
+  locationChanged: PropTypes.bool,
+  locationInputString: PropTypes.string,
+  representativeInputString: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default SearchControls;
