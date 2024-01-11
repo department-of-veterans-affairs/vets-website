@@ -54,7 +54,7 @@ export default function GenericError(props) {
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons schemaform-back-buttons vads-u-margin-y--2">
         <Column classNames="small-6 usa-width-one-half medium-6">
-          <a href="/" className="usa-button-primary">
+          <a href="/" className="vads-c-action-link--green">
             Go Back to VA.gov
           </a>
         </Column>
