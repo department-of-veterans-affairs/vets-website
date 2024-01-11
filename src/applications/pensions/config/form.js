@@ -25,6 +25,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
+  getDependentChildTitle,
   getMarriageTitleWithCurrent,
   directDepositWarning,
   isMarried,
@@ -36,7 +37,6 @@ import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
-import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 // chapter-pages
@@ -164,8 +164,9 @@ export function isUnder65(formData, currentDate) {
 
 export function showSpouseAddress(form) {
   return (
-    form.maritalStatus === 'Separated' ||
-    get(['view:liveWithSpouse'], form) === false
+    isMarried(form) &&
+    (form.maritalStatus === 'Separated' ||
+      get(['view:liveWithSpouse'], form) === false)
   );
 }
 
@@ -174,7 +175,7 @@ export function isSeparated(formData) {
 }
 
 export function currentSpouseHasFormerMarriages(formData) {
-  return formData.currentSpouseMaritalHistory === 'Yes';
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
 }
 
 export function hasNoSocialSecurityDisability(formData) {
@@ -182,15 +183,17 @@ export function hasNoSocialSecurityDisability(formData) {
 }
 
 export function isInNursingHome(formData) {
-  return formData.nursingHome !== false;
+  return formData.nursingHome === true;
 }
 
 export function medicaidDoesNotCoverNursingHome(formData) {
-  return formData.medicaidCoverage !== true;
+  return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
 
 export function isHomeAcreageMoreThanTwo(formData) {
-  return formData.homeAcreageMoreThanTwo === true;
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
 }
 
 export function ownsHome(formData) {
@@ -198,27 +201,31 @@ export function ownsHome(formData) {
 }
 
 export function hasVaTreatmentHistory(formData) {
-  return formData.vaTreatmentHistory !== false;
+  return formData.vaTreatmentHistory === true;
 }
 
 export function hasFederalTreatmentHistory(formData) {
-  return formData.federalTreatmentHistory !== false;
+  return formData.federalTreatmentHistory === true;
 }
 
 export function isEmployedUnder65(formData) {
-  return formData.currentEmployment !== false && isUnder65(formData);
+  return formData.currentEmployment === true && isUnder65(formData);
 }
 
 export function isUnemployedUnder65(formData) {
-  return formData.currentEmployment !== true && isUnder65(formData);
+  return formData.currentEmployment === false && isUnder65(formData);
 }
 
 export function doesReceiveIncome(formData) {
-  return formData.receivesIncome !== false;
+  return formData.receivesIncome === true;
 }
 
 export function doesHaveCareExpenses(formData) {
-  return formData.hasMedicalExpenses;
+  return formData.hasCareExpenses === true;
+}
+
+export function doesHaveMedicalExpenses(formData) {
+  return formData.hasMedicalExpenses === true;
 }
 
 function isCurrentMarriage(form, index) {
@@ -715,16 +722,14 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form),
+          depends: form => get(['view:hasDependents'], form) === true,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} information`,
-          depends: form => get(['view:hasDependents'], form),
+          title: item => getDependentChildTitle(item, 'information'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -764,10 +769,8 @@ const formConfig = {
         },
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
-          depends: (form, index) =>
-            !get(['dependents', index, 'childInHousehold'], form),
+          title: item => getDependentChildTitle(item, 'address'),
+          depends: form => get(['view:hasDependents'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -839,7 +842,6 @@ const formConfig = {
     },
     financialInformation: {
       title: 'Financial information',
-      reviewDescription: FinancialDisclosureDescription,
       pages: {
         totalNetWorth: {
           title: 'Total net worth',
@@ -850,7 +852,7 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
-          depends: formData => !formData.totalNetWorth,
+          depends: formData => formData.totalNetWorth === false,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
         },
@@ -924,7 +926,7 @@ const formConfig = {
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
           title: 'Medical expenses',
-          depends: hasMedicalExpenses,
+          depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
@@ -995,7 +997,6 @@ const formConfig = {
         documentUpload: {
           title: 'Document upload',
           path: 'additional-information/document-upload',
-          editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
         },

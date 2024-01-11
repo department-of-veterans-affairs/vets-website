@@ -158,6 +158,14 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
+export function getDependentChildTitle(item, description) {
+  if (item.fullName) {
+    return `${item.fullName.first || ''} ${item.fullName.last ||
+      ''} ${description}`;
+  }
+  return 'description';
+}
+
 export function createSpouseLabelSelector(nameTemplate) {
   return createSelector(
     form =>

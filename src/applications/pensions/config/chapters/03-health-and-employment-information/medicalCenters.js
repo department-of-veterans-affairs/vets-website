@@ -39,6 +39,7 @@ const generateMedicalCentersSchemas = (
           itemName: 'medical center',
           viewField: MedicalCenterView,
           reviewTitle: medicalCentersReviewTitle,
+          keepInPageOnReview: true,
         },
         items: {
           medicalCenter: {
