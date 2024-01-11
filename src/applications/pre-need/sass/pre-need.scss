@@ -65,7 +65,11 @@ article#pre-need[data-location="sponsor-demographics"] {
   /* When removing prod flag, replace with .applicantDemographicsDescription and .sponsorDemographicsDescription */
   .applicantDemographicsDescriptionNotProd,
   .sponsorDemographicsDescriptionNotProd {
+    p {
+      margin-bottom: -2em;
+    }
     margin-bottom: -2em;
+    padding-bottom: 2em;
   }
 }
 
@@ -149,7 +153,11 @@ fieldset.schemaform-field-template.schemaform-first-field {
 /* When removing prod flag, replace .applicantDemographicsDescription and .sponsorDemographicsDescription */
 .applicantDemographicsDescriptionNotProd,
 .sponsorDemographicsDescriptionNotProd {
+  p {
+    margin-bottom: -2em;
+  }
   margin-bottom: 2em;
+  padding-bottom: 2em;
 }
 
 .ApplicantDescriptionWrapper {
