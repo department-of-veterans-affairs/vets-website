@@ -110,14 +110,18 @@ class ReviewCollapsibleChapter extends React.Component {
     return chapterTitle || '';
   };
 
-  getPageTitle = rawPageTitle => {
+  getPageTitle = (page, rawPageTitle) => {
     const { form } = this.props;
     const formData = form.data;
+    let pageData = { formData };
+    if (page.showPagePerItem) {
+      pageData = get([page.arrayPath, page.index], form.data);
+    }
 
     let pageTitle = rawPageTitle;
 
     if (typeof rawPageTitle === 'function') {
-      pageTitle = rawPageTitle({ formData });
+      pageTitle = rawPageTitle(pageData);
     }
 
     return pageTitle;
@@ -205,7 +209,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            this.getPageTitle(title),
+            this.getPageTitle(page, title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
@@ -407,26 +411,24 @@ class ReviewCollapsibleChapter extends React.Component {
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <>
+      <va-accordion-item
+        data-chapter={this.props.chapterKey}
+        header={chapterTitle}
+        level={3}
+        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+        onClick={this.handleChapterClick}
+        data-unviewed-pages={this.props.hasUnviewedPages}
+      >
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        <va-accordion-item
-          data-chapter={this.props.chapterKey}
-          header={chapterTitle}
-          level={3}
-          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-          data-unviewed-pages={this.props.hasUnviewedPages}
-          open={this.props.open}
-        >
-          {this.props.hasUnviewedPages && (
-            <i
-              aria-hidden="true"
-              className="fas fa-exclamation-circle vads-u-color--secondary"
-              slot="subheader-icon"
-            />
-          )}
-          {this.getChapterContent(this.props)}
-        </va-accordion-item>
-      </>
+        {this.props.hasUnviewedPages && (
+          <i
+            aria-hidden="true"
+            className="fas fa-exclamation-circle vads-u-color--secondary"
+            slot="subheader-icon"
+          />
+        )}
+        {this.getChapterContent(this.props)}
+      </va-accordion-item>
     );
   }
 }
