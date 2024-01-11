@@ -75,10 +75,6 @@ describe('transform', () => {
 
 describe('Test internal transform functions', () => {
   it('will truncate long descriptions', () => {
-    const stub = sinon
-      .stub(revisedFormWrapper, 'isRevisedForm')
-      .callsFake(() => false);
-
     const getString = (key, diff = 0) =>
       new Array(42)
         .fill('1234567890')
@@ -127,8 +123,13 @@ describe('Test internal transform functions', () => {
         ],
       },
     };
+    const stub = sinon
+      .stub(revisedFormWrapper, 'isRevisedForm')
+      .callsFake(() => false);
+    const transformedForm = transform(formConfig, form);
+    stub.restore();
     expect(
-      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+      JSON.parse(transformedForm).form526.newPrimaryDisabilities,
     ).to.deep.equal([
       {
         cause: 'NEW',
@@ -163,7 +164,6 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
-    stub.restore();
   });
 });
 
