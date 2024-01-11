@@ -55,9 +55,10 @@ export default {
     },
     spouseMarriages: {
       'ui:options': {
-        itemName: 'former marriage of the spouse',
+        itemName: 'Former marriage of the spouse',
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
+        keepInPageOnReview: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
