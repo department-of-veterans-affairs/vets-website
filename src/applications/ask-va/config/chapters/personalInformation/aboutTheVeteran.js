@@ -1,18 +1,26 @@
 import FormElementTitle from '../../../components/FormElementTitle';
-import { CHAPTER_4 } from '../../../constants';
+import { CHAPTER_3 } from '../../../constants';
 import ProfileLink from '../../../components/ProfileLink';
 import {
   personalInformationFormSchemas,
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = FormElementTitle({ title: CHAPTER_4.PAGE_2.TITLE });
+const question = FormElementTitle({ title: CHAPTER_3.PAGE_3.TITLE });
+
+const aboutVetUiSchema = { ...personalInformationUiSchemas };
+delete aboutVetUiSchema.genderIdentity;
+delete aboutVetUiSchema.pronouns;
+
+const aboutVetFormSchema = { ...personalInformationFormSchemas };
+delete aboutVetFormSchema.genderIdentity;
+delete aboutVetFormSchema.pronouns;
 
 const aboutTheVeteranPage = {
   uiSchema: {
     'ui:title': question,
     'ui:description': ProfileLink,
-    aboutTheVeteran: personalInformationUiSchemas,
+    aboutTheVeteran: aboutVetUiSchema,
   },
   schema: {
     type: 'object',
@@ -20,7 +28,7 @@ const aboutTheVeteranPage = {
     properties: {
       aboutTheVeteran: {
         type: 'object',
-        properties: personalInformationFormSchemas,
+        properties: aboutVetFormSchema,
       },
     },
   },
