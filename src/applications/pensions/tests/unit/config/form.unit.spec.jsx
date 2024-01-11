@@ -17,6 +17,7 @@ import {
   isUnemployedUnder65,
   doesReceiveIncome,
   doesHaveCareExpenses,
+  doesHaveMedicalExpenses,
 } from '../../../config/form';
 
 describe('Pensions isUnder65', () => {
@@ -102,7 +103,10 @@ describe('Pensions isSeparated', () => {
 describe('Pensions currentSpouseHasFormerMarriages', () => {
   it('returns true if current spouse was previously married', () => {
     expect(
-      currentSpouseHasFormerMarriages({ currentSpouseMaritalHistory: 'Yes' }),
+      currentSpouseHasFormerMarriages({
+        maritalStatus: 'Married',
+        currentSpouseMaritalHistory: 'Yes',
+      }),
     ).to.be.true;
   });
 });
@@ -121,15 +125,23 @@ describe('Pensions isInNursingHome', () => {
 
 describe('Pensions medicaidDoesNotCoverNursingHome', () => {
   it('returns true if medicaid does not pay for the nursing home', () => {
-    expect(medicaidDoesNotCoverNursingHome({ medicaidCoverage: false })).to.be
-      .true;
+    expect(
+      medicaidDoesNotCoverNursingHome({
+        nursingHome: true,
+        medicaidCoverage: false,
+      }),
+    ).to.be.true;
   });
 });
 
 describe('Pensions isHomeAcreageMoreThanTwo', () => {
   it('returns true if home acreage is more than two', () => {
-    expect(isHomeAcreageMoreThanTwo({ homeAcreageMoreThanTwo: true })).to.be
-      .true;
+    expect(
+      isHomeAcreageMoreThanTwo({
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: true,
+      }),
+    ).to.be.true;
   });
 });
 
@@ -172,6 +184,12 @@ describe('Pensions doesReceiveIncome', () => {
 
 describe('Pensions doesHaveCareExpenses', () => {
   it('returns true if veteran has care expenses', () => {
-    expect(doesHaveCareExpenses({ hasMedicalExpenses: true })).to.be.true;
+    expect(doesHaveCareExpenses({ hasCareExpenses: true })).to.be.true;
+  });
+});
+
+describe('Pensions doesHaveMedicalExpenses', () => {
+  it('returns true if veteran has medical expenses', () => {
+    expect(doesHaveMedicalExpenses({ hasMedicalExpenses: true })).to.be.true;
   });
 });
