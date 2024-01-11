@@ -37,12 +37,12 @@
   "preparerQualifications": {
      "attorney": false,
      "caregiver": false,
-     "court-appointed-rep": true,
+     "courtAppointedRep": true,
      "manager": false
    },
    "preparerSigningReason": {
-     "mentally-incapable": false,
-     "physically-incapable": false,
+     "mentallyIncapable": false,
+     "physicallyIncapable": false,
      "under18": true
    },
   "veteranFullName": {
