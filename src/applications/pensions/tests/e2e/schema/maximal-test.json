@@ -124,7 +124,8 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "reasonForSeparation": "Death",
+        "reasonForSeparation": "OTHER",
+        "otherExplanation": "Other reason",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
       }
@@ -161,7 +162,7 @@
       {
         "childInHousehold": true,
         "childPlaceOfBirth": "Troy, MT",
-        "view:noSsN": true,
+        "childSocialSecurityNumber": "324237778",
         "childRelationship": "adopted",
         "disabled": false,
         "previouslyMarried": false,
@@ -219,7 +220,7 @@
         "childName": "Joe Doe",
         "provider": "Health Provider",
         "purpose": "Medical expenses",
-        "paymentDate": "2023-07-1",
+        "paymentDate": "2023-07-01",
         "paymentFrequency": "ONE_TIME",
         "paymentAmount": 10000
       }
@@ -232,7 +233,7 @@
     "receivesIncome": true,
     "incomeSources": [
       {
-        "typeOfIncome": "Social Security",
+        "typeOfIncome": "SOCIAL_SECURITY",
         "receiver": "Jane Doe",
         "payer": "John Doe",
         "amount": 278.0
@@ -259,6 +260,8 @@
     "mobilePhone": "313-867-5309",
     "internationalPhone": "001-212-456-7890",
     "view:aidAttendance": true,
-    "isOver65": false
+    "isOver65": false,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "John Edmund Doe"
   }
 }

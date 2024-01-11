@@ -18,18 +18,7 @@ export const scrollToTop = () => {
   });
 };
 
-function replacer(key, value) {
-  // if the containing object has a name, we’re in the national guard object
-  // and we want to keep addresses no matter what
-  if (
-    !this.name &&
-    typeof value !== 'undefined' &&
-    typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
-  ) {
-    return undefined;
-  }
-
+export function replacer(key, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
@@ -167,6 +156,14 @@ export function getMarriageTitleWithCurrent(form, index) {
   }
 
   return getMarriageTitle(index);
+}
+
+export function getDependentChildTitle(item, description) {
+  if (item.fullName) {
+    return `${item.fullName.first || ''} ${item.fullName.last ||
+      ''} ${description}`;
+  }
+  return 'description';
 }
 
 export function createSpouseLabelSelector(nameTemplate) {
@@ -383,3 +380,15 @@ export const IncomeSourceDescription = (
     <p>List the sources of income for you, your spouse, and your dependents.</p>
   </div>
 );
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
+  );
+};
+
+export const validateWorkHours = (errors, fieldData) => {
+  if (fieldData > 168) {
+    errors.addError('Enter a number less than 169');
+  }
+};

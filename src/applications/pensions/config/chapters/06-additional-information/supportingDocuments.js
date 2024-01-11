@@ -1,23 +1,27 @@
 import React from 'react';
 
+export const childAttendsCollege = child => child.attendingCollege;
+export const childIsDisabled = child => child.disabled;
+
 function Description({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
-
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
-
+  const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
+  const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
-
   const livesInNursingHome = formData.nursingHome;
 
+  const assetsOverThreshold = formData.totalNetWorth; // over $25,000 in assets
+  const homeAcreageMoreThanTwo =
+    formData.homeOwnership && formData.homeAcreageMoreThanTwo;
+  const hasTransferredAssets = formData.transferredAssets;
+  const needsIncomeAndAssetStatement =
+    assetsOverThreshold || homeAcreageMoreThanTwo || hasTransferredAssets;
+
   const showDocumentsList =
-    hasSchoolChild ||
     hasDisabledChild ||
+    hasSchoolChild ||
     hasSpecialMonthlyPension ||
-    livesInNursingHome;
+    livesInNursingHome ||
+    needsIncomeAndAssetStatement;
 
   return (
     <>
@@ -72,6 +76,19 @@ function Description({ formData }) {
               <li>
                 private medical records documenting your child's disability
                 before the age of 18
+              </li>
+            )}
+
+            {needsIncomeAndAssetStatement && (
+              <li>
+                a completed Income and Asset Statement in Support of Claim for
+                Pension or Parents' Dependency and Indemnity Compensation (VA
+                Form 21P-0969)
+                <br />
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-0969/"
+                  text="Get VA Form 21P-0969 to download"
+                />
               </li>
             )}
           </ul>

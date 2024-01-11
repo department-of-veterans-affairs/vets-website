@@ -9,11 +9,12 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 import { content } from '../../content/extensionRequest';
-import { SHOW_PART3_REDIRECT } from '../../constants';
+import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../../constants';
 
 const {
   schema,
   uiSchema,
+  onContinue,
 } = formConfig.chapters.conditions.pages.extensionRequest;
 
 describe('extension request page', () => {
@@ -127,6 +128,25 @@ describe('extension request page', () => {
       'radio-button-label': content.label,
       'radio-button-optionLabel': 'Yes',
       'radio-button-required': false,
+    });
+  });
+
+  it('should not change redirect form data', () => {
+    const setDataSpy = sinon.spy();
+    const formData = { [SHOW_PART3]: true, [SHOW_PART3_REDIRECT]: 'done' };
+    onContinue(formData, setDataSpy);
+
+    expect(setDataSpy.called).to.be.false;
+  });
+  it('should set redirect form data to "done"', () => {
+    const setDataSpy = sinon.spy();
+    const formData = { [SHOW_PART3]: true };
+    onContinue(formData, setDataSpy);
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0]).to.deep.equal({
+      ...formData,
+      [SHOW_PART3_REDIRECT]: 'done',
     });
   });
 });
