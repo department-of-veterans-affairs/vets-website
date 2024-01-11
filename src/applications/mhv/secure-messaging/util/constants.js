@@ -331,3 +331,21 @@ export const PageTitles = {
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
 };
+
+export const Recipients = {
+  CARE_TEAM: 'Care Team',
+  FACILITY: 'Facility',
+};
+
+export const ParentComponent = {
+  COMPOSE_FORM: 'Compose Form',
+  FOLDER_HEADER: 'Folder Header',
+  MESSAGE_THREAD: 'Message Thread',
+  REPLY_FORM: 'Reply Form',
+};
+
+export const RecipientStatus = {
+  BLOCKED: 'Blocked',
+  ALLOWED: 'Allowed',
+  NOT_ASSOCIATED: 'Not Associated',
+};

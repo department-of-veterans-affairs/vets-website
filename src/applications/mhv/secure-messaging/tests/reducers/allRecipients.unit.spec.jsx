@@ -2,17 +2,14 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import { getAllTriageTeamRecipients } from '../../actions/allRecipients';
-import { allRecipientsReducer } from '../../reducers/allRecipients';
+import { getAllTriageTeamRecipients } from '../../actions/recipients';
+import { recipientsReducer } from '../../reducers/recipients';
 import allRecipientsTriageTeams from '../e2e/fixtures/all-recipients-response.json';
+import { RecipientStatus } from '../../util/constants';
 
 describe('allRecipients reducers', () => {
   const mockStore = (initialState = {}) => {
-    return createStore(
-      allRecipientsReducer,
-      initialState,
-      applyMiddleware(thunk),
-    );
+    return createStore(recipientsReducer, initialState, applyMiddleware(thunk));
   };
 
   it('should dispatch action on getAllTriageTeamRecipients', async () => {
@@ -28,6 +25,10 @@ describe('allRecipients reducers', () => {
           blockedStatus: recipient.attributes.blockedStatus,
           preferredTeam: recipient.attributes.preferredTeam,
           relationshipType: recipient.attributes.relationshipType,
+          type: 'Care Team',
+          status: recipient.attributes.blockedStatus
+            ? RecipientStatus.BLOCKED
+            : RecipientStatus.ALLOWED,
         };
       }),
     );

@@ -1,0 +1,14 @@
+{
+  "data": [],
+  "meta": {
+    "associatedTriageGroups": 0,
+    "associatedBlockedTriageGroups": 0,
+    "sort": {
+      "name": "ASC"
+    }
+  },
+  "mockAllRecipients": [],
+  "mockAllowedRecipients": [],
+  "mockBlockedRecipients": [],
+  "mockBlokedFacilities": []
+}

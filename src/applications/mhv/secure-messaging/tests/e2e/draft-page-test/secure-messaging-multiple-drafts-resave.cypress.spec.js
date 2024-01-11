@@ -12,7 +12,7 @@ describe('re-save multiple drafts in one thread', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
+    draftPage.loadMultiDraftThread();
   });
 
   it('verify first draft could be re-saved', () => {
