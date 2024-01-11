@@ -97,29 +97,31 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
-      <div className="vads-l-grid-container">
-        <SmBreadcrumbs />
-        <div
-          className="secure-messaging-container
+      {user.login.currentlyLoggedIn && (
+        <div className="vads-l-grid-container">
+          <SmBreadcrumbs />
+          <div
+            className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-        >
-          <DowntimeNotification
-            appTitle="Secure Messaging"
-            dependencies={[externalServices.mhv]}
           >
-            <Navigation />
-            <ScrollToTop />
-            <Switch>
-              <AuthorizedRoutes />
-            </Switch>
-          </DowntimeNotification>
+            <DowntimeNotification
+              appTitle="Secure Messaging"
+              dependencies={[externalServices.mhv]}
+            >
+              <Navigation />
+              <ScrollToTop />
+              <Switch>
+                <AuthorizedRoutes />
+              </Switch>
+            </DowntimeNotification>
+          </div>
+          <div className="bottom-container">
+            <va-back-to-top />
+          </div>
         </div>
-        <div className="bottom-container">
-          <va-back-to-top />
-        </div>
-      </div>
+      )}
     </RequiredLoginView>
   );
 };
