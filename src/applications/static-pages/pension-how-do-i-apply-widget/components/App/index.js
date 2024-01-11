@@ -21,7 +21,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         applyText="Apply for Veterans Pension benefits"
       />
       <h3>You can also apply:</h3>
-      <h4>By mail</h4>
+      <h4>By mail TESTING</h4>
       <p>Fill out an application for Pension (VA Form 21P-527EZ).</p>
       <va-link
         text="Get VA Form 21P-527EZ to download"
