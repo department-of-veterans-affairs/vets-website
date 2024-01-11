@@ -7,16 +7,16 @@ const questionAboutPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
     'ui:objectViewField': PageFieldSummary,
-    question: radioUI({
+    questionAbout: radioUI({
       title: CHAPTER_2.PAGE_1.QUESTION_1,
       labels: questionAboutOptions,
     }),
   },
   schema: {
     type: 'object',
-    required: ['question'],
+    required: ['questionAbout'],
     properties: {
-      question: radioSchema(Object.keys(questionAboutOptions)),
+      questionAbout: radioSchema(Object.keys(questionAboutOptions)),
     },
   },
 };
