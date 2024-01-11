@@ -40,6 +40,18 @@ const App = () => {
 
   useEffect(
     () => {
+      if (
+        user.login.currentlyLoggedIn &&
+        !userServices.includes(backendServices.MESSAGING)
+      ) {
+        window.location.replace('/health-care/secure-messaging');
+      }
+    },
+    [user, userServices],
+  );
+
+  useEffect(
+    () => {
       if (user.login.currentlyLoggedIn) {
         dispatch(userFacilities);
       }
@@ -85,10 +97,6 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
-      {user.login.currentlyLoggedIn &&
-        !userServices.includes(backendServices.MESSAGING) &&
-        window.location.replace('/health-care/secure-messaging')}
-
       <div className="vads-l-grid-container">
         <SmBreadcrumbs />
         <div
