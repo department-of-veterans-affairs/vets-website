@@ -1,6 +1,41 @@
-// import defaultPathology from '../fixtures/Pathology.json';
-
 class ChemHemDetailsPage {
+  verifySampleTested = sampleTested => {
+    cy.get('[data-testid="chem-hem-sample-tested"]').should(
+      'contain',
+      sampleTested,
+    );
+  };
+
+  verifyLabName = name => {
+    cy.get('[data-testid="chem-hem-name"]').should('contain', name);
+  };
+
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
+  };
+
+  verifyOrderedBy = orderedBy => {
+    cy.get('[data-testid="chem-hem-ordered-by"]').should('contain', orderedBy);
+  };
+
+  verifyLabOrderingLocation = locationOrdered => {
+    cy.get('[data-testid="chem-hem-ordering-location"]').should(
+      'contain',
+      locationOrdered,
+    );
+  };
+
+  verifyLabCollectingLocation = locationCollected => {
+    cy.get('[data-testid="chem-hem-collecting-location"]').should(
+      'contain',
+      locationCollected,
+    );
+  };
+
+  verifyProviderNotes = notes => {
+    cy.get('[data-testid="list-item-single"]').should('contain', notes);
+  };
+
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
   };

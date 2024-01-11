@@ -1,6 +1,14 @@
 // import defaultPathology from '../fixtures/Pathology.json';
 
 class PathologyDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="pathology-name"]').should('contain', name);
+  };
+
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
+  };
+
   verifySampleTested = sampleTested => {
     cy.get('[data-testid="pathology-sample-tested"]').should(
       'contain',
