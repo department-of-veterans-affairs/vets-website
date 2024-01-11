@@ -1013,24 +1013,6 @@ const formConfig = {
         },
       },
     },
-    // This chapter is here so that the cypress test ends successfully since
-    // the form tester will only consider the test a success when it gets to a
-    // page which has a URL ending in '/confirmation';
-    //
-    // This chapter should be entirely removed/replaced once the form has an
-    // actual confirmation page.
-    confirmation: {
-      title: 'Confirmation',
-      pages: {
-        confirmation: {
-          path: 'confirmation',
-          title: 'Confirmation',
-          // Needs something as a schema. Doesn't matter what.
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-        },
-      },
-    },
   },
 };
 
