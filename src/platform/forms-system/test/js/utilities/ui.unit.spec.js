@@ -223,14 +223,16 @@ describe('focus on change', () => {
     };
 
     const tree = ReactTestUtils.renderIntoDocument(
-      <ReviewCollapsibleChapter
-        viewedPages={new Set()}
-        expandedPages={pages}
-        chapterKey={chapterKey}
-        chapterFormConfig={chapter}
-        form={form}
-        open
-      />,
+      <div>
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />
+      </div>,
     );
 
     const dom = findDOMNode(tree);
