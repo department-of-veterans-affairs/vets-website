@@ -114,7 +114,7 @@ export default function TermsOfUse() {
             <div className="vads-u-margin-y--2p5">
               <a
                 className="vads-c-action-link--blue"
-                href="https://www.va.gov/terms-of-use/?next=loginModal"
+                href="/terms-of-use/?next=loginModal"
               >
                 Sign in to VA.gov
               </a>

@@ -406,9 +406,6 @@ export default function RenderErrorContainer({
         <>
           <h2>How can I fix this issue?</h2>
           <Helpdesk startScentence />
-          <button type="button" onClick={openLoginModal}>
-            Sign in
-          </button>
         </>
       );
       break;
