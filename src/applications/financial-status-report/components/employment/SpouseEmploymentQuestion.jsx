@@ -13,7 +13,6 @@ const SpouseEmploymentQuestion = props => {
   const {
     data,
     goBack,
-    goForward,
     goToPath,
     setFormData,
     contentBeforeButtons,
@@ -42,23 +41,27 @@ const SpouseEmploymentQuestion = props => {
         },
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [hasJobToAdd],
   );
 
-  const handlers = {
-    nextPage: () => {
-      if (hasJobToAdd) {
-        const path = hasJobs
-          ? '/spouse-employment-history'
-          : '/enhanced-spouse-employment-records';
-        goToPath(path);
-      } else {
-        goToPath('/spouse-benefits');
+  const goForward = () => {
+    if (hasJobToAdd) {
+      if (!hasJobs?.length) {
+        setJobButton(jobButtonConstants.FIRST_JOB);
       }
-    },
+
+      const path = hasJobs
+        ? '/spouse-employment-history'
+        : '/enhanced-spouse-employment-records';
+      goToPath(path);
+    } else {
+      goToPath('/spouse-benefits');
+    }
   };
 
   const onSelection = event => {
+    event.preventDefault();
     const { value } = event?.detail || {};
     if (value === undefined) return;
     setHasJobToAdd(value === 'true');
@@ -68,7 +71,7 @@ const SpouseEmploymentQuestion = props => {
   };
 
   return (
-    <form onSubmit={handlers.nextPage}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Your spouse’s work history</h3>
