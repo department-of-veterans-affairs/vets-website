@@ -1,0 +1,7 @@
+{
+  "appName": "Beneficiary Travel",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "travel-pay",
+  "rootUrl": "/health-care/file-travel-claim",
+  "productId": "1e585463-5625-4868-b5f5-58ee0490ea28"
+}
