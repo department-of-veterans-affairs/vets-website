@@ -21,7 +21,7 @@ const ProofOfVeteranStatus = () => {
       <div className="vads-u-margin--1 vads-u-margin-y--2">
         <ProofOfVeteranStatusCardExample />
       </div>
-      <div className="vads-u-font-size--h3">
+      <div className="vads-u-font-size--md">
         <i className="fa fa-download" aria-hidden="true" />{' '}
         <i className="fa fa-app-store" />{' '}
         <a
