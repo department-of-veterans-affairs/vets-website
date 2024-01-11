@@ -22,6 +22,12 @@ export const resetPagination = domain => async dispatch => {
     url = 'allergies';
   } else if (domain.includes('vitals')) {
     url = 'vitals';
+  } else if (domain.includes('conditions')) {
+    url = 'health conditions';
+  } else if (domain.includes('vaccines')) {
+    url = 'vaccines';
+  } else if (domain.includes('summaries-and-notes')) {
+    url = 'care summaries and notes';
   } else {
     url = 'other';
   }
