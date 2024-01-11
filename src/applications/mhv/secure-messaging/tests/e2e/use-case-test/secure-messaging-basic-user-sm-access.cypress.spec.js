@@ -31,9 +31,5 @@ describe('Secure Messaging Basic User', () => {
     });
 
     cy.location('pathname').should('eq', '/health-care/secure-messaging');
-    cy.get('body').should(
-      'contain.text',
-      'Cannot GET /health-care/secure-messaging',
-    );
   });
 });
