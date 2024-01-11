@@ -1,12 +1,12 @@
 import merge from 'lodash/merge';
 
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
@@ -31,9 +31,10 @@ export default {
     },
     incomeSources: {
       'ui:options': {
-        itemName: 'income source',
+        itemName: 'Income source',
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
+        keepInPageOnReview: true,
       },
       items: {
         typeOfIncome: radioUI({

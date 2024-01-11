@@ -1,5 +1,5 @@
 import React from 'react';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default [
   {
@@ -71,7 +71,7 @@ export default [
             solicitation, or to transmit prohibited material. (
             <strong>Note:</strong> You may use messaging only to communicate
             with your VA health care team about your health care and VA benefits
-            and services, and VA staff about your privacy rights.)
+            and services, and with VA staff about your privacy rights.)
           </li>
           <li>
             Sending material that infringes on the patents, trademarks,
@@ -96,8 +96,10 @@ export default [
         <p>
           If you don’t accept these terms, you won’t be able to sign in to
           VA.gov or other VA online services covered by these terms. If you have
-          concerns or questions, or want to report an issue,{' '}
-          <SubmitSignInForm />
+          concerns or questions, or want to report an issue, call our MyVA411
+          main information line at <va-telephone contact={CONTACTS.VA_411} /> (
+          <va-telephone contact={CONTACTS[711]} tty />
+          ).
         </p>
         <p>
           We take the responsibility of protecting your information seriously.
@@ -146,7 +148,10 @@ export default [
         </p>
         <p>
           If you disagree with the content included in your VA records, or you
-          suspect an error in your record, <SubmitSignInForm />
+          suspect an error in your record, call our MyVA411 main information
+          line at <va-telephone contact={CONTACTS.VA_411} /> (
+          <va-telephone contact={CONTACTS[711]} tty />
+          ).
         </p>
       </>
     ),

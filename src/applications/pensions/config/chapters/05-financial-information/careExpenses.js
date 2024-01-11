@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
-import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ListItemView from '../../../components/ListItemView';
+import { validateWorkHours } from '../../../helpers';
 
 const { dateRange } = fullSchemaPensions.definitions;
 
@@ -29,7 +30,7 @@ const frequencyOptions = {
   ONE_TIME: 'One-time',
 };
 
-const CareExpenseView = ({ formData }) => (
+export const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
 );
 
@@ -48,6 +49,7 @@ export default {
         itemName: 'Care Expense',
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
+        keepInPageOnReview: true,
       },
       items: {
         recipients: radioUI({
@@ -77,13 +79,7 @@ export default {
         ),
         hoursPerWeek: {
           'ui:title': 'How many hours per week does the care provider work?',
-          'ui:validations': [
-            (errors, fieldData) => {
-              if (fieldData > 168) {
-                errors.addError('Enter a number less than 169');
-              }
-            },
-          ],
+          'ui:validations': [validateWorkHours],
         },
         careDateRange: dateRangeUI(
           'Care start date',

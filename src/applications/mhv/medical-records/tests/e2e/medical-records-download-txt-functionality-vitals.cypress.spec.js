@@ -24,7 +24,7 @@ describe('Medical Records Vitals', () => {
     // should display a download pdf file button "Download PDF of this page"
     VitalsListPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
+    // should display a download text file button "Download a text file (.txt) of this list"
     VitalsListPage.verifyDownloadTextFile();
 
     // PathologyListPage.clickDownloadPDFFile();

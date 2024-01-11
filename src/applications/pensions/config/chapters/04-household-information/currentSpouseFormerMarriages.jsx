@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
@@ -8,7 +8,7 @@ import {
   fullNameUI,
   fullNameSchema,
   currentOrPastDateUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import { contactWarning, contactWarningMulti } from '../../../helpers';
 
@@ -55,9 +55,10 @@ export default {
     },
     spouseMarriages: {
       'ui:options': {
-        itemName: 'former marriage of the spouse',
+        itemName: 'Former marriage of the spouse',
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
+        keepInPageOnReview: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),

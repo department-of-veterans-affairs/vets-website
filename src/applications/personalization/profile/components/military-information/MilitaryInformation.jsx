@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { some } from 'lodash';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
@@ -158,7 +159,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
-      <div className="vads-u-margin-top--4">
+      <div className="vads-u-margin-y--4">
         <va-additional-info
           trigger="What if I don't think my military service information is correct?"
           uswds
@@ -200,6 +201,10 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
 
+  const profileShowProofOfVeteranStatus = useSelector(
+    selectProfileShowProofOfVeteranStatusToggle,
+  );
+
   return (
     <div>
       <Headline>Military information</Headline>
@@ -213,6 +218,12 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+
+      {profileShowProofOfVeteranStatus && (
+        <div className="vads-u-margin-y--4">
+          Proof of Veteran Status download placeholder
+        </div>
+      )}
 
       <va-featured-content uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
