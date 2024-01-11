@@ -99,6 +99,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
 
 RepTypeSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
+  representativeType: PropTypes.string,
 };
 
 export default RepTypeSelector;
