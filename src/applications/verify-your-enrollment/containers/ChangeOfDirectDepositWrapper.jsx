@@ -156,7 +156,7 @@ const ChangeOfDirectDepositWrapper = () => {
                 <span className="vads-u-margin-y--0">
                   <p>
                     This direct deposit information is only used for payments
-                    for Montgomery GI Bill Benefits.
+                    for Montgomery GI Bill® Benefits.
                   </p>
                   <p>
                     To change your direct deposit information for other VA
@@ -182,7 +182,7 @@ const ChangeOfDirectDepositWrapper = () => {
               formSubmit={saveBankInfo}
             >
               <LoadingButton
-                aria-label="save your bank information for GI Bill benefits"
+                aria-label="save your bank information for GI Bill® benefits"
                 type="submit"
                 loadingText="saving bank information"
                 className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
@@ -192,7 +192,7 @@ const ChangeOfDirectDepositWrapper = () => {
               <va-button
                 text="Cancel"
                 secondary
-                label="cancel updating your bank information for GI Bill benefits"
+                label="cancel updating your bank information for GI Bill® benefits"
                 onClick={() => {
                   handleCloseForm();
                 }}

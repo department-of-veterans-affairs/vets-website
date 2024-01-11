@@ -91,7 +91,32 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
     // toggle show form true
     setToggleAddressForm(true);
   };
+  const updateAddressData = data => {
+    const tempData = { ...data };
+    if (tempData?.['view:livesOnMilitaryBase']) {
+      tempData.countryCodeIso3 = 'USA';
+    }
+    if (!tempData?.['view:livesOnMilitaryBase']) {
+      if (
+        tempData?.city === 'APO' ||
+        tempData?.city === 'FPO' ||
+        tempData?.city === 'DPO'
+      ) {
+        tempData.city = '';
+      }
 
+      if (
+        tempData?.stateCode === 'AA' ||
+        tempData?.stateCode === 'AE' ||
+        tempData?.stateCode === 'AP'
+      ) {
+        tempData.stateCode = '';
+      }
+    }
+
+    setFormData(tempData);
+    // formChange({...addressFormData, "countryCodeIso3": "USA",})
+  };
   // set innerWidth of screen to screenWidth state
   // this state handles when to show the check image
   //   useEffect(() => {
@@ -157,7 +182,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
                 <span className="vads-u-margin-y--0">
                   <p>
                     This address is only used for payments for Montgomery GI
-                    Bill Benefits.
+                    Bill® Benefits.
                   </p>
                   <p>
                     To change your address for other VA services, edit your{' '}
@@ -173,11 +198,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
         )}
         {toggleAddressForm && (
           <div className="direct-deposit-form-container">
-            <p className="vads-u-font-weight--bold">Add new account</p>
+            <p className="vads-u-font-weight--bold">Change mailing address</p>
             {/* Add checkbox here for US military Base question */}
             <ChangeOfAddressForm
-              formData={formData}
-              formChange={data => setFormData(data)}
+              addressFormData={formData}
+              formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
               formSubmit={saveAddressInfo}
             >

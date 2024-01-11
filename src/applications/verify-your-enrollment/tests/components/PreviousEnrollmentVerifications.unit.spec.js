@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { render, cleanup } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import {
   USER_MOCK_DATA,
   USER_PENDINGVERIFICATION_MOCK_DATA,
@@ -54,30 +54,33 @@ describe('PreviousEnrollmentVerifications', () => {
     expect(getByText(additionalInfoText)).to.exist;
   });
 
-  it('simulates page change in VaPagination to page 2', () => {
-    const wrapper = mount(
-      <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
-    );
+  for (let i = 0; i < 100; i++) {
+    it('simulates page change in VaPagination to page 2', async () => {
+      const wrapper = mount(
+        <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
+      );
 
-    const newPage = 2;
-    const pagination = wrapper.find('VaPagination');
-    pagination.props().onPageSelect({ detail: { page: newPage } });
+      const newPage = 2;
+      const pagination = wrapper.find('VaPagination');
+      pagination.props().onPageSelect({ detail: { page: newPage } });
 
-    // update after page change
-    wrapper.update();
+      // update after page change
+      wrapper.update();
 
-    // Find the <p> element by its ID
-    const pElement = wrapper.find('#vye-pagination-page-status-text');
+      // Find the <p> element by its ID
+      const pElement = wrapper.find('#vye-pagination-page-status-text');
 
-    // Get the text content of the element
-    const textContent = pElement.text();
+      // Get the text content of the element
+      const textContent = pElement.text();
 
-    expect(textContent).to.equal(
-      'Showing 7-12 of 14 monthly enrollments listed by most recent',
-    );
-    wrapper.unmount();
-  });
-
+      await waitFor(() => {
+        expect(textContent).to.equal(
+          'Showing 7-12 of 14 monthly enrollments listed by most recent',
+        );
+      });
+      wrapper.unmount();
+    });
+  }
   it('simulates page change in VaPagination to last page', () => {
     const wrapper = mount(
       <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,

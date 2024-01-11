@@ -5,7 +5,10 @@ import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapp
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
 import PeriodsToVerify from '../components/PeriodsToVerify';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
+import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
+import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 import { getMockData } from '../selectors/mockData';
+// import BenefitsProfileWrapper from './BenefitsProfilePageWrapper';
 
 export default function App({ children }) {
   const mockData = useSelector(getMockData);
@@ -20,6 +23,15 @@ export default function App({ children }) {
         {/* </a> */}
       </button>
       <PreviousEnrollmentVerifications enrollmentData={mockData} />
+      <ChangeOfAddressWrapper
+        mailingAddress={{
+          street: '9027 Walnut Springs Road',
+          city: 'Universal City',
+          state: 'TX',
+          zip: '78148-2240',
+        }}
+      />
+      <ChangeOfDirectDepositWrapper />
       {children}
     </EnrollmentVerificationPageWrapper>
   );

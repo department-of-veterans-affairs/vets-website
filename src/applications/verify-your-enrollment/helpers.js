@@ -1,3 +1,5 @@
+import ADDRESS_DATA from 'platform/forms/address/data';
+
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
   const [year, month, day] = dateString
@@ -96,3 +98,17 @@ export const scrollToElement = el => {
     element.scrollIntoView({ behavior: 'smooth' });
   }
 };
+
+// make an object of just the military state codes and names
+export const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
+  (militaryStates, [stateCode, stateName]) => {
+    if (ADDRESS_DATA.militaryStates.includes(stateCode)) {
+      return {
+        ...militaryStates,
+        [stateCode]: stateName,
+      };
+    }
+    return militaryStates;
+  },
+  {},
+);

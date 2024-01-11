@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 
-const EnrollmentVerificationPageWrapper = ({ children }) => {
+const BenefitsProfileWrapper = ({ children }) => {
   return (
     <>
       <div name="topScrollElement" />
@@ -23,8 +23,8 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   );
 };
 
-EnrollmentVerificationPageWrapper.propTypes = {
+BenefitsProfileWrapper.propTypes = {
   children: PropTypes.any,
 };
 
-export default EnrollmentVerificationPageWrapper;
+export default BenefitsProfileWrapper;
