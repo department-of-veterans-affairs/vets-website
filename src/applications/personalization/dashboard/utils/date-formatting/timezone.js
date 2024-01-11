@@ -84,13 +84,13 @@ export function getTimezoneNameFromAbbr(abbreviation) {
 }
 
 export function getUserTimezone() {
-  return moment.tz.guess();
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 export function getUserTimezoneAbbr() {
-  return moment()
-    .tz(getUserTimezone())
-    .zoneAbbr();
+  return Intl.DateTimeFormat('en', { timeZoneName: 'short' })
+    .formatToParts()
+    .find(p => p.type === 'timeZoneName').value;
 }
 
 /**
