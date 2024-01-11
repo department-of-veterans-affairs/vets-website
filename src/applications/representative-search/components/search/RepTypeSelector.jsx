@@ -13,9 +13,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
       <div className="vads-u-margin-top--3 rep-type-radio-group">
         <VaRadio
           error={null}
-          header-aria-describedby="Select your Representative type:"
           hint=""
-          label="Type of accredited representative"
           required
           label-header-level=""
           onVaValueChange={handleRadioButtonSelect}
@@ -23,8 +21,8 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           <va-radio-option
             label="Veteran Service Officer"
             name="group"
-            value="officer"
-            checked={representativeType === 'officer'}
+            value="veteran_service_officer"
+            checked={representativeType === 'veteran_service_officer'}
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />

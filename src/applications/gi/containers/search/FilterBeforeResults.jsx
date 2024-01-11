@@ -11,6 +11,7 @@ import LearnMoreLabel from '../../components/LearnMoreLabel';
 import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
 import {
+  isProductionOfTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
@@ -30,6 +31,7 @@ export function FilterBeforeResults({
   preview,
   search,
   smallScreen,
+  setShowFiltersBeforeSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -345,6 +347,7 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
+    setShowFiltersBeforeSearch(false);
     updateResults();
     modalClose();
   };
@@ -354,21 +357,21 @@ export function FilterBeforeResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Historically Black college or university'
           : 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Men-only'
           : 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Women-only'
           : 'Women’s colleges and universities',
         // optionLabel: 'Women-only',
@@ -376,49 +379,49 @@ export function FilterBeforeResults({
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Religious affiliation'
           : 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Hispanic-serving institutions'
           : 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Native American-serving institutions'
           : 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Alaska Native-serving institutions'
           : 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Asian American Native American Pacific Islander-serving institutions'
           : 'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Predominantly Black institutions'
           : 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: environment.isProduction()
+        optionLabel: isProductionOfTestProdEnv()
           ? 'Tribal college and university'
           : 'Tribal Colleges and Universities',
       },
@@ -433,7 +436,7 @@ export function FilterBeforeResults({
             <h5
               className={environment.isProduction() ? '' : 'school-types-label'}
             >
-              Community Focus
+              Community focus
             </h5>
             <button
               className={

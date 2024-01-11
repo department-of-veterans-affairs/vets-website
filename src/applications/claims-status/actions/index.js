@@ -1,10 +1,10 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { apiRequest } from 'platform/utilities/api';
-import get from 'platform/utilities/data/get';
-import environment from 'platform/utilities/environment';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
@@ -824,7 +824,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
         /* eslint-disable camelcase */
         files.forEach(({ file, docType, password }) => {
           uploader.addFiles(file, {
-            tracked_item_id: trackedItemId,
+            tracked_item_ids: JSON.stringify([trackedItemId]),
             document_type: docType.value,
             password: password.value,
           });
