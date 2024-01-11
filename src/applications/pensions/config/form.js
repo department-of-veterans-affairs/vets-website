@@ -744,9 +744,7 @@ const formConfig = {
         },
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} household`,
+          title: item => getDependentChildTitle(item, 'household'),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
