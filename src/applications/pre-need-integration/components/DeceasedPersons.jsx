@@ -377,8 +377,6 @@ export default class DeceasedPersons extends React.Component {
             const isLast = items.length === index + 1;
             const showSaveButton = isLast && this.state.showSave[index];
             const updateText = showSaveButton ? 'Save' : 'Update';
-            const isEditing =
-              items.length === 1 ? true : this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
             const ariaItemName =
@@ -387,6 +385,10 @@ export default class DeceasedPersons extends React.Component {
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = !isLast || multipleRows;
             const onReviewPage = this.props.formContext?.onReviewPage;
+            const isEditing =
+              items.length === 1 && !onReviewPage
+                ? true
+                : this.state.editing[index];
 
             if (isEditing) {
               return (
@@ -437,7 +439,7 @@ export default class DeceasedPersons extends React.Component {
                           readonly={readonly}
                         />
                       </div>
-                      {notLastOrMultipleRows && (
+                      {(notLastOrMultipleRows || onReviewPage) && (
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
                             {!isLast || showSave ? (
@@ -478,7 +480,7 @@ export default class DeceasedPersons extends React.Component {
                       status="warning"
                       modalTitle="Are you sure you want to remove this person?"
                       primaryButtonText="Yes, remove this"
-                      secondaryButtonText="No, cancel"
+                      secondaryButtonText="No, keep this"
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
                       onSecondaryButtonClick={() =>

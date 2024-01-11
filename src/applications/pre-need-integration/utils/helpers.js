@@ -23,6 +23,7 @@ import ApplicantDescription from 'platform/forms/components/ApplicantDescription
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -38,6 +39,10 @@ export function ApplicantDescriptionWrapper({ formContext }) {
       <ApplicantDescription formContext={formContext} />
     </div>
   );
+}
+
+export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
+  return <CurrentlyBuriedDescription formContext={formContext} />;
 }
 
 export const applicantDemographicsSubHeader = (
