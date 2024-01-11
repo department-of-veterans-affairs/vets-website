@@ -124,7 +124,8 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "reasonForSeparation": "Death",
+        "reasonForSeparation": "OTHER",
+        "otherExplanation": "Other reason",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
       }
@@ -259,6 +260,8 @@
     "mobilePhone": "313-867-5309",
     "internationalPhone": "001-212-456-7890",
     "view:aidAttendance": true,
-    "isOver65": false
+    "isOver65": false,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "John Edmund Doe"
   }
 }
