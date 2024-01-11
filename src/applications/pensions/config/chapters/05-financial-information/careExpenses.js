@@ -107,7 +107,6 @@ export default {
           type: 'object',
           required: [
             'recipients',
-            'childName',
             'provider',
             'careType',
             'paymentFrequency',
