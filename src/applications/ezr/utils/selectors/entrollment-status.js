@@ -1,4 +1,5 @@
 import { isProfileLoading } from 'platform/user/selectors';
+import { VALID_ENROLLMENT_STATUSES } from '../constants';
 
 /**
  * Map state values to create selector for enrollment status properties
@@ -17,7 +18,8 @@ export function selectEnrollmentStatus(state) {
   } = state;
   return {
     isLoading: isProfileLoading(state) || loading,
-    isEnrolledinESR: parsedStatus === 'enrolled',
+    // As of 1/9/24, only users with certain enrollment statuses can access the EZR form
+    isValidEnrollmentStatus: VALID_ENROLLMENT_STATUSES.includes(parsedStatus),
     hasPreferredFacility: !!preferredFacility,
     canSubmitFinancialInfo,
     hasServerError,

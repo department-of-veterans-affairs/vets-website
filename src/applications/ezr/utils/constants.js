@@ -142,3 +142,10 @@ export const VIEW_FIELD_SCHEMA = {
   type: 'object',
   properties: {},
 };
+
+// declare valid enrollment statuses
+export const VALID_ENROLLMENT_STATUSES = [
+  'enrolled',
+  'pending_mt',
+  'pending_other',
+];
