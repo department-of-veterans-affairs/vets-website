@@ -26,12 +26,8 @@ const SurveyInformation = () => {
   if (formCanLoad && !isProduction) {
     return (
       <div>
-        <h4>Want to help us improve this form?</h4>
-        <p>
-          We’re always working to make our forms easier for Veterans to fill
-          out. Your feedback can help. We’d like to invite you to answer 6 brief
-          questions to share your feedback.
-        </p>
+        <h4>Want to help us improve this form for other Veterans?</h4>
+        <p>Please provide your feedback by filling out 6 brief questions.</p>
         <VaButton
           onClick={() => window.KAMPYLE_ONSITE_SDK?.showForm(surveyNumber)}
           text="Provide feedback"
