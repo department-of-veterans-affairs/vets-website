@@ -55,8 +55,8 @@ describe('Accessibility', () => {
     });
 
     // Verify focused on rep/org input
-    cy.get('input[name="Officer or Accredited Representative Name"]').focused();
-    cy.get('input[name="Officer or Accredited Representative Name"]').trigger(
+    cy.get('input[name="Name of VSO or accredited attorney"]').focused();
+    cy.get('input[name="Name of VSO or accredited attorney"]').trigger(
       'keydown',
       {
         keyCode: 9,
