@@ -35,7 +35,7 @@ describe('handle multiple drafts in one thread', () => {
       .and('contain.text', `${draftsCount} drafts`);
 
     cy.get('[data-testid="reply-form"]')
-      .find('[data-testid="draft-header"]')
+      .find('h3')
       .each(el => {
         cy.wrap(el).should('include.text', 'Draft');
       });
