@@ -229,7 +229,7 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescriptionVeteran = (
+export const desiredCemeteryNoteDescriptionSelfVeteran = (
   <p>
     <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
     preferred cemetery, but we’ll try to fulfill your wishes. If space is
@@ -238,12 +238,30 @@ export const desiredCemeteryNoteDescriptionVeteran = (
   </p>
 );
 
-export const desiredCemeteryNoteDescriptionNonVeteran = (
+export const desiredCemeteryNoteDescriptionPreparerVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionSelfNonVeteran = (
   <p>
     <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
     preferred cemetery, but we’ll try to fulfill your wishes. If space is
     unavailable, we’ll work with your family to assign a gravesite in a cemetery
     with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
   </p>
 );
 
