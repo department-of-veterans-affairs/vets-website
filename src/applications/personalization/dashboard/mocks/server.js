@@ -20,18 +20,13 @@ const hasDebts = false;
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    authExpVbaDowntimeMessage: false,
-    myVaEnableNotificationComponent: true,
-    myVaUseExperimental: false,
-    myVaUseExperimentalFrontend: true,
-    myVaUseExperimentalFullstack: true,
-    myVaHideNotificationsSection: true,
-    myVaNotificationDotIndicator: true,
-    myVaEnableMhvLink: true,
-    myVaUpdateErrorsWarnings: true,
-    vaOnlineSchedulingStaticLandingPage: true,
-  }),
+  'GET /v0/feature_toggles': generateFeatureToggles(
+    {
+      authExpVbaDowntimeMessage: false,
+      myVaUseExperimental: false,
+    },
+    true,
+  ),
   'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
