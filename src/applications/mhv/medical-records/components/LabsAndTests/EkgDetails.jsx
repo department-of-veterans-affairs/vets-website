@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
@@ -32,20 +31,16 @@ const EkgDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const formattedDate = record.date ? formatDateLong(record?.date) : '';
   const user = useSelector(state => state.user.profile);
 
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = formattedDate ? `${formattedDate} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
-    [formattedDate, record.name],
+    [record.date, record.name],
   );
 
   const generateEkgDetails = async () => {
@@ -77,7 +72,7 @@ const EkgDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="ekg-date">
         {record.name}
       </h1>
-      <DateSubheading date={formattedDate} id="ekg-date" />
+      <DateSubheading date={record.date} id="ekg-date" />
 
       <div className="electrocardiogram-buttons no-print">
         <PrintDownload

@@ -82,11 +82,11 @@ describe('Radiology Images List container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('April', {
-      exact: true,
+    const formattedDate = screen.getAllByText('April', {
+      exact: false,
       selector: 'span',
     });
-    expect(formattedDate).to.exist;
+    expect(formattedDate.length).to.eq(2);
   });
 
   it('displays the images', () => {
