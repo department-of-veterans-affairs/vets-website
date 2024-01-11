@@ -17,6 +17,7 @@ export default {
         itemName: 'Dependent',
         viewField: DependentField,
         reviewTitle: 'Dependent children',
+        keepInPageOnReview: true,
       },
       'ui:errorMessages': {
         minItems: dependentsMinItem,
