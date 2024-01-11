@@ -11,6 +11,7 @@ import manifest from '../manifest.json';
 
 const IntroductionPage = props => {
   const { route } = props;
+  // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
 
