@@ -308,7 +308,7 @@ class ReviewCollapsibleChapter extends React.Component {
       const noop = function noop() {};
       return (
         <page.CustomPage
-          key={page.pageKey}
+          key={`${page.pageKey}${page.index ?? ''}`}
           name={page.pageKey}
           title={page.title}
           trackingPrefix={props.form.trackingPrefix}
@@ -329,7 +329,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     return (
       <page.CustomPageReview
-        key={`${page.pageKey}Review`}
+        key={`${page.pageKey}Review${page.index ?? ''}`}
         editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
         name={page.pageKey}
         title={page.title}
@@ -407,23 +407,26 @@ class ReviewCollapsibleChapter extends React.Component {
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <va-accordion-item
-        data-chapter={this.props.chapterKey}
-        header={chapterTitle}
-        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-        onClick={this.handleChapterClick}
-        data-unviewed-pages={this.props.hasUnviewedPages}
-      >
+      <>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {this.props.hasUnviewedPages && (
-          <i
-            aria-hidden="true"
-            className="fas fa-exclamation-circle vads-u-color--secondary"
-            slot="subheader-icon"
-          />
-        )}
-        {this.getChapterContent(this.props)}
-      </va-accordion-item>
+        <va-accordion-item
+          data-chapter={this.props.chapterKey}
+          header={chapterTitle}
+          level={3}
+          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+          data-unviewed-pages={this.props.hasUnviewedPages}
+          open={this.props.open}
+        >
+          {this.props.hasUnviewedPages && (
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+          )}
+          {this.getChapterContent(this.props)}
+        </va-accordion-item>
+      </>
     );
   }
 }

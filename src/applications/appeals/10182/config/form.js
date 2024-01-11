@@ -53,7 +53,7 @@ import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import reviewErrors from '../../shared/content/reviewErrors';
 
-// import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/initialData';
 
 import manifest from '../manifest.json';
 
@@ -137,6 +137,7 @@ const formConfig = {
           depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
+          onContinue: extensionRequest.onContinue,
         },
         extensionReason: {
           title: 'Reason for extension',
@@ -198,7 +199,7 @@ const formConfig = {
           schema: boardReview.schema,
         },
         evidenceIntro: {
-          title: 'Evidence submission',
+          title: 'Additional evidence',
           path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,

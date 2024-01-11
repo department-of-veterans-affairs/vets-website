@@ -43,6 +43,7 @@ export function LocationSearchForm({
   const [location, setLocation] = useState(search.query.location);
   const [error, setError] = useState(null);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
+  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const { version } = preview;
   const history = useHistory();
   const distanceDropdownOptions = [
@@ -86,6 +87,7 @@ export function LocationSearchForm({
   const doSearch = event => {
     if (event) {
       event.preventDefault();
+      setShowFiltersBeforeSearch(false);
     }
     let paramLocation = location;
     dispatchMapChanged({ changed: false, distance: null });
@@ -97,6 +99,7 @@ export function LocationSearchForm({
     });
 
     if (autocompleteSelection?.coords) {
+      setShowFiltersBeforeSearch(false);
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
         autocompleteSelection.label,
@@ -107,6 +110,7 @@ export function LocationSearchForm({
       );
     } else {
       if (location.trim() !== '') {
+        setShowFiltersBeforeSearch(false);
         dispatchFetchSearchByLocationResults(
           location,
           distance,
@@ -206,7 +210,7 @@ export function LocationSearchForm({
           </>
         }
       />
-      <form onSubmit={doSearch} className="vads-u-margin-y--0">
+      <form onSubmit={e => doSearch(e)} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
@@ -300,9 +304,12 @@ export function LocationSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        !environment.isProduction() &&
+        showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
+            />
           </div>
         )}
     </div>

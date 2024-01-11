@@ -7,6 +7,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
+import { createSelector } from 'reselect';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -17,18 +18,7 @@ export const scrollToTop = () => {
   });
 };
 
-function replacer(key, value) {
-  // if the containing object has a name, we’re in the national guard object
-  // and we want to keep addresses no matter what
-  if (
-    !this.name &&
-    typeof value !== 'undefined' &&
-    typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
-  ) {
-    return undefined;
-  }
-
+export function replacer(key, value) {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
@@ -160,11 +150,6 @@ export function getMarriageTitle(index) {
   return `${titleCase(desc)} marriage`;
 }
 
-export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `Spouse’s ${desc} marriage`;
-}
-
 export function getMarriageTitleWithCurrent(form, index) {
   if (isMarried(form) && form.marriages.length - 1 === index) {
     return 'Current marriage';
@@ -173,12 +158,35 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
-export const spouseContribution = (
-  <span>
-    How much do you <strong>contribute monthly</strong> to your spouse’s
-    support?
-  </span>
-);
+export function getDependentChildTitle(item, description) {
+  if (item.fullName) {
+    return `${item.fullName.first || ''} ${item.fullName.last ||
+      ''} ${description}`;
+  }
+  return 'description';
+}
+
+export function createSpouseLabelSelector(nameTemplate) {
+  return createSelector(
+    form =>
+      form.marriages && form.marriages.length
+        ? form.marriages[form.marriages.length - 1].spouseFullName
+        : null,
+    spouseFullName => {
+      if (spouseFullName) {
+        return {
+          title: nameTemplate(spouseFullName),
+        };
+      }
+
+      return {
+        title: null,
+      };
+    },
+  );
+}
+
+export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const specialMonthlyPensionDescription = (
   <section>
@@ -193,77 +201,6 @@ export const specialMonthlyPensionDescription = (
     </p>
   </section>
 );
-
-export function fileHelp({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
-
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
-
-  return (
-    <div>
-      <p>
-        Please upload all documentation to support your claim.{' '}
-        {(hasSchoolChild || hasDisabledChild) && 'This includes:'}
-      </p>
-      <ul>
-        {hasSchoolChild && (
-          <li>
-            A completed Request for Approval of School Attendance (
-            <a
-              href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              VA Form 21-674
-            </a>
-            )
-          </li>
-        )}
-        {hasDisabledChild && (
-          <li>
-            Private medical records documenting your child’s disability before
-            the age of 18
-          </li>
-        )}
-      </ul>
-      <p>
-        If you’re claiming for Aid and Attendance or Housebound benefits, this
-        includes:
-      </p>
-      <ul>
-        <li>
-          A completed Examination for Housebound Status or Permanent Need for
-          Regular Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-2680
-          </a>
-          )
-        </li>
-        <li>
-          A completed Request for Nursing Home Information in Connection with
-          Claim for Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-0779
-          </a>
-          )
-        </li>
-      </ul>
-      <p>File types you can upload: PDF, JPG, PNG</p>
-    </div>
-  );
-}
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -332,85 +269,6 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const uploadMessage = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>If you have many documents to upload you can mail them to us.</p>
-        <p>
-          <em>We’ll provide an address after you finish the application.</em>
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const aidAttendanceEvidence = (
-  <div>
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming non-service-connected pension benefits with Aid
-              and Attendance benefits
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have corrected vision of 5/200 or less in both eyes,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Have contraction of the concentric visual field to 5 degrees or
-              less, <strong>or</strong>
-            </li>
-            <li>
-              Are a patient in a nursing home due to the loss of mental or
-              physical abilities, <strong>or</strong>
-            </li>
-            <li>
-              Need another person to help you with daily activities like
-              bathing, eating, dressing, adjusting prosthetic devices, or
-              protecting you from the hazards of your environment,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Are bedridden and have to spend most of the day in bed because of
-              your disability
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming for increased disability pension benefits based
-              on being housebound
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have a single permanent disability that’s 100% disabling, and
-              you’re confined to your home, <strong>or</strong>
-            </li>
-            <li>
-              Have a disability (rated 60% or higher) in addition to the
-              disability that qualifies you for a pension
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 export const disabilityDocs = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
@@ -438,64 +296,6 @@ export const schoolAttendanceWarning = (
         ). <strong>You can send us this form later.</strong>
       </div>
     </div>
-  </div>
-);
-
-export const marriageWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h4 className="usa-alert-heading">Recognition of marriages</h4>
-      <div className="usa-alert-text">
-        <p>
-          If you’re certifying you are married for VA benefits, your marriage
-          must be recognized by the place you and your spouse lived at the time
-          of your marriage, or where you and your spouse lived at the time you
-          filed your claim (or a later date when you qualified for benefits).
-        </p>
-        <p>
-          Additional information on VA-recognized marriage is at{' '}
-          <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const fdcWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application will be submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
-);
-
-export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application doesn’t qualify for the Fully Developed Claim (FDC)
-        program. We’ll review your claim through the standard claim process.
-        Please turn in any information to support your claim as soon as you can
-        to the address provided after you finish the application.
-      </div>
-    </div>
-  </div>
-);
-
-export const expeditedProcessDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
-      If you have uploaded all the supporting documentation you have and any
-      forms for additional benefits, you can apply using the Fully Developed
-      Claim (FDC) program.
-    </p>
-    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
-      Learn more about the FDC program
-    </a>
-    .
   </div>
 );
 
@@ -537,3 +337,58 @@ export const dependentExpectedIncomeDescription = (
     expects to receive in the next 12 months
   </span>
 );
+
+export const dependentSeriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="What do we mean by seriously disabled?">
+      <span>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </span>
+    </va-additional-info>
+  </div>
+);
+
+export const contactWarning = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact this person without contacting you first.
+      </div>
+    </div>
+  </div>
+);
+
+export const contactWarningMulti = (
+  <div className="usa-alert usa-alert-info">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        We won’t contact any of the people listed here without contacting you
+        first.
+      </div>
+    </div>
+  </div>
+);
+
+export const IncomeSourceDescription = (
+  <div>
+    <p>
+      We want to know more about the gross monthly income you, your spouse, and
+      your dependents receive.
+    </p>
+    <p>List the sources of income for you, your spouse, and your dependents.</p>
+  </div>
+);
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
+  );
+};
+
+export const validateWorkHours = (errors, fieldData) => {
+  if (fieldData > 168) {
+    errors.addError('Enter a number less than 169');
+  }
+};

@@ -26,6 +26,7 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
+  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const [error, setError] = useState(null);
   const history = useHistory();
 
@@ -55,7 +56,8 @@ export function NameSearchForm({
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(name || search?.query?.name);
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
       }
     },
     [filters.search],
@@ -113,6 +115,7 @@ export function NameSearchForm({
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
+      setShowFiltersBeforeSearch(false);
       doSearch(name);
     }
   };
@@ -167,9 +170,12 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        !environment.isProduction() &&
+        showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
+            />
           </div>
         )}
     </div>

@@ -106,9 +106,6 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const hasBadAddress = state =>
-  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
-
 export const profileShowPronounsAndSexualOrientation = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
@@ -160,6 +157,9 @@ export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
 
 export const selectProfileContactsToggle = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
+
+export const selectProfileShowProofOfVeteranStatusToggle = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowProofOfVeteranStatus];
 
 export const selectProfileContacts = state => state?.profileContacts || {};
 

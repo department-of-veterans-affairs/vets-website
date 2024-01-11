@@ -1,25 +1,14 @@
-import { RESPONSES } from '../constants/question-data-map';
+// Determines which results page to display
+
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
-import { BATCH_MAP } from '../constants/question-batch-map';
 import { NONE } from '../constants/display-conditions/results-screens';
 import {
+  filterForYesResponses,
+  getQuestionBatch,
   getServicePeriodResponse,
   printErrorMessage,
   pushToRoute,
 } from './shared';
-
-/** ================================================================
- * Find batch (category) for question SHORT_NAME
- */
-export const getQuestionBatch = shortName => {
-  for (const batch of Object.keys(BATCH_MAP)) {
-    if (BATCH_MAP[batch]?.includes(shortName)) {
-      return batch;
-    }
-  }
-
-  return null;
-};
 
 /** ================================================================
  * Compares all "Yes" responses in the form flow to the requirements for each results
@@ -63,22 +52,16 @@ export const responsesMatchResultsDCs = (yesShortNames, pageDCsForFlow) => {
 };
 
 /** ================================================================
- * Removes all answers in the store that are not "Yes"
- *
- * @param {object} formResponses - all answers in the store
- */
-export const filterForYesResponses = formResponses => {
-  return Object.keys(
-    Object.filter(formResponses, response => response === RESPONSES.YES),
-  );
-};
-
-/** ================================================================
  * Evaluate formResponses and decide which results page to show
  *
  * @param {object} formResponses - all answers in the store
+ * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const determineResultsPage = (formResponses, router) => {
+export const determineResultsPage = (
+  formResponses,
+  router,
+  updateCurrentPage,
+) => {
   const responseToServicePeriod = getServicePeriodResponse(formResponses);
 
   const allResultsDCs = DISPLAY_CONDITIONS?.RESULTS;
@@ -94,7 +77,7 @@ export const determineResultsPage = (formResponses, router) => {
       pageDCsForFlow &&
       responsesMatchResultsDCs(yesShortNames, pageDCsForFlow)
     ) {
-      pushToRoute(resultsPage, router);
+      pushToRoute(resultsPage, router, updateCurrentPage);
       return;
     }
   }

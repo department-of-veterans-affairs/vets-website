@@ -3,14 +3,14 @@ import { combineReducers } from 'redux';
 import { alertsReducer } from './alerts';
 import { allRecipientsReducer } from './allRecipients';
 import { categoriesReducer } from './categories';
-import { draftDetailsReducer } from './draftDetails';
 import { foldersReducer } from './folders';
-import { messageDetailsReducer } from './messageDetails';
 import { searchReducer } from './search';
 import { triageTeamsReducer } from './triageTeams';
 import { breadcrumbsReducer } from './breadcrumbs';
 import { threadsReducer } from './threads';
 import { preferencesReducer } from './preferences';
+import { threadDetailsReducer } from './threadDetails';
+import { facilitiesReducer } from './facilities';
 
 const rootReducer = {
   sm: combineReducers({
@@ -18,11 +18,11 @@ const rootReducer = {
     allRecipients: allRecipientsReducer,
     breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
-    draftDetails: draftDetailsReducer,
+    facilities: facilitiesReducer,
     folders: foldersReducer,
-    messageDetails: messageDetailsReducer,
     search: searchReducer,
     threads: threadsReducer,
+    threadDetails: threadDetailsReducer,
     triageTeams: triageTeamsReducer,
     preferences: preferencesReducer,
   }),

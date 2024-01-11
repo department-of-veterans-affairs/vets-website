@@ -2,6 +2,13 @@ const NAMESPACE = 'financial.status.report';
 
 const sessionStorageKeys = {
   JOB_EDITING_INDEX: `${NAMESPACE}.job.editing.index`,
+  JOB_BUTTON: `${NAMESPACE}.job.button`,
+};
+
+const jobButtonConstants = {
+  FIRST_JOB: 'FIRST',
+  ADD_ANOTHER: 'ADD',
+  EDIT_JOB: 'EDIT',
 };
 
 const getJobIndex = () => {
@@ -16,4 +23,25 @@ const clearJobIndex = () => {
   sessionStorage.removeItem(sessionStorageKeys.JOB_EDITING_INDEX);
 };
 
-export { getJobIndex, setJobIndex, clearJobIndex };
+// Job button values: First job, adding another, updating a job
+const setJobButton = value => {
+  sessionStorage.setItem(sessionStorageKeys.JOB_BUTTON, value);
+};
+
+const getJobButton = () => {
+  return sessionStorage.getItem(sessionStorageKeys.JOB_BUTTON);
+};
+
+const clearJobButton = () => {
+  sessionStorage.removeItem(sessionStorageKeys.JOB_BUTTON);
+};
+
+export {
+  getJobIndex,
+  setJobIndex,
+  clearJobIndex,
+  setJobButton,
+  getJobButton,
+  clearJobButton,
+  jobButtonConstants,
+};

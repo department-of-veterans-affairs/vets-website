@@ -29,7 +29,7 @@ const FillRefillButton = rx => {
 
   if (isRefillable) {
     return (
-      <div className="rx-fill-refill-button">
+      <div className="rx-fill-refill-button" data-testid="fill-refill">
         {success && (
           <va-alert status="success" setFocus aria-live="polite">
             <p className="vads-u-margin-y--0" data-testid="success-message">
@@ -60,7 +60,7 @@ const FillRefillButton = rx => {
           )}
         {isLoading && (
           <va-loading-indicator
-            label="Submitting your request..."
+            message="Submitting your request..."
             set-focus
             data-testid="refill-loader"
           />

@@ -10,7 +10,7 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../utilities/page-navigation';
-import { updateFormStore } from '../../actions';
+import { updateCurrentPage, updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 
 /**
@@ -30,6 +30,7 @@ const CheckboxGroup = ({
   shortName,
   testId,
   updateCleanedFormStore,
+  updateTheCurrentPage,
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -72,12 +73,12 @@ const CheckboxGroup = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(shortName, formResponses, router, updateTheCurrentPage);
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router);
+    navigateBackward(shortName, formResponses, router, updateTheCurrentPage);
   };
 
   return (
@@ -93,7 +94,10 @@ const CheckboxGroup = ({
         >
           {h1}
         </h1>
-        <fieldset aria-labelledby="pact-act-form-question" data-testid={testId}>
+        <fieldset
+          aria-labelledby="pact-act-form-question pact-act-form-instructions"
+          data-testid={testId}
+        >
           {formError && (
             <span className="usa-error-message" role="alert">
               <div className="pact-act-form-text-error">
@@ -101,6 +105,7 @@ const CheckboxGroup = ({
               </div>
             </span>
           )}
+          <p id="pact-act-form-instructions">Select all that apply.</p>
           {createCheckboxes()}
         </fieldset>
       </div>
@@ -115,6 +120,7 @@ const CheckboxGroup = ({
 };
 
 const mapDispatchToProps = {
+  updateTheCurrentPage: updateCurrentPage,
   updateCleanedFormStore: updateFormStore,
 };
 
@@ -128,6 +134,7 @@ CheckboxGroup.propTypes = {
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
+  updateTheCurrentPage: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.array,
   locationList: PropTypes.node,

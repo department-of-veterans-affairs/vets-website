@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
@@ -16,7 +15,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOrganizationInputString,
+    representativeInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -28,33 +27,6 @@ const SearchControls = props => {
   const showEmptyError = isErrorEmptyInput && !geolocationInProgress;
   const showGeolocationError = geocodeError && !geolocationInProgress;
 
-  const handleSearchButtonClick = e => {
-    e.preventDefault();
-    // const {
-    //   representativeType,
-    //   isValid,
-    // } = currentQuery;
-
-    if (!locationInputString) {
-      onChange({ locationInputString: '' });
-      focusElement('.location-input-container');
-      return;
-    }
-
-    // if (!isValid) {
-    //   return;
-    // }
-
-    // Report event here to only send analytics event when a user clicks on the button
-    // recordEvent({
-    //   event: 'fl-search',
-    //   'fl-search-fac-type': facilityType,
-    //   'fl-search-svc-type': analyticsServiceType,
-    // });
-
-    onSubmit();
-  };
-
   const handleLocationChange = e => {
     onChange({
       locationInputString: onlySpaces(e.target.value)
@@ -63,9 +35,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOrganizationChange = e => {
+  const handleRepresentativeChange = e => {
     onChange({
-      repOrganizationInputString: onlySpaces(e.target.value)
+      representativeInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -91,7 +63,11 @@ const SearchControls = props => {
         status="warning"
         visible={currentQuery.geocodeError > 0}
         uswds
-      />
+      >
+        <p>
+          Please enable location sharing in your browser to use this feature.
+        </p>
+      </VaModal>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
@@ -102,7 +78,7 @@ const SearchControls = props => {
               style={{ order: 1 }}
               error={(() => {
                 if (showEmptyError) {
-                  return 'Please fill in a city, state or postal code.';
+                  return 'Please fill in a city, state, postal code or address.';
                 }
                 if (showGeolocationError) {
                   return 'Please enter a valid location.';
@@ -111,10 +87,13 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, state or postal code"
+              label="City, state, postal code or address"
               message-aria-describedby="Text input for location"
-              name="City, state or postal code"
+              name="City, state, postal code or address"
               onInput={handleLocationChange}
+              onKeyPress={e => {
+                if (e.key === 'Enter') onSubmit();
+              }}
               value={locationInputString}
               uswds
               required
@@ -162,16 +141,15 @@ const SearchControls = props => {
           />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'organization'
-                ? 'Organization name'
-                : 'Accredited representative name'
-            }
-            message-aria-describedby="Text input for organization or Accredited representative name"
-            name="Organization or Accredited Representative Name"
-            onChange={handleRepOrganizationChange}
-            onInput={handleRepOrganizationChange}
-            value={repOrganizationInputString}
+            label="Accredited representative name"
+            message-aria-describedby="Text input for officer or Accredited representative name"
+            name="Officer or Accredited Representative Name"
+            onChange={handleRepresentativeChange}
+            onInput={handleRepresentativeChange}
+            onKeyPress={e => {
+              if (e.key === 'Enter') onSubmit();
+            }}
+            value={representativeInputString}
             uswds
           />
 
@@ -179,7 +157,10 @@ const SearchControls = props => {
             id="representative-search"
             type="submit"
             value="Search"
-            onClick={handleSearchButtonClick}
+            onClick={e => {
+              e.preventDefault();
+              onSubmit();
+            }}
           >
             <i className="fas fa-search" /> Search
           </button>
@@ -195,7 +176,7 @@ SearchControls.propTypes = {
   geolocateUser: PropTypes.func.isRequired,
   locationChanged: PropTypes.bool.isRequired,
   locationInputString: PropTypes.string.isRequired,
-  repOrganizationInputString: PropTypes.string.isRequired,
+  representativeInputString: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

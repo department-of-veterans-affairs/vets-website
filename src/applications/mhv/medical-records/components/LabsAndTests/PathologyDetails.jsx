@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import {
   makePdf,
   getNameDateAndTime,
@@ -112,39 +111,20 @@ ${record.results} \n`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab location
         </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="pathology-date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results and explain what they mean
-            for your health. To ask a question now, send a secure message to
-            your care team.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Start a new message
-            </a>
-          </p>
-        </va-additional-info>
-        <p>{record.results}</p>
+        <InfoAlert fullState={fullState} />
+        <p data-testid="pathology-results">{record.results}</p>
       </div>
     </div>
   );

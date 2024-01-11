@@ -15,7 +15,7 @@ const profileToggles = {
   profileShowQuickSubmitNotificationSetting: false,
   profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
+  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {
