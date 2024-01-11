@@ -1,8 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockBasicUser from '../fixtures/userResponse/basic-user.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
-// import { AXE_CONTEXT } from '../utils/constants';
-// import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import mockFeatureToggles from '../fixtures/generalResponses/featureToggles.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 
@@ -10,19 +8,6 @@ describe('Secure Messaging Basic User', () => {
   it('verify user has not access to secure-messaging', () => {
     const site = new SecureMessagingSite();
     site.login(true, mockBasicUser);
-
-    // in case if it could not be pushed w/o axe check assertion
-
-    // SecureMessagingLandingPage.loadMainPage();
-    //
-    // cy.injectAxe();
-    // cy.axeCheck(AXE_CONTEXT, {
-    //   rules: {
-    //     'aria-required-children': {
-    //       enabled: false,
-    //     },
-    //   },
-    // });
 
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'featureToggles',
