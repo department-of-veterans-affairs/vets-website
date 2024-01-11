@@ -182,7 +182,10 @@ const IntroductionPage = props => {
       </p>
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
-          <div className="id-not-verified-content vads-u-margin-top--4">
+          <div
+            className="id-not-verified-content vads-u-margin-top--4"
+            data-testid="verifyIdAlert"
+          >
             <va-alert status="continue">
               <h3 slot="headline">
                 You’ll need to verify your identity to request your records
