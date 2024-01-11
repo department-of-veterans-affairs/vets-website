@@ -1,3 +1,4 @@
+/* eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports */
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 
