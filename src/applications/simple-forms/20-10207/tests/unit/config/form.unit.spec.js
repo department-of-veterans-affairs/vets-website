@@ -2,10 +2,6 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 
 describe('formConfig', () => {
-  beforeEach(() => {
-    delete require.cache[require.resolve('../../../config/form')];
-  });
-
   it('should be an object', () => {
     expect(formConfig).to.be.an('object');
   });
