@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import { signInServiceName } from 'platform/user/authentication/selectors';
@@ -29,7 +28,7 @@ export default function TransitionSuccessModal({ visible, onClose }) {
   );
 
   return (
-    <Modal
+    <va-modal
       visible={visible}
       focusSelector="button"
       onClose={onClose}
@@ -53,7 +52,7 @@ export default function TransitionSuccessModal({ visible, onClose }) {
           </p>
         </div>
       </div>
-    </Modal>
+    </va-modal>
   );
 }
 

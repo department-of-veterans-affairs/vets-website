@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { LoginContainer } from 'platform/user/authentication/components';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -18,7 +17,7 @@ export default class SignInModal extends React.Component {
 
   render() {
     return (
-      <Modal
+      <va-modal
         cssClass="va-modal-large new-modal-design"
         visible={this.props.visible}
         focusSelector="button"
@@ -26,7 +25,7 @@ export default class SignInModal extends React.Component {
         id="signin-signup-modal"
       >
         <LoginContainer />
-      </Modal>
+      </va-modal>
     );
   }
 }

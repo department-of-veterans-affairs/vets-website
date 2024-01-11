@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import { MHV_TRANSITION_DATE, MHV_TRANSITION_TIME } from '../../constants';
 
@@ -35,7 +34,7 @@ const AccountTransitionModal = ({
   };
 
   return (
-    <Modal
+    <va-modal
       visible={visible}
       focusSelector="button"
       onClose={onClose}
@@ -81,7 +80,7 @@ const AccountTransitionModal = ({
           </div>
         </div>
       </div>
-    </Modal>
+    </va-modal>
   );
 };
 
