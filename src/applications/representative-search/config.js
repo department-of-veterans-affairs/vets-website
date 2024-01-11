@@ -32,7 +32,7 @@ export const sortOptions = {
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = false;
+export const useStagingDataLocally = true;
 
 export const claimsAgentIsEnabled = false;
 
