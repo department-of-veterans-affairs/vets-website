@@ -214,7 +214,6 @@ export const SearchResults = ({
           className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5 va-u-outline--none"
           data-forms-focus
         >
-          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
             <>
               Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}

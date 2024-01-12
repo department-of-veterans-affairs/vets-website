@@ -5,7 +5,6 @@ export default function ClaimCard({ title, children, label, subtitle }) {
   return (
     <va-card class="claim-list-item">
       <h3 className="claim-list-item-header vads-u-margin-bottom--2">
-        {/* eslint-disable-next-line jsx-a11y/aria-role */}
         <div role="text">
           {label && <span className="usa-label">{label}</span>}
           {title}
