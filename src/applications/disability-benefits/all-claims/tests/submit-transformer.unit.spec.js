@@ -4,12 +4,15 @@ import moment from 'moment';
 
 import { expect } from 'chai';
 
+import sinon from 'sinon';
 import formConfig from '../config/form';
 import { CHAR_LIMITS } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
+
+import revisedFormWrapper from '../content/revisedFormWrapper';
 
 describe('transform', () => {
   const servicePeriodsBDD = [
@@ -26,6 +29,7 @@ describe('transform', () => {
 
   // Read all the data files
   const dataDir = path.join(__dirname, './fixtures/data/');
+
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
@@ -55,16 +59,25 @@ describe('transform', () => {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
-
+        sinon.spy();
+        const stub = sinon
+          .stub(revisedFormWrapper, 'isRevisedForm')
+          .callsFake(() => false);
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,
         );
+        stub.restore();
       });
     });
 });
 
 describe('Test internal transform functions', () => {
   it('will truncate long descriptions', () => {
+    sinon.spy();
+    const stub = sinon
+      .stub(revisedFormWrapper, 'isRevisedForm')
+      .callsFake(() => false);
+
     const getString = (key, diff = 0) =>
       new Array(42)
         .fill('1234567890')
@@ -149,5 +162,97 @@ describe('Test internal transform functions', () => {
         )}`,
       },
     ]);
+    stub.restore();
+  });
+});
+
+describe('Test transform functions in staging', () => {
+  it('will not assign classification codes', () => {
+    sinon.spy();
+    const stub = sinon
+      .stub(revisedFormWrapper, 'isRevisedForm')
+      .callsFake(() => true);
+
+    const getString = (key, diff = 0) =>
+      new Array(42)
+        .fill('1234567890')
+        .join('')
+        .substring(0, CHAR_LIMITS[key] + diff);
+    const longString = getString('primaryDescription', 20);
+    const phlebitisPrefix = 'Secondary to Diabetes Mellitus0\n';
+    const form = {
+      data: {
+        ...maximalData.data,
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: longString,
+            condition: 'asthma',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'SECONDARY',
+            'view:secondaryFollowUp': {
+              causedByDisability: 'Diabetes Mellitus0',
+              causedByDisabilityDescription: longString,
+            },
+            condition: 'phlebitis',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'WORSENED',
+            'view:worsenedFollowUp': {
+              worsenedDescription: longString,
+              worsenedEffects: longString,
+            },
+            condition: 'knee replacement',
+            'view:descriptionInfo': {},
+          },
+          {
+            cause: 'VA',
+            'view:vaFollowUp': {
+              vaMistreatmentDescription: longString,
+              vaMistreatmentLocation: longString,
+              vaMistreatmentDate: longString,
+            },
+            condition: 'myocardial infarction (MI)',
+            'view:descriptionInfo': {},
+          },
+        ],
+      },
+    };
+    expect(
+      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
+    ).to.deep.equal([
+      {
+        cause: 'NEW',
+        primaryDescription: getString('primaryDescription'),
+        condition: 'asthma',
+      },
+      {
+        cause: 'WORSENED',
+        worsenedDescription: getString('worsenedDescription'),
+        worsenedEffects: getString('worsenedEffects'),
+        condition: 'knee replacement',
+        specialIssues: ['POW'],
+      },
+      {
+        cause: 'VA',
+        vaMistreatmentDescription: getString('vaMistreatmentDescription'),
+        vaMistreatmentLocation: getString('vaMistreatmentLocation'),
+        vaMistreatmentDate: getString('vaMistreatmentDate'),
+        condition: 'myocardial infarction (MI)',
+        specialIssues: ['POW'],
+      },
+      {
+        condition: 'phlebitis',
+        cause: 'NEW',
+        primaryDescription: `${phlebitisPrefix}${getString(
+          'primaryDescription',
+          -phlebitisPrefix.length,
+        )}`,
+      },
+    ]);
+    stub.restore();
   });
 });
