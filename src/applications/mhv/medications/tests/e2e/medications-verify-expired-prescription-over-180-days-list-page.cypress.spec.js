@@ -1,6 +1,6 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
-
+import expiredRxOver180Days from './fixtures/expired-rx-over-180-days-details-page.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Medications Details Page Expired Rx Over 180 Days', () => {
@@ -14,6 +14,8 @@ describe('Medications Details Page Expired Rx Over 180 Days', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    listPage.verifyPrescriptionExpirationDateforRxOver180Days();
+    listPage.verifyPrescriptionExpirationDateforRxOver180Days(
+      expiredRxOver180Days,
+    );
   });
 });

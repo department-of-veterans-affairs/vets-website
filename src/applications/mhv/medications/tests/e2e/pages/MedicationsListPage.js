@@ -349,7 +349,7 @@ class MedicationsListPage {
     ).should('be.visible');
   };
 
-  verifyPrescriptionExpirationDateforRxOver180Days = () => {
+  verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
     // cy.intercept(
     //   'GET',
     //   'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
@@ -359,7 +359,9 @@ class MedicationsListPage {
       .its('response')
       .then(res => {
         expect(res.body.data[15].attributes).to.include({
-          expirationDate: 'May 9, 2023',
+          expirationDate: `${
+            expiredPrescription.data.attributes.expirationDate
+          }`,
         });
       });
   };
