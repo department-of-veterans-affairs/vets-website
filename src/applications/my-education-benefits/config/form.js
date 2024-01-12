@@ -1691,7 +1691,7 @@ const formConfig = {
             ),
             'ui:field': ReviewCardField,
             'ui:options': {
-              hiseIf: formData => !formData.showDgiDirectDeposit1990EZ,
+              hideIf: formData => !formData.showDgiDirectDeposit1990EZ,
               editTitle: 'Direct deposit information',
               hideLabelText: true,
               itemName: 'account information',
