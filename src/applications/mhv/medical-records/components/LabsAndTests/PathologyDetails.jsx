@@ -93,7 +93,11 @@ ${record.results} \n`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="pathology-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="pathology-date"
+        data-testid="pathology-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="pathology-date" />
@@ -111,20 +115,20 @@ ${record.results} \n`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab location
         </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="pathology-date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
         <InfoAlert fullState={fullState} />
-        <p>{record.results}</p>
+        <p data-testid="pathology-results">{record.results}</p>
       </div>
     </div>
   );

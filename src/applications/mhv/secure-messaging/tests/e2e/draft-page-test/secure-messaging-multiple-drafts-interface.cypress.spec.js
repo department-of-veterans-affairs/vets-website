@@ -9,35 +9,20 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
-  // const updateDates = data => {
-  //   const currentDate = new Date().toISOString();
-  //   const newData = { ...data };
-  //   newData.data = newData.data.map(item => {
-  //     const updatedItem = { ...item };
-  //     if (updatedItem.attributes.draftDate !== null) {
-  //       updatedItem.attributes.draftDate = currentDate;
-  //     }
-  //     if (updatedItem.attributes.sentDate !== null) {
-  //       updatedItem.attributes.sentDate = currentDate;
-  //     }
-  //     return updatedItem;
-  //   });
-  //   return newData;
-  // };
-
   const updateDates = data => {
     const currentDate = new Date().toISOString();
-
-    return data.data.map(item => {
-      return {
-        ...item,
-        attributes: {
-          ...item.attributes,
-          sentDate: item.attributes.sentDate != null ? currentDate : null,
-          draftDate: item.attributes.draftDate != null ? currentDate : null,
-        },
-      };
+    const newData = { ...data };
+    newData.data = newData.data.map(item => {
+      const updatedItem = { ...item };
+      if (updatedItem.attributes.draftDate !== null) {
+        updatedItem.attributes.draftDate = currentDate;
+      }
+      if (updatedItem.attributes.sentDate !== null) {
+        updatedItem.attributes.sentDate = currentDate;
+      }
+      return updatedItem;
     });
+    return newData;
   };
 
   const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);

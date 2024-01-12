@@ -23,7 +23,6 @@ describe('titleCaseRepresentativeName', () => {
   });
 });
 
-/* eslint-disable camelcase */
 describe('buildAddressArray', () => {
   it('Should build address array', () => {
     const addressData = {
