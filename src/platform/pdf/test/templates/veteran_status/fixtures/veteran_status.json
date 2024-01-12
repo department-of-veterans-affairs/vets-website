@@ -14,6 +14,12 @@
                 "beginDate": "2005-04-12",
                 "endDate": "2009-04-11",
                 "personnelCategoryTypeCode": "A"
+            },
+            {
+                "branchOfService": "Navy",
+                "beginDate": "2003-04-12",
+                "endDate": "2005-04-11",
+                "personnelCategoryTypeCode": "A"
             }
         ],
         "totalDisabilityRating": 30,

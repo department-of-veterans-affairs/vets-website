@@ -90,6 +90,27 @@ describe('Veteran Status PDF template', () => {
       expect(armyText.length).to.eq(1);
     });
 
+    it('Should only show the 2 most recent periods of service', async () => {
+      const data = require('./fixtures/veteran_status.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      const listItems = content.items.filter(item => item.tag === 'Lbl');
+      expect(listItems.length).to.eq(2);
+
+      const navyService = content.items.filter(
+        item =>
+          item.str ===
+          `United States ${data.details.serviceHistory[2].branchOfService}`,
+      );
+      expect(navyService.length).to.eq(0);
+    });
+
     it('Shows disability rating details', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf(data);
