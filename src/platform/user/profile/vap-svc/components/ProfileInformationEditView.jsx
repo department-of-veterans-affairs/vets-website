@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  ACTIVE_EDIT_VIEWS,
-  FIELD_NAMES,
-  USA,
-  PERSONAL_INFO_FIELD_NAMES,
-  ANALYTICS_FIELD_MAP,
-  API_ROUTES,
-} from 'platform/user/profile/vap-svc/constants';
+import { focusElement } from 'platform/utilities/ui';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
+import { isEmptyAddress } from 'platform/forms/address/helpers';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import {
   createTransaction,
   refreshTransaction,
@@ -17,14 +14,16 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-} from '~/platform/user/profile/vap-svc/actions';
+} from '../actions';
 
 import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '~/platform/user/profile/vap-svc/util/transactions';
-import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import CopyMailingAddress from '~/platform/user/profile/vap-svc/containers/CopyMailingAddress';
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+  USA,
+  PERSONAL_INFO_FIELD_NAMES,
+  ANALYTICS_FIELD_MAP,
+  API_ROUTES,
+} from '../constants';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -32,26 +31,26 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
-} from '~/platform/user/profile/vap-svc/selectors';
+} from '../selectors';
 
-import { getEditButtonId } from '~/platform/user/profile/vap-svc/util/id-factory';
-
-import { focusElement } from '~/platform/utilities/ui';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import recordEvent from '~/platform/monitoring/record-event';
-import { isEmptyAddress } from '~/platform/forms/address/helpers';
-import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
-
-import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { recordCustomProfileEvent } from '../util/analytics';
 import { transformInitialFormValues } from '../util/contact-information/formValues';
-
-import ProfileInformationActionButtons from './ProfileInformationActionButtons';
-
 import {
   getErrorsFromDom,
   handleUpdateButtonClick,
 } from '../util/contact-information/addressUtils';
-import { recordCustomProfileEvent } from '../util/analytics';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '../util/transactions';
+import { getEditButtonId } from '../util/id-factory';
+
+import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMessage';
+import CopyMailingAddress from '../containers/CopyMailingAddress';
+
+import { createPersonalInfoUpdate } from '../actions/personalInformation';
+
+import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
