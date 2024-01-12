@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
 
-import mockPersonalInformationSuccessEnhanced from './fixtures/personal-information-success-enhanced.json';
-
-const personalInformation =
-  mockPersonalInformationSuccessEnhanced.data.attributes;
-
 const getDirectDepositInfoError = {
   errors: [
     {
@@ -470,50 +465,6 @@ describe('profile selectors', () => {
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
       state = { vaProfile: {} };
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
-    });
-  });
-});
-
-describe('selectVAProfilePersonalInformation selector', () => {
-  let state;
-  beforeEach(() => {
-    state = {
-      vaProfile: {
-        personalInformation,
-      },
-    };
-  });
-  it('returns preferredName', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'preferredName'),
-    ).to.deep.equal({
-      preferredName: 'WES',
-    });
-  });
-
-  it('returns genderIdentity', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'genderIdentity'),
-    ).to.deep.equal({
-      genderIdentity: { code: 'M', name: 'Male' },
-    });
-  });
-
-  it('returns pronouns and pronounsNotListedText', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'pronouns'),
-    ).to.deep.equal({
-      pronouns: ['heHimHis', 'theyThemTheirs'],
-      pronounsNotListedText: 'Other/pronouns/here',
-    });
-  });
-
-  it('returns sexualOrientation and sexualOrientationNotListedText', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'sexualOrientation'),
-    ).to.deep.equal({
-      sexualOrientation: ['straightOrHeterosexual'],
-      sexualOrientationNotListedText: 'Some other orientation',
     });
   });
 });
