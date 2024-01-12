@@ -4,8 +4,54 @@ import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authe
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
+const HowToVerifyLink = () => (
+  <p className="vads-u-margin-y--4">
+    <va-link
+      href="/resources/verifying-your-identity-on-vagov/"
+      text="Learn how to verify your identity on VA.gov"
+      data-testid="verify-identity-link"
+    />
+  </p>
+);
+
+// the <div> inside <va-additional-info> is needed to get <p> margins to be not 0
+const AdditionalInfo = () => (
+  <va-additional-info
+    trigger="Having trouble verifying your identity?"
+    class="vads-u-margin-y--4"
+  >
+    <div>
+      <p>
+        If you have a My HealtheVet account, you can access My HealtheVet tools
+        now by logging out and logging back in using your My HealtheVet login
+        credentials.
+      </p>
+      <p>
+        You can continue to use this option until My HealtheVet switches to a
+        new VA sign in.
+      </p>
+      <p className="vads-u-font-weight--bold">Get help:</p>
+      <p>
+        <a href="https://login.gov/help/" target="_blank" rel="noreferrer">
+          Go to the Login.gov help center
+        </a>
+      </p>
+      <p>
+        <a
+          href="https://help.id.me/hc/en-us?_ga=2.57940392.365484499.1704728177-1563880044.1683821547"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Visit the ID.me support section
+        </a>
+      </p>
+    </div>
+  </va-additional-info>
+);
+
 const IdentityNotVerified = ({
   headline = 'Verify your identity to view your complete profile',
+  postAlertChildren,
 }) => {
   return (
     <>
@@ -36,13 +82,8 @@ const IdentityNotVerified = ({
         </div>
       </va-alert>
 
-      <p className="vads-u-margin-y--4">
-        <va-link
-          href="/resources/verifying-your-identity-on-vagov/"
-          text="Learn how to verify your identity on VA.gov"
-          data-testid="verify-identity-link"
-        />
-      </p>
+      {!postAlertChildren && <HowToVerifyLink />}
+      {postAlertChildren}
     </>
   );
 };
@@ -50,6 +91,7 @@ const IdentityNotVerified = ({
 IdentityNotVerified.propTypes = {
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
+  postAlertChildren: PropTypes.node,
 };
 
-export default IdentityNotVerified;
+export { IdentityNotVerified as default, HowToVerifyLink, AdditionalInfo };
