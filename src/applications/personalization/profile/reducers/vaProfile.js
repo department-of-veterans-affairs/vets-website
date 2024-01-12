@@ -4,13 +4,15 @@ import { PERSONAL_INFO_FIELD_NAMES } from '@@vap-svc/constants';
 
 import { capitalize } from 'lodash';
 import {
-  FETCH_HERO_SUCCESS,
-  FETCH_HERO_FAILED,
+  UPDATE_PERSONAL_INFORMATION_FIELD,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
+} from '@@vap-svc/actions/personalInformation';
+import {
+  FETCH_HERO_SUCCESS,
+  FETCH_HERO_FAILED,
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_FAILED,
-  UPDATE_PERSONAL_INFORMATION_FIELD,
 } from '../actions';
 
 import {
