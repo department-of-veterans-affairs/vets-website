@@ -335,27 +335,27 @@
         "typeOfIncome": "SOCIAL_SECURITY",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 278.0
+        "amount": 278.05
       },
       {
         "typeOfIncome": "INTEREST_DIVIDEND",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 78.0
+        "amount": 78.50
       },
       {
         "typeOfIncome": "OTHER",
         "otherTypeExplanation": "part-time Uber",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 278.0
+        "amount": 278.99
       },
       {
         "typeOfIncome": "OTHER",
         "otherTypeExplanation": "full time job",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 3278.0
+        "amount": 3278.75
       }
     ],
     "view:noDirectDeposit": false,
