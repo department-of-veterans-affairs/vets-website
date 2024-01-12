@@ -93,7 +93,11 @@ ${record.results} \n`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="pathology-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="pathology-date"
+        data-testid="pathology-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="pathology-date" />
