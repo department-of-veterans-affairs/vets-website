@@ -56,7 +56,8 @@ export function NameSearchForm({
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(name || search?.query?.name);
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
       }
     },
     [filters.search],
@@ -114,6 +115,7 @@ export function NameSearchForm({
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
+      setShowFiltersBeforeSearch(false);
       doSearch(name);
     }
   };
@@ -156,7 +158,6 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
-              onClick={() => setShowFiltersBeforeSearch(false)}
             >
               <i
                 aria-hidden="true"
@@ -172,7 +173,9 @@ export function NameSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
+            />
           </div>
         )}
     </div>

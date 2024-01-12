@@ -9,15 +9,14 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.vaInformation.pages.relationshipToVeteran;
+} = formConfig.chapters.personalInformation.pages.relationshipToVeteran;
 
-describe('isTheVeteranDeceasedPage', () => {
+describe('relationshipToVeteranPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -34,22 +33,16 @@ describe('isTheVeteranDeceasedPage', () => {
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
-      'GI Bill beneficiary',
-      'Other personal relationship',
-      'On-the-job training or apprenticeship supervisor',
-      'School Certifying Official',
-      'VA employee',
-      'Work study site supervisor',
-      'Other business relationship',
+      "I'm the Veteran",
+      "I'm a family member of a Veteran",
+      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
     ];
 
-    expect($('h4', container).textContent).to.eq(
+    expect($('h3', container).textContent).to.eq(
       'Your relationship to the Veteran',
     );
     radioLabels.forEach(
-      radio =>
-        expect(radioLabelList.includes(removeReqFromLabel(radio.textContent)))
-          .to.be.true,
+      radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
@@ -15,7 +16,6 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
-import { recordCustomProfileEvent } from '../../util';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
