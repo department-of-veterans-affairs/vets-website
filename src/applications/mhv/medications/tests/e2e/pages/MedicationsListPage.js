@@ -348,5 +348,20 @@ class MedicationsListPage {
       } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
   };
+
+  verifyPrescriptionExpirationDateforRxOver180Days = () => {
+    // cy.intercept(
+    //   'GET',
+    //   'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+    //   prescriptions,
+    // ).as('medicationsList');
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[15].attributes).to.include({
+          expirationDate: 'May 9, 2023',
+        });
+      });
+  };
 }
 export default MedicationsListPage;
