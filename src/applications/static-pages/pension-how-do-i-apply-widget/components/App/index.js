@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-// import { VA_FORM_IDS } from 'platform/forms/constants';
-// import ApplicationStatus from '@department-of-veterans-affairs/platform-forms/ApplicationStatus';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
