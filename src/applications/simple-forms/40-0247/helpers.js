@@ -24,7 +24,7 @@ export function getInitialData({ mockData, environment }) {
 export const pageFocusScroll = () => {
   const focusSelector =
     'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
-  const scrollToName = 'v3SementedProgressBar';
+  const scrollToName = 'v3SegmentedProgressBar';
   return () => {
     waitForRenderThenFocus(focusSelector);
     setTimeout(() => {
