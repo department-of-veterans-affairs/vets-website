@@ -1,3 +1,4 @@
+import { captureError } from '@@vap-svc/util/analytics';
 import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
 import {
@@ -8,7 +9,6 @@ import {
   isSignedUpForEDUDirectDeposit,
 } from '../util';
 
-import { captureError } from '../util/analytics';
 import { DirectDepositClient } from '../util/direct-deposit';
 import { API_STATUS } from '../constants';
 
