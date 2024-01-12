@@ -167,7 +167,9 @@ const generate = async data => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.details.totalDisabilityRating.toString())
+        .text(
+          `${data.details.totalDisabilityRating.toString()}% service connected`,
+        )
         .moveDown(1.5);
     });
 
