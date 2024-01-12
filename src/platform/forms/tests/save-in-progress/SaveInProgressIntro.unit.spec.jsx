@@ -75,10 +75,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         .text(),
     ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your application is in progress',
     );
-    expect(tree.find('.usa-alert').text()).to.contain('will expire on');
+    expect(tree.find('va-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
       .to.be.false;
@@ -335,7 +335,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'We can fill in some of your information for you to save you time.',
     );
     expect(tree.find('.usa-button-primary').text()).to.contain(
@@ -373,7 +373,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'You can save this application in progress',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
@@ -404,7 +404,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your application in progress and come back later to finish filling it out.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
@@ -446,8 +446,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('1 year');
-    expect(tree.find('.usa-alert').text()).to.not.contain('60 days');
+    expect(tree.find('va-alert').text()).to.contain('1 year');
+    expect(tree.find('va-alert').text()).to.not.contain('60 days');
     tree.unmount();
   });
 
@@ -515,10 +515,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your application has expired',
     );
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;

@@ -70,7 +70,7 @@ describe('IntroductionPage', () => {
     expect($('h1', container).textContent).to.eq('Request a Board Appeal');
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.exist;
+    expect($('va-alert[status="info"]', container)).to.exist;
   });
 
   it('should render start action links', () => {

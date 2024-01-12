@@ -118,7 +118,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
-            <va-alert status="continue">
+            <va-alert status="continue" uswds visible>
               <h3 slot="headline">
                 You’ll need to verify your identity to request your records
               </h3>
