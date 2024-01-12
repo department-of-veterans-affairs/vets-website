@@ -74,8 +74,9 @@ const PrintDownload = props => {
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              Download {list && 'list '}
-              as PDF
+              {list
+                ? 'Download your medication list as a PDF'
+                : 'Download this page as a PDF'}
             </button>
           </li>
           <li>
@@ -84,7 +85,9 @@ const PrintDownload = props => {
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              Download {list ? 'list' : 'page'} as a text file
+              {list
+                ? 'Download your medication list as a text file'
+                : 'Download this page as a text file'}
             </button>
           </li>
         </ul>

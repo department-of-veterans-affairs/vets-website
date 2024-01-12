@@ -1,44 +1,30 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
-import { generateMedicationsPDF } from '../../../util/helpers';
-import PrintDownload from '../../../components/shared/PrintDownload';
-import prescription from '../../fixtures/prescriptionDetails.json';
+import { fireEvent } from '@testing-library/dom';
+import sinon from 'sinon';
+import PrintDownload, {
+  DOWNLOAD_FORMAT,
+} from '../../../components/shared/PrintDownload';
 
 describe('Medicaitons Print/Download button component', () => {
-  const handleDownloadPDF = () => {
-    generateMedicationsPDF(
-      'medicalRecords',
-      `${prescription.prescriptionName
-        .replace(/\s/g, '_')
-        .replace(/\//g, '-')}`,
-      {
-        headerBanner: [
-          {
-            text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.',
-          },
-        ],
-        footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: prescription?.prescriptionName,
-        preface: 'This is a pdf of one of your prescriptions',
-        results: {},
-      },
-    );
-  };
+  let handleFullListDownload;
   const setup = (
-    downloadPDF = handleDownloadPDF,
+    download = handleFullListDownload,
     success = false,
     list = false,
   ) => {
     return renderWithStoreAndRouter(
-      <PrintDownload download={downloadPDF} isSuccess={success} list={list} />,
+      <PrintDownload download={download} isSuccess={success} list={list} />,
       {
         path: '/',
       },
     );
   };
+
+  beforeEach(() => {
+    handleFullListDownload = sinon.spy();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
@@ -60,13 +46,14 @@ describe('Medicaitons Print/Download button component', () => {
   });
 
   it('displays success message ', () => {
-    const screen = setup(handleDownloadPDF, true);
+    const screen = setup(handleFullListDownload, true);
 
     const sucessMessage = screen.getByText('Download complete');
     expect(sucessMessage).to.exist;
   });
+
   it('button displays different text for list', () => {
-    const screen = setup(handleDownloadPDF, true, true);
+    const screen = setup(handleFullListDownload, true, true);
 
     const successMessage = screen.getByText(
       'Download your medication list as a PDF',
@@ -74,15 +61,25 @@ describe('Medicaitons Print/Download button component', () => {
     expect(successMessage).to.exist;
   });
 
-  it('should display loading message when downloading file', () => {
-    const screen = setup(handleDownloadPDF, false, true);
+  it('should start downloading PDF on PDF button click', () => {
+    const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
       'Download your medication list as a PDF',
     );
     fireEvent.click(downloadButton);
-    waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
-      expect(screen.getByText('Downloading your file...')).to.exist;
-    });
+    expect(handleFullListDownload.getCalls().length).to.equal(1);
+    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.false;
+    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.true;
+  });
+
+  it('should start downloading TXT on TXT button click', () => {
+    const screen = setup(handleFullListDownload, false, true);
+    const downloadButton = screen.getByText(
+      'Download your medication list as a text file',
+    );
+    fireEvent.click(downloadButton);
+    expect(handleFullListDownload.getCalls().length).to.equal(1);
+    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.false;
+    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.true;
   });
 });
