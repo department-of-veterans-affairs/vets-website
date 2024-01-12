@@ -5,6 +5,9 @@ import { renderDOB } from '../../util/personal-information/personalInformationUt
 import { generatePdf } from '~/platform/pdf';
 import { formatFullName } from '../../../common/helpers';
 
+import recordEvent from '~/platform/monitoring/record-event';
+import { PROFILE_PATHS } from '../../constants';
+
 const DownloadPdf = ({
   dob,
   militaryInformation,
@@ -37,12 +40,24 @@ const DownloadPdf = ({
         },
       },
     };
-    generatePdf('veteranStatus', 'Veteran Status', pdfData);
+
+    generatePdf('veteranStatus', 'Veteran status card', pdfData, true);
   };
 
   return (
     <div className="vads-u-margin-top--4">
-      <va-button onClick={() => createPdf()} text="Download" />
+      <va-button
+        onClick={() => {
+          recordEvent({
+            event: 'file_download',
+            'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
+            'file-name': 'Veteran status card',
+            'file-extension': 'pdf',
+          });
+          createPdf();
+        }}
+        text="Download Veteran status card"
+      />
     </div>
   );
 };
