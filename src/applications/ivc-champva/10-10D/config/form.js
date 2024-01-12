@@ -3,16 +3,22 @@ import {
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
+  ssnSchema,
+  ssnUI,
   addressSchema,
   addressUI,
   phoneSchema,
   phoneUI,
+  emailSchema,
+  emailUI,
   dateOfBirthSchema,
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
   yesNoSchema,
   yesNoUI,
+  radioSchema,
+  radioUI,
   titleSchema,
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -20,6 +26,7 @@ import get from 'platform/utilities/data/get';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import ApplicantField from '../components/Applicant/ApplicantField';
 import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -203,6 +210,186 @@ const formConfig = {
               'view:alert': {
                 type: 'object',
                 properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: {
+        page8: {
+          path: 'applicant-information',
+          arrayPath: 'applicants',
+          title: 'Applicants',
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+                useDlWrap: false,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantName: fullNameUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantName: fullNameSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page9: {
+          path: 'applicant-information/:index/ssn-dob',
+          arrayPath: 'applicants',
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - SSN and date of birth`,
+          showPagePerItem: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantSSN: ssnUI(),
+                applicantDOB: dateOfBirthUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantSSN: ssnSchema,
+                    applicantDOB: dateOfBirthSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page10: {
+          path: 'applicant-information/:index/address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - address`,
+          uiSchema: {
+            'ui:title': 'Applicant Address',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantAddress: addressUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantAddress: addressSchema(),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page11: {
+          path: 'applicant-information/:index/email-phone',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - email and phone`,
+          uiSchema: {
+            'ui:title': 'Applicant Email and Phone',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantEmailAddress: emailUI(),
+                applicantPhone: phoneUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEmailAddress: emailSchema,
+                    applicantPhone: phoneSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page12: {
+          path: 'applicant-information/:index/gender',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - gender`,
+          uiSchema: {
+            'ui:title': 'Applicant Gender',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantGender: radioUI({
+                  title: 'Gender',
+                  required: true,
+                  labels: { male: 'Male', female: 'Female' },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantGender: radioSchema(['male', 'female']),
+                  },
+                },
               },
             },
           },
