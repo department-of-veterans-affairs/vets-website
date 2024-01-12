@@ -140,7 +140,7 @@ describe('686 stepchild information', () => {
     selectRadio(form, 'root_supportingStepchild', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'For FPO addresses, you must check the “They live on a United States military base outside of the U.S.” checkbox above',
+      'For FPO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
