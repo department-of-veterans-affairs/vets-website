@@ -99,15 +99,16 @@ describe('App', () => {
   });
 
   it('feature flag set to true', () => {
+    const customState = {
+      featureToggles: [],
+      ...initialState,
+      ...noDowntime,
+    };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = true;
     const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
-        ...initialState,
-        ...noDowntime,
-      },
+      initialState: customState,
       reducers: reducer,
       path: `/`,
     });
@@ -120,32 +121,31 @@ describe('App', () => {
   });
 
   it('renders the downtime notification', () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
-        scheduledDowntime: {
-          globalDowntime: {
-            attributes: {
-              externalService: 'mhv',
-              startTime: format(
-                subDays(new Date(), 1),
-                "yyyy-LL-dd'T'HH:mm:ss",
-              ),
-              endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
-            },
+    const customState = {
+      featureToggles: [],
+      scheduledDowntime: {
+        globalDowntime: {
+          attributes: {
+            externalService: 'mhv',
+            startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
           },
-          isReady: true,
-          isPending: false,
-          serviceMap: {
-            get() {},
-          },
-          dismissedDowntimeWarnings: [],
         },
-        ...initialState,
+        isReady: true,
+        isPending: false,
+        serviceMap: {
+          get() {},
+        },
+        dismissedDowntimeWarnings: [],
       },
+      ...initialState,
+    };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = true;
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
       reducers: reducer,
       path: `/`,
     });
@@ -163,22 +163,23 @@ describe('App', () => {
   });
 
   it('redirects Basic users to /health-care/secure-messaging', async () => {
-    renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
+    const customState = {
+      featureToggles: [],
+      user: {
+        login: {
+          currentlyLoggedIn: true,
         },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            services: [],
-          },
+        profile: {
+          services: [],
         },
-        ...noDowntime,
       },
+      ...noDowntime,
+    };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = true;
+    renderWithStoreAndRouter(<App />, {
+      initialState: customState,
       reducers: reducer,
       path: `/`,
     });
