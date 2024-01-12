@@ -99,7 +99,7 @@ export default function StatusAlert({ appointment, facility }) {
       </InfoAlert>
     );
   }
-  if (isPastAppointment && featureAfterVisitSummary) {
+  if (isPastAppointment && !!featureAfterVisitSummary) {
     return (
       <>
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -157,7 +157,7 @@ StatusAlert.defaultProps = {
   appointment: {
     status: 'booked',
     cancelationReason: '',
-    avsPath: '',
+    avsPath: null,
     vaos: {
       isPastAppointment: false,
     },
