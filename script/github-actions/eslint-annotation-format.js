@@ -28,9 +28,8 @@ module.exports = function(results) {
   );
 
   let output;
-  if (summary.errors.length > 0 || summary.warnings.length > 0) {
+  if (summary.errors.length > 0) {
     output = summary.errors
-      .concat(summary.warnings)
       .map(function(msg) {
         const filePath = msg.filePath
           .split('/')
@@ -42,7 +41,7 @@ module.exports = function(results) {
       })
       .join('\n');
   } else {
-    output = 'No warning or errors detected!';
+    output = 'No errors detected!';
   }
 
   return `${output} \n`;
