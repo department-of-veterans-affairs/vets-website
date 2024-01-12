@@ -84,6 +84,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
+import { transform } from './submit-transformer';
 import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
@@ -178,7 +179,7 @@ export function currentSpouseHasFormerMarriages(formData) {
 }
 
 export function hasNoSocialSecurityDisability(formData) {
-  return formData.socialSecurityDisability !== true;
+  return formData.socialSecurityDisability === false;
 }
 
 export function isInNursingHome(formData) {
@@ -269,7 +270,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -745,6 +746,7 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item => getDependentChildTitle(item, 'household'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
