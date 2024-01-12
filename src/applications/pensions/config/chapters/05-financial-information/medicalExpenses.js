@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ListItemView from '../../../components/ListItemView';
 
 const recipientOptions = {
@@ -41,6 +41,7 @@ export default {
         itemName: 'Unreimbursed Expense',
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
+        keepInPageOnReview: true,
       },
       items: {
         recipients: radioUI({

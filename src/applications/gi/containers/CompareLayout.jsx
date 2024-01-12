@@ -203,7 +203,7 @@ const CompareLayout = ({
     {
       label: environment.isProduction()
         ? 'Specialized mission'
-        : 'Community Focus',
+        : 'Community focus',
       className: 'capitalize-value',
       mapper: institution => {
         const specialMission = [];

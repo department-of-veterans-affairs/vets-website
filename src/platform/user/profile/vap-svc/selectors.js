@@ -1,3 +1,4 @@
+import { set } from 'lodash';
 import backendServices from '../constants/backendServices';
 
 import { selectAvailableServices, selectVAPContactInfo } from '../../selectors';
@@ -162,3 +163,22 @@ export const selectTransactionIntervalId = state => {
 
 export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
+
+export function selectVAProfilePersonalInformation(state, fieldName) {
+  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+
+  const notListedKeySuffix = 'NotListedText';
+
+  const notListedTextKey = `${fieldName}${notListedKeySuffix}`;
+
+  const notListedTextValue =
+    state?.vaProfile?.personalInformation?.[notListedTextKey];
+
+  if (!fieldValue && !notListedTextValue) return null;
+
+  const result = set({}, fieldName, fieldValue);
+
+  return notListedTextValue
+    ? set(result, notListedTextKey, notListedTextValue)
+    : result;
+}
