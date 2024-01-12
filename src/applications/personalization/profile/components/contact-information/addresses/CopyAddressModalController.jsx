@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import set from 'lodash/set';
 
 // vap-svc deps
-import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
+import * as VAP_SERVICE from '~/platform/user/profile/vap-svc/constants';
+import { getProfileInfoFieldAttributes } from '~/platform/user/profile/vap-svc/util/getProfileInfoFieldAttributes';
 import {
   updateCopyAddressModal,
   createTransaction,
@@ -18,7 +19,6 @@ import {
 import { isPendingTransaction } from '~/platform/user/profile/vap-svc/util/transactions';
 
 // profile deps
-import { getProfileInfoFieldAttributes } from '../../../util/getProfileInfoFieldAttributes';
 
 // platform deps
 import { focusElement } from '~/platform/utilities/ui';
