@@ -190,8 +190,14 @@ Last filled on: ${dateFormat(
   )}
 
 Status: ${validateField(prescription.dispStatus)}
-${pdfStatusDefinitions[prescription.refillStatus] || pdfDefaultStatusDefinition}
-
+${(
+    pdfStatusDefinitions[prescription.refillStatus] ||
+    pdfDefaultStatusDefinition
+  ).reduce(
+    (fullStatus, item) =>
+      fullStatus + item.value + (item.continued ? ' ' : '\n'),
+    '',
+  )}
 Refills left: ${validateField(prescription.refillRemaining)}
 
 Request refills by this prescription expiration date: ${dateFormat(
