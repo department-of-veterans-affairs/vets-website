@@ -527,9 +527,9 @@ const formConfig = {
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {
-          title: 'Name of deceased person(s)',
           path: 'current-burial-benefits',
           depends: formData => buriedWSponsorsEligibility(formData),
+          editModeOnReviewPage: true,
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
         },
