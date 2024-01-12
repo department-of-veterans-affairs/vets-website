@@ -10,18 +10,18 @@ const NavCard = ({ icon = null, title, links }) => {
         href={href}
         aria-label={ariaLabel}
         onClick={() => {
-          const header =
-            typeof text === 'object' && text !== null ? 'Inbox' : text;
-          const sectionHeader =
-            typeof text === 'object' && text !== null ? 'Messages' : title;
           recordEvent({
             event: 'nav-linkslist',
-            'links-list-header': header,
-            'links-list-section-header': sectionHeader,
+            'links-list-header': text,
+            'links-list-section-header': title,
           });
         }}
       >
-        {text}
+        <span
+          className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+        >
+          {text}
+        </span>
         <i aria-hidden="true" />
       </a>
     </li>
