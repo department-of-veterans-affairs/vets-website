@@ -156,7 +156,7 @@ export const ConfirmationPage = props => {
           return (
             <p key={nextStep}>
               <a
-                className="vads-c-action-link--green vads-u-margin-bottom--4"
+                className="vads-c-action-link--blue vads-u-margin-bottom--4"
                 href={href}
               >
                 Complete your {benefitPhrases[nextStep]}
