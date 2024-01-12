@@ -119,7 +119,7 @@ export const buildAllergiesTXT = allergies => {
     return '\nWe couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.\n';
   }
 
-  if (allergies && !allergies.length) {
+  if (allergies && allergies.length === 0) {
     return '\nThere are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.\n';
   }
 
