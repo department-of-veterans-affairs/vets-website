@@ -217,6 +217,7 @@ const Prescriptions = props => {
         pdfData(rxList, allergiesList),
       ).then(() => {
         setPdfGenerateStatus(PDF_GENERATE_STATUS.Success);
+        updateLoadingStatus(false, '');
       });
     },
     [userName, pdfData, setPdfGenerateStatus],
@@ -254,7 +255,6 @@ const Prescriptions = props => {
       ),
       !allergies && dispatch(getAllergiesList()),
     ]);
-    updateLoadingStatus(false, '');
   };
 
   const handleModalClose = () => {
