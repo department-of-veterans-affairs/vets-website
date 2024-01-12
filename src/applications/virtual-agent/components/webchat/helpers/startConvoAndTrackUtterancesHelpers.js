@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   joinActivity,
   startConversationActivity,
@@ -119,5 +120,19 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   if (skillWasExited && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
+  }
+};
+
+export const processMicrophoneActivity = ({ action }) => () => {
+  if (action.payload.dictateState === 3) {
+    // console.log('Enabled PVA Microphone!');
+    recordEvent({
+      event: 'chatbot-microphone-enable',
+    });
+  } else if (action.payload.dictateState === 0) {
+    // console.log('Disabled PVA Microphone!');
+    recordEvent({
+      event: 'chatbot-microphone-disable',
+    });
   }
 };

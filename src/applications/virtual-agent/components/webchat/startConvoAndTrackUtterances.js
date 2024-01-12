@@ -2,6 +2,7 @@ import {
   processActionConnectFulfilled,
   processSendMessageActivity,
   processIncomingActivity,
+  processMicrophoneActivity,
 } from './helpers/startConvoAndTrackUtterancesHelpers';
 
 const StartConvoAndTrackUtterances = {
@@ -25,11 +26,12 @@ const StartConvoAndTrackUtterances = {
       userUuid,
       isMobile,
     };
-
+    // console.log('ACTION OBJECT: ', action);
     const processActionType = {
       'DIRECT_LINE/CONNECT_FULFILLED': processActionConnectFulfilled(options),
       'DIRECT_LINE/INCOMING_ACTIVITY': processIncomingActivity(options),
       'WEB_CHAT/SEND_MESSAGE': processSendMessageActivity(options),
+      'WEB_CHAT/SET_DICTATE_STATE': processMicrophoneActivity(options),
     };
 
     const canProcessAction = processActionType[action.type];
