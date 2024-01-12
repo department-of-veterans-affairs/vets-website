@@ -2,35 +2,160 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import ApplicationStatus from 'platform/forms/save-in-progress/ApplicationStatus';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+// import { VA_FORM_IDS } from 'platform/forms/constants';
+// import ApplicationStatus from '@department-of-veterans-affairs/platform-forms/ApplicationStatus';
+import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
   return pensionFormEnabled ? (
+    // <>
+    //   {loggedIn ? (
+    //     <>
+    //       <h2>How do I apply?</h2>
+    //       <p>You can apply online, or using a PDF form.</p>
+    //       <h3 className="vads-u-margin-bottom--3">Apply online</h3>
+    //       <va-alert
+    //         close-btn-aria-label="Close notification"
+    //         status="info"
+    //         visible
+    //         aria-labelledby="alert-heading"
+    //         aria-describedby="alert-description"
+    //       >
+    //         <h4 id="alert-heading" slot="headline">
+    //           We updated our online pension form
+    //         </h4>
+    //         <p>
+    //           <strong>
+    //             If you started applying online before November 8, 2023,
+    //           </strong>{' '}
+    //           we have some new questions for you to answer. And we changed some
+    //           questions, so you may need to provide certain information again.
+    //         </p>
+    //       </va-alert>
+    //       <p>You can apply online right now.</p>
+    //       <a
+    //         className="vads-c-action-link--green"
+    //         href="/pension/application/527EZ/introduction"
+    //       >
+    //         Apply for Veteran Pension benefits
+    //       </a>
+    //       <h3 className="vads-u-margin-bottom--3">Apply using a PDF form</h3>
+    //       <p>First, fill out an Application for Pension (VA Form 21P-527EZ).</p>
+    //       <va-link
+    //         text="Get VA Form 21P-527EZ to download"
+    //         href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
+    //         download
+    //         filetype="PDF"
+    //         pages={17}
+    //       />
+    //       <p>Then submit your completed form in 1 of these ways:</p>
+    //       <h4>Upload your form online</h4>
+    //       <p>
+    //         Upload a copy of your completed form using the QuickSubmit tool
+    //         through AccessVA. If it’s your first time signing in to this tool,
+    //         you’ll need to register first. After you’ve registered, you can
+    //         upload your application and documents online.
+    //       </p>
+    //       <a
+    //         href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+    //         target="_blank"
+    //         rel="noreferrer"
+    //       >
+    //         Upload your form through AccessVA (opens in new tab)
+    //       </a>
+    //       <h4> Mail your form</h4>
+    //       <p>
+    //         Mail your completed form to the pension management center (PMC):
+    //       </p>
+    //       <p className="va-address-block">
+    //         Department of Veterans Affairs <br />
+    //         Pension Intake Center
+    //         <br />
+    //         PO Box 5365
+    //         <br />
+    //         Janesville, WI 53547-5365
+    //         <br />
+    //       </p>
+    //       <h4>Submit your form in person</h4>
+    //       <p>Bring your completed form to a VA regional office near you.</p>
+    //       <va-link
+    //         text="Find your nearest VA regional office"
+    //         href="/find-locations/?facilityType=benefits"
+    //       />
+    //       <h4>Apply with the help of a trained professional</h4>
+    //       <p>
+    //         You can work with a trained professional called an accredited
+    //         representative to get help applying for VA pension benefits.
+    //       </p>
+    //       <va-link
+    //         text="Get help filing your claim"
+    //         href="/disability/get-help-filing-claim/"
+    //       />
+    //     </>
+    //   ) : (
+    //     <>
+    //       <p>Flipper enabled - Logged out</p>
+    //     </>
+    //   )}
+    // </>
+
     <>
-      <ApplicationStatus
-        formId={VA_FORM_IDS.FORM_21P_527EZ}
-        showApplyButton
-        showLearnMoreLink
-        additionalText="You can apply online right now."
-        applyHeading="How do I apply?"
-        applyLink="/pension/how-to-apply/"
-        applyText="Apply for Veterans Pension benefits"
-      />
-      <h3>You can also apply:</h3>
-      <h4>By mail TESTING</h4>
-      <p>Fill out an application for Pension (VA Form 21P-527EZ).</p>
+      <h2>How do I apply?</h2>
+      <p>You can apply online, or using a PDF form.</p>
+      <h3 className="vads-u-margin-bottom--3">Apply online</h3>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+        aria-labelledby="alert-heading"
+        aria-describedby="alert-description"
+      >
+        <h4 id="alert-heading" slot="headline">
+          We updated our online pension form
+        </h4>
+        <p>
+          <strong>
+            If you started applying online before November 8, 2023,
+          </strong>{' '}
+          we have some new questions for you to answer. And we changed some
+          questions, so you may need to provide certain information again.
+        </p>
+      </va-alert>
+      <p>You can apply online right now.</p>
+      <a
+        className="vads-c-action-link--green"
+        href="/pension/application/527EZ/introduction"
+      >
+        Apply for Veteran Pension benefits
+      </a>
+      <h3 className="vads-u-margin-bottom--3">Apply using a PDF form</h3>
+      <p>First, fill out an Application for Pension (VA Form 21P-527EZ).</p>
       <va-link
         text="Get VA Form 21P-527EZ to download"
-        filetype="PDF"
         href="https://www.vba.va.gov/pubs/forms/VBA-21P-527EZ-ARE.pdf"
-        pages={8}
+        download
+        filetype="PDF"
+        pages={17}
       />
-      <br />
-      <p>Mail the completed form to the pension management center (PMC):</p>
+      <p>Then submit your completed form in 1 of these ways:</p>
+      <h4>Upload your form online</h4>
+      <p>
+        Upload a copy of your completed form using the QuickSubmit tool through
+        AccessVA. If it’s your first time signing in to this tool, you’ll need
+        to register first. After you’ve registered, you can upload your
+        application and documents online.
+      </p>
+      <a
+        href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Upload your form through AccessVA (opens in new tab)
+      </a>
+      <h4> Mail your form</h4>
+      <p>Mail your completed form to the pension management center (PMC):</p>
       <p className="va-address-block">
         Department of Veterans Affairs <br />
         Pension Intake Center
@@ -40,13 +165,13 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         Janesville, WI 53547-5365
         <br />
       </p>
-      <h4>In person</h4>
-      <p>Bring your application to a VA regional office near you.</p>
+      <h4>Submit your form in person</h4>
+      <p>Bring your completed form to a VA regional office near you.</p>
       <va-link
         text="Find your nearest VA regional office"
         href="/find-locations/?facilityType=benefits"
       />
-      <h4>With the help of a trained professional</h4>
+      <h4>Apply with the help of a trained professional</h4>
       <p>
         You can work with a trained professional called an accredited
         representative to get help applying for VA pension benefits.
@@ -54,12 +179,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       <va-link
         text="Get help filing your claim"
         href="/disability/get-help-filing-claim/"
-      />
-      <br />
-      <br />
-      <va-link
-        text="Find out how to apply for a Survivors Pension"
-        href="/pension/survivors-pension/"
       />
     </>
   ) : (
@@ -260,7 +379,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
           <p>Bring your completed form to a VA regional office near you.</p>
           <va-link
             text="Find your nearest VA regional office"
-            href="href=/find-locations/?facilityType=benefits"
+            href="/find-locations/?facilityType=benefits"
           />
           <h4>Apply with the help of a trained professional</h4>
           <p>
