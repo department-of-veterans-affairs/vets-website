@@ -1,10 +1,10 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
-import OtherTextField from '@@profile/components/personal-information/OtherTextField';
+import OtherTextField from '../../components/OtherTextField';
+import TextWidget from '../../../../../forms-system/src/js/widgets/TextWidget';
 import { NOT_SET_TEXT } from '../../constants';
-import DeselectableObjectField from '../../components/personal-information/DeselectableObjectField';
+import DeselectableObjectField from '../../components/DeselectableObjectField';
 
 export const notListedKeySuffix = 'NotListedText';
 
