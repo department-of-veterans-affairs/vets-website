@@ -30,8 +30,8 @@ describe('Avs: Your Appointment', () => {
     expect(screen.getByTestId('vitals').children[1].children[4]).to.have.text(
       'HeightResult: 66 in',
     );
-    expect(screen.getByTestId('clinic-medications').children[2].nodeName).to.eq(
-      'VA-ADDITIONAL-INFO',
+    expect(screen.getByTestId('clinic-medications')).to.contain.text(
+      'Ketorolac Tromethamine Inj',
     );
   });
 
@@ -42,6 +42,7 @@ describe('Avs: Your Appointment', () => {
     avs.providers = null;
     avs.vitals = [];
     delete avs.procedures;
+    delete avs.clinicMedications;
     delete avs.vaMedications;
     const props = { avs };
     const screen = render(<YourAppointment {...props} />);
