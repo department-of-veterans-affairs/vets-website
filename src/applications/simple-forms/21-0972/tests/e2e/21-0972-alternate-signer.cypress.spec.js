@@ -10,11 +10,7 @@ import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-sub
 import {
   fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
-  selectGroupCheckboxWidget,
 } from '../../../shared/tests/e2e/helpers';
-
-import { preparerQualificationsQuestionLabels } from '../../config/helpers';
-import { claimantIdentificationDisplayOptions } from '../../definitions/constants';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -62,43 +58,6 @@ const testConfig = createTestConfig(
               'claimantAddress',
               data.claimantAddress,
             );
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.preparerQualifications1A]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const label = preparerQualificationsQuestionLabels(
-              claimantIdentificationDisplayOptions[data.claimantIdentification],
-            )[1];
-            selectGroupCheckboxWidget(label);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.preparerQualifications1B]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const label = preparerQualificationsQuestionLabels(
-              claimantIdentificationDisplayOptions[data.claimantIdentification],
-            )[1];
-            selectGroupCheckboxWidget(label);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.preparerQualifications2]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectGroupCheckboxWidget(data.preparerSigningReason);
 
             cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
