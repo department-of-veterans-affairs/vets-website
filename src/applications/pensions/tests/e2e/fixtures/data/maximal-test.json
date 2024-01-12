@@ -11,8 +11,8 @@
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
     "serviceBranch": {
-      "ARMY": true,
-      "NAVY": true
+      "army": true,
+      "navy": true
     },
     "activeServiceDateRange": {
       "from": "2003-03-02",
@@ -79,6 +79,20 @@
       },
       {
         "spouseFullName": {
+          "first": "Jennie",
+          "middle": "Middle",
+          "last": "Dane"
+        },
+        "dateOfMarriage": "1983-03-02",
+        "locationOfMarriage": "Dallas",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Divorce",
+          "dateOfSeparation": "1984-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
           "first": "Meg",
           "middle": "Middle",
           "last": "Doe"
@@ -121,6 +135,20 @@
         "reasonForSeparation": "OTHER",
         "otherExplanation": "Other reason",
         "dateOfSeparation": "1990-03-02",
+        "locationOfSeparation": "Tacoma, WA"
+      },
+      {
+        "dateOfMarriage": "1995-03-02",
+        "locationOfMarriage": "Seattle, WA",
+        "spouseFullName": {
+          "first": "John",
+          "middle": "F",
+          "last": "Person",
+          "suffix": "Jr."
+        },
+        "reasonForSeparation": "OTHER",
+        "otherExplanation": "Other reason",
+        "dateOfSeparation": "2005-03-02",
         "locationOfSeparation": "Tacoma, WA"
       }
     ],
