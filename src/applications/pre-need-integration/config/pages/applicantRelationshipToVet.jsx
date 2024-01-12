@@ -22,7 +22,7 @@ export const uiSchema = !environment.isProduction()
           'ui:title': ' ',
           relationshipToVet: {
             'ui:title':
-              'What is the applicant’s relationship to the service member or Veteran?',
+              'What’s your relationship to the Veteran or service member you’re connected to?',
             'ui:widget': 'radio',
             'ui:options': {
               labels: {
