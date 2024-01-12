@@ -9,7 +9,10 @@
       {
         "name": "mhv_secure_messaging_to_phase_1",
         "value": true
-
+      },
+      {
+        "name": "mhv_secure_messaging_blocked_triage_group_1_0",
+        "value": true
       }
     ]
   }

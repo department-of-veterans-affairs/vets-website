@@ -7,18 +7,30 @@ import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths } from '../../../util/constants';
+import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
 
 describe('Attachments List component', () => {
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
       categories: { categories },
+      recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
+        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        associatedTriageGroupsQty:
+          noBlockedRecipients.associatedTriageGroupsQty,
+        associatedBlockedTriageGroupsQty:
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+      },
     },
   };
 
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} {...props} />,
+      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
       {
         initialState: customState,
         reducers: reducer,

@@ -140,7 +140,10 @@ const ThreadListItem = props => {
             <span>To: {recipientName}</span>
           )}
         </div>
-        <div className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5">
+        <div
+          className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5"
+          data-testid="received-date"
+        >
           {formattedDate()}
         </div>
         <div data-testid="message-info-row">
