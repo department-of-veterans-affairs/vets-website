@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "3180713",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3180713,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+        "attachment": null,
+        "sentDate": "2023-12-07T15:51:11.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 6978853,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -1,
+        "messageBody": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "http://042cf404f7004da085e3a9f14156cd43-api.review.vetsgov-internal/my_health/v1/messaging/messages/3180713"
+      }
+    }
+  ]
+}

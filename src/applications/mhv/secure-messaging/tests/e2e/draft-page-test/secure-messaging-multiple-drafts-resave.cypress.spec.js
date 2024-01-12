@@ -9,10 +9,28 @@ describe('re-save multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
+  const updateDates = data => {
+    const currentDate = new Date().toISOString();
+    const newData = { ...data };
+    newData.data = newData.data.map(item => {
+      const updatedItem = { ...item };
+      if (updatedItem.attributes.draftDate !== null) {
+        updatedItem.attributes.draftDate = currentDate;
+      }
+      if (updatedItem.attributes.sentDate !== null) {
+        updatedItem.attributes.sentDate = currentDate;
+      }
+      return updatedItem;
+    });
+    return newData;
+  };
+
+  const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
+
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
+    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify first draft could be re-saved', () => {
@@ -27,8 +45,8 @@ describe('re-save multiple drafts in one thread', () => {
 
     cy.get('#textarea').type('newText', { force: true });
     draftPage.saveMultiDraftMessage(
-      mockMultiDraftsResponse.data[0],
-      mockMultiDraftsResponse.data[0].attributes.messageId,
+      updatedMultiDraftResponse.data[0],
+      updatedMultiDraftResponse.data[0].attributes.messageId,
     );
 
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(
@@ -50,8 +68,8 @@ describe('re-save multiple drafts in one thread', () => {
     cy.get('#edit-draft-button').click({ waitForAnimations: true });
     cy.get('#textarea').type('newText', { force: true });
     draftPage.saveMultiDraftMessage(
-      mockMultiDraftsResponse.data[1],
-      mockMultiDraftsResponse.data[1].attributes.messageId,
+      updatedMultiDraftResponse.data[1],
+      updatedMultiDraftResponse.data[1].attributes.messageId,
     );
 
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(

@@ -27,7 +27,6 @@ const careOptions = {
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
   ONCE_YEAR: 'Once a year',
-  ONE_TIME: 'One-time',
 };
 
 export const CareExpenseView = ({ formData }) => (
@@ -49,6 +48,7 @@ export default {
         itemName: 'Care Expense',
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
+        keepInPageOnReview: true,
       },
       items: {
         recipients: radioUI({
@@ -106,7 +106,6 @@ export default {
           type: 'object',
           required: [
             'recipients',
-            'childName',
             'provider',
             'careType',
             'paymentFrequency',
