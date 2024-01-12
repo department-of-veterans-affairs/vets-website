@@ -41,21 +41,20 @@ const DownloadPdf = ({
       },
     };
 
+    recordEvent({
+      event: 'file_download',
+      'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
+      'file-name': 'Veteran status card',
+      'file-extension': 'pdf',
+    });
+
     generatePdf('veteranStatus', 'Veteran status card', pdfData, true);
   };
 
   return (
     <div className="vads-u-margin-top--4">
       <va-button
-        onClick={() => {
-          recordEvent({
-            event: 'file_download',
-            'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
-            'file-name': 'Veteran status card',
-            'file-extension': 'pdf',
-          });
-          createPdf();
-        }}
+        onClick={() => createPdf()}
         text="Download Veteran status card"
       />
     </div>
