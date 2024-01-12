@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 // import { VA_FORM_IDS } from 'platform/forms/constants';
 // import ApplicationStatus from '@department-of-veterans-affairs/platform-forms/ApplicationStatus';
-import { useFeatureToggle } from '@department-of-veterans-affairs/platform-utilities/feature-toggles';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
