@@ -1,13 +1,14 @@
+import pickBy from 'lodash/pickBy';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+
 import {
   FIELD_NAMES,
   USA,
   ADDRESS_FORM_VALUES,
   ADDRESS_TYPES,
   ADDRESS_POU,
-} from '@@vap-svc/constants';
-import pickBy from 'lodash/pickBy';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import * as VAP_SERVICE from '@@vap-svc/constants';
+} from '../../constants';
+import * as VAP_SERVICE from '../../constants';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
@@ -102,10 +103,10 @@ export const handleUpdateButtonClick = (
     ) && errors.length > 0;
 
   if (shouldReportErrors) {
+    const title = VAP_SERVICE.FIELD_TITLES[fieldName];
+
     const payload = {
-      title: `Address Validation Errors - ${
-        VAP_SERVICE.FIELD_TITLES[fieldName]
-      }`,
+      title: `Address Validation Errors - ${title}`,
       status: `Error Count - ${errors.length}`,
     };
 

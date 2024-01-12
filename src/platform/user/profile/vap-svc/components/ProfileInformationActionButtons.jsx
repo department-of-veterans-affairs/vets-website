@@ -10,8 +10,7 @@ function ProfileInformationActionButtons(props) {
 }
 
 ProfileInformationActionButtons.propTypes = {
-  title: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 export default ProfileInformationActionButtons;
