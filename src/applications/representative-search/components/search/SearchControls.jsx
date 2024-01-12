@@ -75,18 +75,21 @@ const SearchControls = props => {
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
             Search for a VSO or accredited attorney
           </h2>
+          <div className="vads-u-margin-y--2">
+            <va-additional-info trigger="What does a VSO do?" uswds>
+              <p>
+                <strong>Veterans Service Officers (VSOs)</strong> can help you
+                gather evidence, file claims, and request decision reviews. They
+                can also communicate with VA on your behalf. VSOs provide free
+                services for Veterans and their families. VSOs work for Veterans
+                Service Organizations, like the American Legion, Disabled
+                American Veterans, and Veterans of Foreign Wars. They have
+                completed training and passed tests about VA claims and
+                benefits.
+              </p>
+            </va-additional-info>
+          </div>
 
-          <va-additional-info trigger="What does a VSO do?" uswds>
-            <p>
-              <strong>Veterans Service Officers (VSOs)</strong> can help you
-              gather evidence, file claims, and request decision reviews. They
-              can also communicate with VA on your behalf. VSOs provide free
-              services for Veterans and their families. VSOs work for Veterans
-              Service Organizations, like the American Legion, Disabled American
-              Veterans, and Veterans of Foreign Wars. They have completed
-              training and passed tests about VA claims and benefits.
-            </p>
-          </va-additional-info>
           <va-additional-info
             trigger="What does an accredited attorney do?"
             uswds
@@ -129,10 +132,13 @@ const SearchControls = props => {
               required
             />
             <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
+              className={classNames(
+                'use-my-location-button-container vads-u-margin-top--1',
+                {
+                  'use-my-location-button-container-error':
+                    showEmptyError || showGeolocationError,
+                },
+              )}
             >
               {geolocationInProgress ? (
                 <div
@@ -177,14 +183,17 @@ const SearchControls = props => {
             value={representativeInputString}
             uswds
           />
-          <va-button
-            onClick={e => {
-              e.preventDefault();
-              onSubmit();
-            }}
-            text="Search"
-            uswds
-          />
+
+          <div className="vads-u-margin-y--4">
+            <va-button
+              onClick={e => {
+                e.preventDefault();
+                onSubmit();
+              }}
+              text="Search"
+              uswds
+            />
+          </div>
         </div>
       </form>
     </div>
