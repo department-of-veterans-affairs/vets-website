@@ -314,6 +314,7 @@ export const threadSortingOptions = {
 };
 
 export const PrintMessageOptions = {
+  // Not being used elsewhere
   PRINT_MAIN: 'PRINT_MAIN',
   PRINT_THREAD: 'PRINT_THREAD',
 };

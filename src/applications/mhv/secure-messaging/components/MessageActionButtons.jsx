@@ -15,6 +15,8 @@ const MessageActionButtons = props => {
     handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
+    accordionShadowRoot,
+    // setAccordionState,
   } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -25,10 +27,26 @@ const MessageActionButtons = props => {
       type: Actions.Message.SET_THREAD_PRINT_OPTION,
       payload: printOption,
     });
+
     if (printOption !== null) {
+      // expands all messages
+      // ON CLICK, FIRST CAPTURE ACCORDION STATE, THEN
+      // IF ANY OF THE ACCORDION PART HEADERS CONTAIN ARIA-EXPANDED=FALSE,
+      // THEN CLICK EXPAND ALL BUTTON,
+      // THEN CALL PRINT.WINDOW()
+
+      accordionShadowRoot.click();
       window.print();
     }
   };
+
+  const handleAfterPrint = () => {};
+
+  // IN A USE EFFECT
+  // THEN WHEN THE PRINT.WINDOW CLOSES,
+  // REVERT ACCORDION TO PREV ACCORDION STATE
+
+  window.onafterprint = handleAfterPrint;
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
@@ -74,10 +92,14 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
+  accordionItemShadowRoot: PropTypes.object,
+  accordionShadowRoot: PropTypes.object,
+  accordionState: PropTypes.object,
   handleReplyButton: PropTypes.func,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
+  setAccordionState: PropTypes.func,
   setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };

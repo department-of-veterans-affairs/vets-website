@@ -37,6 +37,8 @@ const ThreadDetails = props => {
   const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  // track accordion's state
+  const [accordionState, setAccordionState] = useState({});
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -97,6 +99,14 @@ const ThreadDetails = props => {
     }
   });
 
+  const accordionShadowRoot = document
+    .querySelector('va-accordion')
+    ?.shadowRoot?.querySelector('button[aria-label="Expand all accordions"]');
+
+  const accordionItemShadowRoot = document
+    .querySelector('va-accordion-item')
+    ?.shadowRoot?.querySelectorAll('button[aria-expanded="true"]');
+  // console.log('accordionI lengh: ', accordionItemShadowRoot.length);
   const content = () => {
     if (!isLoaded) {
       return (
@@ -144,12 +154,18 @@ const ThreadDetails = props => {
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            accordionShadowRoot={accordionShadowRoot}
+            accordionItemShadowRoot={accordionItemShadowRoot}
+            accordionState={accordionState}
+            setAccordionState={setAccordionState}
           />
           <MessageThread
             messageHistory={messages}
             threadId={threadId}
             isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
+            accordionState={accordionState}
+            setAccordionState={setAccordionState}
           />
         </>
       );

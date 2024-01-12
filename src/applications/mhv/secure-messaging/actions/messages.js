@@ -5,7 +5,7 @@ import {
   moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
-  getMessageThread,
+  getMessageThreadWithFullBody,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -16,8 +16,13 @@ export const clearThread = () => async dispatch => {
 };
 
 /**
+ * Call to mark message as read.
  * @param {Long} messageId
  * @returns
+ *
+ * Might still need to use getMessage (single message) to mark accordion
+ * as read. Or try refactoring to mark the message as read by using the
+ * selected message's messageId
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
@@ -38,11 +43,14 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
+ *
+ * This needs to be altered because it is no longer needed. The new message api
+ * calls the full message threads with full message body and attachments
  */
 export const retrieveMessageThread = messageId => async dispatch => {
   try {
     dispatch(clearThread());
-    const response = await getMessageThread(messageId);
+    const response = await getMessageThreadWithFullBody(messageId);
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (msgResponse.errors) {
       dispatch(

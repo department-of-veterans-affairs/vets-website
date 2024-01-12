@@ -13,7 +13,13 @@ import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const { message, isDraftThread, open } = props;
+  const {
+    message,
+    isDraftThread,
+    open,
+    // accordionState,
+    setAccordionState,
+  } = props;
   const {
     attachment,
     attachments,
@@ -27,8 +33,8 @@ const MessageThreadItem = props => {
     senderName,
     sentDate,
     triageGroupName,
+    // isOpened,
   } = message;
-
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
 
   const isSentOrReadOrDraft =
@@ -39,16 +45,25 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
+  // Toggle accordion state
+  const trackAccordionToggles = accordionId => {
+    setAccordionState(prevState => ({
+      ...prevState,
+      isOpened: !prevState[accordionId],
+    }));
+  };
+
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
+      trackAccordionToggles(messageId);
     }
   };
 
   useEffect(
     () => {
       if (open && !preloaded) {
-        // opening an accordion by triggering an event, as passsing in the open prop makes the accordion uncontrolled and rerender
+        // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
         const accordionItemToggledEvent = new CustomEvent(
           'accordionItemToggled',
           {
@@ -132,10 +147,12 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
+  accordionState: PropTypes.object,
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   open: PropTypes.bool,
   printView: PropTypes.bool,
+  setAccordionState: PropTypes.func,
 };
 
 export default MessageThreadItem;
