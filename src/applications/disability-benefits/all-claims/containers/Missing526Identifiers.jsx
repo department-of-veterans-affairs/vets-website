@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
 // Downcases the first char in the capitalized form title passed to this component
-// This is needed because we reference it within a sentance
+// This is needed because we reference it within a sentence
 const titleLowerCase = (title = '') => {
   if (title.length > 0) {
     const [firstChar, ...rest] = title;
