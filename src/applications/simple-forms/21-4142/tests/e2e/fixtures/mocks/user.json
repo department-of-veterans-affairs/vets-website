@@ -10,7 +10,7 @@
         "first_name": "John",
         "middle_name": "",
         "last_name": "Preparer",
-        "gender": "F",
+        "gender": "M",
         "birth_date": "1985-01-01",
         "verified": true
       },
@@ -20,7 +20,7 @@
         "served_in_military": true
       },
       "in_progress_forms": [],
-      "prefills_available": ["20-10206"],
+      "prefills_available": ["21-4142"],
       "services": [
         "facilities",
         "hca",

@@ -90,6 +90,7 @@ const WebChat = ({
     conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   }
 
+  // eslint-disable-next-line no-restricted-globals
   addEventListener('beforeunload', () => {
     clearBotSessionStorage(false, isLoggedIn);
   });
@@ -129,7 +130,7 @@ const WebChat = ({
     bubbleBorderWidth: 0,
     bubbleFromUserBorderWidth: 0,
     bubbleBackground: '#e1f3f8',
-    bubbleFromUserBackground: '#f1f1f1',
+    bubbleFromUserBackground: '#f0f0f0',
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
