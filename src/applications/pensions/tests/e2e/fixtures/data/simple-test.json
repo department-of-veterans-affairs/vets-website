@@ -2,7 +2,7 @@
   "data": {
     "veteranFullName": {
       "first": "John",
-      "middle": "Edmund",
+      "middle": "",
       "last": "Doe",
       "suffix": "Sr."
     },
@@ -39,36 +39,8 @@
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
     "homeAcreageValue": 75000,
-    "landMarketable": true,
-    "receivesIncome": true,
-    "incomeSources": [
-      {
-        "typeOfIncome": "SOCIAL_SECURITY",
-        "receiver": "Jane Doe",
-        "payer": "John Doe",
-        "amount": 278.05
-      },
-      {
-        "typeOfIncome": "INTEREST_DIVIDEND",
-        "receiver": "Jane Doe",
-        "payer": "John Doe",
-        "amount": 78.50
-      },
-      {
-        "typeOfIncome": "OTHER",
-        "otherTypeExplanation": "part-time Uber",
-        "receiver": "Jane Doe",
-        "payer": "John Doe",
-        "amount": 278.99
-      },
-      {
-        "typeOfIncome": "OTHER",
-        "otherTypeExplanation": "full time job",
-        "receiver": "Jane Doe",
-        "payer": "John Doe",
-        "amount": 3278.75
-      }
-    ],
+    "landMarketable": false,
+    "receivesIncome": false,
     "view:noDirectDeposit": false,
     "bankAccount": {
       "accountType": "checking",
@@ -88,7 +60,6 @@
     "email": "test@example.com",
     "phone": "555-123-4567",
     "mobilePhone": "555-123-4567",
-    "internationalPhone": "001-555-123-4567",
     "view:aidAttendance": true,
     "isOver65": false,
     "noRapidProcessing": true,
