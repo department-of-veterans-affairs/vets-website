@@ -53,7 +53,7 @@ function SaveStatus({
   return (
     <div>
       {autoSavedStatus === SAVE_STATUSES.success && (
-        <div className="panel saved-success-container vads-u-display--flex">
+        <div className="saved-success-container vads-u-display--flex vads-u-padding--1">
           <i className="fa fa-check-circle saved-success-icon vads-u-margin-top--0p5" />
           <div>
             {appSavedSuccessfullyMessage}
