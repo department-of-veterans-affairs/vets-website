@@ -1,0 +1,98 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "middle": "Edmund",
+      "last": "Doe",
+      "suffix": "Sr."
+    },
+    "veteranSocialSecurityNumber": "333224444",
+    "vaClaimsHistory": false,
+    "veteranDateOfBirth": "1960-01-01",
+    "serviceBranch": {
+      "army": true
+    },
+    "activeServiceDateRange": {
+      "from": "2003-03-02",
+      "to": "2007-03-20"
+    },
+    "serviceNumber": "123456",
+    "serveUnderOtherNames": false,
+    "previousNames": [],
+    "placeOfSeparation": "Westbrook, MA",
+    "powStatus": false,
+    "socialSecurityDisability": true,
+    "medicalCondition": false,
+    "nursingHome": false,
+    "medicaidStatus": true,
+    "specialMonthlyPension": false,
+    "vaTreatmentHistory": false,
+    "federalTreatmentHistory": false,
+    "currentEmployment": false,
+    "maritalStatus": "Not Married",
+    "view:hasDependents": false,
+    "totalNetWorth": false,
+    "netWorthEstimation": 0,
+    "hasCareExpenses": false,
+    "hasMedicalExpenses": false,
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": true,
+    "homeAcreageValue": 75000,
+    "landMarketable": true,
+    "receivesIncome": true,
+    "incomeSources": [
+      {
+        "typeOfIncome": "SOCIAL_SECURITY",
+        "receiver": "Jane Doe",
+        "payer": "John Doe",
+        "amount": 278.05
+      },
+      {
+        "typeOfIncome": "INTEREST_DIVIDEND",
+        "receiver": "Jane Doe",
+        "payer": "John Doe",
+        "amount": 78.50
+      },
+      {
+        "typeOfIncome": "OTHER",
+        "otherTypeExplanation": "part-time Uber",
+        "receiver": "Jane Doe",
+        "payer": "John Doe",
+        "amount": 278.99
+      },
+      {
+        "typeOfIncome": "OTHER",
+        "otherTypeExplanation": "full time job",
+        "receiver": "Jane Doe",
+        "payer": "John Doe",
+        "amount": 3278.75
+      }
+    ],
+    "view:noDirectDeposit": false,
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "Best Bank",
+      "accountNumber": "001122334455",
+      "routingNumber": "123123123"
+    },
+    "veteranAddress": {
+      "street": "123 8th st",
+      "street2": "A-3",
+      "city": "Hadley",
+      "country": "USA",
+      "state": "ME",
+      "postalCode": "01050",
+      "isMilitary": false
+    },
+    "email": "test@example.com",
+    "phone": "555-123-4567",
+    "mobilePhone": "555-123-4567",
+    "internationalPhone": "001-555-123-4567",
+    "view:aidAttendance": true,
+    "isOver65": false,
+    "noRapidProcessing": true,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "John Edmund Doe"
+  }
+}
