@@ -92,7 +92,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        ...validateForm(state, action.payload),
         error: false,
       };
     case GEOCODE_STARTED:
