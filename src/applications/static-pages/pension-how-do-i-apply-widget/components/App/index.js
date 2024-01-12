@@ -137,9 +137,8 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
             href="/find-forms/about-form-21p-527ez/"
           />
           <p>
-            If you started applying online already, you can still sign in to
-            VA.gov to refer to your saved information when you fill out the PDF
-            form.
+            If you started applying online already, you can still refer to your
+            saved information when you fill out the PDF form.
           </p>
           <va-link
             href="/pension/application/527EZ/introduction"
