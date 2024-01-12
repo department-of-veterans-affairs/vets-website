@@ -1,11 +1,7 @@
-import {
-  ADDRESS_POU,
-  ADDRESS_TYPES,
-  FIELD_NAMES,
-  USA,
-} from '@@vap-svc/constants';
 import pickBy from 'lodash/pickBy';
 import set from 'lodash/set';
+
+import { ADDRESS_POU, ADDRESS_TYPES, FIELD_NAMES, USA } from '../../constants';
 import {
   addresses,
   phoneNumbers,
