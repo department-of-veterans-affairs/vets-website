@@ -78,14 +78,13 @@ describe('App', () => {
   });
 
   it('feature flag set to false', () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = false;
+
     const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: false,
-        },
-        ...initialState,
-      },
+      initialState: customState,
       path: `/`,
       reducers: reducer,
     });
