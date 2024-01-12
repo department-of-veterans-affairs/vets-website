@@ -7,7 +7,7 @@ import ViewAppeal from './containers/ViewAppeal';
 const routes = (
   <Router>
     <Route path="/" component={Confirmation} />
-    <Route path="view-appeal" component={ViewAppeal} />
+    <Route path="/view-appeal" component={ViewAppeal} />
   </Router>
 );
 
