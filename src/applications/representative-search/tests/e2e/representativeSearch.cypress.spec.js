@@ -17,7 +17,7 @@ Cypress.Commands.add('verifyOptions', () => {
   const iteratorLength = claimsAgentIsEnabled ? 3 : 2;
 
   // Verify options available
-  for (let i = 0; i < iteratorLength; i + 1) {
+  for (let i = 0; i < iteratorLength; i += 1) {
     cy.get('va-radio')
       .children()
       .eq(i)
