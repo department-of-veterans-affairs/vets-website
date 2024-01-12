@@ -17,7 +17,7 @@ export const INITIAL_STATE = {
   representativeInputString: '',
   locationQueryString: '',
   representativeQueryString: '',
-  representativeType: 'veteran_service_officer',
+  representativeType: 'VSO',
   sortType: 'distance_asc',
   position: {
     latitude: 40.17887331434698,
@@ -92,7 +92,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        ...validateForm(state, action.payload),
         error: false,
       };
     case GEOCODE_STARTED:

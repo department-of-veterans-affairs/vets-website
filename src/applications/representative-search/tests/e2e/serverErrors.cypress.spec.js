@@ -34,7 +34,7 @@ describe('Find a Representative error handling', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
     cy.get('#search-results-title')
