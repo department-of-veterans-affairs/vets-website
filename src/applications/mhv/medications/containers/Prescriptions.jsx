@@ -269,6 +269,7 @@ const Prescriptions = props => {
         }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
+      updateLoadingStatus(false, '');
     },
     [userName, txtData, setPdfTxtGenerateStatus],
   );
