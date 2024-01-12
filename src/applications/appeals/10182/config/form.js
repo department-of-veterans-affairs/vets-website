@@ -137,6 +137,7 @@ const formConfig = {
           depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
+          onContinue: extensionRequest.onContinue,
         },
         extensionReason: {
           title: 'Reason for extension',

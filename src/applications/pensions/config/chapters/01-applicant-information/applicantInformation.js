@@ -11,8 +11,8 @@ import {
   vaFileNumberSchema,
   yesNoUI,
   yesNoSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import applicantDescription from '@department-of-veterans-affairs/platform-forms/ApplicantDescription';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
 
 export function isOver65(formData, currentDate) {

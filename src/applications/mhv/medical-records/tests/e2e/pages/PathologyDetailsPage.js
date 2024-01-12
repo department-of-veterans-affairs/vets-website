@@ -1,6 +1,32 @@
 // import defaultPathology from '../fixtures/Pathology.json';
 
 class PathologyDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="pathology-name"]').should('contain', name);
+  };
+
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
+  };
+
+  verifySampleTested = sampleTested => {
+    cy.get('[data-testid="pathology-sample-tested"]').should(
+      'contain',
+      sampleTested,
+    );
+  };
+
+  verifyLabLocation = location => {
+    cy.get('[data-testid="pathology-location"]').should('contain', location);
+  };
+
+  verifyDateCompleted = dateCompleted => {
+    cy.get('[data-testid="pathology-date-completed"]').should(
+      'contain',
+      dateCompleted,
+    );
+  };
+
   verifyPrintOrDownload = () => {
     cy.get('[data-testid="print-records-button"]').should('be.visible');
   };
@@ -26,7 +52,7 @@ class PathologyDetailsPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }

@@ -113,7 +113,7 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
   </RequestFormAlert>
 );
 
-export const TotalNetWorthOverTwentyFiveThousand = () => (
+export const TotalNetWorthOverTwentyFiveThousandAlert = () => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">
       You answered that you have more than $25,000 in assets. You’ll need to
@@ -144,7 +144,7 @@ export const TotalNetWorthOverTwentyFiveThousand = () => (
   </va-alert>
 );
 
-export const AssetTransferFormAlert = () => (
+export const IncomeAssetStatementFormAlert = () => (
   <va-alert status="warning" uswds slim>
     <p className="vads-u-margin-y--0">
       You’ll need to submit an Income and Asset Statement in Support of Claim
@@ -171,5 +171,20 @@ export const AssetTransferFormAlert = () => (
         Get VA Form 21P-0969 to download.
       </a>
     </p>
+  </va-alert>
+);
+
+export const LandMarketableAlert = () => (
+  <va-alert status="info" uswds>
+    <p className="vads-u-margin-y--0">
+      The additional land might not be marketable in these situations:
+    </p>
+    <ul>
+      <li>The entire lot of land is only slightly more than 2 acres, or</li>
+      <li>The additional land isn’t accessible, or</li>
+      <li>
+        There are zoning rules that prevent selling the additional property
+      </li>
+    </ul>
   </va-alert>
 );

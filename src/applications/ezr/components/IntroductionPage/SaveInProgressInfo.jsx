@@ -7,6 +7,7 @@ import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
+import PreferredFacilityAlert from '../FormAlerts/PreferredFacilityAlert';
 import FinancialMeansTestWarning from '../FormAlerts/FinancialStatusWarning';
 import content from '../../locales/en/content.json';
 
@@ -14,7 +15,8 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
   const {
     canSubmitFinancialInfo,
-    isEnrolledinESR,
+    hasPreferredFacility,
+    isValidEnrollmentStatus,
     hasServerError,
   } = useSelector(selectEnrollmentStatus);
   const {
@@ -43,17 +45,17 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
   // set the correct alert to render based on enrollment status
   const LoggedInAlertToRender = () => {
-    if (!isEnrolledinESR)
+    if (!isValidEnrollmentStatus)
       return <EnrollmentStatusAlert showError={hasServerError} />;
-
-    return canSubmitFinancialInfo ? (
-      sipIntro
-    ) : (
-      <>
-        <FinancialMeansTestWarning />
-        {sipIntro}
-      </>
-    );
+    if (!hasPreferredFacility) return <PreferredFacilityAlert />;
+    if (!canSubmitFinancialInfo)
+      return (
+        <>
+          <FinancialMeansTestWarning />
+          {sipIntro}
+        </>
+      );
+    return sipIntro;
   };
 
   return isLoggedOut ? (

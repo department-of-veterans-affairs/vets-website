@@ -17,7 +17,7 @@ describe('<AppointmentsCard />', () => {
         additionalInfo: 'yada yada yada',
         isVideo: true,
         providerName: 'test provider',
-        startsAt: '2023-12-04T10:00:00-05:00',
+        startsAt: '2024-01-11T06:30:00-07:00',
         timeZone: 'MT',
         type: 'regular',
       },
@@ -25,7 +25,6 @@ describe('<AppointmentsCard />', () => {
 
     const startFns = parseISO(appointments[0].startsAt);
     const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
-    const timeZone = appointments[0]?.timeZone;
     const tree = renderInReduxProvider(
       <AppointmentsCard appointments={appointments} />,
       {
@@ -47,7 +46,7 @@ describe('<AppointmentsCard />', () => {
     });
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
-    tree.getByText(`Time: ${format(startFns, 'h:mm aaaa')} ${timeZone}`);
+    tree.getByText(`Time: 6:30 a.m. MT`);
   });
 
   context('renders the location name', () => {
