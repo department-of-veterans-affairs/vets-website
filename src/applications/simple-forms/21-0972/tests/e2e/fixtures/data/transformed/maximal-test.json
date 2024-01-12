@@ -35,14 +35,9 @@
   "claimantPhone": "1203456789",
   "claimantEmail": "jen.c.claimant@email.com",
   "preparerQualifications": {
-     "attorney": false,
-     "caregiver": false,
-     "courtAppointedRep": true,
-     "manager": false
+     "courtAppointedRep": true
    },
    "preparerSigningReason": {
-     "mentallyIncapable": false,
-     "physicallyIncapable": false,
      "under18": true
    },
   "veteranFullName": {
