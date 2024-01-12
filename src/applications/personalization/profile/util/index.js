@@ -1,8 +1,5 @@
-import { FIELD_NAMES } from '@@vap-svc/constants';
 import cloneDeep from 'lodash/cloneDeep';
 import { apiRequest } from '~/platform/utilities/api';
-
-export * from './analytics';
 
 // error keys for profile/direct_deposits/disability_compensations endpoint
 // easier to export and use than importing one by one constants
@@ -195,13 +192,4 @@ export const createCNPDirectDepositAnalyticsDataObject = ({
     'profile-section': `cnp-direct-deposit-information`,
     'error-key': `${errorCode}${isEnrolling ? '-enroll' : '-update'}`,
   });
-};
-
-// checks for basic field data or data for nested object like gender identity
-export const isFieldEmpty = (data, fieldName) => {
-  // checks whether data is available and in the case of gender identity if there is a code present
-  return (
-    !data ||
-    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
-  );
 };
