@@ -8,9 +8,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
  * @returns true if at least one condition is claimed for toxic exposure, false otherwise
  */
 export const isClaimingTECondition = formData =>
-  get('toxicExposureConditions', formData, {})
-    .values()
-    .includes(true);
+  Object.values(get('toxicExposureConditions', formData, {})).includes(true);
 
 export const conditionsPageTitle = 'Toxic Exposure';
 export const conditionsQuestion =

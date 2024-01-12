@@ -1,4 +1,4 @@
-import { toxicExposureConditions, gulfWarHazard1990 } from '..';
+import { toxicExposureConditions, gulfWar1990Locations } from '..';
 import {
   conditionsPageTitle,
   gulfWar1990PageTitle,
@@ -14,11 +14,12 @@ export const toxicExposurePages = {
     uiSchema: toxicExposureConditions.uiSchema,
     schema: toxicExposureConditions.schema,
   },
-  gulfWarHazard1990: {
+  gulfWar1990Locations: {
     title: gulfWar1990PageTitle,
     path: 'gulf-war-hazard-1990',
-    depends: () => isClaimingTECondition && showToxicExposurePages,
-    uiSchema: gulfWarHazard1990.uiSchema,
-    schema: gulfWarHazard1990.schema,
+    depends: formData =>
+      isClaimingTECondition(formData) && showToxicExposurePages,
+    uiSchema: gulfWar1990Locations.uiSchema,
+    schema: gulfWar1990Locations.schema,
   },
 };
