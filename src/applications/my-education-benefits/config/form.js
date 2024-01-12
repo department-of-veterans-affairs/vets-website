@@ -44,6 +44,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
+import ObfuscateReviewField from '../components/ObfuscateReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
@@ -59,15 +60,16 @@ import {
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
-  customDirectDepositDescription,
 } from '../helpers';
 
 import {
   isValidPhone,
+  validateBankAccountNumber,
   validateEmail,
   validateEffectiveDate,
   validateMobilePhone,
   validateHomePhone,
+  validateRoutingNumber,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -191,11 +193,13 @@ function phoneUISchema(category) {
         hideIf: formData => {
           if (category === 'mobile') {
             if (
-              !formData[formFields.viewPhoneNumbers].mobilePhoneNumber.phone
+              !formData[formFields.viewPhoneNumbers]?.mobilePhoneNumber?.phone
             ) {
               return true;
             }
-          } else if (!formData[formFields.viewPhoneNumbers].phoneNumber.phone) {
+          } else if (
+            !formData[formFields.viewPhoneNumbers]?.phoneNumber?.phone
+          ) {
             return true;
           }
           return false;
@@ -358,13 +362,6 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
-const isValidAccountNumber = accountNumber => {
-  if (/^[0-9]*$/.test(accountNumber)) {
-    return accountNumber;
-  }
-  return false;
-};
-
 const checkBoxValidation = {
   pattern: (errors, values, formData) => {
     if (
@@ -375,18 +372,6 @@ const checkBoxValidation = {
       errors.addError('Please check at least one of the options below');
     }
   },
-};
-
-const validateAccountNumber = (
-  errors,
-  accountNumber,
-  formData,
-  schema,
-  errorMessages,
-) => {
-  if (!isValidAccountNumber(accountNumber)) {
-    errors.addError(errorMessages.pattern);
-  }
 };
 
 const formConfig = {
@@ -1355,12 +1340,14 @@ const formConfig = {
             },
             'view:serviceHistory': {
               'ui:description': (
-                <div className="meb-review-page-only">
-                  <p>
-                    If you’d like to update information related to your service
-                    history, edit the form fields below.
-                  </p>
-                </div>
+                <>
+                  <div className="meb-review-page-only">
+                    <p>
+                      If you’d like to update information related to your
+                      service history, edit the form fields below.
+                    </p>
+                  </div>
+                </>
               ),
               [formFields.serviceHistoryIncorrect]: {
                 'ui:title': 'This information is incorrect and/or incomplete',
@@ -1692,88 +1679,11 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        // Display this page when showDgiDirectDeposit1990EZ is false
-        DirectDepositPageNonPrefill: {
-          path: 'direct-deposit',
-          depends: formData => !formData.showDgiDirectDeposit1990EZ,
-          uiSchema: {
-            'ui:description': customDirectDepositDescription,
-            bankAccount: {
-              ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-              accountNumber: {
-                'ui:title': 'Bank account number',
-                'ui:validations': [validateAccountNumber],
-                'ui:errorMessages': {
-                  pattern: 'Please enter only numbers',
-                },
-              },
-            },
-            'view:learnMore': {
-              'ui:description': (
-                <>
-                  <img
-                    key="check-image-src"
-                    style={{ marginTop: '1rem' }}
-                    src={checkImageSrc}
-                    alt="Example of a check showing where the account and routing numbers are"
-                  />
-                  <p key="learn-more-title">Where can I find these numbers?</p>
-                  <p key="learn-more-description">
-                    The bank routing number is the first 9 digits on the bottom
-                    left corner of a printed check. Your account number is the
-                    second set of numbers on the bottom of a printed check, just
-                    to the right of the bank routing number.
-                  </p>
-                  <va-additional-info key="learn-more-btn" trigger="Learn More">
-                    <p key="btn-copy">
-                      If you don’t have a printed check, you can sign in to your
-                      online banking institution for this information
-                    </p>
-                  </va-additional-info>
-                </>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount: {
-                type: 'object',
-                required: [
-                  formFields.accountType,
-                  formFields.accountNumber,
-                  formFields.routingNumber,
-                ],
-                properties: {
-                  accountType: {
-                    type: 'string',
-                    enum: ['checking', 'savings'],
-                  },
-                  routingNumber: {
-                    type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  accountNumber: {
-                    type: 'string',
-                    required: [],
-                  },
-                },
-              },
-              'view:learnMore': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-        // Display this page when showDgiDirectDeposit1990EZ is true
-        DirectDepositPagePrefillEnabled: {
+        directDeposit: {
           path: 'direct-deposit',
           title: 'Direct deposit',
-          depends: formData => formData.showDgiDirectDeposit1990EZ,
           uiSchema: {
-            title: 'direct-deposit',
+            title: 'direct deposit',
             'ui:title': (
               <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
                 Direct deposit information
@@ -1781,6 +1691,7 @@ const formConfig = {
             ),
             'ui:field': ReviewCardField,
             'ui:options': {
+              hiseIf: formData => !formData.showDgiDirectDeposit1990EZ,
               editTitle: 'Direct deposit information',
               hideLabelText: true,
               itemName: 'account information',
@@ -1790,16 +1701,31 @@ const formConfig = {
               viewComponent: DirectDepositViewField,
               volatileData: true,
             },
-            'ui:description': customDirectDepositDescription,
+            'ui:description': (
+              <>
+                <p>
+                  We make payments only through direct deposit, also called
+                  electronic funds transfer (EFT).
+                </p>
+              </>
+            ),
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
-                'ui:title': 'Bank account number',
-                'ui:validations': [validateAccountNumber],
+                ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
                   pattern: 'Please enter only numbers',
                 },
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateBankAccountNumber],
+              },
+              routingNumber: {
+                ...bankAccountUI.routingNumber,
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:validations': [validateRoutingNumber],
               },
             },
             'view:learnMore': {
@@ -1839,17 +1765,17 @@ const formConfig = {
                   formFields.routingNumber,
                 ],
                 properties: {
+                  accountNumber: {
+                    type: 'string',
+                    pattern: '^\\**[a-z0-9]+$',
+                  },
                   accountType: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
                   routingNumber: {
                     type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  accountNumber: {
-                    type: 'string',
-                    required: [],
+                    pattern: '^[\\d*]{5}\\d{4}$',
                   },
                 },
               },
