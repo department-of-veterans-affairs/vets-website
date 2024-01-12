@@ -36,7 +36,7 @@ describe('Medicaitons Print/Download button component', () => {
       throw new Error('error');
     };
     const screen = setup(handleDownloadPDFError);
-    const downloadButton = screen.getByText('Download this page as a PDF');
+    const downloadButton = screen.getByText('Download a PDF of this page');
     fireEvent.click(downloadButton);
 
     const errorMessage = await screen.getByText(
@@ -55,17 +55,13 @@ describe('Medicaitons Print/Download button component', () => {
   it('button displays different text for list', () => {
     const screen = setup(handleFullListDownload, true, true);
 
-    const successMessage = screen.getByText(
-      'Download your medication list as a PDF',
-    );
+    const successMessage = screen.getByText('Download a PDF of this list');
     expect(successMessage).to.exist;
   });
 
   it('should start downloading PDF on PDF button click', () => {
     const screen = setup(handleFullListDownload, false, true);
-    const downloadButton = screen.getByText(
-      'Download your medication list as a PDF',
-    );
+    const downloadButton = screen.getByText('Download a PDF of this list');
     fireEvent.click(downloadButton);
     expect(handleFullListDownload.getCalls().length).to.equal(1);
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.false;
@@ -75,7 +71,7 @@ describe('Medicaitons Print/Download button component', () => {
   it('should start downloading TXT on TXT button click', () => {
     const screen = setup(handleFullListDownload, false, true);
     const downloadButton = screen.getByText(
-      'Download your medication list as a text file',
+      'Download a text file (.txt) of this list',
     );
     fireEvent.click(downloadButton);
     expect(handleFullListDownload.getCalls().length).to.equal(1);

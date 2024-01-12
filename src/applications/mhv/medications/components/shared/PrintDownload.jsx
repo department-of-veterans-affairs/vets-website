@@ -64,7 +64,7 @@ const PrintDownload = props => {
           data-testid="print-records-button"
           aria-expanded={menuOpen}
         >
-          <span>Print or download this {list ? 'list' : 'page'}</span>
+          <span>Print or download</span>
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
         <ul className={menuOptionsClasses}>
@@ -74,9 +74,7 @@ const PrintDownload = props => {
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              {list
-                ? 'Download your medication list as a PDF'
-                : 'Download this page as a PDF'}
+              {`Download a PDF of this ${list ? 'list' : 'page'}`}
             </button>
           </li>
           <li>
@@ -85,9 +83,7 @@ const PrintDownload = props => {
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              {list
-                ? 'Download your medication list as a text file'
-                : 'Download this page as a text file'}
+              {`Download a text file (.txt) of this ${list ? 'list' : 'page'}`}
             </button>
           </li>
         </ul>
