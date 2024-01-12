@@ -177,7 +177,11 @@ Interpretation: ${entry.interpretation}\n`,
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--1" aria-describedby="chem-hem-date">
+      <h1
+        className="vads-u-margin-bottom--1"
+        aria-describedby="chem-hem-date"
+        data-testid="chem-hem-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="chem-hem-date" />
@@ -196,23 +200,27 @@ Interpretation: ${entry.interpretation}\n`,
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Type of test
         </h3>
-        <p>{record.category}</p>
+        <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h3>
-        <p>{record.orderingLocation}</p>
+        <p data-testid="chem-hem-ordering-location">
+          {record.orderingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
-        <p>{record.collectingLocation}</p>
+        <p data-testid="chem-hem-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Provider notes
         </h3>

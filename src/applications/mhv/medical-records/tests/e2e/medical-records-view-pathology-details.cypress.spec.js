@@ -9,6 +9,8 @@ describe('Medical Records View Labs And Tests', () => {
     cy.visit('my-health/medical-records/labs-and-tests');
 
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(8);
+    PathologyDetailsPage.verifyLabName('LR SURGICAL PATHOLOGY REPORT');
+    PathologyDetailsPage.verifyLabDate('August 10, 2000');
     PathologyDetailsPage.verifySampleTested('None noted');
     PathologyDetailsPage.verifyLabLocation('None noted');
     PathologyDetailsPage.verifyDateCompleted('August 10, 2000');

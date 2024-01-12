@@ -1,5 +1,5 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import LabsAndTestsDetailsPage from './pages/LabsAndTestsDetailsPage';
+import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 
 describe('Medical Records Health Chemistry And Hematology', () => {
@@ -14,22 +14,22 @@ describe('Medical Records Health Chemistry And Hematology', () => {
     // Given Navigate to Chemistry And Hematology ListPage
 
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
-    LabsAndTestsDetailsPage.clickPrintOrDownload();
+    ChemHemDetailsPage.clickPrintOrDownload();
     // should display a toggle menu button
-    LabsAndTestsDetailsPage.verifyPrintOrDownload();
+    ChemHemDetailsPage.verifyPrintOrDownload();
 
     // should display print button for a Details "Print this Details"
-    LabsAndTestsDetailsPage.verifyPrintButton();
+    ChemHemDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    LabsAndTestsDetailsPage.verifyDownloadPDF();
+    ChemHemDetailsPage.verifyDownloadPDF();
 
     // should display a download text file button "Download Details as a text file"
-    LabsAndTestsDetailsPage.verifyDownloadTextFile();
-    LabsAndTestsDetailsPage.clickDownloadTextFile();
+    ChemHemDetailsPage.verifyDownloadTextFile();
+    ChemHemDetailsPage.clickDownloadTextFile();
 
     // verify content of the downloaded text file when running in headless mode
-    LabsAndTestsDetailsPage.verifyDownloadTextFileHeadless(
+    ChemHemDetailsPage.verifyDownloadTextFileHeadless(
       'Safari',
       'Mhvtp',
       'Mhvtp, Safari',
