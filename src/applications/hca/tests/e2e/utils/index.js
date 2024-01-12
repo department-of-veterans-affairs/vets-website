@@ -4,7 +4,7 @@ const { data: testData } = maxTestData;
 
 export const goToNextPage = pagePath => {
   // Clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' })
+  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
     .first()
     .scrollIntoView()
     .click();

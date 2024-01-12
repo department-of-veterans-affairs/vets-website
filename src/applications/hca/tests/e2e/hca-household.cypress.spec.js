@@ -1,6 +1,6 @@
 import moment from 'moment';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-hhv2.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
@@ -312,6 +312,8 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     cy.get('[name="root_sameAddress"]').check('N');
 
     goToNextPage('/household-information/spouse-financial-support');
+    cy.get('[name="root_provideSupportLastYear"]').check('N');
+
     goToNextPage('/household-information/spouse-contact-information');
     cy.get('#root_spouseAddress_street').type(
       testData['view:spouseContactInformation'].spouseAddress.street,
