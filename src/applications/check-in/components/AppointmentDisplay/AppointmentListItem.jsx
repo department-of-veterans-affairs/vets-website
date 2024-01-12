@@ -54,6 +54,11 @@ const AppointmentListItem = props => {
       data-testid="appointment-list-item"
     >
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+        {page === 'details' && (
+          <div className="vads-u-font-family--serif vads-u-font-size--lg">
+            {t('date-long', { date: appointmentDateTime })}
+          </div>
+        )}
         <div
           data-testid="appointment-time"
           className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
