@@ -132,13 +132,10 @@ const SearchControls = props => {
               required
             />
             <div
-              className={classNames(
-                'use-my-location-button-container vads-u-margin-top--1',
-                {
-                  'use-my-location-button-container-error':
-                    showEmptyError || showGeolocationError,
-                },
-              )}
+              className={classNames('use-my-location-button-container', {
+                'use-my-location-button-container-error':
+                  showEmptyError || showGeolocationError,
+              })}
             >
               {geolocationInProgress ? (
                 <div
