@@ -2,20 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import { formatAddress } from '~/platform/forms/address/helpers';
-
-import { isFieldEmpty } from '../util';
-
+import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import {
   addresses,
   phoneNumbers,
   personalInformation,
-} from '../util/getProfileInfoFieldAttributes';
-
+} from 'platform/user/profile/vap-svc/util/getProfileInfoFieldAttributes';
 import {
   formatMultiSelectAndText,
   formatGenderIdentity,
-} from '../util/personal-information/personalInformationUtils';
+} from 'platform/user/profile/vap-svc/util/personal-information/personalInformationUtils';
+
+import { formatAddress } from 'platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;

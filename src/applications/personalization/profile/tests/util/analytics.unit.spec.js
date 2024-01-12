@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { createApiEvent } from '@@profile/util/analytics';
+import { createApiEvent } from '@@vap-svc/util/analytics';
 
 describe('Profile', () => {
   describe('analytics utils', () => {

@@ -2,37 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
-import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
-import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
-import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
-import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
-import { isFieldEmpty } from 'applications/personalization/profile/util';
-import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
-
-import { isVAPatient } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  focusElement,
-  waitForRenderThenFocus,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
-
+// platform level imports
 import recordEvent from '../../../../monitoring/record-event';
-
+import { isVAPatient } from '../../../selectors';
+import { focusElement, waitForRenderThenFocus } from '../../../../utilities/ui';
 import prefixUtilityClasses from '../../../../utilities/prefix-utility-classes';
 
-import * as VAP_SERVICE from '../constants';
-
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '../util/transactions';
-
+// local level imports
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   openModal,
 } from '../actions';
+
+import * as VAP_SERVICE from '../constants';
+import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '../constants';
 
 import {
   selectAddressValidationType,
@@ -41,24 +26,35 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
+  selectVAProfilePersonalInformation,
 } from '../selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '../constants';
-import VAPServiceTransaction from './base/VAPServiceTransaction';
-import AddressValidationView from '../containers/AddressValidationView';
-
-import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
-import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
-import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
-
-import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
-
+import { isFieldEmpty } from '../util';
+import { recordCustomProfileEvent } from '../util/analytics';
+import { getInitialFormValues } from '../util/contact-information/formValues';
+import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes';
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
 import { getEditButtonId } from '../util/id-factory';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '../util/transactions';
+
+// component imports
+import VAPServiceTransaction from './base/VAPServiceTransaction';
+import AddressValidationView from '../containers/AddressValidationView';
+
+import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
+import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
+import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
+import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+
+import ProfileInformationView from './ProfileInformationView';
+import ProfileInformationEditView from './ProfileInformationEditView';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',

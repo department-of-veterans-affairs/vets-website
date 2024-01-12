@@ -19,7 +19,7 @@ import {
 } from '@@vap-svc/util/transactions';
 
 import { usePrevious } from 'platform/utilities/react-hooks';
-import { getProfileInfoFieldAttributes } from '../util/getProfileInfoFieldAttributes';
+import { getProfileInfoFieldAttributes } from '@@vap-svc/util/getProfileInfoFieldAttributes';
 
 export const useProfileTransaction = fieldName => {
   const dispatch = useDispatch();

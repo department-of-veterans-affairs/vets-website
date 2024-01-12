@@ -6,7 +6,7 @@ import {
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
   formatIndividualLabel,
-} from '@@profile/util/personal-information/personalInformationUtils';
+} from '@@vap-svc/util/personal-information/personalInformationUtils';
 
 describe('formatMultiSelectAndText utility', () => {
   it('returns single pronouns', () => {

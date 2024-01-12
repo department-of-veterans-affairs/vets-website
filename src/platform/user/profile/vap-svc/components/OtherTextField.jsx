@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const numberTypes = new Set(['number', 'integer']);
 
 export default function OtherTextField(props) {
-  let inputType = props.options.inputType;
+  let { inputType } = props.options;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }

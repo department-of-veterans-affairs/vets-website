@@ -5,9 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { openModal, updateFormFieldWithSchema } from '@@vap-svc/actions';
+import { isFieldEmpty } from '@@vap-svc/util';
+import { getInitialFormValues } from '@@vap-svc/util/contact-information/formValues';
+import getProfileInfoFieldAttributes from '@@vap-svc/util/getProfileInfoFieldAttributes';
+import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
+import InitializeVAPServiceIDContainer from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import InitializeVAPServiceIDContainer from '~/platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from '~/platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 
@@ -17,11 +20,8 @@ import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
 import { routesForNav } from '../../routesForNav';
-import getProfileInfoFieldAttributes from '../../util/getProfileInfoFieldAttributes';
-import { getInitialFormValues } from '../../util/contact-information/formValues';
-import { getRouteInfoFromPath } from '~/applications/personalization/common/helpers';
-import { isFieldEmpty } from '../../util';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import { getRouteInfoFromPath } from '../../../common/helpers';
 
 const useQuery = () => {
   const { search } = useLocation();
@@ -91,10 +91,11 @@ export const Edit = () => {
 
   const editPageHeadingString = useMemo(
     () => {
-      const useAdd = isFieldEmpty(fieldData, fieldInfo?.fieldName);
-      return `${
-        useAdd ? 'Add' : 'Update'
-      } your ${fieldInfo?.title.toLowerCase()}`;
+      const addOrUpdate = isFieldEmpty(fieldData, fieldInfo?.fieldName)
+        ? 'Add'
+        : 'Update';
+
+      return `${addOrUpdate} your ${fieldInfo?.title.toLowerCase()}`;
     },
     [fieldData, fieldInfo],
   );

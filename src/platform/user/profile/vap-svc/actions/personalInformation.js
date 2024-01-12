@@ -2,17 +2,18 @@ import appendQuery from 'append-query';
 import set from 'lodash/set';
 import capitalize from 'lodash/capitalize';
 
-import { PERSONAL_INFO_FIELD_NAMES } from '@@vap-svc/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
+
+import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
+import { PERSONAL_INFO_FIELD_NAMES } from '../constants';
+
 import {
   VAP_SERVICE_TRANSACTION_REQUESTED,
   VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
   VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
   clearTransaction,
-} from '@@vap-svc/actions';
-import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
-
-import recordEvent from '~/platform/monitoring/record-event';
-import { apiRequest } from '~/platform/utilities/api';
+} from '.';
 
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =

@@ -1,6 +1,6 @@
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordCustomProfileEvent } from '../../../util/analytics';
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 
 const recordView = () => {
   recordCustomProfileEvent({

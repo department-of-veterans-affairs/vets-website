@@ -8,12 +8,12 @@ import {
   orderProperties,
   getDefaultRegistry,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import get from '~/platform/forms-system/src/js/utilities/data/get';
-import set from '~/platform/forms-system/src/js/utilities/data/set';
+import get from 'platform/forms-system/src/js/utilities/data/get';
+import set from 'platform/forms-system/src/js/utilities/data/set';
 
-import ExpandingGroup from '~/platform/forms-system/src/js/components/ExpandingGroup';
-import { pureWithDeepEquals } from '~/platform/forms-system/src/js/helpers';
-import { isReactComponent } from '~/platform/utilities/ui';
+import ExpandingGroup from 'platform/forms-system/src/js/components/ExpandingGroup';
+import { pureWithDeepEquals } from 'platform/forms-system/src/js/helpers';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /*
  * This is largely copied platform/forms-system/src/js/fields/ObjectField.jsx

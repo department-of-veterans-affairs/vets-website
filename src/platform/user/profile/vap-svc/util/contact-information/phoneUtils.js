@@ -1,5 +1,5 @@
-import { PHONE_TYPE, USA } from '@@vap-svc/constants';
 import pickBy from 'lodash/pickBy';
+import { PHONE_TYPE, USA } from '../../constants';
 
 export const phoneFormSchema = {
   type: 'object',
