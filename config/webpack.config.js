@@ -210,7 +210,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      // template: 'src/platform/landing-pages/dev-template.ejs',
+      template: 'src/platform/landing-pages/dev-template.ejs',
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
