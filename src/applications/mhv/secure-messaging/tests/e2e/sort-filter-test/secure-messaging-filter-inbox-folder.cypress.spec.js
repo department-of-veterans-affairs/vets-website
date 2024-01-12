@@ -6,6 +6,13 @@ describe('Secure Messaging Inbox Folder checks', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
+  const {
+    data: [, secondElement, thirdElement],
+    ...rest
+  } = mockMessages;
+
+  const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
+
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
@@ -21,8 +28,8 @@ describe('Secure Messaging Inbox Folder checks', () => {
       },
     });
     landingPage.inputFilterData('test');
-    landingPage.filterMessages();
-    landingPage.verifyFilterResults('test');
+    landingPage.filterMessages(mockFilterResults);
+    landingPage.verifyFilterResults('test', mockFilterResults);
   });
 
   it('Verify clear filter btn works correctly', () => {
@@ -35,7 +42,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
       },
     });
     landingPage.inputFilterData('test');
-    landingPage.filterMessages();
+    landingPage.filterMessages(mockFilterResults);
     landingPage.clearFilter();
     landingPage.verifyFilterFieldCleared();
   });
