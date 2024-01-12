@@ -206,25 +206,6 @@ export const capitalizeEachWord = name => {
   return null;
 };
 
-/**
- * Takes an array of strings and returns them as a properly formatted human readable list
- * E.g. for two items it would be "item1 and item2" and for three or more it would be "item1, item2 and item3" with commas
- * Note this is preferred over using more modern JavaScript tools like Intl.ListFormat because they aren't supported in older browsers:
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat
- * @param {string[]} list
- * @returns {string} formatted string
- */
-export const formatList = list => {
-  if (list.length === 1) {
-    return list[0];
-  }
-  if (list.length === 2) {
-    return list.join(' and ');
-  }
-  const lastItem = list.pop();
-  return `${list.join(', ')}, and ${lastItem}`;
-};
-
 export const hasForwardingAddress = formData =>
   _.get('view:hasForwardingAddress', formData, false);
 
