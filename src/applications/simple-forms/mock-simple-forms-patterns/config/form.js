@@ -254,7 +254,7 @@ const formConfig = {
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
           depends: formData =>
-            includeChapter('arrayMultiPageBuilder') &&
+            includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
         },
         multiPageBuilderStepTwo: {
@@ -266,7 +266,7 @@ const formConfig = {
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
           depends: formData =>
-            includeChapter('arrayMultiPageBuilder') &&
+            includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
           onNavForward: ({ goPath }) => {
             goPath('/array-multiple-page-builder-summary');
