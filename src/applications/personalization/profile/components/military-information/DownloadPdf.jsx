@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { renderDOB } from '../../util/personal-information/personalInformationUtils';
+import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { generatePdf } from '~/platform/pdf';
 import { formatFullName } from '../../../common/helpers';
 
