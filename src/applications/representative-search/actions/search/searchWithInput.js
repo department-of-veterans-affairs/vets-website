@@ -8,7 +8,6 @@ import { fetchRepresentatives } from '../representatives/fetchRepresentatives';
  * @param {{address: string, lat: number, long: number, name: string, page: number, per_page: number, sort: string}}
  */
 
-/* eslint-disable camelcase */
 export const searchWithInput = ({
   address,
   lat,
