@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import recordEvent from '~/platform/monitoring/record-event';
-import Logo from '../Logo';
 import UserNav from '../../../user-nav/containers/Main';
 import { updateExpandedMenuIDAction } from '../../containers/Menu/actions';
 
@@ -26,7 +25,7 @@ export const LogoRow = ({
         href="/"
         onClick={() => recordEvent({ event: 'nav-header-logo' })}
       >
-        <Logo />
+        <img src="/img/usa_government_logo_header.svg" alt="USA Government" />
       </a>
       <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
         <UserNav isHeaderV2 showNavLogin={showNavLogin} />

@@ -17,6 +17,7 @@ export const OfficialGovtWebsite = () => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
+      <img src="/img/usa_government_logo_header.svg" alt="USA Government" />
       {/* Banner */}
       <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
         <img
@@ -30,7 +31,7 @@ export const OfficialGovtWebsite = () => {
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
           onClick={onToggle}
         >
-          An official website of the United States government.
+          An official website of the United States government. VW
           <i
             aria-hidden="true"
             className="fa fa-chevron-down vads-u-margin-left--0p5"

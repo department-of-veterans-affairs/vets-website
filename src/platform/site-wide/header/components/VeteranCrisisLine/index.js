@@ -14,7 +14,7 @@ export const VeteranCrisisLine = props => (
         recordEvent({ event: 'nav-jumplink-click' });
       }}
     >
-      Talk to the <strong>Veterans Crisis Line</strong> now
+      Talk to the <strong>Veterans Crisis Line VW</strong> now
       <i
         aria-hidden="true"
         className="fa fa-chevron-right vads-u-margin-left--1"

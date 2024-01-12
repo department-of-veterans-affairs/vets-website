@@ -29,20 +29,20 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
     return null;
   }
 
-  if (isDesktop) {
-    showLegacyHeader();
-    return null;
-  }
+  // if (isDesktop) {
+  return showLegacyHeader();
+  // return null;
+  // }
 
-  hideLegacyHeader();
+  // hideLegacyHeader();
 
-  return (
-    <Header
-      megaMenuData={megaMenuData}
-      showMegaMenu={showMegaMenu}
-      showNavLogin={showNavLogin}
-    />
-  );
+  // return (
+  //   <Header
+  //     megaMenuData={megaMenuData}
+  //     showMegaMenu={showMegaMenu}
+  //     showNavLogin={showNavLogin}
+  //   />
+  // );
 };
 
 App.propTypes = {
