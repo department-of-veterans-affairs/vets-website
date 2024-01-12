@@ -45,6 +45,7 @@ export default {
         'numberInput',
         'checkbox',
         'radio',
+        'select',
         'date',
         'arraySinglePage',
         'arrayMultiPageAggregate',
