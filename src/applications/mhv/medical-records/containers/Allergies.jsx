@@ -63,7 +63,7 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
-    const { title, subject, preface } = generateAllergiesIntro();
+    const { title, subject, preface } = generateAllergiesIntro(allergies);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
