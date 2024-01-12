@@ -141,7 +141,6 @@ export default Object.freeze({
   mhvToLogingovAccountTransitionModal:
     'mhv_to_logingov_account_transition_modal',
   myVaEnableNotificationComponent: 'my_va_notification_component',
-  myVaUseExperimental: 'my_va_experimental',
   myVaUseExperimentalFrontend: 'my_va_experimental_frontend',
   myVaUseExperimentalFullstack: 'my_va_experimental_fullstack',
   myVaHideNotificationsSection: 'my_va_hide_notifications_section',

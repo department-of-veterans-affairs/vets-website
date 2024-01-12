@@ -6,9 +6,7 @@ const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 
 const responses = {
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    myVaUseExperimental: true,
-  }),
+  'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/user': user.simpleUser,
   'GET /v0/onsite_notifications': notifications.hasMultiple,
 };
