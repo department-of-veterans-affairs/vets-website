@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
 import { connectDrupalSourceOfTruthCerner } from 'platform/utilities/cerner/dsot';
@@ -57,17 +57,6 @@ export default function createRoutesWithStore(store) {
                   connectDrupalSourceOfTruthCerner(store.dispatch);
                   store.injectReducer('newAppointment', reducer);
                   return NewAppointment;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <Route
-            path="/new-unenrolled-covid-19-vaccine-booking"
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "unenrolled-vaccine" */ './unenrolled-vaccine')
-                .then(({ UnenrolledVaccineSection, reducer }) => {
-                  store.injectReducer('unenrolledVaccine', reducer);
-                  return UnenrolledVaccineSection;
                 })
                 .catch(handleLoadError),
             )}
