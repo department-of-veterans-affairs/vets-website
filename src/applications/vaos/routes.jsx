@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
-import { connectDrupalSourceOfTruthCerner } from 'platform/utilities/cerner/dsot';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
@@ -54,7 +53,6 @@ export default function createRoutesWithStore(store) {
             component={asyncLoader(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
                 .then(({ NewAppointment, reducer }) => {
-                  connectDrupalSourceOfTruthCerner(store.dispatch);
                   store.injectReducer('newAppointment', reducer);
                   return NewAppointment;
                 })
