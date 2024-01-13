@@ -19,7 +19,6 @@ export default function CrisisPanel() {
             aria-hidden="true"
           />
         </button>
-
         <div className="va-overlay-body va-crisis-panel-body">
           <h3 className="va-crisis-panel-title">
             We’re here anytime, day or night – 24/7
