@@ -1,16 +1,18 @@
 const { defineConfig } = require('cypress');
 
 const cypressConfig = require('./cypress.config');
-const reporterConfig = require('./cypress-reporters');
 
 const configWithReporting = {
   ...cypressConfig,
   e2e: {
     ...cypressConfig.e2e,
+    video: false,
   },
-  reporter: 'mochawesome',
-  reporterConfig: {
-    ...reporterConfig.mochawesomeReporterOptions,
+  reporter: 'config/LocalReporter.js',
+  reporterOptions: {
+    overwrite: false,
+    html: true,
+    json: false,
   },
 };
 
