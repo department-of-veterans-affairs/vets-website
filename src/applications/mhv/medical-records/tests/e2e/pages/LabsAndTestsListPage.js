@@ -19,6 +19,11 @@ class LabsAndTestsListPage {
   }
   */
 
+  verifyLabsAndTestsPageTitle = () => {
+    // verify labs and tests title
+    cy.get('[data-testid="labs-and-tests-title"').should('be.visible');
+  };
+
   clickLabsAndTestsDetailsLink = (_LabsAndTestsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')

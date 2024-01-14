@@ -76,7 +76,10 @@ const LabsAndTests = () => {
 
   return (
     <div id="labs-and-tests">
-      <h1 className="page-title vads-u-margin-bottom--1">
+      <h1
+        className="page-title vads-u-margin-bottom--1"
+        data-testid="labs-and-tests-title"
+      >
         Lab and test results
       </h1>
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
