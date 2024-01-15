@@ -8,7 +8,33 @@ import IntroductionPage from '../../../containers/IntroductionPage';
 const props = {
   route: {
     path: 'introduction',
-    pageList: [],
+    pageList: [
+      {
+        pageKey: 'introduction',
+        path: '/introduction',
+      },
+      {
+        path: '/first-page',
+        title: 'First Page',
+        uiSchema: {},
+        schema: {
+          type: 'object',
+          properties: {
+            firstField: {
+              type: 'string',
+            },
+          },
+        },
+        chapterTitle: 'Chapter 1',
+        chapterKey: 'chapter1',
+        pageKey: 'page1',
+      },
+      {
+        pageKey: 'review-and-submit',
+        path: '/review-and-submit',
+        chapterKey: 'review',
+      },
+    ],
     formConfig,
   },
 };
@@ -93,41 +119,36 @@ describe('IntroductionPage', () => {
     expect(sipAlert).to.not.exist;
   });
 
-  /* TODO: Trying to fix this test before launch
-  * The render's errorring out but React doesn't know what 
-  * the error is. Something about "browser flakiness".
-  * Delete if not fixable and coverage is good enough.
-  */
-  // it('should render LOA3 content if user is logged-in and id-verified', () => {
-  //   const userVerifiedMockStore = {
-  //     ...mockStore,
-  //     getState: () => ({
-  //       ...mockStore.getState(),
-  //       user: {
-  //         login: {
-  //           currentlyLoggedIn: true,
-  //         },
-  //         profile: {
-  //           ...mockStore.getState().user.profile,
-  //           loa: {
-  //             current: 3,
-  //           },
-  //           verified: true,
-  //         },
-  //       },
-  //     }),
-  //   };
-  //   const { container } = render(
-  //     <Provider store={userVerifiedMockStore}>
-  //       <IntroductionPage {...props} />
-  //     </Provider>,
-  //   );
+  it('should render LOA3 content if user is logged-in and id-verified', () => {
+    const userVerifiedMockStore = {
+      ...mockStore,
+      getState: () => ({
+        ...mockStore.getState(),
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            ...mockStore.getState().user.profile,
+            loa: {
+              current: 3,
+            },
+            verified: true,
+          },
+        },
+      }),
+    };
+    const { container } = render(
+      <Provider store={userVerifiedMockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
 
-  //   const userNotVerifiedDiv = container.querySelector(
-  //     '[data-testid=verifyIdAlert]',
-  //   );
-  //   const sipAlert = container.querySelector('.schemaform-sip-alert');
-  //   expect(userNotVerifiedDiv).to.not.exist;
-  //   expect(sipAlert).to.exist;
-  // });
+    const userNotVerifiedDiv = container.querySelector(
+      '[data-testid=verifyIdAlert]',
+    );
+    const sipAlert = container.querySelector('.schemaform-sip-alert');
+    expect(userNotVerifiedDiv).to.not.exist;
+    expect(sipAlert).to.exist;
+  });
 });
