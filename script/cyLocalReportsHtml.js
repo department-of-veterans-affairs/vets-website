@@ -1,3 +1,8 @@
+/* cyLocalReportsHtml.js
+  * Supports run-local-cy-with-reports.js Node-script:
+  * Generates an index.html file with a link for each generated
+  * HTML report-file found in /mochawesome-report folder.
+ */
 const fs = require('fs');
 const cheerio = require('cheerio');
 
