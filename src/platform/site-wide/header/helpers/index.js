@@ -4,43 +4,40 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
-export const hideLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const hideDesktopHeader = () => {
+  const desktopHeader = document.getElementById('desktop-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (!legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.add('vads-u-display--none');
+  if (!desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.add('vads-u-display--none');
   }
 };
 
-export const showLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const showDesktopHeader = () => {
+  const desktopHeader = document.getElementById('desktop-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.remove('vads-u-display--none');
+  if (desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.remove('vads-u-display--none');
   }
 };
 
 export const fetchSearchSuggestions = async searchTerm => {
   try {
-    // Attempt to fetch suggestions.
     const suggestions = await apiRequest(
       `/search_typeahead?query=${encodeURIComponent(searchTerm)}`,
     );
 
-    // Return empty array if no suggestions are returned.
     if (!suggestions.length) {
       return [];
     }
 
-    // Sort and return suggestions.
     return suggestions.sort((a, b) => a.length - b.length);
   } catch (error) {
     // Custom log rate limit error.
@@ -50,10 +47,8 @@ export const fetchSearchSuggestions = async searchTerm => {
       );
     }
 
-    // Capture all other errors.
     Sentry.captureException(error);
 
-    // Return empty array if we hit an error.
     return [];
   }
 };
@@ -160,14 +155,6 @@ export const formatMenuItems = menuItems => {
       title: menuItems?.columnTwo?.title,
       links: menuItems?.columnTwo?.links,
     });
-  }
-
-  // Do not do anything for column three according to current code in production.
-  if (menuItems?.columnThree) {
-    // formattedMenuItems.push({
-    //   title: menuItems?.columnThree?.title,
-    //   links: menuItems?.columnThree?.links,
-    // });
   }
 
   return formattedMenuItems;

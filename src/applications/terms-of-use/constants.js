@@ -4,9 +4,9 @@ export const errorMessages = {
 
 export const touStyles = `
   #vetnav { display: none; }
-  #legacy-header { min-height: auto; }
+  #desktop-header { min-height: auto; }
   #login-root { visibility: hidden; }
   #mega-menu { min-height: auto; }
-  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole { display: none; }
+  #desktop-header > div:nth-child(3) > div.menu-rule.usa-one-whole { display: none; }
   #header-v2 > div > nav > div > div { visibility: hidden; }
 `;

@@ -41,6 +41,7 @@ body.va-pos-fixed {
     #vetnav-menu {
       overflow: hidden;
       height: 0;
+
       @include media($medium-large-screen) {
         height: auto;
         overflow: visible;
@@ -72,7 +73,7 @@ body.va-pos-fixed {
     position: relative;
   }
 
-  > li {
+  >li {
     margin-bottom: 6px;
 
     @include media($medium-large-screen) {
@@ -127,6 +128,7 @@ body.va-pos-fixed {
     @include media($medium-large-screen) {
       display: inline-block;
       background-color: transparent;
+
       &.vetnav-level2-button-second {
         margin-left: 0;
       }
@@ -202,6 +204,7 @@ body.va-pos-fixed {
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
+
     @include media($medium-large-screen) {
       background-position: right 16px center;
       padding-right: 32px;
@@ -250,8 +253,7 @@ body.va-pos-fixed {
 
 .vetnav-level2 {
   font-size: 16px;
-  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 30px
-    center no-repeat;
+  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 30px center no-repeat;
   background-size: 14px auto;
   border-radius: 0;
   display: block;
@@ -263,8 +265,7 @@ body.va-pos-fixed {
   -webkit-font-smoothing: antialiased;
 
   @include media($medium-large-screen) {
-    background: transparent url(/img/arrow-right.svg) right 10px center
-      no-repeat;
+    background: transparent url(/img/arrow-right.svg) right 10px center no-repeat;
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
@@ -308,8 +309,7 @@ body.va-pos-fixed {
 }
 
 #vetnav .back-button {
-  background: $color-primary-darker url(/img/arrow-left-white.svg) right 30px
-    center no-repeat;
+  background: $color-primary-darker url(/img/arrow-left-white.svg) right 30px center no-repeat;
   background-position: left 1px center;
   background-size: 14px auto;
   border-radius: 0;
@@ -381,8 +381,8 @@ body.va-pos-fixed {
   margin-left: -20px;
   position: relative;
 
-  > [data-reactroot],
-  > div {
+  >[data-reactroot],
+  >div {
     align-items: center;
     display: flex;
   }
@@ -437,7 +437,7 @@ body.va-pos-fixed {
     padding: 10px;
   }
 
-  > .va-flex {
+  >.va-flex {
     align-items: center;
   }
 }
@@ -473,9 +473,6 @@ body.va-pos-fixed {
     }
 
     #mega-menu {
-      // #vetnav {
-      //   min-height: unset;
-      // }
       .login-container {
         // due to these been nested, this has to have a higher z-level then vet-toolbar
         position: relative;
@@ -504,7 +501,7 @@ body.va-pos-fixed {
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
-    & + div {
+    &+div {
       .column-two h3 {
         visibility: hidden;
       }

@@ -13,7 +13,7 @@ export default `
     ></div>
 
     <!-- Tablet/Desktop Layout -->
-    <div id="legacy-header" class="vads-u-display--none">
+    <div id="desktop-header" class="vads-u-display--none">
       <div id="preview-site-alert"></div>
 
       <div class="va-notice--banner">
