@@ -9,7 +9,7 @@ const rimraf = require('rimraf');
 const cheerio = require('cheerio');
 const { execSync } = require('child_process');
 const chalk = require('chalk');
-const cyLocalReportsHtml = require('./cyLocalReportsHtml');
+const cyLocalReportsHtml = require('./get-cy-local-reports-index');
 
 // Get --spec parameter from command line arguments
 let spec = '';
