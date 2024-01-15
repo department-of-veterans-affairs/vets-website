@@ -58,14 +58,6 @@ $medium-phone-screen: 375px;
     padding-top: 3em;
   }
 
-  /* logo size override */
-
-  .va-header-logo {
-    width: 100%;
-    max-width: 60px;
-    height: auto;
-  }
-
   article {
     &:last-of-type {
       padding-bottom: 3em;
@@ -348,11 +340,6 @@ $medium-phone-screen: 375px;
         margin-right: 4.82916%;
         width: 44%;
       }
-    }
-
-    .va-header-logo-wrapper {
-      margin-bottom: 0;
-      justify-content: space-between;
     }
 
     .vet-toolbar {

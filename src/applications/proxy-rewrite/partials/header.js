@@ -26,7 +26,7 @@ export default `
                 <img src="${replaceWithStagingDomain(
                   'https://www.va.gov/img/tiny-usa-flag.png',
                 )}" alt="U.S. flag">
-                <p>An official website of the United States government PROXY REWRITE</p>
+                <p>An official website of the United States government</p>
                 <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
                   <span class="usa-banner-button-text">Here&rsquo;s how you know</span>
                 </button>
@@ -65,7 +65,7 @@ export default `
           <button data-show="#modal-crisisline" class="va-crisis-line va-overlay-trigger">
             <div class="va-crisis-line-inner">
               <span class="va-crisis-line-icon" aria-hidden="true"></span>
-              <span class="va-crisis-line-text">Talk to the <strong>Veterans Crisis Line INJECTED HEADER</strong> now</span>
+              <span class="va-crisis-line-text">Talk to the <strong>Veterans Crisis Line</strong> now</span>
               <img class="va-crisis-line-arrow" src="${replaceWithStagingDomain(
                 'https://www.va.gov/img/arrow-right-white.svg',
               )}" aria-hidden="true"></img>
