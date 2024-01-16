@@ -140,7 +140,7 @@ const testConfig = createTestConfig(
     appName: 'Pensions',
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['maximal-test'],
+    dataSets: ['maximal-test', 'overflow-test', 'simple-test'],
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
       cy.login(mockUser);
