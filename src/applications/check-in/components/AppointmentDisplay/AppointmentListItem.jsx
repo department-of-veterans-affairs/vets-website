@@ -53,15 +53,15 @@ const AppointmentListItem = props => {
       className="vads-u-border-bottom--1px check-in--appointment-item"
       data-testid="appointment-list-item"
     >
-      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
-        {page === 'details' && (
-          <div className="vads-u-font-family--serif vads-u-font-size--lg">
+      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">
+        {page === 'confirmation' && (
+          <div className="vads-u-font-family--serif vads-u-font-size--lg vads-u-line-height--2 vads-u-margin-bottom--1">
             {t('date-long', { date: appointmentDateTime })}
           </div>
         )}
         <div
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
         >
           {t('date-time', { date: appointmentDateTime })}{' '}
         </div>
