@@ -41,6 +41,7 @@ body.va-pos-fixed {
     #vetnav-menu {
       overflow: hidden;
       height: 0;
+
       @include media($medium-large-screen) {
         height: auto;
         overflow: visible;
@@ -72,7 +73,7 @@ body.va-pos-fixed {
     position: relative;
   }
 
-  > li {
+  >li {
     margin-bottom: 6px;
 
     @include media($medium-large-screen) {
@@ -127,6 +128,7 @@ body.va-pos-fixed {
     @include media($medium-large-screen) {
       display: inline-block;
       background-color: transparent;
+
       &.vetnav-level2-button-second {
         margin-left: 0;
       }
@@ -201,6 +203,7 @@ body.va-pos-fixed {
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
+
     @include media($medium-large-screen) {
       background-position: right 1.6rem center;
       padding-right: 3.2rem;
@@ -248,8 +251,7 @@ body.va-pos-fixed {
 }
 
 .vetnav-level2 {
-  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 2rem
-    center no-repeat;
+  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 2rem center no-repeat;
   background-size: 1.4rem auto;
   border-radius: 0;
   display: block;
@@ -262,8 +264,7 @@ body.va-pos-fixed {
   line-height: 1;
 
   @include media($medium-large-screen) {
-    background: transparent url(/img/arrow-right.svg) right 1rem center
-      no-repeat;
+    background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
@@ -307,8 +308,7 @@ body.va-pos-fixed {
 }
 
 #vetnav .back-button {
-  background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem
-    center no-repeat;
+  background: $color-primary-darker url(/img/arrow-left-white.svg) right 3rem center no-repeat;
   background-position: left 1rem center;
   background-size: 1.4rem auto;
   border-radius: 0;
@@ -361,6 +361,7 @@ body.va-pos-fixed {
       width: 768px;
     }
   }
+
   @include media($small-desktop-screen) {
     &.vetnav-submenu--expanded {
       width: 1008px;
@@ -396,8 +397,8 @@ body.va-pos-fixed {
   margin-left: -2rem;
   position: relative;
 
-  > [data-reactroot],
-  > div {
+  >[data-reactroot],
+  >div {
     align-items: center;
     display: flex;
   }
@@ -440,7 +441,7 @@ body.va-pos-fixed {
     padding: 1rem;
   }
 
-  > .va-flex {
+  >.va-flex {
     align-items: center;
   }
 }
@@ -502,7 +503,7 @@ body.va-pos-fixed {
 
   // TD: need to update this on formation in the MegaMenu. If no title it should still align with the link row.
   #vetnav-records-ms {
-    & + div {
+    &+div {
       .column-two h3 {
         visibility: hidden;
       }
@@ -552,4 +553,22 @@ body.va-pos-fixed {
       }
     }
   }
+}
+
+#header-search-button,
+#header-contact-link {
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+#header-va-text,
+#header-contact-link {
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+#header-va-text p {
+  font-size: 3.2rem;
 }

@@ -1,8 +1,8 @@
+// Used for desktop only
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
-import classNames from 'classnames';
 
-export default class DropDownPanel extends React.Component {
+class DropDownPanel extends Component {
   componentDidMount() {
     document.body.addEventListener('click', this.handleDocumentClick, false);
   }
@@ -25,11 +25,7 @@ export default class DropDownPanel extends React.Component {
   };
 
   render() {
-    const buttonClasses = classNames(
-      this.props.cssClass,
-      { 'va-btn-withicon': this.props.icon },
-      'va-dropdown-trigger',
-    );
+    const { children, isOpen } = this.props;
 
     return (
       <div
@@ -38,24 +34,35 @@ export default class DropDownPanel extends React.Component {
           this.dropdownDiv = div;
         }}
       >
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
-          className={buttonClasses}
-          aria-controls={this.props.id}
-          aria-expanded={this.props.isOpen}
-          disabled={this.props.disabled}
+          aria-controls="search"
+          aria-expanded={isOpen}
+          className="vads-u-font-size--lg vads-u-margin--0 vads-u-background-color--transparent vads-u-color--primary-darker"
+          id="header-search-button"
           onClick={this.toggleDropDown}
+          type="button"
         >
           <span>
-            {this.props.icon}
-            {this.props.buttonText}
+            <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
+            Search
+            <i
+              className="vads-u-margin-left--1 fas fa-solid fa-caret-down"
+              aria-hidden="true"
+            />
+            <i
+              className="vads-u-margin-left--1 fas fa-solid fa-caret-up"
+              aria-hidden="true"
+              hidden
+            />
           </span>
         </button>
         <div
-          className={`va-dropdown-panel ${this.props.dropdownPanelClassNames}`}
-          id={this.props.id}
-          hidden={!this.props.isOpen}
+          className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
+          id="search"
+          hidden={!isOpen}
         >
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
@@ -63,50 +70,9 @@ export default class DropDownPanel extends React.Component {
 }
 
 DropDownPanel.propTypes = {
-  /**
-   * The text of the drop down button.
-   */
-  buttonText: PropTypes.string.isRequired,
-
-  /**
-   * A function called when the drop down button is clicked. This is often used
-   * to set the open state in the parent component, which passes down the new
-   * isOpen prop.
-   */
   clickHandler: PropTypes.func.isRequired,
-
-  /**
-   * Any CSS classes to apply to the button itself.
-   */
-  cssClass: PropTypes.string,
-
-  /**
-   * The string of classnames for the dropdown panel container.
-   */
-  dropdownPanelClassNames: PropTypes.string,
-
-  /**
-   * An SVG icon to render before the button text.
-   */
-  icon: PropTypes.node,
-
-  /**
-   * The ID of the <div> surrounding the children.
-   */
-  id: PropTypes.string,
-
-  /**
-   * Whether the drop down panel is open.
-   */
   isOpen: PropTypes.bool.isRequired,
-
-  /**
-   * The disabled state of the drop down button.
-   */
-  disabled: PropTypes.bool,
+  children: PropTypes.node,
 };
 
-DropDownPanel.defaultProps = {
-  dropdownPanelClassNames: '',
-  disabled: false,
-};
+export default DropDownPanel;

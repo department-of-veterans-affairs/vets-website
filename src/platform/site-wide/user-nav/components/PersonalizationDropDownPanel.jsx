@@ -28,7 +28,6 @@ export default class PersonalizationDropDownPanel extends React.Component {
   render() {
     const buttonClasses = classNames(
       this.props.cssClass,
-      { 'va-btn-withicon': this.props.icon },
       'va-dropdown-trigger',
     );
 

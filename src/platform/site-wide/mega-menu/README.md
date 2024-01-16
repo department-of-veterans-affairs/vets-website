@@ -14,7 +14,7 @@ This is the data that is used to generate the MegaMenu. The data is made up of a
 
 ### Dependancies
 
-There are style dependancies that need to be added to the project to make the MegaMenu work properly.
+There are style dependencies that need to be added to the project to make the MegaMenu work properly.
 
 - formation
 - uswds 1.6.10

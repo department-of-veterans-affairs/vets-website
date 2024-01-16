@@ -1,30 +1,14 @@
 /* eslint jsx-a11y/click-events-have-key-events:  1 */
 /* eslint jsx-a11y/no-static-element-interactions:  1 */
-// Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { hasSession } from 'platform/user/profile/utilities';
+import recordEvent from '~/platform/monitoring/record-event';
+import { hasSession } from '~/platform/user/profile/utilities';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 
 class SearchHelpSignIn extends Component {
-  static propTypes = {
-    isHeaderV2: PropTypes.bool,
-    isLOA3: PropTypes.bool,
-    isLoggedIn: PropTypes.bool,
-    isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
-    isProfileLoading: PropTypes.bool.isRequired,
-    onSignInSignUp: PropTypes.func.isRequired,
-    toggleMenu: PropTypes.func.isRequired,
-    userGreeting: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node),
-    ]),
-  };
-
   componentDidMount() {
     this.showHomepageCreateAccountBlock();
   }
@@ -97,9 +81,13 @@ class SearchHelpSignIn extends Component {
     return (
       <div className="sign-in-links">
         {!isSubdomain && (
-          <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-            Sign in
-          </button>
+          <va-button
+            className="sign-in-link"
+            label="Sign in"
+            onClick={this.handleSignInSignUp}
+            text="Sign in"
+            uswds
+          />
         )}
         {isSubdomain && (
           <a
@@ -121,22 +109,20 @@ class SearchHelpSignIn extends Component {
           this.props.isHeaderV2 ? '' : ' vads-u-padding-top--1'
         }`}
       >
-        {/* Search */}
         {!this.props.isHeaderV2 && (
           <SearchMenu
             clickHandler={this.handleSearchMenuClick}
             isOpen={this.props.isMenuOpen.search}
           />
         )}
-
-        {/* Contact us */}
         {!this.props.isHeaderV2 && (
           <a
-            className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
+            className="vads-u-color--primary-darker vads-u-font-size--lg vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
             href="https://www.va.gov/contact-us/"
+            id="header-contact-link"
             onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
-            Contact us
+            Contact
           </a>
         )}
 
@@ -156,5 +142,19 @@ class SearchHelpSignIn extends Component {
     );
   }
 }
+
+SearchHelpSignIn.propTypes = {
+  isMenuOpen: PropTypes.objectOf(PropTypes.bool).isRequired,
+  isProfileLoading: PropTypes.bool.isRequired,
+  toggleMenu: PropTypes.func.isRequired,
+  onSignInSignUp: PropTypes.func.isRequired,
+  isHeaderV2: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  userGreeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
+};
 
 export default SearchHelpSignIn;

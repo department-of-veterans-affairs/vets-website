@@ -244,10 +244,10 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               data-e2e-id="sitewide-search-submit-button"
-              className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
+              className="search vads-u-margin--0 vads-u-color--primary-darker vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <i className="fas fa-solid fa-sm fa-search vads-u-margin-top--0p5 " />
-              <span className="usa-sr-only">Search</span>
+              <span className="usa-sr-only">Search WHERE??</span>
             </button>
           </div>
         </form>
@@ -281,26 +281,11 @@ export class SearchMenu extends React.Component {
 
   render() {
     const { makeForm } = this;
-    const { cssClass, clickHandler, isOpen } = this.props;
+    const { clickHandler, isOpen } = this.props;
 
-    const buttonClasses = classNames(
-      'sitewide-search-drop-down-panel-button',
-      cssClass,
-      'va-btn-withicon',
-      'va-dropdown-trigger',
-    );
-
-    const icon = (
-      <i className="fas fa-solid fa-xs fa-search vads-u-margin-right--0p5" />
-    );
     return (
       <DropDownPanel
-        buttonText="Search"
         clickHandler={clickHandler}
-        cssClass={buttonClasses}
-        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
-        icon={icon}
-        id="search"
         isOpen={isOpen}
         onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
       >
@@ -313,7 +298,6 @@ export class SearchMenu extends React.Component {
 SearchMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
-  cssClass: PropTypes.string,
   debounceRate: PropTypes.number,
   searchDropdownComponentEnabled: PropTypes.bool,
 };
