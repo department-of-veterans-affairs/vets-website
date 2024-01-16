@@ -29,28 +29,17 @@
     "vaTreatmentHistory": false,
     "federalTreatmentHistory": false,
     "currentEmployment": false,
-    "maritalStatus": "Not Married",
+    "maritalStatus": "Never Married",
     "view:hasDependents": false,
-    "totalNetWorth": false,
-    "netWorthEstimation": 0,
+    "totalNetWorth": true,
     "hasCareExpenses": false,
     "hasMedicalExpenses": false,
-    "transferredAssets": true,
-    "homeOwnership": true,
-    "homeAcreageMoreThanTwo": true,
-    "homeAcreageValue": 75000,
-    "landMarketable": false,
+    "transferredAssets": false,
+    "homeOwnership": false,
     "receivesIncome": false,
-    "view:noDirectDeposit": false,
-    "bankAccount": {
-      "accountType": "checking",
-      "bankName": "Best Bank",
-      "accountNumber": "001122334455",
-      "routingNumber": "123123123"
-    },
+    "view:noDirectDeposit": true,
     "veteranAddress": {
       "street": "123 8th st",
-      "street2": "A-3",
       "city": "Hadley",
       "country": "USA",
       "state": "ME",
@@ -58,12 +47,11 @@
       "isMilitary": false
     },
     "email": "test@example.com",
-    "phone": "555-123-4567",
-    "mobilePhone": "555-123-4567",
+    "mobilePhone": "5551234567",
     "view:aidAttendance": true,
     "isOver65": false,
     "noRapidProcessing": true,
     "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "John Edmund Doe"
+    "statementOfTruthSignature": "John Doe"
   }
 }
