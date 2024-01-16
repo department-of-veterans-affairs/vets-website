@@ -12,17 +12,17 @@ const InfoAlert = ({ highLowResults, fullState }) => (
       status="info"
     >
       {highLowResults && (
-        <p data-testid="result-Alert-1" className="vads-u-padding-bottom--2">
+        <p data-testid="result-dropdown-1" className="vads-u-padding-bottom--2">
           If your results are outside the reference range (the expected range
           for that test), your results may include a word like "high" or "low."
           But this doesn’t automatically mean you have a health problem.
         </p>
       )}
-      <p data-testid="result-Alert-2" className="vads-u-padding-bottom--2">
+      <p data-testid="result-dropdown-2" className="vads-u-padding-bottom--2">
         Your provider will review your results. If you need to do anything, your
         provider will contact you.
       </p>
-      <p data-testid="result-Alert-3" className="vads-u-padding-bottom--2">
+      <p data-testid="result-dropdown-3" className="vads-u-padding-bottom--2">
         If you have any questions, send a message to the care team that ordered
         this test.
       </p>
