@@ -6,75 +6,51 @@ for each individual <va-accordion-item> event. Preloading all messages on the fi
 is not an option since it will mark all messages as read. 
 */
 
-import React, { useMemo, useRef } from 'react';
-// useCallback,
-// useEffect,
-// import { useDispatch } from 'react-redux';
+import React, { useRef, useState, useCallback } from 'react';
+
+import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MessageThreadItem from './MessageThreadItem';
-// import { markMessageAsReadInThread } from '../../actions/messages';
-// import { Actions } from '../../util/actionTypes';
-// import useInterval from '../../hooks/use-interval';
+import { markMessageAsReadInThread } from '../../actions/messages';
+import useInterval from '../../hooks/use-interval';
 
 const MessageThread = props => {
-  // const dispatch = useDispatch();
-  const {
-    messageHistory,
-    isDraftThread,
-    isForPrint,
-    accordionState,
-    setAccordionState,
-  } = props;
+  const dispatch = useDispatch();
+  const { messageHistory, isDraftThread } = props;
   const accordionRef = useRef();
-  // const [hasListener, setHasListener] = useState(false);
-  // const messageHistoryRef = useRef([]);
-  // const viewCountRef = useRef();
+  const [hasListener, setHasListener] = useState(false);
+  const messageHistoryRef = useRef([]);
+  const viewCountRef = useRef();
 
-  const messageCount = useMemo(
+  const expandListener = useCallback(
     () => {
-      if (messageHistory?.length) {
-        return messageHistory.filter(m => m.sentDate !== null).length || 0;
+      if (messageHistoryRef.current?.length) {
+        messageHistoryRef.current.forEach((m, i) => {
+          if (i < viewCountRef.current && !m.preloaded) {
+            dispatch(markMessageAsReadInThread(m.messageId, isDraftThread));
+          }
+        });
       }
-      return 0;
     },
-    [messageHistory],
+    [messageHistoryRef, viewCountRef, dispatch, isDraftThread],
   );
-
-  // const expandListener = useCallback(
-  //   () => {
-  //     if (messageHistoryRef.current?.length) {
-  //       messageHistoryRef.current.forEach((m, i) => {
-  //         if (i < viewCountRef.current && !m.preloaded) {
-  //           dispatch(markMessageAsReadInThread(m.messageId, isDraftThread));
-  //         }
-  //       });
-  //     }
-  //   },
-  //   [messageHistoryRef, viewCountRef, dispatch, isDraftThread],
-  // );
 
   // shadow dom is not available on the first render, so we need to wait for it to be available
   // before we can add the event listener
   // event listener is requried as it is not handled by native event handler in <va-accordion>
   // this is a temporary solution until the <va-accordion> component is updated to handle this event
-  // useInterval(() => {
-  //   if (!hasListener && accordionRef) {
-  //     const button = accordionRef.current?.shadowRoot?.querySelector('button');
-  //     if (button) {
-  //       button.addEventListener('click', () => {
-  //         expandListener();
-  //       });
-  //       setHasListener(true);
-  //     }
-  //   }
-  // }, 500);
-
-  const allMessages = messageHistory.map(obj => ({
-    ...obj,
-    isOpened: accordionState,
-  }));
+  useInterval(() => {
+    if (!hasListener && accordionRef) {
+      const button = accordionRef.current?.shadowRoot?.querySelector('button');
+      if (button) {
+        button.addEventListener('click', () => {
+          expandListener();
+        });
+        setHasListener(true);
+      }
+    }
+  }, 500);
 
   return (
     <>
@@ -84,23 +60,21 @@ const MessageThread = props => {
 
       <section
         aria-label={
-          messageCount > 0 &&
-          `${messageCount} Message${
-            messageCount > 1 ? 's' : ''
+          messageHistory?.length > 0 &&
+          `${messageHistory?.length} Message${
+            messageHistory?.length > 1 ? 's' : ''
           } in this conversation`
         }
-        className={`older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 ${
-          isForPrint ? 'print' : 'do-not-print'
-        }`}
+        className="older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 do-not-print"
       >
         <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
-          {messageCount > 0 &&
-            `${messageCount} Message${
-              messageCount > 1 ? 's' : ''
+          {messageHistory?.length > 0 &&
+            `${messageHistory?.length} Message${
+              messageHistory?.length > 1 ? 's' : ''
             } in this conversation`}
         </h2>
         <VaAccordion ref={accordionRef} bordered>
-          {allMessages.map((m, i) => {
+          {messageHistory.map((m, i) => {
             return (
               <>
                 <MessageThreadItem
@@ -110,8 +84,6 @@ const MessageThread = props => {
                   isDraftThread={isDraftThread}
                   preloaded={m.preloaded}
                   expanded
-                  accordionState={m.accordionState}
-                  setAccordionState={setAccordionState}
                 />
               </>
             );
@@ -125,7 +97,6 @@ const MessageThread = props => {
 MessageThread.propTypes = {
   accordionState: PropType.object,
   isDraftThread: PropType.bool,
-  isForPrint: PropType.bool,
   messageHistory: PropType.array,
   replyMessage: PropType.object,
   setAccordionState: PropType.func,
