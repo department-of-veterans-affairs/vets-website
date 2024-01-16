@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
   dateFormat,
@@ -43,6 +44,7 @@ const ReplyDraftItem = props => {
     replyToName,
     setLastFocusableElement,
     toggleEditHandler,
+    showBlockedTriageGroupAlert,
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,6 +73,13 @@ const ReplyDraftItem = props => {
   const [messageInvalid, setMessageInvalid] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
 
   const localStorageValues = useMemo(() => {
     return {
@@ -483,29 +492,54 @@ const ReplyDraftItem = props => {
             />
           )}
 
-          {!cannotReply && (
-            <section className="attachments-section vads-u-margin-top--2">
-              <AttachmentsList
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setNavigationError={setNavigationError}
-                editingEnabled
-                attachFileSuccess={attachFileSuccess}
-                setAttachFileSuccess={setAttachFileSuccess}
-              />
+          {mhvSecureMessagingBlockedTriageGroup1p0
+            ? !cannotReply &&
+              (!showBlockedTriageGroupAlert && (
+                <section className="attachments-section vads-u-margin-top--2">
+                  <AttachmentsList
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
 
-              <FileInput
-                attachments={attachments}
-                setAttachments={setAttachments}
-                setAttachFileSuccess={setAttachFileSuccess}
-              />
-            </section>
-          )}
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
+                </section>
+              ))
+            : !cannotReply && (
+                <section className="attachments-section vads-u-margin-top--2">
+                  <AttachmentsList
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setNavigationError={setNavigationError}
+                    editingEnabled
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
+
+                  <FileInput
+                    attachments={attachments}
+                    setAttachments={setAttachments}
+                    setAttachFileSuccess={setAttachFileSuccess}
+                  />
+                </section>
+              )}
 
           <DraftSavedInfo />
+
           <div ref={composeFormActionButtonsRef}>
             <ComposeFormActionButtons
-              cannotReply={cannotReply}
+              cannotReply={
+                mhvSecureMessagingBlockedTriageGroup1p0
+                  ? showBlockedTriageGroupAlert || cannotReply
+                  : cannotReply
+              }
               draftId={draft?.messageId}
               draftsCount={draftsCount}
               onSaveDraft={(type, e) => saveDraftHandler(type, e)}
@@ -546,6 +580,7 @@ ReplyDraftItem.propTypes = {
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
   setLastFocusableElement: PropTypes.func,
+  showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
   toggleEditHandler: PropTypes.func,
 };
