@@ -57,7 +57,7 @@ class ConditionsListPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }
