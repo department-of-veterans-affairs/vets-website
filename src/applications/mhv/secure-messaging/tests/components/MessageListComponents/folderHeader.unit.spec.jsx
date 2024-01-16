@@ -259,7 +259,7 @@ describe('Folder Header component', () => {
       );
       expect(blockedTriageGroupAlert).to.exist;
       expect(blockedTriageGroupAlert.firstChild.textContent).to.equal(
-        "You can't send messages to your care teams right now",
+        "You're not connected to any care teams in this messaging tool",
       );
     });
   });
