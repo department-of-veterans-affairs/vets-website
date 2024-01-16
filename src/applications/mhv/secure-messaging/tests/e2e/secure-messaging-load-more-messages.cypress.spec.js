@@ -2,11 +2,11 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 import mockThread from './fixtures/thread-response.json';
-import mockFirstMessage from './fixtures/first-message-from-thread-response.json';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
+  const mockFirstMessage = { data: mockThread.data[0] };
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
