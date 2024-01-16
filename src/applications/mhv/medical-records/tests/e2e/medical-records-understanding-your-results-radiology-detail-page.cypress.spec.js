@@ -17,16 +17,16 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
     RadiologyDetailsPage.verifyEpnadUnderstandResultsBtton();
     RadiologyDetailsPage.clickExpnadUnderstandResultsBtton();
     // Results section will be styled to better help the user understand his test results
-    // should display  "If your results are outside the reference range"
-    // RadiologyDetailsPage.verifyResultAlert1('If your results are outside the reference range');
+
     // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
-    RadiologyDetailsPage.verifyResultAlert2(
+    RadiologyDetailsPage.verifyResultDropdownReviw(
       'Your provider will review your results. If you need to do anything, your provider will contact you.',
     );
     // should display  "If you have any questions, send a message to the care team that ordered this test"
-    RadiologyDetailsPage.verifyResultAlert3(
+    RadiologyDetailsPage.verifyResultDropdownQuestion(
       'If you have any questions, send a message to the care team that ordered this test',
     );
+
     // verify compose a message on the My Healthvet website
     RadiologyDetailsPage.verifyComposeMessageLink(
       'Compose a message on the My HealtheVet website',

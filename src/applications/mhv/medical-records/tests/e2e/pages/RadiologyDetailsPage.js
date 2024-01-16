@@ -40,28 +40,36 @@ class RadiologyDetailsPage {
     cy.get('[data-testid="understanding-result"]').click();
   };
 
-  verifyResultAlert1 = resultAlert1 => {
+  verifyResultDropdownReferance = resultDropdownReferance => {
     // should display  "If your results are outside the reference range"
-    cy.get('[data-testid="result-Alert-1"]').should('be.visible');
-    cy.get('[data-testid="result-Alert-1"]').contains(resultAlert1);
+    cy.get('[data-testid="result-dropdown-1"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-1"]').contains(
+      resultDropdownReferance,
+    );
   };
 
-  verifyResultAlert2 = resultAlert2 => {
+  verifyResultDropdownReviw = resultDropdownReviw => {
     // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
-    cy.get('[data-testid="result-Alert-2"]').should('be.visible');
-    cy.get('[data-testid="result-Alert-2"]').contains(resultAlert2);
+    cy.get('[data-testid="result-dropdown-2"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-2"]').contains(resultDropdownReviw);
   };
 
-  verifyResultAlert3 = resultAlert3 => {
+  verifyResultDropdownQuestion = resultDropdownQuestion => {
     // should display  "If you have any questions, send a message to the care team that ordered this test"
-    cy.get('[data-testid="result-Alert-3"]').should('be.visible');
-    cy.get('[data-testid="result-Alert-3"]').contains(resultAlert3);
+    cy.get('[data-testid="result-dropdown-3"]').should('be.visible');
+    cy.get('[data-testid="result-dropdown-3"]').contains(
+      resultDropdownQuestion,
+    );
   };
 
   verifyComposeMessageLink = composeMessageLink => {
     // verify compose a message on the My Healthvet website
     cy.get('[data-testid="compose-message-Link"]').should('be.visible');
-    cy.get('[data-testid="compose-message-Link"]').contains(composeMessageLink);
+    cy.get('[data-testid="compose-message-Link"]')
+      .contains(composeMessageLink)
+      .invoke('attr', 'href')
+      .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
+    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
 }
 
