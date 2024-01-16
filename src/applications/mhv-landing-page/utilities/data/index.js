@@ -246,21 +246,21 @@ const resolveLandingPageLinks = (
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Try Messages on VA.gov',
+        text: 'Pain? Try yoga',
         href: null,
-        oldHref: mhvUrl(false, 'ss20231205-try-messages-va'),
+        oldHref: mhvUrl(false, 'ss20211012-pain-yoga-may-help'),
         toggle: null,
       },
       {
-        text: 'A Better Night’s Sleep',
+        text: 'Where are my labs and test results?',
         href: null,
-        oldHref: mhvUrl(false, 'ss20220516-tips-to-sleep-better'),
+        oldHref: mhvUrl(false, 'ss20180716-where-are-va-lab-test-results'),
         toggle: null,
       },
       {
-        text: 'Take Charge with the DASH Diet',
+        text: 'Heart health with diabetes',
         href: null,
-        oldHref: mhvUrl(false, 'ss20210712-lower-blood-pressure-dash-diet'),
+        oldHref: mhvUrl(false, 'ss20220415-diabetes-and-a-healthy-heart'),
         toggle: null,
       },
     ],

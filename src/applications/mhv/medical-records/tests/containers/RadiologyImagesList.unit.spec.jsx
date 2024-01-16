@@ -20,7 +20,7 @@ describe('Radiology Images List container', () => {
           clinicalHistory: 'Information',
           imagingProvider: 'John J. Lydon',
           id: 122,
-          date: 'April 13, 2022, 5:25 a.m. MDT',
+          date: '2022-04-13T17:42:46.000Z',
           imagingLocation:
             '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reactions: ['Just this one'],
@@ -82,11 +82,11 @@ describe('Radiology Images List container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getAllByText('April', {
-      exact: false,
+    const formattedDate = screen.getByText('April 13, 2022', {
+      exact: true,
       selector: 'span',
     });
-    expect(formattedDate.length).to.eq(2);
+    expect(formattedDate).to.exist;
   });
 
   it('displays the images', () => {

@@ -45,7 +45,4 @@ export const Actions = {
     UPDATE: 'MR_SHARING_UPDATE',
     CLEAR: 'MR_SHARING_CLEAR',
   },
-  BlueButtonReport: {
-    GET: 'MR_BLUE_BUTTON_GET_DATA',
-  },
 };

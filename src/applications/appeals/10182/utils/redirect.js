@@ -9,7 +9,6 @@ import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
  * Redirecting Veterans to request extension page. If return URL is:
  * - on or past the contestable issues page, redirect to request extension page
  * - on or before the filing deadlines page, do not redirect
- * @param {String} returnUrl - path to page within form
  */
 export function checkRedirect(returnUrl) {
   // We're using a hardcoded list of pages, as opposed to importing them from formConfig because: 1) this is temporary
@@ -35,14 +34,10 @@ export function checkRedirect(returnUrl) {
  * @param {Object} router - React router objects
  */
 export const onFormLoaded = props => {
-  const { formData, isStartingOver } = props;
+  const { formData } = props;
   let { returnUrl } = props;
 
-  if (
-    formData[SHOW_PART3] &&
-    formData[SHOW_PART3_REDIRECT] === 'redirected' &&
-    !isStartingOver
-  ) {
+  if (formData[SHOW_PART3] && formData[SHOW_PART3_REDIRECT] === 'redirected') {
     returnUrl = '/extension-request';
   }
 

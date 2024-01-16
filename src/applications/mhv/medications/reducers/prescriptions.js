@@ -29,12 +29,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
-    case Actions.Prescriptions.CLEAR_DETAILS: {
-      return {
-        ...state,
-        prescriptionDetails: undefined,
-      };
-    }
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,

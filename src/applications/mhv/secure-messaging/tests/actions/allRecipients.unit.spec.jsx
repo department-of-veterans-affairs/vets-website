@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
-import { getAllTriageTeamRecipients } from '../../actions/recipients';
+import { getAllTriageTeamRecipients } from '../../actions/allRecipients';
 import * as allRecipientsTriageTeamsResponse from '../e2e/fixtures/all-recipients-response.json';
 
 describe('triageTeam actions', () => {

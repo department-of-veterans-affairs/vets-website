@@ -30,10 +30,7 @@ describe('Secure Messaging Compose Categories', () => {
 
   it('can send message for category Appointment-APPOINTMENTS', () => {
     landingPage.navigateToComposePage();
-    composePage.selectRecipient();
-    composePage.selectCategory('APPOINTMENTSAPPOINTMENTSinput');
-    composePage.enterDataToMessageSubject();
-    composePage.enterDataToMessageBody();
+    composePage.enterComposeMessageDetails('APPOINTMENTS');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -46,10 +43,7 @@ describe('Secure Messaging Compose Categories', () => {
 
   it('can send message for category Covid-COVID', () => {
     landingPage.navigateToComposePage();
-    composePage.selectRecipient();
-    composePage.selectCategory('COVIDCOVIDinput');
-    composePage.enterDataToMessageSubject();
-    composePage.enterDataToMessageBody();
+    composePage.enterComposeMessageDetails('COVID');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -62,10 +56,7 @@ describe('Secure Messaging Compose Categories', () => {
 
   it('can send message for category Education-EDUCATION', () => {
     landingPage.navigateToComposePage();
-    composePage.selectRecipient();
-    composePage.selectCategory('EDUCATIONEDUCATIONinput');
-    composePage.enterDataToMessageSubject();
-    composePage.enterDataToMessageBody();
+    composePage.enterComposeMessageDetails('EDUCATION');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

@@ -46,5 +46,5 @@ export default InfoAlert;
 
 InfoAlert.propTypes = {
   fullState: PropTypes.object,
-  highLowResults: PropTypes.any,
+  highLowResults: PropTypes.object,
 };

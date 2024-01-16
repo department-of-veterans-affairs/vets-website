@@ -390,7 +390,7 @@ describe('526 All Claims validations', () => {
         .callsFake(() => true);
       validateDisabilityName(err, getDisabilityLabels()[528]);
       expect(err.addError.called).to.be.false;
-      stub.restore();
+      stub.reset();
     });
     it('should not add error when disability is in list but capitalization is different', () => {
       const err = { addError: sinon.spy() };

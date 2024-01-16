@@ -6,8 +6,6 @@
       "attributes": {
         "triageTeamId": 7026562,
         "name": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
-        "stationNumber": "989",
-        "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -17,9 +15,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6832726,
-        "name": "TG-7410",
-        "stationNumber": "989",
-        "blockedStatus": false,
+        "name": "###PQR TRIAGE_TEAM 747###",
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -29,9 +25,7 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6910405,
-        "name": "Jeasmitha-Cardio-Clinic",
-        "stationNumber": "989",
-        "blockedStatus": false,
+        "name": "***Jeasmitha-Cardio-Clinic***",
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -41,8 +35,6 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978853,
-        "stationNumber": "989",
-        "blockedStatus": false,
         "name": "***TG 100_SLC4%",
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -53,8 +45,6 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 6978854,
-        "stationNumber": "989",
-        "blockedStatus": false,
         "name": "***TG 200_APPT_SLC4%",
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -66,8 +56,6 @@
       "attributes": {
         "triageTeamId": 7123233,
         "name": "CAMRY_PCMM RELATIONSHIP_05092022_SLC4",
-        "stationNumber": "989",
-        "blockedStatus": false,
         "relationType": "PATIENT",
         "preferredTeam": true
       }
@@ -77,8 +65,6 @@
       "type": "triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "stationNumber": "989",
-        "blockedStatus": false,
         "name": "SLC4 PCMM",
         "relationType": "PATIENT",
         "preferredTeam": true
@@ -86,8 +72,6 @@
     }
   ],
   "meta": {
-    "associatedTriageGroups": 7,
-    "associatedBlockedTriageGroups": 0,
     "sort": {
       "name": "ASC"
     }

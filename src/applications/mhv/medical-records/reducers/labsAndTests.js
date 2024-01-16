@@ -1,8 +1,8 @@
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
-  dateFormat,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -59,7 +59,7 @@ const convertChemHemRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? formatDateLong(record.effectiveDateTime)
       : EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
@@ -82,7 +82,7 @@ const convertMicrobiologyRecord = record => {
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
     date: record.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? formatDateLong(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleFrom: record.type?.text || EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
@@ -107,7 +107,7 @@ const convertPathologyRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? formatDateLong(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
     labLocation: record.labLocation || EMPTY_FIELD,
@@ -159,7 +159,7 @@ const convertRadiologyRecord = record => {
     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     imagingLocation: authorDisplay,
-    date: record.date ? dateFormat(record.date) : EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.data) : EMPTY_FIELD,
     imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
@@ -200,6 +200,7 @@ const labsAndTestsConverterMap = {
   [labTypes.PATHOLOGY]: convertPathologyRecord,
   [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertRadiologyRecord,
+  [labTypes.OTHER]: record => record,
 };
 
 /**
@@ -209,9 +210,7 @@ const labsAndTestsConverterMap = {
 export const convertLabsAndTestsRecord = record => {
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
-  return convertRecord
-    ? convertRecord(record)
-    : { ...record, type: labTypes.OTHER };
+  return convertRecord ? convertRecord(record) : record;
 };
 
 export const labsAndTestsReducer = (state = initialState, action) => {
@@ -227,9 +226,8 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsList:
-          recordList.entry
-            ?.map(record => convertLabsAndTestsRecord(record))
-            .filter(record => record.type !== labTypes.OTHER) || [],
+          recordList.entry?.map(record => convertLabsAndTestsRecord(record)) ||
+          [],
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {

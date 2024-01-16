@@ -1,36 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import PropTypes from 'prop-types';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import {
-  formatName,
-  generatePdfScaffold,
-  updatePageTitle,
-} from '../../shared/util/helpers';
+import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf } from '../util/helpers';
-import { getBlueButtonReportData } from '../actions/blueButtonReport';
-import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 
-const DownloadRecordsPage = ({ runningUnitTest }) => {
+const DownloadRecordsPage = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
-  const dob = formatDateLong(user.dob);
-  const [blueButtonRequested, setBlueButtonRequested] = useState(false);
-
-  const labsAndTests = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsList,
-  );
-  const notes = useSelector(
-    state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
-  );
-  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
-  const allergies = useSelector(state => state.mr.allergies.allergiesList);
-  const conditions = useSelector(state => state.mr.conditions.conditionsList);
-  const vitals = useSelector(state => state.mr.vitals.vitalsList);
 
   useEffect(
     () => {
@@ -47,90 +23,6 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },
     [dispatch],
-  );
-
-  const allAreDefined = arrayOfArrays => {
-    return arrayOfArrays.every(arr => !!arr?.length);
-  };
-
-  const generatePdf = useCallback(
-    async () => {
-      setBlueButtonRequested(true);
-      if (
-        !allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        ])
-      ) {
-        dispatch(getBlueButtonReportData());
-      } else {
-        setBlueButtonRequested(false);
-        const recordData = {
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        };
-        const title = 'Blue Button report';
-        const subject = 'VA Medical Record';
-        const scaffold = generatePdfScaffold(user, title, subject);
-        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const pdfData = {
-          recordSets: generateBlueButtonData(recordData),
-          ...scaffold,
-          name,
-          dob,
-        };
-        makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
-      }
-    },
-    [
-      allergies,
-      conditions,
-      dispatch,
-      dob,
-      labsAndTests,
-      name,
-      notes,
-      runningUnitTest,
-      user,
-      vaccines,
-      vitals,
-    ],
-  );
-
-  useEffect(
-    () => {
-      if (
-        allAreDefined([
-          labsAndTests,
-          notes,
-          vaccines,
-          allergies,
-          conditions,
-          vitals,
-        ]) &&
-        blueButtonRequested
-      ) {
-        generatePdf();
-      }
-    },
-    [
-      labsAndTests,
-      notes,
-      vaccines,
-      allergies,
-      conditions,
-      vitals,
-      generatePdf,
-      blueButtonRequested,
-    ],
   );
 
   return (
@@ -171,12 +63,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           </li>
         </ul>
 
-        <button
-          className="link-button"
-          type="button"
-          onClick={generatePdf}
-          data-testid="download-blue-button-pdf"
-        >
+        <button className="link-button" type="button">
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
@@ -188,7 +75,6 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
-            data-testid="download-blue-button-txt"
           />
           Download Text file
         </button>
@@ -209,7 +95,3 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 };
 
 export default DownloadRecordsPage;
-
-DownloadRecordsPage.propTypes = {
-  runningUnitTest: PropTypes.bool,
-};

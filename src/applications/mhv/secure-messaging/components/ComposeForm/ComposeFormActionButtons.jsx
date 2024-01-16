@@ -24,16 +24,10 @@ const ComposeFormActionButtons = ({
           text="Send"
           label="Send"
           id="send-button"
-          class={`
-            small-screen:vads-u-flex--1
-            small-screen:vads-u-margin-bottom--0
-            small-screen:vads-u-margin-right--1
-            vads-u-margin-bottom--2
-            vads-u-margin-right--0
-            vads-u-margin-top--0
-            vads-u-width--full
-          `}
+          class={`vads-u-width--full vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0
+                      small-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0`}
           data-testid="Send-Button"
+          data-dd-action-name="Send Button"
           onClick={onSend}
         />
       )}
@@ -42,19 +36,9 @@ const ComposeFormActionButtons = ({
         <button
           type="button"
           id="save-draft-button"
-          className={`
-            save-draft-button
-            usa-button
-            usa-button-secondary
-            vads-u-margin-bottom--2
-            vads-u-margin-right--0
-            vads-u-margin-top--0
-            vads-u-padding-x--0p5
-            vads-u-width--full
-            xsmall-screen:vads-u-flex--1
-            xsmall-screen:vads-u-margin-bottom--0
-            xsmall-screen:vads-u-margin-right--1
-          `}
+          className={`usa-button usa-button-secondary save-draft-button vads-u-width--full small-screen:vads-u-margin-left--1
+                            xsmall-screen:vads-u-flex--1 vads-u-margin-top--0 vads-u-margin-right--0 xsmall-screen:vads-u-margin-right--1
+                            xsmall-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--2 vads-u-padding-x--0p5`}
           data-testid="Save-Draft-Button"
           onClick={e => onSaveDraft('manual', e)}
         >

@@ -29,10 +29,6 @@ import {
 } from '../../../shared/util/constants';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import {
-  generateLabsIntro,
-  generateChemHemContent,
-} from '../../util/pdfHelpers/labsAndTests';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -58,11 +54,87 @@ const ChemHemDetails = props => {
   );
 
   const generateChemHemPdf = async () => {
-    const { title, subject, preface } = generateLabsIntro(record);
+    const title = `Lab and test results: ${record.name} on ${formatDateLong(
+      record.date,
+    )}`;
+    const subject = 'VA Medical Record';
+    const preface =
+      'If you have questions about these results, send a secure message to your care team. ';
     const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateChemHemContent(record) };
-    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+
+    scaffold.details = {
+      header: 'Details about this test',
+      items: [
+        {
+          title: 'Type of test',
+          value: record.type,
+          inline: true,
+        },
+        {
+          title: 'Sample tested',
+          value: record.sampleTested,
+          inline: true,
+        },
+        {
+          title: 'Ordered by',
+          value: record.orderedBy,
+          inline: true,
+        },
+        {
+          title: 'Ordering location',
+          value: record.orderingLocation,
+          inline: true,
+        },
+        {
+          title: 'Collecting location',
+          value: record.collectingLocation,
+          inline: true,
+        },
+        {
+          title: 'Provider notes',
+          value: processList(record.comments),
+          inline: !record.comments,
+        },
+      ],
+    };
+    scaffold.results = {
+      header: 'Results',
+      preface:
+        "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
+      sectionSeparators: true,
+      items: record.results.map(item => ({
+        header: item.name,
+        items: [
+          {
+            title: 'Result',
+            value: item.result,
+            inline: true,
+          },
+          {
+            title: 'Standard range',
+            value: item.standardRange,
+            inline: true,
+          },
+          {
+            title: 'Status',
+            value: item.status,
+            inline: true,
+          },
+          {
+            title: 'Lab location',
+            value: item.labLocation,
+            inline: true,
+          },
+          {
+            title: 'Interpretation',
+            value: item.interpretation,
+            inline: true,
+          },
+        ],
+      })),
+    };
+
+    makePdf('chem/hem_report', scaffold, 'Chem/Hem details', runningUnitTest);
   };
 
   const generateChemHemTxt = async () => {

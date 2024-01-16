@@ -6,30 +6,20 @@ import { useSelector } from 'react-redux';
 import {
   isVeteran,
   getCemeteries,
-  isAuthorizedAgent,
-  desiredCemeteryNoteDescriptionSelfVeteran,
-  desiredCemeteryNoteDescriptionSelfNonVeteran,
-  desiredCemeteryNoteDescriptionPreparerVeteran,
-  desiredCemeteryNoteDescriptionPreparerNonVeteran,
+  desiredCemeteryNoteDescriptionVeteran,
+  desiredCemeteryNoteDescriptionNonVeteran,
 } from '../../utils/helpers';
 
 function DesiredCemeteryNoteDescription() {
   const data = useSelector(state => state.form.data || {});
-  if (isAuthorizedAgent(data)) {
-    if (isVeteran(data)) {
-      return desiredCemeteryNoteDescriptionPreparerVeteran;
-    }
-    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
-  }
-  if (isVeteran(data)) {
-    return desiredCemeteryNoteDescriptionSelfVeteran;
-  }
-  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+  return isVeteran(data)
+    ? desiredCemeteryNoteDescriptionVeteran
+    : desiredCemeteryNoteDescriptionNonVeteran;
 }
 
 function DesiredCemeteryTitle() {
   const data = useSelector(state => state.form.data || {});
-  return !isAuthorizedAgent(data)
+  return isVeteran(data)
     ? 'Which VA national cemetery would you prefer to be buried in?'
     : 'Which VA national cemetery would the applicant prefer to be buried in?';
 }
@@ -41,7 +31,7 @@ export const desiredCemeteryNoteTitleWrapper = (
     target="_blank"
     className="desiredCemeteryNoteTitle"
   >
-    Find a VA national cemetery (opens in a new tab)
+    Find a VA national cemetery
   </a>
 );
 

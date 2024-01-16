@@ -26,8 +26,8 @@ export const labTypes = {
 };
 
 export const noteTypes = {
-  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
   DISCHARGE_SUMMARY: 'discharge_summary',
+  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
   OTHER: 'other',
 };
 

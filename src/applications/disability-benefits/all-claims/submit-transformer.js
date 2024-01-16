@@ -1,11 +1,10 @@
 import _ from 'platform/utilities/data';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   transformForSubmit,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
 import removeDeeplyEmptyObjects from 'platform/utilities/data/removeDeeplyEmptyObjects';
-import revisedFormWrapper from './content/revisedFormWrapper';
 
 import {
   causeTypes,
@@ -107,9 +106,6 @@ export function transform(formConfig, form) {
   // new disabilities that match a name on our mapped list need their
   // respective classification code added
   const addClassificationCodeToNewDisabilities = formData => {
-    if (revisedFormWrapper.isRevisedForm(environment.isStaging())) {
-      return formData;
-    }
     const { newDisabilities } = formData;
     if (!newDisabilities) {
       return formData;

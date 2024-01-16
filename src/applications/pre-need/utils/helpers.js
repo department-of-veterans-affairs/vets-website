@@ -45,15 +45,8 @@ export const applicantDemographicsSubHeader = (
   </div>
 );
 
-export const applicantDemographicsDescription = environment.isProduction() ? (
+export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
-    <p>
-      We require some basic details as part of your application. Please know we
-      need to gather the data for statistical purposes.
-    </p>
-  </div>
-) : (
-  <div className="applicantDemographicsDescriptionNotProd">
     <p>
       We require some basic details as part of your application. Please know we
       need to gather the data for statistical purposes.
@@ -61,16 +54,8 @@ export const applicantDemographicsDescription = environment.isProduction() ? (
   </div>
 );
 
-export const sponsorDeceasedDescription = environment.isProduction() ? (
+export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescription">
-    <p>
-      We’ll now ask you questions about the sponsor’s passing. We understand
-      that the questions may be difficult to answer, but your answers will help
-      us determine eligibility for your application.
-    </p>
-  </div>
-) : (
-  <div className="sponsorDeceasedDescriptionNotProd">
     <p>
       We’ll now ask you questions about the sponsor’s passing. We understand
       that the questions may be difficult to answer, but your answers will help
@@ -91,16 +76,8 @@ export const sponsorDemographicsSubHeader = (
   </div>
 );
 
-export const sponsorDemographicsDescription = environment.isProduction() ? (
+export const sponsorDemographicsDescription = (
   <div className="sponsorDemographicsDescription">
-    <p>
-      We require some basic details about the applicant’s sponsor as part of the
-      application. Please know we need to gather the data for statistical
-      purposes.
-    </p>
-  </div>
-) : (
-  <div className="sponsorDemographicsDescriptionNotProd">
     <p>
       We require some basic details about the applicant’s sponsor as part of the
       application. Please know we need to gather the data for statistical

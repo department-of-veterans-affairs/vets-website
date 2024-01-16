@@ -30,7 +30,6 @@ const getData = ({
   formData = {},
   contestableIssues = { status: '' },
   returnUrl = '/veteran-details',
-  isStartingOver = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -72,7 +71,6 @@ const getData = ({
       },
     },
     contestableIssues,
-    isStartingOver,
   },
 });
 
@@ -296,25 +294,6 @@ describe('FormApp', () => {
         expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
       });
     });
-    it('should not redirect if starting over', async () => {
-      const { props, data } = getData({
-        ...testData,
-        part3: true,
-        isStartingOver: true,
-      });
-      const store = mockStore(data);
-      render(
-        <Provider store={store}>
-          <FormApp {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const action = store.getActions()[0];
-        expect(action.type).to.eq(SET_DATA);
-        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
-      });
-    });
-
     it('should redirect if on page after part3 questions', async () => {
       const { props, data } = getData({
         ...testData,

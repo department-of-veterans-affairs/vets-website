@@ -28,7 +28,7 @@ export const uiSchema = {
           let title = '';
           if (isVeteran(formData)) {
             title =
-              'Is there anyone currently buried in a VA national cemetery under the applicant’s eligibility?';
+              'Is there anyone currently buried in a VA national cemetery under your eligibility?';
           } else {
             title =
               'Is there anyone currently buried in a VA national cemetery under the sponsor’s eligibility?';

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
 
 const ConditionListItem = props => {
   const { record } = props;
+  const formattedDate = formatDateLong(record?.date);
 
   return (
     <div
@@ -15,7 +17,7 @@ const ConditionListItem = props => {
           to={`/conditions/${record.id}`}
           className="vads-u-margin--0"
           data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record?.date}`}
+          aria-label={`${record.name} on ${formattedDate}`}
         >
           {record.name}
         </Link>
@@ -23,12 +25,12 @@ const ConditionListItem = props => {
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"
-        aria-label={`${record.name} ${record?.date}`}
+        aria-label={`${record.name} ${formattedDate}`}
       >
         {record.name}
       </h3>
 
-      <p className="vads-u-margin--0">Date entered: {record?.date}</p>
+      <p className="vads-u-margin--0">Date entered: {formattedDate}</p>
     </div>
   );
 };

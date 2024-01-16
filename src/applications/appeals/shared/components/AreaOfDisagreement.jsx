@@ -107,9 +107,6 @@ const AreaOfDisagreement = ({
       if (!setMaxError(disagreement) && !setCheckboxError(disagreement)) {
         waitForRenderThenFocus(
           `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
-          undefined, // root
-          250, // timeInterval
-          'button', // shadow DOM selector
         );
         updatePage();
       } else {

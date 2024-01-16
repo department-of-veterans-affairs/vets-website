@@ -61,33 +61,21 @@ export function focusElement(selectorOrElement, options, root) {
  * iterations, then fall back to the default selector (step _ of _ h2)
  * Discussion: https://dsva.slack.com/archives/CBU0KDSB1/p1676479946812439
  * @param {String} selector - focus target selector
- * @param {Element} root - starting element of the querySelector
- * @param {Number} timeInterval - time in milliseconds to delay
- * @param {String} internalSelector - selector pointing to an element inside the
- *  component we're waiting for (could be an element in shadow DOM)
+ * @param {Element} root - starting element of the querySelector; may be a
+ *  shadowRoot
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
 export function waitForRenderThenFocus(
   selector,
   root = document,
   timeInterval = 250,
-  // added because we first need to wait for a component to be rendered, then we
-  // need to target an element inside the component (in regular or in a web
-  // component's shadow DOM)
-  internalSelector,
 ) {
   const maxIterations = 6; // 1.5 seconds
   let count = 0;
-
   const interval = setInterval(() => {
-    const el = (root || document).querySelector(selector);
-    if (el) {
+    if ((root || document).querySelector(selector)) {
       clearInterval(interval);
-      if (internalSelector) {
-        focusElement(internalSelector, {}, el);
-      } else {
-        focusElement(el);
-      }
+      focusElement(selector, {}, root);
     } else if (count >= maxIterations) {
       clearInterval(interval);
       focusElement(defaultFocusSelector); // fallback to breadcrumbs

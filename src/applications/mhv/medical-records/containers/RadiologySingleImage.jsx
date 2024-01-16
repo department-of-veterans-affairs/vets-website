@@ -22,7 +22,7 @@ const RadiologySingleImage = () => {
       clinicalHistory: 'Information',
       imagingProvider: 'John J. Lydon',
       id: 122,
-      date: 'April 13, 2022, 5:25 a.m. MDT',
+      date: '2022-04-13T17:42:46.000Z',
       imagingLocation:
         '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
       reactions: ['Just this one'],

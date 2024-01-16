@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { alertsReducer } from './alerts';
-import { recipientsReducer } from './recipients';
+import { allRecipientsReducer } from './allRecipients';
 import { categoriesReducer } from './categories';
 import { foldersReducer } from './folders';
 import { searchReducer } from './search';
@@ -15,7 +15,7 @@ import { facilitiesReducer } from './facilities';
 const rootReducer = {
   sm: combineReducers({
     alerts: alertsReducer,
-    recipients: recipientsReducer,
+    allRecipients: allRecipientsReducer,
     breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
     facilities: facilitiesReducer,

@@ -35,7 +35,6 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
   returnUrlFromSIPForm,
-  isStartingOver,
 }) => {
   useEffect(
     () => {
@@ -132,8 +131,7 @@ export const FormApp = ({
         setFormData({
           ...formData,
           // Setting 'redirected' to indicate that we are about to redirect them.
-          [SHOW_PART3_REDIRECT]:
-            !isStartingOver && needsRedirect ? 'redirected' : 'not-needed',
+          [SHOW_PART3_REDIRECT]: needsRedirect ? 'redirected' : 'not-needed',
         });
       }
       // Add feature flag to form data to be used within the form
@@ -190,7 +188,6 @@ FormApp.propTypes = {
   }),
   getContestableIssues: PropTypes.func,
   isLoading: PropTypes.bool,
-  isStartingOver: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -210,7 +207,6 @@ const mapStateToProps = state => ({
   isLoading: state.featureToggles?.loading,
   loggedIn: isLoggedIn(state),
   returnUrlFromSIPForm: state.form?.loadedData?.metadata?.returnUrl,
-  isStartingOver: state.form.isStartingOver,
 });
 
 const mapDispatchToProps = {
