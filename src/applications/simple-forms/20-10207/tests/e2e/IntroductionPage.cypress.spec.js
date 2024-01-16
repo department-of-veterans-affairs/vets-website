@@ -82,7 +82,9 @@ testSuite('Introduction page', () => {
     });
 
     it('shows auth’ed SIP-alert', () => {
-      cy.get('.schemaform-sip-alert').should('exist');
+      cy.contains('Since you’re signed in', {
+        selector: 'va-alert[status=info]',
+      }).should('exist');
     });
   });
 
@@ -100,7 +102,9 @@ testSuite('Introduction page', () => {
     });
 
     it('hides auth’ed SIP-alert', () => {
-      cy.get('.schemaform-sip-alert').should('not.exist');
+      cy.contains('Since you’re signed in', {
+        selector: 'va-alert[status=info]',
+      }).should('not.exist');
     });
 
     it('hides start-link', () => {
