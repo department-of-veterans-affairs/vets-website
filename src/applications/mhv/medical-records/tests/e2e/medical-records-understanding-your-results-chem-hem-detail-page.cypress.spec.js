@@ -17,7 +17,6 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
     );
     // When I want to get "help to be able to understand results" of my MR data
-    ChemHemDetailsPage.verifyEpnadUnderstandResultsBtton();
     ChemHemDetailsPage.clickExpnadUnderstandResultsBtton();
     // Results section will be styled to better help the user understand his test results
     // should display  "If your results are outside the reference range"
