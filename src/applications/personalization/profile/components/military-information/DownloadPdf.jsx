@@ -65,11 +65,13 @@ const DownloadPdf = ({
     <div className="vads-u-margin-top--4">
       {isMobile ? (
         <va-button
+          role="button"
           onClick={() => createPdf()}
           text="Download Veteran status card"
         />
       ) : (
         <va-link
+          role="link"
           download
           filetype="PDF"
           href={null}
