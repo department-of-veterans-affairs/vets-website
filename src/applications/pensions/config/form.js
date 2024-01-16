@@ -651,7 +651,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
