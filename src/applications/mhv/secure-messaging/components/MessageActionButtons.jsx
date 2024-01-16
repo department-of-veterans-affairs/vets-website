@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
@@ -15,8 +15,8 @@ const MessageActionButtons = props => {
     handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    accordionShadowRoot,
-    // setAccordionState,
+    setPrintThread,
+    printThread,
   } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -27,25 +27,19 @@ const MessageActionButtons = props => {
       type: Actions.Message.SET_THREAD_PRINT_OPTION,
       payload: printOption,
     });
-
-    if (printOption !== null) {
-      // expands all messages
-      // ON CLICK, FIRST CAPTURE ACCORDION STATE, THEN
-      // IF ANY OF THE ACCORDION PART HEADERS CONTAIN ARIA-EXPANDED=FALSE,
-      // THEN CLICK EXPAND ALL BUTTON,
-      // THEN CALL PRINT.WINDOW()
-
-      accordionShadowRoot.click();
-      window.print();
-    }
+    setPrintThread(true);
   };
 
-  const handleAfterPrint = () => {};
+  useEffect(() => {
+    if (printThread) {
+      window.print();
+    }
+  });
 
-  // IN A USE EFFECT
-  // THEN WHEN THE PRINT.WINDOW CLOSES,
-  // REVERT ACCORDION TO PREV ACCORDION STATE
-
+  // Removes PRINT_THREAD component
+  const handleAfterPrint = () => {
+    setPrintThread(false);
+  };
   window.onafterprint = handleAfterPrint;
 
   return (
@@ -92,15 +86,16 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
-  accordionItemShadowRoot: PropTypes.object,
-  accordionShadowRoot: PropTypes.object,
+  accordionShadowRoot: PropTypes.element,
   accordionState: PropTypes.object,
   handleReplyButton: PropTypes.func,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
+  printThread: PropTypes.bool,
   setAccordionState: PropTypes.func,
   setIsCreateNewModalVisible: PropTypes.func,
+  setPrintThread: PropTypes.func,
   threadId: PropTypes.number,
 };
 
