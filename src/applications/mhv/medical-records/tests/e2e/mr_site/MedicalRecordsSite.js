@@ -81,5 +81,10 @@ class MedicalRecordsSite {
       }
     });
   };
+
+  loadPageUnauthenticated = () => {
+    cy.visit('my-health/medical-records');
+    cy.wait('@mockUser');
+  };
 }
 export default MedicalRecordsSite;
