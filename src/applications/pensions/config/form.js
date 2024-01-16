@@ -777,7 +777,8 @@ const formConfig = {
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
-          depends: form => get(['view:hasDependents'], form),
+          depends: (form, index) =>
+            !get(['dependents', index, 'childInHousehold'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
