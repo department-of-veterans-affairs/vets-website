@@ -29,11 +29,8 @@ const MessageThreadHeader = props => {
     cannotReply,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    setPrintOpened,
-    accordionShadowRoot,
-    accordionItemShadowRoot,
-    accordionState,
-    setAccordionState,
+    setPrintThread,
+    printThread,
     recipients,
   } = props;
   const {
@@ -179,27 +176,21 @@ const MessageThreadHeader = props => {
         handleReplyButton={handleReplyButton}
         isCreateNewModalVisible={isCreateNewModalVisible}
         setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        setPrintOpened={setPrintOpened}
-        accordionShadowRoot={accordionShadowRoot}
-        accordionItemShadowRoot={accordionItemShadowRoot}
-        accordionState={accordionState}
-        setAccordionState={setAccordionState}
+        printThread={printThread}
+        setPrintThread={setPrintThread}
       />
     </div>
   );
 };
 
 MessageThreadHeader.propTypes = {
-  accordionItemShadowRoot: PropTypes.object,
-  accordionShadowRoot: PropTypes.object,
-  accordionState: PropTypes.object,
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
+  printThread: PropTypes.bool,
   recipients: PropTypes.object,
-  setAccordionState: PropTypes.func,
   setIsCreateNewModalVisible: PropTypes.func,
-  setPrintOpened: PropTypes.func,
+  setPrintThread: PropTypes.func,
   onReply: PropTypes.func,
 };
 

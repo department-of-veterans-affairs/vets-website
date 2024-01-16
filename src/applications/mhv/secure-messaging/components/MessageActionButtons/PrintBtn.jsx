@@ -1,18 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
 
 const PrintBtn = props => {
-  const [printOption, setPrintOption] = useState(null);
   const printButtonRef = useRef(null);
   const { activeFolder } = props;
 
-  if (printOption !== null) {
-    setPrintOption(null);
-  }
   const handleConfirmPrint = async option => {
-    setPrintOption(null);
     props.handlePrint(option);
     focusElement(printButtonRef.current);
   };
@@ -30,7 +25,6 @@ const PrintBtn = props => {
             : 'vads-l-row--3'
         } `}
         style={{ minWidth: '100px' }}
-        // On click should open window.print, modal tobe removed
         onClick={() => {
           handleConfirmPrint(PrintMessageOptions.PRINT_THREAD);
         }}
