@@ -34,22 +34,19 @@
     },
     "socialSecurityDisability": false,
     "medicalCondition": false,
-    "nursingHome": true,
+    "nursingHome": false,
     "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [
       {
-        "medicalCenter": "Dallas Fort Worth VA Medical Center"
+        "medicalCenter": "Dallas VA Medical Center"
       }
     ],
     "federalTreatmentHistory": true,
     "federalMedicalCenters": [
       {
         "medicalCenter": "Memphis Health Care"
-      },
-      {
-        "medicalCenter": "Nashville Health Care"
       }
     ],
     "currentEmployment": true,
@@ -71,7 +68,7 @@
         "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
+          "reasonForSeparation": "Spouse’s death",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
@@ -131,8 +128,7 @@
           "last": "Generic",
           "suffix": "Jr."
         },
-        "reasonForSeparation": "OTHER",
-        "otherExplanation": "Other reason",
+        "reasonForSeparation": "DEATH",
         "dateOfSeparation": "1990-03-02",
         "locationOfSeparation": "Tacoma, WA"
       },
@@ -221,7 +217,7 @@
       }
     ],
     "totalNetWorth": false,
-    "netWorthEstimation": 0,
+    "netWorthEstimation": 1550,
     "hasCareExpenses": true,
     "careExpenses": [
       {
@@ -370,8 +366,8 @@
       "isMilitary": false
     },
     "email": "test@example.com",
-    "phone": "555-123-4567",
-    "mobilePhone": "555-123-4567",
+    "phone": "5551234567",
+    "mobilePhone": "5551234567",
     "internationalPhone": "001-555-123-4567",
     "view:aidAttendance": true,
     "isOver65": false,
