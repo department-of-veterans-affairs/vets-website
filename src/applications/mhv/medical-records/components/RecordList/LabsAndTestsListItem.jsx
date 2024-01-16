@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
 import { labTypes } from '../../util/constants';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
-  const formattedDate = formatDateLong(record.date);
 
   return (
     <div
@@ -17,14 +15,14 @@ const LabsAndTestsListItem = props => {
         <Link
           to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
-          aria-label={`${record.name} on ${formattedDate}`}
+          aria-label={`${record.name} on ${record.date}`}
         >
           {record.name}
         </Link>
       </h3>
 
       <div>
-        <div>{formattedDate}</div>
+        <div>{record.date}</div>
         {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
         )}

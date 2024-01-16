@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
+import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
   beforeEach(() => {
@@ -89,11 +90,17 @@ describe('SM main page without API calls', () => {
   it('validate Inbox and New Message links exists in the page', () => {
     const site = new SecureMessagingSite();
     site.login();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/allrecipients',
+      mockRecipients,
+    ).as('Recipients');
     cy.visit('my-health/secure-messages/');
-    cy.injectAxe();
 
     cy.get(Locators.LINKS.GO_TO_INBOX).should('be.visible');
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('be.visible');
+
+    cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
         'aria-required-children': {
