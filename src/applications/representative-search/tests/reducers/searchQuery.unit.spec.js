@@ -81,7 +81,6 @@ describe('search query reducer', () => {
 
     expect(state.error).to.eql(false);
     expect(state.attribute).to.eql(true);
-    expect(state.isValid).to.eql(false);
   });
 
   it('should handle geocode started', () => {
@@ -137,7 +136,7 @@ describe('search query reducer', () => {
   describe('isValid', () => {
     it('should be true with locationInputString and representativeType', () => {
       const state = SearchQueryReducer(INITIAL_STATE, {
-        type: SEARCH_QUERY_UPDATED,
+        type: FETCH_REPRESENTATIVES,
         payload: {
           locationInputString: 'test',
           representativeType: 'test',
@@ -150,7 +149,7 @@ describe('search query reducer', () => {
 
     it('should be false with only representativeType', () => {
       const state = SearchQueryReducer(INITIAL_STATE, {
-        type: SEARCH_QUERY_UPDATED,
+        type: FETCH_REPRESENTATIVES,
         payload: {
           representativeType: 'test',
         },
@@ -162,7 +161,7 @@ describe('search query reducer', () => {
 
     it('should be true with locationInputString and representativeType', () => {
       const state = SearchQueryReducer(INITIAL_STATE, {
-        type: SEARCH_QUERY_UPDATED,
+        type: FETCH_REPRESENTATIVES,
         payload: {
           locationInputString: 'test',
           representativeType: 'provider',

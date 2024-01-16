@@ -6,7 +6,6 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -85,6 +84,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
+import { transform } from './submit-transformer';
 import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
@@ -179,7 +179,7 @@ export function currentSpouseHasFormerMarriages(formData) {
 }
 
 export function hasNoSocialSecurityDisability(formData) {
-  return formData.socialSecurityDisability !== true;
+  return formData.socialSecurityDisability === false;
 }
 
 export function isInNursingHome(formData) {
@@ -270,7 +270,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -285,7 +285,15 @@ const formConfig = {
   },
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
-  preSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
   // showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
@@ -737,9 +745,8 @@ const formConfig = {
         },
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} household`,
+          title: item => getDependentChildTitle(item, 'household'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -813,6 +820,18 @@ const formConfig = {
                 },
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
                   'ui:options': {
                     updateSchema: (form, UISchema, schema, index) => {
                       if (
@@ -1005,24 +1024,6 @@ const formConfig = {
           path: 'additional-information/faster-claim-processing',
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
-        },
-      },
-    },
-    // This chapter is here so that the cypress test ends successfully since
-    // the form tester will only consider the test a success when it gets to a
-    // page which has a URL ending in '/confirmation';
-    //
-    // This chapter should be entirely removed/replaced once the form has an
-    // actual confirmation page.
-    confirmation: {
-      title: 'Confirmation',
-      pages: {
-        confirmation: {
-          path: 'confirmation',
-          title: 'Confirmation',
-          // Needs something as a schema. Doesn't matter what.
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
         },
       },
     },
