@@ -63,7 +63,7 @@ class RadiologyDetailsPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download PDF file button "Download list as a text file"
+    // should display a download PDF file button "Download list as a PDF file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }
