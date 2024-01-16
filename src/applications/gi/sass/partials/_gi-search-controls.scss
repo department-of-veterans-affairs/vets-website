@@ -74,14 +74,20 @@
   border-left: solid $color-gray-lightest;
   border-right: solid $color-gray-lightest;
 }
-.update-results {
+.update-results,
+.update-results-2 {
   height: 4.5em;
   background-color: $color-gray-lightest;
+}
+.update-results-2 {
+  height: 7.5em;
 }
 .update-results-header {
   margin-top: -0.04em;
 }
-.update-results-button {
+
+.update-results-button,
+.clear-filters-btn {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin-top: 1em;
@@ -106,8 +112,20 @@
   text-decoration: none;
   width: 80%;
 }
+.clear-filters-btn {
+  background-color: rgb(255, 255, 255);
+  border: 1.3px solid rgb(0, 94, 162);
+  color: rgb(0, 94, 162);
+  margin-top: 0.2em;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border: 1.3px solid transparent;
+    background-color: rgb(0, 94, 162);
+    color: rgb(255, 255, 255);
+  }
+}
 
-.mobile-jump-link{
+.mobile-jump-link {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   -webkit-appearance: none;
@@ -126,19 +144,21 @@
   padding: 0% !important;
   width: fit-content;
 
-  &:hover{
+  &:hover {
     background-color: transparent;
     color: $color-blue;
     text-decoration: underline;
   }
 
-  &:visited{
+  &:visited {
     background-color: transparent;
     color: $color-blue;
     text-decoration: underline;
   }
 }
-
+.labels-margin {
+  margin-top: -10px !important;
+}
 .accordion-dropdown {
   border: 1px solid $color-gray;
   position: relative;

@@ -25,6 +25,11 @@ const extractType = record => {
   return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
 };
 
+const extractAuthenticator = record => {
+  return extractContainedResource(record, record.authenticator?.reference)
+    ?.name[0].text;
+};
+
 const extractAuthor = record => {
   return extractContainedResource(
     record,
@@ -78,6 +83,7 @@ const convertProgressNote = record => {
     type: extractType(record),
     dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
+    coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: extractNote(record) || EMPTY_FIELD,
   };
@@ -120,7 +126,9 @@ const notesAndSummariesConverterMap = {
 export const convertCareSummariesAndNotesRecord = record => {
   const type = getRecordType(record);
   const convertRecord = notesAndSummariesConverterMap[type];
-  return convertRecord ? convertRecord(record) : record;
+  return convertRecord
+    ? convertRecord(record)
+    : { ...record, type: noteTypes.OTHER };
 };
 
 export const careSummariesAndNotesReducer = (state = initialState, action) => {
@@ -133,13 +141,21 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ),
       };
     }
+    case Actions.CareSummariesAndNotes.GET_FROM_LIST: {
+      return {
+        ...state,
+        careSummariesAndNotesDetails: action.response,
+      };
+    }
     case Actions.CareSummariesAndNotes.GET_LIST: {
       return {
         ...state,
         careSummariesAndNotesList:
-          action.response.entry?.map(note => {
-            return convertCareSummariesAndNotesRecord(note.resource);
-          }) || [],
+          action.response.entry
+            ?.map(note => {
+              return convertCareSummariesAndNotesRecord(note.resource);
+            })
+            .filter(record => record.type !== noteTypes.OTHER) || [],
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {

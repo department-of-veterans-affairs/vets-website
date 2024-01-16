@@ -6,7 +6,7 @@ import {
 
 export const uiSchema = {
   'ui:description':
-    'Now we’ll ask you about your private medical records for your claimed disability.',
+    'Now we’ll ask you about your private medical records for your condition.',
   'view:aboutPrivateMedicalRecords': {
     'ui:title': 'About private medical records',
     'ui:description': `If you have your private medical records, you can upload them to your

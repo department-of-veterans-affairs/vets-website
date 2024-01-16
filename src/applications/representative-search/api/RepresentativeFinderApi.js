@@ -1,4 +1,4 @@
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 
 class RepresentativeFinderApi {
@@ -12,8 +12,7 @@ class RepresentativeFinderApi {
     long,
     name,
     page,
-    /* eslint-disable camelcase */
-    per_page,
+    perPage,
     sort,
     type,
   ) {
@@ -23,12 +22,12 @@ class RepresentativeFinderApi {
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
     });
 
-    const api = getAPI();
+    const api = getAPI(type);
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)

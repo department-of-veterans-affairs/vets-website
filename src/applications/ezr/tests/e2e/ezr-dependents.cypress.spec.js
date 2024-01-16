@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
@@ -16,6 +17,37 @@ import {
 } from './helpers/dependents';
 
 const { data: testData } = maxTestData;
+
+function submitDependentInformation(dependent, showIncomePages) {
+  cy.visit(manifest.rootUrl);
+  cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+  advanceToDependents();
+
+  goToNextPage('/household-information/dependents');
+  cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('Y');
+  cy.injectAxeThenAxeCheck();
+
+  goToNextPage('/household-information/dependent-information');
+  fillDependentInformation(dependent, showIncomePages);
+
+  goToNextPage('/household-information/dependents');
+  cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('N');
+  cy.injectAxeThenAxeCheck();
+
+  advanceFromDependentsToReview(testData);
+
+  // accept the privacy agreement
+  cy.get('[name="privacyAgreementAccepted"]')
+    .scrollIntoView()
+    .shadow()
+    .find('[type="checkbox"]')
+    .check();
+
+  // submit form
+  cy.findByText(/submit/i, { selector: 'button' }).click();
+  cy.location('pathname').should('include', '/confirmation');
+}
 
 describe('EZR Dependents', () => {
   beforeEach(() => {
@@ -40,34 +72,15 @@ describe('EZR Dependents', () => {
     }).as('mockSubmit');
   });
 
-  it('should successfully fill maximum dependent information', () => {
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+  describe('default behavior with maximum data', () => {
+    it('should successfully fill dependent information', () => {
+      submitDependentInformation(testData.dependents[0], true);
+    });
+  });
 
-    advanceToDependents(testData);
-
-    goToNextPage('/household-information/dependents');
-    cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('Y');
-    cy.injectAxeThenAxeCheck();
-
-    goToNextPage('/household-information/dependent-information');
-    fillDependentInformation(testData.dependents[0]);
-
-    goToNextPage('/household-information/dependents');
-    cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('N');
-    cy.injectAxeThenAxeCheck();
-
-    advanceFromDependentsToReview(testData);
-
-    // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
-
-    // submit form
-    cy.findByText(/submit/i, { selector: 'button' }).click();
-    cy.location('pathname').should('include', '/confirmation');
+  describe('dependent is between 18 and 23 years old and earned no income', () => {
+    it('does not show the income or education expenses pages, but still successfully fills the other dependent information', () => {
+      submitDependentInformation(testData.dependents[1], false);
+    });
   });
 });

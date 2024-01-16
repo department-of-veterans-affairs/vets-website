@@ -94,14 +94,16 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         className="hca-dependent-list--card vads-u-border--1px vads-u-border-color--gray-medium"
       >
         <span
-          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
+          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold dd-privacy-mask"
           data-testid="hca-dependent-tile-name"
+          data-dd-action-name="Dependent name"
         >
           {dependentName}
         </span>
         <span
-          className="vads-u-display--block vads-u-line-height--2"
+          className="vads-u-display--block vads-u-line-height--2 dd-privacy-mask"
           data-testid="hca-dependent-tile-relationship"
+          data-dd-action-name="Dependent relationship to veteran"
         >
           {dependentRelation}
         </span>
@@ -113,7 +115,8 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               search: `?index=${index}&action=${mode}`,
             }}
           >
-            Edit <span className="sr-only">{dependentName}</span>{' '}
+            Edit{' '}
+            <span className="sr-only dd-privacy-mask">{dependentName}</span>{' '}
             <i
               role="presentation"
               className="fas fa-chevron-right vads-u-margin-left--0p5"
@@ -128,7 +131,8 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               role="presentation"
               className="fas fa-times vads-u-margin-right--0p5"
             />{' '}
-            Remove <span className="sr-only">{dependentName}</span>
+            Remove{' '}
+            <span className="sr-only dd-privacy-mask">{dependentName}</span>
           </button>
         </span>
       </li>
@@ -153,8 +157,9 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         clickToClose
       >
         <p className="vads-u-margin--0">
-          This will remove <strong>{modal.item.name}</strong> and all their
-          information from your list of dependents.
+          This will remove{' '}
+          <strong className="dd-privacy-mask">{modal.item.name}</strong> and all
+          their information from your list of dependents.
         </p>
       </VaModal>
     </>

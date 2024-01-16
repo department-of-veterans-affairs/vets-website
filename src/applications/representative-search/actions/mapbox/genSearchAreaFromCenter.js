@@ -1,5 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../../components/MapboxClient';
+import mapboxClient from '../../components/mapbox/MapboxClient';
 import {
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,

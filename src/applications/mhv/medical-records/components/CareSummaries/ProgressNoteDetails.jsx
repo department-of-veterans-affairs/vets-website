@@ -17,13 +17,17 @@ import {
   updatePageTitle,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import {
+  generateNotesIntro,
+  generateProgressNoteContent,
+} from '../../util/pdfHelpers/notes';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -46,51 +50,11 @@ const ProgressNoteDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
-    const title = `Care summaries and notes on ${formatDateLong(record.date)}`;
-    const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      header: 'Details',
-      items: [
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Signed by',
-          value: record.signedBy,
-          inline: true,
-        },
-        {
-          title: 'Date signed',
-          value: record.dateSigned,
-          inline: true,
-        },
-      ],
-    };
-    scaffold.results = {
-      header: 'Notes',
-      items: [
-        {
-          items: [
-            {
-              title: '',
-              value: record.note,
-              inline: false,
-            },
-          ],
-        },
-      ],
-    };
-
-    makePdf(
-      'care_notes_report',
-      scaffold,
-      'Care Note details',
-      runningUnitTest,
-    );
+    const { title, subject, preface } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
+    const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Progress note details', runningUnitTest);
   };
 
   const generateCareNotesTxt = () => {
@@ -100,18 +64,18 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Primary care progress note \n
 ${txtLine}\n\n
-Details
+Details\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
+${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
     generateTextFile(
       content,
-      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+      `VA-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
   };
 
@@ -145,15 +109,23 @@ ${record.note}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
-        <p data-testid="note-record-location">{record.location}</p>
+        <p data-testid="progress-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Signed by
         </h3>
         <p data-testid="note-record-signed-by">{record.signedBy}</p>
+        {record.coSignedBy !== EMPTY_FIELD && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Co-signed by
+            </h3>
+            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
-        <p data-testid="note-record-signed-date">{record.dateSigned}</p>
+        <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>
 
       <div className="test-results-container">

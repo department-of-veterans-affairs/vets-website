@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+
 const SearchControls = props => {
   const {
     currentQuery,
@@ -15,7 +17,7 @@ const SearchControls = props => {
   } = props;
   const {
     locationInputString,
-    repOrganizationInputString,
+    representativeInputString,
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
@@ -35,9 +37,9 @@ const SearchControls = props => {
     });
     clearGeocodeError();
   };
-  const handleRepOrganizationChange = e => {
+  const handleRepresentativeChange = e => {
     onChange({
-      repOrganizationInputString: onlySpaces(e.target.value)
+      representativeInputString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
@@ -63,18 +65,53 @@ const SearchControls = props => {
         status="warning"
         visible={currentQuery.geocodeError > 0}
         uswds
-      />
+      >
+        <p>
+          Please enable location sharing in your browser to use this feature.
+        </p>
+      </VaModal>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <h2 className="vads-u-margin-bottom--0" style={{ fontSize: '20px' }}>
-            Search for an accredited representative
+            Search for a VSO or accredited attorney
           </h2>
+          <div className="vads-u-margin-y--2">
+            <va-additional-info trigger="What does a VSO do?" uswds>
+              <p>
+                <strong>Veterans Service Officers (VSOs)</strong> can help you
+                gather evidence, file claims, and request decision reviews. They
+                can also communicate with VA on your behalf. VSOs provide free
+                services for Veterans and their families. VSOs work for Veterans
+                Service Organizations, like the American Legion, Disabled
+                American Veterans, and Veterans of Foreign Wars. They have
+                completed training and passed tests about VA claims and
+                benefits.
+              </p>
+            </va-additional-info>
+          </div>
+
+          <va-additional-info
+            trigger="What does an accredited attorney do?"
+            uswds
+          >
+            <p>
+              <strong>Accredited attorneys</strong> usually work on decision
+              reviews and cases that require legal knowledge. They can charge
+              fees for their services. Accredited attorneys don’t have to take a
+              test about VA claims and benefits. But they have to be a member in
+              good standing of the bar association.
+            </p>
+          </va-additional-info>
+          <RepTypeSelector
+            representativeType={representativeType}
+            onChange={onChange}
+          />
           <div className="location-input-container">
             <va-text-input
               style={{ order: 1 }}
               error={(() => {
                 if (showEmptyError) {
-                  return 'Please fill in a city, state or postal code.';
+                  return 'Please fill in a city, state, postal code or address.';
                 }
                 if (showGeolocationError) {
                   return 'Please enter a valid location.';
@@ -83,9 +120,9 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, state or postal code"
+              label="City, state, postal code or address"
               message-aria-describedby="Text input for location"
-              name="City, state or postal code"
+              name="City, state, postal code or address"
               onInput={handleLocationChange}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
@@ -131,39 +168,29 @@ const SearchControls = props => {
             </div>
           </div>
 
-          <RepTypeSelector
-            representativeType={representativeType}
-            onChange={onChange}
-          />
           <va-text-input
             hint={null}
-            label={
-              representativeType === 'organization'
-                ? 'Organization name'
-                : 'Accredited representative name'
-            }
-            message-aria-describedby="Text input for organization or Accredited representative name"
-            name="Organization or Accredited Representative Name"
-            onChange={handleRepOrganizationChange}
-            onInput={handleRepOrganizationChange}
+            label="Name of VSO or accredited attorney"
+            name="Name of VSO or accredited attorney"
+            onChange={handleRepresentativeChange}
+            onInput={handleRepresentativeChange}
             onKeyPress={e => {
               if (e.key === 'Enter') onSubmit();
             }}
-            value={repOrganizationInputString}
+            value={representativeInputString}
             uswds
           />
 
-          <button
-            id="representative-search"
-            type="submit"
-            value="Search"
-            onClick={e => {
-              e.preventDefault();
-              onSubmit();
-            }}
-          >
-            <i className="fas fa-search" /> Search
-          </button>
+          <div className="vads-u-margin-y--4">
+            <va-button
+              onClick={e => {
+                e.preventDefault();
+                onSubmit();
+              }}
+              text="Search"
+              uswds
+            />
+          </div>
         </div>
       </form>
     </div>
@@ -171,14 +198,14 @@ const SearchControls = props => {
 };
 
 SearchControls.propTypes = {
-  currentQuery: PropTypes.object.isRequired,
   clearGeocodeError: PropTypes.func,
-  geolocateUser: PropTypes.func.isRequired,
-  locationChanged: PropTypes.bool.isRequired,
-  locationInputString: PropTypes.string.isRequired,
-  repOrganizationInputString: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  currentQuery: PropTypes.object,
+  geolocateUser: PropTypes.func,
+  locationChanged: PropTypes.bool,
+  locationInputString: PropTypes.string,
+  representativeInputString: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default SearchControls;

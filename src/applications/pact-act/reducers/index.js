@@ -1,4 +1,5 @@
 import {
+  PAW_UPDATE_CURRENT_PAGE,
   PAW_VIEWED_INTRO_PAGE,
   PAW_UPDATE_SERVICE_PERIOD,
   PAW_UPDATE_BURN_PIT_2_1,
@@ -35,6 +36,7 @@ const {
 } = SHORT_NAME_MAP;
 
 const initialState = {
+  currentPage: SHORT_NAME_MAP.HOME,
   form: createFormStore(SHORT_NAME_MAP),
   viewedIntroPage: false,
 };
@@ -79,6 +81,11 @@ const pactAct = (state = initialState, action) => {
           ...state.form,
           ...action.payload,
         },
+      };
+    case PAW_UPDATE_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
       };
     default:
       return state;

@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import ListItemView from '../../../components/ListItemView';
 
-// View component for Medical Center
-const MedicalCenterView = ({ formData }) => {
-  return (
-    <p>
-      <strong>{formData.medicalCenter}</strong>
-    </p>
-  );
-};
+const MedicalCenterView = ({ formData }) => (
+  <ListItemView title={formData.medicalCenter} />
+);
 
 MedicalCenterView.propTypes = {
   formData: PropTypes.shape({
@@ -43,6 +39,7 @@ const generateMedicalCentersSchemas = (
           itemName: 'medical center',
           viewField: MedicalCenterView,
           reviewTitle: medicalCentersReviewTitle,
+          keepInPageOnReview: true,
         },
         items: {
           medicalCenter: {

@@ -5,6 +5,7 @@ const DID_YOU_SERVE =
 const WHICH_LOCATIONS = 'Which locations did you serve in?';
 
 export const QUESTION_MAP = Object.freeze({
+  HOME: 'Learn how the PACT Act may affect you',
   SERVICE_PERIOD:
     'When did you serve in the U.S. military (including time spent in training)?',
   BURN_PIT_2_1: DID_YOU_SERVE,
@@ -19,10 +20,15 @@ export const QUESTION_MAP = Object.freeze({
   RADIATION_2_3_A: 'Did you take part in any of these response efforts?',
   RADIATION_2_3_B: 'Which response efforts did you take part in?',
   LEJEUNE_2_4: 'Did you spend time at either of these bases in North Carolina?',
+  RESULTS_1_1: 'You may be eligible for VA benefits',
+  RESULTS_1_2: 'Apply for VA benefits now',
+  RESULTS_2: 'Learn more about Camp Lejeune and VA benefits',
+  RESULTS_3: 'Learn more about VA benefit eligibility',
 });
 
 // Left side must match routes in constants/index.js (ROUTES)
 export const SHORT_NAME_MAP = Object.freeze({
+  HOME: 'HOME',
   SERVICE_PERIOD: 'SERVICE_PERIOD',
   BURN_PIT_2_1: 'BURN_PIT_2_1',
   BURN_PIT_2_1_1: 'BURN_PIT_2_1_1',
@@ -36,6 +42,10 @@ export const SHORT_NAME_MAP = Object.freeze({
   RADIATION_2_3_A: 'RADIATION_2_3_A',
   RADIATION_2_3_B: 'RADIATION_2_3_B',
   LEJEUNE_2_4: 'LEJEUNE_2_4',
+  RESULTS_1_1: 'RESULTS_1_1',
+  RESULTS_1_2: 'RESULTS_1_2',
+  RESULTS_2: 'RESULTS_2',
+  RESULTS_3: 'RESULTS_3',
 });
 
 // Left side must match the keys in resultsDcs in constants/display-conditions
