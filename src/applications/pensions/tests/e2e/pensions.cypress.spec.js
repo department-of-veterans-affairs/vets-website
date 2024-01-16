@@ -97,11 +97,6 @@ export const pageHooks = cy => ({
       selectRadioWebComponent('maritalStatus', data.maritalStatus);
     });
   },
-  [pagePaths.maritalStatus]: () => {
-    cy.get('@testData').then(data => {
-      selectRadioWebComponent('maritalStatus', data.maritalStatus);
-    });
-  },
   [pagePaths.marriageInfo]: () => {
     cy.get('@testData').then(data => {
       // TODO Fix this
@@ -113,6 +108,14 @@ export const pageHooks = cy => ({
   [pagePaths.currentSpouseAddress]: () => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
+    });
+  },
+  [pagePaths.dependentChildAddress]: ({ index }) => {
+    cy.get('@testData').then(data => {
+      fillAddressWebComponentPattern(
+        'childAddress',
+        data.dependents[index].childAddress,
+      );
     });
   },
   'review-and-submit': ({ afterHook }) => {
