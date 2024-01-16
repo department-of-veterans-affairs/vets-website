@@ -230,6 +230,21 @@ class FormPage extends React.Component {
     const hideNavButtons =
       !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
 
+    let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
+    if (
+      route.pageConfig?.ContentBeforeButtons &&
+      isReactComponent(route.pageConfig.ContentBeforeButtons)
+    ) {
+      pageContentBeforeButtons = (
+        <route.pageConfig.ContentBeforeButtons
+          formData={data}
+          formContext={formContext}
+          router={this.props.router}
+          setFormData={this.props.setData}
+        />
+      );
+    }
+
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
     // onReviewPage will always be false here
@@ -277,6 +292,7 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
+          {pageContentBeforeButtons}
           {hideNavButtons ? (
             <div />
           ) : (
@@ -330,6 +346,11 @@ FormPage.propTypes = {
     pageConfig: PropTypes.shape({
       allowPathWithNoItems: PropTypes.bool,
       arrayPath: PropTypes.string,
+      ContentBeforeButtons: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+        PropTypes.func,
+      ]),
       CustomPage: PropTypes.oneOfType([
         PropTypes.element,
         PropTypes.elementType,

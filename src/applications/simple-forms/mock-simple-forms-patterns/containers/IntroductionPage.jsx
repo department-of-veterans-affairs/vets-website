@@ -29,6 +29,9 @@ class IntroductionPage extends React.Component {
           <h3>Pages</h3>
           <ul>
             <li>
+              <Link to="/chapter-select">Chapter select</Link>
+            </li>
+            <li>
               <Link to="/text-input">Text input</Link>
             </li>
             <li>

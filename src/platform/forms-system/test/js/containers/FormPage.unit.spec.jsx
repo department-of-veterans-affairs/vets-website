@@ -901,5 +901,64 @@ describe('Schemaform <FormPage>', () => {
         expect(document.activeElement.tagName).to.eq('H3');
       });
     });
+
+    it('can receive ContentBeforeButtons that has access to setFormData and router', () => {
+      const setData = sinon.spy();
+      const router = {
+        push: sinon.spy(),
+      };
+      const route = makeRoute({
+        pageConfig: {
+          pageKey: 'nextPage',
+          schema: {},
+          uiSchema: {},
+          errorMessages: {},
+          title: '',
+          // eslint-disable-next-line react/prop-types
+          ContentBeforeButtons: ({ router: r, formData, setFormData }) => (
+            <>
+              <va-button
+                type="button"
+                onClick={e => {
+                  e.preventDefault();
+                  setFormData({
+                    ...formData,
+                    test: true,
+                  });
+                }}
+              >
+                set data
+              </va-button>
+              <va-button
+                type="button"
+                onClick={e => {
+                  e.preventDefault();
+                  r.push('/testing');
+                }}
+              >
+                go
+              </va-button>
+            </>
+          ),
+        },
+      });
+
+      const { getByText } = render(
+        <FormPage
+          router={router}
+          form={makeForm()}
+          setData={setData}
+          route={route}
+          location={{ pathname: '/next-page' }}
+        />,
+      );
+
+      fireEvent.click(getByText(/set data/));
+      expect(setData.firstCall.args[0]).to.eql({
+        test: true,
+      });
+      fireEvent.click(getByText(/go/));
+      expect(router.push.calledWith('/testing')).to.be.true;
+    });
   });
 });
