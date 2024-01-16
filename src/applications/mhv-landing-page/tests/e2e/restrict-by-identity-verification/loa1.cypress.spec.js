@@ -7,7 +7,7 @@ import { resolveLandingPageLinks } from '../../../utilities/data';
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
 // ID.me is LandingPage.visitPage default for serviceProvider
-const verifyIdentityHeading = /Verify your ID.me identity to access/i;
+const verifyIdentityHeading = /Verify your identity to use your ID.me account on My HealtheVet/i;
 
 // Validate a card has a heading and the correct number of links in it.
 function validateLinkGroup(cardHeadline, numLinks) {
