@@ -1,7 +1,10 @@
 // we're not using JSON schema for this form
+import footerContent from 'platform/forms/components/FormFooter';
+import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
 
+import { TITLE, SUBTITLE } from './constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -12,10 +15,11 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'pp-10207',
+  trackingPrefix: 'pp-10207-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10207',
+  hideUnauthedStartLink: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your priority processing request application (20-10207) is in progress.',
@@ -30,9 +34,10 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for priority processing request.',
   },
-  title: 'Request priority processing of an existing claim',
-  subTitle: 'Priority processing request (VA form 20-10207)',
+  title: TITLE,
+  subTitle: SUBTITLE,
   defaultDefinitions: {},
+  v3SegmentedProgressBar: true,
   chapters: {
     chapter1: {
       title: 'Chapter 1',
@@ -43,12 +48,18 @@ const formConfig = {
           uiSchema: {},
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              firstField: {
+                type: 'string',
+              },
+            },
           },
         },
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
