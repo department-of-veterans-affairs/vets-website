@@ -150,7 +150,7 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+    ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);

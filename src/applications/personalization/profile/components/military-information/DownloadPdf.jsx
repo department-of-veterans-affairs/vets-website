@@ -18,8 +18,18 @@ const DownloadPdf = ({
     last: '',
     suffix: '',
   },
+  mockUserAgent,
 }) => {
   const { first, middle, last, suffix } = userFullName;
+
+  const userAgent =
+    mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
+
+  const isMobile =
+    (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
+    /android/i.test(userAgent);
+
+  const openInTab = !isMobile;
 
   const createPdf = () => {
     const pdfData = {
@@ -48,15 +58,26 @@ const DownloadPdf = ({
       'file-extension': 'pdf',
     });
 
-    generatePdf('veteranStatus', 'Veteran status card', pdfData, true);
+    generatePdf('veteranStatus', 'Veteran status card', pdfData, openInTab);
   };
 
   return (
     <div className="vads-u-margin-top--4">
-      <va-button
-        onClick={() => createPdf()}
-        text="Download Veteran status card"
-      />
+      {isMobile ? (
+        <va-button
+          onClick={() => createPdf()}
+          text="Download Veteran status card"
+        />
+      ) : (
+        <va-link
+          download
+          filetype="PDF"
+          href={null}
+          pages={1}
+          text="Download Veteran status card"
+          onClick={() => createPdf()}
+        />
+      )}
     </div>
   );
 };
@@ -64,6 +85,7 @@ const DownloadPdf = ({
 DownloadPdf.propTypes = {
   dob: PropTypes.string,
   militaryInformation: PropTypes.object,
+  mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
 };
