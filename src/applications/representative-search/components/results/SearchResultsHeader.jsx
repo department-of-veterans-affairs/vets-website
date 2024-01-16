@@ -106,17 +106,17 @@ export const SearchResultsHeader = props => {
 };
 
 SearchResultsHeader.propTypes = {
-  searchResults: PropTypes.array,
   pagination: PropTypes.object,
   query: PropTypes.shape({
-    inProgress: PropTypes.bool,
     context: PropTypes.shape({
       repOrgName: PropTypes.string,
       location: PropTypes.string,
     }),
+    inProgress: PropTypes.bool,
     representativeType: PropTypes.string,
     sortType: PropTypes.string,
   }),
+  searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
 };
 

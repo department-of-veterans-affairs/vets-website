@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Link } from 'react-router-dom';
 import { labTypes } from '../../util/constants';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
-  const formattedDate = formatDateLong(record.date);
 
   return (
     <div
@@ -15,13 +13,13 @@ const LabsAndTestsListItem = props => {
     >
       <h3
         className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} ${formattedDate}`}
+        aria-label={`${record.name} ${record.date}`}
       >
         {record.name}
       </h3>
 
       <div className="fields">
-        <div>{formattedDate}</div>
+        <div>{record.date}</div>
         {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
         )}
@@ -46,7 +44,7 @@ const LabsAndTestsListItem = props => {
           id={`details-button-description-${record.id}`}
           className="sr-only"
         >
-          {record.name} {formattedDate}
+          {record.name} {record.date}
         </span>
       </Link>
     </div>
