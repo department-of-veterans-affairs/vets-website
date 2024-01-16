@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { createId } from '../utils/helpers';
+import { createId, isProductionOfTestProdEnv } from '../utils/helpers';
+import ClearFiltersBtn from './ClearFiltersBtn';
 
 export default function SearchAccordion({
   expanded,
@@ -67,7 +68,11 @@ export default function SearchAccordion({
         {expanded ? children : null}
       </div>
       {expanded && (
-        <div className="update-results">
+        <div
+          className={
+            isProductionOfTestProdEnv() ? 'update-results' : 'update-results-2'
+          }
+        >
           {' '}
           <button
             type="button"
@@ -78,6 +83,9 @@ export default function SearchAccordion({
           >
             {buttonLabel}
           </button>
+          {!isProductionOfTestProdEnv() && (
+            <ClearFiltersBtn>Clear filters</ClearFiltersBtn>
+          )}
         </div>
       )}
     </div>
