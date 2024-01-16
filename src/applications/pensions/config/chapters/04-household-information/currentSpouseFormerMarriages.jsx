@@ -5,9 +5,11 @@ import get from 'platform/utilities/data/get';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import {
+  currentOrPastDateUI,
   fullNameUI,
   fullNameSchema,
-  currentOrPastDateUI,
+  radioUI,
+  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { contactWarning, contactWarningMulti } from '../../../helpers';
@@ -24,8 +26,21 @@ const { marriages } = fullSchemaPensions.definitions;
 
 const marriageProperties = marriages.items.properties;
 
-const hasMultipleMarriages = form =>
-  get(['spouseMarriages', 'length'], form) > 1;
+const separationOptions = {
+  DEATH: 'Death',
+  DIVORCE: 'Divorce',
+  OTHER: 'Other',
+};
+
+const hasMultipleMarriages = form => {
+  const spouseMarriagesLength = get(['spouseMarriages', 'length'], form)
+    ? get(['spouseMarriages', 'length'], form)
+    : 0;
+  return spouseMarriagesLength > 1;
+};
+
+export const otherExplanationRequired = (form, index) =>
+  get(['spouseMarriages', index, 'reasonForSeparation'], form) === 'OTHER';
 
 const SpouseMarriageView = ({ formData }) => (
   <ListItemView
@@ -62,19 +77,18 @@ export default {
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
-        reasonForSeparation: {
-          'ui:title': 'How did the marriage end?',
-          'ui:widget': 'radio',
-        },
+        reasonForSeparation: radioUI({
+          title: 'How did the marriage end?',
+          labels: separationOptions,
+          classNames: 'vads-u-margin-bottom--2',
+        }),
         otherExplanation: {
           'ui:title': 'Please specify',
           'ui:options': {
             expandUnder: 'reasonForSeparation',
-            expandUnderCondition: 'Other',
+            expandUnderCondition: 'OTHER',
           },
-          'ui:required': (form, index) =>
-            get(['spouseMarriages', index, 'reasonForSeparation'], form) ===
-            'Other',
+          'ui:required': otherExplanationRequired,
         },
         dateOfMarriage: {
           ...currentOrPastDateUI('Date of marriage'),
@@ -104,6 +118,7 @@ export default {
       'view:contactWarningMulti': { type: 'object', properties: {} },
       spouseMarriages: {
         type: 'array',
+        minItems: 1,
         items: {
           type: 'object',
           required: [
@@ -116,10 +131,7 @@ export default {
           ],
           properties: {
             spouseFullName: fullNameSchema,
-            reasonForSeparation: {
-              type: 'string',
-              enum: ['Death', 'Divorce', 'Other'],
-            },
+            reasonForSeparation: radioSchema(Object.keys(separationOptions)),
             otherExplanation: marriageProperties.otherExplanation,
             dateOfMarriage: marriageProperties.dateOfMarriage,
             dateOfSeparation: marriageProperties.dateOfSeparation,

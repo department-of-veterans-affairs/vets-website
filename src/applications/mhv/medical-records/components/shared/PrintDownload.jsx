@@ -34,11 +34,11 @@ const PrintDownload = props => {
 
     if (printIndex > 0 && e.keyCode === 38) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 1}`).focus();
+      document.getElementById(`printButton-${printIndex - 2}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 2 && e.keyCode === 40) {
+    } else if (printIndex < 3 && e.keyCode === 40) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex + 1}`).focus();
+      document.getElementById(`printButton-${printIndex}`).focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       setMenuOpen(false);
