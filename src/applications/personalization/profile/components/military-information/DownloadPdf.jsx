@@ -29,28 +29,26 @@ const DownloadPdf = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  const openInTab = !isMobile;
+  const pdfData = {
+    title: `Veteran status card for ${formatFullName({
+      first,
+      middle,
+      last,
+      suffix,
+    })}`,
+    details: {
+      fullName: formatFullName({ first, middle, last, suffix }),
+      serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+      totalDisabilityRating,
+      dob: renderDOB(dob),
+      image: {
+        title: 'V-A logo',
+        url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+      },
+    },
+  };
 
   const createPdf = () => {
-    const pdfData = {
-      title: `Veteran status card for ${formatFullName({
-        first,
-        middle,
-        last,
-        suffix,
-      })}`,
-      details: {
-        fullName: formatFullName({ first, middle, last, suffix }),
-        serviceHistory: militaryInformation.serviceHistory.serviceHistory,
-        totalDisabilityRating,
-        dob: renderDOB(dob),
-        image: {
-          title: 'V-A logo',
-          url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
-        },
-      },
-    };
-
     recordEvent({
       event: 'file_download',
       'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
@@ -58,7 +56,7 @@ const DownloadPdf = ({
       'file-extension': 'pdf',
     });
 
-    generatePdf('veteranStatus', 'Veteran status card', pdfData, openInTab);
+    generatePdf('veteranStatus', 'Veteran status card', pdfData, !isMobile);
   };
 
   return (
@@ -66,7 +64,7 @@ const DownloadPdf = ({
       {isMobile ? (
         <va-button
           role="button"
-          onClick={() => createPdf()}
+          onClick={createPdf}
           text="Download Veteran status card"
         />
       ) : (
@@ -77,7 +75,7 @@ const DownloadPdf = ({
           href={null}
           pages={1}
           text="Download Veteran status card"
-          onClick={() => createPdf()}
+          onClick={createPdf}
         />
       )}
     </div>
