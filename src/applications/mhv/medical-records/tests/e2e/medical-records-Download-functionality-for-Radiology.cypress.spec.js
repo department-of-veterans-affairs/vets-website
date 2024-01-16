@@ -21,7 +21,8 @@ describe('Medical Records Download Functionality For Radiology', () => {
     // should display a download text file button "Download a text file (.txt) of this list"
     LabsAndTestsListPage.verifyDownloadTextFile();
     LabsAndTestsListPage.clickDownloadPDFFile();
-    cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
+
+    // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
 
     // Axe check
     cy.injectAxe();

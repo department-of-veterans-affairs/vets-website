@@ -36,6 +36,10 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../shared/util/constants';
+import {
+  generateVaccinesIntro,
+  generateVaccinesContent,
+} from '../util/pdfHelpers/vaccines';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -71,38 +75,10 @@ const Vaccines = props => {
   );
 
   const generateVaccinesPdf = async () => {
-    const title = 'Vaccines';
-    const subject = 'VA Medical Record';
-    const preface =
-      'This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records.';
-    const pdfData = generatePdfScaffold(user, title, subject, preface);
-    pdfData.results = { items: [] };
-
-    vaccines.forEach(item => {
-      pdfData.results.items.push({
-        header: item.name,
-        items: [
-          {
-            title: 'Date received',
-            value: item.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: item.location,
-            inline: true,
-          },
-          {
-            title: 'Provider notes',
-            value: processList(item.notes),
-            inline: !item.notes.length,
-          },
-        ],
-      });
-    });
-
-    const pdfName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
-
+    const { title, subject, preface } = generateVaccinesIntro();
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
+    const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
 
@@ -128,7 +104,7 @@ For complete records of your allergies and reactions to vaccines, review your al
 Showing ${vaccines.length} records from newest to oldest
 ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
-    const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+    const fileName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };

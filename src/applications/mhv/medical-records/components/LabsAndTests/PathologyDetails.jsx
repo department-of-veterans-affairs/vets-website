@@ -19,6 +19,10 @@ import {
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import { txtLine } from '../../../shared/util/constants';
+import {
+  generateLabsIntro,
+  generatePathologyContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -44,34 +48,11 @@ const PathologyDetails = props => {
   );
 
   const generatePathologyPdf = async () => {
-    const title = `Pathology: ${record.name} on ${record.date}`;
-    const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      header: 'Details about this test',
-      items: [
-        {
-          title: 'Sample tested',
-          value: record.sampleTested,
-          inline: true,
-        },
-        {
-          title: 'Lab location',
-          value: record.labLocation,
-          inline: true,
-        },
-        { title: 'Date completed', value: record.date, inline: true },
-      ],
-    };
-    scaffold.results = {
-      header: 'Results',
-      items: [{ items: [{ title: '', value: record.results, inline: true }] }],
-    };
-
-    const pdfName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Pathology details', runningUnitTest);
+    const { title, subject, preface } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generatePathologyContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Pathology details', runningUnitTest);
   };
 
   const generatePathologyTxt = async () => {
@@ -85,7 +66,7 @@ Date completed: ${record.date} \n
 Results: \n
 ${record.results} \n`;
 
-    const fileName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };

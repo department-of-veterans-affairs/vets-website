@@ -134,16 +134,18 @@ export const isArrayAndHasItems = obj => {
  * @param {Object} pdfData data to be passed to pdf generator
  * @param {String} sentryError name of the app feature where the call originated
  * @param {Boolean} runningUnitTest pass true when running unit tests because calling generatePdf will break unit tests
+ * @param {String} templateId the template id in the pdfGenerator utility, defaults to medicalRecords
  */
 export const makePdf = async (
   pdfName,
   pdfData,
   sentryError,
   runningUnitTest,
+  templateId,
 ) => {
   try {
     if (!runningUnitTest) {
-      await generatePdf('medicalRecords', pdfName, pdfData);
+      await generatePdf(templateId || 'medicalRecords', pdfName, pdfData);
     }
   } catch (error) {
     sendErrorToSentry(error, sentryError);

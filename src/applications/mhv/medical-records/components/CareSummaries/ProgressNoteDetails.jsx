@@ -24,6 +24,10 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import {
+  generateNotesIntro,
+  generateProgressNoteContent,
+} from '../../util/pdfHelpers/notes';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -46,60 +50,11 @@ const ProgressNoteDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
-    const title = `Care summaries and notes on ${formatDateLong(record.date)}`;
-    const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      header: 'Details',
-      items: [
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Signed by',
-          value: record.signedBy,
-          inline: true,
-        },
-        {
-          title: 'Date signed',
-          value: record.dateSigned,
-          inline: true,
-        },
-      ],
-    };
-
-    if (record.coSignedBy !== EMPTY_FIELD) {
-      scaffold.details.items.splice(2, 0, {
-        title: 'Co-signed by',
-        value: record.coSignedBy,
-        inline: true,
-      });
-    }
-
-    scaffold.results = {
-      header: 'Notes',
-      items: [
-        {
-          items: [
-            {
-              title: '',
-              value: record.note,
-              inline: false,
-            },
-          ],
-        },
-      ],
-    };
-
-    makePdf(
-      'care_notes_report',
-      scaffold,
-      'Care Note details',
-      runningUnitTest,
-    );
+    const { title, subject, preface } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
+    const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Progress note details', runningUnitTest);
   };
 
   const generateCareNotesTxt = () => {
@@ -120,7 +75,7 @@ Note\n
 ${record.note}`;
     generateTextFile(
       content,
-      `VA-care-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+      `VA-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
   };
 

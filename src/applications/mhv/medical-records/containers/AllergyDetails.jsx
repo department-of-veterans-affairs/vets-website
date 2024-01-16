@@ -10,12 +10,7 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  processList,
-} from '../util/helpers';
+import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -29,6 +24,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { txtLine } from '../../shared/util/constants';
+import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -83,45 +79,9 @@ const AllergyDetails = props => {
     const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      items: [
-        {
-          title: 'Date entered',
-          value: allergy.date,
-          inline: true,
-        },
-        {
-          title: 'Signs and symptoms',
-          value: processList(allergy.reaction),
-          inline: true,
-        },
-        {
-          title: 'Type of allergy',
-          value: allergy.type,
-          inline: true,
-        },
-        {
-          title: 'Location',
-          value: allergy.location,
-          inline: true,
-        },
-        {
-          title: 'Observed or historical',
-          value: allergy.observedOrReported,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: allergy.notes,
-          inline: !allergy.notes,
-        },
-      ],
-    };
-
-    const pdfName = `VA-Allergies-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Allergy details', runningUnitTest);
+    const pdfData = { ...scaffold, details: generateAllergyItem(allergy) };
+    const pdfName = `VA-allergies-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Allergy details', runningUnitTest);
   };
 
   const generateAllergyTxt = async () => {
