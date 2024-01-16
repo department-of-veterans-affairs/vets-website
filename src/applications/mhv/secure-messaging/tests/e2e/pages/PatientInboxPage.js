@@ -138,7 +138,8 @@ class PatientInboxPage {
     ).as('message');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId}/thread`,
+      `${Paths.SM_API_EXTENDED +
+        inputMockMessage.attributes.messageId}/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
@@ -168,7 +169,7 @@ class PatientInboxPage {
       'GET',
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(

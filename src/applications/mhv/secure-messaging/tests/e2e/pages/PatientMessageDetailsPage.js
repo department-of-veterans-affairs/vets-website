@@ -121,7 +121,7 @@ class PatientMessageDetailsPage {
       'GET',
       `/my_health/v1/messaging/messages/${
         mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.currentThread,
     ).as('full-thread');
 
@@ -181,7 +181,7 @@ class PatientMessageDetailsPage {
       'GET',
       `/my_health/v1/messaging/messages/${
         mockMessageDetails.data.attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.wait('@full-thread');
