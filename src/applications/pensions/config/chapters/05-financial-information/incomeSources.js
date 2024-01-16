@@ -21,6 +21,9 @@ const typeOfIncomeOptions = {
   OTHER: 'Other income',
 };
 
+export const otherExplanationRequired = (form, index) =>
+  get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -31,9 +34,10 @@ export default {
     },
     incomeSources: {
       'ui:options': {
-        itemName: 'income source',
+        itemName: 'Income source',
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
+        keepInPageOnReview: true,
       },
       items: {
         typeOfIncome: radioUI({
@@ -47,8 +51,7 @@ export default {
             expandUnder: 'typeOfIncome',
             expandUnderCondition: 'OTHER',
           },
-          'ui:required': (form, index) =>
-            get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER',
+          'ui:required': otherExplanationRequired,
         },
         receiver: {
           'ui:title': 'Who receives this income?',
@@ -82,6 +85,7 @@ export default {
       },
       incomeSources: {
         type: 'array',
+        minItems: 1,
         items: {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],

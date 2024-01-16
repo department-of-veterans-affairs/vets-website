@@ -7,6 +7,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_10_10D: '10-10D',
   FORM_10_10EZ: '1010ez',
   FORM_10_10EZR: '10-10EZR',
+  FORM_10_3542: '10-3542',
   FORM_20_0995: '20-0995',
   FORM_20_0996: '20-0996',
   FORM_20_10206: '20-10206',

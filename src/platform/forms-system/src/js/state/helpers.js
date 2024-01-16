@@ -654,6 +654,7 @@ export function createInitialState(formConfig) {
       metadata: {},
     },
     reviewPageView: {
+      openChapters: {},
       viewedPages: new Set(),
     },
     trackingPrefix: formConfig.trackingPrefix,
