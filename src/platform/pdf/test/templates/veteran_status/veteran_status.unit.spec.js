@@ -125,7 +125,9 @@ describe('Veteran Status PDF template', () => {
       );
       expect(ratingText.length).to.eq(1);
       const ratingContent = content.items.filter(
-        item => item.str === data.details.totalDisabilityRating.toString(),
+        item =>
+          item.str ===
+          `${data.details.totalDisabilityRating.toString()}% service connected`,
       );
       expect(ratingContent.length).to.eq(1);
     });
