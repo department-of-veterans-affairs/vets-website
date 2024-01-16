@@ -13,13 +13,7 @@ import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const {
-    message,
-    isDraftThread,
-    open,
-    // accordionState,
-    setAccordionState,
-  } = props;
+  const { message, isDraftThread, open, printThread } = props;
   const {
     attachment,
     attachments,
@@ -33,7 +27,6 @@ const MessageThreadItem = props => {
     senderName,
     sentDate,
     triageGroupName,
-    // isOpened,
   } = message;
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
 
@@ -45,18 +38,9 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  // Toggle accordion state
-  const trackAccordionToggles = accordionId => {
-    setAccordionState(prevState => ({
-      ...prevState,
-      isOpened: !prevState[accordionId],
-    }));
-  };
-
   const handleExpand = isPreloaded => {
     if (!isPreloaded) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
-      trackAccordionToggles(messageId);
     }
   };
 
@@ -108,6 +92,7 @@ const MessageThreadItem = props => {
         handleExpand(preloaded);
       }}
       data-testid={`expand-message-button-${messageId}`}
+      open={printThread}
     >
       <h3 slot="headline">
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
@@ -147,12 +132,11 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
-  accordionState: PropTypes.object,
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   open: PropTypes.bool,
+  printThread: PropTypes.bool,
   printView: PropTypes.bool,
-  setAccordionState: PropTypes.func,
 };
 
 export default MessageThreadItem;

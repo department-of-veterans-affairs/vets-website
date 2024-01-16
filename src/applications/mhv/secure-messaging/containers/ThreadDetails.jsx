@@ -9,10 +9,11 @@ import MessageThreadHeader from '../components/MessageThreadHeader';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import { PageTitles, PrintMessageOptions } from '../util/constants';
+import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
+import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -27,7 +28,6 @@ const ThreadDetails = props => {
     cannotReply,
     drafts,
     messages,
-    printOption,
     threadFolderId,
     threadViewCount,
   } = useSelector(state => state.sm.threadDetails);
@@ -36,8 +36,7 @@ const ThreadDetails = props => {
   const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
-  // track accordion's state
-  const [accordionState, setAccordionState] = useState({});
+  const [printThread, setPrintThread] = useState(false);
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -97,14 +96,6 @@ const ThreadDetails = props => {
     }
   });
 
-  const accordionShadowRoot = document
-    .querySelector('va-accordion')
-    ?.shadowRoot?.querySelector('button[aria-label="Expand all accordions"]');
-
-  const accordionItemShadowRoot = document
-    .querySelector('va-accordion-item')
-    ?.shadowRoot?.querySelectorAll('button[aria-expanded="true"]');
-  // console.log('accordionI lengh: ', accordionItemShadowRoot.length);
   const content = () => {
     if (!isLoaded) {
       return (
@@ -126,9 +117,14 @@ const ThreadDetails = props => {
             recipients={recipients}
             replyMessage={messages[0]}
           />
+          {printThread && (
+            <MessageThreadForPrint
+              messageHistory={messages}
+              printThread={printThread}
+            />
+          )}
           <MessageThread
             isDraftThread
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             messageHistory={messages}
             viewCount={threadViewCount}
           />
@@ -155,19 +151,20 @@ const ThreadDetails = props => {
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-            accordionShadowRoot={accordionShadowRoot}
-            accordionItemShadowRoot={accordionItemShadowRoot}
-            accordionState={accordionState}
-            setAccordionState={setAccordionState}
             recipients={recipients}
+            printThread={printThread}
+            setPrintThread={setPrintThread}
           />
+          {printThread && (
+            <MessageThreadForPrint
+              messageHistory={messages}
+              printThread={printThread}
+            />
+          )}
           <MessageThread
             messageHistory={messages}
             threadId={threadId}
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
-            accordionState={accordionState}
-            setAccordionState={setAccordionState}
           />
         </>
       );
