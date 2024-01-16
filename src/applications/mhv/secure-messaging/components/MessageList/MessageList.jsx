@@ -170,7 +170,7 @@ const MessageList = props => {
 
   return (
     <div className="message-list vads-l-row vads-u-flex-direction--column">
-      {messages.length > 1 && (
+      {messages?.length > 1 && (
         <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
       )}
 
