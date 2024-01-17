@@ -11,11 +11,11 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca DeductibleExpenses config', () => {
+describe('hca VeteranAnnualIncome config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2DeductibleExpenses;
+  } = formConfig.chapters.householdInformation.pages.VeteranAnnualIncome;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -61,18 +61,18 @@ describe('hca DeductibleExpenses config', () => {
 
     simulateInputChange(
       formDOM,
-      '#root_view\\3A deductibleMedicalExpenses_deductibleMedicalExpenses',
-      '100',
+      '#root_view\\3A veteranGrossIncome_veteranGrossIncome',
+      '100000',
     );
     simulateInputChange(
       formDOM,
-      '#root_view\\3A deductibleFuneralExpenses_deductibleFuneralExpenses',
+      '#root_view\\3A veteranNetIncome_veteranNetIncome',
+      '76000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A veteranOtherIncome_veteranOtherIncome',
       '0',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A deductibleEducationExpenses_deductibleEducationExpenses',
-      '500',
     );
     submitForm(form);
 
