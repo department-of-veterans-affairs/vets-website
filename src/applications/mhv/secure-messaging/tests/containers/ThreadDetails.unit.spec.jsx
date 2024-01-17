@@ -104,7 +104,7 @@ describe('Thread Details container', () => {
     expect(printButton).to.exist;
     fireEvent.click(printButton);
 
-    expect(printSpy.calledOnce).to.equal(true);
+    expect(await printSpy.calledOnce).to.equal(true);
     printSpy.restore();
   });
 
