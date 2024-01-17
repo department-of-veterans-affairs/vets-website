@@ -457,6 +457,7 @@ class SearchApp extends React.Component {
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}
+                uswds
               />
             )}
           <span className="powered-by">Powered by Search.gov</span>

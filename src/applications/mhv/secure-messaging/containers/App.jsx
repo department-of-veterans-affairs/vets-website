@@ -15,6 +15,7 @@ import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllFacilities } from '../actions/facilities';
+import { getAllTriageTeamRecipients } from '../actions/recipients';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,13 @@ const App = () => {
       }
     },
     [userFacilities, user.login.currentlyLoggedIn, dispatch],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllTriageTeamRecipients());
+    },
+    [dispatch],
   );
 
   const datadogRumConfig = {

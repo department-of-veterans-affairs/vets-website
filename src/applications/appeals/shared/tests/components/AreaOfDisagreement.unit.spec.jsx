@@ -177,7 +177,7 @@ describe('<AreaOfDisagreement>', () => {
     expect(updateSpy.called).to.be.true;
   });
 
-  it('should not submit on review page with nothing is set', () => {
+  it('should not submit on review page with nothing is set', async () => {
     const updateSpy = sinon.spy();
     const aod = {
       ...aod2,
@@ -200,8 +200,11 @@ describe('<AreaOfDisagreement>', () => {
     );
 
     fireEvent.click($('va-button', container));
-    expect(updateSpy.called).to.be.false;
-    expect($('va-checkbox-group[error]', container)).to.exist;
+
+    await waitFor(() => {
+      expect(updateSpy.called).to.be.false;
+      expect($('va-checkbox-group[error]', container)).to.exist;
+    });
   });
 
   it('should not submit page when nothing is checked or input is empty', async () => {

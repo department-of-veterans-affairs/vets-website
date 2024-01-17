@@ -7,7 +7,7 @@ Cypress.Commands.add('checkSearch', () => {
     timeout: 5000,
   }).type(`Austin, TX`, { force: true });
 
-  cy.get('#representative-search').click();
+  cy.get('va-button[text="Search"]').click();
 
   // Result list
   cy.get('.representative-search-results-container').should('exist');

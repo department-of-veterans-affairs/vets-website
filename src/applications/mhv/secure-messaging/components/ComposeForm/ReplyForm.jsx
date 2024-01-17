@@ -3,15 +3,26 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import EmergencyNote from '../EmergencyNote';
-import { updatePageTitle } from '../../util/helpers';
+import {
+  updatePageTitle,
+  updateTriageGroupRecipientStatus,
+} from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
-import { PageTitles } from '../../util/constants';
+import {
+  BlockedTriageAlertStyles,
+  PageTitles,
+  ParentComponent,
+  RecipientStatus,
+  Recipients,
+} from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
 
 const ReplyForm = props => {
-  const { cannotReply, drafts, replyMessage } = props;
+  const { cannotReply, drafts, replyMessage, recipients, messages } = props;
   const dispatch = useDispatch();
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
@@ -22,7 +33,52 @@ const ReplyForm = props => {
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
+  const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
+
   const signature = useSelector(state => state.sm.preferences.signature);
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
+
+  useEffect(() => {
+    const draftToEdit = drafts?.[0];
+    if (mhvSecureMessagingBlockedTriageGroup1p0 && draftToEdit) {
+      const tempRecipient = {
+        recipientId: draftToEdit.recipientId,
+        name:
+          messages.find(m => m.triageGroupName === draftToEdit.triageGroupName)
+            ?.triageGroupName || draftToEdit.triageGroupName,
+        type: Recipients.CARE_TEAM,
+        status: RecipientStatus.ALLOWED,
+      };
+
+      const {
+        isAssociated,
+        isBlocked,
+        formattedRecipient,
+      } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+      if (!isAssociated) {
+        setShowBlockedTriageGroupAlert(true);
+        setBlockedTriageGroupList([formattedRecipient]);
+      } else if (recipients.associatedBlockedTriageGroupsQty) {
+        setShowBlockedTriageGroupAlert(isBlocked);
+        setBlockedTriageGroupList(
+          recipients.blockedRecipients.filter(
+            recipient => recipient.name === formattedRecipient.name,
+          ),
+        );
+      }
+    }
+    // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
+  }, []);
 
   useEffect(
     () => {
@@ -76,14 +132,32 @@ const ReplyForm = props => {
         <h1 ref={header} className="page-title">
           {messageTitle}
         </h1>
-        <CannotReplyAlert visible={cannotReply} />
+        {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+          <CannotReplyAlert
+            visible={cannotReply && !showBlockedTriageGroupAlert}
+          />
+        ) : (
+          <CannotReplyAlert visible={cannotReply} />
+        )}
+
+        {mhvSecureMessagingBlockedTriageGroup1p0 &&
+          showBlockedTriageGroupAlert && (
+            <BlockedTriageGroupAlert
+              blockedTriageGroupList={blockedTriageGroupList}
+              alertStyle={BlockedTriageAlertStyles.ALERT}
+              parentComponent={ParentComponent.REPLY_FORM}
+            />
+          )}
 
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
             data-testid="reply-form"
           >
-            {!cannotReply && <EmergencyNote dropDownFlag />}
+            {mhvSecureMessagingBlockedTriageGroup1p0
+              ? !cannotReply &&
+                !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />
+              : !cannotReply && <EmergencyNote dropDownFlag />}
 
             <ReplyDrafts
               drafts={drafts}
@@ -93,6 +167,7 @@ const ReplyForm = props => {
               replyMessage={replyMessage}
               setLastFocusableElement={setLastFocusableElement}
               signature={signature}
+              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
             />
           </form>
         </section>
@@ -105,6 +180,8 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
+  messages: PropTypes.object,
+  recipients: PropTypes.object,
   replyMessage: PropTypes.object,
 };
 
