@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import {
   mockApiRequest,
@@ -88,6 +89,23 @@ describe('Thread Details container', () => {
         .querySelector('.older-messages')
         .querySelectorAll('.older-message'),
     ).to.have.length(2);
+  });
+
+  it('renders Print Window on `Print` button click in Thread Details', async () => {
+    const state = {
+      sm: {
+        threadDetails,
+      },
+    };
+    const screen = setup(state);
+
+    const printButton = screen.getByTestId('print-button');
+    const printSpy = sinon.spy(window, 'print');
+    expect(printButton).to.exist;
+    fireEvent.click(printButton);
+
+    expect(printSpy.calledOnce).to.equal(true);
+    printSpy.restore();
   });
 
   it('renders Thread Details with NO message history in a thread', async () => {
