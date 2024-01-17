@@ -4,7 +4,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 export default () => (
   <div className="row">
     <div className="columns small-12">
-      <div className="help-info vads-u-color--gray-dark">
+      <div className="help-info">
         <h2 className="vads-u-margin-top--0">Having trouble signing in?</h2>
         <p className="vads-u-font-size--base">
           Get answers to common questions about{' '}

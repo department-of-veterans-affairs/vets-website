@@ -16,11 +16,11 @@ export default function DowntimeBanners() {
     }
   }, []); // only on load
 
-  // mimics the ssoe service error if we don't get an OK response from vets-api
+  // mimics the mvi service error if we don't get an OK response from vets-api
   const statusArray =
     statuses || isLocalhost
       ? []
-      : [{ service: 'ssoe', serviceId: 'ssoe', status: 'down' }];
+      : [{ service: 'mvi', serviceId: 'mvi', status: 'down' }];
   const bannerStatus = getStatusFromStatuses(statusArray);
   if (!Object.keys(bannerStatus).length) return null;
   const { headline, status: alertStatus, message } = bannerStatus;
