@@ -25,6 +25,8 @@ import { PDF_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import { reportGeneratedBy } from '../../shared/util/constants';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
+import { Actions } from '../util/actionTypes';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -91,6 +93,15 @@ const PrescriptionDetails = () => {
       }
     },
     [prescription],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch({ type: Actions.Prescriptions.CLEAR_DETAILS });
+      };
+    },
+    [dispatch],
   );
 
   const pdfData = useCallback(
@@ -186,6 +197,13 @@ const PrescriptionDetails = () => {
       if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
     },
     [prescriptionId, dispatch],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllergiesList());
+    },
+    [dispatch],
   );
 
   useEffect(
@@ -314,6 +332,10 @@ const PrescriptionDetails = () => {
               rx={prescription}
               refillHistory={!nonVaPrescription ? refillHistory : []}
               isDetailsRx
+            />
+            <AllergiesPrintOnly
+              allergies={allergies}
+              allergiesError={allergiesError}
             />
           </PrintOnlyPage>
         </>

@@ -6,11 +6,14 @@
       "last": "Doe",
       "suffix": "Sr."
     },
-    "veteranSocialSecurityNumber": "123123123",
+    "veteranSocialSecurityNumber": "333224444",
     "vaClaimsHistory": true,
     "vaFileNumber": "12345678",
     "veteranDateOfBirth": "1960-01-01",
-    "serviceBranch": "ARMY",
+    "serviceBranch": {
+      "ARMY": true,
+      "NAVY": true
+    },
     "activeServiceDateRange": {
       "from": "2003-03-02",
       "to": "2007-03-20"
@@ -67,44 +70,7 @@
         "jobTitle": "Representative"
       }
     ],
-    "spouseDateOfBirth": "1960-01-01",
-    "spouseSocialSecurityNumber": "342342444",
-    "spouseIsVeteran": true,
-    "spouseVaFileNumber": "23423444",
-    "view:liveWithSpouse": false,
-    "spouseAddress": {
-      "street": "123 7th st",
-      "street2": "Apt 3",
-      "city": "Pittsfield",
-      "country": "USA",
-      "state": "MA",
-      "postalCode": "01050"
-    },
-    "reasonForNotLivingWithSpouse": "Personal choice",
-    "monthlySpousePayment": 2444,
-    "spouseMarriages": [
-      {
-        "dateOfMarriage": "1980-03-02",
-        "locationOfMarriage": "Seattle, WA",
-        "spouseFullName": {
-          "first": "Joe",
-          "middle": "F",
-          "last": "Generic",
-          "suffix": "Jr."
-        },
-        "reasonForSeparation": "Death",
-        "dateOfSeparation": "1990-03-02",
-        "locationOfSeparation": "Tacoma, WA"
-      }
-    ],
-    "maritalStatus": "Married",
-    "currentSpouseFullName": {
-      "first": "Jessica",
-      "last": "Doe"
-    },
-    "dateOfCurrentMarriage": "1989-03-02",
-    "currentSpouseMonthlySupport": 2444,
-    "currentSpouseMaritalHistory": "Yes",
+    "maritalStatus": "Separated",
     "marriages": [
       {
         "spouseFullName": {
@@ -113,7 +79,6 @@
         },
         "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
-        "marriageType": "Ceremonial",
         "view:pastMarriage": {
           "reasonForSeparation": "Divorce",
           "dateOfSeparation": "1990-03-02",
@@ -128,8 +93,42 @@
         "dateOfMarriage": "1994-03-02",
         "locationOfMarriage": "North Adams, MA",
         "view:currentMarriage": {
-          "marriageType": "Ceremonial"
+          "marriageType": "Some other way",
+          "otherExplanation": "Other reason"
         }
+      }
+    ],
+    "spouseDateOfBirth": "1960-01-01",
+    "spouseSocialSecurityNumber": "333224444",
+    "spouseIsVeteran": true,
+    "spouseVaFileNumber": "23423444",
+    "view:liveWithSpouse": false,
+    "spouseAddress": {
+      "street": "123 7th st",
+      "street2": "Apt 3",
+      "city": "Pittsfield",
+      "country": "USA",
+      "state": "MA",
+      "postalCode": "01050"
+    },
+    "reasonForCurrentSeparation": "OTHER",
+    "otherExplanation": "Personal reason",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
+    "spouseMarriages": [
+      {
+        "dateOfMarriage": "1980-03-02",
+        "locationOfMarriage": "Seattle, WA",
+        "spouseFullName": {
+          "first": "Joe",
+          "middle": "F",
+          "last": "Generic",
+          "suffix": "Jr."
+        },
+        "reasonForSeparation": "OTHER",
+        "otherExplanation": "Other reason",
+        "dateOfSeparation": "1990-03-02",
+        "locationOfSeparation": "Tacoma, WA"
       }
     ],
     "view:hasDependents": true,
@@ -149,7 +148,7 @@
         },
         "monthlyPayment": 3444,
         "childPlaceOfBirth": "Tallahassee, FL",
-        "childSocialSecurityNumber": "324234444",
+        "childSocialSecurityNumber": "333224444",
         "childRelationship": "biological",
         "attendingCollege": true,
         "disabled": true,
@@ -164,7 +163,7 @@
       {
         "childInHousehold": true,
         "childPlaceOfBirth": "Troy, MT",
-        "view:noSSN": true,
+        "childSocialSecurityNumber": "333224444",
         "childRelationship": "adopted",
         "disabled": false,
         "previouslyMarried": false,
@@ -176,8 +175,7 @@
       }
     ],
     "totalNetWorth": false,
-    "netWorthEstimation": 18000,
-    "assetTransfer": true,
+    "netWorthEstimation": 0,
     "hasCareExpenses": true,
     "careExpenses": [
       {
@@ -212,17 +210,27 @@
     "medicalExpenses": [
       {
         "recipients": "VETERAN",
-        "provider": "NYC Care Provider",
-        "purpose": "Care",
-        "paymentDate": "2022-12-01",
-        "paymentFrequency": "ONCE_MONTH",
-        "paymentAmount": 1000
+        "provider": "Funeral Home",
+        "purpose": "Burial expenses",
+        "paymentDate": "2020-03-15",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
       }
     ],
     "transferredAssets": true,
     "homeOwnership": true,
     "homeAcreageMoreThanTwo": true,
     "homeAcreageValue": 75000,
+    "landMarketable": true,
     "receivesIncome": true,
     "incomeSources": [
       {
@@ -232,6 +240,7 @@
         "amount": 278.0
       }
     ],
+    "view:noDirectDeposit": false,
     "bankAccount": {
       "accountType": "checking",
       "bankName": "Best Bank",
@@ -248,10 +257,13 @@
       "isMilitary": false
     },
     "email": "test@example.com",
-    "phone": "212-867-5309",
-    "mobilePhone": "313-867-5309",
-    "internationalPhone": "001-212-456-7890",
+    "phone": "555-123-4567",
+    "mobilePhone": "555-123-4567",
+    "internationalPhone": "001-555-123-4567",
     "view:aidAttendance": true,
-    "isOver65": false
+    "isOver65": false,
+    "noRapidProcessing": false,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "John Edmund Doe"
   }
 }

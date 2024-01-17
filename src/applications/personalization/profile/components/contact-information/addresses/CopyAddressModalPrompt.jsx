@@ -2,9 +2,9 @@ import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { recordCustomProfileEvent } from '../../../util/analytics';
 
 const CopyAddressModalPrompt = ({
   visible,
