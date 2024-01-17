@@ -97,23 +97,6 @@ body.va-pos-fixed {
     margin-bottom: 0;
   }
 
-  .va-button-primary {
-    border: 2px solid $color-white;
-    color: $color-white;
-    padding: 10px;
-    margin: 8px 16px;
-    width: auto;
-
-    &:visited {
-      color: $color-white;
-    }
-
-    @include media($medium-large-screen) {
-      border-color: transparent;
-      display: inline-block;
-    }
-  }
-
   .usa-button-secondary {
     padding: calc(10px + 2px);
     margin: 8px 16px;
