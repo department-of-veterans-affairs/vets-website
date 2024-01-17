@@ -29,11 +29,6 @@ function WhatYouNeedToDo({ claim }) {
       {filesNeeded.map(item => (
         <FilesNeeded key={getTrackedItemId(item)} id={claim.id} item={item} />
       ))}
-      {/* <RequestedFilesInfo
-        id={claim.id}
-        filesNeeded={filesNeeded}
-        optionalFiles={optionalFiles}
-      /> */}
     </div>
   );
 }

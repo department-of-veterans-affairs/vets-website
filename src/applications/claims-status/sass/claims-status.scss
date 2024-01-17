@@ -77,6 +77,16 @@
   }
 }
 
+.due-date-header {
+  > .due-file {
+    color: $color-base;
+  }
+
+  > .past-due {
+    color: $color-secondary-darkest;
+  }
+}
+
 .claim-list-item-container {
   background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
