@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 import {
   fullNameSchema,
   fullNameUI,
@@ -15,6 +17,8 @@ import {
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
+  relationshipToVeteranSchema,
+  relationshipToVeteranUI,
   yesNoSchema,
   yesNoUI,
   radioSchema,
@@ -23,6 +27,7 @@ import {
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -30,6 +35,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { fileTypes, attachmentsSchema } from './attachments.js';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -390,6 +396,124 @@ const formConfig = {
                   type: 'object',
                   properties: {
                     applicantGender: radioSchema(['male', 'female']),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page13: {
+          path: 'applicant-information/:index/additional-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - health insurance`,
+          uiSchema: {
+            'ui:title': 'Applicant Health Insurance and Relationship',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantEnrolledInMedicare: yesNoUI({
+                  title: 'Enrolled in Medicare',
+                }),
+                applicantMedicareCardFront: {
+                  ...fileUploadUI('Medicare card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantMedicareCardBack: {
+                  ...fileUploadUI('Medicare card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantEnrolledInOHI: yesNoUI({
+                  title: 'Enrolled in Other Health Insurance (OHI)',
+                }),
+                applicantOHICardFront: {
+                  ...fileUploadUI('OHI card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
+                },
+                applicantOHICardBack: {
+                  ...fileUploadUI('OHI card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEnrolledInMedicare: yesNoSchema,
+                    applicantMedicareCardFront: attachmentsSchema,
+                    applicantMedicareCardBack: attachmentsSchema,
+                    applicantEnrolledInOHI: yesNoSchema,
+                    applicantOHICardFront: attachmentsSchema,
+                    applicantOHICardBack: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page14c: {
+          path: 'applicant-information/:index/relationship',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - relationship to sponsor`,
+          uiSchema: {
+            applicants: {
+              items: {
+                'ui:title': ApplicantField, // shows on each page of array
+                applicantRelationshipToSponsor: {
+                  ...relationshipToVeteranUI('Sponsor'),
+                  'ui:required': () => true,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantRelationshipToSponsor: relationshipToVeteranSchema,
                   },
                 },
               },
