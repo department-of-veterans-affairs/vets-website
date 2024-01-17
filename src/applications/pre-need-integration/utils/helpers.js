@@ -42,8 +42,16 @@ export function ApplicantDescriptionWrapper({ formContext }) {
 }
 
 export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
-  return <CurrentlyBuriedDescription formContext={formContext} />;
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
 }
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
