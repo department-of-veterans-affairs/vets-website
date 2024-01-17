@@ -5,3 +5,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.disagreement-list {
+  list-style: none;
+
+  strong {
+    text-transform: capitalize;
+  }
+}
+
+h5 {
+  font-weight: normal;
+  font-family: "Source Sans Pro", sans-serif;
+}
