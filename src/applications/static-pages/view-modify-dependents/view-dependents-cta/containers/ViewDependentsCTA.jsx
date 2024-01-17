@@ -13,7 +13,10 @@ const ViewDependentsCTA = props => {
     content = <va-loading-indicator message="Loading..." />;
   } else if (props.includedInFlipper === false) {
     content = (
-      <EbenefitsLink path="ebenefits/about/feature?feature=dependent-compensation">
+      <EbenefitsLink
+        path="ebenefits/about/feature?feature=dependent-compensation"
+        className="vads-c-action-link--blue"
+      >
         Go to eBenefits to add or modify a dependent
       </EbenefitsLink>
     );
