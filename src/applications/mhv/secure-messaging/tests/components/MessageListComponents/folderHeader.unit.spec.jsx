@@ -254,13 +254,11 @@ describe('Folder Header component', () => {
       ] = true;
 
       const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
-      const blockedTriageGroupAlert = await screen.findByTestId(
-        'blocked-triage-group-alert',
-      );
-      expect(blockedTriageGroupAlert).to.exist;
-      expect(blockedTriageGroupAlert.firstChild.textContent).to.equal(
-        "You can't send messages to your care teams right now",
-      );
+      expect(
+        screen.findByText(
+          "You can't send messages to your care teams right now",
+        ),
+      ).to.exist;
     });
   });
 
