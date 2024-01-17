@@ -12,7 +12,7 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
-import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
+import { useSendTravelPayClaim } from '../../../hooks/useSendTravelPayClaim';
 import TravelPayAlert from './TravelPayAlert';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -144,7 +144,9 @@ const CheckInConfirmation = props => {
         </ul>
         {isTravelReimbursementEnabled ? (
           <>
-            <h2>{t('travel-reimbursement')}</h2>
+            <h2 data-testid="travel-reimbursement-heading">
+              {t('travel-reimbursement')}
+            </h2>
             <TravelPayAlert
               travelPayClaimError={travelPayClaimError}
               travelPayClaimRequested={travelPayClaimRequested}
