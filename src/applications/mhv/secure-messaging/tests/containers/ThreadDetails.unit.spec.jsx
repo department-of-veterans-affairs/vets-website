@@ -98,14 +98,18 @@ describe('Thread Details container', () => {
       },
     };
     const screen = setup(state);
-
     const printButton = screen.getByTestId('print-button');
     const printSpy = sinon.spy(window, 'print');
-    expect(printButton).to.exist;
-    fireEvent.click(printButton);
 
-    expect(await printSpy.calledOnce).to.equal(true);
-    printSpy.restore();
+    expect(screen.queryByTestId('message-thread-for-print')).to.not.exist;
+    expect(printButton).to.exist;
+
+    await waitFor(() => {
+      fireEvent.click(printButton);
+      expect(printSpy.calledOnce).to.equal(true);
+      printSpy.restore();
+    });
+    expect(screen.getByTestId('message-thread-for-print')).to.exist;
   });
 
   it('renders Thread Details with NO message history in a thread', async () => {

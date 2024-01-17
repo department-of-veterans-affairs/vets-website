@@ -12,7 +12,10 @@ const MessageThreadForPrint = props => {
 
   return (
     <>
-      <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg">
+      <h2
+        className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg"
+        data-testid="message-thread-for-print"
+      >
         {messageHistory?.length > 0 &&
           `${messageHistory?.length} Message${
             messageHistory?.length > 1 ? 's' : ''
