@@ -15,6 +15,7 @@ import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
 import { URLS } from '../../../utils/navigation';
 import { APP_NAMES } from '../../../utils/appConstants';
+import BTSSSAlert from '../../BTSSSAlert';
 
 const ConfirmablePage = ({
   header,
@@ -76,6 +77,7 @@ const ConfirmablePage = ({
         </p>
       )}
       {helpText}
+      <BTSSSAlert />
       <div className="vads-u-margin-top--3">
         <ul
           data-testid="demographics-fields"
