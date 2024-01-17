@@ -40,6 +40,7 @@ import veteranGenderIdentity from './chapters/veteranInformation/genderIdentity'
 import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
+import emergencyContantInformation from './chapters/veteranInformation/emergencyContactInfo';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -180,6 +181,13 @@ const formConfig = {
           initialData: {},
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
+        },
+        emergencyContactInformation: {
+          path: 'veteran-information/medical-emergency-contact',
+          title: 'Veteran\u2019s emergency contacts',
+          initialData: {},
+          uiSchema: emergencyContantInformation.uiSchema,
+          schema: emergencyContantInformation.schema,
         },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
