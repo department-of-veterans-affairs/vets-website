@@ -16,20 +16,12 @@ const ManageVADebtCTA = () => (
       find out how to make payments or request help now.
     </p>
     <h3>Review your benefit debt and copay bills online</h3>
-    <a
-      className="usa-button-primary va-button-primary"
-      target="_self"
-      href={cdpUrl}
-    >
+    <a target="_self" href={cdpUrl}>
       Manage your VA debt
     </a>
     <hr />
     <h3>Request help with VA debt (VA Form 5655)</h3>
-    <a
-      className="usa-button-primary va-button-primary"
-      target="_self"
-      href={fsrUrl}
-    >
+    <a target="_self" href={fsrUrl}>
       Request help with VA debt
     </a>
   </>

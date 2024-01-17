@@ -24,9 +24,11 @@ const UnAuthBanner = () => {
           <strong>My HealtheVet</strong> account. If you don’t have any of these
           accounts, you can create a free account now.
         </p>
-        <button className="va-button-primary" onClick={handleSignIn}>
-          Sign in or create account
-        </button>
+        <va-button
+          onClick={handleSignIn}
+          primary-alternate
+          text="Sign in or create account"
+        />
       </div>
     </va-alert>
   );

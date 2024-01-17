@@ -29,9 +29,11 @@ const UnauthContext = () => {
             these accounts, you can create a free <strong>Login.gov</strong> or{' '}
             <strong>ID.me</strong> account now.
           </p>
-          <button className="va-button-primary" onClick={handleSigninClick}>
-            Sign in or create an account
-          </button>
+          <va-button
+            onClick={handleSigninClick}
+            primary-alternate
+            text="Sign in or create an account"
+          />
         </div>
       </va-alert>
     </>

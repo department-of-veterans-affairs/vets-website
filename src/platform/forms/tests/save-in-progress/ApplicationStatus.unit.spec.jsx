@@ -30,7 +30,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('va-loading-indicator')).to.not.be.false;
   });
-  it('should render apply button', () => {
+  it('should render apply link', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -47,7 +47,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
+    expect(tree.subTree('.vads-c-action-link--green').text()).to.equal(
       'Apply for benefit',
     );
   });
