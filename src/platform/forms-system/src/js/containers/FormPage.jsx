@@ -23,6 +23,7 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
+import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -89,7 +90,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavForward({
         formData,
         goPath: customPath => this.props.router.push(customPath),
-        goNextPath: () => this.props.router.push(path),
+        goNextPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -157,7 +164,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavBack({
         formData: form.data,
         goPath: customPath => this.props.router.push(customPath),
-        goPreviousPath: () => this.props.router.push(path),
+        goPreviousPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -337,6 +350,7 @@ FormPage.propTypes = {
   }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.object,
   }),
   params: PropTypes.shape({
     // for testing only?
