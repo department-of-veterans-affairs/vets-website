@@ -26,6 +26,21 @@ const AppointmentListItem = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
+  const detailsAriaLabel = () => {
+    const modality = appointment.kind === 'phone' ? t('phone') : t('in-person');
+    const type = appointment.clinicStopCodeName
+      ? `${appointment.clinicStopCodeName} ${t('appointment')}`
+      : t('VA-appointment');
+    const provider = appointment.doctorName
+      ? `${t('with')} ${appointment.doctorName}`
+      : '';
+
+    return `${t('details-for')} ${modality} ${type} ${provider} ${t(
+      'on-date-at-time',
+      { date: appointmentDateTime },
+    )}`;
+  };
+
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
@@ -91,7 +106,7 @@ const AppointmentListItem = props => {
               t('phone')
             ) : (
               <>
-                {`${t('in-person')} ${appointment.facility}`} <br />
+                {`${t('in-person-at')} ${appointment.facility}`} <br />
                 {`${t('clinic')}: ${clinic}`}
               </>
             )}
@@ -105,12 +120,7 @@ const AppointmentListItem = props => {
                 router.location.basename
               }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
-              aria-label={t('details-for-appointment', {
-                time: appointmentDateTime,
-                type: appointment.clinicStopCodeName
-                  ? appointment.clinicStopCodeName
-                  : 'VA',
-              })}
+              aria-label={detailsAriaLabel()}
             >
               {t('details')}
             </a>

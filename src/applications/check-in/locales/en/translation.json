@@ -81,7 +81,7 @@
   "if-you-traveled-from-a-different-address--helptext": "If you traveled from a different address, you can’t file a claim now. But you can file your claim online 24/7 through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person.",
   "if-you-wait-more-than": "If you wait more than 15 minutes, tell a staff member.",
   "in-en": "in English",
-  "in-person": "In person at",
+  "in-person-at": "In person at",
   "in-person-appointment": "In-person appointment",
   "international-postal-code-is-required": "International postal code is required.",
   "is-required": "is required",
@@ -273,5 +273,8 @@
   "this-link-has-expired": "This link has expired.",
   "well-come-get-you-from-the-waiting-room": "We’ll come get you from the waiting room when it’s time for your appointment to start. If you wait more than 15 minutes, tell a staff member.",
   "travel-reimbursement": "Travel Reimbursement",
-  "date-long": "{{date, dayOfWeek}}, {{date, long}}"
+  "date-long": "{{date, dayOfWeek}}, {{date, long}}",
+  "on-date-at-time": "on {{date, dayOfWeek}}, {{date, long}} at {{date, time}}",
+  "in-person": "in person",
+  "details-for": "Details for"
 }
