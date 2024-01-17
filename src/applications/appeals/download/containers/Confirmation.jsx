@@ -20,6 +20,7 @@ const Confirmation = () => {
     name: issue.attributes.ratingIssueSubjectText,
     date: issue.attributes.approxDecisionDate,
   }));
+
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
