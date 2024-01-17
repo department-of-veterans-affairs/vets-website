@@ -41,11 +41,12 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-10D',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
-    //   expired: 'Your saved CHAMPVA benefits application (10-10D) has expired. If you want to apply for CHAMPVA benefits, please start a new application.',
-    //   saved: 'Your CHAMPVA benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
+      expired:
+        'Your saved CHAMPVA benefits application (10-10D) has expired. If you want to apply for CHAMPVA benefits, please start a new application.',
+      saved: 'Your CHAMPVA benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
