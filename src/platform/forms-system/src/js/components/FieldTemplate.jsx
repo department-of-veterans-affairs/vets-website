@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
-// import environment from 'platform/utilities/environment';
+import { withFormData, hasDynamicProps } from '../web-component-helpers';
 
 /*
  * This is the template for each field (which in the schema library means label + widget)
@@ -123,19 +123,22 @@ export default function FieldTemplate(props) {
     (typeof label !== 'string' || (requiredSpan || label.trim()));
 
   if (typeof WebComponentField === 'function') {
-    return (
-      <WebComponentField
-        description={description}
-        textDescription={textDescription}
-        DescriptionField={DescriptionField}
-        label={showLabel ? label : null}
-        required={required}
-        error={hasErrors ? rawErrors[0] : null}
-        uiOptions={uiOptions}
-        index={formContext?.pagePerItemIndex}
-        childrenProps={children.props}
-      />
-    );
+    const webComponentProps = {
+      description,
+      textDescription,
+      DescriptionField,
+      label: showLabel ? label : null,
+      required,
+      error: hasErrors ? rawErrors[0] : null,
+      uiOptions,
+      index: formContext?.pagePerItemIndex,
+      childrenProps: children.props,
+    };
+    if (hasDynamicProps(webComponentProps)) {
+      const WebComponentFieldWithFormData = withFormData(WebComponentField);
+      return <WebComponentFieldWithFormData {...webComponentProps} />;
+    }
+    return <WebComponentField {...webComponentProps} />;
   }
 
   const content = (

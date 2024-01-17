@@ -91,6 +91,18 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:disabled': true, // not supported for v3
     },
+    wcv3DynamicTitle: {
+      'ui:title': ({ formData }) => {
+        return formData.wcv3TextAreaNew
+          ? 'Dynamic title'
+          : 'My title will change if you type into the area box';
+      },
+      'ui:options': {
+        hint: ({ formData }) =>
+          formData.wcv3TextAreaNew ? 'This is a dynamic hint' : '',
+      },
+      'ui:webComponentField': VaTextInputField,
+    },
   },
   schema: {
     type: 'object',
@@ -124,6 +136,9 @@ export default {
         minLength: 10,
       },
       wcv3DisabledNew: {
+        type: 'string',
+      },
+      wcv3DynamicTitle: {
         type: 'string',
       },
     },

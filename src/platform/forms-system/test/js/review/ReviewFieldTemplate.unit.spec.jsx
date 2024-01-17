@@ -2,6 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import ReviewFieldTemplate from '../../../src/js/review/ReviewFieldTemplate';
 import StringField from '../../../src/js/review/StringField';
 
@@ -127,7 +129,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
         <StringField
           schema={schema}
           uiSchema={hideEmptyUiSchema}
-          formData={'1234'}
+          formData="1234"
         />
       </ReviewFieldTemplate>,
     );
@@ -140,11 +142,7 @@ describe('Schemaform ReviewFieldTemplate', () => {
     const schema = { type: 'string' };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate schema={schema} uiSchema={hideEmptyUiSchema}>
-        <StringField
-          schema={schema}
-          uiSchema={hideEmptyUiSchema}
-          formData={''}
-        />
+        <StringField schema={schema} uiSchema={hideEmptyUiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 
@@ -181,12 +179,74 @@ describe('Schemaform ReviewFieldTemplate', () => {
     };
     const tree = SkinDeep.shallowRender(
       <ReviewFieldTemplate schema={schema} uiSchema={uiSchema}>
-        <StringField schema={schema} uiSchema={uiSchema} formData={''} />
+        <StringField schema={schema} uiSchema={uiSchema} formData="" />
       </ReviewFieldTemplate>,
     );
 
     expect(tree.everySubTree('.review-row')).to.not.be.empty;
     expect(tree.subTree('dt').text()).to.equal('Test');
     expect(tree.subTree('dd').text()).to.equal('123'); // ignore formData
+  });
+
+  const mockStore = {
+    getState: () => ({
+      form: { data: { test: 'Title' } },
+      formContext: {
+        onReviewPage: false,
+        reviewMode: false,
+        submitted: false,
+        touched: {},
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      setFormData: () => {},
+    }),
+  };
+
+  it('should render ui:title with a conditional title', () => {
+    const WebComponentField = props => {
+      return <>{props.label}</>;
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <ReviewFieldTemplate
+          schema={{ type: 'string' }}
+          uiSchema={{
+            'ui:title': ({ formData }) => formData.test,
+            'ui:webComponentField': WebComponentField,
+          }}
+        />
+      </Provider>,
+    );
+
+    expect(tree.text()).to.equal('Title');
+    tree.unmount();
+  });
+
+  it('should prefer ui:reviewField even with a conditional title', () => {
+    const WebComponentField = props => {
+      return <>{props.label}</>;
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <ReviewFieldTemplate
+          schema={{ type: 'string' }}
+          uiSchema={{
+            'ui:title': () => 'title',
+            'ui:webComponentField': WebComponentField,
+            'ui:reviewField': () => (
+              <dl className="review-row">
+                <dt>Review title</dt>
+                <dd>value</dd>
+              </dl>
+            ),
+          }}
+        />
+      </Provider>,
+    );
+
+    expect(tree.text()).to.contain('Review title');
+    tree.unmount();
   });
 });

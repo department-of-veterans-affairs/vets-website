@@ -1,5 +1,7 @@
+export { default as ArnField } from './ArnField';
 export { default as SsnField } from './SsnField';
 export { default as VaCheckboxField } from './VaCheckboxField';
+export { default as VaCheckboxGroupField } from './VaCheckboxGroupField';
 export { default as VaMemorableDateField } from './VaMemorableDateField';
 export { default as VaRadioField } from './VaRadioField';
 export { default as VaSelectField } from './VaSelectField';

@@ -1,12 +1,13 @@
 import React from 'react';
 import { isReactComponent } from '../../../../utilities/ui';
+import { labelWithFormData } from '../web-component-helpers';
+
 /*
  * This is the template for each field (which in the schema library means label + widget)
  */
-
 export default function ReviewFieldTemplate(props) {
   const { children, uiSchema, schema, formContext } = props;
-  const label = uiSchema['ui:title'] || props.label;
+  let label = uiSchema['ui:title'] || props.label;
   const description = uiSchema['ui:description'];
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField = isReactComponent(description)
@@ -51,15 +52,17 @@ export default function ReviewFieldTemplate(props) {
    * appropriate widget for the review page, or we can also choose to
    * set the ui:reviewField or define a ui:reviewWidget
    */
-  if (
-    uiSchema?.['ui:webComponentField'] &&
-    !uiSchema?.['ui:widget'] &&
-    !uiSchema?.['ui:reviewField']
-  ) {
+  if (uiSchema?.['ui:webComponentField']) {
+    label =
+      typeof label === 'function'
+        ? labelWithFormData(label, children?.props?.idSchema?.$id)
+        : label;
     if (uiSchema?.['ui:webComponentField'].name === 'VaMemorableDateField') {
-      uiSchema['ui:widget'] = 'date';
-    } else if (uiSchema?.['ui:webComponentField'].name === 'VaRadioField') {
-      uiSchema['ui:widget'] = 'radio';
+      if (!uiSchema?.['ui:widget'] && !uiSchema?.['ui:reviewField']) {
+        uiSchema['ui:widget'] = 'date';
+      } else if (uiSchema?.['ui:webComponentField'].name === 'VaRadioField') {
+        uiSchema['ui:widget'] = 'radio';
+      }
     }
   }
 

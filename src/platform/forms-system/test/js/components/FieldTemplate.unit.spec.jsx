@@ -2,6 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import FieldTemplate from '../../../src/js/components/FieldTemplate';
 
 describe('Schemaform <FieldTemplate>', () => {
@@ -484,5 +486,57 @@ describe('Schemaform <FieldTemplate>', () => {
     );
 
     expect(tree.text()).to.equal('<WebComponentField />');
+  });
+
+  it('should allow for a web component to have a function for ui:title', () => {
+    const mockStore = {
+      getState: () => ({
+        form: { data: { test: 'Title' } },
+        formContext: {
+          onReviewPage: false,
+          reviewMode: false,
+          submitted: false,
+          touched: {},
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => ({
+        setFormData: () => {},
+      }),
+    };
+
+    const WebComponentField = props => {
+      return <>{props.label}</>;
+    };
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': ({ formData }) => formData.test,
+      'ui:webComponentField': WebComponentField,
+    };
+    const formContext = {
+      touched: {},
+    };
+    const formData = {
+      test: 'Title',
+    };
+
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FieldTemplate
+          id="test"
+          schema={schema}
+          uiSchema={uiSchema}
+          formContext={formContext}
+          formData={formData}
+        >
+          <div className="field-child" />
+        </FieldTemplate>
+      </Provider>,
+    );
+
+    expect(tree.text()).to.equal('Title');
+    tree.unmount();
   });
 });

@@ -36,10 +36,14 @@ export default {
       />
     ),
     hasEmployment: yesNoUI({
-      title: 'Do you have any employment to report?',
+      title: ({ formData }) =>
+        formData?.employers?.length
+          ? 'Do you have any additional employment to report?'
+          : 'Do you have any employment to report?',
       description:
         'Includes self-employment and military duty (including inactive duty for training).',
-      labelHeaderLevel: '3',
+      labelHeaderLevel: ({ formData }) =>
+        formData?.employers?.length ? '' : '3',
     }),
   },
   schema: {
