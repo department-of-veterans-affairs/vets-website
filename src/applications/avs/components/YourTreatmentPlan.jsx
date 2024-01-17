@@ -37,7 +37,7 @@ const YourTreatmentPlan = props => {
   return (
     <div>
       {orders && (
-        <h3 className="vads-u-margin-top--0">
+        <h3 className="vads-u-margin-top--0" data-testid="new-orders-heading">
           New orders from this appointment
         </h3>
       )}
