@@ -288,7 +288,24 @@ export default class ArrayField extends React.Component {
       if (wrapper) {
         const focusableElements = getFocusableElements(wrapper);
         if (focusableElements.length) {
-          focusableElements[0].focus();
+          const firstElement = focusableElements[0];
+
+          if (firstElement.tagName === 'VA-RADIO-OPTION') {
+            const labelForRadio = firstElement.querySelector('label');
+
+            if (labelForRadio) {
+              const associatedRadioInputId = labelForRadio.getAttribute('for');
+              const associatedRadioInput = document.getElementById(
+                associatedRadioInputId,
+              );
+
+              if (associatedRadioInput) {
+                associatedRadioInput.focus();
+              }
+            }
+          } else {
+            firstElement.focus();
+          }
         }
       }
     }, 0);
