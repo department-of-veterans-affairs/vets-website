@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import TravelPayAlert from '../TravelPayAlert';
 
-xdescribe('check in', () => {
+describe('check in', () => {
   describe('TravelPayAlert', () => {
     it('renders a eligible message', () => {
       const component = render(
