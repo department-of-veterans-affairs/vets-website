@@ -51,7 +51,7 @@ describe('LandingPage component', () => {
     const initialState = stateFn({ loa: 1, serviceName: 'idme' });
     const { getByText } = setup({ initialState });
     getByText(
-      'Verify your ID.me identity to access My HealtheVet tools and features',
+      'Verify your identity to use your ID.me account on My HealtheVet',
     );
   });
 });
