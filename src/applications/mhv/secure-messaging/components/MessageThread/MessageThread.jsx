@@ -95,11 +95,9 @@ const MessageThread = props => {
 };
 
 MessageThread.propTypes = {
-  accordionState: PropType.object,
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
   replyMessage: PropType.object,
-  setAccordionState: PropType.func,
   viewCount: PropType.number,
 };
 

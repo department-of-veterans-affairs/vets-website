@@ -86,14 +86,11 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
-  accordionShadowRoot: PropTypes.element,
-  accordionState: PropTypes.object,
   handleReplyButton: PropTypes.func,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
   printThread: PropTypes.bool,
-  setAccordionState: PropTypes.func,
   setIsCreateNewModalVisible: PropTypes.func,
   setPrintThread: PropTypes.func,
   threadId: PropTypes.number,
