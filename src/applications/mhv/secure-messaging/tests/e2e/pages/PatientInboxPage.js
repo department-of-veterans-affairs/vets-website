@@ -331,7 +331,7 @@ class PatientInboxPage {
   replyToMessage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/messaging/messages/7192838/thread',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
       mockThread,
     ).as('threadAgain');
     cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
