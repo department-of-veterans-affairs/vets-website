@@ -38,7 +38,7 @@ const RadiologyDetails = props => {
   );
 
   const download = () => {
-    GenerateRadiologyPdf(record, runningUnitTest);
+    GenerateRadiologyPdf(record, user, runningUnitTest);
   };
 
   const generateRadioloyTxt = async () => {

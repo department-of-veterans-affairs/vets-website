@@ -304,6 +304,7 @@ export const SearchResults = ({
           page={page}
           pages={totalPages}
           showLastPage
+          uswds
         />
       )}
     </>

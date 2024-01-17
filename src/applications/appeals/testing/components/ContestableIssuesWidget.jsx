@@ -23,7 +23,7 @@ import {
   SELECTED,
 } from '../../shared/constants';
 import {
-  NoIssuesLoadedAlert,
+  NoEligibleIssuesAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
@@ -242,7 +242,7 @@ const ContestableIssuesWidget = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert />}
+      {showNoIssues && <NoEligibleIssuesAlert />}
       {!showNoIssues &&
         !hasSelected &&
         (onReviewPage || submitted) && (
