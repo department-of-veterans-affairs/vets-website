@@ -163,6 +163,7 @@ const PersonalInformation = () => {
             class="vads-u-margin-bottom--1"
             onCloseEvent={handleDismiss}
             visible={dismissed !== 'true'}
+            uswds
           >
             <h2 slot="headline">We’re updating our systems right now</h2>
             <p>
