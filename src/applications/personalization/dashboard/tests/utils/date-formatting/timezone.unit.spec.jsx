@@ -54,6 +54,10 @@ describe('getTimezoneByFacilityId function', () => {
   it('should search for a nonexistent facility ID and return null', () => {
     expect(getTimezoneByFacilityId('')).to.equal(null);
   });
+
+  it('should search for a facility ID with extra characters at end, trim them, and return matching timezone', () => {
+    expect(getTimezoneByFacilityId('436ZZZZZZ')).to.equal('America/Denver');
+  });
 });
 
 describe('getTimezoneAbbrByFacilityId function', () => {
