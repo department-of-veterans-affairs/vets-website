@@ -18,6 +18,11 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
+const PRESCRIPTION_NOTIFICATION_TEXT =
+  'Prescription shipment and tracking updates';
+
+const APPOINTMENT_NOTIFICATION_TEXT = 'Appointment reminders';
+
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
@@ -45,38 +50,27 @@ describe('Updating Notification Settings', () => {
         delay: 100,
       });
 
-      const doNotifyRadioName =
-        'Notify me of Prescription shipment and tracking updates by text';
-
-      const dontNotifyRadioName =
-        'Do not notify me of Prescription shipment and tracking updates by text';
-
-      // radio button will start off unchecked because of the mocked
+      // checkbox will start off unchecked because of the mocked
       // response from mockCommunicationPreferences
 
-      cy.findByRole('radio', {
-        name: doNotifyRadioName,
-      })
-        .should('not.be.checked')
-        .click()
-        .should('be.checked')
-        .should('be.disabled');
+      cy.findByText(PRESCRIPTION_NOTIFICATION_TEXT)
+        .closest('fieldset')
+        .find('va-checkbox')
+        .as('prescriptionCheckbox');
+
+      cy.get('@prescriptionCheckbox').should('exist');
+      cy.get('@prescriptionCheckbox').should('not.be.checked');
+      cy.get('@prescriptionCheckbox').click();
+      cy.get('@prescriptionCheckbox').should('have.attr', 'checked', 'checked');
 
       // we should now see a saving indicator
       cy.findByText(/^Saving.../).should('exist');
       // after the POST call resolves:
       cy.findByText(/^Saving.../).should('not.exist');
       cy.findByText(/update saved/i).should('exist');
-      cy.findByRole('radio', {
-        name: dontNotifyRadioName,
-      }).should('not.be.checked');
-      cy.findByRole('radio', {
-        name: doNotifyRadioName,
-      })
-        .should('be.checked')
-        .should('not.be.disabled');
 
-      cy.findByTestId('select-options-alert').should('not.exist');
+      cy.get('@prescriptionCheckbox').should('have.attr', 'checked', 'checked');
+
       cy.injectAxeThenAxeCheck();
     });
 
@@ -84,32 +78,36 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      // the "do not notify" radio button will start off checked because of the
+      // checkbox will start off checked because of the
       // mocked response from mockCommunicationPreferences
-      cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by text/i,
-      }).should('be.checked');
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('not.be.checked')
-        .click()
-        .should('be.checked')
-        .should('be.disabled');
+      cy.findByText(APPOINTMENT_NOTIFICATION_TEXT)
+        .closest('fieldset')
+        .find('va-checkbox')
+        .as('appointmentCheckbox');
+
+      cy.get('@appointmentCheckbox').should('exist');
+
+      cy.get('@appointmentCheckbox')
+        .shadow()
+        .as('appointmentCheckboxShadow');
+
+      cy.get('@appointmentCheckboxShadow')
+        .find('input')
+        .should('be.checked');
+
+      cy.get('@appointmentCheckbox').click();
 
       // we should now see a saving indicator
       cy.findByText(/^Saving/).should('exist');
       // after the PATCH call resolves:
       cy.findByText(/^Saving/).should('not.exist');
       cy.findByText(/update saved/i).should('exist');
-      cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by text/i,
-      }).should('not.be.checked');
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('be.checked')
-        .should('not.be.disabled');
+
+      // checkbox should now be unchecked
+      cy.get('@appointmentCheckboxShadow')
+        .find('input')
+        .should('not.be.checked');
+
       cy.injectAxeThenAxeCheck();
     });
   });

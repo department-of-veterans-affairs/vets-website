@@ -173,8 +173,6 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes:
-    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:

@@ -259,16 +259,8 @@ const baseState = {
 };
 
 describe('NotificationGroup component', () => {
-  it('should render checkbox for when profileUseNotificationSettingsCheckboxes is true', async () => {
+  it('should render checkbox with label', async () => {
     const initialState = cloneDeep(baseState);
-
-    set(
-      initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
-      }]`,
-      true,
-    );
 
     const view = renderWithProfileReducersAndRouter(
       <NotificationGroup groupId="group4" />,

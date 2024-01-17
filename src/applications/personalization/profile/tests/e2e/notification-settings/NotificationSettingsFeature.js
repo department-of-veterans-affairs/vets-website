@@ -10,7 +10,14 @@ const generateExistenceCheck = exists => {
 };
 
 class NotificationSettingsFeature {
+  APPEAL_HEARING_NOTIFICATION_TEXT = `Board of Veterans' Appeals hearing reminder`;
+
   APPEAL_STATUS_NOTIFICATION_TEXT = 'Appeal status updates';
+
+  DISABILITY_PENSION_DEPOSIT_NOTIFICATION_TEXT =
+    'Disability and pension deposit notifications';
+
+  QUICK_SUBMIT_NOTIFICATION_TEXT = 'QuickSubmit Upload Status';
 
   loginAsUser36AndVisitNotficationSettingsPage = () => {
     cy.login(mockUser36);
@@ -19,9 +26,7 @@ class NotificationSettingsFeature {
 
   confirmHearingReminderNotificationSanityCheck = () => {
     // check that hearing notification is rendering first
-    cy.findByRole('radio', {
-      name: /^do not notify me of.*hearing reminder.*by text/i,
-    }).should('exist');
+    cy.findByText(this.APPEAL_HEARING_NOTIFICATION_TEXT).should('exist');
   };
 
   confirmAppealsStatusSetting = ({ exists }) => {
@@ -31,23 +36,15 @@ class NotificationSettingsFeature {
   };
 
   confirmPaymentNotificationSetting = ({ exists }) => {
-    cy.findByRole('radio', {
-      name: /^Notify me of Disability and pension deposit notifications by text/i,
-    }).should(generateExistenceCheck(exists));
-
-    cy.findByRole('radio', {
-      name: /^Do not notify me of Disability and pension deposit notifications by text/i,
-    }).should(generateExistenceCheck(exists));
+    cy.findByText(this.DISABILITY_PENSION_DEPOSIT_NOTIFICATION_TEXT).should(
+      generateExistenceCheck(exists),
+    );
   };
 
   confirmQuickSubmitNotificationSetting = ({ exists }) => {
-    cy.findByRole('radio', {
-      name: /^Notify me of QuickSubmit Upload Status by text/i,
-    }).should(generateExistenceCheck(exists));
-
-    cy.findByRole('radio', {
-      name: /^Do not notify me of QuickSubmit Upload Status by text/i,
-    }).should(generateExistenceCheck(exists));
+    cy.findByText(this.QUICK_SUBMIT_NOTIFICATION_TEXT).should(
+      generateExistenceCheck(exists),
+    );
   };
 }
 

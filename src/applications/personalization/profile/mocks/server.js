@@ -64,7 +64,6 @@ const responses = {
             profileContacts: true,
             profileUseFieldEditingPage: true,
             profileUseHubPage: true,
-            profileUseNotificationSettingsCheckboxes: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
