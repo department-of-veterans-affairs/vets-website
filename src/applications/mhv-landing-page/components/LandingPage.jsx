@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { isLOA1 } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
-import IdentityNotVerified, {
-  AdditionalInfo,
-} from '~/platform/user/authorization/components/IdentityNotVerified';
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
 import HeaderLayoutV1 from './HeaderLayoutV1';
@@ -35,7 +33,7 @@ const LandingPage = ({ data = {} }) => {
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
       headline={unVerifiedHeadline}
-      postAlertChildren={<AdditionalInfo />}
+      postAlertChildren={' '}
     />
   ) : (
     <NoHealthAlert />
