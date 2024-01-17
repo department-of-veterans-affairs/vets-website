@@ -91,14 +91,12 @@
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
-        "classificationCode": "112"
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
       },
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "ankylosis in knee, bilateral",
-        "classificationCode": "31"
+        "condition": "ankylosis in knee, bilateral"
       }
     ],
     "attachments": [

@@ -52,29 +52,25 @@
         {
           "cause": "NEW",
           "primaryDescription": "This disability is related to my military service.",
-          "condition": "asthma",
-          "classificationCode": "42"
+          "condition": "asthma"
         },
         {
           "cause": "WORSENED",
           "worsenedDescription": "This disability was worsened by military service.",
           "worsenedEffects": "This pre-existing disability was worsened by military service.",
-          "condition": "ankylosis in knee, bilateral",
-          "classificationCode": "31"
+          "condition": "ankylosis in knee, bilateral"
         },
         {
           "cause": "VA",
           "vaMistreatmentDescription": "This disability was caused by an injury or event that happened while I was receiving VA care.",
           "vaMistreatmentLocation": "Somewhereville",
           "vaMistreatmentDate": "A while ago",
-          "condition": "heart attack (myocardial infarction)",
-          "classificationCode": "226"
+          "condition": "heart attack (myocardial infarction)"
         },
         {
           "cause": "NEW",
           "primaryDescription": "Secondary to Asthma\nThis disability was caused by another condition.",
-          "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
-          "classificationCode": "112"
+          "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
         }
       ],
       "attachments": [

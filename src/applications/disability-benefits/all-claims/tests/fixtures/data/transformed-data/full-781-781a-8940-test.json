@@ -48,8 +48,7 @@
       {
         "condition": "PTSD (post-traumatic stress disorder), combat-related",
         "unemployabilityDisability": true,
-        "cause": "NEW",
-        "classificationCode": "400"
+        "cause": "NEW"
       }
     ],
     "form0781": {

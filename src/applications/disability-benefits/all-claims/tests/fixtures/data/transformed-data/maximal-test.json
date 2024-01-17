@@ -111,16 +111,14 @@
       {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "asthma",
-        "classificationCode": "42"
+        "condition": "asthma"
       },
       {
         "cause": "WORSENED",
         "worsenedDescription": "My knee was strained in the service",
         "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
         "condition": "ankylosis in knee, bilateral",
-        "specialIssues": ["POW"],
-        "classificationCode": "31"
+        "specialIssues": ["POW"]
       },
       {
         "cause": "VA",
@@ -128,14 +126,12 @@
         "vaMistreatmentLocation": "Somewhereville",
         "vaMistreatmentDate": "A while ago",
         "condition": "heart attack (myocardial infarction)",
-        "specialIssues": ["POW"],
-        "classificationCode": "226"
+        "specialIssues": ["POW"]
       },
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
-        "classificationCode": "112"
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
       }
     ],
     "attachments": [

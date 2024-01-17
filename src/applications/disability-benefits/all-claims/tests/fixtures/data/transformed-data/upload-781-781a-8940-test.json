@@ -46,8 +46,7 @@
     "newPrimaryDisabilities": [
       {
         "condition": "PTSD (post-traumatic stress disorder), combat-related",
-        "cause": "NEW",
-        "classificationCode": "400"
+        "cause": "NEW"
       }
     ],
     "attachments": [

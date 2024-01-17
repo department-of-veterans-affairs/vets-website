@@ -121,7 +121,6 @@ describe('Test internal transform functions', () => {
         cause: 'NEW',
         primaryDescription: getString('primaryDescription'),
         condition: 'asthma',
-        classificationCode: '42',
       },
       {
         cause: 'WORSENED',
@@ -129,7 +128,6 @@ describe('Test internal transform functions', () => {
         worsenedEffects: getString('worsenedEffects'),
         condition: 'ankylosis in knee, bilateral',
         specialIssues: ['POW'],
-        classificationCode: '31',
       },
       {
         cause: 'VA',
@@ -138,97 +136,10 @@ describe('Test internal transform functions', () => {
         vaMistreatmentDate: getString('vaMistreatmentDate'),
         condition: 'heart attack (myocardial infarction)',
         specialIssues: ['POW'],
-        classificationCode: '226',
       },
       {
         condition:
           'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
-        cause: 'NEW',
-        classificationCode: '112',
-        primaryDescription: `${phlebitisPrefix}${getString(
-          'primaryDescription',
-          -phlebitisPrefix.length,
-        )}`,
-      },
-    ]);
-  });
-});
-
-describe('Test transform functions in staging', () => {
-  it('will not assign classification codes', () => {
-    const getString = (key, diff = 0) =>
-      new Array(42)
-        .fill('1234567890')
-        .join('')
-        .substring(0, CHAR_LIMITS[key] + diff);
-    const longString = getString('primaryDescription', 20);
-    const phlebitisPrefix = 'Secondary to Diabetes Mellitus0\n';
-    const form = {
-      data: {
-        ...maximalData.data,
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: longString,
-            condition: 'asthma',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'SECONDARY',
-            'view:secondaryFollowUp': {
-              causedByDisability: 'Diabetes Mellitus0',
-              causedByDisabilityDescription: longString,
-            },
-            condition: 'phlebitis',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'WORSENED',
-            'view:worsenedFollowUp': {
-              worsenedDescription: longString,
-              worsenedEffects: longString,
-            },
-            condition: 'knee replacement',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'VA',
-            'view:vaFollowUp': {
-              vaMistreatmentDescription: longString,
-              vaMistreatmentLocation: longString,
-              vaMistreatmentDate: longString,
-            },
-            condition: 'myocardial infarction (MI)',
-            'view:descriptionInfo': {},
-          },
-        ],
-      },
-    };
-    expect(
-      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
-    ).to.deep.equal([
-      {
-        cause: 'NEW',
-        primaryDescription: getString('primaryDescription'),
-        condition: 'asthma',
-      },
-      {
-        cause: 'WORSENED',
-        worsenedDescription: getString('worsenedDescription'),
-        worsenedEffects: getString('worsenedEffects'),
-        condition: 'knee replacement',
-        specialIssues: ['POW'],
-      },
-      {
-        cause: 'VA',
-        vaMistreatmentDescription: getString('vaMistreatmentDescription'),
-        vaMistreatmentLocation: getString('vaMistreatmentLocation'),
-        vaMistreatmentDate: getString('vaMistreatmentDate'),
-        condition: 'myocardial infarction (MI)',
-        specialIssues: ['POW'],
-      },
-      {
-        condition: 'phlebitis',
         cause: 'NEW',
         primaryDescription: `${phlebitisPrefix}${getString(
           'primaryDescription',
