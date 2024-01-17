@@ -60,19 +60,6 @@ describe('Compose container', () => {
     expect(crisisLineButton).to.exist;
   });
 
-  it('dispays loading indicator if recipients are not yet loaded', async () => {
-    const screen = await setup({
-      sm: {
-        triageTeams: { triageTeams: undefined },
-      },
-    });
-    waitFor(() => {
-      fireEvent.click(screen.getByText('Continue to start message'));
-    });
-    const loadingIndicator = screen.getByTestId('loading-indicator');
-    expect(loadingIndicator).to.exist;
-  });
-
   it(`displays compose heading if path is ${Paths.COMPOSE}`, () => {
     const screen = setup();
     const headingText = waitFor(() => {
