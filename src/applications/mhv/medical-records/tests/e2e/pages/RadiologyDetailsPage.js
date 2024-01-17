@@ -2,6 +2,10 @@
 // import { cy } from "date-fns/locale";
 
 class RadiologyDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="radiology-name"]').should('contain', name);
+  };
+
   verifyReason = reason => {
     cy.get('[data-testid="radiology-reason"]').should('contain', reason);
   };

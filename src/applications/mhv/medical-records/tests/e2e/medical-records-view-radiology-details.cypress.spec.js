@@ -8,6 +8,9 @@ describe('Medical Records View Labs And Tests', () => {
     site.login();
     cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
+    RadiologyDetailsPage.verifyLabName(
+      'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
+    );
     RadiologyDetailsPage.verifyReason('None noted');
     RadiologyDetailsPage.verifyClinicalHistory('None noted');
     RadiologyDetailsPage.verifyOrderedBy('GARFUNKEL,FELIX');
