@@ -8,7 +8,7 @@ import {
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 
-const locationOptions = {
+export const locationOptions = {
   afghanistan: 'Afghanistan',
   bahrain: 'Bahrain',
   egypt: 'Egypt',

@@ -1,13 +1,16 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import { isClaimingNew, showToxicExposurePages } from '../utils';
 
 /**
- * Checks if user is claiming any conditions for toxic exposure
+ * Checks if toggle is enabled and user is claiming at least one new condition for toxic exposure
  *
  * @param {*} formData
  * @returns true if at least one condition is claimed for toxic exposure, false otherwise
  */
 export const isClaimingTECondition = formData =>
+  showToxicExposurePages &&
+  isClaimingNew(formData) &&
   Object.values(get('toxicExposureConditions', formData, {})).includes(true);
 
 export const conditionsPageTitle = 'Toxic Exposure';

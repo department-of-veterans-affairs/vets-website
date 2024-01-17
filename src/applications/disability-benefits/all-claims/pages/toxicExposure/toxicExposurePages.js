@@ -17,8 +17,7 @@ export const toxicExposurePages = {
   gulfWar1990Locations: {
     title: gulfWar1990PageTitle,
     path: 'gulf-war-hazard-1990',
-    depends: formData =>
-      isClaimingTECondition(formData) && showToxicExposurePages,
+    depends: formData => isClaimingTECondition(formData),
     uiSchema: gulfWar1990Locations.uiSchema,
     schema: gulfWar1990Locations.schema,
   },
