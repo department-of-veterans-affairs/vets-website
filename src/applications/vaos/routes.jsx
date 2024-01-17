@@ -14,7 +14,7 @@ import EnrolledRoute from './components/EnrolledRoute';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
-function handleLoadError(err) {
+export function handleLoadError(err) {
   if (window.location.search?.includes('retry=1')) {
     captureError(new Error(`vaos_lazy_loading: ${err.message}`));
     return () => (
