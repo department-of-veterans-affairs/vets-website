@@ -13,6 +13,7 @@ import {
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -55,13 +56,7 @@ const LabsAndTests = () => {
       );
     }
     if (labsAndTests?.length === 0) {
-      return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Labs and tests
-          </va-alert>
-        </div>
-      );
+      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
     }
     return (
       <div className="vads-u-margin-y--8">

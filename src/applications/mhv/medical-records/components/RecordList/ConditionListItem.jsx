@@ -23,7 +23,6 @@ const ConditionListItem = props => {
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"
-        aria-label={`${record.name} ${record?.date}`}
       >
         {record.name}
       </h3>
