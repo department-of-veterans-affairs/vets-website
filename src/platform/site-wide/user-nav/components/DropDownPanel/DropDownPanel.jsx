@@ -30,6 +30,7 @@ class DropDownPanel extends Component {
     return (
       <div
         className="va-dropdown"
+        id="va-header-search-container"
         ref={div => {
           this.dropdownDiv = div;
         }}
@@ -49,17 +50,17 @@ class DropDownPanel extends Component {
             <i
               className="vads-u-margin-left--1 fas fa-solid fa-caret-down"
               aria-hidden="true"
+              hidden={isOpen}
             />
             <i
               className="vads-u-margin-left--1 fas fa-solid fa-caret-up"
               aria-hidden="true"
-              hidden
+              hidden={!isOpen}
             />
           </span>
         </button>
         <div
-          className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
-          id="search"
+          className="va-header-search-dropdown vads-u-background-color--gray-lightest vads-u-padding--0 vads-u-margin--0 vads-u-margin-left--auto"
           hidden={!isOpen}
         >
           {children}

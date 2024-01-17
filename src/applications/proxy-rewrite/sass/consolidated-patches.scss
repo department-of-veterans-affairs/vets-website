@@ -229,3 +229,25 @@ footer.footer {
     background-color: transparent;
   }
 }
+
+// ----- Deprecated header styles ----- //
+
+// TODO - why is this conflicting? https://github.com/department-of-veterans-affairs/veteran-facing-services-tools/blob/49539a74d50e64578269c7696af68051a3d61b96/packages/formation/sass/base/_va.scss#L359
+.va-header-logo {
+  width: 100% !important;
+  max-width: 264px;
+  height: auto !important;
+}
+
+.vet-toolbar {
+
+  a,
+  button {
+    color: $color-white !important;
+    font-size: 14px !important;
+  }
+
+  a#header-contact-link {
+    content: "Contact us";
+  }
+}

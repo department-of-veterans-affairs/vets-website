@@ -572,3 +572,16 @@ body.va-pos-fixed {
 #header-va-text p {
   font-size: 3.2rem;
 }
+
+.va-header-search-dropdown {
+  position: absolute;
+  right: 0;
+  border-radius: 5px;
+  border-top-right-radius: 0;
+}
+
+.profile-nav-container {
+  .va-dropdown {
+    margin-left: auto;
+  }
+}
