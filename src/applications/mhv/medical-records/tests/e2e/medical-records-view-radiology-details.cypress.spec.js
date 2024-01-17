@@ -15,6 +15,7 @@ describe('Medical Records View Labs And Tests', () => {
     RadiologyDetailsPage.verifyImagingLocation(
       'GARFUNKEL,FELIX, DAYT29 TEST LAB',
     );
+    RadiologyDetailsPage.verifyImagingProvider('None noted');
 
     // Axe check
     cy.injectAxe();
