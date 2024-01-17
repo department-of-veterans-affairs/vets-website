@@ -19,6 +19,13 @@
     "serviceNumber": "123456",
     "serveUnderOtherNames": false,
     "previousNames": [],
+    "previousEmployers": [
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Manager"
+      }
+    ],
     "placeOfSeparation": "Westbrook, MA",
     "powStatus": false,
     "socialSecurityDisability": true,

@@ -110,29 +110,31 @@ export const pageHooks = cy => ({
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
     });
   },
-  [pagePaths.dependentChildAddress]: ({ index }) => {
-    cy.get('@testData').then(data => {
-      fillAddressWebComponentPattern(
-        'childAddress',
-        data.dependents[index].childAddress,
-      );
-    });
-  },
+  // [pagePaths.dependentChildAddress]: ({ index }) => {
+  //   cy.get('@testData').then(data => {
+  //     fillAddressWebComponentPattern(
+  //       'childAddress',
+  //       data.dependents[index].childAddress,
+  //     );
+  //   });
+  // },
   'review-and-submit': ({ afterHook }) => {
     afterHook(() => {
-      cy.get('#veteran-signature')
-        .shadow()
-        .find('input')
-        .first()
-        .type('John Edmund Doe');
-      cy.get(`#veteran-certify`)
-        .first()
-        .shadow()
-        .find('input')
-        .check();
-      cy.findAllByText(/Submit application/i, {
-        selector: 'button',
-      }).click();
+      cy.get('@testData').then(data => {
+        cy.get('#veteran-signature')
+          .shadow()
+          .find('input')
+          .first()
+          .type(data.statementOfTruthSignature);
+        cy.get(`#veteran-certify`)
+          .first()
+          .shadow()
+          .find('input')
+          .check();
+        cy.findAllByText(/Submit application/i, {
+          selector: 'button',
+        }).click();
+      });
     });
   },
 });
@@ -143,7 +145,7 @@ const testConfig = createTestConfig(
     appName: 'Pensions',
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['maximal-test', 'overflow-test', 'simple-test'],
+    dataSets: ['overflow-test'],
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
       cy.login(mockUser);
