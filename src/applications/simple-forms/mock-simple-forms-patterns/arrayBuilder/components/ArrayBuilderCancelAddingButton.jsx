@@ -22,9 +22,9 @@ const ArrayBuilderCancelAddingButton = ({
   summaryRoute,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window?.location?.search);
 
-  if (!urlParams.has('add')) {
+  if (!urlParams?.has('add')) {
     return null; // cancel button only applicable for adding
   }
 
