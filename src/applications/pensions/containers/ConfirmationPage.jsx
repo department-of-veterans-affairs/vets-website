@@ -26,7 +26,7 @@ class ConfirmationPage extends React.Component {
       ? regionalOffice[0].replace('Attention:', '').trim()
       : null;
 
-    const zonedDate = utcToZonedTime(submission?.submittedAt, centralTz);
+    const zonedDate = utcToZonedTime(submission?.timestamp, centralTz);
     const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
       timeZone: centralTz,
     });
