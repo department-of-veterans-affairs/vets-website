@@ -173,13 +173,12 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes:
-    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
+  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
