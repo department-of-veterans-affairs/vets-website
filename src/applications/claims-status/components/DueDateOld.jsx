@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-export default function DueDate({ date }) {
+export default function DueDateOld({ date }) {
   const now = moment();
   const dueDate = moment(date);
   const className = dueDate.isBefore(now) ? 'past-due' : 'due-file';
@@ -17,6 +17,6 @@ export default function DueDate({ date }) {
   );
 }
 
-DueDate.propTypes = {
+DueDateOld.propTypes = {
   date: PropTypes.string.isRequired,
 };

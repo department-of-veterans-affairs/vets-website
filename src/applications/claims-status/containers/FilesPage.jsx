@@ -15,6 +15,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
+import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';

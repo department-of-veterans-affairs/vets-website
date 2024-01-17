@@ -33,7 +33,11 @@ export default function ClaimStatusPageContent({
   return (
     <div>
       {showDocsNeeded ? (
-        <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+          </Toggler.Disabled>
+        </Toggler>
       ) : null}
       {decisionLetterSent && !open ? (
         <ClaimsDecision
