@@ -135,9 +135,9 @@
 }
 
 @media print {
-  @page {
-    margin: 5mm 2mm;
-  }
+  // @page {
+  //   margin: 5mm 2mm;
+  // }
 
   table {
     border-collapse: collapse;

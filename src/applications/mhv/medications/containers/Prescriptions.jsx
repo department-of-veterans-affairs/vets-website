@@ -125,6 +125,31 @@ const Prescriptions = props => {
 
   useEffect(
     () => {
+      const beforePrintHandler = () => {
+        const { first, last, middle, suffix } = userName;
+        const name = first
+          ? `${last}, ${first} ${middle}, ${suffix}`
+          : 'Doe, John R., Jr.';
+        updatePageTitle(
+          `Medications | Veterans Affairs ${name} ${dateFormat(new Date(dob)) ||
+            'March 15, 1982'}`,
+        );
+      };
+      const afterPrintHandler = () => {
+        updatePageTitle('Medications | Veterans Affairs');
+      };
+      window.addEventListener('beforeprint', beforePrintHandler);
+      window.addEventListener('afterprint', afterPrintHandler);
+      return () => {
+        window.removeEventListener('beforeprint', beforePrintHandler);
+        window.removeEventListener('afterprint', afterPrintHandler);
+      };
+    },
+    [dob, userName],
+  );
+
+  useEffect(
+    () => {
       if (
         !isLoading &&
         (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
