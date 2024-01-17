@@ -5,7 +5,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 
 // Production and staging have unique identifiers for the survey; provided by Medallia team
 // TODO update production number once we receive it
-const PRODUCTION_SURVEY_NUMBER = 41;
+const PRODUCTION_SURVEY_NUMBER = 43;
 const STAGING_SURVEY_NUMBER = 41;
 
 /**
@@ -23,7 +23,7 @@ const SurveyInformation = () => {
   const formCanLoad = !!window.KAMPYLE_ONSITE_SDK?.loadForm(surveyNumber);
 
   // TODO disable in production until survey is ready
-  if (formCanLoad && !isProduction) {
+  if (formCanLoad) {
     return (
       <div>
         <h4>Want to help us improve this form for other Veterans?</h4>
