@@ -98,8 +98,12 @@ class MedicationsListPage {
   };
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({
+      waitForAnimations: true,
+    });
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download your medication list as a PDF')
+      .should('contain', 'Download a PDF of this list')
       .should('be.visible');
   };
 

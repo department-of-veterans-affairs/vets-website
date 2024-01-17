@@ -144,7 +144,7 @@ class MedicationsDetailsPage {
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('have.text', 'Download this page as a PDF')
+      .should('have.text', 'Download a PDF of this page')
       .should('be.enabled');
   };
 
