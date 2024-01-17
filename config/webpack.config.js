@@ -487,6 +487,7 @@ module.exports = async (env = {}) => {
           mangle: true,
         }),
       ],
+      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
