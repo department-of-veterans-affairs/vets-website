@@ -44,7 +44,7 @@ export function getTimezoneByFacilityId(id) {
     return vaosTimeZones[id];
   }
 
-  return vaosTimeZones[id.substr(0, 3)];
+  return vaosTimeZones[id.substring(0, 3)];
 }
 
 export function getTimezoneAbbrByFacilityId(id) {
@@ -84,13 +84,13 @@ export function getTimezoneNameFromAbbr(abbreviation) {
 }
 
 export function getUserTimezone() {
-  return moment.tz.guess();
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 export function getUserTimezoneAbbr() {
-  return moment()
-    .tz(getUserTimezone())
-    .zoneAbbr();
+  return Intl.DateTimeFormat('en', { timeZoneName: 'short' })
+    .formatToParts()
+    .find(p => p.type === 'timeZoneName').value;
 }
 
 /**

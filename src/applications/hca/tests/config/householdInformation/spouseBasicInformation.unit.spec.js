@@ -11,11 +11,11 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca SpouseContactInformation config', () => {
+describe('hca SpouseBasicInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2SpouseContactInformation;
+  } = formConfig.chapters.householdInformation.pages.SpouseBasicInformation;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,7 +27,7 @@ describe('hca SpouseContactInformation config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca SpouseContactInformation config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,16 +59,19 @@ describe('hca SpouseContactInformation config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_spouseAddress_country', 'USA');
+    simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
+    simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
     simulateInputChange(
       formDOM,
-      '#root_spouseAddress_street',
-      '200 Main Street',
+      '#root_spouseSocialSecurityNumber',
+      '232422344',
     );
-    simulateInputChange(formDOM, '#root_spouseAddress_city', 'Madison');
-    simulateInputChange(formDOM, '#root_spouseAddress_state', 'NY');
-    simulateInputChange(formDOM, '#root_spouseAddress_postalCode', '27981');
-    simulateInputChange(formDOM, '#root_spousePhone', '3424445555');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');
+    simulateInputChange(formDOM, '#root_dateOfMarriageMonth', '05');
+    simulateInputChange(formDOM, '#root_dateOfMarriageDay', '29');
+    simulateInputChange(formDOM, '#root_dateOfMarriageYear', '2015');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
