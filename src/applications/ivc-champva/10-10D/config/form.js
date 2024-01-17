@@ -24,6 +24,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
 
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
@@ -33,6 +34,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  transformForSubmit,
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
