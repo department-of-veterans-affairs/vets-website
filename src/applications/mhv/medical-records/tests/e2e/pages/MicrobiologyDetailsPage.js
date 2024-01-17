@@ -1,6 +1,60 @@
 // import defaultMicrobiology from './fixtures/microbiology.json';
 
 class MicrobiologyDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="microbio-name"]').should('contain', name);
+  };
+
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
+  };
+
+  verifySampleTested = sampleTested => {
+    cy.get('[data-testid="microbio-sample-tested"]').should(
+      'contain',
+      sampleTested,
+    );
+  };
+
+  verifySampleFrom = sampleFrom => {
+    cy.get('[data-testid="microbio-sample-from"]').should(
+      'contain',
+      sampleFrom,
+    );
+  };
+
+  verifyOrderedBy = orderedBy => {
+    cy.get('[data-testid="microbio-ordered-by"]').should('contain', orderedBy);
+  };
+
+  verifyOrderingLocation = orderingLocation => {
+    cy.get('[data-testid="microbio-ordering-location"]').should(
+      'contain',
+      orderingLocation,
+    );
+  };
+
+  verifyCollectingLocation = collectingLocation => {
+    cy.get('[data-testid="microbio-collecting-location"]').should(
+      'contain',
+      collectingLocation,
+    );
+  };
+
+  verifyLabLocation = labLocation => {
+    cy.get('[data-testid="microbio-lab-location"]').should(
+      'contain',
+      labLocation,
+    );
+  };
+
+  verifyDateCompleted = dateCompleted => {
+    cy.get('[data-testid="microbio-date-completed"]').should(
+      'contain',
+      dateCompleted,
+    );
+  };
+
   verifyPrintButton = () => {
     // should display print button for a list "Print this list"
     cy.get('[data-testid="printButton-0"]').should('be.visible');

@@ -82,7 +82,11 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="microbio-date"
+        data-testid="microbio-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="microbio-date" />
@@ -100,31 +104,35 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample from
         </h3>
-        <p>{record.sampleFrom}</p>
+        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h3>
-        <p>{record.orderingLocation}</p>
+        <p data-testid="microbio-ordering-location">
+          {record.orderingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
-        <p>{record.collectingLocation}</p>
+        <p data-testid="microbio-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab location
         </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="microbio-lab-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.date}</p>
       </div>
 
       <div className="test-results-container">
