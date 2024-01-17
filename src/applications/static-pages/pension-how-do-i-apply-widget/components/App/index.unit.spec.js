@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { App, mapDispatchToProps, mapStateToProps } from '.';
 
@@ -41,14 +41,28 @@ describe('Pension Widget <App>', () => {
     );
   });
 
-  it('renders the application status component', () => {
+  it('renders the Pension re-launch widget when signed out', () => {
     const mockStore = store({ pensionFormEnabled: true });
     const { container } = render(
       <Provider store={mockStore}>
         <App />
       </Provider>,
     );
-    expect($('h2', container).textContent).to.equal(`How do I apply?`);
+    expect($('h4', container).textContent).to.equal(
+      `We updated our online pension form`,
+    );
+  });
+
+  it('renders the Pension re-launch widget when signed in', () => {
+    const mockStore = store({ pensionFormEnabled: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <App loggedIn />
+      </Provider>,
+    );
+    expect($('h4', container).textContent).to.equal(
+      `We updated our online pension form`,
+    );
   });
 
   it('shows "Refer to your saved form" link when user is logged in', () => {
