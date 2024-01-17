@@ -126,7 +126,9 @@ const CheckInConfirmation = props => {
         pageTitle={t('youre-checked-in')}
         testID="multiple-appointments-confirm"
       >
-        <p>{t('well-come-get-you-from-the-waiting-room')}</p>
+        <p data-testid="confirmation-message">
+          {t('well-come-get-you-from-the-waiting-room')}
+        </p>
         <h2 className="vads-u-font-family--serif">{t('your-appointment')}</h2>
         <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
