@@ -113,7 +113,7 @@ const SettingsPage = () => {
       );
     }
     return (
-      <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
+      <va-card className="vads-u-padding--3">
         <h3 className="vads-u-margin-top--0">
           Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
         </h3>
@@ -150,7 +150,7 @@ const SettingsPage = () => {
             handleUpdateSharing(isSharing)
           }
         />
-      </div>
+      </va-card>
     );
   };
 
