@@ -3,7 +3,7 @@ import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import {
   getVATimeZone,
   getTimezoneBySystemId,
-} from '~/applications/personalization/dashboard/utils/timezone';
+} from '~/applications/personalization/dashboard/utils/date-formatting/timezone';
 import environment from '~/platform/utilities/environment';
 
 const getStagingID = facilityID => {
