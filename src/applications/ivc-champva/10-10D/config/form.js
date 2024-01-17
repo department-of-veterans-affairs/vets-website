@@ -36,6 +36,7 @@ import ApplicantField from '../components/Applicant/ApplicantField';
 import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments.js';
+import getNameKeyForSignature from '../helpers/signatureKeyName.js';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -47,6 +48,16 @@ const formConfig = {
   trackingPrefix: '10-10D-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData => getNameKeyForSignature(formData),
+    },
+  },
   formId: '10-10D',
   saveInProgress: {
     messages: {
@@ -66,6 +77,110 @@ const formConfig = {
   title: '10-10d Application for CHAMPVA benefits',
   defaultDefinitions: {},
   chapters: {
+    yourInformation: {
+      title: 'Your information',
+      pages: {
+        certification1: {
+          path: 'your-information/description',
+          title: 'Which of these best describes you?',
+          uiSchema: {
+            certifierRole: radioUI({
+              title: 'Which of these best describes you?',
+              required: true,
+              labels: {
+                sponsor: "I'm the sponsoring Veteran",
+                applicant: "I'm an applicant",
+                other:
+                  "I'm neither the sponsoring Veteran, nor an applicant - I'm a third party",
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierRole'],
+            properties: {
+              certifierRole: radioSchema(['sponsor', 'applicant', 'other']),
+            },
+          },
+        },
+        certification2: {
+          path: 'certification/name',
+          title: 'Certification',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: {
+            certifierInfoTitle: inlineTitleUI('Your name'),
+            certifierName: fullNameUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierName'],
+            properties: {
+              certifierInfoTitle: titleSchema,
+              certifierName: fullNameSchema,
+            },
+          },
+        },
+        certification3: {
+          path: 'certification/address',
+          title: 'Certification',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: {
+            certifierInfoTitle: inlineTitleUI(
+              'Your mailing address',
+              "We'll send any important information about your application to this address",
+            ),
+            certifierAddress: addressUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierAddress'],
+            properties: {
+              certifierInfoTitle: titleSchema,
+              certifierAddress: addressSchema(),
+            },
+          },
+        },
+        certification4: {
+          path: 'certification/phone',
+          title: 'Certification',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: {
+            certifierInfoTitle: inlineTitleUI('Your phone number'),
+            certifierPhone: phoneUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierPhone'],
+            properties: {
+              certifierInfoTitle: titleSchema,
+              certifierPhone: phoneSchema,
+            },
+          },
+        },
+        certification5: {
+          path: 'certification/relationship',
+          title: 'Certification',
+          depends: formData => get('certifierRole', formData) === 'other',
+          uiSchema: {
+            certifierInfoTitle: inlineTitleUI(
+              "Which of these best describes your relationship to this form's applicant(s)?",
+            ),
+            certifierRelationship: relationshipToVeteranUI('Applicant(s)'),
+          },
+          schema: {
+            type: 'object',
+            required: ['certifierRelationship'],
+            properties: {
+              certifierInfoTitle: titleSchema,
+              certifierRelationship: {
+                ...relationshipToVeteranSchema,
+                required: [],
+              },
+            },
+          },
+        },
+      },
+    },
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
