@@ -313,4 +313,21 @@ describe('HCA migrations', () => {
       expect(formData.providers[1]).to.deep.eql({ insuranceGroupCode: '   t' });
     });
   });
+
+  describe('when deventh migration runs', () => {
+    const migration = migrations[6];
+
+    it('should set household-information-v2 url to household-information', () => {
+      const data = {
+        formData: {},
+        metadata: {
+          returnUrl: 'household-information-v2/spouse-contact-information',
+        },
+      };
+      const { metadata } = migration(data);
+      expect(metadata.returnUrl).to.equal(
+        'household-information/spouse-contact-information',
+      );
+    });
+  });
 });

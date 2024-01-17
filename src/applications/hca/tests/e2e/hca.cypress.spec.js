@@ -7,6 +7,7 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockFacilities from './fixtures/mocks/mockFacilities.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import { goToNextPage } from './utils';
 
 const testConfig = createTestConfig(
   {
@@ -48,6 +49,73 @@ const testConfig = createTestConfig(
             .find('select')
             .select('631');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'household-information/share-financial-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_discloseFinancialInformationNo').check();
+          goToNextPage();
+        });
+      },
+      'household-information/share-financial-information-confirm': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.findByText(
+            /confirm that you don\u2019t want to provide your household financial information/i,
+          )
+            .first()
+            .should('exist');
+          cy.findAllByText(/confirm/i, { selector: 'button' })
+            .first()
+            .click();
+        });
+      },
+      'household-information/marital-status': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_maritalStatus').select('Never Married');
+          goToNextPage();
+        });
+      },
+      'household-information/dependents': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.get('[name="root_view:reportDependents"]').check('N');
+            goToNextPage();
+          });
+        });
+      },
+      'household-information/veteran-annual-income': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get(
+              '[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
+            ).type(data.veteranGrossIncome);
+            cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
+              data.veteranNetIncome,
+            );
+            cy.get(
+              '[name="root_view:veteranOtherIncome_veteranOtherIncome"]',
+            ).type(data.veteranOtherIncome);
+
+            goToNextPage();
+          });
+        });
+      },
+      'household-information/deductible-expenses': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get(
+              '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
+            ).type(data.deductibleMedicalExpenses);
+            cy.get(
+              '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
+            ).type(data.deductibleEducationExpenses);
+            cy.get(
+              '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
+            ).type(data.deductibleFuneralExpenses);
+            goToNextPage();
+          });
         });
       },
       'review-and-submit': ({ afterHook }) => {

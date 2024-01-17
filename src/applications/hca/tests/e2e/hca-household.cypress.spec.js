@@ -1,13 +1,13 @@
 import moment from 'moment';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-hhv2.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
-  advanceToHouseholdV2,
-  advanceFromHouseholdV2ToReview,
+  advanceToHousehold,
+  advanceFromHouseholdToReview,
   goToNextPage,
   fillDependentBasicInformation,
   fillSpousalBasicInformation,
@@ -15,7 +15,7 @@ import {
 
 const { data: testData } = maxTestData;
 
-describe('HCA-Household-V2-Non-Disclosure', () => {
+describe('HCA-Household-Non-Disclosure', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -56,14 +56,12 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('N');
 
-    goToNextPage(
-      '/household-information-v2/share-financial-information-confirm',
-    );
+    goToNextPage('/household-information/share-financial-information-confirm');
     cy.findByText(
       /confirm that you don\u2019t want to provide your household financial information/i,
     )
@@ -73,11 +71,11 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       .first()
       .click();
 
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
     cy.wait('@mockSip');
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -109,21 +107,21 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[type="radio"]')
       .last()
       .check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -134,7 +132,7 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -145,7 +143,7 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -170,7 +168,7 @@ describe('HCA-Household-V2-Non-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-V2-Spousal-Disclosure', () => {
+describe('HCA-Household-Spousal-Disclosure', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -211,28 +209,28 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
-    goToNextPage('/household-information-v2/spouse-personal-information');
+    goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation();
 
-    goToNextPage('/household-information-v2/spouse-additional-information');
+    goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[type="radio"]')
       .last()
       .check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -243,7 +241,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/spouse-annual-income');
+    goToNextPage('/household-information/spouse-annual-income');
     cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
       testData['view:spouseIncome'].spouseGrossIncome,
     );
@@ -254,7 +252,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       testData['view:spouseIncome'].spouseOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -265,7 +263,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -297,24 +295,26 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select(testData.maritalStatus);
 
-    goToNextPage('/household-information-v2/spouse-personal-information');
+    goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation();
 
-    goToNextPage('/household-information-v2/spouse-additional-information');
+    goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_sameAddress"]').check('N');
 
-    goToNextPage('/household-information-v2/spouse-financial-support');
-    goToNextPage('/household-information-v2/spouse-contact-information');
+    goToNextPage('/household-information/spouse-financial-support');
+    cy.get('[name="root_provideSupportLastYear"]').check('N');
+
+    goToNextPage('/household-information/spouse-contact-information');
     cy.get('#root_spouseAddress_street').type(
       testData['view:spouseContactInformation'].spouseAddress.street,
     );
@@ -331,12 +331,12 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       testData['view:spouseContactInformation'].spousePhone,
     );
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[type="radio"]')
       .last()
       .check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -347,7 +347,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/spouse-annual-income');
+    goToNextPage('/household-information/spouse-annual-income');
     cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
       testData['view:spouseIncome'].spouseGrossIncome,
     );
@@ -358,7 +358,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       testData['view:spouseIncome'].spouseOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -369,7 +369,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -394,7 +394,7 @@ describe('HCA-Household-V2-Spousal-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-V2-Dependent-Disclosure', () => {
+describe('HCA-Household-Dependent-Disclosure', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -435,19 +435,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -461,10 +461,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_view:dependentIncome"]').check('N');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -475,7 +475,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -486,7 +486,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -518,19 +518,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -549,10 +549,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -563,7 +563,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -574,7 +574,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -606,19 +606,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -635,10 +635,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     goToNextPage();
     cy.get('[name="root_receivedSupportLastYear"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -649,7 +649,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -660,7 +660,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -692,19 +692,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -726,10 +726,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -740,7 +740,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -751,7 +751,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -783,19 +783,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -806,10 +806,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_view:dependentIncome"]').check('N');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -820,7 +820,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -831,7 +831,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -863,19 +863,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -891,10 +891,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -905,7 +905,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -916,7 +916,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -948,19 +948,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -974,10 +974,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     goToNextPage();
     cy.get('[name="root_receivedSupportLastYear"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -988,7 +988,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -999,7 +999,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -1031,19 +1031,19 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Never Married');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation({
       ...testData.dependents[0],
       dateOfBirth: '1990-01-01',
@@ -1062,10 +1062,10 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -1076,7 +1076,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -1087,7 +1087,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')
@@ -1112,7 +1112,7 @@ describe('HCA-Household-V2-Dependent-Disclosure', () => {
   });
 });
 
-describe('HCA-Household-V2-Full-Disclosure', () => {
+describe('HCA-Household-Full-Disclosure', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -1153,26 +1153,26 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
       .first()
       .should('exist');
 
-    advanceToHouseholdV2();
+    advanceToHousehold();
 
-    goToNextPage('/household-information-v2/share-financial-information');
+    goToNextPage('/household-information/share-financial-information');
     cy.get('[name="root_discloseFinancialInformation"]').check('Y');
 
-    goToNextPage('/household-information-v2/financial-information-needed');
-    goToNextPage('/household-information-v2/marital-status');
+    goToNextPage('/household-information/financial-information-needed');
+    goToNextPage('/household-information/marital-status');
     cy.get('#root_maritalStatus').select('Married');
 
-    goToNextPage('/household-information-v2/spouse-personal-information');
+    goToNextPage('/household-information/spouse-personal-information');
     fillSpousalBasicInformation();
 
-    goToNextPage('/household-information-v2/spouse-additional-information');
+    goToNextPage('/household-information/spouse-additional-information');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_sameAddress"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('Y');
 
-    goToNextPage('/household-information-v2/dependent-information');
+    goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
@@ -1194,10 +1194,10 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
 
-    goToNextPage('/household-information-v2/dependents');
+    goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
 
-    goToNextPage('/household-information-v2/veteran-annual-income');
+    goToNextPage('/household-information/veteran-annual-income');
     cy.get('[name="root_view:veteranGrossIncome_veteranGrossIncome"]').type(
       testData.veteranGrossIncome,
     );
@@ -1208,7 +1208,7 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
       testData.veteranOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/spouse-annual-income');
+    goToNextPage('/household-information/spouse-annual-income');
     cy.get('[name="root_view:spouseGrossIncome_spouseGrossIncome"]').type(
       testData['view:spouseIncome'].spouseGrossIncome,
     );
@@ -1219,7 +1219,7 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
       testData['view:spouseIncome'].spouseOtherIncome,
     );
 
-    goToNextPage('/household-information-v2/deductible-expenses');
+    goToNextPage('/household-information/deductible-expenses');
     cy.get(
       '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
     ).type(testData.deductibleMedicalExpenses);
@@ -1230,7 +1230,7 @@ describe('HCA-Household-V2-Full-Disclosure', () => {
       '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
     ).type(testData.deductibleFuneralExpenses);
 
-    advanceFromHouseholdV2ToReview();
+    advanceFromHouseholdToReview();
 
     // accept the privacy agreement
     cy.get('[name="privacyAgreementAccepted"]')

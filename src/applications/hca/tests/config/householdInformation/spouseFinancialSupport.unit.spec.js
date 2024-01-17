@@ -9,13 +9,12 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
-import { simulateInputChange } from '../../helpers';
 
-describe('hca SpouseAdditionalInformation config', () => {
+describe('hca SpouseFinancialSupport config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2SpouseAdditionalInformation;
+  } = formConfig.chapters.householdInformation.pages.SpouseFinancialSupport;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,10 +26,10 @@ describe('hca SpouseAdditionalInformation config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
+  it('should submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -41,26 +40,6 @@ describe('hca SpouseAdditionalInformation config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-  });
-
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
-    simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'Y');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

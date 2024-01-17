@@ -106,12 +106,11 @@ export const SESSION_ITEM_NAME = 'hcaDependentIndex';
 
 /**
  * declare routes that are shared between custom form pages
- * NOTE: for household v2 routes, these need renamed when v2 is fully-adopted
  */
 export const SHARED_PATHS = {
   dependents: {
-    summary: 'household-information-v2/dependents',
-    info: 'household-information-v2/dependent-information',
+    summary: 'household-information/dependents',
+    info: 'household-information/dependent-information',
   },
 };
 

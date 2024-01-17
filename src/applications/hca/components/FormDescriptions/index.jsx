@@ -217,27 +217,7 @@ export const PensionTypeDescription = (
   </va-additional-info>
 );
 
-/** CHAPTER 4: Household Information */
-export const DeductibleExpensesDescription = (
-  <>
-    <p>
-      Tell us a bit about your expenses this past calendar year. Enter
-      information for any expenses that apply to you.
-    </p>
-
-    <va-additional-info
-      trigger="What if my expenses are higher than my annual income?"
-      class="vads-u-margin-y--2"
-    >
-      We understand in some cases your expenses might be higher than your
-      income. If your expenses exceed your income, we’ll adjust them to be equal
-      to your income. This won’t affect your application or benefits.
-    </va-additional-info>
-  </>
-);
-
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export const DeductibleExpensesV2Description = () => {
+export const DeductibleExpensesDescription = () => {
   const date = new Date();
   return (
     <legend className="schemaform-block-title">
@@ -339,70 +319,6 @@ export const EducationalExpensesDescription = (
   </va-additional-info>
 );
 
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
-export const FinancialDisclosureDescription = (
-  <>
-    <p>
-      Next, we’ll ask you to provide your financial information from the most
-      recent tax year, which we’ll verify with the IRS. We use this information
-      to figure out if you:
-    </p>
-
-    <ol>
-      <li>
-        Are eligible for health care even if you don’t have one of the
-        qualifying factors
-      </li>
-      <li>
-        Are eligible for added benefits, like reimbusement for travel costs or
-        cost-free medications
-      </li>
-      <li>Should be charged for copays or medication</li>
-    </ol>
-
-    <va-alert class="vads-u-margin-top--2p5" status="info">
-      <strong>Note:</strong> You don’t have to provide your financial
-      information. But if you don’t have a qualifying eligibility factor, this
-      information is the only other way for us to see if you can get VA health
-      care benefits--including added benefits like waived copays.
-    </va-alert>
-
-    <p>Qualifying factors:</p>
-    <ul>
-      <li>Former Prisoner of War</li>
-      <li>Received a Purple Heart</li>
-      <li>Recently discharged combat Veteran</li>
-      <li>
-        Discharged for a disability that resulted from your service or got worse
-        in the line of duty
-      </li>
-      <li>Getting VA service-connected disability compensation</li>
-      <li>Getting a VA pension</li>
-      <li>Receiving Medicaid benefits</li>
-      <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
-      <li>
-        Served in Southwest Asia during the Gulf War between August 2, 1990, and
-        November 11, 1998
-      </li>
-      <li>
-        Served at least 30 days at Camp Lejeune between August 1, 1953, and
-        December 31, 1987
-      </li>
-    </ul>
-
-    <p className="vads-u-margin-bottom--4">
-      <a
-        href="https://www.va.gov/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Learn more
-      </a>{' '}
-      about our income thresholds (also called income limits) and copayments.
-    </p>
-  </>
-);
-
 export const GrossIncomeDescription = (
   <>
     <div className="vads-u-margin-y--1">
@@ -459,28 +375,7 @@ export const IncomeDescription = (
   </>
 );
 
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const MaritalStatusDescription = (
-  <va-additional-info
-    trigger="Why we ask for this information"
-    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We want to make sure we understand your household’s financial situation.
-      </p>
-
-      <p className="vads-u-margin-bottom--0">
-        We’ll ask about your income. If you’re married, we also need to
-        understand your spouse’s financial situation. This allows us to make a
-        more informed decision about your application.
-      </p>
-    </div>
-  </va-additional-info>
-);
-
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export const MaritalStatusV2Description = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"

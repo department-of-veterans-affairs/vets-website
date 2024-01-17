@@ -4,7 +4,7 @@ const { data: testData } = maxTestData;
 
 export const goToNextPage = pagePath => {
   // Clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' })
+  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
     .first()
     .scrollIntoView()
     .click();
@@ -13,7 +13,7 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const advanceToHouseholdV2 = () => {
+export const advanceToHousehold = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -37,10 +37,10 @@ export const advanceToHouseholdV2 = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information-v2/financial-information-use');
+  goToNextPage('/household-information/financial-information-use');
 };
 
-export const advanceFromHouseholdV2ToReview = () => {
+export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicaid');
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 

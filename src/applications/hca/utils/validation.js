@@ -1,5 +1,4 @@
 import moment from 'moment';
-import get from 'platform/utilities/data/get';
 
 import {
   convertToDateField,
@@ -39,27 +38,7 @@ export function validateServiceDates(
     }
   }
 }
-
-// NOTE: for household v1 only -- remove after v2 is fully-adopted
-export function validateDependentDate(
-  errors,
-  dependentDate,
-  formData,
-  schema,
-  messages,
-  index,
-) {
-  const dependent = moment(dependentDate);
-  const dob = moment(get(`dependents[${index}].dateOfBirth`, formData));
-
-  if (formData.discloseFinancialInformation && dob.isAfter(dependent)) {
-    errors.addError('This date must come after the dependent’s birth date');
-  }
-  validateCurrentOrPastDate(errors, dependentDate);
-}
-
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export function validateV2DependentDate(errors, fieldData, { dateOfBirth }) {
+export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
   const dependentDate = moment(fieldData);
   const birthDate = moment(dateOfBirth);
 

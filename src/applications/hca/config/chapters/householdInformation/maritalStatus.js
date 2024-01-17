@@ -10,7 +10,7 @@ export default {
   uiSchema: {
     'ui:description': PrefillMessage,
     maritalStatus: {
-      'ui:title': 'Marital status',
+      'ui:title': 'What is your marital status?',
       'ui:description': MaritalStatusDescription,
       'ui:reviewField': CustomReviewField,
     },
