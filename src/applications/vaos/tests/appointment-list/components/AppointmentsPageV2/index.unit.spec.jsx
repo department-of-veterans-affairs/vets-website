@@ -429,7 +429,6 @@ describe('VAOS <AppointmentsPage>', () => {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingStatusImprovement: true,
-        vaOnlineSchedulingPrintList: true,
       },
       user: userState,
     };
