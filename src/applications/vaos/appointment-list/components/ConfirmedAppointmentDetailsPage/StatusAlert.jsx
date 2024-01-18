@@ -105,7 +105,7 @@ export default function StatusAlert({ appointment, facility }) {
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           This appointment happened in the past.
         </p>
-        {avsLink && <>{displayAvsLink()}</>}
+        {avsLink && displayAvsLink()}
       </>
     );
   }
