@@ -75,10 +75,12 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveStatus {...appSavedSuccessfullyMessageProps} />,
     );
-    expect(tree.subTree('.panel').text()).to.include(
+    expect(tree.subTree('.saved-success-container').text()).to.include(
       'Custom message saying your app has been saved.',
     );
-    expect(tree.subTree('.panel').text()).to.include('ID number is 98765');
+    expect(tree.subTree('.saved-success-container').text()).to.include(
+      'ID number is 98765',
+    );
   });
   it('should display the appSavedSuccessfullyMessage with custom app type & SiP ID', () => {
     const appSavedSuccessfullyMessageProps = {
@@ -102,7 +104,7 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveStatus {...appSavedSuccessfullyMessageProps} />,
     );
-    const text = tree.subTree('.panel').text();
+    const text = tree.subTree('.saved-success-container').text();
     expect(text).to.include('September 18, 2017, at');
     expect(text).to.include('custom application type ID number is 98765');
   });
