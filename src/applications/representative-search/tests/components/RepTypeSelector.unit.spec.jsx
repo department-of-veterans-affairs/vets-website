@@ -9,7 +9,7 @@ describe('RepTypeSelector component', () => {
     const mockOnChange = () => {};
 
     const { container } = render(
-      <RepTypeSelector onChange={mockOnChange} representativeType="officer" />,
+      <RepTypeSelector onChange={mockOnChange} representativeType="VSO" />,
     );
 
     expect($('va-radio', container)).to.exist;
@@ -17,12 +17,12 @@ describe('RepTypeSelector component', () => {
 
   it('should render the first va-radio-option as checked', () => {
     const { container } = render(
-      <RepTypeSelector onChange={() => {}} representativeType="officer" />,
+      <RepTypeSelector onChange={() => {}} representativeType="VSO" />,
     );
 
     // Select the first va-radio-option
     const radioOption = container.querySelector(
-      'va-radio-option[label="Veteran Service Officer"]',
+      'va-radio-option[label="Veterans Service Officer"]',
     );
 
     // Assert that the first va-radio-option is present and checked

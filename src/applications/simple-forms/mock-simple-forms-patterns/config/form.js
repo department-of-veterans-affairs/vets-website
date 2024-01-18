@@ -5,6 +5,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
+import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
 import textInputWidgets1 from '../pages/mockTextInputWidgets1';
 import numberInput from '../pages/mockNumberInput';
@@ -24,20 +25,22 @@ import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSumm
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
 
-// helps for dev testing and e2e
-const INCLUDE_PAGE = {
-  text: true,
-  number: true,
-  radio: true,
-  checkbox: true,
-  select: true,
-  date: true,
-  arraySingle: true,
-  arrayMulti: true,
+const chapterSelectInitialData = {
+  chapterSelect: {
+    textInput: true,
+    numberInput: true,
+    checkbox: true,
+    radio: true,
+    select: true,
+    date: true,
+    arraySinglePage: true,
+    arrayMultiPageAggregate: true,
+    arrayMultiPageBuilder: true,
+  },
 };
 
-function includePage(page) {
-  return () => INCLUDE_PAGE[page] ?? true;
+function includeChapter(page) {
+  return formData => formData?.chapterSelect[page];
 }
 
 /** @type {FormConfig} */
@@ -64,6 +67,17 @@ const formConfig = {
   title: 'Simple Forms Patterns',
   defaultDefinitions: commonDefinitions,
   chapters: {
+    chapterSelect: {
+      title: 'Chapter Select',
+      pages: {
+        chapterSelect: {
+          title: 'Chapter Select',
+          path: 'chapter-select',
+          ...chapterSelect,
+          initialData: chapterSelectInitialData,
+        },
+      },
+    },
     textInput: {
       title: 'Text Input',
       pages: {
@@ -72,15 +86,14 @@ const formConfig = {
           title: 'Text Input', // for review page (has to be more than one word)
           uiSchema: textInput.uiSchema,
           schema: textInput.schema,
-          initialData: textInput.initialData,
-          // dont use depends here - needs first page for e2e
+          depends: includeChapter('textInput'),
         },
         textInputWidgets1: {
           path: 'text-input-widgets1',
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
           uiSchema: textInputWidgets1.uiSchema,
           schema: textInputWidgets1.schema,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputFullName: {
           path: 'text-input-full-name',
@@ -88,7 +101,7 @@ const formConfig = {
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputAddress: {
           title: 'Text Input Address', // for review page (has to be more than one word)
@@ -96,17 +109,16 @@ const formConfig = {
           uiSchema: textInputAddress.uiSchema,
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputSsn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
       },
-      depends: () => false,
     },
     numberInput: {
       title: 'Number Input',
@@ -116,7 +128,7 @@ const formConfig = {
           title: 'Number Input', // for review page (has to be more than one word)
           uiSchema: numberInput.uiSchema,
           schema: numberInput.schema,
-          depends: includePage('number'),
+          depends: includeChapter('numberInput'),
         },
       },
     },
@@ -128,14 +140,14 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
-          depends: includePage('checkbox'),
+          depends: includeChapter('checkbox'),
         },
         checkboxGroup: {
           title: 'Checkbox group',
           path: 'checkbox-group',
           uiSchema: checkboxGroup.uiSchema,
           schema: checkboxGroup.schema,
-          depends: includePage('checkbox'),
+          depends: includeChapter('checkbox'),
         },
       },
     },
@@ -147,7 +159,7 @@ const formConfig = {
           path: 'select',
           uiSchema: select.uiSchema,
           schema: select.schema,
-          depends: includePage('select'),
+          depends: includeChapter('select'),
         },
       },
     },
@@ -159,13 +171,14 @@ const formConfig = {
           path: 'radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
-          depends: includePage('radio'),
+          depends: includeChapter('radio'),
         },
         radioRelationshipToVeteran: {
           path: 'radio-relationship-to-veteran',
           title: 'Radio Relationship to Veteran',
           uiSchema: radioRelationshipToVeteran.uiSchema,
           schema: radioRelationshipToVeteran.schema,
+          depends: includeChapter('radio'),
         },
       },
     },
@@ -177,7 +190,7 @@ const formConfig = {
           path: 'date',
           uiSchema: date.uiSchema,
           schema: date.schema,
-          depends: includePage('date'),
+          depends: includeChapter('date'),
         },
       },
     },
@@ -189,7 +202,7 @@ const formConfig = {
           title: 'Information for Single Page', // for review page (has to be more than one word)
           uiSchema: arraySinglePage.uiSchema,
           schema: arraySinglePage.schema,
-          depends: includePage('arraySingle'),
+          depends: includeChapter('arraySinglePage'),
         },
       },
     },
@@ -201,7 +214,7 @@ const formConfig = {
           path: 'array-multiple-page-aggregate',
           uiSchema: arrayMultiPageAggregateStart.uiSchema,
           schema: arrayMultiPageAggregateStart.schema,
-          depends: includePage('arrayMulti'),
+          depends: includeChapter('arrayMultiPageAggregate'),
         },
         multiPageItem: {
           title: 'Multiple Page Details Title', // for review page (has to be more than one word)
@@ -210,7 +223,7 @@ const formConfig = {
           arrayPath: 'exampleArrayData',
           uiSchema: arrayMultiPageAggregateItem.uiSchema,
           schema: arrayMultiPageAggregateItem.schema,
-          depends: includePage('arrayMulti'),
+          depends: includeChapter('arrayMultiPageAggregate'),
         },
       },
     },
@@ -230,6 +243,7 @@ const formConfig = {
               goPath('/review-and-submit');
             }
           },
+          depends: includeChapter('arrayMultiPageBuilder'),
         },
         multiPageBuilderStepOne: {
           title: 'Multiple Page Item Title', // for review page (has to be more than one word)
@@ -240,7 +254,8 @@ const formConfig = {
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
           depends: formData =>
-            formData.hasEmployment || formData.employers?.length > 0,
+            includeChapter('arrayMultiPageBuilder')(formData) &&
+            (formData.hasEmployment || formData.employers?.length > 0),
         },
         multiPageBuilderStepTwo: {
           title: 'Multiple Page Item Title', // for review page (has to be more than one word)
@@ -251,7 +266,8 @@ const formConfig = {
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
           depends: formData =>
-            formData.hasEmployment || formData.employers?.length > 0,
+            includeChapter('arrayMultiPageBuilder')(formData) &&
+            (formData.hasEmployment || formData.employers?.length > 0),
           onNavForward: ({ goPath }) => {
             goPath('/array-multiple-page-builder-summary');
           },

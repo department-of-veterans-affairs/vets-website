@@ -1,10 +1,10 @@
 import {
   yesNoSchema,
   yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  AssetTransferFormAlert,
+  IncomeAssetStatementFormAlert,
   AssetTransferInformationAlert,
 } from '../../../components/FormAlerts';
 
@@ -22,7 +22,7 @@ export default {
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {
-      'ui:description': AssetTransferFormAlert,
+      'ui:description': IncomeAssetStatementFormAlert,
       'ui:options': {
         hideIf: formData => formData.transferredAssets !== true,
       },

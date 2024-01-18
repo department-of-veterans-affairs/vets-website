@@ -63,7 +63,7 @@ describe('Print download menu component', () => {
     const screen = render(<PrintDownload list allowTxtDownloads />);
 
     const downloadTextButton = screen.getByText(
-      'Download list as a text file',
+      'Download a text file (.txt) of this list',
       {
         exact: true,
         selector: 'button',

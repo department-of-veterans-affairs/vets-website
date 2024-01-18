@@ -14,10 +14,10 @@ import {
 
 export const INITIAL_STATE = {
   locationInputString: '',
-  repOfficerInputString: '',
+  representativeInputString: '',
   locationQueryString: '',
-  repOfficerQueryString: '',
-  representativeType: 'officer',
+  representativeQueryString: '',
+  representativeType: 'VSO',
   sortType: 'distance_asc',
   position: {
     latitude: 40.17887331434698,
@@ -47,8 +47,8 @@ export const validateForm = (oldState, payload) => {
     isErrorEmptyInput: newState.locationInputString?.length === 0,
     locationChanged:
       oldState.locationInputString !== newState.locationInputString,
-    repOfficerChanged:
-      oldState.repOfficerInputString !== newState.repOfficerInputString,
+    representativeChanged:
+      oldState.representativeInputString !== newState.representativeInputString,
     representativeTypeChanged:
       oldState.representativeType !== newState.representativeType,
   };
@@ -92,7 +92,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        ...validateForm(state, action.payload),
         error: false,
       };
     case GEOCODE_STARTED:

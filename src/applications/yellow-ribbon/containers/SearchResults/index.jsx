@@ -211,7 +211,6 @@ export class SearchResults extends Component {
           data-display-results-header
           tabIndex="-1"
         >
-          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
             <span>Displaying {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 // Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
@@ -11,7 +10,7 @@ const resolveToggleLink = (link, featureToggles) => {
   const { text, oldHref, href: newHref, toggle, ariaLabel } = link;
   let href = newHref || oldHref;
   // If the link's toggle matches a feature toggle
-  // check if the toggle is on. If so, show new href. Otherwise show old href
+  // check if the toggle is on. If so, show new href. Otherwise, show old href
   if (hasOwn(featureToggles, toggle)) {
     const showNewHref = featureToggles[toggle] === true;
     href = showNewHref ? newHref : oldHref;
@@ -20,36 +19,34 @@ const resolveToggleLink = (link, featureToggles) => {
 };
 
 const countUnreadMessages = folders => {
-  let unreadMessageCount = 0;
   if (Array.isArray(folders?.data)) {
-    unreadMessageCount = folders.data.reduce((accumulator, currentFolder) => {
+    return folders.data.reduce((accumulator, currentFolder) => {
       // Only count inbox (id = 0) and custom folders (id > 0)
       return currentFolder.id >= 0
         ? accumulator + currentFolder.attributes?.unreadCount
         : accumulator;
     }, 0);
-  } else if (folders?.data?.attributes?.unreadCount > 0) {
-    unreadMessageCount = folders.data.attributes.unreadCount;
+  }
+  if (folders?.data?.attributes?.unreadCount > 0) {
+    return folders.data.attributes.unreadCount;
   }
 
-  return unreadMessageCount;
+  return 0;
 };
 
 const resolveLinkCollection = (links, featureToggles) =>
   links.map(l => resolveToggleLink(l, featureToggles));
 
 const resolveUnreadMessageAriaLabel = unreadMessageCount => {
-  let unreadMessageAriaLabel = null;
-  if (unreadMessageCount > 0) {
-    unreadMessageAriaLabel = 'You have unread messages. Go to your inbox.';
-  }
-  return unreadMessageAriaLabel;
+  return unreadMessageCount > 0
+    ? 'You have unread messages. Go to your inbox.'
+    : null;
 };
 
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount = 0,
+  unreadMessageCount,
   unreadMessageAriaLabel,
   userHasHealthData = false,
 ) => {
@@ -77,14 +74,7 @@ const resolveLandingPageLinks = (
       {
         href: null,
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        text: (
-          <span>
-            Inbox
-            {unreadMessageCount > 0 && (
-              <span className="indicator" role="status" />
-            )}
-          </span>
-        ),
+        text: 'Inbox',
         toggle: null,
         ariaLabel: unreadMessageAriaLabel,
       },
@@ -256,21 +246,21 @@ const resolveLandingPageLinks = (
   const spotlightLinks = resolveLinkCollection(
     [
       {
-        text: 'Pain? Try yoga',
+        text: 'Try Messages on VA.gov',
         href: null,
-        oldHref: mhvUrl(false, 'ss20211012-pain-yoga-may-help'),
+        oldHref: mhvUrl(false, 'ss20231205-try-messages-va'),
         toggle: null,
       },
       {
-        text: 'Where are my labs and test results?',
+        text: 'A Better Night’s Sleep',
         href: null,
-        oldHref: mhvUrl(false, 'ss20180716-where-are-va-lab-test-results'),
+        oldHref: mhvUrl(false, 'ss20220516-tips-to-sleep-better'),
         toggle: null,
       },
       {
-        text: 'Heart health with diabetes',
+        text: 'Take Charge with the DASH Diet',
         href: null,
-        oldHref: mhvUrl(false, 'ss20220415-diabetes-and-a-healthy-heart'),
+        oldHref: mhvUrl(false, 'ss20210712-lower-blood-pressure-dash-diet'),
         toggle: null,
       },
     ],

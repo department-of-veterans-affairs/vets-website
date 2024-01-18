@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
+import environment from 'platform/utilities/environment';
 import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import FilterYourResults from '../../containers/FilterYourResults';
 
@@ -26,10 +27,10 @@ describe('<FilterYourResults>', () => {
       name: 'Filter your results',
     });
     fireEvent.click(filterButton);
-
     const HBCUCheckBox = screen.getByRole('checkbox', {
-      name:
-        'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university',
+      name: environment.isProduction()
+        ? 'Specialized mission (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university'
+        : 'Community focus (i.e., Single-gender, Religious affiliation, HBCU) Historically Black college or university',
     });
     fireEvent.click(HBCUCheckBox);
 
@@ -184,5 +185,21 @@ describe('<FilterYourResults>', () => {
     await waitFor(() => {
       expect(aboutTheSchoolCheckBox).to.have.property('checked', false);
     });
+  });
+  it('should render', () => {
+    global.window.buildType = true;
+    const screen = renderWithStoreAndRouter(<FilterYourResults />, {
+      initialState: {
+        constants: mockConstants(),
+      },
+    });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Filter your results' }),
+    );
+    expect(
+      screen.queryByRole('label', {
+        name: 'Native American-serving institutions',
+      }),
+    ).to.not.exist;
   });
 });

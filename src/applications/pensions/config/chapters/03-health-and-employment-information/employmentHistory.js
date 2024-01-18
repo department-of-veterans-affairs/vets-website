@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
+import { validateWorkHours } from '../../../helpers';
 
-const EmployerView = ({ formData }) => (
+export const EmployerView = ({ formData }) => (
   <ListItemView title={formData.jobTitle} />
 );
 
@@ -48,9 +49,10 @@ const generateEmployersSchemas = (
       [employersKey]: {
         'ui:title': employerMessage,
         'ui:options': {
-          itemName: 'employment',
+          itemName: 'Employment',
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
+          keepInPageOnReview: true,
         },
         items: {
           ...(showJobDateField && {
@@ -66,13 +68,7 @@ const generateEmployersSchemas = (
               widgetClassNames: 'form-select-medium vads-u-margin-y--2',
               classNames: 'vads-u-margin-y--2p5',
             },
-            'ui:validations': [
-              (errors, fieldData) => {
-                if (fieldData > 168) {
-                  errors.addError('Enter a number less than 169');
-                }
-              },
-            ],
+            'ui:validations': [validateWorkHours],
           },
           jobTitle: {
             'ui:title': jobTitleFieldLabel,

@@ -38,6 +38,7 @@ import {
   crisisLineHeader,
   reportGeneratedBy,
 } from '../../shared/util/constants';
+import { generateConditionContent } from '../util/pdfHelpers/conditions';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -97,45 +98,9 @@ const ConditionDetails = props => {
     const title = `Conditions: ${record.name} on ${record.date}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      items: [
-        {
-          title: 'Date',
-          value: record.date,
-          inline: true,
-        },
-        {
-          title: 'Provider',
-          value: record.provider,
-          inline: true,
-        },
-        {
-          title: 'Provider Notes',
-          value: record.note,
-          inline: !record.comments.length,
-        },
-        {
-          title: 'Status of health condition',
-          value: record.active,
-          inline: true,
-        },
-        {
-          title: 'Location',
-          value: record.facility,
-          inline: true,
-        },
-        {
-          title: 'SNOMED Clinical term',
-          value: record.name,
-          inline: true,
-        },
-      ],
-    };
-
-    const pdfName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Health condition details', runningUnitTest);
+    const pdfData = { ...scaffold, ...generateConditionContent(record) };
+    const pdfName = `VA-conditions-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
   };
 
   const download = () => {
@@ -199,23 +164,32 @@ SNOMED Clinical term: ${record.name} \n`;
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Status of health condition
             </h2>
-            <p data-dd-privacy="mask">{record.active}</p>
+            <p data-dd-privacy="mask" data-testid="condition-status">
+              {record.active}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
             </h2>
-            <p data-dd-privacy="mask">{record.provider}</p>
+            <p data-dd-privacy="mask" data-testid="condition-provider">
+              {record.provider}
+            </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Location
             </h2>
-            <p data-dd-privacy="mask">
+            <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               SNOMED Clinical term
             </h2>
-            <p data-dd-privacy="mask">{record.name}</p>
+            <p data-dd-privacy="mask" data-testid="condition-snomed">
+              {record.name}
+            </p>
             <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
-            <ItemList list={record.comments} />
+            <ItemList
+              data-testid="condition-provider-notes"
+              list={record.comments}
+            />
           </div>
         </>
       );

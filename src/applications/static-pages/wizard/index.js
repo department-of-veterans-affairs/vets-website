@@ -116,9 +116,7 @@ export class Wizard extends React.Component {
       expander,
       buttonText,
     } = this.props;
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.expanded,
-    });
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',

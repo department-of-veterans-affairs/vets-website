@@ -40,7 +40,7 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details'];
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
