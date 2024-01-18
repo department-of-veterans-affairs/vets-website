@@ -24,6 +24,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import RelationshipToVetTitle from '../components/RelationshipToVetTitle';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -44,6 +45,14 @@ export function ApplicantDescriptionWrapper({ formContext }) {
 export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
   return <CurrentlyBuriedDescription formContext={formContext} />;
 }
+
+export function RelationshipToVetTitleWrapper({ formContext }) {
+  return <RelationshipToVetTitle formContext={formContext} />;
+}
+
+export const relationshipToVetTitleWrapperConst = (
+  <RelationshipToVetTitleWrapper />
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">

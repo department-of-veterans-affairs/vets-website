@@ -1,18 +1,17 @@
-// import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import { merge } from 'lodash';
 
-import { merge /* , pick */ } from 'lodash';
-
-import { applicantInformationDescription } from '../../utils/helpers';
-
-// const { claimant } = fullSchemaPreNeed.properties.application.properties;
+import {
+  applicantInformationDescription,
+  relationshipToVetTitleWrapperConst,
+} from '../../utils/helpers';
 
 export const uiSchema = {
   application: {
     claimant: {
-      'ui:title': ' ',
+      'ui:description':
+        'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).',
       relationshipToVet: {
-        'ui:title':
-          'What’s your relationship to the Veteran or service member you’re connected to?',
+        'ui:title': relationshipToVetTitleWrapperConst,
         'ui:options': {
           labels: {
             1: 'I’m the Veteran or service member',
