@@ -40,7 +40,7 @@ export default function StatusAlert({ appointment, facility }) {
   const { isPastAppointment } = appointment.vaos;
   const avsLink = appointment.avsPath;
   const avsError = avsLink?.includes('Error');
-  const handleAvsLink = () => {
+  const displayAvsLink = () => {
     if (avsError) {
       return (
         <div
@@ -105,7 +105,7 @@ export default function StatusAlert({ appointment, facility }) {
         <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
           This appointment happened in the past.
         </p>
-        {avsLink && <>{handleAvsLink()}</>}
+        {avsLink && <>{displayAvsLink()}</>}
       </>
     );
   }
