@@ -17,8 +17,6 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
-  addressSchema,
-  addressUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -651,7 +649,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -789,9 +788,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -804,21 +801,12 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childAddress: {
-                  ...addressUI({
-                    omit: ['street3', 'isMilitary'],
-                    required: {
-                      country: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      street: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      city: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      postalCode: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                    },
-                  }),
-                },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  (form, index) =>
+                    !get(['dependents', index, 'childInHousehold'], form),
+                ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
                   first: {

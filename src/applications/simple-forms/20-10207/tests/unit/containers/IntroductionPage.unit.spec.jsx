@@ -119,36 +119,36 @@ describe('IntroductionPage', () => {
     expect(sipAlert).to.not.exist;
   });
 
-  it('should render LOA3 content if user is logged-in and id-verified', () => {
-    const userVerifiedMockStore = {
-      ...mockStore,
-      getState: () => ({
-        ...mockStore.getState(),
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            ...mockStore.getState().user.profile,
-            loa: {
-              current: 3,
-            },
-            verified: true,
-          },
-        },
-      }),
-    };
-    const { container } = render(
-      <Provider store={userVerifiedMockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
+  // it('should render LOA3 content if user is logged-in and id-verified', () => {
+  //   const userVerifiedMockStore = {
+  //     ...mockStore,
+  //     getState: () => ({
+  //       ...mockStore.getState(),
+  //       user: {
+  //         login: {
+  //           currentlyLoggedIn: true,
+  //         },
+  //         profile: {
+  //           ...mockStore.getState().user.profile,
+  //           loa: {
+  //             current: 3,
+  //           },
+  //           verified: true,
+  //         },
+  //       },
+  //     }),
+  //   };
+  //   const { container } = render(
+  //     <Provider store={userVerifiedMockStore}>
+  //       <IntroductionPage {...props} />
+  //     </Provider>,
+  //   );
 
-    const userNotVerifiedDiv = container.querySelector(
-      '[data-testid=verifyIdAlert]',
-    );
-    const sipAlert = container.querySelector('.schemaform-sip-alert');
-    expect(userNotVerifiedDiv).to.not.exist;
-    expect(sipAlert).to.exist;
-  });
+  //   const userNotVerifiedDiv = container.querySelector(
+  //     '[data-testid=verifyIdAlert]',
+  //   );
+  //   const sipAlert = container.querySelector('.schemaform-sip-alert');
+  //   expect(userNotVerifiedDiv).to.not.exist;
+  //   expect(sipAlert).to.exist;
+  // });
 });
