@@ -105,7 +105,7 @@ const Confirmation = () => {
           don’t file another claim or request another type of decision review.
           Contact us online or call us instead.
         </p>
-        <p id="delay-note">
+        <p>
           <strong>Note</strong>: You can request a hearing at any time during
           the decision review process.
         </p>
