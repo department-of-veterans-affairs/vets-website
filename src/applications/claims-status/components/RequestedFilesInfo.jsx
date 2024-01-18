@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
 import { getTrackedItemId, truncateDescription } from '../utils/helpers';
-import DueDate from './DueDate';
+import DueDateOld from './DueDateOld';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   return (
@@ -28,7 +28,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
               <p className="submission-description">
                 {truncateDescription(item.description)}
               </p>
-              <DueDate date={item.suspenseDate} />
+              <DueDateOld date={item.suspenseDate} />
             </div>
             <div className="button-container">
               <Link
