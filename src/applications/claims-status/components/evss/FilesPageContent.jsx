@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';

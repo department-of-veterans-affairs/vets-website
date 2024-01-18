@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration

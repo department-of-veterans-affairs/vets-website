@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 // START lighthouse_migration
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import FilesPageContent from '../components/evss/FilesPageContent';
 // END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
