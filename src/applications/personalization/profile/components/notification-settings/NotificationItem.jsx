@@ -9,11 +9,8 @@ import {
   NOTIFICATION_CHANNEL_IDS,
 } from '@@profile/constants';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
 import {
   selectVAPEmailAddress,
   selectVAPMobilePhone,
@@ -92,46 +89,25 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   return (
     <>
       {userHasAtLeastOneChannelContactInfo ? (
-        <Toggler
-          toggleName={
-            Toggler.TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
-          }
+        <NotificationChannelCheckboxesFieldset
+          itemName={itemName}
+          description={description}
+          channels={filteredChannels}
+          itemId={itemId}
+          hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
+          hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
+          hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
         >
-          <Toggler.Enabled>
-            <NotificationChannelCheckboxesFieldset
+          {filteredChannels.map((channelId, index) => (
+            <NotificationChannel
+              channelId={channelId}
+              key={channelId}
+              disabledForCheckbox={itemStatusIndicators.hasSomePendingUpdates}
+              last={index === filteredChannels.length - 1}
               itemName={itemName}
-              description={description}
-              channels={filteredChannels}
-              itemId={itemId}
-              hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
-              hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
-              hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
-            >
-              {filteredChannels.map((channelId, index) => (
-                <NotificationChannel
-                  channelId={channelId}
-                  key={channelId}
-                  disabledForCheckbox={
-                    itemStatusIndicators.hasSomePendingUpdates
-                  }
-                  last={index === filteredChannels.length - 1}
-                  itemName={itemName}
-                />
-              ))}
-            </NotificationChannelCheckboxesFieldset>
-          </Toggler.Enabled>
-
-          <Toggler.Disabled>
-            {filteredChannels.map(channelId => (
-              <NotificationChannel
-                channelId={channelId}
-                key={channelId}
-                description={description}
-                itemName={itemName}
-              />
-            ))}
-          </Toggler.Disabled>
-        </Toggler>
+            />
+          ))}
+        </NotificationChannelCheckboxesFieldset>
       ) : null}
     </>
   );
