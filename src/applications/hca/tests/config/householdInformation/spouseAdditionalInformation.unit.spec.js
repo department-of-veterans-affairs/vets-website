@@ -11,11 +11,11 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca SpouseAnnualIncome config', () => {
+describe('hca SpouseAdditionalInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2SpouseAnnualIncome;
+  } = formConfig.chapters.householdInformation.pages.SpouseAdditionalInformation;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,7 +27,7 @@ describe('hca SpouseAnnualIncome config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca SpouseAnnualIncome config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,21 +59,8 @@ describe('hca SpouseAnnualIncome config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A spouseGrossIncome_spouseGrossIncome',
-      '100000',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A spouseNetIncome_spouseNetIncome',
-      '76000',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A spouseOtherIncome_spouseOtherIncome',
-      '0',
-    );
+    simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
+    simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'Y');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

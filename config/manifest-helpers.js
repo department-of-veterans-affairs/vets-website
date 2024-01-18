@@ -11,14 +11,13 @@ function getAppManifests() {
       // eslint-disable-next-line import/no-dynamic-require
       const manifest = require(file);
 
-      return {
-        ...manifest,
+      return Object.assign({}, manifest, {
         filePath: file,
         entryFile: path.resolve(
           root,
           path.join(path.dirname(file), manifest.entryFile),
         ),
-      };
+      });
     });
 }
 
@@ -31,10 +30,7 @@ function getAppRoutes() {
 function getWebpackEntryPoints(manifests) {
   return manifests.reduce((apps, next) => {
     // eslint-disable-next-line no-param-reassign
-    apps[next.entryName] = {
-      import: next.entryFile,
-      dependOn: 'vendor',
-    };
+    apps[next.entryName] = next.entryFile;
     return apps;
   }, {});
 }
