@@ -60,7 +60,6 @@ describe('Results Set 1 Page 1', () => {
         router: {
           push: pushStub,
         },
-        updateTheCurrentPage: updateSpy,
         viewedIntroPage: true,
       };
 

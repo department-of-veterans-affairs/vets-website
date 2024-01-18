@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { QUESTION_MAP } from '../constants/question-data-map';
 
@@ -21,10 +20,6 @@ const Breadcrumbs = () => {
       ]}
     />
   );
-};
-
-Breadcrumbs.propTypes = {
-  currentPage: PropTypes.string.isRequired,
 };
 
 export default Breadcrumbs;
