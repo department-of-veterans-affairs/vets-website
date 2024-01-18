@@ -103,7 +103,9 @@ team at your next appointment.\n
 Showing ${allergies.length} from newest to oldest
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
-    generateTextFile(content, 'AllergyList');
+    const fileName = `VA-allergies-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

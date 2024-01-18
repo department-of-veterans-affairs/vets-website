@@ -105,7 +105,9 @@ Location: ${allergy.location} \n
 Observed or historical: ${allergy.observedOrReported} \n
 Provider notes: ${allergy.notes} \n`;
 
-    generateTextFile(content, 'Allergy');
+    const fileName = `VA-allergies-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {
