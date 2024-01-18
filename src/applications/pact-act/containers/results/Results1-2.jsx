@@ -65,11 +65,6 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           ))}
         </va-accordion>
         <p>
-          <strong>Note:</strong> If your condition isn’t listed here, you can
-          learn more about other presumptive conditions and disability benefit
-          eligibility. And if you have an illness that we don’t consider
-          presumptive, you can still file a claim. But you’ll need to provide
-          evidence that your service caused your condition.{' '}
           <a
             className="vads-u-display--block vads-u-margin-top--1"
             href="/disability/eligibility"

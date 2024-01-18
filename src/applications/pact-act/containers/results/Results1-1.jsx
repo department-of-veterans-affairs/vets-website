@@ -54,10 +54,6 @@ const Results1Page1 = ({
       <ul>{getDynamicContent(formResponses)}</ul>
       <h2>What this means for you</h2>
       <p>
-        We automatically assume (or “presume”) that these exposures cause
-        certain health conditions. We call these “presumptive conditions.”
-      </p>
-      <p>
         If you have a presumptive condition, you don’t need to prove that your
         service caused the condition to get VA disability compensation. You only
         need to meet the service requirements for presumption.
