@@ -11,11 +11,11 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca SpouseBasicInformation config', () => {
+describe('hca SpouseAnnualIncome config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2SpouseBasicInformation;
+  } = formConfig.chapters.householdInformation.pages.SpouseAnnualIncome;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,7 +27,7 @@ describe('hca SpouseBasicInformation config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(11);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca SpouseBasicInformation config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,19 +59,21 @@ describe('hca SpouseBasicInformation config', () => {
     );
     const formDOM = findDOMNode(form);
 
-    simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
-    simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
     simulateInputChange(
       formDOM,
-      '#root_spouseSocialSecurityNumber',
-      '232422344',
+      '#root_view\\3A spouseGrossIncome_spouseGrossIncome',
+      '100000',
     );
-    simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
-    simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
-    simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');
-    simulateInputChange(formDOM, '#root_dateOfMarriageMonth', '05');
-    simulateInputChange(formDOM, '#root_dateOfMarriageDay', '29');
-    simulateInputChange(formDOM, '#root_dateOfMarriageYear', '2015');
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A spouseNetIncome_spouseNetIncome',
+      '76000',
+    );
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A spouseOtherIncome_spouseOtherIncome',
+      '0',
+    );
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
