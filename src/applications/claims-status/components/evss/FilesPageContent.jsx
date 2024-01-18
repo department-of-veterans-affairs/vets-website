@@ -6,7 +6,7 @@ import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';
 import SubmittedTrackedItem from './SubmittedTrackedItem';
-import AdditionalEvidencePageOld from '../../containers/AdditionalEvidencePageOld';
+import AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -49,7 +49,7 @@ export default function FilesPageContent({ claim, params }) {
             <div className="submit-file-container">
               <div className="submit-additional-evidence">
                 <h2 className="claim-file-border">Additional evidence</h2>
-                <AdditionalEvidencePageOld />
+                <AdditionalEvidencePage />
               </div>
             </div>
           </Toggler.Enabled>

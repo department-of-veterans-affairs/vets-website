@@ -16,7 +16,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import AdditionalEvidencePageOld from './AdditionalEvidencePageOld';
+import AdditionalEvidencePage from './AdditionalEvidencePage';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -140,7 +140,7 @@ class FilesPage extends React.Component {
               <div className="submit-file-container">
                 <div className="submit-additional-evidence">
                   <h2 className="claim-file-border">Additional evidence</h2>
-                  <AdditionalEvidencePageOld />
+                  <AdditionalEvidencePage />
                 </div>
               </div>
             </Toggler.Enabled>
