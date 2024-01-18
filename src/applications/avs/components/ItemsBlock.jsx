@@ -1,15 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { fieldHasValue } from '../utils';
-
-const allFieldsEmpty = item => {
-  for (const [, value] of Object.entries(item)) {
-    if (fieldHasValue(value)) return false;
-  }
-
-  return true;
-};
+import { allFieldsEmpty } from '../utils';
 
 const ItemsBlock = props => {
   const { heading, intro, itemType, items, renderItem, showSeparators } = props;
