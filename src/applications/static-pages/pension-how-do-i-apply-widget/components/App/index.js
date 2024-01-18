@@ -110,7 +110,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 </li>
                 <li>
                   <strong>
-                    You can wait until January 2024 and apply online then.
+                    You can wait until February 2024 and apply online then.
                   </strong>{' '}
                   If you already started applying online, we’ll transfer your
                   saved information to the new online application.
@@ -212,7 +212,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
                 </li>
                 <li>
                   <strong>
-                    You can wait until January 2024 and apply online then.
+                    You can wait until February 2024 and apply online then.
                   </strong>{' '}
                   If you already started applying online, we’ll transfer your
                   saved information to the new online application.
