@@ -65,7 +65,7 @@ describe('Thread List component', () => {
     expect(renderedThreads.length).not.to.be.greaterThan(0);
   });
 
-  it('does ont display thread sort if only 1 thread exists in folder', async () => {
+  it('does not display thread sort if only 1 thread exists in folder', async () => {
     const oneThread = [listOfThreads[0]];
     const screen = setup(oneThread);
 

@@ -71,7 +71,7 @@ describe('Verify sorting feature with only one filter result', () => {
 
   const mockSingleFilterResult = { data: [secondElement], ...rest };
 
-  it('verify sorting not appears with only one filter result', () => {
+  it('verify sorting does not appear with only one filter result', () => {
     site.login();
     landingPage.loadInboxMessages();
 
