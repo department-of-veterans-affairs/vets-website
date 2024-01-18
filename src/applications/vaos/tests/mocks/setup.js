@@ -16,7 +16,6 @@ import { cleanup } from '@testing-library/react';
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
-import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import moment from '../../lib/moment-tz';
@@ -57,7 +56,6 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       covid19Vaccine: covid19VaccineReducer,
-      unenrolledVaccine: unenrolledVaccineReducer,
     }),
     initialState,
     applyMiddleware(thunk),
