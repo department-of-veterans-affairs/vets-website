@@ -1,25 +1,6 @@
-import environment from 'platform/utilities/environment';
 import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
-export function getStagingId(facilityId) {
-  if (
-    (!environment.isProduction() && facilityId.startsWith('983')) ||
-    window.Cypress
-  ) {
-    return facilityId.replace('983', '442');
-  }
-
-  if (
-    (!environment.isProduction() && facilityId.startsWith('984')) ||
-    window.Cypress
-  ) {
-    return facilityId.replace('984', '552');
-  }
-
-  return facilityId;
-}
-
-export function getCommunityCareFacilities({
+export async function getCommunityCareFacilities({
   latitude,
   longitude,
   radius,
@@ -36,7 +17,7 @@ export function getCommunityCareFacilities({
   ).then(parseApiList);
 }
 
-export function getCommunityCareFacility(id) {
+export async function getCommunityCareFacility(id) {
   return apiRequestWithUrl(`/v1/facilities/ccp/${id}`, {
     method: 'GET',
   }).then(parseApiObject);
