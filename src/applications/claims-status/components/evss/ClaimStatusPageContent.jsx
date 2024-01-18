@@ -7,6 +7,7 @@ import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
 import ClaimsTimeline from '../ClaimsTimeline';
 import NeedFilesFromYou from '../NeedFilesFromYou';
+import WhatYouNeedToDo from '../WhatYouNeedToDo';
 
 const itemsNeedingAttentionFromVet = events => {
   return events?.filter(
@@ -33,7 +34,14 @@ export default function ClaimStatusPageContent({
   return (
     <div>
       {showDocsNeeded ? (
-        <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Enabled>
+            <WhatYouNeedToDo claim={claim} useLighthouse={false} />
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+          </Toggler.Disabled>
+        </Toggler>
       ) : null}
       {decisionLetterSent && !open ? (
         <ClaimsDecision

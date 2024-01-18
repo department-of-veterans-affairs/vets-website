@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
@@ -248,7 +248,7 @@ class ClaimStatusPage extends React.Component {
         {showDocsNeeded ? (
           <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
             <Toggler.Enabled>
-              <WhatYouNeedToDo claim={claim} />
+              <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
             </Toggler.Enabled>
             <Toggler.Disabled>
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
