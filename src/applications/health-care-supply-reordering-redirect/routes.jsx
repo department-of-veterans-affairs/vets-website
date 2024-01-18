@@ -1,8 +1,23 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const routes = (
-  <Redirect from="/" to="/my-health/order-hearing-aid-or-CPAP-supplies-form" />
+// Force a redirect since React Router's Redirect does not reload the page.
+class CustomRedirect extends React.Component {
+  constructor(props) {
+    super(props);
+    window.location.replace(props.url);
+  }
+}
+
+CustomRedirect.propTypes = {
+  url: PropTypes.string,
+};
+
+const route = (
+  <Route>
+    <CustomRedirect url="/health-care/order-hearing-aid-or-CPAP-supplies-form" />
+  </Route>
 );
 
-export default routes;
+export default route;

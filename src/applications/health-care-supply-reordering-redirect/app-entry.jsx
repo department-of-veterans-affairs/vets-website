@@ -1,10 +1,10 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import startApp from '@department-of-veterans-affairs/platform-startup/router';
+import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 import manifest from './manifest.json';
 import routes from './routes';
 
 startApp({
-  url: manifest.rootUrl,
+  entryName: manifest.entryName,
   routes,
-  analyticsEvents: [],
+  url: manifest.rootUrl,
 });
