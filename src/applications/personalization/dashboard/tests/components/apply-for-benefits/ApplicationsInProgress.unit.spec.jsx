@@ -114,7 +114,7 @@ describe('ApplicationsInProgress component', () => {
     expect(applicationsInProgress[0]).to.contain.text(
       format(fromUnixTime(oneDayFromNow() / 1000), 'MMMM d, yyyy'),
     );
-    expect(applicationsInProgress[0]).to.contain.text('Last opened on: ');
+    expect(applicationsInProgress[0]).to.contain.text('Last saved on: ');
     expect(applicationsInProgress[0]).to.contain.text(
       format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
     );
@@ -126,7 +126,7 @@ describe('ApplicationsInProgress component', () => {
     expect(applicationsInProgress[1]).to.contain.text(
       format(fromUnixTime(oneWeekFromNow() / 1000), 'MMMM d, yyyy'),
     );
-    expect(applicationsInProgress[1]).to.contain.text('Last opened on: ');
+    expect(applicationsInProgress[1]).to.contain.text('Last saved on: ');
     expect(applicationsInProgress[1]).to.contain.text(
       format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
     );
@@ -138,7 +138,7 @@ describe('ApplicationsInProgress component', () => {
     expect(applicationsInProgress[2]).to.contain.text(
       format(fromUnixTime(oneYearFromNow() / 1000), 'MMMM d, yyyy'),
     );
-    expect(applicationsInProgress[2]).to.contain.text('Last opened on: ');
+    expect(applicationsInProgress[2]).to.contain.text('Last saved on: ');
     expect(applicationsInProgress[2]).to.contain.text(
       format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
     );
