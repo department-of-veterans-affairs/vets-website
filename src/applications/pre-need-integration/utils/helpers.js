@@ -681,6 +681,20 @@ export const militaryNameUI = {
   },
 };
 
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
+
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
     credentials: 'include',
