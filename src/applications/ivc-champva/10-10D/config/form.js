@@ -77,10 +77,10 @@ const formConfig = {
   title: '10-10d Application for CHAMPVA benefits',
   defaultDefinitions: {},
   chapters: {
-    yourInformation: {
+    certifierInformation: {
       title: 'Your information',
       pages: {
-        certification1: {
+        page1: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -103,7 +103,7 @@ const formConfig = {
             },
           },
         },
-        certification2: {
+        page2: {
           path: 'certification/name',
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
@@ -120,7 +120,7 @@ const formConfig = {
             },
           },
         },
-        certification3: {
+        page3: {
           path: 'certification/address',
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
@@ -140,7 +140,7 @@ const formConfig = {
             },
           },
         },
-        certification4: {
+        page4: {
           path: 'certification/phone',
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
@@ -157,7 +157,7 @@ const formConfig = {
             },
           },
         },
-        certification5: {
+        page5: {
           path: 'certification/relationship',
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
@@ -184,7 +184,7 @@ const formConfig = {
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
-        page1: {
+        page6: {
           path: 'sponsor-information/name-dob',
           title: 'Sponsor name and date of birth',
           uiSchema: {
@@ -202,7 +202,7 @@ const formConfig = {
             },
           },
         },
-        page2: {
+        page7: {
           path: 'sponsor-information/ssn',
           title: 'Sponsor SSN and VA file number',
           uiSchema: {
@@ -218,7 +218,7 @@ const formConfig = {
             },
           },
         },
-        page3: {
+        page8: {
           path: 'sponsor-information/status',
           title: 'Sponsor status',
           uiSchema: {
@@ -241,7 +241,7 @@ const formConfig = {
             },
           },
         },
-        page4: {
+        page9: {
           path: 'sponsor-information/status-date',
           title: 'Sponsor status',
           depends: formData => get('sponsorIsDeceased', formData),
@@ -267,7 +267,7 @@ const formConfig = {
             },
           },
         },
-        page6: {
+        page10: {
           path: 'sponsor-information/address',
           title: "Sponsor's address",
           depends: formData => !get('sponsorIsDeceased', formData),
@@ -291,7 +291,7 @@ const formConfig = {
             },
           },
         },
-        page7: {
+        page11: {
           path: 'sponsor-information/phone',
           title: "Sponsor's phone number",
           depends: formData => !get('sponsorIsDeceased', formData),
@@ -317,7 +317,7 @@ const formConfig = {
             },
           },
         },
-        page7a: {
+        page12: {
           path: 'sponsor-information/complete',
           title: 'Sponsor information complete',
           uiSchema: {
@@ -343,7 +343,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        page8: {
+        page13: {
           path: 'applicant-information',
           arrayPath: 'applicants',
           title: 'Applicants',
@@ -379,7 +379,7 @@ const formConfig = {
             },
           },
         },
-        page9: {
+        page14: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
           title: item =>
@@ -419,7 +419,7 @@ const formConfig = {
             },
           },
         },
-        page10: {
+        page15: {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -450,7 +450,7 @@ const formConfig = {
             },
           },
         },
-        page11: {
+        page16: {
           path: 'applicant-information/:index/email-phone',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -483,7 +483,7 @@ const formConfig = {
             },
           },
         },
-        page12: {
+        page17: {
           path: 'applicant-information/:index/gender',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -518,7 +518,7 @@ const formConfig = {
             },
           },
         },
-        page13: {
+        page18: {
           path: 'applicant-information/:index/additional-info',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -603,7 +603,7 @@ const formConfig = {
             },
           },
         },
-        page14c: {
+        page19: {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,

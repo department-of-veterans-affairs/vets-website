@@ -19,28 +19,28 @@ const applicants = [
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page7.schema,
-  formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
+  formConfig.chapters.sponsorInformation.pages.page11.schema,
+  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
   2,
-  "Sponsor's phone number continued",
+  "Sponsor's phone number",
   { sponsorIsDeceased: false },
 );
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.applicantInformation.pages.page9.schema,
-  formConfig.chapters.applicantInformation.pages.page9.uiSchema,
+  formConfig.chapters.applicantInformation.pages.page14.schema,
+  formConfig.chapters.applicantInformation.pages.page14.uiSchema,
   2,
-  'Applicant SSN and date of birth',
+  'Applicant - SSN and date of birth',
   { applicants },
 );
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.applicantInformation.pages.page13.schema,
-  formConfig.chapters.applicantInformation.pages.page13.uiSchema,
+  formConfig.chapters.applicantInformation.pages.page18.schema,
+  formConfig.chapters.applicantInformation.pages.page18.uiSchema,
   2,
-  'Applicant health insurance and relationship',
+  'Applicant - health insurance',
   { applicants },
 );
 
