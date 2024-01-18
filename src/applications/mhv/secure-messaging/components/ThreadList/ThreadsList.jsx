@@ -17,7 +17,7 @@ const ThreadsList = props => {
     threadsPerPage,
   } = props;
 
-  const MAX_PAGE_LIST_LENGTH = 5;
+  const MAX_PAGE_LIST_LENGTH = 7;
 
   const [displayNums, setDisplayNums] = useState({
     from: 0,
@@ -88,11 +88,11 @@ const ThreadsList = props => {
 
         {threadList?.length > 1 && (
           <VaPagination
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
             onPageSelect={e => paginationCallback(e.detail.page)}
             page={pageNum}
             pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
+            uswds
           />
         )}
       </div>

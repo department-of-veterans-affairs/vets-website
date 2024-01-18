@@ -69,4 +69,10 @@ describe('Thread List component', () => {
       expect(screen.getByText('End of conversations in this folder')).to.exist;
     });
   });
+
+  it('displays V3 va-pagingation component', () => {
+    const screen = setup(listOfThreads);
+    screen;
+    expect(document.querySelector('va-pagination[uswds="true"]')).to.exist;
+  });
 });
