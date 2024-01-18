@@ -10,6 +10,10 @@ export default function DirectDepositViewField({ formData }) {
     routingNumber,
   } = bankAccount;
 
+  const accountTypeDisplay = accountType
+    ? `${titleCase(accountType)} account`
+    : 'Account';
+
   return (
     <>
       <p className="vads-u-margin-bottom--4">
@@ -17,7 +21,7 @@ export default function DirectDepositViewField({ formData }) {
         also called electronic funds transfer (EFT).
       </p>
       <div className="va-address-block vads-u-margin-left--0">
-        <h5>{`${titleCase(accountType)} account`}</h5>
+        <h5>{`${accountTypeDisplay} account`}</h5>
         <dl className="meb-definition-list">
           {/* <dt>Bank name:</dt>
           <dd>{financialInstitutionName}</dd> */}

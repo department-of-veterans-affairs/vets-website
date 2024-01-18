@@ -8,13 +8,13 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
@@ -60,6 +60,7 @@ import {
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
+  customDirectDepositDescription,
 } from '../helpers';
 
 import {
@@ -168,6 +169,31 @@ function isValidLastName(str) {
   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
+const isValidAccountNumber = accountNumber => {
+  if (/^[0-9]*$/.test(accountNumber)) {
+    return accountNumber;
+  }
+  return false;
+};
+
+const validateAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  if (
+    !isValidAccountNumber(accountNumber) &&
+    !formData.showDgiDirectDeposit1990EZ
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+function shouldStartInEditMode(formData) {
+  return !formData.bankAccount || !formData.bankAccount.accountNumber;
+}
+
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -193,12 +219,13 @@ function phoneUISchema(category) {
         hideIf: formData => {
           if (category === 'mobile') {
             if (
-              !formData[formFields.viewPhoneNumbers]?.mobilePhoneNumber?.phone
+              !formData[(formFields?.viewPhoneNumbers)]?.mobilePhoneNumber
+                ?.phone
             ) {
               return true;
             }
           } else if (
-            !formData[formFields.viewPhoneNumbers]?.phoneNumber?.phone
+            !formData[(formFields?.viewPhoneNumbers)]?.phoneNumber?.phone
           ) {
             return true;
           }
@@ -340,9 +367,11 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
 }
 
 function givingUpBenefitSelected(formData) {
-  return ['Chapter30', 'Chapter1606'].includes(
-    formData[formFields.viewBenefitSelection][formFields.benefitRelinquished],
-  );
+  const benefitRelinquished =
+    formData?.[formFields.viewBenefitSelection]?.[
+      formFields.benefitRelinquished
+    ];
+  return ['Chapter30', 'Chapter1606'].includes(benefitRelinquished);
 }
 
 function notGivingUpBenefitSelected(formData) {
@@ -685,8 +714,8 @@ const formConfig = {
                   </p>
                 </>
               ),
-              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-              [formFields.phoneNumber]: phoneUISchema('home'),
+              [formFields?.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields?.phoneNumber]: phoneUISchema('home'),
             },
             [formFields.email]: {
               'ui:options': {
@@ -730,8 +759,8 @@ const formConfig = {
               [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [formFields.mobilePhoneNumber]: phoneSchema(),
-                  [formFields.phoneNumber]: phoneSchema(),
+                  [formFields?.mobilePhoneNumber]: phoneSchema(),
+                  [formFields?.phoneNumber]: phoneSchema(),
                 },
               },
               [formFields.email]: {
@@ -989,8 +1018,10 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
-                    form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
+                      form[formFields.viewPhoneNumbers]?.mobilePhoneNumber
+                        ?.phone,
+                    form =>
+                      form[formFields.viewPhoneNumbers]?.phoneNumber?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
 
@@ -1037,11 +1068,12 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
-                      .mobilePhoneNumber.phone;
+                    const phoneExist = !!formData[
+                      (formFields?.viewPhoneNumbers)
+                    ].mobilePhoneNumber?.phone;
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
-                    ].mobilePhoneNumber;
+                    ]?.mobilePhoneNumber;
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1088,15 +1120,16 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  !isValidPhone(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const viewPhoneNumbers =
+                    formData?.[formFields?.viewPhoneNumbers];
+                  const mobilePhone =
+                    viewPhoneNumbers?.[formFields?.mobilePhoneNumber]?.phone;
+                  const isInternational =
+                    viewPhoneNumbers?.[formFields?.mobilePhoneNumber]
+                      ?.isInternational;
+                  return !isValidPhone(mobilePhone) || isInternational;
+                },
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1109,15 +1142,15 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  isValidPhone(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const mobilePhoneInfo =
+                    formData?.[formFields?.viewPhoneNumbers]?.[
+                      formFields?.mobilePhoneNumber
+                    ];
+                  const mobilePhone = mobilePhoneInfo?.phone;
+                  const isInternational = mobilePhoneInfo?.isInternational;
+                  return isValidPhone(mobilePhone) || isInternational;
+                },
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1132,10 +1165,15 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const mobilePhoneNumberInfo =
+                    formData?.[formFields?.viewPhoneNumbers]?.[
+                      formFields?.mobilePhoneNumber
+                    ];
+                  const isInternational =
+                    mobilePhoneNumberInfo?.isInternational;
+                  return !isInternational;
+                },
               },
             },
             'view:emailOnFileWithSomeoneElse': {
@@ -1170,11 +1208,8 @@ const formConfig = {
                   const noDuplicates = formData?.duplicateEmail?.some(
                     entry => entry?.dupe === false,
                   );
-
-                  if (isNo && noDuplicates === false) {
-                    return false;
-                  }
-                  return true;
+                  // Return true if isNo is false OR noDuplicates is not false
+                  return !isNo || noDuplicates;
                 },
               },
             },
@@ -1210,16 +1245,12 @@ const formConfig = {
                   const noDuplicates = formData?.duplicatePhone?.some(
                     entry => entry?.dupe === false,
                   );
-
                   const mobilePhone =
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
+                    formData[(formFields?.viewPhoneNumbers)]?.[
+                      formFields?.mobilePhoneNumber
                     ]?.phone;
-
-                  if (isYes && noDuplicates === false && mobilePhone) {
-                    return false;
-                  }
-                  return true;
+                  // Return true if isYes is false, noDuplicates is not false, or mobilePhone is undefined
+                  return !isYes || !noDuplicates || !mobilePhone;
                 },
               },
             },
@@ -1358,7 +1389,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
-                  !formData['view:serviceHistory'][
+                  !formData?.['view:serviceHistory']?.[
                     formFields.serviceHistoryIncorrect
                   ],
               },
@@ -1545,7 +1576,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: [formFields.viewBenefitSelection],
                 hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
+                  formData?.[formFields.viewBenefitSelection]?.[
                     formFields.benefitRelinquished
                   ] !== 'Chapter30',
               },
@@ -1587,7 +1618,7 @@ const formConfig = {
               'ui:description': unsureDescription,
               'ui:options': {
                 hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
+                  formData?.[formFields.viewBenefitSelection]?.[
                     formFields.benefitRelinquished
                   ] !== 'NotEligible',
                 expandUnder: [formFields.viewBenefitSelection],
@@ -1638,7 +1669,7 @@ const formConfig = {
             formFields.activeDutyKicker,
           ),
           depends: formData =>
-            formData[formFields.viewBenefitSelection][
+            formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter30',
         },
@@ -1648,7 +1679,7 @@ const formConfig = {
             formFields.selectedReserveKicker,
           ),
           depends: formData =>
-            formData[formFields.viewBenefitSelection][
+            formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter1606',
         },
@@ -1677,55 +1708,134 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Direct deposit',
+      title: 'Direct Deposit',
       pages: {
-        directDeposit: {
-          path: 'direct-deposit',
+        preFilledDirectDeposit: {
+          path: 'direct-deposit/review',
           title: 'Direct deposit',
+          depends: formData => formData.showDgiDirectDeposit1990EZ,
           uiSchema: {
-            title: 'direct deposit',
-            'ui:title': (
-              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-                Direct deposit information
-              </h4>
-            ),
-            'ui:field': ReviewCardField,
-            'ui:options': {
-              hideIf: formData => !formData.showDgiDirectDeposit1990EZ,
-              editTitle: 'Direct deposit information',
-              hideLabelText: true,
-              itemName: 'account information',
-              itemNameAction: 'Update',
-              reviewTitle: 'Direct deposit information',
-              showFieldLabel: false,
-              viewComponent: DirectDepositViewField,
-              volatileData: true,
-            },
-            'ui:description': (
-              <>
+            'view:directDepositField': {
+              'ui:title': (
+                <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                  Direct deposit information
+                </h4>
+              ),
+              'ui:field': ReviewCardField,
+              'ui:options': {
+                editTitle: 'Direct deposit information',
+                itemName: 'account information',
+                itemNameAction: 'Update',
+                reviewTitle: 'Direct deposit information',
+                startInEdit: formData => shouldStartInEditMode(formData),
+                viewComponent: DirectDepositViewField,
+                volatileData: true,
+              },
+              'ui:description': (
                 <p>
                   We make payments only through direct deposit, also called
                   electronic funds transfer (EFT).
                 </p>
-              </>
-            ),
+              ),
+              bankAccount: {
+                ...bankAccountUI,
+                'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+                routingNumber: {
+                  ...bankAccountUI.routingNumber,
+                  'ui:errorMessages': {
+                    pattern: 'Please enter a valid 9-digit routing number',
+                  },
+                  'ui:reviewField': ObfuscateReviewField,
+                  'ui:validations': [validateRoutingNumber],
+                },
+                accountNumber: {
+                  ...bankAccountUI.accountNumber,
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please enter a valid 5-17 digit bank account number',
+                  },
+                  'ui:reviewField': ObfuscateReviewField,
+                  'ui:validations': [validateBankAccountNumber],
+                },
+              },
+            },
+            'view:learnMore': {
+              'ui:description': (
+                <va-additional-info
+                  key="learn-more-btn"
+                  trigger="Where can I find these numbers?"
+                >
+                  <img
+                    key="check-image-src"
+                    style={{ marginTop: '1rem' }}
+                    src={checkImageSrc}
+                    alt="Example of a check showing where the account and routing numbers are"
+                  />
+                  <br />
+                  <br />
+
+                  <p key="learn-more-description">
+                    The bank routing number is the first 9 digits on the bottom
+                    left corner of a printed check. Your account number is the
+                    second set of numbers on the bottom of a printed check, just
+                    to the right of the bank routing number.
+                  </p>
+                  <br />
+                  <p key="learn-more-additional">
+                    If you don’t have a printed check, you can sign in to your
+                    online banking institution for this information
+                  </p>
+                </va-additional-info>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:directDepositField': {
+                type: 'object',
+                properties: {
+                  bankAccount: {
+                    type: 'object',
+                    properties: {
+                      accountNumber: {
+                        type: 'string',
+                        pattern: '^\\*?[a-z0-9]{5,17}$',
+                      },
+                      accountType: {
+                        type: 'string',
+                        enum: ['checking', 'savings'],
+                      },
+                      routingNumber: {
+                        type: 'string',
+                        pattern: '^[\\d*]{5}\\d{4}$',
+                      },
+                    },
+                  },
+                },
+              },
+              'view:learnMore': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        standardDirectDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          depends: formData => !formData.showDgiDirectDeposit1990EZ,
+          uiSchema: {
+            'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
-                ...bankAccountUI.accountNumber,
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
                 'ui:errorMessages': {
-                  ...bankAccountUI.accountNumber['ui:errorMessages'],
                   pattern: 'Please enter only numbers',
                 },
-                'ui:reviewField': ObfuscateReviewField,
-                'ui:title': 'Bank account number',
-                'ui:validations': [validateBankAccountNumber],
-              },
-              routingNumber: {
-                ...bankAccountUI.routingNumber,
-                'ui:reviewField': ObfuscateReviewField,
-                'ui:validations': [validateRoutingNumber],
               },
             },
             'view:learnMore': {
@@ -1759,23 +1869,18 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: [
-                  formFields.accountType,
-                  formFields.accountNumber,
-                  formFields.routingNumber,
-                ],
+                required: ['accountType', 'accountNumber', 'routingNumber'],
                 properties: {
-                  accountNumber: {
-                    type: 'string',
-                    pattern: '^\\**[a-z0-9]+$',
-                  },
                   accountType: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
                   routingNumber: {
                     type: 'string',
-                    pattern: '^[\\d*]{5}\\d{4}$',
+                    pattern: '^\\d{9}$',
+                  },
+                  accountNumber: {
+                    type: 'string',
                   },
                 },
               },
