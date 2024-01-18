@@ -267,7 +267,7 @@
   "your-provider-will-call-you": "Tatawagan ka ng iyong provider.",
   "your-provider-will-call-you-at-your-appointment-time": "Tatawagan ka ng iyong provider sa oras ng iyong appointment. Maaaring kailanganin mong maghintay ng humigit-kumulang 15 minuto para sa kanilang tawag. Salamat sa iyong pagtitiyaga.",
   "youre-also-responsible-for-protecting-your-personal-health-information": "Ikaw rin ay responsible sa pagprotekta sa iyong personal na impormasyong pangkalusugan. Kung ipi-print o ida-download mo ang iyong impormasyon—o ise-share sa iba sa elektronikong paraan—kakailanganin mong gumawa ng mga hakbang para maprotektohan ito.",
-  "youre-checked-in": "Naka-check in ka na.",
+  "youre-checked-in": "Naka-check in ka na",
   "youre-checked-in-for-your-appointment": "Naka-check in ka na para sa iyong appointment sa {{date, time}}",
   "youve-completed-pre-check-in": "Nakumpleto mo na ang pre-check-in",
   "zip-code-is-required": "Kailangan ang ZIP code"
