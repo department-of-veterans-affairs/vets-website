@@ -1,0 +1,33 @@
+{
+  "data": {
+    "hasEmployment": true,
+    "employers": [
+      {
+        "dateStart": "1999-01-03",
+        "dateEnd": "1999-01-03",
+        "name": "Employer 1",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "City",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      },
+      {
+        "dateStart": "1999-01-03",
+        "dateEnd": "1999-01-03",
+        "name": "Employer 2",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "City",
+          "state": "AL",
+          "postalCode": "12345"
+        }
+      }
+    ]
+  }
+}

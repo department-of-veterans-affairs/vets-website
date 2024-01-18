@@ -12,8 +12,8 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
 const ArrayBuilderSummaryCardList = ({
-  editBasePath,
-  formDataPath,
+  arrayPath,
+  itemBasePathUrl,
   setFormData,
   formData,
   CardContent,
@@ -26,7 +26,7 @@ const ArrayBuilderSummaryCardList = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const arrayData = get(formDataPath, formData);
+  const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
 
   if (!arrayData?.length) {
@@ -48,7 +48,7 @@ const ArrayBuilderSummaryCardList = ({
     const arrayWithRemovedItem = arrayData.filter(
       data => data.name !== item.name,
     );
-    const newData = set(formDataPath, arrayWithRemovedItem, formData);
+    const newData = set(arrayPath, arrayWithRemovedItem, formData);
 
     setFormData(newData);
     hideRemoveConfirmationModal();
@@ -56,10 +56,10 @@ const ArrayBuilderSummaryCardList = ({
 
   const Card = ({ item, index }) => (
     <div className="vads-u-margin-bottom--2">
-      <va-card>
+      <va-card name={`${arrayPath}_${index}`}>
         <CardContent item={item} />
         <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
-          <Link to={`${editBasePath}/${index}?=edit`}>
+          <Link to={`${itemBasePathUrl}/${index}?edit=true`} data-action="edit">
             Edit
             <i
               aria-hidden="true"
@@ -70,6 +70,7 @@ const ArrayBuilderSummaryCardList = ({
           <button
             type="button"
             className="va-button-link vads-u-color--secondary-dark"
+            data-action="remove"
             onClick={() => showRemoveConfirmationModal(index)}
           >
             <i
@@ -129,9 +130,9 @@ ArrayBuilderSummaryCardList.propTypes = {
   CardContent: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  editBasePath: PropTypes.string.isRequired,
+  arrayPath: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
-  formDataPath: PropTypes.string.isRequired,
+  itemBasePathUrl: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
   title: PropTypes.object.isRequired,
   removeDescription: PropTypes.string,
@@ -152,12 +153,16 @@ ArrayBuilderSummaryCardList.propTypes = {
  *  </>
  * );
  *
+ * CardContent.propTypes = {
+ *   item: PropTypes.object,
+ * };
+ *
  * uiSchema: {
  *   'ui:description': (<ArrayBuilderSummaryCardList
  *      title="Review your employers"
  *      CardContent={CardContent}
- *      editBasePath="/array-multiple-page-builder-item-page-1"
- *      formDataPath="employers"
+ *      arrayPath="employers"
+ *      itemBasePathUrl="/array-multiple-page-builder-item-page-1"
  *      removeTitle="Are you sure you want to remove this employer?"
  *      removeDescription={itemName =>
  *        `This will remove ${itemName} and all their information from your list of employers.`
