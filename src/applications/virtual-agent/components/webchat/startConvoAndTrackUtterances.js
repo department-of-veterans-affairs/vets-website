@@ -25,7 +25,7 @@ const StartConvoAndTrackUtterances = {
       userUuid,
       isMobile,
     };
-
+    // if (action.type === 'WEB_CHAT/SET_DICTATE_STATE') console.log('action.type', action.type, 'action', action);
     const processActionType = {
       'DIRECT_LINE/CONNECT_FULFILLED': processActionConnectFulfilled(options),
       'DIRECT_LINE/INCOMING_ACTIVITY': processIncomingActivity(options),

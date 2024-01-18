@@ -120,4 +120,16 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
   }
+  if (eventName === 'NEW_TAB_REDIRECT') {
+    window.open(`https://${eventValue}`, '_blank');
+    // const isDictating = document.querySelector(
+    //   'div.webchat__microphone-button--dictating',
+    // );
+    // if (isDictating) {
+    //   document
+    //     .querySelector('button.webchat__microphone-button__button')
+    //     ?.click();
+    // }
+    // window.open(`https://localhost:3001/itworks`, '_blank');
+  }
 };

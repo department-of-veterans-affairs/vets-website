@@ -196,7 +196,7 @@ const WebChat = ({
 
   useEffect(setMicrophoneMessage(isRXSkill, document));
 
-  if (isRXSkill === 'true') {
+  if (true) {
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
