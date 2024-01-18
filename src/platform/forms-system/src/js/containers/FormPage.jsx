@@ -23,6 +23,7 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
+import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -89,7 +90,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavForward({
         formData,
         goPath: customPath => this.props.router.push(customPath),
-        goNextPath: () => this.props.router.push(path),
+        goNextPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -157,7 +164,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavBack({
         formData: form.data,
         goPath: customPath => this.props.router.push(customPath),
-        goPreviousPath: () => this.props.router.push(path),
+        goPreviousPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -179,6 +192,15 @@ class FormPage extends React.Component {
         : getPreviousPagePath(pageList, form.data, location.pathname);
 
     this.props.router.push(path);
+  };
+
+  onContinue = () => {
+    const { route } = this.props;
+    if (typeof route.pageConfig.onContinue === 'function') {
+      // pass in data & set form data function to allow modifying data or
+      // flags upon leaving a page
+      route.pageConfig.onContinue(this.formData(), this.props.setData);
+    }
   };
 
   render() {
@@ -216,16 +238,25 @@ class FormPage extends React.Component {
     const isFirstRoutePage =
       route.pageList[0].path === this.props.location.pathname;
 
-    function callOnContinue() {
-      if (typeof route.pageConfig.onContinue === 'function') {
-        route.pageConfig.onContinue(data);
-      }
-    }
-
     const showNavLinks =
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
       !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
+
+    let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
+    if (
+      route.pageConfig?.ContentBeforeButtons &&
+      isReactComponent(route.pageConfig.ContentBeforeButtons)
+    ) {
+      pageContentBeforeButtons = (
+        <route.pageConfig.ContentBeforeButtons
+          formData={data}
+          formContext={formContext}
+          router={this.props.router}
+          setFormData={this.props.setData}
+        />
+      );
+    }
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -246,7 +277,7 @@ class FormPage extends React.Component {
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
-            callOnContinue={callOnContinue}
+            onContinue={this.onContinue}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
@@ -274,6 +305,7 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
+          {pageContentBeforeButtons}
           {hideNavButtons ? (
             <div />
           ) : (
@@ -281,7 +313,7 @@ class FormPage extends React.Component {
               {contentBeforeButtons}
               <FormNavButtons
                 goBack={!isFirstRoutePage && this.goBack}
-                goForward={callOnContinue}
+                goForward={this.onContinue}
                 submitToContinue
               />
               {contentAfterButtons}
@@ -318,6 +350,7 @@ FormPage.propTypes = {
   }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.object,
   }),
   params: PropTypes.shape({
     // for testing only?
@@ -327,6 +360,11 @@ FormPage.propTypes = {
     pageConfig: PropTypes.shape({
       allowPathWithNoItems: PropTypes.bool,
       arrayPath: PropTypes.string,
+      ContentBeforeButtons: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+        PropTypes.func,
+      ]),
       CustomPage: PropTypes.oneOfType([
         PropTypes.element,
         PropTypes.elementType,

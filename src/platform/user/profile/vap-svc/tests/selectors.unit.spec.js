@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import backendServices from 'platform/user/profile/constants/backendServices';
-
-import { wait } from 'applications/personalization/profile/tests/unit-test-helpers';
+import backendServices from '../../constants/backendServices';
 
 import {
   TRANSACTION_STATUS,
@@ -11,6 +9,12 @@ import {
 } from '../constants';
 
 import * as selectors from '../selectors';
+
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 let state = null;
 
@@ -383,5 +387,70 @@ describe('selectVAPServiceInitializationStatus', () => {
     expect(result.status).to.be.equal(
       VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE,
     );
+  });
+
+  describe('selectVAProfilePersonalInformation selector', () => {
+    let personalInfoState;
+    beforeEach(() => {
+      personalInfoState = {
+        vaProfile: {
+          personalInformation: {
+            gender: 'M',
+            birthDate: '1986-05-06',
+            preferredName: 'WES',
+            pronouns: ['heHimHis', 'theyThemTheirs'],
+            pronounsNotListedText: 'Other/pronouns/here',
+            genderIdentity: { code: 'M', name: 'Male' },
+            sexualOrientation: ['straightOrHeterosexual'],
+            sexualOrientationNotListedText: 'Some other orientation',
+          },
+        },
+      };
+    });
+    it('returns preferredName', () => {
+      expect(
+        selectors.selectVAProfilePersonalInformation(
+          personalInfoState,
+          'preferredName',
+        ),
+      ).to.deep.equal({
+        preferredName: 'WES',
+      });
+    });
+
+    it('returns genderIdentity', () => {
+      expect(
+        selectors.selectVAProfilePersonalInformation(
+          personalInfoState,
+          'genderIdentity',
+        ),
+      ).to.deep.equal({
+        genderIdentity: { code: 'M', name: 'Male' },
+      });
+    });
+
+    it('returns pronouns and pronounsNotListedText', () => {
+      expect(
+        selectors.selectVAProfilePersonalInformation(
+          personalInfoState,
+          'pronouns',
+        ),
+      ).to.deep.equal({
+        pronouns: ['heHimHis', 'theyThemTheirs'],
+        pronounsNotListedText: 'Other/pronouns/here',
+      });
+    });
+
+    it('returns sexualOrientation and sexualOrientationNotListedText', () => {
+      expect(
+        selectors.selectVAProfilePersonalInformation(
+          personalInfoState,
+          'sexualOrientation',
+        ),
+      ).to.deep.equal({
+        sexualOrientation: ['straightOrHeterosexual'],
+        sexualOrientationNotListedText: 'Some other orientation',
+      });
+    });
   });
 });

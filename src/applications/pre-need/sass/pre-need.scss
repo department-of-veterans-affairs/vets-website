@@ -54,13 +54,22 @@ h3.name-of-deceased-text {
 article#pre-need[data-location="applicant-demographics"],
 article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: -0.5em !important;
+    margin-top: -1em !important;
   }
   .form-checkbox {
-    margin-bottom: -0.5em;
+    margin-bottom: -1em;
   }
   .schemaform-field-template {
     margin-top: 1em;
+  }
+  /* When removing prod flag, replace with .applicantDemographicsDescription and .sponsorDemographicsDescription */
+  .applicantDemographicsDescriptionNotProd,
+  .sponsorDemographicsDescriptionNotProd {
+    p {
+      margin-bottom: -2em;
+    }
+    margin-bottom: -2em;
+    padding-bottom: 2em;
   }
 }
 
@@ -141,6 +150,16 @@ fieldset.schemaform-field-template.schemaform-first-field {
   margin-bottom: -1em;
 }
 
+/* When removing prod flag, replace .applicantDemographicsDescription and .sponsorDemographicsDescription */
+.applicantDemographicsDescriptionNotProd,
+.sponsorDemographicsDescriptionNotProd {
+  p {
+    margin-bottom: -2em;
+  }
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+}
+
 .ApplicantDescriptionWrapper {
   padding-bottom: 1em;
 }
@@ -151,4 +170,10 @@ fieldset.schemaform-field-template.schemaform-first-field {
 
 .militaryDetailsSubHeader {
   margin-bottom: -1em;
+}
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 18rem;
+  }
 }

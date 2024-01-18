@@ -7,8 +7,7 @@ const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
-const { createClaimsSuccess } = require('./evss-claims');
-const { createLighthouseClaimsSuccess } = require('./lighthouse-claims');
+const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { allFoldersWithUnreadMessages } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
@@ -27,21 +26,19 @@ const responses = {
     myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
-    myVaUseLighthouseClaims: true,
     myVaHideNotificationsSection: true,
     myVaNotificationDotIndicator: true,
     myVaEnableMhvLink: true,
     myVaUpdateErrorsWarnings: true,
     vaOnlineSchedulingStaticLandingPage: true,
   }),
-  'GET /v0/user': user.cernerUser,
+  'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
   'GET /v0/appeals': createAppealsSuccess(),
-  'GET /v0/evss_claims_async': createClaimsSuccess(),
-  'GET /v0/benefits_claims': createLighthouseClaimsSuccess(),
+  'GET /v0/benefits_claims': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
   'GET /v0/profile/full_name': {

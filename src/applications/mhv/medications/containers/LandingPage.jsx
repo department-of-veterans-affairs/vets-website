@@ -38,7 +38,7 @@ const LandingPage = () => {
     setIsRxRenewAccordionOpen(true);
     focusElement(manageMedicationsHeader.current);
     if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current.scrollIntoView();
+      manageMedicationsAccordionSection.current?.scrollIntoView();
     }
   };
 
@@ -148,23 +148,6 @@ const LandingPage = () => {
                   </p>
                   <ul className="vads-u-margin-bottom--0">
                     <li>
-                      <strong>
-                        Older prescriptions that have been inactive for more
-                        than 180 days.{' '}
-                      </strong>
-                      To find these older prescriptions, go to your VA Blue
-                      Button report on the My HealthVet website.{' '}
-                      <a
-                        href={mhvUrl(
-                          isAuthenticatedWithSSOe(fullState),
-                          'va-blue-button',
-                        )}
-                        rel="noreferrer"
-                      >
-                        Go to VA Blue Button&reg; on the My HealtheVet website
-                      </a>
-                    </li>
-                    <li>
                       <strong>Medications you entered yourself. </strong>
                       To find your self-entered medications, go back to your
                       medications list on the My HealtheVet website.{' '}
@@ -211,7 +194,7 @@ const LandingPage = () => {
                     And if you have prescriptions that are too old to refill or
                     have no refills left, you’ll need to renew them to get more.
                   </p>
-                  <a href="/my-health/about-medications/accordion-renew-rx">
+                  <a href="/my-health/medications/about/accordion-renew-rx">
                     Learn how to renew prescriptions
                   </a>
                 </va-accordion-item>
@@ -464,7 +447,7 @@ const LandingPage = () => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
@@ -472,8 +455,11 @@ const LandingPage = () => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 

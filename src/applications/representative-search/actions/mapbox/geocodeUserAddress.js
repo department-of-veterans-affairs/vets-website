@@ -1,5 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../../components/MapboxClient';
+import mapboxClient from '../../components/mapbox/MapboxClient';
 import { MAPBOX_QUERY_TYPES, CountriesList } from '../../constants';
 import {
   GEOCODE_STARTED,
@@ -57,7 +57,7 @@ export const geocodeUserAddress = query => {
             ...query,
             context: {
               location: query.locationInputString,
-              repOrgName: query.repOrganizationInputString,
+              repOrgName: query.representativeInputString,
             },
             page: 1,
             id: Date.now(),
@@ -73,7 +73,7 @@ export const geocodeUserAddress = query => {
             searchArea: null,
             address: query.locationInputString,
             locationQueryString: query.locationInputString,
-            repOrganizationQueryString: query.repOrganizationInputString,
+            representativeQueryString: query.representativeInputString,
             representativeType: query.representativeType,
           },
         });

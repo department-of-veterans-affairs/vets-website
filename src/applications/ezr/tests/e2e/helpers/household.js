@@ -1,11 +1,7 @@
 import { INSURANCE_VIEW_FIELDS } from '../../../utils/constants';
-import {
-  goToNextPage,
-  selectYesNoWebComponent,
-  fillAddressWebComponentPattern,
-} from '.';
+import { goToNextPage, selectYesNoWebComponent } from '.';
 
-export const advanceToHouseholdSection = testData => {
+export const advanceToHouseholdSection = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -14,7 +10,6 @@ export const advanceToHouseholdSection = testData => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/mailing-address');
-  fillAddressWebComponentPattern('veteranAddress', testData.veteranAddress);
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');

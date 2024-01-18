@@ -6,12 +6,16 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import ReplyForm from '../../../components/ComposeForm/ReplyForm';
 import reducer from '../../../reducers';
-import { draftDetails } from '../../fixtures/threads/reply-draft-thread-reducer.json';
+import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import folders from '../../fixtures/folder-inbox-response.json';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import { ErrorMessages } from '../../../util/constants';
 import { inputVaTextInput } from '../../../util/testUtils';
 import saveDraftResponse from '../../e2e/fixtures/draftsResponse/drafts-single-message-response.json';
+import oneBlockedRecipient from '../../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
+import twoBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-two-blocked-mock.json';
+import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
+import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 
 describe('Reply form component', () => {
   const { signature } = signatureReducers.signatureEnabled;
@@ -21,14 +25,46 @@ describe('Reply form component', () => {
       folders: {
         folder: folders.inbox,
       },
+      recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
+        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        associatedTriageGroupsQty:
+          noBlockedRecipients.associatedTriageGroupsQty,
+        associatedBlockedTriageGroupsQty:
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+      },
+      threadDetails: {
+        ...threadDetailsReducer.threadDetails,
+      },
     },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: [
+            {
+              facilityId: '662',
+              isCerner: false,
+            },
+            {
+              facilityId: '636',
+              isCerner: false,
+            },
+          ],
+        },
+      },
+    },
+    featureToggles: {},
   };
-  const replyMessage = draftDetails.draftMessageHistory[0];
+  const { threadDetails } = threadDetailsReducer;
+  const replyMessage = threadDetails.drafts[0];
   const { category, subject, senderName, triageGroupName } = replyMessage;
 
-  const render = (state = initialState, props = {}) => {
+  const render = (state = initialState, props = {}, message = replyMessage) => {
     return renderWithStoreAndRouter(
-      <ReplyForm replyMessage={replyMessage} {...props} />,
+      <ReplyForm replyMessage={message} drafts={[]} {...props} />,
       {
         initialState: state,
         reducers: reducer,
@@ -73,10 +109,6 @@ describe('Reply form component', () => {
     );
     const draftToLabel = document.querySelector('span');
     const actionButtons = document.querySelector('.compose-form-actions');
-
-    expect(getByText('Reply draft edit mode.', { selector: 'h2' }))
-      .to.have.attribute('class')
-      .to.equal('sr-only');
 
     expect(patientSafetyNotice).to.exist;
 
@@ -162,5 +194,123 @@ describe('Reply form component', () => {
       fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
+  });
+
+  it('displays BlockedTriageGroupAlert if group is blocked', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            oneBlockedRecipient.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+        },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert with blocked group (only) if multiple groups are blocked', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: twoBlockedRecipients.mockAllRecipients,
+          allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            twoBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            twoBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: twoBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: twoBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert with blocked group (only) if no associations at all', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
+          allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+          blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+        },
+      },
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = render(customState, {
+      drafts: threadDetails.drafts,
+      recipients: customState.sm.recipients,
+      messages: threadDetails.messages,
+    });
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    );
   });
 });

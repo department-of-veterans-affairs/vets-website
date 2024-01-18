@@ -51,7 +51,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     mailingAddress,
   } = state.user.profile?.vapContactInfo;
 
-  /* mailingAddress === veteranAddress 
+  /* mailingAddress === veteranAddress
      residentialAddress === veteranHomeAddress */
   const cleanedResidentialAddress = cleanAddressObject(residentialAddress);
   const cleanedMailingAddress = cleanAddressObject(mailingAddress);
@@ -236,72 +236,6 @@ export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
 );
 
 /**
- * check if the declared expenses are greater than the declared income
- *
- * NOTE: for household v1 only -- remove when v2 is fully-adopted
- */
-export function expensesLessThanIncome(fieldShownUnder) {
-  const fields = [
-    'deductibleMedicalExpenses',
-    'deductibleFuneralExpenses',
-    'deductibleEducationExpenses',
-  ];
-  return formData => {
-    const {
-      veteranGrossIncome = 0,
-      veteranNetIncome = 0,
-      veteranOtherIncome = 0,
-      dependents = [],
-    } = formData;
-
-    const {
-      spouseGrossIncome = 0,
-      spouseNetIncome = 0,
-      spouseOtherIncome = 0,
-    } = formData['view:spouseIncome'] || {};
-
-    const vetSpouseIncome =
-      veteranGrossIncome +
-      veteranNetIncome +
-      veteranOtherIncome +
-      spouseGrossIncome +
-      spouseNetIncome +
-      spouseOtherIncome;
-
-    const income = dependents.reduce((sum, dependent) => {
-      const { grossIncome = 0, netIncome = 0, otherIncome = 0 } = dependent;
-
-      return grossIncome + netIncome + otherIncome + sum;
-    }, vetSpouseIncome);
-
-    const {
-      deductibleMedicalExpenses = 0,
-      deductibleFuneralExpenses = 0,
-      deductibleEducationExpenses = 0,
-    } = formData;
-
-    const expenses =
-      deductibleMedicalExpenses +
-      deductibleEducationExpenses +
-      deductibleFuneralExpenses;
-
-    const hideBasedOnValues = income > expenses;
-
-    // If we're not going to hide based on values entered,
-    // then we need to make sure the current field is the last non-empty field
-    if (!hideBasedOnValues) {
-      const nonEmptyFields = fields.filter(field => formData[field]);
-      return (
-        !nonEmptyFields.length ||
-        nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder
-      );
-    }
-
-    return true;
-  };
-}
-
-/**
  * Helper that takes two sets of props and returns true if any of its relevant
  * props are different.
  * @param {Object} prevProps - first set of props to compare
@@ -439,6 +373,19 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
     ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
     : `${first} ${last} ${suffix}`;
   return nameToReturn.replace(/ +(?= )/g, '').trim();
+}
+
+/**
+ * Helper that builds a full name string based on provided input values
+ * @param {String} birthdate - the value of the user's date of birth from the profile data
+ * @returns {String/NULL} - NULL if the passed-in value is not valid else the
+ * formatted string value of the date (YYYY-MM-DD)
+ */
+export function parseVeteranDob(birthdate) {
+  if (!birthdate) return null;
+  if (!moment(birthdate).isValid()) return null;
+  if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
+  return birthdate;
 }
 
 /**

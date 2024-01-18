@@ -3,7 +3,7 @@
  */
 export const RepresentativeType = {
   NONE: '',
-  VETERAN_SERVICE_ORGANIZATION: 'organization',
+  VETERAN_SERVICE_OFFICER: 'VSO',
   ATTORNEY: 'attorney',
   CLAIM_AGENTS: 'claim_agents',
 };
@@ -13,7 +13,7 @@ export const RepresentativeType = {
  * Location types mapped to the filename prefix for the png/svg.
  */
 export const PinNames = {
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'vso',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
   [RepresentativeType.ATTORNEY]: 'attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };

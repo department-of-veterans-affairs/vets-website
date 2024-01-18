@@ -25,9 +25,9 @@ export default function DetailsVA({ appointment, facilityData }) {
     isPastAppointment,
     isCompAndPenAppointment,
     isPhoneAppointment,
+    isCancellable: isAppointmentCancellable,
   } = appointment.vaos;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isAppointmentCancellable = appointment.vaos.isCancellable;
 
   const typeOfCareName = selectTypeOfCareName(appointment);
   // we don't want to display the appointment type header for upcoming C&P appointments.
@@ -87,11 +87,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       <PrintLink appointment={appointment} />
       {isAppointmentCancellable && <CancelLink appointment={appointment} />}
       {!isAppointmentCancellable && (
-        <NoOnlineCancelAlert
-          appointment={appointment}
-          facility={facility}
-          isCompAndPenAppointment={isCompAndPenAppointment}
-        />
+        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
       )}
     </>
   );

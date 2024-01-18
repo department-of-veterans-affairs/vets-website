@@ -1,19 +1,19 @@
 export const recordType = {
-  HEALTH_CONDITIONS: 'health conditions',
-  LABS_AND_TESTS: 'lab and test results',
-  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
-  VACCINES: 'vaccines',
-  VITALS: 'vitals',
   ALLERGIES: 'allergies',
+  VACCINES: 'vaccines',
+  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
+  LABS_AND_TESTS: 'lab and test results',
+  VITALS: 'vitals',
+  HEALTH_CONDITIONS: 'health conditions',
 };
 
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
-  VITALS: 'vitals',
-  HEALTH_CONDITIONS: 'health conditions',
-  LABS_AND_TESTS: 'labs and tests',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
+  VITALS: 'vitals',
+  LABS_AND_TESTS: 'labs and tests',
+  HEALTH_CONDITIONS: 'health conditions',
 };
 
 export const labTypes = {
@@ -26,8 +26,8 @@ export const labTypes = {
 };
 
 export const noteTypes = {
-  DISCHARGE_SUMMARY: 'discharge_summary',
   PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  DISCHARGE_SUMMARY: 'discharge_summary',
   OTHER: 'other',
 };
 

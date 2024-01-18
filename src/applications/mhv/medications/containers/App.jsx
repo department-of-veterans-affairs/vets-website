@@ -5,7 +5,12 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
@@ -38,7 +43,7 @@ const App = ({ children }) => {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
-          message="Loading your medications..."
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
@@ -46,8 +51,11 @@ const App = ({ children }) => {
     );
   }
 
-  if (!appEnabled) {
-    window.location.replace('/health-care/refill-track-prescriptions');
+  if (
+    !appEnabled &&
+    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
+  ) {
+    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
     return <></>;
   }
 
@@ -56,7 +64,12 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      {children}
+      <DowntimeNotification
+        appTitle="Medications"
+        dependencies={[externalServices.mhv]}
+      >
+        {children}
+      </DowntimeNotification>
     </RequiredLoginView>
   );
 };

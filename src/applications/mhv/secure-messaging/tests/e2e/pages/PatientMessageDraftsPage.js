@@ -7,6 +7,8 @@ import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.js
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
 import { Alerts } from '../../../util/constants';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
+import mockMessages from '../fixtures/messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -161,6 +163,41 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
+  loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/2666253/thread',
+      mockResponse,
+    ).as('multiDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[0].attributes.messageId
+      }`,
+      { data: mockResponse.data[0] },
+    ).as('firstDraft');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[1].attributes.messageId
+      }`,
+      { data: mockResponse.data[1] },
+    ).as('secondDraft');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockResponse.data[2].attributes.messageId
+      }`,
+      { data: mockResponse.data[2] },
+    ).as('firstSentMessage');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+  };
+
   clickDeleteButton = () => {
     cy.get('[data-testid="delete-draft-button"]').should('be.visible');
     cy.get('[data-testid="delete-draft-button"]').click({
@@ -175,6 +212,29 @@ class PatientMessageDraftsPage {
     );
     cy.get(Locators.BUTTONS.SEND).click({ force: true });
     cy.wait('@sentDraftResponse');
+  };
+
+  sendMultiDraftMessage = (mockResponse, messageId) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/messages/${messageId}/reply`, {
+      data: mockResponse,
+    }).as('sentDraftResponse');
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
+    cy.wait('@sentDraftResponse');
+  };
+
+  saveMultiDraftMessage = (mockResponse, messageId) => {
+    const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
+      el => el.attributes.draftDate === null,
+    )[0].attributes.messageId;
+    cy.intercept(
+      'PUT',
+      `${
+        Paths.SM_API_BASE
+      }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
+      { data: mockResponse },
+    ).as('saveDraft');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.wait('@saveDraft');
   };
 
   confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
@@ -201,10 +261,27 @@ class PatientMessageDraftsPage {
     }
   };
 
+  deleteDraftMessage = (mockResponse, messageId) => {
+    cy.intercept('DELETE', `/my_health/v1/messaging/messages/${messageId}`, {
+      data: mockResponse,
+    }).as('deletedDraftResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
+    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
+  };
+
+  // method below could be deleted after refactoring associated specs
   verifyDeleteConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]').should(
       'have.text',
-      `${Alerts.Message.DELETE_DRAFT_SUCCESS}`,
+      Alerts.Message.DELETE_DRAFT_SUCCESS,
+    );
+  };
+
+  verifyConfirmationMessage = message => {
+    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
+      'have.text',
+      message,
     );
   };
 
@@ -257,13 +334,6 @@ class PatientMessageDraftsPage {
       .find('[name="compose-message-body"]');
   };
 
-  verifySendConfirmationMessage = () => {
-    cy.get('[close-btn-aria-label="Close notification"]>div>p').should(
-      'have.text',
-      Alerts.Message.SEND_MESSAGE_SUCCESS,
-    );
-  };
-
   openAdvancedSearch = () => {
     cy.get('#additional-filter-accordion').click();
   };
@@ -303,6 +373,16 @@ class PatientMessageDraftsPage {
       .shadow()
       .find('#textarea')
       .type(text);
+  };
+
+  saveDraftMessage = mockResponse => {
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
+      { data: mockResponse },
+    ).as('saveDraft');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ waitForAnimations: true });
+    // cy.wait('@saveDraft');
   };
 
   saveDraftByKeyboard = () => {
@@ -383,7 +463,7 @@ class PatientMessageDraftsPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
@@ -391,7 +471,7 @@ class PatientMessageDraftsPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);

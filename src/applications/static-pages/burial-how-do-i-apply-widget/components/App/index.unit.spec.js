@@ -59,26 +59,17 @@ describe('Burial Widget <App>', () => {
   });
 
   it('sets the correct return URL in sessionStorage when the va-button is clicked', () => {
-    const mockSessionStorage = {
-      setItem: sinon.spy(),
-    };
-    global.sessionStorage = mockSessionStorage; // This mocks the global sessionStorage for this test
-
     const wrapper = shallow(
       <App loggedIn={false} toggleLoginModal={() => {}} />,
     );
 
     wrapper.find('va-button').simulate('click');
 
-    expect(mockSessionStorage.setItem.calledOnce).to.equal(true);
-    expect(
-      mockSessionStorage.setItem.calledWith(
-        'authReturnUrl',
-        `${
-          window.location.origin
-        }/burials-and-memorials/application/530/introduction/`,
-      ),
-    ).to.equal(true);
+    expect(sessionStorage.getItem('authReturnUrl')).to.equal(
+      `${
+        window.location.origin
+      }/burials-and-memorials/application/530/introduction/`,
+    );
 
     wrapper.unmount();
   });

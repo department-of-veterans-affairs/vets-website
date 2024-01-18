@@ -5,12 +5,17 @@ import { selectUser } from '@department-of-veterans-affairs/platform-user/select
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllFacilities } from '../actions/facilities';
+import { getAllTriageTeamRecipients } from '../actions/recipients';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -40,6 +45,13 @@ const App = () => {
       }
     },
     [userFacilities, user.login.currentlyLoggedIn, dispatch],
+  );
+
+  useEffect(
+    () => {
+      dispatch(getAllTriageTeamRecipients());
+    },
+    [dispatch],
   );
 
   const datadogRumConfig = {
@@ -88,11 +100,16 @@ const App = () => {
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
         >
-          <Navigation />
-          <ScrollToTop />
-          <Switch>
-            <AuthorizedRoutes />
-          </Switch>
+          <DowntimeNotification
+            appTitle="Secure Messaging"
+            dependencies={[externalServices.mhv]}
+          >
+            <Navigation />
+            <ScrollToTop />
+            <Switch>
+              <AuthorizedRoutes />
+            </Switch>
+          </DowntimeNotification>
         </div>
         <div className="bottom-container">
           <va-back-to-top />

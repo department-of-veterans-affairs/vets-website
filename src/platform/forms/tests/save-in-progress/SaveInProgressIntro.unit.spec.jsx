@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
@@ -74,10 +75,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         .text(),
     ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your application is in progress',
     );
-    expect(tree.find('.usa-alert').text()).to.contain('will expire on');
+    expect(tree.find('va-alert').text()).to.contain('will expire on');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').props().prefillAvailable)
       .to.be.false;
@@ -126,6 +127,100 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       'Your application is in progress',
     );
     tree.unmount();
+  });
+  it('calls signInHelpList function when provided', () => {
+    const signInHelpListMock = () =>
+      React.createElement('div', null, 'Mock Component');
+    const testFormConfig = {
+      prefillEnabled: true,
+      saveInProgress: {
+        messages: {
+          inProgress:
+            'Your personal records request (20-10206) is in progress.',
+          expired:
+            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
+          saved: 'Your Personal records request has been saved.',
+        },
+      },
+      signInHelpList: signInHelpListMock,
+      customText: {
+        appType: 'testApp',
+      },
+    };
+    const testUser = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const { container } = render(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="20-10206"
+        user={testUser}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={testFormConfig}
+        prefillEnabled
+        headingLevel={1}
+      />,
+    );
+
+    expect(container.textContent).to.include('Mock Component');
+  });
+  it('renders correctly when signInHelpList not provided', () => {
+    const testFormConfig = {
+      prefillEnabled: true,
+      saveInProgress: {
+        messages: {
+          inProgress:
+            'Your personal records request (20-10206) is in progress.',
+          expired:
+            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
+          saved: 'Your Personal records request has been saved.',
+        },
+      },
+      customText: {
+        appType: 'testApp',
+      },
+    };
+    const testUser = {
+      profile: {
+        savedForms: [],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const { container } = render(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="20-10206"
+        user={testUser}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={testFormConfig}
+        prefillEnabled
+      />,
+    );
+
+    expect(container.textContent).not.to.contain('Mock Component');
   });
   it('should pass prefills available prop', () => {
     const user = {
@@ -240,7 +335,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'We can fill in some of your information for you to save you time.',
     );
     expect(tree.find('.usa-button-primary').text()).to.contain(
@@ -278,7 +373,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'You can save this application in progress',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
@@ -309,7 +404,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Note: Since you’re signed in to your account, we can prefill part of your application based on your account details. You can also save your application in progress and come back later to finish filling it out.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
@@ -351,8 +446,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain('1 year');
-    expect(tree.find('.usa-alert').text()).to.not.contain('60 days');
+    expect(tree.find('va-alert').text()).to.contain('1 year');
+    expect(tree.find('va-alert').text()).to.not.contain('60 days');
     tree.unmount();
   });
 
@@ -420,10 +515,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your application has expired',
     );
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('va-alert').text()).to.contain(
       'Your saved health care benefits application (10-10EZ) has expired. If you want to apply for health care benefits, please start a new application.',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;

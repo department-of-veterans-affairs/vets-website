@@ -126,10 +126,11 @@ const AppointmentListItem = props => {
       {app === APP_NAMES.PRE_CHECK_IN &&
         page === 'confirmation' && (
           <va-alert
-            background-only
             show-icon
             data-testid="appointment-message"
             class="vads-u-margin-bottom--2"
+            uswds
+            slim
           >
             <div>{infoBlockMessage()}</div>
           </va-alert>

@@ -45,8 +45,15 @@ export const applicantDemographicsSubHeader = (
   </div>
 );
 
-export const applicantDemographicsDescription = (
+export const applicantDemographicsDescription = environment.isProduction() ? (
   <div className="applicantDemographicsDescription">
+    <p>
+      We require some basic details as part of your application. Please know we
+      need to gather the data for statistical purposes.
+    </p>
+  </div>
+) : (
+  <div className="applicantDemographicsDescriptionNotProd">
     <p>
       We require some basic details as part of your application. Please know we
       need to gather the data for statistical purposes.
@@ -54,8 +61,16 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
-export const sponsorDeceasedDescription = (
+export const sponsorDeceasedDescription = environment.isProduction() ? (
   <div className="sponsorDeceasedDescription">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDeceasedDescriptionNotProd">
     <p>
       We’ll now ask you questions about the sponsor’s passing. We understand
       that the questions may be difficult to answer, but your answers will help
@@ -76,8 +91,16 @@ export const sponsorDemographicsSubHeader = (
   </div>
 );
 
-export const sponsorDemographicsDescription = (
+export const sponsorDemographicsDescription = environment.isProduction() ? (
   <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDemographicsDescriptionNotProd">
     <p>
       We require some basic details about the applicant’s sponsor as part of the
       application. Please know we need to gather the data for statistical
@@ -92,14 +115,9 @@ export const sponsorDeceasedSubheader = (
   </div>
 );
 
-// prod flag for MBMS-47182
-export const sponsorDateOfDeathSubheader = !environment.isProduction() ? (
+export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
     <p>When did the sponsor pass away?</p>
-  </div>
-) : (
-  <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
   </div>
 );
 

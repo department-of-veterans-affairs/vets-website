@@ -10,8 +10,8 @@ describe('Locator url and parameters builder', () => {
   const name = 'test';
   const sort = 'distance_asc';
 
-  it('should build VA request with type=organization', () => {
-    const type = 'organization';
+  it('should build VA request with type=VSO', () => {
+    const type = 'VSO';
 
     const result = resolveParamsWithUrl({
       address,
@@ -27,7 +27,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=organization`,
+      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=VSO`,
     );
   });
 
@@ -47,7 +47,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents`,
     );
   });
 
@@ -67,7 +67,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney`,
     );
   });
 
@@ -87,7 +87,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/accredited_representatives?page=2&per_page=7&sort=distance_asc`,
+      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc`,
     );
   });
 });

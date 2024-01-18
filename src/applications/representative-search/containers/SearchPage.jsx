@@ -1,18 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import SearchControls from '../components/search/SearchControls';
-import SearchResultsHeader from '../components/search/SearchResultsHeader';
-import ResultsList from '../components/search/ResultsList';
-import PaginationWrapper from '../components/search/PaginationWrapper';
-// import { fetchRepresentativeSearchResults } from '../actions/index';
-
-// import { setFocus } from '../utils/helpers';
+import SearchResultsHeader from '../components/results/SearchResultsHeader';
+import ResultsList from '../components/results/ResultsList';
+import PaginationWrapper from '../components/results/PaginationWrapper';
 
 import {
   clearSearchText,
@@ -41,11 +40,10 @@ const SearchPage = props => {
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
       page: currentQuery.page || 1,
-      /* eslint-disable camelcase */
-      per_page: 10,
+      perPage: 10,
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
-      name: currentQuery.repOrganizationInputString,
+      name: currentQuery.representativeInputString,
 
       ...params,
     };
@@ -85,8 +83,8 @@ const SearchPage = props => {
           latitude: location.query.lat,
           longitude: location.query.long,
         },
-        repOrganizationQueryString: location.query.name,
-        repOrganizationInputString: location.query.name,
+        representativeQueryString: location.query.name,
+        representativeInputString: location.query.name,
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
@@ -98,7 +96,7 @@ const SearchPage = props => {
     const { currentQuery } = props;
     const {
       context,
-      repOrganizationInputString,
+      representativeInputString,
       representativeType,
       position,
       sortType,
@@ -111,7 +109,7 @@ const SearchPage = props => {
 
     updateUrlParams({
       address: context.location,
-      name: repOrganizationInputString || null,
+      name: representativeInputString || null,
       lat: latitude,
       long: longitude,
       type: representativeType,
@@ -124,9 +122,9 @@ const SearchPage = props => {
         address: currentQuery.context.location,
         lat: latitude,
         long: longitude,
-        name: repOrganizationInputString,
+        name: representativeInputString,
         page,
-        per_page: 10,
+        perPage: 10,
         sort: sortType,
         type: representativeType,
       });
@@ -222,7 +220,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
-        label: 'Find a VA accredited representative',
+        label: 'Find a VA accredited representative or VSO',
       },
     ];
   };
@@ -319,11 +317,17 @@ const SearchPage = props => {
 
       <div className="usa-grid usa-width-three-fourths search-page-container">
         <div className="title-section vads-u-padding-y--1">
-          <h1>Find a VA accredited representative</h1>
+          <h1>Find a VA accredited representative or VSO</h1>
           <p>
-            Find an accredited representative to help you file a claim, submit
-            an appeal, or request a decision review. Then contact them to ask if
-            they’re available to help.
+            A Veterans Service Officer (VSO) or VA accredited attorney can help
+            you file a claim or request a decision review. Use our search tool
+            to find one of these types of accredited representatives to help
+            you.
+          </p>
+          <p>
+            <strong>Note:</strong> After you find the VSO or accredited attorney
+            you’d like to appoint, you’ll need to contact them to make sure
+            they’re available to help you.
           </p>
         </div>
 
@@ -342,22 +346,42 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
-  clearSearchText: PropTypes.func.isRequired,
-  currentQuery: PropTypes.object.isRequired,
-  geolocateUser: PropTypes.func.isRequired,
-  searchWithBounds: PropTypes.func.isRequired,
-  searchResults: PropTypes.array.isRequired,
-  sortType: PropTypes.string.isRequired,
-  updateSearchQuery: PropTypes.func.isRequired,
-  // updateSortType: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  clearGeocodeError: PropTypes.func,
+  clearSearchResults: PropTypes.func,
+  clearSearchText: PropTypes.func,
+  currentQuery: PropTypes.object,
+  fetchRepresentatives: PropTypes.func,
+  geocodeUserAddress: PropTypes.func,
+  geolocateUser: PropTypes.func,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    query: PropTypes.shape({
+      address: PropTypes.string,
+      name: PropTypes.string,
+      lat: PropTypes.number,
+      long: PropTypes.number,
+      page: PropTypes.number,
+      perPage: PropTypes.number,
+      sort: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    search: PropTypes.string,
+  }),
   pagination: PropTypes.shape({
     currentPage: PropTypes.number,
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  searchWithInputInProgress: PropTypes.bool,
+  results: PropTypes.array,
   searchError: PropTypes.object,
+  searchResults: PropTypes.array,
+  searchWithBounds: PropTypes.func,
+  searchWithInput: PropTypes.func,
+  searchWithInputInProgress: PropTypes.bool,
+  sortType: PropTypes.string,
+  updateSearchQuery: PropTypes.func,
+  updateSortType: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

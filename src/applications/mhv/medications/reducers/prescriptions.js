@@ -1,4 +1,5 @@
 import { Actions } from '../util/actionTypes';
+import { defaultSelectedSortOption } from '../util/constants';
 
 export const initialState = {
   /**
@@ -14,6 +15,10 @@ export const initialState = {
    * Pagination received form meta object in prescriptionsList payload
    */
   prescriptionsPagination: undefined,
+  /**
+   * Sort option used for sorting the prescriptions list
+   */
+  selectedSortOption: defaultSelectedSortOption,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -24,6 +29,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
+    case Actions.Prescriptions.CLEAR_DETAILS: {
+      return {
+        ...state,
+        prescriptionDetails: undefined,
+      };
+    }
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
@@ -31,6 +42,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
+      };
+    }
+    case Actions.Prescriptions.UPDATE_SORT_OPTION: {
+      return {
+        ...state,
+        selectedSortOption: action.payload,
       };
     }
     case Actions.Prescriptions.FILL: {

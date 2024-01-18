@@ -29,6 +29,7 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as burialCemetery from './pages/burialCemetery';
 
 import Footer from '../components/Footer';
 
@@ -61,6 +62,10 @@ import {
   MailingAddressStateTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
+import {
+  ContactDetailsTitle,
+  PreparerDetailsTitle,
+} from '../components/PreparerHelpers';
 
 const {
   claimant,
@@ -166,14 +171,14 @@ const formConfig = {
           schema: preparer.schema,
         },
         preparerDetails: {
-          title: 'Preparer details',
+          title: PreparerDetailsTitle,
           path: 'preparer-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerDetails.uiSchema,
           schema: preparerDetails.schema,
         },
         preparerContactDetails: {
-          title: 'Preparer contact details',
+          title: ContactDetailsTitle,
           path: 'preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerContactDetails.uiSchema,
@@ -522,11 +527,16 @@ const formConfig = {
           schema: burialBenefits.schema,
         },
         currentlyBuriedPersons: {
-          title: 'Name of deceased person(s)',
           path: 'current-burial-benefits',
           depends: formData => buriedWSponsorsEligibility(formData),
+          editModeOnReviewPage: true,
           uiSchema: currentlyBuriedPersons.uiSchema,
           schema: currentlyBuriedPersons.schema,
+        },
+        burialCemetery: {
+          path: 'burial-cemetery',
+          uiSchema: burialCemetery.uiSchema,
+          schema: burialCemetery.schema,
         },
       },
     },
@@ -534,6 +544,7 @@ const formConfig = {
       title: 'Supporting files',
       pages: {
         supportingDocuments: {
+          title: 'Upload supporting files',
           path: 'supporting-documents',
           editModeOnReviewPage: false,
           uiSchema: {
@@ -551,7 +562,6 @@ const formConfig = {
                 createPayload: file => {
                   const payload = new FormData();
                   payload.append('preneed_attachment[file_data]', file);
-
                   return payload;
                 },
                 parseResponse: (response, file) => ({

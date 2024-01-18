@@ -26,13 +26,15 @@ class LabsAndTestsListPage {
       .click();
   };
 
-  /* --these will be needed later when there is download list functionality
   verifyPrintOrDownload = () => {
+    // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
   };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
+  verifyPrintButton = () => {
+    // should display print button for a list "Print this list"
+    cy.get('[data-testid="printButton-0"]').should('be.visible');
   };
 
   verifyDownloadPDF = () => {
@@ -43,14 +45,13 @@ class LabsAndTestsListPage {
   verifyDownloadTextFile = () => {
     // should display a download text file button "Download list as a text file"
     cy.get('[data-testid="printButton-2"]').should('be.visible');
+
     // cy.get('[data-testid="printButton-2').click();
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
-  */
 }
-
 export default new LabsAndTestsListPage();

@@ -1,24 +1,29 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  nameFormat,
 } from '../../util/helpers';
-import { updatePageTitle } from '../../../shared/util/helpers';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+} from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { reportGeneratedBy, txtLine } from '../../../shared/util/constants';
+import { txtLine } from '../../../shared/util/constants';
+import {
+  generateLabsIntro,
+  generateMicrobioContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -29,8 +34,6 @@ const MicroDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
-  const name = nameFormat(user.userFullName);
-  const dob = formatDateLong(user.dob, 'LL');
 
   useEffect(
     () => {
@@ -46,84 +49,11 @@ const MicroDetails = props => {
   );
 
   const generateMicrobiologyPdf = async () => {
-    const pdfData = {
-      headerLeft: name,
-      headerRight: `Date of birth: ${dob}`,
-      headerBanner: [
-        {
-          text:
-            'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.',
-        },
-      ],
-      footerLeft: reportGeneratedBy,
-      footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Lab and test results: Microbiology on ${record.date}`,
-      subject: 'VA Medical Record',
-      preface:
-        'If you have any questions about these results, send a secure message to your care team.',
-      results: {
-        sectionSeparators: false,
-        items: [
-          {
-            header: 'Details about this test',
-            items: [
-              {
-                title: 'Sample tested',
-                value: record.sampleTested,
-                inline: true,
-              },
-              {
-                title: 'Sample from',
-                value: record.sampleFrom,
-                inline: true,
-              },
-              {
-                title: 'Ordered by',
-                value: record.orderedBy,
-                inline: true,
-              },
-              {
-                title: 'Ordering location',
-                value: record.orderingLocation,
-                inline: true,
-              },
-              {
-                title: 'Collecting location',
-                value: record.collectingLocation,
-                inline: true,
-              },
-              {
-                title: 'Lab location',
-                value: record.labLocation,
-                inline: true,
-              },
-              {
-                title: 'Date completed',
-                value: record.date,
-                inline: true,
-              },
-            ],
-          },
-          {
-            header: 'Results',
-            items: [
-              {
-                title: '',
-                value: record.results,
-                inline: true,
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    makePdf(
-      'microbiology_report',
-      pdfData,
-      'Microbiology details',
-      runningUnitTest,
-    );
+    const { title, subject, preface } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateMicrobioContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Microbiology details', runningUnitTest);
   };
 
   const generateMicroTxt = async () => {
@@ -199,26 +129,7 @@ ${record.results}`;
 
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results and explain what they mean
-            for your health. To ask a question now, send a secure message to
-            your care team.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Start a new message
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert fullState={fullState} />
         <p className="vads-u-font-size--base make-monospace">
           {record.results}
         </p>{' '}
