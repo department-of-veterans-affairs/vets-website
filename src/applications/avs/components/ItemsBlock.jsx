@@ -1,14 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { fieldHasValue } from '../utils';
+
+const allFieldsEmpty = item => {
+  for (const [, value] of Object.entries(item)) {
+    if (fieldHasValue(value)) return false;
+  }
+
+  return true;
+};
+
 const ItemsBlock = props => {
   const { heading, intro, itemType, items, renderItem, showSeparators } = props;
 
-  if (!items || items.length === 0) {
-    return null;
-  }
+  if (!items) return null;
 
-  const listItems = items.map((item, idx) => {
+  // Filter out null/empty field values.
+  let listItems = items.filter(item => !allFieldsEmpty(item));
+  if (!listItems.length) return null;
+
+  listItems = listItems.map((item, idx) => {
     return (
       <div key={idx}>
         {renderItem(item)}
