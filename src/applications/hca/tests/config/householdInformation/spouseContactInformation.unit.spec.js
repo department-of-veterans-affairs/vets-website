@@ -11,11 +11,11 @@ import {
 import formConfig from '../../../config/form';
 import { simulateInputChange } from '../../helpers';
 
-describe('hca VeteranAnnualIncome config', () => {
+describe('hca SpouseContactInformation config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformationV2.pages.v2VeteranAnnualIncome;
+  } = formConfig.chapters.householdInformation.pages.SpouseContactInformation;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -27,7 +27,7 @@ describe('hca VeteranAnnualIncome config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(8);
   });
 
   it('should not submit empty form', () => {
@@ -43,7 +43,7 @@ describe('hca VeteranAnnualIncome config', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -59,21 +59,16 @@ describe('hca VeteranAnnualIncome config', () => {
     );
     const formDOM = findDOMNode(form);
 
+    simulateInputChange(formDOM, '#root_spouseAddress_country', 'USA');
     simulateInputChange(
       formDOM,
-      '#root_view\\3A veteranGrossIncome_veteranGrossIncome',
-      '100000',
+      '#root_spouseAddress_street',
+      '200 Main Street',
     );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A veteranNetIncome_veteranNetIncome',
-      '76000',
-    );
-    simulateInputChange(
-      formDOM,
-      '#root_view\\3A veteranOtherIncome_veteranOtherIncome',
-      '0',
-    );
+    simulateInputChange(formDOM, '#root_spouseAddress_city', 'Madison');
+    simulateInputChange(formDOM, '#root_spouseAddress_state', 'NY');
+    simulateInputChange(formDOM, '#root_spouseAddress_postalCode', '27981');
+    simulateInputChange(formDOM, '#root_spousePhone', '3424445555');
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
