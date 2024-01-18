@@ -86,7 +86,7 @@ const ThreadsList = props => {
           </div>
         )}
 
-        {threadList?.length > 1 && (
+        {threadList?.length > 0 && (
           <VaPagination
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
             onPageSelect={e => paginationCallback(e.detail.page)}
