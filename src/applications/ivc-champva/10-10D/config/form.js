@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   fullNameSchema,
@@ -25,18 +25,18 @@ import {
   radioUI,
   titleSchema,
   inlineTitleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import get from 'platform/utilities/data/get';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
-import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
+import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileTypes, attachmentsSchema } from './attachments.js';
-import getNameKeyForSignature from '../helpers/signatureKeyName.js';
+import { fileTypes, attachmentsSchema } from './attachments';
+import getNameKeyForSignature from '../helpers/signatureKeyName';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

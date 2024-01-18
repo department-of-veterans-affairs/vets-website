@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { testNumberOfWebComponentFields } from '../../../../simple-forms/shared/tests/pages/pageTests.spec';
+import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const applicants = [
