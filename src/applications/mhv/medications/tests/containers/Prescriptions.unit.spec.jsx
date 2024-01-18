@@ -74,7 +74,7 @@ describe('Medications Prescriptions container', () => {
 
   it('shows title ', async () => {
     const screen = setup();
-    expect(await screen.findByTestId('listlistlist-page-title')).to.exist;
+    expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 
   it('displays empty list alert', () => {

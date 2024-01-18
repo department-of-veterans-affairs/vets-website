@@ -55,7 +55,7 @@ const MedicationsList = props => {
   return (
     <>
       <h2
-        className="rxx-page-total-info vads-u-font-family--sans"
+        className="rx-page-total-info vads-u-font-family--sans"
         data-testid="page-total-info"
         id="showingRx"
       >
