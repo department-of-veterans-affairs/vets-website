@@ -6,7 +6,6 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -18,11 +17,12 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
-  addressSchema,
-  addressUI,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
+  getDependentChildTitle,
   getMarriageTitleWithCurrent,
   directDepositWarning,
   isMarried,
@@ -34,7 +34,6 @@ import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
-import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
 
 // chapter-pages
@@ -83,6 +82,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
+import { transform } from './submit-transformer';
 import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
@@ -160,11 +160,70 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
-function showSpouseAddress(form) {
+export function showSpouseAddress(form) {
   return (
-    form.maritalStatus === 'Separated' ||
-    get(['view:liveWithSpouse'], form) === false
+    isMarried(form) &&
+    (form.maritalStatus === 'Separated' ||
+      get(['view:liveWithSpouse'], form) === false)
   );
+}
+
+export function isSeparated(formData) {
+  return formData.maritalStatus === 'Separated';
+}
+
+export function currentSpouseHasFormerMarriages(formData) {
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
+}
+
+export function hasNoSocialSecurityDisability(formData) {
+  return formData.socialSecurityDisability === false;
+}
+
+export function isInNursingHome(formData) {
+  return formData.nursingHome === true;
+}
+
+export function medicaidDoesNotCoverNursingHome(formData) {
+  return formData.nursingHome === true && formData.medicaidCoverage === false;
+}
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}
+
+export function ownsHome(formData) {
+  return formData.homeOwnership === true;
+}
+
+export function hasVaTreatmentHistory(formData) {
+  return formData.vaTreatmentHistory === true;
+}
+
+export function hasFederalTreatmentHistory(formData) {
+  return formData.federalTreatmentHistory === true;
+}
+
+export function isEmployedUnder65(formData) {
+  return formData.currentEmployment === true && isUnder65(formData);
+}
+
+export function isUnemployedUnder65(formData) {
+  return formData.currentEmployment === false && isUnder65(formData);
+}
+
+export function doesReceiveIncome(formData) {
+  return formData.receivesIncome === true;
+}
+
+export function doesHaveCareExpenses(formData) {
+  return formData.hasCareExpenses === true;
+}
+
+export function doesHaveMedicalExpenses(formData) {
+  return formData.hasMedicalExpenses === true;
 }
 
 function isCurrentMarriage(form, index) {
@@ -209,7 +268,7 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
+  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -224,7 +283,15 @@ const formConfig = {
   },
   title: 'Apply for pension benefits',
   subTitle: 'Form 21P-527EZ',
-  preSubmitInfo,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
   // showReviewErrors: true,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
@@ -310,9 +377,7 @@ const formConfig = {
         medicalCondition: {
           title: 'Medical condition',
           path: 'medical/history/condition',
-          depends: formData => {
-            return formData.socialSecurityDisability !== true;
-          },
+          depends: hasNoSocialSecurityDisability,
           uiSchema: medicalCondition.uiSchema,
           schema: medicalCondition.schema,
         },
@@ -325,18 +390,14 @@ const formConfig = {
         medicaidCoverage: {
           title: 'Medicaid coverage',
           path: 'medical/history/nursing/medicaid',
-          depends: formData => {
-            return formData.nursingHome !== false;
-          },
+          depends: isInNursingHome,
           uiSchema: medicaidCoverage.uiSchema,
           schema: medicaidCoverage.schema,
         },
         medicaidStatus: {
           title: 'Medicaid application status',
           path: 'medical/history/nursing/medicaid/status',
-          depends: formData => {
-            return formData.medicaidCoverage !== true;
-          },
+          depends: medicaidDoesNotCoverNursingHome,
           uiSchema: medicaidStatus.uiSchema,
           schema: medicaidStatus.schema,
         },
@@ -355,9 +416,7 @@ const formConfig = {
         vaMedicalCenters: {
           title: 'VA medical centers',
           path: 'medical/history/va-treatment/medical-centers',
-          depends: formData => {
-            return formData.vaTreatmentHistory !== false;
-          },
+          depends: hasVaTreatmentHistory,
           uiSchema: vaMedicalCenters.uiSchema,
           schema: vaMedicalCenters.schema,
         },
@@ -370,9 +429,7 @@ const formConfig = {
         federalMedicalCenters: {
           title: 'Federal medical facilities',
           path: 'medical/history/federal-treatment/medical-centers',
-          depends: formData => {
-            return formData.federalTreatmentHistory !== false;
-          },
+          depends: hasFederalTreatmentHistory,
           uiSchema: federalMedicalCenters.uiSchema,
           schema: federalMedicalCenters.schema,
         },
@@ -386,18 +443,14 @@ const formConfig = {
         currentEmploymentHistory: {
           title: 'Current employment',
           path: 'employment/current/history',
-          depends: formData => {
-            return formData.currentEmployment !== false && isUnder65(formData);
-          },
+          depends: isEmployedUnder65,
           uiSchema: currentEmployers.uiSchema,
           schema: currentEmployers.schema,
         },
         previousEmploymentHistory: {
           title: 'Previous employment',
           path: 'employment/previous/history',
-          depends: formData => {
-            return formData.currentEmployment !== true && isUnder65(formData);
-          },
+          depends: isUnemployedUnder65,
           uiSchema: previousEmployers.uiSchema,
           schema: previousEmployers.schema,
         },
@@ -596,7 +649,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -634,25 +688,21 @@ const formConfig = {
         reasonForCurrentSeparation: {
           title: 'Reason for separation',
           path: 'household/marital-status/separated',
-          depends: formData => {
-            return formData.maritalStatus === 'Separated';
-          },
+          depends: isSeparated,
           uiSchema: reasonForCurrentSeparation.uiSchema,
           schema: reasonForCurrentSeparation.schema,
         },
         currentSpouseAddress: {
           title: 'Spouse address',
           path: 'household/marital-status/separated/spouse-address',
-          depends: form => showSpouseAddress(form),
+          depends: showSpouseAddress,
           uiSchema: currentSpouseAddress.uiSchema,
           schema: currentSpouseAddress.schema,
         },
         currentSpouseMonthlySupport: {
           title: 'Financial support for your spouse',
           path: 'household/marital-status/separated/spouse-monthly-support',
-          depends: formData => {
-            return formData.maritalStatus === 'Separated';
-          },
+          depends: isSeparated,
           uiSchema: currentSpouseMonthlySupport.uiSchema,
           schema: currentSpouseMonthlySupport.schema,
         },
@@ -666,7 +716,7 @@ const formConfig = {
         spouseMarriageHistory: {
           title: 'Spouse’s former marriages',
           path: 'household/marital-status/spouse-marriages',
-          depends: formData => formData.currentSpouseMaritalHistory === 'Yes',
+          depends: currentSpouseHasFormerMarriages,
           uiSchema: currentSpouseFormerMarriages.uiSchema,
           schema: currentSpouseFormerMarriages.schema,
         },
@@ -679,26 +729,23 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form),
+          depends: form => get(['view:hasDependents'], form) === true,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} information`,
-          depends: form => get(['view:hasDependents'], form),
+          title: item => getDependentChildTitle(item, 'information'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
           uiSchema: dependentChildInformation.uiSchema,
         },
-        dependentChildAddress: {
-          path: 'household/dependents/children/address/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
-          depends: form => get(['view:hasDependents'], form),
+        dependentChildInHousehold: {
+          path: 'household/dependents/children/inhousehold/:index',
+          title: item => getDependentChildTitle(item, 'household'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -710,11 +757,38 @@ const formConfig = {
                   type: 'object',
                   required: ['childInHousehold'],
                   properties: {
-                    childInHousehold:
-                      dependents.items.properties.childInHousehold,
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childInHousehold: yesNoSchema,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                childInHousehold: yesNoUI({
+                  title: 'Does your child live with you?',
+                }),
+              },
+            },
+          },
+        },
+        dependentChildAddress: {
+          path: 'household/dependents/children/address/:index',
+          title: item => getDependentChildTitle(item, 'address'),
+          depends: (form, index) =>
+            !get(['dependents', index, 'childInHousehold'], form),
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -727,31 +801,26 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childInHousehold: {
-                  'ui:title': 'Does your child live with you?',
-                  'ui:widget': 'yesNo',
-                },
-                childAddress: {
-                  ...addressUI({
-                    omit: ['street3', 'isMilitary'],
-                    required: {
-                      country: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      street: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      city: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      postalCode: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                    },
-                  }),
-                  'ui:options': {
-                    expandUnder: 'childInHousehold',
-                    expandUnderCondition: false,
-                  },
-                },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  (form, index) =>
+                    !get(['dependents', index, 'childInHousehold'], form),
+                ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
                   'ui:options': {
                     updateSchema: (form, UISchema, schema, index) => {
                       if (
@@ -761,8 +830,6 @@ const formConfig = {
                       }
                       return nonRequiredFullName;
                     },
-                    expandUnder: 'childInHousehold',
-                    expandUnderCondition: false,
                   },
                 }),
                 monthlyPayment: merge(
@@ -773,10 +840,6 @@ const formConfig = {
                   {
                     'ui:required': (form, index) =>
                       !get(['dependents', index, 'childInHousehold'], form),
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
-                    },
                   },
                 ),
               },
@@ -787,7 +850,6 @@ const formConfig = {
     },
     financialInformation: {
       title: 'Financial information',
-      reviewDescription: FinancialDisclosureDescription,
       pages: {
         totalNetWorth: {
           title: 'Total net worth',
@@ -798,7 +860,7 @@ const formConfig = {
         netWorthEstimation: {
           title: 'Net worth estimation',
           path: 'financial/net-worth-estimation',
-          depends: formData => !formData.totalNetWorth,
+          depends: formData => formData.totalNetWorth === false,
           uiSchema: netWorthEstimation.uiSchema,
           schema: netWorthEstimation.schema,
         },
@@ -817,18 +879,14 @@ const formConfig = {
         homeAcreageMoreThanTwo: {
           title: 'Home acreage size',
           path: 'financial/home-ownership/acres',
-          depends: formData => {
-            return formData.homeOwnership === true;
-          },
+          depends: ownsHome,
           uiSchema: homeAcreageMoreThanTwo.uiSchema,
           schema: homeAcreageMoreThanTwo.schema,
         },
         homeAcreageValue: {
           title: 'Home acreage value',
           path: 'financial/home-ownership/acres/value',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: isHomeAcreageMoreThanTwo,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
@@ -837,9 +895,7 @@ const formConfig = {
         landMarketable: {
           title: 'Land marketable',
           path: 'financial/land-marketable',
-          depends: formData => {
-            return formData.homeAcreageMoreThanTwo === true;
-          },
+          depends: isHomeAcreageMoreThanTwo,
           uiSchema: landMarketable.uiSchema,
           schema: landMarketable.schema,
         },
@@ -852,7 +908,7 @@ const formConfig = {
         incomeSources: {
           title: 'Gross monthly income',
           path: 'financial/income-sources',
-          depends: formData => formData.receivesIncome !== false,
+          depends: doesReceiveIncome,
           uiSchema: incomeSources.uiSchema,
           schema: incomeSources.schema,
         },
@@ -865,7 +921,7 @@ const formConfig = {
         careExpenses: {
           path: 'financial/care-expenses/add',
           title: 'Unreimbursed care expenses',
-          depends: formData => formData.hasCareExpenses,
+          depends: doesHaveCareExpenses,
           uiSchema: careExpenses.uiSchema,
           schema: careExpenses.schema,
         },
@@ -878,7 +934,7 @@ const formConfig = {
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
           title: 'Medical expenses',
-          depends: formData => formData.hasMedicalExpenses,
+          depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
         },
@@ -949,7 +1005,6 @@ const formConfig = {
         documentUpload: {
           title: 'Document upload',
           path: 'additional-information/document-upload',
-          editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
         },
@@ -958,24 +1013,6 @@ const formConfig = {
           path: 'additional-information/faster-claim-processing',
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
-        },
-      },
-    },
-    // This chapter is here so that the cypress test ends successfully since
-    // the form tester will only consider the test a success when it gets to a
-    // page which has a URL ending in '/confirmation';
-    //
-    // This chapter should be entirely removed/replaced once the form has an
-    // actual confirmation page.
-    confirmation: {
-      title: 'Confirmation',
-      pages: {
-        confirmation: {
-          path: 'confirmation',
-          title: 'Confirmation',
-          // Needs something as a schema. Doesn't matter what.
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
         },
       },
     },

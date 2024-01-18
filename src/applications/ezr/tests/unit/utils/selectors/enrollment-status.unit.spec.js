@@ -31,7 +31,7 @@ describe('ezr enrollment status selectors', () => {
         const enrollmentStatus = selectEnrollmentStatus(state);
         expect(enrollmentStatus.isLoading).to.be.true;
         expect(enrollmentStatus.hasServerError).to.be.false;
-        expect(enrollmentStatus.isEnrolledinESR).to.be.false;
+        expect(enrollmentStatus.isValidEnrollmentStatus).to.be.false;
       });
     });
 
@@ -41,7 +41,7 @@ describe('ezr enrollment status selectors', () => {
         const enrollmentStatus = selectEnrollmentStatus(state);
         expect(enrollmentStatus.isLoading).to.be.true;
         expect(enrollmentStatus.hasServerError).to.be.false;
-        expect(enrollmentStatus.isEnrolledinESR).to.be.false;
+        expect(enrollmentStatus.isValidEnrollmentStatus).to.be.false;
       });
     });
 
@@ -51,35 +51,41 @@ describe('ezr enrollment status selectors', () => {
         const enrollmentStatus = selectEnrollmentStatus(state);
         expect(enrollmentStatus.isLoading).to.be.false;
         expect(enrollmentStatus.hasServerError).to.be.true;
-        expect(enrollmentStatus.isEnrolledinESR).to.be.false;
+        expect(enrollmentStatus.isValidEnrollmentStatus).to.be.false;
       });
     });
 
     context('when the enrollment status fetch has succeeded', () => {
-      context('when enrollment status is not `enrolled`', () => {
-        it('should set the correct part of the state', () => {
-          const { state } = getData({ parsedStatus: 'noneOfTheAbove' });
-          const enrollmentStatus = selectEnrollmentStatus(state);
-          expect(enrollmentStatus.isLoading).to.be.false;
-          expect(enrollmentStatus.hasServerError).to.be.false;
-          expect(enrollmentStatus.isEnrolledinESR).to.be.false;
-          expect(enrollmentStatus.canSubmitFinancialInfo).to.be.false;
-        });
-      });
-
-      context('when enrollment status is `enrolled`', () => {
-        it('should set the correct part of the state', () => {
-          const { state } = getData({
-            parsedStatus: 'enrolled',
-            canSubmitFinancialInfo: true,
+      context(
+        'when enrollment status is not `enrolled`, `pending_mt`, or `pending_other`',
+        () => {
+          it('should set the correct part of the state', () => {
+            const { state } = getData({ parsedStatus: 'noneOfTheAbove' });
+            const enrollmentStatus = selectEnrollmentStatus(state);
+            expect(enrollmentStatus.isLoading).to.be.false;
+            expect(enrollmentStatus.hasServerError).to.be.false;
+            expect(enrollmentStatus.isValidEnrollmentStatus).to.be.false;
+            expect(enrollmentStatus.canSubmitFinancialInfo).to.be.false;
           });
-          const enrollmentStatus = selectEnrollmentStatus(state);
-          expect(enrollmentStatus.isLoading).to.be.false;
-          expect(enrollmentStatus.hasServerError).to.be.false;
-          expect(enrollmentStatus.isEnrolledinESR).to.be.true;
-          expect(enrollmentStatus.canSubmitFinancialInfo).to.be.true;
-        });
-      });
+        },
+      );
+
+      context(
+        'when enrollment status is `enrolled`, `pending_mt`, or `pending_other`',
+        () => {
+          it('should set the correct part of the state', () => {
+            const { state } = getData({
+              parsedStatus: 'pending_mt',
+              canSubmitFinancialInfo: true,
+            });
+            const enrollmentStatus = selectEnrollmentStatus(state);
+            expect(enrollmentStatus.isLoading).to.be.false;
+            expect(enrollmentStatus.hasServerError).to.be.false;
+            expect(enrollmentStatus.isValidEnrollmentStatus).to.be.true;
+            expect(enrollmentStatus.canSubmitFinancialInfo).to.be.true;
+          });
+        },
+      );
     });
   });
 });

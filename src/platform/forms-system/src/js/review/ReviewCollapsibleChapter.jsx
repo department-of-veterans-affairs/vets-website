@@ -407,24 +407,26 @@ class ReviewCollapsibleChapter extends React.Component {
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <va-accordion-item
-        data-chapter={this.props.chapterKey}
-        header={chapterTitle}
-        level={3}
-        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-        onClick={this.handleChapterClick}
-        data-unviewed-pages={this.props.hasUnviewedPages}
-      >
+      <>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {this.props.hasUnviewedPages && (
-          <i
-            aria-hidden="true"
-            className="fas fa-exclamation-circle vads-u-color--secondary"
-            slot="subheader-icon"
-          />
-        )}
-        {this.getChapterContent(this.props)}
-      </va-accordion-item>
+        <va-accordion-item
+          data-chapter={this.props.chapterKey}
+          header={chapterTitle}
+          level={3}
+          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+          data-unviewed-pages={this.props.hasUnviewedPages}
+          open={this.props.open}
+        >
+          {this.props.hasUnviewedPages && (
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+          )}
+          {this.getChapterContent(this.props)}
+        </va-accordion-item>
+      </>
     );
   }
 }

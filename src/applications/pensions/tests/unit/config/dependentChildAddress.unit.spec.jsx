@@ -29,7 +29,8 @@ describe('Child address page', () => {
       },
     ],
   };
-  it('should render', () => {
+
+  it('should render all fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -40,30 +41,11 @@ describe('Child address page', () => {
         uiSchema={uiSchema}
       />,
     );
-    const formDOM = getFormDOM(form);
 
+    const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-      2,
+      11,
     );
-  });
-
-  it('should render address fields', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={nameData}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = getFormDOM(form);
-    formDOM.setYesNo('input#root_childInHouseholdNo', 'N');
-
-    expect(formDOM.querySelectorAll('va-select').length).to.equal(1);
-    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(5);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -81,31 +63,12 @@ describe('Child address page', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).not.to.be.true;
   });
 
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={nameData}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = getFormDOM(form);
-
-    formDOM.fillData('#root_childInHouseholdYes', 'Y');
-
-    formDOM.submitForm(form);
-    expect(onSubmit.called).to.be.true;
-  });
+  // This is where we would test that it submits with valid data if RTL worked
+  // with web components
 
   it('should set the title to the dependents name if available', () => {
     const pageTitle = title;

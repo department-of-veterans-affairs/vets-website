@@ -77,10 +77,8 @@ export const scrollElementName = 'ScrollElement';
 // Set focus on target _after_ the content has been updated
 export function focusOnChange(name, target, shadowTarget = undefined) {
   setTimeout(() => {
-    const el = $(`[name="${name}${scrollElementName}"]`);
-    // nextElementSibling = page form
-    const focusTarget = el?.nextElementSibling?.querySelector(target);
-
+    const el = $(`va-accordion-item[data-chapter="${name}"]`);
+    const focusTarget = el?.querySelector(target);
     if (focusTarget && shadowTarget) {
       focusElement(focusTarget.shadowRoot?.querySelector(shadowTarget));
     } else if (focusTarget) {
