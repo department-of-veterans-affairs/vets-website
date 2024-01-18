@@ -34,7 +34,7 @@ describe('getVamcSystemNameFromVhaId', () => {
     },
   };
 
-  it('returns VAMC system name when it exists', () => {
+  it('selects VAMC facility id name tuples', () => {
     expect(selectVamcSystemData(drupalStaticData)).to.deep.equal(
       drupalStaticData.drupalStaticData.vamcSystemData.data.systems,
     );
