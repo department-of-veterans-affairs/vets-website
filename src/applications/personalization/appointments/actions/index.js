@@ -142,12 +142,14 @@ export function fetchConfirmedFutureAppointmentsV2() {
       const formatted = appointments.map(appointment => {
         return vaosV2Helpers.transformAppointment(appointment);
       });
-      // sort by date
-      const sorted = vaosV2Helpers.sortAppointments(formatted);
+
+      // filter out past appointments
+      const onlyUpcoming = formatted.filter(appt => appt.isUpcoming);
+
       // update redux
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-        appointments: sorted,
+        appointments: onlyUpcoming,
       });
     } catch (error) {
       recordEvent({

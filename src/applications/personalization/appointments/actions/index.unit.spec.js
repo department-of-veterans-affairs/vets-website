@@ -11,7 +11,10 @@ import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
 } from '~/applications/personalization/dashboard/constants';
 
-import { fetchConfirmedFutureAppointments } from './index';
+import {
+  fetchConfirmedFutureAppointments,
+  fetchConfirmedFutureAppointmentsV2,
+} from './index';
 
 function thisYear() {
   return new Date().getFullYear();
@@ -212,6 +215,110 @@ const mockEmptyAppointmentData = {
   },
 };
 
+// A VAOS v2 appointment scheduled in the past and should be filtered out by the
+// action creator
+const pastAppointmentV2 = {
+  id: '151207',
+  type: 'appointments',
+  attributes: {
+    id: '151207',
+    kind: 'telehealth',
+    status: 'booked',
+    locationId: '983',
+    start: '2023-05-31T15:05:00Z',
+    end: '2023-05-31T15:25:00Z',
+    minutesDuration: '20',
+    created: '2023-01-06T15:09:32.137Z',
+    cancellable: true,
+    patientInstruction: '',
+    localStartTime: '2023-05-31T08:05:00.000-07:00',
+    location: {
+      id: '983',
+      type: 'appointments',
+      attributes: {
+        id: '983',
+        vistaSite: '983',
+        vastParent: '983',
+        type: 'va_facilities',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
+        lat: '39.744507',
+        long: '-104.830956',
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: false,
+      },
+    },
+  },
+};
+
+// A single appointment at facility 983, CHEYENNE WYOMING at midnight Jan 1 next
+// year UTC.
+const futureAppointmentV2 = {
+  id: '193312',
+  type: 'appointments',
+  attributes: {
+    id: '193312',
+    kind: 'clinic',
+    status: 'booked',
+    patientIcn: '1012845943V900681',
+    locationId: '983',
+    clinic: '923',
+    start: `${nextYear()}-01-01T00:00:00Z`,
+    end: `${nextYear()}-01-01T00:00:00Z`,
+    minutesDuration: '30',
+    created: '2023-10-31T00:00:00Z',
+    cancellable: true,
+    localStartTime: `${nextYear()}-01-01T9:00:00.000-06:00`,
+    location: {
+      id: '983',
+      type: 'appointments',
+      attributes: {
+        id: '983',
+        vistaSite: '983',
+        vastParent: '983',
+        type: 'va_facilities',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
+        lat: '39.744507',
+        long: '-104.830956',
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: false,
+      },
+    },
+  },
+};
+
+const mockAppointmentDataV2 = {
+  data: [futureAppointmentV2, pastAppointmentV2],
+  meta: {
+    pagination: {
+      currentPage: 0,
+      perPage: 0,
+      totalPages: 0,
+      totalEntries: 0,
+    },
+    failures: [],
+  },
+};
+
 // The important part of this mock facility data is that it returns data for
 // facility ID 442 in Cheyenne, Wyoming, which matches the facility of the
 // single appointment in the mockVAAppointmentData
@@ -402,6 +509,55 @@ const mocks = [
     return res(ctx.json(mockFacilityData));
   }),
 ];
+
+describe('fetchConfirmedFutureAppointmentsV2', () => {
+  let server;
+  before(() => {
+    // before we can use msw, we need to make sure that global.fetch has been
+    // restored and is no longer a sinon stub.
+    resetFetch();
+    server = setupServer(...mocks);
+    server.listen();
+  });
+  afterEach(() => {
+    server.resetHandlers();
+  });
+  after(() => {
+    server.close();
+  });
+  it('correctly adds a timezone offset to the start date/time of appointments and filters out past appointments', async () => {
+    const dispatch = sinon.spy();
+    // mock the appointments API, making sure to return no VA appointments
+    server.use(
+      rest.get(
+        `${environment.API_URL}/vaos/v2/appointments`,
+        (req, res, ctx) => {
+          if (req) {
+            return res(ctx.json(mockAppointmentDataV2));
+          }
+          return res(ctx.json(mockEmptyAppointmentData));
+        },
+      ),
+    );
+    await fetchConfirmedFutureAppointmentsV2()(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+
+    const { appointments } = dispatch.secondCall.args[0];
+
+    expect(appointments.length).to.equal(1);
+
+    // Midnight Jan 1 UTC is 7PM Dec 31 Florida time
+    expect(appointments[0].startsAt).to.equal(
+      `${thisYear()}-12-31T17:00:00-07:00`,
+    );
+  });
+});
 
 describe('fetchConfirmedFutureAppointments', () => {
   let server;
