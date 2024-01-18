@@ -33,7 +33,7 @@ const LandingPage = ({ data = {} }) => {
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
       headline={unVerifiedHeadline}
-      postAlertChildren={' '}
+      showHelpContent={false}
     />
   ) : (
     <NoHealthAlert />

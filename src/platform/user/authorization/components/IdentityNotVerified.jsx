@@ -16,7 +16,7 @@ const HowToVerifyLink = () => (
 
 const IdentityNotVerified = ({
   headline = 'Verify your identity to view your complete profile',
-  postAlertChildren,
+  showHelpContent = true,
 }) => {
   return (
     <>
@@ -47,8 +47,7 @@ const IdentityNotVerified = ({
         </div>
       </va-alert>
 
-      {!postAlertChildren && <HowToVerifyLink />}
-      {postAlertChildren}
+      {showHelpContent && <HowToVerifyLink />}
     </>
   );
 };
@@ -56,7 +55,7 @@ const IdentityNotVerified = ({
 IdentityNotVerified.propTypes = {
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
-  postAlertChildren: PropTypes.node,
+  showHelpContent: PropTypes.bool,
 };
 
-export { IdentityNotVerified as default, HowToVerifyLink };
+export { IdentityNotVerified as default };
