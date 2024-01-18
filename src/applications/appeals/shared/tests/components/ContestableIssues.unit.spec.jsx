@@ -16,6 +16,9 @@ describe('<ContestableIssues>', () => {
     review = false,
     submitted = false,
     setFormData = () => {},
+    loadedIssues,
+    additionalIssues,
+    additionalIssueChecked = false,
     apiLoadStatus = '',
   } = {}) => {
     const issues = [
@@ -40,13 +43,20 @@ describe('<ContestableIssues>', () => {
         submitted,
       },
       formData: {
-        contestedIssues: issues,
-        additionalIssues: [{ issue: 'issue-3', decisionDate: getRandomDate() }],
+        contestedIssues: loadedIssues || issues,
+        additionalIssues: additionalIssues || [
+          {
+            issue: 'issue-3',
+            decisionDate: getRandomDate(),
+            [SELECTED]: additionalIssueChecked,
+          },
+        ],
       },
       setFormData,
       contestableIssues: { issues },
       showPart3: true,
       apiLoadStatus,
+      value: [],
     };
   };
 
@@ -107,11 +117,8 @@ describe('<ContestableIssues>', () => {
     });
   });
   it('should not show an error on submission with one selection', () => {
-    const props = getProps({ submitted: true });
-    const issues = [{ [SELECTED]: true }];
-    const { container } = render(
-      <ContestableIssues {...props} additionalIssues={issues} />,
-    );
+    const props = getProps({ submitted: true, additionalIssueChecked: true });
+    const { container } = render(<ContestableIssues {...props} />);
     expect($$('.usa-input-error', container).length).to.equal(0);
   });
 
@@ -209,10 +216,13 @@ describe('<ContestableIssues>', () => {
     });
   });
 
-  it('should show "no loaded issues" alert when api fails', async () => {
-    const props = getProps({ apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED });
+  it('should show "cant load your issues right now" alert when api fails', async () => {
+    const props = getProps({
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
+      loadedIssues: [],
+    });
     const { container } = render(
-      <ContestableIssues {...props} additionalIssues={[]} value={[]} />,
+      <ContestableIssues {...props} contestedIssues={[]} />,
     );
 
     expect($$('va-alert', container).length).to.equal(1);
@@ -221,23 +231,40 @@ describe('<ContestableIssues>', () => {
     );
   });
 
-  it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
-    const props = getProps();
-    const { container, rerender } = render(
-      <ContestableIssues {...props} value={[]} />,
+  it('should show "no loaded issues" alert when none loaded', async () => {
+    const props = getProps({ loadedIssues: [] });
+    const { container } = render(<ContestableIssues {...props} />);
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).innerHTML).to.contain(
+      'we couldn’t find any eligible issues',
     );
+  });
 
-    rerender(<ContestableIssues {...props} additionalIssues={[]} value={[]} />);
+  it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {
+    const props = getProps({
+      loadedIssues: [],
+      additionalIssueChecked: false,
+      submitted: true,
+    });
+    const { container, rerender } = render(<ContestableIssues {...props} />);
+
+    const newProps = getProps({
+      loadedIssues: [],
+      additionalIssueChecked: true,
+      submitted: true,
+    });
+    rerender(<ContestableIssues {...newProps} />);
+
     await waitFor(() => {
-      expect($$('va-alert', container).length).to.equal(0);
+      expect($$('va-alert', container).length).to.eq(0);
     });
   });
 
   it('should not throw a JS error when no list is passed in', () => {
-    const props = getProps({ review: true });
+    const props = getProps({ review: true, loadedIssues: [] });
 
     const { container } = render(
-      <ContestableIssues {...props} formData={{}} contestableIssues={{}} />,
+      <ContestableIssues {...props} formData={{}} />,
     );
     expect($$('input[type="checkbox"]', container).length).to.equal(0);
   });
