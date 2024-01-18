@@ -80,26 +80,25 @@ export const contactInfoDescription = (
 );
 
 export const applicantInformationDescription = (
-  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+  <va-additional-info trigger="Who we consider an adult dependent child">
+    <p>
+      We consider someone an adult dependent child if either of these
+      descriptions is true:
+    </p>
     <ul>
       <>
         <li>
-          A <strong>spouse</strong> is a person who is or was legally married to
-          a service member or Veteran. A <strong>surviving spouse</strong> is
-          someone who was legally married to the service member or Veteran at
-          the time of their death and includes a surviving spouse who remarried.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 21, <strong>or</strong>
         </li>
         <li>
-          An <strong>unmarried adult child</strong> is an individual who became
-          physically or mentally disabled permanently and incapable of
-          self-support before the age of 21, or before 23 years of age if
-          pursuing a full-time course of instruction at an approved educational
-          institution.
-        </li>
-        <li>
-          For <strong>other</strong> applicants such as the parent of a service
-          member, we’ll ask questions about the service member (the sponsor) to
-          determine eligibility for burial in a VA national cemetery.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 23, if they were enrolled full
+          time in a school or training program at the time their disability
+          started
+          <br />
+          <strong>Note:</strong> Adult dependent children must be unmarried to
+          be eligible for burial in a VA national cemetery.
         </li>
       </>
     </ul>
@@ -291,11 +290,18 @@ export function isVeteran(item) {
 }
 
 export function isSpouse(item) {
-  return get('application.claimant.relationshipToVet', item) === '2';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return relationshipToVet === '2' || relationshipToVet === '3';
 }
 
 export function isUnmarriedChild(item) {
-  return get('application.claimant.relationshipToVet', item) === '3';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return (
+    relationshipToVet === '4' ||
+    relationshipToVet === '5' ||
+    relationshipToVet === '6' ||
+    relationshipToVet === '7'
+  );
 }
 
 export function isVeteranAndHasServiceName(item) {
