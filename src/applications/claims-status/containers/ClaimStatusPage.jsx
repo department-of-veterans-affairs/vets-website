@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import { Toggler } from 'platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
@@ -15,6 +15,8 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
@@ -244,7 +246,14 @@ class ClaimStatusPage extends React.Component {
     return (
       <div>
         {showDocsNeeded ? (
-          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+            <Toggler.Enabled>
+              <WhatYouNeedToDo claim={claim} />
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+            </Toggler.Disabled>
+          </Toggler>
         ) : null}
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
