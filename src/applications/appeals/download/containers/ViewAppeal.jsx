@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
 import { format } from 'date-fns';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -9,7 +8,7 @@ import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
 import GetFormHelp from '../../10182/content/GetFormHelp';
-import { FORMAT_READABLE, FORMAT_YMD } from '../../shared/constants';
+
 import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
 
@@ -22,7 +21,7 @@ const ViewAppeal = () => {
   const { data } = testData;
   const { fullName } = extraData;
 
-  const submitted = new Date();
+  const submitted = new Date('2023-12-1');
 
   const borderLine = [
     'vads-u-border-bottom--1px',
@@ -30,13 +29,6 @@ const ViewAppeal = () => {
     'vads-u-padding-x--0',
     'vads-u-margin-bottom--0',
   ].join(' ');
-
-  // const issuesSection = [
-  //   'Are you requesting an extension?',
-  //   'Reason for extension',
-  //   'Are you appealing denial of VA health care benefits?',
-  //   'The issues you’re asking the board to review:',
-  // ];
 
   return (
     <div className="row vads-u-margin-bottom--4">
@@ -86,36 +78,38 @@ const ViewAppeal = () => {
         </h3>
 
         <h4 className={borderLine}>Personal Information</h4>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">Name</h5>
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
+          Name
+        </h5>
         <span>
           {fullName.first} {fullName.middle} {fullName.last}
           {fullName.suffix ? `, ${fullName.suffix}` : null}
         </span>
 
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           VA File Number
         </h5>
         <span>
           ***-**-
           {data.veteran.vaFileLastFour}
         </span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Date of birth
         </h5>
         <span>March 4, 1986</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Are you experiencing homelessness?
         </h5>
         <span>{data.homeless ? 'Yes' : 'No'}</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Mobile phone number
         </h5>
         <span>401-226-1234</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Email address
         </h5>
         <span>{data.veteran.email}</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Mailing address
         </h5>
         <div>{data.veteran.address.addressLine1}</div>
@@ -123,25 +117,25 @@ const ViewAppeal = () => {
           {data.veteran.address.city}, {data.veteran.address.stateCode}{' '}
           {data.veteran.address.zipCode}
         </div>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Primary Number
         </h5>
         <span>Mobile</span>
 
         <h4 className={borderLine}>Issues for review</h4>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Are you requesting an extension?
         </h5>
         <span>{data.requestingExtension ? 'Yes' : 'No'}</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Reason for extension
         </h5>
         <span>{data.extensionReason}</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Are you appealing denial of VA health care benefits?
         </h5>
         <span>{data.appealingVHADenial ? 'Yes' : 'No'}</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           The issues you’re asking the board to review:
         </h5>
 
@@ -151,9 +145,7 @@ const ViewAppeal = () => {
               <strong>{getIssueName(issue)}</strong>
               <div>
                 Decision date:{' '}
-                {moment(getIssueDate(issue), FORMAT_YMD).format(
-                  FORMAT_READABLE,
-                )}
+                {format(new Date(getIssueDate(issue)), 'MMMM d, yyyy')}
               </div>
               <div>{disagreeWith(issue)}</div>
             </li>
@@ -161,11 +153,11 @@ const ViewAppeal = () => {
         </ul>
 
         <h4 className={borderLine}>Board Review Options</h4>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Select a Board review option:
         </h5>
         <span>Direct review by the Board</span>
-        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6">
+        <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Uploaded evidence
         </h5>
         <span>filename.pdf</span>
