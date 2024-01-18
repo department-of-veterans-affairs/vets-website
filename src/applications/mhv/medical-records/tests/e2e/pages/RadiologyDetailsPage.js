@@ -71,6 +71,14 @@ class RadiologyDetailsPage {
       .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
+
+  clickExpnadRadiologyImageButton = (radiologyImage = 0) => {
+    // Radiology Image Expand Button
+    cy.get('[data-testid="radiology-image"]')
+      .find('a')
+      .eq(radiologyImage)
+      .click();
+  };
 }
 
 export default new RadiologyDetailsPage();

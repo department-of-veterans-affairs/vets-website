@@ -83,7 +83,7 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
           Images
         </h3>
-        <p className="no-print">
+        <p data-testid="radiology-image" className="no-print">
           <va-link
             active
             href={`/my-health/medical-records/labs-and-tests/${
