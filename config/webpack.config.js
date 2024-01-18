@@ -60,10 +60,7 @@ const globalEntryFiles = {
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
-  'web-components': {
-    import: getAbsolutePath('src/platform/site-wide/wc-loader.js'),
-    dependOn: 'vendor',
-  },
+  'web-components': getAbsolutePath('src/platform/site-wide/wc-loader.js'),
 };
 
 function getEntryManifests(entry) {
@@ -428,7 +425,6 @@ module.exports = async (env = {}) => {
           parallel: true,
         }),
       ],
-      runtimeChunk: 'single',
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
