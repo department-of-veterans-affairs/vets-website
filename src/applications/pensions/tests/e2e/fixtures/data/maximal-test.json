@@ -35,7 +35,6 @@
     "socialSecurityDisability": false,
     "medicalCondition": false,
     "nursingHome": false,
-    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [
@@ -332,7 +331,7 @@
         "typeOfIncome": "INTEREST_DIVIDEND",
         "receiver": "Jane Doe",
         "payer": "John Doe",
-        "amount": 78.50
+        "amount": 78.5
       },
       {
         "typeOfIncome": "OTHER",

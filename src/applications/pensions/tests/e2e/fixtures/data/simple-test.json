@@ -31,7 +31,6 @@
     "socialSecurityDisability": true,
     "medicalCondition": false,
     "nursingHome": false,
-    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": false,
     "federalTreatmentHistory": false,
