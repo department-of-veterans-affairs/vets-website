@@ -34,7 +34,7 @@ describe('Avs: Items Block', () => {
     );
   });
 
-  it('sections without data are hidden', async () => {
+  it('intro is not shown if not provided', async () => {
     const items = replacementFunctions.cloneDeep(avsData.vitals);
     const renderItem = item => {
       return <p>{item.type}</p>;
@@ -53,6 +53,34 @@ describe('Avs: Items Block', () => {
 
   it('block does not render if there are no items', async () => {
     const items = [];
+    const renderItem = item => {
+      return <p>{item.type}</p>;
+    };
+
+    const props = {
+      heading: 'Test Heading',
+      itemType: 'test-item-type',
+      items,
+      renderItem,
+      showSeparators: true,
+    };
+    const screen = render(<ItemsBlock {...props} />);
+    expect(screen.queryByText('Test Intro')).not.to.exist;
+    expect(screen.queryByRole('heading')).to.not.exist;
+    expect(screen.queryByTestId('test-item-type')).to.not.exist;
+  });
+
+  it('block does not render if all items have empty values', async () => {
+    const items = [
+      {
+        foo: null,
+        bar: '',
+      },
+      {
+        baz: null,
+        qux: '',
+      },
+    ];
     const renderItem = item => {
       return <p>{item.type}</p>;
     };
