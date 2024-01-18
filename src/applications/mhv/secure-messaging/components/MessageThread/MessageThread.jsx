@@ -73,7 +73,11 @@ const MessageThread = props => {
               messageHistory?.length > 1 ? 's' : ''
             } in this conversation`}
         </h2>
-        <VaAccordion ref={accordionRef} bordered>
+        <VaAccordion
+          ref={accordionRef}
+          data-testid="thread-expand-all"
+          bordered
+        >
           {messageHistory.map((m, i) => {
             return (
               <>

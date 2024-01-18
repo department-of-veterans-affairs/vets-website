@@ -29,16 +29,18 @@ describe('Secure Messaging Message Details', () => {
     );
   });
 
-  it('Has correct behavior when expanding one child thread message', () => {
-    const updatedMockThread = detailsPage.getCurrentThread();
-    detailsPage.expandThreadMessageDetails(updatedMockThread, 1);
-    // cy.reload(true);
-    detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 1);
-    // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage grop name only on received messages
-    // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); //TODO UCD is still determining whether to display this
-    detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails, 1);
-    cy.get('@messageDetails.all').should('have.length', 1);
+  it('Expanded All Messages Contain all details without additional calls', () => {
+    // const updatedMockThread = detailsPage.getCurrentThread();
+    detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails, 0);
+
+    detailsPage.expandAllThreadMessages();
+    // there should only call to /messages/message/*
+    cy.wait('@message1');
+
+    detailsPage.verifyExpandedThreadBodyDisplay(defaultMockThread, 2);
+    detailsPage.verifyExpandedThreadAttachmentDisplay(defaultMockThread, 2);
     // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
+    cy.get('@allMessageDetails.all').should('have.length', 0);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {

@@ -219,6 +219,7 @@ const AttachmentsList = props => {
                     />
                     <span
                       id="has-attachment"
+                      data-testid="attachment-name"
                       ref={attachmentReference}
                       data-dd-privacy="mask"
                     >

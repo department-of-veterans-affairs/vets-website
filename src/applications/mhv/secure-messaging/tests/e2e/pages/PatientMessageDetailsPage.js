@@ -195,6 +195,17 @@ class PatientMessageDetailsPage {
     // cy.wait('@message2');
   };
 
+  expandAllThreadMessages = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/messages/**', '{}').as(
+      'allMessageDetails',
+    );
+    cy.get('[data-testid="thread-expand-all"]').should('be.visible');
+    cy.get('[data-testid="thread-expand-all"]')
+      .shadow()
+      .contains('Expand all +')
+      .click();
+  };
+
   expandThreadMessageDetails = (mockThread, index = 1) => {
     const threadMessageDetails = mockMessage;
     cy.log('loading expanded thread message details.');
@@ -397,6 +408,40 @@ class PatientMessageDetailsPage {
           messageDetails.data.attributes.sentDate,
           'MMMM D, YYYY [at] h:mm a z',
         )}`,
+      );
+  };
+
+  verifyExpandedThreadAttachmentDisplay = (
+    messageThread,
+    messageIndex = 0,
+    attachmentIndex = 0,
+  ) => {
+    cy.get(
+      `[data-testid="expand-message-button-${
+        messageThread.data[messageIndex].id
+      }"]`,
+    )
+      .find('[data-testid="attachment-name"]')
+      .should(
+        'have.text',
+        `${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].name
+        }`,
+      );
+  };
+
+  verifyExpandedThreadBodyDisplay = (messageThread, messageIndex = 0) => {
+    cy.get(
+      `[data-testid="expand-message-button-${
+        messageThread.data[messageIndex].id
+      }"]`,
+    )
+      .find('[data-testid="message-body"]')
+      .should(
+        'have.text',
+        `${messageThread.data[messageIndex].attributes.body}`,
       );
   };
 
