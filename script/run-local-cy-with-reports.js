@@ -36,9 +36,10 @@ try {
 
 // Run Cypress tests with HTML & JSON reports
 try {
+  const sanitizedSpec = spec ? spec.replace(/"/g, '\\"') : '';
   execSync(
     `npx cypress run --config-file config/cy-local-reports/cy-local-with-reports.config.js ${
-      spec ? `--spec "${spec}"` : ''
+      sanitizedSpec ? `--spec "${sanitizedSpec}"` : ''
     }`,
     {
       stdio: 'inherit',
