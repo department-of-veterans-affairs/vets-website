@@ -46,20 +46,25 @@ const FacilitySearch = props => {
         role="search"
         className="vads-u-padding-top--2 vads-u-padding-bottom--3 vads-u-padding-left--4 vads-u-padding-right--3 vads-u-background-color--gray-lightest"
       >
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+        <label
+          htmlFor="facility-search"
+          id="facility-search-label"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        >
           Search by city, state or postal code
-        </p>
-        <va-text-input
-          hint={null}
-          label=""
-          aria-label="Preferred Facility Search Input"
-          message-aria-describedby="preferred-facility-search"
-          name="preferred-facility-search"
-          onInput={handleInputChange}
-          error={error}
-          required
-        />
-        <button onClick={handleClick}>Search</button>
+          <va-text-input
+            id="facility-search"
+            hint="Enter a city, state, or postal code"
+            aria-labelledby="facility-search-label"
+            name="preferred-facility-search"
+            onInput={handleInputChange}
+            error={error}
+            required
+          />
+          <button className="search-btn" onClick={handleClick}>
+            Search
+          </button>
+        </label>
       </div>
 
       {loading && (
