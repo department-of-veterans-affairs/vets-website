@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';
 import SubmittedTrackedItem from './SubmittedTrackedItem';
+import AdditionalEvidencePageOld from '../../containers/AdditionalEvidencePageOld';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -35,11 +37,23 @@ export default function FilesPageContent({ claim, params }) {
   return (
     <div>
       {claim.attributes.open && (
-        <RequestedFilesInfo
-          id={claim.id}
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}
-        />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <RequestedFilesInfo
+              id={claim.id}
+              filesNeeded={filesNeeded}
+              optionalFiles={optionalFiles}
+            />
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <div className="submit-file-container">
+              <div className="submit-additional-evidence">
+                <h2 className="claim-file-border">Additional evidence</h2>
+                <AdditionalEvidencePageOld />
+              </div>
+            </div>
+          </Toggler.Enabled>
+        </Toggler>
       )}
       {showDecision && <AskVAToDecide id={params.id} />}
       <div className="submitted-files-list">

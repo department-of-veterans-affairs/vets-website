@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
+import AdditionalEvidencePageOld from '../containers/AdditionalEvidencePageOld';
 import { getTrackedItemId } from '../utils/helpers';
+
 import FilesNeededOld from './FilesNeededOld';
 import FilesOptionalOld from './FilesOptionalOld';
 
@@ -30,7 +31,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
       <div className="submit-file-container">
         <div className="submit-additional-evidence">
           <h2 className="claim-file-border">Additional evidence</h2>
-          <AdditionalEvidencePage />
+          <AdditionalEvidencePageOld />
         </div>
       </div>
     </div>

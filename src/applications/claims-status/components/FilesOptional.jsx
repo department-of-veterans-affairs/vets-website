@@ -5,7 +5,7 @@ import { getTrackedItemId, truncateDescription } from '../utils/helpers';
 
 function FilesOptional({ id, item }) {
   return (
-    <div className="file-request-list-item usa-alert file-request-list-item-optional background-color-only alert-with-details">
+    <va-alert status="default" uswds>
       <div className="item-container">
         <h3 className="file-request-title">{item.displayName}</h3>
         <p className="submission-description">
@@ -26,7 +26,7 @@ function FilesOptional({ id, item }) {
           View Details
         </Link>
       </div>
-    </div>
+    </va-alert>
   );
 }
 

@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 // START lighthouse_migration
+import { Toggler } from 'platform/utilities/feature-toggles';
 import FilesPageContent from '../components/evss/FilesPageContent';
 // END lighthouse_migration
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
@@ -15,7 +16,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 // END lighthouse_migration
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
-import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+import AdditionalEvidencePageOld from './AdditionalEvidencePageOld';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -127,11 +128,23 @@ class FilesPage extends React.Component {
     return (
       <div>
         {isOpen && (
-          <RequestedFilesInfo
-            id={claim.id}
-            filesNeeded={filesNeeded}
-            optionalFiles={optionalFiles}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+            <Toggler.Disabled>
+              <RequestedFilesInfo
+                id={claim.id}
+                filesNeeded={filesNeeded}
+                optionalFiles={optionalFiles}
+              />
+            </Toggler.Disabled>
+            <Toggler.Enabled>
+              <div className="submit-file-container">
+                <div className="submit-additional-evidence">
+                  <h2 className="claim-file-border">Additional evidence</h2>
+                  <AdditionalEvidencePageOld />
+                </div>
+              </div>
+            </Toggler.Enabled>
+          </Toggler>
         )}
         {showDecision && <AskVAToDecide id={params.id} />}
         <div className="submitted-files-list">
