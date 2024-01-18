@@ -34,9 +34,6 @@ export default class EducationWizard extends React.Component {
   };
 
   render() {
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.open,
-    });
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',
@@ -50,7 +47,7 @@ export default class EducationWizard extends React.Component {
         <button
           aria-expanded={this.state.open ? 'true' : 'false'}
           aria-controls="wizardOptions"
-          className={buttonClasses}
+          className="wizard-button"
           onClick={() => this.setState({ open: !this.state.open })}
         >
           {this.props.toggleText}
