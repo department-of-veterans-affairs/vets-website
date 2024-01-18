@@ -15,15 +15,8 @@ export default function DueDate({ date }) {
   const dueDateHeader = `Needed from you by ${formattedClaimDate}`;
 
   return (
-    <div className="tracked-item-due">
-      <strong className={className}>
-        <i className="fa fa-exclamation-triangle past-due-icon" /> Needed from
-        you
-      </strong>
-      <span className={className}> - due {dueDate.fromNow()}</span>
-      <div className="due-date-header">
-        <strong className={className}>{dueDateHeader}</strong>
-      </div>
+    <div className="due-date-header">
+      <strong className={className}>{dueDateHeader}</strong>
     </div>
   );
 }
