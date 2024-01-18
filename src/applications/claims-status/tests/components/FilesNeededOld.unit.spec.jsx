@@ -1,6 +1,6 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
-import { expect } from 'chai';
+
+import { render } from '@testing-library/react';
 import FilesNeededOld from '../../components/FilesNeededOld';
 
 describe('<FilesNeededOld>', () => {
@@ -11,13 +11,8 @@ describe('<FilesNeededOld>', () => {
       description: 'This is a alert',
       suspenseDate: '2024-12-01',
     };
-    const tree = SkinDeep.shallowRender(<FilesNeededOld id={id} item={item} />);
-
-    expect(tree.everySubTree('.file-request-title')[0].text()).to.equal(
-      item.displayName,
-    );
-    expect(tree.everySubTree('.submission-description')[0].text()).to.equal(
-      item.description,
-    );
+    const screen = render(<FilesNeededOld id={id} item={item} />);
+    screen.getByText(item.displayName);
+    screen.getByText(item.description);
   });
 });
