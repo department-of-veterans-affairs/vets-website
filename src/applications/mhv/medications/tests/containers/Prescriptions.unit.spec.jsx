@@ -58,7 +58,7 @@ describe('Medications Prescriptions container', () => {
       },
     });
     waitFor(() => {
-      expect(screen.getByTestId('loading-indicator')).to.exist;
+      expect(screen.getByTestId('llloading-indicator')).to.exist;
       expect(screen.getByText('Loading your medications...')).to.exist;
     });
   });
