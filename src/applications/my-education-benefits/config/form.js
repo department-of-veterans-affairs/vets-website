@@ -1710,6 +1710,76 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct Deposit',
       pages: {
+        standardDirectDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          depends: formData => !formData.showDgiDirectDeposit1990EZ,
+          uiSchema: {
+            'ui:description': customDirectDepositDescription,
+            bankAccount: {
+              ...bankAccountUI,
+              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
+                'ui:errorMessages': {
+                  pattern: 'Please enter only numbers',
+                },
+              },
+            },
+            'view:learnMore': {
+              'ui:description': (
+                <>
+                  <img
+                    key="check-image-src"
+                    style={{ marginTop: '1rem' }}
+                    src={checkImageSrc}
+                    alt="Example of a check showing where the account and routing numbers are"
+                  />
+                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <p key="learn-more-description">
+                    The bank routing number is the first 9 digits on the bottom
+                    left corner of a printed check. Your account number is the
+                    second set of numbers on the bottom of a printed check, just
+                    to the right of the bank routing number.
+                  </p>
+                  <va-additional-info key="learn-more-btn" trigger="Learn More">
+                    <p key="btn-copy">
+                      If you don’t have a printed check, you can sign in to your
+                      online banking institution for this information
+                    </p>
+                  </va-additional-info>
+                </>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              bankAccount: {
+                type: 'object',
+                required: ['accountType', 'accountNumber', 'routingNumber'],
+                properties: {
+                  accountType: {
+                    type: 'string',
+                    enum: ['checking', 'savings'],
+                  },
+                  routingNumber: {
+                    type: 'string',
+                    pattern: '^\\d{9}$',
+                  },
+                  accountNumber: {
+                    type: 'string',
+                  },
+                },
+              },
+              'view:learnMore': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
         preFilledDirectDeposit: {
           path: 'direct-deposit/review',
           title: 'Direct deposit',
@@ -1811,76 +1881,6 @@ const formConfig = {
                         pattern: '^[\\d*]{5}\\d{4}$',
                       },
                     },
-                  },
-                },
-              },
-              'view:learnMore': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-        standardDirectDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct deposit',
-          depends: formData => !formData.showDgiDirectDeposit1990EZ,
-          uiSchema: {
-            'ui:description': customDirectDepositDescription,
-            bankAccount: {
-              ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-              accountNumber: {
-                'ui:title': 'Bank account number',
-                'ui:validations': [validateAccountNumber],
-                'ui:errorMessages': {
-                  pattern: 'Please enter only numbers',
-                },
-              },
-            },
-            'view:learnMore': {
-              'ui:description': (
-                <>
-                  <img
-                    key="check-image-src"
-                    style={{ marginTop: '1rem' }}
-                    src={checkImageSrc}
-                    alt="Example of a check showing where the account and routing numbers are"
-                  />
-                  <p key="learn-more-title">Where can I find these numbers?</p>
-                  <p key="learn-more-description">
-                    The bank routing number is the first 9 digits on the bottom
-                    left corner of a printed check. Your account number is the
-                    second set of numbers on the bottom of a printed check, just
-                    to the right of the bank routing number.
-                  </p>
-                  <va-additional-info key="learn-more-btn" trigger="Learn More">
-                    <p key="btn-copy">
-                      If you don’t have a printed check, you can sign in to your
-                      online banking institution for this information
-                    </p>
-                  </va-additional-info>
-                </>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount: {
-                type: 'object',
-                required: ['accountType', 'accountNumber', 'routingNumber'],
-                properties: {
-                  accountType: {
-                    type: 'string',
-                    enum: ['checking', 'savings'],
-                  },
-                  routingNumber: {
-                    type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  accountNumber: {
-                    type: 'string',
                   },
                 },
               },
