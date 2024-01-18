@@ -15,7 +15,7 @@ describe('getServiceBranchDisplayName', () => {
     Object.values(USA_MILITARY_BRANCHES).forEach(branch => {
       it('should prefix the branch name with `United States`', () => {
         expect(getServiceBranchDisplayName(branch)).to.equal(
-          `United States ${branch} break`,
+          `United States ${branch}`,
         );
       });
     });
