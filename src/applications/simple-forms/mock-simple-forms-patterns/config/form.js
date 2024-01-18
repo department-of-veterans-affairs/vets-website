@@ -24,6 +24,11 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import {
+  onNavBackKeepUrlParams,
+  onNavForwardKeepUrlParams,
+  onNavBackRemoveAddingItem,
+} from '../arrayBuilder/helpers';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -238,7 +243,9 @@ const formConfig = {
           onNavForward: ({ formData, goPath }) => {
             if (formData.hasEmployment) {
               const index = formData.employers ? formData.employers.length : 0;
-              goPath(`/array-multiple-page-builder-item-page-1/${index}`);
+              goPath(
+                `/array-multiple-page-builder-item-page-1/${index}?add=true`,
+              );
             } else {
               goPath('/review-and-submit');
             }
@@ -253,6 +260,13 @@ const formConfig = {
           arrayPath: 'employers',
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
+          onNavBack: onNavBackRemoveAddingItem({
+            arrayPath: 'employers',
+            summaryPathUrl: '/array-multiple-page-builder-summary',
+          }),
+          onNavForward: onNavForwardKeepUrlParams,
+          ContentBeforeButtons:
+            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
@@ -265,6 +279,9 @@ const formConfig = {
           arrayPath: 'employers',
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
+          onNavBack: onNavBackKeepUrlParams,
+          ContentBeforeButtons:
+            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
