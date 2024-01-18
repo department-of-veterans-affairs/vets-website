@@ -14,7 +14,7 @@ const TravelPayAlert = props => {
 
   if (!travelPayClaimRequested) {
     return (
-      <va-alert show-icon data-testid="travel-pay-info-message" uswds slim>
+      <div data-testid="travel-pay-info-message">
         <p className="vads-u-margin-top--0">
           {t('travel-pay-reimbursement--info-message')}
         </p>
@@ -26,7 +26,7 @@ const TravelPayAlert = props => {
         >
           {t('find-out-if-youre-eligible--link')}
         </ExternalLink>
-      </va-alert>
+      </div>
     );
   }
   if (travelPayClaimError) {
