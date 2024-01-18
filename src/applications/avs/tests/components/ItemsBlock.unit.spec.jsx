@@ -70,6 +70,34 @@ describe('Avs: Items Block', () => {
     expect(screen.queryByTestId('test-item-type')).to.not.exist;
   });
 
+  it('block renders only items that have values', async () => {
+    const items = [
+      {
+        type: null,
+      },
+      {
+        type: 'Valid Item',
+      },
+    ];
+    const renderItem = item => {
+      return <p>{item.type}</p>;
+    };
+
+    const props = {
+      heading: 'Test Heading',
+      itemType: 'test-item-type',
+      items,
+      renderItem,
+      showSeparators: true,
+    };
+    const screen = render(<ItemsBlock {...props} />);
+    expect(screen.getByRole('heading')).to.have.text('Test Heading');
+    expect(screen.getByText('Test Intro')).to.exist;
+    expect(screen.getByTestId('test-item-type')).to.exist;
+    expect(screen.getByTestId('test-item-type')).to.contain.text('Valid Item');
+    expect(screen.getAllByTestId('test-item-type').length).to.eq(1);
+  });
+
   it('block does not render if all items have empty values', async () => {
     const items = [
       {
