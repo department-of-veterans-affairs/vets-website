@@ -270,7 +270,6 @@ export default Object.freeze({
     'va_online_scheduling_convert_utc_to_local',
   vaOnlineSchedulingBreadcrumbUrlUpdate:
     'va_online_scheduling_breadcrumb_url_update',
-  vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingStaticLandingPage:
     'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',
