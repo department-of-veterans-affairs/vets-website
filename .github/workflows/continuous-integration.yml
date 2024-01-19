@@ -248,6 +248,7 @@ jobs:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
+          IS_STRESS_TEST: false
 
       - name: Archive unit test results
         if: ${{ always() }}

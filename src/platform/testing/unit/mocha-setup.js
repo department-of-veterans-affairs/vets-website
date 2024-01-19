@@ -16,7 +16,7 @@ import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
-const isStressTest = process.env.IS_STRESS_TEST;
+const isStressTest = process.env.IS_STRESS_TEST || false;
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
   autoSessionTracking: false,
@@ -149,6 +149,7 @@ function setupJSDom() {
 setupJSDom();
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.indexOf('src');
+  console.log(file);
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
     /* eslint-disable-next-line no-console */
     console.log('Test skipped due to flakiness: ', file);
