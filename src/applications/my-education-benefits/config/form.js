@@ -1803,8 +1803,8 @@ const formConfig = {
               },
               'ui:description': (
                 <p>
-                  We make payments only through direct deposit, also called
-                  electronic funds transfer (EFT).
+                  <strong>Note:</strong> We make payments only through direct
+                  deposit, also called electronic funds transfer (EFT).
                 </p>
               ),
               bankAccount: {

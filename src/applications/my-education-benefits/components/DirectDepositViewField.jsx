@@ -17,10 +17,6 @@ export default function DirectDepositViewField({ formData }) {
 
   return (
     <>
-      <p className="vads-u-margin-bottom--4">
-        <strong>Note</strong>: We make payments only through direct deposit,
-        also called electronic funds transfer (EFT).
-      </p>
       <div className="va-address-block vads-u-margin-left--0">
         <h5>{`${accountTypeDisplay} account`}</h5>
         <dl className="meb-definition-list">
