@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  useLocation,
+  useHistory,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -18,12 +21,15 @@ import {
   selectVaccinesFlag,
   selectNotesFlag,
 } from '../util/selectors';
+import { resetPagination } from '../actions/pagination';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
   const featureTogglesLoading = useSelector(
     state => state.featureToggles.loading,
   );
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   // Individual feature flags
   const appEnabled = useSelector(selectMhvMrEnabledFlag);
@@ -51,6 +57,15 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(resetPagination(history.location.pathname));
+      };
+    },
+    [dispatch, history.location.pathname],
+  );
 
   useEffect(
     () => {

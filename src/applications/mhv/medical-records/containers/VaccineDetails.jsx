@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -35,10 +35,8 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../shared/util/constants';
-import { resetPagination } from '../actions/pagination';
 
 const VaccineDetails = props => {
-  const history = useHistory();
   const { runningUnitTest } = props;
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
@@ -52,15 +50,6 @@ const VaccineDetails = props => {
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
 
   useEffect(
     () => {

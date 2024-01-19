@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
@@ -37,7 +37,6 @@ import {
   reportGeneratedBy,
 } from '../../shared/util/constants';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { resetPagination } from '../actions/pagination';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -53,22 +52,12 @@ const VitalDetails = props => {
   );
   const { vitalType } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const perPage = 5;
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts();
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
 
   useEffect(
     () => {
