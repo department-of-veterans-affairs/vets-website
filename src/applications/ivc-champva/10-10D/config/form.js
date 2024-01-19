@@ -26,6 +26,7 @@ import {
   titleSchema,
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 
@@ -37,6 +38,11 @@ import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
+
+import AddAdditionalApplicants from '../components/Applicant/AddAdditionalApplicants';
+import CustomReviewPage from '../components/Applicant/CustomReviewPage';
+
+import mockData from '../tests/fixtures/data/test-data.json';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -81,6 +87,7 @@ const formConfig = {
       title: 'Your information',
       pages: {
         page1: {
+          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -379,6 +386,54 @@ const formConfig = {
             },
           },
         },
+        /*
+        This page is only used when applicants have been added
+        via the "backdoor" method enabled through AddAdditionalApplicants.jsx.
+        It's necessary so that we can add a new applicant without requiring
+        the user to then page through all previously added applicants just
+        to get to the start of the information section on the newest addition.
+        */
+        page13a: {
+          path: 'applicant-information/:index/name',
+          arrayPath: 'applicants',
+          title: item => `${item?.applicantName?.first || 'Applicant'} - Name`,
+          showPagePerItem: true,
+          depends: formData =>
+            get(
+              `applicants[${formData.applicants.length - 1}].backdoorAdd`,
+              formData,
+            ),
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: false,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantName: fullNameUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantName: fullNameSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
         page14: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
@@ -633,6 +688,21 @@ const formConfig = {
                   },
                 },
               },
+            },
+          },
+        },
+        mySchemalessPage: {
+          path: 'my-schemaless-page',
+          title: 'Bypassing the SchemaForm',
+          CustomPage: AddAdditionalApplicants,
+          CustomPageReview: CustomReviewPage,
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
             },
           },
         },

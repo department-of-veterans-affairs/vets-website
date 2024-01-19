@@ -1,4 +1,66 @@
 {
   "data": {
+    "applicants": [
+      {
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantEnrolledInMedicare": false,
+        "applicantEnrolledInOHI": false,
+        "applicantGender": "male",
+        "applicantEmailAddress": "jerry@smith.gov",
+        "applicantPhone": "5553331268",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "753 Burger Rd",
+          "city": "Denver",
+          "state": "DE",
+          "postalCode": "73251"
+        },
+        "applicantSSN": "666332222",
+        "applicantDOB": "1999-01-05",
+        "applicantName": {
+          "first": "Jeremy",
+          "last": "Smith",
+          "suffix": "Jr."
+        }
+      }
+    ],
+    "sponsorPhone": "5553215678",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "456 Street Ln",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "56788"
+    },
+    "sponsorIsDeceased": false,
+    "ssn": {
+      "ssn": "123456123"
+    },
+    "veteransFullName": {
+      "first": "John",
+      "middle": "Q",
+      "last": "Veteran"
+    },
+    "sponsorDOB": "1980-01-01",
+    "certifierRelationship": {
+      "relationshipToVeteran": "spouse"
+    },
+    "certifierPhone": "5554445555",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Street Ln",
+      "city": "Anytown",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierRole": "other",
+    "statementOfTruthSignature": "Certifier Jones",
+    "statementOfTruthCertified": true
   }
 }
