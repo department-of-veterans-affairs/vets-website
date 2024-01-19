@@ -120,14 +120,19 @@ const testSecondaryTwo = createTestConfig(
           });
         });
       },
-      'vet-3-api': ({ afterHook }) => {
+      'select-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.wait('@getFacilities');
-          cy.get('#root_veteranPreferredFacility_plannedClinic')
+          cy.get('va-text-input')
             .shadow()
-            .find('select')
-            .select('675');
+            .find('input')
+            .type('33880');
+          cy.get('.search-btn').click();
+          cy.wait('@getFacilities');
+          cy.get('#root_plannedClinic_plannedClinic')
+            .should('be.visible')
+            .first()
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
