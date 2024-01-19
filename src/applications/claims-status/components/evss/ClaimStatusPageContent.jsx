@@ -33,16 +33,17 @@ export default function ClaimStatusPageContent({
 
   return (
     <div>
-      {showDocsNeeded ? (
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-          <Toggler.Enabled>
-            <WhatYouNeedToDo claim={claim} useLighthouse={false} />
-          </Toggler.Enabled>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <Toggler.Enabled>
+          <WhatYouNeedToDo claim={claim} useLighthouse={false} />
+        </Toggler.Enabled>
+        {showDocsNeeded && (
           <Toggler.Disabled>
             <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
           </Toggler.Disabled>
-        </Toggler>
-      ) : null}
+        )}
+      </Toggler>
+
       {decisionLetterSent && !open ? (
         <ClaimsDecision
           completedDate={getCompletedDate(claim)}

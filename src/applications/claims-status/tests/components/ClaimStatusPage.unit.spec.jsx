@@ -73,22 +73,32 @@ describe('<ClaimStatusPage>', () => {
         },
       }));
 
-    it('should render status page without a timeline or WhatYouNeedToDo section when no trackedItems', () => {
+    it('should render status page without a timeline and with a WhatYouNeedToDo section without alerts when using lighthouse', () => {
       const claim = {
         id: '1',
         attributes: {
-          phase: 2,
-          open: true,
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
           closeDate: null,
-          documentsNeeded: true,
+          documentsNeeded: false,
           decisionLetterSent: false,
-          waiverSubmitted: true,
-          trackedItems: [{}],
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+          trackedItems: [],
         },
       };
       const { container } = render(
         <Provider store={getStore()}>
           <ClaimStatusPage
+            useLighthouse
             claim={claim}
             params={params}
             clearNotification={() => {}}
@@ -97,15 +107,15 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       const statusPage = $('#tabPanelStatus', container);
+
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
-      // const expectedText =
-      //   "There's nothing we need from you right now. We'll let you know when there's an update.";
-      // expect(getByText(expectedText)).not.to.exist;
-      expect($('.what-you-need-to-do-container', container)).not.to.exist;
+      expect($('.what-you-need-to-do-container', container)).to.exist;
+      expect($('va-alert', container)).not.to.exist;
+      expect($('.need-files-alert', container)).not.to.exist;
     });
 
-    it('should render status page without a timeline, with a WhatYouNeedToDoPage when using lighthouse', () => {
+    it('should render status page without a timeline and with a WhatYouNeedToDo section with alerts when using lighthouse', () => {
       const claim = {
         id: '1',
         attributes: {
@@ -126,6 +136,7 @@ describe('<ClaimStatusPage>', () => {
           },
           trackedItems: [
             {
+              id: 1,
               status: 'NEEDED_FROM_YOU',
               displayName: 'Test',
               description: 'Test',
@@ -147,16 +158,45 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       const statusPage = $('#tabPanelStatus', container);
+
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
-      // const expectedText =
-      //   "There's nothing we need from you right now. We'll let you know when there's an update.";
-      // expect(queryByText(expectedText)).not.to.exist;
       expect($('.what-you-need-to-do-container', container)).to.exist;
       expect($('va-alert', container)).to.exist;
     });
 
-    it('should not render status page without a timeline when using evss', () => {
+    it('should render status page without a timeline and with a WhatYouNeedToDo section without alerts when using evss', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          open: true,
+          phase: 3,
+          dateFiled: '2023-01-01',
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          eventsTimeline: [],
+        },
+      };
+      const { container } = render(
+        <Provider store={getStore()}>
+          <ClaimStatusPage
+            claim={claim}
+            params={params}
+            clearNotification={() => {}}
+          />
+          ,
+        </Provider>,
+      );
+      const statusPage = $('#tabPanelStatus', container);
+
+      expect(statusPage).to.exist;
+      expect(within(statusPage).queryByRole('list')).to.not.exist;
+      expect($('.what-you-need-to-do-container', container)).to.exist;
+      expect($('va-alert', container)).not.to.exist;
+      expect($('.need-files-alert', container)).not.to.exist;
+    });
+
+    it('should not render status page without a timeline and with a WhatYouNeedToDo section with alerts when using evss', () => {
       const claim = {
         id: '1',
         attributes: {
@@ -167,6 +207,7 @@ describe('<ClaimStatusPage>', () => {
           decisionLetterSent: false,
           eventsTimeline: [
             {
+              trackedItemId: 1,
               type: 'still_need_from_you_list',
               status: 'NEEDED',
               displayName: 'Test',
@@ -190,10 +231,12 @@ describe('<ClaimStatusPage>', () => {
         </Provider>,
       );
       const statusPage = $('#tabPanelStatus', container);
+
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
       expect($('.what-you-need-to-do-container', container)).to.exist;
       expect($('va-alert', container)).to.exist;
+      expect($('.need-files-alert', container)).not.to.exist;
     });
   });
 

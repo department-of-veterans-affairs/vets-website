@@ -245,16 +245,17 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <div>
-        {showDocsNeeded ? (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-            <Toggler.Enabled>
-              <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
-            </Toggler.Enabled>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Enabled>
+            <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
+          </Toggler.Enabled>
+          {showDocsNeeded && (
             <Toggler.Disabled>
               <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
             </Toggler.Disabled>
-          </Toggler>
-        ) : null}
+          )}
+        </Toggler>
+
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
             completedDate={closeDate}
