@@ -34,14 +34,13 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../../util/constants';
-import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 
 const ComposeForm = props => {
-  const { draft, recipients } = props;
+  const { categories, draft, recipients, signature } = props;
   const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -79,7 +78,6 @@ const ComposeForm = props => {
   const { isSaving } = useSelector(state => state.sm.threadDetails);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
-  const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
@@ -115,13 +113,6 @@ const ComposeForm = props => {
       return messageSignatureFormatter(signature);
     },
     [signature],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
   );
 
   const setUnsavedNavigationError = typeOfError => {
@@ -662,6 +653,7 @@ const ComposeForm = props => {
 
           <div className="compose-form-div">
             <CategoryInput
+              categories={categories}
               category={category}
               categoryError={categoryError}
               setCategory={setCategory}
@@ -770,8 +762,10 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
+  categories: PropTypes.array,
   draft: PropTypes.object,
   recipients: PropTypes.object,
+  signature: PropTypes.object,
 };
 
 export default ComposeForm;
