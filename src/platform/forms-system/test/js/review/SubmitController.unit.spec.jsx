@@ -108,7 +108,7 @@ const createStore = (options = {}) => {
   });
 };
 
-describe.skip('Schemaform review: SubmitController', () => {
+describe('Schemaform review: SubmitController', () => {
   before(() => {
     testkit.reset();
   });
@@ -418,6 +418,87 @@ describe.skip('Schemaform review: SubmitController', () => {
     expect(setFormErrors.called).to.be.true;
     expect(autoSaveForm.called).to.be.true;
 
+    tree.unmount();
+  });
+
+  it('should submit submission error data to DataDog', () => {
+    // Form with missing required field
+    const page = {
+      title: 'Missing stuff',
+      schema: {
+        type: 'object',
+        required: ['stuff'],
+        properties: {
+          stuff: { type: 'string' },
+        },
+      },
+    };
+    const form = createForm({
+      data: { privacyAgreementAccepted: true },
+      pages: { page1: { schema: page.schema } },
+    });
+    const formConfig = createFormConfig({
+      chapters: {
+        chapter1: {
+          pages: {
+            page1: page,
+          },
+        },
+      },
+    });
+    const pageList = [
+      { path: 'page-1', pageKey: 'page1', schema: page.schema },
+    ];
+    const user = createUserLogIn();
+    const setPreSubmit = sinon.spy();
+    const setSubmission = sinon.spy();
+    const submitForm = sinon.spy();
+    const autoSaveForm = sinon.spy();
+    const setFormErrors = sinon.spy();
+    global.window.DD_LOGS = {
+      logger: {
+        error: sinon.spy(),
+      },
+    };
+
+    const store = createStore({
+      form,
+    });
+
+    const tree = render(
+      <Provider store={store}>
+        <SubmitController
+          autoSaveForm={autoSaveForm}
+          form={form}
+          formConfig={formConfig}
+          pageList={pageList}
+          route={{ formConfig, pageList }}
+          setPreSubmit={setPreSubmit}
+          setSubmission={setSubmission}
+          setFormErrors={setFormErrors}
+          submitForm={submitForm}
+          trackingPrefix={formConfig.trackingPrefix}
+          user={user}
+        />
+      </Provider>,
+    );
+
+    const submitButton = tree.getByText('Submit application');
+    fireEvent.click(submitButton);
+
+    expect(submitForm.called).to.be.false;
+
+    const loggerSpy = window.DD_LOGS.logger.error;
+    expect(loggerSpy.called).to.be.true;
+    expect(loggerSpy.args[0][0]).to.equal('Validation issue not displayed');
+    expect(loggerSpy.args[0][1].userId).to.equal(user.profile.accountUuid);
+    expect(loggerSpy.args[0][1].inProgressFormId).to.equal('123');
+    expect(loggerSpy.args[0][1].errors)
+      .to.be.an('array')
+      .with.length('1');
+    expect(loggerSpy.args[0][2]).to.eq('validationError');
+
+    delete global.window.DD_LOGS;
     tree.unmount();
   });
 
