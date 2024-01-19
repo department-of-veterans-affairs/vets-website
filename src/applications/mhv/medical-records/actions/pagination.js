@@ -13,27 +13,27 @@ export const setPagination = (domain, value) => async dispatch => {
 /**
  * Resets Pagination in reducer where page needs to be modified by it's domain.
  */
-export const resetPagination = domain => async dispatch => {
-  let url = '';
+export const resetPagination = url => async dispatch => {
+  let domain = '';
 
-  if (domain.includes('labs-and-tests')) {
-    url = 'lab and test results';
-  } else if (domain.includes('allergies')) {
-    url = 'allergies';
-  } else if (domain.includes('vitals')) {
-    url = 'vitals';
-  } else if (domain.includes('conditions')) {
-    url = 'health conditions';
-  } else if (domain.includes('vaccines')) {
-    url = 'vaccines';
-  } else if (domain.includes('summaries-and-notes')) {
-    url = 'care summaries and notes';
+  if (url.includes('labs-and-tests')) {
+    domain = 'lab and test results';
+  } else if (url.includes('allergies')) {
+    domain = 'allergies';
+  } else if (url.includes('vitals')) {
+    domain = 'vitals';
+  } else if (url.includes('conditions')) {
+    domain = 'health conditions';
+  } else if (url.includes('vaccines')) {
+    domain = 'vaccines';
+  } else if (url.includes('summaries-and-notes')) {
+    domain = 'care summaries and notes';
   } else {
-    url = 'other';
+    domain = 'other';
   }
 
   dispatch({
     type: Actions.Pagination.RESET_PAGINATION,
-    payload: { domain: url, value: 1 },
+    payload: { domain, value: 1 },
   });
 };

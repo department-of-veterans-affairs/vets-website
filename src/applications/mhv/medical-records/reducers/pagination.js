@@ -55,7 +55,7 @@ export const paginationReducer = (state = initialState, action) => {
         page: state.page.map(
           index =>
             index.domain !== action.payload.domain
-              ? { ...index, value: 1 }
+              ? { ...index, value: action.payload.value }
               : index,
         ),
       };

@@ -40,6 +40,7 @@ describe('paginationReducer', () => {
         type: Actions.Pagination.RESET_PAGINATION,
         payload: {
           domain: 'vitals',
+          value: 1,
         },
       };
       const newState = paginationReducer(initialState, action);

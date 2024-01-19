@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import RecordListItem from './RecordListItem';
 import { recordType } from '../../util/constants';
 import { setPagination, resetPagination } from '../../actions/pagination';
@@ -14,7 +15,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 const RecordList = props => {
   const { records, type, perPage = 10, hidePagination } = props;
   const totalEntries = records?.length;
-
+  const history = useHistory();
   const paginationPage = useSelector(state =>
     state.mr.pagination.page.find(key => key.domain === type),
   );
@@ -41,7 +42,7 @@ const RecordList = props => {
   useEffect(
     () => {
       return () => {
-        dispatch(resetPagination(location.pathname));
+        dispatch(resetPagination(history.location.pathname));
       };
     },
     [dispatch, type],

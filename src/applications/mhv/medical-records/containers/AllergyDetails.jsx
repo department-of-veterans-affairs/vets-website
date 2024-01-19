@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ItemList from '../components/shared/ItemList';
@@ -29,6 +29,7 @@ import {
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { txtLine } from '../../shared/util/constants';
+import { resetPagination } from '../actions/pagination';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -44,6 +45,14 @@ const AllergyDetails = props => {
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
+  const history = useHistory();
+
+  useEffect(
+    () => {
+      dispatch(resetPagination(history.location.pathname));
+    },
+    [dispatch, history.location.pathname],
+  );
 
   useEffect(
     () => {

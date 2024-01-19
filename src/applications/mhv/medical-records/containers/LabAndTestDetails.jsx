@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   clearLabsAndTestDetails,
   getlabsAndTestsDetails,
@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { resetPagination } from '../actions/pagination';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,16 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts();
+  const history = useHistory();
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(resetPagination(history.location.pathname));
+      };
+    },
+    [dispatch, history.location.pathname],
+  );
 
   useEffect(
     () => {
