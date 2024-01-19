@@ -170,7 +170,7 @@ export const mochaHooks = {
     setupJSDom();
     resetFetch();
     cleanupStorage();
-    console.log(isStressTest);
+    console.log(isStressTest == false);
     if (isStressTest == false) {
       checkAllowList(this);
     }
