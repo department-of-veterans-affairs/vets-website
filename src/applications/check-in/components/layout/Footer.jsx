@@ -9,7 +9,6 @@ import BackToHome from '../BackToHome';
 import HelpBlock from '../HelpBlock';
 import { makeSelectError } from '../../selectors';
 
-
 const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
@@ -48,7 +47,7 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {showTravelHelp ? (
+      {showTravelHelp() ? (
         <div data-testid="check-in-message">
           <HelpBlock travel />
         </div>
