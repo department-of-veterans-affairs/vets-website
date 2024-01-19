@@ -270,5 +270,6 @@
   "file-later": "File later",
   "would-you-like-to-file-a-travel-reimbursement-claim": "Would you like to file a travel reimbursement claim?",
   "are-you-claiming-only-mileage": "Are you claiming only mileage and no other expenses?",
-  "this-link-has-expired": "This link has expired."
+  "this-link-has-expired": "This link has expired.",
+  "you-can-still-check-in-travel-reimbursement": "You can still check in for your appointment, but our travel reimbursement system isn’t working at this time. You can still file within 30 days through the Beneficiary Travel Self Service System (BTSSS)."
 }
