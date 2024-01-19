@@ -109,15 +109,7 @@ const Compose = () => {
         </>
       );
     }
-    if ((isDraftPage && !draftMessage) || (!isDraftPage && !recipients)) {
-      return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      );
-    }
+
     if (saveError) {
       return (
         <va-alert status="error" visible class="vads-u-margin-y--9">
