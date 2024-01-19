@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../sass/change-of-address-wrapper.scss';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-
+import { scrollToElement } from '../helpers';
 import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
-  // SMALL_SCREEN,
 } from '../constants/index';
 
 const ChangeOfAddressWrapper = ({ mailingAddress }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
-  //   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [formData, setFormData] = useState({});
 
   const PREFIX = 'GI-Bill-Chapters-';
 
+  const scrollToTopOfForm = () => {
+    scrollToElement('Contact information');
+  };
+
   const handleCloseForm = () => {
     setFormData({}); // clear form data
     setToggleAddressForm(false);
+    scrollToTopOfForm();
   };
 
   // called when submitting form
@@ -32,7 +35,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
     //     accountType: formData[`${PREFIX}AccountType`],
 
     // };
-    handleCloseForm(); // close directDeposit form
+    handleCloseForm(); // close addressForm form
     // add redux logic here when API is available
   };
 
@@ -56,42 +59,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
     );
   };
 
-  //   const gaBankInfoHelpText = () => {
-  //     window.dataLayer.push({
-  //       event: 'VYE-change-of-direct-deposit-help-text-clicked',
-  //       'help-text-label': 'What if I don’t have a bank account?',
-  //     });
-  //   };
-
-  //   const bankInfoHelpText = (
-  //     <va-additional-info
-  //       trigger="What if I don’t have a bank account?"
-  //       onClick={gaBankInfoHelpText}
-  //     >
-  //       <span>
-  //         <p>
-  //           The{' '}
-  //           <a href="https://veteransbenefitsbanking.org/">
-  //             Veterans Benefits Banking Program (VBBP)
-  //           </a>{' '}
-  //           provides a list of Veteran-friendly banks and credit unions. They’ll
-  //           work with you to set up an account, or help you qualify for an
-  //           account, so you can use direct deposit. To get started, call one of
-  //           the participating banks or credit unions listed on the VBBP website.
-  //           Be sure to mention the Veterans Benefits Banking Program.
-  //         </p>
-  //         <p>
-  //           Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
-  //           subject to section 208.4, “all Federal payments made by an agency
-  //           shall be made by electronic funds transfer” (EFT).
-  //         </p>
-  //       </span>
-  //     </va-additional-info>
-  //   );
-
   const handleAddNewClick = () => {
     // toggle show form true
     setToggleAddressForm(true);
+    scrollToTopOfForm();
   };
   const updateAddressData = data => {
     const tempData = { ...data };
@@ -117,35 +88,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
     }
 
     setFormData(tempData);
-    // formChange({...addressFormData, "countryCodeIso3": "USA",})
   };
-  // set innerWidth of screen to screenWidth state
-  // this state handles when to show the check image
-  //   useEffect(() => {
-  //     const handleResize = () => {
-  //       setScreenWidth(window.innerWidth);
-  //     };
-
-  //     window.addEventListener('resize', handleResize);
-
-  //     // Cleanup function to remove the event listener
-  //     return () => {
-  //       window.removeEventListener('resize', handleResize);
-  //     };
-  //   }, []);
-
-  //   scroll to top of div when edit page is canceled or saved
-  useEffect(
-    () => {
-      //   if (!toggleAddressForm) {
-      const element = document.getElementById('Contact information');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-      //   }
-    },
-    [toggleAddressForm],
-  );
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>

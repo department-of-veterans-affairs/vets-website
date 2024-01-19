@@ -17,9 +17,14 @@ const ChangeOfDirectDepositWrapper = () => {
 
   const PREFIX = 'GI-Bill-Chapters-';
 
+  const scrollToTopOfForm = () => {
+    scrollToElement('Direct deposit information');
+  };
+
   const handleCloseForm = () => {
     setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
+    scrollToTopOfForm();
   };
 
   // called when submitting form
@@ -88,6 +93,7 @@ const ChangeOfDirectDepositWrapper = () => {
   const handleAddNewClick = () => {
     // toggle show form true
     setToggleDirectDepositForm(true);
+    scrollToTopOfForm();
   };
 
   // set innerWidth of screen to screenWidth state
@@ -106,19 +112,19 @@ const ChangeOfDirectDepositWrapper = () => {
   }, []);
 
   //   scroll to top of div when edit page is canceled or saved
-  useEffect(
-    () => {
-      if (!toggleDirectDepositForm) {
-        scrollToElement('Direct deposit information');
-        // const element = document.getElementById('Direct deposit information');
-        // if (element) {
-        //   element.scrollIntoView({ behavior: 'smooth' });
-        // }
-      }
-      // }
-    },
-    [toggleDirectDepositForm],
-  );
+  // useEffect(
+  //   () => {
+  //     if (!toggleDirectDepositForm) {
+  //       scrollToElement('Direct deposit information');
+  //       // const element = document.getElementById('Direct deposit information');
+  //       // if (element) {
+  //       //   element.scrollIntoView({ behavior: 'smooth' });
+  //       // }
+  //     }
+  //     // }
+  //   },
+  //   [toggleDirectDepositForm],
+  // );
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>

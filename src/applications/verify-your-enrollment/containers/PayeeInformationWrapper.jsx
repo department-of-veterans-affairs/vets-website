@@ -35,12 +35,6 @@ const PayeeInformationWrapper = () => {
           showAdditionalInformation={false}
           applicantChapter={applicantChapter}
         />
-        {/* <span className="vye-top-border"></span>
-                <PayeeInformationCard 
-                    title={'Claim Number'} 
-                    showAdditionalInformation={false} 
-                    applicantClaimNumber={applicantClaimNumber}
-                /> */}
       </div>
     </div>
   );

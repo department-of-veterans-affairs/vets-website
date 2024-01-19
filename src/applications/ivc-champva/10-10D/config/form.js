@@ -1,31 +1,46 @@
+import environment from 'platform/utilities/environment';
+
 import {
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
+  ssnSchema,
+  ssnUI,
   addressSchema,
   addressUI,
   phoneSchema,
   phoneUI,
+  emailSchema,
+  emailUI,
   dateOfBirthSchema,
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
+  relationshipToVeteranSchema,
+  relationshipToVeteranUI,
   yesNoSchema,
   yesNoUI,
+  radioSchema,
+  radioUI,
   titleSchema,
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from 'platform/utilities/data/get';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import ApplicantField from '../components/Applicant/ApplicantField';
 import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { fileTypes, attachmentsSchema } from './attachments.js';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  transformForSubmit,
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -34,11 +49,12 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-10D',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
-    //   expired: 'Your saved CHAMPVA benefits application (10-10D) has expired. If you want to apply for CHAMPVA benefits, please start a new application.',
-    //   saved: 'Your CHAMPVA benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
+      expired:
+        'Your saved CHAMPVA benefits application (10-10D) has expired. If you want to apply for CHAMPVA benefits, please start a new application.',
+      saved: 'Your CHAMPVA benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -203,6 +219,304 @@ const formConfig = {
               'view:alert': {
                 type: 'object',
                 properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: {
+        page8: {
+          path: 'applicant-information',
+          arrayPath: 'applicants',
+          title: 'Applicants',
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+                useDlWrap: false,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantName: fullNameUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantName: fullNameSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page9: {
+          path: 'applicant-information/:index/ssn-dob',
+          arrayPath: 'applicants',
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - SSN and date of birth`,
+          showPagePerItem: true,
+          uiSchema: {
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              'ui:errorMessages': {
+                minItems: 'Must have at least one applicant listed.',
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantSSN: ssnUI(),
+                applicantDOB: dateOfBirthUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantSSN: ssnSchema,
+                    applicantDOB: dateOfBirthSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page10: {
+          path: 'applicant-information/:index/address',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - address`,
+          uiSchema: {
+            'ui:title': 'Applicant Address',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantAddress: addressUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantAddress: addressSchema(),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page11: {
+          path: 'applicant-information/:index/email-phone',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - email and phone`,
+          uiSchema: {
+            'ui:title': 'Applicant Email and Phone',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantEmailAddress: emailUI(),
+                applicantPhone: phoneUI(),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEmailAddress: emailSchema,
+                    applicantPhone: phoneSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page12: {
+          path: 'applicant-information/:index/gender',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - gender`,
+          uiSchema: {
+            'ui:title': 'Applicant Gender',
+            applicants: {
+              items: {
+                'ui:title': ApplicantField,
+                applicantGender: radioUI({
+                  title: 'Gender',
+                  required: true,
+                  labels: { male: 'Male', female: 'Female' },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantGender: radioSchema(['male', 'female']),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page13: {
+          path: 'applicant-information/:index/additional-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first || 'Applicant'} - health insurance`,
+          uiSchema: {
+            'ui:title': 'Applicant Health Insurance and Relationship',
+            applicants: {
+              'ui:options': {
+                viewField: ApplicantField,
+                keepInPageOnReview: true,
+              },
+              items: {
+                'ui:title': ApplicantField,
+                applicantEnrolledInMedicare: yesNoUI({
+                  title: 'Enrolled in Medicare',
+                }),
+                applicantMedicareCardFront: {
+                  ...fileUploadUI('Medicare card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantMedicareCardBack: {
+                  ...fileUploadUI('Medicare card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInMedicare,
+                  }),
+                },
+                applicantEnrolledInOHI: yesNoUI({
+                  title: 'Enrolled in Other Health Insurance (OHI)',
+                }),
+                applicantOHICardFront: {
+                  ...fileUploadUI('OHI card (Front)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
+                },
+                applicantOHICardBack: {
+                  ...fileUploadUI('OHI card (Back)', {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    hideIf: (formData, index) =>
+                      !formData.applicants[index].applicantEnrolledInOHI,
+                  }),
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantEnrolledInMedicare: yesNoSchema,
+                    applicantMedicareCardFront: attachmentsSchema,
+                    applicantMedicareCardBack: attachmentsSchema,
+                    applicantEnrolledInOHI: yesNoSchema,
+                    applicantOHICardFront: attachmentsSchema,
+                    applicantOHICardBack: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page14c: {
+          path: 'applicant-information/:index/relationship',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${item?.applicantName?.first ||
+              'Applicant'} - relationship to sponsor`,
+          uiSchema: {
+            applicants: {
+              items: {
+                'ui:title': ApplicantField, // shows on each page of array
+                applicantRelationshipToSponsor: {
+                  ...relationshipToVeteranUI('Sponsor'),
+                  'ui:required': () => true,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantRelationshipToSponsor: relationshipToVeteranSchema,
+                  },
+                },
               },
             },
           },

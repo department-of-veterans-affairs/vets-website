@@ -4,7 +4,7 @@ import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Validate the category', () => {
-  it.skip('selects a category', () => {
+  it('selects a category', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();

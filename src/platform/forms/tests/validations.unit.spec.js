@@ -191,7 +191,7 @@ describe('Validations unit tests', () => {
       };
       const toDate = {
         day: {
-          value: null,
+          value: '',
           dirty: true,
         },
         month: {
@@ -199,7 +199,7 @@ describe('Validations unit tests', () => {
           dirty: true,
         },
         year: {
-          value: '2008',
+          value: '',
           dirty: true,
         },
       };
