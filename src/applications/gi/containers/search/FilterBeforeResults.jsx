@@ -22,6 +22,7 @@ import { showModal, filterChange } from '../../actions';
 import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
+import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 
 export function FilterBeforeResults({
   dispatchShowModal,
@@ -536,16 +537,22 @@ export function FilterBeforeResults({
               >
                 Apply filters
               </button>
-              <button
-                onClick={clearAllFilters}
-                className={
-                  smallScreen
-                    ? 'clear-filters-button mobile-clear-filter-button'
-                    : 'clear-filters-button'
-                }
-              >
-                Clear filters
-              </button>
+              {environment.isProduction() ? (
+                <button
+                  onClick={clearAllFilters}
+                  className={
+                    smallScreen
+                      ? 'clear-filters-button mobile-clear-filter-button'
+                      : 'clear-filters-button'
+                  }
+                >
+                  Clear filters
+                </button>
+              ) : (
+                <ClearFiltersBtn testId="clear-button">
+                  Clear filters
+                </ClearFiltersBtn>
+              )}
             </div>
             <div
               id="learn-more-about-specialized-missions-accordion-button"
