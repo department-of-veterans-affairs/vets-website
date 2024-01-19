@@ -121,14 +121,11 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     sendWindowEvent('rxSkill');
   }
   if (eventName === 'NEW_TAB_REDIRECT') {
-    window.open(`https://${eventValue}`, '_blank');
-    // const isDictating = document.querySelector(
-    //   'div.webchat__microphone-button--dictating',
-    // );
-    // if (isDictating) {
-    //   document
-    //     .querySelector('button.webchat__microphone-button__button')
-    //     ?.click();
+    // window.open(`https://${eventValue.site}`, '_blank');
+    sessionStorage.setItem('redirectSite', eventValue.site);
+
+    sendWindowEvent('open_tab_in_forefront');
+
     // }
     // window.open(`https://localhost:3001/itworks`, '_blank');
   }
