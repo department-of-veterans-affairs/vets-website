@@ -53,7 +53,7 @@ const getBoundedYPosition = doc => {
  *
  * @returns {Object} doc
  */
-const createStruct = (doc, struct, font, fontSize, text, options) => {
+export const createStruct = (doc, struct, font, fontSize, text, options) => {
   const x = options.x ?? getBoundedXPosition(doc);
   const y = options.y ?? getBoundedYPosition(doc);
   unset(options.x);
@@ -210,7 +210,14 @@ const generateHeaderBanner = async (doc, header, data, config) => {
  *
  * @returns {void}
  */
-const generateInitialHeaderContent = async (doc, parent, data, config) => {
+const generateInitialHeaderContent = async (
+  doc,
+  parent,
+  data,
+  config,
+  options = {},
+) => {
+  const { headerBannerOnly, nameDobOnly } = options;
   // Adjust page margins so that we can write in the header/footer area.
   // eslint-disable-next-line no-param-reassign
   doc.page.margins = {
@@ -226,12 +233,15 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
     attached: 'Top',
   });
   parent.add(header);
-  const leftOptions = { continued: true, x: config.margins.left, y: 12 };
-  header.add(createSpan(doc, config, data.headerLeft, leftOptions));
-  const rightOptions = { align: 'right' };
-  header.add(createSpan(doc, config, data.headerRight, rightOptions));
 
-  if (data.headerBanner) {
+  if (!headerBannerOnly) {
+    const leftOptions = { continued: true, x: config.margins.left, y: 12 };
+    header.add(createSpan(doc, config, data.headerLeft, leftOptions));
+    const rightOptions = { align: 'right' };
+    header.add(createSpan(doc, config, data.headerRight, rightOptions));
+  }
+
+  if (data.headerBanner && !nameDobOnly) {
     generateHeaderBanner(doc, header, data, config);
   }
 
@@ -250,9 +260,9 @@ const generateInitialHeaderContent = async (doc, parent, data, config) => {
  *
  * @returns {void}
  */
-const generateFinalHeaderContent = async (doc, data, config) => {
+const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
   const pages = doc.bufferedPageRange();
-  for (let i = 1; i < pages.count; i += 1) {
+  for (let i = startPage; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
     // Adjust page margins so that we can write in the header/footer area.
@@ -278,10 +288,17 @@ const generateFinalHeaderContent = async (doc, data, config) => {
  * @param {Object} parent parent struct
  * @param {Object} data PDF data
  * @param {Object} config layout config
+ * @param {Boolean} addSeparator line separating footer from content
  *
  * @returns {void}
  */
-const generateFooterContent = async (doc, parent, data, config) => {
+const generateFooterContent = async (
+  doc,
+  parent,
+  data,
+  config,
+  addSeparator = false,
+) => {
   const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
@@ -294,7 +311,14 @@ const generateFooterContent = async (doc, parent, data, config) => {
       left: config.margins.left,
       right: 16,
     };
-
+    if (addSeparator) {
+      doc.markContent('Artifact');
+      doc
+        .moveTo(config.margins.left, 766 - 12)
+        .lineTo(doc.page.width - 16, 766 - 12)
+        .stroke();
+      doc.endMarkedContent();
+    }
     // Only allow the last footer element to be read by screen readers
     const footer =
       i === pages.count - 1

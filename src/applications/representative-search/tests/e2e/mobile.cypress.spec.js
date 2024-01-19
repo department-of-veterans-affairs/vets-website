@@ -7,7 +7,7 @@ Cypress.Commands.add('checkSearch', () => {
     timeout: 5000,
   }).type(`Austin, TX`, { force: true });
 
-  cy.get('#representative-search').click();
+  cy.get('va-button[text="Search"]').click();
 
   // Result list
   cy.get('.representative-search-results-container').should('exist');
@@ -17,7 +17,9 @@ describe('Mobile', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'find_a_representative', value: true }],
+        features: [
+          { name: 'find_a_representative_enable_frontend', value: true },
+        ],
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);

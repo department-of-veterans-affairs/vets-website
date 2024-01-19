@@ -1,10 +1,8 @@
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
-import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
+import merge from 'lodash/merge';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import {
-  yesNoSchema,
-  yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import fullNameUI from 'platform/forms/definitions/fullName';
 
 import { dependentsMinItem } from '../../../helpers';
 import DependentField from '../../../components/DependentField';
@@ -15,29 +13,38 @@ const { dependents } = fullSchemaPensions.properties;
 export default {
   uiSchema: {
     'ui:title': 'Dependent children',
-    'view:hasDependents': yesNoUI({
-      title: 'Do you have any dependent children?',
-    }),
     dependents: {
       'ui:options': {
         itemName: 'Dependent',
-        expandUnder: 'view:hasDependents',
         viewField: DependentField,
+        reviewTitle: 'Dependent children',
+        keepInPageOnReview: true,
       },
       'ui:errorMessages': {
         minItems: dependentsMinItem,
       },
       items: {
-        fullName: fullNameUI,
+        fullName: merge({}, fullNameUI, {
+          first: {
+            'ui:title': 'Child’s first name',
+          },
+          last: {
+            'ui:title': 'Child’s last name',
+          },
+          middle: {
+            'ui:title': 'Child’s middle name',
+          },
+          suffix: {
+            'ui:title': 'Child’s suffix',
+          },
+        }),
         childDateOfBirth: currentOrPastDateUI('Date of birth'),
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['view:hasDependents'],
     properties: {
-      'view:hasDependents': yesNoSchema,
       dependents: {
         type: 'array',
         minItems: 1,

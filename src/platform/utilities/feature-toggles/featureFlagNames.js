@@ -98,7 +98,7 @@ export default Object.freeze({
     'financial_status_report_streamlined_waiver_assets',
   financialStatusReportReviewPageNavigation:
     'financial_status_report_review_page_navigation',
-  findARepresentative: 'find_a_representative',
+  findARepresentativeEnableFrontend: 'find_a_representative_enable_frontend',
   form10182Nod: 'form10182_nod',
   form2010206: 'form2010206',
   form2110210: 'form2110210',
@@ -120,6 +120,7 @@ export default Object.freeze({
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrBrowserMonitoringEnabled: 'hlr_browser_monitoring_enabled',
+  lettersCheckDiscrepancies: 'letters_check_discrepancies',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   medicalCopaysHtmlMedicalStatementsViewEnabled:
@@ -132,6 +133,7 @@ export default Object.freeze({
     'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplayNotes: 'mhv_medical_records_display_notes',
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
@@ -163,6 +165,7 @@ export default Object.freeze({
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation:
     'profile_show_pronouns_and_sexual_orientation',
+  profileShowProofOfVeteranStatus: 'profile_show_proof_of_veteran_status',
   profileShowPaymentsNotificationSetting:
     'profile_show_payments_notification_setting',
   profileShowQuickSubmitNotificationSetting:
@@ -170,13 +173,12 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes:
-    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
+  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
@@ -241,8 +243,6 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
-  vaOnlineSchedulingUnenrolledVaccine:
-    'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
     'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:

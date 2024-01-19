@@ -53,9 +53,31 @@ export default {
           personalInfoFetchInProgress: true,
         };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
+        return {
+          ...state,
+          isPersonalInfoFetchFailed: false, // Set to false since the fetch was successful
+          personalInfoFetchComplete: true,
+          personalInfoFetchInProgress: false,
+          fetchedSponsorsComplete: true,
+          formData: action?.response || {},
+          sponsors: {
+            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
+              sponsor => {
+                return {
+                  ...sponsor,
+                  id: `${sponsor?.sponsorVaId}`,
+                  name: [sponsor.firstName, sponsor.lastName].join(' '),
+                  relationship: sponsor.sponsorRelationship,
+                };
+              },
+            ),
+            someoneNotListed: false,
+          },
+        };
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          isPersonalInfoFetchFailed: true,
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},

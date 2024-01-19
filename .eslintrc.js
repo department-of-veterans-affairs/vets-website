@@ -77,6 +77,13 @@ module.exports = {
       },
     ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
+    'jsx-a11y/aria-role': [
+      2,
+      {
+        allowedInvalidRoles: ['text'],
+        ignoreNonDOM: true,
+      },
+    ],
   },
   overrides: [
     {

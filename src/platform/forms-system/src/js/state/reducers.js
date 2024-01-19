@@ -1,6 +1,8 @@
 import set from '../../../../utilities/data/set';
 
 import {
+  CLOSE_REVIEW_CHAPTER,
+  OPEN_REVIEW_CHAPTER,
   SET_DATA,
   SET_EDIT_MODE,
   SET_PRE_SUBMIT,
@@ -13,6 +15,28 @@ import {
 import { recalculateSchemaAndData } from './helpers';
 
 export default {
+  [OPEN_REVIEW_CHAPTER]: (state, action) => {
+    const openChapters = {
+      ...state.reviewPageView.openChapters,
+      [action.openedChapter]: true,
+    };
+
+    return set('reviewPageView.openChapters', openChapters, state);
+  },
+  [CLOSE_REVIEW_CHAPTER]: (state, action) => {
+    const openChapters = {
+      ...state.reviewPageView.openChapters,
+      [action.closedChapter]: false,
+    };
+
+    const newState = set('reviewPageView.openChapters', openChapters, state);
+
+    const viewedPages = new Set(state.reviewPageView.viewedPages);
+
+    action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
+
+    return set('reviewPageView.viewedPages', viewedPages, newState);
+  },
   [SET_DATA]: (state, action) => {
     const newState = set('data', action.data, state);
     return recalculateSchemaAndData(newState);
