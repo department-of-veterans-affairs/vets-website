@@ -5,7 +5,15 @@ import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
-import { formatCurrency, submit } from '../../helpers';
+import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import {
+  formatCurrency,
+  submit,
+  replacer,
+  isMarried,
+  getMarriageTitleWithCurrent,
+  validateWorkHours,
+} from '../../helpers';
 
 describe('Pensions helpers', () => {
   describe('submit', () => {
@@ -114,11 +122,46 @@ describe('Pensions helpers', () => {
       delete window.URL;
     });
   });
+  describe('replacer', () => {
+    it('should clean up empty objects', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = { data: { mailingAddress: {} } };
+      const transformed = transformForSubmit(formConfig, formData, replacer);
+
+      expect(transformed).not.to.haveOwnProperty('data');
+      expect(transformed).not.to.haveOwnProperty('mailingAddress');
+    });
+  });
+  describe('getMarriageTitleWithCurrent', () => {
+    it('should return current marriage title', () => {
+      const form = {
+        maritalStatus: 'Married',
+        marriages: [{}, {}],
+      };
+      expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Current marriage');
+    });
+  });
+  describe('isMarried', () => {
+    it('should return false for no data', () => {
+      expect(isMarried()).to.be.false;
+    });
+  });
   describe('formatCurrency', () => {
     it('should format US currency', () => {
       expect(formatCurrency(0.01)).to.equal('$0.01');
       expect(formatCurrency(1000)).to.equal('$1,000');
       expect(formatCurrency(12.75)).to.equal('$12.75');
+    });
+  });
+  describe('validateWorkHours', () => {
+    it('should not allow more tthat 168 hours of work', () => {
+      const errors = { addError() {} };
+      const spy = sinon.spy(errors, 'addError');
+      validateWorkHours(errors, 170);
+      expect(spy.withArgs('Enter a number less than 169').calledOnce).to.be
+        .true;
     });
   });
 });

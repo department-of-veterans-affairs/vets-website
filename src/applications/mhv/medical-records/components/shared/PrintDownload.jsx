@@ -34,15 +34,19 @@ const PrintDownload = props => {
 
     if (printIndex > 0 && e.keyCode === 38) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex - 1}`).focus();
+      document.getElementById(`printButton-${printIndex - 2}`).focus();
       setPrintIndex(printIndex - 1);
-    } else if (printIndex < 2 && e.keyCode === 40) {
+    } else if (printIndex < 3 && e.keyCode === 40) {
       e.preventDefault();
-      document.getElementById(`printButton-${printIndex + 1}`).focus();
+      document.getElementById(`printButton-${printIndex}`).focus();
       setPrintIndex(printIndex + 1);
     } else if (e.keyCode === 27) {
       setMenuOpen(false);
     }
+  };
+  const handleFocus = () => {
+    // Reset printIndex to 0 every time the element receives focus
+    setPrintIndex(0);
   };
 
   return (
@@ -51,6 +55,7 @@ const PrintDownload = props => {
       role="none"
       onKeyDown={handleUserKeyPress}
       ref={menu}
+      onFocus={handleFocus}
     >
       <button
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}

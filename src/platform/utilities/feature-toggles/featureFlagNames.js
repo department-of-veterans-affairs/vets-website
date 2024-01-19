@@ -165,6 +165,7 @@ export default Object.freeze({
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation:
     'profile_show_pronouns_and_sexual_orientation',
+  profileShowProofOfVeteranStatus: 'profile_show_proof_of_veteran_status',
   profileShowPaymentsNotificationSetting:
     'profile_show_payments_notification_setting',
   profileShowQuickSubmitNotificationSetting:
@@ -172,13 +173,12 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes:
-    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
+  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
@@ -243,8 +243,6 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
-  vaOnlineSchedulingUnenrolledVaccine:
-    'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
     'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:

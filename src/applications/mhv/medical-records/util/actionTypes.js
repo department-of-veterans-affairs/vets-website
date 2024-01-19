@@ -49,4 +49,7 @@ export const Actions = {
     SET_PAGINATION: 'MR_SET_PAGINATION',
     RESET_PAGINATION: 'MR_RESET_PAGINATION',
   },
+  BlueButtonReport: {
+    GET: 'MR_BLUE_BUTTON_GET_DATA',
+  },
 };

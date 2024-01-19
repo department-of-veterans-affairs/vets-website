@@ -160,7 +160,7 @@ class PatientMessageCustomFolderPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting: ${listBefore.join(',')}`);
@@ -168,7 +168,7 @@ class PatientMessageCustomFolderPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting: ${listAfter.join(',')}`);

@@ -1,4 +1,5 @@
 import { content } from '../content/extensionRequest';
+import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
 
 const requestExtension = {
   uiSchema: {
@@ -30,6 +31,17 @@ const requestExtension = {
         type: 'boolean',
       },
     },
+  },
+
+  // Set redirect flag to prevent multiple redirects
+  onContinue: (formData, setFormData) => {
+    // Clear form redirect flag after this page is viewed
+    if (formData[SHOW_PART3] && formData[SHOW_PART3_REDIRECT] !== 'done') {
+      setFormData({
+        ...formData,
+        [SHOW_PART3_REDIRECT]: 'done',
+      });
+    }
   },
 };
 
