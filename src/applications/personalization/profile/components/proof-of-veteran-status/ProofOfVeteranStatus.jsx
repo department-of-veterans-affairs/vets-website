@@ -42,7 +42,7 @@ const ProofOfVeteranStatus = () => {
           headingText="Get proof of Veteran Status on your mobile device"
           bodyText={
             <>
-              You can use our moible app to get proof of Veteran status. To get
+              You can use our mobile app to get proof of Veteran status. To get
               started, download the <strong> VA: Health and Benefits </strong>{' '}
               mobile app.
             </>
