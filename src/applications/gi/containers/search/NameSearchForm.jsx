@@ -31,7 +31,8 @@ export function NameSearchForm({
   const history = useHistory();
 
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, 1, filters, version);
+    const searchName = value || search.query.name;
+    dispatchFetchSearchByNameResults(searchName, 1, filters, version);
     const clonedFilters = filters;
     clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
       exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
@@ -42,7 +43,7 @@ export function NameSearchForm({
       search.tab,
       {
         ...search.query,
-        name: value,
+        name: searchName,
       },
       clonedFilters,
       version,
