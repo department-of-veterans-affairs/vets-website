@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../sass/change-of-direct-deposit-wrapper.scss';
+import '../sass/change-of-address-wrapper.scss';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -39,7 +39,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
   const addressDescription = () => {
     return (
       <div className="vads-u-margin-bottom--1">
-        <p className="vads-u-margin-top--0">Mailing address</p>
+        <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+          Mailing address
+        </p>
         <p>
           <span className="vads-u-display--block">
             {`${mailingAddress.street}`}
@@ -176,7 +178,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
               class="vads-u-margin-y--2"
             >
               <h2 id="VYE-change-of-mailing-address" slot="headline">
-                Change of Direct Deposit for Veryify Your Enrollment
+                Change of Mailing Address for Veryify Your Enrollment
               </h2>
               <div>
                 <span className="vads-u-margin-y--0">
@@ -197,9 +199,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
           </>
         )}
         {toggleAddressForm && (
-          <div className="direct-deposit-form-container">
+          <div className="address-change-form-container">
             <p className="vads-u-font-weight--bold">Change mailing address</p>
-            {/* Add checkbox here for US military Base question */}
+
             <ChangeOfAddressForm
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
@@ -210,7 +212,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
                 aria-label="save your bank information for GI Bill benefits"
                 type="submit"
                 loadingText="saving bank information"
-                className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
+                className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
               >
                 Save
               </LoadingButton>

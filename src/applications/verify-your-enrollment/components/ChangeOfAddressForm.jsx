@@ -86,61 +86,6 @@ const ChangeOfAddressForm = ({
     title: 'zipCode',
   };
 
-  // const al1 = {
-  //   title: 'addressLine1',
-  //   addressSchema:{
-  //     type: 'string',
-  //     minLength: 1,
-  //     maxLength: STREET_LINE_MAX_LENGTH,
-  //     pattern: blockURLsRegEx,
-  //   },
-  //   addressUISchema: {
-  //     'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
-  //     'ui:autocomplete': 'address-line1',
-  //     'ui:errorMessages': {
-  //       required: 'Street address is required',
-  //       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
-  //     },
-  //     'ui:validations': [validateAsciiCharacters],
-  //   },
-  // }
-
-  // const al2 = {
-  //   title: 'addressLine2',
-  //   addressSchema:{
-  //     type: 'string',
-  //     minLength: 1,
-  //     maxLength: STREET_LINE_MAX_LENGTH,
-  //     pattern: blockURLsRegEx,
-  //   },
-  //   addressUISchema: {
-  //     'ui:title': `Street address line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
-  //     'ui:autocomplete': 'address-line2',
-  //     'ui:errorMessages': {
-  //       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
-  //     },
-  //     'ui:validations': [validateAsciiCharacters],
-  //   },
-  // }
-
-  // const al3 = {
-  //   title: 'addressLine3',
-  //   addressSchema:{
-  //     type: 'string',
-  //     minLength: 1,
-  //     maxLength: STREET_LINE_MAX_LENGTH,
-  //     pattern: blockURLsRegEx,
-  //   },
-  //   addressUISchema: {
-  //     'ui:title': `Street address line 3 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
-  //     'ui:autocomplete': 'address-line3',
-  //     'ui:errorMessages': {
-  //       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
-  //     },
-  //     'ui:validations': [validateAsciiCharacters],
-  //   },
-  // }
-
   const createFormSchema = (requiredArray = []) => {
     const fSchema = getFormSchema();
     if (requiredArray.size === 0) {
