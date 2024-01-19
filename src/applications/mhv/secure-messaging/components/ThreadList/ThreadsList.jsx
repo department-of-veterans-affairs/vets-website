@@ -17,7 +17,7 @@ const ThreadsList = props => {
     threadsPerPage,
   } = props;
 
-  const MAX_PAGE_LIST_LENGTH = 5;
+  const MAX_PAGE_LIST_LENGTH = 7;
 
   const [displayNums, setDisplayNums] = useState({
     from: 0,
