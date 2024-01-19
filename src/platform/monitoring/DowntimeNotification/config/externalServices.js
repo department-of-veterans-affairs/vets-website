@@ -30,6 +30,8 @@ export default {
   mvi: 'mvi',
   // My HealtheVet
   mhv: 'mhv',
+  // My HealtheVet Platform - Medical Records, Secure Messaging and Medications
+  mhvPlatform: 'mhv_platform',
   // My HealtheVet Medical Records
   mhvMr: 'mhv_mr',
   // My HealtheVet Secure Messaging
