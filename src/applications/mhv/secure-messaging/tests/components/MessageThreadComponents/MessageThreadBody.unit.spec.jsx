@@ -6,7 +6,7 @@ import MessageThreadBody from '../../../components/MessageThread/MessageThreadBo
 describe('Message Thread Body', () => {
   const url = 'https://vajira.max.gov/browse/MHV-41390';
 
-  const formattedUrl = `${url} (opens a new tab)`;
+  const formattedUrl = `${url} (opens in new tab)`;
 
   const text = `Hello, This is a test message to see how these urls ${url} are 
     displayed in message body when parsed from the text. Hopefully 

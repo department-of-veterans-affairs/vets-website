@@ -675,8 +675,15 @@ const ComposeForm = props => {
               )}
 
           <div className="compose-form-div">
-            {(!mhvSecureMessagingBlockedTriageGroup1p0 ||
-              (!noAssociations && !allTriageGroupsBlocked)) && (
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.CATEGORY}
+                body={`${RadioCategories[(draft?.category)].label}: ${
+                  RadioCategories[(draft?.category)].description
+                }`}
+              />
+            ) : (
               <CategoryInput
                 category={category}
                 categoryError={categoryError}
@@ -685,21 +692,12 @@ const ComposeForm = props => {
                 setUnsavedNavigationError={setUnsavedNavigationError}
               />
             )}
-            {mhvSecureMessagingBlockedTriageGroup1p0 &&
-              (noAssociations || allTriageGroupsBlocked ? (
-                <ViewOnlyDraftSection
-                  title={FormLabels.CATEGORY}
-                  body={`${RadioCategories[(draft?.category)].label}: ${
-                    RadioCategories[(draft?.category)].description
-                  }`}
-                />
-              ) : (
-                <></>
-              ))}
           </div>
           <div className="compose-form-div">
-            {(!mhvSecureMessagingBlockedTriageGroup1p0 ||
-              (!noAssociations && !allTriageGroupsBlocked)) && (
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection title={FormLabels.SUBJECT} body={subject} />
+            ) : (
               <va-text-input
                 label={FormLabels.SUBJECT}
                 required
@@ -715,19 +713,15 @@ const ComposeForm = props => {
                 data-dd-action-name="Compose Message Subject Input Field"
               />
             )}
-            {mhvSecureMessagingBlockedTriageGroup1p0 &&
-              (noAssociations || allTriageGroupsBlocked ? (
-                <ViewOnlyDraftSection
-                  title={FormLabels.SUBJECT}
-                  body={subject}
-                />
-              ) : (
-                <></>
-              ))}
           </div>
           <div className="compose-form-div vads-u-margin-bottom--0">
-            {!mhvSecureMessagingBlockedTriageGroup1p0 ||
-            (!noAssociations && !allTriageGroupsBlocked) ? (
+            {mhvSecureMessagingBlockedTriageGroup1p0 &&
+            (noAssociations || allTriageGroupsBlocked) ? (
+              <ViewOnlyDraftSection
+                title={FormLabels.MESSAGE}
+                body={messageBody || formattedSignature}
+              />
+            ) : (
               <va-textarea
                 label={FormLabels.MESSAGE}
                 required
@@ -736,7 +730,7 @@ const ComposeForm = props => {
                 class="message-body"
                 data-testid="message-body-field"
                 onInput={messageBodyHandler}
-                value={messageBody || formattedSignature} // populate with the signature, unless theee is a saved draft
+                value={messageBody || formattedSignature} // populate with the signature, unless there is a saved draft
                 error={bodyError}
                 onFocus={e => {
                   setCaretToPos(
@@ -746,11 +740,6 @@ const ComposeForm = props => {
                 }}
                 data-dd-privacy="mask"
                 data-dd-action-name="Compose Message Body Textbox"
-              />
-            ) : (
-              <ViewOnlyDraftSection
-                title={FormLabels.MESSAGE}
-                body={messageBody || formattedSignature}
               />
             )}
           </div>
