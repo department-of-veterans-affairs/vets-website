@@ -9,7 +9,10 @@ const { schema, uiSchema } = specialMonthlyPension;
 
 describe('pension special monthly pension page', () => {
   const pageTitle = 'special monthly pension';
-  const expectedNumberOfFields = 1;
+  // Using an old component since the new web component can't take a react
+  // object as a title and that's what we need to do in order to get the helper
+  // text to be properly read by a screen reader
+  const expectedNumberOfFields = 0;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -18,7 +21,7 @@ describe('pension special monthly pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
