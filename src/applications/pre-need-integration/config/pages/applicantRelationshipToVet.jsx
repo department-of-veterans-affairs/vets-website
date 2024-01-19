@@ -3,13 +3,13 @@ import { merge } from 'lodash';
 import {
   applicantInformationDescription,
   relationshipToVetTitleWrapperConst,
+  RelationshipToVetDescriptionWrapper,
 } from '../../utils/helpers';
 
 export const uiSchema = {
   application: {
     claimant: {
-      'ui:description':
-        'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).',
+      'ui:description': RelationshipToVetDescriptionWrapper,
       relationshipToVet: {
         'ui:title': relationshipToVetTitleWrapperConst,
         'ui:options': {

@@ -25,6 +25,7 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import RelationshipToVetTitle from '../components/RelationshipToVetTitle';
+import RelationshipToVetDescription from '../components/RelationshipToVetDescription';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -53,6 +54,10 @@ export function RelationshipToVetTitleWrapper({ formContext }) {
 export const relationshipToVetTitleWrapperConst = (
   <RelationshipToVetTitleWrapper />
 );
+
+export function RelationshipToVetDescriptionWrapper({ formContext }) {
+  return <RelationshipToVetDescription formContext={formContext} />;
+}
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
