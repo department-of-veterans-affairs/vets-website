@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { obfuscate, titleCase } from '../helpers';
 
 export default function DirectDepositViewField({ formData }) {
@@ -44,3 +45,14 @@ export default function DirectDepositViewField({ formData }) {
     </>
   );
 }
+
+DirectDepositViewField.propTypes = {
+  // formData is expected to be an object
+  formData: PropTypes.shape({
+    bankAccount: PropTypes.shape({
+      accountType: PropTypes.string,
+      accountNumber: PropTypes.string,
+      routingNumber: PropTypes.string,
+    }),
+  }).isRequired,
+};
