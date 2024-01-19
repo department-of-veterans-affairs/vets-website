@@ -52,3 +52,7 @@ p.pension-employment-desc, .pension-dd-warning {
   background-color: $color-white;
 }
 
+// The '(*Required)' indicator is included in the question title
+.special-monthly-pension-question .schemaform-required-span {
+  display: none !important;
+}

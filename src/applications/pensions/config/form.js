@@ -406,6 +406,7 @@ const formConfig = {
           path: 'medical/history/monthly-pension',
           uiSchema: specialMonthlyPension.uiSchema,
           schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',
