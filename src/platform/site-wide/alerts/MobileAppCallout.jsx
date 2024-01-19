@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 // import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const MobileAppCallout = ({
-  appleAppStoreLinkText = 'Apple App Store',
+  appleAppStoreLinkText = 'Go to the VA: Health and Benefits app on the Apple App Store',
   bodyText = 'Download the VA: Health and Benefits mobile app',
-  googlePlayStoreLinkText = 'Google Play store',
+  googlePlayStoreLinkText = 'Go to the VA: Health and Benefits app on the Google Play store',
   headingText = 'Download the VA mobile app.',
 }) => {
   return (

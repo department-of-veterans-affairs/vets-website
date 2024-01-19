@@ -47,8 +47,6 @@ const ProofOfVeteranStatus = () => {
               mobile app.
             </>
           }
-          googlePlayStoreLinkText="Go to the VA: Health and Benefits app on the Google Play store"
-          appleAppStoreLinkText="Go to the VA: Health and Benefits app on the Apple App Store"
         />
       </div>
     </div>
