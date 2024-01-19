@@ -171,7 +171,7 @@ export const mochaHooks = {
     resetFetch();
     cleanupStorage();
     console.log(isStressTest);
-    if (!isStressTest) {
+    if (isStressTest == false) {
       checkAllowList(this);
     }
   },
