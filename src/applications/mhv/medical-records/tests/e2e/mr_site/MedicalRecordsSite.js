@@ -1,4 +1,5 @@
 import mockUser from '../fixtures/user.json';
+import mockNonMRuser from '../fixtures/non_mr_user.json';
 
 class MedicalRecordsSite {
   login = (isMRUser = true) => {
@@ -45,6 +46,11 @@ class MedicalRecordsSite {
           ],
         },
       }).as('featureToggle');
+    } else {
+      cy.login();
+      window.localStorage.setItem('isLoggedIn', true);
+      cy.intercept('GET', '/v0/user', mockNonMRuser).as('mockUser');
+      cy.intercept('GET', '/v0/feature_toggles?*', {}).as('featureToggle');
     }
   };
 
@@ -84,7 +90,7 @@ class MedicalRecordsSite {
 
   loadPageUnauthenticated = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@mockUser');
+    // cy.wait('@mockUser');
   };
 }
 export default MedicalRecordsSite;
