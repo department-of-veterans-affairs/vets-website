@@ -6,7 +6,7 @@ import DueDate from './DueDate';
 
 function FilesNeeded({ id, item }) {
   return (
-    <va-alert status="warning" slim uswds>
+    <va-alert id={id} status="warning" slim uswds>
       <div className="item-container">
         <h3 className="file-request-title">{item.displayName}</h3>
         <DueDate date={item.suspenseDate} />

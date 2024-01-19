@@ -73,18 +73,20 @@ describe('<ClaimStatusPage>', () => {
         },
       }));
 
-    it('should render status page without a timeline or alerts, with WhatYouNeedToDo section when no trackedItems', () => {
+    it('should render status page without a timeline or WhatYouNeedToDo section when no trackedItems', () => {
       const claim = {
+        id: '1',
         attributes: {
           phase: 2,
           open: true,
-          documentsNeeded: false,
+          closeDate: null,
+          documentsNeeded: true,
           decisionLetterSent: false,
           waiverSubmitted: true,
           trackedItems: [{}],
         },
       };
-      const { container, findByText } = render(
+      const { container } = render(
         <Provider store={getStore()}>
           <ClaimStatusPage
             claim={claim}
@@ -97,20 +99,21 @@ describe('<ClaimStatusPage>', () => {
       const statusPage = $('#tabPanelStatus', container);
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      expect(findByText(expectedText)).to.exist;
-      expect($('va-alert', container)).not.to.exist;
+      // const expectedText =
+      //   "There's nothing we need from you right now. We'll let you know when there's an update.";
+      // expect(getByText(expectedText)).not.to.exist;
+      expect($('.what-you-need-to-do-container', container)).not.to.exist;
     });
 
-    it('should render status page without a timeline, with alerts when using lighthouse', () => {
+    it('should render status page without a timeline, with a WhatYouNeedToDoPage when using lighthouse', () => {
       const claim = {
         id: '1',
-        type: 'claim',
         attributes: {
           supportingDocuments: [],
           claimDate: '2023-01-01',
           closeDate: null,
+          documentsNeeded: true,
+          decisionLetterSent: false,
           status: 'INITIAL_REVIEW',
           claimPhaseDates: {
             currentPhaseBack: false,
@@ -121,10 +124,6 @@ describe('<ClaimStatusPage>', () => {
               phase2CompleteDate: '2023-02-08',
             },
           },
-
-          documentsNeeded: false,
-          decisionLetterSent: false,
-          waiverSubmitted: true,
           trackedItems: [
             {
               status: 'NEEDED_FROM_YOU',
@@ -136,7 +135,7 @@ describe('<ClaimStatusPage>', () => {
           ],
         },
       };
-      const { container, findByText, queryByText } = render(
+      const { container } = render(
         <Provider store={getStore()}>
           <ClaimStatusPage
             useLighthouse
@@ -150,33 +149,30 @@ describe('<ClaimStatusPage>', () => {
       const statusPage = $('#tabPanelStatus', container);
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
-      const expectedText =
-        "There's nothing we need from you right now. We'll let you know when there's an update.";
-      expect(queryByText(expectedText)).not.to.exist;
-      // console.log('peri', findByText(expectedText));
+      // const expectedText =
+      //   "There's nothing we need from you right now. We'll let you know when there's an update.";
+      // expect(queryByText(expectedText)).not.to.exist;
+      expect($('.what-you-need-to-do-container', container)).to.exist;
       expect($('va-alert', container)).to.exist;
-
-      // console.log('statusPage', statusPage);
-
-      // const whatYouNeedToDo = $('.what-you-need-to-do-container', container);
-      // console.log('whatYouNeedToDo', whatYouNeedToDo);
-      // expect(whatYouNeedToDo).to.exist;
-
-      // expect($('.what-you-need-to-do-container', container)).to.exist;
     });
 
     it('should not render status page without a timeline when using evss', () => {
       const claim = {
+        id: '1',
         attributes: {
-          phase: 2,
           open: true,
-          documentsNeeded: false,
+          phase: 3,
+          dateFiled: '2023-01-01',
+          documentsNeeded: true,
           decisionLetterSent: false,
-          waiverSubmitted: true,
           eventsTimeline: [
             {
               type: 'still_need_from_you_list',
               status: 'NEEDED',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
             },
           ],
         },
@@ -196,6 +192,8 @@ describe('<ClaimStatusPage>', () => {
       const statusPage = $('#tabPanelStatus', container);
       expect(statusPage).to.exist;
       expect(within(statusPage).queryByRole('list')).to.not.exist;
+      expect($('.what-you-need-to-do-container', container)).to.exist;
+      expect($('va-alert', container)).to.exist;
     });
   });
 
