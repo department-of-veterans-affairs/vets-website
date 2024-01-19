@@ -1,19 +1,21 @@
 import React from 'react';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+// import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const MobileAppCallout = () => {
+const MobileAppCallout = ({
+  appleAppStoreLinkText = 'Apple App Store',
+  bodyText = 'Download the VA: Health and Benefits mobile app',
+  googlePlayStoreLinkText = 'Google Play store',
+  headingText = 'Download the VA mobile app.',
+}) => {
   return (
     <div id="mobile-app-callout">
-      <VaAlert close-btn-aria-label="Close notification" status="info">
+      <va-alert uswds close-btn-aria-label="Close notification" status="info">
         <h2 id="track-your-status-on-mobile" slot="headline">
-          Access your Veteran status on your mobile device.
+          {headingText}
         </h2>
         <div>
-          <p className="vads-u-margin-y--0">
-            You can use our new mobile app to view and show your status with
-            retailers and other service providers. Download the VA: Health and
-            Benefits mobile app to get started.
-          </p>
+          <p className="vads-u-margin-y--0">{bodyText}</p>
           <div className="vads-u-font-size--lg">
             <p>
               <a
@@ -25,7 +27,9 @@ const MobileAppCallout = () => {
                   className="fab fa-app-store-ios fa-lg vads-u-margin--1"
                   aria-hidden="true"
                 />
-                <span className="vads-u-font-size--md">App Store</span>
+                <span className="vads-u-font-size--md">
+                  {appleAppStoreLinkText}
+                </span>
               </a>
             </p>
             <p>
@@ -38,14 +42,22 @@ const MobileAppCallout = () => {
                   className="fab fa-google-play fa-lg vads-u-margin--1"
                   aria-hidden="true"
                 />
-                <span className="vads-u-font-size--md">Google Play</span>
+                <span className="vads-u-font-size--md">
+                  {googlePlayStoreLinkText}
+                </span>
               </a>
             </p>
           </div>
         </div>
-      </VaAlert>
+      </va-alert>
     </div>
   );
+};
+MobileAppCallout.propTypes = {
+  appleAppStoreLinkText: PropTypes.string,
+  bodyText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  googlePlayStoreLinkText: PropTypes.string,
+  headingText: PropTypes.string,
 };
 
 export default MobileAppCallout;
