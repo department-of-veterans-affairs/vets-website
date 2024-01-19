@@ -7,27 +7,27 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 
 function getTestCounts(suites) {
-  /* eslint-disable no-param-reassign */
   return suites.reduce(
     (counts, suite) => {
+      const newCounts = { ...counts };
       // Add counts from tests in the suite
       suite.tests.forEach(test => {
-        if (test.pass) counts.passes += 1;
-        if (test.fail) counts.failures += 1;
-        if (test.pending) counts.pending += 1;
-        if (test.skipped) counts.skipped += 1;
+        if (test.pass) newCounts.passes += 1;
+        if (test.fail) newCounts.failures += 1;
+        if (test.pending) newCounts.pending += 1;
+        if (test.skipped) newCounts.skipped += 1;
       });
 
       // Recursively add counts from nested suites
       if (suite.suites) {
         const nestedCounts = getTestCounts(suite.suites);
-        counts.passes += nestedCounts.passes;
-        counts.failures += nestedCounts.failures;
-        counts.pending += nestedCounts.pending;
-        counts.skipped += nestedCounts.skipped;
+        newCounts.passes += nestedCounts.passes;
+        newCounts.failures += nestedCounts.failures;
+        newCounts.pending += nestedCounts.pending;
+        newCounts.skipped += nestedCounts.skipped;
       }
 
-      return counts;
+      return newCounts;
     },
     {
       passes: 0,
@@ -36,7 +36,6 @@ function getTestCounts(suites) {
       skipped: 0,
     },
   );
-  /* eslint-enable no-param-reassign */
 }
 
 function getReportFileLinkItem(file) {
