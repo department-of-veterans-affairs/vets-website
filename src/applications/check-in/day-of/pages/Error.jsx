@@ -136,12 +136,14 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
+          subHeading: t('your-appointment'),
           type: 'warning',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
         },
         {
+          subHeading: t('travel-reimbursement'),
           type:
             form.data['travel-question'] === 'no' ||
             !isTravelReimbursementEnabled
@@ -168,14 +170,8 @@ const Error = () => {
     <Wrapper pageTitle={header}>
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`}>
-          {alert.travelMessage ? (
-            <h2 data-testid="travel-message-heading">
-              {t('travel-reimbursement')}
-            </h2>
-          ) : (
-            <h2 data-testid="appointment-message-heading">
-              {t('your-appointment')}
-            </h2>
+          {alert.subHeading && (
+            <h2 data-testid="message-subheading">{alert.subHeading}</h2>
           )}
           {alert.type === 'text' ? (
             <div
