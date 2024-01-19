@@ -726,3 +726,12 @@ export const truncateDescriptions = data =>
     }),
     {},
   );
+
+/**
+ * Creates consistent form title
+ * @param {string} title
+ * @returns {string} markup with h3 tag and consistent styling
+ */
+export const formTitle = title => (
+  <h3 className="vads-u-font-size--h4 vads-u-margin--0">{title}</h3>
+);

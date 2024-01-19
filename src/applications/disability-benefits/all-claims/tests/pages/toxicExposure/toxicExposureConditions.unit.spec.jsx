@@ -3,7 +3,10 @@ import { render } from '@testing-library/react';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../config/form';
-import { conditionsTitle } from '../../../content/toxicExposure';
+import {
+  conditionsPageTitle,
+  conditionsQuestion,
+} from '../../../content/toxicExposure';
 
 describe('Toxic Exposure Conditions', () => {
   const {
@@ -30,10 +33,8 @@ describe('Toxic Exposure Conditions', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
-    // check for the question
-    screen.getByText(conditionsTitle);
-
-    // additional info
+    screen.getByText(conditionsPageTitle);
+    screen.getByText(conditionsQuestion);
     screen.getByText(
       'Toxic exposures include exposures to substances like Agent Orange',
       { exact: false },
