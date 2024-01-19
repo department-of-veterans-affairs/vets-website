@@ -16,7 +16,7 @@ import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
-const isStressTest = process.env.IS_STRESS_TEST || false;
+const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
   autoSessionTracking: false,
@@ -170,7 +170,7 @@ export const mochaHooks = {
     setupJSDom();
     resetFetch();
     cleanupStorage();
-    console.log(isStressTest == false);
+    console.log(isStressTest == 'false');
     if (isStressTest == false) {
       checkAllowList(this);
     }
