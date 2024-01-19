@@ -31,7 +31,9 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      dispatch(resetPagination(history.location.pathname));
+      return () => {
+        dispatch(resetPagination(history.location.pathname));
+      };
     },
     [dispatch, history.location.pathname],
   );
