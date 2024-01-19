@@ -69,6 +69,27 @@ class MedicalRecordsSite {
     }
   };
 
+  verifyDownloadedTxtFile = (_prefixString, _clickMoment, _searchText) => {
+    if (Cypress.browser.isHeadless) {
+      cy.log('browser is headless');
+      const downloadsFolder = Cypress.config('downloadsFolder');
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.txt`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.txt`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.txt`;
+      this.internalReadFileMaybe(txtPath1, _searchText);
+      this.internalReadFileMaybe(txtPath2, _searchText);
+      this.internalReadFileMaybe(txtPath3, _searchText);
+    } else {
+      cy.log('browser is not headless');
+    }
+  };
+
   internalReadFileMaybe = (fileName, searchText) => {
     cy.task('log', `attempting to find file = ${fileName}`);
     cy.task('readFileMaybe', fileName).then(textOrNull => {
