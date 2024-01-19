@@ -1,16 +1,15 @@
-import React from 'react';
 import {
   conditionsDescription,
-  conditionsTitle,
+  conditionsPageTitle,
+  conditionsQuestion,
 } from '../../content/toxicExposure';
+import { formTitle } from '../../utils';
 import { makeSchemaForNewDisabilities } from '../../utils/schemas';
 
 export const uiSchema = {
-  'ui:title': (
-    <h3 className="vads-u-font-size--h4 vads-u-margin--0">Toxic Exposure</h3>
-  ),
+  'ui:title': formTitle(conditionsPageTitle),
   toxicExposureConditions: {
-    'ui:title': conditionsTitle,
+    'ui:title': conditionsQuestion,
     'ui:description': conditionsDescription,
     'ui:options': {
       hideDuplicateDescription: true,

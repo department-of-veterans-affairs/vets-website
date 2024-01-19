@@ -326,6 +326,79 @@ describe('Schemaform <FormPage>', () => {
     });
   });
 
+  describe('should allow for urlParams on goNextPath or goPreviousPath', () => {
+    let tree;
+    let setData;
+    let router;
+    let onSubmit;
+    const baseForm = makeForm();
+    const testPageConfig = {
+      schema: {
+        type: 'object',
+        properties: {
+          test: { type: 'string' },
+        },
+      },
+      uiSchema: {},
+      onNavForward: ({ goNextPath, urlParams }) => {
+        goNextPath(urlParams);
+      },
+      onNavBack: ({ goPreviousPath, urlParams }) => {
+        goPreviousPath(urlParams);
+      },
+    };
+
+    function renderForm(data) {
+      tree = SkinDeep.shallowRender(
+        <FormPage
+          router={router}
+          setData={setData}
+          form={{
+            pages: {
+              firstPage: baseForm.pages.firstPage,
+              testPage: testPageConfig,
+              lastPage: baseForm.pages.lastPage,
+            },
+            data,
+          }}
+          onSubmit={onSubmit}
+          location={{
+            pathname: '/testing',
+            query: {
+              mode: 'add',
+            },
+          }}
+          route={makeRoute({
+            pageConfig: {
+              pageKey: 'testPage',
+              ...testPageConfig,
+            },
+          })}
+        />,
+      );
+    }
+
+    beforeEach(() => {
+      setData = sinon.spy();
+      onSubmit = sinon.spy();
+      router = {
+        push: sinon.spy(),
+      };
+    });
+
+    it('onNavForward goNextPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().onSubmit({ formData: { test: '' } });
+      expect(router.push.calledWith('/next-page?mode=add')).to.be.true;
+    });
+
+    it('onNavBack goPreviousPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().goBack({ formData: { test: '' } });
+      expect(router.push.calledWith('/first-page?mode=add')).to.be.true;
+    });
+  });
+
   it("should go back to the beginning if current page isn't found", () => {
     const router = {
       push: sinon.spy(),
