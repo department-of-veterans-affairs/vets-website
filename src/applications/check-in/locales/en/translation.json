@@ -272,7 +272,7 @@
   "are-you-claiming-only-mileage": "Are you claiming only mileage and no other expenses?",
   "this-link-has-expired": "This link has expired.",
   "well-come-get-you-from-the-waiting-room": "We’ll come get you from the waiting room when it’s time for your appointment to start. If you wait more than 15 minutes, tell a staff member.",
-  "travel-reimbursement": "Travel Reimbursement",
+  "travel-reimbursement": "Travel reimbursement",
   "date-long": "{{date, dayOfWeek}}, {{date, long}}",
   "on-date-at-time": "on {{date, dayOfWeek}}, {{date, long}} at {{date, time}}",
   "in-person": "in person",
