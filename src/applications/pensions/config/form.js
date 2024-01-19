@@ -281,8 +281,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
+  title: 'Apply for Veterans’ pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
       body:
