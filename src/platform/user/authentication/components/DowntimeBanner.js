@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
 import environment from 'platform/utilities/environment';
@@ -9,14 +9,19 @@ export default function DowntimeBanners() {
     state => state.externalServiceStatuses,
   );
   const dispatch = useDispatch();
+  const isLocalhost = useMemo(() => environment.isLocalhost(), []);
   useEffect(() => {
-    if (!loading && !environment.isLocalhost()) {
+    if (!loading && !isLocalhost) {
       dispatch(getBackendStatusAction());
     }
   }, []); // only on load
 
-  if (!statuses) return null;
-  const bannerStatus = getStatusFromStatuses(statuses);
+  // mimics the mvi service error if we don't get an OK response from vets-api
+  const statusArray =
+    statuses || isLocalhost
+      ? []
+      : [{ service: 'mvi', serviceId: 'mvi', status: 'down' }];
+  const bannerStatus = getStatusFromStatuses(statusArray);
   if (!Object.keys(bannerStatus).length) return null;
   const { headline, status: alertStatus, message } = bannerStatus;
 
