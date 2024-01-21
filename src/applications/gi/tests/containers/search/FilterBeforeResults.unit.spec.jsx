@@ -276,9 +276,6 @@ describe('<FilterBeforeResults />', () => {
     beforeEach(() => {
       global.window.buildType = true;
     });
-    afterEach(() => {
-      delete global.window.buildType;
-    });
     it('should render', () => {
       wrapper = shallow(<FilterBeforeResults {...props} />);
       expect(
