@@ -42,10 +42,6 @@ describe('<FilterBeforeResults />', () => {
     );
     expect(historyMock.push.calledOnce).to.be.true;
     wrapper.find('[testId="clear-button"]').simulate('click');
-    // wrapper
-    //   .find('button')
-    //   .at(1)
-    //   .simulate('click');
     expect(props.dispatchFilterChange.calledOnce).to.be.false;
     wrapper.unmount();
   });
