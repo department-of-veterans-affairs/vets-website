@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults'; // adjust the import based on your file structure
+import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults';
 import { updateUrlParams } from '../../../selectors/search';
 import { mockSearchResults } from '../../helpers';
 
@@ -288,18 +288,19 @@ describe('<FilterBeforeResults />', () => {
     it('should render button with no className when is prod', () => {
       wrapper = shallow(<FilterBeforeResults {...props} />);
       const button = wrapper.find('button').first();
-      expect(button.hasClass('')).to.be.false;
+      expect(button.prop('className')).to.equal(
+        'update-results-button apply-filter-button vads-u-margin-top--3',
+      );
       wrapper.unmount();
     });
     it('should render CheckboxGroup with no className when is prod', () => {
-      wrapper = shallow(
-        <FilterBeforeResults
-          {...props}
-          setShowFiltersBeforeSearch={() => {}}
-        />,
-      );
-      const button = wrapper.find('CheckboxGroup').first();
-      expect(button.hasClass('')).to.be.false;
+      const newProps = {
+        ...props,
+        setShowFiltersBeforeSearch: () => {},
+      };
+      wrapper = shallow(<FilterBeforeResults {...newProps} />);
+      const checkboxGroup = wrapper.find('CheckboxGroup').first();
+      expect(checkboxGroup.prop('className')).to.equal('about-school-checkbox');
       wrapper.unmount();
     });
   });
