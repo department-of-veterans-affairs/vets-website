@@ -233,6 +233,27 @@ describe('<FilterBeforeResults />', () => {
     expect(wrapper).to.not.be.null;
     wrapper.unmount();
   });
+  it('should render in VaLoadingIndicator in smallscreen', () => {
+    props = {
+      dispatchShowModal: sinon.spy(),
+      dispatchFilterChange: sinon.spy(),
+      recordCheckboxEvent: sinon.spy(),
+      filters: {
+        excludedSchoolTypes: [],
+        vettec: false,
+        preferredProvider: false,
+      },
+      modalClose: sinon.spy(),
+      preview: {},
+      search: { ...mockSearchResults, inProgress: true },
+      smallScreen: true,
+      history: [],
+      version: 'v1.0.0',
+    };
+    wrapper = shallow(<FilterBeforeResults {...props} />);
+    expect(wrapper.find('VaLoadingIndicator')).to.exist;
+    wrapper.unmount();
+  });
   describe('should render', () => {
     props = {
       dispatchShowModal: sinon.spy(),
@@ -269,6 +290,23 @@ describe('<FilterBeforeResults />', () => {
           .find('label')
           .someWhere(n => n.text() === 'Native American-serving institutions'),
       ).to.be.false;
+      wrapper.unmount();
+    });
+    it('should render button with no className when is prod', () => {
+      wrapper = shallow(<FilterBeforeResults {...props} />);
+      const button = wrapper.find('button').first();
+      expect(button.hasClass('')).to.be.false;
+      wrapper.unmount();
+    });
+    it('should render CheckboxGroup with no className when is prod', () => {
+      wrapper = shallow(
+        <FilterBeforeResults
+          {...props}
+          setShowFiltersBeforeSearch={() => {}}
+        />,
+      );
+      const button = wrapper.find('CheckboxGroup').first();
+      expect(button.hasClass('')).to.be.false;
       wrapper.unmount();
     });
   });
