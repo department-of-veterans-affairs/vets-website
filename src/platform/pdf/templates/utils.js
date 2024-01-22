@@ -275,7 +275,10 @@ const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
     };
 
     doc.markContent('Artifact');
-    doc.text(data.headerLeft, 16, 12);
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(data.headerLeft, 16, 12);
     doc.text(data.headerRight, 16, 12, { align: 'right' });
     doc.endMarkedContent();
   }
@@ -299,7 +302,7 @@ const generateFooterContent = async (
   config,
   addSeparator = false,
 ) => {
-  const pages = doc.bufferedPageRange();
+  const pages = doc.bufferedPageRange(); //
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
@@ -328,7 +331,10 @@ const generateFooterContent = async (
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
 
-    doc.text(data.footerLeft, config.margins.left, 766);
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(data.footerLeft, config.margins.left, 766);
     doc.text(footerRightText, config.margins.left, 766, { align: 'right' });
 
     doc.endMarkedContent();
@@ -365,7 +371,7 @@ const createDetailItem = async (doc, config, x, item) => {
           .fontSize(config.text.size)
           .text(titleText, x, doc.y, paragraphOptions);
         doc
-          .font(config.text.font)
+          .font(item.monospace ? config.text.monospaceFont : config.text.font)
           .fontSize(config.text.size)
           .text(item.value);
       }),
@@ -387,7 +393,7 @@ const createDetailItem = async (doc, config, x, item) => {
     content.push(
       doc.struct('P', () => {
         doc
-          .font(config.text.font)
+          .font(item.monospace ? config.text.monospaceFont : config.text.font)
           .fontSize(config.text.size)
           .text(item.value, x, doc.y, blockValueOptions);
       }),
@@ -650,6 +656,7 @@ const registerVaGovFonts = async doc => {
     'Bitter-Regular',
     'SourceSansPro-Bold',
     'SourceSansPro-Regular',
+    'RobotoMono-Regular',
   ]);
 };
 
