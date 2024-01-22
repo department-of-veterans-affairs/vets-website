@@ -1,9 +1,9 @@
 import React from 'react';
 
-const MGIBEnrollmentStatement = () => {
+const BenefitsProfileStatement = () => {
   return (
-    <div id="montgomery-gi-bill-enrollment-statement">
-      <h1>Montgomery GI Bill® enrollment verification</h1>
+    <div id="benefits-gi-bill-profile-statement">
+      <h1>Your Benefits Profile</h1>
 
       <p className="va-introtext">
         If you have an active benefit award for the Montgomery GI Bill® you’ll
@@ -15,4 +15,4 @@ const MGIBEnrollmentStatement = () => {
   );
 };
 
-export default MGIBEnrollmentStatement;
+export default BenefitsProfileStatement;
