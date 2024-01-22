@@ -236,7 +236,7 @@
                   "eCheckinAllowed": true
               },
               "localStartTime": "2023-10-13T09:00:00.000-06:00",
-              "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+              "avsPath": "Error retrieving AVS link",
               "serviceName": "CHY MENTAL HEALTH ONE",
               "friendlyName": "CHY MENTAL HEALTH ONE",
               "location": {
