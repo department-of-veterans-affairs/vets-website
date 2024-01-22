@@ -38,7 +38,8 @@ function getTestCounts(suites) {
   );
 }
 
-function getReportFileLinkItem(file) {
+function getSpecFileLinkItem(file) {
+  // returns a list-item with link to spec-file on GitHub main branch
   const content = fs.readFileSync(`mochawesome-report/${file}`, 'utf8');
   const $ = cheerio.load(content);
   const dataRaw = $('body').attr('data-raw');
@@ -70,6 +71,7 @@ function getReportFileLinkItem(file) {
 }
 
 module.exports = function cyLocalReportsHtml(htmlFiles2) {
+  // returns index.html markup for HTML report-files
   return `
     <!DOCTYPE html>
     <html>
@@ -84,7 +86,7 @@ module.exports = function cyLocalReportsHtml(htmlFiles2) {
             <h1>Cypress test-results</h1>
             <p><strong>Spec-files run</strong>:</p>
             <ul>
-              ${htmlFiles2.map(file => getReportFileLinkItem(file)).join('\n')}
+              ${htmlFiles2.map(file => getSpecFileLinkItem(file)).join('\n')}
             </ul>
           </div>
         </div>

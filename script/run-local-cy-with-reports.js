@@ -2,7 +2,7 @@
 /* run-local-cy-with-reports.js
   * Script to run Cypress tests locally with mochawesome reports
   * Example:
-  * yarn cy:run:localreport --spec "your-glob-pattern"
+  * yarn cy:run:localreports "your-spec(s)-glob-pattern"
   */
 const fs = require('fs');
 const path = require('path');
@@ -10,17 +10,11 @@ const rimraf = require('rimraf');
 const cheerio = require('cheerio');
 const { execSync } = require('child_process');
 const chalk = require('chalk');
+
 const cyLocalReportsHtml = require('./get-cy-local-reports-index');
 
-// Get --spec parameter from command line arguments
-let spec = '';
-const specArgIndex = process.argv.findIndex(arg => arg === '--spec');
-if (specArgIndex !== -1 && process.argv[specArgIndex + 1]) {
-  spec = process.argv[specArgIndex + 1];
-} else {
-  const specArg = process.argv.find(arg => arg.startsWith('--spec='));
-  spec = specArg ? specArg.split('=')[1] : '';
-}
+// Get spec-files parameter from command line arguments
+const spec = process.argv[2] || '';
 console.log(
   chalk.yellow(`RUNNING CYPRESS WITH LOCAL REPORTS. --spec: ${spec}`),
 );
