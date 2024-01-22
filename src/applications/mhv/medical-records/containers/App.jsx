@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
+import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
@@ -130,13 +131,18 @@ const App = ({ children }) => {
     [height, location],
   );
 
-  useEffect(() => {
-    if (!measuredRef.current) return;
-    const resizeObserver = new ResizeObserver(() => {
-      setHeight(measuredRef.current.offsetHeight);
-    });
-    resizeObserver.observe(measuredRef.current);
-  }, []);
+  const { current } = measuredRef;
+
+  useEffect(
+    () => {
+      if (!current) return;
+      const resizeObserver = new ResizeObserver(() => {
+        setHeight(current.offsetHeight);
+      });
+      resizeObserver.observe(current);
+    },
+    [current],
+  );
 
   if (featureTogglesLoading) {
     return (
@@ -184,6 +190,7 @@ const App = ({ children }) => {
         </DowntimeNotification>
         <va-back-to-top hidden={isHidden} />
         <ScrollToTop />
+        <PhrRefresh />
       </div>
     </RequiredLoginView>
   );
