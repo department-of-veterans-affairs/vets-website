@@ -153,7 +153,6 @@ const checkAllowList = testContext => {
   );
   if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
     /* eslint-disable-next-line no-console */
-    console.log(testContext.currentTest.file);
     console.log('Test skipped due to flakiness: ', file);
     testContext.skip();
   }
