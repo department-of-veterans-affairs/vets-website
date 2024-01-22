@@ -31,10 +31,7 @@ const ProofOfVeteranStatus = () => {
           filetype="PDF"
           href={null}
           text="Download and print your Veteran status card"
-          onClick={() => {
-            // eslint-disable-next-line no-console
-            console.log('download PDF');
-          }}
+          onClick={() => {}}
         />
       </div>
       <div className="vads-u-margin-y--4">
