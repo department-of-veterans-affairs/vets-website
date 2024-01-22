@@ -1,6 +1,6 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { EMPTY_FIELD, allergyTypes } from '../util/constants';
+import { EMPTY_FIELD, allergyTypes, loadStates } from '../util/constants';
 import {
   getReactions,
   isArrayAndHasItems,
@@ -9,7 +9,16 @@ import {
 
 const initialState = {
   /**
-   * The list of conditions returned from the api
+   * The last time that the list was fetched and known to be up-to-date
+   * @type {Date}
+   */
+  listCurrentAsOf: undefined,
+  /**
+   * PRE_FETCH, FETCHING, FETCHED
+   */
+  listState: loadStates.PRE_FETCH,
+  /**
+   * The list of allergies returned from the api
    * @type {array}
    */
   allergiesList: undefined,
@@ -81,6 +90,8 @@ export const allergyReducer = (state = initialState, action) => {
     case Actions.Allergies.GET_LIST: {
       return {
         ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
         allergiesList:
           action.response.entry
             ?.map(allergy => {
@@ -93,6 +104,12 @@ export const allergyReducer = (state = initialState, action) => {
       return {
         ...state,
         allergyDetails: undefined,
+      };
+    }
+    case Actions.Allergies.UPDATE_LIST_STATE: {
+      return {
+        ...state,
+        listState: action.payload,
       };
     }
     default:
