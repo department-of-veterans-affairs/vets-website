@@ -1,7 +1,7 @@
 // This is a pseudo-code example. Adapt it to your test runner and assertion library.
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import useListRefresh from '../../hooks/useListRefresh';
 import {
@@ -47,40 +47,48 @@ const renderTestComponentWithProps = props => {
 };
 
 describe('useListRefresh hook', () => {
-  it('should not fetch data if list is present and refresh is current', () => {
+  it('should not fetch data if list is present and refresh is current', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps();
 
-    sinon.assert.notCalled(dispatchActionMock);
+    await waitFor(() => {
+      sinon.assert.notCalled(dispatchActionMock);
+    });
   });
 
-  it('should fetch data if list is not fetched yet', () => {
+  it('should fetch data if list is not fetched yet', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps({
       listState: loadStates.PRE_FETCH,
       listCurrentAsOf: undefined,
       refreshStatus: undefined,
     });
 
-    sinon.assert.called(dispatchActionMock);
+    await waitFor(() => {
+      sinon.assert.called(dispatchActionMock);
+    });
   });
 
-  it('should fetch data if list is present but stale, and refresh is current', () => {
+  it('should fetch data if list is present but stale, and refresh is current', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps({
       listCurrentAsOf: new Date() - VALID_REFRESH_DURATION - 1,
     });
 
-    sinon.assert.called(dispatchActionMock);
+    await waitFor(() => {
+      sinon.assert.called(dispatchActionMock);
+    });
   });
 
-  it('should not fetch data if the list is currently being fetched, even if stale', () => {
+  it('should not fetch data if the list is currently being fetched, even if stale', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps({
       listState: loadStates.FETCHING,
       listCurrentAsOf: new Date() - VALID_REFRESH_DURATION - 1,
     });
 
-    sinon.assert.notCalled(dispatchActionMock);
+    await waitFor(() => {
+      sinon.assert.notCalled(dispatchActionMock);
+    });
   });
 
-  it('should not fetch data if the list is present but stale, and refresh is stale', () => {
+  it('should not fetch data if the list is present but stale, and refresh is stale', async () => {
     const { dispatchActionMock } = renderTestComponentWithProps({
       listCurrentAsOf: new Date() - VALID_REFRESH_DURATION - 1,
       refreshStatus: [
@@ -91,6 +99,8 @@ describe('useListRefresh hook', () => {
       ],
     });
 
-    sinon.assert.notCalled(dispatchActionMock);
+    await waitFor(() => {
+      sinon.assert.notCalled(dispatchActionMock);
+    });
   });
 });
