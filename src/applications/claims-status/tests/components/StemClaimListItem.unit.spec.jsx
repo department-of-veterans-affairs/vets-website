@@ -41,7 +41,7 @@ describe('<StemClaimListItem>', () => {
         .find('p')
         .last()
         .text(),
-    ).to.equal('Submitted on: March 1, 2021');
+    ).to.equal('Received on: March 1, 2021');
     tree.unmount();
   });
 
