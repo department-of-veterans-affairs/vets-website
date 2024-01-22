@@ -58,6 +58,7 @@ describe('create folder errors check', () => {
       },
     });
     PatientMessageCustomFolderPage.loadFoldersList();
+    // this assertion can be moved to common file
     cy.get('[data-testid="create-new-folder"]').click();
     cy.get('[data-testid="create-folder-button"]').click({
       waitForAnimations: true,

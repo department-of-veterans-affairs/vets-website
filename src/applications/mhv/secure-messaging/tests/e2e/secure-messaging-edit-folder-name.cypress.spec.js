@@ -36,6 +36,7 @@ describe('edit custom folder name validation', () => {
       .click({ waitForAnimations: true });
     PatientMessageCustomFolderPage.submitEditFolderName('updatedName');
 
+    // these assertion can be moved in to common function.
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('be.visible')
       .and('have.text', 'Folder was successfully renamed.');
@@ -55,6 +56,7 @@ describe('edit custom folder name validation', () => {
       .should('be.visible')
       .click({ waitForAnimations: true });
 
+    // these assertion can be moved in to common function.
     cy.get('[text="Save"]')
       .should('be.visible')
       .click({ waitForAnimations: true });

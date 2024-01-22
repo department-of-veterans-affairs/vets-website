@@ -24,6 +24,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
         },
       },
     });
+    // this button can be moved to constant file
     cy.get('[data-testid="inbox-sidebar"]')
       .find('a')
       .should('have.class', 'is-active');

@@ -20,6 +20,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     PatientInterstitialPage.getContinueButton().should('not.exist');
+    // these intercepts and assertion can be moved in to common function.
     cy.intercept(
       'PUT',
       `/my_health/v1/messaging/message_drafts/${

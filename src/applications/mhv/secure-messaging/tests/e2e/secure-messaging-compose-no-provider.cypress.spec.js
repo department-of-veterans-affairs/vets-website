@@ -26,6 +26,7 @@ describe('Secure Messaging Compose with No Provider', () => {
       .type('Test message body', { force: true });
 
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
+    // this button can be move to constant.
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
       .click();

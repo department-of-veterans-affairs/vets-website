@@ -20,6 +20,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
     landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    // these intercepts can be moved in to common function.
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',

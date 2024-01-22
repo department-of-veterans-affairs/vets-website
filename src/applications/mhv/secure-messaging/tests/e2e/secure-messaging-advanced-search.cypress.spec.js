@@ -59,6 +59,7 @@ describe(manifest.appName, () => {
       const landingPage = new PatientInboxPage();
       site.login();
       landingPage.loadInboxMessages();
+      // these intercepts can be moved in to common function to open the draft page
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-2*',
@@ -112,6 +113,7 @@ describe(manifest.appName, () => {
       site.login();
       const landingPage = new PatientInboxPage();
       landingPage.loadInboxMessages();
+      // these intercepts can be moved in to common function to open the sent page
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-1*',
@@ -165,6 +167,7 @@ describe(manifest.appName, () => {
       site.login();
       const landingPage = new PatientInboxPage();
       landingPage.loadInboxMessages();
+      // these intercepts can be moved in to common function to open the trash page
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-3*',

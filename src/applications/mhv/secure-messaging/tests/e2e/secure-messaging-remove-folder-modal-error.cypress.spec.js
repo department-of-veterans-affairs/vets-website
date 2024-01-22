@@ -34,7 +34,7 @@ describe('remove folder error modal', () => {
       folderName,
     );
     folderPage.deleteFolderButton().click();
-
+    // this button can be moved to constant.
     cy.get('[data-testid="error-folder-not-empty"] p').should(
       'include.text',
       "can't remove a folder with messages",

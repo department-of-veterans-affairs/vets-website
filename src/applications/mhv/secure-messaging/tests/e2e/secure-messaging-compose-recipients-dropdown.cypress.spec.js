@@ -24,6 +24,7 @@ describe('recipients dropdown box', () => {
         },
       },
     });
+    // this assertion can be moved to common file
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
       .find('select')
@@ -55,7 +56,7 @@ describe('recipients dropdown box', () => {
     });
 
     // ad assertion to check blocked group does not exist in the dd list
-
+    // this assertion can be moved to common file
     cy.get('[data-testid="compose-message-link"]').click();
     PatientInterstitialPage.getContinueButton().click();
     cy.wait('@recipients').then(() => {

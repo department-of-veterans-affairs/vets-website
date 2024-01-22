@@ -27,7 +27,7 @@ describe('Secure Messaging - Print Functionality', () => {
     cy.get(Locators.BUTTONS.PRINT)
       .should('be.visible')
       .click({ force: true });
-
+    // this button can be moved to constant.
     cy.get('[data-testid="print-modal-popup"]')
       .find('h1')
       .should('have.text', 'Make sure you have all messages expanded');
