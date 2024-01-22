@@ -7,12 +7,12 @@
     "txAuditId": "string",
     "sourceSystem": "VETSGOV",
     "sourceDate": "string",
-    "communicationPermissionId": 7115,
+    "communicationPermissionId": 4281,
     "vaProfileId": 1273780,
-    "communicationChannelId": 1,
+    "communicationChannelId": 3,
     "communicationItemId": 1,
     "communicationChannelName": "Text",
-    "communicationItemCommonName": "Board of Veterans' Appeals hearing reminder",
+    "communicationItemCommonName": "Appointment Reminder",
     "allowed": false
   }
 }

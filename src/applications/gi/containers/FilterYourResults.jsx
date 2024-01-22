@@ -20,6 +20,7 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -515,6 +516,11 @@ export function FilterYourResults({
             >
               Update results
             </button>
+            {!environment.isProduction() && (
+              <ClearFiltersBtn smallScreen={smallScreen}>
+                Clear filters
+              </ClearFiltersBtn>
+            )}
           </div>
         </div>
       )}
