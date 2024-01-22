@@ -5,7 +5,7 @@ describe('parsePhoneNumber', () => {
   it('should handle valid numbers with no ext or dashes', () => {
     const phone = '2345678901';
     const { extension, contact } = parsePhoneNumber(phone);
-    expect(extension).to.equal('');
+    expect(extension).to.equal(null);
     expect(contact).to.equal('2345678901');
   });
 
@@ -37,7 +37,7 @@ describe('parsePhoneNumber', () => {
     const phone = '1-800-827-1000';
     const { extension, contact } = parsePhoneNumber(phone);
 
-    expect(extension).to.equal('');
+    expect(extension).to.equal(null);
     expect(contact).to.equal('8008271000');
   });
 
@@ -45,7 +45,7 @@ describe('parsePhoneNumber', () => {
     const phone = '1844-458-9767';
     const { extension, contact } = parsePhoneNumber(phone);
 
-    expect(extension).to.equal('');
+    expect(extension).to.equal(null);
     expect(contact).to.equal('8444589767');
   });
 
@@ -53,7 +53,7 @@ describe('parsePhoneNumber', () => {
     const phone = '18444589767';
     const { extension, contact } = parsePhoneNumber(phone);
 
-    expect(extension).to.equal('');
+    expect(extension).to.equal(null);
     expect(contact).to.equal('8444589767');
   });
 
@@ -61,7 +61,7 @@ describe('parsePhoneNumber', () => {
     const phone = '(941)745-3795';
     const { extension, contact } = parsePhoneNumber(phone);
 
-    expect(extension).to.equal('');
+    expect(extension).to.equal(null);
     expect(contact).to.equal('9417453795');
   });
 

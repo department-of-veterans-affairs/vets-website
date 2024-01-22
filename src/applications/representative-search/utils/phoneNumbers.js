@@ -28,10 +28,11 @@ export const parsePhoneNumber = phone => {
   // capture first 10 digits + ext if applicable
   const parserRegex = /^(\d{10})(\D*?(\d+))?/;
   const contact = sanitizedNumber.replace(/-/g, '').replace(parserRegex, '$1');
-  const extension = sanitizedNumber
-    .replace(/-/g, '')
-    .replace(parserRegex, '$3')
-    .replace(/\D/g, '');
+  const extension =
+    sanitizedNumber
+      .replace(/-/g, '')
+      .replace(parserRegex, '$3')
+      .replace(/\D/g, '') || null;
 
   const isValidContactNumberRegex = /^(?:[2-9]\d{2})[2-9]\d{2}\d{4}$/;
 
