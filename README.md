@@ -196,6 +196,14 @@ yarn cy:run --browser chrome
 yarn cy:run --browser firefox
 ```
 
+To **run Cypress tests with reports**
+
+```sh
+yarn cy:run:localreports "src/applications/my-app/**/*"
+```
+
+Afterward, check `/mochawesome-report` contents.
+
 **For other options with `yarn cy:run`,** [the same options for `cypress run` are applicable](https://docs.cypress.io/guides/guides/command-line.html#Commands).
 
 ## Changing Virtual Agent backend URL
