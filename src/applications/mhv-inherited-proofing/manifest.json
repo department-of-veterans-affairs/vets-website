@@ -1,8 +1,0 @@
-{
-  "appName": "My HealtheVet Inherited Proofing",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "mhv-inherited-proofing",
-  "rootUrl": "/transfer-account",
-  "e2eTestsDisabled": true,
-  "productId": "e0d8b571-c134-433b-a66a-83b101db1429"
-}

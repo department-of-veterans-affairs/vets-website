@@ -8,8 +8,6 @@ import URLSearchParams from 'url-search-params';
 import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
-import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
-import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -17,7 +15,6 @@ import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
 import {
   signInServiceName as signInServiceNameSelector,
-  transitionMHVAccount,
   isAuthenticatedWithOAuth,
   signInServiceEnabled,
 } from 'platform/user/authentication/selectors';
@@ -26,14 +23,10 @@ import {
   isProfileLoading,
   isLOA3,
   selectUser,
-  mhvTransitionEnabled,
-  mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
@@ -58,30 +51,11 @@ export class Main extends Component {
   }
 
   componentDidUpdate() {
-    const { currentlyLoggedIn, user } = this.props;
-    const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
-    const accountTransitionPreviouslyDismissed = localStorage.getItem(
-      ACCOUNT_TRANSITION_DISMISSED,
-    );
+    const { currentlyLoggedIn } = this.props;
 
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-      if (
-        this.props.signInServiceName === 'mhv' &&
-        mhvTransitionEligible &&
-        !mhvTransitionComplete &&
-        !accountTransitionPreviouslyDismissed
-      ) {
-        this.props.toggleAccountTransitionModal(true);
-      }
-
-      if (
-        this.props.signInServiceName === 'logingov' &&
-        mhvTransitionComplete
-      ) {
-        this.props.toggleAccountTransitionSuccessModal(true);
-      }
     }
   }
 
@@ -222,8 +196,6 @@ export class Main extends Component {
   };
 
   render() {
-    const { mhvTransition, mhvTransitionModal } = this.props;
-
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -245,19 +217,6 @@ export class Main extends Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
           useSiS={this.props.useSignInService}
-        />
-        {mhvTransition &&
-          mhvTransitionModal && (
-            <AccountTransitionModal
-              onClose={this.closeAccountTransitionModal}
-              visible={this.props.showAccountTransitionModal}
-              canTransferMHVAccount={this.props.canTransferMHVAccount}
-              history={history}
-            />
-          )}
-        <AccountTransitionSuccessModal
-          onClose={this.closeAccountTransitionSuccessModal}
-          visible={this.props.showAccountTransitionSuccessModal}
         />
         <AutoSSO />
       </div>
@@ -287,14 +246,11 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    mhvTransition: mhvTransitionEnabled(state),
-    mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
-    canTransferMHVAccount: transitionMHVAccount(state),
     ...state.navigation,
   };
 };
@@ -304,8 +260,6 @@ const mapDispatchToProps = {
   initializeProfile,
   toggleFormSignInModal,
   toggleLoginModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
 };
