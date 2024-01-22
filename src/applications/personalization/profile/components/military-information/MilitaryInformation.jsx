@@ -226,9 +226,9 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       )}
 
       <div>
-        <h3 className="vads-u-margin-top--0" slot="headline">
+        <h2 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
-        </h3>
+        </h2>
         <va-link
           href="/records/get-military-service-records"
           text="Learn how to request your DD214 and other military records"
