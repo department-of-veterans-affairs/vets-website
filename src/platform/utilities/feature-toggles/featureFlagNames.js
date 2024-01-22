@@ -178,6 +178,7 @@ export default Object.freeze({
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
+  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
@@ -242,8 +243,6 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
-  vaOnlineSchedulingUnenrolledVaccine:
-    'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
     'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:
