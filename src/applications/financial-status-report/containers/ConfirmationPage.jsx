@@ -172,10 +172,6 @@ const ConfirmationPage = ({ form, download }) => {
 
   return (
     <div>
-      <p className="vads-u-margin-top--0">
-        <strong>Please print this page for your records.</strong>
-      </p>
-
       {!(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
         renderLongFormAlert()}
       {(isStreamlinedLongForm(data) || isStreamlinedShortForm(data)) &&
@@ -190,55 +186,45 @@ const ConfirmationPage = ({ form, download }) => {
       )}
 
       <h3>How can I check the status of my request?</h3>
-      <div className="process schemaform-process">
-        <ol>
-          <li className="process-step list-one">
-            <h4>Sign in to VA.gov</h4>
-            <p>
-              You can sign in with your Login.gov, ID.me, DS Logon, or My
-              HealtheVet
-            </p>
-          </li>
-          <li className="process-step list-two">
-            <h4>
-              If you haven’t yet verified your identity, complete this process
-              when prompted
-            </h4>
-            <p>
-              This helps keep your information safe, and prevents fraud and
-              identity theft. If you’ve already verified your identity with us,
-              you don’t need to do this again.
-            </p>
-          </li>
-          <li className="process-step list-three">
-            <h4>Go to your debt management portal</h4>
-            <p>
-              After you sign in, you can go to
-              <a href="/manage-va-debt" className="vads-u-margin--0p5">
-                Manage my VA debt
-              </a>
-              to check the status of your current debts.
-            </p>
-          </li>
-        </ol>
-        {renderLoseJobBlurb()}
-        <p>
-          You’ll need to submit a new request to report the changes to us. We’ll
-          consider the changes when we make our decision on your request.
-        </p>
+      <va-process-list
+        uswds
+        class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
+      >
+        <va-process-list-item header="Sign in to VA.gov">
+          <p>
+            You can sign in with your Login.gov, ID.me, DS Logon, or My
+            HealtheVet
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Submit your request">
+          <p>
+            This helps keep your information safe, and prevents fraud and
+            identity theft. If you’ve already verified your identity with us,
+            you don’t need to do this again.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Go to your debt management portal">
+          <p>
+            After you sign in, you can go to
+            <a href="/manage-va-debt">Manage my VA debt</a>
+            to check the status of your current debts.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
+      {renderLoseJobBlurb()}
+      <p>
+        You’ll need to submit a new request to report the changes to us. We’ll
+        consider the changes when we make our decision on your request.
+      </p>
 
-        <a
-          className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
-          href={`${environment.BASE_URL}`}
-        >
-          Go back to VA.gov
-        </a>
-      </div>
+      <a
+        className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+        href={`${environment.BASE_URL}`}
+      >
+        Go back to VA.gov
+      </a>
 
-      <div className="help-container">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div>
+      <GetFormHelp />
     </div>
   );
 };
