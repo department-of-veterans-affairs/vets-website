@@ -12,7 +12,7 @@ describe('<DurationCard/>', () => {
 
   it('should render', () => {
     const wrapper = shallow(<DurationCard {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.type()).to.equal('va-card');
     wrapper.unmount();
   });
 
