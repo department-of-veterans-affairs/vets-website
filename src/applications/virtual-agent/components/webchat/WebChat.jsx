@@ -204,16 +204,11 @@ const WebChat = ({
   }, []);
 
   useEffect(setMicrophoneMessage(isRXSkill, document));
+
   const handleRedirectPrimaryClick = () => {
     window.open(sessionStorage.getItem('redirectUrl'), '_blank');
-    const isDictating = document.querySelector(
-      'div.webchat__microphone-button--dictating',
-    );
-    if (isDictating) {
-      document
-        .querySelector('button.webchat__microphone-button__button')
-        ?.click();
-    }
+
+    sessionStorage.setItem('stopDictate', 'true');
     setIsRedirectModalOpen(false);
   };
 

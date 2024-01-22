@@ -45,6 +45,25 @@ export const processSendMessageActivity = ({ action }) => () => {
   window.dispatchEvent(outgoingActivityEvent);
 };
 
+export const processMicrophoneEnabledActivity = ({ action }) => () => {
+  setTimeout(() => {
+    if (
+      action.payload.dictateState === 3 &&
+      sessionStorage.getItem('stopDictate') === 'true'
+    ) {
+      const isDictating = document.querySelector(
+        'div.webchat__microphone-button--dictating',
+      );
+      if (isDictating) {
+        document
+          .querySelector('button.webchat__microphone-button__button')
+          ?.click();
+      }
+      sessionStorage.setItem('stopDictate', 'false');
+    }
+  }, 0);
+};
+
 export const processIncomingActivity = ({ action, dispatch }) => () => {
   const setSessionStorageAsString = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
