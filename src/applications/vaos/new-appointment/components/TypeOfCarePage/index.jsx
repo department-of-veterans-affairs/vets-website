@@ -41,7 +41,6 @@ export default function TypeOfCarePage({ changeCrumb }) {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
-    useAcheron,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
@@ -128,7 +127,7 @@ export default function TypeOfCarePage({ changeCrumb }) {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(useAcheron);
+              getLongTermAppointmentHistoryV2();
             }
 
             setData(newData);
