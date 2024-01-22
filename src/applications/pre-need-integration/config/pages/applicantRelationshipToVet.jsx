@@ -1,8 +1,16 @@
 import { merge } from 'lodash';
 
-import { applicantInformationDescription } from '../../utils/helpers';
+import {
+  applicantInformationDescription,
+  relationshipToVetDescription,
+  relationshipToVetOptions,
+} from '../../utils/helpers';
 
-export function uiSchema(description, title, options) {
+export function uiSchema(
+  description = relationshipToVetDescription,
+  title = relationshipToVetDescription,
+  options = relationshipToVetOptions,
+) {
   return {
     application: {
       claimant: {
