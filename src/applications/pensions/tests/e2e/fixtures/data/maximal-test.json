@@ -323,7 +323,8 @@
     "incomeSources": [
       {
         "typeOfIncome": "SOCIAL_SECURITY",
-        "receiver": "Jane Doe",
+        "receiver": "DEPENDENT",
+        "dependentName": "Bobby Doe",
         "payer": "John Doe",
         "amount": 278.05
       },
