@@ -62,10 +62,8 @@ describe('shared utilities', () => {
 
   describe('pushToRoute', () => {
     it('should correctly push to the given route', () => {
-      pushToRoute(SHORT_NAME_MAP.RADIATION_2_3_A, router, updateSpy);
+      pushToRoute(SHORT_NAME_MAP.RADIATION_2_3_A, router);
 
-      expect(updateSpy.firstCall.calledWith(SHORT_NAME_MAP.RADIATION_2_3_A)).to
-        .be.true;
       expect(pushSpy.firstCall.calledWith(ROUTES.RADIATION_2_3_A)).to.be.true;
     });
   });

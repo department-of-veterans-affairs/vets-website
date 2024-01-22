@@ -8,7 +8,6 @@ import { ROUTES } from '../../constants';
 import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 const pushSpy = sinon.spy();
-const updateSpy = sinon.spy();
 
 const router = {
   push: pushSpy,
@@ -16,7 +15,6 @@ const router = {
 
 beforeEach(() => {
   pushSpy.reset();
-  updateSpy.reset();
 });
 
 describe('navigateForward', () => {
@@ -27,12 +25,7 @@ describe('navigateForward', () => {
     };
 
     it('SERVICE_PERIOD: should correctly route to the next question', () => {
-      navigateForward(
-        SHORT_NAME_MAP.SERVICE_PERIOD,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1)).to.be.true;
     });
   });
@@ -45,12 +38,7 @@ describe('navigateForward', () => {
     };
 
     it('BURN_PIT_2_1_1: should correctly route to the next question', () => {
-      navigateForward(
-        SHORT_NAME_MAP.BURN_PIT_2_1_1,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1_1, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_2)).to.be
         .true;
     });
@@ -65,12 +53,7 @@ describe('navigateForward', () => {
     };
 
     it('BURN_PIT_2_1_2: should correctly route to the next question', () => {
-      navigateForward(
-        SHORT_NAME_MAP.BURN_PIT_2_1_2,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1_2, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_A)).to.be.true;
     });
   });
@@ -86,12 +69,7 @@ describe('navigateForward', () => {
     };
 
     it('ORANGE_2_2_1_A: should correctly route to the next question', () => {
-      navigateForward(
-        SHORT_NAME_MAP.ORANGE_2_2_1_A,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.ORANGE_2_2_1_A, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_2)).to.be.true;
     });
   });
@@ -109,12 +87,7 @@ describe('navigateForward', () => {
     };
 
     it('RADIATION_2_4: should correctly route to the next question', () => {
-      navigateForward(
-        SHORT_NAME_MAP.RADIATION_2_3_A,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.RADIATION_2_3_A, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.LEJEUNE_2_4)).to.be.true;
     });
   });
@@ -126,12 +99,7 @@ describe('navigateForward', () => {
     };
 
     it('RESULTS_1_1: should correctly route to the results page', () => {
-      navigateForward(
-        SHORT_NAME_MAP.BURN_PIT_2_1,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1, formResponses, router);
 
       expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_1)).to.be.true;
     });
@@ -152,12 +120,7 @@ describe('navigateForward', () => {
     };
 
     it('RESULTS_2: should correctly route to the results page', () => {
-      navigateForward(
-        SHORT_NAME_MAP.LEJEUNE_2_4,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateForward(SHORT_NAME_MAP.LEJEUNE_2_4, formResponses, router);
 
       expect(router.push.firstCall.calledWith(ROUTES.RESULTS_2)).to.be.true;
     });
@@ -171,15 +134,9 @@ describe('navigateBackward', () => {
     };
 
     it('SERVICE_PERIOD: should correctly route back home', () => {
-      navigateBackward(
-        SHORT_NAME_MAP.SERVICE_PERIOD,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateBackward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
 
       expect(router.push.firstCall.calledWith(ROUTES.HOME)).to.be.true;
-      expect(updateSpy.firstCall.calledWith(SHORT_NAME_MAP.HOME)).to.be.true;
     });
   });
 
@@ -190,12 +147,7 @@ describe('navigateBackward', () => {
     };
 
     it('SERVICE_PERIOD: should correctly route to the next question', () => {
-      navigateBackward(
-        SHORT_NAME_MAP.BURN_PIT_2_1,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateBackward(SHORT_NAME_MAP.BURN_PIT_2_1, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.SERVICE_PERIOD)).to.be
         .true;
     });
@@ -209,12 +161,7 @@ describe('navigateBackward', () => {
     };
 
     it('BURN_PIT_2_1_2: should correctly route to the previous question', () => {
-      navigateBackward(
-        SHORT_NAME_MAP.BURN_PIT_2_1_2,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateBackward(SHORT_NAME_MAP.BURN_PIT_2_1_2, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_1)).to.be
         .true;
     });
@@ -229,12 +176,7 @@ describe('navigateBackward', () => {
     };
 
     it('ORANGE_2_2_A: should correctly route to the previous question', () => {
-      navigateBackward(
-        SHORT_NAME_MAP.ORANGE_2_2_A,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateBackward(SHORT_NAME_MAP.ORANGE_2_2_A, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.BURN_PIT_2_1_2)).to.be
         .true;
     });
@@ -251,12 +193,7 @@ describe('navigateBackward', () => {
     };
 
     it('ORANGE_2_2_1_B: should correctly route to the previous question', () => {
-      navigateBackward(
-        SHORT_NAME_MAP.ORANGE_2_2_1_B,
-        formResponses,
-        router,
-        updateSpy,
-      );
+      navigateBackward(SHORT_NAME_MAP.ORANGE_2_2_1_B, formResponses, router);
       expect(router.push.firstCall.calledWith(ROUTES.ORANGE_2_2_1_A)).to.be
         .true;
     });

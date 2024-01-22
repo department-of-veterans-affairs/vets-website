@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../constants';
-import { updateCurrentPage, updateIntroPageViewed } from '../actions';
+import { updateIntroPageViewed } from '../actions';
 import { pageSetup } from '../utilities/page-setup';
-import { QUESTION_MAP, SHORT_NAME_MAP } from '../constants/question-data-map';
+import { QUESTION_MAP } from '../constants/question-data-map';
 
-const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
+const HomePage = ({ router, setIntroPageViewed }) => {
   const H1 = QUESTION_MAP.HOME;
 
   useEffect(() => {
@@ -16,7 +16,6 @@ const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
 
   const startForm = event => {
     event.preventDefault();
-    updateTheCurrentPage(SHORT_NAME_MAP.SERVICE_PERIOD);
     router.push(ROUTES.SERVICE_PERIOD);
   };
 
@@ -62,12 +61,10 @@ HomePage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setIntroPageViewed: PropTypes.func.isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   setIntroPageViewed: updateIntroPageViewed,
-  updateTheCurrentPage: updateCurrentPage,
 };
 
 export default connect(

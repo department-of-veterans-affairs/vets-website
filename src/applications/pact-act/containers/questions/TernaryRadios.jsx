@@ -7,7 +7,7 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../utilities/page-navigation';
-import { updateCurrentPage, updateFormStore } from '../../actions';
+import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 
@@ -29,7 +29,6 @@ const TernaryRadios = ({
   shortName,
   testId,
   updateCleanedFormStore,
-  updateTheCurrentPage,
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -44,12 +43,12 @@ const TernaryRadios = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router, updateTheCurrentPage);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router, updateTheCurrentPage);
+    navigateBackward(shortName, formResponses, router);
   };
 
   const onValueChange = value => {
@@ -154,7 +153,6 @@ const TernaryRadios = ({
 
 const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
-  updateTheCurrentPage: updateCurrentPage,
 };
 
 TernaryRadios.propTypes = {
@@ -167,7 +165,6 @@ TernaryRadios.propTypes = {
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
   locationList: PropTypes.node,
