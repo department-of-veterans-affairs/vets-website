@@ -10,10 +10,10 @@ const DurationCard = ({ durationText, cardDescription, isDisabled = true }) => {
   }
 
   return (
-    <div className="card information">
+    <va-card background>
       <span className="number">{durationText}</span>
       <span className="description">{cardDescription}</span>
-    </div>
+    </va-card>
   );
 };
 
