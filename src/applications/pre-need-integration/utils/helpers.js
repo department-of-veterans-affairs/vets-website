@@ -42,8 +42,16 @@ export function ApplicantDescriptionWrapper({ formContext }) {
 }
 
 export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
-  return <CurrentlyBuriedDescription formContext={formContext} />;
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
 }
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
@@ -724,6 +732,20 @@ export const militaryNameUI = {
     },
   },
 };
+
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
