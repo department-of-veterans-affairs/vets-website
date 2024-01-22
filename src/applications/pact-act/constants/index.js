@@ -13,7 +13,6 @@ export const PAW_UPDATE_RADIATION_2_3_A = 'pact-act/PAW_UPDATE_RADIATION_2_3_A';
 export const PAW_UPDATE_RADIATION_2_3_B = 'pact-act/PAW_UPDATE_RADIATION_2_3_B';
 export const PAW_UPDATE_LEJEUNE_2_4 = 'pact-act/PAW_UPDATE_LEJEUNE_2_4';
 export const PAW_UPDATE_FORM_STORE = 'pact-act/PAW_UPDATE_FORM_STORE';
-export const PAW_UPDATE_CURRENT_PAGE = 'pact-act/PAW_UPDATE_CURRENT_PAGE';
 
 // Except for HOME and results pages, left side must match
 // short name codes in constants/question-data-map
