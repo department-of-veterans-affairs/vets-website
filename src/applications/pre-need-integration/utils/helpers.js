@@ -336,11 +336,18 @@ export function isVeteran(item) {
 }
 
 export function isSpouse(item) {
-  return get('application.claimant.relationshipToVet', item) === '2';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return relationshipToVet === '2' || relationshipToVet === '3';
 }
 
 export function isUnmarriedChild(item) {
-  return get('application.claimant.relationshipToVet', item) === '3';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return (
+    relationshipToVet === '4' ||
+    relationshipToVet === '5' ||
+    relationshipToVet === '6' ||
+    relationshipToVet === '7'
+  );
 }
 
 export function isVeteranAndHasServiceName(item) {
