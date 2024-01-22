@@ -6,7 +6,6 @@ import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
   officer,
-  // type,
   addressLine1,
   addressLine2,
   addressLine3,
@@ -16,10 +15,8 @@ const SearchResult = ({
   phone,
   distance,
   email,
-  // result,
   representative,
   query,
-  // index,
 }) => {
   const [
     reportOutdatedInformationModalIsShowing,
