@@ -9,7 +9,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingPast', value: true },
   { name: 'vaOnlineSchedulingExpressCare', value: true },
   { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-  { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
   { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
