@@ -113,7 +113,7 @@ const SettingsPage = () => {
       );
     }
     return (
-      <va-card className="vads-u-padding--3">
+      <va-card background className="vads-u-padding--3">
         <h3 className="vads-u-margin-top--0">
           Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
         </h3>
