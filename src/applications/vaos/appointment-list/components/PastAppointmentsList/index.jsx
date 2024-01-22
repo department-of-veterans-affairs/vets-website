@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
@@ -93,8 +93,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 
   return options;
 }
-
-export default function PastAppointmentsListNew() {
+export default function PastAppointmentsList({ hasTypeChanged }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
@@ -104,7 +103,6 @@ export default function PastAppointmentsListNew() {
     pastAppointmentsByMonth,
     pastStatus,
     pastSelectedIndex,
-    hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
 
   const featureStatusImprovement = useSelector(state =>
@@ -129,11 +127,15 @@ export default function PastAppointmentsListNew() {
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
+        // other than the first time on past appointment page
         scrollAndFocus('h3');
       } else if (hasTypeChanged && pastStatus === FETCH_STATUS.succeeded) {
-        scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('h3');
+        // upon first time entering past appointment page excludes refresh
+        scrollAndFocus('#date-dropdown');
+        // scrollAndFocus('h1');
+      } else if (pastStatus === FETCH_STATUS.failed) {
+        // when failed fetch
+        scrollAndFocus('#announce-alert');
       }
     },
     [isInitialMount, pastStatus, hasTypeChanged],
@@ -197,12 +199,15 @@ export default function PastAppointmentsListNew() {
     return (
       <>
         {dropdown}
-        <InfoAlert
-          status="error"
-          headline="We’re sorry. We’ve run into a problem"
-        >
-          We’re having trouble getting your past appointments. Please try later.
-        </InfoAlert>
+        <div id="announce-alert">
+          <InfoAlert
+            status="error"
+            headline="We’re sorry. We’ve run into a problem"
+          >
+            We’re having trouble getting your past appointments. Please try
+            later.
+          </InfoAlert>
+        </div>
       </>
     );
   }
@@ -282,3 +287,7 @@ export default function PastAppointmentsListNew() {
     </>
   );
 }
+
+PastAppointmentsList.propTypes = {
+  hasTypeChanged: PropTypes.bool,
+};

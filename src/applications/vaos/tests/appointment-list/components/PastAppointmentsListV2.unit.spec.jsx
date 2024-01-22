@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
@@ -59,11 +59,14 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    const { findByText } = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
+    const screen = renderWithStoreAndRouter(
+      <PastAppointmentsList hasTypeChanged />,
+      {
+        initialState,
+      },
+    );
 
-    expect(await findByText(/Past 3 months/i)).to.exist;
+    expect(await screen.findByText(/Past 3 months/i)).to.exist;
   });
 
   // TODO: Skipping since RTL doesn't work with web components va-select.
@@ -447,11 +450,18 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
     });
 
     const myInitialState = {
-      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingStatusImprovement: true,
+        vaOnlineSchedulingBreadcrumbUrlUpdate: true,
+      },
     };
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState: myInitialState,
-    });
+    const screen = renderWithStoreAndRouter(
+      <PastAppointmentsList hasTypeChanged />,
+      {
+        initialState: myInitialState,
+      },
+    );
 
     await screen.findAllByLabelText(
       new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
@@ -459,6 +469,7 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(document.activeElement.id).to.equal('date-dropdown');
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {
