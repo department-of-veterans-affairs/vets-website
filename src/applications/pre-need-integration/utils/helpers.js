@@ -265,6 +265,50 @@ export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
   </p>
 );
 
+export const relationshipToVetTitle =
+  'What’s your relationship to the Veteran or service member you’re connected to?';
+
+export const relationshipToVetPreparerTitle =
+  'What’s the applicant’s relationship to the Veteran or service member they’re connected to?';
+
+export const relationshipToVetDescription = '';
+
+export const relationshipToVetPreparerDescription =
+  'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).';
+
+export function getRelationshipToVetOptions(option1) {
+  return {
+    labels: {
+      1: option1,
+      2: 'Husband',
+      3: 'Wife',
+      4: 'Adult dependent daughter',
+      5: 'Adult dependent son',
+      6: 'Adult dependent stepdaughter',
+      7: 'Adult dependent stepson',
+      8: 'Other',
+    },
+    widgetProps: {
+      1: { 'aria-describedby': 'veteran-relationship' },
+      2: { 'aria-describedby': 'spouse-relationship' },
+      3: { 'aria-describedby': 'spouse-relationship' },
+      4: { 'aria-describedby': 'child-relationship' },
+      5: { 'aria-describedby': 'child-relationship' },
+      6: { 'aria-describedby': 'child-relationship' },
+      7: { 'aria-describedby': 'child-relationship' },
+      8: { 'aria-describedby': 'other-relationship' },
+    },
+  };
+}
+
+export const relationshipToVetOptions = getRelationshipToVetOptions(
+  'I’m the Veteran or service member',
+);
+
+export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
+  'Applicant is the Veteran or service member',
+);
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',

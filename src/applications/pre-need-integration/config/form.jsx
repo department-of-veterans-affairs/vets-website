@@ -60,6 +60,12 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   MailingAddressStateTitle,
+  relationshipToVetTitle,
+  relationshipToVetPreparerTitle,
+  relationshipToVetDescription,
+  relationshipToVetPreparerDescription,
+  relationshipToVetOptions,
+  relationshipToVetPreparerOptions,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -192,7 +198,22 @@ const formConfig = {
         ? {
             applicantRelationshipToVet: {
               path: 'applicant-relationship-to-vet',
-              uiSchema: applicantRelationshipToVet.uiSchema,
+              depends: formData => !isAuthorizedAgent(formData),
+              uiSchema: applicantRelationshipToVet.uiSchema(
+                relationshipToVetDescription,
+                relationshipToVetTitle,
+                relationshipToVetOptions,
+              ),
+              schema: applicantRelationshipToVet.schema,
+            },
+            applicantRelationshipToVetPreparer: {
+              path: 'applicant-relationship-to-vet-preparer',
+              depends: formData => isAuthorizedAgent(formData),
+              uiSchema: applicantRelationshipToVet.uiSchema(
+                relationshipToVetPreparerDescription,
+                relationshipToVetPreparerTitle,
+                relationshipToVetPreparerOptions,
+              ),
               schema: applicantRelationshipToVet.schema,
             },
             veteranApplicantDetails: {
