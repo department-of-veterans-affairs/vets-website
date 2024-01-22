@@ -34,7 +34,9 @@
     },
     "socialSecurityDisability": false,
     "medicalCondition": false,
-    "nursingHome": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
     "specialMonthlyPension": false,
     "vaTreatmentHistory": true,
     "vaMedicalCenters": [
@@ -46,6 +48,9 @@
     "federalMedicalCenters": [
       {
         "medicalCenter": "Memphis Health Care"
+      },
+      {
+        "medicalCenter": "Nashville Health Care"
       }
     ],
     "currentEmployment": true,
@@ -54,6 +59,11 @@
         "jobType": "Customer service",
         "jobHoursWeek": 20,
         "jobTitle": "Manager"
+      },
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Representative"
       }
     ],
     "maritalStatus": "Separated",
@@ -330,21 +340,21 @@
       },
       {
         "typeOfIncome": "INTEREST_DIVIDEND",
-        "receiver": "Jane Doe",
+        "receiver": "VETERAN",
         "payer": "John Doe",
         "amount": 78.5
       },
       {
         "typeOfIncome": "OTHER",
         "otherTypeExplanation": "part-time Uber",
-        "receiver": "Jane Doe",
+        "receiver": "SPOUSE",
         "payer": "John Doe",
         "amount": 278.99
       },
       {
         "typeOfIncome": "OTHER",
         "otherTypeExplanation": "full time job",
-        "receiver": "Jane Doe",
+        "receiver": "VETERAN",
         "payer": "John Doe",
         "amount": 3278.75
       }

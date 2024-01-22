@@ -582,6 +582,8 @@ describe('submit-transformer', () => {
     const result = transform({}, { data: form });
     const transformedData = JSON.parse(result);
 
+    expect(transformedData.data).to.have.property('medicaidCoverage');
+    expect(transformedData.data).to.have.property('medicaidStatus');
     expect(transformedData.data).to.have.property('specialMonthlyPension');
     expect(transformedData.data).to.have.property('vaMedicalCenters');
     expect(transformedData.data).to.have.property('federalMedicalCenters');
