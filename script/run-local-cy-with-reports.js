@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* run-local-cy-with-reports.js
-  * Script to run Cypress tests locally with mochawesome reports
-  * Example:
-  * yarn cy:run:localreports "your-spec(s)-glob-pattern"
+  * Script to run an app's Cypress specs locally with mochawesome reports
+  * Usage:
+  * yarn cy:run:localreports my-app-folder
   */
 const fs = require('fs');
 const path = require('path');
@@ -13,11 +13,25 @@ const chalk = require('chalk');
 
 const cyLocalReportsHtml = require('./get-cy-local-reports-index');
 
-// Get spec-files parameter from command line arguments
-const spec = process.argv[2] || '';
-console.log(
-  chalk.yellow(`RUNNING CYPRESS WITH LOCAL REPORTS. --spec: ${spec}`),
-);
+// Get required spec-files parameter from command line arguments
+const appFolder = process.argv[2] || '';
+if (!appFolder) {
+  console.error(
+    chalk.red(
+      'ERROR: No app-folder parameter provided. You MUST provide an app-folder directly after the script name.',
+    ),
+  );
+  console.log(
+    chalk.yellow(
+      'Usage:\nyarn cy:run:localreports appeals/995\nyarn cy:run:localreports ask-a-question',
+    ),
+  );
+  process.exit(1);
+} else {
+  console.log(
+    chalk.yellow(`RUNNING CYPRESS WITH LOCAL REPORTS. appFolder: ${appFolder}`),
+  );
+}
 
 // Delete all output from previous test-runs
 try {
@@ -30,11 +44,9 @@ try {
 
 // Run Cypress tests with HTML & JSON reports
 try {
-  const sanitizedSpec = spec ? JSON.stringify(spec) : '';
+  const sanitizedappFolder = appFolder ? JSON.stringify(appFolder) : '';
   execSync(
-    `npx cypress run --config-file config/cy-local-reports/cy-local-with-reports.config.js ${
-      sanitizedSpec ? `--spec ${sanitizedSpec}` : ''
-    }`,
+    `npx cypress run --config-file config/cy-local-reports/cy-local-with-reports.config.js --spec "src/applications/${sanitizedappFolder}/**/*"`,
     {
       stdio: 'inherit',
     },

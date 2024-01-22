@@ -199,8 +199,13 @@ yarn cy:run --browser firefox
 To **run Cypress tests with reports**
 
 ```sh
-yarn cy:run:localreports "src/applications/my-app/**/*"
+yarn cy:run:localreports my-app-folder
 ```
+
+Examples:
+
+- `yarn cy:run:localreports appeals/995`
+- `yarn cy:run:localreports ask-a-question`
 
 Afterward, check `/mochawesome-report` contents.
 
