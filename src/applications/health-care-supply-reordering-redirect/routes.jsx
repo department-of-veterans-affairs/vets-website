@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 // Force a redirect since React Router's Redirect does not reload the page.
 function CustomRedirect({ url }) {
   window.location.replace(url);
+  return null;
 }
 
 CustomRedirect.propTypes = {
