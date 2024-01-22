@@ -163,7 +163,9 @@ export const App = ({
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
-      if (mebExclusionPeriodEnabled && !fetchedExclusionPeriods) {
+      // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
+      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
         setFetchedExclusionPeriods(true);
         getExclusionPeriods();
       }
@@ -179,6 +181,7 @@ export const App = ({
     [
       mebExclusionPeriodEnabled,
       fetchedExclusionPeriods,
+      firstName,
       getExclusionPeriods,
       exclusionPeriods,
       formData,

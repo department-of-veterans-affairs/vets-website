@@ -19,6 +19,10 @@ import {
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import { txtLine } from '../../../shared/util/constants';
+import {
+  generateLabsIntro,
+  generatePathologyContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -44,34 +48,11 @@ const PathologyDetails = props => {
   );
 
   const generatePathologyPdf = async () => {
-    const title = `Pathology: ${record.name} on ${record.date}`;
-    const subject = 'VA Medical Record';
-    const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      header: 'Details about this test',
-      items: [
-        {
-          title: 'Sample tested',
-          value: record.sampleTested,
-          inline: true,
-        },
-        {
-          title: 'Lab location',
-          value: record.labLocation,
-          inline: true,
-        },
-        { title: 'Date completed', value: record.date, inline: true },
-      ],
-    };
-    scaffold.results = {
-      header: 'Results',
-      items: [{ items: [{ title: '', value: record.results, inline: true }] }],
-    };
-
-    const pdfName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Pathology details', runningUnitTest);
+    const { title, subject, preface } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generatePathologyContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Pathology details', runningUnitTest);
   };
 
   const generatePathologyTxt = async () => {
@@ -85,7 +66,7 @@ Date completed: ${record.date} \n
 Results: \n
 ${record.results} \n`;
 
-    const fileName = `VA-Pathology-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };
@@ -93,7 +74,11 @@ ${record.results} \n`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="pathology-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="pathology-date"
+        data-testid="pathology-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="pathology-date" />
@@ -111,20 +96,20 @@ ${record.results} \n`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab location
         </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="pathology-date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h4>Results</h4>
         <InfoAlert fullState={fullState} />
-        <p>{record.results}</p>
+        <p data-testid="pathology-results">{record.results}</p>
       </div>
     </div>
   );
