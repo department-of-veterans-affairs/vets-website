@@ -16,6 +16,7 @@ const stateFn = ({
   mhv_landing_page_enabled = true,
   profileLoading = false,
   serviceName = CSP_IDS.ID_ME,
+  loa = 3,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesLoading,
@@ -28,6 +29,7 @@ const stateFn = ({
       session: {
         ssoe: false,
       },
+      loa: { current: loa },
       signIn: {
         serviceName,
       },

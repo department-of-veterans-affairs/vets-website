@@ -10,9 +10,9 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
 
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
-import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';

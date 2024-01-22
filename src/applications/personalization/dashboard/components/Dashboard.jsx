@@ -37,7 +37,7 @@ import {
 import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
-import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';

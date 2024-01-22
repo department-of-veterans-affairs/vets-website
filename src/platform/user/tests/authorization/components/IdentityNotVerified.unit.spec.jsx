@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import IdentityNotVerified from './IdentityNotVerified';
+import IdentityNotVerified from '../../../authorization/components/IdentityNotVerified';
 
 describe('IdentityNotVerified component', () => {
   let view;
