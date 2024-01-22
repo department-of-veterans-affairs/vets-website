@@ -7,6 +7,24 @@ import {
   Recipients,
 } from './constants';
 
+/**
+ * @param {Object} file The attachment file that is uploaded or saved within a message thread
+ * file.lastModified ~ this id is used on newly uploaded attachments that contain no existing id
+ * file.id ~ this id is used on saved attachments within a message thread
+ *
+ */
+export const handleRemoveAttachmentButtonId = file => {
+  return file.id === undefined
+    ? `remove-attachment-button-${file.lastModified}`
+    : `remove-attachment-button-${file.id}`;
+};
+export const handleRemoveAttachmentModalId = file => {
+  return file.id === undefined
+    ? `remove-attachment-modal-${file.lastModified}`
+    : `remove-attachment-modal-${file.id}`;
+};
+///
+
 export const folderPathByFolderId = folderId => {
   let path = '';
   if (folderId !== null) {
@@ -179,6 +197,16 @@ export const updateMessageInThread = (thread, response) => {
     }
     return message;
   });
+};
+
+export const getSize = num => {
+  if (num > 999999) {
+    return `${(num / 1000000).toFixed(1)} MB`;
+  }
+  if (num > 999) {
+    return `${Math.floor(num / 1000)} KB`;
+  }
+  return `${num} B`;
 };
 
 export const convertPathNameToTitleCase = str => {
