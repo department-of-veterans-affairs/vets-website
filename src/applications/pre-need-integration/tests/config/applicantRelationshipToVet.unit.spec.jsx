@@ -16,7 +16,7 @@ describe('Pre-need applicant relationship to vet', () => {
 
   const uiSchema = formConfig.chapters.applicantInformation.pages.applicantRelationshipToVet.uiSchema();
 
-  it.skip('should render', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -33,7 +33,7 @@ describe('Pre-need applicant relationship to vet', () => {
     form.unmount();
   });
 
-  it.skip('should not submit empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -51,7 +51,7 @@ describe('Pre-need applicant relationship to vet', () => {
     form.unmount();
   });
 
-  it.skip('should submit with required information', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
