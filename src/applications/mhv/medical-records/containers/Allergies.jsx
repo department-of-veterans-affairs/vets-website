@@ -10,6 +10,7 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -22,6 +23,7 @@ import {
   generatePdfScaffold,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { txtLine } from '../../shared/util/constants';
 import {
@@ -32,7 +34,12 @@ import {
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const listState = useSelector(state => state.mr.allergies.listState);
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const allergiesCurrentAsOf = useSelector(
+    state => state.mr.allergies.listCurrentAsOf,
+  );
+  const refresh = useSelector(state => state.mr.refresh);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -42,12 +49,14 @@ const Allergies = props => {
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
-  );
+  useListRefresh({
+    listState,
+    listCurrentAsOf: allergiesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.ALLERGY,
+    dispatchAction: getAllergiesList,
+    dispatch,
+  });
 
   useEffect(
     () => {

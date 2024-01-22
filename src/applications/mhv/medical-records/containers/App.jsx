@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
+import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
@@ -189,6 +190,7 @@ const App = ({ children }) => {
         </DowntimeNotification>
         <va-back-to-top hidden={isHidden} />
         <ScrollToTop />
+        <PhrRefresh />
       </div>
     </RequiredLoginView>
   );
