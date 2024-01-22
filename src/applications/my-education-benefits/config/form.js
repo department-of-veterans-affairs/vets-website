@@ -1864,6 +1864,7 @@ const formConfig = {
             properties: {
               'view:directDepositField': {
                 type: 'object',
+                required: ['accountType', 'accountNumber', 'routingNumber'],
                 properties: {
                   bankAccount: {
                     type: 'object',
