@@ -80,7 +80,8 @@
         "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
+          "reasonForSeparation": "Other",
+          "separationOtherExplanation": "Other reason",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
