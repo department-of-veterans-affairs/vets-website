@@ -38,6 +38,22 @@ describe('pre-check-in experience', () => {
         expect(getByText('foo-title')).to.exist;
         expect(getByText('bar')).to.exist;
       });
+
+      it('renders the travel warning alert if travel reimbursement is disabled', () => {
+        const initState = {
+          features: {
+            /* eslint-disable-next-line camelcase */
+            check_in_experience_travel_reimbursement: false,
+          },
+        };
+        const { getByTestId } = render(
+          <CheckInProvider store={initState}>
+            <ConfirmablePage />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('travel-btsss-message')).to.exist;
+      });
+
       it('renders multiple data points the data passed in, with label and data', () => {
         const dataFields = [
           { key: 'foo', title: 'foo-title' },
