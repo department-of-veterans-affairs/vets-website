@@ -23,6 +23,7 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
+import { stringifyUrlParams } from '../helpers';
 
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
@@ -89,7 +90,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavForward({
         formData,
         goPath: customPath => this.props.router.push(customPath),
-        goNextPath: () => this.props.router.push(path),
+        goNextPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -157,7 +164,13 @@ class FormPage extends React.Component {
       route.pageConfig.onNavBack({
         formData: form.data,
         goPath: customPath => this.props.router.push(customPath),
-        goPreviousPath: () => this.props.router.push(path),
+        goPreviousPath: urlParams => {
+          const urlParamsString = stringifyUrlParams(urlParams);
+          this.props.router.push(path + (urlParamsString || ''));
+        },
+        pathname: location.pathname,
+        setFormData: this.props.setData,
+        urlParams: location.query,
       });
       return;
     }
@@ -230,6 +243,21 @@ class FormPage extends React.Component {
     const hideNavButtons =
       !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
 
+    let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
+    if (
+      route.pageConfig?.ContentBeforeButtons &&
+      isReactComponent(route.pageConfig.ContentBeforeButtons)
+    ) {
+      pageContentBeforeButtons = (
+        <route.pageConfig.ContentBeforeButtons
+          formData={data}
+          formContext={formContext}
+          router={this.props.router}
+          setFormData={this.props.setData}
+        />
+      );
+    }
+
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
     // onReviewPage will always be false here
@@ -277,6 +305,7 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
+          {pageContentBeforeButtons}
           {hideNavButtons ? (
             <div />
           ) : (
@@ -321,6 +350,7 @@ FormPage.propTypes = {
   }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.object,
   }),
   params: PropTypes.shape({
     // for testing only?
@@ -330,6 +360,11 @@ FormPage.propTypes = {
     pageConfig: PropTypes.shape({
       allowPathWithNoItems: PropTypes.bool,
       arrayPath: PropTypes.string,
+      ContentBeforeButtons: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.elementType,
+        PropTypes.func,
+      ]),
       CustomPage: PropTypes.oneOfType([
         PropTypes.element,
         PropTypes.elementType,

@@ -39,13 +39,11 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
         </a>{' '}
         account now.
       </p>
-      <button
-        type="button"
-        className="usa-button-primary va-button-primary"
+      <va-button
         onClick={onSignInClicked}
-      >
-        Sign in or create an account
-      </button>
+        primary-alternate
+        text="Sign in or create an account"
+      />
     </va-alert>
   );
 }
