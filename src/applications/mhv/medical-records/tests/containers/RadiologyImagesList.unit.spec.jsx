@@ -14,8 +14,6 @@ describe('Radiology Images List container', () => {
           name: 'ANKLE LEFT 3 VIEWS',
           category: 'Radiology',
           orderedBy: 'Beth M. Smith',
-          orderingLocation:
-            '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reason: 'Injury',
           clinicalHistory: 'Information',
           imagingProvider: 'John J. Lydon',

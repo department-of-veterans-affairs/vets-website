@@ -217,11 +217,6 @@ export const generateRadiologyContent = record => ({
         inline: true,
       },
       {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
         title: 'Imaging location',
         value: record.imagingLocation,
         inline: true,
