@@ -225,4 +225,21 @@ export default [
       metadata: newMetaData,
     };
   },
+
+  // 6 -> 7, send user back to fields with only spaces
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url.includes('household-information-v2')) {
+      const returnUrl = url.replace(
+        /household-information-v2/,
+        'household-information',
+      );
+
+      newMetadata = set('returnUrl', returnUrl, newMetadata);
+    }
+
+    return { formData, metadata: newMetadata };
+  },
 ];

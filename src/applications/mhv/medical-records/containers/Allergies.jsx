@@ -16,12 +16,7 @@ import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  processList,
-} from '../util/helpers';
+import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
@@ -31,6 +26,10 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { txtLine } from '../../shared/util/constants';
+import {
+  generateAllergiesIntro,
+  generateAllergiesContent,
+} from '../util/pdfHelpers/allergies';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -73,53 +72,10 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies and reactions';
-    const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies, reactions, and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
-      allergies.length
-    } records from newest to oldest`;
-    const pdfData = generatePdfScaffold(user, title, subject, preface);
-    pdfData.results = { items: [] };
-
-    allergies.forEach(item => {
-      pdfData.results.items.push({
-        header: item.name,
-        items: [
-          {
-            title: 'Date entered',
-            value: item.date,
-            inline: true,
-          },
-          {
-            title: 'Signs and symptoms',
-            value: processList(item.reaction),
-            inline: true,
-          },
-          {
-            title: 'Type of allergy',
-            value: item.type,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: item.location,
-            inline: true,
-          },
-          {
-            title: 'Observed or historical',
-            value: item.observedOrReported,
-            inline: true,
-          },
-          {
-            title: 'Provider notes',
-            value: item.notes,
-            inline: !item.notes,
-          },
-        ],
-      });
-    });
-
-    const pdfName = `VA-Allergies-list-${getNameDateAndTime(user)}`;
+    const { title, subject, preface } = generateAllergiesIntro(allergies);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 

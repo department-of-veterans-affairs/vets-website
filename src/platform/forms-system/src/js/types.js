@@ -140,13 +140,14 @@
  * @typedef {Object} FormConfigPage
  * @property {boolean} [allowPathWithNoItems] For array pages. if true, will allow a path with no items in the array at /0. Used with showPagePerItem.
  * @property {string} [arrayPath] the name of the property in the schema/uiSchema that is `type: 'array'`
+ * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
- * @property {({ formData, goPath, goPreviousPath }: { formData, goPath: (path: string) => void, goPreviousPath: () => void }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
- * @property {({ formData, goPath, goNextPath }: { formData, goPath: (path: string) => void, goNextPath: () => void }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
+ * @property {({ formData, goPath, goPreviousPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]

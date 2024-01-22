@@ -50,4 +50,7 @@ export const Actions = {
     GET_STATUS: 'MR_REFRESH_GET_STATUS',
     UPDATE_PHASE: 'MR_REFRESH_UPDATE_PHASE',
   },
+  BlueButtonReport: {
+    GET: 'MR_BLUE_BUTTON_GET_DATA',
+  },
 };

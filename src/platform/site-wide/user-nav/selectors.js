@@ -26,12 +26,6 @@ export const selectUserGreeting = createSelector(
 
     return [
       <span
-        key="show-for-small-only"
-        className="small-screen:vads-u-visibility--visible medium-screen:vads-u-display--none"
-      >
-        My Account
-      </span>,
-      <span
         key="show-for-medium-up"
         className="user-dropdown-email medium-screen:vads-u-visibility--visible"
         data-dd-privacy="mask"

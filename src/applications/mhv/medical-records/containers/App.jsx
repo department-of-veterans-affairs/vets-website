@@ -131,13 +131,18 @@ const App = ({ children }) => {
     [height, location],
   );
 
-  useEffect(() => {
-    if (!measuredRef.current) return;
-    const resizeObserver = new ResizeObserver(() => {
-      setHeight(measuredRef.current.offsetHeight);
-    });
-    resizeObserver.observe(measuredRef.current);
-  }, []);
+  const { current } = measuredRef;
+
+  useEffect(
+    () => {
+      if (!current) return;
+      const resizeObserver = new ResizeObserver(() => {
+        setHeight(current.offsetHeight);
+      });
+      resizeObserver.observe(current);
+    },
+    [current],
+  );
 
   if (featureTogglesLoading) {
     return (
