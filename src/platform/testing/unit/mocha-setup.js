@@ -148,11 +148,6 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  console.log(
-    testContext.currentTest.file.substring(
-      testContext.currentTest.file.indexOf('src'),
-    ),
-  );
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
   );
