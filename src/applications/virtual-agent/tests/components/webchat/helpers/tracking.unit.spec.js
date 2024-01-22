@@ -45,8 +45,8 @@ describe('recordButtonClick', () => {
     const recordEventStub = sandbox.stub(recordEventObject, 'default');
     const recordEventData = {
       event: 'chatbot-button-click',
-      // TO-DO: Change clickText to click_text according to GA Implement Request
-      clickText: 'Mock Button Text',
+      // eslint-disable-next-line camelcase
+      click_text: 'Mock Button Text',
       topic: undefined,
     };
     const mockButtonClickEvent = {
@@ -72,8 +72,8 @@ describe('recordButtonClick', () => {
 
     const recordEventData = {
       event: 'chatbot-button-click',
-      // TO-DO: Change clickText to click_text according to GA Implement Request
-      clickText: 'Mock Button Text',
+      // eslint-disable-next-line camelcase
+      click_text: 'Mock Button Text',
       topic: 'prescriptions',
     };
     const mockButtonClickEvent = {

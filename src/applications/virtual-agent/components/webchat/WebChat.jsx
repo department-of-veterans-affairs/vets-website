@@ -184,7 +184,12 @@ const WebChat = ({
     [isRXSkill],
   );
 
-  useEffect(setMicrophoneMessage(isRXSkill, document));
+  useEffect(
+    () => {
+      setMicrophoneMessage(isRXSkill, document);
+    },
+    [isRXSkill],
+  );
 
   useEffect(
     () => {
