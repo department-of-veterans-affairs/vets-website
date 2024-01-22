@@ -3,11 +3,8 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Force a redirect since React Router's Redirect does not reload the page.
-class CustomRedirect extends React.Component {
-  constructor(props) {
-    super(props);
-    window.location.replace(props.url);
-  }
+function CustomRedirect({ url }) {
+  window.location.replace(url);
 }
 
 CustomRedirect.propTypes = {
