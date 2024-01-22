@@ -14,7 +14,9 @@ describe('Pre-need applicant relationship to vet', () => {
     schema,
   } = formConfig.chapters.applicantInformation.pages.applicantRelationshipToVet;
 
-  const uiSchema = formConfig.chapters.applicantInformation.pages.applicantRelationshipToVet.uiSchema();
+  const {
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantRelationshipToVet.uiSchema();
 
   it('should render', () => {
     const form = mount(
