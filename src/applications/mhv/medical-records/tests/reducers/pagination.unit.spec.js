@@ -34,24 +34,22 @@ describe('paginationReducer', () => {
     });
   });
 
-  describe('paginationReducer', () => {
-    it('should handle RESET_PAGINATION action', () => {
-      const action = {
-        type: Actions.Pagination.RESET_PAGINATION,
-        payload: {
-          domain: 'vitals',
+  it('should handle RESET_PAGINATION action', () => {
+    const action = {
+      type: Actions.Pagination.RESET_PAGINATION,
+      payload: {
+        domain: 'vitals',
+        value: 1,
+      },
+    };
+    const newState = paginationReducer(initialState, action);
+    expect(newState).to.eql({
+      page: [
+        {
+          domain: 'allergies',
           value: 1,
         },
-      };
-      const newState = paginationReducer(initialState, action);
-      expect(newState).to.eql({
-        page: [
-          {
-            domain: 'allergies',
-            value: 1,
-          },
-        ],
-      });
+      ],
     });
   });
 });
