@@ -14,10 +14,10 @@ export default function FormAlert() {
     <VaAlert
       status="warning"
       background-only
-      show-icon
       data-testid="bad-address-form-alert"
       className="vads-u-margin-top--1 vads-u-font-weight--normal"
       onVa-component-did-load={recordView}
+      uswds
     >
       <p className="vads-u-margin--0">Review and update your address.</p>
       <p className="vads-u-padding-top--1 vads-u-margin-bottom--0 small-desktop-screen:vads-u-padding-right--5">
