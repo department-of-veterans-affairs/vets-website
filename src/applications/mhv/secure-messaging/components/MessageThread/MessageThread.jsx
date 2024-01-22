@@ -80,16 +80,14 @@ const MessageThread = props => {
         >
           {messageHistory.map((m, i) => {
             return (
-              <>
-                <MessageThreadItem
-                  open={i === 0}
-                  key={m.messageId}
-                  message={m}
-                  isDraftThread={isDraftThread}
-                  preloaded={m.preloaded}
-                  expanded
-                />
-              </>
+              <MessageThreadItem
+                open={i === 0}
+                key={m.messageId}
+                message={m}
+                isDraftThread={isDraftThread}
+                preloaded={m.preloaded}
+                expanded
+              />
             );
           })}
         </VaAccordion>
