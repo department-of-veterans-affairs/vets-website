@@ -45,6 +45,7 @@ export const recordButtonClick = event => {
         event: 'chatbot-button-click',
         // TO-DO: Change clickText to click_text according to GA Implement Request
         clickText: buttonText,
+        topic: undefined,
       });
     }
   }
