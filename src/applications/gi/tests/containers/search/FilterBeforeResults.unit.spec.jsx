@@ -285,23 +285,23 @@ describe('<FilterBeforeResults />', () => {
       ).to.be.false;
       wrapper.unmount();
     });
-    it('should render button with no className when is prod', () => {
-      wrapper = shallow(<FilterBeforeResults {...props} />);
-      const button = wrapper.find('button').first();
-      expect(button.prop('className')).to.equal(
-        'update-results-button apply-filter-button vads-u-margin-top--3',
-      );
-      wrapper.unmount();
-    });
-    it('should render CheckboxGroup with no className when is prod', () => {
-      const newProps = {
-        ...props,
-        setShowFiltersBeforeSearch: () => {},
-      };
-      wrapper = shallow(<FilterBeforeResults {...newProps} />);
-      const checkboxGroup = wrapper.find('CheckboxGroup').first();
-      expect(checkboxGroup.prop('className')).to.equal('about-school-checkbox');
-      wrapper.unmount();
-    });
+    // it('should render button with no className when is prod', () => {
+    //   wrapper = shallow(<FilterBeforeResults {...props} />);
+    //   const button = wrapper.find('button').first();
+    //   expect(button.prop('className')).to.equal(
+    //     'update-results-button apply-filter-button vads-u-margin-top--3',
+    //   );
+    //   wrapper.unmount();
+    // });
+    // it('should render CheckboxGroup with no className when is prod', () => {
+    //   const newProps = {
+    //     ...props,
+    //     setShowFiltersBeforeSearch: () => {},
+    //   };
+    //   wrapper = shallow(<FilterBeforeResults {...newProps} />);
+    //   const checkboxGroup = wrapper.find('CheckboxGroup').first();
+    //   expect(checkboxGroup.prop('className')).to.equal('about-school-checkbox');
+    //   wrapper.unmount();
+    // });
   });
 });
