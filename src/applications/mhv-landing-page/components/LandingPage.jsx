@@ -8,15 +8,10 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import Welcome from './Welcome';
-import {
-  hasHealthData,
-  personalizationEnabled,
-  selectGreetingName,
-} from '../selectors';
+import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const name = useSelector(selectGreetingName);
   const showCards = useSelector(hasHealthData);
   const showPersonalization = useSelector(personalizationEnabled);
 
@@ -30,7 +25,7 @@ const LandingPage = ({ data = {} }) => {
         {showPersonalization && (
           <>
             <HeaderLayout />
-            <Welcome name={name} />
+            <Welcome />
           </>
         )}
         {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}

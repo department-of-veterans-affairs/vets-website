@@ -1,5 +1,5 @@
 export const selectGreetingName = state =>
-  state?.vaProfile?.personalInformation?.preferredName ||
+  state?.myHealth?.personalInformation?.data?.preferredName ||
   state?.user?.profile?.userFullName?.first ||
   state?.user?.profile?.email ||
   null;

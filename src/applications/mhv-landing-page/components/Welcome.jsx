@@ -1,7 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable no-unused-expressions */
 
-const Welcome = ({ name }) => {
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchPersonalInformation } from '~/platform/user/profile/vap-svc/actions/personalInformation';
+
+import { isInMPI, isLOA3, selectGreetingName } from '../selectors';
+
+const Welcome = () => {
+  const dispatch = useDispatch();
+
+  const inMPI = useSelector(isInMPI);
+  const loa3 = useSelector(isLOA3);
+  const name = useSelector(selectGreetingName);
+
+  useEffect(
+    () => {
+      inMPI && loa3 && dispatch(fetchPersonalInformation());
+    },
+    [dispatch, inMPI, loa3],
+  );
+
   return (
     <div className="vads-u-display--flex vads-u-justify-content--flex-start vads-u-border-color--gray-light vads-u-border-bottom--2px vads-u-margin-bottom--3">
       <div>
@@ -24,10 +43,6 @@ const Welcome = ({ name }) => {
       </div>
     </div>
   );
-};
-
-Welcome.propTypes = {
-  name: PropTypes.string,
 };
 
 export default Welcome;
