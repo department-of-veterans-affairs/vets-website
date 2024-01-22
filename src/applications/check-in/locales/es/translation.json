@@ -85,7 +85,7 @@
   "if-you-wait-more-than": "Si tiene que esperar más de 15 minutos, avise a un miembro del personal.",
   "if-your-appointment-is-in-person-a-staff-member-will-help-you-on-the-day-of-your-appointment": "Si su cita es en persona, un miembro del personal le asistirá el día de su cita.",
   "in-en": "en inglés",
-  "in-person": "En persona en",
+  "in-person-at": "En persona en",
   "in-person-appointment": "Cita en persona",
   "international-postal-code-is-required": "Se requiere un código postal internacional",
   "is-required": "se requiere",
@@ -182,7 +182,7 @@
   "ward": "Tutor",
   "we-can-better-follow-up-with-when-we-have-your-current-information": "Cuando tenemos su información actualizada, podemos proporcionarle un mejor seguimiento después de su cita.",
   "we-can-better-prepare-for-your-appointment-and-contact-you-more-easily": "Podemos prepararnos mejor para su cita y contactarle más fácilmente.",
-  "we-couldnt-check-you-in": "No pudimos completar el registro.",
+  "we-couldnt-check-you-in": "No pudimos completar el registro",
   "we-make-every-effort-to-keep-your-personal-information-private-and-secure": "Nos esforzamos al máximo para mantener la privacidad y la seguridad de su información personal.",
   "we-need-some-information-to-verify-your-identity-so-we-can-check-you-in": "Necesitamos cierta información para verificar su identidad y poder completar el registro.",
   "we-need-to-verify-your-identity-so-you-can-start-pre-check-in": "Necesitamos verificar su identidad para que usted pueda iniciar el registro previo a la llegada.",
@@ -231,7 +231,7 @@
   "your-provider-will-call-you": "Su proveedor le llamará.",
   "your-provider-will-call-you-at-your-appointment-time": "Su proveedor le llamará a la hora de su cita. Es posible que tenga que esperar unos 15 minutos por la llamada. Agradecemos su paciencia.",
   "youre-also-responsible-for-protecting-your-personal-health-information": "Usted también tiene la responsabilidad de proteger su información personal de salud. Si imprime o descarga su información, o si la comparte electrónicamente con otros, deberá dar pasos para protegerla.",
-  "youre-checked-in": "Está registrado.",
+  "youre-checked-in": "Está registrado",
   "youve-completed-pre-check-in": "Ha completado el registro previo a la llegada",
   "zip-code-is-required": "Se requiere un código postal"
 }

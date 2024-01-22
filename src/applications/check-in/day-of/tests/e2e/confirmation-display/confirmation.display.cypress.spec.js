@@ -41,17 +41,12 @@ describe('Check In Experience -- ', () => {
       Appointments.validatePageLoaded();
       Appointments.attemptCheckIn(1);
     });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
     it('confirm page display', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
-    it('confirm page has confirmation message alert', () => {
-      Confirmation.validateConfirmationAlert();
+    it('confirm page has confirmation message', () => {
+      Confirmation.validateConfirmationMessage();
       cy.injectAxeThenAxeCheck();
     });
     it('confirm page has BTSSS link', () => {

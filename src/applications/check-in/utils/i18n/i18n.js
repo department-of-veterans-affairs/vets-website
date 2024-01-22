@@ -65,6 +65,9 @@ i18n
           if (format === 'monthDay') {
             return formatDate(value, "MMMM' 'dd", { locale });
           }
+          if (format === 'dayOfWeek') {
+            return formatDate(value, 'eeee', { locale });
+          }
           return formatDate(value, format, { locale });
         }
         return value;

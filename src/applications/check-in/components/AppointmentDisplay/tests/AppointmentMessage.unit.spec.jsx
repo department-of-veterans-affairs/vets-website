@@ -145,7 +145,7 @@ describe('check-in', () => {
       expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
-      ).to.have.text('You’re checked in.');
+      ).to.have.text('You’re checked in');
     });
 
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and an invalid date time', () => {
@@ -164,7 +164,7 @@ describe('check-in', () => {
       expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
-      ).to.have.text('You’re checked in.');
+      ).to.have.text('You’re checked in');
     });
   });
 });
