@@ -26,6 +26,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import RelationshipToVetTitle from '../components/RelationshipToVetTitle';
 import RelationshipToVetDescription from '../components/RelationshipToVetDescription';
+import RelationshipToVetOption1Text from '../components/RelationshipToVetOption1Text';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -58,6 +59,14 @@ export const relationshipToVetTitleWrapperConst = (
 export function RelationshipToVetDescriptionWrapper({ formContext }) {
   return <RelationshipToVetDescription formContext={formContext} />;
 }
+
+export function RelationshipToVetOption1TextWrapper({ formContext }) {
+  return <RelationshipToVetOption1Text formContext={formContext} />;
+}
+
+export const relationshipToVetOption1TextWrapperConst = (
+  <RelationshipToVetOption1TextWrapper />
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
@@ -111,11 +120,13 @@ export const applicantInformationDescription = (
           time in a school or training program at the time their disability
           started
           <br />
-          <strong>Note:</strong> Adult dependent children must be unmarried to
-          be eligible for burial in a VA national cemetery.
         </li>
       </>
     </ul>
+    <p>
+      <strong>Note:</strong> Adult dependent children must be unmarried to be
+      eligible for burial in a VA national cemetery.
+    </p>
   </va-additional-info>
 );
 
