@@ -99,11 +99,14 @@ export const getMessageCategoryList = () => {
  * @returns
  */
 export const getMessage = messageId => {
-  return apiRequest(`${apiBasePath}/messaging/messages/${messageId}`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/messages/${messageId}/?full_body=true`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**

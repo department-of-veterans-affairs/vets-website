@@ -20,9 +20,8 @@ export const clearThread = () => async dispatch => {
  * @param {Long} messageId
  * @returns
  *
- * Might still need to use getMessage (single message) to mark accordion
- * as read. Or try refactoring to mark the message as read by using the
- * selected message's messageId
+ * Still need to use getMessage (single message) call to mark accordion
+ * as read and to handle expanded messages.
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
@@ -44,8 +43,6 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
  *
- * This needs to be altered because it is no longer needed. The new message api
- * calls the full message threads with full message body and attachments
  */
 export const retrieveMessageThread = messageId => async dispatch => {
   try {
