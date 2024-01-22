@@ -76,7 +76,10 @@ describe('Attachments List component', () => {
 
   it('removes file-attached alert when REMOVE button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
-    const file = new File(['(⌐□_□)'], 'test1.png', { type: 'image/png' });
+    const file = new File(['(⌐□_□)'], 'test1.png', {
+      type: 'image/png',
+      lastModified: 1683649850648,
+    });
     const uploader = screen.getByTestId('attach-file-input');
 
     expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
@@ -90,7 +93,9 @@ describe('Attachments List component', () => {
     expect(screen.findByTestId('file-attached-success-alert')).to.exist;
 
     waitFor(() => {
-      fireEvent.click(screen.getByTestId('remove-attachment-button'));
+      fireEvent.click(
+        screen.getByTestId(`remove-attachment-button-${file.lastModified}`),
+      );
     });
 
     waitFor(() => {
@@ -98,7 +103,9 @@ describe('Attachments List component', () => {
     });
 
     waitFor(() => {
-      fireEvent.click(screen.getByTestId('remove-attachment-button'));
+      fireEvent.click(
+        screen.getByTestId(`remove-attachment-button-${file.lastModified}`),
+      );
     });
 
     waitFor(() => {

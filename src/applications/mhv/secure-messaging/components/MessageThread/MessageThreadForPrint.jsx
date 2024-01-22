@@ -11,11 +11,8 @@ const MessageThreadForPrint = props => {
   const { messageHistory, printThread } = props;
 
   return (
-    <>
-      <h2
-        className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg"
-        data-testid="message-thread-for-print"
-      >
+    <div data-testid="message-thread-for-print">
+      <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg">
         {messageHistory?.length > 0 &&
           `${messageHistory?.length} Message${
             messageHistory?.length > 1 ? 's' : ''
@@ -36,7 +33,7 @@ const MessageThreadForPrint = props => {
           );
         })}
       </VaAccordion>
-    </>
+    </div>
   );
 };
 MessageThreadForPrint.propTypes = {
