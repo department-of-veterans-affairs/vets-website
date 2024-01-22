@@ -148,8 +148,8 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
+  console.log(testContext.currentTest.file);
   const file = testContext.currentTest.file.indexOf('src');
-  console.log(file);
   if (DISALLOWED_SPECS.indexOf(file) > -1) {
     /* eslint-disable-next-line no-console */
     console.log('Test skipped due to flakiness: ', file);
