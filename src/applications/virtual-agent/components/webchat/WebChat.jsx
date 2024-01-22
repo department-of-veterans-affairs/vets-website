@@ -5,6 +5,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ERROR } from '../chatbox/loadingStatus';
 // import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
@@ -193,21 +194,37 @@ const WebChat = ({
     },
     [isRXSkill],
   );
+  const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
+  useEffect(() => {
+    const openRedirectModal = () => setIsRedirectModalOpen(true);
+
+    window.addEventListener('openFocusedNewTab', openRedirectModal);
+    return () =>
+      window.removeEventListener('openFocusedNewTab', openRedirectModal);
+  }, []);
 
   useEffect(setMicrophoneMessage(isRXSkill, document));
 
   if (isRXSkill === 'true') {
     return (
-      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-        <ReactWebChat
-          styleOptions={styleOptions}
-          directLine={directLine}
-          store={store}
-          renderMarkdown={renderMarkdown}
-          onTelemetry={handleTelemetry}
-          webSpeechPonyfillFactory={speechPonyfill}
+      <>
+        <VaModal
+          visible={isRedirectModalOpen}
+          closeEvent={() => setIsRedirectModalOpen(false)}
+          primaryButtonText="Yes"
+          secondaryButtonText="no"
         />
-      </div>
+        <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+          <ReactWebChat
+            styleOptions={styleOptions}
+            directLine={directLine}
+            store={store}
+            renderMarkdown={renderMarkdown}
+            onTelemetry={handleTelemetry}
+            webSpeechPonyfillFactory={speechPonyfill}
+          />
+        </div>
+      </>
     );
   }
   if (window.WebChat && isRXSkill !== 'true') {
@@ -226,16 +243,24 @@ const WebChat = ({
     }
   }
   return (
-    <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
-      <ReactWebChat
-        cardActionMiddleware={cardActionMiddleware}
-        styleOptions={styleOptions}
-        directLine={directLine}
-        store={store}
-        renderMarkdown={renderMarkdown}
-        onTelemetry={handleTelemetry}
+    <>
+      <VaModal
+        visible={isRedirectModalOpen}
+        closeEvent={() => setIsRedirectModalOpen(false)}
+        primaryButtonText="Yes"
+        secondaryButtonText="no"
       />
-    </div>
+      <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
+        <ReactWebChat
+          cardActionMiddleware={cardActionMiddleware}
+          styleOptions={styleOptions}
+          directLine={directLine}
+          store={store}
+          renderMarkdown={renderMarkdown}
+          onTelemetry={handleTelemetry}
+        />
+      </div>
+    </>
   );
 };
 

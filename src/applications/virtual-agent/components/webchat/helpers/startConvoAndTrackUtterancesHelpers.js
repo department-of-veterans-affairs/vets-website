@@ -120,4 +120,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
   }
+
+  if (eventName === 'OPEN_FOCUSED_NEW_TAB') {
+    sessionStorage.setItem('redirectSite', eventValue.site);
+    sessionStorage.setItem('redirectTitle', eventValue.title);
+    sendWindowEvent('openFocusedNewTab');
+  }
 };
