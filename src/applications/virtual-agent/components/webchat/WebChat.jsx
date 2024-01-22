@@ -204,6 +204,18 @@ const WebChat = ({
   }, []);
 
   useEffect(setMicrophoneMessage(isRXSkill, document));
+  const handleRedirectPrimaryClick = () => {
+    window.open(sessionStorage.getItem('redirectUrl'), '_blank');
+    const isDictating = document.querySelector(
+      'div.webchat__microphone-button--dictating',
+    );
+    if (isDictating) {
+      document
+        .querySelector('button.webchat__microphone-button__button')
+        ?.click();
+    }
+    setIsRedirectModalOpen(false);
+  };
 
   if (isRXSkill === 'true') {
     return (
@@ -211,8 +223,11 @@ const WebChat = ({
         <VaModal
           visible={isRedirectModalOpen}
           closeEvent={() => setIsRedirectModalOpen(false)}
+          onSecondaryButtonClick={() => setIsRedirectModalOpen(false)}
+          onPrimaryButtonClick={handleRedirectPrimaryClick}
+          modalTitle={sessionStorage.getItem('redirectTitle')}
           primaryButtonText="Yes"
-          secondaryButtonText="no"
+          secondaryButtonText="No"
         />
         <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
           <ReactWebChat
@@ -247,8 +262,11 @@ const WebChat = ({
       <VaModal
         visible={isRedirectModalOpen}
         closeEvent={() => setIsRedirectModalOpen(false)}
+        onSecondaryButtonClick={() => setIsRedirectModalOpen(false)}
+        onPrimaryButtonClick={handleRedirectPrimaryClick}
+        modalTitle={sessionStorage.getItem('redirectTitle')}
         primaryButtonText="Yes"
-        secondaryButtonText="no"
+        secondaryButtonText="No"
       />
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat

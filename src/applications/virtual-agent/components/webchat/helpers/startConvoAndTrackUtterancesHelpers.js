@@ -122,7 +122,7 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   if (eventName === 'OPEN_FOCUSED_NEW_TAB') {
-    sessionStorage.setItem('redirectSite', eventValue.site);
+    sessionStorage.setItem('redirectUrl', eventValue.url);
     sessionStorage.setItem('redirectTitle', eventValue.title);
     sendWindowEvent('openFocusedNewTab');
   }
