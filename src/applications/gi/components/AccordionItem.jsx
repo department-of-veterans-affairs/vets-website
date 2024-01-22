@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import { createId } from '../utils/helpers';
 
 export default function AccordionItem({
@@ -44,7 +45,11 @@ export default function AccordionItem({
           onClick={toggle}
           className="usa-accordion-button vads-u-margin--0"
         >
-          <span className="section-button-span">{button}</span>
+          {environment.isProduction() ? (
+            <span className="section-button-span">{button}</span>
+          ) : (
+            <h5 className="section-button-span">{button}</h5>
+          )}
         </button>
       )}
       {!section && (
