@@ -248,6 +248,7 @@ jobs:
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
+          IS_STRESS_TEST: false
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -1485,8 +1486,10 @@ jobs:
     needs:
       [
         cypress-tests,
+        stress-test-cypress-tests,
         cypress-tests-prep,
         unit-tests,
+        unit-tests-stress-test,
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
@@ -1595,6 +1598,8 @@ jobs:
         run: node script/github-actions/verify-merge-eligibility.js
         env:
           CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
+          CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+          UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
 
   archive:
     name: Archive
