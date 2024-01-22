@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Prompts } from '../../util/constants';
+import { handleRemoveAttachmentModalId } from '../../util/helpers';
 
 const RemoveAttachmentModal = props => {
   return (
     <VaModal
-      id="remove-attachment-modal"
-      data-testid="remove-attachment-modal"
+      id={handleRemoveAttachmentModalId(props.file)}
+      data-testid={handleRemoveAttachmentModalId(props.file)}
       data-dd-action-name="Remove Attachment Modal Closed"
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
       onCloseEvent={props.onClose}
@@ -43,6 +44,7 @@ const RemoveAttachmentModal = props => {
 };
 
 RemoveAttachmentModal.propTypes = {
+  file: PropTypes.object,
   id: PropTypes.number,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
