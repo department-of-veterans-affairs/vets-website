@@ -4,7 +4,7 @@ const generateFeatureToggles = (toggles = {}) => {
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
-    checkInExperienceTravelReimbursement = false,
+    checkInExperienceTravelReimbursement = true,
     checkInExperienceTravelLogic = false,
     checkInExperience45MinuteReminder = false,
     checkInExperienceBrowserMonitoring = false,
