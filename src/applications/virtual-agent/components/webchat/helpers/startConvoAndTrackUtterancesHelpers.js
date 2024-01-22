@@ -124,15 +124,24 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
+  const isRxSkill = sessionStorage.getItem(IS_RX_SKILL);
   if (action.payload.dictateState === 3) {
-    // console.log('Enabled PVA Microphone!');
+    // console.log(
+    //   '<==Enabled PVA Microphone! topic: ',
+    //   isRxSkill ? 'prescriptions' : undefined,
+    // );
     recordEvent({
       event: 'chatbot-microphone-enable',
+      topic: isRxSkill ? 'prescriptions' : undefined,
     });
   } else if (action.payload.dictateState === 0) {
-    // console.log('Disabled PVA Microphone!');
+    // console.log(
+    //   '<==Disabled PVA Microphone! topic: ',
+    //   isRxSkill ? 'prescriptions' : undefined,
+    // );
     recordEvent({
       event: 'chatbot-microphone-disable',
+      topic: isRxSkill ? 'prescriptions' : undefined,
     });
   }
 };
