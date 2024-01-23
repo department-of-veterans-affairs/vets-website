@@ -10,7 +10,7 @@ describe(`${appName} -- Redirect`, () => {
     );
     cy.url().should(
       'not.contain',
-      '/my-health/order-hearing-aid-or-CPAP-supplies-form',
+      '/my-health/order-hearing-aid-or-cpap-supplies-form',
     );
   });
 
@@ -23,7 +23,7 @@ describe(`${appName} -- Redirect`, () => {
     );
     cy.url().should(
       'not.contain',
-      '/my-health/order-hearing-aid-or-CPAP-supplies-form',
+      '/my-health/order-hearing-aid-or-cpap-supplies-form',
     );
   });
 });
