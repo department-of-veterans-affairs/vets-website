@@ -25,7 +25,7 @@ describe('<DurationCard/>', () => {
   it('should render a passed in durationText string', () => {
     const wrapper = shallow(<DurationCard {...defaultProps} />);
     const renderedDuration = wrapper
-      .find('.duration-number')
+      .find('va-card .number')
       .render()
       .text();
     expect(renderedDuration).to.equal(defaultProps.durationText);
@@ -35,7 +35,7 @@ describe('<DurationCard/>', () => {
   it('should render a passed in cardDescription string', () => {
     const wrapper = shallow(<DurationCard {...defaultProps} />);
     const renderedDescription = wrapper
-      .find('.duration-description')
+      .find('va-card .description')
       .render()
       .text();
     expect(renderedDescription).to.contain(defaultProps.cardDescription);
