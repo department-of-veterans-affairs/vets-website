@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { transform } from '../../../config/submit-transformer';
+import simpleData from '../../e2e/fixtures/data/simple-test.json';
 import maximalData from '../../e2e/fixtures/data/maximal-test.json';
+import overflowData from '../../e2e/fixtures/data/overflow-test.json';
 
 describe('submit-transformer', () => {
   it('should remove medicalCondition when socialSecurityDisability is true', () => {
@@ -533,7 +535,45 @@ describe('submit-transformer', () => {
     expect(transformedData.data).to.have.property('medicalExpenses');
   });
 
-  it('should not transform data with maximal data', () => {
+  it('should not transform data with simple test data', () => {
+    const form = {
+      data: {
+        ...simpleData.data,
+      },
+    };
+    const result = transform({}, { data: form });
+    const transformedData = JSON.parse(result);
+
+    expect(transformedData.data).to.have.property('specialMonthlyPension');
+    expect(transformedData.data).to.not.have.property('vaMedicalCenters');
+    expect(transformedData.data).to.not.have.property('federalMedicalCenters');
+    expect(transformedData.data).to.not.have.property('currentEmployers');
+    expect(transformedData.data).to.not.have.property('marriages');
+    expect(transformedData.data).to.not.have.property('spouseDateOfBirth');
+    expect(transformedData.data).to.not.have.property(
+      'spouseSocialSecurityNumber',
+    );
+    expect(transformedData.data).to.not.have.property('spouseIsVeteran');
+    expect(transformedData.data).to.not.have.property('spouseVaFileNumber');
+    expect(transformedData.data).to.not.have.property('spouseAddress');
+    expect(transformedData.data).to.not.have.property(
+      'reasonForCurrentSeparation',
+    );
+    expect(transformedData.data).to.not.have.property('otherExplanation');
+    expect(transformedData.data).to.not.have.property(
+      'currentSpouseMonthlySupport',
+    );
+    expect(transformedData.data).to.not.have.property('spouseMarriages');
+    expect(transformedData.data).to.not.have.property('dependents');
+    expect(transformedData.data).to.not.have.property('careExpenses');
+    expect(transformedData.data).to.not.have.property('medicalExpenses');
+    expect(transformedData.data).to.not.have.property('homeAcreageMoreThanTwo');
+    expect(transformedData.data).to.not.have.property('homeAcreageValue');
+    expect(transformedData.data).to.not.have.property('landMarketable');
+    expect(transformedData.data).to.not.have.property('incomeSources');
+  });
+
+  it('should not transform data with maximal test data', () => {
     const form = {
       data: {
         ...maximalData.data,
@@ -542,9 +582,9 @@ describe('submit-transformer', () => {
     const result = transform({}, { data: form });
     const transformedData = JSON.parse(result);
 
-    expect(transformedData.data).to.have.property('specialMonthlyPension');
     expect(transformedData.data).to.have.property('medicaidCoverage');
     expect(transformedData.data).to.have.property('medicaidStatus');
+    expect(transformedData.data).to.have.property('specialMonthlyPension');
     expect(transformedData.data).to.have.property('vaMedicalCenters');
     expect(transformedData.data).to.have.property('federalMedicalCenters');
     expect(transformedData.data).to.have.property('currentEmployers');
@@ -567,7 +607,39 @@ describe('submit-transformer', () => {
     expect(transformedData.data).to.have.property('homeAcreageValue');
     expect(transformedData.data).to.have.property('landMarketable');
     expect(transformedData.data).to.have.property('incomeSources');
+  });
 
-    // console.log('Transformed Data: ', transformedData);
+  it('should not transform data with overflow test data', () => {
+    const form = {
+      data: {
+        ...overflowData.data,
+      },
+    };
+    const result = transform({}, { data: form });
+    const transformedData = JSON.parse(result);
+
+    expect(transformedData.data).to.have.property('specialMonthlyPension');
+    expect(transformedData.data).to.have.property('vaMedicalCenters');
+    expect(transformedData.data).to.have.property('federalMedicalCenters');
+    expect(transformedData.data).to.have.property('currentEmployers');
+    expect(transformedData.data).to.have.property('marriages');
+    expect(transformedData.data).to.have.property('spouseDateOfBirth');
+    expect(transformedData.data).to.have.property('spouseSocialSecurityNumber');
+    expect(transformedData.data).to.have.property('spouseIsVeteran');
+    expect(transformedData.data).to.have.property('spouseVaFileNumber');
+    expect(transformedData.data).to.have.property('spouseAddress');
+    expect(transformedData.data).to.have.property('reasonForCurrentSeparation');
+    expect(transformedData.data).to.have.property('otherExplanation');
+    expect(transformedData.data).to.have.property(
+      'currentSpouseMonthlySupport',
+    );
+    expect(transformedData.data).to.have.property('spouseMarriages');
+    expect(transformedData.data).to.have.property('dependents');
+    expect(transformedData.data).to.have.property('careExpenses');
+    expect(transformedData.data).to.have.property('medicalExpenses');
+    expect(transformedData.data).to.have.property('homeAcreageMoreThanTwo');
+    expect(transformedData.data).to.have.property('homeAcreageValue');
+    expect(transformedData.data).to.have.property('landMarketable');
+    expect(transformedData.data).to.have.property('incomeSources');
   });
 });

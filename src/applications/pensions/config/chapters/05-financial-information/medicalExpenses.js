@@ -42,6 +42,7 @@ export default {
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
         keepInPageOnReview: true,
+        useDlWrap: true,
       },
       items: {
         recipients: radioUI({

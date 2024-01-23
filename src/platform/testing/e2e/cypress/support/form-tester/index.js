@@ -237,7 +237,7 @@ const defaultPostHook = pathname => {
 };
 
 // Look for "/#" or "/#/" in the path
-const REGEXP_PATH_INDEX = /\/\d+\/?/;
+const REGEXP_PATH_INDEX = /\/\d+(?:\/|$)/;
 const REGEXP_REMOVE_END_SLASH = /\/$/;
 
 /**

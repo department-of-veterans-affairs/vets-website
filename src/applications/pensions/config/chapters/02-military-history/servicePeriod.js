@@ -16,14 +16,14 @@ import { wartimeWarning, servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 
 const serviceBranchOptions = {
-  ARMY: 'Army',
-  NAVY: 'Navy',
-  AIR_FORCE: 'Air Force',
-  COAST_GUARD: 'Coast Guard',
-  MARINE_CORPS: 'Marine Corps',
-  SPACE_FORCE: 'Space Force',
-  USPHS: 'USPHS',
-  NOAA: 'NOAA',
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
 };
 
 /** @type {PageSchema} */

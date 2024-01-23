@@ -53,6 +53,7 @@ const generateEmployersSchemas = (
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
           keepInPageOnReview: true,
+          useDlWrap: true,
         },
         items: {
           ...(showJobDateField && {
