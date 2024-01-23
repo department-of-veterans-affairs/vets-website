@@ -65,19 +65,18 @@ const IntroductionPage = ({ route, formId }) => {
           </p>
           <ul>
             <li>
-              <strong>Work history for the past 2 years.</strong>
-              You’ll need the employer’s name, start and end dates, and monthly
-              income for each job..
+              <strong>Work history for the past 2 years.</strong> You’ll need
+              the employer’s name, start and end dates, and monthly income for
+              each job.
             </li>
             <li>
-              <strong>Income.</strong>
-              This includes earned money from a job, VA or Social Security
-              benefits, or other sources. You’ll find the details you’ll need on
-              a recent pay stub or statement.
+              <strong>Income.</strong> This includes earned money from a job, VA
+              or Social Security benefits, or other sources. You’ll find the
+              details you’ll need on a recent pay stub or statement.
             </li>
             <li>
-              <strong>Assets.</strong>
-              This includes available cash (not in a bank).
+              <strong>Assets.</strong> This includes available cash (not in a
+              bank).
             </li>
           </ul>
           <p>
@@ -86,28 +85,26 @@ const IntroductionPage = ({ route, formId }) => {
           </p>
           <ul>
             <li>
-              <strong>Additional assets.</strong>
-              This includes cash in a checking or savings account, stocks and
-              bonds, real estate, cars, jewelry, and other items of value.
+              <strong>Additional assets.</strong> This includes cash in a
+              checking or savings account, stocks and bonds, real estate, cars,
+              jewelry, and other items of value.
             </li>
             <li>
-              <strong>Monthly living expenses.</strong>
-              These include housing, food, and utilities (like gas, electricity,
-              and water).
+              <strong>Monthly living expenses.</strong> These include housing,
+              food, and utilities (like gas, electricity, and water).
             </li>
             <li>
-              <strong>Installment contracts or other debts.</strong>
-              These include car loans, student loans, credit card debt, and
-              other debts or purchase payment plans.
+              <strong>Installment contracts or other debts.</strong> These
+              include car loans, student loans, credit card debt, and other
+              debts or purchase payment plans.
             </li>
             <li>
-              <strong>Other living expenses.</strong>
-              These include expenses like clothing, transportation, child care,
-              or health care.
+              <strong>Other living expenses.</strong> These include expenses
+              like clothing, transportation, child care, or health care.
             </li>
             <li>
-              <strong>If you’ve ever declared bankruptcy,</strong>
-              you’ll need any related documents.
+              <strong>If you’ve ever declared bankruptcy,</strong> you’ll need
+              any related documents.
             </li>
           </ul>
           <p>
