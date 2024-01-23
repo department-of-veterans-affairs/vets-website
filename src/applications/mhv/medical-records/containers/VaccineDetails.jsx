@@ -109,7 +109,7 @@ ${txtLine}\n\n
 Location: ${record.location}\n
 Provider notes: ${processList(record.notes)}\n`;
 
-    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };
