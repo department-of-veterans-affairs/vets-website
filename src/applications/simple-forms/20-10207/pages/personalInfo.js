@@ -1,3 +1,4 @@
+import React from 'react';
 import { cloneDeep } from 'lodash';
 
 import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern.js';
@@ -5,7 +6,6 @@ import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-p
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
@@ -17,7 +17,17 @@ fullNameUI.middle['ui:title'] = 'Middle initial';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your name and date of birth'),
+    // TODO: Use ...titleUI() once that supports functions for title
+    'ui:title': ({ formData }) => {
+      switch (formData.preparerType) {
+        case 'third-party-veteran':
+          return <h3>Veteran’s name and date of birth</h3>;
+        case 'third-party-non-veteran':
+          return <h3>Claimant’s name and date of birth</h3>;
+        default:
+          return <h3>Your name and date of birth</h3>;
+      }
+    },
     fullName: fullNameUI,
     dateOfBirth: dateOfBirthUI(),
     updateSchemaAndData: () => {},

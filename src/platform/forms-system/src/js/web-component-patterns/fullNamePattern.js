@@ -32,13 +32,15 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
  * ```js
  * fullName: fullNameNoSuffixUI()
  * fullName: fullNameNoSuffixUI((title) => `Your ${title}`))
+ * fullName: fullNameNoSuffixUI((title) => `Your ${title}`, {omitMiddle: true})
  * ```
  * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
+ * NOTE: `uiOptions.omitMiddle` will omit the middle name field
  * @returns {UISchemaOptions} uiSchema
  */
 const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
-  return {
+  const uiSchema = {
     'ui:validations': [validateEmpty],
     first: {
       'ui:title': formatTitle ? formatTitle('first name') : 'First name',
@@ -77,6 +79,12 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
+
+  if (uiOptions.omitMiddle) {
+    delete uiSchema.middle;
+  }
+
+  return uiSchema;
 };
 
 /**
@@ -141,6 +149,13 @@ const fullNameSchema = commonDefinitions.fullName;
 const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
 
 /**
+ * @returns `commonDefinitions.fullNameNoSuffix` minus middle name
+ */
+const noMiddleNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
+delete noMiddleNoSuffixSchema.properties.middle;
+const fullNameNoMiddleNoSuffixSchema = noMiddleNoSuffixSchema;
+
+/**
  * @returns `commonDefinitions.fullName + maiden`
  */
 const fullNameWithMaidenNameSchema = {
@@ -157,5 +172,6 @@ export {
   fullNameUI,
   fullNameSchema,
   fullNameNoSuffixSchema,
+  fullNameNoMiddleNoSuffixSchema,
   fullNameWithMaidenNameSchema,
 };

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "preparerType": "veteran",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1980-01-01"
+  }
+}
