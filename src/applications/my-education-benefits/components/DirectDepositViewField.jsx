@@ -22,7 +22,7 @@ export default function DirectDepositViewField({ formData }) {
         currently have on file for you. Please ensure it is correct.
       </p>
       <div className="va-address-block vads-u-margin-left--0">
-        <h5>{`${accountTypeDisplay} account`}</h5>
+        <h5>{`${accountTypeDisplay}`}</h5>
         <dl className="meb-definition-list">
           {/* <dt>Bank name:</dt>
           <dd>{financialInstitutionName}</dd> */}
