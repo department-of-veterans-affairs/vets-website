@@ -45,7 +45,7 @@ export const processSendMessageActivity = ({ action }) => () => {
   window.dispatchEvent(outgoingActivityEvent);
 };
 
-export const processMicrophoneEnabledActivity = ({ action }) => () => {
+export const processMicrophoneActivity = ({ action }) => () => {
   setTimeout(() => {
     if (
       action.payload.dictateState === 3 &&

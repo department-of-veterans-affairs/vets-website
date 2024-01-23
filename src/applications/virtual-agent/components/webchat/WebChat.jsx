@@ -217,7 +217,7 @@ const WebChat = ({
       <>
         <VaModal
           visible={isRedirectModalOpen}
-          closeEvent={() => setIsRedirectModalOpen(false)}
+          onCloseEvent={() => setIsRedirectModalOpen(false)}
           onSecondaryButtonClick={() => setIsRedirectModalOpen(false)}
           onPrimaryButtonClick={handleRedirectPrimaryClick}
           modalTitle={sessionStorage.getItem('redirectTitle')}
@@ -256,7 +256,7 @@ const WebChat = ({
     <>
       <VaModal
         visible={isRedirectModalOpen}
-        closeEvent={() => setIsRedirectModalOpen(false)}
+        onCloseEvent={() => setIsRedirectModalOpen(false)}
         onSecondaryButtonClick={() => setIsRedirectModalOpen(false)}
         onPrimaryButtonClick={handleRedirectPrimaryClick}
         modalTitle={sessionStorage.getItem('redirectTitle')}
