@@ -1,14 +1,14 @@
-import manifest from '../../manifest.json';
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
-import mockSentFolder from './fixtures/sentResponse/folder-sent-metadata.json';
-import particularFolderResponse from './fixtures/drafts-response.json';
-import mockSearchMessages from './fixtures/search-COVID-results.json';
-import mockSearchCustomMessages from './fixtures/search-advanced-custom-folder-results.json';
-import mockTrashFolder from './fixtures/trashResponse/folder-deleted-metadata.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
-import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import manifest from '../../../manifest.json';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import mockDraftsFolder from '../fixtures/folder-drafts-metadata.json';
+import mockSentFolder from '../fixtures/sentResponse/folder-sent-metadata.json';
+import particularFolderResponse from '../fixtures/drafts-response.json';
+import mockSearchMessages from '../fixtures/search-COVID-results.json';
+import mockSearchCustomMessages from '../fixtures/search-advanced-custom-folder-results.json';
+import mockTrashFolder from '../fixtures/trashResponse/folder-deleted-metadata.json';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
+import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
