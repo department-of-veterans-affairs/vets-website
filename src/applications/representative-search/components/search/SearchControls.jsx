@@ -81,11 +81,14 @@ const SearchControls = props => {
                 <strong>Veterans Service Officers (VSOs)</strong> can help you
                 gather evidence, file claims, and request decision reviews. They
                 can also communicate with VA on your behalf. VSOs provide free
-                services for Veterans and their families. VSOs work for Veterans
-                Service Organizations, like the American Legion, Disabled
-                American Veterans, and Veterans of Foreign Wars. They have
-                completed training and passed tests about VA claims and
-                benefits.
+                services for Veterans and their families.
+              </p>
+              <br />
+              <p>
+                VSOs work for Veterans Service Organizations, like the American
+                Legion, Disabled American Veterans, and Veterans of Foreign
+                Wars. They have completed training and passed tests about VA
+                claims and benefits.
               </p>
             </va-additional-info>
           </div>
@@ -97,9 +100,13 @@ const SearchControls = props => {
             <p>
               <strong>Accredited attorneys</strong> usually work on decision
               reviews and cases that require legal knowledge. They can charge
-              fees for their services. Accredited attorneys don’t have to take a
-              test about VA claims and benefits. But they have to be a member in
-              good standing of the bar association.
+              fees for their services.
+            </p>
+            <br />
+            <p>
+              Accredited attorneys don’t have to take a test about VA claims and
+              benefits. But they have to be a member in good standing of the bar
+              association.
             </p>
           </va-additional-info>
           <RepTypeSelector
