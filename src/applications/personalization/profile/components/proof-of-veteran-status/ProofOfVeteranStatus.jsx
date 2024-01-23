@@ -20,7 +20,7 @@ const ProofOfVeteranStatus = () => {
           width="282"
           height="165"
           src="/img/content/posts/proof-of-veteran-status-card-example.png"
-          alt="proof of veteran status card example"
+          alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
         />
       </div>
       <div className="vads-u-font-size--md">
