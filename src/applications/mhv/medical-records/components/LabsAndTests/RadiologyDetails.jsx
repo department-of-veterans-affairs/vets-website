@@ -13,6 +13,8 @@ import { formatName, updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   crisisLineHeader,
   reportGeneratedBy,
@@ -92,10 +94,11 @@ ${record.results}`;
         <p className="no-print">
           <va-link
             active
-            href={`/my-health/medical-records/labs-and-tests/${
-              record.id
-            }/images`}
-            text={`See all ${record.images.length} images`}
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'va-medical-images-and-reports',
+            )}
+            text="Request images on the My HealtheVet website"
           />
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">

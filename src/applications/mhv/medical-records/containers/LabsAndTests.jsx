@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -13,7 +14,6 @@ import {
 import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -49,6 +49,9 @@ const LabsAndTests = () => {
       return (
         <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
       );
+    }
+    if (labsAndTests?.length === 0) {
+      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
     }
     if (labsAndTests?.length > 0) {
       return (

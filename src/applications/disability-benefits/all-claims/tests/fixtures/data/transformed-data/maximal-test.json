@@ -45,7 +45,7 @@
         "treatedDisabilityNames": [
           "Diabetes mellitus0",
           "Diabetes mellitus1",
-          "myocardial infarction (MI)"
+          "heart attack (myocardial infarction)"
         ]
       },
       {
@@ -55,7 +55,7 @@
           "country": "Uganda",
           "city": "Ugandan City"
         },
-        "treatedDisabilityNames": ["asthma", "phlebitis", "knee replacement"]
+        "treatedDisabilityNames": ["asthma", "heart attack (myocardial infarction)", "ankylosis in knee, bilateral"]
       }
     ],
     "confinements": [
@@ -111,31 +111,27 @@
       {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "asthma",
-        "classificationCode": "540"
+        "condition": "asthma"
       },
       {
         "cause": "WORSENED",
         "worsenedDescription": "My knee was strained in the service",
         "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
-        "condition": "knee replacement",
-        "specialIssues": ["POW"],
-        "classificationCode": "8919"
+        "condition": "ankylosis in knee, bilateral",
+        "specialIssues": ["POW"]
       },
       {
         "cause": "VA",
         "vaMistreatmentDescription": "A thing happened.",
         "vaMistreatmentLocation": "Somewhereville",
         "vaMistreatmentDate": "A while ago",
-        "condition": "myocardial infarction (MI)",
-        "specialIssues": ["POW"],
-        "classificationCode": "4440"
+        "condition": "heart attack (myocardial infarction)",
+        "specialIssues": ["POW"]
       },
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "phlebitis",
-        "classificationCode": "5300"
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
       }
     ],
     "attachments": [
