@@ -1,4 +1,5 @@
 // we're not using JSON schema for this form
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../../shared/components/GetFormHelp';
 
@@ -7,6 +8,18 @@ import manifest from '../manifest.json';
 import { TITLE, SUBTITLE } from './constants';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import preparerTypePg from '../pages/preparerType';
+
+// export isLocalhost() to facilitate unit-testing
+export function isLocalhost() {
+  return environment.isLocalhost();
+}
+
+// mock-data import for local development
+import testData from '../tests/e2e/fixtures/data/veteran-minimal.json';
+import { getMockData } from '../helpers';
+
+const mockData = testData.data;
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -15,6 +28,9 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  dev: {
+    showNavLinks: !window.Cypress,
+  },
   trackingPrefix: 'pp-10207-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -39,21 +55,18 @@ const formConfig = {
   defaultDefinitions: {},
   v3SegmentedProgressBar: true,
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    preparerTypeChapter: {
+      title: 'Your identity',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {
-              firstField: {
-                type: 'string',
-              },
-            },
-          },
+        preparerTypePage: {
+          path: 'preparer-type',
+          title: 'Which of these best describes you?',
+          uiSchema: preparerTypePg.uiSchema,
+          schema: preparerTypePg.schema,
+          pageClass: 'preparer-type-page',
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData: getMockData(mockData, isLocalhost),
         },
       },
     },
