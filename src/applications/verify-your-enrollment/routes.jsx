@@ -11,14 +11,18 @@ const routes = (
       exact
       key="EnrollmentVerificationPage"
       path="/"
-      component={EnrollmentVerificationPageWrapper}
-    />
+      // component={EnrollmentVerificationPageWrapper}
+    >
+      <EnrollmentVerificationPageWrapper />
+    </Route>
     <Route
       exact
       key="BenefitsProfilePage"
       path={`${BENEFITS_PROFILE_RELATIVE_URL}`}
-      component={BenefitsProfileWrapper}
-    />
+      // component={BenefitsProfileWrapper}
+    >
+      <BenefitsProfileWrapper />
+    </Route>
   </Switch>
 );
 
