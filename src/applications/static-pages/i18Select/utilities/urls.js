@@ -72,4 +72,8 @@ export default {
     en: '/report-harassment/',
     es: '/report-harassment-esp/',
   },
+  accessibility: {
+    en: '/accessibility-at-va/',
+    es: '/accessibility-at-va-esp/',
+  },
 };
