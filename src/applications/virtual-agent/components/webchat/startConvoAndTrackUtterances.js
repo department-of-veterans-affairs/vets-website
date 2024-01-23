@@ -26,7 +26,7 @@ const StartConvoAndTrackUtterances = {
       userUuid,
       isMobile,
     };
-    // console.log('ACTION OBJECT: ', action);
+
     const processActionType = {
       'DIRECT_LINE/CONNECT_FULFILLED': processActionConnectFulfilled(options),
       'DIRECT_LINE/INCOMING_ACTIVITY': processIncomingActivity(options),
