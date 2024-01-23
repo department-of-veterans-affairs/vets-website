@@ -20,6 +20,23 @@ export const PREPARER_TYPE_LABELS = Object.freeze({
     'I’m a third-party representative or power of attorney. I’m requesting priority processing on behalf of a non-Veteran with a VA claim (also called the claimant).',
 });
 
+export const THIRD_PARTY_TYPES = Object.freeze({
+  REP: 'representative',
+  POA: 'power-of-attorney',
+});
+export const THIRD_PARTY_TYPE_VETERAN_LABELS = Object.freeze({
+  [THIRD_PARTY_TYPES.REP]:
+    'I’m a third-party representative filling this out for the Veteran.',
+  [THIRD_PARTY_TYPES.POA]:
+    'I’m an authorized power of attorney for the Veteran.',
+});
+export const THIRD_PARTY_TYPE_NON_VETERAN_LABELS = Object.freeze({
+  [THIRD_PARTY_TYPES.REP]:
+    'I’m a third-party representative filling this out for the person with a claim.',
+  [THIRD_PARTY_TYPES.POA]:
+    'I’m an authorized power of attorney for the person with a claim.',
+});
+
 export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
   <va-additional-info
     trigger="Who can sign on behalf of someone else?"
@@ -46,6 +63,61 @@ export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
         <b>If you’re a power of attorney</b> requesting VA records for someone
         else, we must have an official record that you were appointed as their
         representative (VA Form 21-22 or VA Form 21-22a).
+      </p>
+      <p>
+        <a
+          href="/find-forms/about-form-21-22/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to VA Form 21-22 Appointment of Veterans Service Organization as
+          Claimant’s Representative (opens in new tab)
+        </a>
+      </p>
+      <p>
+        <a
+          href="/find-forms/about-form-21-22a/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to VA Form 21-22a Appointment of Individual as Claimant’s
+          Representative (opens in new tab)
+        </a>
+      </p>
+    </div>
+  </va-additional-info>,
+);
+
+export const ADDITIONAL_INFO_THIRD_PARTY_TYPE = Object.freeze(
+  <va-additional-info
+    trigger="Who can be a third-party representative or a power of attorney?"
+    data-testid="thirdPartyTypeAdditionalInfo"
+  >
+    <div>
+      <p>
+        <b>A third-party representative</b> can be a family member or designated
+        person filling out this form for a Veteran or someone with a claim. We
+        consider you to be a third-party representative if you’re not already a
+        power of attorney, agent, or fiduciary.
+      </p>
+      <p>
+        If you’re a third-party representative, we must have an authorization
+        (VA Form 21-0845) on record.
+      </p>
+      <p>
+        <a
+          href="/find-forms/about-form-21-0845/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Go to VA Form 21-0845 Authorization to Disclose Personal Information
+          to a Third-Party (opens in new tab)
+        </a>
+      </p>
+      <p>
+        <b>An authorized power of attorney</b> can fill out this request for the
+        person with the claim. If you’re a power of attorney, we must have one
+        of these records on file:
       </p>
       <p>
         <a

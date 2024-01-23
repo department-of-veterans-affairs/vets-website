@@ -1,0 +1,15 @@
+{
+  "data": {
+    "preparerType": "third-party-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Representative"
+    },
+    "thirdPartyType": "representative",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1980-01-01"
+  }
+}

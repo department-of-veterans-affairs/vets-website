@@ -8,9 +8,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
+import thirdPartyVetIdPg from '../pages/thirdPartyVeteranIdentity';
+import thirdPartyNonVetIdPg from '../pages/thirdPartyNonVeteranIdentity';
 import personalInfoPg from '../pages/personalInfo';
-import personalInfoThirdPartyVeteranPg from '../pages/personalInfoThirdPartyVeteran';
-import personalInfoThirdPartyNonVeteranPg from '../pages/personalInfoThirdPartyNonVeteran';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import { getMockData, getPersonalInformationChapterTitle } from '../helpers';
 
@@ -20,7 +20,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/veteran-minimal.json';
+import testData from '../tests/e2e/fixtures/data/veteran.json';
 
 const mockData = testData.data;
 
@@ -71,37 +71,34 @@ const formConfig = {
           // one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
         },
+        thirdPartyVeteranIdentityPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'third-party-veteran-identity',
+          title: 'Name and third-party type',
+          uiSchema: thirdPartyVetIdPg.uiSchema,
+          schema: thirdPartyVetIdPg.schema,
+          pageClass: 'third-party-veteran-identity',
+        },
+        thirdPartyNonVeteranIdentityPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'third-party-non-veteran-identity',
+          title: 'Name and third-party type',
+          uiSchema: thirdPartyNonVetIdPg.uiSchema,
+          schema: thirdPartyNonVetIdPg.schema,
+          pageClass: 'third-party-non-veteran-identity',
+        },
       },
     },
     personalInformationChapter: {
       title: ({ formData }) => getPersonalInformationChapterTitle(formData),
       pages: {
         personalInfoPage: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.VETERAN ||
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'personal-information',
-          title: 'Your personal information',
+          title: 'Name and date of birth', // this is only for review page
           uiSchema: personalInfoPg.uiSchema,
           schema: personalInfoPg.schema,
-          pageClass: 'personal-information',
-        },
-        personalInfoThirdPartyVeteranPage: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
-          path: 'personal-information-third-party-veteran',
-          title: 'Veteran’s name and date of birth',
-          uiSchema: personalInfoThirdPartyVeteranPg.uiSchema,
-          schema: personalInfoThirdPartyVeteranPg.schema,
-          pageClass: 'personal-information',
-        },
-        personalInfoThirdPartyNonVeteranPage: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-          path: 'personal-information-third-party-non-veteran',
-          title: 'Claimant’s name and date of birth',
-          uiSchema: personalInfoThirdPartyNonVeteranPg.uiSchema,
-          schema: personalInfoThirdPartyNonVeteranPg.schema,
           pageClass: 'personal-information',
         },
       },

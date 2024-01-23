@@ -1,0 +1,15 @@
+{
+  "data": {
+    "preparerType": "third-party-non-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Power-of-Attorney"
+    },
+    "thirdPartyType": "power-of-attorney",
+    "fullName": {
+      "first": "John",
+      "last": "Non-Veteran"
+    },
+    "dateOfBirth": "1980-01-01"
+  }
+}
