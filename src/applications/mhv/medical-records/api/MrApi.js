@@ -1,9 +1,12 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import notes from '../tests/fixtures/notes.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
+import vaccines from '../tests/fixtures/vaccines.json';
+import allergies from '../tests/fixtures/allergies.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -20,6 +23,12 @@ const hitApi = runningUnitTest => {
 export const createSession = () => {
   return apiRequest(`${apiBasePath}/medical_records/session`, {
     method: 'POST',
+    headers,
+  });
+};
+
+export const getRefreshStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session/status`, {
     headers,
   });
 };
@@ -217,5 +226,31 @@ export const postSharingUpdateStatus = (optIn = false) => {
   return apiRequest(`${apiBasePath}/health_records/sharing/${endpoint}`, {
     method: 'POST',
     headers,
+  });
+};
+
+/**
+ * Get all of a patient's medical records for generating a Blue Button report
+ * @returns an object with
+ * - labsAndTests
+ * - careSummariesAndNotes
+ * - vaccines
+ * - allergies
+ * - healthConditions
+ * - vitals
+ */
+export const getDataForBlueButton = () => {
+  return new Promise(resolve => {
+    const data = {
+      labsAndTests,
+      careSummariesAndNotes: notes,
+      vaccines,
+      allergies,
+      healthConditions: conditions,
+      vitals,
+    };
+    setTimeout(() => {
+      resolve(data);
+    }, 1000);
   });
 };

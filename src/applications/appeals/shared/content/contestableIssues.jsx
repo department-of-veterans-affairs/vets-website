@@ -69,8 +69,16 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const NoIssuesLoadedAlert = () => {
+export const MessageAlert = ({
+  title,
+  message,
+  headerLevel = 3,
+  errorKey,
+  errorReason,
+  classes = 'vads-u-margin-bottom--2',
+}) => {
   const wrapAlert = useRef(null);
+  const Header = `h${headerLevel}`;
 
   useEffect(
     () => {
@@ -84,26 +92,55 @@ export const NoIssuesLoadedAlert = () => {
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'error',
-    'alert-box-heading': 'Sorry, we couldn’t find any eligible issues',
-    'error-key': 'missing_eligible_issues',
+    'alert-box-heading': title,
+    'error-key': errorKey,
     'alert-box-full-width': false,
     'alert-box-background-only': false,
     'alert-box-closeable': false,
-    'reason-for-alert': 'Missing eligible issues',
+    'reason-for-alert': errorReason,
   });
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class="vads-u-margin-bottom--2">
-        <h3 slot="headline">We can’t load your issues right now</h3>
-        <p>
-          You can come back later, or if you’d like to add your issue manually,
-          you can select "Add a new issue" to get started.
-        </p>
+      <va-alert status="error" class={classes}>
+        <Header
+          slot="headline"
+          className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
+        >
+          {title}
+        </Header>
+        <p>{message}</p>
       </va-alert>
     </div>
   );
 };
+
+MessageAlert.propTypes = {
+  classes: PropTypes.string,
+  errorKey: PropTypes.string,
+  errorReason: PropTypes.string,
+  headerLevel: PropTypes.number,
+  message: PropTypes.string,
+  title: PropTypes.string,
+};
+
+export const ApiFailureAlert = () => (
+  <MessageAlert
+    title="We can’t load your issues right now"
+    message={`You can come back later, or if you’d like to add your issue manually, you can select "Add a new issue" to get started.`}
+    errorKey="api_load_error"
+    errorReason="API load error"
+  />
+);
+
+export const NoEligibleIssuesAlert = () => (
+  <MessageAlert
+    title="Sorry, we couldn’t find any eligible issues"
+    message={`If you’d like to add your issue for review, select "Add a new issue" to get started.`}
+    errorKey="no_eligible_issues_loaded"
+    errorReason="No eligible issues loaded"
+  />
+);
 
 export const noneSelected =
   'You must select at least 1 issue before you can continue filling out your request.';
@@ -112,46 +149,20 @@ export const noneSelected =
  * Shows the alert box only if the form has been submitted
  */
 export const NoneSelectedAlert = ({ count, headerLevel = 3, inReviewMode }) => {
-  const wrapAlert = useRef(null);
-  const Header = `h${headerLevel}`;
-  const margins = `vads-u-margin-${inReviewMode ? 'y' : 'bottom'}--2`;
-
-  useEffect(
-    () => {
-      if (wrapAlert?.current) {
-        scrollAndFocus(wrapAlert.current);
-      }
-    },
-    [wrapAlert],
-  );
-
   const title = `You’ll need to ${
     count === 0 ? 'add, and select,' : 'select'
   } an issue`;
-
-  recordEvent({
-    event: 'visible-alert-box',
-    'alert-box-type': 'error',
-    'alert-box-heading': title,
-    'error-key': 'no_issues_selected',
-    'alert-box-full-width': false,
-    'alert-box-background-only': false,
-    'alert-box-closeable': false,
-    'reason-for-alert': 'Missing eligible issues',
-  });
+  const classes = `vads-u-margin-${inReviewMode ? 'y' : 'bottom'}--2`;
 
   return (
-    <div ref={wrapAlert}>
-      <va-alert status="error" class={margins}>
-        <Header
-          slot="headline"
-          className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
-        >
-          {title}
-        </Header>
-        <p>{noneSelected}</p>
-      </va-alert>
-    </div>
+    <MessageAlert
+      title={title}
+      message={noneSelected}
+      headerLevel={headerLevel}
+      errorKey="no_eligible_issues_selected"
+      errorReason="No eligible issues selected"
+      classes={classes}
+    />
   );
 };
 
