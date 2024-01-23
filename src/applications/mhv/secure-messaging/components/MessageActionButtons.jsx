@@ -22,10 +22,9 @@ const MessageActionButtons = props => {
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
-  const handlePrint = printOption => {
+  const handlePrint = () => {
     dispatch({
       type: Actions.Message.SET_THREAD_PRINT_OPTION,
-      payload: printOption,
     });
     setPrintThread(true);
   };

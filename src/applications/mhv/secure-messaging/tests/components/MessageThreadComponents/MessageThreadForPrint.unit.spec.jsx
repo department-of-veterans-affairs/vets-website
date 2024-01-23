@@ -9,7 +9,7 @@ import { getSize } from '../../../util/helpers';
 describe('MessageThreadForPrint component', () => {
   const initialState = {
     sm: {
-      threadDetails: { messages, printOption: 'PRINT_THREAD' },
+      threadDetails: { messages },
     },
   };
   const initialPath = `/thread/${messages[0].messageId}`;
@@ -28,7 +28,7 @@ describe('MessageThreadForPrint component', () => {
     );
   };
 
-  it('Renders component layout to display extended messages, word count that`s greater than 200, and attachment metadata for print', () => {
+  it('Renders component layout to display extended messages, character count that`s greater than 200, and attachment metadata for print', () => {
     const screen = setup();
 
     expect(screen.getByTestId('message-thread-for-print')).to.exist;
@@ -43,7 +43,9 @@ describe('MessageThreadForPrint component', () => {
     expect(extendedMessages).to.have.lengthOf(messages.length);
 
     const messageBody = screen.getAllByTestId('message-body');
+    const numOfCharacters = messageBody[0].textContent.length;
     const wordCount = messageBody[0].textContent.split(/\s+/).length;
+    expect(numOfCharacters).to.equal(3469);
     expect(wordCount).to.equal(500);
 
     const attachmentFile = screen.getByTestId(

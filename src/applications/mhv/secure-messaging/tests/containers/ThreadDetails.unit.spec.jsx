@@ -174,7 +174,6 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          printOption: 'PRINT_THREAD',
           threadViewCount: 5,
         },
         recipients: {
@@ -247,7 +246,6 @@ describe('Thread Details container', () => {
           replyToName: replyMessage.senderName,
           threadFolderId: '0',
           replyToMessageId: replyMessage.messageId,
-          printOption: 'PRINT_THREAD',
         },
       },
     };

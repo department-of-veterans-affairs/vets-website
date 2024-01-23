@@ -1,14 +1,14 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { PrintMessageOptions, DefaultFolders } from '../../util/constants';
+import { DefaultFolders } from '../../util/constants';
 
 const PrintBtn = props => {
   const printButtonRef = useRef(null);
   const { activeFolder } = props;
 
-  const handleConfirmPrint = async option => {
-    props.handlePrint(option);
+  const handleConfirmPrint = () => {
+    props.handlePrint();
     focusElement(printButtonRef.current);
   };
 
@@ -26,7 +26,7 @@ const PrintBtn = props => {
         } `}
         style={{ minWidth: '100px' }}
         onClick={() => {
-          handleConfirmPrint(PrintMessageOptions.PRINT_THREAD);
+          handleConfirmPrint();
         }}
       >
         <i
