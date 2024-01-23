@@ -28,8 +28,16 @@ export default {
   logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)
   mvi: 'mvi',
-  // My HealtheVet
+  // My HealtheVet Login/Auth
   mhv: 'mhv',
+  // My HealtheVet Platform
+  mhvPlatform: 'mhv_platform',
+  // My HealtheVet Medical Records
+  mhvMR: 'mhv_mr',
+  // My HealtheVet Medications
+  mhvMeds: 'mhv_meds',
+  // My HealtheVet Secure Messaging
+  mhvSM: 'mhv_sm',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)
