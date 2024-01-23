@@ -1,6 +1,6 @@
-import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessagesDraftsPage from './pages/PatientMessageDraftsPage';
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientMessagesDraftsPage from '../pages/PatientMessageDraftsPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();

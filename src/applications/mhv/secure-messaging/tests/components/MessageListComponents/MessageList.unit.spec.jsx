@@ -297,6 +297,9 @@ describe('Message List component', () => {
         : -1;
     })[0];
     expect(messagesRendered[0].textContent).to.contain(firstMessage.senderName);
+
+    const threadListSort = screen.queryByTestId('thread-list-sort');
+    expect(threadListSort).to.exist;
   });
 
   it('responds to pagination changes', async () => {
@@ -322,5 +325,16 @@ describe('Message List component', () => {
       'href',
       `/thread/${searchMessages[10].messageId}`,
     );
+  });
+
+  it('does not render sort button if only 1 message in thread list exists', async () => {
+    const screen = setup(
+      inbox,
+      threadSortingOptions.SENT_DATE_DESCENDING.value,
+      Paths.INBOX,
+      mockMessages[0],
+    );
+    const threadListSort = screen.queryByTestId('thread-list-sort');
+    expect(threadListSort).to.not.exist;
   });
 });

@@ -58,7 +58,9 @@ const ThreadsList = props => {
 
   return (
     <>
-      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      {threadList?.length > 1 && (
+        <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      )}
       <div className="thread-list vads-l-row vads-u-flex-direction--column">
         <h2 className="sr-only">List of conversations</h2>
         <div
