@@ -88,6 +88,19 @@
       },
       {
         "spouseFullName": {
+          "first": "Jane",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1989-03-02",
+        "locationOfMarriage": "Dallas",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Divorce",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
           "first": "Meg",
           "last": "Doe"
         },
