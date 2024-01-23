@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +14,7 @@ const Welcome = ({ fetchPersonalInformation }) => {
 
   useEffect(
     () => {
-      inMPI && loa3 && dispatch(fetchPersonalInformation());
+      return inMPI && loa3 && dispatch(fetchPersonalInformation());
     },
     [dispatch, fetchPersonalInformation, inMPI, loa3],
   );
