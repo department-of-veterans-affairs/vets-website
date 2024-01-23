@@ -5,7 +5,7 @@ import { getTrackedItemId, truncateDescription } from '../utils/helpers';
 
 function FilesOptional({ id, item }) {
   return (
-    <va-alert status="default" uswds>
+    <va-alert class="vads-u-margin-bottom--2" status="default" uswds>
       <div className="item-container">
         <h3 className="file-request-title">{item.displayName}</h3>
         <p className="submission-description">

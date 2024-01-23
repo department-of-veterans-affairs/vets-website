@@ -10,7 +10,10 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
-import EvidenceWarning from '../components/EvidenceWarning';
+// TODO: Import FilesNeeded
+// import FilesNeeded
+import FilesOptional from '../components/FilesOptional';
+
 import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 
@@ -31,6 +34,12 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../actions';
+import {
+  getTrackedItemId,
+  getTrackedItems,
+  getFilesNeeded,
+  getFilesOptional,
+} from '../utils/helpers';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
@@ -43,7 +52,7 @@ const scrollToError = () => {
 
 const { Element } = Scroll;
 
-class AdditionalEvidencePageOld extends React.Component {
+class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     document.title = 'Additional Evidence';
@@ -113,7 +122,22 @@ class AdditionalEvidencePageOld extends React.Component {
               />
             </>
           )}
-          <EvidenceWarning />
+          <h3 className="claim-status-subheader">Additional evidence</h3>
+
+          {/* {this.props.filesNeeded.map(item => (
+            <FilesNeeded
+              key={getTrackedItemId(item)}
+              id={this.props.claim.id}
+              item={item}
+            />
+          ))} */}
+          {this.props.filesOptional.map(item => (
+            <FilesOptional
+              key={getTrackedItemId(item)}
+              id={this.props.claim.id}
+              item={item}
+            />
+          ))}
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}
@@ -158,9 +182,13 @@ class AdditionalEvidencePageOld extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const useLighthouse = cstUseLighthouse(state, 'show');
+  const claim = claimsState.claimDetail.detail;
+  const trackedItems = getTrackedItems(claim, useLighthouse);
+
   return {
     loading: claimsState.claimDetail.loading,
-    claim: claimsState.claimDetail.detail,
+    claim,
     files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
@@ -169,8 +197,10 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
+    filesNeeded: getFilesNeeded(trackedItems, useLighthouse),
+    filesOptional: getFilesOptional(trackedItems, useLighthouse),
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state, 'show'),
+    useLighthouse,
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -192,7 +222,7 @@ const mapDispatchToProps = {
   clearAdditionalEvidenceNotification,
 };
 
-AdditionalEvidencePageOld.propTypes = {
+AdditionalEvidencePage.propTypes = {
   addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
@@ -201,6 +231,8 @@ AdditionalEvidencePageOld.propTypes = {
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
   files: PropTypes.array,
+  filesNeeded: PropTypes.array,
+  filesOptional: PropTypes.array,
   // START lighthouse_migration
   getClaimEVSS: PropTypes.func,
   getClaimLighthouse: PropTypes.func,
@@ -231,7 +263,7 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AdditionalEvidencePageOld),
+  )(AdditionalEvidencePage),
 );
 
-export { AdditionalEvidencePageOld };
+export { AdditionalEvidencePage };
