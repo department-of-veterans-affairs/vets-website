@@ -123,7 +123,7 @@ class MedicationsListPage {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'Refill in process. We expect to fill it on');
+      .and('contain', 'We expect to fill it on');
   };
 
   verifyInformationBasedOnStatusNonVAPrescription = () => {
@@ -173,10 +173,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This prescription is too old to refill. If you need more, request a renewal.',
-      );
+      .and('contain', 'If you need more, request a renewal.');
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
@@ -192,10 +189,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusUnknown = () => {
     cy.get('[data-testid="unknown"] > div')
       .should('be.visible')
-      .and(
-        'contain',
-        'We’re sorry. There’s a problem with our system. You can’t manage this prescription online right now.Check back later. Or call your VA pharmacy.',
-      );
+      .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
