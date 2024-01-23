@@ -10,6 +10,9 @@ export const uiSchema = {
       resolutionOption: {
         'ui:title': ' ',
         'ui:widget': ResolutionOptions,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
     },
   },
