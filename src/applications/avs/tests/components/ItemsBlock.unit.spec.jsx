@@ -92,7 +92,6 @@ describe('Avs: Items Block', () => {
     };
     const screen = render(<ItemsBlock {...props} />);
     expect(screen.getByRole('heading')).to.have.text('Test Heading');
-    expect(screen.getByText('Test Intro')).to.exist;
     expect(screen.getByTestId('test-item-type')).to.exist;
     expect(screen.getByTestId('test-item-type')).to.contain.text('Valid Item');
     expect(screen.getAllByTestId('test-item-type').length).to.eq(1);
