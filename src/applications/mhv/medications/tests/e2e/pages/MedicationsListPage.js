@@ -98,8 +98,12 @@ class MedicationsListPage {
   };
 
   verifyDownloadListAsPDFButtonOnListPage = () => {
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({
+      waitForAnimations: true,
+    });
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download your medication list as a PDF')
+      .should('contain', 'Download a PDF of this list')
       .should('be.visible');
   };
 
@@ -347,6 +351,23 @@ class MedicationsListPage {
         prescriptionDetails.data.attributes.prescriptionId
       } > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
+  };
+
+  verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
+    // cy.intercept(
+    //   'GET',
+    //   'my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+    //   prescriptions,
+    // ).as('medicationsList');
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[15].attributes).to.include({
+          expirationDate: `${
+            expiredPrescription.data.attributes.expirationDate
+          }`,
+        });
+      });
   };
 }
 export default MedicationsListPage;
