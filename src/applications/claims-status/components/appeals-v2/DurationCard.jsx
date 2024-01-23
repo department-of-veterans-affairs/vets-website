@@ -11,8 +11,12 @@ const DurationCard = ({ durationText, cardDescription, isDisabled = true }) => {
 
   return (
     <va-card background>
-      <span className="number">{durationText}</span>
-      <span className="description">{cardDescription}</span>
+      <span className="vads-u-font-family--serif 40px vads-u-font-size--h2 vads-u-font-weight--bold vads-u-display--block vads-u-line-height--1 vads-u-padding-bottom--2 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+        {durationText}
+      </span>
+      <span className="vads-u-font-size--base vads-u-font-weight--normal vads-u-padding-top--0p5 vads-u-display--block">
+        {cardDescription}
+      </span>
     </va-card>
   );
 };
