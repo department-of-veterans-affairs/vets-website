@@ -48,9 +48,6 @@
     "federalMedicalCenters": [
       {
         "medicalCenter": "Memphis Health Care"
-      },
-      {
-        "medicalCenter": "Nashville Health Care"
       }
     ],
     "currentEmployment": true,
@@ -59,11 +56,6 @@
         "jobType": "Customer service",
         "jobHoursWeek": 20,
         "jobTitle": "Manager"
-      },
-      {
-        "jobType": "Customer service",
-        "jobHoursWeek": 20,
-        "jobTitle": "Representative"
       }
     ],
     "maritalStatus": "Separated",

@@ -63,6 +63,11 @@
         "jobType": "Customer service",
         "jobHoursWeek": 20,
         "jobTitle": "Manager"
+      },
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Representative"
       }
     ],
     "maritalStatus": "Separated",
