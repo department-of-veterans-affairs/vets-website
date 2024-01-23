@@ -577,7 +577,8 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
-    expect(titleDiv.length).to.equal(0);
+    expect(titleDiv.length).to.equal(1); // not a header
+    expect(titleDiv.tagName).to.equal('DIV');
 
     wrapper.unmount();
   });
@@ -711,6 +712,106 @@ describe('<ReviewCollapsibleChapter>', () => {
     );
 
     expect(tree.find('.form-review-panel-page').length).to.eq(0);
+
+    tree.unmount();
+  });
+
+  it('should add error class to pages with form errors', () => {
+    const setFormErrors = sinon.spy();
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test',
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: '',
+    };
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: true,
+        },
+      },
+      data: {},
+      formErrors: {
+        errors: [{ pageKey: 'test' }],
+      },
+    };
+
+    const tree = shallow(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        pageList={pages}
+        onEdit={() => {}}
+        setFormErrors={setFormErrors}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const pageWithErrorClass = tree.find('schemaform-review-page-error');
+    expect(pageWithErrorClass).to.exist;
+
+    tree.unmount();
+  });
+
+  it('should add error class to pages with unviewed pages', () => {
+    const setFormErrors = sinon.spy();
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test',
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: '',
+    };
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: true,
+        },
+      },
+      data: {},
+      viewedPages: [],
+    };
+
+    const tree = shallow(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        pageList={pages}
+        onEdit={() => {}}
+        setFormErrors={setFormErrors}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const pageWithErrorClass = tree.find('schemaform-review-page-error');
+    expect(pageWithErrorClass).to.exist;
 
     tree.unmount();
   });
