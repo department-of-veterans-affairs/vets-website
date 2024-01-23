@@ -211,7 +211,7 @@ export const profileReviewErrorOverride = ({
 } = {}) => err => {
   if (typeof err === 'string' && err.startsWith(wrapperKey)) {
     return {
-      contactInfoChapterKey,
+      chapterKey: contactInfoChapterKey,
       pageKey: contactInfoPageKey,
     };
   }

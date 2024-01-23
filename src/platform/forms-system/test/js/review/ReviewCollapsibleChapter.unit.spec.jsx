@@ -578,7 +578,9 @@ describe('<ReviewCollapsibleChapter>', () => {
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
     expect(titleDiv.length).to.equal(1); // not a header
-    expect(titleDiv.tagName).to.equal('DIV');
+    expect(titleDiv.html()).to.contain(
+      '<div class="form-review-panel-page-header',
+    );
 
     wrapper.unmount();
   });
