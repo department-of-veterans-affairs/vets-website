@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+/**
+ *
+ * @param {
+ *  appleAppStoreLinkText: string -- text for apple app store link text
+ *  bodyText: string | element -- text for the body of the component
+ *  googlePlayStoreLinkText: string -- text for google play store link text
+ *  headingText: string -- text for heading
+ * } param0
+ * @returns
+ */
 const MobileAppCallout = ({
   appleAppStoreLinkText = 'Go to the VA: Health and Benefits app on the Apple App Store',
   bodyText = 'Download the VA: Health and Benefits mobile app',
