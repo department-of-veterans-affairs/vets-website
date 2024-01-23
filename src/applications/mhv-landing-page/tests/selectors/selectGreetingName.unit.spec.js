@@ -34,6 +34,12 @@ describe(`${appName} -- selectGreetingName`, () => {
     expect(result).to.eq('Bob');
   });
 
+  it('capitalizes the first letter when name is upper case', () => {
+    state = stateFn({ preferredName: 'BOB' });
+    result = selectGreetingName(state);
+    expect(result).to.eq('Bob');
+  });
+
   it('falls back to first name, when preferred name is not present', () => {
     state = stateFn({ preferredName: null });
     result = selectGreetingName(state);
