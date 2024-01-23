@@ -165,6 +165,7 @@ export default Object.freeze({
   profileShowMhvNotificationSettings: 'profile_show_mhv_notification_settings',
   profileShowPronounsAndSexualOrientation:
     'profile_show_pronouns_and_sexual_orientation',
+  profileShowProofOfVeteranStatus: 'profile_show_proof_of_veteran_status',
   profileShowPaymentsNotificationSetting:
     'profile_show_payments_notification_setting',
   profileShowQuickSubmitNotificationSetting:
@@ -172,13 +173,12 @@ export default Object.freeze({
   profileUseExperimental: 'profile_use_experimental',
   profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
-  profileUseNotificationSettingsCheckboxes:
-    'profile_use_notification_settings_checkboxes',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   ratedDisabilitiesDetectDiscrepancies:
     'rated_disabilities_detect_discrepancies',
   ratedDisabilitiesUseLighthouse: 'rated_disabilities_use_lighthouse',
+  representativesPortalFrontend: 'representatives_portal_frontend',
   scBrowserMonitoringEnabled: 'sc_browser_monitoring_enabled',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
@@ -202,7 +202,7 @@ export default Object.freeze({
   showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
   showMebDgi40Features: 'show_meb_dgi40_features',
   showMebDgi42Features: 'show_meb_dgi42_features',
-  showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
+  showDgiDirectDeposit1990EZ: 'show_dgi_direct_deposit_1990EZ',
   showMebEnhancements: 'show_meb_enhancements',
   showMebEnhancements06: 'show_meb_enhancements_06',
   showMebEnhancements08: 'show_meb_enhancements_08',
@@ -243,8 +243,6 @@ export default Object.freeze({
   vaOnlineSchedulingProviderSelection:
     'va_online_scheduling_provider_selection',
   vaOnlineSchedulingRequests: 'va_online_scheduling_requests',
-  vaOnlineSchedulingUnenrolledVaccine:
-    'va_online_scheduling_unenrolled_vaccine',
   vaOnlineSchedulingVAOSServiceCCAppointments:
     'va_online_scheduling_vaos_service_cc_appointments',
   vaOnlineSchedulingVAOSServiceRequests:
@@ -261,7 +259,6 @@ export default Object.freeze({
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
   vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineSchedulingClinicFilter: 'va_online_scheduling_clinic_filter',
-  vaOnlineSchedulingAcheronService: 'va_online_scheduling_acheron_service',
   vaOnlineSchedulingRequestFlowUpdate:
     'va_online_scheduling_request_flow_update',
   vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',

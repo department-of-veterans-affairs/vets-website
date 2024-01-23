@@ -10,11 +10,8 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
-import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockFirstMessage from '../fixtures/first-message-from-thread-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -48,17 +45,6 @@ class PatientInboxPage {
     this.mockInboxMessages = inboxMessages;
     this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'mhv_secure_messaging_to_va_gov_release',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggle');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
@@ -164,16 +150,19 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleThread = (testSingleThread = mockThread) => {
+  loadSingleThread = (
+    testSingleThread = mockThread,
+    sentDate = mockThread.data[0].attributes.sentDate,
+    draftDate = mockThread.data[0].attributes.draftDate,
+  ) => {
     this.singleThread = testSingleThread;
-    const currentDate = new Date();
-    this.singleThread.data[0].attributes.sentDate = currentDate.toISOString();
-    cy.log('loading single thread details.');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-      mockFolders,
-    ).as('folders');
+    this.singleThread.data[0].attributes.sentDate = sentDate;
+    this.singleThread.data[0].attributes.draftDate = draftDate;
+    cy.log(
+      `loading first message in thread details: ${JSON.stringify(
+        this.singleThread.data[0],
+      )}`,
+    );
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
@@ -186,7 +175,7 @@ class PatientInboxPage {
       `${Paths.SM_API_EXTENDED}/${
         this.singleThread.data[0].attributes.messageId
       }`,
-      mockFirstMessage,
+      { data: this.singleThread.data[0] },
     ).as('fist-message-in-thread');
 
     cy.contains(mockMessages.data[0].attributes.subject).click({
@@ -338,27 +327,15 @@ class PatientInboxPage {
   };
 
   replyToMessage = () => {
-    const currentDate = new Date();
-    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
-    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }/thread`,
-      mockSingleThread,
-    ).as('singleThread');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }`,
-      mockSingleMessage,
-    ).as('singleThread');
-    cy.get(Locators.THREADS)
-      .first()
-      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click({ waitForAnimations: true });
+      'my_health/v1/messaging/messages/7192838/thread',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
@@ -499,7 +476,7 @@ class PatientInboxPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
@@ -507,7 +484,7 @@ class PatientInboxPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);
@@ -530,16 +507,17 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = () => {
+  filterMessages = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
-      inboxSearchResponse,
-    );
+      mockFilterResponse,
+    ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
   };
 
-  verifyFilterResults = (filterValue, responseData = inboxSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -556,8 +534,6 @@ class PatientInboxPage {
   };
 
   clearFilter = () => {
-    this.inputFilterData('any');
-    this.filterMessages();
     cy.get('[text="Clear Filters"]').click({ force: true });
   };
 

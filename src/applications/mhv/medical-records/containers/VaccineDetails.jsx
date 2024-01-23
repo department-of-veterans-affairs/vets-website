@@ -35,6 +35,7 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../shared/util/constants';
+import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -91,30 +92,9 @@ const VaccineDetails = props => {
     const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      items: [
-        {
-          title: 'Date received',
-          value: record.date,
-          inline: true,
-        },
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: processList(record.notes),
-          inline: !record.notes.length,
-        },
-      ],
-    };
-
+    const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
+    makePdf(pdfName, pdfData, 'Vaccine details', runningUnitTest);
   };
 
   const generateVaccineTxt = async () => {
@@ -129,7 +109,7 @@ ${txtLine}\n\n
 Location: ${record.location}\n
 Provider notes: ${processList(record.notes)}\n`;
 
-    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };

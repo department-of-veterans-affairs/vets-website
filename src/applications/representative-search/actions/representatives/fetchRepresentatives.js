@@ -23,8 +23,7 @@ export const fetchRepresentatives = async (
   long,
   name,
   page,
-  /* eslint-disable camelcase */
-  per_page,
+  perPage,
   sort,
   type,
   dispatch,
@@ -36,7 +35,7 @@ export const fetchRepresentatives = async (
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
     );

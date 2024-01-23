@@ -158,6 +158,14 @@ export function getMarriageTitleWithCurrent(form, index) {
   return getMarriageTitle(index);
 }
 
+export function getDependentChildTitle(item, description) {
+  if (item.fullName) {
+    return `${item.fullName.first || ''} ${item.fullName.last ||
+      ''} ${description}`;
+  }
+  return 'description';
+}
+
 export function createSpouseLabelSelector(nameTemplate) {
   return createSelector(
     form =>
@@ -179,20 +187,6 @@ export function createSpouseLabelSelector(nameTemplate) {
 }
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
-
-export const specialMonthlyPensionDescription = (
-  <section>
-    <p>
-      If you have certain health needs or disabilities, you may be eligible for
-      additional pension. We call this special monthly pension (SMP).
-    </p>
-    <p>
-      You may be eligible for SMP if you need the regular assistance of another
-      person, have severe visual impairment, or are generally confined to your
-      immediate premises.
-    </p>
-  </section>
-);
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">

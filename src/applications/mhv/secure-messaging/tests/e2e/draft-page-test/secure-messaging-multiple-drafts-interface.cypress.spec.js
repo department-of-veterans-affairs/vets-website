@@ -9,14 +9,43 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
+  const updateDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map((item, i) => {
+        const newSentDate = new Date(currentDate);
+        const newDraftDate = new Date(currentDate);
+        newSentDate.setDate(currentDate.getDate() - i);
+        newDraftDate.setDate(currentDate.getDate() - i);
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            sentDate:
+              item.attributes.sentDate != null
+                ? newSentDate.toISOString()
+                : null,
+            draftDate:
+              item.attributes.draftDate != null
+                ? newDraftDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
+
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread();
+    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify headers', () => {
-    const draftsCount = mockMultiDraftsResponse.data.filter(
+    const draftsCount = updatedMultiDraftResponse.data.filter(
       el => el.attributes.draftDate !== null,
     ).length;
 
@@ -57,26 +86,26 @@ describe('handle multiple drafts in one thread', () => {
 
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get('[text="Edit draft 1"]').click();
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[1].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[1].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
       'have.text',
-      `${mockMultiDraftsResponse.data[0].attributes.body}`,
+      `${updatedMultiDraftResponse.data[0].attributes.body}`,
     );
 
     cy.get('[text="Edit draft 2"]').click();
     cy.get('[data-testid="message-body-field"]')
       .should('have.attr', 'value')
-      .and('eq', mockMultiDraftsResponse.data[0].attributes.body);
+      .and('eq', updatedMultiDraftResponse.data[0].attributes.body);
 
     cy.get('.message-body-draft-preview').should(
       'have.text',
-      `${mockMultiDraftsResponse.data[1].attributes.body}`,
+      `${updatedMultiDraftResponse.data[1].attributes.body}`,
     );
   });
 });

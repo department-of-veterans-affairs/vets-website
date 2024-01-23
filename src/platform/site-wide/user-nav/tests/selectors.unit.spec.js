@@ -15,12 +15,12 @@ describe('User navigation selectors', () => {
       },
     };
 
-    it('should return My Account and email', () => {
+    it('should return email', () => {
       const result = selectUserGreeting(state);
       const resultItemText = result.map(component => component.props.children);
 
-      expect(result.length).to.equal(2);
-      expect(resultItemText).to.eql(['My Account', 'test@test.gov']);
+      expect(result.length).to.equal(1);
+      expect(resultItemText).to.eql(['test@test.gov']);
     });
 
     it('should return session name', () => {
