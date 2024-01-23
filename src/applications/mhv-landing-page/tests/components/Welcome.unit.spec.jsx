@@ -34,13 +34,13 @@ describe('Welcome component', () => {
     getByRole('heading', { name: /Welcome, Robert/ });
   });
 
-  xit("masks the user's name from datadog (no PII)", () => {
+  it("masks the user's name from datadog (no PII)", () => {
     const { getByText } = setup();
     const result = getByText('Robert').getAttribute('data-dd-privacy');
     expect(result).to.eq('mask');
   });
 
-  xit('renders when name is not supplied', () => {
+  it('renders when name is not supplied', () => {
     const initialState = stateFn({ preferredName: null, first: null });
     const { getByRole } = setup(initialState);
     getByRole('heading', { name: 'Welcome' });
