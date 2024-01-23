@@ -227,7 +227,6 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
-  signInPageAndModalExperimentLga: 'sign_in_page_and_modal_experiment_lga',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
