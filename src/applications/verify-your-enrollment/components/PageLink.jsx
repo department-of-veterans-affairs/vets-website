@@ -5,9 +5,8 @@ const PageLink = ({ linkText, relativeURL, URL }) => {
   const history = useHistory();
 
   const handleClick = useCallback(
-    event => {
+    () => {
       if (history) {
-        event.preventDefault();
         history.push(relativeURL);
       }
     },

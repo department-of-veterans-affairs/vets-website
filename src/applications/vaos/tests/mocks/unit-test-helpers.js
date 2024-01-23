@@ -106,6 +106,7 @@ export class MockAppointment {
     this.status = '';
     this.vaos = {
       isPastAppointment: false,
+      isUpcomingAppointment: false,
     };
     this.version = 2;
     this.videoData = {
@@ -122,5 +123,25 @@ export class MockAppointment {
 
   setKind(value) {
     this.videoData.kind = value;
+  }
+
+  setStatus(value) {
+    this.status = value;
+  }
+
+  setIsPastAppointment(value) {
+    this.vaos.isPastAppointment = value;
+  }
+
+  setIsUpcomingAppointment(value) {
+    this.vaos.isUpcomingAppointment = value;
+  }
+
+  setAvsPath(value) {
+    this.avsPath = value;
+  }
+
+  setCancelationReason(value) {
+    this.cancelationReason = value;
   }
 }
