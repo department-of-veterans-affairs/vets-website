@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
@@ -30,7 +29,6 @@ import {
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
@@ -163,15 +161,6 @@ export class Main extends Component {
     this.appendOrRemoveParameter({ useSiS: false });
   };
 
-  closeAccountTransitionModal = () => {
-    this.props.toggleAccountTransitionModal(false);
-    localStorage.setItem(ACCOUNT_TRANSITION_DISMISSED, true);
-  };
-
-  closeAccountTransitionSuccessModal = () => {
-    this.props.toggleAccountTransitionSuccessModal(false);
-  };
-
   closeModals = () => {
     if (this.props.showFormSignInModal) this.closeFormSignInModal();
     if (this.props.showLoginModal) this.closeLoginModal();
@@ -272,8 +261,6 @@ export default connect(
 Main.propTypes = {
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
-  toggleAccountTransitionModal: PropTypes.func.isRequired,
-  toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
@@ -284,11 +271,7 @@ Main.propTypes = {
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
-  mhvTransition: PropTypes.bool,
-  mhvTransitionModal: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
-  showAccountTransitionModal: PropTypes.bool,
-  showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
   showNavLogin: PropTypes.bool,

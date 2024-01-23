@@ -109,9 +109,6 @@ export {
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  MHV_TRANSITION_DATE,
-  MHV_TRANSITION_TIME,
-  ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
@@ -122,7 +119,6 @@ export {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
   ssoeTransactionId,
-  transitionMHVAccount,
   termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';
