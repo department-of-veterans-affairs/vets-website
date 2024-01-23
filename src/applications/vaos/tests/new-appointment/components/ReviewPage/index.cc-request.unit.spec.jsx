@@ -165,7 +165,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         ],
       },
       reasonCode: {
-        text: 'I need an appt',
+        text: 'null|I need an appt',
       },
       requestedPeriods: [
         {
