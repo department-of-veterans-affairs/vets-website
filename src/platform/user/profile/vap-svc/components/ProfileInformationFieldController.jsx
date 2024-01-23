@@ -372,13 +372,14 @@ class ProfileInformationFieldController extends React.Component {
             {data &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
-                <va-button
-                  label={`Remove ${title}`}
+                <button
+                  aria-label={`Remove ${title}`}
+                  type="button"
+                  className="small-screen:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
-                  text="Remove"
-                  secondary
-                  uswds
-                />
+                >
+                  Remove
+                </button>
               )}
           </div>
         </div>
