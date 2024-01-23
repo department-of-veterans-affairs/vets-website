@@ -17,8 +17,7 @@
       {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "asthma",
-        "classificationCode": "540"
+        "condition": "asthma"
       }
     ],
     "hasTrainingPay": true,

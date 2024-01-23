@@ -39,7 +39,7 @@
           "city": "Bigcity",
           "state": "AK"
         },
-        "treatedDisabilityNames": ["knee replacement"]
+        "treatedDisabilityNames": ["ankylosis in knee, bilateral"]
       }
     ],
     "ratedDisabilities": [
@@ -91,14 +91,12 @@
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "phlebitis",
-        "classificationCode": "5300"
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
       },
       {
         "cause": "NEW",
         "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "knee replacement",
-        "classificationCode": "8919"
+        "condition": "ankylosis in knee, bilateral"
       }
     ],
     "attachments": [

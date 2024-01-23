@@ -191,7 +191,7 @@
     ],
     "newDisabilities": [
       {
-        "condition": "PTSD (post traumatic stress disorder)",
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
         "view:descriptionInfo": {},
         "unemployabilityDisability": true
       }

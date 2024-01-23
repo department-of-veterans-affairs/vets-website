@@ -119,8 +119,8 @@
           }
         ],
         "powDisabilities": {
-          "knee replacement": true,
-          "myocardial infarction (mi)": true
+          "ankylosis in knee, bilateral": true,
+          "heart attack (myocardial infarction)": true
         }
       },
       "newDisabilities": [
@@ -134,12 +134,12 @@
           "view:secondaryFollowUp": {
             "causedByDisability": "Asthma"
           },
-          "condition": "phlebitis",
+          "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
           "view:descriptionInfo": {}
         },
         {
           "cause": "WORSENED",
-          "condition": "knee replacement",
+          "condition": "ankylosis in knee, bilateral",
           "view:descriptionInfo": {}
         },
         {
@@ -148,7 +148,7 @@
             "vaMistreatmentLocation": "Somewhereville",
             "vaMistreatmentDate": "A while ago"
           },
-          "condition": "myocardial infarction (MI)",
+          "condition": "heart attack (myocardial infarction)",
           "view:descriptionInfo": {}
         }
       ],
