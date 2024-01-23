@@ -35,9 +35,10 @@ export const Actions = {
   },
   Allergies: {
     GET: 'MR_ALLERGY_GET',
-    GET_LIST: 'MR_ALLERGIES_GET_LIST,',
+    GET_LIST: 'MR_ALLERGIES_GET_LIST',
     GET_FROM_LIST: 'MR_ALLERGIES_GET_FROM_LIST',
     CLEAR_DETAIL: 'MR_ALLERGY_CLEAR_DETAIL',
+    UPDATE_LIST_STATE: 'MR_ALLERGY_UPDATE_LIST_STATE',
   },
   Sharing: {
     STATUS: 'MR_SHARING_STATUS',
@@ -48,6 +49,10 @@ export const Actions = {
   Pagination: {
     SET_PAGINATION: 'MR_SET_PAGINATION',
     RESET_PAGINATION: 'MR_RESET_PAGINATION',
+  },
+  Refresh: {
+    GET_STATUS: 'MR_REFRESH_GET_STATUS',
+    UPDATE_PHASE: 'MR_REFRESH_UPDATE_PHASE',
   },
   BlueButtonReport: {
     GET: 'MR_BLUE_BUTTON_GET_DATA',

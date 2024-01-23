@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 import LearnMoreLabel from '../../components/LearnMoreLabel';
 import AccordionItem from '../../components/AccordionItem';
@@ -22,6 +22,7 @@ import { showModal, filterChange } from '../../actions';
 import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
+import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 
 export function FilterBeforeResults({
   dispatchShowModal,
@@ -200,7 +201,10 @@ export function FilterBeforeResults({
           className="about-school-checkbox"
           label={
             <h5
-              className={environment.isProduction() ? '' : 'school-types-label'}
+              className={
+                isProductionOfTestProdEnv() ? '' : 'school-types-label'
+              }
+              aria-level={2}
             >
               School types
             </h5>
@@ -258,10 +262,11 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        className={environment.isProduction() ? '' : 'about-school-checkbox'}
+        className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
           <h5
-            className={environment.isProduction() ? '' : 'about-school-label'}
+            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            aria-level={2}
           >
             About the school
           </h5>
@@ -288,10 +293,11 @@ export function FilterBeforeResults({
     ];
     return (
       <CheckboxGroup
-        className={environment.isProduction() ? '' : 'other-checkbox'}
+        className={isProductionOfTestProdEnv() ? '' : 'other-checkbox'}
         label={
           <h5
-            className={environment.isProduction() ? '' : 'about-school-label'}
+            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            aria-level={2}
           >
             Other
           </h5>
@@ -430,17 +436,20 @@ export function FilterBeforeResults({
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
-        className={environment.isProduction() ? '' : 'my-filters-margin'}
+        className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
         label={
           <>
             <h5
-              className={environment.isProduction() ? '' : 'school-types-label'}
+              className={
+                isProductionOfTestProdEnv() ? '' : 'school-types-label'
+              }
+              aria-level={2}
             >
               Community focus
             </h5>
             <button
               className={
-                environment.isProduction()
+                isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
@@ -536,16 +545,22 @@ export function FilterBeforeResults({
               >
                 Apply filters
               </button>
-              <button
-                onClick={clearAllFilters}
-                className={
-                  smallScreen
-                    ? 'clear-filters-button mobile-clear-filter-button'
-                    : 'clear-filters-button'
-                }
-              >
-                Clear filters
-              </button>
+              {isProductionOfTestProdEnv() ? (
+                <button
+                  onClick={clearAllFilters}
+                  className={
+                    smallScreen
+                      ? 'clear-filters-button mobile-clear-filter-button'
+                      : 'clear-filters-button'
+                  }
+                >
+                  Clear filters
+                </button>
+              ) : (
+                <ClearFiltersBtn testId="clear-button">
+                  Clear filters
+                </ClearFiltersBtn>
+              )}
             </div>
             <div
               id="learn-more-about-specialized-missions-accordion-button"
