@@ -2764,13 +2764,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^34.1.0":
-  version "34.1.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-34.1.0.tgz#115e34acf8bfd0125d5ad10b7c6b8e91c8e176e9"
-  integrity sha512-vvLauX3EZ7VL/2NdL2agUCX3xnDGulEHvH0cUTsQrVRe3W67wrRIpyqLRFPKzTa41ItzkuqivfLBhYbK4OX2Eg==
+"@department-of-veterans-affairs/component-library@^34.2.0":
+  version "34.2.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-34.2.0.tgz#773b44d1fce574aada9b0ad77e15b64ef6373151"
+  integrity sha512-a+itgNWzOFYHD+ZFgPunw6qo3ZniM5xQsd3yzo4XEz6mKqafiw4mTSFcq67Z2WzOD8XJIXB4FS+SucNFp1bAdg==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "26.0.0"
-    "@department-of-veterans-affairs/web-components" "4.53.0"
+    "@department-of-veterans-affairs/react-components" "26.0.1"
+    "@department-of-veterans-affairs/web-components" "4.57.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2816,10 +2816,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@26.0.0":
-  version "26.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-26.0.0.tgz#c37a5bd8d41461ca2197195a0d890df99bd6e442"
-  integrity sha512-sdaEBQPxFgMg6X4XU6wsHm+wqY79EWQSLIk/k7eGVEZeHI1gasiphzkI/u/8B+JM4HjGUiRHRhaHfIgwcibzcQ==
+"@department-of-veterans-affairs/react-components@26.0.1":
+  version "26.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-26.0.1.tgz#38eeb0dbe14ffe5f4a5fad6007d4688b33eabfdf"
+  integrity sha512-qCT32ZH7m6B5QMScML+dd/urB4IVNHmiJfX2XTFNE2ROzi2C61A7XMtDEt4bILa1Dno4H49QVhCFe3DqV6rU4w==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2857,10 +2857,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.53.0":
-  version "4.53.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.53.0.tgz#37d34ca60e92110173ebfefce20f3116aea39e6f"
-  integrity sha512-kPnFtK1wG9ag+nxM3tmkX+SwG/tD7SWoonekdP7ABg3DEF6CV/6813YnkhJ/TqsQ82dqtDGll/rvAM4ITLWAsw==
+"@department-of-veterans-affairs/web-components@4.57.0":
+  version "4.57.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-4.57.0.tgz#f90796613645e9929bda8f3451cc1b830bcaa949"
+  integrity sha512-cnGdM9z6YFFvIc/+p/GpNZnQVhE31uFdzbrpUjvbNEuMs346OFpyc1WZIkJ2rn29OY4ZV6zimPtyQD6bMFG3Ow==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.2.0"
     "@stencil/core" "^2.19.2"
@@ -20328,9 +20328,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#8d6ce88b1ad3cc7e9b99d27d26083b367c3866fb":
-  version "20.33.6"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8d6ce88b1ad3cc7e9b99d27d26083b367c3866fb"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#a9b60b42d102ced877d87e406a9d028b853ef923":
+  version "20.33.7"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a9b60b42d102ced877d87e406a9d028b853ef923"
   dependencies:
     minimist "^1.2.3"
 
