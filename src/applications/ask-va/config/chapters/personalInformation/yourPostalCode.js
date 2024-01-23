@@ -49,7 +49,7 @@ const yourPostalCodePage = {
     type: 'object',
     required: [],
     properties: {
-      isOnVetMilitaryBase: {
+      isOnMilitaryBase: {
         type: 'boolean',
         default: false,
       },

@@ -284,3 +284,18 @@ export const generalQuestionPages = flowPages(
   generalQuestion,
   flowPaths.general,
 );
+
+generalQuestionPages.yourAddressConfirmation_generalquestion.onNavForward = ({
+  goPath,
+}) => goPath('/review-then-submit');
+
+generalQuestionPages.yourAddress_generalquestion.onNavForward = ({
+  formData,
+  goPath,
+}) => {
+  if (formData.onBaseOutsideUS) {
+    goPath('/review-then-submit');
+  } else {
+    goPath(`${flowPaths.general}-8`);
+  }
+};
