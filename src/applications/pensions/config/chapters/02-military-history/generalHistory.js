@@ -21,11 +21,12 @@ export default {
     }),
     previousNames: {
       'ui:options': {
-        itemName: 'Other Name',
+        itemName: 'Previous name',
         expandUnder: 'serveUnderOtherNames',
         viewField: FullNameField,
         reviewTitle: 'Previous names',
         keepInPageOnReview: true,
+        useDlWrap: true,
       },
       items: fullNameUI(),
     },
