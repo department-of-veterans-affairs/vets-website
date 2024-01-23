@@ -11,7 +11,7 @@ import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import Welcome from './Welcome';
+import Welcome from '../containers/Welcome';
 import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {

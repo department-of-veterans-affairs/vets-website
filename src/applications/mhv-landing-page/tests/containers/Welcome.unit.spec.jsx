@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import Welcome from '../../components/Welcome';
+import Welcome from '../../containers/Welcome';
 import reducers from '../../reducers';
 
 const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
