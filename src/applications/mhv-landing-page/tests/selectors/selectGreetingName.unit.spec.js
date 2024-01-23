@@ -2,11 +2,7 @@ import { expect } from 'chai';
 import { selectGreetingName } from '../../selectors';
 import { appName } from '../../manifest.json';
 
-const stateFn = ({
-  preferredName = 'Bob',
-  first = 'Robert',
-  email = 'username@hostname.com',
-} = {}) => ({
+const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
   myHealth: {
     personalInformation: {
       data: {
@@ -16,7 +12,6 @@ const stateFn = ({
   },
   user: {
     profile: {
-      email,
       userFullName: {
         first,
       },
@@ -46,14 +41,8 @@ describe(`${appName} -- selectGreetingName`, () => {
     expect(result).to.eq('Robert');
   });
 
-  it('falls back to email, when no names are present', () => {
+  it('returns null, when preferredName nor first name are present', () => {
     state = stateFn({ preferredName: null, first: null });
-    result = selectGreetingName(state);
-    expect(result).to.eq('username@hostname.com');
-  });
-
-  it('returns null, when name nor email are present', () => {
-    state = stateFn({ preferredName: null, first: null, email: null });
     result = selectGreetingName(state);
     expect(result).to.eq(null);
   });
