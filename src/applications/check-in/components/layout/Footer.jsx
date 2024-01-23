@@ -29,7 +29,7 @@ const Footer = ({ router, isPreCheckIn }) => {
       return true;
     }
 
-    if (currentPage.includes('complete') && !isPreCheckIn) {
+    if (currentPage?.includes('complete') && !isPreCheckIn) {
       return true;
     }
 
