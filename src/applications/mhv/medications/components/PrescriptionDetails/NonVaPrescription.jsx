@@ -21,6 +21,7 @@ const NonVaPrescription = prescription => {
             <va-additional-info
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              uswds
             >
               <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>

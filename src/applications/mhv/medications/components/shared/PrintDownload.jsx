@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FeedbackEmail from './FeedbackEmail';
 
 const PrintDownload = props => {
@@ -33,14 +34,14 @@ const PrintDownload = props => {
     <>
       {isSuccess && (
         <div className="vads-u-margin-bottom--2">
-          <va-alert status="success" background-only>
+          <va-alert status="success" background-only uswds>
             <p className="vads-u-margin--0">Download complete</p>
           </va-alert>
         </div>
       )}
       {isError && (
         <div className="vads-u-margin-bottom--2">
-          <va-alert status="error">
+          <va-alert status="error" uswds>
             <h2 slot="headline">We can’t access your medications right now</h2>
             <p className="vads-u-margin-bottom--0">
               We’re sorry. There’s a problem with our system. Check back later.
@@ -51,20 +52,14 @@ const PrintDownload = props => {
           </va-alert>
         </div>
       )}
-      <button
-        type="button"
-        className="link-button vads-u-margin-bottom--3"
+      <VaLink
+        download
+        uswds
+        className="vads-u-margin-bottom--3 vads-u-display--block"
         onClick={handleDownloadPDF}
         data-testid="download-pdf-button"
-      >
-        <i
-          className="fas fa-download vads-u-margin-right--0p5"
-          aria-hidden="true"
-        />
-        {list
-          ? 'Download your medication list as a PDF'
-          : 'Download this page as a PDF'}
-      </button>
+        text={list ? 'Download your medication list as a PDF' : 'Download PDF'}
+      />
 
       {/* Code for dropdown print/download button should we go back to it
        <div className="print-download vads-u-margin-y--2 no-print">

@@ -3,7 +3,10 @@ import React from 'react';
 const BeforeYouDownloadDropdown = () => {
   return (
     <div className="before-you-download-dropdown">
-      <va-additional-info trigger="What to know before you print or download">
+      <va-additional-info
+        trigger="What to know before you print or download"
+        uswds
+      >
         <ul>
           <li>
             <strong>If you print this page,</strong> it won’t include your

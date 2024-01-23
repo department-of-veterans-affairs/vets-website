@@ -112,7 +112,7 @@ const LandingPage = () => {
           <section>
             <h2>Questions about this tool</h2>
             <section>
-              <va-accordion bordered data-testid="accordion-dropdown">
+              <va-accordion bordered data-testid="accordion-dropdown" uswds>
                 <va-accordion-item>
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Does this tool list all my medications and supplies?
@@ -288,7 +288,7 @@ const LandingPage = () => {
               review allergies and reactions in your VA medical records.
             </p>
             <section>
-              <va-accordion bordered data-testid="more-ways-to-manage">
+              <va-accordion bordered data-testid="more-ways-to-manage" uswds>
                 <va-accordion-item open={isRxRenewAccordionOpen}>
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to renew prescriptions

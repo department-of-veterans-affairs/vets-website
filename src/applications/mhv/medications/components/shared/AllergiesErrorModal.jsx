@@ -19,6 +19,7 @@ const AllergiesErrorModal = props => {
       secondaryButtonText="Cancel download"
       status="warning"
       visible={visible}
+      uswds
     >
       <p>
         When you download medication records, we include a list of your

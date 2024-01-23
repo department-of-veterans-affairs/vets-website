@@ -12,6 +12,7 @@ const Alert = props => {
           close-btn-aria-label="Close notification"
           status="warning"
           visible={isAlertVisible}
+          uswds
         >
           <h2 slot="headline">We can’t access your medications right now</h2>
           <div>
