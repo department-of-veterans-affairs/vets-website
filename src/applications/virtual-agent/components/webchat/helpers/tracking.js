@@ -32,15 +32,13 @@ export const recordButtonClick = event => {
     if (isRxSkill) {
       recordEvent({
         event: 'chatbot-button-click',
-        // eslint-disable-next-line camelcase
-        click_text: buttonText,
+        clickText: buttonText,
         topic: 'prescriptions',
       });
     } else {
       recordEvent({
         event: 'chatbot-button-click',
-        // eslint-disable-next-line camelcase
-        click_text: buttonText,
+        clickText: buttonText,
         topic: undefined,
       });
     }

@@ -45,8 +45,7 @@ describe('recordButtonClick', () => {
     const recordEventStub = sandbox.stub(recordEventObject, 'default');
     const recordEventData = {
       event: 'chatbot-button-click',
-      // eslint-disable-next-line camelcase
-      click_text: 'Mock Button Text',
+      clickText: 'Mock Button Text',
       topic: undefined,
     };
     const mockButtonClickEvent = {
@@ -72,8 +71,7 @@ describe('recordButtonClick', () => {
 
     const recordEventData = {
       event: 'chatbot-button-click',
-      // eslint-disable-next-line camelcase
-      click_text: 'Mock Button Text',
+      clickText: 'Mock Button Text',
       topic: 'prescriptions',
     };
     const mockButtonClickEvent = {
