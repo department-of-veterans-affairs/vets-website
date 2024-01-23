@@ -104,7 +104,7 @@ const PeriodsToVerify = ({
         .length > 0 && (
         <va-alert
           close-btn-aria-label="Close notification"
-          class="vads-u-margin-bottom--4"
+          // class="vads-u-margin-bottom--4"
           status="info"
           visible
         >

@@ -4,8 +4,19 @@ import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authe
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
+const HowToVerifyLink = () => (
+  <p className="vads-u-margin-y--4">
+    <va-link
+      href="/resources/verifying-your-identity-on-vagov/"
+      text="Learn how to verify your identity on VA.gov"
+      data-testid="verify-identity-link"
+    />
+  </p>
+);
+
 const IdentityNotVerified = ({
   headline = 'Verify your identity to view your complete profile',
+  showHelpContent = true,
 }) => {
   return (
     <>
@@ -36,13 +47,7 @@ const IdentityNotVerified = ({
         </div>
       </va-alert>
 
-      <p className="vads-u-margin-y--4">
-        <va-link
-          href="/resources/verifying-your-identity-on-vagov/"
-          text="Learn how to verify your identity on VA.gov"
-          data-testid="verify-identity-link"
-        />
-      </p>
+      {showHelpContent && <HowToVerifyLink />}
     </>
   );
 };
@@ -50,6 +55,7 @@ const IdentityNotVerified = ({
 IdentityNotVerified.propTypes = {
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
+  showHelpContent: PropTypes.bool,
 };
 
-export default IdentityNotVerified;
+export { IdentityNotVerified as default };
