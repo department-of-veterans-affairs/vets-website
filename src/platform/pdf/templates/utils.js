@@ -302,7 +302,7 @@ const generateFooterContent = async (
   config,
   addSeparator = false,
 ) => {
-  const pages = doc.bufferedPageRange(); //
+  const pages = doc.bufferedPageRange();
   for (let i = 0; i < pages.count; i += 1) {
     doc.switchToPage(i);
 
