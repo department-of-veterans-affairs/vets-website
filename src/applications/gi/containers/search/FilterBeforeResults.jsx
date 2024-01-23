@@ -455,10 +455,10 @@ export function FilterBeforeResults({
               }
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to community focus details</>}
+              {smallScreen && <>Go to community focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to community focus details"
+                  label="Go to community focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
