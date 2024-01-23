@@ -6,10 +6,11 @@ import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 
 describe('Secure Messaging Basic User', () => {
   it('verify basic user has not access to secure-messaging', () => {
-    const basicUser = JSON.parse(JSON.stringify(mockUser));
+    const basicUser = { ...mockUser };
     basicUser.data.attributes.services = basicUser.data.attributes.services.filter(
       service => service !== 'messaging',
     );
+
     const site = new SecureMessagingSite();
     site.login(true, basicUser);
 
