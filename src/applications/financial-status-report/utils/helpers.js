@@ -313,10 +313,6 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const getCurrentEmploymentHistoryObject = () => {
-  return null;
-};
-
 export const dateTemplate = 'YYYY-MM-DD';
 
 export const maxDate = moment().add(100, 'year');
