@@ -30,6 +30,15 @@ if (process.env.CYPRESS_TESTS_RESULT === 'failure') {
   );
 }
 
+if (
+  process.env.CYPRESS_TESTS_STRESS_TEST_RESULT === 'failure' ||
+  process.env.UNIT_TESTS_STRESS_TEST_RESULT === 'failure'
+) {
+  errorMessages.push(
+    `Your branch is unable to be merged due to potentially flaky tests or failing tests being detected. Please check the Test Stability Review steps for more information on which tests are not passing.`,
+  );
+}
+
 if (errorMessages.length > 0) {
   core.setFailed(`- ${errorMessages.join('\n - ')}`);
 }
