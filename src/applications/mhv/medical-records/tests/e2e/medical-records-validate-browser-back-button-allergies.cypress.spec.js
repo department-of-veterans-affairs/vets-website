@@ -19,7 +19,7 @@ describe('Medical Records View Allergies Multiple Page', () => {
     );
 
     cy.go('back');
-    AllergiesListPage.verifyPaginationAllergiesDisplayed(1, 10, 14);
+    AllergiesListPage.verifyPaginationAllergiesDisplayed(11, 14, 14);
 
     cy.injectAxe();
     cy.axeCheck('main', {
