@@ -36,34 +36,4 @@ describe('Secure Messaging Basic User', () => {
 
     cy.location('pathname').should('eq', '/health-care/secure-messaging');
   });
-
-  it.skip('verify non-va premium user has not access to secure-messaging', () => {
-    const nonVAUser = { ...mockUser };
-    nonVAUser.data.attributes.vaProfile.vaPatient = false;
-    const site = new SecureMessagingSite();
-    site.login(true, mockUser);
-
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
-      'featureToggles',
-    );
-    cy.intercept('GET', '/v0/user', mockUser).as('user');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0*',
-      mockGeneralFolder,
-    ).as('generalFolder');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/0/messages*',
-      mockGeneralMessages,
-    ).as('generalMessages');
-
-    cy.visit('my-health/secure-messages/', {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
-
-    cy.location('pathname').should('eq', '/health-care/secure-messaging');
-  });
 });
