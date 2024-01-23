@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import { signInServiceName } from 'platform/user/authentication/selectors';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SERVICE_PROVIDERS } from '../../constants';
 
 export default function TransitionSuccessModal({ visible, onClose }) {
@@ -28,12 +29,12 @@ export default function TransitionSuccessModal({ visible, onClose }) {
   );
 
   return (
-    <va-modal
+    <VaModal
       visible={visible}
-      focusSelector="button"
-      onClose={onClose}
+      initialFocusSelector="button"
+      onCloseEvent={onClose}
       id="account-transition-success-modal"
-      primaryButton={primaryButton}
+      onPrimaryButtonClick={primaryButton}
       status="success"
       title="Account transfer is complete"
     >
@@ -52,7 +53,7 @@ export default function TransitionSuccessModal({ visible, onClose }) {
           </p>
         </div>
       </div>
-    </va-modal>
+    </VaModal>
   );
 }
 

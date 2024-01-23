@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { MHV_TRANSITION_DATE, MHV_TRANSITION_TIME } from '../../constants';
 
 const AccountTransitionModal = ({
@@ -34,13 +35,13 @@ const AccountTransitionModal = ({
   };
 
   return (
-    <va-modal
+    <VaModal
       visible={visible}
-      focusSelector="button"
-      onClose={onClose}
+      initialFocusSelector="button"
+      onCloseEvent={onClose}
       id="account-transition-modal"
-      primaryButton={primaryButton}
-      secondaryButton={secondaryButton}
+      onPrimaryButtonClick={primaryButton}
+      onSecondaryButtonClick={secondaryButton}
       status="info"
       title="Prepare for sign in changes at VA"
     >
@@ -80,7 +81,7 @@ const AccountTransitionModal = ({
           </div>
         </div>
       </div>
-    </va-modal>
+    </VaModal>
   );
 };
 
