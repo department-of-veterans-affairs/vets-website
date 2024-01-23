@@ -92,7 +92,7 @@ const CustomResolutionOptionReview = props => {
 CustomResolutionOptionReview.propTypes = {
   children: PropTypes.object,
   data: PropTypes.object,
-  pagePerItemIndex: PropTypes.string,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default CustomResolutionOptionReview;
