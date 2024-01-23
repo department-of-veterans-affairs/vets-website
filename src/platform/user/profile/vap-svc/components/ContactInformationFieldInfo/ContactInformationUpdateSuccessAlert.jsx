@@ -35,7 +35,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
           id={id}
         >
           <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-            'Update saved.'
+            Update saved.
           </p>
         </div>
       </va-alert>

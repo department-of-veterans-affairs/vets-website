@@ -87,6 +87,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
+    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
 
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
