@@ -7,9 +7,11 @@ const stateFn = ({
   first = 'Robert',
   email = 'username@hostname.com',
 } = {}) => ({
-  vaProfile: {
+  myHealth: {
     personalInformation: {
-      preferredName,
+      data: {
+        preferredName,
+      },
     },
   },
   user: {
