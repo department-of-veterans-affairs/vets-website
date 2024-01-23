@@ -8,10 +8,7 @@ describe(`${appName} -- Redirect`, () => {
       'contain',
       '/health-care/order-hearing-aid-or-CPAP-supplies-form',
     );
-    cy.url().should(
-      'not.contain',
-      '/my-health/order-hearing-aid-or-cpap-supplies-form',
-    );
+    cy.url().should('not.contain', rootUrl);
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
@@ -21,9 +18,6 @@ describe(`${appName} -- Redirect`, () => {
       'contain',
       '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',
     );
-    cy.url().should(
-      'not.contain',
-      '/my-health/order-hearing-aid-or-cpap-supplies-form',
-    );
+    cy.url().should('not.contain', rootUrl);
   });
 });
