@@ -30,11 +30,9 @@ export const printErrorMessage = message =>
 /** ================================================================
  * Move to given route or error if route not found
  * @param {number} shortName - question to route to
- * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const pushToRoute = (shortName, router, updateCurrentPage) => {
+export const pushToRoute = (shortName, router) => {
   const newRoute = ROUTES?.[shortName];
-  updateCurrentPage(shortName);
 
   if (newRoute) {
     router.push(newRoute);
@@ -72,16 +70,11 @@ export const getLastQuestionAnswered = formResponses => {
  * When the Back button is clicked, find the last question that was answered
  * in the flow based on service period response and direct user back there
  * @param {object} formResponses - all answers in the store
- * @param {func} updateCurrentPage - action for setting the question SHORT_NAME in the store for breadcrumbs
  */
-export const onResultsBackClick = (
-  formResponses,
-  router,
-  updateCurrentPage,
-) => {
+export const onResultsBackClick = (formResponses, router) => {
   const previousQuestion = getLastQuestionAnswered(formResponses);
 
-  return pushToRoute(previousQuestion, router, updateCurrentPage);
+  return pushToRoute(previousQuestion, router);
 };
 
 /** ================================================================
