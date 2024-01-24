@@ -206,6 +206,14 @@ const WebChat = ({
   useEffect(setMicrophoneMessage(isRXSkill, document));
 
   const handleRedirectPrimaryClick = () => {
+    const isDictating = document.querySelector(
+      'div.webchat__microphone-button--dictating',
+    );
+    if (!isDictating) {
+      document
+        .querySelector('button.webchat__microphone-button__button')
+        ?.click();
+    }
     window.open(sessionStorage.getItem('redirectUrl'), '_blank');
 
     sessionStorage.setItem('stopDictate', 'true');
@@ -223,7 +231,6 @@ const WebChat = ({
           modalTitle={sessionStorage.getItem('redirectTitle')}
           primaryButtonText="Yes"
           secondaryButtonText="No"
-          uswds
         />
         <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
           <ReactWebChat
@@ -263,7 +270,6 @@ const WebChat = ({
         modalTitle={sessionStorage.getItem('redirectTitle')}
         primaryButtonText="Yes"
         secondaryButtonText="No"
-        uswds
       />
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
