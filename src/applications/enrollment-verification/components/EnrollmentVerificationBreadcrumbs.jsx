@@ -52,5 +52,5 @@ export default function EnrollmentVerificationBreadcrumbs() {
     );
   }
 
-  return <va-breadcrumbs>{breadcrumbs}</va-breadcrumbs>;
+  return <va-breadcrumbs uswds>{breadcrumbs}</va-breadcrumbs>;
 }

@@ -54,7 +54,10 @@ function EnrollmentVerificationMonths({
     <>
       <h2>Your monthly enrollment verifications</h2>
       {!showMaintenanceAlert && (
-        <va-additional-info trigger="What if I notice an error with my enrollment information?">
+        <va-additional-info
+          trigger="What if I notice an error with my enrollment information?"
+          uswds
+        >
           <p className="vads-u-padding-bottom--2">
             <strong>You should:</strong>
           </p>
@@ -94,6 +97,7 @@ function EnrollmentVerificationMonths({
           onPageSelect={e => onPageSelect(e.detail.page)}
           page={currentPage}
           pages={numPages}
+          uswds
         />
       )}
     </>

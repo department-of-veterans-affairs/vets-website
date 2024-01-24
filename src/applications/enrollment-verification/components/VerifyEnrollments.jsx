@@ -38,6 +38,7 @@ function VerifyEnrollments({
       <va-segmented-progress-bar
         current={currentProgressBarSegment}
         total={totalProgressBarSegments}
+        uswds
       />
 
       <h2 className="vads-u-font-size--h4 vads-u-margin-top--4 vads-u-margin-bottom--4">

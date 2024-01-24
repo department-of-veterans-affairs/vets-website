@@ -8,7 +8,7 @@ import { STATUS_PROP_TYPE } from '../helpers';
 import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
 
 const fetchFailureAlert = (
-  <va-alert status="error" visible>
+  <va-alert status="error" visible uswds>
     <h3 slot="headline">
       There was an error retrieving your enrollment verifications
     </h3>
@@ -26,6 +26,7 @@ const successAlert = submissionResult => (
     role="alert"
     status="success"
     visible
+    uswds
   >
     {submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
       ? 'Congratulations, you’re'
@@ -35,7 +36,7 @@ const successAlert = submissionResult => (
   </va-alert>
 );
 const warningAlert = (
-  <va-alert status="warning" visible>
+  <va-alert status="warning" visible uswds>
     <h1
       className="vads-u-font-size--h3 vads-u-font-weight--bold"
       slot="headline"
@@ -50,7 +51,7 @@ const warningAlert = (
 );
 
 const pausedAlert = (
-  <va-alert status="error" visible>
+  <va-alert status="error" visible uswds>
     <h1
       className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
       slot="headline"
@@ -66,7 +67,7 @@ const pausedAlert = (
 );
 
 const pausedScoAlert = (
-  <va-alert status="error" visible>
+  <va-alert status="error" visible uswds>
     <h1
       className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
       slot="headline"

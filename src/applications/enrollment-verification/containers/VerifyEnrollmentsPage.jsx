@@ -371,6 +371,7 @@ export const VerifyEnrollmentsPage = ({
         label="To the best of your knowledge, is this enrollment information correct?"
         onVaValueChange={updateMonthInformationCorrect}
         required
+        uswds
       >
         <va-radio-option
           aria-describedby="information-incorrect-warning"
@@ -379,6 +380,7 @@ export const VerifyEnrollmentsPage = ({
           label="Yes, this information is correct"
           name={VERIFICATION_STATUS_CORRECT}
           value={VERIFICATION_STATUS_CORRECT}
+          uswds
         />
         <va-radio-option
           aria-describedby="information-incorrect-warning"
@@ -388,6 +390,7 @@ export const VerifyEnrollmentsPage = ({
           label="No, this information isn’t correct"
           name={VERIFICATION_STATUS_INCORRECT}
           value={VERIFICATION_STATUS_INCORRECT}
+          uswds
         />
       </VaRadio>
     </VerifyEnrollments>

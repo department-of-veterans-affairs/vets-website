@@ -9,7 +9,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
     toggleLoginModal,
   ]);
   return (
-    <va-alert status="continue" visible>
+    <va-alert status="continue" visible uswds>
       <h3
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
@@ -43,6 +43,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
         onClick={onSignInClicked}
         primary-alternate
         text="Sign in or create an account"
+        uswds
       />
     </va-alert>
   );

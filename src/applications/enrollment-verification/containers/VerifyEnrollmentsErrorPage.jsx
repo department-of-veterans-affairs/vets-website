@@ -49,6 +49,7 @@ export const VerifyEnrollmentsErrorPage = ({
         close-btn-aria-label="Close notification"
         status="error"
         visible
+        uswds
       >
         <h2 slot="headline">There was an error processing your enrollment.</h2>
         <p className="vads-u-margin-bottom--0">

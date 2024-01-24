@@ -88,6 +88,7 @@ export default function EnrollmentVerificationMonth({
 
       <va-additional-info
         trigger={`More information for ${month.verificationMonth}`}
+        uswds
       >
         <EnrollmentVerificationMonthInfo month={month} />
       </va-additional-info>
