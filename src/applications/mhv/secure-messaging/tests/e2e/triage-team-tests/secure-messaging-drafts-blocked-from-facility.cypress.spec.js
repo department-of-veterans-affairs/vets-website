@@ -7,7 +7,7 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facility-blocked-recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
-describe('Verify drafts - blocked from facility', () => {
+describe('verify drafts - blocked from facility', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
   const newDate = new Date().toISOString();
