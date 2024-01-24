@@ -51,7 +51,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Account number: {maskBankInformation(bankAccountNumber, 4)}</p>
         <p>Bank routing number: {maskBankInformation(bankRoutingNumber, 4)}</p>
       </div>
-      <VaAlert visible={hasNewBankAccountInfo} status="success">
+      <VaAlert visible={hasNewBankAccountInfo} status="success" uswds>
         Thank you for providing your direct deposit information.{' '}
         <strong>This new account won’t be updated right away.</strong> We’ll
         deposit your housing stipend into this account if your VET TEC

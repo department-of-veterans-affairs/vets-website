@@ -34,7 +34,11 @@ class ConfirmationPage extends React.Component {
     return (
       <ConfirmationPageContent
         afterTitleContent={
-          <VaAlert visible={!appliedForVaEducationBenefits} status="warning">
+          <VaAlert
+            visible={!appliedForVaEducationBenefits}
+            status="warning"
+            uswds
+          >
             <h3 slot="headline">
               Don’t forget to apply for VA education benefits
             </h3>
