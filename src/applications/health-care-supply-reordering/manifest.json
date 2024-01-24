@@ -2,7 +2,7 @@
   "appName": "Order hearing aid or CPAP supplies",
   "entryFile": "./app-entry.jsx",
   "entryName": "health-care-supply-reordering",
-  "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form",
+  "rootUrl": "/my-health/order-hearing-aid-or-cpap-supplies-form",
   "e2eTestsDisabled": false,
   "productId": "57a9ee68-ed2f-42ef-a194-f803d3fbca9d"
 }
