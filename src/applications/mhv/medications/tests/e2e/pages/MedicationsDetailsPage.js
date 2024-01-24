@@ -137,14 +137,14 @@ class MedicationsDetailsPage {
   };
 
   verifyPrintButtonEnabledOnDetailsPage = () => {
-    cy.get('[data-testid="print-button"]')
-      .should('contain', 'Print')
+    cy.get('[data-testid="print-records-button"]')
+      .should('contain', 'Print or download')
       .and('be.enabled');
   };
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
-      .should('have.text', 'Download this page as a PDF')
+      .should('have.text', 'Download a PDF of this page')
       .should('be.enabled');
   };
 

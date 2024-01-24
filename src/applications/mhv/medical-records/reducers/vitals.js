@@ -1,10 +1,10 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
 import {
   isArrayAndHasItems,
   macroCase,
   extractContainedResource,
+  dateFormat,
 } from '../util/helpers';
 
 const initialState = {
@@ -55,7 +55,7 @@ export const convertVital = record => {
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
     date: record?.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),
     notes:

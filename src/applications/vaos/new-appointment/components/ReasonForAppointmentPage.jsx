@@ -21,7 +21,6 @@ import {
 } from '../redux/actions';
 import {
   selectFeatureVAOSServiceRequests,
-  selectFeatureAcheronService,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 
@@ -116,19 +115,12 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
-  const useAcheron = useSelector(state => selectFeatureAcheronService(state));
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(
-        pageKey,
-        pageUISchema,
-        pageInitialSchema,
-        useV2,
-        useAcheron,
-      ),
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
     );
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
@@ -154,7 +146,6 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
                 pageUISchema,
                 newData,
                 useV2,
-                useAcheron,
               ),
             )
           }
