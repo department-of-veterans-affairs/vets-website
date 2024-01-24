@@ -4,36 +4,55 @@ import React from 'react';
  * Title for the top of a form page
  *
  * ```js
- * exampleTitle: titleUI('Your contact information')
- * exampleTitle: titleUI('Your contact information', 'We’ll send any important information to this address.')
- * exampleTitle: titleUI('Previous deductible expenses', (<p>
-    Tell us more.
-        <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-          We understand in some cases your expenses might be higher than your
-          income. If your expenses exceed your income, we’ll adjust them to be
-          equal to your income. This won’t affect your application or benefits.
-        </AdditionalInfo>
-    </p>))
+ * uiSchema: {
+ *   ...titleUI('Your contact information')
+ *   ...titleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
+ *   ...titleUI('Your contact information', 'We’ll send any important information to this address.')
+ *   ...titleUI('Previous deductible expenses', (<p>
+      Tell us more.
+          <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+            We understand in some cases your expenses might be higher than your
+            income. If your expenses exceed your income, we’ll adjust them to be
+            equal to your income. This won’t affect your application or benefits.
+          </AdditionalInfo>
+      </p>))
  * ```
- * @param {string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element} [description] 'ui:description'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
  *
  * @returns {UISchemaOptions}
  */
 export const titleUI = (title, description) => {
+  const isTitleFn = typeof title === 'function';
+  const isDescriptionFn = typeof description === 'function';
+
   return {
-    'ui:title': (
-      <>
-        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          {title}
-        </h3>
-        {description && (
-          <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-            {description}
-          </span>
-        )}
-      </>
-    ),
+    'ui:title':
+      isTitleFn || isDescriptionFn ? (
+        props => (
+          <>
+            <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+              {isTitleFn ? title(props) : title}
+            </h3>
+            {description && (
+              <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+                {isDescriptionFn ? description(props) : description}
+              </span>
+            )}
+          </>
+        )
+      ) : (
+        <>
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+            {title}
+          </h3>
+          {description && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+              {description}
+            </span>
+          )}
+        </>
+      ),
   };
 };
 
@@ -71,9 +90,9 @@ export const descriptionUI = (text, uiOptions = {}) => {
  * Inline title for (in the middle of) a form page
  *
  * ```js
- * exampleTitle: titleUI('Your contact information')
- * exampleTitle: titleUI('Your contact information', 'We’ll send any important information to this address.')
- * exampleTitle: titleUI('Previous deductible expenses', (<p>
+ * exampleTitle: inlineTitleUI('Your contact information')
+ * exampleTitle: inlineTitleUI('Your contact information', 'We’ll send any important information to this address.')
+ * exampleTitle: inlineTitleUI('Previous deductible expenses', (<p>
     Tell us more.
         <va-additional-info trigger="What if my expenses are higher than my annual income?">
           We understand in some cases your expenses might be higher than your
