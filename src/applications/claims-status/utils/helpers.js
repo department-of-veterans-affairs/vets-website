@@ -82,7 +82,6 @@ export const getTrackedItemDate = item => {
 export function getTrackedItems(claim, useLighthouse = true) {
   // claimAttributes are different between lighthouse and evss
   // Therefore we have to filter them differntly
-  // const { trackedItems } = claim.attributes;
   if (useLighthouse) {
     return claim.attributes.trackedItems;
   }
