@@ -37,6 +37,7 @@ import SectionCompleteAlert from '../components/SectionCompleteAlert.jsx';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments.js';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -48,6 +49,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '10-10D',
+  dev: {
+    showNavLinks: false,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
