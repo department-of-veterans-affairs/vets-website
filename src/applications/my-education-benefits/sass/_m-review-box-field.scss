@@ -1,5 +1,7 @@
 /* Review Box
 ---------------------------------------------------------------------*/
+@use "sass:math";
+
 .review-box {
 	align-items: center;
 	background-color: $color-gray-lightest;
@@ -29,10 +31,10 @@
 	// Trying to match h5 styling here. Couldn't find an appropriate
 	// mixin, so I'm manually copying the styling here.
 	font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-	font-size: 15/16 + 0em; // i.e. 15px
+	font-size: math.div(15, 16) + 0em; // i.e. 15px
 	font-weight: 700;
-	line-height: 20/15 + 0em; // i.e. 20px
-	margin-bottom: 6/15 + 0em; // i.e. 6px
+	line-height: math.div(20, 15) + 0em; // i.e. 20px
+	margin-bottom: math.div(6, 15) + 0em; // i.e. 6px
 }
 .review-box_button {
 	flex: 0 1;
