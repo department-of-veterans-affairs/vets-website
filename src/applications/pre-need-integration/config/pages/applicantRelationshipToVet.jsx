@@ -1,10 +1,14 @@
-import { merge } from 'lodash';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+
+import { merge, pick } from 'lodash';
 
 import {
   applicantInformationDescription,
   relationshipToVetDescription,
   relationshipToVetOptions,
 } from '../../utils/helpers';
+
+const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
   description = relationshipToVetDescription,
@@ -41,12 +45,7 @@ export const schema = {
           required: ['relationshipToVet'],
           properties: merge(
             {},
-            {
-              relationshipToVet: {
-                type: 'string',
-                enum: ['1', '2', '3', '4', '5', '6', '7', '8'],
-              },
-            },
+            pick(claimant.properties, ['relationshipToVet']),
             {
               'view:applicantInformationDescription': {
                 type: 'object',
