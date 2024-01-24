@@ -18,7 +18,7 @@ const DebtLettersDownload = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
+        <va-breadcrumbs label="Breadcrumb" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt/">Manage your VA debt</a>
           <a href="/manage-va-debt/summary/">Your VA debt and bills</a>

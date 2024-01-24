@@ -35,7 +35,11 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
+      <va-breadcrumbs
+        className="vads-u-font-family--sans"
+        label="Breadcrumb"
+        uswds
+      >
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/summary">Your VA debt and bills</a>

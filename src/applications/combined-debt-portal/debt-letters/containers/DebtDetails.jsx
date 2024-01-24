@@ -54,7 +54,7 @@ const DebtDetails = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
+        <va-breadcrumbs label="Breadcrumb" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt/">Manage your VA debt</a>
           <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
@@ -85,7 +85,7 @@ const DebtDetails = () => {
           )}
           <DebtDetailsCard debt={currentDebt} />
           {whyContent && (
-            <va-additional-info trigger="Why might I have this debt?">
+            <va-additional-info trigger="Why might I have this debt?" uswds>
               {whyContent}
             </va-additional-info>
           )}

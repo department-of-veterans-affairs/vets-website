@@ -44,7 +44,7 @@ const DetailPage = ({ match }) => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
+      <va-breadcrumbs className="vads-u-font-family--sans no-wrap" uswds>
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/summary/">Your VA debt and bills</a>

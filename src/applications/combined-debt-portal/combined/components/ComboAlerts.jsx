@@ -11,6 +11,7 @@ ComboAlert.Error = () => {
       class="row vads-u-margin-bottom--5"
       status="error"
       data-testid="balance-card-combo-alert-error"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         We can’t access your debt and copay records right now
@@ -36,6 +37,7 @@ ComboAlert.Zero = () => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="balance-card-combo-alert-zero"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t have any current VA debt or copay bills

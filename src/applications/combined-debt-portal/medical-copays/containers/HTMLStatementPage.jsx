@@ -33,7 +33,7 @@ const HTMLStatementPage = ({ match }) => {
   return (
     <>
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
-        <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
+        <va-breadcrumbs className="vads-u-font-family--sans no-wrap" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt">Manage your VA debt</a>
           <a href="/manage-va-debt/summary/">Your VA debt and bills</a>

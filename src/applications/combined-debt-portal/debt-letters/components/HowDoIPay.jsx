@@ -20,8 +20,9 @@ const HowDoIPay = ({ userData }) => (
       section-heading={{
         value: 'null',
       }}
+      uswds
     >
-      <va-accordion-item id="first">
+      <va-accordion-item id="first" uswds>
         <h3 className="vads-u-font-size--base" slot="headline">
           Option 1: Pay online
         </h3>
@@ -75,7 +76,7 @@ const HowDoIPay = ({ userData }) => (
           Pay on pay.va.gov
         </a>
       </va-accordion-item>
-      <va-accordion-item header="Option 2: Pay by phone" id="second">
+      <va-accordion-item header="Option 2: Pay by phone" id="second" uswds>
         <p>
           Call us at{' '}
           <va-telephone
@@ -89,7 +90,7 @@ const HowDoIPay = ({ userData }) => (
           <va-telephone contact="6127136415" international />.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 3: Pay by mail" id="third">
+      <va-accordion-item header="Option 3: Pay by mail" id="third" uswds>
         <p className="vads-u-margin-y--0">
           Find instructions on how to pay by mail in the demand letter sent to
           your address or you can

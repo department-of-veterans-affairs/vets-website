@@ -32,6 +32,7 @@ const DebtDetailsCard = ({ debt }) => {
       show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
+      uswds
     >
       <h2 className="vads-u-margin--0">{debtCardContent.headerText}</h2>
 
