@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
+import { IS_RX_SKILL } from '../../../components/chatbox/utils';
 
 describe('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
@@ -18,6 +19,18 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
   const directIncomingActivity = {
     type: 'DIRECT_LINE/INCOMING_ACTIVITY',
     payload: { activity: 'some activity' },
+  };
+  const micEnableActivity = {
+    type: 'WEB_CHAT/SET_DICTATE_STATE',
+    payload: {
+      dictateState: 3,
+    },
+  };
+  const micDisableActivity = {
+    type: 'WEB_CHAT/SET_DICTATE_STATE',
+    payload: {
+      dictateState: 0,
+    },
   };
 
   const sandbox = sinon.createSandbox();
@@ -275,7 +288,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
     );
   });
   describe('Checking the bot entered and exited the Rx skill', () => {
-    const IS_RX_SKILL = 'va-bot.isRxSkill';
     beforeEach(() => {
       sessionStorage.clear();
     });
@@ -398,6 +410,68 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
 
       expect(actions[0].payload.activity.value).to.have.property('isMobile');
       expect(actions[0].payload.activity.value.isMobile).to.equal(false);
+    });
+  });
+
+  describe('Handling of "WEB_CHAT/SET_DICTATE_STATE" for microphone tracking', () => {
+    it('should record an event when the PVA Microphone is enabled', async () => {
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(micEnableActivity);
+
+      expect(window.dataLayer[0].event).equal('chatbot-microphone-enable');
+      expect(window.dataLayer[0].topic).equal(undefined);
+    });
+
+    it('should record an event when the PVA Microphone is disabled', async () => {
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(micDisableActivity);
+
+      expect(window.dataLayer[0].event).equal('chatbot-microphone-disable');
+      expect(window.dataLayer[0].topic).equal(undefined);
+    });
+
+    it('should record an event when the PVA Microphone is enabled in Rx skill', async () => {
+      sessionStorage.setItem(IS_RX_SKILL, 'true');
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(micEnableActivity);
+
+      expect(window.dataLayer[0].event).equal('chatbot-microphone-enable');
+      expect(window.dataLayer[0].topic).equal('prescriptions');
+    });
+
+    it('should record an event when the PVA Microphone is disabled in Rx skill', async () => {
+      sessionStorage.setItem(IS_RX_SKILL, 'true');
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(micDisableActivity);
+
+      expect(window.dataLayer[0].event).equal('chatbot-microphone-disable');
+      expect(window.dataLayer[0].topic).equal('prescriptions');
     });
   });
 });
