@@ -40,6 +40,7 @@ const generateMedicalCentersSchemas = (
           viewField: MedicalCenterView,
           reviewTitle: medicalCentersReviewTitle,
           keepInPageOnReview: true,
+          useDlWrap: true,
         },
         items: {
           medicalCenter: {
