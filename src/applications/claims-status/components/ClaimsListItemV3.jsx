@@ -72,7 +72,7 @@ export default function ClaimsListItemV3({ claim }) {
     <ClaimCard
       title={getTitle(claim)}
       label={inProgress ? 'In Progress' : null}
-      subtitle={`Submitted on ${formattedReceiptDate}`}
+      subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (

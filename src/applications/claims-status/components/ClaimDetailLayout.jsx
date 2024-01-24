@@ -65,7 +65,7 @@ export default function ClaimDetailLayout(props) {
 
     const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
     const formattedClaimDate = formatDate(claim.attributes.claimDate);
-    const claimSubheader = `Submitted on ${formattedClaimDate}`;
+    const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
       <>

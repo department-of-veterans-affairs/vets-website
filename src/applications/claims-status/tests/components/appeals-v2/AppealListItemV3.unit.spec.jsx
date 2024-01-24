@@ -69,7 +69,7 @@ describe('<AppealListItemV3/>', () => {
         .shallow()
         .find('.submitted-on')
         .text(),
-    ).to.equal('Submitted on May 1, 2016');
+    ).to.equal('Received on May 1, 2016');
     wrapper.unmount();
   });
 

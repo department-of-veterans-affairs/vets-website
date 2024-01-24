@@ -62,7 +62,7 @@ describe('<ClaimDetailLayout>', () => {
     );
 
     expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
-      'Submitted on November 23, 2023',
+      'Received on November 23, 2023',
     );
   });
 

@@ -41,7 +41,7 @@ describe('<StemClaimListItemV3>', () => {
         .shallow()
         .find('.submitted-on')
         .text(),
-    ).to.equal('Submitted on March 1, 2021');
+    ).to.equal('Received on March 1, 2021');
     wrapper.unmount();
   });
 
