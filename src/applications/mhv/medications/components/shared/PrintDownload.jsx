@@ -39,7 +39,12 @@ const PrintDownload = props => {
       {isSuccess && (
         <div className="vads-u-margin-bottom--2">
           <va-alert status="success" background-only>
-            <p className="vads-u-margin--0">Download complete</p>
+            <p
+              className="vads-u-margin--0"
+              data-testid="download-success-banner"
+            >
+              Download complete
+            </p>
           </va-alert>
         </div>
       )}

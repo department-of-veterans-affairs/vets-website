@@ -65,17 +65,18 @@ class MedicationsListPage {
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
-    cy.get('[data-testid="print-records-button"] > span').click({
-      force: true,
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({
+      waitForAnimations: true,
     });
   };
 
   verifyPrintMedicationsListEnabledOnListPage = () => {
-    cy.get('[class="menu-options menu-options-open"]').should(
+    cy.get('[data-testid="print-records-button"] > span').should(
       'contain',
-      'Print list',
+      'Print or download',
     );
-    cy.contains('Print list').should('be.enabled');
+    cy.contains('Print or download').should('be.enabled');
   };
 
   verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
@@ -97,14 +98,20 @@ class MedicationsListPage {
       );
   };
 
-  verifyDownloadListAsPDFButtonOnListPage = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').click({
-      waitForAnimations: true,
-    });
+  clickDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download a PDF of this list')
       .should('be.visible');
+    cy.get('[data-testid="download-pdf-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyDownloadCompleteSuccessMessageBanner = () => {
+    cy.get('[data-testid="download-success-banner"]').should(
+      'contain',
+      'Download complete',
+    );
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
