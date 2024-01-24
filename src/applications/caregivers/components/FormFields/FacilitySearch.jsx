@@ -60,6 +60,7 @@ const FacilitySearch = props => {
             onInput={handleInputChange}
             error={error}
             required
+            uswds
           />
           <button className="search-btn" onClick={handleClick}>
             Search

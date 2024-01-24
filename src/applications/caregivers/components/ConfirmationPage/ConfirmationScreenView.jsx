@@ -15,7 +15,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
   return (
     <>
       <div className="caregiver-success-message vads-u-margin-bottom--4">
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h2 slot="headline" className="vads-u-font-size--h3">
             Thank you for completing your application
           </h2>
@@ -26,7 +26,12 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
+      <va-alert
+        status="info"
+        class="vads-u-margin-bottom--4"
+        background-only
+        uswds
+      >
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
           Your application information
         </h2>
@@ -65,7 +70,11 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         </dl>
 
         <div className="vads-u-margin-y--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            onClick={() => window.print()}
+            uswds
+          />
         </div>
 
         <div className="caregiver-application--download">
