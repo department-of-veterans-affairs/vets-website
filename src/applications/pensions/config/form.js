@@ -82,7 +82,6 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { transform } from './submit-transformer';
 import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
@@ -268,7 +267,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },

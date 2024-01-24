@@ -133,6 +133,19 @@ describe('Pensions helpers', () => {
       expect(transformed).not.to.haveOwnProperty('data');
       expect(transformed).not.to.haveOwnProperty('mailingAddress');
     });
+
+    it('should remove dashes from phone numbers', () => {
+      const formConfig = {
+        chapters: {},
+      };
+      const formData = { data: { mobilePhone: '123-123-1234' } };
+      const transformed = JSON.parse(
+        transformForSubmit(formConfig, formData, replacer),
+      );
+
+      expect(transformed).to.haveOwnProperty('mobilePhone');
+      expect(transformed.mobilePhone).to.equal('1231231234');
+    });
   });
   describe('getMarriageTitleWithCurrent', () => {
     it('should return current marriage title', () => {
