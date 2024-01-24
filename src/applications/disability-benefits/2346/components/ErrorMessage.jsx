@@ -15,7 +15,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
   switch (errorCode) {
     case 'MDOT_SUPPLIES_INELIGIBLE':
       content = (
-        <va-alert status="warning">
+        <va-alert status="warning" uswds>
           <h3 slot="headline">You can’t reorder your items at this time</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
@@ -34,7 +34,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
       break;
     case 'MDOT_INVALID':
       content = (
-        <va-alert status="warning">
+        <va-alert status="warning" uswds>
           <h3 slot="headline">We can’t find your records in our system</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
@@ -60,7 +60,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
       break;
     case 'MDOT_SUPPLIES_NOT_FOUND':
       content = (
-        <va-alert status="warning">
+        <va-alert status="warning" uswds>
           <h3 slot="headline">You can’t reorder your items at this time</h3>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span>
@@ -79,7 +79,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
       break;
     case 'MDOT_DECEASED':
       content = (
-        <va-alert status="warning">
+        <va-alert status="warning" uswds>
           <h3 slot="headline">
             Our records show that this Veteran is deceased
           </h3>
@@ -97,7 +97,7 @@ const ErrorMessage = ({ errorCode, nextAvailabilityDate }) => {
     case 'MDOT_SERVICE_UNAVAILABLE':
     case 'MDOT_SERVER_ERROR':
       content = (
-        <va-alert status="error">
+        <va-alert status="error" uswds>
           <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
           <div className="mdot-server-error-alert">
             <p>

@@ -78,7 +78,7 @@ class ApneaSupplies extends Component {
         )}
         {!haveApneaSuppliesBeenOrderedInLastTwoYears &&
           !areApneaSuppliesEligible && (
-            <va-alert status="info" visible>
+            <va-alert status="info" visible uswds>
               <h3 slot="headline">
                 You can’t add CPAP supplies to your order at this time
               </h3>
@@ -188,6 +188,7 @@ class ApneaSupplies extends Component {
           <va-additional-info
             trigger="What if the CPAP supplies I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
+            uswds
           >
             <p>
               The CPAP supplies you need may not be listed here if you haven’t

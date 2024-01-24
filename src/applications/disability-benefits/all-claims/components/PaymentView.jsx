@@ -80,7 +80,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
       </div>
       {dataChanged && (
-        <va-alert visible status="warning">
+        <va-alert visible status="warning" uswds>
           {accountsDifferContent(originalDataIsEmpty)}
         </va-alert>
       )}

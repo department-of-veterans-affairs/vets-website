@@ -78,7 +78,7 @@ class Accessories extends Component {
         )}
         {!haveAccessoriesBeenOrderedInLastTwoYears &&
           !areAccessorySuppliesEligible && (
-            <va-alert status="info" visible>
+            <va-alert status="info" visible uswds>
               <h3 slot="headline">
                 You can’t add accessories to your order at this time
               </h3>
@@ -173,6 +173,7 @@ class Accessories extends Component {
           <va-additional-info
             trigger="What if the accessories I need aren’t listed here?"
             className="vads-u-margin-bottom--2"
+            uswds
           >
             <p>
               The accessories you need may not be listed here if you haven’t

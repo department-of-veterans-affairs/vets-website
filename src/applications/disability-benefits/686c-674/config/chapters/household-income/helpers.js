@@ -8,7 +8,7 @@ export const netWorthCalculation = (
       compensation, VA needs to know the total value of your assets. If you’re
       married, include the value of your spouse’s assets too.
     </p>
-    <va-additional-info trigger="How do I figure out my net worth?">
+    <va-additional-info trigger="How do I figure out my net worth?" uswds>
       <p>
         Your net worth includes all personal property you own (except your
         house, your car, and most home furnishings), minus any debt you owe.

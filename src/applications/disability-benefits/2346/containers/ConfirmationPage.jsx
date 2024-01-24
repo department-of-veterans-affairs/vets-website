@@ -86,6 +86,7 @@ const ConfirmationPage = ({
             <va-alert
               class="order-submission-alert vads-u-margin-top--3"
               status="success"
+              uswds
             >
               <h2 className="usa-alert-heading" slot="headline">
                 Your order has been submitted
@@ -99,6 +100,7 @@ const ConfirmationPage = ({
               background-only
               class="order-summary-alert vads-u-margin-top--3"
               status="info"
+              uswds
             >
               <section>
                 <h4 className="vads-u-margin-top--0">
@@ -173,7 +175,7 @@ const ConfirmationPage = ({
         )}
       {isError &&
         isEmptyOrder && (
-          <va-alert class="vads-u-margin-bottom--4" status="error">
+          <va-alert class="vads-u-margin-bottom--4" status="error" uswds>
             <h2 slot="headline">We’re sorry. Your order wasn’t submitted.</h2>
             <div className="empty-state-alert">
               <p>
@@ -203,7 +205,7 @@ const ConfirmationPage = ({
         )}
       {isError &&
         isPartiallySubmittedOrder && (
-          <va-alert class="vads-u-margin-bottom--4" status="error">
+          <va-alert class="vads-u-margin-bottom--4" status="error" uswds>
             <h2>We’re sorry. Part of your order wasn’t submitted.</h2>
             <div className="partial-submit-alert">
               <p>At least one of the following items couldn’t be ordered:</p>
@@ -240,7 +242,7 @@ const ConfirmationPage = ({
       {isError &&
         hasCompleteOrderFailed && (
           <div className="submission-error-alert">
-            <va-alert className="vads-u-margin-bottom--4" status="error">
+            <va-alert className="vads-u-margin-bottom--4" status="error" uswds>
               <h2>We’re sorry. Your order wasn’t submitted.</h2>
               <>
                 <p>
