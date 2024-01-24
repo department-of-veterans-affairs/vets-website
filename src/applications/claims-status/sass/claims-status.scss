@@ -952,6 +952,18 @@ button .claim-timeline-icon.fa {
   margin-bottom: 1.5em;
 }
 
+.alert-title {
+  font-size: 20px;
+  line-height: 26px;
+  padding-bottom: 0;
+  margin-top: 0;
+}
+
+.alert-description {
+  font-size: 16px;
+  padding-bottom: 0;
+  margin: 0;
+}
 .file-request-list-item {
   margin-top: 1.5em;
   &:last-child {

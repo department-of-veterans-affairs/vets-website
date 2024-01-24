@@ -5,26 +5,29 @@ import { getTrackedItemId, truncateDescription } from '../utils/helpers';
 
 function FilesOptional({ id, item }) {
   return (
-    <va-alert class="vads-u-margin-bottom--2" status="default" uswds>
+    <va-alert
+      class="optional-alert vads-u-margin-bottom--2"
+      status="default"
+      uswds
+    >
       <div className="item-container">
-        <h3 className="file-request-title">{item.displayName}</h3>
-        <p className="submission-description">
+        <h2 className="alert-title">{item.displayName}</h2>
+        <p className="alert-description">
           {truncateDescription(item.description)}
+          <div className="call-to-action">
+            You don't have to do anything, but if you have this information you
+            can&nbsp;
+            <Link
+              aria-label={`Add information for ${item.displayName}`}
+              className="add-your-claims-link"
+              to={`your-claims/${id}/document-request/${getTrackedItemId(
+                item,
+              )}`}
+            >
+              add it here.
+            </Link>
+          </div>
         </p>
-        <div className="vads-u-margin-top--0p5 vads-u-font-size--sm">
-          <strong>Optional</strong> - We requested this from others, but upload
-          it if you have it.
-        </div>
-      </div>
-      <div className="button-container">
-        <Link
-          aria-label={`View Details for ${item.displayName}`}
-          title={`View Details for ${item.displayName}`}
-          className="usa-button usa-button-secondary view-details-button"
-          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
-        >
-          View Details
-        </Link>
       </div>
     </va-alert>
   );
