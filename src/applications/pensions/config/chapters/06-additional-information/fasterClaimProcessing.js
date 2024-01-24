@@ -4,6 +4,8 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 const { noRapidProcessing } = fullSchemaPensions.properties;
 
+const fullyDevelopedClaimsLinkText =
+  'Learn more about fully developed claims (opens in new tab)';
 const Description = (
   <div className="vads-u-margin-bottom--1">
     <p>
@@ -12,8 +14,13 @@ const Description = (
       (FDC) program.
     </p>
 
-    <a href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/fully-developed-claims/">
-      Learn more about fully developed claims
+    <a
+      rel="noopener noreferrer"
+      target="_blank"
+      href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+      aria-label={fullyDevelopedClaimsLinkText}
+    >
+      {fullyDevelopedClaimsLinkText}
     </a>
   </div>
 );
