@@ -29,6 +29,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
   - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+  - demographicsConfirmedUUID: `3f93c0e0-319a-4642-91b3-750e0aec0388`
 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
