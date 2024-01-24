@@ -332,13 +332,6 @@ class ReviewCollapsibleChapter extends React.Component {
       );
     }
 
-    const fullPageKey = page.showPagePerItem
-      ? `${page.pageKey}${page.index}`
-      : page.pageKey;
-    const hasError = props.form.formErrors?.errors?.some(
-      err => fullPageKey === err.pageKey,
-    );
-
     return (
       <page.CustomPageReview
         key={`${page.pageKey}Review${page.index ?? ''}`}
@@ -348,7 +341,6 @@ class ReviewCollapsibleChapter extends React.Component {
         data={props.form.data}
         pagePerItemIndex={page.index}
         goToPath={this.goToPath}
-        hasError={hasError || !props.viewedPages.has(fullPageKey)}
       />
     );
   };
