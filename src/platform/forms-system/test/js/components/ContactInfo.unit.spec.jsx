@@ -51,6 +51,7 @@ const getData = ({
   },
   requiredKeys,
   content: getContent(),
+  contactInfoPageKey: 'confirmContactInfo',
   uiSchema,
 });
 
@@ -98,6 +99,8 @@ describe('<ContactInfo>', () => {
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.equal(5);
+    expect($(`[name="${data.contactInfoPageKey}ScrollElement"]`, container)).to
+      .exist;
   });
 
   it('should render contact data w/no success messages', () => {

@@ -420,6 +420,7 @@ export const clearReturnState = () =>
   window.sessionStorage.removeItem(CONTACT_EDIT);
 
 export const contactInfoPropTypes = {
+  contactInfoPageKey: PropTypes.string,
   content: PropTypes.shape({
     address1: PropTypes.string, // review & submit address line 1 entry
     address2: PropTypes.string, // review & submit address line 2 entry
