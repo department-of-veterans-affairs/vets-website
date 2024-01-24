@@ -76,6 +76,7 @@ const IntroductionPage = props => {
                 primary-alternate
                 text="Sign in or create an account"
                 onClick={toggleLoginModal}
+                uswds
               />
             </div>
           </VaAlert>
@@ -116,7 +117,7 @@ const IntroductionPage = props => {
 
       <h2>Check the status of your question</h2>
       <p className="vads-u-margin--0">Reference number</p>
-      <VaSearchInput label="Reference number" />
+      <VaSearchInput label="Reference number" uswds />
     </div>
   );
 };

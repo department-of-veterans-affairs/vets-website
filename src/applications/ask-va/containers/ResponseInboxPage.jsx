@@ -22,7 +22,12 @@ const attachmentBox = fileName => (
     </p>
     <p>
       {' '}
-      <VaButton onClick={() => {}} secondary text={RESPONSE_PAGE.DELETE_FILE} />
+      <VaButton
+        onClick={() => {}}
+        secondary
+        text={RESPONSE_PAGE.DELETE_FILE}
+        uswds
+      />
     </p>
   </div>
 );
@@ -175,6 +180,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               }}
               secondary
               text={RESPONSE_PAGE.UPLOAD_BTN}
+              uswds
             />
             <h4>{RESPONSE_PAGE.ATTACHMENTS}</h4>
             {sendReply.attachments.length === 0
@@ -189,6 +195,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               primary
               className="vads-u-margin-y--2"
               text={RESPONSE_PAGE.SUBMIT_MESSAGE}
+              uswds
             />
           </fieldset>
         </form>
@@ -206,6 +213,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
           onClick={() => {}}
           primary
           text="Sign in with Approved User"
+          uswds
         />
       </Link>
     </VaAlert>
