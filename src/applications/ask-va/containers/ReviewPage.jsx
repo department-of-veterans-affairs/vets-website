@@ -163,7 +163,7 @@ const ReviewPage = props => {
           Finish this application later
         </Link>
       </p>
-      <va-button onClick={handlers.onSubmit} text="Submit" />
+      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
     </article>
   );
 };

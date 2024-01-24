@@ -117,12 +117,13 @@ const ResponseInboxPage = ({ loggedIn }) => {
           </div>
         ) : (
           <div className="inbox-replies">
-            <va-accordion bordered>
+            <va-accordion bordered uswds>
               {inboxMessage.attributes.reply.data.map(message => (
                 <va-accordion-item
                   key={message.id}
                   header={getReplyHeader(message.message_type)}
                   subHeader={getMessageDate(message.modifiedon)}
+                  uswds
                 >
                   <p>{message.attributes.reply}</p>
                   <p className="vads-u-font-size--h3">
@@ -150,6 +151,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               name="reply message"
               onInput={handlers.onInput}
               value={sendReply.reply}
+              uswds
             />
 
             <h3>{RESPONSE_PAGE.UPLOAD_YOUR_FILES}</h3>
