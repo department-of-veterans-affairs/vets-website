@@ -6,6 +6,7 @@ export const DownloadLettersAlert = () => (
   <va-alert
     class="vads-u-margin-top--4 vads-u-margin-bottom--4"
     status="warning"
+    uswds
   >
     <h3 slot="headline">
       Letters sent after December 9th, 2021 are unavailable for download
@@ -42,7 +43,7 @@ export const DownloadLettersAlert = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <va-alert status="error" class="vads-u-margin-bottom--4">
+    <va-alert status="error" class="vads-u-margin-bottom--4" uswds>
       <h3 slot="headline">Nightly tool maintenance</h3>
 
       <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -84,7 +85,7 @@ export const DowntimeMessage = () => {
 };
 
 export const ErrorMessage = () => (
-  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error" uswds>
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Information about your current debts is unavailable
@@ -104,7 +105,7 @@ export const ErrorMessage = () => (
 );
 
 export const ErrorAlert = () => (
-  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error" uswds>
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Your debt letters are currently unavailable.
@@ -127,7 +128,7 @@ export const ErrorAlert = () => (
 );
 
 export const DependentDebt = () => (
-  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
+  <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error" uswds>
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
         Your debt letters are currently unavailable.
@@ -146,7 +147,7 @@ export const DependentDebt = () => (
 );
 
 export const NoDebtLinks = () => (
-  <va-alert class="vads-u-padding--3 vads-u-margin-bottom--2" status="error">
+  <va-alert class="vads-u-padding--3 vads-u-margin-bottom--2" status="error" uswds>
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">You don’t have any VA debt letters</h3>
       <p className="vads-u-font-family--sans">

@@ -57,7 +57,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <VaBreadcrumbs label="Breadcrumb">
+      <VaBreadcrumbs label="Breadcrumb" uswds>
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
@@ -109,11 +109,12 @@ const DebtDetails = ({ selectedDebt, debts }) => {
             status="info"
             class="vads-u-margin-bottom--4 vads-u-font-size--base"
             background-only
+            uswds
           >
             {additionalInfo.nextStep}
           </va-alert>
           {whyContent && (
-            <va-additional-info trigger="Why might I have this debt?">
+            <va-additional-info trigger="Why might I have this debt?" uswds>
               {whyContent}
             </va-additional-info>
           )}

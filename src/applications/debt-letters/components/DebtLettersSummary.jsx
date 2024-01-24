@@ -69,7 +69,7 @@ const renderAlert = (alertType, hasCopays) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
   const showOther = hasCopays > 0;
   return (
-    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus} uswds>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -112,7 +112,7 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
 
   return (
     <>
-      <VaBreadcrumbs label="Breadcrumb">
+      <VaBreadcrumbs label="Breadcrumb" uswds>
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/your-debt">Your VA debt</a>

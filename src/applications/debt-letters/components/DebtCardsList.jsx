@@ -36,6 +36,7 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
           <va-alert
             data-testid={alertInfo.testID}
             status={alertInfo.alertStatus}
+            uswds
           >
             <h4 slot="headline" className="vads-u-font-size--h3">
               {alertInfo.header}
