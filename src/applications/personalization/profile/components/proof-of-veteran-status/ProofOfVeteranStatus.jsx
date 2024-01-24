@@ -4,7 +4,7 @@ import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide
 const ProofOfVeteranStatus = () => {
   return (
     <div id="proof-of-veteran-status">
-      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
         Proof of Veteran status
       </h2>
       <p>

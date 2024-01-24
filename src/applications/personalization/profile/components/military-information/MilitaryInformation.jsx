@@ -218,23 +218,21 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+      <va-featured-content uswds>
+        <h3 className="vads-u-margin-top--0" slot="headline">
+          Request your military records (DD214)
+        </h3>
+        <va-link
+          href="/records/get-military-service-records"
+          text="Learn how to request your DD214 and other military records"
+        />
+      </va-featured-content>
 
       {profileShowProofOfVeteranStatus && (
         <div className="vads-u-margin-y--4">
           <ProofOfVeteranStatus />
         </div>
       )}
-
-      <div>
-        <h2 className="vads-u-margin-top--0" slot="headline">
-          Request your military records (DD214)
-        </h2>
-        <va-link
-          href="/records/get-military-service-records"
-          text="Learn how to request your DD214 and other military records"
-        />
-      </div>
-
       <DevTools
         alwaysShowChildren={false}
         devToolsData={{ militaryInformation, veteranStatus }}

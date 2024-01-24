@@ -20,7 +20,11 @@ const MobileAppCallout = ({
   return (
     <div id="mobile-app-callout">
       <va-alert uswds close-btn-aria-label="Close notification" status="info">
-        <h3 id="track-your-status-on-mobile" slot="headline">
+        <h3
+          className="vads-u-font-size--h4"
+          id="track-your-status-on-mobile"
+          slot="headline"
+        >
           {headingText}
         </h3>
         <div>
