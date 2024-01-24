@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaCheckboxGroup,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -15,7 +18,9 @@ const SearchResult = ({
   phone,
   distance,
   email,
+  submitRepresentativeReport,
   representative,
+  representativeId,
   query,
 }) => {
   const [
@@ -23,18 +28,70 @@ const SearchResult = ({
     setReportOutdatedInformationModalIsShowing,
   ] = useState(false);
 
+  const [reportItems, setReportItems] = useState({
+    phone: false,
+    email: false,
+    address: false,
+  });
+
+  const [commentInput, setCommentInput] = useState('');
+
   const addressExists =
     addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
 
   const { contact, extension } = parsePhoneNumber(phone);
 
-  const showReportOutdatedInformationModal = e => {
-    e.preventDefault();
-    setReportOutdatedInformationModalIsShowing(true);
+  const handleCheckboxChange = event => {
+    const {
+      target: { id, checked },
+    } = event;
+
+    const prevState = { ...reportItems };
+
+    switch (id) {
+      case '1':
+        prevState.phone = checked;
+        break;
+      case '2':
+        prevState.email = checked;
+        break;
+      case '3':
+        prevState.address = checked;
+        break;
+      default:
+        break;
+    }
+
+    setReportItems(prevState);
   };
 
-  const closeReportOutdatedInformationModal = e => {
-    e.preventDefault();
+  const assembleJSONBody = () => {
+    const reportRequestBody = {
+      representativeId,
+      flags: [],
+    };
+
+    // push checked items to flags array
+    Object.keys(reportItems).forEach(key => {
+      if (reportItems[key] === true) {
+        const flagObject = { flagType: key, flaggedValue: reportItems[key] };
+        reportRequestBody.flags.push(flagObject);
+      }
+    });
+
+    // push text input to flags array
+    if (commentInput) {
+      reportRequestBody.flags.push({
+        flagType: 'other',
+        flaggedValue: commentInput,
+      });
+    }
+    return reportRequestBody;
+  };
+
+  const onSubmitReportOutdatedInformation = () => {
+    const reportRequestBody = assembleJSONBody();
+    submitRepresentativeReport(reportRequestBody);
     setReportOutdatedInformationModalIsShowing(false);
   };
 
@@ -42,43 +99,42 @@ const SearchResult = ({
     <>
       <VaModal
         modalTitle="Report Outdated Information"
-        onCloseEvent={closeReportOutdatedInformationModal}
-        onPrimaryButtonClick={closeReportOutdatedInformationModal}
-        onSecondaryButtonClick={closeReportOutdatedInformationModal}
+        onCloseEvent={() => setReportOutdatedInformationModalIsShowing(false)}
+        onPrimaryButtonClick={onSubmitReportOutdatedInformation}
+        onSecondaryButtonClick={() =>
+          setReportOutdatedInformationModalIsShowing(false)
+        }
         primaryButtonText="Submit"
         secondaryButtonText="Cancel"
         visible={reportOutdatedInformationModalIsShowing}
         uswds
       >
-        <va-checkbox-group
+        <VaCheckboxGroup
           error={null}
           hint={null}
+          onVaChange={handleCheckboxChange}
           required
           label="Describe the issue"
           label-header-level=""
           uswds
         >
           <va-checkbox
-            label="Incorrect address"
-            name="example"
-            uswds
-            value="1"
-          />
-          <va-checkbox
             label="Incorrect phone number"
-            name="example"
+            name="phone"
             uswds
-            value="2"
+            id="1"
           />
-          <va-checkbox label="Incorrect email" name="example" uswds value="3" />
-        </va-checkbox-group>
-
+          <va-checkbox label="Incorrect email" name="email" uswds id="2" />
+          <va-checkbox label="Incorrect address" name="address" uswds id="3" />
+        </VaCheckboxGroup>
         <va-text-input
           hint={null}
           label="If your issue isn't listed, describe the issue here"
+          value={commentInput}
           name="my-input"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
+          // onBlur={function noRefCheck() {}}
+          maxlength={250}
+          onInput={e => setCommentInput(e.target.value)}
           uswds
         />
       </VaModal>
@@ -120,7 +176,9 @@ const SearchResult = ({
         )}
         <div className="vads-u-margin-top--2">
           <va-button
-            onClick={showReportOutdatedInformationModal}
+            onClick={() => {
+              setReportOutdatedInformationModalIsShowing(true);
+            }}
             secondary
             text="Report outdated information"
             uswds
@@ -142,6 +200,8 @@ SearchResult.propTypes = {
   phone: PropTypes.string,
   query: PropTypes.object,
   representative: PropTypes.string,
+  representativeId: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
   state: PropTypes.string,
   type: PropTypes.string,
   zipCode: PropTypes.string,
