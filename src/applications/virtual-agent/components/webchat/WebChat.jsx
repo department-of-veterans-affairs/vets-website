@@ -223,6 +223,7 @@ const WebChat = ({
           modalTitle={sessionStorage.getItem('redirectTitle')}
           primaryButtonText="Yes"
           secondaryButtonText="No"
+          uswds
         />
         <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
           <ReactWebChat
@@ -262,6 +263,7 @@ const WebChat = ({
         modalTitle={sessionStorage.getItem('redirectTitle')}
         primaryButtonText="Yes"
         secondaryButtonText="No"
+        uswds
       />
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
