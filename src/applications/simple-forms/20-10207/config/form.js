@@ -10,7 +10,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import thirdPartyVetIdPg from '../pages/thirdPartyVeteranIdentity';
 import thirdPartyNonVetIdPg from '../pages/thirdPartyNonVeteranIdentity';
-import personalInfoPg from '../pages/personalInfo';
+import nameAndDobPg from '../pages/nameAndDateofBirth';
+import idInfoPg from '../pages/identificationInfo';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import { getMockData, getPersonalInformationChapterTitle } from '../helpers';
 
@@ -20,7 +21,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/veteran.json';
+import testData from '../tests/e2e/fixtures/data/third-party-veteran.json';
 
 const mockData = testData.data;
 
@@ -94,12 +95,19 @@ const formConfig = {
     personalInformationChapter: {
       title: ({ formData }) => getPersonalInformationChapterTitle(formData),
       pages: {
-        personalInfoPage: {
-          path: 'personal-information',
-          title: 'Name and date of birth', // this is only for review page
-          uiSchema: personalInfoPg.uiSchema,
-          schema: personalInfoPg.schema,
-          pageClass: 'personal-information',
+        nameAndDateOfBirthPage: {
+          path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nameAndDobPg.uiSchema,
+          schema: nameAndDobPg.schema,
+          pageClass: 'name-and-date-of-birth',
+        },
+        identificationInformationPage: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: idInfoPg.uiSchema,
+          schema: idInfoPg.schema,
+          pageClass: 'identification-information',
         },
       },
     },

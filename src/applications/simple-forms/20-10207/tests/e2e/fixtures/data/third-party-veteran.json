@@ -10,6 +10,9 @@
       "first": "John",
       "last": "Veteran"
     },
-    "dateOfBirth": "1980-01-01"
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540989"
+    }
   }
 }

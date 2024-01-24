@@ -1,19 +1,40 @@
+import React from 'react';
+
 import { PREPARER_TYPES } from './config/constants';
 
 export function getMockData(mockData, isLocalhost) {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 }
 
-export function getPersonalInformationChapterTitle(formData) {
-  const { preparerType } = formData;
-  const { THIRD_PARTY_NON_VETERAN, THIRD_PARTY_VETERAN } = PREPARER_TYPES;
-
+export function getTitlePrefix(preparerType) {
   switch (preparerType) {
-    case THIRD_PARTY_VETERAN:
-      return 'Veteran’s personal information';
-    case THIRD_PARTY_NON_VETERAN:
-      return 'Claimant’s personal information';
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return 'Veteran’s';
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return 'Claimant’s';
     default:
-      return 'Your personal information';
+      return 'Your';
   }
+}
+
+export function getPersonalInformationChapterTitle(formData) {
+  const prefix = getTitlePrefix(formData.preparerType);
+
+  return `${prefix} personal information`;
+}
+
+export function getNameAndDobPageTitle(formData) {
+  const prefix = getTitlePrefix(formData.preparerType);
+
+  return (
+    <h3 className="vads-u-margin-y--0">{prefix} name and date of birth</h3>
+  );
+}
+
+export function getIdentityPageTitle(formData) {
+  const prefix = getTitlePrefix(formData.preparerType);
+
+  return (
+    <h3 className="vads-u-margin-y--0">{prefix} identification information</h3>
+  );
 }

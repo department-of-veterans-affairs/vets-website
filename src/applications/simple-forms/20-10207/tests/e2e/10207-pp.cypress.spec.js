@@ -30,12 +30,11 @@ const userLOA3 = {
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
+
     dataPrefix: 'data',
-
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-
-    // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['veteran'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
