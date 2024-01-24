@@ -49,6 +49,7 @@ export const TermsAndConditions = ({ device }) => {
           <va-additional-info
             trigger="View Terms"
             data-testid={`${device.key}-terms-and-conditions-content`}
+            uswds
           >
             {TermsAndConditionsContentMap[device.key]}
           </va-additional-info>

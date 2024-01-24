@@ -11,6 +11,7 @@ export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
         close-btn-aria-label="Close notification"
         status="continue"
         visible
+        uswds
       >
         <h3 slot="headline">Please sign in to connect a device</h3>
         <div>

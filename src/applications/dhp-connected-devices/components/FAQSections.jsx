@@ -13,12 +13,14 @@ export const FirstFAQSection = () => {
         section-heading={{
           value: 'null',
         }}
+        uswds
       >
         <va-accordion-item
           header="Why are we doing this pilot?"
           id="dhp-faq-first-section-first-question"
           aria-controls="dhp-faq-first-section-first-question"
           data-testid="faq-first-section-first-question"
+          uswds
         >
           The VA Digital Health Pathway Fitbit Pilot (i.e., the Pilot) is an
           effort designed to evaluate how VA can provide you with an opportunity
@@ -33,6 +35,7 @@ export const FirstFAQSection = () => {
           id="dhp-faq-first-section-second-question"
           aria-controls="dhp-faq-first-section-second-question"
           data-testid="faq-first-section-second-question"
+          uswds
         >
           By participating in the pilot, the data you choose to share with the
           VA may be accessed by your VA care team and discussed with you. At any
@@ -47,6 +50,7 @@ export const FirstFAQSection = () => {
           id="dhp-faq-first-section-third-question"
           aria-controls="dhp-faq-first-section-third-question"
           data-testid="faq-first-section-third-question"
+          uswds
         >
           It is your decision to be part of this pilot program. Your
           participation is voluntary and have the right to refuse to
@@ -60,6 +64,7 @@ export const FirstFAQSection = () => {
           id="dhp-faq-first-section-fourth-question"
           aria-controls="dhp-faq-first-section-fourth-question"
           data-testid="faq-first-section-fourth-question"
+          uswds
         >
           A connected device is any device that can connect to the internet so
           that it can communicate with other devices or computers. Examples of
@@ -89,12 +94,14 @@ export const SecondFAQSection = () => {
         section-heading={{
           value: 'null',
         }}
+        uswds
       >
         <va-accordion-item
           header="How can I connect my device?"
           id="dhp-faq-second-section-first-question"
           aria-controls="dhp-faq-second-section-first-question"
           data-testid="faq-second-section-first-question"
+          uswds
         >
           <strong>Take these steps to connect a device:</strong>
           <p />
@@ -139,6 +146,7 @@ export const SecondFAQSection = () => {
           id="dhp-faq-second-section-second-question"
           aria-controls="dhp-faq-second-section-second-question"
           data-testid="faq-second-section-second-question"
+          uswds
         >
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
@@ -192,6 +200,7 @@ export const SecondFAQSection = () => {
           id="dhp-faq-second-section-third-question"
           aria-controls="dhp-faq-second-section-third-question"
           data-testid="faq-second-section-third-question"
+          uswds
         >
           When you connect a device, such as a Fitbit , you will be able to
           choose the type of data (for example, heart rate, exercise, sleep,
@@ -203,6 +212,7 @@ export const SecondFAQSection = () => {
           id="dhp-faq-second-section-fourth-question"
           aria-controls="dhp-faq-second-section-fourth-question"
           data-testid="faq-second-section-fourth-question"
+          uswds
         >
           The primary individuals who will have access to your device include
           your VA care team. However, any of the information collected via
@@ -216,6 +226,7 @@ export const SecondFAQSection = () => {
           id="dhp-faq-second-section-fifth-question"
           aria-controls="dhp-faq-second-section-fifth-question"
           data-testid="faq-second-section-fifth-question"
+          uswds
         >
           We will keep information about you, including any patient-generated
           data that you share through VA.gov, confidential to the extent
@@ -239,6 +250,7 @@ export const SecondFAQSection = () => {
           id="dhp-faq-second-section-sixth-question"
           aria-controls="dhp-faq-second-section-sixth-question"
           data-testid="faq-second-section-sixth-question"
+          uswds
         >
           VA will no longer receive new data from your device after it is
           disconnected. The data shared while your device was connected to
@@ -262,12 +274,14 @@ export const ThirdFAQSection = () => {
         section-heading={{
           value: 'null',
         }}
+        uswds
       >
         <va-accordion-item
           header="I am having issues with my Fitbit or my Fitbit account"
           id="dhp-faq-third-section-first-question"
           aria-controls="dhp-faq-third-section-first-question"
           data-testid="faq-third-section-first-question"
+          uswds
         >
           Please visit the{' '}
           <a
@@ -292,6 +306,7 @@ export const ThirdFAQSection = () => {
           id="dhp-faq-third-section-second-question"
           aria-controls="dhp-faq-third-section-second-question"
           data-testid="faq-third-section-second-question"
+          uswds
         >
           <a
             href="https://www.va.gov/resources/signing-in-to-vagov/"
@@ -365,12 +380,14 @@ export const FourthFAQSection = () => {
         section-heading={{
           value: 'null',
         }}
+        uswds
       >
         <va-accordion-item
           header="I have general questions or feedback about the pilot"
           id="dhp-faq-fourth-section-first-question"
           aria-controls="dhp-faq-fourth-section-first-question"
           data-testid="faq-fourth-section-first-question"
+          uswds
         >
           Contact{' '}
           <a href="mailto:VA-DHP-Pilot@va.gov" target="_blank" rel="noreferrer">

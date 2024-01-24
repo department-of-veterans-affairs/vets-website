@@ -19,6 +19,7 @@ export const DisconnectModal = ({
         secondaryButtonText="Cancel"
         data-testid="disconnect-modal"
         visible
+        uswds
       >
         <p>
           Disconnecting your {deviceName} will stop sharing data with the VA.

@@ -13,6 +13,7 @@ export const DeviceConnectionAlert = ({
         close-btn-aria-label="Close notification"
         status={status}
         visible
+        uswds
       >
         <h3 slot="headline">{headline}</h3>
         <div>{description}</div>
