@@ -39,8 +39,12 @@ const UploadMessage = (
     </p>
 
     <p>
-      <a href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit">
-        Go to AccessVA to use QuickSubmit
+      <a
+        href="https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Go to AccessVA to use QuickSubmit (opens in a new tab)
       </a>
     </p>
 
