@@ -8,12 +8,19 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
-import thirdPartyVetIdPg from '../pages/thirdPartyVeteranIdentity';
-import thirdPartyNonVetIdPg from '../pages/thirdPartyNonVeteranIdentity';
+import idInfoThirdPartyVetPg from '../pages/idInfoThirdPartyVeteran';
+import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
 import nameAndDobPg from '../pages/nameAndDateofBirth';
-import idInfoPg from '../pages/identificationInfo';
+import idInfoPg from '../pages/idInfo';
+import livingSituationPg from '../pages/livingSituation';
+import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
+import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
-import { getMockData, getPersonalInformationChapterTitle } from '../helpers';
+import {
+  getMockData,
+  getPersonalInformationChapterTitle,
+  getLivingSituationChapterTitle,
+} from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -21,7 +28,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/third-party-veteran.json';
+import testData from '../tests/e2e/fixtures/data/third-party-non-veteran.json';
 
 const mockData = testData.data;
 
@@ -77,8 +84,8 @@ const formConfig = {
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'third-party-veteran-identity',
           title: 'Name and third-party type',
-          uiSchema: thirdPartyVetIdPg.uiSchema,
-          schema: thirdPartyVetIdPg.schema,
+          uiSchema: idInfoThirdPartyVetPg.uiSchema,
+          schema: idInfoThirdPartyVetPg.schema,
           pageClass: 'third-party-veteran-identity',
         },
         thirdPartyNonVeteranIdentityPage: {
@@ -86,8 +93,8 @@ const formConfig = {
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'third-party-non-veteran-identity',
           title: 'Name and third-party type',
-          uiSchema: thirdPartyNonVetIdPg.uiSchema,
-          schema: thirdPartyNonVetIdPg.schema,
+          uiSchema: idInfoThirdPartyNonVetPg.uiSchema,
+          schema: idInfoThirdPartyNonVetPg.schema,
           pageClass: 'third-party-non-veteran-identity',
         },
       },
@@ -108,6 +115,37 @@ const formConfig = {
           uiSchema: idInfoPg.uiSchema,
           schema: idInfoPg.schema,
           pageClass: 'identification-information',
+        },
+      },
+    },
+    livingSituationChapter: {
+      title: ({ formData }) => getLivingSituationChapterTitle(formData),
+      pages: {
+        livingSituationPage: {
+          depends: formData => !formData.preparerType.startsWith('third-party'),
+          path: 'living-situation',
+          title: 'Your living situation',
+          uiSchema: livingSituationPg.uiSchema,
+          schema: livingSituationPg.schema,
+          pageClass: 'living-situation',
+        },
+        livingSituationThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'living-situation-third-party-veteran',
+          title: 'Veteran’s living situation',
+          uiSchema: livingSituationThirdPartyVetPg.uiSchema,
+          schema: livingSituationThirdPartyVetPg.schema,
+          pageClass: 'living-situation-third-party-veteran',
+        },
+        livingSituationThirdPartyNonVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'living-situation-third-party-non-veteran',
+          title: 'Claimant’s living situation',
+          uiSchema: livingSituationThirdPartyNonVetPg.uiSchema,
+          schema: livingSituationThirdPartyNonVetPg.schema,
+          pageClass: 'living-situation-third-party-non-veteran',
         },
       },
     },
