@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WIP = () => (
-  <va-alert status="warning">
+  <va-alert status="warning" uswds>
     <h2 slot="headline">
       Decision letters aren’t available to download right now.
     </h2>

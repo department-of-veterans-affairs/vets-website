@@ -93,6 +93,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
             page={currentPage}
             pages={totalPages.current}
             maxPageListLength={ITEMS_PER_PAGE}
+            uswds
           />
         )}
       </>

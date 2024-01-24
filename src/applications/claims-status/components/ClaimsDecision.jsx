@@ -10,7 +10,7 @@ const headerText = closedDate =>
 
 const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
   <>
-    <va-alert>
+    <va-alert uswds>
       <h3 className="claims-alert-header" slot="headline">
         {completedDate && headerText(completedDate)}
       </h3>
@@ -36,7 +36,12 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
     </va-alert>
 
     {!showClaimLettersLink && (
-      <va-alert background-only class="vads-u-margin-y--2" status="warning">
+      <va-alert
+        background-only
+        class="vads-u-margin-y--2"
+        status="warning"
+        uswds
+      >
         <h3 className="claims-alert-header">
           Decision letters aren’t available to download right now.
         </h3>

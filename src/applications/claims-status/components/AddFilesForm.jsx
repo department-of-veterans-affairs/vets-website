@@ -182,6 +182,7 @@ class AddFilesForm extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
+          uswds
         >
           {mailMessage}
         </va-additional-info>
@@ -253,6 +254,7 @@ class AddFilesForm extends React.Component {
                       onInput={e =>
                         this.handlePasswordChange(e.target.value, index)
                       }
+                      uswds
                     />
                   </>
                 )}
@@ -269,6 +271,7 @@ class AddFilesForm extends React.Component {
                   onVaSelect={e =>
                     this.handleDocTypeChange(e.detail.value, index)
                   }
+                  uswds
                 >
                   <option disabled value="">
                     Select a description
@@ -291,6 +294,7 @@ class AddFilesForm extends React.Component {
           error={this.state.errorMessageCheckbox}
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           label="The files I uploaded are supporting documents for this claim only."
+          uswds
         />
         <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
           To submit supporting documents for a new disability claim, please
@@ -314,6 +318,7 @@ class AddFilesForm extends React.Component {
           id="upload-status"
           onCloseEvent={() => true}
           visible={Boolean(this.props.uploading)}
+          uswds
         >
           <UploadStatus
             progress={this.props.progress}

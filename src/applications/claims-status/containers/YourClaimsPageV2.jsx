@@ -266,6 +266,7 @@ class YourClaimsPageV2 extends React.Component {
                 page={this.state.page}
                 pages={numPages}
                 onPageSelect={this.changePage}
+                uswds
               />
             )}
           </div>
@@ -293,6 +294,7 @@ class YourClaimsPageV2 extends React.Component {
               id="claims-combined"
               class="claims-combined"
               trigger="Find out why we sometimes combine claims."
+              uswds
             >
               {consolidatedClaimsContent}
             </va-additional-info>

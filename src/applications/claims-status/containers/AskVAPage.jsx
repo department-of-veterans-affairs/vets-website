@@ -115,6 +115,7 @@ class AskVAPage extends React.Component {
                   checked={this.state.submittedDocs}
                   label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
                   onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
+                  uswds
                 />
               </div>
               <button
