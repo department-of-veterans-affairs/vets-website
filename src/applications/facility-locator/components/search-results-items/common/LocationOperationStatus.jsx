@@ -37,6 +37,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       visible
       data-testid={`${operatingStatus.code.toLowerCase()}-message`}
       class="vads-u-margin-y--2"
+      uswds
     >
       <div>
         <span className="sr-only">Alert: </span>

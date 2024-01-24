@@ -68,7 +68,7 @@ class FacilityLocatorApp extends React.Component {
 
     return (
       <div>
-        <va-breadcrumbs>
+        <va-breadcrumbs uswds>
           {this.renderBreadcrumbs(location, selectedResult)}
         </va-breadcrumbs>
         <div className="row">

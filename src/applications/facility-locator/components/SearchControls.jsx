@@ -381,6 +381,7 @@ const SearchControls = props => {
         onCloseEvent={() => clearGeocodeError()}
         status="warning"
         visible={currentQuery.geocodeError > 0}
+        uswds
       >
         <p>
           {currentQuery.geocodeError === 1

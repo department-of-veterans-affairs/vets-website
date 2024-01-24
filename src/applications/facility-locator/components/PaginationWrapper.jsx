@@ -30,6 +30,7 @@ export class PaginationWrapper extends Component {
           onPageSelect={handlePageSelect}
           page={currentPage}
           pages={totalPages}
+          uswds
         />
       );
     }
