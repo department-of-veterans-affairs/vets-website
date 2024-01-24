@@ -28,6 +28,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
   return (
     <>
       <VaAlert
+        uswds
         status="info"
         closeBtnAriaLabel="Close notification"
         closeable

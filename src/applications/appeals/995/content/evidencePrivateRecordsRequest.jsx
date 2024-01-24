@@ -5,6 +5,7 @@ export const privateRecordsRequestTitle =
 
 export const privateRecordsRequestInfo = (
   <va-additional-info
+    uswds
     trigger="How do I know if I have private medical records"
     class="vads-u-margin-top--4"
   >

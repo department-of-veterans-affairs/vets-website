@@ -82,7 +82,7 @@ const EvidencePrivateRecordsAuthorization = ({
   return (
     <>
       <form>
-        <va-alert status="error" visible={hasError}>
+        <va-alert uswds status="error" visible={hasError}>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationHeader}
@@ -94,6 +94,7 @@ const EvidencePrivateRecordsAuthorization = ({
           aria-describedby="authorize-text"
           required
           enable-analytics
+          uswds
         >
           <div slot="description">{authorizationInfo}</div>
         </VaCheckbox>

@@ -18,7 +18,7 @@ export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
   //  bottom margin of 0 and overrides it
   <div className="full-page-alert itf-wrapper">
-    <va-alert visible status={status}>
+    <va-alert uswds visible status={status}>
       <h2 slot="headline">{headline}</h2>
       {content}
     </va-alert>
@@ -34,6 +34,7 @@ const recordITFHelpEvent = () =>
 
 export const itfExpander = (
   <VaAdditionalInfo
+    uswds
     trigger="What is an Intent to File?"
     disableAnalytics
     onClick={recordITFHelpEvent}

@@ -34,7 +34,7 @@ const ViewAppeal = () => {
     <div className="row vads-u-margin-bottom--4">
       <div className="usa-width-two-thirds medium-8 columns">
         <div name="topScrollElement" />
-        <va-breadcrumbs>
+        <va-breadcrumbs uswds>
           <a href="/">Home</a>
           <a href="/decision-reviews">Decision reviews and appeals</a>
           <a href="/decision-reviews/board-appeal">Board Appeals</a>
@@ -163,6 +163,7 @@ const ViewAppeal = () => {
         <span>filename.pdf</span>
         <p />
         <va-button
+          uswds
           class="screen-only"
           onClick={window.print}
           text="Print this page for your records"

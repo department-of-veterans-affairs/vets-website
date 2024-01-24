@@ -140,6 +140,7 @@ export const VaContent = ({
                       {content.edit}
                     </Link>
                     <va-button
+                      uswds
                       data-index={index}
                       data-type="va"
                       onClick={handlers.showModal}
@@ -258,6 +259,7 @@ export const PrivateContent = ({
                       {content.edit}
                     </Link>
                     <va-button
+                      uswds
                       data-index={index}
                       data-type="private"
                       onClick={handlers.showModal}
@@ -288,6 +290,7 @@ export const PrivateContent = ({
               </Link>
               {limitedConsent.length ? (
                 <va-button
+                  uswds
                   data-type={LIMITATION_KEY}
                   onClick={handlers.showModal}
                   class={removeButtonClass}
@@ -357,6 +360,7 @@ export const UploadContent = ({
                   {content.edit}
                 </Link>
                 <va-button
+                  uswds
                   data-index={index}
                   data-type="upload"
                   onClick={handlers.showModal}

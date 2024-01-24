@@ -17,7 +17,7 @@ const NeedsToVerify = ({ pathname }) => {
   });
 
   return (
-    <va-alert status="continue">
+    <va-alert uswds status="continue">
       <h2 slot="headline">
         You’ll need to verify your identity to access more VA.gov tools and
         features

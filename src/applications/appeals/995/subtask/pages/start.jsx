@@ -87,7 +87,10 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           ).
         </li>
       </ul>
-      <va-additional-info trigger="What are other decision review options?">
+      <va-additional-info
+        uswds
+        trigger="What are other decision review options?"
+      >
         <p className="vads-u-padding-bottom--1">
           If you don’t think this is the right form for you, find out about
           other decision review options.

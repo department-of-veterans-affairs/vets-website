@@ -29,6 +29,7 @@ const SubmissionError = ({ form }) => {
 
   return (
     <va-alert
+      uswds
       ref={alertRef}
       id="submission-error"
       status="error"

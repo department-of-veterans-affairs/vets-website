@@ -77,6 +77,7 @@ const EvidencePrivateRequest = ({
         onVaValueChange={handlers.onSelected}
         required
         error={error}
+        uswds
       >
         <va-radio-option
           label="Yes"

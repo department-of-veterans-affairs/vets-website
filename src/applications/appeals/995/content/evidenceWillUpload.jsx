@@ -11,6 +11,7 @@ export const evidenceWillUploadHeader = (
 
 export const evidenceWillUploadInfo = (
   <va-additional-info
+    uswds
     trigger="Types of supporting evidence"
     class="vads-u-margin-top--2"
   >

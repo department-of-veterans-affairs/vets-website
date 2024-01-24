@@ -26,7 +26,7 @@ const Confirmation = () => {
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
-        <va-breadcrumbs>
+        <va-breadcrumbs uswds>
           <a href="/">Home</a>
           <a href="/decision-reviews">Decision reviews and appeals</a>
           <a href="/decision-reviews/board-appeal">Board Appeals</a>
@@ -39,7 +39,7 @@ const Confirmation = () => {
           title="Request a Board Appeal"
           subTitle="VA Form 10182 (Notice of Disagreement)"
         />
-        <va-alert status="success">
+        <va-alert uswds status="success">
           <h2 slot="headline">You submitted your Board Appeal request</h2>
           <p>
             After we’ve completed our review, we’ll mail you a decision packet

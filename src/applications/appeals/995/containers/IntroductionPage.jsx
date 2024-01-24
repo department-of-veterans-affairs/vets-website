@@ -64,7 +64,7 @@ class IntroductionPage extends React.Component {
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
         <h2>Follow these steps to get started</h2>
-        <va-process-list>
+        <va-process-list uswds>
           <li>
             <h3>Check your eligibility</h3>
             <p>
@@ -85,7 +85,7 @@ class IntroductionPage extends React.Component {
                 )
               </li>
             </ul>
-            <va-additional-info trigger="What’s a presumptive condition?">
+            <va-additional-info uswds trigger="What’s a presumptive condition?">
               <div>
                 <p className="vads-u-margin-top--0">
                   For some conditions, we automatically assume (or “presume”)
@@ -158,7 +158,7 @@ class IntroductionPage extends React.Component {
                 The dates you were treated at that private medical facility.
               </li>
             </ul>
-            <va-additional-info trigger="Types of Evidence">
+            <va-additional-info uswds trigger="Types of Evidence">
               <div>
                 <p className="vads-u-margin-top--0">
                   VA medical records and hospital records that relate to your
@@ -184,7 +184,7 @@ class IntroductionPage extends React.Component {
               We’ll take you through each step of the process. It should take
               about 15 minutes.
             </p>
-            <va-additional-info trigger="What happens after I apply?">
+            <va-additional-info uswds trigger="What happens after I apply?">
               You don’t need to do anything while you’re waiting unless we
               contact you to ask for more information. If we schedule exams for
               you, be sure not to miss them.

@@ -204,6 +204,7 @@ const AddIssue = ({
         />
         <p>
           <va-button
+            uswds
             id="cancel"
             secondary
             class="vads-u-width--auto"
@@ -211,6 +212,7 @@ const AddIssue = ({
             text={content.button.cancel}
           />
           <va-button
+            uswds
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}

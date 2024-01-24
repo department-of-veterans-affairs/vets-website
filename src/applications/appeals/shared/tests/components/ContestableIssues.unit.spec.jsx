@@ -139,7 +139,9 @@ describe('<ContestableIssues>', () => {
     const props = getProps();
     const { container, rerender } = render(
       <>
-        <va-button type="button">foo</va-button>
+        <va-button uswds type="button">
+          foo
+        </va-button>
         <ContestableIssues
           {...props}
           formContext={{
@@ -157,7 +159,9 @@ describe('<ContestableIssues>', () => {
 
     rerender(
       <>
-        <va-button type="button">foo</va-button>
+        <va-button uswds type="button">
+          foo
+        </va-button>
         <ContestableIssues
           {...props}
           formContext={{

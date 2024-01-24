@@ -364,6 +364,7 @@ const EvidencePrivateRecords = ({
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.showModal}
+          uswds
         >
           <p>{content.modal.description}</p>
         </VaModal>
@@ -390,6 +391,7 @@ const EvidencePrivateRecords = ({
           onVaSelect={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('country')}
+          uswds
         >
           <option value=""> </option>
           {countries.map(country => (
@@ -441,6 +443,7 @@ const EvidencePrivateRecords = ({
             onVaSelect={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
+            uswds
           >
             <option value=""> </option>
             {hasStates.map(state => (
@@ -487,6 +490,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('issues')}
           required
+          uswds
         >
           {availableIssues.length ? (
             availableIssues.map((issue, index) => (
@@ -498,6 +502,7 @@ const EvidencePrivateRecords = ({
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
+                uswds
               />
             ))
           ) : (
@@ -517,6 +522,7 @@ const EvidencePrivateRecords = ({
           invalidMonth={isInvalid('from', 'month')}
           invalidDay={isInvalid('from', 'day')}
           invalidYear={isInvalid('from', 'year')}
+          uswds
         />
         <VaMemorableDate
           id="facility-to-date"
@@ -530,6 +536,7 @@ const EvidencePrivateRecords = ({
           invalidMonth={isInvalid('to', 'month')}
           invalidDay={isInvalid('to', 'day')}
           invalidYear={isInvalid('to', 'year')}
+          uswds
         />
         <div className="vads-u-margin-top--2">
           <Link

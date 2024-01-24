@@ -82,9 +82,9 @@ describe('focusRadioH3', () => {
     render(
       <div id="main">
         {hasRadio ? (
-          <va-radio label-header-level="3" label="test">
-            <va-radio-option label="1" name="test" value="1" />
-            <va-radio-option label="2" name="test" value="2" />
+          <va-radio label-header-level="3" label="test" uswds>
+            <va-radio-option label="1" name="test" value="1" uswds />
+            <va-radio-option label="2" name="test" value="2" uswds />
           </va-radio>
         ) : (
           <div className="nav-header">

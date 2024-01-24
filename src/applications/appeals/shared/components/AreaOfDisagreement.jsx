@@ -132,6 +132,7 @@ const AreaOfDisagreement = ({
         onVaChange={handlers.onGroupChange}
         error={checkboxErrorMessage}
         required
+        uswds
       >
         {Object.entries(DISAGREEMENT_TYPES).map(
           ([key, label]) =>
@@ -142,6 +143,7 @@ const AreaOfDisagreement = ({
                 label={label}
                 checked={options[key]}
                 message-aria-describedby={titlePlainText}
+                uswds
               />
             ),
         )}
@@ -157,7 +159,7 @@ const AreaOfDisagreement = ({
       </VaCheckboxGroup>
 
       {onReviewPage ? (
-        <va-button text={content.update} onClick={handlers.updatePage} />
+        <va-button uswds text={content.update} onClick={handlers.updatePage} />
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}

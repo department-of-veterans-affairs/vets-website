@@ -76,6 +76,7 @@ const ITFBanner = props => {
             </Link>
             {!environment.isProduction() && (
               <va-button
+                uswds
                 class="vads-u-margin-left--2"
                 onClick={dismissMessage}
                 text="Continue (testing only)"
@@ -88,6 +89,7 @@ const ITFBanner = props => {
             continue
             onPrimaryClick={dismissMessage}
             onSecondaryClick={goHome}
+            uswds
           />
         )}
       </div>

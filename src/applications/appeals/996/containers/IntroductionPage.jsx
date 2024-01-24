@@ -93,7 +93,7 @@ export const IntroductionPage = props => {
         </a>
         .
       </p>
-      <va-process-list>
+      <va-process-list uswds>
         <li>
           <h3>Prepare</h3>
           <p>To fill out this application, you’ll need your:</p>

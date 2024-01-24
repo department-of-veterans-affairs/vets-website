@@ -314,6 +314,7 @@ const EvidenceVaRecords = ({
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.showModal}
+          uswds
         >
           <p>{content.modalDescription}</p>
         </VaModal>
@@ -340,6 +341,7 @@ const EvidenceVaRecords = ({
           onBlur={handlers.onBlur}
           error={showError('issues')}
           required
+          uswds
         >
           {availableIssues.length ? (
             availableIssues.map((issue, index) => (
@@ -351,6 +353,7 @@ const EvidenceVaRecords = ({
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
+                uswds
               />
             ))
           ) : (
@@ -402,6 +405,7 @@ const EvidenceVaRecords = ({
               onPrimaryClick={handlers.onGoForward}
               onSecondaryClick={handlers.onGoBack}
               aria-describedby="nav-form-header"
+              uswds
             />
           </div>
           {contentAfterButtons}

@@ -64,7 +64,7 @@ export class IntroductionPage extends React.Component {
           <SaveInProgressIntro {...sipOptions} />
         )}
         <h2>Follow these steps to request a Board Appeal</h2>
-        <va-process-list>
+        <va-process-list uswds>
           <li>
             <h3>Check to be sure you can request a Board Appeal</h3>
             {filingDeadlineContent}
@@ -98,7 +98,7 @@ export class IntroductionPage extends React.Component {
               We’ll take you through each step of the process. It should take
               about 30 minutes.
             </p>
-            <va-additional-info trigger="What happens after you apply">
+            <va-additional-info uswds trigger="What happens after you apply">
               <p>
                 After you submit your request for a Board Appeal, you’ll get a
                 confirmation message. You can print this for your records.

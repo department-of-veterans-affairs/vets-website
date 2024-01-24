@@ -29,6 +29,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
           {content.reviewTitle}
         </h4>
         <va-button
+          uswds
           secondary
           class="edit-page float-right"
           onClick={editPage}

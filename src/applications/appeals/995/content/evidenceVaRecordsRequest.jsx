@@ -7,7 +7,10 @@ export const requestVaRecordsTitle = (
 );
 
 export const requestVaRecordsInfo = (
-  <va-additional-info trigger="How do I know if I have VA medical records?">
+  <va-additional-info
+    uswds
+    trigger="How do I know if I have VA medical records?"
+  >
     <p>
       You have VA medical records if you were treated at a VA medical center or
       clinic, or by a doctor through the TRICARE health care program.

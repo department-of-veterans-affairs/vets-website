@@ -12,6 +12,7 @@ const ShowAlert = () => {
   );
   return part3Redirect === 'redirected' ? (
     <va-alert
+      uswds
       background-only
       status="info"
       class="vads-u-margin-y--1"

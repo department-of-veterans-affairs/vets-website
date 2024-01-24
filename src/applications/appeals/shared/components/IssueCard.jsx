@@ -164,6 +164,7 @@ export const IssueCard = ({
           Edit
         </Link>
         <va-button
+          uswds
           secondary
           class={removeButtonClass}
           label={`remove ${issueName}`}

@@ -157,6 +157,7 @@ const EvidenceSummary = ({
           - Only render the alert content since the screenreader can still
             target the headers inside */}
         <va-alert
+          uswds
           id="no-evidence"
           status="warning"
           visible={visibleError}
@@ -191,6 +192,7 @@ const EvidenceSummary = ({
                 : 'modalNotRemove'
             ]
           }
+          uswds
         >
           <p>
             {content.removeEvidence[(removeData?.type)] || ''}
@@ -210,6 +212,7 @@ const EvidenceSummary = ({
         <div className="form-nav-buttons vads-u-margin-top--4">
           {onReviewPage && (
             <va-button
+              uswds
               onClick={handlers.onUpdate}
               label="Update evidence page"
               text={content.update}

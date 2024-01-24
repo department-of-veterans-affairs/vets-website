@@ -66,6 +66,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           {content.summaryTitle}
         </h4>
         <va-button
+          uswds
           ref={editRef}
           secondary
           class="edit-page"
