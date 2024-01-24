@@ -158,7 +158,7 @@ const DashboardCards = () => {
 
   if (error) {
     return (
-      <VaAlert status="info" className="vads-u-margin-y--4">
+      <VaAlert status="info" className="vads-u-margin-y--4" uswds>
         <ServerErrorAlert />
       </VaAlert>
     );
@@ -226,17 +226,15 @@ const DashboardCards = () => {
               section-heading={{
                 value: 'null',
               }}
-              uswds={{
-                value: 'true',
-              }}
+              uswds
               className="vads-u-width--viewport"
             >
-              <va-accordion-item header="Business" id="business">
+              <va-accordion-item header="Business" id="business" uswds>
                 {displayViewGrid
                   ? inquiriesGridView('Business')
                   : inquiriesListView('Business')}
               </va-accordion-item>
-              <va-accordion-item header="Personal" id="personal">
+              <va-accordion-item header="Personal" id="personal" uswds>
                 {displayViewGrid
                   ? inquiriesGridView('Personal')
                   : inquiriesListView('Personal')}

@@ -22,7 +22,12 @@ const attachmentBox = fileName => (
     </p>
     <p>
       {' '}
-      <VaButton onClick={() => {}} secondary text={RESPONSE_PAGE.DELETE_FILE} />
+      <VaButton
+        onClick={() => {}}
+        secondary
+        text={RESPONSE_PAGE.DELETE_FILE}
+        uswds
+      />
     </p>
   </div>
 );
@@ -117,12 +122,13 @@ const ResponseInboxPage = ({ loggedIn }) => {
           </div>
         ) : (
           <div className="inbox-replies">
-            <va-accordion bordered>
+            <va-accordion bordered uswds>
               {inboxMessage.attributes.reply.data.map(message => (
                 <va-accordion-item
                   key={message.id}
                   header={getReplyHeader(message.message_type)}
                   subHeader={getMessageDate(message.modifiedon)}
+                  uswds
                 >
                   <p>{message.attributes.reply}</p>
                   <p className="vads-u-font-size--h3">
@@ -150,6 +156,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               name="reply message"
               onInput={handlers.onInput}
               value={sendReply.reply}
+              uswds
             />
 
             <h3>{RESPONSE_PAGE.UPLOAD_YOUR_FILES}</h3>
@@ -175,6 +182,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               }}
               secondary
               text={RESPONSE_PAGE.UPLOAD_BTN}
+              uswds
             />
             <h4>{RESPONSE_PAGE.ATTACHMENTS}</h4>
             {sendReply.attachments.length === 0
@@ -189,6 +197,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
               primary
               className="vads-u-margin-y--2"
               text={RESPONSE_PAGE.SUBMIT_MESSAGE}
+              uswds
             />
           </fieldset>
         </form>
@@ -199,13 +208,14 @@ const ResponseInboxPage = ({ loggedIn }) => {
       </article>
     </div>
   ) : (
-    <VaAlert status="info" className="row vads-u-margin-y--4">
+    <VaAlert status="info" className="row vads-u-margin-y--4" uswds>
       <ServerErrorAlert />
       <Link aria-label="Go sign in" to="/contact-us/ask-va-too/introduction">
         <VaButton
           onClick={() => {}}
           primary
           text="Sign in with Approved User"
+          uswds
         />
       </Link>
     </VaAlert>
