@@ -6,11 +6,15 @@ import DueDate from './DueDate';
 
 function FilesNeeded({ id, item }) {
   return (
-    <va-alert status="warning" uswds>
+    <va-alert
+      class="primary-alert vads-u-margin-bottom--2"
+      status="warning"
+      uswds
+    >
       <div className="item-container">
-        <h3 className="file-request-title">{item.displayName}</h3>
+        <h3 className="alert-title">{item.displayName}</h3>
         <DueDate date={item.suspenseDate} />
-        <p className="submission-description">
+        <p className="alert-description">
           {truncateDescription(item.description, 200)}
         </p>
       </div>
