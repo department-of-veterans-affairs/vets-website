@@ -4,6 +4,7 @@ const DependentSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a dependent"
     class="vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">

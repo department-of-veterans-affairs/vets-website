@@ -157,6 +157,7 @@ const DependentInformation = props => {
             onClick={handlers.showConfirm}
             secondary
             id="ezr-modal-cancel"
+            uswds
           />
         </div>
 
