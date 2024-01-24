@@ -37,15 +37,15 @@ describe('<RequestedFilesInfo>', () => {
         optionalFiles={optionalFiles}
       />,
     );
-
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    const content = tree.dive(['FilesNeededOld']);
+    expect(content).not.to.be.empty;
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       filesNeeded[0].displayName,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       filesNeeded[0].description,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       '<Link />',
     );
   });
