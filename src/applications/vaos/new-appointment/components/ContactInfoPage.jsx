@@ -26,10 +26,7 @@ import {
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
 import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
-import {
-  selectFeatureAcheronService,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -118,9 +115,6 @@ export default function ContactInfoPage({ changeCrumb }) {
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
-  const featureAcheronService = useSelector(state =>
-    selectFeatureAcheronService(state),
-  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -161,18 +155,19 @@ export default function ContactInfoPage({ changeCrumb }) {
     bestTimeToCall: {
       'ui:title': 'What are the best times for us to call you?',
       'ui:validations':
-        (!featureAcheronService && flowType === FLOW_TYPES.REQUEST) ||
-        (featureAcheronService &&
-          userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
+        flowType === FLOW_TYPES.REQUEST &&
+        userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE
           ? [validateBooleanGroup]
           : [],
       'ui:options': {
         showFieldLabel: true,
         classNames: 'vaos-form__checkboxgroup',
         hideIf: () => {
-          if (featureAcheronService)
-            return userData.facilityType === FACILITY_TYPES.VAMC;
-          return flowType === FLOW_TYPES.DIRECT;
+          return (
+            flowType === FLOW_TYPES.DIRECT ||
+            (flowType === FLOW_TYPES.REQUEST &&
+              userData.facilityType === FACILITY_TYPES.VAMC)
+          );
         },
       },
       morning: {
@@ -193,7 +188,7 @@ export default function ContactInfoPage({ changeCrumb }) {
       'ui:errorMessages': {
         required: 'Please enter an email address',
       },
-      'ui:validations': featureAcheronService ? [validateLength] : [],
+      'ui:validations': [validateLength],
     },
   };
 

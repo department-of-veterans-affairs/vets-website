@@ -106,10 +106,3 @@ export const verifyText = (selector, expectedValue) =>
     .findByTestId(selector)
     .should('be.visible')
     .should('have.text', expectedValue);
-
-export const verifyTextWithoutSelector = text =>
-  cy
-    .get('nav')
-    .contains(text)
-    .should('exist')
-    .should('be.visible');

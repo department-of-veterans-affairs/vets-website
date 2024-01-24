@@ -40,6 +40,7 @@ const getData = ({
   },
   requiredKeys,
   content: getContent(),
+  contactInfoPageKey: 'confirmContactInfo',
 });
 
 describe('<ContactInfoReview>', () => {
@@ -53,6 +54,8 @@ describe('<ContactInfoReview>', () => {
     expect(
       $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(9);
+    expect($(`[name="${data.contactInfoPageKey}ScrollElement"]`, container)).to
+      .exist;
 
     const els = $$('dt', container);
     expect(els.length).to.eq(9);
