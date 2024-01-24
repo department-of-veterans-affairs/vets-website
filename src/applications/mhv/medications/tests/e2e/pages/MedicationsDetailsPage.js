@@ -137,8 +137,8 @@ class MedicationsDetailsPage {
   };
 
   verifyPrintButtonEnabledOnDetailsPage = () => {
-    cy.get('[data-testid="print-button"]')
-      .should('contain', 'Print')
+    cy.get('[data-testid="print-records-button"]')
+      .should('contain', 'Print or download')
       .and('be.enabled');
   };
 
