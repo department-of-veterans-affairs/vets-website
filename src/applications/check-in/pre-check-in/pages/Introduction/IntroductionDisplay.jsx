@@ -194,6 +194,7 @@ const IntroductionDisplay = props => {
         )}
         visible={privacyActModalOpen}
         initialFocusSelector="button"
+        uswds
       >
         <p>{t('privacy-act-statement-text')}</p>
       </VaModal>
