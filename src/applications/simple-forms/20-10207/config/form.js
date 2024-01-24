@@ -122,7 +122,9 @@ const formConfig = {
       title: ({ formData }) => getLivingSituationChapterTitle(formData),
       pages: {
         livingSituationPage: {
-          depends: formData => !formData.preparerType.startsWith('third-party'),
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'living-situation',
           title: 'Your living situation',
           uiSchema: livingSituationPg.uiSchema,

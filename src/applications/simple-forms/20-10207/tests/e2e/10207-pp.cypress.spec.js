@@ -39,7 +39,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^Start your request/, { selector: 'a' })
+          cy.findAllByText(/^Start/, { selector: 'a[href="#start"]' })
             .last()
             .click();
         });
