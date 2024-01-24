@@ -75,13 +75,15 @@ class LocationPage extends React.Component {
               label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
               value={this.state.currentSelection}
               required
+              uswds
             >
-              <va-radio-option name="yes1" value="Yes" label="Yes" />
-              <va-radio-option name="no1" value="No" label="No" />
+              <va-radio-option name="yes1" value="Yes" label="Yes" uswds />
+              <va-radio-option name="no1" value="No" label="No" uswds />
               <va-radio-option
                 name="unsure1"
                 value="I'm not sure"
                 label="I'm not sure"
+                uswds
               />
             </VaRadio>
           </p>

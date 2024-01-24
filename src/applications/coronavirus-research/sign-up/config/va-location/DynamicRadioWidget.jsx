@@ -72,6 +72,7 @@ export function DynamicRadioWidget(props) {
           onChange(event.detail.value);
           setSelected(event.detail.value);
         }}
+        uswds
       >
         {locations.map((location, index) => (
           <VaRadioOption
@@ -82,6 +83,7 @@ export function DynamicRadioWidget(props) {
               location.attributes.state
             }`}
             value={`${location.attributes.name}|${location.id}`}
+            uswds
           />
         ))}
       </VaRadio>
@@ -92,7 +94,7 @@ export function DynamicRadioWidget(props) {
   ) {
     // there are no locations returned or there is an error
     locationsList = (
-      <va-alert status="info">
+      <va-alert status="info" uswds>
         <h3 slot="headline">We can't share your closest medical centers</h3>
         <p className="vads-u-font-size--base">{alertContent}</p>
       </va-alert>
