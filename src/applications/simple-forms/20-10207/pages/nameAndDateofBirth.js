@@ -14,9 +14,8 @@ export default {
   uiSchema: {
     // TODO: Use ...titleUI() once that supports functions for title
     'ui:title': ({ formData }) => getNameAndDobPageTitle(formData),
-    fullName: fullNameNoSuffixUI,
+    fullName: fullNameNoSuffixUI(),
     dateOfBirth: dateOfBirthUI(),
-    updateSchemaAndData: () => {},
   },
   schema: {
     type: 'object',

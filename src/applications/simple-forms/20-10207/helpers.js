@@ -6,7 +6,7 @@ export function getMockData(mockData, isLocalhost) {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 }
 
-export function getTitlePrefix(preparerType) {
+export function getPreparerString(preparerType) {
   switch (preparerType) {
     case PREPARER_TYPES.THIRD_PARTY_VETERAN:
       return 'Veteran’s';
@@ -18,23 +18,33 @@ export function getTitlePrefix(preparerType) {
 }
 
 export function getPersonalInformationChapterTitle(formData) {
-  const prefix = getTitlePrefix(formData.preparerType);
+  const preparerString = getPreparerString(formData.preparerType);
 
-  return `${prefix} personal information`;
+  return `${preparerString} personal information`;
 }
 
 export function getNameAndDobPageTitle(formData) {
-  const prefix = getTitlePrefix(formData.preparerType);
+  const preparerString = getPreparerString(formData.preparerType);
 
   return (
-    <h3 className="vads-u-margin-y--0">{prefix} name and date of birth</h3>
+    <h3 className="vads-u-margin-y--0">
+      {preparerString} name and date of birth
+    </h3>
   );
 }
 
-export function getIdentityPageTitle(formData) {
-  const prefix = getTitlePrefix(formData.preparerType);
+export function getIdentityInfoPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
 
   return (
-    <h3 className="vads-u-margin-y--0">{prefix} identification information</h3>
+    <h3 className="vads-u-margin-y--0">
+      {preparerString} identification information
+    </h3>
   );
+}
+
+export function getLivingSituationChapterTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+
+  return `${preparerString} living situation`;
 }

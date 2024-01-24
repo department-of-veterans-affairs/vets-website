@@ -2,12 +2,12 @@ import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getIdentityPageTitle } from '../helpers';
+import { getIdentityInfoPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': ({ formData }) => getIdentityPageTitle(formData),
+    'ui:title': ({ formData }) => getIdentityInfoPageTitle(formData),
     id: ssnOrVaFileNumberUI(),
   },
   schema: {

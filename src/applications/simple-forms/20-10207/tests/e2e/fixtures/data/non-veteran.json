@@ -8,6 +8,9 @@
     "dateOfBirth": "1980-01-01",
     "id": {
       "ssn": "321540988"
+    },
+    "livingSituation": {
+      "NONE": true
     }
   }
 }

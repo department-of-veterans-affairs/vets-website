@@ -37,6 +37,49 @@ export const THIRD_PARTY_TYPE_NON_VETERAN_LABELS = Object.freeze({
     'I’m an authorized power of attorney for the person with a claim.',
 });
 
+export const LIVING_SITUATIONS = Object.freeze({
+  OVERNIGHT:
+    'I live or sleep overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+  SHELTER:
+    'I live in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+  FRIEND_OR_FAMILY:
+    'I’m staying with a friend or family member, because I can’t get my own home right now.',
+  LEAVING_SHELTER:
+    'In the next 30 days, I will have to leave a facility, like a homeless shelter.',
+  LOSING_HOME:
+    'In the next 30 days, I will lose my home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that you share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'I have another housing risk not listed here.',
+  NONE: 'None of these situations apply to me.',
+});
+export const LIVING_SITUATIONS_3RD_PTY_VET = Object.freeze({
+  OVERNIGHT:
+    'The Veteran lives or sleeps overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+  SHELTER:
+    'The Veteran lives in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+  FRIEND_OR_FAMILY:
+    'The Veteran is staying with a friend or family member, because the Veteran can’t get my own home right now.',
+  LEAVING_SHELTER:
+    'In the next 30 days, the Veteran will have to leave a facility, like a homeless shelter.',
+  LOSING_HOME:
+    'In the next 30 days, the Veteran will lose their home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that they share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'The Veteran has another housing risk not listed here.',
+  NONE: 'None of these situations apply to the Veteran.',
+});
+export const LIVING_SITUATIONS_3RD_PTY_NON_VET = Object.freeze({
+  OVERNIGHT:
+    'The Claimant lives or sleeps overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+  SHELTER:
+    'The Claimant lives in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+  FRIEND_OR_FAMILY:
+    'The Claimant is staying with a friend or family member, because the Claimant can’t get my own home right now.',
+  LEAVING_SHELTER:
+    'In the next 30 days, the Claimant will have to leave a facility, like a homeless shelter.',
+  LOSING_HOME:
+    'In the next 30 days, the Claimant will lose their home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that they share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'The Claimant has another housing risk not listed here.',
+  NONE: 'None of these situations apply to the Claimant.',
+});
+
 export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
   <va-additional-info
     trigger="Who can sign on behalf of someone else?"
