@@ -111,6 +111,7 @@ class ConfirmationPage extends React.Component {
             className="usa-button screen-only"
             onClick={() => window.print()}
             text="Print for your records"
+            uswds
           />
         </div>
         <div className="confirmation-guidance-container">
