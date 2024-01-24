@@ -82,7 +82,6 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { transform } from './submit-transformer';
 import { marriageTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
@@ -268,7 +267,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -281,8 +279,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
+  title: 'Apply for Veterans’ pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -406,6 +404,7 @@ const formConfig = {
           path: 'medical/history/monthly-pension',
           uiSchema: specialMonthlyPension.uiSchema,
           schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',
@@ -477,6 +476,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
+                useDlWrap: true,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
