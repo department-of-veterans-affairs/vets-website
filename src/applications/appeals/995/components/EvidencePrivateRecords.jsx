@@ -380,6 +380,7 @@ const EvidencePrivateRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
+          uswds
         />
 
         <VaSelect
@@ -411,6 +412,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('street')}
           autocomplete="section-provider address-line1"
+          uswds
         />
         <VaTextInput
           id="street2"
@@ -420,6 +422,7 @@ const EvidencePrivateRecords = ({
           value={currentData.providerFacilityAddress?.street2}
           onInput={handlers.onChange}
           autocomplete="section-provider address-line2"
+          uswds
         />
         <VaTextInput
           id="city"
@@ -432,6 +435,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('city')}
           autocomplete="section-provider address-level2"
+          uswds
         />
         {hasStates.length ? (
           <VaSelect
@@ -464,6 +468,7 @@ const EvidencePrivateRecords = ({
             onBlur={handlers.onBlur}
             error={showError('state')}
             autocomplete="section-provider address-level1"
+            uswds
           />
         )}
 
@@ -479,6 +484,7 @@ const EvidencePrivateRecords = ({
           error={showError('postal')}
           inputmode="numeric"
           autocomplete="section-provider postal-code"
+          uswds
         />
 
         <br role="presentation" />

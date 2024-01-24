@@ -330,6 +330,7 @@ const EvidenceVaRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
+          uswds
         />
 
         <br role="presentation" />
@@ -373,6 +374,7 @@ const EvidenceVaRecords = ({
           invalidMonth={isInvalid('from', 'month')}
           invalidDay={isInvalid('from', 'day')}
           invalidYear={isInvalid('from', 'year')}
+          uswds
         />
         <VaMemorableDate
           id="location-to-date"
@@ -386,6 +388,7 @@ const EvidenceVaRecords = ({
           invalidMonth={isInvalid('to', 'month')}
           invalidDay={isInvalid('to', 'day')}
           invalidYear={isInvalid('to', 'year')}
+          uswds
         />
         <div className="vads-u-margin-top--2">
           <Link

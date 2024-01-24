@@ -106,6 +106,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         onVaValueChange={handlers.setBenefitType}
         required
         label-header-level="2"
+        uswds
       >
         {options.map(({ value, label }) => (
           <VaRadioOption
@@ -116,6 +117,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
             value={value}
             label={label}
             checked={value === data.benefitType}
+            uswds
           />
         ))}
       </VaRadio>

@@ -182,6 +182,7 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
+          uswds
         >
           {content.name.hint}
         </VaTextInput>
@@ -201,6 +202,7 @@ const AddIssue = ({
           invalidDay={isInvalid('day')}
           invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
+          uswds
         />
         <p>
           <va-button
