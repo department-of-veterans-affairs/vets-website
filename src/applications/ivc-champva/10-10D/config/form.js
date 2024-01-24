@@ -692,7 +692,7 @@ const formConfig = {
           },
         },
         mySchemalessPage: {
-          path: 'my-schemaless-page',
+          path: 'add-another-applicant',
           title: 'Bypassing the SchemaForm',
           CustomPage: AddAdditionalApplicants,
           CustomPageReview: CustomReviewPage,
