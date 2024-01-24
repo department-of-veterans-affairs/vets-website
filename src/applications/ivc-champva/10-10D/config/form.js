@@ -500,7 +500,10 @@ const formConfig = {
               items: {
                 'ui:title': ApplicantField, // shows on each page of array
                 applicantRelationshipToSponsor: {
-                  ...relationshipToVeteranUI('Sponsor'),
+                  ...relationshipToVeteranUI({
+                    personTitle: 'Sponsor',
+                    labelHeaderLevel: '', // no header
+                  }),
                   'ui:required': () => true,
                 },
               },
