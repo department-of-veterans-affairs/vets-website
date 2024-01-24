@@ -962,10 +962,8 @@ button .claim-timeline-icon.fa {
   margin-bottom: 1.5em;
 }
 
-.primary-alert .item-container {
-  >.due-date-header {
-    padding-bottom: 24px;
-  }
+.primary-alert .item-container .due-date-header {
+  padding-bottom: 24px;
 }
 
 .link-action-container {
