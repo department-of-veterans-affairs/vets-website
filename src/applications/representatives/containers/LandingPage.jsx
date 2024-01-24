@@ -1,10 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
 
-const Dashboard = () => (
+const LandingPage = () => (
   <div className="dash-container">
     <h1 className="dash-header vads-u-font-size--h2 vads-u-margin-bottom--4">
-      Rep VA Dashboard
+      Representatives Landing Page
     </h1>
+    <Link to="/user/dashboard/12345">
+      <va-button text="Sign in" />
+    </Link>
     <div className="vads-u-display--flex vads-u-justify-content--center">
       <aside className="left vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3 vads-u-background-color--gray-lightest" />
       <article className="vads-m-col--8 vads-l-col--12 vads-u-padding-left--5 medium-screen:vads-l-col--8 large-screen:vads-l-col--5">
@@ -20,4 +24,4 @@ const Dashboard = () => (
   </div>
 );
 
-export default Dashboard;
+export default LandingPage;
