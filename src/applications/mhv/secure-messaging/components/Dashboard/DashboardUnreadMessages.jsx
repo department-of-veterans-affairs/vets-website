@@ -61,7 +61,7 @@ const DashboardUnreadMessages = props => {
             <HorizontalRule />
             <Link
               data-testid="compose-message-link"
-              className="vads-c-action-link--blue"
+              className="vads-c-action-link--blueee"
               to={Paths.COMPOSE}
             >
               Start a new message
