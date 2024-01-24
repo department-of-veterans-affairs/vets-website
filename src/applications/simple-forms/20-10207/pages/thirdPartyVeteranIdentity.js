@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   fullNameNoSuffixUI,
   fullNameNoMiddleNoSuffixSchema,
@@ -14,6 +16,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:title': <h3 className="vads-u-margin-y--0">Your name</h3>,
     thirdPartyFullName: fullNameNoSuffixUI(null, { omitMiddle: true }),
     thirdPartyType: radioUI({
       title: 'How are you representing the Veteran?',
