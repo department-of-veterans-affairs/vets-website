@@ -43,7 +43,7 @@ describe('SM back navigation', () => {
     });
   });
 
-  it('user navigate to drafts folder after message sent', () => {
+  it('User navigates to drafts folder after message sent', () => {
     const draftPage = new PatientMessageDraftsPage();
     draftPage.loadDraftMessages();
     draftPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
