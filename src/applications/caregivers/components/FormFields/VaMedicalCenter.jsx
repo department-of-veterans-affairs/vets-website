@@ -112,6 +112,7 @@ const VaMedicalCenter = props => {
       required
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      uswds
     >
       <option value="">&nbsp;</option>
       {facilities.map(f => (

@@ -105,6 +105,7 @@ export const FacilityList = ({
         error={showError() || null}
         hint=""
         required
+        uswds
       >
         {facilities.map(facility => (
           <VaRadioOption
@@ -114,6 +115,7 @@ export const FacilityList = ({
             value={facility.id.split('_').pop()}
             description={formatAddress(facility.attributes.address.physical)}
             tile
+            uswds
           />
         ))}
       </VaRadio>

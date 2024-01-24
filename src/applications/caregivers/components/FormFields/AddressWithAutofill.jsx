@@ -132,6 +132,7 @@ const PrimaryAddressWithAutofill = props => {
         checked={formData['view:autofill']}
         label="Use the same address as the Veteran"
         onVaChange={handleCheck}
+        uswds
       />
 
       <VaTextInput
@@ -145,6 +146,7 @@ const PrimaryAddressWithAutofill = props => {
         required
         onInput={handleChange}
         onBlur={handleBlur}
+        uswds
       />
 
       <VaTextInput
@@ -155,6 +157,7 @@ const PrimaryAddressWithAutofill = props => {
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
+        uswds
       />
 
       <VaTextInput
@@ -167,6 +170,7 @@ const PrimaryAddressWithAutofill = props => {
         required
         onInput={handleChange}
         onBlur={handleBlur}
+        uswds
       />
 
       <VaSelect
@@ -179,6 +183,7 @@ const PrimaryAddressWithAutofill = props => {
         required
         onVaSelect={handleChange}
         onBlur={handleBlur}
+        uswds
       >
         <option value=""> </option>
         {constants.states.USA.map(state => (
@@ -199,6 +204,7 @@ const PrimaryAddressWithAutofill = props => {
         required
         onInput={handleChange}
         onBlur={handleBlur}
+        uswds
       />
     </fieldset>
   );
