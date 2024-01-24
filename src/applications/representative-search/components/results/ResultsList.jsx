@@ -44,6 +44,8 @@ const ResultsList = props => {
                 email={result.attributes.email}
                 distance={result.attributes.distance}
                 representative={result}
+                representativeId={result.id}
+                submitRepresentativeReport={props.submitRepresentativeReport}
                 query={query}
                 index={index}
               />

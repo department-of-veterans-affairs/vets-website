@@ -23,6 +23,7 @@ import {
   geolocateUser,
   geocodeUserAddress,
   clearGeocodeError,
+  submitRepresentativeReport,
 } from '../actions';
 
 const SearchPage = props => {
@@ -262,6 +263,7 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           onUpdateSortType={props.updateSortType}
+          submitRepresentativeReport={props.submitRepresentativeReport}
         />
       );
     };
@@ -382,6 +384,7 @@ SearchPage.propTypes = {
   updateSearchQuery: PropTypes.func,
   updateSortType: PropTypes.func,
   onSubmit: PropTypes.func,
+  submitRepresentativeReport: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -405,6 +408,7 @@ const mapDispatchToProps = {
   updateSortType,
   clearSearchResults,
   clearSearchText,
+  submitRepresentativeReport,
 };
 
 export default connect(
