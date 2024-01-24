@@ -1,15 +1,16 @@
 import {
-  SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
   SEARCH_COMPLETE,
   FETCH_REPRESENTATIVES,
+  REPORT_STARTED,
+  REPORT_COMPLETE,
+  REPORT_FAILED,
 } from '../utils/actionTypes';
-
-// import mockRepresentativeData from '../constants/mock-representative-data.json';
 
 const INITIAL_STATE = {
   searchResults: [],
-  selectedResult: null,
+  reportedResults: [],
+  reportError: false,
   pagination: {},
 };
 
@@ -24,22 +25,31 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         pagination: action.payload.meta.pagination,
         resultTime: action.payload.meta.resultTime,
       };
-    case SEARCH_FAILED:
+    case REPORT_STARTED:
+      return {
+        ...state,
+        ...action.payload,
+        error: false,
+        reportSubmissionInProgress: true,
+      };
+    case REPORT_COMPLETE:
+      return {
+        ...state,
+        error: null,
+        reportSubmissionInProgress: false,
+        reportedResults: action.payload.result,
+      };
+    case REPORT_FAILED:
       if (action.error) {
         return {
-          ...INITIAL_STATE,
-          error: action.error,
+          ...state,
+          reportError: action.error,
         };
       }
-      return INITIAL_STATE;
+      return state;
     case CLEAR_SEARCH_RESULTS:
       return INITIAL_STATE;
     default:
       return state;
   }
 };
-
-// export default {
-//   form: createSaveInProgressFormReducer(formConfig),
-//   // allSearchResults,
-// };
