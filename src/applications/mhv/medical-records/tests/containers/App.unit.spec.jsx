@@ -148,7 +148,7 @@ describe('App', () => {
       );
     });
 
-    it('should render downtime notification', () => {
+    it('renders the downtime notification', () => {
       const screen = renderWithStoreAndRouter(<App />, {
         initialState: {
           featureToggles: {
@@ -156,24 +156,26 @@ describe('App', () => {
             mhv_medical_records_to_va_gov_release: true,
           },
           scheduledDowntime: {
-            globalDowntime: {
-              attributes: {
-                externalService: 'mhv',
-                startTime: format(
-                  subDays(new Date(), 1),
-                  "yyyy-LL-dd'T'HH:mm:ss",
-                ),
-                endTime: format(
-                  addDays(new Date(), 1),
-                  "yyyy-LL-dd'T'HH:mm:ss",
-                ),
-              },
-            },
+            globalDowntime: null,
             isReady: true,
             isPending: false,
-            serviceMap: {
-              get() {},
-            },
+            serviceMap: new Map([
+              [
+                'mhv_mr',
+                {
+                  externalService: 'mhv_mr',
+                  status: 'down',
+                  startTime: format(
+                    subDays(new Date(), 1),
+                    "yyyy-LL-dd'T'HH:mm:ss",
+                  ),
+                  endTime: format(
+                    addDays(new Date(), 1),
+                    "yyyy-LL-dd'T'HH:mm:ss",
+                  ),
+                },
+              ],
+            ]),
             dismissedDowntimeWarnings: [],
           },
           ...initialState,
@@ -192,6 +194,51 @@ describe('App', () => {
           exact: false,
         }),
       );
+    });
+
+    it('does NOT render the downtime notification', () => {
+      const screen = renderWithStoreAndRouter(<App />, {
+        initialState: {
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            mhv_medical_records_to_va_gov_release: true,
+          },
+          scheduledDowntime: {
+            globalDowntime: null,
+            isReady: true,
+            isPending: false,
+            serviceMap: new Map([
+              [
+                'mhv_meds',
+                {
+                  externalService: 'mhv_meds',
+                  status: 'down',
+                  startTime: format(
+                    subDays(new Date(), 1),
+                    "yyyy-LL-dd'T'HH:mm:ss",
+                  ),
+                  endTime: format(
+                    addDays(new Date(), 1),
+                    "yyyy-LL-dd'T'HH:mm:ss",
+                  ),
+                },
+              ],
+            ]),
+            dismissedDowntimeWarnings: [],
+          },
+          ...initialState,
+        },
+        reducers: reducer,
+        path: `/`,
+      });
+      const downtimeComponent = screen.queryByText(
+        'This tool is down for maintenance',
+        {
+          selector: 'h3',
+          exact: true,
+        },
+      );
+      expect(downtimeComponent).to.be.null;
     });
   });
 
