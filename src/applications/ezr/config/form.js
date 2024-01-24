@@ -15,7 +15,7 @@ import {
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
-  showFinancialStatusAlert,
+  // showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
@@ -41,6 +41,7 @@ import veteranMailingAddress from './chapters/veteranInformation/mailingAddress'
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 import emergencyContantInformation from './chapters/veteranInformation/emergencyContactInfo';
+// import emergencyContantInformationView from './chapters/veteranInformation/emergencyContactInfoView';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -55,7 +56,7 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
-import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
+// import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
 
 // chapter 3 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
@@ -189,19 +190,26 @@ const formConfig = {
           uiSchema: emergencyContantInformation.uiSchema,
           schema: emergencyContantInformation.schema,
         },
+        // emergencyContactInformationView: {
+        //   path: 'veteran-information/medical-emergency-contact/view',
+        //   title: 'Veteran\u2019s emergency contacts',
+        //   initialData: {},
+        //   uiSchema: emergencyContantInformationView.uiSchema,
+        //   schema: emergencyContantInformationView.schema,
+        // },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
          * when the user does not need to fill out household financial info
          */
-        financialStatusConfirmation: {
-          path: 'household-information/financial-information-status',
-          title: 'Financial information status',
-          depends: showFinancialStatusAlert,
-          CustomPage: FinancialConfirmationPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: VIEW_FIELD_SCHEMA,
-        },
+        // financialStatusConfirmation: {
+        //   path: 'household-information/financial-information-status',
+        //   title: 'Financial information status',
+        //   depends: showFinancialStatusAlert,
+        //   CustomPage: FinancialConfirmationPage,
+        //   CustomPageReview: null,
+        //   uiSchema: {},
+        //   schema: VIEW_FIELD_SCHEMA,
+        // },
       },
     },
     householdInformation: {
