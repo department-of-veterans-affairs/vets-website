@@ -18,7 +18,15 @@ export const scrollToTop = () => {
   });
 };
 
+// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
+const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
+
 export function replacer(key, value) {
+  if (usaPhoneKeys.includes(key) && value?.length) {
+    // Strip spaces, dashes, and parens from phone numbers
+    return value.replace(/[^\d]/g, '');
+  }
+
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
