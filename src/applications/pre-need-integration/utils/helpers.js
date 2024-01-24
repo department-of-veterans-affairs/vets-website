@@ -23,6 +23,7 @@ import ApplicantDescription from 'platform/forms/components/ApplicantDescription
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -39,6 +40,18 @@ export function ApplicantDescriptionWrapper({ formContext }) {
     </div>
   );
 }
+
+export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
+}
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
@@ -224,22 +237,40 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescriptionVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+export const desiredCemeteryNoteDescriptionSelfVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
     unavailable, we’ll work with your family to assign a gravesite in a cemetery
     with available space at the time of need.
-  </va-alert>
+  </p>
 );
 
-export const desiredCemeteryNoteDescriptionNonVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
-    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
-    If space is unavailable, we’ll work with their family to assign a gravesite
-    in a cemetery with available space at the time of need.
-  </va-alert>
+export const desiredCemeteryNoteDescriptionPreparerVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionSelfNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
 );
 
 export function preparerAddressHasState(item) {
@@ -649,6 +680,20 @@ export const militaryNameUI = {
     },
   },
 };
+
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {

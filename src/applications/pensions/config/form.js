@@ -17,8 +17,6 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
-  addressSchema,
-  addressUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -178,7 +176,7 @@ export function currentSpouseHasFormerMarriages(formData) {
 }
 
 export function hasNoSocialSecurityDisability(formData) {
-  return formData.socialSecurityDisability !== true;
+  return formData.socialSecurityDisability === false;
 }
 
 export function isInNursingHome(formData) {
@@ -269,7 +267,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -282,8 +279,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
+  title: 'Apply for Veterans’ pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -407,6 +404,7 @@ const formConfig = {
           path: 'medical/history/monthly-pension',
           uiSchema: specialMonthlyPension.uiSchema,
           schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',
@@ -478,6 +476,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
+                useDlWrap: true,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -650,7 +649,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -745,6 +745,7 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item => getDependentChildTitle(item, 'household'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -775,7 +776,8 @@ const formConfig = {
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
-          depends: form => get(['view:hasDependents'], form),
+          depends: (form, index) =>
+            !get(['dependents', index, 'childInHousehold'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -786,9 +788,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -801,23 +801,26 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childAddress: {
-                  ...addressUI({
-                    omit: ['street3', 'isMilitary'],
-                    required: {
-                      country: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      street: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      city: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      postalCode: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                    },
-                  }),
-                },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  (form, index) =>
+                    !get(['dependents', index, 'childInHousehold'], form),
+                ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
                   'ui:options': {
                     updateSchema: (form, UISchema, schema, index) => {
                       if (
@@ -1010,24 +1013,6 @@ const formConfig = {
           path: 'additional-information/faster-claim-processing',
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
-        },
-      },
-    },
-    // This chapter is here so that the cypress test ends successfully since
-    // the form tester will only consider the test a success when it gets to a
-    // page which has a URL ending in '/confirmation';
-    //
-    // This chapter should be entirely removed/replaced once the form has an
-    // actual confirmation page.
-    confirmation: {
-      title: 'Confirmation',
-      pages: {
-        confirmation: {
-          path: 'confirmation',
-          title: 'Confirmation',
-          // Needs something as a schema. Doesn't matter what.
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
         },
       },
     },
