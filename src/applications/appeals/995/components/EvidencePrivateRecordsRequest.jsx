@@ -84,12 +84,14 @@ const EvidencePrivateRequest = ({
           name="private"
           value="y"
           checked={data[EVIDENCE_PRIVATE]}
+          uswds
         />
         <va-radio-option
           label="No"
           name="private"
           value="n"
           checked={data[EVIDENCE_PRIVATE] === false}
+          uswds
         />
       </VaRadio>
       {privateRecordsRequestInfo}
