@@ -60,7 +60,7 @@ const CourtMartial = ({
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}
@@ -68,6 +68,7 @@ const CourtMartial = ({
             name={key}
             value={option.value}
             checked={formValues[key] === option.value}
+            uswds
           />
         ))}
       </VaRadio>
