@@ -7,6 +7,7 @@ const featureToggles = require('./feature-toggles/index');
 const user = require('./user/index');
 const folders = require('./mhv-api/messaging/folders/index');
 const vamcEhr = require('../../tests/fixtures/vamc-ehr.json');
+const personalInformation = require('../../tests/fixtures/personal-information.json');
 
 const responses = {
   ...commonResponses,
@@ -17,6 +18,7 @@ const responses = {
   }),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   'GET /data/cms/vamc-ehr.json': vamcEhr,
+  'GET /v0/profile/personal_information': personalInformation,
 };
 
-module.exports = delay(responses, 2000);
+module.exports = delay(responses, 1000);
