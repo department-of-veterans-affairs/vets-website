@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 import mockThread from './fixtures/thread-response.json';
 
-describe('verify signature', () => {
+describe('SM verify signature', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const currentDate = new Date().toISOString();
