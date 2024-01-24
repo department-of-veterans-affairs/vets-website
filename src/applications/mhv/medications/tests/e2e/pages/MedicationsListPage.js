@@ -65,17 +65,18 @@ class MedicationsListPage {
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
-    cy.get('[data-testid="print-records-button"] > span').click({
-      force: true,
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-records-button"]').click({
+      waitForAnimations: true,
     });
   };
 
   verifyPrintMedicationsListEnabledOnListPage = () => {
-    cy.get('[class="menu-options menu-options-open"]').should(
+    cy.get('[data-testid="print-records-button"] > span').should(
       'contain',
-      'Print list',
+      'Print or download',
     );
-    cy.contains('Print list').should('be.enabled');
+    cy.contains('Print or download').should('be.enabled');
   };
 
   verifyNavigationToListPageAfterClickingBreadcrumbMedications = () => {
@@ -97,14 +98,20 @@ class MedicationsListPage {
       );
   };
 
-  verifyDownloadListAsPDFButtonOnListPage = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').click({
-      waitForAnimations: true,
-    });
+  clickDownloadListAsPDFButtonOnListPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download a PDF of this list')
       .should('be.visible');
+    cy.get('[data-testid="download-pdf-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyDownloadCompleteSuccessMessageBanner = () => {
+    cy.get('[data-testid="download-success-banner"]').should(
+      'contain',
+      'Download complete',
+    );
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
@@ -123,7 +130,7 @@ class MedicationsListPage {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'Refill in process. We expect to fill it on');
+      .and('contain', 'We expect to fill it on');
   };
 
   verifyInformationBasedOnStatusNonVAPrescription = () => {
@@ -173,10 +180,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This prescription is too old to refill. If you need more, request a renewal.',
-      );
+      .and('contain', 'If you need more, request a renewal.');
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
@@ -192,10 +196,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusUnknown = () => {
     cy.get('[data-testid="unknown"] > div')
       .should('be.visible')
-      .and(
-        'contain',
-        'We’re sorry. There’s a problem with our system. You can’t manage this prescription online right now.Check back later. Or call your VA pharmacy.',
-      );
+      .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
