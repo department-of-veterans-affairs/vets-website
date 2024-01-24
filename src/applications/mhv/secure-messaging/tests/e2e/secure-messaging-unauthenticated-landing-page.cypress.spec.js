@@ -2,8 +2,8 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Compose', () => {
-  it('can send message', () => {
+describe('Secure Messaging Authentication', () => {
+  it('Is blocked when unauthenticated', () => {
     const site = new SecureMessagingSite();
     const patientInboxPage = new PatientInboxPage();
     site.login(false);
