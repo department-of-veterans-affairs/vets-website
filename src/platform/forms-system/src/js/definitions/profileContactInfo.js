@@ -161,12 +161,14 @@ const profileContactInfo = ({
           contactPath,
           keys,
           requiredKeys: contactInfoRequiredKeys,
+          contactInfoPageKey,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,
           content,
           keys,
+          contactInfoPageKey,
         }),
       uiSchema: contactInfoUiSchema,
       schema: {
