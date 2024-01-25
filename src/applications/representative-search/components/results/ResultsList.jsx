@@ -68,6 +68,7 @@ ResultsList.propTypes = {
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
   onUpdateSortType: PropTypes.func,
+  submitRepresentativeReport: PropTypes.func,
 };
 
 function mapDispatchToProps(dispatch) {
