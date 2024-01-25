@@ -77,6 +77,16 @@
   }
 }
 
+.due-date-header {
+  > .due-file {
+    color: $color-base;
+  }
+
+  > .past-due {
+    color: $color-secondary-darkest;
+  }
+}
+
 .claim-list-item-container {
   background-color: $color-gray-lightest;
   padding: 2em 1em 1em;
@@ -952,11 +962,21 @@ button .claim-timeline-icon.fa {
   margin-bottom: 1.5em;
 }
 
+.primary-alert .item-container .due-date-header {
+  padding-bottom: 16px;
+}
+
+.link-action-container {
+  padding-top: 16px;
+  margin-left: -2px;
+}
+
 .alert-title {
   font-size: 20px;
   line-height: 26px;
   padding-bottom: 0;
   margin-top: 0;
+  margin-bottom: 16px;
 }
 
 .alert-description {
@@ -964,6 +984,7 @@ button .claim-timeline-icon.fa {
   padding-bottom: 0;
   margin: 0;
 }
+
 .file-request-list-item {
   margin-top: 1.5em;
   &:last-child {

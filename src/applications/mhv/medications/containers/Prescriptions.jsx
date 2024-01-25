@@ -153,7 +153,7 @@ const Prescriptions = props => {
         headerBanner: [
           {
             text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',
@@ -221,7 +221,7 @@ const Prescriptions = props => {
   const txtData = useCallback(
     (rxList, allergiesList) => {
       return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.\n\n\n" +
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
           'Medications\n\n'}${
           userName.first
             ? `${userName.last}, ${userName.first}`

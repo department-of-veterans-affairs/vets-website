@@ -455,10 +455,10 @@ export function FilterBeforeResults({
               }
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to community focus details</>}
+              {smallScreen && <>Go to community focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to community focus details"
+                  label="Go to community focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
@@ -527,63 +527,66 @@ export function FilterBeforeResults({
     const title = 'Filter your results';
     return (
       <>
-        <div>
-          <div>
-            {excludedSchoolTypesGroup()}
-            {schoolAttributes()}
-            {vetTecOJT()}
-            <hr />
-            <div className="horizontal-line" />
-            {specializedMissionAttributes()}
-            {smallScreen && renderLocation()}
-            <div className="modal-button-wrapper">
-              <button
-                type="button"
-                id={`update-${createId(title)}-button`}
-                className="update-results-button apply-filter-button vads-u-margin-top--3"
-                onClick={closeAndUpdate}
-              >
-                Apply filters
-              </button>
-              {isProductionOfTestProdEnv() ? (
-                <button
-                  onClick={clearAllFilters}
-                  className={
-                    smallScreen
-                      ? 'clear-filters-button mobile-clear-filter-button'
-                      : 'clear-filters-button'
-                  }
-                >
-                  Clear filters
-                </button>
-              ) : (
-                <ClearFiltersBtn testId="clear-button">
-                  Clear filters
-                </ClearFiltersBtn>
-              )}
-            </div>
-            <div
-              id="learn-more-about-specialized-missions-accordion-button"
-              className="vads-u-margin-top--3"
+        <hr />
+        <div className="horizontal-line" />
+        <fieldset className="gi-mission-filter-fieldset">
+          <legend>
+            <h3>{title}</h3>
+          </legend>
+          {excludedSchoolTypesGroup()}
+          {schoolAttributes()}
+          {vetTecOJT()}
+          <hr />
+          <div className="horizontal-line" />
+          {specializedMissionAttributes()}
+          {smallScreen && renderLocation()}
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id={`update-${createId(title)}-button`}
+              className="update-results-button apply-filter-button vads-u-margin-top--3"
+              onClick={closeAndUpdate}
             >
-              <AccordionItem
-                button="Learn more about community focus filters"
-                section
-                expanded={smfAccordionExpanded}
-                onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
-                expandedWidth
+              Apply filters
+            </button>
+            {isProductionOfTestProdEnv() ? (
+              <button
+                onClick={clearAllFilters}
+                className={
+                  smallScreen
+                    ? 'clear-filters-button mobile-clear-filter-button'
+                    : 'clear-filters-button'
+                }
               >
-                <div>{smfDefinitions}</div>
-              </AccordionItem>
-            </div>
+                Clear filters
+              </button>
+            ) : (
+              <ClearFiltersBtn testId="clear-button">
+                Clear filters
+              </ClearFiltersBtn>
+            )}
           </div>
-        </div>
+          <div
+            id="learn-more-about-specialized-missions-accordion-button"
+            className="vads-u-margin-top--3"
+          >
+            <AccordionItem
+              button="Learn more about community focus filters"
+              section
+              expanded={smfAccordionExpanded}
+              onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
+              expandedWidth
+            >
+              <div>{smfDefinitions}</div>
+            </AccordionItem>
+          </div>
+        </fieldset>
       </>
     );
   };
 
   /*
-    when loading page, check to see if school filter is false
+  when loading page, check to see if school filter is false
     if false check to see if excludedSchoolTypes does not equal empty array
     if true set school filter to true
     On rare occasions school filter loads as false which can 

@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 
 import AdditionalEvidencePageOld from '../containers/AdditionalEvidencePageOld';
-import { getTrackedItemId, truncateDescription } from '../utils/helpers';
-import DueDate from './DueDate';
+import { getTrackedItemId } from '../utils/helpers';
 import FilesOptionalOld from './FilesOptionalOld';
+import FilesNeededOld from './FilesNeededOld';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
   return (
@@ -20,30 +19,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
         ) : null}
 
         {filesNeeded.map(item => (
-          <div
-            className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details"
-            key={getTrackedItemId(item)}
-          >
-            <div className="item-container">
-              <h3 className="file-request-title">{item.displayName}</h3>
-              <p className="submission-description">
-                {truncateDescription(item.description)}
-              </p>
-              <DueDate date={item.suspenseDate} />
-            </div>
-            <div className="button-container">
-              <Link
-                aria-label={`View Details for ${item.displayName}`}
-                title={`View Details for ${item.displayName}`}
-                className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${getTrackedItemId(
-                  item,
-                )}`}
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
+          <FilesNeededOld key={getTrackedItemId(item)} id={id} item={item} />
         ))}
 
         {optionalFiles.map(item => (

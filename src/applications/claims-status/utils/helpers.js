@@ -82,7 +82,6 @@ export const getTrackedItemDate = item => {
 export function getTrackedItems(claim, useLighthouse = true) {
   // claimAttributes are different between lighthouse and evss
   // Therefore we have to filter them differntly
-  // const { trackedItems } = claim.attributes;
   if (useLighthouse) {
     return claim.attributes.trackedItems;
   }
@@ -326,8 +325,7 @@ export function scrubDescription(text) {
   return stripEscapedChars(stripHtml(text));
 }
 
-export function truncateDescription(text) {
-  const maxLength = 120;
+export function truncateDescription(text, maxLength = 120) {
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
