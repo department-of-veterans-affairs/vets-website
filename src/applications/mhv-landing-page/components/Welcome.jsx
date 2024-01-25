@@ -1,7 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
-const Welcome = ({ name, loading }) => (
+const Welcome = ({ loading, name }) => (
   <div
     className={classnames(
       'vads-u-display--flex',
@@ -36,6 +37,11 @@ const Welcome = ({ name, loading }) => (
 
 Welcome.defaultProps = {
   loading: true,
+};
+
+Welcome.propTypes = {
+  loading: PropTypes.bool,
+  name: PropTypes.string,
 };
 
 export default Welcome;
