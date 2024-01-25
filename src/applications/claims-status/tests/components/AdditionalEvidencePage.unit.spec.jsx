@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import AdditionalEvidencePageOld from '../../containers/AdditionalEvidencePageOld';
+import AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -21,7 +21,7 @@ const claim = {
 describe('<AdditionalEvidencePage>', () => {
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld params={params} loading />,
+      <AdditionalEvidencePage params={params} loading />,
     );
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
@@ -34,7 +34,7 @@ describe('<AdditionalEvidencePage>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld
+      <AdditionalEvidencePage
         params={params}
         claim={claim}
         message={message}
@@ -52,7 +52,7 @@ describe('<AdditionalEvidencePage>', () => {
     const clearAdditionalEvidenceNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld
+      <AdditionalEvidencePage
         params={params}
         claim={claim}
         clearAdditionalEvidenceNotification={
@@ -75,7 +75,7 @@ describe('<AdditionalEvidencePage>', () => {
     const clearAdditionalEvidenceNotification = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld
+      <AdditionalEvidencePage
         params={params}
         claim={claim}
         uploadComplete
@@ -94,7 +94,7 @@ describe('<AdditionalEvidencePage>', () => {
     const files = [];
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld
+      <AdditionalEvidencePage
         params={params}
         claim={claim}
         files={files}
@@ -112,7 +112,7 @@ describe('<AdditionalEvidencePage>', () => {
     document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <Provider store={uploadStore}>
-        <AdditionalEvidencePageOld
+        <AdditionalEvidencePage
           params={params}
           claim={claim}
           files={[]}
@@ -132,7 +132,7 @@ describe('<AdditionalEvidencePage>', () => {
     const router = getRouter();
 
     const tree = SkinDeep.shallowRender(
-      <AdditionalEvidencePageOld
+      <AdditionalEvidencePage
         params={params}
         claim={claim}
         files={[]}
@@ -168,11 +168,11 @@ describe('<AdditionalEvidencePage>', () => {
       props.getClaimLighthouse = sinon.spy();
       props.useLighthouse = true;
 
-      const { rerender } = render(<AdditionalEvidencePageOld {...props} />);
+      const { rerender } = render(<AdditionalEvidencePage {...props} />);
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(<AdditionalEvidencePageOld {...props} uploadComplete />);
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.false;
       expect(props.getClaimLighthouse.called).to.be.true;
@@ -184,11 +184,11 @@ describe('<AdditionalEvidencePage>', () => {
       props.getClaimLighthouse = sinon.spy();
       props.useLighthouse = false;
 
-      const { rerender } = render(<AdditionalEvidencePageOld {...props} />);
+      const { rerender } = render(<AdditionalEvidencePage {...props} />);
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(<AdditionalEvidencePageOld {...props} uploadComplete />);
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.true;
       expect(props.getClaimLighthouse.called).to.be.false;

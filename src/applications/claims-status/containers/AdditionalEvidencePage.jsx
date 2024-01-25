@@ -10,8 +10,6 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
-// TODO: Import FilesNeeded
-// import FilesNeeded
 import FilesOptional from '../components/FilesOptional';
 import FilesNeeded from '../components/FilesNeeded';
 

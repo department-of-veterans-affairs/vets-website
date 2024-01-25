@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+// import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+// import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+// import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { getScrollOptions } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
