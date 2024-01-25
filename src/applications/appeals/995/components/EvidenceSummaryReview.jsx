@@ -31,7 +31,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       ) {
         // focus on edit button _after_ editing and returning
         window.sessionStorage.removeItem(SUMMARY_EDIT);
-        setTimeout(() => focusElement(editRef.current));
+        setTimeout(() => focusElement('button', {}, editRef.current));
       }
     },
     [editRef],
