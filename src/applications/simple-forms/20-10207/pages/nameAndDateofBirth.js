@@ -15,7 +15,7 @@ export default {
     // TODO: Use ...titleUI() once that supports functions for title
     'ui:title': ({ formData }) => getNameAndDobPageTitle(formData),
     fullName: fullNameNoSuffixUI(),
-    dateOfBirth: dateOfBirthUI(),
+    dateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {
     type: 'object',
