@@ -576,7 +576,7 @@ const formConfig = {
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
-                  separationOtherExplanation: {
+                  otherExplanation: {
                     'ui:title': 'Please specify',
                     'ui:required': (form, index) =>
                       get(
@@ -634,8 +634,7 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
-                        separationOtherExplanation:
-                          marriageProperties.otherExplanation,
+                        otherExplanation: marriageProperties.otherExplanation,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,

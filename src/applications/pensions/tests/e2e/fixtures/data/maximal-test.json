@@ -72,7 +72,7 @@
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
           "reasonForSeparation": "Other",
-          "separationOtherExplanation": "Other reason",
+          "otherExplanation": "Other reason",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }

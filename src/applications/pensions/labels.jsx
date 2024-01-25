@@ -10,7 +10,7 @@ export const marriageTypeLabels = {
 };
 
 export const separationTypeLabels = {
-  death: "Spouse's Death",
+  death: 'Spouse’s death',
   divorce: 'Divorce',
   other: 'Other',
 };

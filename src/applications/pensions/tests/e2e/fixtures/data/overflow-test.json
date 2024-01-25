@@ -86,7 +86,7 @@
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
           "reasonForSeparation": "Other",
-          "separationOtherExplanation": "Personal reason thats too long to write an explanation for in this form field",
+          "otherExplanation": "Personal reason thats too long to write an explanation for in this form field",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
