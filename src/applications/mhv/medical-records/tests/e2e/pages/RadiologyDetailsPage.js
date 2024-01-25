@@ -72,12 +72,17 @@ class RadiologyDetailsPage {
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
 
-  clickExpnadRadiologyImageButton = (radiologyImage = 0) => {
+  verifyRadiologyImageLink = radiologyImage => {
     // Radiology Image Expand Button
+    cy.get('[data-testid="radiology-image"]').should('be.visible');
     cy.get('[data-testid="radiology-image"]')
-      .find('a')
-      .eq(radiologyImage)
-      .click();
+      .contains(radiologyImage)
+      .invoke('attr', 'href')
+      .should(
+        'contain',
+        'mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports',
+      );
+    // href="https://mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports"
   };
 }
 
