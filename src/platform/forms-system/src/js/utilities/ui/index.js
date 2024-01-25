@@ -44,7 +44,7 @@ export const getFocusableElements = (
     returnWebComponent = false,
     focusableElements = FOCUSABLE_ELEMENTS,
     focusableWebComponents = webComponentList,
-  },
+  } = {},
 ) => {
   let elements = [];
 
@@ -55,6 +55,7 @@ export const getFocusableElements = (
       ),
     ]
       .map(el => {
+        // TODO: Fix this to ignore disabled web components
         if (el.shadowRoot && !returnWebComponent) {
           return getFocusableElements(el.shadowRoot, {
             focusableElements,
