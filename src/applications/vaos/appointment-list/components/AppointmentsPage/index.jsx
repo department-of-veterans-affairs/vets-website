@@ -95,25 +95,6 @@ function renderWarningNotification() {
   };
 }
 
-function getSpacing({ isPrintList = true, isPast, isPending }) {
-  let names = classNames(
-    `xsmall-screen:vads-u-margin-bottom--2 small-screen:${
-      isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
-    }`,
-  );
-  if (isPrintList) {
-    names = classNames(
-      `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
-        isPast || isPending
-          ? 'vads-u-margin-bottom--3'
-          : 'vads-u-margin-bottom--4'
-      }`,
-    );
-    return `${names}`;
-  }
-  return `${names}`;
-}
-
 export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -193,7 +174,17 @@ export default function AppointmentsPage() {
 
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1 className={getSpacing({ isPast, isPending })}>{pageTitle}</h1>
+      <h1
+        className={classNames(
+          `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
+            isPast || isPending
+              ? 'vads-u-margin-bottom--3'
+              : 'vads-u-margin-bottom--4'
+          }`,
+        )}
+      >
+        {pageTitle}
+      </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       <DowntimeNotification
