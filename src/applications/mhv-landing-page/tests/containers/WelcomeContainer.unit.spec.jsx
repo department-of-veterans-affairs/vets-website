@@ -1,15 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import Welcome from '../../containers/Welcome';
+import WelcomeContainer from '../../containers/WelcomeContainer';
 import reducers from '../../reducers';
 
-const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
+const stateFn = ({
+  loading = false,
+  preferredName = 'Bob',
+  first = 'Robert',
+} = {}) => ({
   myHealth: {
     personalInformation: {
       data: {
         preferredName,
       },
+      loading,
     },
   },
   user: {
@@ -26,18 +31,34 @@ const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
 });
 
 const setup = (initialState = stateFn(), props = {}) =>
-  renderInReduxProvider(<Welcome {...props} />, { initialState, reducers });
+  renderInReduxProvider(<WelcomeContainer {...props} />, {
+    initialState,
+    reducers,
+  });
 
-describe('Welcome component', () => {
+describe('WelcomeContainer component', () => {
   it('renders', () => {
     const { getByRole } = setup();
     getByRole('heading', { name: /Welcome, Bob/ });
+  });
+
+  it('is hidden, holding vertical space, while loading', () => {
+    const state = stateFn({ loading: true });
+    const { container } = setup(state);
+    expect(container.firstChild.classList.contains('visibility:hidden')).to.be
+      .true;
   });
 
   it("masks the user's name from datadog (no PII)", () => {
     const { getByText } = setup();
     const result = getByText('Bob').getAttribute('data-dd-privacy');
     expect(result).to.eq('mask');
+  });
+
+  it('renders when preferred name is not available', () => {
+    const initialState = stateFn({ preferredName: null });
+    const { getByRole } = setup(initialState);
+    getByRole('heading', { name: 'Welcome, Robert' });
   });
 
   it('renders when name is not supplied', () => {
