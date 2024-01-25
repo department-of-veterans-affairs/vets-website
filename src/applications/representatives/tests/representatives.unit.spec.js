@@ -5,31 +5,24 @@ import Dashboard from '../containers/Dashboard';
 import LandingPage from '../containers/LandingPage';
 
 describe('Landing Page', () => {
-  it('should render navigation', () => {
+  it('should render hero wrapper', () => {
     const wrapper = shallow(<LandingPage />);
 
-    expect(wrapper.find('.nav').length).to.equal(1);
+    expect(wrapper.find('.homepage-hero__wrapper').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render notifications', () => {
+  it('should render welcome headline', () => {
     const wrapper = shallow(<LandingPage />);
 
-    expect(wrapper.find('.notif').length).to.equal(1);
+    expect(wrapper.find('.homepage-hero__welcome-headline').length).to.equal(1);
     wrapper.unmount();
   });
 
-  it('should render primary tasks area', () => {
+  it('should render create account container', () => {
     const wrapper = shallow(<LandingPage />);
 
-    expect(wrapper.find('.primary').length).to.equal(1);
-    wrapper.unmount();
-  });
-
-  it('should render sidebar', () => {
-    const wrapper = shallow(<LandingPage />);
-
-    expect(wrapper.find('.left').length).to.equal(1);
+    expect(wrapper.find('.homepage-hero__container').length).to.equal(1);
     wrapper.unmount();
   });
 });
