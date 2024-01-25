@@ -1,11 +1,27 @@
+import { MEDICATION_SOURCES } from '../constants';
+
 const filterMedicationsByType = (medications, type) => {
   return medications.filter(medication => medication.prescriptionType === type);
 };
 
+const addMedicationSource = (medications, source) => {
+  return medications.map(medication => {
+    const medicationWithSource = medication;
+    medicationWithSource.medicationSource = source;
+    return medicationWithSource;
+  });
+};
+
 const getCombinedMedications = avs => {
   let combined = [];
-  if (avs.vaMedications) combined = [...avs.vaMedications];
-  if (avs.nonvaMedications) combined.push(...avs.nonvaMedications);
+  if (avs.vaMedications)
+    combined = [
+      ...addMedicationSource(avs.vaMedications, MEDICATION_SOURCES.VA),
+    ];
+  if (avs.nonvaMedications)
+    combined.push(
+      ...addMedicationSource(avs.nonvaMedications, MEDICATION_SOURCES.NON_VA),
+    );
   return combined;
 };
 
@@ -30,6 +46,7 @@ const getMedicationsNotTaking = avs => {
 };
 
 export {
+  addMedicationSource,
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsNotTaking,
