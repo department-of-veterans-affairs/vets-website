@@ -20,6 +20,11 @@ export const useStagingDataLocally = true;
 
 export const claimsAgentIsEnabled = false;
 
+const baseUrl =
+  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
+    ? `https://staging-api.va.gov/services/veteran/v0`
+    : `${environment.API_URL}/services/veteran/v0`;
+
 /**
  * Build requestUrl and settings for api calls
  *  * @param endpoint {String} eg '/vso_accredited_representatives'
@@ -28,11 +33,6 @@ export const claimsAgentIsEnabled = false;
  * @returns {requestUrl, apiSettings}
  */
 export const getApi = (endpoint, method, requestBody) => {
-  const baseUrl =
-    useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov/services/veteran/v0`
-      : `${environment.API_URL}/services/veteran/v0`;
-
   const requestUrl = `${baseUrl}${endpoint}`;
 
   const apiSettings = {
