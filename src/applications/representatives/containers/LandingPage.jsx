@@ -22,10 +22,7 @@ const LandingPage = () => {
                 A system to help you get power of attorney and then support
                 Veterans by acting on their behalf.
               </p>
-              <Link
-                to="/user/dashboard/12345"
-                className="vads-c-action-link--white"
-              >
+              <Link to="/dashboard" className="vads-c-action-link--white">
                 Until sign in is added use this to see dashboard
               </Link>
             </div>

@@ -4,7 +4,7 @@ import LandingPage from './containers/LandingPage';
 
 const routes = [
   {
-    path: '/user/dashboard/12345',
+    path: '/dashboard',
     component: Dashboard,
   },
   {
