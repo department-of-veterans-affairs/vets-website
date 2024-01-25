@@ -68,12 +68,9 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('va-pagination')
-      .shadow()
-      .find('button:contains("Next")')
-      .click();
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    ).as(`inboxMessages${interceptedPage}`);
+    cy.get('[aria-label="Next page"]').click();
+    cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
   loadVAPaginationPreviousMessages = (interceptedPage = 1, mockMessages) => {
@@ -81,12 +78,9 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('va-pagination')
-      .shadow()
-      .find('button:contains("Previous")')
-      .click();
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    ).as(`inboxMessages${interceptedPage}`);
+    cy.get('[aria-label="Previous page"]').click();
+    cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
   loadVAPaginationPageMessages = (interceptedPage = 1, mockMessages) => {
@@ -94,19 +88,19 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
+    ).as(`inboxMessages${interceptedPage}`);
     if (interceptedPage === 1) {
       cy.get('va-pagination')
         .shadow()
-        .find('button:contains("1")')
+        .find('a:contains("1")')
         .click();
     } else {
       cy.get('va-pagination')
         .shadow()
-        .find(`button:contains("${interceptedPage}")`)
+        .find(`a:contains("${interceptedPage}")`)
         .click();
     }
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
   verifyPaginationMessagesDisplayed = (
