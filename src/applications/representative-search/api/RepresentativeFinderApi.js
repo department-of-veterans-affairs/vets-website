@@ -1,5 +1,5 @@
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import { getAPI, resolveParamsWithUrl } from '../config';
+import { getApi, resolveParamsWithUrl } from '../config';
 
 class RepresentativeFinderApi {
   /**
@@ -15,7 +15,7 @@ class RepresentativeFinderApi {
     sort,
     type,
   ) {
-    const { params, url } = resolveParamsWithUrl({
+    const params = resolveParamsWithUrl({
       address,
       lat,
       long,
@@ -26,10 +26,15 @@ class RepresentativeFinderApi {
       type,
     });
 
-    const api = getAPI(type);
+    const endpoint =
+      type === 'VSO'
+        ? '/vso_accredited_representatives'
+        : '/other_accredited_representatives';
+
+    const { requestUrl, apiSettings } = getApi(endpoint);
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
-      fetch(`${url}?${params}`, api.settings)
+      fetch(`${requestUrl}${params}`, apiSettings)
         .then(response => {
           if (!response.ok) {
             throw Error(response.statusText);
@@ -51,19 +56,15 @@ class RepresentativeFinderApi {
 
   static reportResult(requestBody) {
     const startTime = new Date().getTime();
-    const url =
-      'https://staging-api.va.gov/services/veteran/v0/services/veteran/v0/flag_accredited_representatives';
 
-    const apiSettings = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    };
+    const { requestUrl, apiSettings } = getApi(
+      '/services/veteran/v0/flag_accredited_representatives',
+      'POST',
+      requestBody,
+    );
 
     return new Promise((resolve, reject) => {
-      fetch(url, apiSettings)
+      fetch(requestUrl, apiSettings)
         .then(response => {
           if (!response.ok) {
             throw Error(response.statusText);
