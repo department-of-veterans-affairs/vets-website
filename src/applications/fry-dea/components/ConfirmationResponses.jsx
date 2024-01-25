@@ -58,6 +58,7 @@ export function UnderReview(response, name) {
           close-btn-aria-label="Close notification"
           status="success"
           visible
+          uswds
         >
           <h2 id="track-your-status-on-mobile" slot="headline">
             We’ve received your application
@@ -79,6 +80,7 @@ export function UnderReview(response, name) {
           close-btn-aria-label="Close notification"
           status="continue"
           visible
+          uswds
         >
           <div>
             <h2 className="vads-u-margin-y--0">In 1 month</h2>
@@ -162,6 +164,7 @@ export function Approved(name) {
           close-btn-aria-label="Close notification"
           status="success"
           visible
+          uswds
         >
           <h2 slot="headline">
             Congratulations, you’ve been approved for Survivors’ and Dependents’
@@ -248,7 +251,7 @@ export function Approved(name) {
         </ul>
       </div>
       <div className="vads-u-margin-bottom--4">
-        <va-additional-info trigger="What is a decision letter?">
+        <va-additional-info trigger="What is a decision letter?" uswds>
           <div>
             A decision letter is an official document from the U.S. Department
             of Veterans Affairs that details your GI Bill benefit status. If you
@@ -276,6 +279,7 @@ export function NotEligible(name) {
           close-btn-aria-label="Close notification"
           status="info"
           visible
+          uswds
         >
           <h2 id="track-your-status-on-mobile" slot="headline">
             You’re not eligible for this benefit
