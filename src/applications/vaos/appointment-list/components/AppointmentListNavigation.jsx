@@ -4,10 +4,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import {
-  selectFeaturePrintList,
-  selectFeatureStatusImprovement,
-} from '../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import { GA_PREFIX } from '../../utils/constants';
 import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
 
@@ -17,12 +14,11 @@ export default function AppointmentListNavigation({ count, callback }) {
     selectFeatureStatusImprovement(state),
   );
 
-  const isPrintList = useSelector(state => selectFeaturePrintList(state));
   const isPending = location.pathname.endsWith('/pending');
   const isPast = location.pathname.endsWith('/past');
   const isUpcoming = location.pathname.endsWith('/');
 
-  if (isPrintList && featureStatusImprovement) {
+  if (featureStatusImprovement) {
     return (
       <div
         className={classNames(
@@ -85,59 +81,6 @@ export default function AppointmentListNavigation({ count, callback }) {
         <div className="vads-u-margin-bottom--1">
           <PrintButton className="vads-u-flex--auto " />
         </div>
-      </div>
-    );
-  }
-  if (featureStatusImprovement) {
-    return (
-      <div className="vads-l-row xsmall-screen:vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
-        <nav
-          aria-label="Appointment list navigation"
-          className="vaos-appts__breadcrumb"
-        >
-          <ul>
-            <li>
-              <NavLink
-                id="upcoming"
-                to="/"
-                onClick={() => callback(true)} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={Boolean(isUpcoming).toString()}
-              >
-                Upcoming
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                id="pending"
-                to="/pending"
-                onClick={() => {
-                  callback(true);
-                  recordEvent({
-                    event: `${GA_PREFIX}-status-pending-link-clicked`,
-                  });
-                }} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={Boolean(isPending).toString()}
-              >
-                {`Pending (${count})`}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                id="past"
-                to="/past"
-                onClick={() => {
-                  callback(true);
-                  recordEvent({
-                    event: `${GA_PREFIX}-status-past-link-clicked`,
-                  });
-                }} // eslint-disable-next-line jsx-a11y/aria-proptypes
-                aria-current={Boolean(isPast).toString()}
-              >
-                Past
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
       </div>
     );
   }

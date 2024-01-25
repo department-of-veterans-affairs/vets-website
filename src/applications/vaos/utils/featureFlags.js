@@ -22,7 +22,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
   { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
   { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
-  { name: 'vaOnlineSchedulingPrintList', value: true },
   { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
   { name: 'vaOnlineSchedulingGA4Migration', value: true },
   { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },

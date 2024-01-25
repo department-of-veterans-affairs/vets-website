@@ -17,10 +17,7 @@ import {
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  selectFeatureStatusImprovement,
-  selectFeaturePrintList,
-} from '../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
@@ -37,7 +34,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const isPrintList = useSelector(state => selectFeaturePrintList(state));
 
   const dispatch = useDispatch();
 
@@ -134,12 +130,11 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
             />
           </div>
         )}
-        {isPrintList &&
-          appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
-            <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
-              {paragraphText}
-            </p>
-          )}
+        {appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
+          <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
+            {paragraphText}
+          </p>
+        )}
         {appointmentsByStatus.map(statusBucket => {
           return (
             <React.Fragment key={statusBucket[0]}>
@@ -154,11 +149,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul
                 className={classNames(
-                  `vads-u-padding-left--0 ${
-                    isPrintList
-                      ? 'vads-u-margin-top--0'
-                      : 'vads-u-margin-top--4'
-                  } `,
+                  'vads-u-padding-left--0 vads-u-margin-top--0',
                 )}
                 data-cy="requested-appointment-list"
               >

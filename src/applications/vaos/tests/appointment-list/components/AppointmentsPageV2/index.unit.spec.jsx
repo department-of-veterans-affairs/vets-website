@@ -422,29 +422,26 @@ describe('VAOS <AppointmentsPage>', () => {
     });
   });
 
-  describe('when print list flag is on', () => {
+  it('should show tertiary print button', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingStatusImprovement: true,
-        vaOnlineSchedulingPrintList: true,
       },
       user: userState,
     };
 
-    it('should show tertiary print button', async () => {
-      // Given the veteran lands on the VAOS homepage
-      mockPastAppointmentInfo({});
+    // Given the veteran lands on the VAOS homepage
+    mockPastAppointmentInfo({});
 
-      // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: defaultState,
-      });
-
-      // Then it should display the tertiary print button
-      expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
+    // When the page displays
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
     });
+
+    // Then it should display the tertiary print button
+    expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
   });
 });

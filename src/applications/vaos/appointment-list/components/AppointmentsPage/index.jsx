@@ -8,7 +8,6 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureStatusImprovement,
-  selectFeaturePrintList,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
@@ -96,25 +95,6 @@ function renderWarningNotification() {
   };
 }
 
-function getSpacing({ isPrintList, isPast, isPending }) {
-  let names = classNames(
-    `xsmall-screen:vads-u-margin-bottom--2 small-screen:${
-      isPending ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--4'
-    }`,
-  );
-  if (isPrintList) {
-    names = classNames(
-      `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
-        isPast || isPending
-          ? 'vads-u-margin-bottom--3'
-          : 'vads-u-margin-bottom--4'
-      }`,
-    );
-    return `${names}`;
-  }
-  return `${names}`;
-}
-
 export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
@@ -127,7 +107,6 @@ export default function AppointmentsPage() {
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
-  const isPrintList = useSelector(state => selectFeaturePrintList(state));
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -193,23 +172,20 @@ export default function AppointmentsPage() {
 
   const history = useHistory();
 
-  let paragraphText = 'These appointment requests haven’t been scheduled yet.';
-  if (featureStatusImprovement) {
-    paragraphText =
-      'Your appointment requests that haven’t been scheduled yet.';
-  }
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
-      <h1 className={getSpacing({ isPrintList, isPast, isPending })}>
+      <h1
+        className={classNames(
+          `xsmall-screen:vads-u-margin-bottom--3 small-screen:${
+            isPast || isPending
+              ? 'vads-u-margin-bottom--3'
+              : 'vads-u-margin-bottom--4'
+          }`,
+        )}
+      >
         {pageTitle}
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
-      {pageTitle === 'Pending appointments' &&
-        !isPrintList && (
-          <p className="xsmall-screen:vads-u-margin-top--0 vads-u-margin-bottom--2 vaos-hide-for-print small-screen:vads-u-margin-bottom--4">
-            {paragraphText}
-          </p>
-        )}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
       <DowntimeNotification
         appTitle="VA online scheduling tool"
