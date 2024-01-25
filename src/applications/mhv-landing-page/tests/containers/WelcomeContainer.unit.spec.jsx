@@ -42,7 +42,7 @@ describe('WelcomeContainer component', () => {
     getByRole('heading', { name: /Welcome, Bob/ });
   });
 
-  it('does not render when loading', () => {
+  it('is hidden, holding vertical space, while loading', () => {
     const state = stateFn({ loading: true });
     const { container } = setup(state);
     expect(container.firstChild.classList.contains('visibility:hidden')).to.be

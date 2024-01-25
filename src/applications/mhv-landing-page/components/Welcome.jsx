@@ -9,7 +9,6 @@ const Welcome = ({ loading, name }) => (
       'vads-u-justify-content--flex-start',
       'vads-u-border-color--gray-light',
       'vads-u-border-bottom--2px',
-      'vads-u-border-bottom--2px',
       'vads-u-margin-bottom--3',
       { 'visibility:hidden': loading },
     )}
