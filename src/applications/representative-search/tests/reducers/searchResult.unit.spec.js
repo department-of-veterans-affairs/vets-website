@@ -11,7 +11,8 @@ import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   searchResults: [],
-  selectedResult: null,
+  reportedResults: [],
+  reportError: false,
   pagination: {},
 };
 
