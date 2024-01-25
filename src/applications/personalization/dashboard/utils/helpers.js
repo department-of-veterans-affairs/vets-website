@@ -47,7 +47,9 @@ export const getFolderList = () => {
 export const countUnreadMessages = folders => {
   if (Array.isArray(folders?.data)) {
     return folders.data.reduce((accumulator, currentFolder) => {
-      return accumulator + currentFolder.attributes?.unreadCount;
+      return currentFolder.id >= 0
+        ? accumulator + currentFolder.attributes?.unreadCount
+        : accumulator;
     }, 0);
   }
 
