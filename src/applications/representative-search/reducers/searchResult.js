@@ -1,6 +1,7 @@
 import {
   CLEAR_SEARCH_RESULTS,
   SEARCH_COMPLETE,
+  SEARCH_FAILED,
   FETCH_REPRESENTATIVES,
   REPORT_STARTED,
   REPORT_COMPLETE,
@@ -39,14 +40,23 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         reportSubmissionInProgress: false,
         reportedResults: action.payload.result,
       };
+    case SEARCH_FAILED:
+      if (action.error) {
+        return {
+          ...INITIAL_STATE,
+          error: action.error,
+        };
+      }
+      return INITIAL_STATE;
     case REPORT_FAILED:
       if (action.error) {
         return {
           ...state,
-          reportError: action.error,
+          reportError: true,
         };
       }
       return state;
+
     case CLEAR_SEARCH_RESULTS:
       return INITIAL_STATE;
     default:

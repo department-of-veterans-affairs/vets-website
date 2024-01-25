@@ -173,6 +173,15 @@ describe('search query reducer', () => {
     });
   });
 
+  it('should return error if error present', () => {
+    const state = SearchQueryReducer(INITIAL_STATE, {
+      type: SEARCH_FAILED,
+      error: 404,
+    });
+
+    expect(state.error).to.eql(true);
+  });
+
   it('should invalidate form when clearing search text', () => {
     const state = SearchQueryReducer(
       { ...INITIAL_STATE, locationInputString: 'Austin' },
