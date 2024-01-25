@@ -14,6 +14,9 @@ describe('Avs: Your Treatment Plan', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
+    expect(screen.getByTestId('new-orders-heading')).to.have.text(
+      'New orders from this appointment',
+    );
     expect(screen.getByTestId('consultations').firstChild).to.have.text(
       'Test Consultation',
     );
@@ -46,6 +49,7 @@ describe('Avs: Your Treatment Plan', () => {
     delete avs.clinicalReminders;
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
+    expect(screen.queryByTestId('new-orders-heading')).to.not.exist;
     expect(screen.queryByTestId('consultations')).to.not.exist;
     expect(screen.queryByTestId('imaging')).to.not.exist;
     expect(screen.queryByTestId('lab-tests')).to.not.exist;

@@ -1,5 +1,6 @@
 import { assert, expect } from 'chai';
 import {
+  allFieldsEmpty,
   fieldHasValue,
   parseVistaDateTime,
   parseVistaDate,
@@ -148,6 +149,23 @@ describe('avs', () => {
       });
       it('returns false when given null', () => {
         expect(fieldHasValue(null)).to.be.false;
+      });
+    });
+
+    describe('all fields empty', () => {
+      it('returns true when all fields are empty', () => {
+        const item = { field1: '', field2: null };
+        expect(allFieldsEmpty(item)).to.be.true;
+      });
+
+      it('returns false when some fields are not empty', () => {
+        const item = { field1: '', field2: 'not empty' };
+        expect(allFieldsEmpty(item)).to.be.false;
+      });
+
+      it('returns true when object is empty', () => {
+        const item = {};
+        expect(allFieldsEmpty(item)).to.be.true;
       });
     });
   });

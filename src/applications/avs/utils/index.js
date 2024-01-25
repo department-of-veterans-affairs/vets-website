@@ -62,7 +62,16 @@ const fieldHasValue = value => {
   return value !== null && value !== '';
 };
 
+const allFieldsEmpty = item => {
+  for (const [, value] of Object.entries(item)) {
+    if (fieldHasValue(value)) return false;
+  }
+
+  return true;
+};
+
 export {
+  allFieldsEmpty,
   fieldHasValue,
   getFormattedAppointmentDate,
   getFormattedAppointmentTime,
