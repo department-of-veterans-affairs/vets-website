@@ -1,27 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const LandingPage = () => (
-  <div className="dash-container">
-    <h1 className="dash-header vads-u-font-size--h2 vads-u-margin-bottom--4">
-      Representatives Landing Page
-    </h1>
-    <Link to="/user/dashboard/12345">
-      <va-button text="Sign in" />
-    </Link>
-    <div className="vads-u-display--flex vads-u-justify-content--center">
-      <aside className="left vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3 vads-u-background-color--gray-lightest" />
-      <article className="vads-m-col--8 vads-l-col--12 vads-u-padding-left--5 medium-screen:vads-l-col--8 large-screen:vads-l-col--5">
-        <div className="nav dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div className="notif dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div className="primary dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div
-          className="etc dash-box vads-u-background-color--gray-lightest"
-          vads-u-background-color--gray-lightest
-        />
-      </article>
+const LandingPage = () => {
+  return (
+    <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
+      <div className="vads-l-grid-container vads-u-padding-x--0 homepage-hero">
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+            <div
+              className="vads-u-padding-left--2 vads-u-padding-right--3 vads-u-padding-top--5
+            vads-u-padding-bottom--3
+            small-desktop-screen:vads-u-padding-bottom--8"
+            >
+              <h1 className="homepage-hero__welcome-headline vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-y--1 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-font-size--lg vads-u-font-family--serif">
+                Welcome to Representative.VA.gov
+              </h1>
+              <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl small-desktop-screen:vads-u-font-size--2xl">
+                Manage power of attorney requests
+              </h2>
+              <p className="vads-u-color--white vads-u-padding-right--5">
+                A system to help you get power of attorney and then support
+                Veterans by acting on their behalf.
+              </p>
+              <Link
+                to="/user/dashboard/12345"
+                className="vads-c-action-link--white"
+              >
+                Until sign in is added use this to see dashboard
+              </Link>
+            </div>
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--6 homepage-hero__container">
+            <div className="vads-u-display--flex vads-u-width--full vads-u-align-items--center vars-u-justify-content--center">
+              <div className="va-flex vads-u-flex-direction--column vads-u-align-items--flex-start vads-u-background-color--white vads-u-margin-top--6 vads-u-margin-bottom--6 vads-u-padding-x--3 vads-u-padding-y--2 vads-u-width--full homepage-hero__create-account">
+                <h2 className="vads-u-font-size--md vads-u-line-height--5 vads-u-color--gray vads-u-margin-top--0 vads-u-padding-right--2 vads-u-font-family--sans vads-u-font-weight--normal">
+                  Create an account to start managing power of attorney.
+                </h2>
+                <va-button
+                  className="vads-u-padding-x--4 vads-u-margin-bottom--3"
+                  text="Create account"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default LandingPage;
