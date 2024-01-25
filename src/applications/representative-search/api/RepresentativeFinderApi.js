@@ -58,7 +58,7 @@ class RepresentativeFinderApi {
     const startTime = new Date().getTime();
 
     const { requestUrl, apiSettings } = getApi(
-      '/services/veteran/v0/flag_accredited_representatives',
+      '/flag_accredited_representatives',
       'POST',
       requestBody,
     );
