@@ -1,8 +1,33 @@
 import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
-export const relationshipToVeteranUI = personTitle => {
-  const person = personTitle ?? 'veteran';
+/**
+ * Web component uiSchema for relationship to veteran
+ *
+ * Pattern recommendation: Use as a standalone on the page
+ *
+ * set `labelHeaderLevel: ''` if you just want to use it as a standard field instead
+ *
+ * ```js
+ * relationshipToVeteran: relationshipToVeteran() // 'Veteran'
+ * relationshipToClaimant: relationshipToVeteran('claimant')
+ * relationshipAsField: relationshipToVeteran({
+ *  personTitle: 'claimant',
+ *  labelHeaderLevel: ''
+ * })
+ * ```
+ *
+ * @param {string | {
+ *   personTitle?: string,
+ *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
+ * }} options - a string representing the person type, or an object with options
+ * @returns {UISchemaOptions}
+ */
+
+export const relationshipToVeteranUI = options => {
+  const { personTitle, labelHeaderLevel } =
+    typeof options === 'object' ? options : { personTitle: options };
+  const person = personTitle ?? 'Veteran';
 
   return {
     relationshipToVeteran: radioUI({
@@ -17,6 +42,7 @@ export const relationshipToVeteranUI = personTitle => {
       errorMessages: {
         required: `Please select your relationship to the ${person}`,
       },
+      labelHeaderLevel: labelHeaderLevel ?? '3',
     }),
     otherRelationshipToVeteran: {
       'ui:title': `Since your relationship with the ${person} was not listed, please describe it here`,
@@ -35,7 +61,6 @@ export const relationshipToVeteranUI = personTitle => {
         if (formSchema.properties.otherRelationshipToVeteran['ui:collapsed']) {
           return { ...formSchema, required: ['relationshipToVeteran'] };
         }
-
         return {
           ...formSchema,
           required: ['relationshipToVeteran', 'otherRelationshipToVeteran'],

@@ -1,5 +1,4 @@
 import {
-  titleUI,
   relationshipToVeteranUI,
   relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -7,7 +6,6 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Relationship to Veteran'),
     relationshipToVeteran: relationshipToVeteranUI(),
   },
   schema: {
