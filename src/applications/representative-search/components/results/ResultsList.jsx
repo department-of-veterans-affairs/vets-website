@@ -101,6 +101,7 @@ function mapStateToProps(state) {
     position,
     locationQueryString,
     selectedResult: state.searchResult.selectedResult,
+    submitRepresentativeReport: PropTypes.func,
     resultTime: state.searchResult.resultTime,
   };
 }

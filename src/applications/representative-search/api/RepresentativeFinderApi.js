@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
 

@@ -201,10 +201,10 @@ SearchResult.propTypes = {
   query: PropTypes.object,
   representative: PropTypes.string,
   representativeId: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
   state: PropTypes.string,
   type: PropTypes.string,
   zipCode: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
 };
 
 export default SearchResult;
