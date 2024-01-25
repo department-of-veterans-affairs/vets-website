@@ -7,7 +7,7 @@ const MessageThreadBody = props => {
 
   const componentDecorator = (href, linkText) => (
     <a href={href} target="_blank" rel="noreferrer">
-      {linkText}
+      {`${linkText} (opens in new tab)`}
     </a>
   );
 
