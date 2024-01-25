@@ -12,8 +12,7 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 export default {
   uiSchema: {
     // Example of using a function:
-    // Only use this if you need it because it will rerender every time
-    // (Only on this page)
+    // Only use this if you need it because it will rerender every time (only on this page)
     ...titleUI(({ formData, formContext }) => {
       return 'RJSF';
     }),

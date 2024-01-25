@@ -1,4 +1,16 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+
+const Title = ({ title, description }) => (
+  <>
+    <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">{title}</h3>
+    {description && (
+      <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+        {description}
+      </span>
+    )}
+  </>
+);
 
 /**
  * Title for the top of a form page
@@ -30,28 +42,13 @@ export const titleUI = (title, description) => {
     'ui:title':
       isTitleFn || isDescriptionFn ? (
         props => (
-          <>
-            <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-              {isTitleFn ? title(props) : title}
-            </h3>
-            {description && (
-              <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-                {isDescriptionFn ? description(props) : description}
-              </span>
-            )}
-          </>
+          <Title
+            title={isTitleFn ? title(props) : title}
+            description={isDescriptionFn ? description(props) : description}
+          />
         )
       ) : (
-        <>
-          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-            {title}
-          </h3>
-          {description && (
-            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-              {description}
-            </span>
-          )}
-        </>
+        <Title title={title} description={description} />
       ),
   };
 };
