@@ -14,7 +14,7 @@ function WhatYouNeedToDo({ claim, useLighthouse }) {
 
   return (
     <div className="what-you-need-to-do-container">
-      <h3 className="claim-status-subheader">What you need to do</h3>
+      <h3 className="vads-u-margin-bottom--3">What you need to do</h3>
       {filesNeeded.length === 0 ? (
         <div className="no-documents">
           <p>
