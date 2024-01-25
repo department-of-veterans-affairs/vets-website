@@ -381,10 +381,10 @@ SearchPage.propTypes = {
   searchWithInput: PropTypes.func,
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   updateSortType: PropTypes.func,
   onSubmit: PropTypes.func,
-  submitRepresentativeReport: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
