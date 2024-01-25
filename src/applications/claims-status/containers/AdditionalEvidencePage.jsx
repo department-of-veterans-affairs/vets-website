@@ -13,10 +13,10 @@ import Notification from '../components/Notification';
 // TODO: Import FilesNeeded
 // import FilesNeeded
 import FilesOptional from '../components/FilesOptional';
+import FilesNeeded from '../components/FilesNeeded';
 
 import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 import { setFocus, setPageFocus, setUpPage } from '../utils/page';
-
 import {
   addFile,
   removeFile,
@@ -122,15 +122,14 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="claim-status-subheader">Additional evidence</h3>
-
-          {/* {this.props.filesNeeded.map(item => (
+          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          {this.props.filesNeeded.map(item => (
             <FilesNeeded
               key={getTrackedItemId(item)}
               id={this.props.claim.id}
               item={item}
             />
-          ))} */}
+          ))}
           {this.props.filesOptional.map(item => (
             <FilesOptional
               key={getTrackedItemId(item)}
