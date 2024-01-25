@@ -236,6 +236,8 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByRole('textbox')).to.exist;
     expect(tree.queryAllByRole('heading')).to.be.empty;
+    expect(tree.container.querySelector('.form-review-panel-page-header')).to
+      .exist;
   });
 
   it('should hide expand under items when collapsed', () => {
