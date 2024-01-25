@@ -49,7 +49,7 @@ export const getApi = (endpoint, method, requestBody) => {
       // undefined for all requests that use this config.
       'Source-App-Name': manifest.entryName,
     },
-    body: requestBody,
+    body: JSON.stringify(requestBody) || null,
   };
 
   return { requestUrl, apiSettings };
