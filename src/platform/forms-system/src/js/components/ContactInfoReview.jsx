@@ -9,106 +9,260 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
 
 import {
-  CONTACT_EDIT,
   renderTelephone,
   contactInfoPropTypes,
+  validateEmail,
+  validatePhone,
+  validateZipcode,
+  getReturnState,
+  setReturnState,
+  clearReturnState,
 } from '../utilities/data/profile';
 
 /**
- * Contact info for review & submit page
+ * Contact info fields shown on the review & submit page
  * @param {Object} data - form data
  * @param {function} editPage - edit page callback
- * @param {import('../utilities/data/profile').ContactInfoContent} content
+ * @param {ContactInfoContent} content
  * @param {Object} keys - form data keys
  * @returns {Element}
  */
-const ContactInfoReview = ({ data, editPage, content, keys }) => {
+const ContactInfoReview = ({
+  data,
+  editPage,
+  content,
+  keys,
+  contactInfoPageKey,
+}) => {
   const editRef = useRef(null);
-
   useEffect(
     () => {
-      if (
-        window.sessionStorage.getItem(CONTACT_EDIT) === 'true' &&
-        editRef?.current
-      ) {
+      if (getReturnState() === 'true,' && editRef?.current) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(CONTACT_EDIT);
-        setTimeout(() => focusElement(editRef.current));
+        clearReturnState();
+        setTimeout(
+          () => focusElement('va-button', {}, editRef.current?.shadowRoot),
+          0,
+        );
       }
     },
     [editRef],
   );
 
   const dataWrap = data[keys.wrapper] || {};
-  const email = dataWrap[keys.email] || '';
-  const homePhone = dataWrap[keys.homePhone] || {};
-  const mobilePhone = dataWrap[keys.mobilePhone] || {};
-  const address = dataWrap[keys.address] || {};
+  const emailString = dataWrap[keys.email] || '';
+  const homePhoneObj = dataWrap[keys.homePhone] || {};
+  const mobilePhoneObj = dataWrap[keys.mobilePhone] || {};
+  const addressObj = dataWrap[keys.address] || {};
 
-  const isUS = address.addressType !== ADDRESS_TYPES.international;
-  const stateOrProvince = isUS ? 'state' : 'province';
+  const isUS = addressObj.addressType !== ADDRESS_TYPES.international;
 
+  /**
+   * Renders value (if it isn't all whitespace) or an error message wrapped in
+   * a class that makes the text bold & red
+   * @param {String} value - Field value to show
+   * @param {String} errorMessage - Error message text
+   * @returns {String|JSX} - value or error message
+   */
   const showValueOrErrorMessage = (value, errorMessage) =>
-    (value || '').trim() || (
+    (value || '').trim() ||
+    (errorMessage && (
       <span className="usa-input-error-message">{errorMessage}</span>
-    );
+    )) ||
+    '';
 
-  // Label: formatted value in (design) display order
+  /**
+   * Display field label & data (or error message) on the review & submit page
+   * Using an array here to maintain display order
+   * Entry: [ Label, Value or error message ]
+   * - Label = Name of field (customizable in getContent)
+   * - Value or error message = `getValue` function that uses `keys` which is
+   *   the data object key that contains the value; e.g. keys.homePhone matches
+   *   this data path:
+   *   { [wrapperKey]: { [homePhone]: { areaCode: '', phoneNumber: '' } } }
+   * If the value function returns an empty string, the row isn't rendered
+   * */
   const display = [
-    [content.homePhone, () => renderTelephone(homePhone)],
-    [content.mobilePhone, () => renderTelephone(mobilePhone)],
+    [
+      content.homePhone, // label
+      () => {
+        // keys.homePhone is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.homePhone) {
+          return ''; // Don't render row
+        }
+        // content contains the error messages, homePhoneObj is the phone object
+        const errorMsg = validatePhone(content, homePhoneObj);
+        // Pass showValueOrErrorMessage an empty string so error renders
+        return errorMsg
+          ? showValueOrErrorMessage('', errorMsg)
+          : renderTelephone(homePhoneObj); // va-telephone web component
+      },
+    ],
+    [
+      content.mobilePhone,
+      () => {
+        // keys.mobilePhone is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.mobilePhone) {
+          return ''; // Don't render row
+        }
+        const errorMsg = validatePhone(content, mobilePhoneObj);
+        // Pass showValueOrErrorMessage an empty string so error renders
+        return errorMsg
+          ? showValueOrErrorMessage('', errorMsg)
+          : renderTelephone(mobilePhoneObj); // va-telephone web component
+      },
+    ],
     [
       content.email,
-      () => showValueOrErrorMessage(email, content.missingEmailError),
+      () => {
+        // keys.email is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.email) {
+          return ''; // Don't render row
+        }
+        const errorMsg = validateEmail(content, emailString);
+        // Pass showValueOrErrorMessage an empty string so error renders
+        return errorMsg ? showValueOrErrorMessage('', errorMsg) : emailString;
+      },
     ],
     [
       content.country,
-      () =>
-        showValueOrErrorMessage(address.countryName, content.missingCountry),
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.address) {
+          return ''; // Don't render row
+        }
+        // showValueOrErrorMessage will render the trimmed value or an error
+        return showValueOrErrorMessage(
+          addressObj.countryName,
+          content.missingCountryError,
+        );
+      },
     ],
     [
       content.address1,
-      () =>
-        showValueOrErrorMessage(
-          address.addressLine1,
-          content.missingStreetAddress,
-        ),
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.address) {
+          return ''; // Don't render row
+        }
+        // showValueOrErrorMessage will render the trimmed value or an error
+        return showValueOrErrorMessage(
+          addressObj.addressLine1,
+          content.missingStreetAddressError,
+        );
+      },
     ],
-    [content.address2, () => address.addressLine2],
-    [content.address3, () => address.addressLine3],
+    [
+      content.address2,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.address) {
+          return ''; // Don't render row
+        }
+        return addressObj.addressLine2; // No error because it's optional
+      },
+    ],
+    [
+      content.address3,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.address) {
+          return ''; // Don't render row
+        }
+        return addressObj.addressLine3; // No error because it's optional
+      },
+    ],
     [
       content.city,
-      () => showValueOrErrorMessage(address.city, content.missingCity),
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`
+        if (!keys.address) {
+          return ''; // Don't render row
+        }
+        // showValueOrErrorMessage will render the trimmed value or an error
+        return showValueOrErrorMessage(
+          addressObj.city,
+          content.missingCityError,
+        );
+      },
     ],
     [
-      content[stateOrProvince],
-      () =>
-        showValueOrErrorMessage(
-          address[isUS ? 'stateCode' : 'province'],
-          content.missingStateOrProvince(isUS),
-        ),
+      content.state,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`, or don't render this row for non-U.S. addresses
+        if (!keys.address || !isUS) {
+          return ''; // Don't render row
+        }
+        // showValueOrErrorMessage will render the trimmed value or an error
+        return showValueOrErrorMessage(
+          addressObj.stateCode,
+          content.missingStateError,
+        );
+      },
     ],
     [
-      isUS ? content.zipCode : content.postal,
-      () =>
-        showValueOrErrorMessage(
-          address[isUS ? 'zipCode' : 'internationalPostalCode'],
-          content.missingZip(isUS),
-        ),
+      content.province,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo` & don't render this row for U.S. addresses
+        if (!keys.address && isUS) {
+          return ''; // Don't render row
+        }
+        return addressObj.province; // No error because it's optional
+      },
+    ],
+    [
+      content.zipCode,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo`, or don't render this row for non-U.S. addresses
+        if (!keys.address || !isUS) {
+          return ''; // Don't render row
+        }
+        const { zipCode } = addressObj;
+        // Profile should only provide a 5-digit zipcode; evaluate for missing
+        // or invalid zipcode
+        const errorMsg = validateZipcode(content, zipCode);
+        // Pass showValueOrErrorMessage an empty string so error renders
+        return errorMsg ? showValueOrErrorMessage('', errorMsg) : zipCode;
+      },
+    ],
+    [
+      content.postal,
+      () => {
+        // keys.address is undefined if not in `included` option within
+        // `profileContactInfo` & don't render this row for U.S. addresses
+        if (!keys.address && isUS) {
+          return ''; // Don't render row
+        }
+        return addressObj.internationalPostalCode; // No error because it's optional
+      },
     ],
   ];
 
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem(CONTACT_EDIT, 'true');
+      setReturnState('true');
       editPage();
     },
   };
 
+  // Process display list of rows to show on the review & submit page
   const list = display
     .map(([label, getValue], index) => {
       const value = getValue() || '';
+      // don't render anything if the value is falsy (getValue will always
+      // return a string)
       return value ? (
         <div key={label + index} className="review-row">
           <dt>{label}</dt>
@@ -122,21 +276,20 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 
   return (
     <div className="form-review-panel-page">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
-          id="confirmContactInformationEdit"
-          className="edit-page usa-button-secondary"
+          secondary
+          id={`${contactInfoPageKey}Edit`}
+          class="edit-page vads-u-justify-content--flex-end"
           onClick={handlers.onEditPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+        />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>
@@ -144,6 +297,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 };
 
 ContactInfoReview.propTypes = {
+  contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   content: contactInfoPropTypes.content,
   data: contactInfoPropTypes.data,
   editPage: PropTypes.func,

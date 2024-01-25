@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import HealthConditions from './containers/HealthConditions';
 import VaccineDetails from './containers/VaccineDetails';
 import Vaccines from './containers/Vaccines';
@@ -31,6 +33,37 @@ const routes = (
       <Route exact path="/allergies/:allergyId" key="AllergyDetails">
         <AllergyDetails />
       </Route>
+      <FeatureFlagRoute
+        exact
+        path="/vaccines"
+        key="Vaccines"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <Vaccines />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        path="/vaccines/:vaccineId"
+        key="Vaccine"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <VaccineDetails />
+      </FeatureFlagRoute>
+
+      <FeatureFlagRoute
+        exact
+        path="/summaries-and-notes"
+        key="CareSummariesAndNotes"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <CareSummariesAndNotes />
+      </FeatureFlagRoute>
+      <FeatureFlagRoute
+        path="/summaries-and-notes/:summaryId"
+        key="CareSummaryAndNotesDetails"
+        featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
+      >
+        <CareSummariesDetails />
+      </FeatureFlagRoute>
       <Route exact path="/conditions" key="Health Conditions">
         <HealthConditions />
       </Route>
@@ -62,22 +95,6 @@ const routes = (
       </Route>
       <Route path="/settings" key="Settings">
         <SettingsPage />
-      </Route>
-      <Route exact path="/summaries-and-notes" key="CareSummariesAndNotes">
-        <CareSummariesAndNotes />
-      </Route>
-      <Route
-        exact
-        path="/summaries-and-notes/:summaryId"
-        key="CareSummaryAndNotesDetails"
-      >
-        <CareSummariesDetails />
-      </Route>
-      <Route exact path="/vaccines" key="Vaccines">
-        <Vaccines />
-      </Route>
-      <Route path="/vaccines/:vaccineId" key="Vaccine">
-        <VaccineDetails />
       </Route>
       <Route exact path="/vitals" key="Vitals">
         <Vitals />

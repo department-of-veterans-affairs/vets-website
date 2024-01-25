@@ -1,0 +1,16 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+#root_GI-Bill-Chapters-AccountType-label {
+    font-size: medium !important;
+    font-weight: normal  !important;
+  }
+
+.schemaform-required-span{
+    color: $color-secondary;
+}
+
+.direct-deposit-form-container{
+    .ach-submit-btn-auto-width{
+        width: auto !important;
+    }
+}

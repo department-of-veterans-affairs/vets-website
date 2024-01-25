@@ -44,7 +44,8 @@ describe('Vitals list container', () => {
 
   it('displays four types of records', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(4);
+      // count doubled due to print view
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(8);
     });
   });
 });
@@ -115,7 +116,7 @@ describe('Vitals list container with no vitals', () => {
 
   it('displays a no vitals message', () => {
     expect(
-      screen.getByText('You don’t have any records in Vitals', {
+      screen.getByText('There are no vitals in your VA medical records.', {
         exact: true,
       }),
     ).to.exist;

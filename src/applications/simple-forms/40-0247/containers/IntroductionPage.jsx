@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import PmcModalContent from 'platform/forms/components/OMBInfoModalContent/PmcModalContent';
-import recordEvent from 'platform/monitoring/record-event';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
+import { trackNoAuthStartLinkClick } from '../helpers';
 
 const content = {
   formTitle: 'Request a Presidential Memorial Certificate',
@@ -16,9 +16,7 @@ const content = {
 // replace <SaveInProgressIntro> with no-auth start-link below
 const additionalChildContent = (
   <Link
-    onClick={() => {
-      recordEvent({ event: 'no-login-start-form' });
-    }}
+    onClick={trackNoAuthStartLinkClick}
     to="/veteran-personal-information"
     className="no-auth-start-link vads-c-action-link--green"
   >
@@ -37,7 +35,7 @@ const childContent = (
   <>
     <h2 className="vad-u-margin-top--0">Follow these steps to get started</h2>
     <va-process-list uswds>
-      <va-process-list-item header="Check the Veteran’s or Reservists’s eligibility">
+      <va-process-list-item header="Check the Veteran’s or Reservist’s eligibility">
         <p>
           You can request a certificate for a deceased Veteran or Reservist who
           was your family member or close friend.
@@ -62,7 +60,7 @@ const childContent = (
           Certificate. We’ll accept multiple requests for certificates.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Gather the Veteran’s or Reservists’s information">
+      <va-process-list-item header="Gather the Veteran’s or Reservist’s information">
         <p>
           We don’t require that you submit anything with this form. But to speed
           up the process, we encourage you to submit these documents if they’re

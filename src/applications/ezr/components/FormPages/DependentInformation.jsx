@@ -15,6 +15,7 @@ import {
   getDataToSet,
   getSearchAction,
   getSearchIndex,
+  getDefaultState,
 } from '../../utils/helpers/listloop-pattern';
 import { replaceStrValues } from '../../utils/helpers/general';
 import { getDependentPageList } from '../../utils/helpers/household';
@@ -27,36 +28,21 @@ const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare default component
 const DependentInformation = props => {
-  const {
-    data,
-    goToPath,
-    setFormData,
-    contentBeforeButtons,
-    contentAfterButtons,
-  } = props;
+  const { data, goToPath, setFormData } = props;
 
   const { dependents = [] } = data;
   const search = new URLSearchParams(window.location.search);
   const searchIndex = getSearchIndex(search, dependents);
   const searchAction = getSearchAction(search, DEPENDENT_PATHS.summary);
+  const defaultState = getDefaultState({
+    defaultData: { data: {}, page: DEPENDENT_SUBPAGES[0] },
+    dataToSearch: dependents,
+    name: SESSION_ITEMS.dependent,
+    searchAction,
+    searchIndex,
+  });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const listRef = useMemo(() => dependents, []);
-
-  // determine which `page` & dataset to start with based on the index
-  const defaultStates = () => {
-    const resultToReturn = { data: {}, page: DEPENDENT_SUBPAGES[0] };
-
-    // check if data exists at the array index and set return result accordingly
-    if (typeof dependents[searchIndex] !== 'undefined') {
-      resultToReturn.data = dependents[searchIndex];
-
-      if (searchAction.mode !== 'add') {
-        window.sessionStorage.setItem(SESSION_ITEMS.dependent, searchIndex);
-      }
-    }
-
-    return resultToReturn;
-  };
 
   /**
    * declare default state/ref variables
@@ -68,8 +54,8 @@ const DependentInformation = props => {
   const [activePages, setActivePages] = useState(
     DEPENDENT_SUBPAGES.filter(item => !('depends' in item)),
   );
-  const [currentPage, setCurrentPage] = useState(defaultStates().page);
-  const [localData, setLocalData] = useState(defaultStates().data);
+  const [currentPage, setCurrentPage] = useState(defaultState.page);
+  const [localData, setLocalData] = useState(defaultState.data);
   const [modal, showModal] = useState(false);
 
   /**
@@ -86,7 +72,7 @@ const DependentInformation = props => {
       showModal(false);
       document
         .getElementById('ezr-modal-cancel')
-        .shadowRoot.children[0].focus();
+        .shadowRoot?.children[0]?.focus();
     },
     onChange: formData => {
       setLocalData({ ...localData, ...formData });
@@ -106,11 +92,17 @@ const DependentInformation = props => {
     onSubmit: () => {
       const index = activePages.findIndex(item => item.id === currentPage.id);
       if (index === activePages.length - 1) {
-        setFormData({
-          ...data,
-          [DEPENDENT_VIEW_FIELDS.add]: null,
-          [DEPENDENT_VIEW_FIELDS.skip]: true,
+        const dataToSet = getDataToSet({
+          slices: {
+            beforeIndex: dependents.slice(0, searchIndex),
+            afterIndex: dependents.slice(searchIndex + 1),
+          },
+          viewFields: DEPENDENT_VIEW_FIELDS,
+          dataKey: 'dependents',
+          localData,
+          listRef,
         });
+        setFormData({ ...data, ...dataToSet });
         goToPath(searchAction.pathToGo);
       } else {
         setCurrentPage(activePages[index + 1]);
@@ -128,25 +120,6 @@ const DependentInformation = props => {
       focusElement('#root__title');
     },
     [currentPage],
-  );
-
-  // set form data on each change to the localData object state
-  useEffect(
-    () => {
-      const dataToSet = getDataToSet({
-        slices: {
-          beforeIndex: dependents.slice(0, searchIndex),
-          afterIndex: dependents.slice(searchIndex + 1),
-        },
-        viewFields: DEPENDENT_VIEW_FIELDS,
-        dataKey: 'dependents',
-        localData,
-        listRef,
-      });
-      setFormData({ ...data, ...dataToSet });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [localData],
   );
 
   // set active pages array based on form data conditionals
@@ -188,9 +161,7 @@ const DependentInformation = props => {
         </div>
 
         {/** Form progress buttons */}
-        {contentBeforeButtons}
         <FormNavButtons goBack={handlers.onGoBack} submitToContinue />
-        {contentAfterButtons}
       </DependentListLoopForm>
     ) : null;
   });
@@ -232,8 +203,6 @@ const DependentInformation = props => {
 };
 
 DependentInformation.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,

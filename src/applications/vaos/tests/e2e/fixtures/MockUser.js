@@ -7,7 +7,7 @@ import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local
  * @export
  * @class MockUser
  */
-export class MockUser {
+export default class MockUser {
   /**
    * Creates an instance of MockUser.
    * @param {Object} props - Properties used to determine what type of mock user to create.

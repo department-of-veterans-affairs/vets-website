@@ -6,9 +6,9 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import { statementOfTruthFullNamePath } from '../../config/helpers';
 import {
   fillAddressWebComponentPattern,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
+import mockUser from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 import formConfig from '../../config/form';
@@ -32,7 +32,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          cy.findByText(/^start your intent to file/i, { selector: 'a' }).click(
+            { force: true },
+          );
         });
       },
       [formConfig.chapters.survivingDependentContactInformationChapter.pages
@@ -77,12 +79,15 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/user', mockUser);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+
+      cy.login(mockUser);
     },
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

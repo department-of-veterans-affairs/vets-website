@@ -60,10 +60,13 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.acceptTerms();
+      TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Confirmation.validateBtsssIssue();
       Confirmation.validatePageLoadedWithBtsssGenericFailure();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(

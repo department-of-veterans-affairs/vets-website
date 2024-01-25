@@ -1,10 +1,15 @@
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
+
+import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
+import {
+  recordRxSession,
+  recordButtonClick,
+  handleTelemetry,
+} from './helpers/tracking';
 import { ERROR } from '../chatbox/loadingStatus';
 // import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
@@ -24,6 +29,22 @@ import {
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
+export const setMicrophoneMessage = (isRXSkill, theDocument) => () => {
+  let intervalId;
+  if (isRXSkill === 'true') {
+    intervalId = setTimeout(() => {
+      const sendBox = theDocument.querySelector(
+        'input[class="webchat__send-box-text-box__input"]',
+      );
+      const attributeSetAMessage = attr =>
+        sendBox?.setAttribute(attr, 'Type or enable the microphone to speak');
+
+      ['aria-label', 'placeholder'].forEach(attributeSetAMessage);
+    }, 0); // delay this code until all synchronous code runs.
+  }
+  return () => clearTimeout(intervalId);
+};
+
 const WebChat = ({
   token,
   WebChatFramework,
@@ -37,17 +58,6 @@ const WebChat = ({
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const { virtualAgentDecisionLetterDownloadTracking } = useSelector(
-    state => {
-      return {
-        virtualAgentDecisionLetterDownloadTracking:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.virtualAgentDecisionLetterDownloadTracking
-          ],
-      };
-    },
-    state => state.featureToggles,
-  );
 
   ifMissingParamsCallSentry(csrfToken, apiSession, userFirstName, userUuid);
   if (!hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
@@ -68,6 +78,7 @@ const WebChat = ({
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
+          isMobile,
         ),
       );
     },
@@ -119,11 +130,11 @@ const WebChat = ({
     userAvatarInitials: 'You',
     primaryFont: 'Source Sans Pro, sans-serif',
     bubbleBorderRadius: 5,
+    bubbleFromUserBackground: '#f0f0f0',
     bubbleFromUserBorderRadius: 5,
     bubbleBorderWidth: 0,
     bubbleFromUserBorderWidth: 0,
     bubbleBackground: '#e1f3f8',
-    bubbleFromUserBackground: '#f1f1f1',
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
@@ -137,20 +148,6 @@ const WebChat = ({
     suggestedActionBorderWidth: 0,
     microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
   }; // color-primary-darker // color-primary-darker
-
-  const handleTelemetry = event => {
-    const { name } = event;
-
-    if (name === 'submitSendBox') {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'default',
-        'button-click-label': 'submitSendBox',
-        'button-background-color': 'gray',
-        time: new Date(),
-      });
-    }
-  };
 
   async function createPonyFill(webchat) {
     const region =
@@ -178,32 +175,39 @@ const WebChat = ({
   const [isRXSkill, setIsRXSkill] = useState();
   useEffect(
     () => {
-      const getRXStorageSession = () =>
+      const getRXStorageSession = () => {
         setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
-
+      };
       window.addEventListener('rxSkill', getRXStorageSession);
       return () => window.removeEventListener('rxSkill', getRXStorageSession);
     },
     [isRXSkill],
   );
 
+  useEffect(
+    () => {
+      setMicrophoneMessage(isRXSkill, document);
+    },
+    [isRXSkill],
+  );
+
+  useEffect(
+    () => {
+      recordRxSession(isRXSkill);
+    },
+    [isRXSkill],
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', recordButtonClick);
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('click', recordButtonClick);
+    };
+  }, []);
+
   if (isRXSkill === 'true') {
-    // check if window.WebChat exists
-    if (window.WebChat) {
-      // find the send box element
-      const sendBox = document.querySelector(
-        'input[class="webchat__send-box-text-box__input"]',
-      );
-      // change the placeholder text of send box
-      sendBox.setAttribute(
-        'aria-label',
-        'Type or enable the microphone to speak',
-      );
-      sendBox.setAttribute(
-        'placeholder',
-        'Type or enable the microphone to speak',
-      );
-    }
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
@@ -235,9 +239,7 @@ const WebChat = ({
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
-        cardActionMiddleware={cardActionMiddleware(
-          virtualAgentDecisionLetterDownloadTracking,
-        )}
+        cardActionMiddleware={cardActionMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

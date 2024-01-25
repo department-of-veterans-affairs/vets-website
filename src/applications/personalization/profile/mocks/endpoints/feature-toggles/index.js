@@ -3,6 +3,7 @@ const { snakeCase } = require('lodash');
 // add and remove feature toggles here by name, but generally keep all values as false
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
+  authExpVbaDowntimeMessage: false,
   profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
@@ -10,12 +11,10 @@ const profileToggles = {
   profileUseFieldEditingPage: false,
   profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
-  profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
+  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {

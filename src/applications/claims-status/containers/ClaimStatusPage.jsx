@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
 // START lighthouse_migration
@@ -14,6 +15,8 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
+
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
 import {
@@ -191,7 +194,7 @@ class ClaimStatusPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelStatus');
     }
   }
 
@@ -242,9 +245,17 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <div>
-        {showDocsNeeded ? (
-          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-        ) : null}
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Enabled>
+            <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
+          </Toggler.Enabled>
+          {showDocsNeeded && (
+            <Toggler.Disabled>
+              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+            </Toggler.Disabled>
+          )}
+        </Toggler>
+
         {decisionLetterSent && !isOpen ? (
           <ClaimsDecision
             completedDate={closeDate}
@@ -255,12 +266,16 @@ class ClaimStatusPage extends React.Component {
           <ClaimComplete completedDate={closeDate} />
         ) : null}
         {status && isOpen ? (
-          <ClaimTimeline
-            id={claim.id}
-            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-            currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={generateEventTimeline(claim)}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+            <Toggler.Disabled>
+              <ClaimTimeline
+                id={claim.id}
+                phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            </Toggler.Disabled>
+          </Toggler>
         ) : null}
       </div>
     );

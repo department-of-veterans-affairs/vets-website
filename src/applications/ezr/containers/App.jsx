@@ -1,23 +1,43 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { parseVeteranDob } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
   const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isSigiEnabled } = features;
+  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
+  const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+
+  /**
+   * Redirect users without the prod feature toggle enabled to the VA.gov home page
+   *
+   * NOTE: this is temporary functionality while the new application is being
+   * rolled out for user research and production testing
+   */
+  useEffect(
+    () => {
+      if (!isLoadingFeatures && !isProdEnabled) {
+        window.location.replace('https://www.va.gov');
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoadingFeatures],
+  );
 
   /**
    * Set default view fields in the form data
@@ -34,8 +54,9 @@ const App = props => {
       if (!isAppLoading) {
         const defaultViewFields = {
           'view:userGender': veteranGender,
-          'view:userDob': veteranDateOfBirth,
+          'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
+          'view:householdEnabled': canSubmitFinancialInfo,
         };
 
         setFormData({
@@ -45,10 +66,13 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isSigiEnabled, isAppLoading, veteranFullName, veteranDateOfBirth],
+    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
   );
 
-  return isAppLoading ? (
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
+
+  return isAppLoading || !isProdEnabled ? (
     <va-loading-indicator
       message={content['load-app']}
       class="vads-u-margin-y--4"
@@ -76,6 +100,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
+    isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,

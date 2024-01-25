@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import SchoolLocations from '../../../components/profile/SchoolLocations';
 import { getDefaultState } from '../../helpers';
-import ResponsiveTable from '../../../components/ResponsiveTable';
 
 const defaultState = getDefaultState();
 
@@ -45,13 +44,33 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find(ResponsiveTable);
+    const facilityTable = wrapper.find('va-table');
     expect(facilityTable).to.have.lengthOf(1);
-    ['School name', 'Location', 'Estimated housing'].forEach(column => {
-      expect(facilityTable.props().columns).include(column);
+    expect(facilityTable.prop('class')).to.equal('school-locations');
+
+    const tableRows = wrapper.find('va-table-row');
+    expect(tableRows).to.have.lengthOf(2);
+
+    const headerRow = tableRows.at(0);
+    const headerLabels = headerRow.find('span');
+
+    ['School name', 'Location', 'Estimated housing'].forEach(
+      (column, index) => {
+        expect(headerLabels.at(index).text()).to.equal(column);
+      },
+    );
+
+    const dataRow = tableRows.at(1);
+    expect(dataRow.prop('class')).to.equal('main-row');
+
+    const dataLabels = dataRow.find('span');
+    [
+      'MAIN FACILITY (Main Campus)',
+      'Test, TN 12345',
+      '$100per month/mo',
+    ].forEach((column, index) => {
+      expect(dataLabels.at(index).text()).equal(column);
     });
-    expect(facilityTable.props().tableClass).to.eq('school-locations');
-    expect(facilityTable.props().data).to.have.length(1);
 
     wrapper.unmount();
   });
@@ -82,7 +101,7 @@ describe('<SchoolLocations>', () => {
         },
       },
     };
-    const facilityMap = testState.profile.attributes.facilityMap;
+    const { facilityMap } = testState.profile.attributes;
     const wrapper = shallow(
       <SchoolLocations
         institution={testState.profile.attributes}
@@ -93,13 +112,23 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find(ResponsiveTable);
+    const facilityTable = wrapper.find('va-table');
     expect(facilityTable).to.have.lengthOf(1);
-    expect(facilityTable.props().data).to.have.length(1);
-    expect(facilityTable.props().data[0].key).to.eq(
-      `${facilityMap.main.institution.facilityCode}-main`,
-    );
-    expect(facilityTable.props().data[0].rowClassName).to.eq('main-row');
+
+    const tableRows = wrapper.find('va-table-row');
+    expect(tableRows).to.have.lengthOf(2);
+
+    const dataRow = tableRows.at(1);
+    const dataLabels = dataRow.find('span');
+
+    [
+      'MAIN FACILITY (Main Campus)',
+      'Test, TN 12345',
+      '$100per month/mo',
+    ].forEach((column, index) => {
+      expect(dataLabels.at(index).text()).equal(column);
+    });
+
     wrapper.unmount();
   });
 
@@ -129,24 +158,24 @@ describe('<SchoolLocations>', () => {
                     type: 'FOR PROFIT',
                     facilityCode: '101',
                     institution: 'MAIN BRANCH FACILITY',
-                    physicalCity: 'Test',
-                    physicalState: 'TN',
+                    physicalCity: 'Test 1',
+                    physicalState: 'KY',
                     physicalCountry: 'USA',
                     physicalZip: '12345',
                     country: 'USA',
-                    dodBah: '100',
+                    dodBah: '150',
                   },
                   extensions: [
                     {
                       type: 'FOR PROFIT',
                       facilityCode: '102',
                       institution: 'BRANCH EXTENSION FACILITY',
-                      physicalCity: 'Test',
-                      physicalState: 'TN',
+                      physicalCity: 'Test 2',
+                      physicalState: 'OH',
                       physicalCountry: 'USA',
                       physicalZip: '12345',
                       country: 'USA',
-                      dodBah: '100',
+                      dodBah: '200',
                     },
                   ],
                 },
@@ -167,8 +196,40 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find(ResponsiveTable);
-    expect(facilityTable.props().data).to.have.length(3);
+    const facilityTable = wrapper.find('va-table');
+    expect(facilityTable).to.have.lengthOf(1);
+
+    const tableRows = wrapper.find('va-table-row');
+    expect(tableRows).to.have.lengthOf(4);
+
+    let dataRow = tableRows.at(1);
+    let dataLabels = dataRow.find('span');
+    [
+      'MAIN FACILITY (Main Campus)',
+      'Test, TN 12345',
+      '$100per month/mo',
+    ].forEach((column, index) => {
+      expect(dataLabels.at(index).text()).equal(column);
+    });
+
+    dataRow = tableRows.at(2);
+    dataLabels = dataRow.find('span');
+    ['MAIN BRANCH FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
+      (column, index) => {
+        expect(dataLabels.at(index).text()).equal(column);
+      },
+    );
+
+    dataRow = tableRows.at(3);
+    dataLabels = dataRow.find('span');
+    [
+      'BRANCH EXTENSION FACILITY',
+      'Test 2, OH 12345',
+      '$200per month/mo',
+    ].forEach((column, index) => {
+      expect(dataLabels.at(index).text()).equal(column);
+    });
+
     wrapper.unmount();
   });
 
@@ -196,12 +257,12 @@ describe('<SchoolLocations>', () => {
                   type: 'FOR PROFIT',
                   facilityCode: '100',
                   institution: 'MAIN EXTENSION FACILITY',
-                  physicalCity: 'Test',
-                  physicalState: 'TN',
+                  physicalCity: 'Test 1',
+                  physicalState: 'KY',
                   physicalCountry: 'USA',
                   physicalZip: '12345',
                   country: 'USA',
-                  dodBah: '100',
+                  dodBah: '150',
                 },
               ],
               branches: [],
@@ -220,8 +281,33 @@ describe('<SchoolLocations>', () => {
         constants={testState.constants}
       />,
     );
-    const facilityTable = wrapper.find(ResponsiveTable);
-    expect(facilityTable.props().data).to.have.length(2);
+
+    const facilityTable = wrapper.find('va-table');
+    expect(facilityTable).to.have.lengthOf(1);
+
+    const tableRows = wrapper.find('va-table-row');
+    expect(tableRows).to.have.lengthOf(3);
+
+    let dataRow = tableRows.at(1);
+    let dataLabels = dataRow.find('span');
+
+    [
+      'MAIN FACILITY (Main Campus)',
+      'Test, TN 12345',
+      '$100per month/mo',
+    ].forEach((column, index) => {
+      expect(dataLabels.at(index).text()).equal(column);
+    });
+
+    dataRow = tableRows.at(2);
+    dataLabels = dataRow.find('span');
+
+    ['MAIN EXTENSION FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
+      (column, index) => {
+        expect(dataLabels.at(index).text()).equal(column);
+      },
+    );
+
     wrapper.unmount();
   });
 });

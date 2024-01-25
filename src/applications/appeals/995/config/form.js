@@ -10,7 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
@@ -92,7 +92,12 @@ const formConfig = {
   // verifyRequiredPrefill: true,
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.vaProfile],
+    dependencies: [
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
+    ],
   },
   saveInProgress,
   savedFormMessages,
@@ -146,7 +151,7 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_PATH,
           depends: () => false, // accessed from contestable issues
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,

@@ -6,6 +6,7 @@ import {
   focusElement,
   waitForRenderThenFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   DefaultFolders as Folders,
   Alerts,
@@ -36,6 +37,7 @@ const FolderThreadListView = props => {
   const { threadList, threadSort, isLoading } = useSelector(
     state => state.sm.threads,
   );
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
   const {
     searchFolder,
@@ -44,8 +46,18 @@ const FolderThreadListView = props => {
     keyword,
     query,
   } = useSelector(state => state.sm.search);
+
   const location = useLocation();
   const params = useParams();
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
+
+  const { allTriageGroupsBlocked } = useSelector(state => state.sm.recipients);
 
   const displayingNumberOfThreadsSelector =
     "[data-testid='displaying-number-of-threads']";
@@ -102,6 +114,9 @@ const FolderThreadListView = props => {
   useEffect(
     () => {
       if (folder?.folderId !== (null || undefined)) {
+        if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+          updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+        }
         if (folder.folderId !== threadSort?.folderId) {
           dispatch(
             setThreadSortOrder(
@@ -111,9 +126,6 @@ const FolderThreadListView = props => {
             ),
           );
           // updates page title
-          if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-            updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
-          }
         } else {
           dispatch(
             setThreadSortOrder(
@@ -153,11 +165,14 @@ const FolderThreadListView = props => {
 
   useEffect(
     () => {
-      if (folder !== undefined) {
-        focusElement(document.querySelector('h1'));
-      }
+      const alertVisible = alertList[alertList?.length - 1];
+      const alertSelector =
+        folder !== undefined && !alertVisible?.isActive
+          ? 'h1'
+          : alertVisible?.isActive && 'va-alert';
+      focusElement(document.querySelector(alertSelector));
     },
-    [folder],
+    [alertList, folder],
   );
 
   useInterval(() => {
@@ -193,9 +208,17 @@ const FolderThreadListView = props => {
       if (threadList?.length === 0) {
         return (
           <>
-            <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-              Showing 0 of 0 conversations
-            </div>
+            {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+              !allTriageGroupsBlocked && (
+                <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                  Showing 0 of 0 conversations
+                </div>
+              )
+            ) : (
+              <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                Showing 0 of 0 conversations
+              </div>
+            )}
             <div className="vads-u-margin-top--3">
               <va-alert
                 background-only="true"

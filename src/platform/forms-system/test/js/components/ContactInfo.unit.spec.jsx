@@ -12,6 +12,7 @@ import {
   getContent,
   setReturnState,
   clearReturnState,
+  getReturnState,
 } from '../../../src/js/utilities/data/profile';
 
 const getData = ({
@@ -50,6 +51,7 @@ const getData = ({
   },
   requiredKeys,
   content: getContent(),
+  contactInfoPageKey: 'confirmContactInfo',
   uiSchema,
 });
 
@@ -97,6 +99,8 @@ describe('<ContactInfo>', () => {
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.equal(5);
+    expect($(`[name="${data.contactInfoPageKey}ScrollElement"]`, container)).to
+      .exist;
   });
 
   it('should render contact data w/no success messages', () => {
@@ -444,5 +448,36 @@ describe('<ContactInfo>', () => {
     expect($$('h3', container).length).to.equal(0);
     expect($$('h4', container).length).to.equal(1);
     expect($$('h5', container).length).to.equal(4);
+  });
+
+  it('should call go forward callback', async () => {
+    setReturnState('testing123');
+    const forwardSpy = sinon.spy();
+    const data = getData({ forwardSpy });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ContactInfo {...data} />
+      </Provider>,
+    );
+
+    fireEvent.click($('.usa-button-primary', container));
+    expect(forwardSpy.called).to.be.true;
+    // return state gets cleared on continuing past the page
+    await expect(getReturnState()).to.equal('');
+  });
+  it('should call updatePage callback', async () => {
+    const updateSpy = sinon.spy();
+    const data = getData({ updateSpy, onReviewPage: true });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ContactInfo {...data} />
+      </Provider>,
+    );
+
+    fireEvent.click($('va-button', container));
+    expect(updateSpy.called).to.be.true;
+    // return state is set to 'true,' on update so the form returns back to the
+    // review & submit page
+    await expect(getReturnState()).to.contain('true');
   });
 });

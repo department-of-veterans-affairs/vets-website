@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
@@ -6,11 +7,13 @@ import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../BackToHome';
 import HelpBlock from '../HelpBlock';
+import { makeSelectError } from '../../selectors';
 
 const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
-
+  const selectError = useMemo(makeSelectError, []);
+  const { error } = useSelector(selectError);
   const currentPage = getCurrentPageFromRouter();
 
   const travelPages = [
@@ -18,7 +21,24 @@ const Footer = ({ router, isPreCheckIn }) => {
     'travel-address',
     'travel-vehicle',
     'travel-mileage',
+    'travel-review',
   ];
+
+  const showTravelHelp = () => {
+    if (travelPages.includes(currentPage)) {
+      return true;
+    }
+
+    if (currentPage?.includes('complete') && !isPreCheckIn) {
+      return true;
+    }
+
+    return (
+      currentPage === 'error' &&
+      (error === 'check-in-post-error' || error === 'error-completing-check-in')
+    );
+  };
+
   return (
     <footer>
       <h2
@@ -27,8 +47,7 @@ const Footer = ({ router, isPreCheckIn }) => {
       >
         {t('need-help')}
       </h2>
-      {travelPages.includes(currentPage) ||
-      (currentPage && currentPage.includes('complete') && !isPreCheckIn) ? (
+      {showTravelHelp() ? (
         <div data-testid="check-in-message">
           <HelpBlock travel />
         </div>

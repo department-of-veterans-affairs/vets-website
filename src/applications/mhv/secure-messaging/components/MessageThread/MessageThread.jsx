@@ -1,8 +1,8 @@
 /*
-On each <MeesageThreadItem> expand we need to send a /read call to the backend to retrieve full message data.
+On each <MessageThreadItem> expand we need to send a /read call to the backend to retrieve full message data.
 We are able to do this by using the onAccordionItemToggled event from the <va-accordion> component.
 However, as of 4/11/2023 <va-accordion> Expand All button is not triggering onAccordionItemToggled 
-for each individual <va-accordion-item> event. Prelaoding all messages on the first render of <MessageThread>
+for each individual <va-accordion-item> event. Preloading all messages on the first render of <MessageThread>
 is not an option since it will mark all messages as read. 
 */
 
@@ -18,10 +18,7 @@ import PropType from 'prop-types';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import MessageThreadItem from './MessageThreadItem';
-import {
-  clearMessageHistory,
-  markMessageAsReadInThread,
-} from '../../actions/messages';
+import { markMessageAsReadInThread } from '../../actions/messages';
 import { Actions } from '../../util/actionTypes';
 import useInterval from '../../hooks/use-interval';
 
@@ -94,15 +91,6 @@ const MessageThread = props => {
 
   useEffect(
     () => {
-      return () => {
-        dispatch(clearMessageHistory());
-      };
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       if (viewCount > 5) {
         focusElement(
           `[data-testid="expand-message-button-${
@@ -115,7 +103,7 @@ const MessageThread = props => {
   );
 
   const setViewCount = count => {
-    dispatch({ type: Actions.Message.SET_THREAD_VIEW_COUNT, payload: count });
+    dispatch({ type: Actions.Thread.SET_THREAD_VIEW_COUNT, payload: count });
   };
 
   const handleLoadMoreMessages = () => {

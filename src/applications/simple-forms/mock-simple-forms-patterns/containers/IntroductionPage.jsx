@@ -29,6 +29,9 @@ class IntroductionPage extends React.Component {
           <h3>Pages</h3>
           <ul>
             <li>
+              <Link to="/chapter-select">Chapter select</Link>
+            </li>
+            <li>
               <Link to="/text-input">Text input</Link>
             </li>
             <li>
@@ -67,10 +70,17 @@ class IntroductionPage extends React.Component {
               <Link to="/date">Date</Link>
             </li>
             <li>
-              <Link to="/array-single-page">Array in a single page</Link>
+              <Link to="/array-single-page">Array - single page</Link>
             </li>
             <li>
-              <Link to="/array-multiple-page">Array with multiple pages</Link>
+              <Link to="/array-multiple-page-aggregate">
+                Array - multiple page - aggregate pattern
+              </Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page-builder-summary">
+                Array - multiple page - builder pattern
+              </Link>
             </li>
           </ul>
         </div>

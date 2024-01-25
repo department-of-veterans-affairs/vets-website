@@ -8,19 +8,9 @@ describe('Medications List Page Renew Rx Link', () => {
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
     site.login();
-    cy.visit('my-health/about-medications/');
-
+    landingPage.visitLandingPageURL();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.verifyLearnHowToRenewPrescriptionsLinkExists();
     listPage.clickLearnHowToRenewPrescriptionsLink();

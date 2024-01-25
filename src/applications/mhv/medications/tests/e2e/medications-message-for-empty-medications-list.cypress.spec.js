@@ -8,19 +8,9 @@ describe('Medications Landing Page Empty Medications List', () => {
     const landingPage = new LandingPage();
     const listPage = new MedicationsListPage();
     site.login();
-    cy.visit('my-health/about-medications/');
-
+    landingPage.visitLandingPageURL();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLinkforEmptyMedicationsList();
     landingPage.verifyEmptyMedicationsListMessageAlertOnLandingPage();
   });

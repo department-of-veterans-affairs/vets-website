@@ -37,16 +37,17 @@ import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
+import createEZRSubmissionOptions from './ezr-submission-options';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
+import createFindARepLandingContent from './representative-search';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
@@ -81,12 +82,15 @@ import create1095BDownloadCTA from './download-1095b';
 
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
+import create2010206Access from './simple-forms/20-10206/entry';
 import create210845Access from './simple-forms/21-0845/entry';
+import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
 import create214142Access from './simple-forms/21-4142/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
+import create400247Access from './simple-forms/40-0247/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
@@ -164,6 +168,7 @@ createBasicFacilityListWidget();
 createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
+createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
@@ -173,11 +178,11 @@ createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
 );
-createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
+createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -216,12 +221,15 @@ createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
+create2010206Access(store, widgetTypes.FORM_2010206_CTA);
 create210845Access(store, widgetTypes.FORM_210845_CTA);
+create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
+create400247Access(store, widgetTypes.FORM_400247_CTA);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 
 // Create the My VA Login widget only on the homepage.

@@ -1,28 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import {
   dependentSchema as schema,
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
+import { isLoggedOut as authSelector } from '../../utils/selectors';
 import { DependentSIPWarning } from '../FormAlerts';
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;
-  const { fullName = {}, 'view:isLoggedIn': isLoggedIn } = data || {};
+  const isLoggedOut = useSelector(authSelector);
+  const { fullName = {} } = data || {};
 
   // build the uiSchema title attribute based on form data & page
   const nameToDisplay =
     page.id !== 'basic' ? `${fullName.first} ${fullName.last}` : 'Dependent';
   const currentUISchema = {
     ...uiSchema[page.id],
-    'ui:title': page.title.replace(/%s/g, nameToDisplay),
-    'ui:description': isLoggedIn ? DependentSIPWarning : undefined,
+    'ui:title': (
+      <span className="dd-privacy-mask" data-dd-action-name="Page title">
+        {page.title.replace(/%s/g, nameToDisplay)}
+      </span>
+    ),
   };
 
   return (
     <>
+      {!isLoggedOut ? <DependentSIPWarning /> : null}
       <SchemaForm
         name="Dependent"
         title="Dependent"

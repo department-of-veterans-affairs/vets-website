@@ -68,14 +68,22 @@ const v2 = {
       ...json,
     };
   },
-  postCheckInData: async ({ uuid, appointmentIen, facilityId }) => {
+  postCheckInData: async ({
+    uuid,
+    appointmentIen,
+    setECheckinStartedCalled,
+    isTravelEnabled,
+    travelSubmitted,
+  }) => {
     const url = '/check_in/v2/patient_check_ins/';
     const headers = { 'Content-Type': 'application/json' };
     const data = {
       patientCheckIns: {
         uuid,
         appointmentIen,
-        facilityId,
+        setECheckinStartedCalled,
+        isTravelEnabled,
+        travelSubmitted,
       },
     };
     const body = JSON.stringify(data);
@@ -88,7 +96,7 @@ const v2 = {
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      'check-in-user',
+      `check-in-user${setECheckinStartedCalled ? '' : '-45MR'}`,
       uuid,
     );
     return {
@@ -181,7 +189,7 @@ const v2 = {
     };
   },
 
-  postDayOfTravelPayClaim: async data => {
+  postDayOfTravelPayClaim: async (data, setECheckinStartedCalled) => {
     const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
 
@@ -203,7 +211,7 @@ const v2 = {
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      'submit-travel-pay-claim',
+      `submit-travel-pay-claim${setECheckinStartedCalled ? '' : '-45MR'}`,
       data.uuid,
       true,
     );

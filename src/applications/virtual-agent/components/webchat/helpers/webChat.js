@@ -1,9 +1,9 @@
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
 
-export const cardActionMiddleware = decisionLetterEnabled => () => next => card => {
+export const cardActionMiddleware = () => next => card => {
   const { cardAction } = card;
-  if (!cardAction || !decisionLetterEnabled) return next(card);
+  if (!cardAction) return next(card);
   const isDecisionLetter =
     typeof cardAction.value === 'string' &&
     cardAction.value.includes('/v0/claim_letters/');

@@ -124,3 +124,13 @@ fieldset.schemaform-field-template.schemaform-first-field {
 .militaryDetailsSubHeader {
   margin-bottom: -1em;
 }
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 18rem;
+  }
+}
+
+.desiredCemeteryNote {
+  padding-top: 2em;
+}

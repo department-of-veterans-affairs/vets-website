@@ -5,10 +5,7 @@
  * @testrailinfo groupId 3026
  * @testrailinfo runName FF-e2e-Required
  */
-// Dependencies.
 import chunk from 'lodash/chunk';
-
-// Relative Imports
 import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
 import stub from '../../constants/stub.json';
@@ -18,7 +15,7 @@ const SELECTORS = {
   INPUT_ROOT: 'va-search-input',
   SEARCH_FORM: '[data-e2e-id="find-form-search-form"]',
   SEARCH_RESULT_TITLE: '[data-e2e-id="result-title"]',
-  NEXT_PAGE: '.pagination-next > li > button',
+  NEXT_PAGE: '.usa-pagination__list > li[aria-label="Next page"] > a',
   SORT_SELECT_WIDGET: 'va-select[name="findFormsSortBySelect"]',
 };
 

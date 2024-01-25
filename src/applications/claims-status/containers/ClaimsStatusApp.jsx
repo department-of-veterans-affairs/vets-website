@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import environment from 'platform/utilities/environment';
+import DowntimeNotification, {
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
@@ -136,12 +139,26 @@ function ClaimsStatusApp({
       serviceRequired={[
         backendServices.EVSS_CLAIMS,
         backendServices.APPEALS_STATUS,
+        backendServices.LIGHTHOUSE,
       ]}
       user={user}
     >
-      <AppContent featureFlagsLoading={featureFlagsLoading}>
-        {children}
-      </AppContent>
+      <div id="downtime-app">
+        <DowntimeNotification
+          appTitle="Claim Status"
+          dependencies={[
+            externalServices.evss,
+            externalServices.global,
+            externalServices.mvi,
+            externalServices.vaProfile,
+            externalServices.vbms,
+          ]}
+        >
+          <AppContent featureFlagsLoading={featureFlagsLoading}>
+            {children}
+          </AppContent>
+        </DowntimeNotification>
+      </div>
     </RequiredLoginView>
   );
 }

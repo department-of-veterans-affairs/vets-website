@@ -8,10 +8,10 @@ const DownloadingRecordsInfo = props => {
     return (
       <>
         <span className="vads-u-font-weight--bold">
-          If you’re on a public or shared computer,
+          If you’re using a public or shared computer,
         </span>{' '}
         remember that downloading saves a copy of your records to the computer
-        you’re now using.
+        you’re using.
       </>
     );
   };
@@ -28,10 +28,9 @@ const DownloadingRecordsInfo = props => {
           <li>{publicSharedContent()}</li>
           <li>
             <span className="vads-u-font-weight--bold">
-              If you use assistive technology,
+              If you’re using assistive technology like a screen reader,
             </span>{' '}
-            a Text file (.txt) may work better for technology such as screen
-            reader, screen enlargers, or Braille displays.
+            a text file may work better for you.
           </li>
         </ul>
       ) : (

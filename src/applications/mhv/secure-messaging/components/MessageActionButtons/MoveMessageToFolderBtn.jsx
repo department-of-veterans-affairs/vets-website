@@ -16,12 +16,18 @@ import CreateFolderModal from '../Modals/CreateFolderModal';
 import { focusOnErrorField } from '../../util/formHelpers';
 
 const MoveMessageToFolderBtn = props => {
-  const { threadId, allFolders, isVisible, activeFolder } = props;
+  const {
+    threadId,
+    allFolders,
+    isVisible,
+    activeFolder,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+  } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isNewModalVisible, setIsNewModalVisible] = useState(false);
+  const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
   const [updatedFoldersList, setUpdatedFolderList] = useState([]);
 
@@ -35,11 +41,12 @@ const MoveMessageToFolderBtn = props => {
   );
 
   const openModal = () => {
-    setIsModalVisible(true);
+    setIsMoveModalVisible(true);
   };
 
+  // for closing move modal
   const closeModal = () => {
-    setIsModalVisible(false);
+    setIsMoveModalVisible(false);
     setSelectedFolder(null);
     setFolderInputError(null);
   };
@@ -59,7 +66,8 @@ const MoveMessageToFolderBtn = props => {
       focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
-        setIsNewModalVisible(true);
+        closeModal();
+        setIsCreateNewModalVisible(true);
       } else if (selectedFolder !== null) {
         dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
           navigateToFolderByFolderId(
@@ -107,7 +115,8 @@ const MoveMessageToFolderBtn = props => {
           large
           modalTitle="Move to:"
           onCloseEvent={closeModal}
-          visible={isModalVisible}
+          visible={isMoveModalVisible}
+          data-dd-action-name="Move To Modal Closed"
         >
           <p>
             This conversation will be moved. Any replies to this message will
@@ -119,6 +128,7 @@ const MoveMessageToFolderBtn = props => {
             enable-analytics
             error={folderInputError}
             onVaValueChange={handleOnChangeFolder}
+            data-dd-action-name="Select Move to Radio Button"
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (
@@ -148,12 +158,23 @@ const MoveMessageToFolderBtn = props => {
                 name="defaultName"
                 value="newFolder"
                 checked={selectedFolder === 'newFolder'}
+                data-dd-action-name="Select Move to Radio Button"
               />
             </>
           </VaRadio>
           <p /> {/* to create extra margin between radio and action buttons */}
-          <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
-          <va-button secondary text="Cancel" onClick={closeModal} />
+          {/* For creating a new folder and moving the thread */}
+          <va-button
+            text="Confirm"
+            onClick={handleConfirmMoveFolderTo}
+            data-dd-action-name="Confirm Move to Button"
+          />
+          <va-button
+            secondary
+            text="Cancel"
+            onClick={closeModal}
+            data-dd-action-name="Cancel Move to Button"
+          />
         </VaModal>
       </div>
     );
@@ -187,11 +208,12 @@ const MoveMessageToFolderBtn = props => {
             Move
           </span>
         </button>
-        {isModalVisible ? moveToFolderModal() : null}
-        {isNewModalVisible && (
+        {isMoveModalVisible ? moveToFolderModal() : null}
+
+        {isCreateNewModalVisible && (
           <CreateFolderModal
-            isModalVisible={isNewModalVisible}
-            setIsModalVisible={setIsNewModalVisible}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             onConfirm={confirmCreateFolder}
             folders={updatedFoldersList}
           />
@@ -204,7 +226,9 @@ const MoveMessageToFolderBtn = props => {
 MoveMessageToFolderBtn.propTypes = {
   activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
+  isCreateNewModalVisible: PropTypes.bool,
   isVisible: PropTypes.bool,
+  setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };
 

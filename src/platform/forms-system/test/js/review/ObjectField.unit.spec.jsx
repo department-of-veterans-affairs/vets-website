@@ -2,7 +2,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -237,6 +236,8 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByRole('textbox')).to.exist;
     expect(tree.queryAllByRole('heading')).to.be.empty;
+    expect(tree.container.querySelector('.form-review-panel-page-header')).to
+      .exist;
   });
 
   it('should hide expand under items when collapsed', () => {
@@ -558,7 +559,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getAllByRole('textbox')).to.have.length(2);
   });
 
-  it('should render aria-label on edit button using page title', () => {
+  it('should render aria-label on edit button using page title string', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
@@ -584,6 +585,37 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Page Title')).to.exist;
+
+    const review = document.getElementsByClassName('review')[0];
+    expect(within(review).getByRole('textbox')).to.exist;
+  });
+
+  it('should render aria-label on edit button using page title function', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const tree = render(
+      <ObjectField
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: () => 'Page Title [from function]' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getByLabelText('Edit Page Title [from function]')).to.exist;
 
     const review = document.getElementsByClassName('review')[0];
     expect(within(review).getByRole('textbox')).to.exist;
@@ -693,7 +725,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -736,6 +767,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByLabelText('Edit Blah')).to.exist;
 
     const review = document.querySelector('dl.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -775,7 +807,6 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -816,8 +847,8 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Blah')).to.exist;
-
     const review = document.querySelector('div.review');
+
     expect(within(review).getByRole('textbox')).to.exist;
   });
 
@@ -922,10 +953,9 @@ describe('Schemaform review: ObjectField', () => {
     expect(testField.value).to.equal('foo');
     expect(testLabel).to.exist;
 
-    const testEdit = within(document.querySelector('.test-edit'));
-    const editButton = testEdit.getByRole('button', { name: 'fooz' });
+    const editButton = document.querySelector('.test-edit va-button');
     expect(editButton).to.exist;
-    expect(editButton.textContent).to.equal('barz');
+    expect(editButton.getAttribute('text')).to.equal('barz');
 
     fireEvent.click(editButton);
     expect(onClick.called).to.be.true;

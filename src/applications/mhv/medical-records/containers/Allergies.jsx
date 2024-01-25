@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
@@ -11,23 +11,41 @@ import {
   ALERT_TYPE_ERROR,
   pageTitles,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import { getAllergiesList } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../util/helpers';
+import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import useListRefresh from '../hooks/useListRefresh';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
+import {
+  generateAllergiesIntro,
+  generateAllergiesContent,
+} from '../util/pdfHelpers/allergies';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const listState = useSelector(state => state.mr.allergies.listState);
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const allergiesCurrentAsOf = useSelector(
+    state => state.mr.allergies.listCurrentAsOf,
+  );
+  const refresh = useSelector(state => state.mr.refresh);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -37,12 +55,14 @@ const Allergies = props => {
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts();
 
-  useEffect(
-    () => {
-      dispatch(getAllergiesList());
-    },
-    [dispatch],
-  );
+  useListRefresh({
+    listState,
+    listCurrentAsOf: allergiesCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.ALLERGY,
+    dispatchAction: getAllergiesList,
+    dispatch,
+  });
 
   useEffect(
     () => {
@@ -58,90 +78,43 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
-    const title = 'Allergies and reactions';
-    const subject = 'VA Medical Record';
-    const preface = `This list includes all allergies, reactions, and side-effects in your VA medical records. If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.\n\nShowing ${
-      allergies.length
-    } records from newest to oldest`;
-    const pdfData = generatePdfScaffold(user, title, subject, preface);
-    pdfData.results = { items: [] };
-
-    allergies.forEach(item => {
-      pdfData.results.items.push({
-        header: item.name,
-        items: [
-          {
-            title: 'Date entered',
-            value: item.date,
-            inline: true,
-          },
-          {
-            title: 'Signs and symptoms',
-            value: processList(item.reaction),
-            inline: true,
-          },
-          {
-            title: 'Type of allergy',
-            value: item.type,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: item.location,
-            inline: true,
-          },
-          {
-            title: 'Observed or historical',
-            value: item.observedOrReported,
-            inline: true,
-          },
-          {
-            title: 'Provider notes',
-            value: item.notes,
-            inline: !item.notes,
-          },
-        ],
-      });
-    });
-
-    const pdfName = `VA-Allergies-list-${user.userFullName.first}-${
-      user.userFullName.last
-    }-${moment()
-      .format('M-D-YYYY_hhmmssa')
-      .replace(/\./g, '')}`;
+    const { title, subject, preface } = generateAllergiesIntro(allergies);
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
+    const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
   };
 
-  const generateAllergiesTxt = async () => {
-    const product = `
-    Allergies and reactions \n 
-    Review allergies, reactions, and side effects in your VA medical
-    records. This includes medication side effects (also called adverse drug
-    reactions). \n
-    If you have allergies that are missing from this list, tell your care
-    team at your next appointment. \n
-    
-    Showing ${allergies.length} from newest to oldest. \n
-    ${allergies.map(
-      entry =>
-        `_____________________________________________________ \n
-      ${entry.name} \n
-      \t Date entered: ${entry.date} \n
-      \t Signs and symptoms: ${entry.reaction} \n
-      \t Type of Allergy: ${entry.type} \n
-      \t Location: ${entry.location} \n
-      \t Observed or historical: ${entry.observedOrReported} \n
-      \t Provider notes: ${entry.notes} \n`,
-    )}`;
+  const generateAllergyListItemTxt = item => {
+    return `
+${txtLine}\n\n
+${item.name}\n
+Date entered: ${item.date}\n
+Signs and symptoms: ${item.reaction}\n
+Type of Allergy: ${item.type}\n
+Location: ${item.location}\n
+Observed or historical: ${item.observedOrReported}\n
+Provider notes: ${item.notes}\n`;
+  };
 
-    const blob = new Blob([product], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'AllergyList';
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+  const generateAllergiesTxt = async () => {
+    const content = `
+${crisisLineHeader}\n\n
+Allergies and reactions\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Review allergies, reactions, and side effects in your VA medical
+records. This includes medication side effects (also called adverse drug
+reactions).\n
+If you have allergies that are missing from this list, tell your care
+team at your next appointment.\n
+Showing ${allergies.length} from newest to oldest
+${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
+
+    const fileName = `VA-allergies-list-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
@@ -150,7 +123,10 @@ const Allergies = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
     }
-    if (allergies?.length > 0) {
+    if (allergies?.length === 0) {
+      return <NoRecordsMessage type="allergies or reactions" />;
+    }
+    if (allergies?.length) {
       return (
         <>
           <PrintDownload
@@ -164,28 +140,12 @@ const Allergies = props => {
         </>
       );
     }
-    if (allergies?.length === 0) {
-      return (
-        <div
-          className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-          data-testid="record-list-item"
-        >
-          <h2
-            className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-margin-top--0 vads-u-margin-bottom--0"
-            data-testid="no-allergy-records"
-          >
-            There are no allergies or reactions in your VA medical records.
-          </h2>
-        </div>
-      );
-    }
     return (
-      <div className="vads-u-margin-top--8 vads-u-margin-bottom--8">
+      <div className="vads-u-margin-y--8">
         <va-loading-indicator
           message="We’re loading your records. This could take up to a minute."
           setFocus
           data-testid="loading-indicator"
-          // class="loading-indicator"
         />
       </div>
     );

@@ -12,7 +12,6 @@ import {
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
-import { clearMessageHistory } from '../../actions/messages';
 
 const DeleteDraft = props => {
   const history = useHistory();
@@ -24,8 +23,10 @@ const DeleteDraft = props => {
   const {
     cannotReply,
     draftId,
+    draftsCount,
     formPopulated,
     navigationError,
+    refreshThreadCallback,
     setDeleteButtonClicked,
     setNavigationError,
     setUnsavedNavigationError,
@@ -41,8 +42,7 @@ const DeleteDraft = props => {
   const blankReplyDraft =
     unsavedReplyDraft && formPopulated === undefined && messageBody === '';
   const editableDraft = !!savedDraft === true && formPopulated === true;
-  const newMessageNavErr =
-    (unsavedNewDraft || unsavedReplyDraft) && navigationError !== null;
+  const newMessageNavErr = unsavedNewDraft && navigationError !== null;
   const blankNewMessage =
     (unsavedNewDraft || unsavedReplyDraft) && navigationError === null;
 
@@ -56,11 +56,14 @@ const DeleteDraft = props => {
       setNavigationError(null);
       setIsModalVisible(false);
       dispatch(deleteDraft(draftId)).then(() => {
-        dispatch(clearMessageHistory());
-        navigateToFolderByFolderId(
-          activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
-          history,
-        );
+        if (draftsCount === 1) {
+          navigateToFolderByFolderId(
+            activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
+            history,
+          );
+        } else {
+          refreshThreadCallback();
+        }
       });
     }
 
@@ -106,7 +109,6 @@ const DeleteDraft = props => {
             setDeleteButtonClicked(true);
             setNavigationError(null);
           }
-          // if true users can nav away if no saved changes are made
           if (blankReplyDraft) {
             unsavedDeleteSuccessful();
             navigateToFolderByFolderId(
@@ -140,9 +142,11 @@ DeleteDraft.propTypes = {
   cannotReply: PropType.bool,
   draft: PropType.object,
   draftId: PropType.number,
+  draftsCount: PropType.number,
   formPopulated: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
+  refreshThreadCallback: PropType.func,
   setDeleteButtonClicked: PropType.func,
   setNavigationError: PropType.func,
   setUnsavedNavigationError: PropType.func,

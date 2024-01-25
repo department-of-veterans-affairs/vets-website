@@ -1,19 +1,19 @@
 export const recordType = {
-  HEALTH_CONDITIONS: 'health conditions',
-  LABS_AND_TESTS: 'lab and test results',
-  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
-  VACCINES: 'vaccines',
-  VITALS: 'vitals',
   ALLERGIES: 'allergies',
+  VACCINES: 'vaccines',
+  CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
+  LABS_AND_TESTS: 'lab and test results',
+  VITALS: 'vitals',
+  HEALTH_CONDITIONS: 'health conditions',
 };
 
 export const accessAlertTypes = {
   ALLERGY: 'allergy',
   VACCINE: 'vaccine',
-  VITALS: 'vitals',
-  HEALTH_CONDITIONS: 'health conditions',
-  LABS_AND_TESTS: 'labs and tests',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
+  VITALS: 'vitals',
+  LABS_AND_TESTS: 'labs and tests',
+  HEALTH_CONDITIONS: 'health conditions',
 };
 
 export const labTypes = {
@@ -25,6 +25,12 @@ export const labTypes = {
   OTHER: 'other',
 };
 
+export const noteTypes = {
+  PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  DISCHARGE_SUMMARY: 'discharge_summary',
+  OTHER: 'other',
+};
+
 export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '79381-0',
@@ -32,7 +38,7 @@ export const loincCodes = {
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
-  PHYSICIAN_PROCEDURE_NOTE: '11505-5',
+  PHYSICIAN_PROCEDURE_NOTE: '11506-3',
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
@@ -152,4 +158,36 @@ export const allergyTypes = {
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const refreshExtractTypes = {
+  ALLERGY: 'Allergy',
+  IMAGING: 'ImagingStudy',
+  VPR: 'VPR',
+  CHEM_HEM: 'ChemistryHematology',
+};
+
+/** These are the extracts that we are actively using from the status response. */
+export const EXTRACT_LIST = [
+  refreshExtractTypes.ALLERGY,
+  refreshExtractTypes.IMAGING,
+  refreshExtractTypes.VPR,
+  refreshExtractTypes.CHEM_HEM,
+];
+
+export const VALID_REFRESH_DURATION = 3600000; // 1 hour
+
+export const STATUS_POLL_INTERVAL = 2000;
+
+export const refreshPhases = {
+  STALE: 'stale',
+  IN_PROGRESS: 'in_progress',
+  CURRENT: 'current',
+  FAILED: 'failed',
+};
+
+export const loadStates = {
+  PRE_FETCH: 'pre-fetch',
+  FETCHING: 'fetching',
+  FETCHED: 'fetched',
 };

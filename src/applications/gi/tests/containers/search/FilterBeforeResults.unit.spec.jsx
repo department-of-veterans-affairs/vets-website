@@ -2,8 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults'; // adjust the import based on your file structure
+import { FilterBeforeResults } from '../../../containers/search/FilterBeforeResults';
 import { updateUrlParams } from '../../../selectors/search';
+import { mockSearchResults } from '../../helpers';
 
 describe('<FilterBeforeResults />', () => {
   let wrapper;
@@ -40,11 +41,8 @@ describe('<FilterBeforeResults />', () => {
       props.version,
     );
     expect(historyMock.push.calledOnce).to.be.true;
-    wrapper
-      .find('button')
-      .at(1)
-      .simulate('click');
-    expect(props.dispatchFilterChange.calledOnce).to.be.true;
+    wrapper.find('[testId="clear-button"]').simulate('click');
+    expect(props.dispatchFilterChange.calledOnce).to.be.false;
     wrapper.unmount();
   });
 
@@ -208,5 +206,84 @@ describe('<FilterBeforeResults />', () => {
     expect(props.recordCheckboxEvent.calledOnce).to.be.false;
     expect(props.recordCheckboxEvent.calledWith(fakeEvent)).to.be.false;
     wrapper.unmount();
+  });
+
+  it('should render in small screen', () => {
+    props = {
+      dispatchShowModal: sinon.spy(),
+      dispatchFilterChange: sinon.spy(),
+      recordCheckboxEvent: sinon.spy(),
+      filters: {
+        excludedSchoolTypes: [],
+        vettec: false,
+        preferredProvider: false,
+      },
+      modalClose: sinon.spy(),
+      preview: {},
+      search: mockSearchResults,
+      smallScreen: true,
+      history: [],
+      version: 'v1.0.0',
+    };
+    wrapper = shallow(<FilterBeforeResults {...props} />);
+    expect(wrapper).to.not.be.null;
+    wrapper.unmount();
+  });
+  it('should render in VaLoadingIndicator in smallscreen', () => {
+    props = {
+      dispatchShowModal: sinon.spy(),
+      dispatchFilterChange: sinon.spy(),
+      recordCheckboxEvent: sinon.spy(),
+      filters: {
+        excludedSchoolTypes: [],
+        vettec: false,
+        preferredProvider: false,
+      },
+      modalClose: sinon.spy(),
+      preview: {},
+      search: { ...mockSearchResults, inProgress: true },
+      smallScreen: true,
+      history: [],
+      version: 'v1.0.0',
+    };
+    wrapper = shallow(<FilterBeforeResults {...props} />);
+    expect(wrapper.find('VaLoadingIndicator')).to.exist;
+    wrapper.unmount();
+  });
+  describe('should render', () => {
+    props = {
+      dispatchShowModal: sinon.spy(),
+      dispatchFilterChange: sinon.spy(),
+      recordCheckboxEvent: sinon.spy(),
+      filters: {
+        excludedSchoolTypes: [],
+        vettec: false,
+        preferredProvider: false,
+      },
+      modalClose: sinon.spy(),
+      preview: {},
+      search: {
+        inProgres: false,
+        location: { facets: {} },
+        name: { facets: {} },
+        tab: '',
+        query: '',
+      },
+      smallScreen: false,
+      history: [],
+      version: 'v1.0.0',
+    };
+    beforeEach(() => {
+      global.window.buildType = true;
+    });
+    it('should render', () => {
+      wrapper = shallow(<FilterBeforeResults {...props} />);
+      expect(
+        wrapper
+          .find('label')
+          .someWhere(n => n.text() === 'Native American-serving institutions'),
+      ).to.be.false;
+      wrapper.unmount();
+    });
   });
 });

@@ -33,6 +33,12 @@ export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
   ];
 };
 
+export const reviewPageNavigationFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation
+  ];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
@@ -305,10 +311,6 @@ export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
-};
-
-export const getCurrentEmploymentHistoryObject = () => {
-  return null;
 };
 
 export const dateTemplate = 'YYYY-MM-DD';

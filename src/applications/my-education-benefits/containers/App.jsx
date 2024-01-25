@@ -9,6 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
@@ -21,17 +22,20 @@ export const App = ({
   children,
   claimantInfo,
   eligibility,
+  exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
   // Commenting out until we update the component to handle astrisks
   // getDirectDeposit,
   getEligibility,
+  getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
+  mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMebDgi40Features,
@@ -48,7 +52,7 @@ export const App = ({
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
-
+  const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
   document.addEventListener(
@@ -158,6 +162,40 @@ export const App = ({
 
   useEffect(
     () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+      // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
+      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods();
+      }
+      if (exclusionPeriods && !formData.exclusionPeriods) {
+        const updatedFormData = {
+          ...formData,
+          mebExclusionPeriodEnabled,
+          exclusionPeriods, // Update form data with fetched exclusion periods
+        };
+        setFormData(updatedFormData);
+      }
+    },
+    [
+      mebExclusionPeriodEnabled,
+      fetchedExclusionPeriods,
+      firstName,
+      getExclusionPeriods,
+      exclusionPeriods,
+      formData,
+      setFormData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (showMebDgi40Features !== formData.showMebDgi40Features) {
         setFormData({
           ...formData,
@@ -257,7 +295,7 @@ export const App = ({
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
@@ -328,16 +366,19 @@ App.propTypes = {
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
+  exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   // getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
+  getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
@@ -356,6 +397,7 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
+  const exclusionPeriods = state?.data?.exclusionPeriods;
 
   return {
     ...getAppData(state),
@@ -363,12 +405,14 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
+    exclusionPeriods,
   };
 };
 
 const mapDispatchToProps = {
   // getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
+  getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,

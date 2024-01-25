@@ -65,8 +65,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('We’re sorry. This link has expired.')).to
-          .exist;
+        expect(component.getByText('This link has expired.')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
@@ -145,7 +144,6 @@ describe('check-in', () => {
           appointmentIen: 'some-ien',
           startTime: new Date(),
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           checkInWindowStart: new Date(),
           checkInWindowEnd: add(new Date(), { minutes: 14.9 }),
           checkedInTime: '',
@@ -210,7 +208,6 @@ describe('check-in', () => {
           appointmentIen: 'some-ien',
           startTime: '2022-01-03T14:56:04.788',
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           checkInWindowStart: '2022-01-03T14:56:04.788Z',
           checkInWindowEnd: '2022-01-03T14:56:04.788Z',
           checkedInTime: '',
@@ -285,7 +282,6 @@ describe('check-in', () => {
           appointmentIen: 'some-ien',
           startTime: sub(new Date(), { minutes: 16 }),
           eligibility: 'INELIGIBLE_TOO_LATE',
-          facilityId: 'some-facility',
           checkInWindowStart: sub(new Date(), { minutes: 16 }),
           checkInWindowEnd: sub(new Date(), { minutes: 16 }),
           checkedInTime: '',

@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const MaritalStatusDescription = (
+const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">

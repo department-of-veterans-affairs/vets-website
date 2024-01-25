@@ -17,7 +17,7 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CATEGORIES: '/categories',
-  RECIPIENTS: '/recipients',
+  RECIPIENTS: '/allrecipients',
   SIGNATURE: '/signature',
 };
 
@@ -42,8 +42,30 @@ export const Locators = {
     DELETE_DRAFT: '#delete-draft-button',
     CREATE_FOLDER: '[data-testid="create-new-folder"]',
     EDIT_FOLDER: '[data-testid="edit-folder-button"]',
+    PRINT: '[data-testid="print-button"]',
   },
-  InboxPage: {
-    COMPOSE_MESSAGE: '[data-testid="compose-message-link"]',
+  LINKS: {
+    GO_TO_INBOX: '[data-testid="inbox-link"]',
+    CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+  },
+  ALERTS: {
+    SAVE_DRAFT: '#messagetext',
+    BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
+  },
+};
+
+export const Alerts = {
+  NO_ASSOCIATION: {
+    AT_ALL_HEADER: `You're not connected to any care teams in this messaging tool`,
+    HEADER: 'Your account is no longer connected to',
+    PARAGRAPH:
+      'If you need to contact your care team, call your VA health facility.',
+    LINK: 'Find your VA health facility',
+  },
+  BLOCKED: {
+    HEADER: `You can't send messages to`,
+    PARAGRAPH:
+      'If you need to contact this care team, call your VA health facility.',
+    LINK: 'Find your VA health facility',
   },
 };

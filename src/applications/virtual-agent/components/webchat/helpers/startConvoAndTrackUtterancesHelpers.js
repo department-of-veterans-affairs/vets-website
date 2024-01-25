@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   joinActivity,
   startConversationActivity,
@@ -21,6 +22,7 @@ export const processActionConnectFulfilled = ({
   baseURL,
   userFirstName,
   userUuid,
+  isMobile,
 }) => () => {
   const currentConversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   const options = {
@@ -31,6 +33,7 @@ export const processActionConnectFulfilled = ({
     userFirstName,
     userUuid,
     currentConversationId,
+    isMobile,
   };
   dispatch(startConversationActivity(options));
 
@@ -117,5 +120,20 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   if (skillWasExited && rxSkill) {
     setSessionStorageAsString(IS_RX_SKILL, false);
     sendWindowEvent('rxSkill');
+  }
+};
+
+export const processMicrophoneActivity = ({ action }) => () => {
+  const isRxSkill = sessionStorage.getItem(IS_RX_SKILL);
+  if (action.payload.dictateState === 3) {
+    recordEvent({
+      event: 'chatbot-microphone-enable',
+      topic: isRxSkill ? 'prescriptions' : undefined,
+    });
+  } else if (action.payload.dictateState === 0) {
+    recordEvent({
+      event: 'chatbot-microphone-disable',
+      topic: isRxSkill ? 'prescriptions' : undefined,
+    });
   }
 };

@@ -122,4 +122,125 @@ describe('<ContactInformation>', () => {
     expect(showModalSpy.calledWith('ipedsCode')).to.be.true;
     tree.unmount();
   });
+
+  it('should render physical address when provided', () => {
+    const institution = {
+      physicalAddress1: '123 Main St',
+      physicalCity: 'Sample City',
+      physicalState: 'CA',
+      physicalZip: '12345',
+    };
+
+    const wrapper = shallow(<ContactInformation institution={institution} />);
+
+    expect(wrapper.find('.contact-heading').text()).to.equal(
+      'Physical address',
+    );
+    expect(
+      wrapper
+        .find('.small-screen-font')
+        .at(1)
+        .text(),
+    ).to.include('123 Main St');
+    expect(
+      wrapper
+        .find('.small-screen-font')
+        .at(1)
+        .text(),
+    ).to.include('Sample City, CA 12345');
+    wrapper.unmount();
+  });
+
+  it('should render mailing address when provided', () => {
+    const institution = {
+      address1: '456 Elm St',
+      city: 'Another City',
+      state: 'NY',
+      zip: '54321',
+    };
+
+    const wrapper = shallow(<ContactInformation institution={institution} />);
+
+    expect(wrapper.find('.contact-heading').text()).to.equal('Mailing address');
+    expect(
+      wrapper
+        .find('.small-screen-font')
+        .at(1)
+        .text(),
+    ).to.include('Single point');
+    expect(
+      wrapper
+        .find('.small-screen-font')
+        .at(1)
+        .text(),
+    ).to.include('Single point');
+    wrapper.unmount();
+  });
+
+  it('should render "Single point of contact" when vetPoc is true', () => {
+    const institution = {
+      vetPoc: true,
+    };
+
+    const wrapper = shallow(<ContactInformation institution={institution} />);
+    expect(
+      wrapper
+        .find('.small-screen-font')
+        .at(1)
+        .text(),
+    ).to.include('Single point of contact');
+    wrapper.unmount();
+  });
+
+  it('should render primary school certifying officials', () => {
+    const institution = {
+      versionedSchoolCertifyingOfficials: [
+        { priority: 'PRIMARY', name: 'John Doe' },
+        { priority: 'SECONDARY', name: 'Jane Smith' },
+      ],
+    };
+
+    const wrapper = shallow(<ContactInformation institution={institution} />);
+
+    expect(wrapper.find('#primary-contact-header').text()).to.equal('Primary');
+    expect(wrapper.find('.sco-list li')).to.have.length(1);
+    expect(wrapper.find('.sco-list li').text()).to.include('');
+    wrapper.unmount();
+  });
+
+  it('should render institution codes', () => {
+    const institution = {
+      facilityCode: '12345678',
+      cross: 'CROSSCODE',
+      ope: 'OPECODE',
+    };
+
+    const wrapper = shallow(<ContactInformation institution={institution} />);
+
+    expect(
+      wrapper
+        .find('.vads-u-margin-top--5')
+        .at(1)
+        .text(),
+    ).to.include('Institution codes');
+    expect(
+      wrapper
+        .find('.vads-u-margin-top--5')
+        .at(1)
+        .text(),
+    ).to.include('Institution codes');
+    expect(
+      wrapper
+        .find('.vads-u-margin-top--5')
+        .at(1)
+        .text(),
+    ).to.include('Institution codes');
+    expect(
+      wrapper
+        .find('.vads-u-margin-top--5')
+        .at(1)
+        .text(),
+    ).to.include('Institution codes');
+    wrapper.unmount();
+  });
 });

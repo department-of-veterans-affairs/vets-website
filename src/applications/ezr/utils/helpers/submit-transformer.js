@@ -31,12 +31,8 @@ export function submitTransformer(formConfig, form) {
   let withoutViewFields = filterViewFields(withoutInactivePages);
   let gaClientId;
 
-  // set veteran name, dob & ssn to loaded profile data, because it is removed in filterInactivePageData
-  const veteranFields = [
-    'veteranFullName',
-    'veteranDateOfBirth',
-    'veteranSocialSecurityNumber',
-  ];
+  // set veteran data fields to loaded profile data if its removed in filterInactivePageData
+  const veteranFields = ['veteranDateOfBirth', 'gender'];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
       const fieldData = loadedData.formData[field];
@@ -67,12 +63,11 @@ export function submitTransformer(formConfig, form) {
     withoutViewFields = set('dependents', [], withoutViewFields);
   }
 
-  const newData =
-    JSON.stringify(withoutViewFields, (key, value) => {
-      // dont let dependents be removed in the normal empty value clean up
-      if (key === 'dependents') return value;
-      return stringifyFormReplacer(key, value);
-    }) || '{}';
+  const newData = JSON.stringify(withoutViewFields, (key, value) => {
+    // dont let dependents be removed in the normal empty value clean up
+    if (key === 'dependents') return value;
+    return stringifyFormReplacer(key, value);
+  });
 
   try {
     // eslint-disable-next-line no-undef

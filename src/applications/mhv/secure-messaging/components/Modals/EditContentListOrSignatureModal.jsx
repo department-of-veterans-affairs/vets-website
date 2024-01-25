@@ -17,6 +17,7 @@ const EditContentListOrSignatureModal = props => {
       modalTitle={Prompts.Compose.EDIT_PREFERENCES_TITLE}
       name="edit-list"
       visible={editListModal}
+      data-dd-action-name="Edit Preferences List Modal Closed"
       onCloseEvent={() => {
         onClose();
       }}

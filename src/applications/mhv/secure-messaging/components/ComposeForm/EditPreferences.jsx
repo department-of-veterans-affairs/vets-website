@@ -10,7 +10,7 @@ const EditPreferences = () => {
     setEditListModal(false);
   }, []);
   return (
-    <>
+    <div className="vads-u-margin-top--2">
       <EditContentListOrSignatureModal
         editListModal={editListModal}
         onClose={() => {
@@ -22,6 +22,7 @@ const EditPreferences = () => {
         ref={editPreferencesButtonRef}
         id="edit-preferences-button"
         data-testid="edit-preferences-button"
+        data-dd-action-name="Edit Preferences Button"
         label="Edit preferences"
         className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full small-screen:vads-u-width--auto"
         onClick={() => setEditListModal(true)}
@@ -30,7 +31,7 @@ const EditPreferences = () => {
         <i className="fas fa-cog vads-u-padding-right--0p5" aria-hidden />
         Edit preferences
       </button>
-    </>
+    </div>
   );
 };
 

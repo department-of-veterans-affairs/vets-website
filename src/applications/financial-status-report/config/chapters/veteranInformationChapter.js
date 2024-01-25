@@ -10,9 +10,7 @@ import {
 } from '../../pages';
 import VeteranInformation from '../../components/veteranInformation/VeteranInformation';
 import VeteranInformationReview from '../../components/veteranInformation/VeteranInformationReview';
-import ContactInfo, {
-  customContactFocus,
-} from '../../components/contactInfo/ContactInfo';
+import ContactInfo from '../../components/contactInfo/ContactInfo';
 import ContactInfoReview from '../../components/contactInfo/ContactInfoReview';
 import {
   EditMobilePhone,
@@ -22,6 +20,8 @@ import {
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
 import DependentAgesReview from '../../components/household/DependentAgesReview';
+import SpouseTransitionExplainer from '../../components/householdIncome/SpouseTransitionExplainer';
+import { getGlobalState } from '../../utils/checkGlobalState';
 
 export default {
   veteranInformationChapter: {
@@ -57,6 +57,7 @@ export default {
         title: 'Available Debts',
         uiSchema: combinedDebts.uiSchema,
         schema: combinedDebts.schema,
+        depends: formData => !formData.reviewNavigation,
       },
       contactInfo: {
         initialData: {
@@ -85,8 +86,6 @@ export default {
         CustomPageReview: ContactInfoReview,
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
-        // needs useCustomScrollAndFocus: true to work
-        scrollAndFocusTarget: customContactFocus,
         depends: formData => formData['view:enhancedFinancialStatusReport'],
       },
       editMobilePhone: {
@@ -130,6 +129,23 @@ export default {
         schema: spouseName.schema,
         depends: formData =>
           formData.questions.isMarried && formData['view:streamlinedWaiver'],
+      },
+      spouseTransition: {
+        path: 'spouse-transition',
+        title: 'Spouse Transition',
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: SpouseTransitionExplainer,
+        CustomPageReview: null,
+        depends: formData => {
+          const globalState = getGlobalState();
+          return (
+            formData.questions.isMarried &&
+            !formData.reviewNavigation &&
+            globalState.spouseChanged &&
+            formData['view:streamlinedWaiver']
+          );
+        },
       },
       dependentCount: {
         path: 'dependents-count',

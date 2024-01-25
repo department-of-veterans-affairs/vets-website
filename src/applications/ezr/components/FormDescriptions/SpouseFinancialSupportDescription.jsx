@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const SpouseFinancialSupportDescription = (
+const SpouseFinancialSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a spouse"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">

@@ -18,13 +18,15 @@ import certsPg from '../pages/certificates';
 import addlCertsYNPg from '../pages/additionalCertificatesYesNo';
 import addlCertsReqPg from '../pages/additionalCertificatesRequest';
 import transformForSubmit from './submit-transformer';
-import { getInitialData } from '../helpers';
+import { getInitialData, pageFocusScroll } from '../helpers';
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/test-data.json';
 
 const mockData = testData.data;
 
+// TODO: remove useCustomScrollAndFocus & scrollAndFocusTarget props once
+// FormNav's default focus issue's resolved
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -39,9 +41,9 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body:
-        'I confirm, to the best of my knowledge, that the decedent has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       messageAriaDescribedby:
-        'I confirm, to the best of my knowledge, that the decedent has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the decedent was sentenced to a minimum of life imprisonment',
+        'I confirm, to the best of my knowledge, that the deceased has never committed a serious crime, such as murder or other offense that could have resulted in imprisonment for life, has never been convicted of a serious crime, and has never been convicted of a sexual offense for which the deceased was sentenced to a minimum of life imprisonment',
       fullNamePath: 'applicantFullName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
@@ -57,7 +59,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to request a certificate.',
     noAuth: 'Please sign in again to continue your request for certificate.',
@@ -74,44 +76,44 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
-      title: 'Veteran’s personal information',
+      title: 'Veteran’s or Reservist’s personal information',
       pages: {
         veteranPersonalInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
+          title: 'Veteran’s or Reservist’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData: getInitialData({ mockData, environment }),
           uiSchema: vetPersInfoPg.uiSchema,
           schema: vetPersInfoPg.schema,
           pageClass: 'veteran-personal-information',
-          // for this 1st page, default scroll-n-focus is not working
-          scrollAndFocusTarget:
-            'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
     veteranIdentificationInfoChapter: {
-      title: 'Veteran’s identification information',
+      title: 'Identification information',
       pages: {
         veteranIdentificationInfoPage: {
-          path: 'veteran-identification-information',
-          title: 'Veteran’s identification information',
+          path: 'identification-information',
+          title: 'Identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
     veteranSupportingDocumentationChapter: {
-      title: 'Veteran’s supporting documentation',
+      title: 'Supporting documentation',
       pages: {
         veteranSupportDocsPage: {
-          path: 'veteran-supporting-documentation',
-          title: 'Upload documents (preferably DD214)',
+          path: 'supporting-documentation',
+          title: 'Supporting documentation',
           uiSchema: vetSupportDocsPg.uiSchema,
           schema: vetSupportDocsPg.schema,
           pageClass: 'veteran-supporting-documentation',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -124,6 +126,7 @@ const formConfig = {
           uiSchema: requestTypePg.uiSchema,
           schema: requestTypePg.schema,
           pageClass: 'request-type',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -136,6 +139,7 @@ const formConfig = {
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -148,6 +152,7 @@ const formConfig = {
           uiSchema: appAddrPg.uiSchema,
           schema: appAddrPg.schema,
           pageClass: 'applicant-address',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -160,6 +165,7 @@ const formConfig = {
           uiSchema: appContactInfoPg.uiSchema,
           schema: appContactInfoPg.schema,
           pageClass: 'applicant-contact-information',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -172,6 +178,7 @@ const formConfig = {
           uiSchema: certsPg.uiSchema,
           schema: certsPg.schema,
           pageClass: 'certificates',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -184,6 +191,7 @@ const formConfig = {
           uiSchema: addlCertsYNPg.uiSchema,
           schema: addlCertsYNPg.schema,
           pageClass: 'additional-certificates-yes-no',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         additionalCertificatesRequestPage: {
           path: 'additional-certificates-request',
@@ -192,6 +200,7 @@ const formConfig = {
           uiSchema: addlCertsReqPg.uiSchema,
           schema: addlCertsReqPg.schema,
           pageClass: 'additional-certificates-request',
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },

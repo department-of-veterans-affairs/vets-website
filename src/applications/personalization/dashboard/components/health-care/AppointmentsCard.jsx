@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
-import { getAppointmentTimezone } from '../../utils/timezone';
+import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
-  const startsAt = new Date(nextAppointment?.startsAt);
+  const startsAt = nextAppointment?.startsAt;
+
   let locationName;
 
   const timeZone = getAppointmentTimezone(nextAppointment);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const timeZoneId = timeZone.description;
+  const localStartTime = utcToZonedTime(startsAt, timeZoneId);
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -29,26 +29,21 @@ export const AppointmentsCard = ({ appointments }) => {
     locationName = nextAppointment?.providerName;
   }
 
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? '/my-health/appointments'
-    : '/health-care/schedule-view-va-appointments/appointments';
-
   const content = (
     <>
       <h3 className="vads-u-margin-top--0">Next appointment</h3>
       <p className="vads-u-margin-bottom--1">
-        {format(startsAt, 'eeee, MMMM d, yyyy')}
+        {format(localStartTime, 'eeee, MMMM d, yyyy')}
       </p>
       <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-        {`Time: ${format(startsAt, 'h:mm aaaa')} ${timeZone.abbreviation}`}
+        {`Time: ${format(localStartTime, 'h:mm aaaa')} ${
+          timeZone.abbreviation
+        }`}
       </p>
       {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
       <CTALink
         text="Schedule and manage your appointments"
-        href={apptLink}
+        href="/my-health/appointments"
         showArrow
         className="vads-u-font-weight--bold"
         onClick={() =>

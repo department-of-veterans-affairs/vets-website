@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfCarePage extends PageObject {
+export class TypeOfCarePageObject extends PageObject {
   assertAddressAlert({ exist = true } = {}) {
     if (exist) {
       cy.get('va-alert[status=warning]')
@@ -33,4 +33,4 @@ export class TypeOfCarePage extends PageObject {
   }
 }
 
-export default new TypeOfCarePage();
+export default new TypeOfCarePageObject();
