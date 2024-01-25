@@ -20,7 +20,7 @@ const WelcomeContainer = () => {
     () => {
       return inMPI && loa3 && dispatch(fetchPersonalInformation());
     },
-    [dispatch, fetchPersonalInformation, inMPI, loa3],
+    [dispatch, inMPI, loa3],
   );
 
   return <Welcome name={name} loading={loading} />;
