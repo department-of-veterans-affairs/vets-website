@@ -11,9 +11,9 @@ function FilesNeeded({ id, item }) {
       status="warning"
       uswds
     >
-      <h3 slot="headline" className="alert-title">
+      <h4 slot="headline" className="alert-title">
         {item.displayName}
-      </h3>
+      </h4>
       <div className="item-container">
         <DueDate date={item.suspenseDate} />
         <p className="alert-description">
