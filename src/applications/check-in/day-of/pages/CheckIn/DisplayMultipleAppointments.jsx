@@ -12,6 +12,9 @@ import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { useStorage } from '../../../hooks/useStorage';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
+import TravelWarningAlert from '../../../components/TravelWarningAlert';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
@@ -28,6 +31,8 @@ const DisplayMultipleAppointments = props => {
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { shouldRefresh } = context;
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
     {
@@ -113,6 +118,7 @@ const DisplayMultipleAppointments = props => {
         eyebrow={t('check-in')}
         withBackButton
       >
+        {!isTravelReimbursementEnabled && <TravelWarningAlert />}
         <AppointmentBlock
           router={router}
           appointments={appointments}
