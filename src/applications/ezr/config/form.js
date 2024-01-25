@@ -41,7 +41,7 @@ import veteranMailingAddress from './chapters/veteranInformation/mailingAddress'
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
 import emergencyContantInformation from './chapters/veteranInformation/emergencyContactInfo';
-// import emergencyContantInformationView from './chapters/veteranInformation/emergencyContactInfoView';
+import emergencyContantInformationView from './chapters/veteranInformation/emergencyContactInfoView';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -190,13 +190,13 @@ const formConfig = {
           uiSchema: emergencyContantInformation.uiSchema,
           schema: emergencyContantInformation.schema,
         },
-        // emergencyContactInformationView: {
-        //   path: 'veteran-information/medical-emergency-contact/view',
-        //   title: 'Veteran\u2019s emergency contacts',
-        //   initialData: {},
-        //   uiSchema: emergencyContantInformationView.uiSchema,
-        //   schema: emergencyContantInformationView.schema,
-        // },
+        emergencyContactInformationView: {
+          path: 'veteran-information/medical-emergency-contact/view',
+          title: 'Veteran\u2019s emergency contacts',
+          initialData: {},
+          uiSchema: emergencyContantInformationView.uiSchema,
+          schema: emergencyContantInformationView.schema,
+        },
         /** NOTE: this page needs to live in the "Veteran Info" section to avoid
          * having an empty/inactive "Household Info" accordion on the review page
          * when the user does not need to fill out household financial info
