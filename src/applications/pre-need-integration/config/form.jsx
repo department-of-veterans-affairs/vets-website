@@ -2,7 +2,7 @@ import React from 'react';
 import { merge, pick } from 'lodash';
 import set from 'platform/utilities/data/set';
 
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
