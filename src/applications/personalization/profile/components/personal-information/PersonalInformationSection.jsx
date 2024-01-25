@@ -27,6 +27,7 @@ const LegalNameDescription = () => (
   </va-additional-info>
 );
 
+// this is where we conditionally render the pronouns and sexual orientation fields
 const PersonalInformationSection = ({
   dob,
   shouldShowPronounsAndSexualOrientation,
