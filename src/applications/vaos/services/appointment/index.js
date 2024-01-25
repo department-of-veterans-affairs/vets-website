@@ -4,7 +4,7 @@
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getAppointment,
   getAppointments,
