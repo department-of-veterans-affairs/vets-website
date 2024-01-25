@@ -202,9 +202,9 @@ SearchResult.propTypes = {
   representative: PropTypes.string,
   representativeId: PropTypes.string,
   state: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
-  submitRepresentativeReport: PropTypes.func,
 };
 
 export default SearchResult;
