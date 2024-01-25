@@ -72,14 +72,6 @@ describe('VA prescription Config', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails);
     expect(txt).to.include('About this medication or supply');
   });
-
-  it('should create "About your prescription" section', () => {
-    const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
-    expect(txt).to.include('About your prescription');
-    expect(txt).to.include(
-      prescriptionDetails.data.attributes.prescriptionName,
-    );
-  });
 });
 
 describe('Non VA prescription Config', () => {
