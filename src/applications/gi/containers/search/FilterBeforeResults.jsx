@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 import LearnMoreLabel from '../../components/LearnMoreLabel';
 import AccordionItem from '../../components/AccordionItem';
@@ -22,6 +22,7 @@ import { showModal, filterChange } from '../../actions';
 import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
+import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 
 export function FilterBeforeResults({
   dispatchShowModal,
@@ -200,7 +201,10 @@ export function FilterBeforeResults({
           className="about-school-checkbox"
           label={
             <h5
-              className={environment.isProduction() ? '' : 'school-types-label'}
+              className={
+                isProductionOfTestProdEnv() ? '' : 'school-types-label'
+              }
+              aria-level={2}
             >
               School types
             </h5>
@@ -258,10 +262,11 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        className={environment.isProduction() ? '' : 'about-school-checkbox'}
+        className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
           <h5
-            className={environment.isProduction() ? '' : 'about-school-label'}
+            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            aria-level={2}
           >
             About the school
           </h5>
@@ -288,10 +293,11 @@ export function FilterBeforeResults({
     ];
     return (
       <CheckboxGroup
-        className={environment.isProduction() ? '' : 'other-checkbox'}
+        className={isProductionOfTestProdEnv() ? '' : 'other-checkbox'}
         label={
           <h5
-            className={environment.isProduction() ? '' : 'about-school-label'}
+            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
+            aria-level={2}
           >
             Other
           </h5>
@@ -430,26 +436,29 @@ export function FilterBeforeResults({
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
-        className={environment.isProduction() ? '' : 'my-filters-margin'}
+        className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
         label={
           <>
             <h5
-              className={environment.isProduction() ? '' : 'school-types-label'}
+              className={
+                isProductionOfTestProdEnv() ? '' : 'school-types-label'
+              }
+              aria-level={2}
             >
               Community focus
             </h5>
             <button
               className={
-                environment.isProduction()
+                isProductionOfTestProdEnv()
                   ? 'mobile-jump-link'
                   : 'mobile-jump-link labels-margin'
               }
               onClick={() => jumpLinkClick()}
             >
-              {smallScreen && <>Jump to community focus details</>}
+              {smallScreen && <>Go to community focus details</>}
               {!smallScreen && (
                 <JumpLink
-                  label="Jump to community focus details"
+                  label="Go to community focus details"
                   jumpToId="learn-more-about-specialized-missions-accordion-button"
                   iconToggle={false}
                 />
@@ -518,24 +527,29 @@ export function FilterBeforeResults({
     const title = 'Filter your results';
     return (
       <>
-        <div>
-          <div>
-            {excludedSchoolTypesGroup()}
-            {schoolAttributes()}
-            {vetTecOJT()}
-            <hr />
-            <div className="horizontal-line" />
-            {specializedMissionAttributes()}
-            {smallScreen && renderLocation()}
-            <div className="modal-button-wrapper">
-              <button
-                type="button"
-                id={`update-${createId(title)}-button`}
-                className="update-results-button apply-filter-button vads-u-margin-top--3"
-                onClick={closeAndUpdate}
-              >
-                Apply filters
-              </button>
+        <hr />
+        <div className="horizontal-line" />
+        <fieldset className="gi-mission-filter-fieldset">
+          <legend>
+            <h3>{title}</h3>
+          </legend>
+          {excludedSchoolTypesGroup()}
+          {schoolAttributes()}
+          {vetTecOJT()}
+          <hr />
+          <div className="horizontal-line" />
+          {specializedMissionAttributes()}
+          {smallScreen && renderLocation()}
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id={`update-${createId(title)}-button`}
+              className="update-results-button apply-filter-button vads-u-margin-top--3"
+              onClick={closeAndUpdate}
+            >
+              Apply filters
+            </button>
+            {isProductionOfTestProdEnv() ? (
               <button
                 onClick={clearAllFilters}
                 className={
@@ -546,29 +560,33 @@ export function FilterBeforeResults({
               >
                 Clear filters
               </button>
-            </div>
-            <div
-              id="learn-more-about-specialized-missions-accordion-button"
-              className="vads-u-margin-top--3"
-            >
-              <AccordionItem
-                button="Learn more about community focus filters"
-                section
-                expanded={smfAccordionExpanded}
-                onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
-                expandedWidth
-              >
-                <div>{smfDefinitions}</div>
-              </AccordionItem>
-            </div>
+            ) : (
+              <ClearFiltersBtn testId="clear-button">
+                Clear filters
+              </ClearFiltersBtn>
+            )}
           </div>
-        </div>
+          <div
+            id="learn-more-about-specialized-missions-accordion-button"
+            className="vads-u-margin-top--3"
+          >
+            <AccordionItem
+              button="Learn more about community focus filters"
+              section
+              expanded={smfAccordionExpanded}
+              onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
+              expandedWidth
+            >
+              <div>{smfDefinitions}</div>
+            </AccordionItem>
+          </div>
+        </fieldset>
       </>
     );
   };
 
   /*
-    when loading page, check to see if school filter is false
+  when loading page, check to see if school filter is false
     if false check to see if excludedSchoolTypes does not equal empty array
     if true set school filter to true
     On rare occasions school filter loads as false which can 
