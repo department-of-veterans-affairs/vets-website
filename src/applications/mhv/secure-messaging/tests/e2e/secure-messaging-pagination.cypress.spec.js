@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockMessagesPageOne from './fixtures/messages-response.json';
 import mockMessagesPageTwo from './fixtures/messages-response-page-2.json';
+import mockMessagesSingle from './fixtures/message-response-single.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
@@ -45,6 +46,36 @@ describe('Secure Messaging Reply', () => {
     });
     FolderLoadPage.verifyPaginationElements();
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+  });
+
+  it('Axe Check Message Pagination', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    const threadLength = 11;
+
+    mockMessagesPageOne.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = threadLength;
+    });
+    mockMessagesSingle.data.forEach(item => {
+      const currentItem = item;
+      currentItem.threadPageSize = threadLength;
+    });
+
+    landingPage.loadInboxMessages(mockMessagesPageOne);
+    cy.get('va-pagination').should('be.visible');
+    site.loadVAPaginationNextMessages(2, mockMessagesSingle);
+    FolderLoadPage.verifyPaginationElements();
+    cy.get('.endOfThreads').should('not.exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
