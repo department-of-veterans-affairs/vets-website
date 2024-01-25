@@ -41,6 +41,9 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('my-medications')).to.contain.text(
       'INSULIN REGULAR 500',
     );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
+      'Documenting Facility & Provider: CAMP MASTER, PROVIDER,ONE',
+    );
     expect(screen.getByTestId('my-va-supplies')).to.contain.text(
       'TABLET CUTTER',
     );

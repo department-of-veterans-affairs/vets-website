@@ -128,7 +128,7 @@ const ChangeOfDirectDepositWrapper = () => {
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
         {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
       </p>
       <div
