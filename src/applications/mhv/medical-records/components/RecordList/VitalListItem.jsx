@@ -9,8 +9,9 @@ const VitalListItem = props => {
   const displayName = vitalTypeDisplayNames[record.type];
 
   return (
-    <div
-      className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-margin-bottom--2p5"
       data-testid="record-list-item"
     >
       <h2 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin--0">
@@ -47,7 +48,7 @@ const VitalListItem = props => {
           aria-hidden="true"
         />
       </Link>
-    </div>
+    </va-card>
   );
 };
 

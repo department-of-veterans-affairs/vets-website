@@ -7,8 +7,9 @@ const VaccinesListItem = props => {
   const { record } = props;
 
   return (
-    <div
-      className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-padding-y--2p5 vads-u-margin-bottom--2p5"
       data-testid="record-list-item"
     >
       {/* web view header */}
@@ -68,7 +69,7 @@ const VaccinesListItem = props => {
           {record.notes}
         </span>
       </div>
-    </div>
+    </va-card>
   );
 };
 
