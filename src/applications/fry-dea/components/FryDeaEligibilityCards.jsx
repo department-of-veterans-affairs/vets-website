@@ -51,6 +51,7 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         full-width="false"
         status="continue"
         visible="true"
+        uswds
       >
         <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
           CHAPTER 33
@@ -105,6 +106,7 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         full-width="false"
         status="continue"
         visible="true"
+        uswds
       >
         <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
           DEA, CHAPTER 35

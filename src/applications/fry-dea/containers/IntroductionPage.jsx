@@ -25,6 +25,7 @@ class IntroductionPage extends React.Component {
           close-btn-aria-label="Close notification"
           status="info"
           visible
+          uswds
         >
           <h3 slot="headline">
             This application is only for some benefit types
@@ -52,7 +53,7 @@ class IntroductionPage extends React.Component {
           Follow these steps to get started
         </h2>
 
-        <va-process-list>
+        <va-process-list uswds>
           <li>
             <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
             <p>
@@ -61,6 +62,7 @@ class IntroductionPage extends React.Component {
             <va-additional-info
               class="vads-u-margin-bottom--2"
               trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
+              uswds
             >
               <p>
                 <strong>
@@ -90,7 +92,7 @@ class IntroductionPage extends React.Component {
               </a>
             </va-additional-info>
 
-            <va-additional-info trigger="What are the Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35) eligibility requirements?">
+            <va-additional-info trigger="What are the Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35) eligibility requirements?" uswds>
               <p>
                 <strong>
                   As the child or surviving spouse of a Veteran of service
@@ -153,7 +155,7 @@ class IntroductionPage extends React.Component {
               about 15 minutes.
             </p>
 
-            <va-additional-info trigger="What happens after I apply?">
+            <va-additional-info trigger="What happens after I apply?" uswds>
               <p>
                 After you apply, you may get an automatic decision. If we
                 approve or deny your application, you’ll be able to download

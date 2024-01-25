@@ -55,12 +55,13 @@ function VeteransRadioGroup({
         label={option.label}
         name={option.label}
         value={option.value}
+        uswds
       />
     );
   });
 
   return (
-    <VaRadio onVaValueChange={setSelectedVeteran}>{VaRadioOptions}</VaRadio>
+    <VaRadio onVaValueChange={setSelectedVeteran} uswds>{VaRadioOptions}</VaRadio>
   );
 }
 

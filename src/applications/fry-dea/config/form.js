@@ -313,6 +313,7 @@ const formConfig = {
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
+                  uswds
                 >
                   <h3 slot="headline">
                     We do not have any Veteran or service member information on
@@ -334,6 +335,7 @@ const formConfig = {
                   close-btn-aria-label="Close notification"
                   status="info"
                   visible
+                  uswds
                 >
                   <h3 slot="headline">
                     Your selected Veteran or service member is not on file
@@ -460,7 +462,7 @@ const formConfig = {
                     program.
                   </p>
                   <FryDeaEligibilityCards />
-                  <va-additional-info trigger="Which benefit should I choose?">
+                  <va-additional-info trigger="Which benefit should I choose?" uswds>
                     <p>
                       For each benefit, you should consider the amount you can
                       receive, how payments are made, and when they expire.
@@ -906,6 +908,7 @@ const formConfig = {
                   <va-additional-info
                     trigger="Learn more about military base addresses"
                     class="vads-u-margin-top--4"
+                    uswds
                   >
                     <p>
                       U.S. military bases are considered a domestic address and
@@ -1051,7 +1054,7 @@ const formConfig = {
                       your education payments. This is an easy way to verify
                       your monthly enrollment.
                     </p>
-                    <va-alert status="info">
+                    <va-alert status="info" uswds>
                       <>
                         If you choose to get text message notifications from
                         VA’s GI Bill program, message and data rates may apply.
@@ -1110,7 +1113,7 @@ const formConfig = {
             },
             'view:noMobilePhoneAlert': {
               'ui:description': (
-                <va-alert status="warning">
+                <va-alert status="warning" uswds>
                   <>
                     You can’t choose to get text message notifications because
                     we don’t have a mobile phone number on file for you.
@@ -1136,7 +1139,7 @@ const formConfig = {
             },
             'view:internationalTextMessageAlert': {
               'ui:description': (
-                <va-alert status="warning">
+                <va-alert status="warning" uswds>
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
@@ -1242,7 +1245,7 @@ const formConfig = {
             },
             'view:directDepositLearnMore': {
               'ui:description': (
-                <va-additional-info trigger="Where can I find these numbers?">
+                <va-additional-info trigger="Where can I find these numbers?" uswds>
                   <img
                     key="check-image-src"
                     src={checkImageSrc}

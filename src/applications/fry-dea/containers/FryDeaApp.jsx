@@ -60,7 +60,7 @@ function FryDeaApp({
 
   return (
     <>
-      <va-breadcrumbs>
+      <va-breadcrumbs uswds>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
         <a href="/fry-dea">
