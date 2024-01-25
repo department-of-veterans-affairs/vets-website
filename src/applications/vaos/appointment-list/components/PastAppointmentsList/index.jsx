@@ -16,10 +16,7 @@ import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import UpcomingAppointmentLayout from '../AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from '../BackendAppointmentServiceAlert';
 
@@ -107,9 +104,6 @@ export default function PastAppointmentsListNew() {
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
 
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -254,7 +248,6 @@ export default function PastAppointmentsListNew() {
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureStatusImprovement,
                 featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
