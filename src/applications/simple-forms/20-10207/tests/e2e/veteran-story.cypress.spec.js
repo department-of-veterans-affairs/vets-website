@@ -200,7 +200,7 @@ testSuite('PP 10207 - Veteran', () => {
           force: true,
         });
         continueToNextPage();
-        showsCorrectErrorMessage('Please provide a valid date');
+        showsCorrectErrorMessage('Please enter a day between 1 and 31');
       });
 
       it('displays correct error message for future date of birth', () => {
