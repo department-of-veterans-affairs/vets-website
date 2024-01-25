@@ -15,10 +15,7 @@ const Dashboard = () => (
         <div className="nav dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
         <div className="notif dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
         <div className="primary dash-box vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div
-          className="etc dash-box vads-u-background-color--gray-lightest"
-          vads-u-background-color--gray-lightest
-        />
+        <div className="etc dash-box vads-u-background-color--gray-lightest" />
       </article>
     </div>
   </div>
