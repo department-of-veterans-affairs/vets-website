@@ -48,10 +48,12 @@ const LandingPageAuth = () => {
     updatePageTitle(PageTitles.DEFAULT_PAGE_TITLE_TAG);
   }, []);
 
+  const isPilot = localStorage.getItem('isPilot') === 'true';
+
   return (
     <div className="dashboard">
       <AlertBackgroundBox />
-      <h1>Messages</h1>
+      <h1>{isPilot ? 'OH Pilot Messages' : 'Messages'}</h1>
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>

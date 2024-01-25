@@ -1,0 +1,7 @@
+{
+  "appName": "MHV Secure Messaging - OH Pilot",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "secure-messaging-pilot",
+  "rootUrl": "/my-health/secure-messages/pilot-test",
+  "productId": "c1486f38-a24e-4211-bf6b-258df6e63cd3"
+}

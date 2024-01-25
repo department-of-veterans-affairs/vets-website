@@ -17,7 +17,7 @@ import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import { getAllFacilities } from '../actions/facilities';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 
-const App = () => {
+const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
@@ -32,6 +32,14 @@ const App = () => {
       };
     },
     state => state.featureToggles,
+  );
+
+  useEffect(
+    () => {
+      // could be a feature flag or redux. I just used local storage for proof of concept
+      localStorage.setItem('isPilot', isPilot);
+    },
+    [isPilot],
   );
 
   const userFacilities = useMemo(
