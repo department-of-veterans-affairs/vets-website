@@ -92,7 +92,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress }) => {
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
         {CHANGE_OF_ADDRESS_TITLE}
       </p>
       <div
