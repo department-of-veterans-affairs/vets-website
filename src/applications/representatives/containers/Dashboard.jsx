@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 // import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -8,11 +7,8 @@ const Dashboard = () => (
   // <RequiredLoginView verify serviceRequired={[]} user={user}>
   <div className="dash-container">
     <h1 className="dash-header vads-u-font-size--h2 vads-u-margin-bottom--4">
-      Representatives User Dashboard
+      Representative Dashboard
     </h1>
-    <Link to="/">
-      <va-button text="Landing Page" />
-    </Link>
     <div className="vads-u-display--flex vads-u-justify-content--center">
       <aside className="left vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3 vads-u-background-color--gray-lightest" />
       <article className="vads-m-col--8 vads-l-col--12 vads-u-padding-left--5 medium-screen:vads-l-col--8 large-screen:vads-l-col--5">
