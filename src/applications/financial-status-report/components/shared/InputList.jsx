@@ -42,6 +42,7 @@ const InputList = ({
             max={max}
             width="md"
             currency
+            uswds
           />
         </div>
       ))}

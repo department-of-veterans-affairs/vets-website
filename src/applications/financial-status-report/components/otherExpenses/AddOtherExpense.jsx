@@ -121,6 +121,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            uswds
           />
           <VaNumberInput
             className="no-wrap input-size-3"
@@ -135,6 +136,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="number"
             value={expenseAmount || ''}
+            uswds
           />
           <div className="vads-u-margin-top--2">
             <button

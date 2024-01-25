@@ -77,6 +77,7 @@ const HouseholdExpensesExplainerWidget = ({
             show-icon
             status="info"
             visible="true"
+            uswds
           >
             <p className="vads-u-margin--0">
               <strong>

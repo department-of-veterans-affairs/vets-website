@@ -102,6 +102,7 @@ const BankruptcyQuestion = ({
           onVaValueChange={onSelection}
           error={error}
           required
+          uswds
         >
           <va-radio-option
             id="has-declared-bankruptcy"
@@ -112,6 +113,7 @@ const BankruptcyQuestion = ({
                 ? null
                 : hasBeenAdjudicatedBankrupt
             }
+            uswds
           />
           <va-radio-option
             id="has-not-declared-bankruptcy"
@@ -123,6 +125,7 @@ const BankruptcyQuestion = ({
                 ? null
                 : !hasBeenAdjudicatedBankrupt
             }
+            uswds
           />
         </VaRadio>
         {contentBeforeButtons}

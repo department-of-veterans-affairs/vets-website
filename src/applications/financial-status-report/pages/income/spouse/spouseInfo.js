@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MaritalStatusInfo = (
-  <va-additional-info trigger="Why does my marital status matter?">
+  <va-additional-info trigger="Why does my marital status matter?" uswds>
     <p>
       We want to make sure we understand your household’s financial situation.
     </p>

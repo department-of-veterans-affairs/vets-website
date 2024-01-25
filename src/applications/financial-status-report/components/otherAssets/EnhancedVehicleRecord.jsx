@@ -185,6 +185,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.make || ''}
+            uswds
           />
         </div>
         <div className="input-size-5">
@@ -199,6 +200,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.model || ''}
+            uswds
           />
         </div>
         <div className="input-size-2">
@@ -211,6 +213,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             id="year"
             onInput={handleVehicleYearChange}
             value={vehicleRecord.year || ''}
+            uswds
           />
         </div>
         <div className="input-size-2 no-wrap">
@@ -232,11 +235,13 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             value={vehicleRecord.resaleValue}
             min={0}
             max={MAXIMUM_RESALE_VALUE}
+            uswds
           />
         </div>
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="Why do I need to provide this information?"
+          uswds
         >
           We ask for vehicle details such as type, make, model, year, and
           estimated value because this allows us to make a more informed
@@ -245,7 +250,10 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           We won’t take collection action against your cars or other vehicles in
           order to resolve your debt.
         </va-additional-info>
-        <va-additional-info trigger="What if I don’t know the estimated value of car or other vehicle?">
+        <va-additional-info
+          trigger="What if I don’t know the estimated value of car or other vehicle?"
+          uswds
+        >
           Include the amount of money you think you would get if you sold the
           vehicle in your local community. To get an idea of prices, you can
           check these places:

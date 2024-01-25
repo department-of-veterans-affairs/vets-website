@@ -5,6 +5,7 @@ export const MaintenanceAlert = () => {
     <va-alert
       class="row vads-u-margin-top--3 vads-u-margin-left--1"
       status="info"
+      uswds
     >
       <h3 slot="headline">
         The online financial help request form (VA Form 5655) is down for
@@ -33,7 +34,7 @@ export const MaintenanceAlert = () => {
 };
 
 export const SubmissionAlert = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h3 slot="headline">We’re sorry. Your request wasn’t submitted.</h3>
 
     <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -58,6 +59,7 @@ export const ErrorAlert = () => (
     class="row vads-u-margin-bottom--5"
     data-testid="server-error"
     status="error"
+    uswds
   >
     <h3 slot="headline">We’re sorry. Something went wrong on our end.</h3>
 

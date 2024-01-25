@@ -81,12 +81,14 @@ const SpouseEmploymentQuestion = props => {
           label="Has your spouse had any jobs in the last 2 years? "
           onVaValueChange={onSelection}
           required
+          uswds
         >
           <va-radio-option
             id="has-job"
             label="Yes"
             value="true"
             checked={hasJobToAdd}
+            uswds
           />
           <va-radio-option
             id="has-no-job"
@@ -94,6 +96,7 @@ const SpouseEmploymentQuestion = props => {
             value="false"
             name="primary"
             checked={!hasJobToAdd}
+            uswds
           />
         </VaRadio>
       </fieldset>

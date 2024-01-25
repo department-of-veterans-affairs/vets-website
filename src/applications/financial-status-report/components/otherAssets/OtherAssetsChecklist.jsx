@@ -95,7 +95,10 @@ const OtherAssetsChecklist = ({
             prompt={prompt}
             isBoxChecked={isBoxChecked}
           />
-          <va-additional-info trigger="Why do I need to provide this information?">
+          <va-additional-info
+            trigger="Why do I need to provide this information?"
+            uswds
+          >
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.

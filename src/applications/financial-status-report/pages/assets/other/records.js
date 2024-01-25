@@ -8,7 +8,10 @@ import Typeahead from '../../../components/shared/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
 
 const AssetInfo = (
-  <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
+  <va-additional-info
+    trigger="What if I don’t know the estimated value of an asset?"
+    uswds
+  >
     Don’t worry. We just want to get an idea of items of value you may own so we
     can better understand your financial situation. Include the amount of money
     you think you would get if you sold the asset. To get an idea of prices, you

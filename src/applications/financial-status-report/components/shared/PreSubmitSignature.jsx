@@ -199,6 +199,7 @@ const PreSubmitSignature = ({
               ? `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
               : ''
           }
+          uswds
         />
         <VaCheckbox
           id="veteran-certify"
@@ -213,6 +214,7 @@ const PreSubmitSignature = ({
           }
           required
           enable-analytics
+          uswds
         />
       </article>
 
@@ -231,6 +233,7 @@ const PreSubmitSignature = ({
           privacyCheckboxError && 'You must accept by checking the box.'
         }
         onVaChange={value => setPrivacyChecked(value.detail.checked)}
+        uswds
       />
     </>
   );
