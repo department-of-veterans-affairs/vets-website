@@ -1,5 +1,6 @@
 import React from 'react';
 import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
+import DownloadVeteranStatusPdf from './DownloadVeteranStatusPdf';
 
 const ProofOfVeteranStatus = () => {
   return (
@@ -23,15 +24,7 @@ const ProofOfVeteranStatus = () => {
         />
       </div>
       <div className="vads-u-font-size--md">
-        <i className="fa fa-app-store" />{' '}
-        <va-link
-          role="link"
-          download
-          filetype="PDF"
-          href={null}
-          text="Download and print your Veteran status card"
-          onClick={() => {}}
-        />
+        <DownloadVeteranStatusPdf />
       </div>
       <div className="vads-u-margin-y--4">
         <MobileAppCallout
