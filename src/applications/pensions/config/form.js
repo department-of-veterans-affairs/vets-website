@@ -53,6 +53,7 @@ import documentUpload from './chapters/06-additional-information/documentUpload'
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
+import previousNames from './chapters/02-military-history/previousNames';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
 import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
@@ -213,6 +214,10 @@ export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+export function doesHavePreviousNames(formData) {
+  return formData.serveUnderOtherNames === true;
+}
+
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
 }
@@ -348,6 +353,13 @@ const formConfig = {
           title: 'General history',
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
+        },
+        previousNames: {
+          path: 'military/general/add',
+          title: 'Previous names',
+          depends: doesHavePreviousNames,
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
         },
         pow: {
           path: 'military/pow',
