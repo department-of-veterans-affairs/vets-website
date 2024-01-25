@@ -49,7 +49,7 @@ export const showsCorrectErrorMessage = message => {
   }).should('be.visible');
 };
 
-export const fillNameAndDateOfBirth = preparerType => {
+export const fillNameAndDateOfBirthPage = preparerType => {
   const data = getDataForPreparerType(preparerType);
   const dob = data.dateOfBirth.split('-');
 
@@ -67,4 +67,10 @@ export const fillNameAndDateOfBirth = preparerType => {
     { force: true },
   );
   cy.get('input[name="root_dateOfBirthYear"]').type(dob[0], { force: true });
+};
+
+export const fillIdInfoPage = preparerType => {
+  const data = getDataForPreparerType(preparerType);
+
+  cy.get('input[name="root_id_ssn"]').type(data.id.ssn, { force: true });
 };

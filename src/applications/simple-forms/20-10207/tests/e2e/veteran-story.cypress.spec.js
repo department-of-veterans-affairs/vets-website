@@ -1,6 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 // the standard 10207-pp.cypress.spec.js already axe-checks everything
-// IMPORTANT: Start form-app with first-page initialData DISABLED.
 import moment from 'moment';
 import { TITLE, SUBTITLE } from '../../config/constants';
 import manifest from '../../manifest.json';
@@ -9,7 +8,8 @@ import userUnauthed from './fixtures/mocks/user.json';
 import {
   continueToNextPage,
   pagePathIsCorrect,
-  fillNameAndDateOfBirth,
+  fillIdInfoPage,
+  fillNameAndDateOfBirthPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
@@ -19,7 +19,11 @@ import {
 const testSuite = Cypress.env('CI') ? describe.skip : describe;
 
 testSuite('PP 10207 - Veteran', () => {
-  Cypress.config({ defaultCommandTimeout: 10000 });
+  Cypress.config({
+    defaultCommandTimeout: 10000,
+    delay: 20,
+    waitForAnimations: true,
+  });
 
   const userLOA3 = {
     ...userUnauthed,
@@ -216,7 +220,7 @@ testSuite('PP 10207 - Veteran', () => {
       });
 
       it('advances to Your-identification-information page', () => {
-        fillNameAndDateOfBirth('veteran');
+        fillNameAndDateOfBirthPage('veteran');
         continueToNextPage();
         pagePathIsCorrect('identification-information');
       });
@@ -224,7 +228,7 @@ testSuite('PP 10207 - Veteran', () => {
 
     describe('Identification-information page', () => {
       beforeEach(() => {
-        fillNameAndDateOfBirth('veteran');
+        fillNameAndDateOfBirthPage('veteran');
         continueToNextPage();
         pagePathIsCorrect('identification-information');
       });
@@ -240,6 +244,36 @@ testSuite('PP 10207 - Veteran', () => {
       it('displays correct error message for empty required fields', () => {
         continueToNextPage();
         showsCorrectErrorMessage('Please enter a Social Security number');
+      });
+
+      it('displays correct error message for invalid SSN', () => {
+        cy.get('input[name="root_id_ssn"]').then($ssn => {
+          cy.wrap($ssn).type('1234567', { force: true });
+          continueToNextPage();
+          showsCorrectErrorMessage(
+            'Please enter a valid 9 digit Social Security number (dashes allowed)',
+          );
+          cy.wrap($ssn).type('{selectall}1234567890', { force: true });
+          showsCorrectErrorMessage(
+            'Please enter a valid 9 digit Social Security number (dashes allowed)',
+          );
+        });
+      });
+
+      it('displays correct error message for invalid VA file number', () => {
+        cy.get('input[name="root_id_vaFileNumber"]').then($vfn => {
+          cy.wrap($vfn).type('1234567', { force: true });
+          continueToNextPage();
+          showsCorrectErrorMessage('Your VA file number must be 8 or 9 digits');
+          cy.wrap($vfn).type('1234567890', { force: true });
+          showsCorrectErrorMessage('Your VA file number must be 8 or 9 digits');
+        });
+      });
+
+      it('advances to Your-living-situation page', () => {
+        fillIdInfoPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('living-situation');
       });
     });
   });
