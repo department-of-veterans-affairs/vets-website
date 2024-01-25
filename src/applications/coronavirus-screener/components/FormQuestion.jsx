@@ -47,10 +47,10 @@ export default function FormQuestion({
   ));
 
   return (
-    <div className="feature" id={`question-${question.id}`}>
+    <va-featured-content id={`question-${question.id}`}>
       <Element name={scrollElementName} />
       <h2>{question.text[selectedLanguage]}</h2>
       {options}
-    </div>
+    </va-featured-content>
   );
 }
