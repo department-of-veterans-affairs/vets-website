@@ -135,11 +135,7 @@ class FilesPage extends React.Component {
               />
             </Toggler.Disabled>
             <Toggler.Enabled>
-              <div className="submit-file-container">
-                <div className="submit-additional-evidence">
-                  <AdditionalEvidencePage />
-                </div>
-              </div>
+              <AdditionalEvidencePage />
             </Toggler.Enabled>
           </Toggler>
         )}

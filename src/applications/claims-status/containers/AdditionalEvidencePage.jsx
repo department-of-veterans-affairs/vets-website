@@ -109,7 +109,7 @@ class AdditionalEvidencePage extends React.Component {
       const { message } = this.props;
 
       content = (
-        <div className="claim-container">
+        <div className="additional-evidence-container">
           {message && (
             <>
               <Element name="uploadError" />
