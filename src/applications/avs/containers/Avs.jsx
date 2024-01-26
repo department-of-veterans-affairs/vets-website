@@ -88,20 +88,27 @@ const Avs = props => {
         <BreadCrumb />
         <h1>After-visit summary</h1>
 
-        <va-accordion>
+        <va-accordion uswds>
           <va-accordion-item
             header={generateAppointmentHeader(avs)}
             open="true"
+            uswds
           >
             <YourAppointment avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="Your treatment plan from this appointment">
+          <va-accordion-item
+            header="Your treatment plan from this appointment"
+            uswds
+          >
             <YourTreatmentPlan avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="Your health information as of this appointment">
+          <va-accordion-item
+            header="Your health information as of this appointment"
+            uswds
+          >
             <YourHealthInformation avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="More information">
+          <va-accordion-item header="More information" uswds>
             <MoreInformation avs={avs} />
           </va-accordion-item>
         </va-accordion>
