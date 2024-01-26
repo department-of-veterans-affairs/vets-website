@@ -167,9 +167,9 @@ body.va-pos-fixed {
 .vetnav-level1 {
   -webkit-font-smoothing: antialiased;
   background-color: $color-primary-darker;
-  background-position: right 3rem center;
+  background-position: right scale-rem(3rem) center;
   background-repeat: no-repeat;
-  background-size: 1.3rem auto;
+  background-size: scale-rem(1.3rem) auto;
   border-radius: 0;
   border-top: 3px solid transparent;
   color: $color-white;
@@ -178,7 +178,7 @@ body.va-pos-fixed {
   font-weight: bold;
   line-height: 1;
   margin: 0;
-  padding: 1.6rem;
+  padding: scale-rem(1.6rem);
   text-align: left;
   text-decoration: none;
   width: 100%;
@@ -186,8 +186,8 @@ body.va-pos-fixed {
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
     @include media($medium-large-screen) {
-      background-position: right 1.6rem center;
-      padding-right: 3.2rem;
+      background-position: right scale-rem(1.6rem) center;
+      padding-right: scale-rem(3.2rem);
     }
   }
 
@@ -214,7 +214,7 @@ body.va-pos-fixed {
 
   @include media($medium-large-screen) {
     background-color: transparent;
-    background-size: 1rem auto;
+    background-size: scale-rem(1rem) auto;
   }
 
   &:active {
