@@ -44,6 +44,14 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'living-situation': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaCheckbox('root_livingSituation_NONE', true);
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
     },
 
     setupPerTest: () => {
