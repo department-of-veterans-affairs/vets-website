@@ -22,6 +22,11 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
 
   const sandbox = sinon.createSandbox();
 
+  const micEnableActivity = {
+    type: 'WEB_CHAT/SET_DICTATE_STATE',
+    payload: { dictateState: 3 },
+  };
+
   beforeEach(() => {
     fakeNext = sinon.stub();
     store = mockStore({});
@@ -398,6 +403,56 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
 
       expect(actions[0].payload.activity.value).to.have.property('isMobile');
       expect(actions[0].payload.activity.value.isMobile).to.equal(false);
+    });
+  });
+
+  describe('Handling of "WEB_CHAT/SET_DICTATE_STATE"', () => {
+    describe('Disabling of the microphone', () => {
+      it('should not disable if sessionStorage "stopDictate" is not true', async () => {
+        await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+          'csrfToken',
+          'apiSession',
+          'apiURL',
+          'baseURL',
+          'userFirstName',
+          'userUuid',
+        )(store)(fakeNext)(micEnableActivity);
+        sessionStorage.setItem('stopDictate', 'false');
+        const micButton = { click: sinon.stub() };
+        sandbox
+          .stub(document, 'querySelector')
+          .withArgs('div.webchat__microphone-button--dictating')
+          .returns({});
+        document.querySelector
+          .withArgs('button.webchat__microphone-button__button')
+          .returns(micButton);
+        setTimeout(() => {
+          expect(micButton.click.called).to.equal(false);
+        }, 0);
+      });
+      it('should disable if sessionStorage "stopDictate" is true', async () => {
+        await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+          'csrfToken',
+          'apiSession',
+          'apiURL',
+          'baseURL',
+          'userFirstName',
+          'userUuid',
+        )(store)(fakeNext)(micEnableActivity);
+        sessionStorage.setItem('stopDictate', 'true');
+        const micButton = { click: sinon.stub() };
+        sandbox
+          .stub(document, 'querySelector')
+          .withArgs('div.webchat__microphone-button--dictating')
+          .returns({});
+        document.querySelector
+          .withArgs('button.webchat__microphone-button__button')
+          .returns(micButton);
+        setTimeout(() => {
+          expect(micButton.click.called).to.equal(true);
+          expect(sessionStorage.getItem('stopDictate')).to.equal('false');
+        }, 0);
+      });
     });
   });
 });

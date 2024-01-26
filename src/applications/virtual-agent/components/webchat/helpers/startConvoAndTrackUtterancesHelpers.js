@@ -140,6 +140,16 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     sendWindowEvent('rxSkill');
   }
 
+  // How to send activity to open new tab in a skill
+  // await stepContext.context.sendActivity({
+  //   type: ActivityTypes.Event,
+  //   name: 'OPEN_FOCUSED_NEW_TAB',
+  //   value: {
+  //     text: 'google.com',
+  //     url: 'http://www.google.com',
+  //   },
+  // });
+
   if (eventName === 'OPEN_FOCUSED_NEW_TAB') {
     sessionStorage.setItem('redirectUrl', eventValue.url);
     sessionStorage.setItem(
