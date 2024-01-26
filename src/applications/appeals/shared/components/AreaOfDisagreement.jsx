@@ -6,11 +6,11 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
-import { focusOnChange } from 'platform/forms-system/src/js/utilities//ui';
-import { ERROR_ELEMENTS } from 'platform/utilities/constants';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { waitForRenderThenFocus } from '~/platform/utilities/ui';
+import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
+import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {

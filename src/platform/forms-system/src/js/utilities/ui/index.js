@@ -3,9 +3,8 @@ import {
   focusElement,
   focusByOrder,
   getScrollOptions,
-} from 'platform/utilities/ui';
-import { webComponentList } from 'platform/forms-system/src/js/web-component-fields/webComponentList';
-
+} from '../../../../../utilities/ui';
+import { webComponentList } from '../../web-component-fields/webComponentList';
 import {
   SCROLL_ELEMENT_SUFFIX,
   FOCUSABLE_ELEMENTS,
