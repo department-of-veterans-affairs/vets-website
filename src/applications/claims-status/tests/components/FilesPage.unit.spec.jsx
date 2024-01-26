@@ -27,6 +27,10 @@ describe('<FilesPage>', () => {
       stub.returns(<div data-testid="additional-evidence-page" />);
     });
 
+    after(() => {
+      stub.restore();
+    });
+
     it('should render files page with an EvidenceAlerts section without alerts when using lighthouse', () => {
       const claim = {
         id: '1',
