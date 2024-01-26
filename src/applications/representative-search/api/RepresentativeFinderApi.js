@@ -54,13 +54,27 @@ class RepresentativeFinderApi {
     });
   }
 
-  static reportResult(requestBody) {
+  static reportResult(newReport) {
+    const reportRequestBody = {
+      representativeId: newReport.representativeId,
+      flags: [],
+    };
+
     const startTime = new Date().getTime();
+
+    for (const [flagType, flaggedValue] of Object.entries(newReport.reports)) {
+      if (flaggedValue !== null) {
+        reportRequestBody.flags.push({
+          flagType,
+          flaggedValue,
+        });
+      }
+    }
 
     const { requestUrl, apiSettings } = getApi(
       '/flag_accredited_representatives',
       'POST',
-      requestBody,
+      reportRequestBody,
     );
 
     return new Promise((resolve, reject) => {
