@@ -45,6 +45,27 @@ export function getIdentityInfoPageTitle(formData) {
 
 export function getLivingSituationChapterTitle(formData) {
   const preparerString = getPreparerString(formData.preparerType);
-
   return `${preparerString} living situation`;
+}
+
+export function validateLivingSituation(errors, fields) {
+  // eslint-disable-next-line no-console
+  console.log(
+    'helpers.validateLivingSituation] errors & fields params: ',
+    errors,
+    fields,
+  );
+  const selectedSituations = Object.keys(fields.livingSituation).filter(
+    key => fields[key] === true,
+  );
+
+  if (selectedSituations.length === 0) {
+    errors.livingSituation.addError('Select the appropriate living situation');
+  }
+
+  if (selectedSituations.length > 1 && selectedSituations.includes('NONE')) {
+    errors.livingSituation.addError(
+      'If none of these situations apply, unselect the other options you selected.',
+    );
+  }
 }

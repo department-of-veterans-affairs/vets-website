@@ -9,10 +9,12 @@ import {
   continueToNextPage,
   pagePathIsCorrect,
   fillIdInfoPage,
+  // fillLivingSituationPage,
   fillNameAndDateOfBirthPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
+  showsCorrectLivingSituationCheckboxLabels,
 } from './e2eHelpers';
 
 // Skip in CI
@@ -131,7 +133,7 @@ testSuite('PP 10207 - Veteran', () => {
     });
   });
 
-  describe('Your-identity page', () => {
+  describe('Your-identity chapter', () => {
     beforeEach(() => {
       cy.intercept('/v0/user', userLOA3);
       cy.login(userLOA3);
@@ -270,11 +272,64 @@ testSuite('PP 10207 - Veteran', () => {
         });
       });
 
-      it('advances to Your-living-situation page', () => {
+      it('advances to Your-living-situation chapter', () => {
         fillIdInfoPage('veteran');
         continueToNextPage();
         pagePathIsCorrect('living-situation');
       });
+    });
+  });
+
+  describe('Your-living-situation chapter', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/user', userLOA3);
+      cy.login(userLOA3);
+      cy.visit(`${manifest.rootUrl}`);
+      cy.findByText(/^start/i, { selector: 'a[href="#start"]' })
+        .last()
+        .click();
+      cy.contains('I’m a Veteran.').click();
+      continueToNextPage();
+      fillNameAndDateOfBirthPage('veteran');
+      continueToNextPage();
+      fillIdInfoPage('veteran');
+      continueToNextPage();
+      pagePathIsCorrect('living-situation');
+    });
+
+    it('displays correct chapter-title', () => {
+      showsCorrectChapterTitle('Your living situation');
+    });
+
+    it('displays correct H3 page-title', () => {
+      showsCorrectPageTitle(
+        'Which of these statements best describe your living situation?',
+        3,
+      );
+    });
+
+    it('displays correct checkbox-labels', () => {
+      showsCorrectLivingSituationCheckboxLabels('veteran');
+    });
+
+    it('displays correct error message for empty selection', () => {
+      continueToNextPage();
+      showsCorrectErrorMessage('Select the appropriate living situation');
+    });
+
+    // TODO: Add custom-validation test when ready
+
+    it('advances to Other-housing-risks page when other-risk is selected', () => {
+      cy.contains('another housing risk').click();
+      continueToNextPage();
+      pagePathIsCorrect('other-housing-risks');
+    });
+
+    it('advances to next chapter when other-risk is not selected', () => {
+      cy.contains('None').click();
+      continueToNextPage();
+      // TODO: Change path below to real next-chapter when ready
+      pagePathIsCorrect('review-and-submit');
     });
   });
 });

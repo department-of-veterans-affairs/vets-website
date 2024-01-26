@@ -3,6 +3,7 @@ import {
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { LIVING_SITUATIONS } from '../config/constants';
+import { validateLivingSituation } from '../helpers';
 
 export default {
   uiSchema: {
@@ -13,8 +14,10 @@ export default {
       labelHeaderLevel: '3',
       tile: false,
       errorMessages: {
-        required: 'Select the appropriate living situations',
+        required: 'Select the appropriate living situation',
       },
+      // TODO: Determine how custom-validations work here.
+      validations: [validateLivingSituation],
     }),
   },
   schema: {

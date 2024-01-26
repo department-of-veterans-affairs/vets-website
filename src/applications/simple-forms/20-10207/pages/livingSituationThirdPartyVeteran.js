@@ -14,7 +14,7 @@ export default {
       labelHeaderLevel: '3',
       tile: false,
       errorMessages: {
-        required: 'Select the appropriate living situations',
+        required: 'Select the appropriate living situation',
       },
     }),
   },
