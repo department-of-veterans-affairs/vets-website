@@ -340,21 +340,21 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === '1';
+  return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
 export function isSpouse(item) {
   const relationshipToVet = get('application.claimant.relationshipToVet', item);
-  return relationshipToVet === '2' || relationshipToVet === '3';
+  return relationshipToVet === 'husband' || relationshipToVet === 'wife';
 }
 
 export function isUnmarriedChild(item) {
   const relationshipToVet = get('application.claimant.relationshipToVet', item);
   return (
-    relationshipToVet === '4' ||
-    relationshipToVet === '5' ||
-    relationshipToVet === '6' ||
-    relationshipToVet === '7'
+    relationshipToVet === 'daughter' ||
+    relationshipToVet === 'son' ||
+    relationshipToVet === 'stepdaughter' ||
+    relationshipToVet === 'stepson'
   );
 }
 
