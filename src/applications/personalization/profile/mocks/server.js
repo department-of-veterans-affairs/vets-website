@@ -120,7 +120,14 @@ const responses = {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
+    // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
+
+    // edge cases
+    // return res.json(mockDisabilityCompensations.isDeceased);
+    // return res.json(mockDisabilityCompensations.isFiduciary);
+    // return res.json(mockDisabilityCompensations.isNotCompetent);
+    // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
