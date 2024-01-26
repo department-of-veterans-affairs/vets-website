@@ -50,6 +50,7 @@ export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
       className={className}
       role="alert"
       aria-live="polite"
+      uswds
     >
       <h2
         slot="headline"

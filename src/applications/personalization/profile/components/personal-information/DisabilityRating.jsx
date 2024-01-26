@@ -28,17 +28,21 @@ const DisabilityRating = () => {
       )}
 
       <p className="vads-u-margin--0">
-        <a href="/disability/view-disability-rating/rating">
-          {shouldShowRating
-            ? 'Learn more about your disability rating'
-            : 'Learn more about VA disability ratings'}
-        </a>
+        <va-link
+          href="/disability/view-disability-rating/rating"
+          text={
+            shouldShowRating
+              ? 'Learn more about your disability rating'
+              : 'Learn more about VA disability ratings'
+          }
+        />
       </p>
 
       <p>
-        <a href="/resources/the-pact-act-and-your-va-benefits">
-          PACT Act: Eligibility updates based on toxic exposure
-        </a>
+        <va-link
+          href="/resources/the-pact-act-and-your-va-benefits"
+          text="PACT Act: Eligibility updates based on toxic exposure"
+        />
       </p>
     </div>
   );

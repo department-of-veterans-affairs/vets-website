@@ -41,9 +41,9 @@ const checkModals = options => {
   });
 
   // Make an edit
-  cy.get(`#${editLineId}`)
-    .click({ force: true })
-    .type('test', { force: true });
+  cy.get(`#${editLineId}`).click({ force: true });
+
+  cy.get(`#${editLineId}`).type('test', { force: true });
 
   // Click on a different section to edit
   cy.findByRole('button', {
@@ -60,7 +60,11 @@ const checkModals = options => {
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByRole('button', { name: /OK/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/ok/i)
     .click();
 
   // Click on cancel in the current section
@@ -77,7 +81,11 @@ const checkModals = options => {
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByRole('button', { name: /cancel/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/yes, cancel my changes/i)
     .click();
 };
 
@@ -107,14 +115,22 @@ const checkRemovalWhileEditingModal = options => {
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByRole('button', { name: /OK/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/ok/i)
     .click();
 
   cy.findByTestId('cancel-edit-button').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByRole('button', { name: /Yes, cancel my changes/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/yes, cancel my changes/i)
     .click();
 };
 

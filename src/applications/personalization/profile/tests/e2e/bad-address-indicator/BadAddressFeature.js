@@ -8,8 +8,8 @@ class BadAddressFeature {
 
   EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
 
-  visitPersonalInformationPage = () => {
-    cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+  visitHubPage = () => {
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   };
 
   visitContactInformationPage = () => {

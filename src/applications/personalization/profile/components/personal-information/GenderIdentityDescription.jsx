@@ -11,26 +11,28 @@ export default function GenderIdentityAdditionalInfo() {
       <va-additional-info
         class="vads-u-margin-top--2"
         trigger="What to know before you decide to share your gender identity"
+        uswds
       >
-        <p>
-          Sharing your gender identity in your VA.gov profile is optional. If
-          you get health care at VA, this information can help your care team
-          better assess your health needs and risks.
-        </p>
-        <br />
+        <div className="vads-u-color--black">
+          <p className="vads-u-margin-top--0">
+            Sharing your gender identity in your VA.gov profile is optional. If
+            you get health care at VA, this information can help your care team
+            better assess your health needs and risks.
+          </p>
 
-        <p>
-          But you should know that any information you share in your VA.gov
-          profile goes into your VA-wide records. VA staff outside of the health
-          care system may be able to read this information.
-        </p>
-        <br />
+          <p>
+            But you should know that any information you share in your VA.gov
+            profile goes into your VA-wide records. VA staff outside of the
+            health care system may be able to read this information.
+          </p>
 
-        <p>
-          We follow strict security and privacy practices to keep your personal
-          information secure. But if you want to share your gender identity in
-          your health records only, talk with your health care team.
-        </p>
+          <p className="vads-u-margin-bottom--0">
+            We follow strict security and privacy practices to keep your
+            personal information secure. But if you want to share your gender
+            identity in your health records only, talk with your health care
+            team.
+          </p>
+        </div>
       </va-additional-info>
     </>
   );

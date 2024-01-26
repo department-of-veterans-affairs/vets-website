@@ -87,7 +87,11 @@ export const getInitialFormValues = options => {
   if (personalInformation.includes(fieldName)) {
     // handle a single string type of field value
     if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
-      return transformInitialFormValues(data);
+      return (
+        transformInitialFormValues(data) || {
+          [FIELD_NAMES.PREFERRED_NAME]: '',
+        }
+      );
     }
 
     // return object with gender code for radio group field value

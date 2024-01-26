@@ -1443,6 +1443,12 @@ const loa3UserWithNoMilitaryHistoryClaim = set(
   false,
 );
 
+const loa3UserWithoutMailingAddress = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mailingAddress',
+  null,
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1459,6 +1465,7 @@ const responses = {
   loa3UserWithNoHomeAddress,
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
+  loa3UserWithoutMailingAddress,
 };
 
 // handler that can be used to customize the user data returned
