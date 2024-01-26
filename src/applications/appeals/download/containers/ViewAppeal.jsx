@@ -21,7 +21,9 @@ const ViewAppeal = () => {
   const { data } = testData;
   const { fullName } = extraData;
 
-  const submitted = new Date('2023-12-1');
+  const submitted = new Date();
+  const dateExpires = new Date();
+  dateExpires.setDate(dateExpires.getDate() + 7);
 
   const borderLine = [
     'vads-u-border-bottom--1px',
@@ -62,8 +64,8 @@ const ViewAppeal = () => {
           </h3>
           <p>
             If you’d like a PDF copy of your completed Board Appeal, you can
-            download it now. The download link is only available until December
-            8, 2023.
+            download it now. The download link is only available until{' '}
+            <span>{format(dateExpires, 'MMMM d, yyyy')}</span>
           </p>
 
           <va-link
