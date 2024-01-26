@@ -15,18 +15,18 @@ function FilesOptional({ id, item }) {
       </h4>
       <p className="alert-description">
         {truncateDescription(item.description)}
-        <div className="call-to-action vads-u-padding-top--2">
-          You don't have to do anything, but if you have this information you
-          can&nbsp;
-          <Link
-            aria-label={`Add information for ${item.displayName}`}
-            className="add-your-claims-link"
-            to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
-          >
-            add it here.
-          </Link>
-        </div>
       </p>
+      <div className="call-to-action vads-u-padding-top--2">
+        You don't have to do anything, but if you have this information you
+        can&nbsp;
+        <Link
+          aria-label={`Add information for ${item.displayName}`}
+          className="add-your-claims-link"
+          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
+        >
+          add it here.
+        </Link>
+      </div>
     </va-alert>
   );
 }
