@@ -71,22 +71,23 @@
         "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Spouse’s death",
+          "reasonForSeparation": "Other",
+          "otherExplanation": "Other reason",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },
       {
         "spouseFullName": {
-          "first": "Jennie",
+          "first": "Jane",
           "middle": "Middle",
-          "last": "Dane"
+          "last": "Doe"
         },
-        "dateOfMarriage": "1983-03-02",
+        "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
-          "dateOfSeparation": "1984-03-02",
+          "reasonForSeparation": "Spouse’s death",
+          "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },

@@ -88,9 +88,6 @@ export const selectFeatureConvertUtcToLocaL = state =>
 export const selectFeatureBreadcrumbUrlUpdate = state =>
   toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
 
-export const selectFeaturePrintList = state =>
-  toggleValues(state).vaOnlineSchedulingPrintList;
-
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 

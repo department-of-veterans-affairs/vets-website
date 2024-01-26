@@ -42,6 +42,8 @@ export default {
         viewField: MedicalExpenseView,
         reviewTitle: 'Unreimbursed Expenses',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
         useDlWrap: true,
       },
       items: {
