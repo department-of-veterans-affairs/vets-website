@@ -218,5 +218,34 @@ describe('Medical records PDF template', () => {
       expect(metadata.info.Subject).to.equal(data.subject);
       expect(metadata.info.Title).to.equal(data.title);
     });
+
+    it('Can opt for results to be in monospace font', async () => {
+      const data = require('./fixtures/monospace_result.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // This code represents the font in the content items
+      // It is something like g_d3_f5
+      const monospaceFontCode = Object.keys(content.styles).find(
+        key => content.styles[key].fontFamily === 'monospace',
+      );
+
+      const monospaceStartItemIndex = 81;
+      const monospaceEndItemIndex = 162;
+      const monospaceItems = content.items.slice(
+        monospaceStartItemIndex,
+        monospaceEndItemIndex + 1,
+      );
+      const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
+        item => item.fontName === monospaceFontCode,
+      );
+
+      expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);
+    });
   });
 });
