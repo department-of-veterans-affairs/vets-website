@@ -1,14 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
@@ -103,9 +100,6 @@ export default function AppointmentListItemGroup({ data }) {
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -124,7 +118,6 @@ export default function AppointmentListItemGroup({ data }) {
     const facilityId = getVAAppointmentLocationId(appointment);
     const link = getLink({
       featureBreadcrumbUrlUpdate,
-      featureStatusImprovement,
       appointment,
     });
     const idClickable = `id-${appointment.id.replace('.', '\\.')}`;

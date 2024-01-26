@@ -128,7 +128,6 @@ export default function UpcomingAppointmentsList() {
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureStatusImprovement,
                 featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
