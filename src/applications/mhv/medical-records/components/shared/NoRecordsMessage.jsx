@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 const NoRecordsMessage = ({ type }) => {
   return (
-    <div
-      className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card vads-u-margin-top--4 vads-u-margin-bottom--8"
+    <va-card
+      background
+      class="record-list-item vads-u-margin-top--4 vads-u-margin-bottom--8"
       data-testid="record-list-item"
     >
       <h2
@@ -13,7 +14,7 @@ const NoRecordsMessage = ({ type }) => {
       >
         {`There are no ${type} in your VA medical records.`}
       </h2>
-    </div>
+    </va-card>
   );
 };
 

@@ -167,6 +167,7 @@ describe('<ClaimsListItem>', () => {
 
     const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/updated on August 20, 2019/i)).to.exist;
+    expect(screen.getByText(/Received on/i)).to.exist;
     expect(screen.getByText(/February 10, 2019/i)).to.exist;
   });
 });

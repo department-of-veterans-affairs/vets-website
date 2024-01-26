@@ -1,8 +1,6 @@
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/verify-your-enrollment.scss';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment/index';
-
-// import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
 import routes from './routes';
@@ -11,7 +9,6 @@ import manifest from './manifest.json';
 
 // eslint-disable-next-line no-unused-expressions
 !environment.isProduction() &&
-  // startAppFromIndex({
   startApp({
     url: manifest.rootUrl,
     reducer,

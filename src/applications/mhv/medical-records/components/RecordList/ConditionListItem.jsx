@@ -6,8 +6,9 @@ const ConditionListItem = props => {
   const { record } = props;
 
   return (
-    <div
-      className="record-list-item vads-u-padding--3 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
       <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
@@ -28,7 +29,7 @@ const ConditionListItem = props => {
       </h3>
 
       <p className="vads-u-margin--0">Date entered: {record?.date}</p>
-    </div>
+    </va-card>
   );
 };
 
