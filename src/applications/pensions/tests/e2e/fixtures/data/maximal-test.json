@@ -93,20 +93,6 @@
       },
       {
         "spouseFullName": {
-          "first": "Jennie",
-          "middle": "Middle",
-          "last": "Dane"
-        },
-        "dateOfMarriage": "1983-03-02",
-        "locationOfMarriage": "Dallas",
-        "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
-          "dateOfSeparation": "1984-03-02",
-          "locationOfSeparation": "San Antonio, TX"
-        }
-      },
-      {
-        "spouseFullName": {
           "first": "Meg",
           "middle": "Middle",
           "last": "Doe"
