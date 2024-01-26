@@ -141,7 +141,7 @@ describe('Schemaform <ArrayField>', () => {
     // no remove button
     expect(button.length).to.equal(2);
     expect(button[0].text()).to.equal('Save');
-    expect(button[1].text()).to.contain('Add another');
+    expect(button[1].text()).to.equal('Add item');
   });
   it('should render save button with showSave option', () => {
     const idSchema = {
@@ -188,7 +188,7 @@ describe('Schemaform <ArrayField>', () => {
     expect(button[0].text()).to.equal('Edit');
     expect(button[1].text()).to.equal('Save');
     expect(button[2].text()).to.equal('Remove');
-    expect(button[3].text()).to.contain('Add another');
+    expect(button[3].text()).to.equal('Add item');
   });
 
   it('should render unique aria-labels on buttons from ui option key in item', () => {
@@ -266,7 +266,7 @@ describe('Schemaform <ArrayField>', () => {
     expect(button[1].props['aria-label']).to.equal('Save bar');
     expect(button[2].text()).to.equal('Remove');
     expect(button[2].props['aria-label']).to.equal('Remove bar');
-    expect(button[3].text()).to.contain('Add another');
+    expect(button[3].text()).to.equal('Add itemz');
   });
 
   it('should render invalid items', () => {
@@ -527,7 +527,7 @@ describe('should handle generateIndividualItemHeaders boolean', () => {
       'item',
     );
     expect(tree.everySubTree('.vads-u-font-size--h5')[1].text()).to.equal(
-      'New item',
+      'Add item',
     );
   });
 });
