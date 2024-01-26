@@ -1,8 +1,64 @@
 import React from 'react';
 import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
-import DownloadVeteranStatusPdf from './DownloadVeteranStatusPdf';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
+import { generatePdf } from '~/platform/pdf';
+import { formatFullName } from '../../../common/helpers';
+import recordEvent from '~/platform/monitoring/record-event';
+import { PROFILE_PATHS } from '../../constants';
 
-const ProofOfVeteranStatus = () => {
+const ProofOfVeteranStatus = ({
+  dob,
+  militaryInformation,
+  totalDisabilityRating,
+  userFullName = {
+    first: '',
+    middle: '',
+    last: '',
+    suffix: '',
+  },
+  mockUserAgent,
+}) => {
+  const { first, middle, last, suffix } = userFullName;
+
+  const userAgent =
+    mockUserAgent || navigator.userAgent || navigator.vendor || window.opera;
+
+  const isMobile =
+    (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
+    /android/i.test(userAgent);
+
+  const pdfData = {
+    title: `Veteran status card for ${formatFullName({
+      first,
+      middle,
+      last,
+      suffix,
+    })}`,
+    details: {
+      fullName: formatFullName({ first, middle, last, suffix }),
+      serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+      totalDisabilityRating,
+      dob: renderDOB(dob),
+      image: {
+        title: 'V-A logo',
+        url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+      },
+    },
+  };
+
+  const createPdf = () => {
+    recordEvent({
+      event: 'file_download',
+      'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
+      'file-name': 'Veteran status card',
+      'file-extension': 'pdf',
+    });
+
+    generatePdf('veteranStatus', 'Veteran status card', pdfData, !isMobile);
+  };
+
   return (
     <div id="proof-of-veteran-status">
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
@@ -24,7 +80,15 @@ const ProofOfVeteranStatus = () => {
         />
       </div>
       <div className="vads-u-font-size--md">
-        <DownloadVeteranStatusPdf />
+        <va-link
+          download
+          filetype="PDF"
+          // exception to eslint: the url is a dynamically generated blob url
+          // eslint-disable-next-line no-script-url
+          href="javascript:void(0)"
+          text="Download Veteran status card"
+          onClick={createPdf}
+        />
       </div>
       <div className="vads-u-margin-y--4">
         <MobileAppCallout
@@ -42,4 +106,19 @@ const ProofOfVeteranStatus = () => {
   );
 };
 
-export default ProofOfVeteranStatus;
+ProofOfVeteranStatus.propTypes = {
+  dob: PropTypes.string,
+  militaryInformation: PropTypes.object,
+  mockUserAgent: PropTypes.string,
+  totalDisabilityRating: PropTypes.number,
+  userFullName: PropTypes.object,
+};
+
+const mapStateToProps = state => ({
+  dob: state.vaProfile?.personalInformation?.birthDate,
+  militaryInformation: state.vaProfile?.militaryInformation,
+  totalDisabilityRating: state.totalRating?.totalDisabilityRating,
+  userFullName: state.vaProfile?.hero?.userFullName,
+});
+
+export default connect(mapStateToProps)(ProofOfVeteranStatus);
