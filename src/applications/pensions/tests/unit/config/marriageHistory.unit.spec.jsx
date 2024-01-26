@@ -25,7 +25,7 @@ describe('Pensions marriage history', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input,select').length).to.equal(14);
+    expect(formDOM.querySelectorAll('input,select').length).to.equal(15);
   });
 
   describe('hideIf current marriage', () => {
