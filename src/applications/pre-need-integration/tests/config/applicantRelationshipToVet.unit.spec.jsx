@@ -57,7 +57,11 @@ describe('Pre-need applicant relationship to vet', () => {
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'select#root_application_claimant_relationshipToVet', '1');
+    fillData(
+      form,
+      'select#root_application_claimant_relationshipToVet',
+      'veteran',
+    );
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
