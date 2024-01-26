@@ -74,6 +74,8 @@ export default {
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
         useDlWrap: true,
       },
       items: {

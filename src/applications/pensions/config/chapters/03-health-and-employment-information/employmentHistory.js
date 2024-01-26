@@ -53,6 +53,8 @@ const generateEmployersSchemas = (
           viewField: EmployerView,
           reviewTitle: employersReviewTitle,
           keepInPageOnReview: true,
+          customTitle: ' ',
+          confirmRemove: true,
           useDlWrap: true,
         },
         items: {
