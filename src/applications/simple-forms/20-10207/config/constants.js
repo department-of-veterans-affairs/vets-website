@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TITLE = 'Request priority processing of an existing claim';
+export const TITLE = 'Request priority processing for an existing claim';
 export const SUBTITLE = 'Priority processing request (VA form 20-10207)';
 
 export const PREPARER_TYPES = Object.freeze({
