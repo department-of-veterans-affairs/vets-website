@@ -80,7 +80,7 @@ class RadiologyDetailsPage {
       .invoke('attr', 'href')
       .should(
         'contain',
-        'mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports',
+        'myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports',
       );
     // href="https://mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports"
   };
