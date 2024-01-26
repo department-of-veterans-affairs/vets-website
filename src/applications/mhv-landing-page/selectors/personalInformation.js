@@ -12,3 +12,6 @@ export const selectGreetingName = state => {
 
   return result;
 };
+
+export const selectPersonalInformation = state =>
+  state?.myHealth?.personalInformation || {};
