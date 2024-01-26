@@ -34,6 +34,7 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
+          certifierRole: 'other',
           certifierRelationship: 'Spouse',
         },
       }),
@@ -44,6 +45,7 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
         data: {
+          certifierRole: 'other',
           certifierRelationship: {
             relationshipToVeteran: 'other',
             otherRelationshipToVeteran: 'Sibling',

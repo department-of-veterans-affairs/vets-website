@@ -49,6 +49,9 @@ export default {
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         recipients: radioUI({
