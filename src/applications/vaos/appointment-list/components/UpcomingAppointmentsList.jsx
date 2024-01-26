@@ -14,10 +14,7 @@ import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import UpcomingAppointmentLayout from './AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
@@ -30,9 +27,7 @@ export default function UpcomingAppointmentsList() {
     futureStatus,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
+
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
@@ -48,7 +43,7 @@ export default function UpcomingAppointmentsList() {
       if (futureStatus === FETCH_STATUS.notStarted) {
         dispatch(
           fetchFutureAppointments({
-            includeRequests: featureStatusImprovement,
+            includeRequests: true,
           }),
         );
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
@@ -57,7 +52,7 @@ export default function UpcomingAppointmentsList() {
         scrollAndFocus('h3');
       }
     },
-    [dispatch, featureStatusImprovement, futureStatus, hasTypeChanged],
+    [dispatch, futureStatus, hasTypeChanged],
   );
 
   if (

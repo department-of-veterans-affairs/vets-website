@@ -11,7 +11,6 @@ import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
@@ -22,9 +21,6 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   } = useSelector(
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
-  );
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -67,12 +63,8 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
       </InfoAlert>
     );
   }
-  let paragraphText =
-    'Appointments that you request will show here until staff review and schedule them.';
-  if (featureStatusImprovement) {
-    paragraphText =
-      'Your appointment requests that haven’t been scheduled yet.';
-  }
+  const paragraphText =
+    'Your appointment requests that haven’t been scheduled yet.';
 
   return (
     <>
