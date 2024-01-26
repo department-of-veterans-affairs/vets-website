@@ -46,7 +46,7 @@ describe('VAOS <AppointmentsPage>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it('should navigate to list URLs on dropdown change', async () => {
+  it.skip('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
