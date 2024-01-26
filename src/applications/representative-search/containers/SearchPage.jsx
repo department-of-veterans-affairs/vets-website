@@ -24,6 +24,7 @@ import {
   geocodeUserAddress,
   clearGeocodeError,
   submitRepresentativeReport,
+  updateFromLocalStorage,
 } from '../actions';
 
 const SearchPage = props => {
@@ -227,17 +228,7 @@ const SearchPage = props => {
   };
 
   const renderView = () => {
-    const {
-      currentQuery,
-      searchResults,
-      // sortType,
-      pagination,
-      searchError,
-    } = props;
-
-    // const currentPage = pagination ? pagination.currentPage : 1;
-    // const totalPages = pagination ? pagination.totalPages : 1;
-    // const { representativeType } = currentQuery;
+    const { currentQuery, searchResults, pagination, searchError } = props;
 
     const paginationWrapper = () => {
       const currentPage = pagination ? pagination.currentPage : 1;
@@ -375,6 +366,7 @@ SearchPage.propTypes = {
     totalEntries: PropTypes.number,
   }),
   results: PropTypes.array,
+  reportedResults: PropTypes.array,
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -394,6 +386,7 @@ const mapStateToProps = state => ({
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
   specialties: state.searchQuery.specialties,
 });
@@ -409,6 +402,7 @@ const mapDispatchToProps = {
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
+  updateFromLocalStorage,
 };
 
 export default connect(
