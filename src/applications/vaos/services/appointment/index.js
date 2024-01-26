@@ -4,7 +4,7 @@
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getAppointment,
   getAppointments,
@@ -845,25 +845,15 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({
-  featureBreadcrumbUrlUpdate,
-  featureStatusImprovement,
-  appointment,
-}) {
+export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
 
   if (!featureBreadcrumbUrlUpdate) {
     return isCommunityCare
-      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-          appointment.id
-        }`
-      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-          appointment.id
-        }`;
+      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
+      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
   }
-  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
-    appointment.id
-  }`;
+  return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 
 export function getPractitionerName(appointment) {
