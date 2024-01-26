@@ -60,7 +60,9 @@ export function NewAppointment() {
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !isNewAppointmentStarted && !location.pathname.endsWith('confirmation'),
+      !isNewAppointmentStarted &&
+      !location.pathname.endsWith('confirmation') &&
+      !location.pathname.endsWith('type-of-care'),
   });
 
   useVariantSortMethodTracking({ skip: shouldRedirectToStart });

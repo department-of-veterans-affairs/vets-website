@@ -10,7 +10,7 @@ const EditPreferences = () => {
     setEditListModal(false);
   }, []);
   return (
-    <>
+    <div className="vads-u-margin-top--2">
       <EditContentListOrSignatureModal
         editListModal={editListModal}
         onClose={() => {
@@ -31,7 +31,7 @@ const EditPreferences = () => {
         <i className="fas fa-cog vads-u-padding-right--0p5" aria-hidden />
         Edit preferences
       </button>
-    </>
+    </div>
   );
 };
 

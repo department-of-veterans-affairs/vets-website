@@ -83,7 +83,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { marriageTypeLabels } from '../labels';
+import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
@@ -248,7 +248,7 @@ const marriageType = {
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Spouse’s death', 'Divorce'],
+  enum: Object.values(separationTypeLabels),
 };
 
 const formConfig = {
@@ -552,8 +552,15 @@ const formConfig = {
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
-                      get(['marriages', index, 'marriageType'], form) ===
-                      'Other',
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:currentMarriage',
+                          'marriageType',
+                        ],
+                        form,
+                      ) === marriageTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'marriageType',
                       expandUnderCondition: marriageTypeLabels.other,
@@ -568,6 +575,23 @@ const formConfig = {
                     'ui:title': 'How did the marriage end?',
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
+                  },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:pastMarriage',
+                          'reasonForSeparation',
+                        ],
+                        form,
+                      ) === separationTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: separationTypeLabels.other,
+                    },
                   },
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
@@ -610,6 +634,7 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
+                        otherExplanation: marriageProperties.otherExplanation,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
