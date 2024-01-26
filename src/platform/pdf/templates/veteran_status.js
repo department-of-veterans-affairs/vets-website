@@ -101,38 +101,6 @@ const generate = async data => {
 
   wrapper.add(name);
 
-  // Years of service
-  // removing for now, might add back in later
-  // const getYearsOfService = serviceHistory => {
-  //   let years = 0;
-  //   serviceHistory.forEach(history => {
-  //     const lengthInMs =
-  //       new Date(history.endDate).getTime() -
-  //       new Date(history.beginDate).getTime();
-  //     years += lengthInMs / 1000 / 60 / 60 / 24 / 365;
-  //   });
-  //   return years;
-  // };
-
-  // const yearsOfService = doc.struct('Span', [
-  //   doc.struct('H2', () => {
-  //     doc
-  //       .font(config.headings.H2.font)
-  //       .fontSize(config.headings.H2.size)
-  //       .text('Years of service: ', 110, 160, {
-  //         continued: true,
-  //       });
-  //   }),
-  //   doc.struct('P', () => {
-  //     doc
-  //       .font(config.text.font)
-  //       .fontSize(config.text.size)
-  //       .text(getYearsOfService(data.details.serviceHistory))
-  //       .moveDown(0.75);
-  //   }),
-  // ]);
-  // wrapper.add(yearsOfService);
-
   // DOB
   if (data.details.dob) {
     const dateOfBirthHeader = doc.struct('H2', () => {
