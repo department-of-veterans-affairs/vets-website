@@ -8,7 +8,8 @@ import { geocodeUserAddress } from './mapbox/geocodeUserAddress';
 import { searchWithInput } from './search/searchWithInput';
 import { updateSearchQuery } from './search/updateSearchQuery';
 import { updateSortType } from './search/updateSortType';
-import { submitRepresentativeReport } from './representatives/submitRepresentativeReport';
+import { submitRepresentativeReport } from './reports/submitRepresentativeReport';
+import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
 
 export { clearGeocodeError };
 export { clearSearchResults };
@@ -21,6 +22,7 @@ export { searchWithInput };
 export { updateSearchQuery };
 export { updateSortType };
 export { submitRepresentativeReport };
+export { updateFromLocalStorage };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';
