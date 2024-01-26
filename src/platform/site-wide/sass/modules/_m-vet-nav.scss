@@ -1,4 +1,5 @@
-// The distance from the top of the sceen that the mobile navigation menu should appear
+@import "../formation-override-function";
+
 $height-offset-small: 131.16px;
 $height-offset-xsmall: 153.16px;
 
@@ -386,7 +387,7 @@ body.va-pos-fixed {
   }
 
   @include media($medium-large-screen) {
-    flex: 0 1 32.5rem;
+    flex: scale-rule(0 1 32.5rem);
     margin-left: 0;
     margin-right: 0;
   }
