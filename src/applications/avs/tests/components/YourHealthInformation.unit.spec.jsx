@@ -20,6 +20,9 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('primary-care-team').children[2]).to.have.text(
       'NURSE, GREAT - LICENSED PRACTICAL NURSE (LPN)',
     );
+    expect(screen.getByTestId('primary-care-team').children[3]).to.have.text(
+      'PROVIDER, TWO',
+    );
     expect(
       screen.getByTestId('scheduled-appointments').firstChild,
     ).to.have.text(
