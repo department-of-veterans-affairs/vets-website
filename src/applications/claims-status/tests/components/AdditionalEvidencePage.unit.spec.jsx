@@ -7,7 +7,6 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
