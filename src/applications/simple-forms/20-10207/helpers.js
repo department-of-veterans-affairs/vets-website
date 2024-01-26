@@ -49,23 +49,15 @@ export function getLivingSituationChapterTitle(formData) {
 }
 
 export function validateLivingSituation(errors, fields) {
-  // eslint-disable-next-line no-console
-  console.log(
-    'helpers.validateLivingSituation] errors & fields params: ',
-    errors,
-    fields,
-  );
   const selectedSituations = Object.keys(fields.livingSituation).filter(
-    key => fields[key] === true,
+    key => fields.livingSituation[key],
   );
 
-  if (selectedSituations.length === 0) {
-    errors.livingSituation.addError('Select the appropriate living situation');
-  }
-
+  // We're just checking to make sure no other option's selected along with NONE here
+  // schema's required prop already handles required error-message
   if (selectedSituations.length > 1 && selectedSituations.includes('NONE')) {
     errors.livingSituation.addError(
-      'If none of these situations apply, unselect the other options you selected.',
+      'If none of these situations apply to you, unselect the other options you selected.',
     );
   }
 }

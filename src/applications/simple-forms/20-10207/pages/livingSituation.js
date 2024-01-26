@@ -17,8 +17,8 @@ export default {
         required: 'Select the appropriate living situation',
       },
       // TODO: Determine how custom-validations work here.
-      validations: [validateLivingSituation],
     }),
+    'ui:validations': [validateLivingSituation],
   },
   schema: {
     type: 'object',
