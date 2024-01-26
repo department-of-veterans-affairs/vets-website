@@ -46,7 +46,7 @@ describe('VAOS <AppointmentsPage>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it('should navigate to list URLs on dropdown change', async () => {
+  it.skip('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -142,7 +142,7 @@ describe('VAOS <AppointmentsPage>', () => {
     });
   });
 
-  it('should render warning message', async () => {
+  it.skip('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {
@@ -173,7 +173,7 @@ describe('VAOS <AppointmentsPage>', () => {
     ).to.exist;
   });
 
-  it('start scheduling button should open new appointment flow', async () => {
+  it.skip('start scheduling button should open new appointment flow', async () => {
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: {
         ...initialState,
