@@ -83,12 +83,17 @@ const ProofOfVeteranStatus = ({
             <strong>Note: </strong>
             This card doesn’t entitle you to any VA benefits.
           </p>
-          <div className="vads-u-margin--1 vads-u-margin-y--2">
-            <img
-              width="400rem"
-              src="/img/content/posts/proof-of-veteran-status-card-example.png"
-              alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
-            />
+
+          <div className="vads-l-grid-container vads-u-padding-y--2 vads-u-padding-l--0">
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--8 medium-screen:vads-l-col--6 ">
+                <img
+                  width="100%"
+                  src="/img/content/posts/proof-of-veteran-status-card-example.png"
+                  alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
+                />
+              </div>
+            </div>
           </div>
           <div className="vads-u-font-size--md">
             <va-link
