@@ -97,7 +97,7 @@ ${record.results}`;
               isAuthenticatedWithSSOe(fullState),
               'va-medical-images-and-reports',
             )}
-            text="Request images on the My HealtheVet"
+            text="Request images on the My HealtheVet website"
           />
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
