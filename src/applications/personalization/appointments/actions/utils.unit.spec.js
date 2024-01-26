@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { parseISO } from 'date-fns';
 import { vaosV2Helpers } from './utils';
 import { createVaosAppointment } from '../../dashboard/mocks/appointments/vaos-v2';
 
@@ -37,8 +38,8 @@ describe('My VA Dashboard', () => {
           appointment,
         );
         expect(transformedAppointment.startsAt).to.be.a('string');
-        expect(new Date(transformedAppointment.startsAt).getDay()).to.equal(
-          new Date(appointment.attributes.start).getDay(),
+        expect(parseISO(transformedAppointment.startsAt).getDay()).to.equal(
+          parseISO(appointment.attributes.start).getDay(),
         );
       });
     });
