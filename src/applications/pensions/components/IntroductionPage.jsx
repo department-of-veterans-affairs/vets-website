@@ -55,12 +55,6 @@ class IntroductionPage extends React.Component {
                   (*Required)
                 </span>
               </li>
-              <li>
-                Your military history{' '}
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              </li>
             </ul>
             <h4>
               If you have special circumstances for your medical care, you may
