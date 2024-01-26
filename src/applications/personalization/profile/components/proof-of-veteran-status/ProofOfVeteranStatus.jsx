@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { generatePdf } from '~/platform/pdf';
 import { formatFullName } from '../../../common/helpers';
+import { getServiceBranchDisplayName } from '../../helpers';
 import recordEvent from '~/platform/monitoring/record-event';
 import { PROFILE_PATHS } from '../../constants';
 import { DISCHARGE_CODE_MAP } from './constants';
@@ -46,7 +47,14 @@ const ProofOfVeteranStatus = ({
     })}`,
     details: {
       fullName: formatFullName({ first, middle, last, suffix }),
-      serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+      serviceHistory: militaryInformation.serviceHistory.serviceHistory.map(
+        item => {
+          return {
+            ...item,
+            branchOfService: getServiceBranchDisplayName(item.branchOfService),
+          };
+        },
+      ),
       totalDisabilityRating,
       dob: renderDOB(dob),
       image: {

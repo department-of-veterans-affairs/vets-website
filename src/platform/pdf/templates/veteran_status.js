@@ -11,8 +11,6 @@ import { MissingFieldsException } from '../utils/exceptions/MissingFieldsExcepti
 
 import { createAccessibleDoc, registerVaGovFonts } from './utils';
 
-import { getServiceBranchDisplayName } from '~/applications/personalization/profile/helpers';
-
 const config = {
   margins: {
     top: 40,
@@ -208,7 +206,7 @@ const generate = async data => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(getServiceBranchDisplayName(item.branchOfService));
+        .text(item.branchOfService);
     });
     listItem.add(listLabel);
 
