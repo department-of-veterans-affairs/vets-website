@@ -185,3 +185,71 @@ export const ADDITIONAL_INFO_THIRD_PARTY_TYPE = Object.freeze(
     </div>
   </va-additional-info>,
 );
+
+export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
+  <va-additional-info
+    trigger="What to know before sharing details about other housing risks"
+    data-testid="otherHousingRisksAdditionalInfo"
+  >
+    <div>
+      <p>
+        We understand that you may have other housing risks not listed here. If
+        you feel comfortable sharing more about your situation, you can do that
+        here. Or you can simply check this option and not include any details.
+        We’ll use this information only to prioritize your request.
+      </p>
+      <p>
+        Note: If you need help because of domestic violence, call the National
+        Domestic Violence hotline 800-799-7233 (TTY: 800-787-3224) or text
+        "START" to 88788. Staff are there to help 24 hours a day, 7 days a week.
+        All conversations are private and confidential.
+      </p>
+    </div>
+  </va-additional-info>,
+);
+
+export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_VET = Object.freeze(
+  <va-additional-info
+    trigger="What to know before sharing details about other housing risks"
+    data-testid="otherHousingRisksAdditionalInfo"
+  >
+    <div>
+      <p>
+        We understand that the Veteran may have other housing risks not listed
+        here. If the Veteran feels comfortable sharing more about your
+        situation, you can do that here. Or you can simply check this option and
+        not include any details. We’ll use this information only to prioritize
+        your request.
+      </p>
+      <p>
+        Note: If the Veteran needs help because of domestic violence, they
+        should call the National Domestic Violence hotline 800-799-7233 (TTY:
+        800-787-3224) or text "START" to 88788. Staff are there to help 24 hours
+        a day, 7 days a week. All conversations are private and confidential.
+      </p>
+    </div>
+  </va-additional-info>,
+);
+
+export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze(
+  <va-additional-info
+    trigger="What to know before sharing details about other housing risks"
+    data-testid="otherHousingRisksAdditionalInfo"
+  >
+    <div>
+      <p>
+        We understand that the Claimant may have other housing risks not listed
+        here. If the Claimant feels comfortable sharing more about your
+        situation, you can do that here. Or you can simply check this option and
+        not include any details. We’ll use this information only to prioritize
+        your request.
+      </p>
+      <p>
+        Note: If the Claimant needs help because of domestic violence, they
+        should call the National Domestic Violence hotline 800-799-7233 (TTY:
+        800-787-3224) or text "START" to 88788. Staff are there to help 24 hours
+        a day, 7 days a week. All conversations are private and confidential.
+      </p>
+    </div>
+  </va-additional-info>,
+);
