@@ -4,7 +4,6 @@ import {
   inlineTitleUI,
   ssnUI as newSsnUI,
   ssnSchema,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
@@ -14,7 +13,7 @@ import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF / Widget'),
+    ...titleUI('RJSF / Widget'),
     rjsfCheckSimpleTextInput: {
       'ui:title': 'text input',
     },
@@ -72,7 +71,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       rjsfCheckSimpleTextInput: {
         type: 'string',
       },
