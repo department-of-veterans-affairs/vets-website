@@ -411,7 +411,7 @@ export default class ArrayField extends React.Component {
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
-                          New {uiItemName}
+                          Add {uiItemName}
                         </h3>
                       ) : null}
                       {!isLast &&
@@ -534,7 +534,7 @@ export default class ArrayField extends React.Component {
               )}
               onClick={this.handleAdd}
             >
-              Add another {uiItemName}
+              Add {uiItemName}
             </button>
           )}
           {/* Show an alert when no more items can be added */}
