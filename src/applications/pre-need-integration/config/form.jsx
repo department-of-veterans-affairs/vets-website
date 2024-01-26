@@ -30,6 +30,7 @@ import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
+import contactInfo from './pages/prepaperContactInformation';
 
 import Footer from '../components/Footer';
 
@@ -177,6 +178,7 @@ const formConfig = {
           uiSchema: preparerDetails.uiSchema,
           schema: preparerDetails.schema,
         },
+        ...contactInfo,
         preparerContactDetails: {
           title: ContactDetailsTitle,
           path: 'preparer-contact-details',
