@@ -93,12 +93,11 @@ ${record.results}`;
         </h3>
         <p className="no-print">
           <va-link
-            active
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'va-medical-images-and-reports',
             )}
-            text="Request images on the My HealtheVet website"
+            text="Request images on the My HealtheVet"
           />
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
