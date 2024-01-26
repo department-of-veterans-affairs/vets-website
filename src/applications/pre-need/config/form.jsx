@@ -42,13 +42,14 @@ import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
 
+import transformForSubmit from './submit-transformer';
+
 import manifest from '../manifest.json';
 
 import {
   isVeteran,
   isAuthorizedAgent,
   formatName,
-  transform,
   applicantContactInfoDescriptionNonVet,
   applicantContactInfoDescriptionVet,
   isVeteranAndHasServiceName,
@@ -58,6 +59,8 @@ import {
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
   isSponsorDeceased,
+  createPayload,
+  parseResponse,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -126,9 +129,9 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: transform,
+  transformForSubmit,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {
@@ -331,20 +334,12 @@ const formConfig = {
                 addAnotherLabel: 'Upload another file',
                 fileUploadUrl: `${
                   environment.API_URL
-                }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf'],
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
                 maxSize: 15728640,
                 hideLabelText: true,
-                createPayload: file => {
-                  const payload = new FormData();
-                  payload.append('preneed_attachment[file_data]', file);
-
-                  return payload;
-                },
-                parseResponse: (response, file) => ({
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                }),
+                createPayload,
+                parseResponse,
                 attachmentSchema: {
                   'ui:title': 'What kind of file is this?',
                 },

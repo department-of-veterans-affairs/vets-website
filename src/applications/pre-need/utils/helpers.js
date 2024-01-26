@@ -15,6 +15,9 @@ import {
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
 
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -729,6 +732,38 @@ export const militaryNameUI = {
     },
   },
 };
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
+}
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
