@@ -48,7 +48,8 @@ describe('LabsAndTests list container', () => {
 
   it('displays a list of records', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
+      // counting shown records plus all records due to print view
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(23);
     });
   });
 });
@@ -96,9 +97,12 @@ describe('Labs and tests list container with no data', () => {
     });
 
     expect(
-      screen.getByText('You don’t have any records in Labs and tests', {
-        exact: true,
-      }),
+      screen.getByText(
+        'There are no lab and test results in your VA medical records.',
+        {
+          exact: false,
+        },
+      ),
     ).to.exist;
   });
 });

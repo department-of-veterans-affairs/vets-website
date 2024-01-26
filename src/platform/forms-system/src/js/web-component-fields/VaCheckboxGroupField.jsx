@@ -65,7 +65,6 @@ export default function VaCheckboxGroupField(props) {
       {...commonFieldMapping(props)}
       label={props.label}
       labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
-      uswds
       onVaChange={onGroupChange}
       // onBlur={} // it seems this is not necessary.
       // prefer to show error on trying to continue instead.
@@ -92,7 +91,7 @@ export default function VaCheckboxGroupField(props) {
                 data-key={key}
                 name={`${props.childrenProps.idSchema.$id}_${key}`}
                 key={key}
-                uswds
+                uswds={props.uiOptions?.uswds ?? true}
                 label={uiSchema['ui:title']}
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}

@@ -21,8 +21,17 @@ const typeOfIncomeOptions = {
   OTHER: 'Other income',
 };
 
+const receiverOptions = {
+  VETERAN: 'Veteran',
+  SPOUSE: 'Spouse',
+  DEPENDENT: 'Dependent',
+};
+
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
+
+export const dependentNameRequired = (form, index) =>
+  get(['incomeSources', index, 'receiver'], form) === 'DEPENDENT';
 
 /** @type {PageSchema} */
 export default {
@@ -38,6 +47,9 @@ export default {
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         typeOfIncome: radioUI({
@@ -53,13 +65,18 @@ export default {
           },
           'ui:required': otherExplanationRequired,
         },
-        receiver: {
-          'ui:title': 'Who receives this income?',
+        receiver: radioUI({
+          title: 'Who receives this income?',
+          labels: receiverOptions,
+        }),
+        dependentName: {
+          'ui:title': 'Which dependent?',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
-            hint:
-              'Enter your name, or the name of your spouse or one of your dependents.',
+            expandUnder: 'receiver',
+            expandUnderCondition: 'DEPENDENT',
           },
+          'ui:required': dependentNameRequired,
         },
         payer: {
           'ui:title': 'Who pays this income?',
@@ -92,7 +109,8 @@ export default {
           properties: {
             typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
             otherTypeExplanation: { type: 'string' },
-            receiver: { type: 'string' },
+            receiver: radioSchema(Object.keys(receiverOptions)),
+            dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },
           },

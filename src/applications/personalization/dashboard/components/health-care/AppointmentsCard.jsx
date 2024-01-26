@@ -4,7 +4,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
-import { getAppointmentTimezone } from '../../utils/timezone';
+import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];

@@ -7,6 +7,7 @@ export const URL = {
   // TODO: Add address validation endpoint
   ADDRESS_VALIDATION: '',
   GET_INQUIRY: '',
+  UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
 };
 
 export const requireSignInCategories = [
