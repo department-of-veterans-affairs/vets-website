@@ -271,6 +271,12 @@ SearchResult.propTypes = {
   officer: PropTypes.string,
   phone: PropTypes.string,
   query: PropTypes.object,
+  reports: PropTypes.shape({
+    phone: PropTypes.string,
+    email: PropTypes.string,
+    address: PropTypes.string,
+    otherComment: PropTypes.string,
+  }),
   representative: PropTypes.string,
   representativeId: PropTypes.string,
   state: PropTypes.string,
