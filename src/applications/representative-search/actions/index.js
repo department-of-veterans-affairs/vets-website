@@ -1,4 +1,3 @@
-import { clearGeocodeError } from './mapbox/clearGeocodeError';
 import { clearSearchResults } from './search/clearSearchResults';
 import { clearSearchText } from './search/clearSearchText';
 import { fetchRepresentatives } from './representatives/fetchRepresentatives';
@@ -10,8 +9,8 @@ import { updateSearchQuery } from './search/updateSearchQuery';
 import { updateSortType } from './search/updateSortType';
 import { submitRepresentativeReport } from './reports/submitRepresentativeReport';
 import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
+import { clearError } from './error/clearError';
 
-export { clearGeocodeError };
 export { clearSearchResults };
 export { clearSearchText };
 export { fetchRepresentatives };
@@ -23,6 +22,7 @@ export { updateSearchQuery };
 export { updateSortType };
 export { submitRepresentativeReport };
 export { updateFromLocalStorage };
+export { clearError };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';
