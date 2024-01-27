@@ -227,7 +227,6 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
-  signInPageAndModalExperimentLga: 'sign_in_page_and_modal_experiment_lga',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
@@ -259,7 +258,6 @@ export default Object.freeze({
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
   vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineSchedulingClinicFilter: 'va_online_scheduling_clinic_filter',
-  vaOnlineSchedulingAcheronService: 'va_online_scheduling_acheron_service',
   vaOnlineSchedulingRequestFlowUpdate:
     'va_online_scheduling_request_flow_update',
   vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',
@@ -267,7 +265,6 @@ export default Object.freeze({
     'va_online_scheduling_convert_utc_to_local',
   vaOnlineSchedulingBreadcrumbUrlUpdate:
     'va_online_scheduling_breadcrumb_url_update',
-  vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingStaticLandingPage:
     'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',
