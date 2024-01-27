@@ -1,7 +1,4 @@
-import {
-  updateSchemaAndData,
-  updateUiSchema,
-} from 'platform/forms-system/src/js/state/helpers';
+import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
 
 import {
   FORM_DATA_UPDATED,
@@ -20,8 +17,11 @@ const initialState = {
 export function removeDependents(state = initialState, action) {
   // schema, uiSchema, and formData are already extracted based on index (stateKey) here.
   if (action.type === FORM_DATA_UPDATED) {
-    const newUiSchema = updateUiSchema(action.uiSchema, action.formData);
-    const { data: newFormData, schema: newFormSchema } = updateSchemaAndData(
+    const {
+      data: newFormData,
+      schema: newFormSchema,
+      uiSchema: newUiSchema,
+    } = updateSchemaAndData(
       action.formSchema,
       action.uiSchema,
       action.formData,
