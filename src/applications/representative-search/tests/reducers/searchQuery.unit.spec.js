@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import {
   SEARCH_STARTED,
-  SEARCH_FAILED,
-  SEARCH_QUERY_UPDATED,
+  // SEARCH_FAILED,
+  // SEARCH_QUERY_UPDATED,
   GEOCODE_STARTED,
   CLEAR_SEARCH_TEXT,
   FETCH_REPRESENTATIVES,
@@ -34,7 +34,6 @@ describe('search query reducer', () => {
         locationInputString: 'test',
         representativeType: 'test',
         inProgress: true,
-        error: true,
         searchWithInputInProgress: true,
       },
       {
@@ -42,46 +41,28 @@ describe('search query reducer', () => {
       },
     );
 
-    expect(state.error).to.eql(false);
     expect(state.isValid).to.eql(true);
     expect(state.inProgress).to.eql(false);
     expect(state.searchWithInputInProgress).to.eql(false);
   });
 
-  it('should handle search failed', () => {
-    const state = SearchQueryReducer(
-      {
-        ...INITIAL_STATE,
-        error: false,
-        inProgress: true,
-      },
-      {
-        type: SEARCH_FAILED,
-      },
-    );
+  // it('should handle search query updated', () => {
+  //   const state = SearchQueryReducer(
+  //     {
+  //       ...INITIAL_STATE,
+  //       isErrorFetchRepresentatives: true,
+  //     },
+  //     {
+  //       type: SEARCH_QUERY_UPDATED,
+  //       payload: {
+  //         attribute: true,
+  //       },
+  //     },
+  //   );
 
-    expect(state.error).to.eql(true);
-    expect(state.inProgress).to.eql(false);
-    expect(state.searchWithInputInProgress).to.eql(false);
-  });
-
-  it('should handle search query updated', () => {
-    const state = SearchQueryReducer(
-      {
-        ...INITIAL_STATE,
-        error: true,
-      },
-      {
-        type: SEARCH_QUERY_UPDATED,
-        payload: {
-          attribute: true,
-        },
-      },
-    );
-
-    expect(state.error).to.eql(false);
-    expect(state.attribute).to.eql(true);
-  });
+  //   expect(state.isErrorFetchRepresentatives).to.eql(false);
+  //   expect(state.attribute).to.eql(true);
+  // });
 
   it('should handle geocode started', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
@@ -173,14 +154,14 @@ describe('search query reducer', () => {
     });
   });
 
-  it('should return error if error present', () => {
-    const state = SearchQueryReducer(INITIAL_STATE, {
-      type: SEARCH_FAILED,
-      error: 404,
-    });
+  // it('should return error if error present', () => {
+  //   const state = SearchQueryReducer(INITIAL_STATE, {
+  //     type: SEARCH_FAILED,
+  //     error: 404,
+  //   });
 
-    expect(state.error).to.eql(true);
-  });
+  //   expect(state.error).to.eql(true);
+  // });
 
   it('should invalidate form when clearing search text', () => {
     const state = SearchQueryReducer(

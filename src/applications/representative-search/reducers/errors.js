@@ -5,7 +5,7 @@ import {
   REPORT_ITEMS_UPDATED,
   GEOCODE_FAILED,
   CLEAR_ERROR,
-  // SEARCH_QUERY_UPDATED,
+  SEARCH_QUERY_UPDATED,
   GEOCODE_STARTED,
   SEARCH_COMPLETE,
   SEARCH_STARTED,
@@ -20,19 +20,19 @@ const INITIAL_STATE = {
 
 export const ErrorsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    // case SEARCH_QUERY_UPDATED:
     case CLEAR_ERROR: {
       const { errorType } = action.payload;
 
       return { ...state, [errorType]: null };
     }
+    case SEARCH_QUERY_UPDATED:
     case GEOCODE_STARTED:
     case SEARCH_COMPLETE:
     case SEARCH_STARTED:
     case FETCH_REPRESENTATIVES:
       return {
         ...state,
-        isErrorFetchRepresentatives: false,
+        isErrorFetchRepresentatives: null,
       };
 
     case REPORT_COMPLETE:
