@@ -15,7 +15,8 @@
       "ssn": "321540989"
     },
     "livingSituation": {
-      "NONE": true
-    }
+      "OTHER_RISK": true
+    },
+    "otherHousingRisks": "The Veteran's baby giraffe is growing up fast!"
   }
 }

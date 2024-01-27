@@ -69,7 +69,7 @@ export function validateLivingSituation(errors, fields) {
   // schema's required prop already handles required error-message
   if (selectedSituations.length > 1 && selectedSituations.includes('NONE')) {
     errors.livingSituation.addError(
-      `If none of these situations apply to ${preparerString}, unselect the other options you selected.`,
+      `If none of these situations apply to ${preparerString}, unselect the other options you selected`,
     );
   }
 }
