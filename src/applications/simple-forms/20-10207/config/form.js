@@ -18,6 +18,7 @@ import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPart
 import otherHousingRisksPg from '../pages/otherHousingRisks';
 import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
 import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
+import mailingAddressYesNo from '../pages/mailingAddressYesNo';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -182,6 +183,39 @@ const formConfig = {
           uiSchema: otherHousingRisksThirdPartyNonVeteran.uiSchema,
           schema: otherHousingRisksThirdPartyNonVeteran.schema,
           pageClass: 'other-housing-risks-third-party-non-veteran',
+        },
+      },
+    },
+    contactInformationChapter: {
+      title: 'Your contact information',
+      pages: {
+        mailingAddressYesNoPage: {
+          depends: formData => formData.livingSituation.NONE,
+          path: 'mailing-address-yes-no',
+          title: 'Mailing address yes/no',
+          uiSchema: mailingAddressYesNo.uiSchema,
+          schema: mailingAddressYesNo.schema,
+          pageClass: 'contact-information',
+        },
+        mailingAddressPage: {
+          depends: formData => formData.mailingAddressYesNo,
+          path: 'mailing-address',
+          title: 'Your mailing address',
+          uiSchema: {
+            'ui:title': '[WIP] Your mailing address',
+            firstField: {
+              'ui:title': '[firstField]',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              firstField: {
+                type: 'string',
+              },
+            },
+          },
+          pageClass: 'mailing-address',
         },
       },
     },

@@ -251,3 +251,8 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
     </div>
   </va-additional-info>,
 );
+
+export const MAILING_ADDRESS_YES_NO_LABELS = Object.freeze({
+  Y: 'Yes, I have a current mailing address.',
+  N: 'No, I don’t have a current mailing address.',
+});
