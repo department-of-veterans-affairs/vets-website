@@ -3,8 +3,12 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, within } from '@testing-library/dom';
-import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+
 import userEvent from '@testing-library/user-event';
 import {
   createTestStore,
@@ -46,7 +50,7 @@ describe('VAOS <AppointmentsPage>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it.skip('should navigate to list URLs on dropdown change', async () => {
+  it('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -142,7 +146,7 @@ describe('VAOS <AppointmentsPage>', () => {
     });
   });
 
-  it.skip('should render warning message', async () => {
+  it('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {
@@ -173,7 +177,7 @@ describe('VAOS <AppointmentsPage>', () => {
     ).to.exist;
   });
 
-  it.skip('start scheduling button should open new appointment flow', async () => {
+  it('start scheduling button should open new appointment flow', async () => {
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: {
         ...initialState,
