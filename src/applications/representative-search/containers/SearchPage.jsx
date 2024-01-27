@@ -366,9 +366,31 @@ SearchPage.propTypes = {
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: PropTypes.object,
+  errors: PropTypes.shape({
+    isErrorGeocode: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.oneOf([null]),
+    ]),
+  }),
   fetchRepresentatives: PropTypes.func,
   geocodeUserAddress: PropTypes.func,
   geolocateUser: PropTypes.func,
+  isErrorFetchRepresentatives: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorGeocode: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorReportSubmission: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
   location: PropTypes.shape({
     pathname: PropTypes.string,
     query: PropTypes.shape({
@@ -388,9 +410,8 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  results: PropTypes.array,
   reportedResults: PropTypes.array,
-  isErrorFetchRepresentatives: PropTypes.object,
+  results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
   searchWithInput: PropTypes.func,

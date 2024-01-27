@@ -208,6 +208,7 @@ const SearchControls = props => {
 SearchControls.propTypes = {
   clearError: PropTypes.func,
   currentQuery: PropTypes.object,
+  geocodeError: PropTypes.object,
   geolocateUser: PropTypes.func,
   locationChanged: PropTypes.bool,
   locationInputString: PropTypes.string,
