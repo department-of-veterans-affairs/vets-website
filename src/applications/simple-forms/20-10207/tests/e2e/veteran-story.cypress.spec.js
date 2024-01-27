@@ -9,8 +9,9 @@ import {
   continueToNextPage,
   pagePathIsCorrect,
   fillIdInfoPage,
-  // fillLivingSituationPage,
+  fillLivingSituationPage,
   fillNameAndDateOfBirthPage,
+  fillOtherHousingRisksPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
@@ -297,39 +298,74 @@ testSuite('PP 10207 - Veteran', () => {
       pagePathIsCorrect('living-situation');
     });
 
-    it('displays correct chapter-title', () => {
-      showsCorrectChapterTitle('Your living situation');
+    describe('Your-living-situation page', () => {
+      it('displays correct chapter-title', () => {
+        showsCorrectChapterTitle('Your living situation');
+      });
+
+      it('displays correct H3 page-title', () => {
+        showsCorrectPageTitle(
+          'Which of these statements best describe your living situation?',
+          3,
+        );
+      });
+
+      it('displays correct checkbox-labels', () => {
+        showsCorrectLivingSituationCheckboxLabels('veteran');
+      });
+
+      it('displays correct error message for empty selection', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage('Select the appropriate living situation');
+      });
+
+      it('displays correct error message for NONE + 1 selections', () => {
+        cy.contains('another housing risk').click();
+        cy.contains('None').click();
+        continueToNextPage();
+        showsCorrectErrorMessage(
+          'If none of these situations apply to you, unselect the other options you selected',
+        );
+      });
+
+      it('advances to Other-housing-risks page when OTHER_RISK is selected', () => {
+        fillLivingSituationPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('other-housing-risks');
+      });
+
+      it('advances to next chapter when OTHER_RISK is not selected', () => {
+        cy.contains('None').click();
+        continueToNextPage();
+        // TODO: Change path below to real next-chapter when ready
+        pagePathIsCorrect('review-and-submit');
+      });
     });
 
-    it('displays correct H3 page-title', () => {
-      showsCorrectPageTitle(
-        'Which of these statements best describe your living situation?',
-        3,
-      );
-    });
+    describe('Other-housing-risks page', () => {
+      beforeEach(() => {
+        cy.contains('another housing risk').click();
+        continueToNextPage();
+        pagePathIsCorrect('other-housing-risks');
+      });
 
-    it('displays correct checkbox-labels', () => {
-      showsCorrectLivingSituationCheckboxLabels('veteran');
-    });
+      it('displays correct page-title', () => {
+        showsCorrectPageTitle('Other housing risks', 3);
+      });
 
-    it('displays correct error message for empty selection', () => {
-      continueToNextPage();
-      showsCorrectErrorMessage('Select the appropriate living situation');
-    });
+      it('displays correct error message for empty input', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage(
+          'List other housing risks you are experiencing',
+        );
+      });
 
-    // TODO: Add custom-validation test when ready
-
-    it('advances to Other-housing-risks page when other-risk is selected', () => {
-      cy.contains('another housing risk').click();
-      continueToNextPage();
-      pagePathIsCorrect('other-housing-risks');
-    });
-
-    it('advances to next chapter when other-risk is not selected', () => {
-      cy.contains('None').click();
-      continueToNextPage();
-      // TODO: Change path below to real next-chapter when ready
-      pagePathIsCorrect('review-and-submit');
+      it('advances to next chapter', () => {
+        // TODO: Change path below once next chapter is built
+        fillOtherHousingRisksPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('review-and-submit');
+      });
     });
   });
 });

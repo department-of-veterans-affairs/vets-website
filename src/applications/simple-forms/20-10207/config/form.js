@@ -16,6 +16,8 @@ import livingSituationPg from '../pages/livingSituation';
 import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
 import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
 import otherHousingRisksPg from '../pages/otherHousingRisks';
+import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
+import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -160,6 +162,26 @@ const formConfig = {
           uiSchema: otherHousingRisksPg.uiSchema,
           schema: otherHousingRisksPg.schema,
           pageClass: 'other-housing-risks',
+        },
+        otherHousingRiskThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.livingSituation.OTHER_RISK &&
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'other-housing-risks-third-party-veteran',
+          title: 'Other housing risks',
+          uiSchema: otherHousingRisksThirdPartyVeteran.uiSchema,
+          schema: otherHousingRisksThirdPartyVeteran.schema,
+          pageClass: 'other-housing-risks-third-party-veteran',
+        },
+        otherHousingRiskThirdPartyNonVeteranPage: {
+          depends: formData =>
+            formData.livingSituation.OTHER_RISK &&
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'other-housing-risks-third-party-non-veteran',
+          title: 'Other housing risks',
+          uiSchema: otherHousingRisksThirdPartyNonVeteran.uiSchema,
+          schema: otherHousingRisksThirdPartyNonVeteran.schema,
+          pageClass: 'other-housing-risks-third-party-non-veteran',
         },
       },
     },

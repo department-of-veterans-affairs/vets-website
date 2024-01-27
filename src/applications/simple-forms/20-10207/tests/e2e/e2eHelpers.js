@@ -116,3 +116,12 @@ export const fillLivingSituationPage = preparerType => {
     cy.selectVaCheckbox(`root_livingSituation_${key}`, livingSituations[key]);
   });
 };
+
+export const fillOtherHousingRisksPage = preparerType => {
+  const data = getDataForPreparerType(preparerType);
+  const { otherHousingRisks } = data;
+
+  cy.get('textarea[name="root_otherHousingRisks"]').type(otherHousingRisks, {
+    force: true,
+  });
+};
