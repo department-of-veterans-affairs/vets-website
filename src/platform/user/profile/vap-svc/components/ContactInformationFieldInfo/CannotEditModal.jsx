@@ -14,6 +14,7 @@ const CannotEditModal = props => {
       primaryButtonText="OK"
       onPrimaryButtonClick={onHide}
       data-testid="cannot-edit-modal"
+      uswds
     >
       <p>
         Before you can edit a new section of your profile, you need to save or
