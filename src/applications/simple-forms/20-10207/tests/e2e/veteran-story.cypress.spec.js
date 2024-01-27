@@ -11,7 +11,6 @@ import {
   fillIdInfoPage,
   fillLivingSituationPage,
   fillNameAndDateOfBirthPage,
-  fillOtherHousingRisksPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
@@ -334,11 +333,10 @@ testSuite('PP 10207 - Veteran', () => {
         pagePathIsCorrect('other-housing-risks');
       });
 
-      it('advances to next chapter when OTHER_RISK is not selected', () => {
+      it('advances to Your-contact-information chapter when NONE is selected', () => {
         cy.contains('None').click();
         continueToNextPage();
-        // TODO: Change path below to real next-chapter when ready
-        pagePathIsCorrect('review-and-submit');
+        pagePathIsCorrect('mailing-address-yes-no');
       });
     });
 
@@ -362,8 +360,58 @@ testSuite('PP 10207 - Veteran', () => {
 
       it('advances to next chapter', () => {
         // TODO: Change path below once next chapter is built
-        fillOtherHousingRisksPage('veteran');
+        cy.contains('I will lose my home').click();
         continueToNextPage();
+        pagePathIsCorrect('review-and-submit');
+      });
+    });
+  });
+
+  describe('Your-contact-information chapter', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/user', userLOA3);
+      cy.login(userLOA3);
+      cy.visit(`${manifest.rootUrl}`);
+      cy.findByText(/^start/i, { selector: 'a[href="#start"]' })
+        .last()
+        .click();
+      cy.contains('I’m a Veteran.').click();
+      continueToNextPage();
+      fillNameAndDateOfBirthPage('veteran');
+      continueToNextPage();
+      fillIdInfoPage('veteran');
+      continueToNextPage();
+      cy.contains('None').click();
+      continueToNextPage();
+      pagePathIsCorrect('mailing-address-yes-no');
+    });
+
+    describe('Mailing-address-yes-no page', () => {
+      it('displays correct chapter-title', () => {
+        showsCorrectChapterTitle('Your contact information');
+      });
+
+      it('displays correct H3 page-title', () => {
+        showsCorrectPageTitle('Do you have a current mailing address?', 3);
+      });
+
+      it('displays correct error message for empty selection', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage(
+          'Select yes if you have a current mailing address. Select no if you do not have a current mailing address.',
+        );
+      });
+
+      it('advances to Your-mailing-address page when YES is selected', () => {
+        cy.contains('Yes').click();
+        continueToNextPage();
+        pagePathIsCorrect('mailing-address');
+      });
+
+      it('advances to next-page when NO is selected', () => {
+        cy.contains('No').click();
+        continueToNextPage();
+        // TODO: Change path to next-page once built
         pagePathIsCorrect('review-and-submit');
       });
     });
