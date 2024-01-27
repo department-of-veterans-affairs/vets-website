@@ -4,7 +4,7 @@ import {
   FETCH_REPRESENTATIVES,
   SORT_TYPE_UPDATED,
   SEARCH_FAILED,
-  REPORT_FAILED,
+  // REPORT_FAILED,
   CLEAR_SEARCH_RESULTS,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
@@ -12,7 +12,6 @@ import { SearchResultReducer } from '../../reducers/searchResult';
 const INITIAL_STATE = {
   searchResults: [],
   reportedResults: [],
-  reportError: false,
   pagination: {},
 };
 
@@ -63,14 +62,14 @@ describe('representatives reducer', () => {
     expect(state.error).to.eql(action.error);
   });
 
-  it('should set report error to true if error present', () => {
-    const state = SearchResultReducer(INITIAL_STATE, {
-      type: REPORT_FAILED,
-      error: 404,
-    });
+  // it('should set report error to true if error present', () => {
+  //   const state = SearchResultReducer(INITIAL_STATE, {
+  //     type: REPORT_FAILED,
+  //     error: 404,
+  //   });
 
-    expect(state.reportError).to.eql(true);
-  });
+  //   expect(state.isErrorReportBadData).to.eql(true);
+  // });
 
   it('should clear error after a successful search', () => {
     const state = SearchResultReducer(

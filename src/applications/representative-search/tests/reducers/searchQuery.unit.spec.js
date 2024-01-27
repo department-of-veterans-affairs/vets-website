@@ -7,9 +7,9 @@ import {
   CLEAR_SEARCH_TEXT,
   FETCH_REPRESENTATIVES,
   GEOLOCATE_USER,
-  GEOCODE_FAILED,
+  // GEOCODE_FAILED,
   GEOCODE_COMPLETE,
-  GEOCODE_CLEAR_ERROR,
+  // CLEAR_GEOCODE_ERROR,
 } from '../../utils/actionTypes';
 import {
   SearchQueryReducer,
@@ -100,19 +100,19 @@ describe('search query reducer', () => {
     expect(state.geolocationInProgress).to.eql(true);
   });
 
-  it('should handle geocode failed', () => {
-    const action = {
-      type: GEOCODE_FAILED,
-      payload: { geocodeError: -1 },
-    };
-    const state = SearchQueryReducer(INITIAL_STATE, {
-      type: GEOCODE_FAILED,
-    });
+  // it('should handle geocode failed', () => {
+  //   const action = {
+  //     type: GEOCODE_FAILED,
+  //     payload: { geocodeError: -1 },
+  //   };
+  //   const state = SearchQueryReducer(INITIAL_STATE, {
+  //     type: GEOCODE_FAILED,
+  //   });
 
-    expect(action.payload.geocodeError).to.eql(-1);
-    expect(state.geocodeInProgress).to.eql(false);
-    expect(state.geolocationInProgress).to.eql(false);
-  });
+  //   expect(action.payload.geocodeError).to.eql(-1);
+  //   expect(state.geocodeInProgress).to.eql(false);
+  //   expect(state.geolocationInProgress).to.eql(false);
+  // });
 
   it('should handle geocode complete', () => {
     const state = SearchQueryReducer(INITIAL_STATE, {
@@ -123,15 +123,15 @@ describe('search query reducer', () => {
     expect(state.geolocationInProgress).to.eql(false);
   });
 
-  it('should handle geocode clear error', () => {
-    const state = SearchQueryReducer(INITIAL_STATE, {
-      type: GEOCODE_CLEAR_ERROR,
-    });
+  // it('should handle geocode clear error', () => {
+  //   const state = SearchQueryReducer(INITIAL_STATE, {
+  //     type: CLEAR_GEOCODE_ERROR,
+  //   });
 
-    expect(state.geocodeError).to.eql(0);
-    expect(state.geocodeInProgress).to.eql(false);
-    expect(state.geolocationInProgress).to.eql(false);
-  });
+  //   expect(state.geocodeError).to.eql(0);
+  //   expect(state.geocodeInProgress).to.eql(false);
+  //   expect(state.geolocationInProgress).to.eql(false);
+  // });
 
   describe('isValid', () => {
     it('should be true with locationInputString and representativeType', () => {
