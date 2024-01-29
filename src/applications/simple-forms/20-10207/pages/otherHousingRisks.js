@@ -6,10 +6,7 @@ import { ADDITIONAL_INFO_OTHER_HOUSING_RISKS } from '../config/constants';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Other housing risks'),
-    'view:additionalInfoOtherHousingRisks': {
-      'ui:description': ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
-    },
+    ...titleUI('Other housing risks', ADDITIONAL_INFO_OTHER_HOUSING_RISKS),
     otherHousingRisks: {
       'ui:title': 'Tell us about other housing risks you are experiencing',
       'ui:webComponentField': VaTextareaField,
@@ -24,10 +21,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:additionalInfoOtherHousingRisks': {
-        type: 'object',
-        properties: {},
-      },
       otherHousingRisks: {
         type: 'string',
         maxLength: 100,

@@ -6,10 +6,10 @@ import { ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET } from '../config/c
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Other housing risks'),
-    'view:additionalInfoOtherHousingRisks': {
-      'ui:description': ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET,
-    },
+    ...titleUI(
+      'Other housing risks',
+      ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET,
+    ),
     otherHousingRisks: {
       'ui:title':
         'Tell us about other housing risks the claimant is experiencing',
@@ -25,10 +25,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:additionalInfoOtherHousingRisks': {
-        type: 'object',
-        properties: {},
-      },
       otherHousingRisks: {
         type: 'string',
         maxLength: 100,
