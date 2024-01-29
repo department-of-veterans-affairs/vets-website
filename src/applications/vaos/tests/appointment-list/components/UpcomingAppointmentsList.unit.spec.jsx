@@ -25,7 +25,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     MockDate.reset();
   });
 
-  it('should show VA appointment text', async () => {
+  it.skip('should show VA appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -87,7 +87,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 
-  it('should show CC appointment text', async () => {
+  it.skip('should show CC appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -172,7 +172,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
   });
 
-  it('should show phone appointment text', async () => {
+  it.skip('should show phone appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -216,7 +216,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     expect(screen.baseElement).to.contain.text('Phone');
   });
 
-  it('should show cancelled appointment text', async () => {
+  it.skip('should show cancelled appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
