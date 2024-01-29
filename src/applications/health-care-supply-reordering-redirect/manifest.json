@@ -1,8 +1,0 @@
-{
-  "appName": "Temporary order hearing aid or CPAP supplies redirect",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "health-care-supply-reordering-redirect",
-  "rootUrl": "/my-health/order-hearing-aid-or-cpap-supplies-form",
-  "e2eTestsDisabled": false,
-  "productId": ""
-}
