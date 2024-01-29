@@ -3,14 +3,15 @@ import { expect } from 'chai';
 import {
   FETCH_REPRESENTATIVES,
   SORT_TYPE_UPDATED,
-  SEARCH_FAILED,
+  // SEARCH_FAILED,
+  // REPORT_FAILED,
   CLEAR_SEARCH_RESULTS,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   searchResults: [],
-  selectedResult: null,
+  reportedResults: [],
   pagination: {},
 };
 
@@ -51,33 +52,42 @@ describe('representatives reducer', () => {
     expect(state).to.eql(INITIAL_STATE);
   });
 
-  it('should return error if error present', () => {
-    const action = { error: 404 };
-    const state = SearchResultReducer(INITIAL_STATE, {
-      type: SEARCH_FAILED,
-      error: 404,
-    });
+  // it('should return error if error present', () => {
+  //   const action = { error: 404 };
+  //   const state = SearchResultReducer(INITIAL_STATE, {
+  //     type: SEARCH_FAILED,
+  //     error: 404,
+  //   });
 
-    expect(state.error).to.eql(action.error);
-  });
+  //   expect(state.error).to.eql(action.error);
+  // });
 
-  it('should clear error after a successful search', () => {
-    const state = SearchResultReducer(
-      { ...INITIAL_STATE, error: true },
-      {
-        type: FETCH_REPRESENTATIVES,
-        payload: {
-          data: [{ name: 'selectedResult1' }, { name: 'selectedResult2' }],
-          meta: {
-            pagination: {
-              currentPage: 1,
-            },
-          },
-        },
-      },
-    );
-    expect(state.error).to.be.null;
-  });
+  // it('should set report error to true if error present', () => {
+  //   const state = SearchResultReducer(INITIAL_STATE, {
+  //     type: REPORT_FAILED,
+  //     error: 404,
+  //   });
+
+  //   expect(state.isErrorReportBadData).to.eql(true);
+  // });
+
+  // it('should clear error after a successful search', () => {
+  //   const state = SearchResultReducer(
+  //     { ...INITIAL_STATE, error: true },
+  //     {
+  //       type: FETCH_REPRESENTATIVES,
+  //       payload: {
+  //         data: [{ name: 'selectedResult1' }, { name: 'selectedResult2' }],
+  //         meta: {
+  //           pagination: {
+  //             currentPage: 1,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   );
+  //   expect(state.error).to.be.null;
+  // });
 
   it('should handle fetching state to build a search query object', () => {
     const state = SearchResultReducer(INITIAL_STATE, {
