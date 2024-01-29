@@ -26,18 +26,19 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         class="vads-u-margin-y--1"
         close-btn-aria-label="Close notification"
         disable-analytics="false"
-        show-icon
         status="success"
         visible="true"
+        full-width
+        uswds
       >
-        <div
-          className="vads-u-display--flex vads-u-margin-left--neg1p5"
+        <p
+          className="vads-u-margin-y--0"
+          role="alert"
+          aria-live="polite"
           id={id}
         >
-          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-            'Update saved.'
-          </p>
-        </div>
+          Update saved.
+        </p>
       </va-alert>
     </>
   );
