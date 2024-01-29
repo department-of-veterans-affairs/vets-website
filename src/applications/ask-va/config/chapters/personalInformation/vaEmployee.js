@@ -5,10 +5,10 @@ import { CHAPTER_3, yesNoOptions } from '../../../constants';
 const vaEmployeePage = {
   uiSchema: {
     'ui:description': FormElementTitle({
-      title: CHAPTER_3.PAGE_8.TITLE,
+      title: CHAPTER_3.VA_EMPLOYEE.TITLE,
     }),
     isVAEmployee: radioUI({
-      title: CHAPTER_3.PAGE_8.QUESTION_1,
+      title: CHAPTER_3.VA_EMPLOYEE.QUESTION_1,
       description: '',
       labels: yesNoOptions,
     }),

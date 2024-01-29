@@ -7,18 +7,18 @@ import {
   regionOptions,
 } from '../../../constants';
 
-const question = <h4>{CHAPTER_3.PAGE_6.TITLE}</h4>;
+const question = <h4>{CHAPTER_3.VET_POSTAL_CODE.TITLE}</h4>;
 
 const veteransAddressZipPage = {
   uiSchema: {
     'ui:description': question,
     'ui:objectViewField': PageFieldSummary,
     isVetMilitaryBase: {
-      'ui:title': CHAPTER_3.PAGE_6.QUESTION_1,
+      'ui:title': CHAPTER_3.VET_POSTAL_CODE.QUESTION_1,
     },
     militaryBasePostOffice: {
       ...radioUI({
-        title: CHAPTER_3.PAGE_6.QUESTION_2,
+        title: CHAPTER_3.VET_POSTAL_CODE.QUESTION_2,
         labels: postOfficeOptions,
         hideIf: form => !form.isVetMilitaryBase,
       }),
@@ -26,14 +26,14 @@ const veteransAddressZipPage = {
     },
     militaryBaseRegion: {
       ...radioUI({
-        title: CHAPTER_3.PAGE_6.QUESTION_3,
+        title: CHAPTER_3.VET_POSTAL_CODE.QUESTION_3,
         labels: regionOptions,
         hideIf: form => !form.isVetMilitaryBase,
       }),
       'ui:required': form => form.isVetMilitaryBase,
     },
     veteranPostalCode: {
-      'ui:title': CHAPTER_3.PAGE_6.QUESTION_4,
+      'ui:title': CHAPTER_3.VET_POSTAL_CODE.QUESTION_4,
       'ui:required': form => !form.isVetMilitaryBase,
       'ui:options': {
         hideIf: form => form.isVetMilitaryBase,

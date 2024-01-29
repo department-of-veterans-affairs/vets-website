@@ -12,7 +12,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.veteransAddressZip;
+} = formConfig.chapters.personalInformation.pages.veteransAddressZip_familysomeonesbenefits;
 
 describe('veteransAddressZipPage', () => {
   it('should render', () => {
@@ -32,7 +32,7 @@ describe('veteransAddressZipPage', () => {
     const checkboxText =
       'The Veteran lives on a United States military base outside of the country.';
 
-    expect($('h4', container).textContent).to.eq("Veteran's address");
+    expect($('h4', container).textContent).to.eq("Veteran's postal code");
     expect($('.form-checkbox > label', container).textContent).to.eq(
       checkboxText,
     );

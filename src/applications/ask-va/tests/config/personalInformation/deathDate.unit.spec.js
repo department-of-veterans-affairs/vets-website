@@ -15,7 +15,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.dateOfDeath;
+} = formConfig.chapters.personalInformation.pages.dateOfDeath_familysomeonesbenefits;
 
 describe('deathDatePage', () => {
   it('should render', () => {

@@ -10,7 +10,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourAddressConfirmation;
+} = formConfig.chapters.personalInformation.pages.yourAddressConfirmation_generalquestion;
 
 describe('addressConfirmationPage', () => {
   it('should render', () => {
