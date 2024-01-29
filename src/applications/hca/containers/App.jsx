@@ -61,7 +61,7 @@ const App = props => {
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
 
-      if (hasSavedForm || typeof hasSavedForm === 'undefined' || isLoggedIn) {
+      if (isLoggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
