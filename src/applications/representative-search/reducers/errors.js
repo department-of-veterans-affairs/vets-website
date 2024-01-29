@@ -12,7 +12,7 @@ import {
   FETCH_REPRESENTATIVES,
 } from '../utils/actionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   isErrorFetchRepresentatives: null,
   isErrorReportSubmission: null,
   isErrorGeocode: null,
