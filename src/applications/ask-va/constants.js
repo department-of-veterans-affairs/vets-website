@@ -1,9 +1,9 @@
 const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?mock=true`,
-  GET_TOPICS: `/topics?mock=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
+  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_TOPICS: `/topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   // TODO: Add address validation endpoint
   ADDRESS_VALIDATION: '',
   GET_INQUIRY: '',
@@ -307,3 +307,33 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_3.TITLE,
   CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
 ];
+
+export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+
+export const contactUsBreadcrumbs = [
+  ...homeBreadcrumbs,
+  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+];
+
+export const askVABreadcrumbs = [
+  ...contactUsBreadcrumbs,
+  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+];
+
+export const responsePageBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { title: 'Response Page', key: 'responsePage' },
+];
+
+export const newInquiryBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { title: 'New Inquiry', key: 'newInquiry' },
+];
+
+export const breadcrumbsDictionary = {
+  '/': homeBreadcrumbs,
+  '/contact-us': contactUsBreadcrumbs,
+  '/introduction': askVABreadcrumbs,
+  '/user/dashboard': responsePageBreadcrumbs,
+  '/newInquiry': newInquiryBreadcrumbs,
+};
