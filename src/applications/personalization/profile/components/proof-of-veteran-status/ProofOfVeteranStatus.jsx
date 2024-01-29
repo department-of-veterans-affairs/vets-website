@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { generatePdf } from '~/platform/pdf';
 import { formatFullName } from '../../../common/helpers';
+import { getServiceBranchDisplayName } from '../../helpers';
 import recordEvent from '~/platform/monitoring/record-event';
 import { PROFILE_PATHS } from '../../constants';
 import { DISCHARGE_CODE_MAP } from './constants';
@@ -46,7 +47,14 @@ const ProofOfVeteranStatus = ({
     })}`,
     details: {
       fullName: formatFullName({ first, middle, last, suffix }),
-      serviceHistory: militaryInformation.serviceHistory.serviceHistory,
+      serviceHistory: militaryInformation.serviceHistory.serviceHistory.map(
+        item => {
+          return {
+            ...item,
+            branchOfService: getServiceBranchDisplayName(item.branchOfService),
+          };
+        },
+      ),
       totalDisabilityRating,
       dob: renderDOB(dob),
       image: {
@@ -83,7 +91,6 @@ const ProofOfVeteranStatus = ({
             <strong>Note: </strong>
             This card doesn’t entitle you to any VA benefits.
           </p>
-
           <div className="vads-l-grid-container vads-u-padding-y--2 vads-u-padding-l--0">
             <div className="vads-l-row">
               <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--8 medium-screen:vads-l-col--6 ">

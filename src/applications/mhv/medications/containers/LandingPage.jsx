@@ -149,8 +149,8 @@ const LandingPage = () => {
                   <ul className="vads-u-margin-bottom--0">
                     <li>
                       <strong>Medications you entered yourself. </strong>
-                      To find your self-entered medications, go back to your
-                      medications list on the My HealtheVet website.{' '}
+                      To find your self-entered medications, go back to the My
+                      HealtheVet website.{' '}
                       <a
                         href={mhvUrl(
                           isAuthenticatedWithSSOe(fullState),
@@ -284,8 +284,9 @@ const LandingPage = () => {
             </h2>
             <p>
               {' '}
-              Learn how to renew prescriptions, update your mailing address, and
-              review allergies and reactions in your VA medical records.
+              Learn how to request a prescription renewal, update your mailing
+              address, and review allergies and reactions in your VA medical
+              records.
             </p>
             <section>
               <va-accordion bordered data-testid="more-ways-to-manage">

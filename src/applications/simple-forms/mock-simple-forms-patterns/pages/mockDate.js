@@ -4,14 +4,13 @@ import {
   currentOrPastDateSchema,
   inlineTitleSchema,
   inlineTitleUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     dateDefault: currentOrPastDateUI('RJSF - Date of birth'),
     'view:inlineTitle': inlineTitleUI('V3 web components'),
     dateWCV3: currentOrPastDateUIWC('WC V3 - Date of birth'),
@@ -19,7 +18,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       dateDefault: {
         $ref: '#/definitions/date',
       },
