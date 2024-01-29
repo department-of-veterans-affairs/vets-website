@@ -9,7 +9,7 @@ describe('Secure Messaging Compose', () => {
     site.login(false);
     site.loadPageUnauthenticated();
 
-    cy.url().should('contain', '/my-health/secure-messages');
+    cy.url().should('contain', '/health-care/secure-messaging');
 
     site.login();
 
