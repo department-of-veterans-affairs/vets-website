@@ -34,12 +34,22 @@ const PrintDownload = props => {
     }
   };
 
+  const handlePrint = () => {
+    setMenuOpen(!menuOpen);
+    window.print();
+  };
+
   return (
     <>
       {isSuccess && (
         <div className="vads-u-margin-bottom--2">
           <va-alert status="success" background-only>
-            <p className="vads-u-margin--0">Download complete</p>
+            <p
+              className="vads-u-margin--0"
+              data-testid="download-success-banner"
+            >
+              Download complete
+            </p>
           </va-alert>
         </div>
       )}
@@ -68,6 +78,15 @@ const PrintDownload = props => {
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
         <ul className={menuOptionsClasses}>
+          <li>
+            <button
+              type="button"
+              data-testid="download-print-button"
+              onClick={() => handlePrint()}
+            >
+              {`Print this ${list ? 'list' : 'page'}`}
+            </button>
+          </li>
           <li>
             <button
               type="button"

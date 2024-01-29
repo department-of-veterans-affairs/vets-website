@@ -80,6 +80,18 @@ class FolderLoadPage {
       .click({ force: true });
     cy.get('h1').should('contain', 'Messages');
   };
+
+  navigateToLastPage = index => {
+    cy.get('.usa-pagination__list li')
+      .eq(index)
+      .click();
+  };
+
+  verifyPaginationElements = () => {
+    cy.get('.usa-pagination__list li').each(el => {
+      cy.wrap(el).should('be.visible');
+    });
+  };
 }
 
 export default new FolderLoadPage();
