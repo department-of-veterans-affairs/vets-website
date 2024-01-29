@@ -170,7 +170,9 @@ const MessageList = props => {
 
   return (
     <div className="message-list vads-l-row vads-u-flex-direction--column">
-      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      {messages?.length > 1 && (
+        <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      )}
 
       <h2 className="sr-only">List of filtered conversations</h2>
       <div

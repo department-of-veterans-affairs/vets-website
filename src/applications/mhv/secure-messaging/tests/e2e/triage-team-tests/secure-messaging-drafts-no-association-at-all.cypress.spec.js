@@ -85,7 +85,8 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Locators.BUTTONS.SEND).should('not.exist');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 
   it('existing single draft', () => {
@@ -150,6 +151,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       .find('a')
       .should('have.attr', 'href', '/find-locations/');
 
-    cy.get(Locators.BUTTONS.REPLY).should('not.exist');
+    cy.get(Locators.BUTTONS.SEND).should('not.exist');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 });

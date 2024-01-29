@@ -24,9 +24,9 @@ describe('Preferred name field tests on the personal information page', () => {
 
     cy.findByText(nameEditInputLabel).should('exist');
 
-    cy.get(nameEditInputField)
-      .clear()
-      .type('newname');
+    cy.get(nameEditInputField).clear();
+
+    cy.get(nameEditInputField).type('newname');
 
     cy.findByTestId('cancel-edit-button').click();
 
@@ -35,7 +35,11 @@ describe('Preferred name field tests on the personal information page', () => {
 
     cy.findByTestId('confirm-cancel-modal')
       .shadow()
-      .findByRole('button', { name: /cancel/i })
+      .find('.usa-button-group')
+      .first()
+      .find('va-button')
+      .shadow()
+      .findByText(/yes, cancel my changes/i)
       .click();
 
     cy.findByText(nameEditInputLabel).should('not.exist');

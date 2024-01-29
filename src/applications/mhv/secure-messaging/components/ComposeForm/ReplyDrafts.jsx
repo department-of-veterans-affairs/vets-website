@@ -48,7 +48,7 @@ const ReplyDrafts = props => {
           return (
             <ReplyDraftItem
               key={draft?.messageId}
-              cannotReply={cannotReply}
+              cannotReply={cannotReply || showBlockedTriageGroupAlert}
               draft={draft}
               draftsCount={drafts?.length}
               draftsequence={drafts.length - i}
