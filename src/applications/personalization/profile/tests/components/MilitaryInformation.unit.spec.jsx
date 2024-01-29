@@ -3,10 +3,15 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducers } from '../unit-test-helpers';
 
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import MilitaryInformation from '../../components/military-information/MilitaryInformation';
 
-function createBasicInitialState() {
+function createBasicInitialState(toggles = {}) {
   return {
+    featureToggles: {
+      loading: false,
+      ...toggles,
+    },
     scheduledDowntime: {
       globalDowntime: null,
       isReady: true,
@@ -32,12 +37,14 @@ function createBasicInitialState() {
               beginDate: '2009-04-12',
               endDate: '2013-04-11',
               personnelCategoryTypeCode: 'V',
+              characterOfDischargeCode: 'A',
             },
             {
               branchOfService: 'Air Force',
               beginDate: '2005-04-12',
               endDate: '2009-04-11',
               personnelCategoryTypeCode: 'A',
+              characterOfDischargeCode: 'A',
             },
           ],
         },
@@ -206,6 +213,27 @@ describe('MilitaryInformation', () => {
       expect(entries[1]).to.contain.text('April 11, 2009');
     });
   });
+  describe('when proof of veteran status exists', () => {
+    it('should show proof of veteran status component if toggle is on', () => {
+      initialState = createBasicInitialState({
+        [Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatus]: true,
+      });
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      expect(view.getByText(/Proof of Veteran status/)).to.exist;
+    });
+    it('should not show proof of veteran status component if toggle is off', () => {
+      initialState = createBasicInitialState({
+        [Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatus]: false,
+      });
+      view = renderWithProfileReducers(<MilitaryInformation />, {
+        initialState,
+      });
+      expect(view.queryByText(/Proof of Veteran status/)).not.to.exist;
+    });
+  });
+
   describe('when the veteranStatus is null and militaryInformation is empty', () => {
     it('should show the correct error', () => {
       initialState = createBasicInitialState();

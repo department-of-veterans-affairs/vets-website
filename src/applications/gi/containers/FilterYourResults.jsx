@@ -213,7 +213,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
@@ -221,12 +221,16 @@ export function FilterYourResults({
             }}
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Has no cautionary warnings
+          </label>
         ),
       },
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
@@ -235,6 +239,10 @@ export function FilterYourResults({
             buttonId="accredited-button"
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Is accredited
+          </label>
         ),
       },
       {

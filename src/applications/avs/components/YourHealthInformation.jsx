@@ -10,7 +10,11 @@ import {
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  MEDICATION_SOURCES,
+  MEDICATION_TYPES,
+} from '../utils/constants';
 import {
   filterMedicationsByType,
   getCombinedMedications,
@@ -68,7 +72,8 @@ const primaryCareTeam = avs => {
   if (avs.primaryCareTeamMembers?.length > 0) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
-        {member.name} - {member.title}
+        {member.name}
+        {member.title && ` - ${member.title}`}
       </li>
     ));
 
@@ -291,7 +296,7 @@ const renderFieldWithBreak = (field, prefix = '') => {
   return '';
 };
 
-const renderMedication = medication => {
+const renderVaMedication = medication => {
   return (
     <>
       <p>
@@ -324,7 +329,7 @@ const renderMedication = medication => {
   );
 };
 
-const renderNotTakingMedication = medication => {
+const renderNonVaMedication = medication => {
   return (
     <p>
       {renderFieldWithBreak(medication.name)}
@@ -340,6 +345,16 @@ const renderNotTakingMedication = medication => {
       {renderFieldWithBreak(medication.status, 'Status')}
     </p>
   );
+};
+
+const renderMedication = medication => {
+  switch (medication.medicationSource) {
+    case MEDICATION_SOURCES.NON_VA:
+      return renderNonVaMedication(medication);
+    case MEDICATION_SOURCES.VA:
+    default:
+      return renderVaMedication(medication);
+  }
 };
 
 const YourHealthInformation = props => {
@@ -404,7 +419,7 @@ const YourHealthInformation = props => {
         intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
         itemType="medications-not-taking"
         items={getMyMedicationsNotTaking(avs)}
-        renderItem={renderNotTakingMedication}
+        renderItem={renderMedication}
         showSeparators
       />
       {labResults(avs)}

@@ -47,6 +47,9 @@ export default {
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         typeOfIncome: radioUI({

@@ -96,3 +96,31 @@
   line-height: 1.2;
   font-size: 16px;
 }
+
+.no-attachments {
+  background-color: $color-gray-lightest;
+  padding: 5px;
+}
+
+.attachments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.attachment-file {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.remove-attachment-button-wrapper {
+  color: $color-red-dark;
+}
+
+.header-breadcrumbs {
+  font-size: 16px !important;
+font-weight: normal !important;
+font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif !important;
+}

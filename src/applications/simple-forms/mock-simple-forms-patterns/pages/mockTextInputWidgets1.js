@@ -6,7 +6,6 @@ import phoneOldUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
-  titleSchema,
   titleUI,
   emailUI,
   emailSchema,
@@ -19,7 +18,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     emailOld: {
       ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
@@ -40,7 +39,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
