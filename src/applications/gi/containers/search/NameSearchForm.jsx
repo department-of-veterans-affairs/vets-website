@@ -84,7 +84,7 @@ export function NameSearchForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name, dispatchError, error, filters)) {
+    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
@@ -124,6 +124,7 @@ export function NameSearchForm({
               onSelection={s => setName(s.label)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
+              type="name"
               // validateSearchTerm={validateSearchTerm}
               filters={filters}
               version={version}
@@ -148,7 +149,7 @@ export function NameSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults nameVal={name} />
+            <FilterBeforeResults nameVal={name} searchType="name" />
           </div>
         )}
     </div>

@@ -36,6 +36,7 @@ export function FilterBeforeResults({
   smallScreen,
   errorReducer,
   nameVal,
+  searchType,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -357,7 +358,9 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
-    if (validateSearchTerm(nameVal, dispatchError, error, filters)) {
+    if (
+      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+    ) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',

@@ -27,6 +27,7 @@ export function KeywordSearch({
   filters,
   dispatchError,
   errorReducer,
+  type,
 }) {
   const fetchSuggestion = () => {
     onFetchAutocompleteSuggestions(inputValue, version);
@@ -90,7 +91,7 @@ export function KeywordSearch({
         debouncedFetchSuggestion(value);
       }
       if (validateSearchTerm) {
-        validateSearchTerm(value, dispatchError, error, filters);
+        validateSearchTerm(value, dispatchError, error, filters, type);
       }
     }
   };
@@ -221,6 +222,7 @@ KeywordSearch.propTypes = {
   labelAdditional: PropTypes.object,
   required: PropTypes.any,
   suggestions: PropTypes.array,
+  type: PropTypes.string,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,

@@ -33,6 +33,7 @@ export function FilterYourResults({
   search,
   smallScreen,
   errorReducer,
+  searchType,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -180,7 +181,9 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    validateSearchTerm(nameValue, dispatchError, error, filters);
+    if (!isProductionOfTestProdEnv()) {
+      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    }
     updateInstitutionFilters('search', true);
 
     updateUrlParams(history, search.tab, search.query, filters, version);
