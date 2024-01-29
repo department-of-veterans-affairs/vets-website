@@ -12,6 +12,18 @@ export default class PageObject {
     return this;
   }
 
+  assertButton({ label, exist = true, isEnabled = true } = {}) {
+    if (exist) {
+      cy.contains('button', label)
+        .as('button')
+        .should(isEnabled ? 'be.enabled' : 'be.disabled');
+    } else {
+      cy.contains('button', label).should('not.exist');
+    }
+
+    return this;
+  }
+
   assertErrorAlert({ text, exist = true }) {
     return this.assertAlert({ text, exist, status: 'error' });
   }
@@ -48,6 +60,15 @@ export default class PageObject {
     return this;
   }
 
+  assertShadow({ element, text, exist = true } = {}) {
+    cy.get(element)
+      .shadow()
+      .findByText(text)
+      .should(exist ? 'exist' : 'not.existF');
+
+    return this;
+  }
+
   assertText({ text, exist = true } = {}) {
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
     return this;
@@ -61,7 +82,7 @@ export default class PageObject {
     return this.assertModal({ text, exist, status: 'warning' });
   }
 
-  clickNextButton(label = 'Continue') {
+  clickButton({ label }) {
     cy.contains('button', label)
       .as('button')
       .should('not.be.disabled');
@@ -69,6 +90,10 @@ export default class PageObject {
     cy.get('@button').click({ waitForAnimations: true });
 
     return this;
+  }
+
+  clickNextButton(label = 'Continue') {
+    return this.clickButton({ label });
   }
 
   selectRadioButton(label) {

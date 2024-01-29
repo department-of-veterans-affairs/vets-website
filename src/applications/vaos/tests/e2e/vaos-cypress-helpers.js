@@ -549,7 +549,7 @@ export function mockClinicsApi({
     cy.intercept(
       {
         method: 'GET',
-        path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+        pathname: `/vaos/v2/locations/${locationId}/clinics`,
       },
       req => {
         if (responseCode !== 200) {
