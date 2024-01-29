@@ -13,7 +13,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
   { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-  { name: 'vaOnlineSchedulingStatusImprovement', value: true },
   { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
   { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
   { name: 'vaOnlineSchedulingAppointmentList', value: true },
