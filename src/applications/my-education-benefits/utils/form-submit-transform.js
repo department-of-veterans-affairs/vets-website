@@ -509,12 +509,31 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  const bankInfo = {
-    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
-    directDepositAccountType: submissionForm?.bankAccount?.accountType,
-    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
+  const bankAccountInView =
+    submissionForm['view:directDepositField']?.bankAccount;
+  const bankAccountDirectly = submissionForm?.bankAccount;
+
+  const hasDataInView =
+    bankAccountInView &&
+    (bankAccountInView.accountNumber || bankAccountInView.routingNumber);
+  const hasDataDirectly =
+    bankAccountDirectly &&
+    (bankAccountDirectly.accountNumber || bankAccountDirectly.routingNumber);
+
+  let effectiveBankAccount = {};
+  if (hasDataInView) {
+    effectiveBankAccount = bankAccountInView;
+  } else if (hasDataDirectly) {
+    effectiveBankAccount = bankAccountDirectly;
+  }
+
+  const constructedBankInfo = {
+    directDepositAccountNumber: effectiveBankAccount?.accountNumber,
+    directDepositAccountType: effectiveBankAccount?.accountType,
+    directDepositRoutingNumber: effectiveBankAccount?.routingNumber,
   };
-  return submissionForm?.bankAccount?.accountType ? bankInfo : {};
+
+  return effectiveBankAccount?.accountType ? constructedBankInfo : {};
 }
 
 export function createSubmissionForm(submissionForm, formId) {
