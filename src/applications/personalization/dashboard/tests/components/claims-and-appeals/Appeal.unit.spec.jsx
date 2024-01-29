@@ -71,6 +71,7 @@ describe('<Appeal />', () => {
 
     const tree = renderWithStoreAndRouter(
       <Appeal appeal={appeal} name={name} />,
+      { initialState: {} },
     );
 
     expect(tree.getByText(appealTitle)).to.exist;
@@ -92,6 +93,7 @@ describe('<Appeal />', () => {
       });
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
+        { initialState: {} },
       );
 
       expect(
@@ -109,6 +111,7 @@ describe('<Appeal />', () => {
 
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
+        { initialState: {} },
       );
 
       expect(
@@ -126,6 +129,7 @@ describe('<Appeal />', () => {
 
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
+        { initialState: {} },
       );
 
       expect(tree.getByText(/Disability compensation appeal updated on/)).to
@@ -139,6 +143,7 @@ describe('<Appeal />', () => {
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
+        { initialState: {} },
       );
 
       expect(
@@ -154,6 +159,7 @@ describe('<Appeal />', () => {
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
+        { initialState: {} },
       );
 
       expect(

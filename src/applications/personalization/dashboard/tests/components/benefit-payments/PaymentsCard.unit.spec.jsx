@@ -21,6 +21,7 @@ describe('<PaymentsCard />', () => {
   it('should render the payment card', () => {
     const view = renderWithStoreAndRouter(
       <PaymentsCard lastPayment={payment} />,
+      { initialState: {} },
     );
 
     expect(view.getByTestId('payment-card')).to.exist;
@@ -38,7 +39,9 @@ describe('<PaymentsCard />', () => {
 
   it('should render the check mailed text', () => {
     const pmt = { ...payment, paymentMethod: 'Paper Check' };
-    const view = renderWithStoreAndRouter(<PaymentsCard lastPayment={pmt} />);
+    const view = renderWithStoreAndRouter(<PaymentsCard lastPayment={pmt} />, {
+      initialState: {},
+    });
 
     const mailedOn = `Check mailed on ${format(
       payment.payCheckDt,

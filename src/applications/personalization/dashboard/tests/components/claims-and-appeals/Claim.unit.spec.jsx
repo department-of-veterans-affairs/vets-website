@@ -41,7 +41,9 @@ describe('<Claim />', () => {
   it('should render', () => {
     const claim = makeClaimObject({ updateDate: daysAgo(15) });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(
       tree.getByRole('heading', {
@@ -57,7 +59,9 @@ describe('<Claim />', () => {
       decisionLetterSent: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/We sent you a decision letter/)).to.exist;
   });
@@ -68,7 +72,9 @@ describe('<Claim />', () => {
       developmentLetterSent: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/We sent you a development letter/)).to.exist;
   });
@@ -79,7 +85,9 @@ describe('<Claim />', () => {
       documentsNeeded: true,
     });
 
-    const tree = renderWithStoreAndRouter(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/Items need attention/)).to.exist;
   });

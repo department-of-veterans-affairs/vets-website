@@ -63,7 +63,9 @@ describe('<DebtsCard />', () => {
       ],
     };
 
-    const tree = renderWithStoreAndRouter(<DebtsCard {...defaultProps} />);
+    const tree = renderWithStoreAndRouter(<DebtsCard {...defaultProps} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/2 overpayment debts/)).to.exist;
     expect(tree.getByText('updated on', { exact: false })).to.exist;

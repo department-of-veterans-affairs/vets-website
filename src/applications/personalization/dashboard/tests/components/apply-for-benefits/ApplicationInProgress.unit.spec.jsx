@@ -25,7 +25,9 @@ describe('ApplicationInProgress component', () => {
     let view;
 
     beforeEach(() => {
-      view = renderWithStoreAndRouter(<ApplicationInProgress {...props} />);
+      view = renderWithStoreAndRouter(<ApplicationInProgress {...props} />, {
+        initialState: {},
+      });
     });
 
     it('renders the correct presentable form ID', () => {
