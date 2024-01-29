@@ -135,6 +135,38 @@ describe('App', () => {
     );
   });
 
+  it('renders the global downtime notification', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: true,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime([]),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(
+      screen.getByText('This tool is down for maintenance', {
+        selector: 'h3',
+        exact: true,
+      }),
+    );
+    expect(
+      screen.getByText('We’re making some updates to this tool', {
+        exact: false,
+      }),
+    );
+  });
+
   it('renders the downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
@@ -167,7 +199,7 @@ describe('App', () => {
     );
   });
 
-  it('renders the downtime notification for multiple services', () => {
+  it('renders the downtime notification for multiple configured services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
         featureToggles: {
@@ -179,6 +211,38 @@ describe('App', () => {
           isReady: true,
           isPending: false,
           serviceMap: downtime(['mhv_sm', 'mhv_platform']),
+          dismissedDowntimeWarnings: [],
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(
+      screen.getByText('This tool is down for maintenance', {
+        selector: 'h3',
+        exact: true,
+      }),
+    );
+    expect(
+      screen.getByText('We’re making some updates to this tool', {
+        exact: false,
+      }),
+    );
+  });
+
+  it('renders the downtime notification for mixed services', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_va_gov_release: true,
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: downtime(['mhv_sm', 'mhv_meds']),
           dismissedDowntimeWarnings: [],
         },
         ...initialState,
