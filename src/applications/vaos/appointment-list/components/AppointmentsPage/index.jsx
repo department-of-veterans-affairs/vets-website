@@ -27,7 +27,7 @@ const DROPDOWN_VALUES = {
   canceled: 'canceled',
 };
 
-// TODO: refactor the dropdown function, no longer using dropdown
+// TODO: [RS] refactor the dropdown function, no longer using dropdown
 function getDropdownValueFromLocation(pathname) {
   if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
     return {
@@ -80,7 +80,6 @@ export default function AppointmentsPage() {
     selectFeatureBreadcrumbUrlUpdate(state),
   );
 
-  // TODO: refactor the dropdown function, no longer using dropdown
   const { subPageTitle } = getDropdownValueFromLocation(location.pathname);
 
   let prefix = 'Your';
