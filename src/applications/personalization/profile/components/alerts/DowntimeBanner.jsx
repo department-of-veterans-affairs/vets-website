@@ -5,7 +5,7 @@ import { externalServiceStatus } from '~/platform/monitoring/DowntimeNotificatio
 
 function DowntimeBanner({ downtime, section }) {
   return (
-    <va-alert status="warning" visible>
+    <va-alert status="warning" visible uswds>
       <h3 slot="headline">
         {`We can’t show your ${section} information right now.`}
       </h3>
