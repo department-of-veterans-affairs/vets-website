@@ -23,6 +23,18 @@ const pastDowntime = {
   },
 };
 
+const futureDowntimeForSameService = {
+  attributes: {
+    externalService: 'evss',
+    startTime: moment()
+      .add(1, 'day')
+      .toISOString(),
+    endTime: moment()
+      .add(2, 'day')
+      .toISOString(),
+  },
+};
+
 const activeDowntime = {
   attributes: {
     externalService: 'evss',
@@ -74,6 +86,7 @@ const lessUrgentApproachingDowntime = {
 const maintenanceWindows = [
   pastDowntime,
   activeDowntime,
+  futureDowntimeForSameService,
   distantFutureDowntime,
   approachingDowntime,
   lessUrgentApproachingDowntime,

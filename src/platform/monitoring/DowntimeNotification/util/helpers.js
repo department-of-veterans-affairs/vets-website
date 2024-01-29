@@ -60,10 +60,22 @@ export function createGlobalMaintenanceWindow({
  * @param {Array} maintenanceWindows The raw JSON data from the API
  * @returns {Map}
  */
+
 export function createServiceMap(maintenanceWindows = []) {
   const serviceMap = new Map();
 
-  for (const maintenanceWindow of maintenanceWindows) {
+  // Maintenance windows should be sorted in ascending order
+  // so that when a single externalService has multiple upcoming
+  // maintenance windows, we can easily grab the one with the
+  // earliest startTime and ignore any others that we encounter
+  const sortedMaintenanceWindows = maintenanceWindows.sort((a, b) => {
+    const aStart = a.attributes.startTime;
+    const bStart = b.attributes.startTime;
+
+    return aStart.localeCompare(bStart);
+  });
+
+  for (const maintenanceWindow of sortedMaintenanceWindows) {
     const {
       attributes: {
         externalService,
@@ -77,13 +89,19 @@ export function createServiceMap(maintenanceWindows = []) {
     const endTime = endTimeRaw && moment(endTimeRaw);
     const status = getStatusForTimeframe(startTime, endTime);
 
-    serviceMap.set(externalService, {
-      externalService,
-      status,
-      startTime,
-      endTime,
-      description,
-    });
+    // For each externalService, we only care about the maintenance
+    // window with the earliest startTime (the sorting above should
+    // guarantee that the first one we encounter has the earliest
+    // startTime)
+    if (!serviceMap.has(externalService)) {
+      serviceMap.set(externalService, {
+        externalService,
+        status,
+        startTime,
+        endTime,
+        description,
+      });
+    }
   }
 
   return serviceMap;
