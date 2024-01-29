@@ -40,7 +40,7 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details'];
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
@@ -59,7 +59,7 @@ export default function ClaimDetailLayout(props) {
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
     const formattedClaimDate = formatDate(claim.attributes.dateFiled);
-    const claimSubheader = `Submitted on ${formattedClaimDate}`;
+    const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
       <>

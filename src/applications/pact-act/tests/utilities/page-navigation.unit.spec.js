@@ -91,17 +91,51 @@ describe('navigateForward', () => {
       expect(router.push.firstCall.calledWith(ROUTES.LEJEUNE_2_4)).to.be.true;
     });
   });
+
+  describe('routing to RESULTS_1_1', () => {
+    const formResponses = {
+      SERVICE_PERIOD: RESPONSES.NINETY_OR_LATER,
+      BURN_PIT_2_1: RESPONSES.YES,
+    };
+
+    it('RESULTS_1_1: should correctly route to the results page', () => {
+      navigateForward(SHORT_NAME_MAP.BURN_PIT_2_1, formResponses, router);
+
+      expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_1)).to.be.true;
+    });
+  });
+
+  describe('routing to RESULTS_2', () => {
+    const formResponses = {
+      SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
+      BURN_PIT_2_1: RESPONSES.NO,
+      BURN_PIT_2_1_1: RESPONSES.NOT_SURE,
+      BURN_PIT_2_1_2: RESPONSES.NOT_SURE,
+      ORANGE_2_2_A: RESPONSES.NO,
+      ORANGE_2_2_1_A: RESPONSES.NOT_SURE,
+      ORANGE_2_2_2: RESPONSES.NO,
+      ORANGE_2_2_3: RESPONSES.NO,
+      RADIATION_2_3_A: RESPONSES.NO,
+      LEJEUNE_2_4: RESPONSES.YES,
+    };
+
+    it('RESULTS_2: should correctly route to the results page', () => {
+      navigateForward(SHORT_NAME_MAP.LEJEUNE_2_4, formResponses, router);
+
+      expect(router.push.firstCall.calledWith(ROUTES.RESULTS_2)).to.be.true;
+    });
+  });
 });
 
 describe('navigateBackward', () => {
   describe('routing back home', () => {
     const formResponses = {
       SERVICE_PERIOD: RESPONSES.DURING_BOTH_PERIODS,
-      BURN_PIT_2_1: null,
     };
 
     it('SERVICE_PERIOD: should correctly route back home', () => {
       navigateBackward(SHORT_NAME_MAP.SERVICE_PERIOD, formResponses, router);
+
       expect(router.push.firstCall.calledWith(ROUTES.HOME)).to.be.true;
     });
   });

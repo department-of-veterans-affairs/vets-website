@@ -3,54 +3,38 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { Link } from 'react-router';
+import PropTypes from 'prop-types';
+import ArrayBuilderSummaryCardList from '../arrayBuilder/components/ArrayBuilderSummaryCardList';
 
-const SummaryItemCard = ({ formData }) => {
-  return (
+const CardContent = ({ item }) => (
+  <>
+    <div className="vads-u-font-weight--bold">{item?.name}</div>
     <div>
-      <h3>Review your employers</h3>
-      <span>
-        <span>
-          {formData.employers?.length &&
-            formData.employers.map((item, index) => {
-              return (
-                <div key={index}>
-                  <div>{item?.name}</div>
-                  <div>
-                    {item?.dateStart} - {item?.dateEnd}
-                  </div>
-                  <span>
-                    <Link
-                      to={`/array-multiple-step-one/${index}?=edit`}
-                      className="va-button-link vads-u-margin-left--4"
-                    >
-                      Edit
-                    </Link>
-                    <Link
-                      to={`/array-multiple-step-one/${index}?=edit`}
-                      className="va-button-link vads-u-margin-left--4"
-                    >
-                      Remove
-                    </Link>
-                  </span>
-                </div>
-              );
-            })}
-        </span>
-      </span>
+      {item?.dateStart} - {item?.dateEnd}
     </div>
-  );
+  </>
+);
+
+CardContent.propTypes = {
+  item: PropTypes.object,
 };
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:description': ({ formData }) => {
-      if (formData?.employers?.length > 0) {
-        return <SummaryItemCard formData={formData} />;
-      }
-      return <div />;
-    },
+    'ui:description': (
+      <ArrayBuilderSummaryCardList
+        title="Review your employers"
+        CardContent={CardContent}
+        arrayPath="employers"
+        itemBasePathUrl="/array-multiple-page-builder-item-page-1"
+        removeTitle="Are you sure you want to remove this employer?"
+        removeDescription={itemName =>
+          `This will remove ${itemName} and all their information from your list of employers.`
+        }
+        removeYesLabel="Yes, remove this employer"
+      />
+    ),
     hasEmployment: yesNoUI({
       title: 'Do you have any employment to report?',
       description:

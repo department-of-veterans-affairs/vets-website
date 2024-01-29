@@ -83,7 +83,7 @@ export default function AppealListItemV3({ appeal, name }) {
       title={appealTitle}
       subtitle={
         requestEvent &&
-        `Submitted on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
+        `Received on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
       }
     >
       <div className="card-status">

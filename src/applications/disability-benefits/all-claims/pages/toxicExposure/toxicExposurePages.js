@@ -1,12 +1,24 @@
-import { toxicExposureIntro } from '..';
-import { showToxicExposurePages } from '../../utils/index';
+import { toxicExposureConditions, gulfWar1990Locations } from '..';
+import {
+  conditionsPageTitle,
+  gulfWar1990PageTitle,
+  isClaimingTECondition,
+} from '../../content/toxicExposure';
+import { isClaimingNew, showToxicExposurePages } from '../../utils/index';
 
 export const toxicExposurePages = {
-  toxicExposureIntro: {
-    title: 'Toxic Exposure',
-    path: 'toxic-exposure',
-    depends: () => showToxicExposurePages,
-    uiSchema: toxicExposureIntro.uiSchema,
-    schema: toxicExposureIntro.schema,
+  toxicExposureConditions: {
+    title: conditionsPageTitle,
+    path: 'toxic-exposure-conditions',
+    depends: () => isClaimingNew && showToxicExposurePages,
+    uiSchema: toxicExposureConditions.uiSchema,
+    schema: toxicExposureConditions.schema,
+  },
+  gulfWar1990Locations: {
+    title: gulfWar1990PageTitle,
+    path: 'gulf-war-hazard-1990',
+    depends: formData => isClaimingTECondition(formData),
+    uiSchema: gulfWar1990Locations.uiSchema,
+    schema: gulfWar1990Locations.schema,
   },
 };

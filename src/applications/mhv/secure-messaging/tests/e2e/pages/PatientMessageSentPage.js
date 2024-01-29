@@ -83,7 +83,7 @@ class PatientMessageSentPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(JSON.stringify(listBefore));
@@ -91,7 +91,7 @@ class PatientMessageSentPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(JSON.stringify(listAfter));
@@ -133,12 +133,6 @@ class PatientMessageSentPage {
       .shadow()
       .find('#inputField')
       .should('be.empty');
-  };
-
-  navigateToLastPage = () => {
-    cy.get('.pagination-inner li')
-      .last()
-      .click();
   };
 }
 

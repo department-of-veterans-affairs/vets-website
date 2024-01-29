@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -49,19 +50,16 @@ const LabsAndTests = () => {
         <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
       );
     }
+    if (labsAndTests?.length === 0) {
+      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
+    }
     if (labsAndTests?.length > 0) {
       return (
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       );
     }
     if (labsAndTests?.length === 0) {
-      return (
-        <div className="vads-u-margin-bottom--3">
-          <va-alert background-only status="info">
-            You don’t have any records in Labs and tests
-          </va-alert>
-        </div>
-      );
+      return <NoRecordsMessage type={recordType.LABS_AND_TESTS} />;
     }
     return (
       <div className="vads-u-margin-y--8">

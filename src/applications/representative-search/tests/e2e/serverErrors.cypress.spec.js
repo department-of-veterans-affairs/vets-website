@@ -4,16 +4,22 @@ describe('Find a Representative error handling', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'find_a_representative', value: true }],
+        features: [
+          { name: 'find_a_representative_enable_frontend', value: true },
+        ],
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/services/veteran/v0/accredited_representatives?**', {
-      statusCode: 500,
-      body: {
-        error: 'server error',
+    cy.intercept(
+      'GET',
+      '/services/veteran/v0/vso_accredited_representatives?**',
+      {
+        statusCode: 500,
+        body: {
+          error: 'server error',
+        },
       },
-    }).as('getServerError');
+    ).as('getServerError');
 
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
@@ -28,7 +34,7 @@ describe('Find a Representative error handling', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
     cy.get('#search-results-title')

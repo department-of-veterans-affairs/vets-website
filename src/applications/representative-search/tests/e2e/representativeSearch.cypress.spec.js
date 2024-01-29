@@ -4,21 +4,20 @@ import { generateFeatureToggles } from '../../mocks/feature-toggles';
 import { claimsAgentIsEnabled } from '../../config';
 
 const representativeTypeOptions = [
-  'Veteran Service Organization',
-  'Attorney',
-  'Claims agent',
+  'Veterans Service Officer',
+  'Accredited attorney',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
   // Verify VSO is checked by default
-  cy.contains('va-radio-option', 'Veteran Service Organization')
+  cy.contains('va-radio-option', 'Veterans Service Officer')
     .find('input')
     .should('be.checked');
 
   const iteratorLength = claimsAgentIsEnabled ? 3 : 2;
 
   // Verify options available
-  for (let i = 0; i < iteratorLength; i++) {
+  for (let i = 0; i < iteratorLength; i += 1) {
     cy.get('va-radio')
       .children()
       .eq(i)
@@ -33,14 +32,16 @@ describe('Representative Search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'find_a_representative', value: true }],
+        features: [
+          { name: 'find_a_representative_enable_frontend', value: true },
+        ],
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.intercept(
       'GET',
-      '/services/veteran/v0/accredited_representatives?**',
+      '/services/veteran/v0/vso_accredited_representatives?**',
       mockRepresentativesSearchResults,
     ).as('searchRepresentatives');
   });
@@ -60,7 +61,7 @@ describe('Representative Search', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
 
     cy.get('#search-results-subheader').contains('Austin, TX');
   });
@@ -68,10 +69,14 @@ describe('Representative Search', () => {
   it('shows search result header even when no results are found', () => {
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
-    cy.intercept('GET', '/services/veteran/v0/accredited_representatives?**', {
-      data: [],
-      meta: { pagination: { totalEntries: 0 } },
-    }).as('searchFacilities');
+    cy.intercept(
+      'GET',
+      '/services/veteran/v0/vso_accredited_representatives?**',
+      {
+        data: [],
+        meta: { pagination: { totalEntries: 0 } },
+      },
+    ).as('searchFacilities');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     cy.visit('/get-help-from-accredited-representative/find-rep/');
     generateFeatureToggles();
@@ -84,7 +89,7 @@ describe('Representative Search', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
 
     cy.get('#search-results-subheader').contains('No results found');
   });

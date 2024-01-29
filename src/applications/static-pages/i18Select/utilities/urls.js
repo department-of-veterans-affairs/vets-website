@@ -64,4 +64,16 @@ export default {
     es:
       '/family-member-benefits/comprehensive-assistance-for-family-caregivers-esp/',
   },
+  decisionReviewsSupplementalClaim: {
+    en: '/decision-reviews/supplemental-claim/',
+    es: '/decision-reviews/supplemental-claim-esp/',
+  },
+  reportHarassment: {
+    en: '/report-harassment/',
+    es: '/report-harassment-esp/',
+  },
+  accessibility: {
+    en: '/accessibility-at-va/',
+    es: '/accessibility-at-va-esp/',
+  },
 };

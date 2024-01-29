@@ -4,7 +4,7 @@ import { CHAPTER_3, yesNoOptions } from '../../../constants';
 
 const questionHeader = (
   <h4 className="vads-u-margin-bottom--1 vads-u-display--inline">
-    {CHAPTER_3.PAGE_6.TITLE}
+    {CHAPTER_3.VET_DECEASED.TITLE}
   </h4>
 );
 
@@ -12,7 +12,7 @@ const isTheVeteranDeceasedPage = {
   uiSchema: {
     'ui:title': questionHeader,
     isVeteranDeceased: radioUI({
-      title: CHAPTER_3.PAGE_6.QUESTION_1,
+      title: CHAPTER_3.VET_DECEASED.QUESTION_1,
       description: '',
       labels: yesNoOptions,
     }),

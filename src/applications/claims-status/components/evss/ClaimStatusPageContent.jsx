@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
 import { getCompletedDate } from '../../utils/helpers';
 import ClaimComplete from '../ClaimComplete';
 import ClaimsDecision from '../ClaimsDecision';
 import ClaimsTimeline from '../ClaimsTimeline';
 import NeedFilesFromYou from '../NeedFilesFromYou';
+import WhatYouNeedToDo from '../WhatYouNeedToDo';
 
 const itemsNeedingAttentionFromVet = events => {
   return events?.filter(
@@ -31,9 +33,17 @@ export default function ClaimStatusPageContent({
 
   return (
     <div>
-      {showDocsNeeded ? (
-        <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-      ) : null}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <Toggler.Enabled>
+          <WhatYouNeedToDo claim={claim} useLighthouse={false} />
+        </Toggler.Enabled>
+        {showDocsNeeded && (
+          <Toggler.Disabled>
+            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
+          </Toggler.Disabled>
+        )}
+      </Toggler>
+
       {decisionLetterSent && !open ? (
         <ClaimsDecision
           completedDate={getCompletedDate(claim)}
@@ -44,12 +54,16 @@ export default function ClaimStatusPageContent({
         <ClaimComplete completedDate={getCompletedDate(claim)} />
       ) : null}
       {phase !== null && open ? (
-        <ClaimsTimeline
-          id={claim.id}
-          phase={phase}
-          currentPhaseBack={attributes.currentPhaseBack}
-          events={attributes.eventsTimeline}
-        />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <ClaimsTimeline
+              id={claim.id}
+              phase={phase}
+              currentPhaseBack={attributes.currentPhaseBack}
+              events={attributes.eventsTimeline}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       ) : null}
     </div>
   );

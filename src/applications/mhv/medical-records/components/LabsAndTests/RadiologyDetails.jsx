@@ -3,16 +3,23 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-import { updatePageTitle } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { formatName, updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine } from '../../../shared/util/constants';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -27,31 +34,32 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record],
   );
 
   const download = () => {
-    GenerateRadiologyPdf(record, runningUnitTest);
+    GenerateRadiologyPdf(record, user, runningUnitTest);
   };
 
   const generateRadioloyTxt = async () => {
     const content = `\n
+${crisisLineHeader}\n\n
 ${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
-    Reason for test: ${record.reason} \n
-    Clinical history: ${record.clinicalHistory} \n
-    Ordered by: ${record.orderedBy} \n
-    Order location: ${record.orderingLocation} \n
-    Imaging location: ${record.imagingLocation} \n
-    Imaging provider: ${record.imagingProvider} \n;
+Reason for test: ${record.reason} \n
+Clinical history: ${record.clinicalHistory} \n
+Ordered by: ${record.orderedBy} \n
+Order location: ${record.orderingLocation} \n
+Imaging location: ${record.imagingLocation} \n
+Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n
 Results\n
 ${record.results}`;
@@ -83,13 +91,13 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
           Images
         </h3>
-        <p className="no-print">
+        <p data-testid="radiology-image" className="no-print">
           <va-link
-            active
-            href={`/my-health/medical-records/labs-and-tests/${
-              record.id
-            }/images`}
-            text={`See all ${record.images.length} images`}
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'va-medical-images-and-reports',
+            )}
+            text="Request images on the My HealtheVet website"
           />
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -104,10 +112,6 @@ ${record.results}`;
           Ordered by
         </h3>
         <p>{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h3>
-        <p>{record.orderingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging location
         </h3>

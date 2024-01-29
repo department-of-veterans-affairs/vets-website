@@ -10,8 +10,11 @@ describe('Medical Records View Allergies', () => {
   before(() => {
     site.login();
     cy.visit('my-health/medical-records');
+    cy.reload({ force: true });
     // Given Navigate to Allergy Page
+
     AllergiesListPage.clickGotoAllergiesLink(allergies);
+
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
   });
 
@@ -22,14 +25,14 @@ describe('Medical Records View Allergies', () => {
     // should display print button for a list "Print this list"
     AllergyDetailsPage.clickPrintOrDownload();
     AllergyDetailsPage.verifyPrintButton();
-
+    cy.injectAxe();
+    cy.axeCheck('main');
     // should display a download pdf file button "Download PDF of this page"
     AllergyDetailsPage.verifyDownloadPDF();
 
-    // should display a download text file button "Download list as a text file"
+    // should display a download text file button "Download a text file (.txt) of this list"
     AllergyDetailsPage.verifyDownloadTextFile();
 
-    cy.injectAxe();
-    cy.axeCheck('main');
+    cy.reload({ force: true });
   });
 });

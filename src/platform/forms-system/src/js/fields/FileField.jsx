@@ -17,6 +17,7 @@ import {
 } from '../../../../utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
+import { ERROR_ELEMENTS } from '../../../../utilities/constants';
 import { $ } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -28,6 +29,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from '../utilities/file';
 import { usePreviousValue } from '../helpers';
+import { MISSING_PASSWORD_ERROR } from '../validation';
 
 /**
  * Modal content callback
@@ -430,10 +432,16 @@ const FileField = props => {
             const errors =
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
-            const hasErrors = errors.length > 0;
+
+            // Don't show missing password error in the card (above the input
+            // label), but we are adding an error for missing password to
+            // prevent page submission without adding an error; see #71406
+            const hasVisibleError =
+              errors.length > 0 && errors[0] !== MISSING_PASSWORD_ERROR;
+
             const itemClasses = classNames('va-growable-background', {
               'schemaform-file-error usa-input-error':
-                hasErrors && !file.uploading,
+                hasVisibleError && !file.uploading,
             });
             const itemSchema = schema.items[index];
             const attachmentIdSchema = {
@@ -457,7 +465,7 @@ const FileField = props => {
             const fileListId = getFileListId(index);
             const fileNameId = `${idSchema.$id}_file_name_${index}`;
 
-            if (hasErrors) {
+            if (hasVisibleError) {
               setTimeout(() => {
                 scrollToFirstError();
                 if (enableShortWorkflow) {
@@ -468,7 +476,7 @@ const FileField = props => {
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
-                  focusElement('.usa-input-error, .input-error-date, [error]');
+                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {
@@ -486,7 +494,9 @@ const FileField = props => {
             const retryButtonText =
               content[allowRetry ? 'tryAgain' : 'newFile'];
             const deleteButtonText =
-              content[enableShortWorkflow && hasErrors ? 'cancel' : 'delete'];
+              content[
+                enableShortWorkflow && hasVisibleError ? 'cancel' : 'delete'
+              ];
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
@@ -545,7 +555,7 @@ const FileField = props => {
                   <PasswordLabel />
                 )}
                 {showPasswordSuccess && <PasswordSuccess />}
-                {!hasErrors &&
+                {!hasVisibleError &&
                   !showPasswordInput &&
                   get('properties.attachmentId', itemSchema) && (
                     <Tag className="schemaform-file-attachment review">
@@ -565,7 +575,7 @@ const FileField = props => {
                       />
                     </Tag>
                   )}
-                {!hasErrors &&
+                {!hasVisibleError &&
                   !showPasswordInput &&
                   uiOptions.attachmentName && (
                     <Tag className="schemaform-file-attachment review">
@@ -586,7 +596,7 @@ const FileField = props => {
                     </Tag>
                   )}
                 {!file.uploading &&
-                  hasErrors && (
+                  hasVisibleError && (
                     <span className="usa-input-error-message" role="alert">
                       <span className="sr-only">Error</span> {errors[0]}
                     </span>
@@ -603,7 +613,7 @@ const FileField = props => {
                 {!formContext.reviewMode &&
                   !isUploading && (
                     <div className="vads-u-margin-top--2">
-                      {hasErrors &&
+                      {hasVisibleError &&
                         enableShortWorkflow && (
                           <va-button
                             name={`retry_upload_${index}`}

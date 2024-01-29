@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { ROUTES } from '../constants';
 import { updateIntroPageViewed } from '../actions';
 import { pageSetup } from '../utilities/page-setup';
+import { QUESTION_MAP } from '../constants/question-data-map';
 
 const HomePage = ({ router, setIntroPageViewed }) => {
-  const H1 = 'Learn how the PACT Act may affect you';
+  const H1 = QUESTION_MAP.HOME;
 
   useEffect(() => {
     pageSetup(H1);
@@ -47,7 +48,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       </p>
       <p>
         Are you the surviving family member of a Veteran?{' '}
-        <a href="http://preview-prod.vfs.va.gov/preview?nodeId=47278#information-for-survivors">
+        <a href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors">
           Get PACT Act information for survivors
         </a>
       </p>

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Breadcrumbs from './Breadcrumbs';
 
 const PACTActApp = ({ children }) => {
@@ -16,4 +15,4 @@ PACTActApp.propTypes = {
   children: PropTypes.any,
 };
 
-export default connect()(PACTActApp);
+export default PACTActApp;

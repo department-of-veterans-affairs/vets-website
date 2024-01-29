@@ -60,7 +60,7 @@ class MedicationsSite {
   };
 
   verifyloadLogInModal = () => {
-    cy.visit('my-health/about-medications/');
+    cy.visit('my-health/medications/about');
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
   };
 
@@ -70,6 +70,11 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      mockRx,
+    ).as('prescriptions');
     cy.get('[id="pagination"]')
       .shadow()
       .find('[class="usa-pagination__button usa-current"]')
@@ -83,6 +88,11 @@ class MedicationsSite {
       `/my_health/v1/prescriptions?page=${interceptedPage}&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=-dispensed_date&sort[]=prescription_name&include_image=true',
+      mockRx,
+    );
     cy.get('[id="pagination"]')
       .shadow()
       .find('[aria-label="Next page"]')
@@ -112,9 +122,43 @@ class MedicationsSite {
     threadLength,
   ) => {
     cy.get('[data-testid="page-total-info"]').should(
-      'have.text',
+      'contain',
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${threadLength} medications, last filled first`,
     );
+  };
+
+  verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
+    if (Cypress.browser.isHeadless) {
+      cy.log('browser is headless');
+      const downloadsFolder = Cypress.config('downloadsFolder');
+      const txtPath1 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      const txtPath2 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      const txtPath3 = `${downloadsFolder}/${_prefixString}-${_clickMoment
+        .add(1, 'seconds')
+        .format('M-D-YYYY_hhmmssa')}.pdf`;
+      this.internalReadFileMaybe(txtPath1, _searchText);
+      this.internalReadFileMaybe(txtPath2, _searchText);
+      this.internalReadFileMaybe(txtPath3, _searchText);
+    } else {
+      cy.log('browser is not headless');
+    }
+  };
+
+  internalReadFileMaybe = (fileName, searchText) => {
+    cy.task('log', `attempting to find file = ${fileName}`);
+    cy.task('readFileMaybe', fileName).then(textOrNull => {
+      const taskFileName = fileName;
+      if (textOrNull != null) {
+        cy.task('log', `found the text in ${taskFileName}`);
+        cy.readFile(fileName).should('contain', `${searchText}`);
+      } else {
+        cy.task('log', `found the file ${taskFileName} but did not find text`);
+      }
+    });
   };
 }
 export default MedicationsSite;

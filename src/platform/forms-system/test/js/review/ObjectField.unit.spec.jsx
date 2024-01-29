@@ -236,6 +236,8 @@ describe('Schemaform review: ObjectField', () => {
 
     expect(tree.getByRole('textbox')).to.exist;
     expect(tree.queryAllByRole('heading')).to.be.empty;
+    expect(tree.container.querySelector('.form-review-panel-page-header')).to
+      .exist;
   });
 
   it('should hide expand under items when collapsed', () => {
@@ -557,7 +559,7 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getAllByRole('textbox')).to.have.length(2);
   });
 
-  it('should render aria-label on edit button using page title', () => {
+  it('should render aria-label on edit button using page title string', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
 
@@ -583,6 +585,37 @@ describe('Schemaform review: ObjectField', () => {
     );
 
     expect(tree.getByLabelText('Edit Page Title')).to.exist;
+
+    const review = document.getElementsByClassName('review')[0];
+    expect(within(review).getByRole('textbox')).to.exist;
+  });
+
+  it('should render aria-label on edit button using page title function', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const tree = render(
+      <ObjectField
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: () => 'Page Title [from function]' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getByLabelText('Edit Page Title [from function]')).to.exist;
 
     const review = document.getElementsByClassName('review')[0];
     expect(within(review).getByRole('textbox')).to.exist;

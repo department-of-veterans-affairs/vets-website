@@ -31,8 +31,8 @@ export const ROUTES = Object.freeze({
   RADIATION_2_3_A: 'radiation-2-3-A',
   RADIATION_2_3_B: 'radiation-2-3-B',
   LEJEUNE_2_4: 'lejeune-2-4',
-  RESULTS_1_P1: 'results-1-1',
-  RESULTS_1_P2: 'results-1-2',
+  RESULTS_1_1: 'results-1-1',
+  RESULTS_1_2: 'results-1-2',
   RESULTS_2: 'results-2',
   RESULTS_3: 'results-3',
 });

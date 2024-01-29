@@ -3,8 +3,13 @@ import {
   focusElement,
   focusByOrder,
   getScrollOptions,
-} from 'platform/utilities/ui';
-import { webComponentList } from 'platform/forms-system/src/js/web-component-fields/webComponentList';
+} from '../../../../../utilities/ui';
+import { webComponentList } from '../../web-component-fields/webComponentList';
+import {
+  SCROLL_ELEMENT_SUFFIX,
+  FOCUSABLE_ELEMENTS,
+  ERROR_ELEMENTS,
+} from '../../../../../utilities/constants';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
@@ -15,49 +20,46 @@ export const $$ = (selector, root) => [
   ...(root || document).querySelectorAll(selector),
 ];
 
-export { focusElement, focusByOrder };
+/**
+ * fixSelector
+ * When a page name includes a color, e.g. "view:exampleFoo", the name ends up
+ * in a scroll element with name="view:exampleFooScrollElement". Using
+ * querySelector without escaping the colon will fail to find the target
+ * Note: We shouldn't be passing in something like `:not([name="test"])`
+ */
+const REGEXP_COLON = /:/g;
+export const fixSelector = selector => selector.replace(REGEXP_COLON, '\\:');
 
-// List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
-const focusableElements = [
-  '[href]',
-  'button',
-  'details',
-  'input:not([type="hidden"])',
-  'select',
-  'textarea',
-  /* focusable, but not tabbable */
-  '[tabindex]:not([tabindex="-1"])',
-  /* label removed from list, because you can't programmically focus it
-   * unless it has a tabindex of 0 or -1; clicking on it shifts focus to the
-   * associated focusable form element
-   */
-  // 'label[for]',
-  /* focusable elements not used in our form system */
-  // 'audio[controls]',
-  // 'embed',
-  // 'iframe',
-  // 'img[usemap]',
-  // 'object[usemap]',
-  // 'video[controls]',
-];
+export { focusElement, focusByOrder };
 
 /**
  * Find all the focusable elements within a block
  * @param {HTMLElement|node} block - wrapping element
  * @return {HTMLElement[]}
  */
-export const getFocusableElements = block => {
+export const getFocusableElements = (
+  block,
+  {
+    returnWebComponent = false,
+    focusableElements = FOCUSABLE_ELEMENTS,
+    focusableWebComponents = webComponentList,
+  } = {},
+) => {
   let elements = [];
 
   if (block) {
     elements = [
       ...block.querySelectorAll(
-        [...focusableElements, ...webComponentList].join(','),
+        [...focusableElements, ...focusableWebComponents].join(','),
       ),
     ]
       .map(el => {
-        if (el.shadowRoot) {
-          return getFocusableElements(el.shadowRoot);
+        // TODO: Fix this to ignore disabled web components
+        if (el.shadowRoot && !returnWebComponent) {
+          return getFocusableElements(el.shadowRoot, {
+            focusableElements,
+            focusableWebComponents,
+          });
         }
         return el;
       })
@@ -72,17 +74,20 @@ export const getFocusableElements = block => {
   return elements;
 };
 
-export const scrollElementName = 'ScrollElement';
-
-// Set focus on target _after_ the content has been updated
+/**
+ * Set focus on target _after_ the content has been updated; used on the review
+ * & submit page after editing a page, and then after updating the page and
+ * setting focus back on the page's edit button
+ * @param {*} name - page name which is added to the associated scroll element
+ * @param {*} target - target within the named target page
+ * @param {*} shadowTarget - target within shadow DOM within target
+ */
 export function focusOnChange(name, target, shadowTarget = undefined) {
   setTimeout(() => {
-    const el = $(`[name="${name}${scrollElementName}"]`);
-    // nextElementSibling = page form
+    const el = $(`[name="${fixSelector(name)}${SCROLL_ELEMENT_SUFFIX}"]`);
     const focusTarget = el?.nextElementSibling?.querySelector(target);
-
     if (focusTarget && shadowTarget) {
-      focusElement(focusTarget.shadowRoot?.querySelector(shadowTarget));
+      focusElement(shadowTarget, {}, focusTarget);
     } else if (focusTarget) {
       focusElement(focusTarget);
     }
@@ -90,10 +95,12 @@ export function focusOnChange(name, target, shadowTarget = undefined) {
 }
 
 export const scrollToElement = name => {
-  if (name) {
-    const el =
-      typeof name === 'string' && name.includes('name=') ? $(name) : name;
+  const el =
+    typeof name === 'string' && name.includes('name=')
+      ? $(fixSelector(name))
+      : name;
 
+  if (name && el) {
     Scroll.scroller.scrollTo(
       el, // pass a string key + 'ScrollElement' or DOM element
       window.Forms.scroll || {
@@ -118,9 +125,7 @@ export function setGlobalScroll() {
 // Duplicate of function in platform/utilities/ui/scroll
 export function scrollToFirstError() {
   // [error] will focus any web-components with an error message
-  const errorEl = document.querySelector(
-    '.usa-input-error, .input-error-date, [error]',
-  );
+  const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =

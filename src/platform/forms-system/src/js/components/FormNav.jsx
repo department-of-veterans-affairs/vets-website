@@ -143,24 +143,14 @@ export default function FormNav(props) {
   return (
     <div>
       {!hideFormNavProgress && (
-        <>
-          <va-segmented-progress-bar
-            total={chaptersLengthDisplay}
-            current={currentChapterDisplay}
-            uswds={v3SegmentedProgressBar}
-            heading-text={chapterName ?? ''} // functionality only available for v3
-            name="v3SementedProgressBar"
-            {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
-          />
-          {formConfig?.v3InProgressMessage && (
-            <div
-              data-testid="navFormDiv"
-              className="vads-u-font-size--h4 progress-box progress-box-schemaform"
-            >
-              {inProgressMessage}
-            </div>
-          )}
-        </>
+        <va-segmented-progress-bar
+          total={chaptersLengthDisplay}
+          current={currentChapterDisplay}
+          uswds={v3SegmentedProgressBar}
+          heading-text={chapterName ?? ''} // functionality only available for v3
+          name="v3SegmentedProgressBar"
+          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
+        />
       )}
       {!v3SegmentedProgressBar &&
         !hideFormNavProgress && (

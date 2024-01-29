@@ -9,13 +9,12 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.vaInformation.pages.whoHasAQuestion;
+} = formConfig.chapters.personalInformation.pages.whoThisIsAbout_familysomeonesbenefits;
 
 describe('whoHasAQuestionPage', () => {
   it('should render', () => {
@@ -33,33 +32,12 @@ describe('whoHasAQuestionPage', () => {
     );
 
     const radioLabels = $$('.form-radio-buttons > label', container);
-    const radioLabelList = [
-      'Yes',
-      'No',
-      'A general question',
-      'About me, the Veteran',
-      'For the dependent of a Veteran',
-      'On behalf of the Veteran',
-    ];
+    const radioLabelList = ['About the Veteran', 'About someone else'];
 
-    const legends = $$('legend', container);
-    const legendList = [
-      'Are you currently an employee of the VA?',
-      'Who are you asking a question for?',
-    ];
-
-    expect($('h3', container).textContent).to.eq('Tell us who has a question');
+    expect($('h3', container).textContent).to.eq('Who your question is about');
 
     radioLabels.forEach(
-      radio =>
-        expect(radioLabelList.includes(removeReqFromLabel(radio.textContent)))
-          .to.be.true,
-    );
-
-    legends.forEach(
-      legend =>
-        expect(legendList.includes(removeReqFromLabel(legend.textContent))).to
-          .be.true,
+      radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
 });

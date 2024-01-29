@@ -12,7 +12,7 @@ import {
   processList,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
-import { getVaccineDetails, clearVaccineDetails } from '../actions/vaccines';
+import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
@@ -35,10 +35,12 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../shared/util/constants';
+import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
+  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
@@ -52,9 +54,11 @@ const VaccineDetails = props => {
 
   useEffect(
     () => {
-      if (vaccineId) dispatch(getVaccineDetails(vaccineId));
+      if (vaccineId) {
+        dispatch(getVaccineDetails(vaccineId, vaccines));
+      }
     },
-    [vaccineId, dispatch],
+    [vaccineId, vaccines, dispatch],
   );
 
   useEffect(
@@ -88,30 +92,9 @@ const VaccineDetails = props => {
     const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
-
-    scaffold.details = {
-      items: [
-        {
-          title: 'Date received',
-          value: record.date,
-          inline: true,
-        },
-        {
-          title: 'Location',
-          value: record.location,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: processList(record.notes),
-          inline: !record.notes.length,
-        },
-      ],
-    };
-
+    const pdfData = { ...scaffold, details: generateVaccineItem(record) };
     const pdfName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
-
-    makePdf(pdfName, scaffold, 'Vaccine details', runningUnitTest);
+    makePdf(pdfName, pdfData, 'Vaccine details', runningUnitTest);
   };
 
   const generateVaccineTxt = async () => {
@@ -126,7 +109,7 @@ ${txtLine}\n\n
 Location: ${record.location}\n
 Provider notes: ${processList(record.notes)}\n`;
 
-    const fileName = `VA-Vaccines-details-${getNameDateAndTime(user)}`;
+    const fileName = `VA-vaccines-details-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };

@@ -14,6 +14,7 @@ import {
   standardEmailSchema,
   profileAddressSchema,
   blankSchema,
+  clearReturnState,
 } from '../utilities/data/profile';
 
 /**
@@ -160,12 +161,14 @@ const profileContactInfo = ({
           contactPath,
           keys,
           requiredKeys: contactInfoRequiredKeys,
+          contactInfoPageKey,
         }),
       CustomPageReview: props =>
         ContactInfoReview({
           ...props,
           content,
           keys,
+          contactInfoPageKey,
         }),
       uiSchema: contactInfoUiSchema,
       schema: {
@@ -181,6 +184,10 @@ const profileContactInfo = ({
         },
       },
       depends,
+      onFormExit: formData => {
+        clearReturnState();
+        return formData;
+      },
     },
     // edit pages; only accessible via ContactInfo component links
     ...config,
@@ -206,7 +213,7 @@ export const profileReviewErrorOverride = ({
 } = {}) => err => {
   if (typeof err === 'string' && err.startsWith(wrapperKey)) {
     return {
-      contactInfoChapterKey,
+      chapterKey: contactInfoChapterKey,
       pageKey: contactInfoPageKey,
     };
   }

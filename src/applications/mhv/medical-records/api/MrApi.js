@@ -5,6 +5,8 @@ import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
+import vaccines from '../tests/fixtures/vaccines.json';
+import allergies from '../tests/fixtures/allergies.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -21,6 +23,12 @@ const hitApi = runningUnitTest => {
 export const createSession = () => {
   return apiRequest(`${apiBasePath}/medical_records/session`, {
     method: 'POST',
+    headers,
+  });
+};
+
+export const getRefreshStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session/status`, {
     headers,
   });
 };
@@ -101,34 +109,20 @@ export const getLabOrTest = (id, runningUnitTest) => {
   });
 };
 
-export const getNotes = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(notes);
-    }, 1000);
-  });
+export const getNotes = () => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/clinical_notes`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
-export const getNote = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        notes.entry.find(item => {
-          return item.resource.id === id;
-        }).resource,
-      );
-    }, 1000);
-  });
+export const getNote = id => {
+  return apiRequestWithRetry(
+    `${apiBasePath}/medical_records/clinical_notes/${id}`,
+    { headers },
+    Date.now() + 90000, // Retry for 90 seconds
+  );
 };
 
 export const getVitalsList = runningUnitTest => {
@@ -232,5 +226,31 @@ export const postSharingUpdateStatus = (optIn = false) => {
   return apiRequest(`${apiBasePath}/health_records/sharing/${endpoint}`, {
     method: 'POST',
     headers,
+  });
+};
+
+/**
+ * Get all of a patient's medical records for generating a Blue Button report
+ * @returns an object with
+ * - labsAndTests
+ * - careSummariesAndNotes
+ * - vaccines
+ * - allergies
+ * - healthConditions
+ * - vitals
+ */
+export const getDataForBlueButton = () => {
+  return new Promise(resolve => {
+    const data = {
+      labsAndTests,
+      careSummariesAndNotes: notes,
+      vaccines,
+      allergies,
+      healthConditions: conditions,
+      vitals,
+    };
+    setTimeout(() => {
+      resolve(data);
+    }, 1000);
   });
 };

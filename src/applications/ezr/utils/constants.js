@@ -1,4 +1,4 @@
-import { isOfCollegeAge } from './helpers/household';
+import { isOfCollegeAge, hasGrossIncome } from './helpers/household';
 import { replaceStrValues } from './helpers/general';
 import content from '../locales/en/content.json';
 
@@ -18,18 +18,13 @@ export const DEPENDENT_SUBPAGES = [
     title: content['household-dependent-info-basic-title'],
   },
   {
-    id: 'education',
-    title: content['household-dependent-info-education-title'],
-    depends: { key: 'dateOfBirth', value: isOfCollegeAge },
-  },
-  {
     id: 'additional',
     title: content['household-dependent-info-addtl-title'],
   },
   {
     id: 'support',
     title: content['household-dependent-info-support-title'],
-    depends: { key: 'cohabitedLastYear', value: false },
+    depends: [{ key: 'cohabitedLastYear', value: false }],
   },
   {
     id: 'income',
@@ -38,7 +33,25 @@ export const DEPENDENT_SUBPAGES = [
       LAST_YEAR,
       '%d',
     ),
-    depends: { key: 'view:dependentIncome', value: true },
+    depends: [{ key: 'view:dependentIncome', value: true }],
+  },
+  {
+    id: 'education',
+    title: content['household-dependent-info-education-title'],
+    depends: [
+      {
+        key: 'dateOfBirth',
+        value: isOfCollegeAge,
+      },
+      {
+        key: 'view:dependentIncome',
+        value: true,
+      },
+      {
+        key: 'view:grossIncome',
+        value: hasGrossIncome,
+      },
+    ],
   },
 ];
 
@@ -129,3 +142,10 @@ export const VIEW_FIELD_SCHEMA = {
   type: 'object',
   properties: {},
 };
+
+// declare valid enrollment statuses
+export const VALID_ENROLLMENT_STATUSES = [
+  'enrolled',
+  'pending_mt',
+  'pending_other',
+];

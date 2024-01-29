@@ -6,9 +6,11 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { waitForRenderThenFocus } from '~/platform/utilities/ui';
+import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
+import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {
@@ -69,7 +71,7 @@ const AreaOfDisagreement = ({
       // event.target.name doesn't work on va-checkbox
       const name = event.target.getAttribute('name');
       const { checked } = event.detail;
-      if (name && pagePerItemIndex) {
+      if (name) {
         const areaOfDisagreement = cloneDeep(data.areaOfDisagreement || []);
         const disagreement = areaOfDisagreement[pagePerItemIndex] || {};
         disagreement.disagreementOptions = {
@@ -102,10 +104,15 @@ const AreaOfDisagreement = ({
       return false;
     },
     updatePage: () => {
-      waitForRenderThenFocus(
-        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
-      );
-      updatePage();
+      const disagreement = data.areaOfDisagreement[pagePerItemIndex] || {};
+      const scrollKey = `areaOfDisagreementFollowUp${pagePerItemIndex}`;
+      if (!setMaxError(disagreement) && !setCheckboxError(disagreement)) {
+        focusOnChange(scrollKey, 'va-button', 'button');
+        updatePage(data);
+      } else {
+        // replaces scrollToFirstError()
+        focusOnChange(scrollKey, ERROR_ELEMENTS.join(','));
+      }
     },
   };
 
