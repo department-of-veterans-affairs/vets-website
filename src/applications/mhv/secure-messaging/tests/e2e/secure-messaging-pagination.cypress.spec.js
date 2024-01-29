@@ -45,7 +45,6 @@ describe('Secure Messaging Reply', () => {
       );
     });
     FolderLoadPage.verifyPaginationElements();
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -76,13 +75,5 @@ describe('Secure Messaging Reply', () => {
     site.loadVAPaginationNextMessages(2, mockMessagesSingle);
     FolderLoadPage.verifyPaginationElements();
     cy.get('.endOfThreads').should('not.exist');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });

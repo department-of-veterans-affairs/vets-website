@@ -17,8 +17,6 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
-  addressSchema,
-  addressUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -55,6 +53,7 @@ import documentUpload from './chapters/06-additional-information/documentUpload'
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
+import previousNames from './chapters/02-military-history/previousNames';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
 import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
@@ -84,8 +83,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { transform } from './submit-transformer';
-import { marriageTypeLabels } from '../labels';
+import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
@@ -216,6 +214,10 @@ export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+export function doesHavePreviousNames(formData) {
+  return formData.serveUnderOtherNames === true;
+}
+
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
 }
@@ -246,7 +248,7 @@ const marriageType = {
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Spouse’s death', 'Divorce'],
+  enum: Object.values(separationTypeLabels),
 };
 
 const formConfig = {
@@ -270,7 +272,6 @@ const formConfig = {
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -283,8 +284,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
+  title: 'Apply for Veterans’ pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -353,6 +354,13 @@ const formConfig = {
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
         },
+        previousNames: {
+          path: 'military/general/add',
+          title: 'Previous names',
+          depends: doesHavePreviousNames,
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
+        },
         pow: {
           path: 'military/pow',
           title: 'POW status',
@@ -408,6 +416,7 @@ const formConfig = {
           path: 'medical/history/monthly-pension',
           uiSchema: specialMonthlyPension.uiSchema,
           schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',
@@ -479,6 +488,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
+                useDlWrap: true,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -542,8 +552,15 @@ const formConfig = {
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
-                      get(['marriages', index, 'marriageType'], form) ===
-                      'Other',
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:currentMarriage',
+                          'marriageType',
+                        ],
+                        form,
+                      ) === marriageTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'marriageType',
                       expandUnderCondition: marriageTypeLabels.other,
@@ -558,6 +575,23 @@ const formConfig = {
                     'ui:title': 'How did the marriage end?',
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
+                  },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:pastMarriage',
+                          'reasonForSeparation',
+                        ],
+                        form,
+                      ) === separationTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: separationTypeLabels.other,
+                    },
                   },
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
@@ -600,6 +634,7 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
+                        otherExplanation: marriageProperties.otherExplanation,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
@@ -651,7 +686,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -789,9 +825,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -804,21 +838,12 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childAddress: {
-                  ...addressUI({
-                    omit: ['street3', 'isMilitary'],
-                    required: {
-                      country: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      street: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      city: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      postalCode: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                    },
-                  }),
-                },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  (form, index) =>
+                    !get(['dependents', index, 'childInHousehold'], form),
+                ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
                   first: {

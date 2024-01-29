@@ -8,7 +8,6 @@ import AppointmentListItem from './AppointmentListItem';
 import AppointmentRow from './AppointmentRow';
 
 export default function UpcomingAppointmentLayout({
-  featureStatusImprovement,
   featureBreadcrumbUrlUpdate,
   hashTable,
 }) {
@@ -39,7 +38,6 @@ export default function UpcomingAppointmentLayout({
               const isFirstInDay = j === 0;
               const link = getLink({
                 featureBreadcrumbUrlUpdate,
-                featureStatusImprovement,
                 appointment: appt,
               });
               const idClickable = `id-${appt.id.replace('.', '\\.')}`;
@@ -98,7 +96,6 @@ export default function UpcomingAppointmentLayout({
 
       const link = getLink({
         featureBreadcrumbUrlUpdate,
-        featureStatusImprovement,
         appointment: appt,
       });
 

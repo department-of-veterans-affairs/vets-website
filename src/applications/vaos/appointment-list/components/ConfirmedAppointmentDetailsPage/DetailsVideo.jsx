@@ -87,11 +87,11 @@ DetailsVideo.propTypes = {
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
     }),
   }),
   facilityData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     vistaId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }),
