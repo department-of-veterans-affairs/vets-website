@@ -13,6 +13,7 @@ import {
   isMarried,
   getMarriageTitleWithCurrent,
   validateWorkHours,
+  isHomeAcreageMoreThanTwo,
 } from '../../helpers';
 
 describe('Pensions helpers', () => {
@@ -175,6 +176,16 @@ describe('Pensions helpers', () => {
       validateWorkHours(errors, 170);
       expect(spy.withArgs('Enter a number less than 169').calledOnce).to.be
         .true;
+    });
+  });
+  describe('Pensions isHomeAcreageMoreThanTwo', () => {
+    it('returns true if home acreage is more than two', () => {
+      expect(
+        isHomeAcreageMoreThanTwo({
+          homeOwnership: true,
+          homeAcreageMoreThanTwo: true,
+        }),
+      ).to.be.true;
     });
   });
 });

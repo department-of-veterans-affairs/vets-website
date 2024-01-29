@@ -16,7 +16,13 @@ const validateCurrency = (value, setError) => {
 };
 
 const HomeAcreageValueInput = props => {
-  const { goBack, goForward, onReviewPage = false, setFormData } = props;
+  const {
+    goBack,
+    goForward,
+    onReviewPage = false,
+    setFormData,
+    updatePage,
+  } = props;
 
   const formData = useSelector(state => state.form.data);
   const currentHomeAcreageValue = formData.homeAcreageValue;
@@ -84,7 +90,18 @@ const HomeAcreageValueInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <va-button type="submit">Update</va-button>;
+  const updateButton = (
+    <div className="form-nav-buttons vads-u-margin-top--4">
+      <va-button
+        onClick={e => {
+          updateFormData(e);
+          updatePage(e);
+        }}
+        label="Update"
+        text="Update"
+      />
+    </div>
+  );
 
   return (
     <form onSubmit={updateFormData}>
@@ -114,6 +131,7 @@ HomeAcreageValueInput.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   onReviewPage: PropTypes.bool,
 };
 
