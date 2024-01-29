@@ -12,4 +12,8 @@ templates.medications = () => {
   return require('./medications');
 };
 
+templates.veteranStatus = () => {
+  return require('./veteran_status');
+};
+
 export { templates };
