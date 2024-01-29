@@ -217,11 +217,11 @@
         "previouslyMarried": true,
         "married": true,
         "fullName": {
-          "first": "Bobby",
-          "middle": "Middle",
+          "first": "Emily",
+          "middle": "Anne",
           "last": "Doe"
         },
-        "childDateOfBirth": "1997-03-02"
+        "childDateOfBirth": "2000-03-03"
       },
       {
         "childInHousehold": true,
@@ -230,14 +230,14 @@
         "childRelationship": "adopted",
         "previouslyMarried": false,
         "fullName": {
-          "first": "Emily",
-          "middle": "Middle",
+          "first": "Bobby",
+          "middle": "Nolan",
           "last": "Doe"
         },
-        "childDateOfBirth": "1993-03-02"
+        "childDateOfBirth": "2005-09-22"
       },
       {
-        "childInHousehold": false,
+        "childInHousehold": true,
         "childAddress": {
           "street": "123 8th st",
           "city": "Hadley",
@@ -245,22 +245,17 @@
           "state": "ME",
           "postalCode": "01050"
         },
-        "personWhoLivesWithChild": {
-          "first": "Joe",
-          "middle": "Middle",
-          "last": "Smith"
-        },
         "monthlyPayment": 2300,
         "childPlaceOfBirth": "Troy, MT",
         "childSocialSecurityNumber": "333224444",
         "childRelationship": "biological",
         "previouslyMarried": false,
         "fullName": {
-          "first": "Bennedictimaximus",
-          "middle": "Middle",
+          "first": "Jack",
+          "middle": "Sawyer",
           "last": "Doe"
         },
-        "childDateOfBirth": "1992-04-01"
+        "childDateOfBirth": "2010-04-01"
       }
     ],
     "totalNetWorth": false,
