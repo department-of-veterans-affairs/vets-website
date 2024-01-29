@@ -536,10 +536,15 @@ const formConfig = {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
                   },
-                  dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
+                  ),
                   locationOfMarriage: {
                     'ui:title':
                       'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
@@ -593,7 +598,11 @@ const formConfig = {
                       expandUnderCondition: separationTypeLabels.other,
                     },
                   },
-                  dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
+                  ),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
@@ -602,6 +611,7 @@ const formConfig = {
                   locationOfMarriage: {
                     'ui:title':
                       'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   locationOfSeparation: {
                     'ui:title':
@@ -619,11 +629,7 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                  ],
+                  required: ['spouseFullName'],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
                     'view:currentMarriage': {
