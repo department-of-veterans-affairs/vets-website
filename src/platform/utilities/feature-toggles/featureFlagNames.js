@@ -6,6 +6,7 @@ export default Object.freeze({
   bcasLettersUseLighthouse: 'bcas_letters_use_lighthouse',
   benefitsDocumentsUseLighthouse: 'benefits_documents_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
+  burialFormV2: 'burial_form_v2',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
