@@ -60,7 +60,7 @@ const SearchResult = ({
         />
       )}
 
-      <div className="vads-u-padding-y--4">
+      <div className="vads-u-padding--4 representative-result-card">
         {reports && (
           <va-alert
             class="vads-u-margin-bottom--1"
@@ -77,42 +77,52 @@ const SearchResult = ({
             </p>
           </va-alert>
         )}
-        {distance && (
-          <div>
-            <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
-          </div>
-        )}
-        {officer && (
-          <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-            <h3>{officer}</h3>
-          </div>
-        )}
-        {addressExists && (
-          <div className="vads-u-margin-top--1p5">
+        <div className="representative-info-section">
+          {distance && (
             <div>
-              {addressLine1}, {addressLine2}
+              <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
             </div>
-            <div>
-              {city} {state} {zipCode}
+          )}
+          {officer && (
+            <div className="vads-u-font-family--serif vads-u-margin-top--2">
+              <h3>{officer}</h3>
             </div>
-            <RepresentativeDirectionsLink
-              representative={representative}
-              query={query}
-            />
+          )}
+
+          <div className="vads-u-margin-top--2p5">
+            <va-additional-info trigger="See associated organizations" uswds>
+              <p>
+                {/* <strong>Veterans Service Officers (VSOs)</strong> can help you
+              gather evidence, file claims, and request decision reviews. They
+              can also communicate with VA on your behalf. VSOs provide free
+              services for Veterans and their families. */}
+              </p>
+            </va-additional-info>
           </div>
-        )}
-        {phone && (
-          <div className="vads-u-margin-top--1p5">
-            <strong>Main number: </strong>
-            <va-telephone contact={contact} extension={extension} />
+
+          <div className="representative-contact-section vads-u-margin-top--2p5">
+            {addressExists && (
+              <div className="vads-u-margin-top--2">
+                <RepresentativeDirectionsLink
+                  representative={representative}
+                  query={query}
+                />
+              </div>
+            )}
+            {phone && (
+              <div className="vads-u-margin-top--2">
+                <va-telephone contact={contact} extension={extension} />
+              </div>
+            )}
+            {email && (
+              <div className="vads-u-margin-top--2">
+                <a href={`mailto:${email}`}>{email}</a>
+              </div>
+            )}
           </div>
-        )}
-        {email && (
-          <div className="vads-u-margin-top--1p5">
-            <strong>E-mail: </strong> <a href={`mailto:${email}`}>{email}</a>
-          </div>
-        )}
-        <div className="vads-u-margin-top--2">
+        </div>
+
+        <div className="report-outdated-information-button">
           <va-button
             onClick={() => {
               setReportModalIsShowing(true);

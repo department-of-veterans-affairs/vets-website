@@ -30,26 +30,28 @@ const ResultsList = props => {
         {searchResults?.map((result, index) => {
           return (
             <>
-              <SearchResult
-                officer={result.attributes.fullName || result.attributes.name}
-                reports={result.reports}
-                key={result.id}
-                type={result.type}
-                addressLine1={result.attributes.addressLine1}
-                addressLine2={result.attributes.addressLine2}
-                addressLine3={result.attributes.addressLine3}
-                city={result.attributes.city}
-                state={result.attributes.stateCode}
-                zipCode={result.attributes.zipCode}
-                phone={result.attributes.phone}
-                email={result.attributes.email}
-                distance={result.attributes.distance}
-                representative={result}
-                representativeId={result.id}
-                submitRepresentativeReport={props.submitRepresentativeReport}
-                query={query}
-                index={index}
-              />
+              <div className={index > 0 ? 'vads-u-margin-top--4' : null}>
+                <SearchResult
+                  officer={result.attributes.fullName || result.attributes.name}
+                  reports={result.reports}
+                  key={result.id}
+                  type={result.type}
+                  addressLine1={result.attributes.addressLine1}
+                  addressLine2={result.attributes.addressLine2}
+                  addressLine3={result.attributes.addressLine3}
+                  city={result.attributes.city}
+                  state={result.attributes.stateCode}
+                  zipCode={result.attributes.zipCode}
+                  phone={result.attributes.phone}
+                  email={result.attributes.email}
+                  distance={result.attributes.distance}
+                  representative={result}
+                  representativeId={result.id}
+                  submitRepresentativeReport={props.submitRepresentativeReport}
+                  query={query}
+                  index={index}
+                />
+              </div>
             </>
           );
         })}

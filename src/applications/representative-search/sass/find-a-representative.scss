@@ -135,10 +135,20 @@ $large-screen-content-width: 940px;
         width: $large-screen-content-width;
       }
 
-      > * {
-        border-bottom: 2px solid $color-gray-lighter;
-        &:first-child {
-          border-top: 2px solid $color-gray-lighter;
+      .representative-result-card {
+        border: 1px solid $color-gray-lighter;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+
+        .representative-info-section {
+          grid-column: 1;
+        }
+
+        .report-outdated-information-button {
+          grid-column: 2;
+          // grid-row: 1;
+          text-align: right;
         }
       }
     }
