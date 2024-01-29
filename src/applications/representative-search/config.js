@@ -32,12 +32,12 @@ const baseUrl =
  *  * @param requestBody {String} optional
  * @returns {requestUrl, apiSettings}
  */
-export const getApi = (endpoint, method, requestBody) => {
+export const getApi = (endpoint, method = 'GET', requestBody) => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
   const apiSettings = {
     mode: 'cors',
-    method: method || 'GET',
+    method,
 
     headers: {
       'X-Key-Inflection': 'camel',
