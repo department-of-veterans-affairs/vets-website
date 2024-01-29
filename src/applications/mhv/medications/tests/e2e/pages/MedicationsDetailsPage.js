@@ -3,14 +3,16 @@ import expiredRx from '../fixtures/expired-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
-    cy.contains(
-      'If you print this page, it won’t include your allergies and reactions to medications.',
+    cy.get('[data-testid="dropdown-info"]').should(
+      'contain',
+      'we’ll include a list of allergies and reactions',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you print or download').click({
-      force: true,
+    cy.get('[data-testid="before-download"]').should('be.visible');
+    cy.get('[data-testid="before-download"]').click({
+      waitForAnimations: true,
     });
   };
 

@@ -34,6 +34,11 @@ const PrintDownload = props => {
     }
   };
 
+  const handlePrint = () => {
+    setMenuOpen(!menuOpen);
+    window.print();
+  };
+
   return (
     <>
       {isSuccess && (
@@ -73,6 +78,15 @@ const PrintDownload = props => {
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
         <ul className={menuOptionsClasses}>
+          <li>
+            <button
+              type="button"
+              data-testid="download-print-button"
+              onClick={() => handlePrint()}
+            >
+              {`Print this ${list ? 'list' : 'page'}`}
+            </button>
+          </li>
           <li>
             <button
               type="button"
