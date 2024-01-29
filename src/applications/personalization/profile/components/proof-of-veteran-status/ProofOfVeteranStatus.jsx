@@ -59,7 +59,7 @@ const ProofOfVeteranStatus = ({
       dob: renderDOB(dob),
       image: {
         title: 'V-A logo',
-        url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+        url: '/img/design/logo/logo-black-and-white.png',
       },
     },
   };
