@@ -28,8 +28,8 @@ class LandingPage {
     cy.url().should('not.match', /my-health/);
   };
 
-  visitPage = ({ serviceProvider = 'idme', facilities } = {}) => {
-    cy.login(generateUser({ serviceProvider, facilities }));
+  visitPage = ({ serviceProvider = 'idme', facilities, loa = 3 } = {}) => {
+    cy.login(generateUser({ serviceProvider, facilities, loa }));
     cy.visit(this.pageUrl);
   };
 

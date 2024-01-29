@@ -164,8 +164,12 @@ class ReviewCollapsibleChapter extends React.Component {
       fullPageKey = page.pageKey;
     }
 
+    const hasError = props.form.formErrors?.errors?.some(
+      err => fullPageKey === err.pageKey,
+    );
+
     const classes = classNames('form-review-panel-page', {
-      'schemaform-review-page-error': !viewedPages.has(fullPageKey),
+      'schemaform-review-page-error': hasError || !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
@@ -327,6 +331,7 @@ class ReviewCollapsibleChapter extends React.Component {
         />
       );
     }
+
     return (
       <page.CustomPageReview
         key={`${page.pageKey}Review${page.index ?? ''}`}
@@ -407,24 +412,26 @@ class ReviewCollapsibleChapter extends React.Component {
     const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <va-accordion-item
-        data-chapter={this.props.chapterKey}
-        header={chapterTitle}
-        level={3}
-        subHeader={this.props.hasUnviewedPages ? subHeader : ''}
-        onClick={this.handleChapterClick}
-        data-unviewed-pages={this.props.hasUnviewedPages}
-      >
+      <>
         <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {this.props.hasUnviewedPages && (
-          <i
-            aria-hidden="true"
-            className="fas fa-exclamation-circle vads-u-color--secondary"
-            slot="subheader-icon"
-          />
-        )}
-        {this.getChapterContent(this.props)}
-      </va-accordion-item>
+        <va-accordion-item
+          data-chapter={this.props.chapterKey}
+          header={chapterTitle}
+          level={3}
+          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+          data-unviewed-pages={this.props.hasUnviewedPages}
+          open={this.props.open}
+        >
+          {this.props.hasUnviewedPages && (
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+          )}
+          {this.getChapterContent(this.props)}
+        </va-accordion-item>
+      </>
     );
   }
 }

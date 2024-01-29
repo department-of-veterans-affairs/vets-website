@@ -13,6 +13,7 @@ const ReplyDrafts = props => {
     replyToName,
     setLastFocusableElement,
     signature,
+    showBlockedTriageGroupAlert,
   } = props;
   const dispatch = useDispatch();
   const [edittedMessage, setEdittedMessage] = useState(
@@ -38,6 +39,7 @@ const ReplyDrafts = props => {
             setEdittedMessage(messageId);
             dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
           }}
+          showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
         />
       )}
 
@@ -46,7 +48,7 @@ const ReplyDrafts = props => {
           return (
             <ReplyDraftItem
               key={draft?.messageId}
-              cannotReply={cannotReply}
+              cannotReply={cannotReply || showBlockedTriageGroupAlert}
               draft={draft}
               draftsCount={drafts?.length}
               draftsequence={drafts.length - i}
@@ -59,6 +61,7 @@ const ReplyDrafts = props => {
               setLastFocusableElement={setLastFocusableElement}
               signature={signature}
               toggleEditHandler={toggleEditHandler}
+              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
             />
           );
         })}
@@ -74,6 +77,7 @@ ReplyDrafts.propTypes = {
   replyToName: PropTypes.string,
   saveDraftHandler: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
+  showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.string,
 };
 

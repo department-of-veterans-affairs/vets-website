@@ -16,7 +16,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const {
     canSubmitFinancialInfo,
     hasPreferredFacility,
-    isEnrolledinESR,
+    isValidEnrollmentStatus,
     hasServerError,
   } = useSelector(selectEnrollmentStatus);
   const {
@@ -45,7 +45,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
 
   // set the correct alert to render based on enrollment status
   const LoggedInAlertToRender = () => {
-    if (!isEnrolledinESR)
+    if (!isValidEnrollmentStatus)
       return <EnrollmentStatusAlert showError={hasServerError} />;
     if (!hasPreferredFacility) return <PreferredFacilityAlert />;
     if (!canSubmitFinancialInfo)

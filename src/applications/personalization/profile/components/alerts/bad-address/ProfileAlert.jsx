@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import { recordCustomProfileEvent } from '../../../util/analytics';
 import { useProfileRouteMetaData } from '../../../hooks';
 import { PROFILE_PATH_NAMES } from '../../../constants';
 
@@ -50,6 +50,7 @@ export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
       className={className}
       role="alert"
       aria-live="polite"
+      uswds
     >
       <h2
         slot="headline"

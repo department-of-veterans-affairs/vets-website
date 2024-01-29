@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DueDate from '../DueDate';
+import DueDateOld from '../DueDateOld';
 
 export default function DocumentRequestPageContent({ trackedItem }) {
   return (
     <>
       <h1 className="claims-header">{trackedItem.displayName}</h1>
       {trackedItem.type.endsWith('you_list') ? (
-        <DueDate date={trackedItem.suspenseDate} />
+        <DueDateOld date={trackedItem.suspenseDate} />
       ) : null}
       {trackedItem.type.endsWith('others_list') ? (
         <div className="optional-upload">
