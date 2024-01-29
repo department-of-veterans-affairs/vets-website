@@ -38,6 +38,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -59,6 +60,9 @@ const formConfig = {
     },
   },
   formId: '10-10D',
+  dev: {
+    showNavLinks: false,
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your CHAMPVA benefits application (10-10D) is in progress.',
@@ -615,7 +619,10 @@ const formConfig = {
               items: {
                 'ui:title': ApplicantField, // shows on each page of array
                 applicantRelationshipToSponsor: {
-                  ...relationshipToVeteranUI('Sponsor'),
+                  ...relationshipToVeteranUI({
+                    personTitle: 'Sponsor',
+                    labelHeaderLevel: '', // no header
+                  }),
                   'ui:required': () => true,
                 },
               },

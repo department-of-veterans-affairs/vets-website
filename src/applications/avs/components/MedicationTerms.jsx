@@ -9,7 +9,7 @@ const MedicationTerms = props => {
   }
 
   return (
-    <va-additional-info trigger="What do these medication terms mean?">
+    <va-additional-info trigger="What do these medication terms mean?" uswds>
       {avs.pharmacyTerms.map((term, idx) => (
         <div key={`term-${idx}`}>
           <h4>
