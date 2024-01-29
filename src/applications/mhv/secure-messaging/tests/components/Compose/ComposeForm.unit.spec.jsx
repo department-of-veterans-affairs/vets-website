@@ -561,6 +561,10 @@ describe('Compose form component', () => {
       'trigger',
       "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
     );
+    const viewOnlyDraftSections = screen.queryAllByTestId(
+      'view-only-draft-section',
+    );
+    expect(viewOnlyDraftSections.length).to.equal(0);
   });
 
   it('displays BlockedTriageGroupAlert if multiple groups are blocked, including saved-draft recipient', async () => {
@@ -696,6 +700,28 @@ describe('Compose form component', () => {
       'trigger',
       "You're not connected to any care teams in this messaging tool",
     );
+    const viewOnlyDraftSections = screen.queryAllByTestId(
+      'view-only-draft-section',
+    );
+    expect(viewOnlyDraftSections.length).to.equal(3);
+    viewOnlyDraftSections.forEach((draftSection, index) => {
+      expect(draftSection.firstChild.tagName).to.equal('STRONG');
+      if (index === 0) {
+        expect(draftSection.lastChild.textContent).to.equal(
+          'COVID: Ask COVID related questions',
+        );
+      }
+      if (index === 1) {
+        expect(draftSection.lastChild.textContent).to.equal(
+          customState.sm.threadDetails.drafts[0].subject,
+        );
+      }
+      if (index === 2) {
+        expect(draftSection.lastChild.textContent).to.equal(
+          customState.sm.threadDetails.drafts[0].messageBody,
+        );
+      }
+    });
     expect(screen.queryByTestId('Send-Button')).to.not.exist;
   });
 

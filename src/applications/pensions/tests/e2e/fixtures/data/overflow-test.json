@@ -22,12 +22,16 @@
     "serveUnderOtherNames": true,
     "previousNames": [
       {
-        "first": "John",
-        "last": "Doe"
+        "previousFullName": {
+          "first": "Joseph",
+          "last": "Doe"
+        }
       },
       {
-        "first": "Johnny",
-        "last": "Doe"
+        "previousFullName": {
+          "first": "Jarrod",
+          "last": "Doe"
+        }
       }
     ],
     "placeOfSeparation": "West Brookfield, MA",
@@ -81,7 +85,22 @@
         "dateOfMarriage": "1989-03-02",
         "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
+          "reasonForSeparation": "Other",
+          "otherExplanation": "Personal reason thats too long to write an explanation for in this form field",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Jane",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "dateOfMarriage": "1989-03-02",
+        "locationOfMarriage": "Dallas",
+        "view:pastMarriage": {
+          "reasonForSeparation": "Spouse’s death",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
