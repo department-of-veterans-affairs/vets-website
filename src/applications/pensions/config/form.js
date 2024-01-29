@@ -532,14 +532,14 @@ const formConfig = {
                     'ui:title': 'Spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Place of marriage (city and state or foreign country)',
-                },
                 'view:currentMarriage': {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
+                  },
+                  dateOfMarriage: currentOrPastDateUI('Date of marriage'),
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
@@ -593,10 +593,15 @@ const formConfig = {
                       expandUnderCondition: separationTypeLabels.other,
                     },
                   },
+                  dateOfMarriage: currentOrPastDateUI('Date of marriage'),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                     'ui:validations': [validateAfterMarriageDate],
+                  },
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
                   },
                   locationOfSeparation: {
                     'ui:title':
@@ -621,11 +626,12 @@ const formConfig = {
                   ],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
                     'view:currentMarriage': {
                       type: 'object',
                       properties: {
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         marriageType,
                         otherExplanation: marriageProperties.otherExplanation,
                       },
@@ -635,7 +641,10 @@ const formConfig = {
                       properties: {
                         reasonForSeparation,
                         otherExplanation: marriageProperties.otherExplanation,
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
                       },
