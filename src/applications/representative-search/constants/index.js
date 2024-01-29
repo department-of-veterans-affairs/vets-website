@@ -8,6 +8,12 @@ export const RepresentativeType = {
   CLAIM_AGENTS: 'claim_agents',
 };
 
+export const ErrorTypes = {
+  representativeFetchError: 'isErrorFetchRepresentatives',
+  reportSubmissionError: 'isErrorReportSubmission',
+  geocodeError: 'isErrorGeocode',
+};
+
 /**
  * Enum for map pins.
  * Location types mapped to the filename prefix for the png/svg.

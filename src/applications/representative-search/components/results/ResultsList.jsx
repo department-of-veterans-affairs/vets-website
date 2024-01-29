@@ -32,6 +32,7 @@ const ResultsList = props => {
             <>
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
+                reports={result.reports}
                 key={result.id}
                 type={result.type}
                 addressLine1={result.attributes.addressLine1}
@@ -44,6 +45,8 @@ const ResultsList = props => {
                 email={result.attributes.email}
                 distance={result.attributes.distance}
                 representative={result}
+                representativeId={result.id}
+                submitRepresentativeReport={props.submitRepresentativeReport}
                 query={query}
                 index={index}
               />
@@ -65,6 +68,7 @@ ResultsList.propTypes = {
   searchError: PropTypes.object,
   searchResults: PropTypes.array,
   sortType: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
   onUpdateSortType: PropTypes.func,
 };
 
