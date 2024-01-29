@@ -23,6 +23,7 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     authExpVbaDowntimeMessage: false,
     myVaEnableNotificationComponent: true,
+    myVaUseExperimental: false,
     myVaUseExperimentalFrontend: true,
     myVaUseExperimentalFullstack: true,
     myVaHideNotificationsSection: true,
