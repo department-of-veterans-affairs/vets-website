@@ -1,8 +1,9 @@
 import {
-  firstNameLastNameNoSuffixUI,
   firstNameLastNameNoSuffixSchema,
-  radioUI,
+  firstNameLastNameNoSuffixUI,
   radioSchema,
+  radioUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -10,10 +11,12 @@ import {
   THIRD_PARTY_TYPE_NON_VETERAN_LABELS,
   ADDITIONAL_INFO_THIRD_PARTY_TYPE,
 } from '../config/constants';
+import { getIdentityInfoPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    ...titleUI(({ formData }) => getIdentityInfoPageTitle(formData)),
     thirdPartyFullName: firstNameLastNameNoSuffixUI(),
     thirdPartyType: radioUI({
       title: 'How are you representing the person with a claim?',

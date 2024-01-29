@@ -1,8 +1,9 @@
 import {
-  firstNameLastNameNoSuffixSchema,
-  firstNameLastNameNoSuffixUI,
   dateOfBirthSchema,
   dateOfBirthUI,
+  firstNameLastNameNoSuffixSchema,
+  firstNameLastNameNoSuffixUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { getNameAndDobPageTitle } from '../helpers';
@@ -10,8 +11,7 @@ import { getNameAndDobPageTitle } from '../helpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    // TODO: Use ...titleUI() once that supports functions for title
-    'ui:title': ({ formData }) => getNameAndDobPageTitle(formData),
+    ...titleUI(({ formData }) => getNameAndDobPageTitle(formData)),
     fullName: firstNameLastNameNoSuffixUI(),
     dateOfBirth: dateOfBirthUI({ required: true }),
   },
