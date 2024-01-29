@@ -6,7 +6,6 @@ export const EXTERNAL_SERVICES = {
   appeals: 'appeals',
   arcgis: 'arcgis',
   dslogon: 'dslogon',
-  emis: 'emis',
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',
