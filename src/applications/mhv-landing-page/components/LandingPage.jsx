@@ -1,24 +1,38 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isLOA1 } from '~/platform/user/selectors';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
 import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import Welcome from './Welcome';
-import {
-  hasHealthData,
-  personalizationEnabled,
-  selectGreetingName,
-} from '../selectors';
+import WelcomeContainer from '../containers/WelcomeContainer';
+import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const name = useSelector(selectGreetingName);
-  const showCards = useSelector(hasHealthData);
+  const isUnverified = useSelector(isLOA1);
+  const hasHealth = useSelector(hasHealthData);
+  const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
+
+  const showCards = hasHealth && !isUnverified;
+
+  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+  const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
+  const noCardsDisplay = isUnverified ? (
+    <IdentityNotVerified
+      headline={unVerifiedHeadline}
+      showHelpContent={false}
+    />
+  ) : (
+    <NoHealthAlert />
+  );
 
   return (
     <div
@@ -30,10 +44,10 @@ const LandingPage = ({ data = {} }) => {
         {showPersonalization && (
           <>
             <HeaderLayout />
-            <Welcome name={name} />
+            <WelcomeContainer />
           </>
         )}
-        {showCards ? <CardLayout data={cards} /> : <NoHealthAlert />}
+        {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
       <NewsletterSignup />

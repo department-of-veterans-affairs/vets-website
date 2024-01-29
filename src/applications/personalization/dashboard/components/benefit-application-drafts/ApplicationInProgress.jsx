@@ -12,7 +12,7 @@ const ApplicationInProgress = ({
   expirationDate,
   formId,
   formTitle,
-  lastOpenedDate,
+  lastSavedDate,
   presentableFormId,
 }) => {
   const content = (
@@ -40,7 +40,7 @@ const ApplicationInProgress = ({
             <p className="vads-u-margin-top--0">
               Application expires on: {expirationDate}
             </p>
-            <p>Last opened on: {lastOpenedDate}</p>
+            <p>Last saved on: {lastSavedDate}</p>
           </div>
         </div>
       </div>
@@ -90,8 +90,8 @@ ApplicationInProgress.propTypes = {
   formId: PropTypes.string.isRequired,
   // String to use as the main "headline" of the component
   formTitle: PropTypes.string.isRequired,
-  // The display-ready date when the application was last opened by the user
-  lastOpenedDate: PropTypes.string.isRequired,
+  // The display-ready date when the application was last updated by the user
+  lastSavedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string.isRequired,
 };
