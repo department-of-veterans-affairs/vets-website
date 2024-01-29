@@ -1,6 +1,6 @@
 import {
-  fullNameNoSuffixUI,
-  fullNameNoMiddleNoSuffixSchema,
+  firstNameLastNameNoSuffixUI,
+  firstNameLastNameNoSuffixSchema,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -14,7 +14,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    thirdPartyFullName: fullNameNoSuffixUI(null, { omitMiddle: true }),
+    thirdPartyFullName: firstNameLastNameNoSuffixUI(),
     thirdPartyType: radioUI({
       title: 'How are you representing the person with a claim?',
       labels: THIRD_PARTY_TYPE_NON_VETERAN_LABELS,
@@ -30,7 +30,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      thirdPartyFullName: fullNameNoMiddleNoSuffixSchema,
+      thirdPartyFullName: firstNameLastNameNoSuffixSchema,
       thirdPartyType: radioSchema(Object.values(THIRD_PARTY_TYPES)),
       'view:additionalInfoThirdPartyType': {
         type: 'object',

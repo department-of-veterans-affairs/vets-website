@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  fullNameNoSuffixUI,
-  fullNameNoMiddleNoSuffixSchema,
+  firstNameLastNameNoSuffixSchema,
+  firstNameLastNameNoSuffixUI,
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -17,7 +17,7 @@ import {
 export default {
   uiSchema: {
     'ui:title': <h3 className="vads-u-margin-y--0">Your name</h3>,
-    thirdPartyFullName: fullNameNoSuffixUI(null, { omitMiddle: true }),
+    thirdPartyFullName: firstNameLastNameNoSuffixUI(),
     thirdPartyType: radioUI({
       title: 'How are you representing the Veteran?',
       labels: THIRD_PARTY_TYPE_VETERAN_LABELS,
@@ -33,7 +33,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      thirdPartyFullName: fullNameNoMiddleNoSuffixSchema,
+      thirdPartyFullName: firstNameLastNameNoSuffixSchema,
       thirdPartyType: radioSchema(Object.values(THIRD_PARTY_TYPES)),
       'view:additionalInfoThirdPartyType': {
         type: 'object',

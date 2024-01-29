@@ -11,6 +11,7 @@ import {
   fillIdInfoPage,
   fillLivingSituationPage,
   fillNameAndDateOfBirthPage,
+  fillOtherHousingRisksPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
@@ -319,7 +320,7 @@ testSuite('PP 10207 - Veteran', () => {
       });
 
       it('displays correct error message for NONE + 1 selections', () => {
-        cy.contains('another housing risk').click();
+        fillLivingSituationPage('veteranOhr');
         cy.contains('None').click();
         continueToNextPage();
         showsCorrectErrorMessage(
@@ -328,13 +329,13 @@ testSuite('PP 10207 - Veteran', () => {
       });
 
       it('advances to Other-housing-risks page when OTHER_RISK is selected', () => {
-        fillLivingSituationPage('veteran');
+        fillLivingSituationPage('veteranOhr');
         continueToNextPage();
         pagePathIsCorrect('other-housing-risks');
       });
 
       it('advances to Your-contact-information chapter when NONE is selected', () => {
-        cy.contains('None').click();
+        fillLivingSituationPage('veteran');
         continueToNextPage();
         pagePathIsCorrect('mailing-address-yes-no');
       });
@@ -360,7 +361,7 @@ testSuite('PP 10207 - Veteran', () => {
 
       it('advances to next chapter', () => {
         // TODO: Change path below once next chapter is built
-        cy.contains('I will lose my home').click();
+        fillOtherHousingRisksPage('veteranOhr');
         continueToNextPage();
         pagePathIsCorrect('review-and-submit');
       });

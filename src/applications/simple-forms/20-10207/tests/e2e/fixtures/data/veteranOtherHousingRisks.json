@@ -10,15 +10,8 @@
       "ssn": "321540987"
     },
     "livingSituation": {
-      "NONE": true
+      "OTHER_RISK": true
     },
-    "mailingAddressYesNo": true,
-    "mailingAddress": {
-      "country": "USA",
-      "street": "123 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "zip": "12345"
-    }
+    "otherHousingRisks": "[other housing risks]"
   }
 }

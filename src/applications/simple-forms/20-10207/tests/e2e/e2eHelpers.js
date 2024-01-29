@@ -1,5 +1,6 @@
 import manifest from '../../manifest.json';
 import vetData from './fixtures/data/veteran.json';
+import vetOhrData from './fixtures/data/veteranOtherHousingRisks.json';
 import nonVetData from './fixtures/data/non-veteran.json';
 import thirdPartyVetData from './fixtures/data/third-party-veteran.json';
 import thirdPartyNonVetData from './fixtures/data/third-party-non-veteran.json';
@@ -34,10 +35,12 @@ export const showsCorrectPageTitle = (titleText, headerLevel) => {
   }).should('be.visible');
 };
 
-export const getDataForPreparerType = preparerType => {
-  switch (preparerType) {
+export const getTestData = dataStory => {
+  switch (dataStory) {
     case 'veteran':
       return vetData.data;
+    case 'veteranOhr':
+      return vetOhrData.data;
     case 'non-veteran':
       return nonVetData.data;
     case 'third-party-veteran':
@@ -49,9 +52,9 @@ export const getDataForPreparerType = preparerType => {
   }
 };
 
-export const showsCorrectLivingSituationCheckboxLabels = preparerType => {
+export const showsCorrectLivingSituationCheckboxLabels = story => {
   let livingSituations;
-  switch (preparerType) {
+  switch (story) {
     case PREPARER_TYPES.THIRD_PARTY_VETERAN:
       livingSituations = LIVING_SITUATIONS_3RD_PTY_VET;
       break;
@@ -82,8 +85,8 @@ export const showsCorrectErrorMessage = message => {
   }).should('be.visible');
 };
 
-export const fillNameAndDateOfBirthPage = preparerType => {
-  const data = getDataForPreparerType(preparerType);
+export const fillNameAndDateOfBirthPage = story => {
+  const data = getTestData(story);
   const dob = data.dateOfBirth.split('-');
 
   cy.get('input[name="root_fullName_first"]').type(data.fullName.first, {
@@ -102,14 +105,14 @@ export const fillNameAndDateOfBirthPage = preparerType => {
   cy.get('input[name="root_dateOfBirthYear"]').type(dob[0], { force: true });
 };
 
-export const fillIdInfoPage = preparerType => {
-  const data = getDataForPreparerType(preparerType);
+export const fillIdInfoPage = story => {
+  const data = getTestData(story);
 
   cy.get('input[name="root_id_ssn"]').type(data.id.ssn, { force: true });
 };
 
-export const fillLivingSituationPage = preparerType => {
-  const data = getDataForPreparerType(preparerType);
+export const fillLivingSituationPage = story => {
+  const data = getTestData(story);
   const livingSituations = data.livingSituation;
 
   Object.keys(livingSituations).forEach(key => {
@@ -117,8 +120,8 @@ export const fillLivingSituationPage = preparerType => {
   });
 };
 
-export const fillOtherHousingRisksPage = preparerType => {
-  const data = getDataForPreparerType(preparerType);
+export const fillOtherHousingRisksPage = story => {
+  const data = getTestData(story);
   const { otherHousingRisks } = data;
 
   cy.get('textarea[name="root_otherHousingRisks"]').type(otherHousingRisks, {

@@ -1,11 +1,9 @@
-import { fullNameNoSuffixUI } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern.js';
-
 import {
+  firstNameLastNameNoSuffixSchema,
+  firstNameLastNameNoSuffixUI,
   dateOfBirthSchema,
   dateOfBirthUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
 import { getNameAndDobPageTitle } from '../helpers';
 
@@ -14,15 +12,13 @@ export default {
   uiSchema: {
     // TODO: Use ...titleUI() once that supports functions for title
     'ui:title': ({ formData }) => getNameAndDobPageTitle(formData),
-    fullName: fullNameNoSuffixUI(),
+    fullName: firstNameLastNameNoSuffixUI(),
     dateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: pdfFullNameNoSuffixSchema({
-        pdfMaxLengths: { first: 12, middle: 1, last: 18 },
-      }),
+      fullName: firstNameLastNameNoSuffixSchema,
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],
