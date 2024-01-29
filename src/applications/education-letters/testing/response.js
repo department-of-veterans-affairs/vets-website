@@ -57,11 +57,10 @@ module.exports = {
     meta: {
       errors: [
         {
-          externalService: 'EMIS',
           startTime: '2022-01-10T19:57:56Z',
           endTime: null,
           description:
-            'EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
+            'VAProfile::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
           status: 401,
         },
       ],

@@ -95,10 +95,9 @@
   "meta": {
     "errors": [
       {
-        "externalService": "EMIS",
         "startTime": "2020-07-23T15:45:24Z",
         "endTime": null,
-        "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
+        "description": "VAProfileRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
         "status": 401
       }
     ]

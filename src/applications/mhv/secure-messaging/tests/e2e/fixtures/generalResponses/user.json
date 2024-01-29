@@ -130,10 +130,9 @@
   "meta": {
     "errors": [
       {
-        "externalService": "EMIS",
         "startTime": "2023-08-22T16:15:17Z",
         "endTime": null,
-        "description": "EMISRedis::VeteranStatus::RecordNotFound, NOT_FOUND",
+        "description": "VAProfileRedis::VeteranStatus::RecordNotFound, NOT_FOUND",
         "status": 404
       }
     ]

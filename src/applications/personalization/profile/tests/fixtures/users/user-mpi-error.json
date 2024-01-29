@@ -94,10 +94,9 @@
         "status": 504
       },
       {
-        "externalService": "EMIS",
         "startTime": "2020-08-21T22:17:28Z",
         "endTime": null,
-        "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
+        "description": "VAProfileRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
         "status": 401
       }
     ]
