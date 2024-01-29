@@ -10,6 +10,7 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
+import * as AddFilesForm from '../../components/AddFilesForm';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -30,7 +31,20 @@ const fileFormProps = {
   files: [],
 };
 
+let stub;
+
 describe('<AdditionalEvidencePage>', () => {
+  beforeEach(() => {
+    // Stubbing out AddFilesForm because we're not interested
+    // in setting up all of the redux state needed to test it
+    stub = sinon.stub(AddFilesForm, 'default');
+    stub.returns(<div data-testid="add-files-form" />);
+    stub.propTypes = {};
+  });
+
+  afterEach(() => {
+    stub.restore();
+  });
   it('should render loading div', () => {
     const tree = SkinDeep.shallowRender(
       <AdditionalEvidencePage params={params} loading />,
@@ -52,7 +66,6 @@ describe('<AdditionalEvidencePage>', () => {
         message={message}
         filesNeeded={[]}
         filesOptional={[]}
-        {...fileFormProps}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
@@ -76,7 +89,6 @@ describe('<AdditionalEvidencePage>', () => {
         message={message}
         filesNeeded={[]}
         filesOptional={[]}
-        {...fileFormProps}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
@@ -103,7 +115,6 @@ describe('<AdditionalEvidencePage>', () => {
         message={message}
         filesNeeded={[]}
         filesOptional={[]}
-        {...fileFormProps}
       />,
     );
     expect(tree.subTree('Notification')).not.to.be.false;
@@ -112,6 +123,7 @@ describe('<AdditionalEvidencePage>', () => {
   });
 
   it('should handle submit files', () => {
+    stub.restore();
     const files = [];
     const onSubmit = sinon.spy();
     const tree = SkinDeep.shallowRender(
@@ -144,7 +156,6 @@ describe('<AdditionalEvidencePage>', () => {
           resetUploads={resetUploads}
           filesNeeded={[]}
           filesOptional={[]}
-          {...fileFormProps}
         />
       </Provider>,
     );
@@ -170,7 +181,6 @@ describe('<AdditionalEvidencePage>', () => {
         resetUploads={resetUploads}
         filesNeeded={[]}
         filesOptional={[]}
-        {...fileFormProps}
       />,
     );
 
@@ -203,14 +213,12 @@ describe('<AdditionalEvidencePage>', () => {
       props.filesOptional = [];
 
       const { rerender, container } = render(
-        <AdditionalEvidencePage {...props} {...fileFormProps} />,
+        <AdditionalEvidencePage {...props} />,
       );
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(
-        <AdditionalEvidencePage {...props} {...fileFormProps} uploadComplete />,
-      );
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.false;
       expect(props.getClaimLighthouse.called).to.be.true;
@@ -247,9 +255,7 @@ describe('<AdditionalEvidencePage>', () => {
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(
-        <AdditionalEvidencePage {...props} {...fileFormProps} uploadComplete />,
-      );
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.false;
       expect(props.getClaimLighthouse.called).to.be.true;
@@ -272,9 +278,7 @@ describe('<AdditionalEvidencePage>', () => {
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(
-        <AdditionalEvidencePage {...props} {...fileFormProps} uploadComplete />,
-      );
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.true;
       expect(props.getClaimLighthouse.called).to.be.false;
@@ -313,9 +317,7 @@ describe('<AdditionalEvidencePage>', () => {
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(
-        <AdditionalEvidencePage {...props} {...fileFormProps} uploadComplete />,
-      );
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
       expect(props.getClaimEVSS.called).to.be.true;
       expect(props.getClaimLighthouse.called).to.be.false;
