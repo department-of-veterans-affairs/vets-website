@@ -66,7 +66,10 @@ const TrackingInfo = ({
         <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 vads-u-margin-right--0p5 left">
           Shipped on:
         </h4>
-        <span className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 left">
+        <span
+          data-testid="shipping-date"
+          className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 left"
+        >
           {dateFormat(completeDateTime, 'MMMM D, YYYY')}
         </span>
       </>
