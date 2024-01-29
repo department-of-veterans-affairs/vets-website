@@ -55,6 +55,8 @@ describe('<RequestedFilesInfo>', () => {
         trackedItemId: 1,
         type: 'still_need_from_others_list',
         status: 'NEEDED',
+        displayName: 'Request 1',
+        description: 'Some description',
       },
     ];
     const filesNeeded = [];
@@ -67,11 +69,15 @@ describe('<RequestedFilesInfo>', () => {
       />,
     );
 
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
-      'We requested this from others',
+    const content = tree.dive(['FilesOptionalOld']);
+    expect(content).not.to.be.empty;
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
+      optionalFiles[0].displayName,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
+      optionalFiles[0].description,
+    );
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       '<Link />',
     );
   });

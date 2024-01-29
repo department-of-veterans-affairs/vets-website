@@ -5,6 +5,10 @@ import AdditionalEvidenceItem from './AdditionalEvidenceItem';
 import AskVAToDecide from '../AskVAToDecide';
 import RequestedFilesInfo from '../RequestedFilesInfo';
 import SubmittedTrackedItem from './SubmittedTrackedItem';
+import AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
+
+import { getFilesNeeded, getFilesOptional } from '../../utils/helpers';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
@@ -16,16 +20,9 @@ export default function FilesPageContent({ claim, params }) {
   const trackedItems = claim.attributes.eventsTimeline.filter(event =>
     event.type.endsWith('_list'),
   );
-  const filesNeeded = trackedItems.filter(
-    event =>
-      event.status === NEED_ITEMS_STATUS &&
-      event.type === 'still_need_from_you_list',
-  );
-  const optionalFiles = trackedItems.filter(
-    event =>
-      event.status === NEED_ITEMS_STATUS &&
-      event.type === 'still_need_from_others_list',
-  );
+
+  const filesNeeded = getFilesNeeded(trackedItems, false);
+  const optionalFiles = getFilesOptional(trackedItems, false);
   const documentsTurnedIn = trackedItems.filter(
     event =>
       event.status !== NEED_ITEMS_STATUS ||
@@ -35,11 +32,18 @@ export default function FilesPageContent({ claim, params }) {
   return (
     <div>
       {claim.attributes.open && (
-        <RequestedFilesInfo
-          id={claim.id}
-          filesNeeded={filesNeeded}
-          optionalFiles={optionalFiles}
-        />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <RequestedFilesInfo
+              id={claim.id}
+              filesNeeded={filesNeeded}
+              optionalFiles={optionalFiles}
+            />
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <AdditionalEvidencePage />
+          </Toggler.Enabled>
+        </Toggler>
       )}
       {showDecision && <AskVAToDecide id={params.id} />}
       <div className="submitted-files-list">

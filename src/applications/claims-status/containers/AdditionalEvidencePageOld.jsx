@@ -7,14 +7,12 @@ import Scroll from 'react-scroll';
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
-import FilesOptional from '../components/FilesOptional';
-import FilesNeeded from '../components/FilesNeeded';
-
+import EvidenceWarning from '../components/EvidenceWarning';
 import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 import { setFocus, setPageFocus, setUpPage } from '../utils/page';
+
 import {
   addFile,
   removeFile,
@@ -32,12 +30,6 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../actions';
-import {
-  getTrackedItemId,
-  getTrackedItems,
-  getFilesNeeded,
-  getFilesOptional,
-} from '../utils/helpers';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
@@ -50,7 +42,7 @@ const scrollToError = () => {
 
 const { Element } = Scroll;
 
-class AdditionalEvidencePage extends React.Component {
+class AdditionalEvidencePageOld extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     document.title = 'Additional Evidence';
@@ -109,7 +101,7 @@ class AdditionalEvidencePage extends React.Component {
       const { message } = this.props;
 
       content = (
-        <div className="additional-evidence-container">
+        <div className="claim-container">
           {message && (
             <>
               <Element name="uploadError" />
@@ -120,21 +112,7 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
-          {this.props.filesNeeded.map(item => (
-            <FilesNeeded
-              key={getTrackedItemId(item)}
-              id={this.props.claim.id}
-              item={item}
-            />
-          ))}
-          {this.props.filesOptional.map(item => (
-            <FilesOptional
-              key={getTrackedItemId(item)}
-              id={this.props.claim.id}
-              item={item}
-            />
-          ))}
+          <EvidenceWarning />
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}
@@ -179,13 +157,9 @@ class AdditionalEvidencePage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-  const useLighthouse = cstUseLighthouse(state, 'show');
-  const claim = claimsState.claimDetail.detail;
-  const trackedItems = getTrackedItems(claim, useLighthouse);
-
   return {
     loading: claimsState.claimDetail.loading,
-    claim,
+    claim: claimsState.claimDetail.detail,
     files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
@@ -194,10 +168,8 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
-    filesNeeded: getFilesNeeded(trackedItems, useLighthouse),
-    filesOptional: getFilesOptional(trackedItems, useLighthouse),
     // START lighthouse_migration
-    useLighthouse,
+    useLighthouse: cstUseLighthouse(state, 'show'),
     documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
@@ -219,7 +191,7 @@ const mapDispatchToProps = {
   clearAdditionalEvidenceNotification,
 };
 
-AdditionalEvidencePage.propTypes = {
+AdditionalEvidencePageOld.propTypes = {
   addFile: PropTypes.func,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
@@ -228,8 +200,6 @@ AdditionalEvidencePage.propTypes = {
   documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
   files: PropTypes.array,
-  filesNeeded: PropTypes.array,
-  filesOptional: PropTypes.array,
   // START lighthouse_migration
   getClaimEVSS: PropTypes.func,
   getClaimLighthouse: PropTypes.func,
@@ -260,7 +230,7 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(AdditionalEvidencePage),
+  )(AdditionalEvidencePageOld),
 );
 
-export { AdditionalEvidencePage };
+export { AdditionalEvidencePageOld };
