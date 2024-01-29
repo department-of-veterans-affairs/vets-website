@@ -93,7 +93,6 @@ ${record.results}`;
         </h3>
         <p data-testid="radiology-image" className="no-print">
           <va-link
-            active
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'va-medical-images-and-reports',
