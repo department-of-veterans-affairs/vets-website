@@ -17,7 +17,7 @@ import LocationSearchForm from './search/LocationSearchForm';
 import AccordionItem from '../components/AccordionItem';
 import { getSearchQueryChanged, updateUrlParams } from '../selectors/search';
 import GIBillHeaderInfo from '../components/GIBillHeaderInfo';
-import { changeSearchTab, setPageTitle } from '../actions';
+import { changeSearchTab, setError, setPageTitle } from '../actions';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -25,6 +25,7 @@ export function SearchPage({
   search,
   preview,
   filters,
+  dispatchError,
 }) {
   const isLandscape = () => {
     const islandscape = matchMedia('(orientation: landscape)');
@@ -110,7 +111,11 @@ export function SearchPage({
         <div className={searchPageClasses}>
           <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
             {!smallScreen && (
-              <SearchTabs onChange={tabChange} search={search} />
+              <SearchTabs
+                onChange={tabChange}
+                search={search}
+                dispatchError={dispatchError}
+              />
             )}
             {error && (
               <div className="vads-u-padding-top--2">
@@ -168,6 +173,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchChangeSearchTab: changeSearchTab,
   dispatchSetPageTitle: setPageTitle,
+  dispatchError: setError,
 };
 
 export default connect(

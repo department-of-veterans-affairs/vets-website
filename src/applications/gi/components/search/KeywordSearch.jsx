@@ -4,12 +4,16 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
-import { handleScrollOnInputFocus } from '../../utils/helpers';
+import {
+  handleScrollOnInputFocus,
+  validateSearchTerm,
+} from '../../utils/helpers';
+import { setError } from '../../actions';
 
 export function KeywordSearch({
   className,
-  error,
   inputValue,
   label,
   labelAdditional,
@@ -19,12 +23,16 @@ export function KeywordSearch({
   onPressEnter,
   required,
   suggestions,
-  validateSearchTerm,
   version,
+  filters,
+  dispatchError,
+  errorReducer,
+  type,
 }) {
   const fetchSuggestion = () => {
     onFetchAutocompleteSuggestions(inputValue, version);
   };
+  const { error } = errorReducer;
 
   const debouncedFetchSuggestion = useCallback(
     debounce(fetchSuggestion, WAIT_INTERVAL),
@@ -83,7 +91,7 @@ export function KeywordSearch({
         debouncedFetchSuggestion(value);
       }
       if (validateSearchTerm) {
-        validateSearchTerm(value);
+        validateSearchTerm(value, dispatchError, error, filters, type);
       }
     }
   };
@@ -197,15 +205,24 @@ export function KeywordSearch({
     </div>
   );
 }
+const mapStateToProps = state => ({
+  errorReducer: state.errorReducer,
+});
+const mapDispatchToProps = {
+  dispatchError: setError,
+};
 
 KeywordSearch.propTypes = {
   className: PropTypes.string,
+  dispatchError: PropTypes.func,
+  errorReducer: PropTypes.object,
   error: PropTypes.string,
   inputValue: PropTypes.string,
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,
   suggestions: PropTypes.array,
+  type: PropTypes.string,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,
@@ -214,4 +231,7 @@ KeywordSearch.propTypes = {
   onUpdateAutocompleteSearchTerm: PropTypes.func,
 };
 
-export default KeywordSearch;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(KeywordSearch);
