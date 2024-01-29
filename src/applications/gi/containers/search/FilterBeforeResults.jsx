@@ -17,8 +17,9 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
+  validateSearchTerm,
 } from '../../utils/helpers';
-import { showModal, filterChange } from '../../actions';
+import { showModal, filterChange, setError } from '../../actions';
 import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
@@ -27,15 +28,18 @@ import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 export function FilterBeforeResults({
   dispatchShowModal,
   dispatchFilterChange,
+  dispatchError,
   filters,
   modalClose,
   preview,
   search,
   smallScreen,
-  setShowFiltersBeforeSearch,
+  errorReducer,
+  nameVal,
 }) {
   const history = useHistory();
   const { version } = preview;
+  const { error } = errorReducer;
   const {
     schools,
     excludedSchoolTypes,
@@ -353,7 +357,13 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
-    setShowFiltersBeforeSearch(false);
+    if (validateSearchTerm(nameVal, dispatchError, error, filters)) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'nameSearch',
+        'gibct-form-value': nameVal,
+      });
+    }
     updateResults();
     modalClose();
   };
@@ -637,11 +647,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+  dispatchError: setError,
 };
 
 export default connect(

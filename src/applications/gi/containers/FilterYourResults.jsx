@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -15,8 +15,9 @@ import {
   sortOptionsByStateName,
   addAllOption,
   createId,
+  validateSearchTerm,
 } from '../utils/helpers';
-import { showModal, filterChange } from '../actions';
+import { showModal, filterChange, setError } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
@@ -25,14 +26,17 @@ import ClearFiltersBtn from '../components/ClearFiltersBtn';
 export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
+  dispatchError,
   filters,
   modalClose,
   preview,
   search,
   smallScreen,
+  errorReducer,
 }) {
   const history = useHistory();
   const { version } = preview;
+  const { error } = errorReducer;
   const {
     expanded,
     schools,
@@ -60,6 +64,7 @@ export function FilterYourResults({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
+  const [nameValue, setNameValue] = useState(search.query.name);
 
   const recordCheckboxEvent = e => {
     recordEvent({
@@ -78,6 +83,7 @@ export function FilterYourResults({
   };
 
   const onChange = e => {
+    setNameValue(e.target.value);
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': e.target.name,
@@ -174,6 +180,7 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
+    validateSearchTerm(nameValue, dispatchError, error, filters);
     updateInstitutionFilters('search', true);
 
     updateUrlParams(history, search.tab, search.query, filters, version);
@@ -532,11 +539,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+  dispatchError: setError,
 };
 
 export default connect(
