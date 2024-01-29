@@ -17,6 +17,7 @@ import {
 } from '../../../../utilities/ui';
 
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from '../constants';
+import { ERROR_ELEMENTS } from '../../../../utilities/constants';
 import { $ } from '../utilities/ui';
 import {
   ShowPdfPassword,
@@ -475,7 +476,7 @@ const FileField = props => {
                 } else if (showPasswordInput) {
                   focusElement(`#${fileListId} .usa-input-error-message`);
                 } else {
-                  focusElement('.usa-input-error, .input-error-date, [error]');
+                  focusElement(ERROR_ELEMENTS.join(','));
                 }
               }, 250);
             } else if (showPasswordInput) {

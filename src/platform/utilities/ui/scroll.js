@@ -1,6 +1,7 @@
 import Scroll from 'react-scroll';
 
 import { focusElement } from './focus';
+import { ERROR_ELEMENTS } from '../constants';
 
 const { scroller } = Scroll;
 
@@ -28,9 +29,7 @@ export function scrollToTop(position = 0, options = getScrollOptions()) {
 // Duplicate of function in platform/forms-system/src/js/utilities/ui/index
 export function scrollToFirstError() {
   // [error] will focus any web-components with an error message
-  const errorEl = document.querySelector(
-    '.usa-input-error, .input-error-date, [error]',
-  );
+  const errorEl = document.querySelector(ERROR_ELEMENTS.join(','));
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =
