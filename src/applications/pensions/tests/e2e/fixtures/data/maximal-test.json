@@ -22,8 +22,10 @@
     "serveUnderOtherNames": true,
     "previousNames": [
       {
-        "first": "John",
-        "last": "Doe"
+        "previousFullName": {
+          "first": "Joseph",
+          "last": "Doe"
+        }
       }
     ],
     "placeOfSeparation": "West Brookfield, MA",
@@ -66,25 +68,26 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Spouse’s death",
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
+          "reasonForSeparation": "Other",
+          "otherExplanation": "Other reason",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },
       {
         "spouseFullName": {
-          "first": "Jennie",
+          "first": "Jane",
           "middle": "Middle",
-          "last": "Dane"
+          "last": "Doe"
         },
-        "dateOfMarriage": "1983-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
-          "dateOfSeparation": "1984-03-02",
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
+          "reasonForSeparation": "Spouse’s death",
+          "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },
@@ -94,9 +97,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1994-03-02",
-        "locationOfMarriage": "North Adams, MA",
         "view:currentMarriage": {
+          "dateOfMarriage": "1994-03-02",
+          "locationOfMarriage": "North Adams, MA",
           "marriageType": "Some other way",
           "otherExplanation": "Other reason"
         }

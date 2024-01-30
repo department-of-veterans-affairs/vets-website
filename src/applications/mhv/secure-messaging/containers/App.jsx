@@ -20,6 +20,7 @@ import { getAllTriageTeamRecipients } from '../actions/recipients';
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -92,10 +93,14 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
-      <div className="vads-l-grid-container">
-        <SmBreadcrumbs />
-        <div
-          className="secure-messaging-container
+      {user.login.currentlyLoggedIn &&
+      !userServices.includes(backendServices.MESSAGING) ? (
+        window.location.replace('/health-care/secure-messaging')
+      ) : (
+        <div className="vads-l-grid-container">
+          <SmBreadcrumbs />
+          <div
+            className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
@@ -107,17 +112,18 @@ const App = () => {
               externalServices.mhvSm,
             ]}
           >
-            <Navigation />
-            <ScrollToTop />
-            <Switch>
-              <AuthorizedRoutes />
-            </Switch>
-          </DowntimeNotification>
+              <Navigation />
+              <ScrollToTop />
+              <Switch>
+                <AuthorizedRoutes />
+              </Switch>
+            </DowntimeNotification>
+          </div>
+          <div className="bottom-container">
+            <va-back-to-top />
+          </div>
         </div>
-        <div className="bottom-container">
-          <va-back-to-top />
-        </div>
-      </div>
+      )}
     </RequiredLoginView>
   );
 };
