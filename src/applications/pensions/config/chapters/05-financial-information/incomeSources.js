@@ -17,8 +17,8 @@ import { recipientTypeLabels } from '../../../labels';
 const typeOfIncomeOptions = {
   SOCIAL_SECURITY: 'Social Security',
   INTEREST_DIVIDEND: 'Interest or dividend income',
-  RETIREMENT: 'Retirement income',
-  PENSION: 'Pension income',
+  CIVIL_SERVICE: 'Civil Service',
+  PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
 };
 
