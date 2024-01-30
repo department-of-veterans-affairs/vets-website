@@ -81,7 +81,7 @@ const ReportModal = ({
       }
     });
 
-    if (!formattedReportObject.reports.length) {
+    if (!Object.keys(formattedReportObject.reports).length) {
       setReportIsBlankError(true);
       return;
     }
