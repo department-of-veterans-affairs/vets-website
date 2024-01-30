@@ -22,6 +22,9 @@ const ReportModal = ({
     otherComment: null,
   });
 
+  const [otherCommentIsChecked, setOtherCommentIsChecked] = useState(false);
+  const [reportIsBlankError, setReportIsBlankError] = useState(false);
+
   // render conditions
   const totalReportableItems =
     (address !== null) + (phone !== null) + (email !== null) + 1;
@@ -41,6 +44,7 @@ const ReportModal = ({
   };
 
   const handleCheckboxChange = event => {
+    setReportIsBlankError(false);
     const {
       target: { id, checked },
     } = event;
@@ -49,13 +53,16 @@ const ReportModal = ({
 
     switch (id) {
       case '1':
-        newState.phone = checked ? phone : null;
+        newState.address = checked ? address : null;
         break;
       case '2':
         newState.email = checked ? email : null;
         break;
       case '3':
-        newState.address = checked ? address : null;
+        newState.phone = checked ? phone : null;
+        break;
+      case '4':
+        setOtherCommentIsChecked(checked);
         break;
       default:
         break;
@@ -74,6 +81,11 @@ const ReportModal = ({
       }
     });
 
+    if (!formattedReportObject.reports.length) {
+      setReportIsBlankError(true);
+      return;
+    }
+
     submitRepresentativeReport(formattedReportObject);
     setReportObject({
       phone: null,
@@ -88,7 +100,7 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report Outdated Information for 
+        modalTitle={`Report outdated information for 
           ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
@@ -121,7 +133,7 @@ const ReportModal = ({
         {notAllItemsReported && (
           <>
             <VaCheckboxGroup
-              error={null}
+              error={reportIsBlankError ? 'Please select an item' : null}
               hint={null}
               onVaChange={handleCheckboxChange}
               required
@@ -134,7 +146,7 @@ const ReportModal = ({
                   label="Incorrect address"
                   name="address"
                   uswds
-                  id="3"
+                  id="1"
                 />
               )}
               {emailReportable && (
@@ -150,23 +162,31 @@ const ReportModal = ({
                   label="Incorrect phone number"
                   name="phone"
                   uswds
-                  id="1"
+                  id="3"
                 />
+              )}
+              {otherCommentReportable && (
+                <va-checkbox label="Other" name="other" uswds id="4" />
               )}
             </VaCheckboxGroup>
           </>
         )}
 
-        {otherCommentReportable && (
-          <va-text-input
-            hint={null}
-            label="Describe the other information we need to update"
-            value={reportObject.otherComment}
-            name="my-input"
-            maxlength={250}
-            onInput={e => handleOtherCommentInputChange(e)}
-            uswds
-          />
+        {otherCommentIsChecked && (
+          <div className="vads-u-padding-left--4">
+            <div className="form-expanding-group-open form-expanding-group-inner-enter-done">
+              <va-text-input
+                hint={null}
+                required
+                label="Describe the other information we need to update"
+                value={reportObject.otherComment}
+                name="my-input"
+                maxlength={250}
+                onInput={e => handleOtherCommentInputChange(e)}
+                uswds
+              />
+            </div>
+          </div>
         )}
       </VaModal>
     </>
