@@ -24,7 +24,6 @@ function RepresentativeDirectionsLink({ representative, query }) {
         <div>
           {rep.city} {rep.state} {rep.zipCode}
         </div>
-        <span className="sr-only">{`to ${rep.fullName || rep.name}`}</span>
       </a>
     </div>
   );
