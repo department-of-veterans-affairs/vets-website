@@ -30,17 +30,24 @@ const userLOA3 = {
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
+
     dataPrefix: 'data',
-
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-
-    // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['veteran'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^Start your request/, { selector: 'a' })
+          cy.findAllByText(/^Start/, { selector: 'a[href="#start"]' })
+            .last()
+            .click();
+        });
+      },
+      'living-situation': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaCheckbox('root_livingSituation_NONE', true);
+          cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();
         });

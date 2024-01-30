@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
+import { ErrorTypes } from '../../constants';
 
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
@@ -12,8 +13,9 @@ const SearchControls = props => {
     onChange,
     geolocateUser,
     onSubmit,
-    clearGeocodeError,
+    clearError,
     // clearSearchText
+    geocodeError,
   } = props;
   const {
     locationInputString,
@@ -21,7 +23,6 @@ const SearchControls = props => {
     representativeType,
     geolocationInProgress,
     isErrorEmptyInput,
-    geocodeError,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -35,7 +36,7 @@ const SearchControls = props => {
         ? e.target.value.trim()
         : e.target.value,
     });
-    clearGeocodeError();
+    clearError(ErrorTypes.geocodeError);
   };
   const handleRepresentativeChange = e => {
     onChange({
@@ -57,13 +58,13 @@ const SearchControls = props => {
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
       <VaModal
         modalTitle={
-          currentQuery.geocodeError === 1
+          geocodeError === 1
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onCloseEvent={() => clearGeocodeError()}
+        onCloseEvent={() => clearError(ErrorTypes.geocodeError)}
         status="warning"
-        visible={currentQuery.geocodeError > 0}
+        visible={geocodeError > 0}
         uswds
       >
         <p>
@@ -205,8 +206,9 @@ const SearchControls = props => {
 };
 
 SearchControls.propTypes = {
-  clearGeocodeError: PropTypes.func,
+  clearError: PropTypes.func,
   currentQuery: PropTypes.object,
+  geocodeError: PropTypes.object,
   geolocateUser: PropTypes.func,
   locationChanged: PropTypes.bool,
   locationInputString: PropTypes.string,
