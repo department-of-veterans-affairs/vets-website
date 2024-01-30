@@ -336,7 +336,7 @@ AddFilesFormOld.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
-  mockReadAndCheckFile: PropTypes.bool,
+  mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };
