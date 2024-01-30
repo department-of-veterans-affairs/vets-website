@@ -182,6 +182,7 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
+          uswds
         >
           {content.name.hint}
         </VaTextInput>
@@ -201,6 +202,8 @@ const AddIssue = ({
           invalidDay={isInvalid('day')}
           invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
+          month-select={false}
+          uswds
         />
         <p>
           <va-button
@@ -209,12 +212,14 @@ const AddIssue = ({
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
             text={content.button.cancel}
+            uswds
           />
           <va-button
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
+            uswds
           />
         </p>
       </fieldset>

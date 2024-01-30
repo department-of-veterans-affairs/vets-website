@@ -82,9 +82,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
           "reasonForSeparation": "Other",
           "otherExplanation": "Personal reason thats too long to write an explanation for in this form field",
           "dateOfSeparation": "1990-03-02",
@@ -97,9 +97,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
           "reasonForSeparation": "Spouse’s death",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
@@ -111,9 +111,9 @@
           "middle": "Middle",
           "last": "Danedanedanedanedanedanedane"
         },
-        "dateOfMarriage": "1983-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
+          "dateOfMarriage": "1983-03-02",
+          "locationOfMarriage": "Dallas",
           "reasonForSeparation": "Divorce",
           "dateOfSeparation": "1984-03-02",
           "locationOfSeparation": "San Antonio, TX"
@@ -125,9 +125,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1995-02-03",
-        "locationOfMarriage": "North Adams, MA",
         "view:pastMarriage": {
+          "dateOfMarriage": "1995-02-03",
+          "locationOfMarriage": "North Adams, MA",
           "reasonForSeparation": "Divorce",
           "dateOfSeparation": "1996-03-02",
           "locationOfSeparation": "San Antonio, TX"
@@ -139,9 +139,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1994-03-02",
-        "locationOfMarriage": "North Adams, MA",
         "view:currentMarriage": {
+          "dateOfMarriage": "1994-03-02",
+          "locationOfMarriage": "North Adams, MA",
           "marriageType": "Some other way",
           "otherExplanation": "Other reason"
         }
@@ -405,7 +405,7 @@
         "amount": 3278.75
       },
       {
-        "typeOfIncome": "PENSION",
+        "typeOfIncome": "PENSION_RETIREMENT",
         "receiver": "VETERAN",
         "payer": "John Doe",
         "amount": 55.27

@@ -87,6 +87,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
+    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
 
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
@@ -112,7 +113,14 @@ const responses = {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
+    // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
+
+    // edge cases
+    // return res.json(mockDisabilityCompensations.isDeceased);
+    // return res.json(mockDisabilityCompensations.isFiduciary);
+    // return res.json(mockDisabilityCompensations.isNotCompetent);
+    // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     return res
@@ -142,7 +150,7 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+    ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
