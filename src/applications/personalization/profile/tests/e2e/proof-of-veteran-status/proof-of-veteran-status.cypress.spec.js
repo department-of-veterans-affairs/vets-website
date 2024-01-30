@@ -1,4 +1,3 @@
-// import serviceHistory from 'applications/personalization/profile/mocks/endpoints/service-history';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
