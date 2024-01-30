@@ -10,7 +10,7 @@ import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
-import * as AddFilesFormOld from '../../components/AddFilesFormOld';
+import * as AddFilesForm from '../../components/AddFilesForm';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -37,7 +37,7 @@ describe('<AdditionalEvidencePage>', () => {
   beforeEach(() => {
     // Stubbing out AddFilesForm because we're not interested
     // in setting up all of the redux state needed to test it
-    stub = sinon.stub(AddFilesFormOld, 'default');
+    stub = sinon.stub(AddFilesForm, 'default');
     stub.returns(<div data-testid="add-files-form" />);
     stub.propTypes = {};
   });

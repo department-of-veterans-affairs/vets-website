@@ -177,11 +177,17 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div>
-          <p className="vads-u-margin-y--3">
+          <p className="vads-u-margin-top--3 vads-u-margin-bottom--0">
             Please only submit evidence that supports this claim. You’ll need to
             scan your document onto the device you’re using to submit this
             application, such as your computer, tablet, or mobile phone. You can
             upload your document from there.
+          </p>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
+            To submit supporting documents for a new disability claim, please
+            visit our{' '}
+            <a href="/disability/how-to-file-claim">How to File a Claim</a>{' '}
+            page.
           </p>
           <VaFileInput
             id="file-upload"
@@ -195,6 +201,7 @@ class AddFilesForm extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            uswds="true"
           />
         </div>
         {this.props.files.map(
@@ -268,6 +275,7 @@ class AddFilesForm extends React.Component {
         )}
         <VaCheckbox
           label="The files I uploaded support this claim only."
+          className="vads-u-margin-y--3"
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
@@ -276,14 +284,8 @@ class AddFilesForm extends React.Component {
             this.setState({ checked: event.detail.checked });
           }}
         />
-        <p className="checkbox-hint-text vads-u-margin-top--1 vads-u-margin-bottom--3">
-          To submit supporting documents for a new disability claim, please
-          visit our{' '}
-          <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
-        </p>
         <va-button
           submit
-          className="usa-button"
           text="Submit files for review"
           onClick={this.submit}
         />

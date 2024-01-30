@@ -971,12 +971,6 @@ button .claim-timeline-icon.fa {
   margin-left: -2px;
 }
 
-p.checkbox-hint-text {
-  // Unabled to set the color to #71767A so that it matches the other hint text in AddFilesForm.jsx
-  // so using $color-gray-medium to set it to something close to that
-  color: $color-gray-medium;
-}
-
 .alert-description {
   padding-bottom: 0;
   margin: 0;
