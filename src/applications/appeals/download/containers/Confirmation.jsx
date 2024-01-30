@@ -5,6 +5,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
@@ -26,20 +27,34 @@ const Confirmation = () => {
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
-        <va-breadcrumbs>
-          <a href="/">Home</a>
-          <a href="/decision-reviews">Decision reviews and appeals</a>
-          <a href="/decision-reviews/board-appeal">Board Appeals</a>
-          <a href="/decision-reviews/submitted-appeal">
-            Request a Board Appeal
-          </a>
-        </va-breadcrumbs>
+        <VaBreadcrumbs
+          label="Decision reviews"
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'Home',
+            },
+            {
+              href: '/decision-reviews',
+              label: 'Decision reviews and appeals',
+            },
+            {
+              href: '/decision-reviews/board-appeal',
+              label: 'Board Appeals',
+            },
+            {
+              href: '/decision-reviews/submitted-appeal',
+              label: 'Request a Board Appeal',
+            },
+          ]}
+          uswds
+        />
 
         <FormTitle
           title="Request a Board Appeal"
           subTitle="VA Form 10182 (Notice of Disagreement)"
         />
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h2 slot="headline">You submitted your Board Appeal request</h2>
           <p>
             After we’ve completed our review, we’ll mail you a decision packet

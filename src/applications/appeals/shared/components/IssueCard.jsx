@@ -169,6 +169,7 @@ export const IssueCard = ({
           label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
+          uswds
         />
       </div>
     ) : null;
