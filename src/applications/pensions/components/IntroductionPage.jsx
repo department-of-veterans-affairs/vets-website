@@ -42,25 +42,16 @@ class IntroductionPage extends React.Component {
                   (*Required)
                 </span>
               </li>
-              <li>Your marital status and prior marital history</li>
-              <li>Information about your spouse’s prior marriage</li>
-              <li>Information about your dependent children</li>
-              <li>Your employment history</li>
-            </ul>
-            <h4>You’ll also need this information:</h4>
-            <ul>
               <li>
                 Financial information about you and your dependents{' '}
                 <span className="vads-u-color--secondary-dark">
                   (*Required)
                 </span>
               </li>
-              <li>
-                Your military history{' '}
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              </li>
+              <li>Your marital status and prior marital history</li>
+              <li>Information about your spouse’s prior marriage</li>
+              <li>Information about your dependent children</li>
+              <li>Your employment history</li>
             </ul>
             <h4>
               If you have special circumstances for your medical care, you may
