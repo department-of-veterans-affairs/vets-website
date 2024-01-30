@@ -317,7 +317,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d11fa23200e236042ffab9230fa0f62f20054b09"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4cb6bd2d2abe57dd1d48e83caca3d39562b5961f"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -377,6 +377,7 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
+      "src/platform/mhv",
       "src/applications/check-in",
       "src/applications/vaos"
     ],
