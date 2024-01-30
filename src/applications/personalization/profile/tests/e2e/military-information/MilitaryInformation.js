@@ -28,6 +28,14 @@ class MilitaryInformationPage {
   notInDeersMessageShouldExist = () => {
     cy.findByTestId('not-in-deers-alert').should('exist');
   };
+
+  veteranStatusShouldExist = () => {
+    cy.findByText(/Proof of Veteran status/).should('exist');
+  };
+
+  veteranStatusShouldNotExist = () => {
+    cy.findByText(/Proof of Veteran status/).should('not.exist');
+  };
 }
 
 export default new MilitaryInformationPage();
