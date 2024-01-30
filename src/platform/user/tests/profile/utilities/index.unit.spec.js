@@ -209,6 +209,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
+              externalService: 'EMIS',
               status: 404,
             },
           ],
