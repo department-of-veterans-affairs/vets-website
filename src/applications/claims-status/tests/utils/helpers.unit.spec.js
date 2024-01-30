@@ -13,6 +13,7 @@ import {
   getTrackedItemId,
   getTrackedItems,
   getFilesNeeded,
+  getFilesOptional,
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
@@ -514,6 +515,40 @@ describe('Disability benefits helpers: ', () => {
           { type: 'still_need_from_you_list', status: 'NEEDED' },
         ];
         const filesNeeded = getFilesNeeded(eventsTimeline, useLighthouse);
+        expect(filesNeeded.length).to.equal(1);
+      });
+    });
+  });
+
+  describe('getFilesOptional', () => {
+    context('when useLighthouse is true', () => {
+      const useLighthouse = true;
+      it('when trackedItems is empty, should return empty array', () => {
+        const trackedItems = [];
+        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
+        expect(filesNeeded.length).to.equal(0);
+      });
+
+      it('when trackedItems exists, should return data', () => {
+        const trackedItems = [{ status: 'NEEDED_FROM_OTHERS' }];
+        const filesNeeded = getFilesOptional(trackedItems, useLighthouse);
+        expect(filesNeeded.length).to.equal(1);
+      });
+    });
+
+    context('when useLighthouse is false', () => {
+      const useLighthouse = false;
+      it('when eventsTimeline is empty, should return empty array', () => {
+        const eventsTimeline = [];
+        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
+        expect(filesNeeded.length).to.equal(0);
+      });
+
+      it('when eventsTimeline exists, should return data', () => {
+        const eventsTimeline = [
+          { type: 'still_need_from_others_list', status: 'NEEDED' },
+        ];
+        const filesNeeded = getFilesOptional(eventsTimeline, useLighthouse);
         expect(filesNeeded.length).to.equal(1);
       });
     });
