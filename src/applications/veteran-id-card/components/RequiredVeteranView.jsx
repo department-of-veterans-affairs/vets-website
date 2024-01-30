@@ -7,7 +7,7 @@ function RequiredVeteranView({ userProfile, children }) {
   let view;
 
   if (userProfile.veteranStatus?.status === 'SERVER_ERROR') {
-    // If eMIS status is null, show a system down message.
+    // If veteran status is null, show a system down message.
     view = (
       <div className="row">
         <div className="small-12 columns">

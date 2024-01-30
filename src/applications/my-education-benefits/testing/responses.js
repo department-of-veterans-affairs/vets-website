@@ -87,7 +87,7 @@ module.exports = {
           startTime: '2022-01-10T19:57:56Z',
           endTime: null,
           description:
-            'VAProfile::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
+            'VAProfileRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED',
           status: 401,
         },
       ],

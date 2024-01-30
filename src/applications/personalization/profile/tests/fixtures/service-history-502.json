@@ -2,8 +2,8 @@
   "errors": [
     {
       "title": "Unexpected response body",
-      "detail": "EMIS service responded with something other than the expected array of service history hashes.",
-      "code": "EMIS_HIST502",
+      "detail": "VAProfileRedis service responded with something other than the expected array of service history hashes.",
+      "code": "VAPROFILEREDIS_HIST502",
       "status": "502",
       "source": "V0::Profile::ServiceHistoriesController"
     }
