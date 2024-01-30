@@ -27,11 +27,11 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 import {
   flowPaths,
   generalQuestionPages,
-  myOwnBenVetPages,
   myOwnBenFamPages,
-  someoneElseBenVetPages,
-  someoneElseBenFamPages,
+  myOwnBenVetPages,
   someoneElseBen3rdPartyPages,
+  someoneElseBenFamPages,
+  someoneElseBenVetPages,
 } from './schema-helpers/formFlowHelper';
 
 // Review Page
@@ -74,7 +74,7 @@ const formConfig = {
   },
   title: 'Ask VA',
   subTitle:
-    'Get answers to your questions about VA benefits and services and send documents online',
+    'Get answers to your questions about VA benefits and services and upload documents online.',
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
