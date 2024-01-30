@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -21,7 +23,9 @@ const ViewAppeal = () => {
   const { data } = testData;
   const { fullName } = extraData;
 
-  const submitted = new Date('2023-12-1');
+  const submitted = new Date();
+  const dateExpires = new Date();
+  dateExpires.setDate(dateExpires.getDate() + 7);
 
   const borderLine = [
     'vads-u-border-bottom--1px',
@@ -34,14 +38,28 @@ const ViewAppeal = () => {
     <div className="row vads-u-margin-bottom--4">
       <div className="usa-width-two-thirds medium-8 columns">
         <div name="topScrollElement" />
-        <va-breadcrumbs>
-          <a href="/">Home</a>
-          <a href="/decision-reviews">Decision reviews and appeals</a>
-          <a href="/decision-reviews/board-appeal">Board Appeals</a>
-          <a href="/decision-reviews/submitted-appeal">
-            Your submitted Board Appeal
-          </a>
-        </va-breadcrumbs>
+        <VaBreadcrumbs
+          label="Decision reviews"
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'Home',
+            },
+            {
+              href: '/decision-reviews',
+              label: 'Decision reviews and appeals',
+            },
+            {
+              href: '/decision-reviews/board-appeal',
+              label: 'Board Appeals',
+            },
+            {
+              href: '/decision-reviews/submitted-appeal',
+              label: 'Request a Board Appeal',
+            },
+          ]}
+          uswds
+        />
         <h1>Your submitted Board Appeal</h1>
         <div className="schemaform-subtitle">
           VA Form 10182 (Notice of Disagreement)
@@ -62,8 +80,8 @@ const ViewAppeal = () => {
           </h3>
           <p>
             If you’d like a PDF copy of your completed Board Appeal, you can
-            download it now. The download link is only available until December
-            8, 2023.
+            download it now. The download link is only available until{' '}
+            <span>{format(dateExpires, 'MMMM d, yyyy')}</span>
           </p>
 
           <va-link
@@ -166,6 +184,7 @@ const ViewAppeal = () => {
           class="screen-only"
           onClick={window.print}
           text="Print this page for your records"
+          uswds
         />
         <h2 className="help-heading vads-u-padding-top--2">Need help?</h2>
         <GetFormHelp />

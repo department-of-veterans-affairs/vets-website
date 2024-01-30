@@ -17,8 +17,9 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
+  validateSearchTerm,
 } from '../../utils/helpers';
-import { showModal, filterChange } from '../../actions';
+import { showModal, filterChange, setError } from '../../actions';
 import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
@@ -27,15 +28,19 @@ import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 export function FilterBeforeResults({
   dispatchShowModal,
   dispatchFilterChange,
+  dispatchError,
   filters,
   modalClose,
   preview,
   search,
   smallScreen,
-  setShowFiltersBeforeSearch,
+  errorReducer,
+  nameVal,
+  searchType,
 }) {
   const history = useHistory();
   const { version } = preview;
+  const { error } = errorReducer;
   const {
     schools,
     excludedSchoolTypes,
@@ -225,27 +230,18 @@ export function FilterBeforeResults({
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
         optionLabel: (
-          <LearnMoreLabel
-            text="Has no cautionary warnings"
-            onClick={() => {
-              dispatchShowModal('cautionaryWarnings');
-            }}
-            ariaLabel="Learn more about VA education and training programs"
-          />
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Has no cautionary warnings
+          </label>
         ),
       },
       {
         name: 'accredited',
         checked: accredited,
         optionLabel: (
-          <LearnMoreLabel
-            text="Is accredited"
-            onClick={() => {
-              dispatchShowModal('accredited');
-            }}
-            buttonId="accredited-button"
-            ariaLabel="Learn more about VA education and training programs"
-          />
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Is accredited
+          </label>
         ),
       },
       {
@@ -353,7 +349,15 @@ export function FilterBeforeResults({
   };
 
   const closeAndUpdate = () => {
-    setShowFiltersBeforeSearch(false);
+    if (
+      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+    ) {
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'nameSearch',
+        'gibct-form-value': nameVal,
+      });
+    }
     updateResults();
     modalClose();
   };
@@ -637,11 +641,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+  dispatchError: setError,
 };
 
 export default connect(
