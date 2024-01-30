@@ -8,7 +8,9 @@ import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatu
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
-import DowntimeNotification from '~/platform/monitoring/DowntimeNotification';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
 
@@ -209,6 +211,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
+        dependencies={[externalServices.emis]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}

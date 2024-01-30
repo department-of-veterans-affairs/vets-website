@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 const SERVICES = {
+  EMIS: 'emis',
   EVSS: 'evss',
   MVI: 'mvi',
   GLOBAL: 'global',
