@@ -88,6 +88,10 @@ const HouseholdFinancialOnboarding = props => {
               You served at least 30 days at Camp Lejeune between August 1,
               1953, and December 31, 1987.
             </li>
+            <li>
+              You served in a location where you had exposure to Agent Orange
+              during the Vietnam War era
+            </li>
           </ul>
         </div>
       </va-additional-info>
