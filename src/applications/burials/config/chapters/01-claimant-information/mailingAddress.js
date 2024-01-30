@@ -2,12 +2,14 @@ import {
   addressSchema,
   addressUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { generateTitle, labelSize } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': 'Mailing address',
-    'ui:description':
+    'ui:title': generateTitle('Mailing address'),
+    'ui:description': labelSize(
       'We’ll send any important information about your application to this address',
+    ),
     claimantAddress: {
       ...addressUI({
         labels: {

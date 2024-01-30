@@ -1,10 +1,10 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { isFullDate } from '@department-of-veterans-affairs/platform-forms/validations';
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
+import { dateOfDeathUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateBurialAndDeathDates } from '../../../utils/validation';
 import {
   isEligibleNonService,
-  generateDescription,
+  generateTitle,
   BurialDateWarning,
 } from '../../../utils/helpers';
 
@@ -12,18 +12,16 @@ const { deathDate, burialDate } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
-    'ui:description': generateDescription('Burial information'),
+    'ui:title': generateTitle('Burial information'),
     deathDate: {
-      ...currentOrPastDateUI('Date of death'),
+      ...dateOfDeathUI('Date of death'),
       'ui:errorMessages': {
         required: 'Enter the Veteran’s date of death',
         pattern: 'Enter a valid date',
       },
     },
     burialDate: {
-      ...currentOrPastDateUI(
-        'Date of burial (includes cremation or interment)',
-      ),
+      ...dateOfDeathUI('Date of burial (includes cremation or interment)'),
       'ui:errorMessages': {
         required: 'Enter the Veteran’s date of burial',
         pattern: 'Enter a valid date',

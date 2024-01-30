@@ -1,12 +1,12 @@
 import React from 'react';
-
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-
-import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
-import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
-import { validateCurrentOrPastDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import {
+  fullNameUI,
+  ssnUI,
+  dateOfBirthUI,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import ApplicantDescription from '../../../components/ApplicantDescription';
-import { generateDescription, generateHelpText } from '../../../utils/helpers';
+import { generateTitle, generateHelpText } from '../../../utils/helpers';
 
 const {
   claimantFullName,
@@ -16,10 +16,9 @@ const {
 
 export default {
   uiSchema: {
+    'ui:title': generateTitle('Personal information'),
     'ui:description': formContext => (
       <>
-        <ApplicantDescription formContext={formContext} />
-        {generateDescription('Personal information')}
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
@@ -31,10 +30,11 @@ export default {
             need to correct anything, you can edit the form fields below.
           </p>
         </va-alert>
+        <ApplicantDescription formContext={formContext} />
       </>
     ),
     claimantFullName: {
-      ...fullNameUI,
+      ...fullNameUI(),
       first: {
         'ui:title': 'Your first name',
         'ui:errorMessages': {
@@ -55,7 +55,7 @@ export default {
       },
     },
     claimantSocialSecurityNumber: {
-      ...ssnUI,
+      ...ssnUI(),
       'ui:title': 'Your Social Security number',
       'ui:description': generateHelpText('example, 123 45 6789'),
       'ui:errorMessages': {
@@ -63,9 +63,8 @@ export default {
       },
     },
     claimantDateOfBirth: {
+      ...dateOfBirthUI(),
       'ui:title': 'Your date if birth',
-      'ui:widget': 'date',
-      'ui:validations': [validateCurrentOrPastDate],
       'ui:errorMessages': {
         required: 'Enter your date of birth',
         pattern: 'Enter a valid date',

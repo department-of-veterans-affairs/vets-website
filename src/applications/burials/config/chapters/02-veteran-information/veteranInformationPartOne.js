@@ -1,14 +1,14 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import fullNameUI from '@department-of-veterans-affairs/platform-forms/fullName';
-import { generateDescription } from '../../../utils/helpers';
+import { fullNameUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { generateTitle } from '../../../utils/helpers';
 
 const { veteranFullName } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
-    'ui:description': generateDescription('Personal information'),
+    'ui:title': generateTitle('Personal information'),
     veteranFullName: {
-      ...fullNameUI,
+      ...fullNameUI(),
       first: {
         'ui:title': 'Veteran’s first name',
         'ui:errorMessages': {

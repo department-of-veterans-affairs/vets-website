@@ -1,7 +1,10 @@
-import ssnUI from '@department-of-veterans-affairs/platform-forms-system/ssn';
-import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-system/currentOrPastDate';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-import { generateDescription, generateHelpText } from '../../../utils/helpers';
+import {
+  ssnUI,
+  vaFileNumberUI,
+  dateOfBirthUI,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { generateTitle, generateHelpText } from '../../../utils/helpers';
 
 const {
   veteranSocialSecurityNumber,
@@ -11,9 +14,9 @@ const {
 
 export default {
   uiSchema: {
-    'ui:description': generateDescription('Personal information'),
+    'ui:title': generateTitle('Personal information'),
     veteranSocialSecurityNumber: {
-      ...ssnUI,
+      ...ssnUI(),
       'ui:title': 'Veteran’s Social Security number',
       'ui:required': form => !form.vaFileNumber,
       'ui:description': generateHelpText('example, 123 45 6789'),
@@ -23,6 +26,7 @@ export default {
       },
     },
     vaFileNumber: {
+      ...vaFileNumberUI(),
       'ui:title': 'Veteran’s VA file number',
       'ui:description': generateHelpText(
         'Enter Veteran’s VA file number if it doesn’t match their SSN',
@@ -35,7 +39,7 @@ export default {
       },
     },
     veteranDateOfBirth: {
-      ...currentOrPastDateUI('Veteran’s date of birth'),
+      ...dateOfBirthUI('Veteran’s date of birth'),
       'ui:errorMessages': {
         required: 'Enter the Veteran’s date of birth',
         pattern: 'Enter a valid date',

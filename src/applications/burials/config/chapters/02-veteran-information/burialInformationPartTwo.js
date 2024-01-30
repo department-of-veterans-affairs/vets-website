@@ -1,14 +1,17 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { generateDescription } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
 import { locationOfDeathLabels } from '../../../utils/labels';
 
 const { locationOfDeath } = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
-    'ui:description': generateDescription('Burial information'),
+    'ui:title': generateTitle('Burial information'),
     locationOfDeath: {
+      'ui:options': {
+        classNames: 'vads-u-margin-top--3',
+      },
       location: {
         'ui:title': 'Where did the Veteran’s death occur?',
         'ui:widget': 'radio',
