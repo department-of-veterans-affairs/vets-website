@@ -78,14 +78,12 @@ describe('Veteran Status PDF template', () => {
       expect(listContent.length).to.eq(1);
       const airForceText = content.items.filter(
         item =>
-          item.str ===
-          `United States ${data.details.serviceHistory[0].branchOfService}`,
+          item.str === `${data.details.serviceHistory[0].branchOfService}`,
       );
       expect(airForceText.length).to.eq(1);
       const armyText = content.items.filter(
         item =>
-          item.str ===
-          `United States ${data.details.serviceHistory[1].branchOfService}`,
+          item.str === `${data.details.serviceHistory[1].branchOfService}`,
       );
       expect(armyText.length).to.eq(1);
     });
@@ -105,8 +103,7 @@ describe('Veteran Status PDF template', () => {
 
       const navyService = content.items.filter(
         item =>
-          item.str ===
-          `United States ${data.details.serviceHistory[2].branchOfService}`,
+          item.str === `${data.details.serviceHistory[2].branchOfService}`,
       );
       expect(navyService.length).to.eq(0);
     });

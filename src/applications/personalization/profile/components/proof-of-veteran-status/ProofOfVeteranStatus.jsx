@@ -59,7 +59,7 @@ const ProofOfVeteranStatus = ({
       dob: renderDOB(dob),
       image: {
         title: 'V-A logo',
-        url: 'https://www.va.gov/img/design/logo/logo-black-and-white.png',
+        url: '/img/design/logo/logo-black-and-white.png',
       },
     },
   };
@@ -96,7 +96,7 @@ const ProofOfVeteranStatus = ({
               <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--8 medium-screen:vads-l-col--6 ">
                 <img
                   width="100%"
-                  src="/img/content/posts/proof-of-veteran-status-card-example.png"
+                  src="/img/proof-of-veteran-status-card-example.png"
                   alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
                 />
               </div>

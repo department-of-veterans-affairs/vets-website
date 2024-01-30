@@ -335,3 +335,23 @@ export const CTRatingsHeaderQuestions = [
     ],
   },
 ];
+export const filterKeys = [
+  'schools',
+  'excludeCautionFlags',
+  'accredited',
+  'studentVeteran',
+  'yellowRibbonScholarship',
+  'employers',
+  'vettec',
+  'preferredProvider',
+  'specialMissionHbcu',
+  'specialMissionMenonly',
+  'specialMissionWomenonly',
+  'specialMissionRelaffil',
+  'specialMissionHSI',
+  'specialMissionNANTI',
+  'specialMissionANNHI',
+  'specialMissionAANAPII',
+  'specialMissionPBI',
+  'specialMissionTRIBAL',
+];
