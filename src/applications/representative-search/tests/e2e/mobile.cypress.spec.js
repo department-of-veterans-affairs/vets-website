@@ -10,7 +10,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('va-button[text="Search"]').click();
 
   // Result list
-  cy.get('.representative-search-results-container').should('exist');
+  cy.get('.results-section').should('exist');
 });
 
 describe('Mobile', () => {

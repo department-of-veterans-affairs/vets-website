@@ -62,44 +62,68 @@ export const SearchResultsHeader = props => {
   };
 
   return (
-    <div className="search-results-header">
-      <h2
-        id="search-results-subheader"
-        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding-y--0p5 vads-u-margin-y--1"
-        tabIndex="-1"
-      >
-        {handleNumberOfResults()} for
-        {` `}
-        <b>{repFormat[representativeType]}</b>
-        {context.repOrgName && (
-          <>
-            {` `}
-            matching <b>"{context.repOrgName}"</b>
-          </>
-        )}
-        {` `}
-        {context.location && (
-          <>
-            within 50 miles of &quot;
-            <b>{context.location}</b>
-            &quot;
-          </>
-        )}
-      </h2>
-      <div className="sort-dropdown">
-        <label htmlFor="sort-by-dropdown">Sort by</label>
-        <select
-          id="representative-sorting-dropdown"
-          aria-label="Sort"
-          // ref={sortTypeRef}
-          value={sortType}
-          title="Sort by:"
-          onChange={handleSortTypeChange}
-          style={{ fontWeight: 'bold' }}
+    <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
+      <h2 className="vads-u-margin-y--0">Your Search Results</h2>
+      <div className="vads-u-margin-top--3">
+        <div>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="info"
+            uswds
+            visible
+          >
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              We’re updating our search tool
+            </h2>
+            <p>
+              Our search tool may show outdated contact information for some
+              VSOs and accredited representatives. You can report outdated
+              information in your search results.
+            </p>
+          </va-alert>
+        </div>
+
+        <h3
+          id="search-results-subheader"
+          className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
+          tabIndex="-1"
         >
-          {' '}
-          {options}{' '}
-        </select>
+          {handleNumberOfResults()} for
+          {` `}
+          <b>{repFormat[representativeType]}</b>
+          {context.repOrgName && (
+            <>
+              {` `}
+              matching <b>"{context.repOrgName}"</b>
+            </>
+          )}
+          {` `}
+          {context.location && (
+            <>
+              within 50 miles of &quot;
+              <b>{context.location}</b>
+              &quot;
+            </>
+          )}
+        </h3>
+        <div className="sort-dropdown">
+          <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
+            Sort by
+          </label>
+          <select
+            id="representative-sorting-dropdown"
+            aria-label="Sort"
+            // ref={sortTypeRef}
+            value={sortType}
+            title="Sort by:"
+            onChange={handleSortTypeChange}
+            style={{ fontWeight: 'bold' }}
+          >
+            {' '}
+            {options}{' '}
+          </select>
+        </div>
+        {/* <hr /> */}
       </div>
     </div>
   );

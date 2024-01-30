@@ -79,8 +79,8 @@ const SearchResult = ({
         )}
         <div className="representative-info-section">
           {distance && (
-            <div>
-              <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
+            <div className="vads-u-font-weight--bold vads-u-font-size--lg">
+              {parseFloat(JSON.parse(distance).toFixed(2))} Mi
             </div>
           )}
           {officer && (
