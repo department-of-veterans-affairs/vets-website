@@ -115,7 +115,6 @@ export default Object.freeze({
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
@@ -265,7 +264,6 @@ export default Object.freeze({
     'va_online_scheduling_convert_utc_to_local',
   vaOnlineSchedulingBreadcrumbUrlUpdate:
     'va_online_scheduling_breadcrumb_url_update',
-  vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingStaticLandingPage:
     'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',

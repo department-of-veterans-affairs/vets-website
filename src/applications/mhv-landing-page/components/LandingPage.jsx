@@ -11,7 +11,7 @@ import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import Welcome from '../containers/Welcome';
+import WelcomeContainer from '../containers/WelcomeContainer';
 import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {
@@ -44,7 +44,7 @@ const LandingPage = ({ data = {} }) => {
         {showPersonalization && (
           <>
             <HeaderLayout />
-            <Welcome />
+            <WelcomeContainer />
           </>
         )}
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}

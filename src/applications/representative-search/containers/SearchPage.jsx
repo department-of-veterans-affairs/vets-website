@@ -3,7 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBreadcrumbs,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
@@ -12,6 +15,7 @@ import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
 import ResultsList from '../components/results/ResultsList';
 import PaginationWrapper from '../components/results/PaginationWrapper';
+import { ErrorTypes } from '../constants';
 
 import {
   clearSearchText,
@@ -22,7 +26,9 @@ import {
   updateSortType,
   geolocateUser,
   geocodeUserAddress,
-  clearGeocodeError,
+  submitRepresentativeReport,
+  updateFromLocalStorage,
+  clearError,
 } from '../actions';
 
 const SearchPage = props => {
@@ -55,7 +61,7 @@ const SearchPage = props => {
   };
 
   const handleSearch = async () => {
-    clearGeocodeError();
+    clearError(ErrorTypes.geocodeError);
     setIsSearching(true);
     props.geocodeUserAddress(props.currentQuery);
   };
@@ -144,7 +150,7 @@ const SearchPage = props => {
   // Trigger request on query update following search
   useEffect(
     () => {
-      if (isSearching && !props.currentQuery.geocodeError) {
+      if (isSearching && !props.errors.isErrorGeocode) {
         handleSearchOnQueryChange();
       }
     },
@@ -173,11 +179,11 @@ const SearchPage = props => {
 
   useEffect(
     () => {
-      if (isSearching && props.currentQuery.geocodeError) {
+      if (isSearching && props.errors.isErrorGeocode) {
         setIsSearching(false);
       }
     },
-    [props.currentQuery.geocodeError],
+    [props.errors.isErrorGeocode],
   );
 
   // search complete
@@ -229,14 +235,9 @@ const SearchPage = props => {
     const {
       currentQuery,
       searchResults,
-      // sortType,
       pagination,
-      searchError,
+      isErrorFetchRepresentatives,
     } = props;
-
-    // const currentPage = pagination ? pagination.currentPage : 1;
-    // const totalPages = pagination ? pagination.totalPages : 1;
-    // const { representativeType } = currentQuery;
 
     const paginationWrapper = () => {
       const currentPage = pagination ? pagination.currentPage : 1;
@@ -262,11 +263,12 @@ const SearchPage = props => {
           searchResults={searchResults}
           sortType={currentQuery.sortType}
           onUpdateSortType={props.updateSortType}
+          submitRepresentativeReport={props.submitRepresentativeReport}
         />
       );
     };
 
-    if (isLoading && !searchError) {
+    if (isLoading && !isErrorFetchRepresentatives) {
       return (
         <div>
           <va-loading-indicator message="Search in progress" />
@@ -276,8 +278,21 @@ const SearchPage = props => {
 
     return (
       <div className="representative-search-results-container">
+        <VaModal
+          modalTitle="Were sorry, something went wrong"
+          message="Please try again soon."
+          onCloseEvent={() =>
+            props.clearError(ErrorTypes.reportSubmissionError)
+          }
+          visible={props.isErrorReportSubmission}
+          status="error"
+          uswds
+        >
+          <p>Please try again soon.</p>
+        </VaModal>
+
         <div id="search-results-title" ref={searchResultTitleRef}>
-          {searchError && (
+          {isErrorFetchRepresentatives && (
             <div className="vads-u-margin-y--3 representative-results-list">
               <va-alert
                 close-btn-aria-label="Close notification"
@@ -285,7 +300,7 @@ const SearchPage = props => {
                 uswds
                 visible
               >
-                <h2 slot="headline">Sorry, something went wrong on our end</h2>
+                <h2 slot="headline">We’re sorry, something went wrong</h2>
                 <React.Fragment key=".1">
                   <p className="vads-u-margin-y--0">Please try again soon.</p>
                 </React.Fragment>
@@ -294,7 +309,7 @@ const SearchPage = props => {
           )}
 
           {isDisplayingResults &&
-            !searchError && (
+            !isErrorFetchRepresentatives && (
               <>
                 <SearchResultsHeader
                   searchResults={props.searchResults}
@@ -303,10 +318,10 @@ const SearchPage = props => {
                   pagination={props.pagination}
                 />{' '}
                 {resultsList()}
+                {paginationWrapper()}
               </>
             )}
         </div>
-        {paginationWrapper()}
       </div>
     );
   };
@@ -337,7 +352,8 @@ const SearchPage = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           clearSearchText={props.clearSearchText}
-          clearGeocodeError={props.clearGeocodeError}
+          geocodeError={props.errors.isErrorGeocode}
+          clearError={props.clearError}
         />
         {renderView()}
       </div>
@@ -346,13 +362,35 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
-  clearGeocodeError: PropTypes.func,
+  clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: PropTypes.object,
+  errors: PropTypes.shape({
+    isErrorGeocode: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.oneOf([null]),
+    ]),
+  }),
   fetchRepresentatives: PropTypes.func,
   geocodeUserAddress: PropTypes.func,
   geolocateUser: PropTypes.func,
+  isErrorFetchRepresentatives: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorGeocode: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
+  isErrorReportSubmission: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.oneOf([null]),
+  ]),
   location: PropTypes.shape({
     pathname: PropTypes.string,
     query: PropTypes.shape({
@@ -372,13 +410,14 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
+  reportedResults: PropTypes.array,
   results: PropTypes.array,
-  searchError: PropTypes.object,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
   searchWithInput: PropTypes.func,
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
+  submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   updateSortType: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -386,18 +425,20 @@ SearchPage.propTypes = {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
+  errors: state.errors,
   searchResults: state.searchResult.searchResults,
-  searchError: state.searchResult.error,
+  isErrorFetchRepresentatives: state.errors.isErrorFetchRepresentatives,
+  isErrorReportSubmission: state.errors.isErrorReportSubmission,
   resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
+  reportedResults: state.searchResult.reportedResults,
   sortType: state.searchResult.sortType,
   specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {
   geolocateUser,
-  clearGeocodeError,
   geocodeUserAddress,
   fetchRepresentatives,
   searchWithInput,
@@ -405,6 +446,9 @@ const mapDispatchToProps = {
   updateSortType,
   clearSearchResults,
   clearSearchText,
+  submitRepresentativeReport,
+  updateFromLocalStorage,
+  clearError,
 };
 
 export default connect(
