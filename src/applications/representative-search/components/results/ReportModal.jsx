@@ -23,7 +23,7 @@ const ReportModal = ({
   });
 
   const [otherCommentIsChecked, setOtherCommentIsChecked] = useState(false);
-  const [otherCommentIsBlankError, setotherCommentIsBlankError] = useState(
+  const [otherCommentIsBlankError, setOtherCommentIsBlankError] = useState(
     false,
   );
   const [reportIsBlankError, setReportIsBlankError] = useState(false);
@@ -41,7 +41,7 @@ const ReportModal = ({
   const otherCommentReportable = !existingReports?.otherComment;
 
   const handleOtherCommentInputChange = event => {
-    setotherCommentIsBlankError(false);
+    setOtherCommentIsBlankError(false);
     const newState = { ...reportObject };
     newState.otherComment = event.target.value;
     setReportObject(newState);
@@ -66,6 +66,7 @@ const ReportModal = ({
         newState.phone = checked ? phone : null;
         break;
       case '4':
+        setOtherCommentIsBlankError(false);
         setOtherCommentIsChecked(checked);
         break;
       default:
@@ -86,7 +87,7 @@ const ReportModal = ({
     });
 
     if (otherCommentIsChecked && !formattedReportObject.reports.otherComment) {
-      setotherCommentIsBlankError(true);
+      setOtherCommentIsBlankError(true);
       return;
     }
     if (!Object.keys(formattedReportObject.reports).length) {
