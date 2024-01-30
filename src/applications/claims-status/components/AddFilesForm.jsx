@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import {
@@ -17,8 +16,8 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { setFocus } from '../utils/page';
@@ -37,8 +36,6 @@ import {
 } from '../utils/validations';
 import UploadStatus from './UploadStatus';
 import mailMessage from './MailMessage';
-
-const displayTypes = FILE_TYPES.join(', ');
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -213,13 +210,11 @@ class AddFilesForm extends React.Component {
                     <div>{displayFileSize(file.size)}</div>
                   </div>
                   <div className="remove-document-button">
-                    <button
-                      type="button"
-                      className="usa-button-secondary"
+                    <va-button
+                      secondary
+                      text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                    >
-                      Remove
-                    </button>
+                    />
                   </div>
                 </div>
                 {isEncrypted && (
@@ -276,15 +271,15 @@ class AddFilesForm extends React.Component {
           message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
+          uswds
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
         />
         <p className="checkbox-hint-text vads-u-margin-top--1 vads-u-margin-bottom--3">
           To submit supporting documents for a new disability claim, please
-          visit our&nbsp;
-          <a href="/disability/how-to-file-claim">How to File a Claim&nbsp;</a>
-          page.
+          visit our{' '}
+          <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </p>
         <va-button
           submit
