@@ -114,7 +114,7 @@
         "militaryStatus": "A",
         "isDeceased": "yes",
         "dateOfDeath": "1989-01-01",
-        "relationshipToVet": "1"
+        "relationshipToVet": "veteran"
       },
       "claimant": {
         "address": {
@@ -143,7 +143,7 @@
         },
         "ssn": "244-44-4444",
         "dateOfBirth": "1978-03-02",
-        "relationshipToVet": "2"
+        "relationshipToVet": "husband"
       },
       "preneedAttachments": [
         {

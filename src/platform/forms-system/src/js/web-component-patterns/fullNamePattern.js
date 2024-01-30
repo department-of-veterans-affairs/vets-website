@@ -80,6 +80,41 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
+ * Same as above `fullNameNoSuffixUI` but with `middle` removed
+ */
+const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
+  return {
+    'ui:validations': [validateEmpty],
+    first: {
+      'ui:title': formatTitle ? formatTitle('first name') : 'First name',
+      'ui:autocomplete': 'given-name',
+      'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateNameSymbols],
+      'ui:errorMessages': {
+        required: 'Please enter a first name',
+      },
+      'ui:options': {
+        uswds: true,
+        ...uiOptions,
+      },
+    },
+    last: {
+      'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
+      'ui:autocomplete': 'family-name',
+      'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateNameSymbols],
+      'ui:errorMessages': {
+        required: 'Please enter a last name',
+      },
+      'ui:options': {
+        uswds: true,
+        ...uiOptions,
+      },
+    },
+  };
+};
+
+/**
  * Web component uiSchema for `first`, `middle`, `last name`, and `suffix`
  * ```js
  * fullName: fullNameUI()
@@ -103,6 +138,28 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
+};
+
+/**
+ * Same as above `fullNameUI` but with `middle` removed
+ */
+const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
+  const uiSchema = {
+    ...fullNameNoSuffixUI(formatTitle, uiOptions),
+    suffix: {
+      'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
+      'ui:autocomplete': 'honorific-suffix',
+      'ui:webComponentField': VaSelectField,
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+        uswds: true,
+        ...uiOptions,
+      },
+    },
+  };
+  delete uiSchema.middle;
+
+  return uiSchema;
 };
 
 /**
@@ -136,9 +193,23 @@ const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
 const fullNameSchema = commonDefinitions.fullName;
 
 /**
+ * @returns `commonDefinitions.fullName` minus `middle`
+ */
+const firstNameLastNameDef = { ...commonDefinitions.fullName };
+delete firstNameLastNameDef.middle;
+const firstNameLastNameSchema = firstNameLastNameDef;
+
+/**
  * @returns `commonDefinitions.fullNameNoSuffix`
  */
 const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
+
+/**
+ * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
+ */
+const firstNameLastNameNoSuffixDef = { ...commonDefinitions.fullNameNoSuffix };
+delete firstNameLastNameNoSuffixDef.middle;
+const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 
 /**
  * @returns `commonDefinitions.fullName + maiden`
@@ -153,9 +224,13 @@ const fullNameWithMaidenNameSchema = {
 
 export {
   fullNameNoSuffixUI,
+  firstNameLastNameNoSuffixUI,
   fullNameWithMaidenNameUI,
   fullNameUI,
+  firstNameLastNameUI,
   fullNameSchema,
+  firstNameLastNameSchema,
   fullNameNoSuffixSchema,
+  firstNameLastNameNoSuffixSchema,
   fullNameWithMaidenNameSchema,
 };
