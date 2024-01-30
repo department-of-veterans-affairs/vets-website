@@ -41,6 +41,26 @@ export function profileError() {
 const hasError = dataPayload =>
   dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
 
+const extractProfileErrors = dataPayload => {
+  const metaDescriptions = dataPayload?.meta?.errors?.reduce(
+    (acc, error) =>
+      error?.description ? `${acc} | ${error.description}` : acc,
+    '',
+  );
+
+  const mainErrors = dataPayload?.errors?.reduce(
+    (acc, error) => (error?.title ? `${acc} | ${error.title}` : acc),
+    '',
+  );
+
+  // if neither meta nor main errors, then no errors to extract and return default value
+  if (!metaDescriptions && !mainErrors) {
+    return 'No error messages found';
+  }
+
+  return `${metaDescriptions || ''}${mainErrors || ''}`;
+};
+
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
@@ -62,11 +82,17 @@ export function refreshProfile(
 
     const eventApiStatus = hasError(payload) ? 'failed' : 'successful';
 
+    const errorKey = extractProfileErrors(payload);
+
     const eventData = {
       event: 'api_call',
       'api-name': 'GET /v0/user',
       'api-status': eventApiStatus,
     };
+
+    if (hasError(payload) && errorKey) {
+      eventData['error-key'] = errorKey;
+    }
 
     recordEvent(eventData);
 

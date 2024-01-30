@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const defaultFailureMessage = (
   <span>
@@ -25,10 +24,6 @@ export default function LoadFail() {
     </va-alert>
   );
 }
-
-LoadFail.propTypes = {
-  information: PropTypes.string.isRequired,
-};
 
 // Helper function to determine which message to render
 // If no props are passed, return the default failure message

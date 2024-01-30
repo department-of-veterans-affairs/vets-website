@@ -1399,6 +1399,13 @@ const mockErrorResponses = {
             'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
           status: 502,
         },
+        {
+          externalService: 'Vet360',
+          startTime: '2020-11-19T17:32:54Z',
+          endTime: null,
+          description: 'Second error message',
+          status: 502,
+        },
       ],
     },
   },
