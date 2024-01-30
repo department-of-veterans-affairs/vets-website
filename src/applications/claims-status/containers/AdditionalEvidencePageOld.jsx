@@ -7,7 +7,7 @@ import Scroll from 'react-scroll';
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
-import AddFilesForm from '../components/AddFilesForm';
+import AddFilesFormOld from '../components/AddFilesFormOld';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
@@ -113,7 +113,7 @@ class AdditionalEvidencePageOld extends React.Component {
             </>
           )}
           <EvidenceWarning />
-          <AddFilesForm
+          <AddFilesFormOld
             field={this.props.uploadField}
             progress={this.props.progress}
             uploading={this.props.uploading}

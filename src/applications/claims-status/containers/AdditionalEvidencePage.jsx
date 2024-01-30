@@ -8,6 +8,7 @@ import { getScrollOptions } from '@department-of-veterans-affairs/platform-utili
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
+import AddFilesFormOld from '../components/AddFilesFormOld';
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import FilesOptional from '../components/FilesOptional';
@@ -135,6 +136,35 @@ class AdditionalEvidencePage extends React.Component {
               item={item}
             />
           ))}
+          {/* <AddFilesFormOld
+            field={this.props.uploadField}
+            progress={this.props.progress}
+            uploading={this.props.uploading}
+            files={this.props.files}
+            backUrl={this.props.lastPage || filesPath}
+            onSubmit={() => {
+              // START lighthouse_migration
+              if (this.props.documentsUseLighthouse) {
+                this.props.submitFilesLighthouse(
+                  this.props.claim.id,
+                  null,
+                  this.props.files,
+                );
+              } else {
+                this.props.submitFiles(
+                  this.props.claim.id,
+                  null,
+                  this.props.files,
+                );
+              }
+              // END lighthouse_migration
+            }}
+            onAddFile={this.props.addFile}
+            onRemoveFile={this.props.removeFile}
+            onFieldChange={this.props.updateField}
+            onCancel={this.props.cancelUpload}
+            onDirtyFields={this.props.setFieldsDirty}
+          /> */}
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}

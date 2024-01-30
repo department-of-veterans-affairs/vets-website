@@ -64,7 +64,7 @@ const scrollToError = () => {
 };
 const { Element } = Scroll;
 
-class AddFilesForm extends React.Component {
+class AddFilesFormOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -179,27 +179,39 @@ class AddFilesForm extends React.Component {
   render() {
     return (
       <>
+        <va-additional-info
+          class="vads-u-margin-y--2"
+          trigger="Need to mail your files?"
+        >
+          {mailMessage}
+        </va-additional-info>
+        <Element name="filesList" />
         <div>
-          <p className="vads-u-margin-y--3">
-            Please only submit evidence that supports this claim. You’ll need to
-            scan your document onto the device you’re using to submit this
-            application, such as your computer, tablet, or mobile phone. You can
-            upload your document from there.
-          </p>
           <VaFileInput
             id="file-upload"
-            className="vads-u-margin-bottom--3"
             error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, gif, .jpeg, .bmp, or txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+            label="Select files to upload"
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onVaChange={e => this.add(e.detail.files)}
-            button-text="Add files"
+            button-text="Add Files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
           />
         </div>
+        <dl className="file-requirements" id="file-requirements">
+          <dt className="file-requirement-header">Accepted file types:</dt>
+          <dd className="file-requirement-text">{displayTypes}</dd>
+          <dt className="file-requirement-header">Maximum file size:</dt>
+          <dd>
+            <p className="file-requirement-text">
+              {`${MAX_FILE_SIZE_MB}MB (non-PDF)`}
+            </p>
+            <p className="file-requirement-text">
+              {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
+            </p>
+          </dd>
+        </dl>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
@@ -272,32 +284,32 @@ class AddFilesForm extends React.Component {
           ),
         )}
         <VaCheckbox
-          label="The files I uploaded support this claim only."
-          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
-          checked={this.state.checked}
-          error={this.state.errorMessageCheckbox}
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
+          checked={this.state.checked}
+          error={this.state.errorMessageCheckbox}
+          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
+          label="The files I uploaded are supporting documents for this claim only."
         />
-        <p className="checkbox-hint-text vads-u-margin-top--1 vads-u-margin-bottom--3">
+        <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
           To submit supporting documents for a new disability claim, please
-          visit our&nbsp;
-          <a href="/disability/how-to-file-claim">How to File a Claim&nbsp;</a>
-          page.
-        </p>
-        <va-button
-          submit
-          className="usa-button"
-          text="Submit files for review"
-          onClick={this.submit}
-        />
-        <va-additional-info
-          class="vads-u-margin-y--3"
-          trigger="Need to mail your files?"
-        >
-          {mailMessage}
-        </va-additional-info>
+          visit our{' '}
+          <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
+        </div>
+        <div>
+          <button
+            type="submit"
+            className="usa-button"
+            data-cy="submit-files-button"
+            onClick={this.submit}
+          >
+            Submit Files for Review
+          </button>
+          <Link to={this.props.backUrl} className="claims-files-cancel">
+            Cancel
+          </Link>
+        </div>
         <VaModal
           id="upload-status"
           onCloseEvent={() => true}
@@ -314,7 +326,7 @@ class AddFilesForm extends React.Component {
   }
 }
 
-AddFilesForm.propTypes = {
+AddFilesFormOld.propTypes = {
   field: PropTypes.object.isRequired,
   files: PropTypes.array.isRequired,
   onAddFile: PropTypes.func.isRequired,
@@ -329,4 +341,4 @@ AddFilesForm.propTypes = {
   uploading: PropTypes.bool,
 };
 
-export default AddFilesForm;
+export default AddFilesFormOld;

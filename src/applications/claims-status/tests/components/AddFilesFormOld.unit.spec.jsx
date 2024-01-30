@@ -8,7 +8,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 
-import AddFilesForm from '../../components/AddFilesForm';
+import AddFilesFormOld from '../../components/AddFilesFormOld';
 import {
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
@@ -25,7 +25,7 @@ const byName = name => {
   return node => node?.props?.name === name;
 };
 
-describe('<AddFilesForm>', () => {
+describe('<AddFilesFormOld>', () => {
   it('should render component', () => {
     const files = [];
     const field = { value: '', dirty: false };
@@ -37,7 +37,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -69,7 +69,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         uploading
         files={files}
         field={field}
@@ -97,7 +97,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -122,7 +122,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -157,7 +157,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -184,7 +184,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -218,7 +218,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -250,7 +250,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -284,7 +284,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -322,7 +322,7 @@ describe('<AddFilesForm>', () => {
     });
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -360,7 +360,7 @@ describe('<AddFilesForm>', () => {
     });
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -402,7 +402,7 @@ describe('<AddFilesForm>', () => {
       MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -444,7 +444,7 @@ describe('<AddFilesForm>', () => {
       MAX_FILE_SIZE_BYTES + (MAX_PDF_SIZE_BYTES - MAX_FILE_SIZE_BYTES) / 2;
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -480,7 +480,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
@@ -525,7 +525,7 @@ describe('<AddFilesForm>', () => {
     const onDirtyFields = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <AddFilesForm
+      <AddFilesFormOld
         files={files}
         field={field}
         onSubmit={onSubmit}
