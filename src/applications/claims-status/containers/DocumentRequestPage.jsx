@@ -5,14 +5,14 @@ import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
 import AddFilesForm from '../components/AddFilesForm';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import DueDate from '../components/DueDate';
+import DueDateOld from '../components/DueDateOld';
 import Notification from '../components/Notification';
 import {
   addFile,
@@ -94,7 +94,7 @@ class DocumentRequestPage extends React.Component {
       <>
         <h1 className="claims-header">{trackedItem.displayName}</h1>
         {trackedItem.status === 'NEEDED_FROM_YOU' ? (
-          <DueDate date={trackedItem.suspenseDate} />
+          <DueDateOld date={trackedItem.suspenseDate} />
         ) : null}
         {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
           <div className="optional-upload">
