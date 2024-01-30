@@ -44,7 +44,7 @@ export const ConfirmationPage = () => {
         />
         <h2>Request for Board Appeal</h2>
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">We’ve received your Board Appeal request</h2>
         <p>
           After we’ve completed our review, we’ll mail you a decision packet

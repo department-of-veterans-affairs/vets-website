@@ -16,6 +16,7 @@ const ShowAlert = () => {
       status="info"
       class="vads-u-margin-y--1"
       role="alert"
+      uswds
     >
       <p>
         We updated the Board Appeal with new questions. Your previous responses
