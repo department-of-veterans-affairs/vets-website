@@ -24,6 +24,7 @@ import phoneAndEmailPg from '../pages/phoneAndEmail';
 import otherReasonsPg from '../pages/otherReasons';
 import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
 import financialHardshipPg from '../pages/evidenceFinancialHardship';
+import terminalIllnessPg from '../pages/evidenceTerminalIllness';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -250,6 +251,14 @@ const formConfig = {
           title: 'Upload evidence for extreme financial hardship',
           uiSchema: financialHardshipPg.uiSchema,
           schema: financialHardshipPg.schema,
+        },
+        terminalIllnessPage: {
+          depends: formData => formData.otherReasons.TERMINAL_ILLNESS,
+          path: 'evidence-terminal-illness',
+          title: 'Upload evidence for terminal illness',
+          uiSchema: terminalIllnessPg.uiSchema,
+          schema: terminalIllnessPg.schema,
+          pageClass: 'evidence-terminal-illness',
         },
       },
     },

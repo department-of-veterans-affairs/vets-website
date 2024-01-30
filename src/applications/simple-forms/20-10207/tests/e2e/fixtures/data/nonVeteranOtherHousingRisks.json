@@ -13,6 +13,9 @@
       "OTHER_RISK": true
     },
     "otherHousingRisks": "My baby giraffe is growing up fast!",
-    "phone": "1234567891"
+    "phone": "1234567891",
+    "other_reasons": {
+      "AGE_85": true
+    }
   }
 }

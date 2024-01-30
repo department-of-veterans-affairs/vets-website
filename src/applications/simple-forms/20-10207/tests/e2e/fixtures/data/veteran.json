@@ -22,7 +22,8 @@
     },
     "phone": "1234567890",
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true
+      "FINANCIAL_HARDSHIP": true,
+      "TERMINAL_ILLNESS": true
     }
   }
 }

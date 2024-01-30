@@ -17,6 +17,7 @@ const responses = {
   // 'GET /v0/in_progress_forms/20-10206': mockSipGet,
   // 'PUT /v0/in_progress_forms/20-10206': mockSipPut,
   'POST /simple_forms_api/v1/simple_forms/submit_financial_hardship_documents': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_terminal_illness_documents': mockUpload,
   // 'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
