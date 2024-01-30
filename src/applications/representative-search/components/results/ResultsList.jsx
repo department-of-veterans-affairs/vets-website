@@ -27,10 +27,11 @@ const ResultsList = props => {
   return (
     <>
       <div className="representative-results-list" style={{ marginBottom: 25 }}>
+        <hr />
         {searchResults?.map((result, index) => {
           return (
             <>
-              <div className={index > 0 ? 'vads-u-margin-top--4' : null}>
+              <div className="vads-u-margin-top--4">
                 <SearchResult
                   officer={result.attributes.fullName || result.attributes.name}
                   reports={result.reports}
