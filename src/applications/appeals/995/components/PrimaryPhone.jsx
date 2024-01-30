@@ -62,7 +62,7 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={updatePage} />
+    <va-button text={content.update} onClick={updatePage} uswds />
   ) : (
     <>
       {contentBeforeButtons}
@@ -85,6 +85,7 @@ export const PrimaryPhone = ({
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
+          uswds
         >
           {PRIMARY_PHONE_TYPES.map(type => (
             <va-radio-option
@@ -95,6 +96,7 @@ export const PrimaryPhone = ({
               name="primary"
               checked={primary === type}
               description={getFormattedPhone(veteran?.[`${type}Phone`])}
+              uswds
             />
           ))}
         </VaRadio>
