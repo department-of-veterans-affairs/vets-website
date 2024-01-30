@@ -36,7 +36,7 @@
         },
         "ssn": "234-24-4444",
         "dateOfBirth": "1990-03-02",
-        "relationshipToVet": "2",
+        "relationshipToVet": "husband",
         "email": "test@test.com",
         "phoneNumber": "5555555555"
       },

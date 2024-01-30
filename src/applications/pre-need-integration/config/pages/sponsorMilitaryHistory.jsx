@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
