@@ -39,7 +39,7 @@ export const description = (
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medical expenses',
+    'ui:title': 'Medical expenses and other unreimbursed expenses',
     'ui:description': description,
     hasMedicalExpenses: yesNoUI({
       title:
