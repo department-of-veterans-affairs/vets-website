@@ -150,7 +150,7 @@ export const employmentDescription = (
 );
 
 export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
+  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
 
 export function getMarriageTitle(index) {

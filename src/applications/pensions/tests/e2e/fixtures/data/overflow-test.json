@@ -74,7 +74,7 @@
         "jobTitle": "Representative"
       }
     ],
-    "maritalStatus": "Separated",
+    "maritalStatus": "SEPARATED",
     "marriages": [
       {
         "spouseFullName": {
@@ -85,7 +85,7 @@
         "view:pastMarriage": {
           "dateOfMarriage": "1989-03-02",
           "locationOfMarriage": "Dallas",
-          "reasonForSeparation": "Other",
+          "reasonForSeparation": "OTHER",
           "otherExplanation": "Personal reason thats too long to write an explanation for in this form field",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
@@ -100,7 +100,7 @@
         "view:pastMarriage": {
           "dateOfMarriage": "1989-03-02",
           "locationOfMarriage": "Dallas",
-          "reasonForSeparation": "Spouse’s death",
+          "reasonForSeparation": "DEATH",
           "dateOfSeparation": "1990-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
@@ -114,7 +114,7 @@
         "view:pastMarriage": {
           "dateOfMarriage": "1983-03-02",
           "locationOfMarriage": "Dallas",
-          "reasonForSeparation": "Divorce",
+          "reasonForSeparation": "DIVORCE",
           "dateOfSeparation": "1984-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
@@ -126,10 +126,10 @@
           "last": "Doe"
         },
         "view:pastMarriage": {
-          "dateOfMarriage": "1995-02-03",
-          "locationOfMarriage": "North Adams, MA",
-          "reasonForSeparation": "Divorce",
-          "dateOfSeparation": "1996-03-02",
+          "dateOfMarriage": "1999-10-02",
+          "locationOfMarriage": "Nashville, TN",
+          "reasonForSeparation": "DIVORCE",
+          "dateOfSeparation": "2001-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },
@@ -142,7 +142,7 @@
         "view:currentMarriage": {
           "dateOfMarriage": "1994-03-02",
           "locationOfMarriage": "North Adams, MA",
-          "marriageType": "Some other way",
+          "marriageType": "OTHER",
           "otherExplanation": "Other reason"
         }
       }
@@ -163,7 +163,7 @@
     "reasonForCurrentSeparation": "OTHER",
     "otherExplanation": "Personal reason thats too long to write an explanation for in this form field",
     "currentSpouseMonthlySupport": 2444,
-    "currentSpouseMaritalHistory": "Yes",
+    "currentSpouseMaritalHistory": "YES",
     "spouseMarriages": [
       {
         "dateOfMarriage": "1980-03-02",
@@ -213,7 +213,7 @@
         "monthlyPayment": 3444,
         "childPlaceOfBirth": "Tallahassee, FL",
         "childSocialSecurityNumber": "333224444",
-        "childRelationship": "biological",
+        "childRelationship": "BIOLOGICAL",
         "previouslyMarried": true,
         "married": true,
         "fullName": {
@@ -227,8 +227,9 @@
         "childInHousehold": true,
         "childPlaceOfBirth": "Troy, MT",
         "childSocialSecurityNumber": "333224444",
-        "childRelationship": "adopted",
+        "childRelationship": "ADOPTED",
         "previouslyMarried": false,
+        "attendingCollege": true,
         "fullName": {
           "first": "Bobby",
           "middle": "Nolan",
@@ -248,8 +249,9 @@
         "monthlyPayment": 2300,
         "childPlaceOfBirth": "Troy, MT",
         "childSocialSecurityNumber": "333224444",
-        "childRelationship": "biological",
+        "childRelationship": "BIOLOGICAL",
         "previouslyMarried": false,
+        "disabled": true,
         "fullName": {
           "first": "Jack",
           "middle": "Sawyer",
@@ -289,7 +291,7 @@
         "paymentAmount": 1500
       },
       {
-        "recipients": "CHILD",
+        "recipients": "DEPENDENT",
         "childName": "Joe Doe",
         "provider": "LA Care Provider",
         "careType": "CARE_FACILITY",
@@ -314,7 +316,7 @@
         "paymentAmount": 10000
       },
       {
-        "recipients": "CHILD",
+        "recipients": "DEPENDENT",
         "childName": "Joe Doe",
         "provider": "Health Provider",
         "purpose": "Medical expenses",
@@ -331,7 +333,7 @@
         "paymentAmount": 500
       },
       {
-        "recipients": "CHILD",
+        "recipients": "DEPENDENT",
         "childName": "Joe Doe",
         "provider": "Health Provider",
         "purpose": "Medical expenses",
@@ -348,7 +350,7 @@
         "paymentAmount": 200
       },
       {
-        "recipients": "CHILD",
+        "recipients": "DEPENDENT",
         "childName": "Joe Doe",
         "provider": "Health Provider",
         "purpose": "Medical fee",
@@ -357,7 +359,7 @@
         "paymentAmount": 100
       },
       {
-        "recipients": "CHILD",
+        "recipients": "DEPENDENT",
         "childName": "Jack Doe",
         "provider": "Health Provider",
         "purpose": "Medical fee",

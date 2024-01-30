@@ -68,7 +68,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return true if marital status is separated', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Separated',
+        maritalStatus: 'SEPARATED',
         'view:liveWithSpouse': true,
       }),
     ).to.be.true;
@@ -76,7 +76,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return true if veteran does not live with spouse', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Married',
+        maritalStatus: 'MARRIED',
         'view:liveWithSpouse': false,
       }),
     ).to.be.true;
@@ -84,7 +84,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return false if veteran is not separated and lives with spouse', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Married',
+        maritalStatus: 'MARRIED',
         'view:liveWithSpouse': true,
       }),
     ).to.be.false;
@@ -93,10 +93,10 @@ describe('Pensions showSpouseAddress', () => {
 
 describe('Pensions isSeparated', () => {
   it('returns true if veteran is separated', () => {
-    expect(isSeparated({ maritalStatus: 'Separated' })).to.be.true;
+    expect(isSeparated({ maritalStatus: 'SEPARATED' })).to.be.true;
   });
   it('returns false if veteran is not separated', () => {
-    expect(isSeparated({ maritalStatus: 'Married' })).to.be.false;
+    expect(isSeparated({ maritalStatus: 'MARRIED' })).to.be.false;
   });
 });
 
@@ -104,8 +104,8 @@ describe('Pensions currentSpouseHasFormerMarriages', () => {
   it('returns true if current spouse was previously married', () => {
     expect(
       currentSpouseHasFormerMarriages({
-        maritalStatus: 'Married',
-        currentSpouseMaritalHistory: 'Yes',
+        maritalStatus: 'MARRIED',
+        currentSpouseMaritalHistory: 'YES',
       }),
     ).to.be.true;
   });

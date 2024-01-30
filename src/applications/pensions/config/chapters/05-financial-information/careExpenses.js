@@ -9,15 +9,10 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ListItemView from '../../../components/ListItemView';
+import { recipientTypeLabels } from '../../../labels';
 import { validateWorkHours } from '../../../helpers';
 
 const { dateRange } = fullSchemaPensions.definitions;
-
-const recipientOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  CHILD: 'Veteran’s child',
-};
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -56,7 +51,7 @@ export default {
       items: {
         recipients: radioUI({
           title: 'Who receives care?',
-          labels: recipientOptions,
+          labels: recipientTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
@@ -64,10 +59,10 @@ export default {
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'CHILD',
+            expandUnderCondition: 'DEPENDENT',
           },
           'ui:required': (form, index) =>
-            get(['careExpenses', index, 'recipients'], form) === 'CHILD',
+            get(['careExpenses', index, 'recipients'], form) === 'DEPENDENT',
         },
         provider: {
           'ui:title': 'What’s the name of the care provider?',
@@ -115,7 +110,7 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientOptions)),
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName: { type: 'string' },
             provider: { type: 'string' },
             careType: radioSchema(Object.keys(careOptions)),

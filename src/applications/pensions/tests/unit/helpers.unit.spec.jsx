@@ -150,7 +150,7 @@ describe('Pensions helpers', () => {
   describe('getMarriageTitleWithCurrent', () => {
     it('should return current marriage title', () => {
       const form = {
-        maritalStatus: 'Married',
+        maritalStatus: 'MARRIED',
         marriages: [{}, {}],
       };
       expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Current marriage');
