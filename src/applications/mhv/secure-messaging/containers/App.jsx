@@ -104,14 +104,14 @@ const App = () => {
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-        >
-          <DowntimeNotification
-            appTitle="Secure Messaging"
-            dependencies={[
-              externalServices.mhvPlatform,
-              externalServices.mhvSm,
-            ]}
           >
+            <DowntimeNotification
+              appTitle="Secure Messaging"
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvSm,
+              ]}
+            >
               <Navigation />
               <ScrollToTop />
               <Switch>

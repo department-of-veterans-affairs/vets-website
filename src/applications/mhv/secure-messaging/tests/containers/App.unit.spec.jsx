@@ -199,7 +199,6 @@ describe('App', () => {
     );
   });
 
-
   it('renders the downtime notification for multiple configured services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
@@ -291,8 +290,8 @@ describe('App', () => {
       },
     );
     expect(downtimeComponent).to.be.null;
-});
-it('redirects Basic users to /health-care/secure-messaging', async () => {
+  });
+  it('redirects Basic users to /health-care/secure-messaging', async () => {
     const customState = {
       featureToggles: [],
       user: {
