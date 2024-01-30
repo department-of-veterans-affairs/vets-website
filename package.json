@@ -377,6 +377,7 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
+      "src/platform/mhv",
       "src/applications/check-in",
       "src/applications/vaos"
     ],
