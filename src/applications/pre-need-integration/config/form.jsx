@@ -30,7 +30,6 @@ import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
-import contactInfo from './pages/prepaperContactInformation';
 
 import Footer from '../components/Footer';
 
@@ -67,6 +66,7 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
+import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
 
 const {
   claimant,
@@ -178,13 +178,21 @@ const formConfig = {
           uiSchema: preparerDetails.uiSchema,
           schema: preparerDetails.schema,
         },
-        ...contactInfo,
         preparerContactDetails: {
           title: ContactDetailsTitle,
           path: 'preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
+        },
+        validatePreparerContactDetails: {
+          title: 'Validate and stuff',
+          path: 'validate-preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          CustomPage: preparerContactDetailsCustom,
+          CustomPageReview: preparerContactDetailsCustom,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
