@@ -457,8 +457,12 @@ function LocationSearchResults({
           {!smallScreen && (
             <>
               <TuitionAndHousingEstimates />
-              {environment.isProduction() && <FilterYourResults />}
-              {!environment.isProduction() && <FilterYourResults />}
+              {environment.isProduction() && (
+                <FilterYourResults searchType="location" />
+              )}
+              {!environment.isProduction() && (
+                <FilterYourResults searchType="location" />
+              )}
               {/* {!environment.isProduction() && <FilterByLocation />} */}
             </>
           )}
