@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   createTestStore,
@@ -13,10 +13,8 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { getParentSiteMock } from '../../../mocks/v0';
 import {
   mockCommunityCareEligibility,
-  mockParentSites,
   mockCCProviderFetch,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
@@ -28,7 +26,10 @@ import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
 import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 import { createMockFacilityByVersion } from '../../../mocks/data';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+import {
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
+} from '../../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -54,43 +55,7 @@ const initialState = {
 describe('VAOS <CommunityCareProviderSelectionPage>', () => {
   beforeEach(() => {
     mockFetch();
-    mockParentSites(
-      ['983'],
-      [
-        {
-          id: '983',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            city: 'Bozeman',
-            stateAbbrev: 'MT',
-            institutionCode: '983',
-            rootStationCode: '983',
-            parentStationCode: '983',
-          },
-        },
-        {
-          id: '983GJ',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            city: 'Belgrade',
-            stateAbbrev: 'MT',
-            institutionCode: '983GJ',
-            rootStationCode: '983',
-            parentStationCode: '983GJ',
-          },
-        },
-        {
-          id: '983GC',
-          attributes: {
-            ...getParentSiteMock().attributes,
-            institutionCode: '983GC',
-            rootStationCode: '983',
-            parentStationCode: '983GC',
-          },
-        },
-      ],
-    );
-    mockCommunityCareEligibility({
+    mockV2CommunityCareEligibility({
       parentSites: ['983', '983GJ', '983GC'],
       supportedSites: ['983', '983GJ'],
       careType: 'PrimaryCare',
@@ -131,7 +96,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       true,
     );
   });
-  it.skip('should display closest city question when user has multiple supported sites', async () => {
+  it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -142,7 +107,13 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(2);
+    // Trigger provider list loading
+    userEvent.click(
+      await screen.findByRole('button', { name: /Choose a provider/i }),
+    );
+    expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be
+      .ok;
+    expect(screen.getAllByRole('radio').length).to.equal(5);
 
     expect(
       global.window.dataLayer.some(
@@ -150,31 +121,32 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       ),
     );
 
-    expect(screen.getByLabelText('Bozeman, MT')).to.exist;
-    expect(screen.getByLabelText('Belgrade, MT')).to.exist;
     expect(screen.baseElement).to.contain.text(
-      'Request a Primary care provider. (Optional)',
+      'Request a primary care provider',
     );
     expect(screen.baseElement).to.contain.text('Choose a provider');
+    expect(
+      screen.getByText(
+        /We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step./i,
+      ),
+    );
 
     // Continue without filling in required fields
     userEvent.click(screen.getByText(/Continue/i));
-
-    expect((await screen.findAllByRole('alert')).length).to.equal(1);
-    expect(screen.history.push.called).to.be.false;
-
-    // Continue with filling in required fields without provider
-    userEvent.click(await screen.getByRole('radio', { name: /Bozeman, MT/i }));
-    userEvent.click(screen.getByText(/Continue/i));
+    await waitFor(() => expect(screen.history.push.called).to.be.true);
     expect(
       global.window.dataLayer.some(
         e => e === `${GA_PREFIX}-continue-without-provider`,
       ),
     );
 
-    await waitFor(() => expect(screen.history.push.called).to.be.true);
     // Continue with filling in required fields with provider
-    userEvent.click(await screen.findByText(/Choose a provider/i));
+    userEvent.click(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Choose a provider/i,
+      }),
+    );
     userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
       await screen.getByRole('button', { name: /choose provider/i }),
