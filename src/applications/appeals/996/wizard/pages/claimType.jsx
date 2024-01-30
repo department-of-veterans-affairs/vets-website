@@ -51,6 +51,7 @@ const ClaimType = ({ setPageState, state = {} }) => {
       class="vads-u-margin-y--2"
       label={label}
       onVaValueChange={onValueChange}
+      uswds
     >
       {options.map(option => (
         <va-radio-option
@@ -62,6 +63,7 @@ const ClaimType = ({ setPageState, state = {} }) => {
           aria-describedby={
             state.selected === option.value ? option.aria : null
           }
+          uswds
         />
       ))}
     </VaRadio>
