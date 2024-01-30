@@ -59,7 +59,7 @@ describe('Secure Messaging Reply', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    const threadLength = 11;
+    const threadLength = 1;
 
     mockMessagesPageOne.data.forEach(item => {
       const currentItem = item;
@@ -71,9 +71,9 @@ describe('Secure Messaging Reply', () => {
     });
 
     landingPage.loadInboxMessages(mockMessagesPageOne);
-    cy.get('va-pagination').should('be.visible');
-    site.loadVAPaginationNextMessages(2, mockMessagesSingle);
-    FolderLoadPage.verifyPaginationElements();
-    cy.get('.endOfThreads').should('not.exist');
+    cy.get('.endOfThreads').should(
+      'have.text',
+      'End of conversations in this folder',
+    );
   });
 });
