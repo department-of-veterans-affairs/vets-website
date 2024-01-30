@@ -27,6 +27,7 @@ describe('AccountSecurity', () => {
     const secondChild = wrapper.childAt(1);
     expect(secondChild.type()).to.equal(DowntimeNotification);
     expect(secondChild.prop('dependencies')).to.deep.equal([
+      externalServices.emis,
       externalServices.mvi,
     ]);
     expect(secondChild.children().type()).to.equal(AccountSecurityContent);
