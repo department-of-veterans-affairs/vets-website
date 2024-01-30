@@ -1,0 +1,17 @@
+{
+  "data": {
+    "preparerType": "veteran",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540987"
+    },
+    "livingSituation": {
+      "OTHER_RISK": true
+    },
+    "otherHousingRisks": "[other housing risks]"
+  }
+}

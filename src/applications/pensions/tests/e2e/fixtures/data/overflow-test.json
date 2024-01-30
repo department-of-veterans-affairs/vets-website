@@ -405,7 +405,7 @@
         "amount": 3278.75
       },
       {
-        "typeOfIncome": "PENSION",
+        "typeOfIncome": "PENSION_RETIREMENT",
         "receiver": "VETERAN",
         "payer": "John Doe",
         "amount": 55.27
