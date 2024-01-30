@@ -1041,17 +1041,6 @@ p.checkbox-hint-text {
       margin-left: 2.1em;
     }
 
-    .card {
-      margin-left: 2.1em;
-
-      .number {
-        &:before {
-          font-family: "Font Awesome 5 Free";
-          content: "\f017 "; // space added at end to keep kerning consistent
-        }
-      }
-    }
-
     .sidelines {
       // line up the horizontal divider with the li::before 'bullets'
       font-family: $font-serif;

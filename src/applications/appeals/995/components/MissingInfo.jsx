@@ -22,7 +22,7 @@ const MissingInfo = ({ hasSsn, hasDob }) => {
   });
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h2 slot="headline">We’re missing some of your personal information</h2>
       <p>
         You’ll need to provide us with the missing information before you can

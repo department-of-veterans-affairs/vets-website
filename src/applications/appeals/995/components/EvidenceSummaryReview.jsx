@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
   hasVAEvidence,
@@ -31,7 +31,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       ) {
         // focus on edit button _after_ editing and returning
         window.sessionStorage.removeItem(SUMMARY_EDIT);
-        setTimeout(() => focusElement(editRef.current));
+        setTimeout(() => focusElement('button', {}, editRef.current));
       }
     },
     [editRef],
@@ -72,6 +72,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           onClick={handlers.onEditPage}
           label={content.editLabel}
           text={content.edit}
+          uswds
         />
       </div>
 

@@ -17,8 +17,7 @@ function FilesOptional({ id, item }) {
         {truncateDescription(item.description)}
       </p>
       <div className="call-to-action vads-u-padding-top--2">
-        You don't have to do anything, but if you have this information you
-        can&nbsp;
+        You don’t have to do anything, but if you have this information you can{' '}
         <Link
           aria-label={`Add information for ${item.displayName}`}
           className="add-your-claims-link"

@@ -136,7 +136,7 @@ class AdditionalEvidencePage extends React.Component {
               item={item}
             />
           ))}
-          {/* <AddFilesFormOld
+          <AddFilesFormOld
             field={this.props.uploadField}
             progress={this.props.progress}
             uploading={this.props.uploading}
@@ -164,7 +164,7 @@ class AdditionalEvidencePage extends React.Component {
             onFieldChange={this.props.updateField}
             onCancel={this.props.cancelUpload}
             onDirtyFields={this.props.setFieldsDirty}
-          /> */}
+          />
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}

@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   inlineTitleSchema,
   inlineTitleUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
@@ -11,7 +11,11 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    // Example of using a function:
+    // Only use this if you need it because it will rerender every time (only on this page)
+    ...titleUI(({ formData, formContext }) => {
+      return 'RJSF';
+    }),
     simpleOld: {
       'ui:title': 'TextWidget - with string description',
       'ui:description': 'Text description',
@@ -95,7 +99,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       simpleOld: {
         type: 'string',
       },
