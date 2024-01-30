@@ -15,19 +15,9 @@
       "ssn": "321540989"
     },
     "livingSituation": {
-      "NONE": true
+      "OTHER_RISK": true
     },
-    "mailingAddressYesNo": true,
-    "mailingAddress": {
-      "country": "USA",
-      "street": "125 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
-    "phone": "1234567892",
-    "otherReasons": {
-      "FINANCIAL_HARDSHIP": true
-    }
+    "otherHousingRisks": "The Veteran's baby giraffe is growing up fast!",
+    "phone": "1234567892"
   }
 }

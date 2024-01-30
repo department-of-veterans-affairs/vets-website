@@ -12,6 +12,7 @@
     "livingSituation": {
       "OTHER_RISK": true
     },
-    "otherHousingRisks": "[other housing risks]"
+    "otherHousingRisks": "[other housing risks]",
+    "phone": "1234567890"
   }
 }
