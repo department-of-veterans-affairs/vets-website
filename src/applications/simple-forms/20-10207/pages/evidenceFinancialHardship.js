@@ -17,7 +17,7 @@ export default {
     ...titleUI(uiTitle, uiDescription),
     'ui:description': FINANCIAL_HARDSHIP_DESCRIPTION,
     'ui:objectViewField': FinancialHardshipViewField,
-    veteranSupportingDocuments: {
+    financialHardshipDocuments: {
       'ui:title': 'Upload additional evidence',
       'ui:field': FileField,
       'ui:options': {
@@ -46,7 +46,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranSupportingDocuments: {
+      financialHardshipDocuments: {
         type: 'array',
         minItems: 1,
         items: {
