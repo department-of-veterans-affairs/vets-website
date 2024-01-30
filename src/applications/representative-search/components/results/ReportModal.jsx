@@ -23,6 +23,9 @@ const ReportModal = ({
   });
 
   const [otherCommentIsChecked, setOtherCommentIsChecked] = useState(false);
+  const [otherCommentIsBlankError, setotherCommentIsBlankError] = useState(
+    false,
+  );
   const [reportIsBlankError, setReportIsBlankError] = useState(false);
 
   // render conditions
@@ -38,6 +41,7 @@ const ReportModal = ({
   const otherCommentReportable = !existingReports?.otherComment;
 
   const handleOtherCommentInputChange = event => {
+    setotherCommentIsBlankError(false);
     const newState = { ...reportObject };
     newState.otherComment = event.target.value;
     setReportObject(newState);
@@ -81,6 +85,10 @@ const ReportModal = ({
       }
     });
 
+    if (otherCommentIsChecked && !formattedReportObject.reports.otherComment) {
+      setotherCommentIsBlankError(true);
+      return;
+    }
     if (!Object.keys(formattedReportObject.reports).length) {
       setReportIsBlankError(true);
       return;
@@ -174,10 +182,17 @@ const ReportModal = ({
 
         {otherCommentIsChecked && (
           <div className="vads-u-padding-left--4">
-            <div className="form-expanding-group-open form-expanding-group-inner-enter-done">
+            <div
+              className={`${
+                !otherCommentIsBlankError ? 'form-expanding-group-open' : null
+              } form-expanding-group-inner-enter-done`}
+            >
               <va-text-input
                 hint={null}
                 required
+                error={
+                  otherCommentIsBlankError ? 'This field is required' : null
+                }
                 label="Describe the other information we need to update"
                 value={reportObject.otherComment}
                 name="my-input"
