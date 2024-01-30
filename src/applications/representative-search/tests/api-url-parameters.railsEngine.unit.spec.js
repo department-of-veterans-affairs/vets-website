@@ -11,7 +11,7 @@ describe('Locator url and parameters builder', () => {
   const sort = 'distance_asc';
 
   it('should build VA request with type=VSO', () => {
-    const type = 'VSO';
+    const type = 'veteran_service_officer';
 
     const { requestUrl } = getApi('/vso_accredited_representatives');
 

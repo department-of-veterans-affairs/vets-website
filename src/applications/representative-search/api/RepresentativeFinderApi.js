@@ -27,7 +27,7 @@ class RepresentativeFinderApi {
     });
 
     const endpoint =
-      type === 'VSO'
+      type === 'veteran_service_officer'
         ? '/vso_accredited_representatives'
         : '/other_accredited_representatives';
 

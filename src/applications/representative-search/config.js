@@ -67,7 +67,7 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'VSO',
+  type = 'veteran_service_officer',
 }) => {
   const params = [
     address ? `address=${address}` : null,
@@ -84,14 +84,14 @@ export const resolveParamsWithUrl = ({
 };
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
-  [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
+  [RepresentativeType.ATTORNEY]: 'attorney',
+  [RepresentativeType.CLAIM_AGENTS]: 'claims_agent',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
-  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
-  [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
+  [RepresentativeType.ATTORNEY]: 'attorney',
+  [RepresentativeType.CLAIM_AGENTS]: 'claims_agent',
 };
