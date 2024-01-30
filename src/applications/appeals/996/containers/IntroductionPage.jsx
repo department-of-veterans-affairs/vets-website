@@ -93,9 +93,8 @@ export const IntroductionPage = props => {
         </a>
         .
       </p>
-      <va-process-list>
-        <li>
-          <h3>Prepare</h3>
+      <va-process-list uswds>
+        <va-process-list-item header="Prepare">
           <p>To fill out this application, you’ll need your:</p>
           <ul>
             <li>Primary address</li>
@@ -123,15 +122,14 @@ export const IntroductionPage = props => {
             Get help requesting a decision review
           </a>
           .
-        </li>
-        <li>
-          <h3>Start your request</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Start your request">
           <p>
             Complete this Higher-Level Review form. After submitting the form,
             you’ll get a confirmation message. You can print this for your
             records.
           </p>
-        </li>
+        </va-process-list-item>
       </va-process-list>
 
       <div className="sip-wrapper">
