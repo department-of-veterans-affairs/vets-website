@@ -97,6 +97,10 @@
     {
       "rootFolder": "letters",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "representatives",
+      "slackGroup": "@arfeng"
     }
   ]
 }

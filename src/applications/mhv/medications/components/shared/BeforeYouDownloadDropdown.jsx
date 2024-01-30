@@ -2,13 +2,12 @@ import React from 'react';
 
 const BeforeYouDownloadDropdown = () => {
   return (
-    <div className="before-you-download-dropdown">
-      <va-additional-info trigger="What to know before you print or download">
+    <div className="before-you-download-dropdown" data-testid="before-download">
+      <va-additional-info
+        trigger="What to know before you print or download"
+        data-testid="dropdown-info"
+      >
         <ul>
-          <li>
-            <strong>If you print this page,</strong> it won’t include your
-            allergies and reactions to medications.
-          </li>
           <li>
             <strong>If you download this page,</strong> we’ll include a list of
             allergies and reactions in your VA medical records.

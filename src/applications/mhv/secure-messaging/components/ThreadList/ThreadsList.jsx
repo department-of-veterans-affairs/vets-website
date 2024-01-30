@@ -17,7 +17,7 @@ const ThreadsList = props => {
     threadsPerPage,
   } = props;
 
-  const MAX_PAGE_LIST_LENGTH = 5;
+  const MAX_PAGE_LIST_LENGTH = 7;
 
   const [displayNums, setDisplayNums] = useState({
     from: 0,
@@ -58,7 +58,9 @@ const ThreadsList = props => {
 
   return (
     <>
-      <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      {threadList?.length > 1 && (
+        <ThreadListSort sortOrder={sortOrder} sortCallback={sortCallback} />
+      )}
       <div className="thread-list vads-l-row vads-u-flex-direction--column">
         <h2 className="sr-only">List of conversations</h2>
         <div
@@ -86,13 +88,13 @@ const ThreadsList = props => {
           </div>
         )}
 
-        {threadList?.length > 1 && (
+        {threadList?.length > 0 && (
           <VaPagination
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
             onPageSelect={e => paginationCallback(e.detail.page)}
             page={pageNum}
             pages={Math.ceil(threadList[0]?.threadPageSize / threadsPerPage)}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
+            uswds
           />
         )}
       </div>
