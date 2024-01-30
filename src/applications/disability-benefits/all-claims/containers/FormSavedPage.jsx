@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import FormSaved from 'platform/forms/save-in-progress/FormSaved';
+import FormSaved from '@department-of-veterans-affairs/platform-forms/FormSaved';
 
 import { formatDate } from '../utils';
 
@@ -9,7 +10,7 @@ const FormSavedPage = props => {
   const date = props.itf?.currentITF?.expirationDate;
   const itfExpirationDate = date ? formatDate(date) : 'Unknown';
   const expirationMessage = (
-    <Fragment>
+    <>
       <p className="expires-container">
         You’ll need to complete your saved application by{' '}
         <span className="expires">{itfExpirationDate}</span> so you can get back
@@ -21,10 +22,18 @@ const FormSavedPage = props => {
         benefits. For you, this means you may get back pay starting from{' '}
         {itfExpirationDate}.
       </va-additional-info>
-    </Fragment>
+    </>
   );
 
   return <FormSaved {...props} expirationMessage={expirationMessage} />;
+};
+
+FormSavedPage.propTypes = {
+  itf: PropTypes.shape({
+    currentITF: PropTypes.shape({
+      expirationDate: PropTypes.string,
+    }),
+  }),
 };
 
 const mapStateToProps = state => ({ itf: state.itf });
