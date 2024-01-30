@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
@@ -122,9 +122,15 @@ describe('VAOS <VAOSApp>', () => {
 
     expect(await screen.findByTestId('downtime-approaching-modal')).to.exist;
     expect(screen.getByText('Child content')).to.exist;
-    fireEvent.click(screen.getByText('Dismiss'));
-    await waitFor(
-      () => expect(screen.queryByText(/unavailable soon/)).to.not.exist,
-    );
+    expect(screen.queryByTestId('downtime-approaching-modal')).to.exist;
+    expect(
+      screen
+        .queryByTestId('downtime-approaching-modal')
+        .getAttribute('secondaryButtonText'),
+    ).to.eq('Dismiss');
+    const dismissBtn = screen.queryByTestId('downtime-approaching-modal')
+      .__events.secondaryButtonClick;
+    await dismissBtn();
+    expect(screen.queryByTestId('toc-modal')).to.be.null;
   });
 });

@@ -12,6 +12,7 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   return (
     <VaModal
       id="toc-modal"
+      data-testid="toc-modal"
       status="warning"
       visible
       onCloseEvent={onClose}
