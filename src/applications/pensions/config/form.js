@@ -979,13 +979,13 @@ const formConfig = {
         },
         hasMedicalExpenses: {
           path: 'financial/medical-expenses',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           uiSchema: hasMedicalExpenses.uiSchema,
           schema: hasMedicalExpenses.schema,
         },
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
