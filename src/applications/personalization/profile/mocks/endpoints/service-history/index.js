@@ -10,6 +10,7 @@ const none = {
 
 const generateServiceHistory = ({
   branchOfService = 'Air Force',
+  dischargeCode = 'A',
   dataSource = 'api.va_profile',
 }) => {
   return {
@@ -24,14 +25,14 @@ const generateServiceHistory = ({
             beginDate: '2009-04-12',
             endDate: '2013-04-11',
             personnelCategoryTypeCode: 'V',
-            characterOfDischargeCode: 'A',
+            characterOfDischargeCode: dischargeCode,
           },
           {
             branchOfService,
             beginDate: '2005-04-12',
             endDate: '2009-04-11',
             personnelCategoryTypeCode: 'A',
-            characterOfDischargeCode: 'B',
+            characterOfDischargeCode: dischargeCode,
           },
         ],
       },
@@ -41,6 +42,14 @@ const generateServiceHistory = ({
 
 const airForce = generateServiceHistory({ branchOfService: 'Air Force' });
 const spaceForce = generateServiceHistory({ branchOfService: 'Space Force' });
+const dishonorableDischarge = generateServiceHistory({
+  branchOfService: 'Air Force',
+  dischargeCode: 'F',
+});
+const unknownDischarge = generateServiceHistory({
+  branchOfService: 'Air Force',
+  dischargeCode: 'DVN',
+});
 
 const error = {
   errors: [
@@ -80,5 +89,7 @@ module.exports = {
   error,
   airForce,
   spaceForce,
+  dishonorableDischarge,
+  unknownDischarge,
   generateServiceHistoryError,
 };
