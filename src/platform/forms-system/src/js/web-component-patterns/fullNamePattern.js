@@ -80,7 +80,15 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * Same as above `fullNameNoSuffixUI` but with `middle` removed
+ * Web component uiSchema for `first`, `last name` [no middle name]
+ *
+ * ```js
+ * fullName: fullNameNoSuffixUI()
+ * fullName: fullNameNoSuffixUI((title) => `Your ${title}`))
+ * ```
+ * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
+ * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
@@ -141,7 +149,15 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
 };
 
 /**
- * Same as above `fullNameUI` but with `middle` removed
+ * Web component uiSchema for `first`, `last name`, and `suffix`
+ * [no middle name]
+ * ```js
+ * fullName: fullNameUI()
+ * fullName: fullNameUI((title) => `Your ${title}`))
+ * ```
+ * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
+ * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
   const uiSchema = {
