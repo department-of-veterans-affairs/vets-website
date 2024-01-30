@@ -32,6 +32,8 @@ export default {
         viewField: PreviousNameView,
         reviewTitle: 'Previous names',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
         useDlWrap: true,
       },
       items: {
