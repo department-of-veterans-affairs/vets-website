@@ -68,9 +68,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
           "reasonForSeparation": "Other",
           "otherExplanation": "Other reason",
           "dateOfSeparation": "1990-03-02",
@@ -83,25 +83,11 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1989-03-02",
-        "locationOfMarriage": "Dallas",
         "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
           "reasonForSeparation": "Spouse’s death",
           "dateOfSeparation": "1990-03-02",
-          "locationOfSeparation": "San Antonio, TX"
-        }
-      },
-      {
-        "spouseFullName": {
-          "first": "Jennie",
-          "middle": "Middle",
-          "last": "Dane"
-        },
-        "dateOfMarriage": "1983-03-02",
-        "locationOfMarriage": "Dallas",
-        "view:pastMarriage": {
-          "reasonForSeparation": "Divorce",
-          "dateOfSeparation": "1984-03-02",
           "locationOfSeparation": "San Antonio, TX"
         }
       },
@@ -111,9 +97,9 @@
           "middle": "Middle",
           "last": "Doe"
         },
-        "dateOfMarriage": "1994-03-02",
-        "locationOfMarriage": "North Adams, MA",
         "view:currentMarriage": {
+          "dateOfMarriage": "1994-03-02",
+          "locationOfMarriage": "North Adams, MA",
           "marriageType": "Some other way",
           "otherExplanation": "Other reason"
         }
