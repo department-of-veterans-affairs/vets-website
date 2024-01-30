@@ -60,6 +60,7 @@ const Notice5103 = ({
         checked={data.form5103Acknowledged}
         required
         enable-analytics
+        uswds
       >
         <div slot="description">{content.descriptionInCheckbox}</div>
       </VaCheckbox>
@@ -69,6 +70,7 @@ const Notice5103 = ({
             onClick={handlers.onGoForward}
             label={content.updateLabel}
             text={content.update}
+            uswds
           />
         )}
         {!onReviewPage && (

@@ -161,6 +161,7 @@ const EvidenceSummary = ({
           status="warning"
           visible={visibleError}
           class="vads-u-margin-top--4"
+          uswds
         >
           {visibleError && (
             <>
@@ -191,6 +192,7 @@ const EvidenceSummary = ({
                 : 'modalNotRemove'
             ]
           }
+          uswds
         >
           <p>
             {content.removeEvidence[(removeData?.type)] || ''}
@@ -213,6 +215,7 @@ const EvidenceSummary = ({
               onClick={handlers.onUpdate}
               label="Update evidence page"
               text={content.update}
+              uswds
             />
           )}
           {!onReviewPage && (

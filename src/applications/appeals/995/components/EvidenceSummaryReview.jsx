@@ -72,6 +72,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           onClick={handlers.onEditPage}
           label={content.editLabel}
           text={content.edit}
+          uswds
         />
       </div>
 

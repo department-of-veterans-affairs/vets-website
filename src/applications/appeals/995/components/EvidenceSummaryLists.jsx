@@ -147,6 +147,7 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -265,6 +266,7 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -294,6 +296,7 @@ export const PrivateContent = ({
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               ) : null}
             </div>
@@ -364,6 +367,7 @@ export const UploadContent = ({
                   label={`${content.remove} ${upload.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               </div>
             )}
