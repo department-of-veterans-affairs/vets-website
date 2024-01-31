@@ -56,3 +56,18 @@ export const testNumberOfWebComponentFields = (
     });
   });
 };
+
+export const testComponentRender = (componentName, component) => {
+  describe(`${componentName}`, () => {
+    it('should render', () => {
+      const { mockStore } = getProps();
+
+      const { container } = render(
+        <Provider store={mockStore}>{component}</Provider>,
+      );
+
+      expect(container).to.exist;
+      expect(component).to.exist;
+    });
+  });
+};

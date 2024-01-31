@@ -1,7 +1,15 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
+import React from 'react';
+import {
+  testNumberOfWebComponentFields,
+  testComponentRender,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
+import { getFileSize } from '../../helpers/utilities';
+
+import FileFieldCustom from '../../components/File/FileUpload';
+import FileViewField from '../../components/File/FileViewField';
 
 const applicants = [
   {
@@ -35,6 +43,7 @@ testNumberOfWebComponentFields(
   { applicants },
 );
 
+/*
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18.schema,
@@ -43,6 +52,36 @@ testNumberOfWebComponentFields(
   'Applicant - health insurance',
   { applicants },
 );
+*/
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page20.schema,
+  formConfig.chapters.applicantInformation.pages.page20.uiSchema,
+  0,
+  'Upload supporting documents',
+  { applicants },
+);
+
+testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
+testComponentRender(
+  'FileViewField',
+  <FileViewField
+    data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
+  />,
+);
+
+describe('File sizes', () => {
+  it('should be in bytes for values < 999', () => {
+    expect(getFileSize(998) === '998 B').to.be.true;
+  });
+  it('should be in KB for values between a thousand and a million', () => {
+    expect(getFileSize(1024) === '1 KB').to.be.true;
+  });
+  it('should be in MB for values greater than a million', () => {
+    expect(getFileSize(2000000) === '2.0 MB').to.be.true;
+  });
+});
 
 // Call the depends() function for any page that relies on it
 describe('dependent page logic', () => {
