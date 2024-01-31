@@ -18,8 +18,6 @@
   }
 
   .search-section {
-    width: 75%;
-
     .search-controls-container {
       #representative-search-controls {
         display: flex;
@@ -35,10 +33,16 @@
         }
 
         .use-my-location-button-container {
+          top: 2em;
+
           @media (min-width: $large-screen) {
             position: absolute;
             left: 30em;
-            top: 2em;
+            min-width: 10em;
+          }
+          @media (min-width: $medium-screen) {
+            position: absolute;
+            left: 31em;
             min-width: 10em;
           }
         }
@@ -114,18 +118,28 @@
     .representative-results-list {
       .representative-result-card {
         border: 1px solid $color-gray-lighter;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
 
-        .representative-info-section {
-          grid-column: 1;
+        @media (min-width: $medium-screen) {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+
+          .representative-info-section {
+            grid-column: 1;
+          }
+
+          .report-outdated-information-button {
+            grid-column: 2;
+            text-align: right;
+          }
         }
+        @media (max-width: $medium-screen) {
+          word-wrap: break-word;
 
-        .report-outdated-information-button {
-          grid-column: 2;
-          // grid-row: 1;
-          text-align: right;
+          .report-outdated-information-button {
+            width: 100%;
+            margin-top: 2rem;
+          }
         }
       }
     }
