@@ -27,6 +27,7 @@ import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import terminalIllnessPg from '../pages/evidenceTerminalIllness';
 import alsPg from '../pages/evidenceALS';
 import vsiPg from '../pages/evidenceVSI';
+import powPg from '../pages/evidencePOW';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -280,6 +281,16 @@ const formConfig = {
           uiSchema: vsiPg.uiSchema,
           schema: vsiPg.schema,
           pageClass: 'evidence-vsi',
+        },
+        powPage: {
+          // TODO: Verify which stories this should be shown for.
+          // Not sure about non-veteran & third-party-non-veteran stories.
+          depends: formData => formData.otherReasons.FORMER_POW,
+          path: 'evidence-pow',
+          title: 'Upload evidence for former prisoner of war',
+          uiSchema: powPg.uiSchema,
+          schema: powPg.schema,
+          pageClass: 'evidence-pow',
         },
       },
     },

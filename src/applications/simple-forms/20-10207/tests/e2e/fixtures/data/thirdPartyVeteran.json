@@ -30,7 +30,11 @@
       "FINANCIAL_HARDSHIP": true,
       "ALS": true,
       "TERMINAL_ILLNESS": true,
-      "VSI_SI": true
-    }
+      "VSI_SI": true,
+      "FORMER_POW": true
+    },
+    "powConfinmentStartDate": "2018-01-01",
+    "powConfinmentEndDate": "2018-01-02",
+    "powMultipleConfiments": false
   }
 }

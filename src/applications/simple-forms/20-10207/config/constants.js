@@ -412,3 +412,13 @@ export const VSI_DESCRIPTION = Object.freeze(
     <p />
   </>,
 );
+
+export const POW_MULTIPLE_CONFINEMENTS_LABELS = Object.freeze({
+  Y: 'Yes, I was confined more than once.',
+  N: 'No, I was not confined more than once.',
+});
+
+export const POW_MULTIPLE_CONFINEMENTS_LABELS_3RD_PTY_VET = Object.freeze({
+  Y: 'Yes, I was confined more than once.',
+  N: 'No, I was not confined more than once.',
+});

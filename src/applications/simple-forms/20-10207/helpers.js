@@ -122,3 +122,15 @@ export function dateOfDeathValidation(errors, fields) {
     );
   }
 }
+
+export function powConfinementDateRangeValidation(errors, fields) {
+  const { powConfinementStartDate, powConfinementEndDate } = fields;
+  const startDate = moment(powConfinementStartDate);
+  const endDate = moment(powConfinementEndDate);
+
+  if (!!endDate && !!startDate && endDate.isBefore(startDate)) {
+    errors.powConfinementEndDate.addError(
+      'The end date must be after the start date',
+    );
+  }
+}
