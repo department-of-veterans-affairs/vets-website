@@ -59,10 +59,13 @@ export function fetchConfirmedFutureAppointments() {
       // filter out past appointments
       const onlyUpcoming = formatted.filter(appt => appt.isUpcoming);
 
+      // sort by date
+      const sorted = vaosV2Helpers.sortAppointments(onlyUpcoming);
+
       // update redux
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-        appointments: onlyUpcoming,
+        appointments: sorted,
       });
     } catch (error) {
       recordEvent({
