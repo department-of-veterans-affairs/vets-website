@@ -20,7 +20,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           onVaValueChange={handleRadioButtonSelect}
         >
           <va-radio-option
-            label="Veterans Service Officer"
+            label="Accredited Veterans Service Officer (VSO)"
             name="group"
             value="veteran_service_officer"
             checked={representativeType === 'veteran_service_officer'}
@@ -36,7 +36,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             vaValueChange={handleRadioButtonSelect}
           />
           <va-radio-option
-            label="Claims agent"
+            label="Accredited claims agent"
             name="group"
             value="claim_agents"
             checked={representativeType === 'claim_agents'}

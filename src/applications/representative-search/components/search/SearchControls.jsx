@@ -72,25 +72,33 @@ const SearchControls = props => {
         </p>
       </VaModal>
       <h2 className="vads-u-margin-y--0">
-        Search for a VSO or accredited attorney
+        Search for an accredited representative
       </h2>
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="usa-width-two-thirds">
           <div className="additional-representative-info">
             <div className="vads-u-margin-top--2p5">
-              <va-additional-info trigger="What does a VSO do?" uswds>
+              <va-additional-info
+                trigger="What does an accredited VSO do?"
+                uswds
+              >
                 <p>
-                  <strong>Veterans Service Officers (VSOs)</strong> can help you
-                  gather evidence, file claims, and request decision reviews.
-                  They can also communicate with VA on your behalf. VSOs provide
-                  free services for Veterans and their families.
+                  <strong>An accredited Veterans Service Officer (VSO)</strong>{' '}
+                  can help you gather evidence, file a claim, or request a
+                  decision review. They can also communicate with VA on your
+                  behalf.
                 </p>
                 <br />
                 <p>
-                  VSOs work for Veterans Service Organizations, like the
-                  American Legion, Disabled American Veterans, and Veterans of
-                  Foreign Wars. They have completed training and passed tests
-                  about VA claims and benefits.
+                  Accredited VSOs provide free services for Veterans and their
+                  families. They have completed training and passed tests about
+                  VA claims and decision reviews.
+                </p>
+                <br />
+                <p>
+                  Accredited VSOs work for Veterans Service Organizations, like
+                  the American Legion, Disabled American Veterans, and Veterans
+                  of Foreign Wars.
                 </p>
               </va-additional-info>
             </div>
@@ -101,31 +109,33 @@ const SearchControls = props => {
                 uswds
               >
                 <p>
-                  <strong>Accredited attorneys</strong> usually work on decision
-                  reviews and cases that require legal knowledge. They can
-                  charge fees for their services.
+                  <strong>An accredited attorneys</strong> usually work on
+                  decision reviews and cases that require legal knowledge. They
+                  can charge fees for their services.
                 </p>
                 <br />
                 <p>
                   Accredited attorneys don’t have to take a test about VA claims
-                  and benefits. But they have to be a member in good standing of
-                  the bar association.
+                  and decision reviews. But they have to be members in good
+                  standing of the bar association.
                 </p>
               </va-additional-info>
             </div>
 
             <div className="vads-u-margin-top--2p5">
-              <va-additional-info trigger="What does a claims agent do?" uswds>
+              <va-additional-info
+                trigger="What does an accredited claims agent do?"
+                uswds
+              >
                 <p>
-                  <strong>Accredited attorneys</strong> usually work on decision
-                  reviews and cases that require legal knowledge. They can
-                  charge fees for their services.
+                  <strong>An accredited claims agent</strong> usually works on
+                  decision reviews. They can charge fees for their services.
                 </p>
                 <br />
                 <p>
-                  Accredited attorneys don’t have to take a test about VA claims
-                  and benefits. But they have to be a member in good standing of
-                  the bar association.
+                  Accredited claims agents don’t work for Veterans Service
+                  Organizations. But they have completed training and passed
+                  tests about VA claims and decision reviews.
                 </p>
               </va-additional-info>
             </div>
@@ -152,9 +162,9 @@ const SearchControls = props => {
               })()}
               hint={null}
               id="street-city-state-zip"
-              label="City, state, postal code or address"
+              label="Address, city, state, or postal code"
               message-aria-describedby="Text input for location"
-              name="City, state, postal code or address"
+              name="Address, city, state, or postal code"
               onInput={handleLocationChange}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
@@ -203,8 +213,8 @@ const SearchControls = props => {
           <div className="vads-u-margin-top--4">
             <va-text-input
               hint={null}
-              label="Name of VSO or accredited attorney"
-              name="Name of VSO or accredited attorney"
+              label="Name of accredited representative"
+              name="Name of accredited representative"
               onChange={handleRepresentativeChange}
               onInput={handleRepresentativeChange}
               onKeyPress={e => {
