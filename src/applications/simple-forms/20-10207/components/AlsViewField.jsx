@@ -3,26 +3,24 @@ import PropTypes from 'prop-types';
 
 import { displayFileSize } from 'platform/utilities/ui/index';
 
-import { TERMINAL_ILLNESS_DESCRIPTION } from '../config/constants';
+import { ALS_DESCRIPTION } from '../config/constants';
 
-const TerminalIllnessViewField = props => {
+const AlsViewField = props => {
   const { defaultEditButton, formData } = props;
-  const { terminalIllnessDocuments } = formData;
+  const { alsDocuments } = formData;
 
   return (
     <div className="form-review-panel-page-header-row">
       <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <h3 className="vads-u-margin-y--0">
-          Upload evidence for terminal illness
+          Upload evidence for diagnosis of ALS (amyotrophic lateral sclerosis)
         </h3>
         {defaultEditButton()}
       </div>
-      <div data-testid="terminalIllnessDescription">
-        {TERMINAL_ILLNESS_DESCRIPTION}
-      </div>
-      {terminalIllnessDocuments && (
+      <div data-testid="alsDescription">{ALS_DESCRIPTION}</div>
+      {alsDocuments && (
         <ul className="schemaform-file-list vads-u-width--full">
-          {terminalIllnessDocuments.map((doc, index) => (
+          {alsDocuments.map((doc, index) => (
             <li key={index} className="va-growable-background">
               <strong>{doc.name}</strong>
               <br />
@@ -35,10 +33,10 @@ const TerminalIllnessViewField = props => {
   );
 };
 
-TerminalIllnessViewField.propTypes = {
+AlsViewField.propTypes = {
   defaultEditButton: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    terminalIllnessDocuments: PropTypes.arrayOf(
+    alsDocuments: PropTypes.arrayOf(
       PropTypes.shape({
         fileName: PropTypes.string,
         fileSize: PropTypes.number,
@@ -49,4 +47,4 @@ TerminalIllnessViewField.propTypes = {
   }).isRequired,
 };
 
-export default TerminalIllnessViewField;
+export default AlsViewField;

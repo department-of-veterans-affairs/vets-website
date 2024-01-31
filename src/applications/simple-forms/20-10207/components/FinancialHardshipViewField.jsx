@@ -17,7 +17,7 @@ const FinancialHardshipViewField = props => {
         </h3>
         {defaultEditButton()}
       </div>
-      <div data-testid="hardshipDescription">
+      <div data-testid="financialHardshipDescription">
         {FINANCIAL_HARDSHIP_DESCRIPTION}
       </div>
       {financialHardshipDocuments && (

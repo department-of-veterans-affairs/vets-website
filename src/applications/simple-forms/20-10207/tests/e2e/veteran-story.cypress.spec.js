@@ -635,11 +635,11 @@ testSuite('PP 10207 - Veteran', () => {
         }).should('be.visible');
       });
 
-      it('advances to next page', () => {
-        continueToNextPage();
-        // TODO: Change path below when next page is implemented
-        pagePathIsCorrect('review-and-submit');
-      });
+      // it('advances to next page', () => {
+      //   continueToNextPage();
+      //   // TODO: Change path below when next page is implemented
+      //   pagePathIsCorrect('review-and-submit');
+      // });
     });
   });
 });

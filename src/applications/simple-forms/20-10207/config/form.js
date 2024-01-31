@@ -25,6 +25,7 @@ import otherReasonsPg from '../pages/otherReasons';
 import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
 import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import terminalIllnessPg from '../pages/evidenceTerminalIllness';
+import alsPg from '../pages/evidenceALS';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -251,6 +252,7 @@ const formConfig = {
           title: 'Upload evidence for extreme financial hardship',
           uiSchema: financialHardshipPg.uiSchema,
           schema: financialHardshipPg.schema,
+          pageClass: 'evidence-financial-hardship',
         },
         terminalIllnessPage: {
           depends: formData => formData.otherReasons.TERMINAL_ILLNESS,
@@ -259,6 +261,15 @@ const formConfig = {
           uiSchema: terminalIllnessPg.uiSchema,
           schema: terminalIllnessPg.schema,
           pageClass: 'evidence-terminal-illness',
+        },
+        alsPage: {
+          depends: formData => formData.otherReasons.ALS,
+          path: 'evidence-als',
+          title:
+            'Upload evidence for diagnosis of ALS (amyotrophic lateral sclerosis)',
+          uiSchema: alsPg.uiSchema,
+          schema: alsPg.schema,
+          pageClass: 'evidence-als',
         },
       },
     },

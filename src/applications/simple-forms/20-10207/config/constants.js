@@ -326,7 +326,45 @@ export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
         target="_blank"
         rel="noopener noreferrer"
       >
-        Go to VA Form 21-4142 and 21-4142a (opens in new tab)
+        Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
+      </a>
+    </va-additional-info>
+    <p />
+  </>,
+);
+
+export const ALS_DESCRIPTION = Object.freeze(
+  <>
+    <p>
+      You’ll need to scan your document onto the device you’re using to submit
+      this application, such as your computer, tablet, or mobile phone. You can
+      upload your file from there.
+    </p>
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 25MB</li>
+    </ul>
+    <va-additional-info
+      trigger="What kind of evidence can I submit?"
+      data-testid="alsAdditionalInfo"
+    >
+      <ul>
+        <li className="vads-u-margin-bottom--2">
+          Copy of medical evidence showing ALS
+        </li>
+      </ul>
+      <p className="vads-u-margin-bottom--2">
+        <b>Note</b>: If you want us to access your private treatment records,
+        you’ll need to submit an authorization to disclose non-VA medical
+        information to us (VA Forms 21-4142 and 21-4142a).
+      </p>
+      <a
+        href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
       </a>
     </va-additional-info>
     <p />
