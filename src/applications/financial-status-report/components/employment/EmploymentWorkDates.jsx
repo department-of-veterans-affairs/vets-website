@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import PropTypes from 'prop-types';
 import {
@@ -10,7 +13,7 @@ import {
   jobButtonConstants,
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
-import { isValidPastDate } from '../../utils/helpers';
+import { isValidFromDate, isValidToDate } from '../../utils/helpers';
 
 const EmploymentWorkDates = props => {
   const { goToPath, setFormData, data } = props;
@@ -43,15 +46,28 @@ const EmploymentWorkDates = props => {
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
 
-  const fromError = 'Please enter your employment start date.';
-  const toError = 'Please enter your employment end date.';
+  const fromError = 'Please enter a valid employment start date.';
+  const toError = 'Please enter a valid employment end date.';
 
   const [toDateError, setToDateError] = useState(null);
   const [fromDateError, setFromDateError] = useState(null);
 
   const updateFormData = () => {
-    if (fromDateError || (toDateError && !employmentRecord.isCurrent))
+    if (
+      !isValidFromDate(employmentRecord.from) ||
+      (!isValidToDate(employmentRecord.from, employmentRecord.to) &&
+        !employmentRecord.isCurrent)
+    ) {
+      setToDateError(
+        isValidToDate(employmentRecord.from, employmentRecord.to)
+          ? null
+          : toError,
+      );
+      setFromDateError(
+        isValidFromDate(employmentRecord.from) ? null : fromError,
+      );
       return null;
+    }
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
@@ -130,16 +146,10 @@ const EmploymentWorkDates = props => {
       event.preventDefault();
       goToPath(RETURN_PATH);
     },
-    onSubmitted: event => {
+    onUpdate: event => {
+      // Handle validation in update
       event.preventDefault();
       updateFormData();
-    },
-    onUpdate: () => {
-      setFromDateError(
-        isValidPastDate(employmentRecord.from) ? null : fromError,
-      );
-
-      setToDateError(isValidPastDate(employmentRecord.to) ? null : toError);
     },
     getContinueButtonText: () => {
       if (
@@ -165,6 +175,11 @@ const EmploymentWorkDates = props => {
           label="Date you started work at this job?"
           name="from"
           onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          onBlur={() =>
+            setFromDateError(
+              isValidFromDate(employmentRecord.from) ? null : fromError,
+            )
+          }
           required
           error={fromDateError}
         />
@@ -175,6 +190,13 @@ const EmploymentWorkDates = props => {
             label="Date you stopped work at this job?"
             name="to"
             onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+            onBlur={() =>
+              setToDateError(
+                isValidToDate(employmentRecord.from, employmentRecord.to)
+                  ? null
+                  : toError,
+              )
+            }
             required
             error={toDateError}
           />
@@ -184,29 +206,18 @@ const EmploymentWorkDates = props => {
   };
 
   return (
-    <form onSubmit={handlers.onSubmitted}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your job at {employerName}
         </legend>
         <div>{ShowWorkDates()}</div>
         <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
+          <VaButton text="Back" onClick={handlers.onCancel} />
+          <VaButton
+            text={handlers.getContinueButtonText()}
             onClick={handlers.onUpdate}
-          >
-            {handlers.getContinueButtonText()}
-          </button>
+          />
         </p>
       </fieldset>
     </form>
