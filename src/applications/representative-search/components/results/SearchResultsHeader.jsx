@@ -77,8 +77,8 @@ export const SearchResultsHeader = props => {
             </h2>
             <p>
               Our search tool may show outdated contact information for some
-              VSOs and accredited representatives. You can report outdated
-              information in your search results.
+              accredited representatives. You can report outdated information in
+              your search results.
             </p>
           </va-alert>
         </div>
