@@ -31,13 +31,13 @@ const responses = {
 
     // return res.json(
     //   maintenanceWindows.createDowntimeApproachingNotification([
-    //     maintenanceWindows.SERVICES.MHV,
+    //     maintenanceWindows.SERVICES.mhvSm,
     //   ]),
     // );
 
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.MHV,
+    //     maintenanceWindows.SERVICES.mhvSm,
     //   ]),
     // );
 
