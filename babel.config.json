@@ -22,25 +22,20 @@
     ],
     "@babel/react"
   ],
-  "ignore": [
-    "./src/platform/polyfills/preESModulesPolyfills.js"
-  ],
+  "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
     "lodash",
+
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-export-namespace-from",
     "@babel/plugin-proposal-numeric-separator",
     "@babel/plugin-proposal-throw-expressions",
+
     "@babel/plugin-proposal-nullish-coalescing-operator",
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": false
-      }
-    ],
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
     "@babel/plugin-proposal-json-strings",
     [
       "module-resolver",
@@ -50,6 +45,7 @@
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
+
           "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
           "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
           "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
@@ -66,6 +62,7 @@
           "@department-of-veterans-affairs/platform-startup/setup": "./src/platform/startup/setup.js",
           "@department-of-veterans-affairs/platform-startup/router": "./src/platform/startup/router.js",
           "@department-of-veterans-affairs/platform-startup/analytics-middleware": "./src/platform/startup/analytics-middleware.js",
+
           "@department-of-veterans-affairs/platform-utilities/exports": "./src/platform/utilities/exportsFile.js",
           "@department-of-veterans-affairs/platform-utilities/environment": "./src/platform/utilities/environment/index.js",
           "@department-of-veterans-affairs/platform-utilities/stagingDomains": "./src/platform/utilities/environment/stagingDomains.js",
@@ -89,10 +86,12 @@
           "@department-of-veterans-affairs/platform-utilities/titleCase": "./src/platform/utilities/data/titleCase.js",
           "@department-of-veterans-affairs/platform-utilities/unset": "./src/platform/utilities/data/unset.js",
           "@department-of-veterans-affairs/platform-utilities/api": "./src/platform/utilities/api/index.js",
+
           "@department-of-veterans-affairs/platform-landing-pages/exports": "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template": "./src/platform/landing-pages/dev-template.js",
           "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar": "./src/platform/landing-pages/facility-sidebar.json",
           "@department-of-veterans-affairs/platform-landing-pages/header-footer-data": "./src/platform/landing-pages/header-footer-data.json",
+
           "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/static-data/exportsFile.js",
           "@department-of-veterans-affairs/platform-static-data/CallHRC": "./src/platform/static-data/CallHRC.jsx",
           "@department-of-veterans-affairs/platform-static-data/CallNCACenter": "./src/platform/static-data/CallNCACenter.jsx",
@@ -102,12 +101,14 @@
           "@department-of-veterans-affairs/platform-static-data/labels": "./src/platform/forms/static-data/labels.jsx",
           "@department-of-veterans-affairs/platform-static-data/options-for-select": "./src/platform/static-data/options-for-select.js",
           "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/static-data/SubmitSignInForm.jsx",
+
           "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportsFile.js",
           "@department-of-veterans-affairs/platform-polyfills/canvas-toBlob": "./src/platform/polyfills/canvas-toBlob.js",
           "@department-of-veterans-affairs/platform-polyfills/download-attribute": "./src/platform/polyfills/download-attribute.js",
           "@department-of-veterans-affairs/platform-polyfills": "./src/platform/polyfills/index.js",
           "@department-of-veterans-affairs/platform-polyfills/polyfill-timezone-data": "./src/platform/polyfills/polyfill-timezone-data.js",
           "@department-of-veterans-affairs/platform-polyfills/preESModulesPolyfills": "./src/platform/polyfills/preESModulesPolyfills.js",
+
           "@department-of-veterans-affairs/platform-user/exports": "./src/platform/user/exportsFile.js",
           "@department-of-veterans-affairs/platform-user/selectors": "./src/platform/user/selectors.js",
           "@department-of-veterans-affairs/platform-user/authentication/actions": "./src/platform/user/authentication/actions/index.js",
@@ -142,6 +143,7 @@
           "@department-of-veterans-affairs/platform-user/profile/utilities": "./src/platform/user/profile/utilities/index.js",
           "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
           "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js",
+
           "@department-of-veterans-affairs/platform-testing/exports": "./src/platform/testing/exportsFile.js",
           "@department-of-veterans-affairs/platform-testing/contract": "./src/platform/testing/contract/index.js",
           "@department-of-veterans-affairs/platform-testing/form-tester": "./src/platform/testing/e2e/cypress/support/form-tester/index.js",
@@ -152,6 +154,7 @@
           "@department-of-veterans-affairs/platform-testing/react-testing-library-helpers": "./src/platform/testing/unit/react-testing-library-helpers.js",
           "@department-of-veterans-affairs/platform-testing/schemaform-utils": "./src/platform/testing/unit/schemaform-utils.jsx",
           "@department-of-veterans-affairs/platform-testing/sentry": "./src/platform/testing/unit/sentry.js",
+
           "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
           "@department-of-veterans-affairs/platform-site-wide/MobileAppCallout": "./src/platform/site-wide/alerts/MobileAppCallout.jsx",
@@ -191,6 +194,7 @@
           "@department-of-veterans-affairs/platform-site-wide/moment-setup": "./src/platform/site-wide/moment-setup.js",
           "@department-of-veterans-affairs/platform-site-wide/wc-loader": "./src/platform/site-wide/wc-loader.js",
           "@department-of-veterans-affairs/platform-site-wide/mhv/utilities": "./src/platform/site-wide/mhv/utilities.js",
+
           "@department-of-veterans-affairs/platform-forms/exports": "./src/platform/forms/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms/labels": "./src/platform/forms/address/data/labels.js",
           "@department-of-veterans-affairs/platform-forms/preSubmitInfo": "./src/platform/forms/preSubmitInfo.js",
@@ -232,6 +236,7 @@
           "@department-of-veterans-affairs/platform-forms/helpers": "./src/platform/forms/helpers.js",
           "@department-of-veterans-affairs/platform-forms/sub-task": "./src/platform/forms/sub-task/index.js",
           "@department-of-veterans-affairs/platform-forms/save-in-progress": ".src/platform/forms/save-in-progress/SaveInProgressIntro",
+
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
           "@department-of-veterans-affairs/platform-forms-system/FormNavButtons": "./src/platform/forms-system/src/js/components/FormNavButtons.jsx",
@@ -289,6 +294,7 @@
           "@department-of-veterans-affairs/platform-forms-system/validation": "./src/platform/forms-system/src/js/validation.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-patterns": "./src/platform/forms-system/src/js/web-component-patterns/index.js",
           "@department-of-veterans-affairs/platform-forms-system/web-component-fields": "./src/platform/forms-system/src/js/web-component-fields/index.js",
+
           "@department-of-veterans-affairs/platform-monitoring/exports": "./src/platform/monitoring/exportsFile.js",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/index.jsx",
           "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/containers/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx",
@@ -303,29 +309,24 @@
       }
     ]
   ],
+
   "env": {
     "test": {
-      "presets": [
-        "@babel/env",
-        "@babel/preset-react"
-      ],
+      "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
         "istanbul",
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
+
         "@babel/plugin-proposal-function-sent",
         "@babel/plugin-proposal-export-namespace-from",
         "@babel/plugin-proposal-numeric-separator",
         "@babel/plugin-proposal-throw-expressions",
+
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            "loose": false
-          }
-        ],
+        ["@babel/plugin-proposal-class-properties", { "loose": false }],
         "@babel/plugin-proposal-json-strings"
       ]
     },
