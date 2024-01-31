@@ -68,6 +68,7 @@ export function createServiceMap(maintenanceWindows = []) {
   // so that when a single externalService has multiple upcoming
   // maintenance windows, we can easily grab the one with the
   // earliest startTime and ignore any others that we encounter
+  // Expected format for `attributes.startTime`: YYYY-MM-DDTHH:MM:SS.SSSZ
   const sortedMaintenanceWindows = maintenanceWindows.sort((a, b) => {
     const aStart = a.attributes.startTime;
     const bStart = b.attributes.startTime;
