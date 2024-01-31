@@ -21,7 +21,7 @@ describe('995 subtask', () => {
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
     cy.get('va-radio')
       .shadow()
-      .find('#error-message')
+      .find('.usa-error-message')
       .contains('You must choose a claim type');
 
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
