@@ -29,7 +29,8 @@
     "otherReasons": {
       "FINANCIAL_HARDSHIP": true,
       "ALS": true,
-      "TERMINAL_ILLNESS": true
+      "TERMINAL_ILLNESS": true,
+      "VSI_SI": true
     }
   }
 }

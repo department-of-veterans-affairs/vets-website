@@ -26,6 +26,7 @@ import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
 import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import terminalIllnessPg from '../pages/evidenceTerminalIllness';
 import alsPg from '../pages/evidenceALS';
+import vsiPg from '../pages/evidenceVSI';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -270,6 +271,15 @@ const formConfig = {
           uiSchema: alsPg.uiSchema,
           schema: alsPg.schema,
           pageClass: 'evidence-als',
+        },
+        vsiPage: {
+          depends: formData => formData.otherReasons.VSI_SI,
+          path: 'evidence-vsi',
+          title:
+            'Upload evidence for Seriously or Very Seriously Injured or Ill during military operations',
+          uiSchema: vsiPg.uiSchema,
+          schema: vsiPg.schema,
+          pageClass: 'evidence-vsi',
         },
       },
     },
