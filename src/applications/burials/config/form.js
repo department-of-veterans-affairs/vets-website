@@ -3,6 +3,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { createSelector } from 'reselect';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
@@ -21,7 +22,8 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+
+// import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 
 import { validateCentralMailPostalCode } from '../utils/validation';
 
@@ -35,15 +37,18 @@ import burialInformationPartOne from './chapters/02-veteran-information/burialIn
 import burialInformationPartTwo from './chapters/02-veteran-information/burialInformationPartTwo';
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
+import servicePeriods from './chapters/03-military-history/servicePeriods';
 
 import {
   isEligibleNonService,
   BurialDateWarning,
   fileHelp,
   transportationWarning,
-  serviceRecordNotification,
+  // serviceRecordNotification,
   serviceRecordWarning,
   submit,
+  // generateTitle,
+  // generateHelpText,
 } from '../utils/helpers';
 import { allowanceLabels } from '../utils/labels';
 import migrations from '../utils/migrations';
@@ -53,7 +58,6 @@ import manifest from '../manifest.json';
 const {
   claimantEmail,
   claimantPhone,
-  toursOfDuty,
   placeOfRemains,
   federalCemetery,
   stateCemetery,
@@ -202,22 +206,8 @@ const formConfig = {
           title: 'Service periods',
           path: 'military-history/service-periods',
           depends: formData => !formData['view:separationDocuments'],
-          uiSchema: {
-            'view:serviceRecordNotification': {
-              'ui:description': serviceRecordNotification,
-            },
-            toursOfDuty: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:serviceRecordNotification': {
-                type: 'object',
-                properties: {},
-              },
-              toursOfDuty,
-            },
-          },
+          uiSchema: servicePeriods.uiSchema,
+          schema: servicePeriods.schema,
         },
         previousNames: {
           title: 'Previous names',
