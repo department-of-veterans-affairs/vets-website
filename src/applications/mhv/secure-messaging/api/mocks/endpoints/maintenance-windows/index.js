@@ -1,7 +1,8 @@
 const moment = require('moment');
 
 const SERVICES = {
-  MHV: 'mhv',
+  mhvSm: 'mhv_sm',
+  mhvPlatform: 'mhv_platform',
 };
 
 const beforeNow = moment()

@@ -30,6 +30,14 @@ export default {
   mvi: 'mvi',
   // My HealtheVet
   mhv: 'mhv',
+  // My HealtheVet Platform - Medical Records, Secure Messaging and Medications
+  mhvPlatform: 'mhv_platform',
+  // My HealtheVet Medical Records
+  mhvMr: 'mhv_mr',
+  // My HealtheVet Secure Messaging
+  mhvSm: 'mhv_sm',
+  // My HealtheVet Medications
+  mhvMeds: 'mhv_meds',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)

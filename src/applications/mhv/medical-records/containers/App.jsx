@@ -184,7 +184,7 @@ const App = ({ children }) => {
         <MrBreadcrumbs />
         <DowntimeNotification
           appTitle="Medical Records"
-          dependencies={[externalServices.mhv]}
+          dependencies={[externalServices.mhvPlatform, externalServices.mhvMr]}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
             {showSideNav && (

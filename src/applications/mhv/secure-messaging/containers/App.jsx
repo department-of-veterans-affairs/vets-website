@@ -107,7 +107,10 @@ const App = () => {
           >
             <DowntimeNotification
               appTitle="Secure Messaging"
-              dependencies={[externalServices.mhv]}
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvSm,
+              ]}
             >
               <Navigation />
               <ScrollToTop />
