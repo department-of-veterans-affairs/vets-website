@@ -115,7 +115,7 @@ const ProofOfVeteranStatus = ({
           </div>
           <div className="vads-u-margin-y--4">
             <MobileAppCallout
-              headingText="Get proof of Veteran Status on your mobile device"
+              headingText="Get proof of Veteran status on your mobile device"
               bodyText={
                 <>
                   You can use our mobile app to get proof of Veteran status. To
