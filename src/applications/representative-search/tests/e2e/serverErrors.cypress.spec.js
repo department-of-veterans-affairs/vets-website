@@ -37,7 +37,7 @@ describe('Find a Representative error handling', () => {
     cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
     cy.wait('@getServerError');
 
-    cy.get('#search-results-title')
+    cy.get('.search-section')
       .find('h2')
       .contains('something went wrong');
   });
