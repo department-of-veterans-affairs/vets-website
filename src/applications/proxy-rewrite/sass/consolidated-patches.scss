@@ -173,7 +173,7 @@ header.merger {
 #vetnav-va-benefits-and-health-care.vetnav-panel {
   width: 250px !important;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     &.vetnav-submenu--expanded {
       width: 768px !important;
     }

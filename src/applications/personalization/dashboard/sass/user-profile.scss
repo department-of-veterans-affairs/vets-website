@@ -81,7 +81,7 @@ button.dismissible-close {
   .resume {
     padding-left: 8px;
     padding-right: 8px;
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       padding-left: 8px;
     }
   }
@@ -108,7 +108,7 @@ button.dismissible-close {
   }
 
   .form-title {
-    @include media ($medium-large-screen) {
+    @include media ($medium-screen) {
       padding-right: 24px;
     }
   }
