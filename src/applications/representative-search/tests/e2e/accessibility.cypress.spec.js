@@ -31,10 +31,16 @@ describe('Accessibility', () => {
     // Verify focused on input location
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get('va-additional-info[trigger="What does a VSO do?"]').focused();
+    cy.get(
+      'va-additional-info[trigger="What does an accredited VSO do?"]',
+    ).focused();
     cy.tab();
     cy.get(
       'va-additional-info[trigger="What does an accredited attorney do?"]',
+    ).focused();
+    cy.tab();
+    cy.get(
+      'va-additional-info[trigger="What does an accredited claims agent do?"]',
     ).focused();
     cy.tab();
     cy.get('va-radio').trigger('keydown', {
@@ -42,8 +48,8 @@ describe('Accessibility', () => {
       which: 9,
     });
     cy.tab();
-    cy.get('input[name="City, state, postal code or address"]').focus();
-    cy.get('input[name="City, state, postal code or address"]').trigger(
+    cy.get('input[name="Address, city, state, or postal code"]').focus();
+    cy.get('input[name="Address, city, state, or postal code"]').trigger(
       'keydown',
       {
         keyCode: 9,
@@ -52,8 +58,8 @@ describe('Accessibility', () => {
     );
 
     // Verify focused on name input
-    cy.get('input[name="Name of VSO or accredited attorney"]').focused();
-    cy.get('input[name="Name of VSO or accredited attorney"]').trigger(
+    cy.get('input[name="Name of accredited representative"]').focused();
+    cy.get('input[name="Name of accredited representative"]').trigger(
       'keydown',
       {
         keyCode: 9,

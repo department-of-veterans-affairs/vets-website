@@ -3,7 +3,7 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 Cypress.Commands.add('checkSearch', () => {
-  cy.get('input[name="City, state, postal code or address"]', {
+  cy.get('input[name="Address, city, state, or postal code"]', {
     timeout: 5000,
   }).type(`Austin, TX`, { force: true });
 
