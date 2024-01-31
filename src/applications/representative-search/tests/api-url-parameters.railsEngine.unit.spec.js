@@ -92,14 +92,13 @@ describe('Locator url and parameters builder', () => {
       page: 2,
       perPage: 7,
       sort,
-      type: null,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc`,
+      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer`,
     );
   });
 });
