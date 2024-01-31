@@ -1,5 +1,5 @@
-const format = require('date-fns/format');
 const add = require('date-fns/add');
+const { format, utcToZonedTime } = require('date-fns-tz');
 
 const createVaosAppointment = ({
   startsInDays = 1,
@@ -64,14 +64,17 @@ const createVaosAppointment = ({
         },
       },
     },
-    get localStartTime() {
-      return format(now, "yyyy-MM-dd'T'HH:mm:ss", {
-        timeZone: this.location.attributes.timezone.timeZoneId,
-      });
-    },
     start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
-    startsAt: format(now, "yyyy-MM-dd'T'HH:mm:ssxxx"),
     end: format(add(now, { hours: 3 }), "yyyy-MM-dd'T'HH:mm:ss"),
+    get localStartTime() {
+      return format(
+        utcToZonedTime(now, this.location.attributes.timezone.timeZoneId),
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+        {
+          timeZone: this.location.attributes.timezone.timeZoneId,
+        },
+      );
+    },
   };
   return appointment;
 };

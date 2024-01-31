@@ -17,13 +17,13 @@ describe('<AppointmentsCard />', () => {
         additionalInfo: 'yada yada yada',
         isVideo: true,
         providerName: 'test provider',
-        startsAt: '2024-01-11T06:30:00-07:00',
+        localStartTime: '2024-01-11T06:30:00-07:00',
         timeZone: 'MT',
         type: 'regular',
       },
     ];
 
-    const startFns = parseISO(appointments[0].startsAt);
+    const startFns = parseISO(appointments[0].localStartTime);
     const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
     const tree = renderInReduxProvider(
       <AppointmentsCard appointments={appointments} />,
@@ -53,7 +53,7 @@ describe('<AppointmentsCard />', () => {
     it('when the appointment is a video appointment', () => {
       const appointments = [
         {
-          startsAt: '2023-12-04T10:00:00-05:00',
+          localStartTime: '2023-12-04T10:00:00-05:00',
           isVideo: true,
           additionalInfo: 'testing',
         },
@@ -85,7 +85,7 @@ describe('<AppointmentsCard />', () => {
       const providerName = 'test provider';
       const appointments = [
         {
-          startsAt: '2023-12-04T10:00:00-05:00',
+          localStartTime: '2023-12-04T10:00:00-05:00',
           isVideo: false,
           providerName,
         },

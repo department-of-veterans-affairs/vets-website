@@ -12,7 +12,7 @@ import {
   selectUnreadCount,
   selectUserCernerFacilityNames,
 } from '~/applications/personalization/dashboard/selectors';
-import { fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action } from '~/applications/personalization/appointments/actions';
+import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
@@ -27,7 +27,7 @@ const HealthCareContent = ({
   appointments,
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointmentsV2,
+  fetchConfirmedFutureAppointments,
   facilityNames,
   fetchUnreadMessages,
   unreadMessagesCount,
@@ -46,10 +46,10 @@ const HealthCareContent = ({
   useEffect(
     () => {
       if (!dataLoadingDisabled && isVAPatient) {
-        fetchConfirmedFutureAppointmentsV2();
+        fetchConfirmedFutureAppointments();
       }
     },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointmentsV2, isVAPatient],
+    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
   );
 
   useEffect(
@@ -225,7 +225,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
+  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
 
 HealthCareContent.propTypes = {
@@ -244,7 +244,7 @@ HealthCareContent.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   facilityNames: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointmentsV2: PropTypes.func,
+  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
