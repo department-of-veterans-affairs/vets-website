@@ -7,18 +7,26 @@
     padding: 0 2.4px;
 }
 
+/* Lists */
 .appointment-list {
     list-style: none;
 }
 
-.clinic-information i {
-    padding-right: 0.5em;
+/* Suppress bullet on lists with only one item */
+#react-root ul:has(> :last-child:nth-child(1)) {
+    list-style: none;
+    padding-left: 0;
 }
 
 /* Lab results */
 .lab-results h4 {
     margin-bottom: 0;
 }
+
+.clinic-information i {
+    padding-right: 0.5em;
+}
+
 
 /* Miscellaneous */
 hr {

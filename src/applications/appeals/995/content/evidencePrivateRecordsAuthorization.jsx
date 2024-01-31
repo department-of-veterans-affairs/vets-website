@@ -15,7 +15,7 @@ export const authorizationAlertContent = onAnchorClick => (
       If you want us to request your private medical records from your doctor,
       you must authorize the release.
     </p>
-    <a href="#privacy-agreement" onClick={onAnchorClick}>
+    <a href="#privacy-agreement" onClick={onAnchorClick} id="checkbox-anchor">
       Check box to authorize
     </a>
     <p className="vads-u-margin-bottom--0">
