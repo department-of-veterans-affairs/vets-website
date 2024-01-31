@@ -35,6 +35,8 @@ const baseUrl =
 export const getApi = (endpoint, method = 'GET', requestBody) => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
+  const csrfToken = JSON.parse(localStorage.getItem('csrfToken'));
+
   const apiSettings = {
     mode: 'cors',
     method,
@@ -43,6 +45,7 @@ export const getApi = (endpoint, method = 'GET', requestBody) => {
       'X-Key-Inflection': 'camel',
       'Sec-Fetch-Mode': 'cors',
       'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken,
 
       // Pull app name directly from manifest since this config is defined
       // before startApp, and using window.appName here would result in
