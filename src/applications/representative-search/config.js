@@ -77,20 +77,13 @@ export const resolveParamsWithUrl = ({
     `page=${page || 1}`,
     `per_page=${perPage}`,
     `sort=${sort}`,
-    type ? `type=${type}` : null,
+    `type=${type}`,
   ];
 
   return `?${compact([...params]).join('&')}`;
 };
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
-  [RepresentativeType.ATTORNEY]: 'attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
-};
-
-export const representativeTypesOptions = {
-  [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
   [RepresentativeType.ATTORNEY]: 'attorney',
   [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
