@@ -101,6 +101,8 @@ export {
 
 export function customTransformForSubmit(formConfig, form) {
   const payload = cloneDeep(form);
+  const address = payload.data.veteranContactInformation.veteranAddress;
+  address.addressLine1 = address.addressLine1?.replace(';', '\n');
   // manually delete view:confirmEmail, since in our case we actually want the other view fields
   delete payload.data.veteranContactInformation['view:confirmEmail'];
   const expandedPages = expandArrayPages(
