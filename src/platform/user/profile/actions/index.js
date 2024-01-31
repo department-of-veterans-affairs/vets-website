@@ -41,15 +41,18 @@ export function profileError() {
 const hasError = dataPayload =>
   dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
 
-const extractProfileErrors = dataPayload => {
+export const extractProfileErrors = dataPayload => {
   const metaDescriptions = dataPayload?.meta?.errors?.reduce(
-    (acc, error) =>
-      error?.description ? `${acc} | ${error.description}` : acc,
+    (acc, error, index) =>
+      error?.description
+        ? `${acc}${index > 0 ? ' | ' : ''}${error.description}`
+        : acc,
     '',
   );
 
   const mainErrors = dataPayload?.errors?.reduce(
-    (acc, error) => (error?.title ? `${acc} | ${error.title}` : acc),
+    (acc, error, index) =>
+      error?.title ? `${acc}${index > 0 ? ' | ' : ''}${error.title}` : acc,
     '',
   );
 
@@ -64,6 +67,7 @@ const extractProfileErrors = dataPayload => {
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
+  recordAnalyticsEvent = recordEvent,
 ) {
   const query = {
     now: new Date().getTime(),
@@ -94,7 +98,7 @@ export function refreshProfile(
       eventData['error-key'] = errorKey;
     }
 
-    recordEvent(eventData);
+    recordAnalyticsEvent(eventData);
 
     dispatch(updateProfileFields(payload));
     return payload;

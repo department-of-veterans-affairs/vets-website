@@ -83,7 +83,7 @@ const responses = {
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.loa3User); // user with loa3
     // return res.json(user.nonVeteranUser); // non-veteran user
-    /// return res.json(user.externalServiceError); // external service error
+    // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
