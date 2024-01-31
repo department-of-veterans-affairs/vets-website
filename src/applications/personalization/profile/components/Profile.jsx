@@ -165,9 +165,7 @@ class Profile extends Component {
 
     const routes = getRoutes({
       profileContactsPage: toggles.profileContacts,
-      useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
-      profileShowProofOfVeteranStatus: toggles.profileShowProofOfVeteranStatus,
     });
 
     return (

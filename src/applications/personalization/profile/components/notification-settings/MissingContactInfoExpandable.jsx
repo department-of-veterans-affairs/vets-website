@@ -65,7 +65,6 @@ const AddYourInfoLink = ({ channel }) => {
     <Link
       to={generateContactInfoLink({
         fieldName: fieldNames[channel.id],
-        focusOnEditButton: true,
         returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
       })}
     >

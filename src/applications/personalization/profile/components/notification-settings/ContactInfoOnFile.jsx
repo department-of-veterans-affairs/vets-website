@@ -28,7 +28,6 @@ const ContactInfoOnFile = ({
             <Link
               to={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
-                focusOnEditButton: true,
                 returnPath: encodeURIComponent(
                   PROFILE_PATHS.NOTIFICATION_SETTINGS,
                 ),
@@ -56,7 +55,6 @@ const ContactInfoOnFile = ({
           <va-link
             href={generateContactInfoLink({
               fieldName: FIELD_NAMES.MOBILE_PHONE,
-              focusOnEditButton: true,
               returnPath: encodeURIComponent(
                 PROFILE_PATHS.NOTIFICATION_SETTINGS,
               ),
