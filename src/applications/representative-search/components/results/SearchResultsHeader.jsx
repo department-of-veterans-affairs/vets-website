@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { sortOptions } from '../../config';
 
@@ -7,11 +7,11 @@ import { sortOptions } from '../../config';
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-
   const { inProgress, context, representativeType, sortType } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
-
   const noResultsFound = !searchResults || !searchResults.length;
+
+  const [selectedSortType, setSelectedSortType] = useState(sortType);
 
   if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
@@ -52,12 +52,12 @@ export const SearchResultsHeader = props => {
     </option>
   ));
 
-  // method for triggering sortResults when sortType updates
-  const handleSortTypeChange = e => {
+  // selection is updated in redux
+  const onClickApplyButton = () => {
     props.updateSearchQuery({
       id: Date.now(),
       page: 1,
-      sortType: e.target.value,
+      sortType: selectedSortType,
     });
   };
 
@@ -110,18 +110,26 @@ export const SearchResultsHeader = props => {
           <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
             Sort by
           </label>
-          <select
-            id="representative-sorting-dropdown"
-            aria-label="Sort"
-            // ref={sortTypeRef}
-            value={sortType}
-            title="Sort by:"
-            onChange={handleSortTypeChange}
-            style={{ fontWeight: 'bold' }}
-          >
-            {' '}
-            {options}{' '}
-          </select>
+          <div className="sort-select-and-apply">
+            <div className="sort-select">
+              <select
+                id="representative-sorting-dropdown"
+                aria-label="Sort"
+                // ref={sortTypeRef}
+                value={selectedSortType}
+                title="Sort by:"
+                onChange={e => setSelectedSortType(e.target.value)}
+                style={{ fontWeight: 'bold' }}
+              >
+                {' '}
+                {options}{' '}
+              </select>
+            </div>
+
+            <div className="vads-u-margin-left--2 sort-apply-button">
+              <va-button onClick={onClickApplyButton} text="Apply" secondary />
+            </div>
+          </div>
         </div>
         {/* <hr /> */}
       </div>

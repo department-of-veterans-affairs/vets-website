@@ -92,12 +92,9 @@
 
   .results-section {
     .pagination-container .hydrated {
-      // @media (min-width: $large-screen) {
-      //   width: $large-screen-content-width;
-      // }
-
       border-top: none !important;
     }
+
     #search-results-title {
       margin-bottom: 2em;
     }
@@ -106,13 +103,20 @@
       margin: 0.5em 0 0.5em 0;
     }
 
-    .representative-results-list {
-      width: 100%;
-      // padding: 0 30px;
+    .sort-dropdown {
+      .sort-select-and-apply {
+        display: flex;
+        align-items: center;
+
+        .sort-select {
+          margin-bottom: 4.8px;
+          width: 32rem;
+        }
+      }
     }
 
-    .results-section {
-      padding: 0 30px;
+    .representative-results-list {
+      width: 100%;
     }
 
     .representative-results-list {
