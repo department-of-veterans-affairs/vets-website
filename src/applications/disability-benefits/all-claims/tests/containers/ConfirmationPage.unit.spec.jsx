@@ -98,7 +98,7 @@ describe('ConfirmationPage', () => {
       'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
     );
     tree.getByText(
-      'Separation Health Assessment - Part A Self-Assessment (opens in a new tab)',
+      'Separation Health Assessment - Part A Self-Assessment (opens in new tab)',
     );
   });
 

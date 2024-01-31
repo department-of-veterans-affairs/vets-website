@@ -61,8 +61,7 @@ export const claimExamsFAQ = (
             rel="noreferrer"
           >
             {' '}
-            contact an Overseas Military Services Coordinator (opens in a new
-            tab)
+            contact an Overseas Military Services Coordinator (opens in new tab)
           </a>{' '}
           for help scheduling a claim exam.
         </p>
