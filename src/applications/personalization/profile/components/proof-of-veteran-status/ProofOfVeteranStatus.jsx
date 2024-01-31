@@ -91,9 +91,9 @@ const ProofOfVeteranStatus = ({
             <strong>Note: </strong>
             This card doesn’t entitle you to any VA benefits.
           </p>
-          <div className="vads-l-grid-container vads-u-padding-y--2 vads-u-padding-l--0">
+          <div className="vads-l-grid-container--full vads-u-padding-y--2">
             <div className="vads-l-row">
-              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--8 medium-screen:vads-l-col--6 ">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
                 <img
                   width="100%"
                   src="/img/proof-of-veteran-status-card-example.png"
