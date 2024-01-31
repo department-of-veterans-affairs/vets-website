@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { FIELD_IDS } from '@@vap-svc/constants';
 import { PROFILE_PATHS, USA_MILITARY_BRANCHES } from './constants';
 
 /**
@@ -57,15 +56,5 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
   };
 };
 
-export const getContactInfoDeepLinkURL = (
-  fieldName,
-  focusOnEditButton = false,
-  useUniqueEditPageURL = false,
-) => {
-  const targetId = FIELD_IDS[fieldName];
-  const fragment = focusOnEditButton ? `edit-${targetId}` : targetId;
-  if (useUniqueEditPageURL) {
-    return `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
-  }
-  return `${PROFILE_PATHS.CONTACT_INFORMATION}#${fragment}`;
-};
+export const getContactInfoDeepLinkURL = fieldName =>
+  `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
