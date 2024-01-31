@@ -34,8 +34,8 @@ describe('Locator url and parameters builder', () => {
     );
   });
 
-  it('should build VA request with type=claims_agent', () => {
-    const type = 'claims_agent';
+  it('should build VA request with type=claim_agents', () => {
+    const type = 'claim_agents';
 
     const { requestUrl } = getApi('/other_accredited_representatives');
 
@@ -54,7 +54,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claims_agent`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents`,
     );
   });
 

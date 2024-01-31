@@ -86,12 +86,12 @@ export const resolveParamsWithUrl = ({
 export const representativeTypes = {
   [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
   [RepresentativeType.ATTORNEY]: 'attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'claims_agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
 
 export const representativeTypesOptions = {
   [RepresentativeType.NONE]: '',
   [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
   [RepresentativeType.ATTORNEY]: 'attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'claims_agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
