@@ -3,22 +3,33 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   emailUI,
   phoneUI,
-  phoneSchema,
   descriptionUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ContactInfoDescription from '../../../components/FormDescriptions/ContactInfoDescription';
 import content from '../../../locales/en/content.json';
 
-const { email } = ezrSchema.properties;
+const { email, homePhone, mobilePhone } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
     'view:contactInformation': {
       ...titleUI(content['vet-contact-info-title'], ContactInfoDescription),
-      homePhone: phoneUI(content['vet-home-phone-label']),
-      mobilePhone: phoneUI(content['vet-mobile-phone-label']),
+      homePhone: {
+        ...phoneUI(content['vet-home-phone-label']),
+        'ui:errorMessages': {
+          required: content['phone-number-error-message'],
+          pattern: content['phone-number-error-message'],
+        },
+      },
+      mobilePhone: {
+        ...phoneUI(content['vet-mobile-phone-label']),
+        'ui:errorMessages': {
+          required: content['phone-number-error-message'],
+          pattern: content['phone-number-error-message'],
+        },
+      },
       email: emailUI(),
     },
   },
@@ -28,8 +39,8 @@ export default {
       'view:contactInformation': {
         type: 'object',
         properties: {
-          homePhone: phoneSchema,
-          mobilePhone: phoneSchema,
+          homePhone,
+          mobilePhone,
           email,
         },
       },
