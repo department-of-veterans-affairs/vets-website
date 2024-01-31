@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { claimsAgentIsEnabled } from '../../config';
 
 const RepTypeSelector = ({ onChange, representativeType }) => {
   const handleRadioButtonSelect = event => {

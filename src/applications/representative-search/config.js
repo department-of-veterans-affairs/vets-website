@@ -18,8 +18,6 @@ export const sortOptions = {
  */
 export const useStagingDataLocally = true;
 
-export const claimsAgentIsEnabled = false;
-
 const baseUrl =
   useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
     ? `https://staging-api.va.gov/services/veteran/v0`
