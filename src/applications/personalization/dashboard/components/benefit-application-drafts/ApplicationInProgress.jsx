@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
@@ -55,28 +54,14 @@ const ApplicationInProgress = ({
 
   return (
     <DashboardWidgetWrapper>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-        <Toggler.Enabled>
-          <div
-            className="vads-u-width--full vads-u-margin-bottom--3"
-            data-testid="application-in-progress"
-          >
-            <va-card>
-              <div className="vads-u-padding--1">{content}</div>
-            </va-card>
-          </div>
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <div
-            className="vads-u-display--flex vads-u-margin-bottom--3"
-            data-testid="application-in-progress"
-          >
-            <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
-              {content}
-            </div>
-          </div>
-        </Toggler.Disabled>
-      </Toggler>
+      <div
+        className="vads-u-width--full vads-u-margin-bottom--3"
+        data-testid="application-in-progress"
+      >
+        <va-card>
+          <div className="vads-u-padding--1">{content}</div>
+        </va-card>
+      </div>
     </DashboardWidgetWrapper>
   );
 };

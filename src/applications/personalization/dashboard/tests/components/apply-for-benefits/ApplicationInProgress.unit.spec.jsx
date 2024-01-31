@@ -1,18 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import ApplicationInProgress from '../../../components/benefit-application-drafts/ApplicationInProgress';
 
 describe('ApplicationInProgress component', () => {
-  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-    },
-  };
-
   const defaultProps = () => {
     return {
       continueUrl: 'application-url/resume',
@@ -34,7 +26,7 @@ describe('ApplicationInProgress component', () => {
 
     beforeEach(() => {
       view = renderWithStoreAndRouter(<ApplicationInProgress {...props} />, {
-        initialState,
+        initialState: {},
       });
     });
 

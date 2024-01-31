@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import recordEvent from '~/platform/monitoring/record-event';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import CTALink from '../CTALink';
 import { getAppointmentTimezone } from '../../utils/date-formatting/timezone';
 
@@ -58,31 +57,16 @@ export const AppointmentsCard = ({ appointments }) => {
   );
 
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-      <Toggler.Enabled>
-        <div className="vads-u-margin-bottom--2p5">
-          <va-card>
-            <div
-              className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
-              data-testid="health-care-appointments-card"
-            >
-              {content}
-            </div>
-          </va-card>
-        </div>
-      </Toggler.Enabled>
-
-      <Toggler.Disabled>
+    <div className="vads-u-margin-bottom--2p5">
+      <va-card>
         <div
-          className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+          className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-padding--1"
           data-testid="health-care-appointments-card"
         >
-          <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
-            {content}
-          </div>
+          {content}
         </div>
-      </Toggler.Disabled>
-    </Toggler>
+      </va-card>
+    </div>
   );
 };
 

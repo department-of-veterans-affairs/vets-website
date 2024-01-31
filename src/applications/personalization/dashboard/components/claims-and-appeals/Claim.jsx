@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import {
   getClaimStatusDescription,
   isClaimComplete,
@@ -80,20 +79,11 @@ const Claim = ({ claim }) => {
   );
 
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-      <Toggler.Enabled>
-        <div className="vads-u-margin-bottom--2p5">
-          <va-card>
-            <div className="vads-u-padding--1">{content}</div>
-          </va-card>
-        </div>
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
-          {content}
-        </div>
-      </Toggler.Disabled>
-    </Toggler>
+    <div className="vads-u-margin-bottom--2p5">
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
+    </div>
   );
 };
 
