@@ -33,43 +33,63 @@ const store = createStore(() => ({}));
 
 describe('<AddFilesForm>', () => {
   context('renders component', () => {
-    // const files = [];
-    // const field = { value: '', dirty: false };
-    // const onSubmit = sinon.spy();
-    // const onAddFile = sinon.spy();
-    // const onRemoveFile = sinon.spy();
-    // const onFieldChange = sinon.spy();
-    // const onCancel = sinon.spy();
-    // const onDirtyFields = sinon.spy();
-    it.only('should render component', () => {
-      const files = [];
-      const field = { value: '', dirty: false };
-      const onSubmit = sinon.spy();
-      const onAddFile = sinon.spy();
-      const onRemoveFile = sinon.spy();
-      const onFieldChange = sinon.spy();
-      const onCancel = sinon.spy();
-      const onDirtyFields = sinon.spy();
+    const fileFormProps = {
+      field: {},
+      files: [],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+    };
+
+    it('should render component', () => {
       const { container } = render(
         <Provider store={store}>
-          <AddFilesForm
-            files={files}
-            field={field}
-            onSubmit={onSubmit}
-            onAddFile={onAddFile}
-            onRemoveFile={onRemoveFile}
-            onFieldChange={onFieldChange}
-            onCancel={onCancel}
-            onDirtyFields={onDirtyFields}
-          />
-          ,
+          <AddFilesForm {...fileFormProps} />,
         </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
-      expect(filesPage).to.exist;
-      // expect($('.add-files-form', container)).to.exist;
+
+      expect($('.add-files-form', container)).to.exist;
+    });
+
+    it('should show uploading modal', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <AddFilesForm uploading {...fileFormProps} />,
+        </Provider>,
+      );
+      // VaModal has an id of `upload-status` so we can use that as the selector here
+      expect($('#upload-status', container)).to.exist;
+    });
+
+    it('should include mail info additional info', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <AddFilesForm {...fileFormProps} />,
+        </Provider>,
+      );
+
+      expect($('va-additional-info', container)).to.exist;
+    });
+
+    it('should not submit if files empty', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <AddFilesForm {...fileFormProps} />,
+        </Provider>,
+      );
+
+      expect($('va-additional-info', container)).to.exist;
+      
+      tree.getMountedInstance().submit();
+      expect(onSubmit.called).to.be.false;
+      expect(onDirtyFields.called).to.be.true;
     });
   });
+
   it('should render component', () => {
     const files = [];
     const field = { value: '', dirty: false };
