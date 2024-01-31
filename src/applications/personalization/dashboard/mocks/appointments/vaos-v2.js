@@ -1,4 +1,3 @@
-// const format = require('date-fns/format');
 const add = require('date-fns/add');
 const { format, utcToZonedTime } = require('date-fns-tz');
 

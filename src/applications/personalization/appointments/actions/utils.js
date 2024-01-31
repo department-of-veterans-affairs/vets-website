@@ -1,9 +1,4 @@
-import {
-  differenceInMilliseconds,
-  isAfter,
-  parseISO,
-  startOfToday,
-} from 'date-fns';
+import { differenceInMilliseconds, isFuture, parseISO } from 'date-fns';
 import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import {
   getVATimeZone,
@@ -33,7 +28,7 @@ const getStagingID = facilityID => {
 
 const isFutureAppointment = appointment => {
   const apptDateTime = parseISO(appointment.attributes.start);
-  return isAfter(apptDateTime, startOfToday());
+  return isFuture(apptDateTime);
 };
 
 const transformAppointment = appointment => {
