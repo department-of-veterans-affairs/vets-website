@@ -176,7 +176,7 @@ class AddFilesForm extends React.Component {
   render() {
     return (
       <>
-        <div>
+        <div className="add-files-form">
           <p className="vads-u-margin-top--3 vads-u-margin-bottom--0">
             Please only submit evidence that supports this claim. You’ll need to
             scan your document onto the device you’re using to submit this

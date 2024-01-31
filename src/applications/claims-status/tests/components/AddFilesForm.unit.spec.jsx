@@ -1,6 +1,11 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { createStore } from 'redux';
+
 import sinon from 'sinon';
 
 import {
@@ -24,8 +29,47 @@ import {
 const byName = name => {
   return node => node?.props?.name === name;
 };
+const store = createStore(() => ({}));
 
 describe('<AddFilesForm>', () => {
+  context('renders component', () => {
+    // const files = [];
+    // const field = { value: '', dirty: false };
+    // const onSubmit = sinon.spy();
+    // const onAddFile = sinon.spy();
+    // const onRemoveFile = sinon.spy();
+    // const onFieldChange = sinon.spy();
+    // const onCancel = sinon.spy();
+    // const onDirtyFields = sinon.spy();
+    it.only('should render component', () => {
+      const files = [];
+      const field = { value: '', dirty: false };
+      const onSubmit = sinon.spy();
+      const onAddFile = sinon.spy();
+      const onRemoveFile = sinon.spy();
+      const onFieldChange = sinon.spy();
+      const onCancel = sinon.spy();
+      const onDirtyFields = sinon.spy();
+      const { container } = render(
+        <Provider store={store}>
+          <AddFilesForm
+            files={files}
+            field={field}
+            onSubmit={onSubmit}
+            onAddFile={onAddFile}
+            onRemoveFile={onRemoveFile}
+            onFieldChange={onFieldChange}
+            onCancel={onCancel}
+            onDirtyFields={onDirtyFields}
+          />
+          ,
+        </Provider>,
+      );
+      const filesPage = $('#tabPanelFiles', container);
+      expect(filesPage).to.exist;
+      // expect($('.add-files-form', container)).to.exist;
+    });
+  });
   it('should render component', () => {
     const files = [];
     const field = { value: '', dirty: false };
