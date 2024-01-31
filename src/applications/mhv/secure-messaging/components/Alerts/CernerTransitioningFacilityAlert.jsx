@@ -1,25 +1,35 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import { getCernerURL } from '~/platform/utilities/cerner';
 
-const CernerTransitioningFacilityAlert = props => {
-  const { recipients } = props;
-  const cernerTransition556T30 = useSelector(
-    state => state.featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30],
+const CernerTransitioningFacilityAlert = () => {
+  const { featureToggles } = useSelector(state => state);
+  const user = useSelector(selectUser);
+  const { facilities } = user.profile;
+
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
   );
 
   const isTranstioningFacility = useMemo(
     () => {
       const transitioningFacilities = [556];
 
-      return recipients.some(recipient =>
-        transitioningFacilities.includes(parseInt(recipient.stationNumber, 10)),
+      return facilities?.some(
+        facility =>
+          !facility.isCerner &&
+          transitioningFacilities.includes(parseInt(facility.facilityId, 10)),
       );
     },
-    [recipients],
+    [facilities],
   );
 
   return (
@@ -50,10 +60,6 @@ const CernerTransitioningFacilityAlert = props => {
       </va-alert>
     )
   );
-};
-
-CernerTransitioningFacilityAlert.propTypes = {
-  recipients: PropTypes.array.isRequired,
 };
 
 export default CernerTransitioningFacilityAlert;

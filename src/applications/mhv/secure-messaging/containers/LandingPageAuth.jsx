@@ -28,7 +28,6 @@ const LandingPageAuth = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
-  const { allRecipients } = fullState.sm.recipients;
   const [prefLink, setPrefLink] = useState('');
 
   useEffect(
@@ -54,7 +53,7 @@ const LandingPageAuth = () => {
     <div className="dashboard">
       <AlertBackgroundBox />
       <h1>Messages</h1>
-      <CernerTransitioningFacilityAlert recipients={allRecipients} />
+      <CernerTransitioningFacilityAlert />
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>

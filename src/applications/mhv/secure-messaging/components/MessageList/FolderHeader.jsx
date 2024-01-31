@@ -15,6 +15,7 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -85,6 +86,10 @@ const FolderHeader = props => {
 
       {folder.folderId === Folders.INBOX.id &&
         cernerFacilitiesPresent && <CernerFacilityAlert />}
+
+      {folder.folderId === Folders.INBOX.id && (
+        <CernerTransitioningFacilityAlert />
+      )}
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>
