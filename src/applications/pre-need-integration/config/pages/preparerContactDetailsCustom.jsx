@@ -131,44 +131,44 @@ function PreparerContanctDetailsCustom({
     goToPath('/applicant-relationship-to-vet');
   };
 
-  return (
-    !isLoading && (
-      <div
-        className="va-profile-wrapper"
-        id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
-      >
-        <ValidateAddressTitle />
-        <span className="vads-u-font-weight--bold">You entered:</span>
-        {renderAddressOption(userAddress)}
-        <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
-        {addressValidation?.confirmedSuggestions?.length !== 0 &&
-          addressValidation?.confirmedSuggestions?.map((address, index) =>
-            renderAddressOption(address, String(index)),
-          )}
-        <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-          <div className="small-6 medium-5 columns">
-            <button
-              type="button"
-              className="usa-button-secondary"
-              id="1-continueButton"
-              onClick={cancel}
-            >
-              {'<<'} Back
-            </button>
-          </div>
-          <div className="small-6 medium-5 end columns">
-            <button
-              type="submit"
-              className="usa-button-primary"
-              id="4-continueButton"
-              onClick={submit}
-            >
-              Continue {'>>'}
-            </button>
-          </div>
+  return isLoading ? (
+    <va-loading-indicator label="Loading" message="Loading..." set-focus />
+  ) : (
+    <div
+      className="va-profile-wrapper"
+      id={`edit-${FIELD_NAMES.MAILING_ADDRESS}`}
+    >
+      <ValidateAddressTitle />
+      <span className="vads-u-font-weight--bold">You entered:</span>
+      {renderAddressOption(userAddress)}
+      <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
+      {addressValidation?.confirmedSuggestions?.length !== 0 &&
+        addressValidation?.confirmedSuggestions?.map((address, index) =>
+          renderAddressOption(address, String(index)),
+        )}
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <button
+            type="button"
+            className="usa-button-secondary"
+            id="1-continueButton"
+            onClick={cancel}
+          >
+            {'<<'} Back
+          </button>
+        </div>
+        <div className="small-6 medium-5 end columns">
+          <button
+            type="submit"
+            className="usa-button-primary"
+            id="4-continueButton"
+            onClick={submit}
+          >
+            Continue {'>>'}
+          </button>
         </div>
       </div>
-    )
+    </div>
   );
 }
 
