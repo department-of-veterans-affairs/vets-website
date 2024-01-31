@@ -9,6 +9,7 @@ export const IssuesSubmitted = ({ issues }) => (
       class="screen-only"
       onClick={window.print}
       text="Print this confirmation"
+      uswds
     />
   </>
 );

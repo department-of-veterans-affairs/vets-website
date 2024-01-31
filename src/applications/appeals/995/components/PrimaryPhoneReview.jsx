@@ -34,6 +34,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
           onClick={editPage}
           label={content.editLabel}
           text={content.edit}
+          uswds
         />
       </div>
       <dl className="review">

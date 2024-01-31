@@ -6,10 +6,11 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities//ui';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { waitForRenderThenFocus } from '~/platform/utilities/ui';
+import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
+import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {
@@ -104,16 +105,13 @@ const AreaOfDisagreement = ({
     },
     updatePage: () => {
       const disagreement = data.areaOfDisagreement[pagePerItemIndex] || {};
+      const scrollKey = `areaOfDisagreementFollowUp${pagePerItemIndex}`;
       if (!setMaxError(disagreement) && !setCheckboxError(disagreement)) {
-        waitForRenderThenFocus(
-          `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
-          undefined, // root
-          250, // timeInterval
-          'button', // shadow DOM selector
-        );
-        updatePage();
+        focusOnChange(scrollKey, 'va-button', 'button');
+        updatePage(data);
       } else {
-        scrollToFirstError();
+        // replaces scrollToFirstError()
+        focusOnChange(scrollKey, ERROR_ELEMENTS.join(','));
       }
     },
   };
@@ -132,6 +130,7 @@ const AreaOfDisagreement = ({
         onVaChange={handlers.onGroupChange}
         error={checkboxErrorMessage}
         required
+        uswds
       >
         {Object.entries(DISAGREEMENT_TYPES).map(
           ([key, label]) =>
@@ -142,6 +141,7 @@ const AreaOfDisagreement = ({
                 label={label}
                 checked={options[key]}
                 message-aria-describedby={titlePlainText}
+                uswds
               />
             ),
         )}
@@ -153,11 +153,12 @@ const AreaOfDisagreement = ({
           onInput={handlers.onInput}
           value={disagreements.otherEntry}
           maxlength={maxLength}
+          uswds
         />
       </VaCheckboxGroup>
 
       {onReviewPage ? (
-        <va-button text={content.update} onClick={handlers.updatePage} />
+        <va-button text={content.update} onClick={handlers.updatePage} uswds />
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
