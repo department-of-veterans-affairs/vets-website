@@ -17,7 +17,13 @@ export default {
   uiSchema: {
     ...titleUI(content['household-spouse-contact-info-title']),
     spouseAddress: addressUI({ omit: ['isMilitary'] }),
-    spousePhone: phoneUI(content['household-sponse-phone-label']),
+    spousePhone: {
+      ...phoneUI(content['household-sponse-phone-label']),
+      'ui:errorMessages': {
+        required: content['phone-number-error-message'],
+        pattern: content['phone-number-error-message'],
+      },
+    },
   },
   schema: {
     type: 'object',
