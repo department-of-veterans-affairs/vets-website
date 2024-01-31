@@ -7,7 +7,6 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
-import { getPatientSignature } from '../actions/preferences';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const MessageReply = () => {
   useEffect(
     () => {
       dispatch(retrieveMessageThread(replyId));
-      dispatch(getPatientSignature());
     },
     [replyId, dispatch],
   );
