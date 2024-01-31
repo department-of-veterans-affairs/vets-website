@@ -2,16 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDatetime } from '../utils/date';
 
-function MHVDown({ appLabel = 'This tool', children, endTime, startTime }) {
+function MHVDowntimeApproaching({
+  appLabel = 'This tool',
+  children,
+  endTime,
+  startTime,
+}) {
   const startString = startTime ? formatDatetime(startTime) : '';
   const endString = endTime ? formatDatetime(endTime) : '';
   return (
     <>
-      <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
-        <h3 slot="headline">{appLabel} is down for maintenance</h3>
+      <va-alert
+        class="vads-u-margin-bottom--4"
+        status="warning"
+        closeable
+        uswds
+        visible
+      >
+        <h3 slot="headline">{appLabel} will be down for maintenance</h3>
         <p>
-          We’re working on My HealtheVet right now. If you have trouble using
-          tools, check back after we're finished.
+          We’re going to work on My HealtheVet. If you have trouble using tools,
+          check back after we're finished. Thank you for your patience.
         </p>
         {startString && (
           <p>
@@ -33,11 +44,11 @@ function MHVDown({ appLabel = 'This tool', children, endTime, startTime }) {
   );
 }
 
-MHVDown.propTypes = {
+MHVDowntimeApproaching.propTypes = {
   appLabel: PropTypes.string,
   children: PropTypes.node,
   endTime: PropTypes.instanceOf(Date),
   startTime: PropTypes.instanceOf(Date),
 };
 
-export default MHVDown;
+export default MHVDowntimeApproaching;
