@@ -56,7 +56,7 @@ export const increaseAndNewAlert = ({ formContext }) => {
   );
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h3 slot="headline">We need you to add a disability</h3>
       {alertContent}
     </va-alert>

@@ -10,7 +10,7 @@ const alertContent = (
 
 export const serviceTreatmentRecordsSubmitLater = (
   <div id="submit-str-asap" className="service-treatment-records-submit-later">
-    <va-alert status="warning">
+    <va-alert status="warning" uswds>
       <h3 slot="headline">
         Please submit your service treatment records as soon as possible
       </h3>

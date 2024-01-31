@@ -18,7 +18,7 @@ export const bddConfirmationHeadline =
 export const BddConfirmationAlert = () => {
   return (
     <div className="vads-u-margin-top--2">
-      <va-alert status="warning">
+      <va-alert status="warning" uswds>
         <h3 slot="headline">{bddConfirmationHeadline}</h3>
         {alertContent}
       </va-alert>
