@@ -4,7 +4,7 @@ export const relationshipLabels = {
   parent: 'Parent',
   executor: 'Executor/Administrator of estate',
   funeralDirector: 'Funeral director or cemetery owner',
-  otherFamilyOrFriend: 'Other family member or friend',
+  otherFamily: 'Other family member or friend',
 };
 
 export const locationOfDeathLabels = {

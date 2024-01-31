@@ -6,7 +6,7 @@ import {
   dateOfBirthUI,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import ApplicantDescription from '../../../components/ApplicantDescription';
-import { generateTitle, generateHelpText } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
 
 const {
   claimantFullName,
@@ -33,43 +33,9 @@ export default {
         <ApplicantDescription formContext={formContext} />
       </>
     ),
-    claimantFullName: {
-      ...fullNameUI(),
-      first: {
-        'ui:title': 'Your first name',
-        'ui:errorMessages': {
-          required: 'Enter your first name',
-        },
-      },
-      middle: {
-        'ui:title': 'Your middle name',
-      },
-      last: {
-        'ui:title': 'Your last name',
-        'ui:errorMessages': {
-          required: 'Enter your last name',
-        },
-      },
-      suffix: {
-        'ui:title': 'Your suffix',
-      },
-    },
-    claimantSocialSecurityNumber: {
-      ...ssnUI(),
-      'ui:title': 'Your Social Security number',
-      'ui:description': generateHelpText('example, 123 45 6789'),
-      'ui:errorMessages': {
-        required: 'Enter your Social Security number',
-      },
-    },
-    claimantDateOfBirth: {
-      ...dateOfBirthUI(),
-      'ui:title': 'Your date if birth',
-      'ui:errorMessages': {
-        required: 'Enter your date of birth',
-        pattern: 'Enter a valid date',
-      },
-    },
+    claimantFullName: fullNameUI(title => `Your ${title}`),
+    claimantSocialSecurityNumber: ssnUI('Your Social Security number'),
+    claimantDateOfBirth: dateOfBirthUI('Your date of birth'),
   },
   schema: {
     type: 'object',

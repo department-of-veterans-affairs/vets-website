@@ -10,12 +10,12 @@ import ListItemView from '../../../components/ListItemView';
 const { toursOfDuty } = fullSchemaBurials.properties;
 
 export function ServicePeriodView({ formData }) {
-  let from = '';
-  let to = '';
-  if (formData?.dateRange) {
-    from = formatReviewDate(formData?.dateRange?.from);
-    to = formatReviewDate(formData?.dateRange?.to);
-  }
+  const from = formData?.dateRange?.from
+    ? formatReviewDate(formData?.dateRange?.from)
+    : '';
+  const to = formData?.dateRange?.to
+    ? formatReviewDate(formData?.dateRange?.to)
+    : '';
 
   return (
     <>

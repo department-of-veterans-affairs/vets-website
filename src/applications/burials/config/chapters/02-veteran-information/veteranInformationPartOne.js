@@ -7,24 +7,7 @@ const { veteranFullName } = fullSchemaBurials.properties;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Personal information'),
-    veteranFullName: {
-      ...fullNameUI(),
-      first: {
-        'ui:title': 'Veteran’s first name',
-        'ui:errorMessages': {
-          required: 'Enter the Veteran’s first name',
-        },
-      },
-      middle: {
-        'ui:title': 'Veteran’s middle name',
-      },
-      last: {
-        'ui:title': 'Veteran’s last name',
-        'ui:errorMessages': {
-          required: 'Enter the Veteran’s last name',
-        },
-      },
-    },
+    veteranFullName: fullNameUI(title => `Veteran’s ${title}`),
   },
   schema: {
     type: 'object',

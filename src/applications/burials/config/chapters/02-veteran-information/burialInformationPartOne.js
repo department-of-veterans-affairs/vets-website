@@ -13,20 +13,10 @@ const { deathDate, burialDate } = fullSchemaBurials.properties;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Burial information'),
-    deathDate: {
-      ...dateOfDeathUI('Date of death'),
-      'ui:errorMessages': {
-        required: 'Enter the Veteran’s date of death',
-        pattern: 'Enter a valid date',
-      },
-    },
-    burialDate: {
-      ...dateOfDeathUI('Date of burial (includes cremation or interment)'),
-      'ui:errorMessages': {
-        required: 'Enter the Veteran’s date of burial',
-        pattern: 'Enter a valid date',
-      },
-    },
+    deathDate: dateOfDeathUI('Date of death'),
+    burialDate: dateOfDeathUI(
+      'Date of burial (includes cremation or interment)',
+    ),
     'view:burialDateWarning': {
       'ui:description': BurialDateWarning,
       'ui:options': {
