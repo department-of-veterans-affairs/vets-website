@@ -17,12 +17,15 @@ describe('Avs: Your Health Information', () => {
     expect(screen.getByTestId('primary-care-provider').firstChild).to.have.text(
       'DOCTOR,GREAT B',
     );
-    expect(screen.getByTestId('primary-care-team').children[2]).to.have.text(
-      'NURSE, GREAT - LICENSED PRACTICAL NURSE (LPN)',
+    expect(screen.getByTestId('primary-care-team-name')).to.have.text(
+      'Team name: MH ACC BHIP GREEN',
     );
-    expect(screen.getByTestId('primary-care-team').children[3]).to.have.text(
-      'PROVIDER, TWO',
-    );
+    expect(
+      screen.getByTestId('primary-care-team-list').children[2],
+    ).to.have.text('NURSE, GREAT - LICENSED PRACTICAL NURSE (LPN)');
+    expect(
+      screen.getByTestId('primary-care-team-list').children[3],
+    ).to.have.text('PROVIDER, TWO');
     expect(
       screen.getByTestId('scheduled-appointments').firstChild,
     ).to.have.text(
@@ -69,8 +72,8 @@ describe('Avs: Your Health Information', () => {
     delete avs.nonvaMedications;
     const props = { avs };
     const screen = render(<YourHealthInformation {...props} />);
-    expect(screen.queryByTestId('primary-care-team')).to.not.exist;
-    expect(screen.queryByTestId('primary-care-team')).to.not.exist;
+    expect(screen.queryByTestId('primary-care-team-name')).to.not.exist;
+    expect(screen.queryByTestId('primary-care-team-list')).to.not.exist;
     expect(screen.queryByTestId('scheduled-appointments')).to.not.exist;
     expect(screen.queryByTestId('recall-appointments')).to.not.exist;
     expect(screen.queryByTestId('smoking-status')).to.not.exist;
