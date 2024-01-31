@@ -6,6 +6,8 @@ const commonResponses = require('../../../../testing/local-dev-mock-api/common')
 const featureToggles = require('./feature-toggles/index');
 const maintenanceWindows = require('./maintenance-windows');
 const user = require('./user');
+const folders = require('./mhv-api/messaging/folders/index');
+const personalInformation = require('./personal-information.json');
 
 const responses = {
   ...commonResponses,
@@ -14,6 +16,8 @@ const responses = {
     mhvLandingPageEnabled: true,
     mhvLandingPagePersonalization: true,
   }),
+  'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
+  'GET /v0/profile/personal_information': personalInformation,
   ...maintenanceWindows,
 };
 
