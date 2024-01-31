@@ -11,7 +11,7 @@ import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
 } from '~/applications/personalization/dashboard/constants';
 
-import { fetchConfirmedFutureAppointmentsV2 } from './index';
+import { fetchConfirmedFutureAppointments } from './index';
 
 function thisYear() {
   return new Date().getFullYear();
@@ -329,7 +329,7 @@ const mocks = [
   }),
 ];
 
-describe('fetchConfirmedFutureAppointmentsV2', () => {
+describe('fetchConfirmedFutureAppointments', () => {
   let server;
   before(() => {
     // before we can use msw, we need to make sure that global.fetch has been
@@ -358,7 +358,7 @@ describe('fetchConfirmedFutureAppointmentsV2', () => {
         },
       ),
     );
-    await fetchConfirmedFutureAppointmentsV2()(dispatch);
+    await fetchConfirmedFutureAppointments()(dispatch);
 
     expect(dispatch.firstCall.args[0].type).to.equal(
       FETCH_CONFIRMED_FUTURE_APPOINTMENTS,

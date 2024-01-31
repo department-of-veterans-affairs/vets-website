@@ -9,7 +9,7 @@ import {
 
 import { vaosV2Helpers } from './utils';
 
-export function fetchConfirmedFutureAppointmentsV2() {
+export function fetchConfirmedFutureAppointments() {
   return async dispatch => {
     dispatch({
       type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
@@ -50,8 +50,6 @@ export function fetchConfirmedFutureAppointmentsV2() {
       }
 
       const { data: appointments } = appointmentResponse;
-
-      // get facility data
 
       // convert to appointment structure
       const formatted = appointments.map(appointment => {
