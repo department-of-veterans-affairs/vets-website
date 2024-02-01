@@ -52,11 +52,13 @@ jobs:
 
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -102,11 +104,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -271,11 +275,13 @@ jobs:
 
       - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get AWS IAM role
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -286,7 +292,7 @@ jobs:
 
       - name: Configure AWS Credentials (2)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -294,6 +300,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
@@ -385,11 +393,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -412,7 +422,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -420,6 +430,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       - name: Download Unit Test results
         uses: actions/download-artifact@v3
@@ -670,11 +682,13 @@ jobs:
       # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests != '[]'
@@ -769,11 +783,13 @@ jobs:
     steps:
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -853,11 +869,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -881,7 +899,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -889,6 +907,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
@@ -989,11 +1009,13 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1017,7 +1039,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1025,6 +1047,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1105,11 +1129,13 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1133,7 +1159,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1141,6 +1167,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       # --------------------------------------------------
       # | Publish Unit Test Report and Upload to BigQuery |
@@ -1194,11 +1222,13 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1222,7 +1252,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1230,6 +1260,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       # --------------------------------------
       # | Publish Unit Test Coverage Report       |
@@ -1273,11 +1305,13 @@ jobs:
         # | Upload BigQuery Data |
         # ------------------------
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1301,7 +1335,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1309,6 +1343,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1392,11 +1428,13 @@ jobs:
         # | Upload BigQuery Data |
         # ------------------------
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1420,7 +1458,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1428,6 +1466,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
@@ -1505,11 +1545,13 @@ jobs:
           fetch-depth: 0
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1662,11 +1704,13 @@ jobs:
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1675,7 +1719,7 @@ jobs:
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1683,6 +1727,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       - name: Upload build
         run: |
@@ -1759,11 +1805,13 @@ jobs:
 
       - name: Configure AWS credentials (1)
         if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
+
 
       - name: Get AWS IAM role
         if: steps.check-deployability.outputs.is_deployable == 'true'
@@ -1774,7 +1822,7 @@ jobs:
 
       - name: Configure AWS Credentials (2)
         if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1782,6 +1830,8 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
+
 
       - name: Deploy
         if: steps.check-deployability.outputs.is_deployable == 'true'
