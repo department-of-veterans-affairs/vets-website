@@ -96,7 +96,7 @@ jobs:
         run: tar -C build/${{ matrix.environment }} -cjf ${{ matrix.environment }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.environment }}.tar.bz2
           path: ${{ matrix.environment }}.tar.bz2

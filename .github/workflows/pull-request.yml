@@ -43,7 +43,7 @@ jobs:
 
       - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json

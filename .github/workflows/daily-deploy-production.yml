@@ -176,7 +176,7 @@ jobs:
         run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILD_ENV }}.tar.bz2
           path: ${{ env.BUILD_ENV }}.tar.bz2

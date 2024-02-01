@@ -115,7 +115,7 @@ jobs:
         run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
           path: ${{ env.BUILDTYPE }}.tar.bz2
@@ -232,28 +232,28 @@ jobs:
 
       # Temporarily disabled due to apparent memory issues caused by code coverage tools
       # - name: Create coverage artifact
-      #   uses: actions/upload-artifact@v3
+      #   uses: actions/upload-artifact@v4
       #   if: ${{ always() }}
       #   with:
       #     name: code-coverage-artifacts
       #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results

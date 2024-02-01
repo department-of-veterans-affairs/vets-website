@@ -44,14 +44,14 @@ jobs:
 
       - name: Archive E2E spec list
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-spec-list
           path: ./e2e_spec_list.json
 
       - name: Archive Unit Test spec list
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit-test-spec-list
           path: ./unit_test_spec_list.json
@@ -77,14 +77,14 @@ jobs:
 
       - name: Archive E2E Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data/e2e_allow_list.json
 
       - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json

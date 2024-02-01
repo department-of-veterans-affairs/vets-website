@@ -65,7 +65,7 @@ jobs:
         run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
           path: ${{ env.BUILDTYPE }}.tar.bz2
@@ -152,7 +152,7 @@ jobs:
 
       - name: Archive E2E Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data/e2e_allow_list.json
@@ -297,21 +297,21 @@ jobs:
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-stress-test-videos
           path: cypress/videos
 
       - name: Archive test screenshots
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-stress-test-results
           path: cypress/results
