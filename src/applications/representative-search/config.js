@@ -18,8 +18,6 @@ export const sortOptions = {
  */
 export const useStagingDataLocally = true;
 
-export const claimsAgentIsEnabled = false;
-
 const baseUrl =
   useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
     ? `https://staging-api.va.gov/services/veteran/v0`
@@ -35,6 +33,8 @@ const baseUrl =
 export const getApi = (endpoint, method = 'GET', requestBody) => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
+  const csrfToken = JSON.parse(localStorage.getItem('csrfToken'));
+
   const apiSettings = {
     mode: 'cors',
     method,
@@ -43,6 +43,7 @@ export const getApi = (endpoint, method = 'GET', requestBody) => {
       'X-Key-Inflection': 'camel',
       'Sec-Fetch-Mode': 'cors',
       'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken,
 
       // Pull app name directly from manifest since this config is defined
       // before startApp, and using window.appName here would result in
@@ -67,7 +68,7 @@ export const resolveParamsWithUrl = ({
   page,
   perPage = 10,
   sort,
-  type = 'VSO',
+  type = 'veteran_service_officer',
 }) => {
   const params = [
     address ? `address=${address}` : null,
@@ -77,21 +78,14 @@ export const resolveParamsWithUrl = ({
     `page=${page || 1}`,
     `per_page=${perPage}`,
     `sort=${sort}`,
-    type ? `type=${type}` : null,
+    `type=${type}`,
   ];
 
   return `?${compact([...params]).join('&')}`;
 };
 
 export const representativeTypes = {
-  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
-  [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
-};
-
-export const representativeTypesOptions = {
-  [RepresentativeType.NONE]: '',
-  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'VSO',
-  [RepresentativeType.ATTORNEY]: 'Attorney',
-  [RepresentativeType.CLAIM_AGENTS]: 'Claims agent',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
+  [RepresentativeType.ATTORNEY]: 'attorney',
+  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
