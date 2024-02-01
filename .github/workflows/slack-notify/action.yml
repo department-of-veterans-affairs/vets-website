@@ -26,7 +26,7 @@ runs:
         aws-region: us-gov-west-1
 
     - name: Get Slack bot token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
         env_variable_name: SLACK_BOT_TOKEN

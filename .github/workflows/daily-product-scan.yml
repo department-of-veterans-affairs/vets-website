@@ -29,7 +29,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -42,13 +42,13 @@ jobs:
           path: product-directory
 
       - name: Set GitHub Product Directory Id
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /dsva-vagov/testing-team/product-directory/PRODUCT_DIRECTORY_APP_ID
           env_variable_name: PRODUCT_DIRECTORY_APP_ID
 
       - name: Set GitHub Product Directory Private Key
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /dsva-vagov/testing-team/product-directory/PRODUCT_DIRECTORY_PRIVATE_KEY
           env_variable_name: PRODUCT_DIRECTORY_PRIVATE_KEY

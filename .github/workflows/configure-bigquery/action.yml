@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: Get BigQuery service credentials
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
       with:
         ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
         env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
