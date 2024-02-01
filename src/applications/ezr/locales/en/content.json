@@ -129,6 +129,7 @@
   "load-enrollment-status": "Verifying your enrollment status...",
   "modal-cancel-button-primary-text": "Yes, cancel %s",
   "modal-cancel-button-secondary-text": "No, continue %s",
+  "phone-number-error-message":"Please enter a 10-digit phone number (Please enter numbers only)",
   "presubmit-error-message": "You must accept the agreement before continuing.",
   "presubmit-checkbox-label": "I confirm that I agree to the statements listed here. The information is true and correct to the best of my knowledge and belief. I\u2019ve read and accept the privacy policy.",
   "review-answer-no": "No", 
