@@ -8,7 +8,7 @@ import {
 /** defaultFocusSelector
  * Selector string for both pre-v3 and v3 va-segmented-progress-bar's H2
  * Both H2s include "Step {index} of {total}: {page title}"
- * NOTE: For v3 (uswds) (web-component) bar, pass its shadowRoot as root param to the focus methods.  [See FormNav.jsx.]
+ * NOTE: For v3 bar, pass its shadowRoot as root param to the focus methods.  [See FormNav.jsx.]
  */
 export const defaultFocusSelector =
   // #nav-form-header is pre-v3-bar's H2

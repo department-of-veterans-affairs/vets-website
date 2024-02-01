@@ -32,6 +32,7 @@ function focusForm(route, index) {
   if (useCustomScrollAndFocus && scrollAndFocusTarget) {
     customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
+    // Need to provide shadowRoot to focus on elements inside shadow-DOM
     const root = v3SegmentedProgressBar
       ? document.querySelector('va-segmented-progress-bar').shadowRoot
       : document.querySelector('#react-root');
