@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import v1formData from '../fixtures/data/v1formData.json';
+import v1formDataMigrated from '../fixtures/data/v1formDataMigrated.json';
 import migrations from '../../migrations';
 
 describe('Pension migrations', () => {
@@ -150,5 +152,22 @@ describe('Pension migrations', () => {
 
     expect(metadata.returnUrl).to.equal('/household/spouse-info');
     expect(formData).to.be.an('object');
+  });
+  it('should update from v1 to v2', () => {
+    const { formData, metadata } = migrations[3]({
+      formData: v1formData,
+      metadata: {
+        returnUrl: 'any',
+      },
+    });
+
+    expect(metadata.returnUrl).to.equal('/applicant/information');
+    expect(formData).to.be.an('object');
+
+    const v1Fields = Object.keys(formData);
+    const v2Fields = Object.keys(v1formDataMigrated);
+    v1Fields.forEach(key => {
+      expect(v2Fields.includes(key)).to.be.true;
+    });
   });
 });
