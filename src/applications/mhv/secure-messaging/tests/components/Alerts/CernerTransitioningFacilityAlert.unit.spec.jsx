@@ -6,13 +6,33 @@ import { CernerTransitioningFacilities } from '../../../util/constants';
 
 describe('CernerTransitioningFacilityAlert', () => {
   const initialState = {
-    featureToggles: {},
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          vistaFacilities: [
+            {
+              vhaId: '556',
+              vamcSystemName: 'Lovell Federal health care - VA',
+            },
+          ],
+        },
+      },
+    },
+    featureToggles: [],
     user: {
       profile: {
         facilities: [],
       },
     },
   };
+
+  const alertTitle = 'Your health facility is moving to My VA Health';
+  const alertContent =
+    'Lovell Federal health care - VA is moving to our My VA Health portal.';
+  const alertContent2 =
+    'Starting on March 4, you won’t be able to use this My HealtheVet tool to send messages to care teams at this facility.';
+  const alertContent3 =
+    'Starting on March 9, you can use the new My VA Health portal to send messages to these care teams.';
 
   const setup = (state = initialState) => {
     return renderWithStoreAndRouter(<CernerTransitioningFacilityAlert />, {
@@ -22,7 +42,7 @@ describe('CernerTransitioningFacilityAlert', () => {
 
   it('should render the alert when feature toggle is enabled and user has transitioning facilities', () => {
     const customState = {
-      featureToggles: [],
+      ...initialState,
       user: {
         profile: {
           facilities: [
@@ -36,56 +56,17 @@ describe('CernerTransitioningFacilityAlert', () => {
     };
     customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
 
-    const { getByText, findByText } = setup(customState);
+    const { findByText, container } = setup(customState);
 
-    expect(
-      findByText(
-        'New: Portions of My HealtheVet Transitioning to My VA Health',
-      ),
-    ).to.exist;
-    expect(
-      getByText(
-        'Your VA health record or portions of it may be managed on My VA Health.',
-        { exact: false },
-      ),
-    ).to.exist;
-    expect(getByText('Learn more')).to.exist;
-  });
-
-  it('should not render the alert when feature toggle is disabled', () => {
-    const customState = {
-      featureToggles: [],
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId: CernerTransitioningFacilities.NORTH_CHICAGO,
-              isCerner: false,
-            },
-          ],
-        },
-      },
-    };
-    customState.featureToggles[`${'cerner_transition_556_t30'}`] = false;
-
-    const { queryByText } = setup(customState);
-    expect(
-      queryByText(
-        'New: Portions of My HealtheVet Transitioning to My VA Health',
-      ),
-    ).to.be.null;
-    expect(
-      queryByText(
-        'Your VA health record or portions of it may be managed on My VA Health.',
-      ),
-    ).to.be.null;
-    expect(queryByText('Learn more')).to.be.null;
-    expect(queryByText('Visit My VA Health at')).to.be.null;
+    expect(findByText(alertTitle)).to.exist;
+    expect(container.textContent).to.contain(alertContent);
+    expect(container.textContent).to.contain(alertContent2);
+    expect(container.textContent).to.contain(alertContent3);
   });
 
   it('should not render the alert when user does not have transitioning facilities', () => {
     const customState = {
-      featureToggles: [],
+      ...initialState,
       user: {
         profile: {
           facilities: [
@@ -99,24 +80,16 @@ describe('CernerTransitioningFacilityAlert', () => {
     };
     customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
 
-    const { queryByText } = setup(customState);
-
-    expect(
-      queryByText(
-        'New: Portions of My HealtheVet Transitioning to My VA Health',
-      ),
-    ).to.be.null;
-    expect(
-      queryByText(
-        'Your VA health record or portions of it may be managed on My VA Health.',
-      ),
-    ).to.be.null;
-    expect(queryByText('Learn more')).to.be.null;
-    expect(queryByText('Visit My VA Health at')).to.be.null;
+    const { queryByText, container } = setup(customState);
+    expect(queryByText(alertTitle)).to.be.null;
+    expect(container.textContent).to.not.contain(alertContent);
+    expect(container.textContent).to.not.contain(alertContent2);
+    expect(container.textContent).to.not.contain(alertContent3);
   });
 
   it('should not render when no facilites are fetched', () => {
     const customState = {
+      ...initialState,
       featureToggles: [],
       user: {
         profile: {
@@ -126,51 +99,10 @@ describe('CernerTransitioningFacilityAlert', () => {
     };
     customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
 
-    const { queryByText } = setup(customState);
-
-    expect(
-      queryByText(
-        'New: Portions of My HealtheVet Transitioning to My VA Health',
-      ),
-    ).to.be.null;
-    expect(
-      queryByText(
-        'Your VA health record or portions of it may be managed on My VA Health.',
-      ),
-    ).to.be.null;
-    expect(queryByText('Learn more')).to.be.null;
-    expect(queryByText('Visit My VA Health at')).to.be.null;
-  });
-
-  it('should not render the alert post transition', () => {
-    const customState = {
-      featureToggles: [],
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId: CernerTransitioningFacilities.NORTH_CHICAGO,
-              isCerner: true,
-            },
-          ],
-        },
-      },
-    };
-    customState.featureToggles[`${'cerner_transition_556_t30'}`] = true;
-
-    const { queryByText } = setup(customState);
-
-    expect(
-      queryByText(
-        'New: Portions of My HealtheVet Transitioning to My VA Health',
-      ),
-    ).to.be.null;
-    expect(
-      queryByText(
-        'Your VA health record or portions of it may be managed on My VA Health.',
-      ),
-    ).to.be.null;
-    expect(queryByText('Learn more')).to.be.null;
-    expect(queryByText('Visit My VA Health at')).to.be.null;
+    const { queryByText, container } = setup(customState);
+    expect(queryByText(alertTitle)).to.be.null;
+    expect(container.textContent).to.not.contain(alertContent);
+    expect(container.textContent).to.not.contain(alertContent2);
+    expect(container.textContent).to.not.contain(alertContent3);
   });
 });

@@ -1,30 +1,22 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
-import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
-import { getCernerURL } from '~/platform/utilities/cerner';
 import { CernerTransitioningFacilities } from '../../util/constants';
 
 const CernerTransitioningFacilityAlert = () => {
-  const { featureToggles } = useSelector(state => state);
   const user = useSelector(selectUser);
   const { facilities } = user.profile;
+  const { vistaFacilities } = useSelector(
+    state => state.drupalStaticData.vamcEhrData.data,
+  );
 
-  const cernerTransition556T30 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        : false;
-    },
-    [featureToggles],
+  const transitioningFacilities = useMemo(
+    () => [CernerTransitioningFacilities.NORTH_CHICAGO],
+    [],
   );
 
   const isTranstioningFacility = useMemo(
     () => {
-      const transitioningFacilities = [
-        CernerTransitioningFacilities.NORTH_CHICAGO,
-      ];
       if (!facilities) {
         return false;
       }
@@ -32,32 +24,40 @@ const CernerTransitioningFacilityAlert = () => {
         transitioningFacilities.includes(parseInt(facility.facilityId, 10)),
       );
     },
-    [facilities],
+    [facilities, transitioningFacilities],
+  );
+
+  const transitioningFacilitiesName = useMemo(
+    () => {
+      if (!vistaFacilities) {
+        return [];
+      }
+      return vistaFacilities.filter(facility =>
+        transitioningFacilities.includes(parseInt(facility.vhaId, 10)),
+      )[0].vamcSystemName;
+    },
+    [vistaFacilities, transitioningFacilities],
   );
 
   return (
-    cernerTransition556T30 &&
     isTranstioningFacility && (
-      <va-alert status="warning" class="vads-u-margin-top--2">
-        <h2 slot="headline">
-          New: Portions of My HealtheVet Transitioning to My VA Health
-        </h2>
+      <va-alert status="warning" class="vads-u-margin-y--2">
+        <h1 slot="headline">Your health facility is moving to My VA Health</h1>
         <div>
           <p>
-            Your VA health record or portions of it may be managed on My VA
-            Health.{' '}
-            <a href={mhvUrl(false, 'transitioning-to-my-va-health-learn-more')}>
-              Learn more
-            </a>{' '}
-            about steps you may take in your My HealtheVet account, such as
-            getting a list of scheduled appointments.
-          </p>
-          <p>
-            Visit <strong>My VA Health</strong> at{' '}
-            <a href={getCernerURL('')} rel="noreferrer" target="_blank">
-              {getCernerURL('').split('?')[0]}
-            </a>
-            .
+            <strong>{transitioningFacilitiesName}</strong> is moving to our My
+            VA Health portal.
+            <ul>
+              <li>
+                Starting on <strong>March 4,</strong> you won’t be able to use
+                this My HealtheVet tool to send messages to care teams at this
+                facility.
+              </li>
+              <li>
+                Starting on <strong>March 9,</strong> you can use the new My VA
+                Health portal to send messages to these care teams.
+              </li>
+            </ul>
           </p>
         </div>
       </va-alert>

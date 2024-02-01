@@ -20,6 +20,7 @@ import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacil
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+  const { featureToggles } = useSelector(state => state);
 
   const cernerFacilitiesPresent = useSelector(
     state => state.sm.facilities.cernerFacilities.length > 0,
@@ -34,6 +35,15 @@ const FolderHeader = props => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
       ],
+  );
+
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
   );
 
   const folderDescription = useMemo(
@@ -84,12 +94,13 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
+      {cernerTransition556T30 &&
+        folder.folderId === Folders.INBOX.id && (
+          <CernerTransitioningFacilityAlert />
+        )}
+
       {folder.folderId === Folders.INBOX.id &&
         cernerFacilitiesPresent && <CernerFacilityAlert />}
-
-      {folder.folderId === Folders.INBOX.id && (
-        <CernerTransitioningFacilityAlert />
-      )}
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>
