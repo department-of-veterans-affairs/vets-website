@@ -1,9 +1,21 @@
 /* eslint-disable no-console */
-import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
+import {
+  isInShadowDOM,
+  isWebComponent,
+  querySelectorWithShadowRoot,
+} from './webComponents';
 
-// .nav-header > h2 contains "Step {index} of {total}: {page title}"
+/** defaultFocusSelector
+ * Selector string for both pre-v3 and v3 va-segmented-progress-bar's H2
+ * Both H2s include "Step {index} of {total}: {page title}"
+ * NOTE: For v3 (uswds) (web-component) bar, pass its shadowRoot as root param to the focus methods.  [See FormNav.jsx.]
+ */
 export const defaultFocusSelector =
-  '.nav-header > h2, va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  // #nav-form-header is pre-v3-bar's H2
+  // .usa-step-indicator__heading is v3-bar's H2
+  // TODO: Remove pre-v3 selector, after DST defaults all components to v3 [~2024-02-17].
+  '#nav-form-header, .usa-step-indicator__heading';
+// '.nav-header > h2, va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
 
 /**
  * Focus on element
@@ -14,7 +26,7 @@ export const defaultFocusSelector =
  * @param {Element} root - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
  */
-export function focusElement(selectorOrElement, options, root) {
+export async function focusElement(selectorOrElement, options, root) {
   function applyFocus(el) {
     if (el) {
       // Use getAttribute to grab the "tabindex" attribute (returns string), not
@@ -39,13 +51,23 @@ export function focusElement(selectorOrElement, options, root) {
       }
 
       el.focus(options);
+      if (isInShadowDOM(el)) {
+        // Safari doesn't dispatch focus events on shadow-DOM elements,
+        // so we manually dispath it to ensure screen readers are aware.
+        console.info(
+          '[focus.focusElement] Dispatching focus event from shadow-DOM element',
+        );
+        el.dispatchEvent(new FocusEvent('focus'));
+      }
     }
   }
 
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
-    querySelectorWithShadowRoot(selectorOrElement, root).then(
-      elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
+    const elWithShadowRoot = await querySelectorWithShadowRoot(
+      selectorOrElement,
+      root,
     );
+    applyFocus(elWithShadowRoot); // synchronous code
   } else {
     const el =
       typeof selectorOrElement === 'string'

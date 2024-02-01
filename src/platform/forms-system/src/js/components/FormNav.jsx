@@ -130,10 +130,10 @@ export default function FormNav(props) {
           if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
             customScrollAndFocus(page.scrollAndFocusTarget, index);
           } else {
-            waitForRenderThenFocus('h2', root);
+            waitForRenderThenFocus(defaultFocusSelector, root, 400);
           }
         } else {
-          // h2 fallback for confirmation page
+          // h2 fallback for review page
           focusByOrder([defaultFocusSelector, 'h2'], root);
         }
       };
