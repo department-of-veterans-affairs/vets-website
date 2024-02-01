@@ -28,7 +28,7 @@ runs:
       run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
