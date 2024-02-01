@@ -562,7 +562,7 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
-  describe.skip('ccPreferences page', () => {
+  describe('ccPreferences page', () => {
     describe('next page', () => {
       it('should be reasonForAppointment if user has no address on file', () => {
         const state = {
@@ -571,8 +571,8 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
-          'reasonForAppointment',
+        expect(getNewAppointmentFlow(state).ccPreferences.next).to.equal(
+          'ccLanguage',
         );
       });
 
@@ -592,7 +592,7 @@ describe('VAOS newAppointmentFlow', () => {
           },
         };
 
-        expect(getNewAppointmentFlow(state).ccPreferences.next(state)).to.equal(
+        expect(getNewAppointmentFlow(state).ccPreferences.next).to.equal(
           'ccLanguage',
         );
       });
