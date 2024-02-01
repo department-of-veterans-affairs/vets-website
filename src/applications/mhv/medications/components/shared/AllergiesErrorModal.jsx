@@ -19,6 +19,7 @@ const AllergiesErrorModal = props => {
       secondaryButtonText="Cancel download"
       status="warning"
       visible={visible}
+      large
       uswds
     >
       <p>
