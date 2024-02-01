@@ -10,6 +10,9 @@ import {
   survivingDependentPersonalInformationChapterTitle,
   benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
+  hasActiveCompensationITF,
+  hasActivePensionITF,
+  noActiveITFOrCreationFailed,
   statementOfTruthFullNamePath,
   getAlertType,
   getSuccessAlertTitle,
@@ -39,6 +42,9 @@ describe('form helper functions', () => {
     expect(preparerIsThirdPartyToASurvivingDependent()).to.equal(false);
     expect(preparerIsThirdParty()).to.equal(false);
     expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
+    expect(hasActiveCompensationITF()).to.equal(false);
+    expect(hasActivePensionITF()).to.equal(false);
+    expect(noActiveITFOrCreationFailed()).to.equal(true);
     expect(statementOfTruthFullNamePath()).to.equal(
       'survivingDependentFullName',
     );
@@ -186,6 +192,38 @@ describe('form helper functions', () => {
     expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
       /Veteran/i,
     );
+  });
+
+  it('returns true for ITF functions when ITF formData values are present and false when values are undefined', () => {
+    const formData = {
+      activeCompensationITF: { expirationDate: '1-1-1999' },
+      activePensionITF: undefined,
+    };
+
+    expect(hasActiveCompensationITF({ formData })).to.equal(true);
+    expect(hasActivePensionITF({ formData })).to.equal(false);
+    expect(noActiveITFOrCreationFailed({ formData })).to.equal(false);
+
+    formData.activeCompensationITF = undefined;
+    formData.activePensionITF = { expirationDate: '1-1-1999' };
+
+    expect(hasActiveCompensationITF({ formData })).to.equal(false);
+    expect(hasActivePensionITF({ formData })).to.equal(true);
+    expect(noActiveITFOrCreationFailed({ formData })).to.equal(false);
+  });
+
+  it('returns true for noActiveITFOrCreationFailed when itfCreationFailed is true or when there are no active ITFs', () => {
+    const formData = {
+      activeCompensationITF: undefined,
+      activePensionITF: undefined,
+    };
+
+    expect(noActiveITFOrCreationFailed({ formData })).to.equal(true);
+
+    formData.activePensionITF = { expirationDate: '1-1-1999' };
+    formData.itfCreationFailed = true;
+
+    expect(noActiveITFOrCreationFailed({ formData })).to.equal(true);
   });
 });
 
