@@ -11,7 +11,7 @@ runs:
         env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
 
     - name: Authenticate with Google Cloud
-      uses: google-github-actions/auth@v0
+      uses: google-github-actions/auth@v2
       with:
         credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
 
