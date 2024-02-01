@@ -155,8 +155,6 @@ export const CLAIMANT_TYPES = [
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
-export const MAX_FILE_SIZE_MB = 100;
-
 export const ITF_STATUSES = {
   active: 'active',
   expired: 'expired',
