@@ -10,8 +10,8 @@ describe('Locator url and parameters builder', () => {
   const name = 'test';
   const sort = 'distance_asc';
 
-  it('should build VA request with type=VSO', () => {
-    const type = 'VSO';
+  it('should build VA request with type=veteran_service_officer', () => {
+    const type = 'veteran_service_officer';
 
     const { requestUrl } = getApi('/vso_accredited_representatives');
 
@@ -30,12 +30,12 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=VSO`,
+      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer`,
     );
   });
 
-  it('should build VA request with type=claims_agent', () => {
-    const type = 'claims_agent';
+  it('should build VA request with type=claim_agents', () => {
+    const type = 'claim_agents';
 
     const { requestUrl } = getApi('/other_accredited_representatives');
 
@@ -54,7 +54,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claims_agent`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents`,
     );
   });
 
@@ -92,14 +92,13 @@ describe('Locator url and parameters builder', () => {
       page: 2,
       perPage: 7,
       sort,
-      type: null,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc`,
+      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer`,
     );
   });
 });
