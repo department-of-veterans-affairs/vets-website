@@ -49,7 +49,7 @@ export const ConfirmationPage = () => {
         />
         <h2>Request for Higher-Level Review</h2>
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">We’ve received your Higher-Level Review</h2>
         <p>
           After we’ve completed our review, we’ll mail you a decision packet
