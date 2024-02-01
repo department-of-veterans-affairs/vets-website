@@ -40,7 +40,7 @@ const CernerTransitioningFacilityAlert = () => {
   return (
     cernerTransition556T30 &&
     isTranstioningFacility && (
-      <va-alert status="warning">
+      <va-alert status="warning" class="vads-u-margin-top--2">
         <h2 slot="headline">
           New: Portions of My HealtheVet Transitioning to My VA Health
         </h2>
