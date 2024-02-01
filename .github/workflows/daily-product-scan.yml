@@ -9,7 +9,7 @@ jobs:
     name: Daily Product Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -35,7 +35,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout product directory repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: department-of-veterans-affairs/product-directory
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}

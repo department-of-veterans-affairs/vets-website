@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -130,7 +130,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -184,7 +184,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -270,7 +270,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -322,7 +322,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -430,7 +430,7 @@ jobs:
 
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v3
+  #       uses: actions/checkout@v4
   #       with:
   #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -495,7 +495,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 

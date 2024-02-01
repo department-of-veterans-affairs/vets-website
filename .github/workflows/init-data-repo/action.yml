@@ -5,7 +5,7 @@ runs:
   using: composite
   steps:
     - name: Checkout Testing Tools Team Dashboard Data repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: department-of-veterans-affairs/qa-standards-dashboard-data
         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}

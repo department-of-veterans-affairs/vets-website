@@ -15,7 +15,7 @@ jobs:
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/main
@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -109,7 +109,7 @@ jobs:
         run: yarn generate-app-list
 
       - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: department-of-veterans-affairs/qa-standards-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -161,7 +161,7 @@ jobs:
     needs: [lighthouse]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true

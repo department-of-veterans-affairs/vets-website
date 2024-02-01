@@ -47,7 +47,7 @@ jobs:
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -80,7 +80,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -103,7 +103,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -142,7 +142,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
@@ -238,7 +238,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -287,7 +287,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -326,7 +326,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -345,7 +345,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}

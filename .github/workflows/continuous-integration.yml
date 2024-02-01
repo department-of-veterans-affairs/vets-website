@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -165,7 +165,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -222,7 +222,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -342,7 +342,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -390,7 +390,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -461,7 +461,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -491,7 +491,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -542,7 +542,7 @@ jobs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -595,7 +595,7 @@ jobs:
       changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -692,7 +692,7 @@ jobs:
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
@@ -793,7 +793,7 @@ jobs:
 
       - name: Checkout vets-website
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -866,7 +866,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -986,7 +986,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # ----------------
       # | Notify Slack |
@@ -1122,7 +1122,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1215,7 +1215,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1287,7 +1287,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1410,7 +1410,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1540,7 +1540,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -1669,7 +1669,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
@@ -1783,7 +1783,7 @@ jobs:
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -1858,7 +1858,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
