@@ -14,6 +14,7 @@ import {
   focusByOrder,
   customScrollAndFocus,
   defaultFocusSelector,
+  waitForRenderThenFocus,
 } from '../../../../utilities/ui';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
@@ -106,6 +107,11 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
+      // Need to provide shadowRoot for focusing on elements inside shadow-DOM
+      const root = formConfig.v3SegmentedProgressBar
+        ? document.querySelector('va-segmented-progress-bar').shadowRoot
+        : document.querySelector('#react-root');
+
       if (current > index + 1) {
         setIndex(index + 1);
       } else if (current === index) {
@@ -125,21 +131,15 @@ export default function FormNav(props) {
           if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
             customScrollAndFocus(page.scrollAndFocusTarget, index);
           } else {
-            focusByOrder([defaultFocusSelector, 'h2']);
+            waitForRenderThenFocus(defaultFocusSelector, root, 400);
           }
         } else {
-          // h2 fallback for confirmation page
-          focusByOrder([defaultFocusSelector, 'h2']);
+          // h2 fallback for review page
+          focusByOrder([defaultFocusSelector, 'h2'], root);
         }
       };
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
+    [current, index],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
