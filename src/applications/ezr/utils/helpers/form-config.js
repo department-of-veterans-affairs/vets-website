@@ -1,4 +1,8 @@
-import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  EMERGENCY_CONTACT_VIEW_FIELDS,
+  INSURANCE_VIEW_FIELDS,
+} from '../constants';
 
 /**
  * Helper that determines if the form data is missing the Veteran's date of birth
@@ -123,4 +127,13 @@ export function collectMedicareInformation(formData) {
  */
 export function includeInsuranceInformation(formData) {
   return !formData[INSURANCE_VIEW_FIELDS.skip];
+}
+
+/**
+ * Helper that determines if emergency contact information needs to be collected
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if viewfield is set to `false`
+ */
+export function includeEmergencyContactInformation(formData) {
+  return !formData[EMERGENCY_CONTACT_VIEW_FIELDS.skip];
 }

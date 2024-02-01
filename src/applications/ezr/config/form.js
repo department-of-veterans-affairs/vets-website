@@ -21,6 +21,7 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  includeEmergencyContactInformation,
 } from '../utils/helpers/form-config';
 import { prefillTransformer } from '../utils/helpers/prefill-transformer';
 import { submitTransformer } from '../utils/helpers/submit-transformer';
@@ -64,11 +65,19 @@ import insurancePolicies from './chapters/insuranceInformation/insurancePolicies
 import InsuranceSummaryPage from '../components/FormPages/InsuranceSummary';
 import InsurancePolicyInformationPage from '../components/FormPages/InsurancePolicyInformation';
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
+import EmergencyContactSummaryPage from '../components/FormPages/EmergencyContactSummary';
+
+// chapter 4 - Emergency Contact Information
+import emergencyContactSummary from './chapters/emergencyContactInformation/contactSummary';
+import emergencyContactInformation from './chapters/emergencyContactInformation/contactInformation';
+import EmergencyContactReviewPage from '../components/FormReview/EmergencyContactReviewPage';
+import EmergencyContactInformationPage from '../components/FormPages/EmergencyContactInformation';
 
 // declare shared paths for custom form page navigation
 const {
   insurance: INSURANCE_PATHS,
   dependents: DEPENDENT_PATHS,
+  emergencyContacts: EMERGENCY_CONTACT_PATHS,
 } = SHARED_PATHS;
 
 // declare schema definitions
@@ -279,6 +288,28 @@ const formConfig = {
           depends: includeHouseholdInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
+        },
+      },
+    },
+    emergencyContactInformation: {
+      title: 'Medical Emergency Contact',
+      pages: {
+        emergencyContacts: {
+          path: EMERGENCY_CONTACT_PATHS.summary,
+          title: 'Emergency Medical Contact',
+          CustomPage: EmergencyContactSummaryPage,
+          CustomPageReview: EmergencyContactReviewPage,
+          uiSchema: emergencyContactSummary.uiSchema,
+          schema: emergencyContactSummary.schema,
+        },
+        emergencyContactInformation: {
+          path: EMERGENCY_CONTACT_PATHS.info,
+          title: 'Your emergency medical contact',
+          depends: includeEmergencyContactInformation,
+          CustomPage: EmergencyContactInformationPage,
+          CustomPageReview: null,
+          uiSchema: emergencyContactInformation.uiSchema,
+          schema: emergencyContactInformation.schema,
         },
       },
     },
