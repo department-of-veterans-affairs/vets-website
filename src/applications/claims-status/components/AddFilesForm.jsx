@@ -177,7 +177,7 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <p className="vads-u-margin-top--3 vads-u-margin-bottom--0">
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--0">
             Please only submit evidence that supports this claim. You’ll need to
             scan your document onto the device you’re using to submit this
             application, such as your computer, tablet, or mobile phone. You can
@@ -186,7 +186,9 @@ class AddFilesForm extends React.Component {
           <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
             To submit supporting documents for a new disability claim, please
             visit our{' '}
-            <a href="/disability/how-to-file-claim">How to File a Claim</a>{' '}
+            <a id="how-to-file-claim" href="/disability/how-to-file-claim">
+              How to File a Claim
+            </a>{' '}
             page.
           </p>
           <VaFileInput

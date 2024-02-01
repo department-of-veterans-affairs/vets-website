@@ -54,6 +54,14 @@ describe('<AddFilesForm>', () => {
       );
 
       expect($('.add-files-form', container)).to.exist;
+      const checkbox = $('va-checkbox', container);
+      expect(checkbox).to.exist;
+      expect(checkbox.label).to.equal(
+        'The files I uploaded support this claim only.',
+      );
+      const link = $('#how-to-file-claim', container);
+      expect(link.text).to.equal('How to File a Claim');
+      expect($('.files-form-information', container)).to.exist;
     });
 
     it('should show uploading modal', () => {
