@@ -30,6 +30,9 @@ describe('Avs: Your Appointment', () => {
     expect(screen.getByTestId('vitals').children[1].children[4]).to.have.text(
       'HeightResult: 66 in',
     );
+    expect(screen.getByTestId('procedure-list').children[1]).to.have.text(
+      'SARSCOV2 VAC 5X1010VP/.5MLIM',
+    );
     expect(screen.getByTestId('clinic-medications')).to.contain.text(
       'Ketorolac Tromethamine Inj',
     );

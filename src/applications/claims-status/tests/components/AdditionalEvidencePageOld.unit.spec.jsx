@@ -126,30 +126,30 @@ describe('<AdditionalEvidencePageOld>', () => {
     expect(resetUploads.called).to.be.true;
   });
 
-  // it('should set details and go to files page if complete', () => {
-  //   const getClaimEVSS = sinon.spy();
-  //   const resetUploads = sinon.spy();
-  //   const router = getRouter();
+  it('should set details and go to files page if complete', () => {
+    const getClaimEVSS = sinon.spy();
+    const resetUploads = sinon.spy();
+    const router = getRouter();
 
-  //   const tree = SkinDeep.shallowRender(
-  //     <AdditionalEvidencePageOld
-  //       params={params}
-  //       claim={claim}
-  //       files={[]}
-  //       uploadComplete
-  //       uploadField={{ value: null, dirty: false }}
-  //       router={router}
-  //       getClaimEVSS={getClaimEVSS}
-  //       resetUploads={resetUploads}
-  //     />,
-  //   );
+    const tree = SkinDeep.shallowRender(
+      <AdditionalEvidencePageOld
+        params={params}
+        claim={claim}
+        files={[]}
+        uploadComplete
+        uploadField={{ value: null, dirty: false }}
+        router={router}
+        getClaimEVSS={getClaimEVSS}
+        resetUploads={resetUploads}
+      />,
+    );
 
-  //   tree
-  //     .getMountedInstance()
-  //     .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
-  //   expect(getClaimEVSS.calledWith(1)).to.be.true;
-  //   expect(router.push.calledWith('your-claims/1/files')).to.be.true;
-  // });
+    tree
+      .getMountedInstance()
+      .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
+    expect(getClaimEVSS.calledWith(1)).to.be.true;
+    expect(router.push.calledWith('your-claims/1/files')).to.be.true;
+  });
 
   // START lighthouse_migration
   context('cst_use_lighthouse feature toggle', () => {

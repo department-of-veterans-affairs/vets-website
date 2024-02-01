@@ -46,7 +46,7 @@ export const ConfirmationPage = () => {
         />
         <h2>Application for Supplemental Claim</h2>
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">Thank you for filing a Supplemental Claim</h2>
         <p>
           After we’ve completed our review, we’ll mail you a decision packet

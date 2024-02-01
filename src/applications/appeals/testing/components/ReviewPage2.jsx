@@ -48,7 +48,7 @@ const ReviewPage = props => {
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <h1>Review Board Appeal</h1>
-      <va-on-this-page uswds />
+      <va-on-this-page />
       {chapterTitles.filter(title => title !== 'Apply').map((title, index) => (
         <div key={index}>
           <div className={chapterClasses}>
@@ -106,7 +106,7 @@ const ReviewPage = props => {
         </Link>
       </p>
       {/* {props.contentBeforeButtons} */}
-      <va-button onClick={handlers.onSubmit} text="Submit" />
+      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
       <FormNavButtons goBack={props.goBack} goForward={handlers.onSubmit} />
       {/* {props.contentAfterButtons} */}
     </article>
