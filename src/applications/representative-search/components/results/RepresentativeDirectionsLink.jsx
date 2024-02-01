@@ -4,6 +4,7 @@ import { buildAddressArray } from '../../utils/representativeAddress';
 
 function RepresentativeDirectionsLink({ representative, query }) {
   let address = buildAddressArray(representative);
+  const rep = representative.attributes;
 
   if (address.length !== 0) {
     address = address.join(', ');
@@ -17,11 +18,12 @@ function RepresentativeDirectionsLink({ representative, query }) {
         }&daddr=${address}`}
         rel="noopener noreferrer"
       >
-        Get directions on Google Maps{' '}
-        <span className="sr-only">
-          {`to ${representative.attributes.fullName ||
-            representative.attributes.name}`}
-        </span>
+        <div>
+          {rep.addressLine1}, {rep.addressLine2}
+        </div>
+        <div>
+          {rep.city} {rep.state} {rep.zipCode}
+        </div>
       </a>
     </div>
   );

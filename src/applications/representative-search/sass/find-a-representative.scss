@@ -6,8 +6,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-$large-screen-content-width: 940px;
-
 .find-a-representative {
   .clearfix {
     content: "";
@@ -19,79 +17,93 @@ $large-screen-content-width: 940px;
     visibility: hidden !important;
   }
 
-  .search-controls-container {
-    #representative-search-controls {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-
-      .location-input-container {
+  .search-section {
+    .search-controls-container {
+      #representative-search-controls {
+        display: flex;
+        flex-direction: column;
         position: relative;
-      }
 
-      .usa-input-error {
-        margin-top: 0em;
-      }
+        .search-controls-text-inputs {
+          @media (min-width: $medium-screen) {
+            .geolocation-container {
+              // position: relative;
+              display: flex;
+              min-width: 10rem;
 
-      .use-my-location-button-container {
-        @media (min-width: $large-screen) {
-          position: absolute;
-          left: 30em;
-          top: 2em;
-          min-width: 10em;
+              .location-input {
+                min-width: 46rem;
+              }
+
+              .use-my-location-button-container {
+                align-self: flex-end;
+                min-width: 10em;
+                margin-left: 2em;
+                margin-bottom: 4px;
+              }
+            }
+
+            .representative-name-input {
+              min-width: 46rem;
+            }
+          }
         }
-      }
 
-      .use-my-location-button-container-error {
-        @media (min-width: $large-screen) {
-          top: 4em;
+        .usa-input-error {
+          margin-top: 0em;
         }
-      }
 
-      .use-my-location-button {
-        text-decoration: none;
-        background-color: transparent;
-        color: $color-link-default;
-        font-weight: normal;
-        padding: 0 0 0 1.5em;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        max-width: 9em;
-      }
+        .use-my-location-button-container-error {
+          @media (min-width: $large-screen) {
+            top: 4em;
+          }
+        }
 
-      .finding-your-location-loading {
-        min-width: 14em;
-        text-decoration: none;
-        background-color: transparent;
-        margin-top: 0.3em;
-        color: $color-link-default;
-        font-weight: normal;
-        background-repeat: no-repeat;
-        background-color: transparent;
-      }
+        .use-my-location-button {
+          text-decoration: none;
+          background-color: transparent;
+          color: $color-link-default;
+          font-weight: normal;
+          padding: 0 0 0 1.5em;
+          background-image: url("/img/location-arrow-solid.svg");
+          background-repeat: no-repeat;
+          background-color: transparent;
+          max-width: 9em;
+        }
 
-      #representative-search {
-        max-width: 8em;
-        margin: 2em 0 2em 0 !important;
-      }
+        .finding-your-location-loading {
+          min-width: 14em;
+          text-decoration: none;
+          background-color: transparent;
+          margin-top: 0.3em;
+          color: $color-link-default;
+          font-weight: normal;
+          background-repeat: no-repeat;
+          background-color: transparent;
+        }
 
-      .rep-type-selector {
-        p:last-child {
-          margin-bottom: -1em !important;
+        #representative-search {
+          max-width: 8em;
+          margin: 2em 0 2em 0 !important;
+        }
+
+        .rep-type-selector {
+          p:last-child {
+            margin-bottom: -1em !important;
+          }
         }
       }
     }
   }
 
-  .representative-search-results-container {
+  .results-section {
+    @media (min-width: $medium-screen) and (max-width: ($large-screen)) {
+      width: 80%;
+    }
     .pagination-container .hydrated {
-      @media (min-width: $large-screen) {
-        width: $large-screen-content-width;
-      }
-
       border-top: none !important;
     }
+
     #search-results-title {
       margin-bottom: 2em;
     }
@@ -100,53 +112,49 @@ $large-screen-content-width: 940px;
       margin: 0.5em 0 0.5em 0;
     }
 
-    hr {
-      @media (min-width: $large-screen) {
-        width: 64em;
-      }
-    }
-
-    .search-results-header {
-      @media (min-width: $large-screen) {
+    .sort-dropdown {
+      .sort-select-and-apply {
         display: flex;
-        align-items: flex-end;
-        // justify-content: center;
-        width: $large-screen-content-width;
+        align-items: center;
 
-        h2 {
-          margin: 0 7em 0 0 !important;
-          padding: 0px !important;
-          width: 32em;
-        }
-      }
-      padding-bottom: 3em;
-
-      .sort-dropdown {
-        label {
-          @media (min-width: $large-screen) {
-            margin-top: 0 !important;
-          }
+        .sort-select {
+          margin-bottom: 4.8px;
+          width: 32rem;
         }
       }
     }
 
     .representative-results-list {
-      @media (min-width: $large-screen) {
-        width: $large-screen-content-width;
-      }
+      width: 100%;
+    }
 
-      > * {
-        border-bottom: 2px solid $color-gray-lighter;
-        &:first-child {
-          border-top: 2px solid $color-gray-lighter;
+    .representative-results-list {
+      .representative-result-card {
+        border: 1px solid $color-gray-lighter;
+
+        @media (min-width: 900px) {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+
+          .representative-info-section {
+            grid-column: 1;
+          }
+
+          .report-outdated-information-button {
+            grid-column: 2;
+            text-align: right;
+          }
+        }
+        @media (max-width: 909px) {
+          word-wrap: break-word;
+
+          .report-outdated-information-button {
+            width: 100%;
+            margin-top: 2rem;
+          }
         }
       }
-    }
-  }
-
-  .help-footer-container {
-    @media (min-width: $large-screen) {
-      width: $large-screen-content-width;
     }
   }
 }

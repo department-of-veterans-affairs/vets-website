@@ -16,7 +16,7 @@ describe('SearchResultsHeader', () => {
       />,
     );
 
-    expect(wrapper.find('h2').length).to.equal(0);
+    expect(wrapper.find('h3').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -35,7 +35,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h2')
+        .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal('No results found for Attorneys within 50 miles of "11111"');
@@ -51,7 +51,7 @@ describe('SearchResultsHeader', () => {
       />,
     );
 
-    expect(wrapper.find('h2').length).to.equal(0);
+    expect(wrapper.find('h3').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -70,7 +70,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h2')
+        .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal('No results found for Attorneys within 50 miles of "new york"');
@@ -93,7 +93,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h2')
+        .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal('Showing 1 result for Attorneys within 50 miles of "new york"');
@@ -116,7 +116,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 12 of 12 results for Attorneys within 50 miles of "new york"';
-    const actualString = wrapper.find('h2').text();
+    const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -142,7 +142,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 5 results for Attorneys within 50 miles of "new york"';
-    const actualString = wrapper.find('h2').text();
+    const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -168,7 +168,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 1 - 10 of 12 results for Attorneys within 50 miles of "new york"';
-    const actualString = wrapper.find('h2').text();
+    const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -194,7 +194,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
-    const actualString = wrapper.find('h2').text();
+    const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -221,7 +221,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
-    const actualString = wrapper.find('h2').text();
+    const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -258,7 +258,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h2')
+        .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
