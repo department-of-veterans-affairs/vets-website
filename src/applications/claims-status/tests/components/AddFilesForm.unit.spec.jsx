@@ -2,7 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
 
@@ -32,7 +33,7 @@ const byName = name => {
 const store = createStore(() => ({}));
 
 describe('<AddFilesForm>', () => {
-  context('renders component', () => {
+  context('tests using render()', () => {
     const fileFormProps = {
       field: { value: '', dirty: false },
       files: [],
@@ -123,32 +124,6 @@ describe('<AddFilesForm>', () => {
       expect(onSubmit.called).to.be.false;
       expect(onDirtyFields.called).to.be.true;
     });
-
-    // it('should not add an invalid file type', () => {
-    //   const onAddFile = sinon.spy();
-
-    //   const { container } = render(
-    //     <Provider store={store}>
-    //       <AddFilesForm {...fileFormProps} onAddFile={onAddFile} />,
-    //     </Provider>,
-    //   );
-    //   const file = new File(['hello'], 'hello.exe', { type: 'image/png' });
-    //   const input = screen.getByTestId('file-upload-button');
-    //   await waitFor(() => fireEvent.change(input, { target: { files: [file] } }));
-
-    //   fireEvent.click($('#file-upload', container));
-
-    //   // tree.getMountedInstance().add([
-    //   //   {
-    //   //     name: 'something.exe',
-    //   //     size: 200,
-    //   //   },
-    //   // ]);
-    //   expect(onAddFile.called).to.be.false;
-    //   // expect(tree.getMountedInstance().state.errorMessage).to.contain(
-    //   //   'accepted types',
-    //   // );
-    // });
   });
 
   it('should not add an invalid file type', () => {

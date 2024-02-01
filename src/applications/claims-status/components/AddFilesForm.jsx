@@ -191,14 +191,12 @@ class AddFilesForm extends React.Component {
           </p>
           <VaFileInput
             id="file-upload"
-            data-testid="file-upload-button"
             className="vads-u-margin-bottom--3"
             error={this.getErrorMessage()}
             label="Upload additional evidence"
             hint="You can upload a .pdf, gif, .jpeg, .bmp, or txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onVaChange={e => this.add(e.detail.files)}
-            // button-text="Add files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
