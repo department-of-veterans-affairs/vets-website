@@ -6,7 +6,7 @@ import { expect } from 'chai';
 
 import FilesOptional from '../../components/FilesOptional';
 
-describe('<FilesOptionalOld>', () => {
+describe('<FilesOptional>', () => {
   it('should render alert with item data', () => {
     const id = 1;
     const item = {
@@ -19,8 +19,10 @@ describe('<FilesOptionalOld>', () => {
 
     getByText(item.displayName);
     getByText(item.description);
-    getByText('Optional');
-    getByText('- We requested this from others, but upload it if you have it.');
+    getByText(
+      'You don’t have to do anything, but if you have this information you can',
+    );
+    getByText('add it here.');
     expect($('va-alert', container)).to.exist;
   });
 });

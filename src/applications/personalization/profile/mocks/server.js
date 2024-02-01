@@ -62,7 +62,6 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileUseFieldEditingPage: true,
             profileUseHubPage: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
