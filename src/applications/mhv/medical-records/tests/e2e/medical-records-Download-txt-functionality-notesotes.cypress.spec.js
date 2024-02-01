@@ -13,10 +13,11 @@ describe('Medical Records Care summaries and notes', () => {
 
   it('Care summaries and notes Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Notes Page
-    cy.pause();
+    // Click Progress note Link
     NotesListPage.clickNotesDetailsLink(0);
-    // should display a toggle menu button
-    NotesDetailsPage.clickPrintOrDownload();
+    // Verify Details Page PrintDownload button
+    NotesDetailsPage.clickPrintOrDownload('Print or download');
+    // Details Page should display print button for a list "Print this list"
     NotesDetailsPage.verifyPrintOrDownload();
 
     // should display print button for a Details "Print this Details"

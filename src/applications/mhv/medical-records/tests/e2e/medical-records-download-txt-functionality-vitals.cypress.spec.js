@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import VitalsListPage from './pages/VitalsListPage';
+import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
-describe('Medical Records Vitals', () => {
+describe('Medical Records Vitals Print or download ', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
@@ -9,26 +9,19 @@ describe('Medical Records Vitals', () => {
     cy.visit('my-health/medical-records/vitals');
   });
 
-  it('Vitals Page Toggle Menu button Print or download ', () => {
-    // Given Navigate to Vitals Page
-
-    VitalsListPage.clickVitalsDetailsLink(0);
-    // should display a toggle menu button
-    // Verify  PrintDownload button
-    VitalsListPage.verifyPrintOrDownload();
-    // Click PrintDownload button
-    VitalsListPage.clickPrintOrDownload();
-    // should display print button for a list "Print this list"
-    VitalsListPage.verifyPrintButton();
-
+  it('VItals Page Toggle Menu Button Print or Download List ', () => {
+    // Click Vitals Page Blood Pressure Link
+    VitalsDetailsPage.clickBloodPressureLink(0);
+    // Verify Details Page PrintDownload button
+    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
+    // Click Details Page PrintDownload button
+    VitalsDetailsPage.clickPrintOrDownload();
+    // Details Page should display print button for a list "Print this list"
+    VitalsDetailsPage.verifyPrintButton();
     // should display a download pdf file button "Download PDF of this page"
-    VitalsListPage.verifyDownloadPDF();
-
+    VitalsDetailsPage.verifyDownloadPDF();
     // should display a download text file button "Download a text file (.txt) of this list"
-    VitalsListPage.verifyDownloadTextFile();
-
-    // PathologyListPage.clickDownloadPDFFile();
-    // cy.readFile(`${Cypress.config('downloadsFolder')}/Pathology_report.pdf`);
+    VitalsDetailsPage.verifyDownloadTextFile();
 
     cy.injectAxe();
     cy.axeCheck('main', {
