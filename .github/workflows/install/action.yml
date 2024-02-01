@@ -45,7 +45,7 @@ runs:
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
-      uses: nick-invision/retry@v2
+      uses: nick-fields/retry@v2
       with:
         command: yarn install --frozen-lockfile --prefer-offline --production=false
         max_attempts: 3
