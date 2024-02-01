@@ -231,14 +231,16 @@ const SearchPage = props => {
     ];
     return (
       <>
-        <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
+        <div className="row vads-u-padding-left--4">
+          <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
+        </div>
       </>
     );
   };
 
   const renderSearchSection = () => {
     return (
-      <div className="row search-section">
+      <div className="row usa-width-three-fourths search-section">
         <div className="title-section vads-u-padding-y--1">
           <h1>Find a VA accredited representative or VSO</h1>
           <p>
@@ -329,7 +331,7 @@ const SearchPage = props => {
     }
 
     return (
-      <div className="row results-section">
+      <div className="row usa-width-three-fourths results-section">
         <VaModal
           modalTitle="Were sorry, something went wrong"
           message="Please try again soon."
@@ -365,7 +367,8 @@ const SearchPage = props => {
   return (
     <>
       {renderBreadcrumbs()}
-      <div className="usa-grid usa-width-three-fourths">
+
+      <div className="usa-grid use-grid-full">
         {renderSearchSection()}
         {renderResultsSection()}
       </div>

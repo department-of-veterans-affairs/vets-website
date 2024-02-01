@@ -26,7 +26,7 @@ const ResultsList = props => {
 
   return (
     <>
-      <div className="representative-results-list" style={{ marginBottom: 25 }}>
+      <div className="representative-results-list">
         <hr />
         {searchResults?.map((result, index) => {
           return (
