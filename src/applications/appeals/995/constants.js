@@ -156,7 +156,6 @@ export const CLAIMANT_TYPES = [
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
 export const ITF_STATUSES = {
   active: 'active',

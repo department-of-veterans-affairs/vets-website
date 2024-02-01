@@ -68,7 +68,7 @@ export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2; // binary based
 
 /**
  **** MAX LENGTH ****
