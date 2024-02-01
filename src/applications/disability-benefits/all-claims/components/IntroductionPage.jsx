@@ -172,7 +172,12 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               {isBDDForm ? (
-                <va-alert slim status="info" uswds>
+                <va-alert
+                  class="vads-u-margin-bottom--1"
+                  slim
+                  status="info"
+                  uswds
+                >
                   Please be aware that you’ll need to be available for 45 days
                   after you file a BDD claim to complete a VA exam.
                 </va-alert>
@@ -214,12 +219,7 @@ class IntroductionPage extends React.Component {
                 .
               </p>
               {!isBDDForm && (
-                <va-alert
-                  class="vads-u-margin-bottom--1"
-                  slim
-                  status="info"
-                  uswds
-                >
+                <va-alert slim status="info" uswds>
                   <h4 className="vads-u-font-size--h6">Disability ratings</h4>
                   <p>
                     For each disability, we assign a rating from 0% to 100%. We
