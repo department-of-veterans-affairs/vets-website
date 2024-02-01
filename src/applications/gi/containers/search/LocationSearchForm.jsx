@@ -4,7 +4,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
@@ -196,25 +196,23 @@ export function LocationSearchForm({
 
   return (
     <div className="location-search-form">
-      <Modal
-        title={
+      <VaModal
+        modalTitle={
           search.geocodeError === 1
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onClose={() => dispatchClearGeocodeError()}
+        onCloseEvent={() => dispatchClearGeocodeError()}
         status="warning"
         visible={search.geocodeError > 0}
-        contents={
-          <>
-            <p>
-              {search.geocodeError === 1
-                ? 'Please enable location sharing in your browser to use this feature.'
-                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-            </p>
-          </>
-        }
-      />
+        uswds
+      >
+        <p>
+          {search.geocodeError === 1
+            ? 'Please enable location sharing in your browser to use this feature.'
+            : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+        </p>
+      </VaModal>
       <form onSubmit={e => doSearch(e)} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">

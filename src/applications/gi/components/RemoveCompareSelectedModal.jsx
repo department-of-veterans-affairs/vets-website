@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function RemoveCompareSelectedModal({
   name,
@@ -8,20 +8,16 @@ export default function RemoveCompareSelectedModal({
   onCancel,
 }) {
   return (
-    <Modal
-      onClose={() => onClose()}
-      primaryButton={{
-        action: onRemove,
-        text: 'Yes',
-      }}
-      secondaryButton={{
-        action: onCancel,
-        text: 'No',
-      }}
-      title="Remove institution from comparison"
+    <VaModal
+      onCloseEvent={onClose}
+      onPrimaryButtonClick={onRemove}
+      primaryButtonText='Yes'
+      onSecondaryButtonClick={onCancel}
+      secondaryButtonText='No'
+      modalTitle="Remove institution from comparison"
       visible={name}
     >
       <p>Do you want to remove {name} from your comparison?</p>
-    </Modal>
+    </VaModal>
   );
 }
