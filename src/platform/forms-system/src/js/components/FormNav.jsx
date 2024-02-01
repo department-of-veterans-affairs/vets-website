@@ -138,14 +138,7 @@ export default function FormNav(props) {
         }
       };
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      formConfig.v3SegmentedProgressBar,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-    ],
+    [current, index],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;

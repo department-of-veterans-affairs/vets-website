@@ -54,9 +54,6 @@ export async function focusElement(selectorOrElement, options, root) {
       if (isInShadowDOM(el)) {
         // Safari doesn't dispatch focus events on shadow-DOM elements,
         // so we manually dispath it to ensure screen readers are aware.
-        console.info(
-          '[focus.focusElement] Dispatching focus event from shadow-DOM element',
-        );
         el.dispatchEvent(new FocusEvent('focus'));
       }
     }
