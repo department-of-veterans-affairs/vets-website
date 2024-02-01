@@ -1,20 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import DebtsCard from '../../../components/debts/DebtsCard';
 
 describe('<DebtsCard />', () => {
   it('renders the DebtsCard component correctly', () => {
-    // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-    // and revert changes back to https://github.com/department-of-veterans-affairs/vets-website/commit/34a4e82dcecec7e7f2febc2362c707f8c6958a4f
-    const initialState = {
-      featureToggles: {
-        [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-      },
-    };
-
     const defaultProps = {
       debts: [
         {
@@ -73,7 +64,7 @@ describe('<DebtsCard />', () => {
     };
 
     const tree = renderWithStoreAndRouter(<DebtsCard {...defaultProps} />, {
-      initialState,
+      initialState: {},
     });
 
     expect(tree.getByText(/2 overpayment debts/)).to.exist;
