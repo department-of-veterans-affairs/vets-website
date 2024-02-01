@@ -7,11 +7,7 @@ import { formatAddress } from 'platform/forms/address/helpers';
 import set from 'platform/utilities/data/set';
 import { ValidateAddressTitle } from '../../components/PreparerHelpers';
 
-function PreparerContanctDetailsCustom({
-  formData,
-  addressValidation,
-  goToPath,
-}) {
+function PreparerContanctDetailsCustom({ formData, addressValidation }) {
   const dispatch = useDispatch();
   const [userAddress, setUserAddress] = useState();
   const [selectedAddress, setSelectedAddress] = useState();
@@ -123,14 +119,6 @@ function PreparerContanctDetailsCustom({
     return null;
   }
 
-  const cancel = () => {
-    goToPath('/preparer-contact-details');
-  };
-
-  const submit = () => {
-    goToPath('/applicant-relationship-to-vet');
-  };
-
   return isLoading ? (
     <va-loading-indicator label="Loading" message="Loading..." set-focus />
   ) : (
@@ -146,28 +134,6 @@ function PreparerContanctDetailsCustom({
         addressValidation?.confirmedSuggestions?.map((address, index) =>
           renderAddressOption(address, String(index)),
         )}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          <button
-            type="button"
-            className="usa-button-secondary"
-            id="1-continueButton"
-            onClick={cancel}
-          >
-            {'<<'} Back
-          </button>
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <button
-            type="submit"
-            className="usa-button-primary"
-            id="4-continueButton"
-            onClick={submit}
-          >
-            Continue {'>>'}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
@@ -175,7 +141,7 @@ function PreparerContanctDetailsCustom({
 const mapStateToProps = state => {
   return {
     formData: state?.form?.data,
-    addressValidation: state.vapService?.addressValidation,
+    addressValidation: state?.vapService?.addressValidation,
   };
 };
 

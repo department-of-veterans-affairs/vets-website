@@ -189,10 +189,35 @@ const formConfig = {
           title: 'Validate and stuff',
           path: 'validate-preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
-          CustomPage: preparerContactDetailsCustom,
-          CustomPageReview: preparerContactDetailsCustom,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:validateAddress': {
+                  'ui:title': 'Hello Mate',
+                  'ui:field': preparerContactDetailsCustom,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:validateAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
