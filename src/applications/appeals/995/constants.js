@@ -153,8 +153,6 @@ export const CLAIMANT_TYPES = [
   // 'other',
 ];
 
-export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
-
 export const ITF_STATUSES = {
   active: 'active',
   expired: 'expired',
