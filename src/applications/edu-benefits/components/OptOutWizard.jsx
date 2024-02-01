@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default class OptOutWizard extends React.Component {
@@ -20,12 +20,12 @@ export default class OptOutWizard extends React.Component {
     return (
       <div>
         <va-button onClick={this.openModal} text="Opt Out" />
-        <Modal
+        <VaModal
           clickToClose
-          cssClass="va-modal va-modal-large"
+          large
           id="opt-out-alert"
-          onClose={this.closeModal}
-          title="Are you sure you want to opt out?"
+          onCloseEvent={this.closeModal}
+          modalTitle="Are you sure you want to opt out?"
           visible={this.state.modalOpen}
         >
           <div>
@@ -61,7 +61,7 @@ export default class OptOutWizard extends React.Component {
             </a>
             <va-button onClick={this.closeModal} secondary text="Cancel" />
           </div>
-        </Modal>
+        </VaModal>
       </div>
     );
   }
