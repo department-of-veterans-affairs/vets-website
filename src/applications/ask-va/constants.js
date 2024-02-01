@@ -4,7 +4,7 @@ export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?mock=true`,
   GET_TOPICS: `/topics?mock=true`,
   GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
-  // TODO: Add address validation endpoint
+  // TODO: Add address validation endpoint check mocks
   ADDRESS_VALIDATION: '',
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
