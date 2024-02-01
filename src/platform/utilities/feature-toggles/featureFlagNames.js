@@ -170,7 +170,6 @@ export default Object.freeze({
   profileShowQuickSubmitNotificationSetting:
     'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
