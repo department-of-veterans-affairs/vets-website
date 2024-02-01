@@ -137,7 +137,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
       
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.environment }}.tar.bz2
 

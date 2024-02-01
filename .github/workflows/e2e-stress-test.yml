@@ -183,7 +183,7 @@ jobs:
             node_modules
 
       - name: Download E2E Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: e2e-allow-list
           path: .
@@ -257,7 +257,7 @@ jobs:
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vagovprod.tar.bz2
 
@@ -375,13 +375,13 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Download E2E Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data
@@ -391,7 +391,7 @@ jobs:
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}

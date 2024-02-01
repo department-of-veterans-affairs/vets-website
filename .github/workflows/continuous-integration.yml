@@ -187,7 +187,7 @@ jobs:
           output-type: 'entry_name, url'
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-allow-list
           path: .
@@ -360,7 +360,7 @@ jobs:
         run: mkdir -p test-results
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-allow-list
           path: .
@@ -434,13 +434,13 @@ jobs:
 
 
       - name: Download Unit Test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data
@@ -617,7 +617,7 @@ jobs:
           output-type: 'entry_name, url'
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: e2e-allow-list
           path: .
@@ -696,7 +696,7 @@ jobs:
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vagovprod.tar.bz2
 
@@ -797,7 +797,7 @@ jobs:
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vagovprod.tar.bz2
 
@@ -911,7 +911,7 @@ jobs:
 
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
@@ -921,13 +921,13 @@ jobs:
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Download E2E Test Stability Allow List
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: e2e-allow-list
           path: qa-standards-dashboard-data
@@ -1055,7 +1055,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-report
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1175,7 +1175,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1268,7 +1268,7 @@ jobs:
       # -------------------------------------
 
       - name: Download Unit Test Coverage Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-coverage-report
           path: qa-standards-dashboard-data/src/testing-reports/data
@@ -1350,14 +1350,14 @@ jobs:
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-mochawesome-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-video-artifacts
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
@@ -1473,14 +1473,14 @@ jobs:
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
@@ -1672,7 +1672,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
 
