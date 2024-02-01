@@ -383,3 +383,5 @@ export const FormLabels = {
   MESSAGE: 'Message',
   SUBJECT: 'Subject',
 };
+
+export const CernerTransitioningFacilities = { NORTH_CHICAGO: 556 };

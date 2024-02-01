@@ -4,6 +4,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import { getCernerURL } from '~/platform/utilities/cerner';
+import { CernerTransitioningFacilities } from '../../util/constants';
 
 const CernerTransitioningFacilityAlert = () => {
   const { featureToggles } = useSelector(state => state);
@@ -21,8 +22,12 @@ const CernerTransitioningFacilityAlert = () => {
 
   const isTranstioningFacility = useMemo(
     () => {
-      const transitioningFacilities = [556];
-
+      const transitioningFacilities = [
+        CernerTransitioningFacilities.NORTH_CHICAGO,
+      ];
+      if (!facilities) {
+        return false;
+      }
       return facilities?.some(
         facility =>
           !facility.isCerner &&
