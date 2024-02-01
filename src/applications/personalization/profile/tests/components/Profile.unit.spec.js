@@ -46,9 +46,7 @@ describe('Profile', () => {
         pathname: '/profile/personal-information',
       },
       togglesLoaded: true,
-      profileToggles: {
-        profileUseFieldEditingPage: true,
-      },
+      profileToggles: {},
     };
   });
 
