@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { createStore } from 'redux';
 
@@ -34,7 +34,7 @@ const store = createStore(() => ({}));
 describe('<AddFilesForm>', () => {
   context('renders component', () => {
     const fileFormProps = {
-      field: {},
+      field: { value: '', dirty: false },
       files: [],
       onSubmit: () => {},
       onAddFile: () => {},
@@ -76,165 +76,79 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should not submit if files empty', () => {
+      const onSubmit = sinon.spy();
+      const onDirtyFields = sinon.spy();
+
       const { container } = render(
         <Provider store={store}>
-          <AddFilesForm {...fileFormProps} />,
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+          ,
         </Provider>,
       );
 
-      expect($('va-additional-info', container)).to.exist;
-      
-      tree.getMountedInstance().submit();
+      fireEvent.click($('#submit', container));
+
       expect(onSubmit.called).to.be.false;
       expect(onDirtyFields.called).to.be.true;
     });
-  });
 
-  it('should render component', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-
-    expect(tree.everySubTree('#file-upload')).not.to.be.empty;
-    expect(
-      tree.everySubTree('#file-upload')[0].props['aria-describedby'],
-    ).to.eq('file-requirements');
-
-    // VaModal has an id of `upload-status` so we can use that as the selector here
-    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.false;
-  });
-
-  it('should show uploading modal', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        uploading
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-
-    // VaModal has an id of `upload-status` so we can use that as the selector here
-    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.true;
-  });
-
-  it('should include mail info additional info', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-    expect(tree.everySubTree('va-additional-info')[0]).to.exist;
-  });
-
-  it('should not submit if files empty', () => {
-    const files = [];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-    tree.getMountedInstance().submit();
-    expect(onSubmit.called).to.be.false;
-    expect(onDirtyFields.called).to.be.true;
-  });
-
-  it('should not submit if files are valid and checkbox is not checked', () => {
-    const files = [
-      {
-        file: {
-          size: 20,
-          name: 'something.jpeg',
+    it('should not submit if files are valid and checkbox is not checked', () => {
+      const files = [
+        {
+          file: {
+            size: 20,
+            name: 'something.jpeg',
+          },
+          docType: 'L501',
         },
-        docType: 'L501',
-      },
-    ];
-    const field = { value: '', dirty: false };
-    const onSubmit = sinon.spy();
-    const onAddFile = sinon.spy();
-    const onRemoveFile = sinon.spy();
-    const onFieldChange = sinon.spy();
-    const onCancel = sinon.spy();
-    const onDirtyFields = sinon.spy();
+      ];
+      const onSubmit = sinon.spy();
+      const onDirtyFields = sinon.spy();
+      const { container } = render(
+        <Provider store={store}>
+          <AddFilesForm
+            {...fileFormProps}
+            files={files}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+          ,
+        </Provider>,
+      );
+      fireEvent.click($('#submit', container));
+      expect(onSubmit.called).to.be.false;
+      expect(onDirtyFields.called).to.be.true;
+    });
 
-    const tree = SkinDeep.shallowRender(
-      <AddFilesForm
-        files={files}
-        field={field}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />,
-    );
-    tree.getMountedInstance().submit();
-    expect(onSubmit.called).to.be.false;
-    expect(onDirtyFields.called).to.be.true;
+    // it('should not add an invalid file type', () => {
+    //   const onAddFile = sinon.spy();
+
+    //   const { container } = render(
+    //     <Provider store={store}>
+    //       <AddFilesForm {...fileFormProps} onAddFile={onAddFile} />,
+    //     </Provider>,
+    //   );
+    //   const file = new File(['hello'], 'hello.exe', { type: 'image/png' });
+    //   const input = screen.getByTestId('file-upload-button');
+    //   await waitFor(() => fireEvent.change(input, { target: { files: [file] } }));
+
+    //   fireEvent.click($('#file-upload', container));
+
+    //   // tree.getMountedInstance().add([
+    //   //   {
+    //   //     name: 'something.exe',
+    //   //     size: 200,
+    //   //   },
+    //   // ]);
+    //   expect(onAddFile.called).to.be.false;
+    //   // expect(tree.getMountedInstance().state.errorMessage).to.contain(
+    //   //   'accepted types',
+    //   // );
+    // });
   });
 
   it('should not add an invalid file type', () => {

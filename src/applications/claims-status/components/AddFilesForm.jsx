@@ -191,17 +191,18 @@ class AddFilesForm extends React.Component {
           </p>
           <VaFileInput
             id="file-upload"
+            data-testid="file-upload-button"
             className="vads-u-margin-bottom--3"
             error={this.getErrorMessage()}
             label="Upload additional evidence"
             hint="You can upload a .pdf, gif, .jpeg, .bmp, or txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onVaChange={e => this.add(e.detail.files)}
-            button-text="Add files"
+            // button-text="Add files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
-            uswds="true"
+            uswds
           />
         </div>
         {this.props.files.map(
@@ -219,6 +220,7 @@ class AddFilesForm extends React.Component {
                   <div className="remove-document-button">
                     <va-button
                       secondary
+                      uswds
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
                     />
@@ -233,6 +235,7 @@ class AddFilesForm extends React.Component {
                     </p>
                     <VaTextInput
                       required
+                      uswds
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -248,6 +251,7 @@ class AddFilesForm extends React.Component {
                 )}
                 <VaSelect
                   required
+                  uswds
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -285,7 +289,9 @@ class AddFilesForm extends React.Component {
           }}
         />
         <va-button
+          id="submit"
           submit
+          uswds
           text="Submit files for review"
           onClick={this.submit}
         />
