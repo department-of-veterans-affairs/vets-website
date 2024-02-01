@@ -1,6 +1,9 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
 import manifest from '../manifest.json';
+
+import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 
 import transformForSubmit from '../../shared/config/submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,6 +11,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import preparerIdentification from '../pages/preparerIdentification';
 import veteranBenefitSelection from '../pages/veteranBenefitSelection';
+import veteranBenefitSelectionCompensation from '../pages/veteranBenefitSelectionCompensation';
+import veteranBenefitSelectionPension from '../pages/veteranBenefitSelectionPension';
 import thirdPartyVeteranBenefitSelection from '../pages/thirdPartyVeteranBenefitSelection';
 import survivingDependentPersonalInformation from '../pages/survivingDependentPersonalInformation';
 import survivingDependentIdentificationInformation from '../pages/survivingDependentIdentificationInformation';
@@ -18,6 +23,9 @@ import {
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
+  hasActiveCompensationITF,
+  hasActivePensionITF,
+  noActiveITFOrCreationFailed,
   benefitSelectionChapterTitle,
   survivingDependentPersonalInformationChapterTitle,
   survivingDependentContactInformationChapterTitle,
@@ -85,6 +93,17 @@ const formConfig = {
   },
   title: 'Submit an intent to file',
   defaultDefinitions: {},
+  additionalRoutes: [
+    {
+      path: 'get-itf-status',
+      pageKey: 'get-itf-status',
+      component: ITFStatusLoadingIndicatorPage,
+      depends: () => false,
+    },
+  ],
+  formOptions: {
+    fullWidth: false,
+  },
   chapters: {
     preparerIdentificationChapter: {
       title: 'Your identity',
@@ -98,6 +117,44 @@ const formConfig = {
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
+          onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
+            if (preparerIsVeteran({ formData })) {
+              goPath('get-itf-status');
+
+              apiRequest('/intent_to_file')
+                .then(({ data }) => {
+                  const activeCompensationITF = data.attributes.intentToFile.find(
+                    itfData =>
+                      itfData.type === 'compensation' &&
+                      itfData.status === 'active',
+                  );
+                  const activePensionITF = data.attributes.intentToFile.find(
+                    itfData =>
+                      itfData.type === 'pensionSurvivorsBenefits' &&
+                      itfData.status === 'active',
+                  );
+
+                  setFormData({
+                    ...formData,
+                    activeCompensationITF,
+                    activePensionITF,
+                  });
+
+                  if (activeCompensationITF && activePensionITF) {
+                    goPath('confirmation');
+                  } else if (activeCompensationITF) {
+                    goPath('veteran-benefit-selection-pension');
+                  } else if (activePensionITF) {
+                    goPath('veteran-benefit-selection-compensation');
+                  } else {
+                    goNextPath();
+                  }
+                })
+                .catch(() => goNextPath());
+            } else {
+              goNextPath();
+            }
+          },
           updateFormData: (oldFormData, newFormData) =>
             initializeFormDataWithPreparerIdentification(
               newFormData.preparerIdentification,
@@ -128,10 +185,94 @@ const formConfig = {
       pages: {
         veteranBenefitSelection: {
           path: 'veteran-benefit-selection',
-          depends: formData => preparerIsVeteran({ formData }),
+          depends: formData =>
+            preparerIsVeteran({ formData }) &&
+            noActiveITFOrCreationFailed({ formData }),
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelection.uiSchema,
           schema: veteranBenefitSelection.schema,
+          onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
+            const benefitTypesArray = [];
+
+            if (formData.benefitSelection?.compensation) {
+              benefitTypesArray.push('compensation');
+            }
+            if (formData.benefitSelection?.pension) {
+              benefitTypesArray.push('pensionSurvivorsBenefits');
+            }
+
+            goPath('get-itf-status');
+
+            Promise.all(
+              benefitTypesArray.map(benefitType =>
+                apiRequest(`/intent_to_file/${benefitType}`, {
+                  method: 'POST',
+                }),
+              ),
+            )
+              .then(() => {
+                goPath('confirmation');
+              })
+              .catch(() => {
+                setFormData({ ...formData, itfCreationFailed: true });
+
+                goNextPath();
+              });
+          },
+        },
+        veteranBenefitSelectionCompensation: {
+          path: 'veteran-benefit-selection-compensation',
+          depends: formData =>
+            preparerIsVeteran({ formData }) &&
+            hasActivePensionITF({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
+          uiSchema: veteranBenefitSelectionCompensation.uiSchema,
+          schema: veteranBenefitSelectionCompensation.schema,
+          onNavForward: ({ formData, goPath, setFormData }) => {
+            if (formData.benefitSelectionCompensation) {
+              goPath('get-itf-status');
+
+              apiRequest('/intent_to_file/compensation', { method: 'POST' })
+                .then(() => {
+                  goPath('confirmation');
+                })
+                .catch(() => {
+                  setFormData({ ...formData, itfCreationFailed: true });
+
+                  goPath('veteran-personal-information');
+                });
+            } else {
+              goPath('confirmation');
+            }
+          },
+        },
+        veteranBenefitSelectionPension: {
+          path: 'veteran-benefit-selection-pension',
+          depends: formData =>
+            preparerIsVeteran({ formData }) &&
+            hasActiveCompensationITF({ formData }),
+          title: formData => benefitSelectionChapterTitle({ formData }),
+          uiSchema: veteranBenefitSelectionPension.uiSchema,
+          schema: veteranBenefitSelectionPension.schema,
+          onNavForward: ({ formData, goPath, setFormData }) => {
+            if (formData.benefitSelectionPension) {
+              goPath('get-itf-status');
+
+              apiRequest('/intent_to_file/pensionSurvivorsBenefits', {
+                method: 'POST',
+              })
+                .then(() => {
+                  goPath('confirmation');
+                })
+                .catch(() => {
+                  setFormData({ ...formData, itfCreationFailed: true });
+
+                  goPath('veteran-personal-information');
+                });
+            } else {
+              goPath('confirmation');
+            }
+          },
         },
         thirdPartyVeteranBenefitSelection: {
           path: 'third-party-veteran-benefit-selection',
@@ -213,7 +354,8 @@ const formConfig = {
         veteranPersonalInformation: {
           path: 'veteran-personal-information',
           depends: formData =>
-            preparerIsVeteran({ formData }) ||
+            (preparerIsVeteran({ formData }) &&
+              noActiveITFOrCreationFailed({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
@@ -238,6 +380,7 @@ const formConfig = {
         veteranIdentificationInformation: {
           path: 'veteran-identification-information',
           title: 'Identification information',
+          depends: formData => noActiveITFOrCreationFailed({ formData }),
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
         },
@@ -265,7 +408,8 @@ const formConfig = {
         veteranMailingAddress: {
           path: 'veteran-mailing-address',
           depends: formData =>
-            preparerIsVeteran({ formData }) ||
+            (preparerIsVeteran({ formData }) &&
+              noActiveITFOrCreationFailed({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Mailing address',
           uiSchema: veteranMailingAddress.uiSchema,
@@ -274,7 +418,8 @@ const formConfig = {
         veteranPhoneAndEmailAddress: {
           path: 'veteran-phone-and-email-address',
           depends: formData =>
-            preparerIsVeteran({ formData }) ||
+            (preparerIsVeteran({ formData }) &&
+              noActiveITFOrCreationFailed({ formData })) ||
             preparerIsThirdPartyToTheVeteran({ formData }),
           title: 'Phone and email address',
           uiSchema: veteranPhoneAndEmailAddress.uiSchema,

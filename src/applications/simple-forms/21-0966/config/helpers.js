@@ -40,6 +40,22 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   );
 };
 
+export const hasActiveCompensationITF = ({ formData } = {}) => {
+  return !!formData?.activeCompensationITF;
+};
+
+export const hasActivePensionITF = ({ formData } = {}) => {
+  return !!formData?.activePensionITF;
+};
+
+export const noActiveITFOrCreationFailed = ({ formData } = {}) => {
+  return (
+    (!hasActiveCompensationITF({ formData }) &&
+      !hasActivePensionITF({ formData })) ||
+    !!formData.itfCreationFailed
+  );
+};
+
 export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   if (preparerIsThirdParty({ formData })) {
     return 'thirdPartyPreparerFullName';
