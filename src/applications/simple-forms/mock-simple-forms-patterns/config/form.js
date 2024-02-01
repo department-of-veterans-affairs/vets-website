@@ -146,14 +146,14 @@ const formConfig = {
       pages: {
         formsPatternSingleRadio: {
           path: 'forms-pattern-single-radio',
-          title: 'Forms Pattern Single title for review page',
+          title: 'Forms Pattern Single Radio title for review page',
           uiSchema: formsPatternSingleRadio.uiSchema,
           schema: formsPatternSingleRadio.schema,
           depends: includeChapter('formsPattern'),
         },
         formsPatternSingleCheckboxGroup: {
           path: 'forms-pattern-single-checkbox-group',
-          title: 'Forms Pattern Single title for review page',
+          title: 'Forms Pattern Single Checkbox group title for review page',
           uiSchema: formsPatternSingleCheckboxGroup.uiSchema,
           schema: formsPatternSingleCheckboxGroup.schema,
           depends: includeChapter('formsPattern'),

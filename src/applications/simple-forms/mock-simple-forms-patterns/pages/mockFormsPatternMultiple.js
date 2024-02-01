@@ -25,7 +25,7 @@ export default {
       },
     },
     formsPatternOtherField: {
-      'ui:title': 'ui:title',
+      'ui:title': 'Other field',
       'ui:webComponentField': VaTextInputField,
     },
   },
