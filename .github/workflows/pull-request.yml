@@ -43,7 +43,7 @@ jobs:
 
       - name: Archive Unit Test Stability Allow List
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
@@ -67,7 +67,7 @@ jobs:
             node_modules
 
       - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: unit-test-allow-list
           path: .

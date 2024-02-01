@@ -115,7 +115,7 @@ jobs:
         run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
           path: ${{ env.BUILDTYPE }}.tar.bz2
@@ -189,7 +189,7 @@ jobs:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
       - name: Download production build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
 
@@ -232,28 +232,28 @@ jobs:
 
       # Temporarily disabled due to apparent memory issues caused by code coverage tools
       # - name: Create coverage artifact
-      #   uses: actions/upload-artifact@v4
+      #   uses: actions/upload-artifact@v3
       #   if: ${{ always() }}
       #   with:
       #     name: code-coverage-artifacts
       #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
@@ -373,14 +373,14 @@ jobs:
       # --------------------------------------
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
           path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
@@ -476,7 +476,7 @@ jobs:
   #     # --------------------------------------
 
   #     - name: Download Code Coverage test results
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v3
   #       with:
   #         name: code-coverage-artifacts
   #         path: qa-standards-dashboard-data/src/testing-reports/data
