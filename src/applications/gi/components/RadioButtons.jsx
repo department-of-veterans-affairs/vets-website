@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import ExpandingGroup from './ExpandingGroup';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
 /**
@@ -88,6 +88,7 @@ class RadioButtons extends React.Component {
       // Return an expanding group for buttons with additional content
       if (optionAdditional) {
         output = (
+          // eslint-disable-next-line @department-of-veterans-affairs/remove-expanding-group
           <ExpandingGroup
             additionalClass="form-expanding-group-active-radio"
             open={checked}
