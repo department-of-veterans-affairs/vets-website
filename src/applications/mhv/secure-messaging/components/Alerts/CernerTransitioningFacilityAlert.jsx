@@ -28,10 +28,8 @@ const CernerTransitioningFacilityAlert = () => {
       if (!facilities) {
         return false;
       }
-      return facilities?.some(
-        facility =>
-          !facility.isCerner &&
-          transitioningFacilities.includes(parseInt(facility.facilityId, 10)),
+      return facilities?.some(facility =>
+        transitioningFacilities.includes(parseInt(facility.facilityId, 10)),
       );
     },
     [facilities],
