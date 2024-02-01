@@ -66,7 +66,7 @@ const App = ({ children }) => {
     >
       <DowntimeNotification
         appTitle="Medications"
-        dependencies={[externalServices.mhv]}
+        dependencies={[externalServices.mhvPlatform, externalServices.mhvMeds]}
       >
         {children}
       </DowntimeNotification>
