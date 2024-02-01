@@ -27,6 +27,7 @@ export default class OptOutWizard extends React.Component {
           onCloseEvent={this.closeModal}
           modalTitle="Are you sure you want to opt out?"
           visible={this.state.modalOpen}
+          uswds
         >
           <div>
             Here are some things that’ll change if you ask VA to not share your
