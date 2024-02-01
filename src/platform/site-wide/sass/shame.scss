@@ -470,7 +470,7 @@ $medium-phone-screen: 375px;
   .sign-in-link {
     margin: 0;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       &:hover,
       &:active {
         background-color: $color-primary-darker;
@@ -484,7 +484,7 @@ $medium-phone-screen: 375px;
     // This is backwards from the mobile first approach we should be taking
     // but the amount of overrides we would need if we did that way would be
     // very tricky to write and maintain
-    @media (max-width: $medium-large-screen - 1) {
+    @media (max-width: $medium-screen - 1) {
       @include button-link;
       font-weight: 600;
       color: $color-white !important;

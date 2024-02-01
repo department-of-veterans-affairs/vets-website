@@ -8,7 +8,7 @@
   @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
   padding-top: 1.5em;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 3em;
   }
 }
@@ -33,7 +33,7 @@
   margin-top: 0;
   margin-bottom: 1em;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-bottom: 1.5em;
   }
 }
@@ -42,7 +42,7 @@
   &-row {
     display: flex;
     flex-direction: column;
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       flex-direction: row;
     }
   }
@@ -52,7 +52,7 @@
     margin: 0 0.5em 0.5em;
     padding: 1.5em 1.5em 2.125em 1.5em;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       margin: 0 21px 21px 0;
       &:last-child {
         margin-right: 0;
@@ -64,7 +64,7 @@
 #homepage-benefits {
   padding-top: 1.5em;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 3em;
     padding-left: 1em;
     padding-right: 1em;
@@ -78,7 +78,7 @@
   &:last-of-type {
     padding-bottom: 0;
   }
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-bottom: 3em;
   }
 }
@@ -88,7 +88,7 @@
   padding-left: 0.5em;
   padding-right: 0.5em;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-left: 1em;
     padding-right: 1em;
   }
@@ -102,7 +102,7 @@
 #homepage-news {
   padding: 3em 0.5em;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-left: 1em;
     padding-right: 1em;
   }
@@ -213,7 +213,7 @@
 
 .homepage-news-story {
   margin-bottom: 2em;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-bottom: 0em;
   }
 }
@@ -221,7 +221,7 @@
 .homepage-news-story-title {
   margin-top: 1em;
   margin-bottom: 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-top: 1.5em;
     margin-bottom: inherit;
   }
@@ -230,7 +230,7 @@
 .homepage-news-story-desc {
   margin-top: 0.5em;
   margin-bottom: 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-bottom: inherit;
   }
 }

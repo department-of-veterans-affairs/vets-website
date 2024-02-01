@@ -123,7 +123,7 @@
   }
 
   .additional-resources {
-    @include media-maxwidth($medium-large-screen - 1) {
+    @include media-maxwidth($medium-screen - 1) {
       display: none;
     }
   }
@@ -318,7 +318,7 @@
   .graph-key {
     margin-top: 1rem;
 
-    @include media-maxwidth($medium-large-screen) {
+    @include media-maxwidth($medium-screen) {
       width: 200%;
     }
   }

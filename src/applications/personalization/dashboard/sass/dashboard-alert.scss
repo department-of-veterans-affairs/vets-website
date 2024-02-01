@@ -29,7 +29,7 @@
   font-family: $font-sans;
   padding: units(2);
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding: units(4);
   }
 

@@ -84,7 +84,7 @@
     width: 342px;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     height: initial;
     width: initial;
     object-fit: initial;
@@ -102,7 +102,7 @@
     width: 250px;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     object-fit: initial;
   }
 }
@@ -113,7 +113,7 @@
     width: 100%;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     height: initial;
     width: initial;
   }
@@ -124,7 +124,7 @@
   height: auto;
   object-fit: cover;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -165,7 +165,7 @@
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 65%;
     &.event,
     &.facility {
