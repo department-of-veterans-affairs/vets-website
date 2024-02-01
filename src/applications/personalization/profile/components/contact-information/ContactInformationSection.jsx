@@ -8,7 +8,10 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
   return (
     <div className={className}>
       <div className="vads-u-margin-bottom--2">
-        <va-additional-info trigger="Which benefits and services does VA use this contact information for?">
+        <va-additional-info
+          trigger="Which benefits and services does VA use this contact information for?"
+          uswds
+        >
           <p className="vads-u-margin-y--1">
             We use this information to contact you about these VA benefits and
             services:
