@@ -7,14 +7,14 @@
   overflow: hidden;
   box-shadow: 0 50vh 0 50vh $color-primary-darkest;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex-wrap: nowrap;
   }
 
   .va-flex {
     flex-wrap: wrap;
     padding-left: 0.9375rem;
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       flex-wrap: nowrap;
     }
   }
@@ -72,7 +72,7 @@ body.va-pad-promo-banner .footer-inner {
     margin-top: 2em;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex: 0 1 33%;
     margin: 2em 1em 1.5em 0;
   }
