@@ -72,6 +72,15 @@ describe('Secure Messaging Reply', () => {
     landingPage.loadInboxMessages(mockMessagesPageOne);
     site.loadVAPaginationLastPage(pageNumber, mockSingleMessageThread);
 
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
+
     cy.get('.thread-list').should('have.length', 1);
 
     cy.get('.endOfThreads').should(
