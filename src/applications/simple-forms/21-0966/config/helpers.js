@@ -52,7 +52,7 @@ export const noActiveITFOrCreationFailed = ({ formData } = {}) => {
   return (
     (!hasActiveCompensationITF({ formData }) &&
       !hasActivePensionITF({ formData })) ||
-    formData.itfCreationFailed
+    !!formData.itfCreationFailed
   );
 };
 
