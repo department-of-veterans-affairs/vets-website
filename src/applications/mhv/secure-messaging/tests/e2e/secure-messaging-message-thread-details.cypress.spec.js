@@ -39,7 +39,6 @@ describe('Secure Messaging Message Details AXE Check', () => {
     // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage grop name only on received messages
     // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); //TODO UCD is still determining whether to display this
     detailsPage.verifyExpandedMessageDateDisplay(messageDetails);
-    // cy.get('@messageDetails.all').should('have.length', 4); // TODO leaving it here for SDET review, from my understanding we are not calling for message details 4 times, as we are not expanding all accordions
     // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
