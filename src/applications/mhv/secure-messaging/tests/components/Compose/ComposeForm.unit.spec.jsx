@@ -71,7 +71,11 @@ describe('Compose form component', () => {
   };
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+        {...props}
+      />,
       {
         initialState: customState,
         reducers: reducer,
@@ -265,7 +269,9 @@ describe('Compose form component', () => {
         preferences: signatureReducers.signatureEnabled,
       },
     };
-    const screen = setup(customState, Paths.COMPOSE);
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
 
     const messageInput = await screen.getByTestId('message-body-field');
 
@@ -353,7 +359,10 @@ describe('Compose form component', () => {
 
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+      />,
       {
         initialState,
         reducers: reducer,
