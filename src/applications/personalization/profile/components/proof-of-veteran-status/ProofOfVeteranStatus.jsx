@@ -91,12 +91,16 @@ const ProofOfVeteranStatus = ({
             <strong>Note: </strong>
             This card doesn’t entitle you to any VA benefits.
           </p>
-          <div className="vads-u-margin--1 vads-u-margin-y--2">
-            <img
-              width="400rem"
-              src="/img/proof-of-veteran-status-card-example.png"
-              alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
-            />
+          <div className="vads-l-grid-container--full vads-u-padding-y--2">
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
+                <img
+                  width="100%"
+                  src="/img/proof-of-veteran-status-card-example.png"
+                  alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
+                />
+              </div>
+            </div>
           </div>
           <div className="vads-u-font-size--md">
             <va-link
@@ -111,7 +115,7 @@ const ProofOfVeteranStatus = ({
           </div>
           <div className="vads-u-margin-y--4">
             <MobileAppCallout
-              headingText="Get proof of Veteran Status on your mobile device"
+              headingText="Get proof of Veteran status on your mobile device"
               bodyText={
                 <>
                   You can use our mobile app to get proof of Veteran status. To

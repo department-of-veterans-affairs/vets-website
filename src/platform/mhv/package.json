@@ -1,0 +1,22 @@
+{
+  "name": "@department-of-veterans-affairs/mhv",
+  "version": "1.0.0",
+  "scripts": {
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "exports": {
+    ".": "./exportsFile.js"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-redux": "*",
+    "prop-types": "*",
+    "moment": "*",
+    "@sentry/browser": "*",
+    "chai": "*",
+    "sinon": "*",
+    "enzyme": "*"
+  },
+  "license": "MIT",
+  "private": true
+}
