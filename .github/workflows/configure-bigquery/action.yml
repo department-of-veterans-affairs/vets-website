@@ -16,6 +16,6 @@ runs:
         credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
 
     - name: Setup Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+      uses: google-github-actions/setup-gcloud@v2
       with:
         project_id: vsp-analytics-and-insights
