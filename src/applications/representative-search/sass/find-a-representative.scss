@@ -24,27 +24,33 @@
         flex-direction: column;
         position: relative;
 
-        .location-input-container {
-          position: relative;
+        .search-controls-text-inputs {
+          @media (min-width: $medium-screen) {
+            .geolocation-container {
+              // position: relative;
+              display: flex;
+              min-width: 10rem;
+
+              .location-input {
+                min-width: 46rem;
+              }
+
+              .use-my-location-button-container {
+                align-self: flex-end;
+                min-width: 10em;
+                margin-left: 2em;
+                margin-bottom: 4px;
+              }
+            }
+
+            .representative-name-input {
+              min-width: 46rem;
+            }
+          }
         }
 
         .usa-input-error {
           margin-top: 0em;
-        }
-
-        .use-my-location-button-container {
-          top: 2em;
-
-          @media (min-width: $large-screen) {
-            position: absolute;
-            left: 30em;
-            min-width: 10em;
-          }
-          @media (min-width: $medium-screen) {
-            position: absolute;
-            left: 31em;
-            min-width: 10em;
-          }
         }
 
         .use-my-location-button-container-error {
@@ -91,6 +97,9 @@
   }
 
   .results-section {
+    @media (min-width: $medium-screen) and (max-width: ($large-screen)) {
+      width: 80%;
+    }
     .pagination-container .hydrated {
       border-top: none !important;
     }
@@ -123,7 +132,7 @@
       .representative-result-card {
         border: 1px solid $color-gray-lighter;
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: 900px) {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: auto;
@@ -137,7 +146,7 @@
             text-align: right;
           }
         }
-        @media (max-width: $medium-screen) {
+        @media (max-width: 909px) {
           word-wrap: break-word;
 
           .report-outdated-information-button {

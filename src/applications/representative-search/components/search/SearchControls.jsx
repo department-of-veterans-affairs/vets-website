@@ -148,81 +148,86 @@ const SearchControls = props => {
             />
           </div>
 
-          <div className="location-input-container vads-u-margin-top--4">
-            <va-text-input
-              style={{ order: 1 }}
-              error={(() => {
-                if (showEmptyError) {
-                  return 'Please fill in a city, state, postal code or address.';
-                }
-                if (showGeolocationError) {
-                  return 'Please enter a valid location.';
-                }
-                return null;
-              })()}
-              hint={null}
-              id="street-city-state-zip"
-              label="Address, city, state, or postal code"
-              message-aria-describedby="Text input for location"
-              name="Address, city, state, or postal code"
-              onInput={handleLocationChange}
-              onKeyPress={e => {
-                if (e.key === 'Enter') onSubmit();
-              }}
-              value={locationInputString}
-              uswds
-              required
-            />
-            <div
-              className={classNames('use-my-location-button-container', {
-                'use-my-location-button-container-error':
-                  showEmptyError || showGeolocationError,
-              })}
-            >
-              {geolocationInProgress ? (
-                <div
-                  className="finding-your-location-loading"
-                  style={{ order: 2 }}
-                >
-                  <i
-                    className="fa fa-spinner fa-spin use-my-location-icon"
-                    aria-hidden="true"
-                    role="presentation"
-                  />
-                  <span aria-live="assertive"> Finding your location...</span>
-                </div>
-              ) : (
-                <button
-                  onClick={handleGeolocationButtonClick}
-                  type="button"
-                  className="use-my-location-button"
-                  aria-label="Use my location"
-                  style={{ order: 2 }}
-                >
-                  <i
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                    role="presentation"
-                  />
-                  <div className="button-text">Use my location</div>
-                </button>
-              )}
-            </div>
-          </div>
+          <div className="search-controls-text-inputs">
+            <div className="geolocation-container vads-u-margin-top--1">
+              <div className="location-input">
+                <va-text-input
+                  style={{ order: 1 }}
+                  error={(() => {
+                    if (showEmptyError) {
+                      return 'Please fill in a city, state, postal code or address.';
+                    }
+                    if (showGeolocationError) {
+                      return 'Please enter a valid location.';
+                    }
+                    return null;
+                  })()}
+                  hint={null}
+                  id="street-city-state-zip"
+                  label="Address, city, state, or postal code"
+                  message-aria-describedby="Text input for location"
+                  name="Address, city, state, or postal code"
+                  onInput={handleLocationChange}
+                  onKeyPress={e => {
+                    if (e.key === 'Enter') onSubmit();
+                  }}
+                  value={locationInputString}
+                  uswds
+                  required
+                />
+              </div>
 
-          <div className="vads-u-margin-top--4">
-            <va-text-input
-              hint={null}
-              label="Name of accredited representative"
-              name="Name of accredited representative"
-              onChange={handleRepresentativeChange}
-              onInput={handleRepresentativeChange}
-              onKeyPress={e => {
-                if (e.key === 'Enter') onSubmit();
-              }}
-              value={representativeInputString}
-              uswds
-            />
+              <div
+                className={classNames('use-my-location-button-container', {
+                  'use-my-location-button-container-error':
+                    showEmptyError || showGeolocationError,
+                })}
+              >
+                {geolocationInProgress ? (
+                  <div
+                    className="finding-your-location-loading"
+                    style={{ order: 2 }}
+                  >
+                    <i
+                      className="fa fa-spinner fa-spin use-my-location-icon"
+                      aria-hidden="true"
+                      role="presentation"
+                    />
+                    <span aria-live="assertive"> Finding your location...</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleGeolocationButtonClick}
+                    type="button"
+                    className="use-my-location-button"
+                    aria-label="Use my location"
+                    style={{ order: 2 }}
+                  >
+                    <i
+                      className="use-my-location-icon"
+                      aria-hidden="true"
+                      role="presentation"
+                    />
+                    <div className="button-text">Use my location</div>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="representative-name-input vads-u-margin-top--4">
+              <va-text-input
+                hint={null}
+                label="Name of accredited representative"
+                name="Name of accredited representative"
+                onChange={handleRepresentativeChange}
+                onInput={handleRepresentativeChange}
+                onKeyPress={e => {
+                  if (e.key === 'Enter') onSubmit();
+                }}
+                value={representativeInputString}
+                uswds
+              />
+            </div>
           </div>
 
           <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">
