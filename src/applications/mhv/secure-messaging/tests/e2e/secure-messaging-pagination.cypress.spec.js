@@ -7,7 +7,7 @@ import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Reply', () => {
-  it('Axe Check Message Reply', () => {
+  it('Axe Pagination', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
