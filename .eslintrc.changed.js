@@ -17,11 +17,6 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/TextInput',
         use: '<va-text-input>',
       },
-      {
-        name:
-          '@department-of-veterans-affairs/component-library/ExpandingGroup',
-        use: 'a custom solution',
-      },
     ],
   },
 };
