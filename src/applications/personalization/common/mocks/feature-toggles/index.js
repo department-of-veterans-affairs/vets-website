@@ -1,5 +1,5 @@
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { keyBy } from 'lodash';
+const { keyBy } = require('lodash');
+const FEATURE_FLAG_NAMES = require('../../../../../platform/utilities/feature-toggles/featureFlagNames.cjs');
 
 const getFlag = (name = '', value = false) => {
   const flag = FEATURE_FLAG_NAMES[name];
