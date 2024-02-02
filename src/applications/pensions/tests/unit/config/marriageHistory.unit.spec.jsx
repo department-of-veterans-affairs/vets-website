@@ -122,10 +122,13 @@ describe('Pensions marriage history', () => {
 
     formDOM.fillData('#root_spouseFullName_first', 'test');
     formDOM.fillData('#root_spouseFullName_last', 'test');
-    formDOM.fillData('#root_dateOfMarriageMonth', '3');
-    formDOM.fillData('#root_dateOfMarriageDay', '3');
-    formDOM.fillData('#root_dateOfMarriageYear', '2001');
-    formDOM.fillData('#root_locationOfMarriage', 'The Pacific');
+    formDOM.fillData('#root_view\\:pastMarriage_dateOfMarriageMonth', '3');
+    formDOM.fillData('#root_view\\:pastMarriage_dateOfMarriageDay', '3');
+    formDOM.fillData('#root_view\\:pastMarriage_dateOfMarriageYear', '2001');
+    formDOM.fillData(
+      '#root_view\\:pastMarriage_locationOfMarriage',
+      'The Pacific',
+    );
 
     formDOM.fillData(
       '#root_view\\:pastMarriage_reasonForSeparation_1',

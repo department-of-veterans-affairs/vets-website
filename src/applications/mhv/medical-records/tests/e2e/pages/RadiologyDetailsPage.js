@@ -71,6 +71,19 @@ class RadiologyDetailsPage {
       .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
+
+  verifyRadiologyImageLink = radiologyImage => {
+    // Radiology Image Expand Button
+    cy.get('[data-testid="radiology-image"]').should('be.visible');
+    cy.get('[data-testid="radiology-image"]')
+      .contains(radiologyImage)
+      .invoke('attr', 'href')
+      .should(
+        'contain',
+        'myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports',
+      );
+    // href="https://mhv-syst.myhealth.va.gov/mhv-portal-web/va-medical-images-and-reports"
+  };
 }
 
 export default new RadiologyDetailsPage();

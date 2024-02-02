@@ -1282,46 +1282,53 @@ const formConfig = {
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+              routingNumber: {
+                ...bankAccountUI.routingNumber,
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid 9-digit routing number',
+                },
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:validations': [validateRoutingNumber],
+              },
               accountNumber: {
                 ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
-                  ...bankAccountUI.accountNumber['ui:errorMessages'],
-                  pattern: 'Please enter only numbers',
+                  pattern:
+                    'Please enter a valid 5-17 digit bank account number',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
               },
-              routingNumber: {
-                ...bankAccountUI.routingNumber,
-                'ui:reviewField': ObfuscateReviewField,
-                'ui:validations': [validateRoutingNumber],
-              },
             },
             'view:learnMore': {
               'ui:description': (
-                <>
+                <va-additional-info
+                  key="learn-more-btn"
+                  trigger="Where can I find these numbers?"
+                >
                   <img
                     key="check-image-src"
                     style={{ marginTop: '1rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
-                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <br />
+                  <br />
+
                   <p key="learn-more-description">
                     The bank routing number is the first 9 digits on the bottom
                     left corner of a printed check. Your account number is the
                     second set of numbers on the bottom of a printed check, just
                     to the right of the bank routing number.
                   </p>
-                  <va-additional-info key="learn-more-btn" trigger="Learn More">
-                    <p key="btn-copy">
-                      If you don’t have a printed check, you can sign in to your
-                      online banking institution for this information
-                    </p>
-                  </va-additional-info>
-                </>
+                  <br />
+                  <p key="learn-more-additional">
+                    If you don’t have a printed check, you can sign in to your
+                    online banking institution for this information
+                  </p>
+                </va-additional-info>
               ),
             },
           },
@@ -1338,7 +1345,7 @@ const formConfig = {
                 properties: {
                   accountNumber: {
                     type: 'string',
-                    pattern: '^\\**[a-z0-9]+$',
+                    pattern: '^\\**[a-z0-9]{5,17}$',
                   },
                   accountType: {
                     type: 'string',

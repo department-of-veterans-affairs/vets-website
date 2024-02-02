@@ -42,7 +42,6 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {/* TODO: Add breadcrumbs  - Ticket #228 */}
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
 
       {loggedIn ? (
