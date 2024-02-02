@@ -144,10 +144,24 @@ class MedicationsDetailsPage {
       .and('be.enabled');
   };
 
+  clickDownloadMedicationDetailsAsPdfOnDetailsPage = () => {
+    cy.get('[data-testid="download-pdf-button"]').should('be.enabled');
+    cy.get('[data-testid="download-pdf-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-pdf-button"]')
       .should('have.text', 'Download a PDF of this page')
       .should('be.enabled');
+  };
+
+  clickDownloadMedicationsDetailsAsTxtOnDetailsPage = () => {
+    cy.get('[data-testid="download-txt-button"]').should('be.enabled');
+    cy.get('[data-testid="download-txt-button"]').click({
+      waitForAnimations: true,
+    });
   };
 
   verifyRefillButtonEnabledOnMedicationsDetailsPage = () => {
