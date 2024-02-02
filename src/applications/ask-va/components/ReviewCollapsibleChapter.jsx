@@ -1,26 +1,26 @@
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import classNames from 'classnames';
+import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import uniqueId from 'lodash/uniqueId';
-import classNames from 'classnames';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
 
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
-import {
-  focusOnChange,
-  getFocusableElements,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { setFormErrors } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import {
   getArrayFields,
   getNonArraySchema,
   showReviewField,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import { setFormErrors } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import {
+  focusOnChange,
+  getFocusableElements,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ArrayField from './ArrayField';
 
 const { Element, scroller } = Scroll;
@@ -147,7 +147,7 @@ class ReviewCollapsibleChapter extends React.Component {
     const classes = classNames('form-review-panel-page', {
       'schemaform-review-page-error': !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
-      'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
+      'vads-u-margin-bottom--0': true,
     });
     const title = page.reviewTitle || page.title || '';
     const ariaLabel = `Update ${(typeof title === 'function'
@@ -388,52 +388,9 @@ class ReviewCollapsibleChapter extends React.Component {
 
   render() {
     let pageContent = null;
+    pageContent = this.getChapterContent(this.props);
 
-    const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
-
-    if (this.props.open) {
-      pageContent = this.getChapterContent(this.props);
-    }
-
-    const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
-    });
-
-    const headerClasses = classNames(
-      'accordion-header',
-      'clearfix',
-      'schemaform-chapter-accordion-header',
-      'vads-u-font-size--h4',
-      'vads-u-margin-top--0',
-    );
-
-    return (
-      <div
-        id={`${this.id}-collapsiblePanel`}
-        className={classes}
-        data-chapter={this.props.chapterKey}
-      >
-        <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="usa-unstyled-list" role="list">
-          <li>
-            <h3 className={headerClasses}>
-              <button
-                className="usa-button-unstyled"
-                aria-expanded={this.props.open ? 'true' : 'false'}
-                aria-controls={`collapsible-${this.id}`}
-                onClick={this.props.toggleButtonClicked}
-                id={`collapsibleButton${this.id}`}
-                type="button"
-              >
-                {chapterTitle || ''}
-              </button>
-            </h3>
-            <div id={`collapsible-${this.id}`}>{pageContent}</div>
-          </li>
-        </ul>
-      </div>
-    );
+    return pageContent;
   }
 }
 

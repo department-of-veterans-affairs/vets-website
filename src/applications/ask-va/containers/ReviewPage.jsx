@@ -1,14 +1,13 @@
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { Link } from 'react-router';
-import { VaPrivacyAgreement } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Scroll from 'react-scroll';
-import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 
 import {
   createPageListByChapter,
-  getActiveExpandedPages,
   getActiveChapters,
+  getActiveExpandedPages,
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 
@@ -18,46 +17,24 @@ import {
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import {
-  openReviewChapter,
   closeReviewChapter,
+  openReviewChapter,
   setUpdatedInReview,
 } from '../actions';
-import { setupPages, getPageKeysForReview } from '../utils/reviewPageHelper';
+import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import { getPageKeysForReview } from '../utils/reviewPageHelper';
 
 const { scroller } = Scroll;
 
 const ReviewPage = props => {
-  const [privacyCheckbox, setPrivacyCheckbox] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   const dispatch = useDispatch();
-  const { getChapterPagesFromChapterIndex } = setupPages(formConfig);
-  const chapterClasses = [
-    'vads-u-display--flex',
-    'vads-u-margin-y--2',
-    'vads-u-font-weight--bold',
-  ].join(' ');
-
-  const chapterEditLink = (editLink, chapterName) => {
-    return (
-      <div className={chapterClasses}>
-        <i className="fas fa-chevron-circle-right uswds-system-color-blue-60v vads-u-font-size--lg vads-u-margin-right--1 vads-u-margin-top--0p25" />
-        <Link to={editLink}>{`Return to ${chapterName}`}</Link>
-      </div>
-    );
-  };
 
   const handlers = {
-    onPrivacyCheckboxChange: event => {
-      setPrivacyCheckbox(event.detail);
-    },
     onSubmit: () => {
-      setSubmitted(true);
-      if (privacyCheckbox) {
-        props.goToPath('/confirmation');
-      }
+      props.goToPath('/confirmation');
     },
   };
 
@@ -97,73 +74,77 @@ const ReviewPage = props => {
       props.onSetData();
     }
   };
-
   return (
     <article>
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
-      <h1>Review Your Ask VA Form</h1>
-      <div className="vads-u-margin-bottom--3">
-        <va-alert status="info" uswds visible>
-          <h2 id="editing-answers" slot="headline">
-            Editing answers
-          </h2>
-          <p className="vads-u-margin-y--0">
-            You are only able to edit some answers on this page. You may need to
-            return to an earlier page in the form to edit some answers.
-          </p>
-        </va-alert>
+      <div className="vads-u-margin-y--7">
+        {showAlert ? (
+          <VaAlert
+            closeBtnAriaLabel="Close notification"
+            closeable
+            onCloseEvent={() => setShowAlert(false)}
+            status="info"
+            uswds
+            visible
+          >
+            <h2 id="track-your-status-on-mobile" slot="headline">
+              Editing answers
+            </h2>
+            <div>
+              <p className="vads-u-margin-y--0">
+                You are only able to edit some answers on this page. You may
+                need to return to an earlier page in the form to edit some
+                answers.
+              </p>
+            </div>
+          </VaAlert>
+        ) : null}
       </div>
 
-      <div className="input-section">
-        <div>
-          {props.chapters.map((chapter, index) => {
-            const pages = getChapterPagesFromChapterIndex(index);
-            const editLink = pages[0].path;
-            return (
-              <div key={chapter.name}>
-                <ReviewCollapsibleChapter
-                  expandedPages={chapter.expandedPages}
-                  chapterFormConfig={chapter.formConfig}
-                  chapterKey={chapter.name}
-                  form={props.form}
-                  formContext={props.formContext}
-                  onEdit={handleEdit}
-                  open={chapter.open}
-                  pageKeys={chapter.pageKeys}
-                  pageList={getPageKeysForReview(formConfig)}
-                  setData={(...args) => handleSetData(...args)}
-                  setValid={props.setValid}
-                  toggleButtonClicked={() => handleToggleChapter(chapter)}
-                  uploadFile={props.uploadFile}
-                  viewedPages={new Set(getPageKeysForReview(formConfig))}
-                  hasUnviewedPages={chapter.hasUnviewedPages}
-                />
-                {!pages[0].editModeOnReviewPage &&
-                  props.openChapterList.includes(chapter.name) &&
-                  chapterEditLink(editLink, chapter.formConfig.title)}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <p className="vads-u-margin-top--6">
-        <strong>Note:</strong> According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information. (See 18
-        U.S.C. 1001)
-      </p>
-      <VaPrivacyAgreement
-        onVaChange={handlers.onPrivacyCheckboxChange}
-        showError={submitted && !privacyCheckbox}
-        uswds
-      />
-      <p className="vads-u-margin-top--4">
-        <Link to="/decision-reviews/appeals-testing">
-          Finish this application later
-        </Link>
-      </p>
-      <va-button onClick={handlers.onSubmit} text="Submit" />
+      <va-accordion
+        bordered
+        disable-analytics={{
+          value: 'false',
+        }}
+        section-heading={{
+          value: 'null',
+        }}
+        uswds={{
+          value: 'true',
+        }}
+        className="vads-u-width--viewport"
+      >
+        {props.chapters.map(chapter => {
+          return (
+            <va-accordion-item
+              key={chapter.name}
+              header={chapter.formConfig.title}
+              id={chapter.name}
+            >
+              <ReviewCollapsibleChapter
+                expandedPages={chapter.expandedPages}
+                chapterFormConfig={chapter.formConfig}
+                chapterKey={chapter.name}
+                form={props.form}
+                formContext={props.formContext}
+                onEdit={handleEdit}
+                open={chapter.open}
+                pageKeys={chapter.pageKeys}
+                pageList={getPageKeysForReview(formConfig)}
+                setData={(...args) => handleSetData(...args)}
+                setValid={props.setValid}
+                toggleButtonClicked={() => handleToggleChapter(chapter)}
+                uploadFile={props.uploadFile}
+                viewedPages={new Set(getPageKeysForReview(formConfig))}
+                hasUnviewedPages={chapter.hasUnviewedPages}
+              />
+            </va-accordion-item>
+          );
+        })}
+      </va-accordion>
+      <va-button back onClick={() => props.goBack()} />
+      <va-button onClick={handlers.onSubmit} text="Submit question" />
     </article>
   );
 };
