@@ -10,13 +10,18 @@ import {
   pagePathIsCorrect,
   fillIdInfoPage,
   fillLivingSituationPage,
+  fillMailingAddressPage,
   fillNameAndDateOfBirthPage,
   fillOtherHousingRisksPage,
+  fillOtherReasonsPage,
+  fillPhoneAndEmailPage,
   showsCorrectChapterTitle,
   showsCorrectPageTitle,
   showsCorrectErrorMessage,
   showsCorrectLivingSituationCheckboxLabels,
+  showsCorrectOtherReasonsLabels,
 } from './e2eHelpers';
+import mockUploadResponse from './fixtures/mocks/upload.json';
 
 // Skip in CI
 const testSuite = Cypress.env('CI') ? describe.skip : describe;
@@ -359,11 +364,10 @@ testSuite('PP 10207 - Veteran', () => {
         );
       });
 
-      it('advances to next chapter', () => {
-        // TODO: Change path below once next chapter is built
+      it('advances to Your-contact-information chapter', () => {
         fillOtherHousingRisksPage('veteranOhr');
         continueToNextPage();
-        pagePathIsCorrect('review-and-submit');
+        pagePathIsCorrect('phone-and-email');
       });
     });
   });
@@ -409,10 +413,231 @@ testSuite('PP 10207 - Veteran', () => {
         pagePathIsCorrect('mailing-address');
       });
 
-      it('advances to next-page when NO is selected', () => {
+      it('advances to Your-phone-and-email-address page when NO is selected', () => {
         cy.contains('No').click();
         continueToNextPage();
-        // TODO: Change path to next-page once built
+        pagePathIsCorrect('phone-and-email');
+      });
+    });
+
+    describe('Mailing-address page', () => {
+      beforeEach(() => {
+        cy.contains('Yes').click();
+        continueToNextPage();
+        pagePathIsCorrect('mailing-address');
+      });
+
+      it('displays correct page-title', () => {
+        showsCorrectPageTitle('Your mailing address', 3);
+      });
+
+      it('displays correct error messages for empty required fields', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage('Country is required');
+        showsCorrectErrorMessage('Street address is required');
+        showsCorrectErrorMessage('City is required');
+        showsCorrectErrorMessage(
+          'Enter a postal code that meets your country’s requirements. If your country doesn’t require a postal code, enter NA.',
+        );
+        // select USA to update state to select
+        cy.get('select[name="root_mailingAddress_country"]').select('USA', {
+          force: true,
+        });
+        cy.get('select[name="root_mailingAddress_state"]').should('exist');
+        showsCorrectErrorMessage(
+          'Please enter a valid State, Province, or Region',
+        );
+      });
+
+      it('displays correct error message for invalid postal code', () => {
+        fillMailingAddressPage('veteran');
+        cy.get('input[name="root_mailingAddress_postalCode"]').type(
+          '{selectall}1234',
+          { force: true },
+        );
+        continueToNextPage();
+        showsCorrectErrorMessage('Enter a valid 5-digit ZIP code');
+      });
+
+      it('advances to Your-phone-and-email-address page', () => {
+        fillMailingAddressPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('phone-and-email');
+      });
+    });
+
+    describe('Phone-and-email page', () => {
+      beforeEach(() => {
+        cy.contains('Yes').click();
+        continueToNextPage();
+        fillMailingAddressPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('phone-and-email');
+      });
+
+      it('displays correct page-title', () => {
+        showsCorrectPageTitle('Your phone and email address', 3);
+      });
+
+      it('displays correct error messages for empty phone', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage(
+          'Please enter a 10-digit phone number (with or without dashes)',
+        );
+      });
+
+      it('advances to Other-reasons-for-request chapter', () => {
+        fillPhoneAndEmailPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('other-reasons');
+      });
+    });
+  });
+
+  describe('Other-reasons-for-request chapter', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/user', userLOA3);
+      cy.login(userLOA3);
+      cy.visit(`${manifest.rootUrl}`);
+      cy.findByText(/^start/i, { selector: 'a[href="#start"]' })
+        .last()
+        .click();
+      cy.contains('I’m a Veteran.').click();
+      continueToNextPage();
+      fillNameAndDateOfBirthPage('veteran');
+      continueToNextPage();
+      fillIdInfoPage('veteran');
+      continueToNextPage();
+      pagePathIsCorrect('living-situation');
+    });
+
+    describe('Other-reasons page', () => {
+      beforeEach(() => {
+        cy.contains('None').click();
+        continueToNextPage();
+        cy.contains('No').click();
+        continueToNextPage();
+        fillPhoneAndEmailPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('other-reasons');
+      });
+
+      it('displays correct chapter-title', () => {
+        showsCorrectChapterTitle('Other reasons for request');
+      });
+
+      it('displays correct H3 page-title', () => {
+        showsCorrectPageTitle(
+          'Which of these descriptions is true for you?',
+          3,
+        );
+      });
+
+      it('displays correct checkbox-labels', () => {
+        showsCorrectOtherReasonsLabels();
+      });
+
+      it('displays correct error message for empty selection', () => {
+        continueToNextPage();
+        showsCorrectErrorMessage('Select at least one description');
+      });
+
+      it('advances to Evidence-financial-hardship page if FINANCIAL_HARDSHIP is selected', () => {
+        cy.contains('financial hardship').click();
+        continueToNextPage();
+        pagePathIsCorrect('evidence-financial-hardship');
+      });
+    });
+
+    describe('Other-reasons-homeless page', () => {
+      beforeEach(() => {
+        cy.contains('overnight').click();
+        continueToNextPage();
+        fillPhoneAndEmailPage('veteran');
+        continueToNextPage();
+        pagePathIsCorrect('other-reasons-homeless');
+      });
+
+      it('displays correct H3 page-title', () => {
+        showsCorrectPageTitle(
+          'Are any of these other descriptions true for you?',
+          3,
+        );
+      });
+
+      it('advances to Evidence-financial-hardship page if FINANCIAL_HARDSHIP is selected', () => {
+        cy.contains('financial hardship').click();
+        continueToNextPage();
+        pagePathIsCorrect('evidence-financial-hardship');
+      });
+
+      it('advances to Review page if no option is selected', () => {
+        continueToNextPage();
+        pagePathIsCorrect('review-and-submit');
+      });
+    });
+  });
+
+  describe('Evidence chapter', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/user', userLOA3);
+      cy.login(userLOA3);
+      cy.visit(`${manifest.rootUrl}`);
+      cy.findByText(/^start/i, { selector: 'a[href="#start"]' })
+        .last()
+        .click();
+      cy.contains('I’m a Veteran.').click();
+      continueToNextPage();
+      fillNameAndDateOfBirthPage('veteran');
+      continueToNextPage();
+      fillIdInfoPage('veteran');
+      continueToNextPage();
+      cy.contains('None').click(); // living-situation
+      continueToNextPage();
+      cy.contains('No').click(); // mailing-address-yes-no
+      continueToNextPage();
+      fillPhoneAndEmailPage('veteran');
+      continueToNextPage();
+      fillOtherReasonsPage('veteran');
+      continueToNextPage();
+      pagePathIsCorrect('evidence-financial-hardship');
+    });
+
+    describe('Evidence-financial-hardship page', () => {
+      it('displays correct chapter-title', () => {
+        showsCorrectChapterTitle('Evidence');
+      });
+
+      it('displays correct H3 page-title', () => {
+        showsCorrectPageTitle(
+          'Upload evidence for extreme financial hardship',
+          3,
+        );
+      });
+
+      it('allows file upload', () => {
+        cy.intercept(
+          '/simple_forms_api/v1/simple_forms/submit_financial_hardship_documents',
+          mockUploadResponse,
+        ).as('upload');
+        cy.contains('Upload file', {
+          selector: 'va-button#upload-button::part(button)',
+        })
+          .first()
+          .click({ force: true });
+        cy.get('input[type="file"]').selectFile(
+          'src/applications/simple-forms/shared/tests/e2e/fixtures/mocks/test.jpg',
+          { force: true },
+        );
+        cy.wait('@upload');
+        cy.contains('Delete file', {
+          selector: 'va-button.delete-upload',
+        }).should('be.visible');
+      });
+
+      it('advances to next page', () => {
+        continueToNextPage();
+        // TODO: Change path below when next page is implemented
         pagePathIsCorrect('review-and-submit');
       });
     });
