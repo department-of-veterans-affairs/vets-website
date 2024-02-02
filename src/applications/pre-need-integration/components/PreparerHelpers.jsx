@@ -12,6 +12,14 @@ export function ContactDetailsTitle() {
   );
 }
 
+export function ValidateAddressTitle() {
+  return (
+    <div className="validate-address-title">
+      <h3 className="vads-u-font-size--h5">Validate Address</h3>
+    </div>
+  );
+}
+
 export function PreparerDescription() {
   return (
     <div>

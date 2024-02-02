@@ -72,6 +72,7 @@ import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
+import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
 
 const {
   claimant,
@@ -189,6 +190,40 @@ const formConfig = {
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
+        },
+        validatePreparerContactDetails: {
+          title: 'Validate and stuff',
+          path: 'validate-preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:validateAddress': {
+                  'ui:title': 'Hello Mate',
+                  'ui:field': preparerContactDetailsCustom,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:validateAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
