@@ -5,14 +5,21 @@ import MHVDown from '../components/MHVDown';
 import MHVDowntimeApproaching from '../components/MHVDowntimeApproaching';
 import { defaultLabel, mhvServiceLabels } from '../config';
 
-function MHVDowntime({ children, externalService, status, ...passedProps }) {
-  // TODO: Figure out appLabel here. Need to map services to apps
-  const appLabel = Object.hasOwn(mhvServiceLabels, externalService)
+function MHVDowntime({
+  children,
+  endTime,
+  externalService,
+  status,
+  startTime,
+}) {
+  // TODO: Figure out appTitle here. Need to map services to apps
+  const appTitle = Object.hasOwn(mhvServiceLabels, externalService)
     ? mhvServiceLabels[externalService]
     : defaultLabel;
   const props = {
-    ...passedProps,
-    appLabel,
+    appTitle,
+    endTime,
+    startTime,
   };
   if (status === externalServiceStatus.downtimeApproaching) {
     return (
@@ -28,7 +35,9 @@ function MHVDowntime({ children, externalService, status, ...passedProps }) {
 
 MHVDowntime.propTypes = {
   children: PropTypes.node,
+  endTime: PropTypes.instanceOf(Date),
   externalService: PropTypes.string,
+  startTime: PropTypes.instanceOf(Date),
   status: PropTypes.string,
 };
 
