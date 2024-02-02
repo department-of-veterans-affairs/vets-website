@@ -16,6 +16,7 @@ import {
   defaultFocusSelector,
   waitForRenderThenFocus,
 } from '../../../../utilities/ui';
+import { querySelectorWithShadowRoot } from '../../../../utilities/ui/webComponents';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -99,6 +100,43 @@ export default function FormNav(props) {
     : `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName ||
         ''}`;
 
+  const handleFocus = async () => {
+    let root = document.querySelector('#react-root');
+    if (formConfig.v3SegmentedProgressBar) {
+      // Need to provide shadowRoot for focusing on shadow-DOM elements
+      const shadowHost = await querySelectorWithShadowRoot(
+        'va-segmented-progress-bar',
+      );
+      root = shadowHost.shadowRoot;
+    }
+
+    return () => {
+      // Check main toggle to enable custom focus; the unmounting of the page
+      // before the review & submit page may cause the customScrollAndFocus
+      // function to be called inadvertently
+      if (
+        !(
+          page.chapterKey === 'review' ||
+          window.location.pathname.endsWith('review-and-submit')
+        )
+      ) {
+        if (formConfig.useCustomScrollAndFocus) {
+          customScrollAndFocus(page.scrollAndFocusTarget, index);
+        } else {
+          waitForRenderThenFocus(defaultFocusSelector, root, 400);
+        }
+      } else {
+        // h2 fallback for review page
+        focusByOrder([defaultFocusSelector, 'h2'], root);
+      }
+    };
+  };
+
+  // Handle focus on mount
+  useEffect(() => {
+    handleFocus();
+  }, []);
+
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
   // `current` changes when the form chapter changes, and when this happens
@@ -107,37 +145,12 @@ export default function FormNav(props) {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/12323
   useEffect(
     () => {
-      // Need to provide shadowRoot for focusing on elements inside shadow-DOM
-      const root = formConfig.v3SegmentedProgressBar
-        ? document.querySelector('va-segmented-progress-bar').shadowRoot
-        : document.querySelector('#react-root');
-
       if (current > index + 1) {
         setIndex(index + 1);
       } else if (current === index) {
         setIndex(index - 1);
       }
-
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
-          } else {
-            waitForRenderThenFocus(defaultFocusSelector, root, 400);
-          }
-        } else {
-          // h2 fallback for review page
-          focusByOrder([defaultFocusSelector, 'h2'], root);
-        }
-      };
+      handleFocus();
     },
     [current, index],
   );
