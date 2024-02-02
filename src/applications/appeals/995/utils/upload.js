@@ -33,7 +33,7 @@ export const fileUploadUi = content => {
     buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
-    minSize: 1, // curious why minsize is 1 vs in 10182 it's 1024
+    minSize: 1,
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
