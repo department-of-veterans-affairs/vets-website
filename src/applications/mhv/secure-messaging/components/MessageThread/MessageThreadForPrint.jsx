@@ -26,7 +26,6 @@ const MessageThreadForPrint = props => {
                 printThread={printThread}
                 key={m.messageId}
                 message={m}
-                preloaded={m.preloaded}
                 expanded
               />
             </>

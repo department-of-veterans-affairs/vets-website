@@ -38,8 +38,9 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  const handleExpand = isPreloaded => {
-    if (!isPreloaded) {
+  const handleExpand = () => {
+    // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
+    if (!isSentOrReadOrDraft) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
   };
@@ -89,7 +90,7 @@ const MessageThreadItem = props => {
       ref={accordionItemRef}
       subheader={!isDraft ? from : ''}
       onAccordionItemToggled={() => {
-        handleExpand(preloaded);
+        handleExpand();
       }}
       data-testid={`expand-message-button-${messageId}`}
       open={printThread}
