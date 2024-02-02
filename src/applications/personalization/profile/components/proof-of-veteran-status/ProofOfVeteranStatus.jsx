@@ -6,8 +6,6 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { generatePdf } from '~/platform/pdf';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
-import recordEvent from '~/platform/monitoring/record-event';
-import { PROFILE_PATHS } from '../../constants';
 import { DISCHARGE_CODE_MAP } from './constants';
 
 const ProofOfVeteranStatus = ({
@@ -65,13 +63,6 @@ const ProofOfVeteranStatus = ({
   };
 
   const createPdf = () => {
-    recordEvent({
-      event: 'file_download',
-      'click-url': PROFILE_PATHS.MILITARY_INFORMATION,
-      'file-name': 'Veteran status card',
-      'file-extension': 'pdf',
-    });
-
     generatePdf('veteranStatus', 'Veteran status card', pdfData, !isMobile);
   };
 
