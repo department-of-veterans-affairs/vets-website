@@ -33,9 +33,9 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '0247-pmc',
-  dev: {
-    showNavLinks: !window.Cypress,
-  },
+  // dev: {
+  //   showNavLinks: !window.Cypress,
+  // },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
