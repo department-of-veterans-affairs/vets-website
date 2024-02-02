@@ -15,19 +15,9 @@
       "ssn": "321540990"
     },
     "livingSituation": {
-      "NONE": true
+      "OTHER_RISK": true
     },
-    "mailingAddressYesNo": true,
-    "mailingAddress": {
-      "country": "USA",
-      "street": "126 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
-    "phone": "1234567893",
-    "otherReasons": {
-      "FINANCIAL_HARDSHIP": true
-    }
+    "otherHousingRisks": "The claimant's baby giraffe is growing up fast!",
+    "phone": "1234567893"
   }
 }

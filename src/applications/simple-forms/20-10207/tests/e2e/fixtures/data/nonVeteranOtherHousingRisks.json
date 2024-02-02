@@ -1,0 +1,18 @@
+{
+  "data": {
+    "preparerType": "non-veteran",
+    "fullName": {
+      "first": "John",
+      "last": "Non-Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540988"
+    },
+    "livingSituation": {
+      "OTHER_RISK": true
+    },
+    "otherHousingRisks": "My baby giraffe is growing up fast!",
+    "phone": "1234567891"
+  }
+}
