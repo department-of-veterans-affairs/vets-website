@@ -19,6 +19,11 @@ import otherHousingRisksPg from '../pages/otherHousingRisks';
 import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
 import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
 import mailingAddressYesNo from '../pages/mailingAddressYesNo';
+import mailingAddressPg from '../pages/mailingAddress';
+import phoneAndEmailPg from '../pages/phoneAndEmail';
+import otherReasonsPg from '../pages/otherReasons';
+import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
+import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -198,24 +203,53 @@ const formConfig = {
           pageClass: 'contact-information',
         },
         mailingAddressPage: {
-          depends: formData => formData.mailingAddressYesNo,
+          depends: formData =>
+            formData.livingSituation.NONE && formData.mailingAddressYesNo,
           path: 'mailing-address',
           title: 'Your mailing address',
-          uiSchema: {
-            'ui:title': '[WIP] Your mailing address',
-            firstField: {
-              'ui:title': '[firstField]',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              firstField: {
-                type: 'string',
-              },
-            },
-          },
+          uiSchema: mailingAddressPg.uiSchema,
+          schema: mailingAddressPg.schema,
           pageClass: 'mailing-address',
+        },
+        phoneAndEmailPage: {
+          path: 'phone-and-email',
+          title: 'Your phone and email address',
+          uiSchema: phoneAndEmailPg.uiSchema,
+          schema: phoneAndEmailPg.schema,
+          pageClass: 'phone-and-email',
+        },
+      },
+    },
+    otherReasonsChapter: {
+      title: 'Other reasons for request',
+      pages: {
+        otherReasonsPage: {
+          depends: formData => formData.livingSituation.NONE,
+          path: 'other-reasons',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsPg.uiSchema,
+          schema: otherReasonsPg.schema,
+          pageClass: 'other-reasons',
+        },
+        otherReasonsHomelessPage: {
+          depends: formData => !formData.livingSituation.NONE,
+          path: 'other-reasons-homeless',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsHomelessPg.uiSchema,
+          schema: otherReasonsHomelessPg.schema,
+          pageClass: 'other-reasons-homeless',
+        },
+      },
+    },
+    evidenceChapter: {
+      title: 'Evidence',
+      pages: {
+        financialHardshipPage: {
+          depends: formData => formData.otherReasons.FINANCIAL_HARDSHIP,
+          path: 'evidence-financial-hardship',
+          title: 'Upload evidence for extreme financial hardship',
+          uiSchema: financialHardshipPg.uiSchema,
+          schema: financialHardshipPg.schema,
         },
       },
     },

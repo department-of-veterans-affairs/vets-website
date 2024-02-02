@@ -10,8 +10,19 @@
       "ssn": "321540988"
     },
     "livingSituation": {
-      "OTHER_RISK": true
+      "NONE": true
     },
-    "otherHousingRisks": "My baby giraffe is growing up fast!"
+    "mailingAddressYesNo": true,
+    "mailingAddress": {
+      "country": "USA",
+      "street": "124 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phone": "1234567891",
+    "otherReasons": {
+      "FINANCIAL_HARDSHIP": true
+    }
   }
 }

@@ -18,7 +18,11 @@
       "street": "123 Any St",
       "city": "Anytown",
       "state": "CA",
-      "zip": "12345"
+      "postalCode": "12345"
+    },
+    "phone": "1234567890",
+    "otherReasons": {
+      "FINANCIAL_HARDSHIP": true
     }
   }
 }

@@ -3,6 +3,8 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import { fillAddressWebComponentPattern } from '../../../shared/tests/e2e/helpers';
+
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
@@ -47,6 +49,41 @@ const testConfig = createTestConfig(
       'living-situation': ({ afterHook }) => {
         afterHook(() => {
           cy.selectVaCheckbox('root_livingSituation_NONE', true);
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
+      'mailing-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get(
+              'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
+            )
+              .should('be.visible')
+              .then(() => {
+                cy.get('[name="root_mailingAddress_state"]')
+                  .should('not.have.attr', 'disabled')
+                  .then(() => {
+                    // callback to avoid field-disabled errors, but
+                    // even now we must wait a bit!
+                    // eslint-disable-next-line cypress/no-unnecessary-waiting
+                    cy.wait(1000);
+                    fillAddressWebComponentPattern(
+                      'mailingAddress',
+                      data.mailingAddress,
+                    );
+
+                    cy.axeCheck('.form-panel');
+                    cy.findByText(/continue/i, { selector: 'button' }).click();
+                  });
+              });
+          });
+        });
+      },
+      'other-reasons': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaCheckbox('root_otherReasons_FINANCIAL_HARDSHIP', true);
           cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();

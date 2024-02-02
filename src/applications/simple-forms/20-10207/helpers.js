@@ -1,5 +1,10 @@
 import React from 'react';
 
+import moment from 'moment';
+
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import { PREPARER_TYPES } from './config/constants';
 
 export function getMockData(mockData, isLocalhost) {
@@ -70,6 +75,50 @@ export function validateLivingSituation(errors, fields) {
   if (selectedSituations.length > 1 && selectedSituations.includes('NONE')) {
     errors.livingSituation.addError(
       `If none of these situations apply to ${preparerString}, unselect the other options you selected`,
+    );
+  }
+}
+
+export function createPayload(file, formId, password) {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+}
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
+}
+
+export function dateOfDeathValidation(errors, fields) {
+  const { veteranDateOfBirth, veteranDateOfDeath } = fields;
+  const dob = moment(veteranDateOfBirth);
+  const dod = moment(veteranDateOfDeath);
+
+  if (dod.isBefore(dob)) {
+    errors.veteranDateOfDeath.addError(
+      'Provide a date that is after the date of birth',
     );
   }
 }
