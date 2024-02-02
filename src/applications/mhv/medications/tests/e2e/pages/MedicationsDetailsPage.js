@@ -134,6 +134,17 @@ class MedicationsDetailsPage {
     // });
   };
 
+  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+    cy.get('[href="/my-health/medications/2"]').click({
+      waitForAnimations: true,
+    });
+    // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
+    // cy.get('[data-testid="rx-breadcrumb"]').click({
+    //   waitForAnimations: true,
+    // });
+  };
+
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
     cy.get('[data-testid="print-records-button"] > span').click({
       force: true,
