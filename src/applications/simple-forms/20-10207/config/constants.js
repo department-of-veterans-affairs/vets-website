@@ -256,3 +256,40 @@ export const MAILING_ADDRESS_YES_NO_LABELS = Object.freeze({
   Y: 'Yes, I have a current mailing address.',
   N: 'No, I don’t have a current mailing address.',
 });
+
+export const OTHER_REASONS = Object.freeze({
+  FINANCIAL_HARDSHIP: 'I’m experiencing extreme financial hardship.',
+  ALS:
+    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'I have a terminal illness.',
+  VSI_SI:
+    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'I’m age 85 or older.',
+  FORMER_POW: 'I’m a former prisoner of war (POW).',
+  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
+});
+
+export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
+  <>
+    <p>
+      You’ll need to scan your document onto the device you’re using to submit
+      this application, such as your computer, tablet, or mobile phone. You can
+      upload your file from there.
+    </p>
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 25MB</li>
+    </ul>
+    <va-additional-info
+      trigger="What kind of evidence can I submit?"
+      data-testid="hardshipAdditionalInfo"
+    >
+      <ul>
+        <li>Copy of an eviction notice or statement of foreclosure</li>
+        <li>Copy of notices of past-due utility bills</li>
+        <li>Copy of collection notices from creditors</li>
+      </ul>
+    </va-additional-info>
+  </>,
+);
