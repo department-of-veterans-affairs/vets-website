@@ -15,6 +15,11 @@ export default {
         formData.dynamicConditional
           ? 'Dynamic fields'
           : 'Dynamic fields updated',
+      `Disclaimer: When using dynamic fields you need to consider accessibility
+    and screen readers. For these reasons it is not recommended to change fields
+    live like this because the changes may not get read out. Instead, it is
+    recommended to already have some previous formData set so that when you get
+    to the dynamic fields, they are static while on that page.`,
     ),
     dynamicConditional: yesNoUI({
       title: 'Show dynamic fields?',

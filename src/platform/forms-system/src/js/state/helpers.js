@@ -595,7 +595,8 @@ export function updateItemsSchema(schema, fieldData = null) {
 /**
  * This is the main sequence of updates that happens when data is changed
  * on a form. Most updates are applied to the schema. And by default the data
- * is updated to remove newly hidden data.
+ * is updated to remove newly hidden data. And the uiSchema is updated if
+ * there are any updateUiSchema updates based on the new data.
  *
  * @param {SchemaOptions} schema The current JSON Schema
  * @param {UISchemaOptions} uiSchema The current UI Schema (does not change)
@@ -608,7 +609,7 @@ export function updateItemsSchema(schema, fieldData = null) {
  *  uiSchema: UISchemaOptions
  * }} An object with the updated schema, uiSchema, and data
  */
-export function updateSchemaAndData(
+export function updateSchemasAndData(
   schema,
   uiSchema,
   formData,
@@ -656,7 +657,7 @@ export function recalculateSchemaAndData(initialState) {
     const page = state.pages[pageKey];
     const formData = initialState.data;
 
-    const { data, schema, uiSchema } = updateSchemaAndData(
+    const { data, schema, uiSchema } = updateSchemasAndData(
       page.schema,
       page.uiSchema,
       formData,

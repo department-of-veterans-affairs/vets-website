@@ -1,4 +1,4 @@
-import { updateSchemaAndData } from 'platform/forms-system/src/js/state/helpers';
+import { updateSchemasAndData } from 'platform/forms-system/src/js/state/helpers';
 
 import {
   FORM_DATA_UPDATED,
@@ -21,7 +21,7 @@ export function removeDependents(state = initialState, action) {
       data: newFormData,
       schema: newFormSchema,
       uiSchema: newUiSchema,
-    } = updateSchemaAndData(
+    } = updateSchemasAndData(
       action.formSchema,
       action.uiSchema,
       action.formData,
