@@ -36,7 +36,7 @@ jobs:
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
       - name: Run Cypress tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           command: yarn cy:run --spec "src/applications/proxy-rewrite/tests/e2e/proxy-rewrite-entry.cypress.spec.js"
           max_attempts: 3
