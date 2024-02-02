@@ -36,9 +36,7 @@ export const generateDischargeSummaryContent = record => ({
       {
         items: [
           {
-            title: '',
             value: record.summary,
-            inline: false,
           },
         ],
       },
@@ -74,9 +72,7 @@ export const generateProgressNoteContent = record => {
         {
           items: [
             {
-              title: '',
               value: record.note,
-              inline: false,
             },
           ],
         },

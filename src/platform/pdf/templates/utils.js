@@ -275,7 +275,10 @@ const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
     };
 
     doc.markContent('Artifact');
-    doc.text(data.headerLeft, 16, 12);
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(data.headerLeft, 16, 12);
     doc.text(data.headerRight, 16, 12, { align: 'right' });
     doc.endMarkedContent();
   }
@@ -328,7 +331,10 @@ const generateFooterContent = async (
     let footerRightText = data.footerRight.replace('%PAGE_NUMBER%', i + 1);
     footerRightText = footerRightText.replace('%TOTAL_PAGES%', pages.count);
 
-    doc.text(data.footerLeft, config.margins.left, 766);
+    doc
+      .font(config.text.font)
+      .fontSize(config.text.size)
+      .text(data.footerLeft, config.margins.left, 766);
     doc.text(footerRightText, config.margins.left, 766, { align: 'right' });
 
     doc.endMarkedContent();

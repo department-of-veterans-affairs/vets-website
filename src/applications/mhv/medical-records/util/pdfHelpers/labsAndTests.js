@@ -128,9 +128,8 @@ export const generateMicrobioContent = record => ({
       {
         items: [
           {
-            title: '',
             value: record.results,
-            inline: true,
+            monospace: true,
           },
         ],
       },
@@ -158,7 +157,16 @@ export const generatePathologyContent = record => ({
   results: {
     header: 'Results',
     sectionSeparators: true,
-    items: [{ items: [{ title: '', value: record.results, inline: true }] }],
+    items: [
+      {
+        items: [
+          {
+            value: record.results,
+            monospace: true,
+          },
+        ],
+      },
+    ],
   },
 });
 
@@ -228,6 +236,6 @@ export const generateRadiologyContent = record => ({
   results: {
     header: 'Results',
     sectionSeparators: true,
-    items: [{ items: [{ value: record.results }] }],
+    items: [{ items: [{ value: record.results, monospace: true }] }],
   },
 });

@@ -127,7 +127,9 @@ ${record.summary}`;
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p data-testid="note-summary">{record.summary}</p>
+        <p data-testid="note-summary" className="monospace">
+          {record.summary}
+        </p>
       </div>
     </div>
   );
