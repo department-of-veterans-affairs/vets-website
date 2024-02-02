@@ -96,7 +96,7 @@ const ProofOfVeteranStatus = ({
               <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
                 <img
                   width="100%"
-                  src="/img/proof-of-veteran-status-card-example.png"
+                  src="/img/proof-of-veteran-status-card-sample.png"
                   alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
                 />
               </div>
