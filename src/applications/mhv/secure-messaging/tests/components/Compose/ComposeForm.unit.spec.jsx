@@ -335,11 +335,13 @@ describe('Compose form component', () => {
       }),
     );
     expect(uploader.files[0].name).to.equal('test.png');
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     let modal = null;
+
     await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       modal = screen.getByTestId('quit-compose-double-dare');
     });
+
     expect(modal).to.exist;
     expect(modal).to.have.attribute(
       'modaltitle',
