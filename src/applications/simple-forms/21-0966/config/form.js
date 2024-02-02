@@ -71,9 +71,9 @@ const formConfig = {
     },
   },
   formId: '21-0966',
-  dev: {
-    showNavLinks: true,
-  },
+  // dev: {
+  //   showNavLinks: true,
+  // },
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits claims application (21-0966) is in progress.',
