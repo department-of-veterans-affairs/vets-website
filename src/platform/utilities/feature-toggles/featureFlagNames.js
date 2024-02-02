@@ -115,7 +115,6 @@ export default Object.freeze({
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
@@ -171,7 +170,6 @@ export default Object.freeze({
   profileShowQuickSubmitNotificationSetting:
     'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',

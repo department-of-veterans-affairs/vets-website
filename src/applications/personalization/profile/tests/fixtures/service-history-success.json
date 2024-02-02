@@ -8,13 +8,15 @@
           "branchOfService": "Air Force",
           "beginDate": "2009-04-12",
           "endDate": "2013-04-11",
-          "personnelCategoryTypeCode": "V"
+          "personnelCategoryTypeCode": "V",
+          "characterOfDischargeCode": "A"
         },
         {
           "branchOfService": "Air Force",
           "beginDate": "2005-04-12",
           "endDate": "2009-04-11",
-          "personnelCategoryTypeCode": "A"
+          "personnelCategoryTypeCode": "A",
+          "characterOfDischargeCode": "A"
         }
       ]
     }

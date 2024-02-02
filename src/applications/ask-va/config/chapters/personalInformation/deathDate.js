@@ -3,13 +3,13 @@ import currentOrPastDateUI from '@department-of-veterans-affairs/platform-forms-
 import { CHAPTER_3 } from '../../../constants';
 
 const questionHeader = (
-  <h4 className="vads-u-display--inline">{CHAPTER_3.PAGE_5.TITLE}</h4>
+  <h4 className="vads-u-display--inline">{CHAPTER_3.DEATH_DATE.TITLE}</h4>
 );
 
 const deathDatePage = {
   uiSchema: {
     'ui:title': questionHeader,
-    dateOfDeath: currentOrPastDateUI(CHAPTER_3.PAGE_5.QUESTION_1),
+    dateOfDeath: currentOrPastDateUI(CHAPTER_3.DEATH_DATE.QUESTION_1),
   },
   schema: {
     type: 'object',
