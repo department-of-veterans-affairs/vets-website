@@ -330,10 +330,17 @@ export const newInquiryBreadcrumbs = [
   { title: 'New Inquiry', key: 'newInquiry' },
 ];
 
+export const reviewPageBreadcrumbs = [
+  ...homeBreadcrumbs,
+  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { title: 'New Inquiry', key: 'newInquiry' },
+];
+
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': responsePageBreadcrumbs,
   '/newInquiry': newInquiryBreadcrumbs,
+  '/review-then-submit': reviewPageBreadcrumbs,
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { claimsAgentIsEnabled } from '../../config';
 
 const RepTypeSelector = ({ onChange, representativeType }) => {
   const handleRadioButtonSelect = event => {
@@ -10,7 +9,7 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
 
   return (
     <>
-      <div className="vads-u-margin-top--3 rep-type-radio-group">
+      <div className="rep-type-radio-group">
         <VaRadio
           error={null}
           hint=""
@@ -20,10 +19,10 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
           onVaValueChange={handleRadioButtonSelect}
         >
           <va-radio-option
-            label="Veterans Service Officer"
+            label="Accredited Veterans Service Officer (VSO)"
             name="group"
-            value="VSO"
-            checked={representativeType === 'VSO'}
+            value="veteran_service_officer"
+            checked={representativeType === 'veteran_service_officer'}
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
@@ -35,16 +34,14 @@ const RepTypeSelector = ({ onChange, representativeType }) => {
             radioOptionSelected={handleRadioButtonSelect}
             vaValueChange={handleRadioButtonSelect}
           />
-          {claimsAgentIsEnabled && (
-            <va-radio-option
-              label="Claims agent"
-              name="group"
-              value="claim_agents"
-              checked={representativeType === 'claim_agents'}
-              radioOptionSelected={handleRadioButtonSelect}
-              vaValueChange={handleRadioButtonSelect}
-            />
-          )}
+          <va-radio-option
+            label="Accredited claims agent"
+            name="group"
+            value="claim_agents"
+            checked={representativeType === 'claim_agents'}
+            radioOptionSelected={handleRadioButtonSelect}
+            vaValueChange={handleRadioButtonSelect}
+          />
         </VaRadio>
       </div>
     </>
