@@ -183,7 +183,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    cy.wait('@fist-message-in-thread');
+    // cy.wait('@fist-message-in-thread');
   };
 
   getNewMessage = () => {

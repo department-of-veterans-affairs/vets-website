@@ -93,7 +93,7 @@ const AttachmentsList = props => {
                     />
                     <span
                       id={`has-attachment-${file.messageId}`}
-                      data-testid={`attachment-name-${file.messageId}`}
+                      data-testid={`attachment-name-${file.id}`}
                       ref={attachmentReference}
                       data-dd-privacy="mask"
                     >

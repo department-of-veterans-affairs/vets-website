@@ -421,7 +421,13 @@ class PatientMessageDetailsPage {
         messageThread.data[messageIndex].id
       }"]`,
     )
-      .find('[data-testid="attachment-name"]')
+      .find(
+        `[data-testid="attachment-name-${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].id
+        }"]`,
+      )
       .should(
         'have.text',
         `${

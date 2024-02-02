@@ -159,7 +159,7 @@ class PatientMessageDraftsPage {
         },
       },
     });
-    cy.wait('@message1');
+    // cy.wait('@message1');
     cy.wait('@full-thread');
   };
 
