@@ -22,9 +22,7 @@ const FolderHeader = props => {
   const location = useLocation();
   const { featureToggles } = useSelector(state => state);
 
-  const cernerFacilitiesPresent = useSelector(
-    state => state.sm.facilities.cernerFacilities.length > 0,
-  );
+  const cernerFacilities = useSelector(state => state.user.profile.facilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -44,6 +42,19 @@ const FolderHeader = props => {
         : false;
     },
     [featureToggles],
+  );
+
+  const cernerFacilitiesPresent = useMemo(
+    () => {
+      if (cernerTransition556T30) {
+        const facilities = cernerFacilities.filter(
+          facility => facility.isCerner && facility.facilityId !== '556',
+        );
+        return facilities.length > 0;
+      }
+      return cernerFacilities?.length > 0;
+    },
+    [cernerFacilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
