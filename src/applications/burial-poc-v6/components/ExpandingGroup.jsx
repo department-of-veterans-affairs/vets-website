@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ReactCSSTransitionGroup } from 'react-transition-group';
+import { TransitionGroup } from 'react-transition-group';
 import classnames from 'classnames';
 
 /*
@@ -28,7 +28,7 @@ export default function ExpandingGroup({
   return (
     <div className={classNames}>
       {children[0]}
-      <ReactCSSTransitionGroup>
+      <TransitionGroup>
         id=
         {expandedContentId}
         transitionName="form-expanding-group-inner" transitionEnterTimeout=
@@ -40,7 +40,7 @@ export default function ExpandingGroup({
             {children[1]}
           </div>
         ) : null}
-      </ReactCSSTransitionGroup>
+      </TransitionGroup>
     </div>
   );
 }
