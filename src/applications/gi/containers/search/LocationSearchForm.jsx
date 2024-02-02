@@ -205,7 +205,6 @@ export function LocationSearchForm({
         onCloseEvent={() => dispatchClearGeocodeError()}
         status="warning"
         visible={search.geocodeError > 0}
-        uswds
       >
         <p>
           {search.geocodeError === 1
