@@ -29,11 +29,7 @@ const App = props => {
     user,
   } = props;
 
-  const {
-    isFacilitiesApiEnabled = false,
-    isHouseholdV2Enabled = false,
-    isSigiEnabled = false,
-  } = features;
+  const { isFacilitiesApiEnabled = false, isSigiEnabled = false } = features;
 
   // Attempt to fetch disability rating for LOA3 users
   useEffect(
@@ -55,12 +51,6 @@ const App = props => {
    * NOTE (2): we also included the DOB value from profile for authenticated users to fix a bug
    * where some profiles did not contain a DOB value. In this case we need to ask the user for
    * that data for proper submission.
-   *
-   * NOTE (3): to account for users with a form already in-progress at the time the household v2
-   * optimization is released, we need to check for that form using the "hasSavedForm" prop. The
-   * users will get their current in-progress form, instead of the household v2 option, to avoid
-   * any validation errors. This can be removed 90 days after hcaHouseholdV2Enabled flipper toggle
-   * is fully enabled for all users.
    */
   useEffect(
     () => {
@@ -71,24 +61,16 @@ const App = props => {
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
 
-      if (hasSavedForm || typeof hasSavedForm === 'undefined') {
+      if (isLoggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
           'view:userDob': parseVeteranDob(user.dob),
-        });
-      } else if (isLoggedIn) {
-        setFormData({
-          ...formData,
-          ...defaultViewFields,
-          'view:userDob': parseVeteranDob(user.dob),
-          'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
         });
       } else {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
         });
       }
     },
@@ -99,7 +81,6 @@ const App = props => {
       isLoggedIn,
       hasSavedForm,
       isSigiEnabled,
-      isHouseholdV2Enabled,
       isFacilitiesApiEnabled,
       totalDisabilityRating,
       formData.veteranFullName,
@@ -159,7 +140,6 @@ App.propTypes = {
 const mapStateToProps = state => ({
   features: {
     isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
-    isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,

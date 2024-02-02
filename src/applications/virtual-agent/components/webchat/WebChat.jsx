@@ -3,8 +3,13 @@ import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import recordEvent from 'platform/monitoring/record-event';
+
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
+import {
+  recordRxSession,
+  recordButtonClick,
+  handleTelemetry,
+} from './helpers/tracking';
 import { ERROR } from '../chatbox/loadingStatus';
 // import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
@@ -90,7 +95,6 @@ const WebChat = ({
     conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   }
 
-  // eslint-disable-next-line no-restricted-globals
   addEventListener('beforeunload', () => {
     clearBotSessionStorage(false, isLoggedIn);
   });
@@ -126,11 +130,11 @@ const WebChat = ({
     userAvatarInitials: 'You',
     primaryFont: 'Source Sans Pro, sans-serif',
     bubbleBorderRadius: 5,
+    bubbleFromUserBackground: '#f0f0f0',
     bubbleFromUserBorderRadius: 5,
     bubbleBorderWidth: 0,
     bubbleFromUserBorderWidth: 0,
     bubbleBackground: '#e1f3f8',
-    bubbleFromUserBackground: '#f0f0f0',
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
@@ -144,20 +148,6 @@ const WebChat = ({
     suggestedActionBorderWidth: 0,
     microphoneButtonColorOnDictate: 'rgb(255, 255, 255)',
   }; // color-primary-darker // color-primary-darker
-
-  const handleTelemetry = event => {
-    const { name } = event;
-
-    if (name === 'submitSendBox') {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-type': 'default',
-        'button-click-label': 'submitSendBox',
-        'button-background-color': 'gray',
-        time: new Date(),
-      });
-    }
-  };
 
   async function createPonyFill(webchat) {
     const region =
@@ -185,16 +175,37 @@ const WebChat = ({
   const [isRXSkill, setIsRXSkill] = useState();
   useEffect(
     () => {
-      const getRXStorageSession = () =>
+      const getRXStorageSession = () => {
         setIsRXSkill(() => sessionStorage.getItem(IS_RX_SKILL));
-
+      };
       window.addEventListener('rxSkill', getRXStorageSession);
       return () => window.removeEventListener('rxSkill', getRXStorageSession);
     },
     [isRXSkill],
   );
 
-  useEffect(setMicrophoneMessage(isRXSkill, document));
+  useEffect(
+    () => {
+      setMicrophoneMessage(isRXSkill, document);
+    },
+    [isRXSkill],
+  );
+
+  useEffect(
+    () => {
+      recordRxSession(isRXSkill);
+    },
+    [isRXSkill],
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', recordButtonClick);
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('click', recordButtonClick);
+    };
+  }, []);
 
   if (isRXSkill === 'true') {
     return (

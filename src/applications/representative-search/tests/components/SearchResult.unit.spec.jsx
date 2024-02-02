@@ -6,7 +6,11 @@ import SearchResult from '../../components/results/SearchResult';
 describe('SearchResults', () => {
   it('should render rep email if rep email exists', () => {
     const wrapper = shallow(
-      <SearchResult phone="614-249-9393" email="rep@example.com" />,
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        addressLine1="123 test place"
+      />,
     );
 
     const emailLink = wrapper.find('a[href="mailto:rep@example.com"]');

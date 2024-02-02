@@ -65,7 +65,7 @@ const CernerFacilityAlert = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Go to My VA Health (opens a new tab)
+              Go to My VA Health (opens in new tab)
             </a>
 
             <va-additional-info

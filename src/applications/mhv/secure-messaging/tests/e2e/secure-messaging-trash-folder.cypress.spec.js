@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
@@ -77,10 +78,14 @@ describe('Secure Messaging Trash Folder checks', () => {
     });
 
     cy.get('.endOfThreads').should('not.exist');
-    PatientMessageTrashPage.navigateToLastPage();
-    cy.get('.endOfThreads').should(
-      'have.text',
-      'End of conversations in this folder',
-    );
+    cy.get('.usa-pagination__list li').then(pagesList => {
+      const lastPageIndex = pagesList.length - 2;
+      FolderLoadPage.navigateToLastPage(lastPageIndex);
+      cy.get('.endOfThreads').should(
+        'have.text',
+        'End of conversations in this folder',
+      );
+    });
+    FolderLoadPage.verifyPaginationElements();
   });
 });

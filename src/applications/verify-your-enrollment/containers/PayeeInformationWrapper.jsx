@@ -10,7 +10,7 @@ const PayeeInformationWrapper = () => {
 
   return (
     <div>
-      <p className="vads-u-font-size--h2 vads-u-font-weight--bold">
+      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
         {PAYEE_INFO_TITLE}
       </p>
       <div
@@ -18,9 +18,7 @@ const PayeeInformationWrapper = () => {
                 vads-u-color-gray-dark
                 vads-u-display--flex
                 vads-u-flex-direction--column
-                
                 vads-u-padding-y--1p5
-                
                 vads-u-border--1px
                 vye-position-relative"
       >

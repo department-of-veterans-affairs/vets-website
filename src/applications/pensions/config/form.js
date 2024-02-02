@@ -53,6 +53,7 @@ import documentUpload from './chapters/06-additional-information/documentUpload'
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
+import previousNames from './chapters/02-military-history/previousNames';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
 import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
@@ -82,7 +83,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { marriageTypeLabels } from '../labels';
+import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
@@ -213,6 +214,10 @@ export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+export function doesHavePreviousNames(formData) {
+  return formData.serveUnderOtherNames === true;
+}
+
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
 }
@@ -243,7 +248,7 @@ const marriageType = {
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Spouse’s death', 'Divorce'],
+  enum: Object.values(separationTypeLabels),
 };
 
 const formConfig = {
@@ -263,7 +268,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -348,6 +353,13 @@ const formConfig = {
           title: 'General history',
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
+        },
+        previousNames: {
+          path: 'military/general/add',
+          title: 'Previous names',
+          depends: doesHavePreviousNames,
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
         },
         pow: {
           path: 'military/pow',
@@ -520,14 +532,19 @@ const formConfig = {
                     'ui:title': 'Spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Place of marriage (city and state or foreign country)',
-                },
                 'view:currentMarriage': {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
+                  ),
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
@@ -540,8 +557,15 @@ const formConfig = {
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
-                      get(['marriages', index, 'marriageType'], form) ===
-                      'Other',
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:currentMarriage',
+                          'marriageType',
+                        ],
+                        form,
+                      ) === marriageTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'marriageType',
                       expandUnderCondition: marriageTypeLabels.other,
@@ -557,10 +581,37 @@ const formConfig = {
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:pastMarriage',
+                          'reasonForSeparation',
+                        ],
+                        form,
+                      ) === separationTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: separationTypeLabels.other,
+                    },
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
+                  ),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                     'ui:validations': [validateAfterMarriageDate],
+                  },
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   locationOfSeparation: {
                     'ui:title':
@@ -578,18 +629,15 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                  ],
+                  required: ['spouseFullName'],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
                     'view:currentMarriage': {
                       type: 'object',
                       properties: {
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         marriageType,
                         otherExplanation: marriageProperties.otherExplanation,
                       },
@@ -598,7 +646,11 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
+                        otherExplanation: marriageProperties.otherExplanation,
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
                       },
@@ -927,13 +979,13 @@ const formConfig = {
         },
         hasMedicalExpenses: {
           path: 'financial/medical-expenses',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           uiSchema: hasMedicalExpenses.uiSchema,
           schema: hasMedicalExpenses.schema,
         },
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,

@@ -25,7 +25,7 @@ const Description = (
 
     <p>You can upload your documents now.</p>
 
-    <p>File types you can upload: PDF, JPG, PNG</p>
+    <p>File types you can upload: PDF</p>
   </div>
 );
 

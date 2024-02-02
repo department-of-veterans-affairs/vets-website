@@ -80,4 +80,22 @@ describe('Thread List component', () => {
       expect(screen.getByText('End of conversations in this folder')).to.exist;
     });
   });
+
+  it('displays V3 va-pagingation component', () => {
+    const screen = setup(listOfThreads);
+    screen;
+    expect(document.querySelector('va-pagination[uswds="true"]')).to.exist;
+  });
+
+  it('displays V3 va-pagination component on last page if threadList has at least one threadListItem', async () => {
+    const screen = setup(listOfThreads, 2, 10);
+
+    await waitFor(() => {
+      expect(screen.getByText('Showing 11 to 11 of 11 conversations')).to.exist;
+
+      expect(document.querySelector('va-pagination[page="2"]')).to.exist;
+      expect(document.querySelector('va-pagination[pages="2"]')).to.exist;
+      expect(document.querySelector('va-pagination[uswds="true"]')).to.exist;
+    });
+  });
 });
