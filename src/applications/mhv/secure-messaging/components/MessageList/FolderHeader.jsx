@@ -15,14 +15,14 @@ import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+  const { featureToggles } = useSelector(state => state);
 
-  const cernerFacilitiesPresent = useSelector(
-    state => state.sm.facilities.cernerFacilities.length > 0,
-  );
+  const cernerFacilities = useSelector(state => state.user.profile.facilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -33,6 +33,28 @@ const FolderHeader = props => {
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
       ],
+  );
+
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
+  );
+
+  const cernerFacilitiesPresent = useMemo(
+    () => {
+      if (cernerTransition556T30) {
+        const facilities = cernerFacilities.filter(
+          facility => facility.isCerner && facility.facilityId !== '556',
+        );
+        return facilities.length > 0;
+      }
+      return cernerFacilities?.length > 0;
+    },
+    [cernerFacilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
@@ -82,6 +104,11 @@ const FolderHeader = props => {
       <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
         {handleHeader(folder.folderId, folder)}
       </h1>
+
+      {cernerTransition556T30 &&
+        folder.folderId === Folders.INBOX.id && (
+          <CernerTransitioningFacilityAlert />
+        )}
 
       {folder.folderId === Folders.INBOX.id &&
         cernerFacilitiesPresent && <CernerFacilityAlert />}
