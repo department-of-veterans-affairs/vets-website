@@ -215,7 +215,7 @@ const SearchPage = props => {
   }, []);
 
   const renderBreadcrumbs = () => {
-    return [
+    const breadcrumbs = [
       {
         href: '/',
         label: 'Home',
@@ -229,9 +229,63 @@ const SearchPage = props => {
         label: 'Find a VA accredited representative or VSO',
       },
     ];
+    return (
+      <>
+        <div className="row vads-u-padding-left--4">
+          <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
+        </div>
+      </>
+    );
   };
 
-  const renderView = () => {
+  const renderSearchSection = () => {
+    return (
+      <div className="row usa-width-three-fourths search-section">
+        <div className="title-section vads-u-padding-y--1">
+          <h1>Find a VA accredited representative or VSO</h1>
+          <p>
+            An accredited attorney, claims agent, or Veterans Service Officer
+            (VSO) can help you file a claim or request a decision review. Use
+            our search tool to find one of these types of accredited
+            representatives to help you.
+          </p>
+          <p>
+            <strong>Note:</strong> You’ll need to contact the accredited
+            representative you’d like to appoint to make sure they’re available
+            to help you.
+          </p>
+        </div>
+
+        <SearchControls
+          geolocateUser={props.geolocateUser}
+          currentQuery={props.currentQuery}
+          onChange={props.updateSearchQuery}
+          onSubmit={handleSearch}
+          clearSearchText={props.clearSearchText}
+          geocodeError={props.errors.isErrorGeocode}
+          clearError={props.clearError}
+        />
+
+        {props.isErrorFetchRepresentatives && (
+          <div className="vads-u-margin-y--3">
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="error"
+              uswds
+              visible
+            >
+              <h2 slot="headline">We’re sorry, something went wrong</h2>
+              <React.Fragment key=".1">
+                <p className="vads-u-margin-y--0">Please try again soon.</p>
+              </React.Fragment>
+            </va-alert>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderResultsSection = () => {
     const {
       currentQuery,
       searchResults,
@@ -277,7 +331,7 @@ const SearchPage = props => {
     }
 
     return (
-      <div className="representative-search-results-container">
+      <div className="row usa-width-three-fourths results-section">
         <VaModal
           modalTitle="Were sorry, something went wrong"
           message="Please try again soon."
@@ -292,22 +346,6 @@ const SearchPage = props => {
         </VaModal>
 
         <div id="search-results-title" ref={searchResultTitleRef}>
-          {isErrorFetchRepresentatives && (
-            <div className="vads-u-margin-y--3 representative-results-list">
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                uswds
-                visible
-              >
-                <h2 slot="headline">We’re sorry, something went wrong</h2>
-                <React.Fragment key=".1">
-                  <p className="vads-u-margin-y--0">Please try again soon.</p>
-                </React.Fragment>
-              </va-alert>
-            </div>
-          )}
-
           {isDisplayingResults &&
             !isErrorFetchRepresentatives && (
               <>
@@ -328,34 +366,11 @@ const SearchPage = props => {
 
   return (
     <>
-      <VaBreadcrumbs breadcrumbList={renderBreadcrumbs()} uswds />
+      {renderBreadcrumbs()}
 
-      <div className="usa-grid usa-width-three-fourths search-page-container">
-        <div className="title-section vads-u-padding-y--1">
-          <h1>Find a VA accredited representative or VSO</h1>
-          <p>
-            A Veterans Service Officer (VSO) or VA accredited attorney can help
-            you file a claim or request a decision review. Use our search tool
-            to find one of these types of accredited representatives to help
-            you.
-          </p>
-          <p>
-            <strong>Note:</strong> After you find the VSO or accredited attorney
-            you’d like to appoint, you’ll need to contact them to make sure
-            they’re available to help you.
-          </p>
-        </div>
-
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          currentQuery={props.currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          clearSearchText={props.clearSearchText}
-          geocodeError={props.errors.isErrorGeocode}
-          clearError={props.clearError}
-        />
-        {renderView()}
+      <div className="usa-grid use-grid-full">
+        {renderSearchSection()}
+        {renderResultsSection()}
       </div>
     </>
   );

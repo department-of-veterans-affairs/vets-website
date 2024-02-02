@@ -133,6 +133,7 @@ class IntroductionPage extends React.Component {
             startText="Start your intent to file"
             unauthStartText="Sign in to start your intent to file"
             hideUnauthedStartLink
+            pathname="/introduction"
             displayNonVeteranMessaging
             verifiedPrefillAlert={
               <div>
