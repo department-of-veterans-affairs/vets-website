@@ -22,13 +22,11 @@ function MHVDowntime({
     startTime,
   };
   if (status === externalServiceStatus.downtimeApproaching) {
-    return (
-      <MHVDowntimeApproaching {...props}>{children}</MHVDowntimeApproaching>
-    );
+    return <MHVDowntimeApproaching {...props} />;
   }
 
   if (status === externalServiceStatus.down) {
-    return <MHVDown {...props}>{children}</MHVDown>;
+    return <MHVDown {...props} />;
   }
   return children;
 }

@@ -43,4 +43,19 @@ describe('MHVDowntime', () => {
     const { getByRole } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', { level: 3, name: /Secure Messaging will be down/ });
   });
+
+  it('renders child content when no matching services are down', () => {
+    const mockServiceProps = {
+      endTime: undefined,
+      startTime: undefined,
+      externalService: undefined,
+    };
+    const mockProps = {
+      children: <p>Child content renders</p>,
+      status: externalServiceStatus.ok,
+      ...mockServiceProps,
+    };
+    const { getByText } = render(<MHVDowntime {...mockProps} />);
+    getByText('Child content renders');
+  });
 });
