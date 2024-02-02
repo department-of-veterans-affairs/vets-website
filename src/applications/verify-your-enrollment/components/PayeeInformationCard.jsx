@@ -1,13 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { howToChangeLegalNameInfoLink } from '../constants';
+import { useData } from '../hooks/useData';
 
 const PayeeInformationCard = ({
   title,
   showAdditionalInformation,
-  applicantName = '',
   applicantChapter = '',
   applicantClaimNumber = '',
 }) => {
+  const { fullName: applicantName } = useData();
   return (
     <div
       className="medium-screen:vads-u-padding--4"
@@ -37,6 +39,12 @@ const PayeeInformationCard = ({
       {applicantClaimNumber !== '' && <p>{applicantClaimNumber}</p>}
     </div>
   );
+};
+PayeeInformationCard.propTypes = {
+  applicantChapter: PropTypes.string,
+  applicantClaimNumber: PropTypes.string,
+  showAdditionalInformation: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 export default PayeeInformationCard;

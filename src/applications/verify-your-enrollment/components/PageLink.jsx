@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
 const PageLink = ({ linkText, relativeURL, URL }) => {
@@ -25,4 +26,9 @@ const PageLink = ({ linkText, relativeURL, URL }) => {
   );
 };
 
+PageLink.propTypes = {
+  URL: PropTypes.string,
+  linkText: PropTypes.string,
+  relativeURL: PropTypes.string,
+};
 export default PageLink;

@@ -22,7 +22,7 @@ export const USER_MOCK_DATA = {
         awardEndDate: '2024-01-15T16:12:43.447Z',
         trainingTime: 40,
         paymentDate: '2024-01-01T16:12:43.447Z',
-        monthlyRate: '684.0',
+        monthlyRate: '3200.0',
         beginRsn: 'reason',
         endRsn: 'reason',
         typeTraining: 'type',

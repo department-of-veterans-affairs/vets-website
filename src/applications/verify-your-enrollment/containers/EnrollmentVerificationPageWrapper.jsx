@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
 import PeriodsToVerify from '../components/PeriodsToVerify';
@@ -10,10 +9,8 @@ import {
   BENEFITS_PROFILE_RELATIVE_URL,
   BENEFITS_PROFILE_URL,
 } from '../constants';
-import { getMockData } from '../selectors/mockData';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
-  const mockData = useSelector(getMockData);
   return (
     <>
       <div name="topScrollElement" />
@@ -32,7 +29,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
               relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
               URL={BENEFITS_PROFILE_URL}
             />
-            <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <PreviousEnrollmentVerifications />
             {children}
           </div>
         </div>
