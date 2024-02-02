@@ -10,7 +10,7 @@ describe('Medical Records Download All TXT Functionality', () => {
 
     cy.get('[data-testid="download-blue-button-txt"]').click();
     // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
-    site.verifyDownloadedPdfFile(
+    site.verifyDownloadedTxtFile(
       'VA-Blue-Button-report-Safari-Mhvtp',
       moment(),
       '',
