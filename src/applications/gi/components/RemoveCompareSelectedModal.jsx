@@ -11,9 +11,9 @@ export default function RemoveCompareSelectedModal({
     <VaModal
       onCloseEvent={onClose}
       onPrimaryButtonClick={onRemove}
-      primaryButtonText='Yes'
+      primaryButtonText="Yes"
       onSecondaryButtonClick={onCancel}
-      secondaryButtonText='No'
+      secondaryButtonText="No"
       modalTitle="Remove institution from comparison"
       visible={name}
     >

@@ -34,14 +34,20 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfilePageModals = () => (
     <span>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('retention')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('retention')}
+      >
         <h3>Retention rate</h3>
         <p>
           The share of first-time, full-time undergraduates who returned to the
           institution after their freshman year.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('gradrates')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('gradrates')}
+      >
         <h3>Graduation rate</h3>
         <p>
           The graduation rate after six years for schools that mostly award
@@ -54,14 +60,20 @@ export function Modals({ hideModal, modals, profile }) {
           is using benefits.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('salaries')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('salaries')}
+      >
         <h3>Average salaries</h3>
         <p>
           The median earnings of former students who received federal financial
           aid, 10 years after they started school.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('repayment')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('repayment')}
+      >
         <h3>Repayment rate</h3>
         <p>
           The share of students who have repaid at least $1 of the principal
@@ -79,7 +91,10 @@ export function Modals({ hideModal, modals, profile }) {
           doesn’t find meaningful employment within 180 days.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('tuitionAndFees')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('tuitionAndFees')}
+      >
         <h3>Tuition and fees</h3>
         <p>
           VA pays all tuition and fees for the VET TEC program directly to the
@@ -96,14 +111,20 @@ export function Modals({ hideModal, modals, profile }) {
           tuition and fees.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('scholarships')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('scholarships')}
+      >
         <h3>Scholarships</h3>
         <p>
           Are you receiving any scholarships or grants that go directly to pay
           your tuition or fees for this program? If so, add that number here.
         </p>
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('payToProvider')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('payToProvider')}
+      >
         <h3>VA pays to provider</h3>
         <p>
           To help ensure that Veterans find jobs, VA pays VET TEC training
@@ -152,7 +173,10 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfileSchoolHeaderModals = () => (
     <span>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('gibillstudents')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('gibillstudents')}
+      >
         <GiBillStudentsModalContent />
       </VaModal>
     </span>
@@ -160,7 +184,10 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfileVeteranSummaryModals = () => (
     <span>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('vetgroups')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('vetgroups')}
+      >
         <StudentVeteranGroupModalContent />
       </VaModal>
 
@@ -175,7 +202,10 @@ export function Modals({ hideModal, modals, profile }) {
         <StudentComplaintsModalContent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('allCampuses')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('allCampuses')}
+      >
         <AllCampusesModalContent />
       </VaModal>
 
@@ -244,7 +274,10 @@ export function Modals({ hideModal, modals, profile }) {
         <HousingAllowanceOJTModalConent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('eightKeys')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('eightKeys')}
+      >
         <EightKeysModalContent />
       </VaModal>
 
@@ -454,7 +487,10 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfileCautionFlagModals = () => (
     <span>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('cautionInfo')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('cautionInfo')}
+      >
         <h3>Learn more about these warnings</h3>
         <p>
           These are indicators VA has determined potential students should pay
@@ -596,7 +632,10 @@ export function Modals({ hideModal, modals, profile }) {
 
     return (
       <span>
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('calcTuition')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('calcTuition')}
+        >
           <h3>Tuition and fees per year</h3>
           <p>
             Enter the total tuition/fees you’ll be charged for the academic
@@ -667,7 +706,10 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
         </VaModal>
 
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('calcYr')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('calcYr')}
+        >
           <YellowRibbonModalContent />
         </VaModal>
 
@@ -705,7 +747,10 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
         </VaModal>
 
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('calcEnrolled')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('calcEnrolled')}
+        >
           <h3>Enrollment status</h3>
           <div>
             {' '}
@@ -729,7 +774,10 @@ export function Modals({ hideModal, modals, profile }) {
           </p>
         </VaModal>
 
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('calcKicker')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('calcKicker')}
+        >
           <h3>Eligible for kicker bonus?</h3>
           <div>
             {' '}
@@ -751,7 +799,10 @@ export function Modals({ hideModal, modals, profile }) {
           <CalcBeneficiaryLocationQuestionModalContent />
         </VaModal>
 
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('calcWorking')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('calcWorking')}
+        >
           <h3>Will be working</h3>
           <p>
             How many hours per week will you be working on your OJT /
@@ -802,7 +853,10 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderLandingPageModals = () => (
     <span>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('giBillChapter')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('giBillChapter')}
+      >
         <div className="align-left">
           <h3>Which GI Bill benefit do you want to use?</h3>
         </div>
@@ -1006,7 +1060,10 @@ export function Modals({ hideModal, modals, profile }) {
         >
           <SpecializedMissionModalContent />
         </VaModal>
-        <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('cautionFlags')}>
+        <VaModal
+          onCloseEvent={hideModal}
+          visible={shouldDisplayModal('cautionFlags')}
+        >
           <CautionFlagsModalContent />
         </VaModal>
       </span>
