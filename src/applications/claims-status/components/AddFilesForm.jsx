@@ -298,6 +298,7 @@ class AddFilesForm extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your files?"
+          uswds
         >
           {mailMessage}
         </va-additional-info>
