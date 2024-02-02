@@ -26,6 +26,12 @@ const vaDatetimeFormat = new Intl.DateTimeFormat('en', {
   timeZoneName: 'short', // `shortGeneric` not supported by node, deno
 });
 
+/**
+ * Transforms Intl.DateTimeFormat `formatToParts` into a dictionary-like object
+ * @typedef {{ type: string, value: string}} DateTimePart
+ * @param {DateTimePart[]} dtParts - See Intl.DateTimeFormat.prototype.formatToParts()
+ * @returns {Object.<string,string>} - Object of datetime parts
+ */
 function datetimePartsToObj(dtParts) {
   return dtParts.reduce((acc, currentValue) => {
     if (
