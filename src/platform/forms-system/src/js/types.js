@@ -227,6 +227,9 @@
  * @property {boolean} [expandContentFocus] Used with expandUnder. When the field expands under, it exclusively shows a vertical, blue bar, is indented, and focuses on the field's input.
  * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
  * @property {boolean} [forceDivWrapper] Used as an a11y helper when you need to wrap a field in a div
+ * @property {string | JSX.Element} [formDescription] Used with `useFormsPattern`. A JSX or string description that it is also a11y (screen reader) friendly. useFormsPattern and uswds must be true.
+ * @property {string} [formHeading] Used with `useFormsPattern`. Intended to be used as the form page header. useFormsPattern and uswds must be true.
+ * @property {number} [formHeadingLevel] Used with `useFormsPattern`. The header level of the formHeading. useFormsPattern and uswds must be true.
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
@@ -251,6 +254,7 @@
  * @property {boolean} [reflectInputError] Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {string} [reviewItemHeaderLevel] Optional level for the item-header on Review page - for arrays. Defaults to '5' for a <h5> header-tag.
  * @property {boolean} [useDlWrap] On the review page, moves \<dl\> tag to immediately surrounding the \<dt\> field instead of using a \<div\>. \<dt\> fields should be wrapped in \<dl\> fields, so this fixes that a11y issue. Formats fields horizontally.
+ * @property {'single' | 'multiple'} [useFormsPattern] Used if you want to define the formHeading and formDescription for the web component field, which can include JSX, so it can be read out by screen readers. Accepts 'single' for a single field on the page where the error will show on the entire block, or 'multiple' for multiple fields on the page where the error will show only on the field.
  * @property {boolean} [useHeaderStyling] Enables developer to implement and use alternate style classes for auto generated html elements such as in ObjectField or ArrayField
  * @property {boolean} [uswds] For web components. `true` will use the v3 web components and is the default option for `'ui:webComponentField'` if omitted. `false` will use the v1 web components.
  * @property {React.ReactNode} [viewComponent]

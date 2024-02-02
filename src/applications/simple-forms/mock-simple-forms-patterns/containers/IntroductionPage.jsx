@@ -44,6 +44,21 @@ class IntroductionPage extends React.Component {
               <Link to="/text-input-address">Text input address</Link>
             </li>
             <li>
+              <Link to="/forms-pattern-single-radio">
+                Forms pattern - single - radio
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-single-checkbox-group">
+                Forms pattern - single - checkbox group
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-multiple">
+                Forms pattern - multiple - text
+              </Link>
+            </li>
+            <li>
               <Link to="/number-input">Number input</Link>
             </li>
             <li>

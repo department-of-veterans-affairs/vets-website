@@ -76,6 +76,36 @@
     "checkboxGroupTiledWithHeaderLabel":{
       "hasB": true
     },
+    "formsPatternSingleRadio": "1",
+    "formsPatternSingleCheckboxGroup": {
+      "1": true
+    },
+    "formsPatternMultiple": "Test",
+    "formsPatternOtherField": "Test",
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
     "exampleArrayOne": [
       {
         "facilityName": "facility a",

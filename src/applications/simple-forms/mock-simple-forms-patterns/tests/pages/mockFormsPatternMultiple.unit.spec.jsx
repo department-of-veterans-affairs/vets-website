@@ -1,14 +1,15 @@
 import {
-  testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } = formConfig.chapters.date.pages.date;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.formsPattern.pages.formsPatternMultiple;
 
-const pageTitle = 'mock date inputs';
+const pageTitle = 'mock forms pattern multiple';
 
 const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
@@ -19,29 +20,11 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 2;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
-
-const expectedNumberOfFields = 0;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-);
-
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
   pageTitle,
 );

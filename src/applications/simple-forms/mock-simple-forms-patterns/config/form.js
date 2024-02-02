@@ -18,6 +18,9 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
+import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
+import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
@@ -34,6 +37,7 @@ const chapterSelectInitialData = {
   chapterSelect: {
     textInput: true,
     numberInput: true,
+    formsPattern: true,
     checkbox: true,
     radio: true,
     select: true,
@@ -134,6 +138,32 @@ const formConfig = {
           uiSchema: numberInput.uiSchema,
           schema: numberInput.schema,
           depends: includeChapter('numberInput'),
+        },
+      },
+    },
+    formsPattern: {
+      title: 'Forms Pattern',
+      pages: {
+        formsPatternSingleRadio: {
+          path: 'forms-pattern-single-radio',
+          title: 'Forms Pattern Single Radio title for review page',
+          uiSchema: formsPatternSingleRadio.uiSchema,
+          schema: formsPatternSingleRadio.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternSingleCheckboxGroup: {
+          path: 'forms-pattern-single-checkbox-group',
+          title: 'Forms Pattern Single Checkbox group title for review page',
+          uiSchema: formsPatternSingleCheckboxGroup.uiSchema,
+          schema: formsPatternSingleCheckboxGroup.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternMultiple: {
+          path: 'forms-pattern-multiple',
+          title: 'Forms Pattern Multiple title for review page',
+          uiSchema: formsPatternMultiple.uiSchema,
+          schema: formsPatternMultiple.schema,
+          depends: includeChapter('formsPattern'),
         },
       },
     },
