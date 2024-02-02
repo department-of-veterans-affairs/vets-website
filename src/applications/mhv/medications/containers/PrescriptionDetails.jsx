@@ -121,9 +121,7 @@ const PrescriptionDetails = () => {
         );
       };
       const afterPrintHandler = () => {
-        updatePageTitle(
-          `${title} ${name} ${dateFormat(new Date(dob)) || 'March 15, 1982'}`,
-        );
+        updatePageTitle(`${title}`);
       };
       window.addEventListener('beforeprint', beforePrintHandler);
       window.addEventListener('afterprint', afterPrintHandler);
