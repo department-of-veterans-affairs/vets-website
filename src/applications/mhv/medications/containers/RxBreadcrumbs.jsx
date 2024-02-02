@@ -30,7 +30,7 @@ const RxBreadcrumbs = () => {
                 href: crumb.url,
                 label: crumb.label,
               }))}
-              className={`${alignToLeft} vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+              className={`${alignToLeft} va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
             />
           </div>
         )}
