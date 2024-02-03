@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { resolveParamsWithUrl, getApi } from '../config';
 
@@ -79,6 +78,12 @@ describe('Locator url and parameters builder', () => {
         environment.API_URL
       }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney`,
     );
+  });
+
+  it('should set csrfToken in request headers', () => {
+    localStorage.setItem('csrfToken', '12345');
+    const { apiSettings } = getApi('/flag_accredited_representatives');
+    expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
   });
 
   it('should exclude null params from request', () => {

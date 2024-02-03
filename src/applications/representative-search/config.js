@@ -33,7 +33,7 @@ const baseUrl =
 export const getApi = (endpoint, method = 'GET', requestBody) => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
-  const csrfToken = JSON.parse(localStorage.getItem('csrfToken'));
+  const csrfToken = localStorage.getItem('csrfToken');
 
   const apiSettings = {
     mode: 'cors',
