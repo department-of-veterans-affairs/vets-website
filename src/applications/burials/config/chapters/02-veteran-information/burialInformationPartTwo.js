@@ -1,27 +1,82 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import {
+  radioUI,
+  // radioSchema,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+// import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { generateTitle } from '../../../utils/helpers';
 import { locationOfDeathLabels } from '../../../utils/labels';
 
 const { locationOfDeath } = fullSchemaBurials.properties;
 
+// export const locationOfDeathUI = options => {
+//   const { personTitle } =
+//     typeof options === 'object' ? options : { personTitle: options };
+//   const person = personTitle ?? 'Veteran';
+
+//   return {
+//     relationshipToVeteran: radioUI({
+//       title: `Whats your relationship to the ${person}?`,
+//       labels: relationshipLabels,
+//       errorMessages: {
+//         required: `Select your relationship to the ${person}`,
+//       },
+//       labelHeaderLevel: '',
+//     }),
+//     otherRelationshipToVeteran: {
+//       'ui:title': `Since your relationship with the ${person} was not listed, please describe it here`,
+//       'ui:webComponentField': VaTextInputField,
+//       'ui:options': {
+//         expandUnder: 'relationshipToVeteran',
+//         expandUnderCondition: 'otherFamily',
+//         expandedContentFocus: true,
+//       },
+//       'ui:errorMessages': {
+//         required: `Enter your relationship to the ${person}`,
+//       },
+//     },
+//     'ui:options': {
+//       updateSchema: (formData, formSchema) => {
+//         if (formSchema.properties.otherRelationshipToVeteran['ui:collapsed']) {
+//           return { ...formSchema, required: ['relationshipToVeteran'] };
+//         }
+//         return {
+//           ...formSchema,
+//           required: ['relationshipToVeteran', 'otherRelationshipToVeteran'],
+//         };
+//       },
+//     },
+//   };
+// };
+
 export default {
   uiSchema: {
     'ui:title': generateTitle('Burial information'),
     locationOfDeath: {
-      'ui:options': {
-        classNames: 'vads-u-margin-top--3',
-      },
       location: {
-        'ui:title': 'Where did the Veteran’s death occur?',
-        'ui:widget': 'radio',
-        'ui:errorMessages': {
-          required: 'Select where the Veteran’s death happened',
-        },
-        'ui:options': {
+        ...radioUI({
+          title: `Where did the Veteran's death occur?`,
           labels: locationOfDeathLabels,
-        },
+          errorMessages: {
+            required: `Select your relationship to the Veteran`,
+          },
+          labelHeaderLevel: '',
+        }),
+        // 'ui:options': {
+        //   classNames: 'vads-u-margin-top--3',
+        // },
       },
+      // location: {
+      //   'ui:title': 'Where did the Veteran’s death occur?',
+      //   'ui:widget': 'radio',
+      //   'ui:errorMessages': {
+      //     required: 'Select where the Veteran’s death happened',
+      //   },
+      //   'ui:options': {
+      //     labels: locationOfDeathLabels,
+      //   },
+      // },
       nursingHomePaid: {
         facilityName: {
           'ui:title': 'Name of the facility or nursing home that VA pays for',
@@ -45,8 +100,11 @@ export default {
           },
         },
         'ui:options': {
-          hideIf: form =>
-            get('locationOfDeath.location', form) !== 'nursingHomePaid',
+          // hideIf: form =>
+          //   get('locationOfDeath.location', form) !== 'nursingHomePaid',
+          expandUnder: 'nursingHomePaid',
+          expandUnderCondition: 'nursingHomePaid',
+          expandedContentFocus: true,
         },
       },
       vaMedicalCenter: {
