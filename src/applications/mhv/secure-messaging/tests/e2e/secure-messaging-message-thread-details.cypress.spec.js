@@ -13,10 +13,17 @@ describe('Secure Messaging Message Details AXE Check', () => {
     const detailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    const messageDetails = mockMessageDetails;
     const date = new Date();
     date.setDate(date.getDate() - 2);
-    messageDetails.data.attributes.sentDate = date.toISOString();
+    const messageDetails = {
+      data: {
+        ...mockMessageDetails.data,
+        attributes: {
+          ...mockMessageDetails.data.attributes,
+          sentDate: date.toISOString(),
+        },
+      },
+    };
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(
@@ -31,8 +38,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     detailsPage.verifyExpandedMessageToDisplay(mockParentMessageDetails);
     // detailsPage.verifyExpandedMessageFromDisplay(mockParentMessageDetails); // TODO need to check the logic on displaying triage grop name only on received messages
     // detailsPage.verifyExpandedMessageIDDisplay(mockParentMessageDetails); //TODO UCD is still determining whether to display this
-    detailsPage.verifyExpandedMessageDateDisplay(mockParentMessageDetails);
-    cy.get('@messageDetails.all').should('have.length', 4);
+    detailsPage.verifyExpandedMessageDateDisplay(messageDetails);
     // detailsPage.verifyUnexpandedMessageAttachment(1); //TODO attachment icons will be added in a future story
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

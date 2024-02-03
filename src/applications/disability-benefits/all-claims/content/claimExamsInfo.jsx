@@ -7,7 +7,7 @@ export const claimExamsDescription = (
       (also known as a C&P exam).
     </p>
 
-    <va-alert status="warning">
+    <va-alert status="warning" uswds>
       <h3 slot="headline">
         You might receive a phone call from an unfamiliar number to schedule
         your exam
@@ -20,7 +20,7 @@ export const claimExamsDescription = (
       <p>
         You can go to your{' '}
         <a href="/profile" target="_blank" rel="noreferrer">
-          VA.gov profile (opens in a new tab)
+          VA.gov profile (opens in new tab)
         </a>{' '}
         to confirm your phone number.
       </p>
@@ -61,8 +61,7 @@ export const claimExamsFAQ = (
             rel="noreferrer"
           >
             {' '}
-            contact an Overseas Military Services Coordinator (opens in a new
-            tab)
+            contact an Overseas Military Services Coordinator (opens in new tab)
           </a>{' '}
           for help scheduling a claim exam.
         </p>
