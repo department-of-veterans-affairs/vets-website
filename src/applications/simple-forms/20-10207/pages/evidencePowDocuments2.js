@@ -2,7 +2,7 @@ import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { FileField } from '../components/FileField';
-import PowUploadViewField from '../components/PowUploadViewField';
+import PowUpload2ViewField from '../components/PowUploadViewField';
 
 import { POW_UPLOAD_DESCRIPTION } from '../config/constants';
 import { createPayload, parseResponse } from '../helpers';
@@ -16,7 +16,7 @@ export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
     'ui:description': POW_UPLOAD_DESCRIPTION,
-    'ui:objectViewField': PowUploadViewField,
+    'ui:objectViewField': PowUpload2ViewField,
     powDocuments2: {
       'ui:title': 'Upload additional evidence',
       'ui:field': FileField,
