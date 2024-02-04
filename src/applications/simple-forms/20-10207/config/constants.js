@@ -428,7 +428,7 @@ export const POW_UPLOAD_DESCRIPTION = Object.freeze(
     <p>
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
-      upload your file from there. Guidelines for uploading a file:
+      upload your file from there.
     </p>
     <p>Guidelines for uploading a file:</p>
     <ul>
@@ -450,6 +450,35 @@ export const POW_UPLOAD_DESCRIPTION = Object.freeze(
           Information such as service number, branch and dates of service, dates
           and location of internment, detaining power, or any other information
           relevant to the detainment
+        </li>
+      </ul>
+    </va-additional-info>
+    <p />
+  </>,
+);
+
+export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
+  <>
+    <p>
+      You’ll need to scan your document onto the device you’re using to submit
+      this application, such as your computer, tablet, or mobile phone. You can
+      upload your file from there.
+    </p>
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 25MB</li>
+    </ul>
+    <va-additional-info
+      trigger="What kind of evidence can I submit?"
+      data-testid="medalAwardAdditionalInfo"
+    >
+      <ul>
+        <li className="vads-u-margin-bottom--2">
+          Copy of military personnel records such as DD214, <b>or</b>
+        </li>
+        <li>
+          Information showing receipt of Medal of Honor or Purple Heart award
         </li>
       </ul>
     </va-additional-info>

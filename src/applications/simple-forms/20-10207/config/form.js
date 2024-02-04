@@ -31,6 +31,7 @@ import powConfinementPg from '../pages/evidencePowConfinement';
 import powConfinement2Pg from '../pages/evidencePowConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import powDocs2Pg from '../pages/evidencePowDocuments2';
+import medalAwardPg from '../pages/evidenceMedalAward';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -322,6 +323,15 @@ const formConfig = {
           uiSchema: powDocs2Pg.uiSchema,
           schema: powDocs2Pg.schema,
           pageClass: 'evidence-pow-documents2',
+        },
+        medalAwardPage: {
+          depends: formData => formData.otherReasons.MEDAL_AWARD,
+          path: 'evidence-medal-award',
+          title:
+            'Upload evidence for Medal of Honor or Purple Heart award recipient',
+          uiSchema: medalAwardPg.uiSchema,
+          schema: medalAwardPg.schema,
+          pageClass: 'evidence-medal-award',
         },
       },
     },

@@ -22,6 +22,8 @@ const responses = {
   'POST /simple_forms_api/v1/simple_forms/submit_vsi_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_pow_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_pow_documents2': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents2': mockUpload,
   // 'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
