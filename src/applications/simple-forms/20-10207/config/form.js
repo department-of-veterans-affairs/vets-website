@@ -27,7 +27,8 @@ import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import terminalIllnessPg from '../pages/evidenceTerminalIllness';
 import alsPg from '../pages/evidenceALS';
 import vsiPg from '../pages/evidenceVSI';
-import powPg from '../pages/evidencePOW';
+import powConfinementPg from '../pages/evidencePOWConfinement';
+import powConfinement2Pg from '../pages/evidencePOWConfinement2';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -282,15 +283,25 @@ const formConfig = {
           schema: vsiPg.schema,
           pageClass: 'evidence-vsi',
         },
-        powPage: {
+        powConfinementPage: {
           // TODO: Verify which stories this should be shown for.
           // Not sure about non-veteran & third-party-non-veteran stories.
           depends: formData => formData.otherReasons.FORMER_POW,
-          path: 'evidence-pow',
-          title: 'Upload evidence for former prisoner of war',
-          uiSchema: powPg.uiSchema,
-          schema: powPg.schema,
-          pageClass: 'evidence-pow',
+          path: 'evidence-pow-confinement',
+          title: 'Former prisoner of war',
+          uiSchema: powConfinementPg.uiSchema,
+          schema: powConfinementPg.schema,
+          pageClass: 'evidence-pow-confinement',
+        },
+        powConfinement2Page: {
+          depends: formData =>
+            formData.otherReasons.FORMER_POW &&
+            formData.powMultipleConfinements,
+          path: 'evidence-pow-confinement-2',
+          title: 'Former prisoner of war',
+          uiSchema: powConfinement2Pg.uiSchema,
+          schema: powConfinement2Pg.schema,
+          pageClass: 'evidence-pow-confinement-2',
         },
       },
     },

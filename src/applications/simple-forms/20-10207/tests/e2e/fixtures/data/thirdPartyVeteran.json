@@ -33,8 +33,10 @@
       "VSI_SI": true,
       "FORMER_POW": true
     },
-    "powConfinmentStartDate": "2018-01-01",
-    "powConfinmentEndDate": "2018-01-02",
-    "powMultipleConfiments": false
+    "powConfinementStartDate": "2018-01-01",
+    "powConfinementEndDate": "2018-02-03",
+    "powMultipleConfinements": true,
+    "powConfinement2StartDate": "2018-11-01",
+    "powConfinement2EndDate": "2018-11-12"
   }
 }

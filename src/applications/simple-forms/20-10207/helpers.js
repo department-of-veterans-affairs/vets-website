@@ -128,8 +128,20 @@ export function powConfinementDateRangeValidation(errors, fields) {
   const startDate = moment(powConfinementStartDate);
   const endDate = moment(powConfinementEndDate);
 
-  if (!!endDate && !!startDate && endDate.isBefore(startDate)) {
+  if (!!endDate && !!startDate && endDate.isSameOrBefore(startDate)) {
     errors.powConfinementEndDate.addError(
+      'The end date must be after the start date',
+    );
+  }
+}
+
+export function powConfinement2DateRangeValidation(errors, fields) {
+  const { powConfinement2StartDate, powConfinement2EndDate } = fields;
+  const startDate = moment(powConfinement2StartDate);
+  const endDate = moment(powConfinement2EndDate);
+
+  if (!!endDate && !!startDate && endDate.isSameOrBefore(startDate)) {
+    errors.powConfinement2EndDate.addError(
       'The end date must be after the start date',
     );
   }
