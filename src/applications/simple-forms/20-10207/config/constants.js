@@ -422,3 +422,37 @@ export const POW_MULTIPLE_CONFINEMENTS_LABELS_3RD_PTY_VET = Object.freeze({
   Y: 'Yes, I was confined more than once.',
   N: 'No, I was not confined more than once.',
 });
+
+export const POW_UPLOAD_DESCRIPTION = Object.freeze(
+  <>
+    <p>
+      You’ll need to scan your document onto the device you’re using to submit
+      this application, such as your computer, tablet, or mobile phone. You can
+      upload your file from there. Guidelines for uploading a file:
+    </p>
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 25MB</li>
+    </ul>
+    <va-additional-info
+      trigger="What kind of evidence can I submit?"
+      data-testid="powAdditionalInfo"
+    >
+      <ul>
+        <li className="vads-u-margin-bottom--2">
+          Copy of military personnel records such as DD214, Certificate of
+          Release, or Discharge from Active Duty,
+          <br />
+          <b>or</b>
+        </li>
+        <li>
+          Information such as service number, branch and dates of service, dates
+          and location of internment, detaining power, or any other information
+          relevant to the detainment
+        </li>
+      </ul>
+    </va-additional-info>
+    <p />
+  </>,
+);

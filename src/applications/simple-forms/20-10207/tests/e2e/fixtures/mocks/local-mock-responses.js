@@ -20,6 +20,7 @@ const responses = {
   'POST /simple_forms_api/v1/simple_forms/submit_terminal_illness_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_als_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms/submit_vsi_documents': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_pow_documents': mockUpload,
   // 'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 
