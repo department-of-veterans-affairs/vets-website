@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { displayFileSize } from 'platform/utilities/ui/index';
 
-import { POW_UPLOAD_DESCRIPTION } from '../config/constants';
+import { POW_DESCRIPTION } from '../config/constants';
 
-const PowUpload2ViewField = props => {
+const PowViewField = props => {
   const { defaultEditButton, formData } = props;
-  const { powDocuments2 } = formData;
+  const { powDocuments } = formData;
 
   return (
     <div className="form-review-panel-page-header-row">
@@ -17,12 +17,10 @@ const PowUpload2ViewField = props => {
         </h3>
         {defaultEditButton()}
       </div>
-      <div data-testid="terminalIllnessDescription">
-        {POW_UPLOAD_DESCRIPTION}
-      </div>
-      {powDocuments2 && (
+      <div data-testid="powDescription">{POW_DESCRIPTION}</div>
+      {powDocuments && (
         <ul className="schemaform-file-list vads-u-width--full">
-          {powDocuments2.map((doc, index) => (
+          {powDocuments.map((doc, index) => (
             <li key={index} className="va-growable-background">
               <strong>{doc.name}</strong>
               <br />
@@ -35,10 +33,10 @@ const PowUpload2ViewField = props => {
   );
 };
 
-PowUpload2ViewField.propTypes = {
+PowViewField.propTypes = {
   defaultEditButton: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    powDocuments2: PropTypes.arrayOf(
+    powDocuments: PropTypes.arrayOf(
       PropTypes.shape({
         fileName: PropTypes.string,
         fileSize: PropTypes.number,
@@ -49,4 +47,4 @@ PowUpload2ViewField.propTypes = {
   }).isRequired,
 };
 
-export default PowUpload2ViewField;
+export default PowViewField;

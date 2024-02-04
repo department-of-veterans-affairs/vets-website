@@ -30,7 +30,6 @@ import vsiPg from '../pages/evidenceVSI';
 import powConfinementPg from '../pages/evidencePowConfinement';
 import powConfinement2Pg from '../pages/evidencePowConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
-import powDocs2Pg from '../pages/evidencePowDocuments2';
 import medalAwardPg from '../pages/evidenceMedalAward';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
@@ -313,16 +312,6 @@ const formConfig = {
           uiSchema: powDocsPg.uiSchema,
           schema: powDocsPg.schema,
           pageClass: 'evidence-pow-documents',
-        },
-        powDocuments2Page: {
-          depends: formData =>
-            formData.otherReasons.FORMER_POW &&
-            formData.powMultipleConfinements,
-          path: 'evidence-pow-documents2',
-          title: 'Upload evidence for prisoner of war status',
-          uiSchema: powDocs2Pg.uiSchema,
-          schema: powDocs2Pg.schema,
-          pageClass: 'evidence-pow-documents2',
         },
         medalAwardPage: {
           depends: formData => formData.otherReasons.MEDAL_AWARD,

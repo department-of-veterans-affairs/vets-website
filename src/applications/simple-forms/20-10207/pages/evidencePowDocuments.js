@@ -2,9 +2,9 @@ import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { FileField } from '../components/FileField';
-import PowUploadViewField from '../components/PowUploadViewField';
+import PowViewField from '../components/PowViewField';
 
-import { POW_UPLOAD_DESCRIPTION } from '../config/constants';
+import { POW_DESCRIPTION } from '../config/constants';
 import { createPayload, parseResponse } from '../helpers';
 
 const uiTitle = 'Upload evidence for prisoner of war status';
@@ -15,8 +15,8 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': POW_UPLOAD_DESCRIPTION,
-    'ui:objectViewField': PowUploadViewField,
+    'ui:description': POW_DESCRIPTION,
+    'ui:objectViewField': PowViewField,
     powDocuments: {
       'ui:title': 'Upload additional evidence',
       'ui:field': FileField,

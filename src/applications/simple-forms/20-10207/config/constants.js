@@ -423,7 +423,7 @@ export const POW_MULTIPLE_CONFINEMENTS_LABELS_3RD_PTY_VET = Object.freeze({
   N: 'No, I was not confined more than once.',
 });
 
-export const POW_UPLOAD_DESCRIPTION = Object.freeze(
+export const POW_DESCRIPTION = Object.freeze(
   <>
     <p>
       You’ll need to scan your document onto the device you’re using to submit
