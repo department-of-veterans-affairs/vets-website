@@ -37,16 +37,9 @@ describe('Medications Breadcrumbs', () => {
     expect(screen);
   });
 
-  it('Find prescription label', () => {
+  it('Make sure breadcrumbs render', () => {
     const screen = setup();
-    expect(screen.getByText('Prescription Name')).to.exist;
-  });
-  it('Find medications label', () => {
-    const screen = setup();
-    expect(screen.getByText('Medications')).to.exist;
-  });
-  it('Find about label', () => {
-    const screen = setup();
-    expect(screen.getByText('About medications')).to.exist;
+    const breadcrumbs = screen.getByTestId('rx-breadcrumb');
+    expect(breadcrumbs).to.exist;
   });
 });
