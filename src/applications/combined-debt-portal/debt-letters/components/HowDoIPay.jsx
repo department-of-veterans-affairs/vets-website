@@ -11,9 +11,10 @@ const HowDoIPay = ({ userData }) => (
     <p className="vads-u-margin-top--0">
       You can pay your debt online, by phone, or by mail. If you can’t pay all
       of your debt or if you currently receive monthly benefits, call the Debt
-      Management Center at <va-telephone contact="8008270648" />.
+      Management Center at <va-telephone contact="8008270648" uswds />.
     </p>
     <va-accordion
+      uswds
       disable-analytics={{
         value: 'false',
       }}
@@ -21,7 +22,7 @@ const HowDoIPay = ({ userData }) => (
         value: 'null',
       }}
     >
-      <va-accordion-item id="first">
+      <va-accordion-item id="first" uswds>
         <h3 className="vads-u-font-size--base" slot="headline">
           Option 1: Pay online
         </h3>
@@ -75,21 +76,22 @@ const HowDoIPay = ({ userData }) => (
           Pay on pay.va.gov
         </a>
       </va-accordion-item>
-      <va-accordion-item header="Option 2: Pay by phone" id="second">
+      <va-accordion-item header="Option 2: Pay by phone" id="second" uswds>
         <p>
           Call us at{' '}
           <va-telephone
             className="vads-u-margin-left--0p5"
             contact="8008270648"
+            uswds
           />
           .
         </p>
         <p>
           If calling internationally, use{' '}
-          <va-telephone contact="6127136415" international />.
+          <va-telephone contact="6127136415" international uswds />.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 3: Pay by mail" id="third">
+      <va-accordion-item header="Option 3: Pay by mail" id="third" uswds>
         <p className="vads-u-margin-y--0">
           Find instructions on how to pay by mail in the demand letter sent to
           your address or you can

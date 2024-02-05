@@ -35,7 +35,11 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
+      <va-breadcrumbs
+        className="vads-u-font-family--sans"
+        label="Breadcrumb"
+        uswds
+      >
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/summary">Your VA debt and bills</a>
@@ -61,15 +65,15 @@ const OverviewPage = () => {
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="8008270648" /> (
-              <va-telephone tty contact="711" />
+              <va-telephone contact="8008270648" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
             <h3>Questions about medical copayment bills</h3>
             <p>
               Call the VA Health Resource Center at{' '}
-              <va-telephone contact="8664001238" /> (
-              <va-telephone tty contact="711" />
+              <va-telephone contact="8664001238" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </>

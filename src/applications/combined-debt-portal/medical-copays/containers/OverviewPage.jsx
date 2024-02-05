@@ -22,7 +22,11 @@ const renderAlert = (alertType, debts) => {
   const showOther = debts > 0;
 
   return (
-    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+    <va-alert
+      data-testid={alertInfo.testID}
+      status={alertInfo.alertStatus}
+      uswds
+    >
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -47,7 +51,11 @@ const renderOtherVA = (debtLength, debtError) => {
     return (
       <>
         <h3>Your other VA debts</h3>
-        <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+        <va-alert
+          data-testid={alertInfo.testID}
+          status={alertInfo.alertStatus}
+          uswds
+        >
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
@@ -89,6 +97,7 @@ const OverviewPage = () => {
           label="Loading"
           message="Please wait while we load the application for you."
           set-focus
+          uswds
         />
       </div>
     );
@@ -96,7 +105,7 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
+      <va-breadcrumbs className="vads-u-font-family--sans no-wrap" uswds>
         <a href="/">Home</a>
         <a href="/manage-va-debt">Manage your VA debt</a>
         <a href="/manage-va-debt/summary/">Your VA debt and bills</a>

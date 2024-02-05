@@ -21,14 +21,14 @@ const alertMessage = (alertType, appType) => {
           <ul>
             <li className="vads-u-font-family--sans">
               <strong>For benefit debts</strong>, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
-              <va-telephone tty contact="711" />
+              Center (DMC) at <va-telephone contact="8008270648" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </li>
             <li className="vads-u-font-family--sans">
               <strong>For medical copay bills</strong>, call the VA Health
-              Resource Center at <va-telephone contact="8664001238" /> (
-              <va-telephone tty contact="711" />
+              Resource Center at <va-telephone contact="8664001238" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </li>
           </ul>
@@ -63,8 +63,8 @@ const alertMessage = (alertType, appType) => {
               <p className="vads-u-font-family--sans">
                 Please check back soon. If you continue having trouble viewing
                 information about your copays, call the VA Health Resource
-                Center at <va-telephone contact="8664001238" /> (
-                <va-telephone tty contact="711" />
+                Center at <va-telephone contact="8664001238" uswds /> (
+                <va-telephone tty contact="711" uswds />
                 ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
               </p>
             )}
@@ -85,15 +85,15 @@ const alertMessage = (alertType, appType) => {
             <p className="vads-u-font-family--sans">
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
-              Center (DMC) at <va-telephone contact="8008270648" /> (
-              <va-telephone tty contact="711" />
+              Center (DMC) at <va-telephone contact="8008270648" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           ) : (
             <p className="vads-u-font-family--sans">
               If you think this is incorrect, contact the VA Health Resource
-              Center at <va-telephone contact="8664001238" /> (
-              <va-telephone tty contact="711" />
+              Center at <va-telephone contact="8664001238" uswds /> (
+              <va-telephone tty contact="711" uswds />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           ),

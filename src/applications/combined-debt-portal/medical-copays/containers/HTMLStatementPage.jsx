@@ -33,7 +33,7 @@ const HTMLStatementPage = ({ match }) => {
   return (
     <>
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
-        <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
+        <va-breadcrumbs className="vads-u-font-family--sans no-wrap" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt">Manage your VA debt</a>
           <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
@@ -85,8 +85,8 @@ const HTMLStatementPage = ({ match }) => {
         </h2>
         <p>
           Contact the VA Health Resource Center at{' '}
-          <va-telephone contact="8664001238" /> (
-          <va-telephone tty contact="711" />
+          <va-telephone contact="8664001238" uswds /> (
+          <va-telephone tty contact="711" uswds />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <Modals title="Notice of rights and responsibilities">

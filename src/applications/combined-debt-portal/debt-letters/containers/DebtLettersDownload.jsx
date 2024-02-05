@@ -18,7 +18,7 @@ const DebtLettersDownload = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
+        <va-breadcrumbs label="Breadcrumb" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt/">Manage your VA debt</a>
           <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
@@ -52,11 +52,11 @@ const DebtLettersDownload = () => {
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at{' '}
             <span className="no-wrap">
-              <va-telephone contact="8008270648" />
+              <va-telephone contact="8008270648" uswds />
             </span>{' '}
             (or{' '}
             <span className="no-wrap">
-              <va-telephone contact="6127136415" international />
+              <va-telephone contact="6127136415" international uswds />
             </span>{' '}
             from overseas). You can also call us to get information about your
             resolved debts.

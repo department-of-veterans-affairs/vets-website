@@ -11,6 +11,7 @@ ComboAlert.Error = () => {
       class="row vads-u-margin-bottom--5"
       status="error"
       data-testid="balance-card-combo-alert-error"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         We can’t access your debt and copay records right now
@@ -36,6 +37,7 @@ ComboAlert.Zero = () => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="balance-card-combo-alert-zero"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t have any current VA debt or copay bills
@@ -50,14 +52,14 @@ ComboAlert.Zero = () => {
       <ul>
         <li>
           <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="8008270648" />(
-          <va-telephone tty contact="711" />
+          (DMC) at <va-telephone contact="8008270648" uswds />(
+          <va-telephone tty contact="711" uswds />
           ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>
         <li>
           <strong>For medical copay bills</strong>, call the VA Health Resource
-          Center at <va-telephone contact="8664001238" />(
-          <va-telephone tty contact="711" />
+          Center at <va-telephone contact="8664001238" uswds />(
+          <va-telephone tty contact="711" uswds />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>

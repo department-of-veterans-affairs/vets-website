@@ -47,6 +47,7 @@ const DebtDetails = () => {
       <va-loading-indicator
         label="Loading"
         message="Please wait while we load the application for you."
+        uswds
       />
     );
   }
@@ -54,7 +55,7 @@ const DebtDetails = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
+        <va-breadcrumbs label="Breadcrumb" uswds>
           <a href="/">Home</a>
           <a href="/manage-va-debt/">Manage your VA debt</a>
           <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
@@ -85,7 +86,7 @@ const DebtDetails = () => {
           )}
           <DebtDetailsCard debt={currentDebt} />
           {whyContent && (
-            <va-additional-info trigger="Why might I have this debt?">
+            <va-additional-info trigger="Why might I have this debt?" uswds>
               {whyContent}
             </va-additional-info>
           )}
@@ -109,6 +110,7 @@ const DebtDetails = () => {
                 <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"
+                  uswds
                 />
                 .
               </p>

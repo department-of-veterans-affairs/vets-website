@@ -11,6 +11,7 @@ Alert.Error = () => (
     class="row vads-u-margin-bottom--5"
     status="error"
     data-testid="error-alert"
+    uswds
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       We can’t access your current copay balances right now
@@ -26,9 +27,9 @@ Alert.Error = () => (
       </strong>
       contact us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact="8664001238" uswds />
       </span>{' '}
-      (TTY: <va-telephone contact={CONTACTS[711]} />
+      (TTY: <va-telephone contact={CONTACTS[711]} uswds />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
     <p>
@@ -51,6 +52,7 @@ Alert.PastDue = ({ copay }) => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="past-due-balance-alert"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         Your balance may be overdue
@@ -70,9 +72,9 @@ Alert.PastDue = ({ copay }) => {
         </strong>
         contact us at{' '}
         <span className="no-wrap">
-          <va-telephone contact="8664001238" />
+          <va-telephone contact="8664001238" uswds />
         </span>{' '}
-        (TTY: <va-telephone contact={CONTACTS[711]} />
+        (TTY: <va-telephone contact={CONTACTS[711]} uswds />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
     </va-alert>
@@ -94,6 +96,7 @@ Alert.ZeroBalance = ({ copay }) => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="zero-balance-alert"
+      uswds
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t need to make a payment at this time
@@ -132,6 +135,7 @@ Alert.NoHealthcare = () => (
     class="row vads-u-margin-bottom--5"
     status="warning"
     data-testid="no-healthcare-alert"
+    uswds
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You’re not enrolled in VA health care
@@ -150,7 +154,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8772228387" />
+        <va-telephone contact="8772228387" uswds />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -162,6 +166,7 @@ Alert.NoHistory = () => (
     class="row vads-u-margin-bottom--5"
     status="info"
     data-testid="no-history-alert"
+    uswds
   >
     <h2 slot="headline" className="vads-u-font-size--h3">
       You haven’t received a copay bill in the past 6 months
@@ -173,16 +178,16 @@ Alert.NoHistory = () => (
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact="8664001238" uswds />
       </span>
-      . (TTY: <va-telephone contact={CONTACTS[711]} />
+      . (TTY: <va-telephone contact={CONTACTS[711]} uswds />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info" data-testid="status-alert">
+  <va-alert background-only status="info" data-testid="status-alert" uswds>
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
@@ -226,7 +231,7 @@ Alert.Status = ({ copay }) => (
       You may need to continue making payments while we review your request.
       Call us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact="8664001238" uswds />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
