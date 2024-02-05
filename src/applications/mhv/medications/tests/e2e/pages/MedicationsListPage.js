@@ -337,7 +337,7 @@ class MedicationsListPage {
 
   selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
-      .find('#select')
+      .find('#options')
       .select(text, { force: true });
   };
 
@@ -352,7 +352,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
@@ -379,7 +379,7 @@ class MedicationsListPage {
       prescriptions,
     );
 
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
