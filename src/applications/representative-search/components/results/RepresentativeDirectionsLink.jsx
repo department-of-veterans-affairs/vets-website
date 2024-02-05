@@ -31,17 +31,17 @@ function RepresentativeDirectionsLink({ representative, query }) {
 
 RepresentativeDirectionsLink.propTypes = {
   location: PropTypes.object,
-  representative: {
-    attributes: {
-      fullName: PropTypes.string,
-      name: PropTypes.string,
-    },
-  },
-  query: {
-    context: {
-      location: PropTypes.string,
-    },
-  },
+  representative: PropTypes.shape({
+    representative: PropTypes.shape({
+      attributes: PropTypes.shape({
+        fullName: PropTypes.string,
+        name: PropTypes.string,
+      }),
+    }),
+  }),
+  query: PropTypes.shape({
+    context: PropTypes.shape({ location: PropTypes.string }),
+  }),
 };
 
 export default RepresentativeDirectionsLink;
