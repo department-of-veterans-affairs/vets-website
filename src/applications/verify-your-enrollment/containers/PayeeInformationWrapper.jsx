@@ -4,8 +4,11 @@ import { PAYEE_INFO_TITLE } from '../constants';
 import { useData } from '../hooks/useData';
 
 const PayeeInformationWrapper = () => {
-  const applicantName = 'Ronald Gary';
-  const { indicator: applicantChapter } = useData();
+  const {
+    indicator: applicantChapter,
+    fullName: applicantName,
+    loading,
+  } = useData();
 
   // const applicantClaimNumber = "401512630"
 
@@ -25,6 +28,7 @@ const PayeeInformationWrapper = () => {
       >
         <PayeeInformationCard
           title="Payee Name"
+          loading={loading}
           showAdditionalInformation
           applicantName={applicantName}
         />

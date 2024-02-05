@@ -48,7 +48,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             />
             <ChangeOfDirectDepositWrapper />
             <RemainingBenefits />
-            <BenefitsExpirationDate date={date} />
+            <BenefitsExpirationDate date={date} loading={loading} />
             <PageLink
               linkText="See your enrollment verifications"
               relativeURL={VERIFICATION_RELATIVE_URL}
