@@ -27,7 +27,7 @@ const downloadAndRegisterFont = async (doc, font) => {
   const bucket = environment.isLocalhost()
     ? ''
     : BUCKETS[environment.BUILDTYPE];
-  const request = await fetch(`${bucket}/fonts/${knownFonts[font]}`);
+  const request = await fetch(`${bucket}/generated/${knownFonts[font]}`);
   const binaryFont = await request.arrayBuffer();
   const encodedFont = Buffer.from(binaryFont).toString('base64');
   fs.writeFileSync(knownFonts[font], encodedFont);
