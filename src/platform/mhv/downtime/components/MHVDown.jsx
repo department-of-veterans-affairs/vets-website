@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDatetime } from '../utils/date';
 
-function MHVDown({ appTitle = 'This tool', endTime, startTime }) {
+function MHVDown({ appTitle, endTime, startTime }) {
   const startString = startTime ? formatDatetime(startTime) : '';
   const endString = endTime ? formatDatetime(endTime) : '';
   return (
@@ -25,7 +25,7 @@ function MHVDown({ appTitle = 'This tool', endTime, startTime }) {
 }
 
 MHVDown.propTypes = {
-  appTitle: PropTypes.string,
+  appTitle: PropTypes.string.isRequired,
   endTime: PropTypes.instanceOf(Date),
   startTime: PropTypes.instanceOf(Date),
 };

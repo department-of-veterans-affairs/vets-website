@@ -1,28 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { externalServiceStatus } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import MHVDown from '../components/MHVDown';
 import MHVDowntimeApproaching from '../components/MHVDowntimeApproaching';
-import { defaultLabel, mhvServiceLabels } from '../config';
 
 function MHVDowntime({
+  appTitle,
   children,
   endTime,
-  externalService,
+  dismissDowntimeWarning,
+  isDowntimeWarningDismissed,
   status,
   startTime,
 }) {
-  // TODO: Figure out appTitle here. Need to map services to apps
-  const appTitle = Object.hasOwn(mhvServiceLabels, externalService)
-    ? mhvServiceLabels[externalService]
-    : defaultLabel;
   const props = {
     appTitle,
     endTime,
     startTime,
   };
   if (status === externalServiceStatus.downtimeApproaching) {
-    return <MHVDowntimeApproaching {...props} />;
+    const dimissableProps = {
+      dismissDowntimeWarning,
+      isDowntimeWarningDismissed,
+      ...props,
+    };
+    return <MHVDowntimeApproaching {...dimissableProps} />;
   }
 
   if (status === externalServiceStatus.down) {
@@ -32,10 +35,18 @@ function MHVDowntime({
 }
 
 MHVDowntime.propTypes = {
+  appTitle: PropTypes.string.isRequired,
   children: PropTypes.node,
-  endTime: PropTypes.instanceOf(Date),
-  externalService: PropTypes.string,
-  startTime: PropTypes.instanceOf(Date),
+  dismissDowntimeWarning: PropTypes.func,
+  endTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.any, // Momentjs object
+  ]),
+  isDowntimeWarningDismissed: PropTypes.bool,
+  startTime: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.any, // Momentjs object
+  ]),
   status: PropTypes.string,
 };
 
