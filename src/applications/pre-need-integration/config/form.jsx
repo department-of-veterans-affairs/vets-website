@@ -2,7 +2,7 @@ import React from 'react';
 import { merge, pick } from 'lodash';
 import set from 'platform/utilities/data/set';
 
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -60,12 +60,19 @@ import {
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   MailingAddressStateTitle,
+  relationshipToVetTitle,
+  relationshipToVetPreparerTitle,
+  relationshipToVetDescription,
+  relationshipToVetPreparerDescription,
+  relationshipToVetOptions,
+  relationshipToVetPreparerOptions,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
   ContactDetailsTitle,
   PreparerDetailsTitle,
 } from '../components/PreparerHelpers';
+import preparerContactDetailsCustom from './pages/preparerContactDetailsCustom';
 
 const {
   claimant,
@@ -184,6 +191,40 @@ const formConfig = {
           uiSchema: preparerContactDetails.uiSchema,
           schema: preparerContactDetails.schema,
         },
+        validatePreparerContactDetails: {
+          title: 'Validate and stuff',
+          path: 'validate-preparer-contact-details',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: {
+            application: {
+              applicant: {
+                'view:validateAddress': {
+                  'ui:title': 'Hello Mate',
+                  'ui:field': preparerContactDetailsCustom,
+                },
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              application: {
+                type: 'object',
+                properties: {
+                  applicant: {
+                    type: 'object',
+                    properties: {
+                      'view:validateAddress': {
+                        type: 'object',
+                        properties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     applicantInformation: {
@@ -192,7 +233,22 @@ const formConfig = {
         ? {
             applicantRelationshipToVet: {
               path: 'applicant-relationship-to-vet',
-              uiSchema: applicantRelationshipToVet.uiSchema,
+              depends: formData => !isAuthorizedAgent(formData),
+              uiSchema: applicantRelationshipToVet.uiSchema(
+                relationshipToVetDescription,
+                relationshipToVetTitle,
+                relationshipToVetOptions,
+              ),
+              schema: applicantRelationshipToVet.schema,
+            },
+            applicantRelationshipToVetPreparer: {
+              path: 'applicant-relationship-to-vet-preparer',
+              depends: formData => isAuthorizedAgent(formData),
+              uiSchema: applicantRelationshipToVet.uiSchema(
+                relationshipToVetPreparerDescription,
+                relationshipToVetPreparerTitle,
+                relationshipToVetPreparerOptions,
+              ),
               schema: applicantRelationshipToVet.schema,
             },
             veteranApplicantDetails: {

@@ -249,8 +249,8 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-rum": "^4.49.0",
+    "@department-of-veterans-affairs/component-library": "^35.0.0",
     "@department-of-veterans-affairs/css-library": "^0.3.0",
-    "@department-of-veterans-affairs/component-library": "^34.2.0",
     "@department-of-veterans-affairs/formation": "^10.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -317,7 +317,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a9b60b42d102ced877d87e406a9d028b853ef923"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d11fa23200e236042ffab9230fa0f62f20054b09"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -377,6 +377,7 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
+      "src/platform/mhv",
       "src/applications/check-in",
       "src/applications/vaos"
     ],

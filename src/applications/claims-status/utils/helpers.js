@@ -104,6 +104,19 @@ export function getFilesNeeded(trackedItems, useLighthouse = true) {
   );
 }
 
+export function getFilesOptional(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
+  );
+}
+
 export function getItemDate(item) {
   // Tracked item that has been marked received.
   // status is either INITIAL_REVIEW_COMPLETE,

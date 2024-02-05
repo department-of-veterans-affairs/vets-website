@@ -64,9 +64,8 @@ class IntroductionPage extends React.Component {
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
         <h2>Follow these steps to get started</h2>
-        <va-process-list>
-          <li>
-            <h3>Check your eligibility</h3>
+        <va-process-list uswds>
+          <va-process-list-item header="Check your eligibility">
             <p>
               You can file a Supplemental Claim if you meet at least 1 of these
               requirements:
@@ -85,7 +84,7 @@ class IntroductionPage extends React.Component {
                 )
               </li>
             </ul>
-            <va-additional-info trigger="What’s a presumptive condition?">
+            <va-additional-info trigger="What’s a presumptive condition?" uswds>
               <div>
                 <p className="vads-u-margin-top--0">
                   For some conditions, we automatically assume (or “presume”)
@@ -133,9 +132,8 @@ class IntroductionPage extends React.Component {
                 Go back to the questions
               </a>
             </p>
-          </li>
-          <li>
-            <h3>Gather your information</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Gather your information">
             Here’s what you’ll need to apply:
             <ul>
               <li>
@@ -158,7 +156,7 @@ class IntroductionPage extends React.Component {
                 The dates you were treated at that private medical facility.
               </li>
             </ul>
-            <va-additional-info trigger="Types of Evidence">
+            <va-additional-info trigger="Types of Evidence" uswds>
               <div>
                 <p className="vads-u-margin-top--0">
                   VA medical records and hospital records that relate to your
@@ -177,19 +175,21 @@ class IntroductionPage extends React.Component {
                 </p>
               </div>
             </va-additional-info>
-          </li>
-          <li className="vads-u-padding-bottom--0">
-            <h3>Start your Supplemental Claim</h3>
+          </va-process-list-item>
+          <va-process-list-item
+            class="vads-u-padding-bottom--0"
+            header="Start your Supplemental Claim"
+          >
             <p>
               We’ll take you through each step of the process. It should take
               about 15 minutes.
             </p>
-            <va-additional-info trigger="What happens after I apply?">
+            <va-additional-info trigger="What happens after I apply?" uswds>
               You don’t need to do anything while you’re waiting unless we
               contact you to ask for more information. If we schedule exams for
               you, be sure not to miss them.
             </va-additional-info>
-          </li>
+          </va-process-list-item>
         </va-process-list>
         {!showVerifyLink &&
           !showMissingInfo && (

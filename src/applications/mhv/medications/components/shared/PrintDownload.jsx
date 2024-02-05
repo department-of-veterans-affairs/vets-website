@@ -34,11 +34,16 @@ const PrintDownload = props => {
     }
   };
 
+  const handlePrint = () => {
+    setMenuOpen(!menuOpen);
+    window.print();
+  };
+
   return (
     <>
       {isSuccess && (
         <div className="vads-u-margin-bottom--2">
-          <va-alert status="success" background-only>
+          <va-alert status="success" background-only uswds>
             <p
               className="vads-u-margin--0"
               data-testid="download-success-banner"
@@ -50,7 +55,7 @@ const PrintDownload = props => {
       )}
       {isError && (
         <div className="vads-u-margin-bottom--2">
-          <va-alert status="error">
+          <va-alert status="error" uswds>
             <h2 slot="headline">We can’t access your medications right now</h2>
             <p className="vads-u-margin-bottom--0">
               We’re sorry. There’s a problem with our system. Check back later.
@@ -73,6 +78,15 @@ const PrintDownload = props => {
           <i className={menuIconClasses} aria-hidden="true" />
         </button>
         <ul className={menuOptionsClasses}>
+          <li>
+            <button
+              type="button"
+              data-testid="download-print-button"
+              onClick={() => handlePrint()}
+            >
+              {`Print this ${list ? 'list' : 'page'}`}
+            </button>
+          </li>
           <li>
             <button
               type="button"
