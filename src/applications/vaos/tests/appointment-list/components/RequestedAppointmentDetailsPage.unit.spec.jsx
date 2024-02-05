@@ -526,10 +526,15 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(cancelData).to.deep.equal({
       status: 'cancelled',
     });
+    expect(
+      screen
+        .queryByTestId('cancel-request-SuccessModal')
+        .getAttribute('primaryButtonText'),
+    ).to.eq('Continue');
+    const continueBtn = screen.queryByTestId('cancel-request-SuccessModal')
+      .__events.primaryButtonClick;
+    await continueBtn();
 
-    fireEvent.click(screen.getByText(/continue/i));
-
-    expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text('You canceled this request');
   });
 

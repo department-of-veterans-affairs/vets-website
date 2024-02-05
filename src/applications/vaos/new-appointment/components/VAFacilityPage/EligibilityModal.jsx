@@ -35,6 +35,7 @@ export default function EligibilityModal({
       ariaLabel={title}
       data-testid="eligibilityModal"
       role="alertdialog"
+      uswds
     >
       <div aria-atomic="true" aria-live="assertive">
         {content}

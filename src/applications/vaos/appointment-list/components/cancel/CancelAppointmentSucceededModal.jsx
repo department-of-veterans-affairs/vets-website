@@ -17,15 +17,13 @@ export default function CancelAppointmentSucceededModal({
         modalTitle={`Your ${typeText} has been canceled`}
         data-testid={`cancel-${typeText}-SuccessModal`}
         role="alertdialog"
+        primaryButtonText="Continue"
+        onPrimaryButtonClick={onClose}
+        uswds
       >
         {isConfirmed
           ? `If you want to reschedule, call us or schedule a new ${typeText} online.`
           : `If you still need an appointment, call us or request a new appointment online.`}
-        <p className="vads-u-margin-top--2">
-          <button type="button" onClick={onClose}>
-            Continue
-          </button>
-        </p>
       </VaModal>
     </>
   );
