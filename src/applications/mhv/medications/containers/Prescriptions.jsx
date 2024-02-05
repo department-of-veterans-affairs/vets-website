@@ -310,7 +310,7 @@ const Prescriptions = () => {
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
-    if (!allergies) dispatch(getAllergiesList());
+    if (!allergies) await dispatch(getAllergiesList());
   };
 
   const handleModalClose = () => {
