@@ -178,6 +178,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('gibillstudents')}
         modalTitle="GI Bill students"
+        large
       >
         <GiBillStudentsModalContent />
       </VaModal>
@@ -190,6 +191,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('vetgroups')}
         modalTitle="Student Veteran group"
+        large
       >
         <StudentVeteranGroupModalContent />
       </VaModal>
@@ -198,6 +200,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('yribbon')}
         modalTitle="Yellow Ribbon Program"
+        large
       >
         <YellowRibbonModalContent />
       </VaModal>
@@ -220,7 +223,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('poe')}
-        modalTitle="VA Complaints (all campuses):"
+        modalTitle="VA Complaints (all campuses)"
+        large
       >
         <PrinciplesOfExcellenceModalContent />
       </VaModal>
@@ -245,6 +249,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('onlineOnlyDistanceLearning')}
         modalTitle="Your housing allowance is determined by where you take classes"
+        large
       >
         <div>
           <p>
@@ -281,6 +286,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('housingAllowanceSchool')}
         modalTitle="Your housing allowance is determined by where you take classes"
+        large
       >
         <HousingAllowanceSchoolModalContent />
       </VaModal>
@@ -296,6 +302,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('eightKeys')}
         modalTitle="8 Keys to Veteran Success"
+        large
       >
         <EightKeysModalContent />
       </VaModal>
@@ -316,6 +323,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accredited')}
         modalTitle="Accreditation and why it matters"
+        large
       >
         <p>
           The goal of accreditation is to ensure that the education provided by
@@ -334,6 +342,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('typeAccredited')}
         modalTitle="Accreditation types (regional vs. national vs. hybrid)"
+        large
       >
         <p>
           Is the school regionally or nationally accredited at the institution
@@ -381,6 +390,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('singleContact')}
         modalTitle="Single point of contact for Veterans"
+        large
       >
         <SingleContactModalContent />
       </VaModal>
@@ -396,6 +406,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('independentStudy')}
         modalTitle="Independent study"
+        large
       >
         <IndependentStudyModalContent />
       </VaModal>
@@ -404,6 +415,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('section103')}
         modalTitle="Protection against late VA payments"
+        large
       >
         <p>
           If VA is late making a tuition payment to a GI Bill school, the school
@@ -455,6 +467,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('vrrap')}
         modalTitle="Veteran Rapid Retraining Assistance Program (VRRAP)"
+        large
       >
         <p>
           The Veteran Rapid Retraining Assistance Program (VRRAP) offers
@@ -647,8 +660,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcTuition')}
+          modalTitle="Tuition and fees per year"
         >
-          <h3>Tuition and fees per year</h3>
           <p>
             Enter the total tuition/fees you’ll be charged for the academic
             year.
@@ -692,7 +705,18 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcInStateTuition')}
+          Your
+          housing
+          allowance
+          is
+          determined
+          by
+          where
+          you
+          take
+          classes
           modalTitle="In-state tuition and fees per year"
+          large
         >
           <p>
             Enter the amount of tuition/fees your school charges in-state
@@ -809,6 +833,7 @@ export function Modals({ hideModal, modals, profile }) {
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcBeneficiaryLocationQuestion')}
           modalTitle="Location where you'll take classes"
+          large
         >
           <CalcBeneficiaryLocationQuestionModalContent />
         </VaModal>
@@ -871,6 +896,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('giBillChapter')}
         modalTitle="Which GI Bill benefit do you want to use?"
+        large
       >
         <div>
           {' '}
@@ -932,6 +958,7 @@ export function Modals({ hideModal, modals, profile }) {
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('cumulativeService')}
         modalTitle="Cumulative Post-9/11 service"
+        large
       >
         <div>
           <p>
