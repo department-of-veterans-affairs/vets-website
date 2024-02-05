@@ -12,7 +12,6 @@ const StatementCharges = ({ copay }) => {
   const tableData = copay.details.map(item => {
     return (
       <va-table-row
-        uswds
         key={`${item.pDRefNo}-${item.pDTransAmtOutput
           .replace('&nbsp', '')
           .replace('-', '')
@@ -40,8 +39,8 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <va-table role="table" uswds>
-        <va-table-row slot="headers" uswds>
+      <va-table role="table">
+        <va-table-row slot="headers">
           <span>Description</span>
           <span> Billing reference</span>
           <span>Amount</span>

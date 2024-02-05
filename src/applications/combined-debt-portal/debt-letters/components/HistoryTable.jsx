@@ -6,13 +6,13 @@ import { renderLetterHistory } from '../const/diary-codes';
 const HistoryTable = ({ history }) => {
   return (
     <div className=" vads-u-margin-y--4">
-      <va-table uswds>
-        <va-table-row slot="headers" uswds>
+      <va-table>
+        <va-table-row slot="headers">
           <span>Date</span>
           <span>Letter</span>
         </va-table-row>
         {history.map((debt, index) => (
-          <va-table-row key={`${debt.date}-${index}`} uswds>
+          <va-table-row key={`${debt.date}-${index}`}>
             <span>
               {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
             </span>

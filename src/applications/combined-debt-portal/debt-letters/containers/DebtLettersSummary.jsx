@@ -86,7 +86,6 @@ const DebtLettersSummary = () => {
   if (isDebtPending || isPendingVBMS || isProfileUpdating) {
     return (
       <va-loading-indicator
-        uswds
         label="Loading"
         message="Please wait while we load the application for you."
       />

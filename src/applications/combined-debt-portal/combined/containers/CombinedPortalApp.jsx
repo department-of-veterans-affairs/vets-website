@@ -50,7 +50,6 @@ const CombinedPortalApp = ({ children }) => {
       <va-loading-indicator
         label="Loading"
         message="Please wait while we load the application for you."
-        uswds
       />
     );
   }
@@ -61,7 +60,6 @@ const CombinedPortalApp = ({ children }) => {
       <va-loading-indicator
         label="Loading"
         message="Please wait while we load the application for you."
-        uswds
       />
     );
   }
@@ -73,7 +71,6 @@ const CombinedPortalApp = ({ children }) => {
         <va-loading-indicator
           label="Loading"
           message="Please wait while we load the application for you."
-          uswds
         />
       </div>
     );
