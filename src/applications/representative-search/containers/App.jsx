@@ -42,9 +42,7 @@ function App({ children }) {
       <div className="find-a-representative vads-u-margin-x--3">
         <div className="row">{children}</div>
         <div className="row">
-          <div className="usa-grid usa-width-three-fourths">
-            <GetFormHelp />
-          </div>
+          <GetFormHelp />
         </div>
       </div>
     </>

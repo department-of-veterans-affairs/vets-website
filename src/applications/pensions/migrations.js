@@ -74,9 +74,10 @@ export default [
       formData.veteranAddress &&
       !isValidCentralMailPostalCode(formData.veteranAddress)
     ) {
-      newMetadata = Object.assign({}, metadata, {
+      newMetadata = {
+        ...metadata,
         returnUrl: '/additional-information/contact',
-      });
+      };
     }
 
     return { formData, metadata: newMetadata };
@@ -90,18 +91,52 @@ export default [
       formData.spouseVaFileNumber &&
       !fileNumbeRegex.test(formData.spouseVaFileNumber)
     ) {
-      newMetadata = Object.assign({}, metadata, {
-        returnUrl: '/household/spouse-info',
-      });
+      newMetadata = { ...metadata, returnUrl: '/household/spouse-info' };
     } else if (
       formData.vaFileNumber &&
       !fileNumbeRegex.test(formData.vaFileNumber)
     ) {
-      newMetadata = Object.assign({}, metadata, {
-        returnUrl: '/applicant/information',
-      });
+      newMetadata = { ...metadata, returnUrl: '/applicant/information' };
     }
 
     return { formData, metadata: newMetadata };
+  },
+  // 3 > 4, remove fields no longer present in schema
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    const newMetadata = { ...metadata };
+    const fieldsToRemove = [
+      'netWorth',
+      'additionalSources',
+      'monthlyIncome',
+      'expectedIncome',
+      'otherExpenses',
+      'altEmail',
+      'monthlySpousePayment',
+      'servicePeriods',
+      'combatSince911',
+      'noBankAccount',
+      'nationalGuardActivation',
+      'nationalGuard',
+      'severancePay',
+      'disabilities',
+      'jobs',
+      'privacyAgreementAccepted',
+      'marriageHistory',
+      'spouseNetWorth',
+      'spouseMonthlyIncome',
+      'spouseExpectedIncome',
+      'spouseOtherExpenses',
+      'vamcTreatmentCenters',
+    ];
+
+    if (Object.keys(formData).some(key => fieldsToRemove.includes(key))) {
+      newMetadata.returnUrl = '/applicant/information';
+      fieldsToRemove.forEach(fieldToRemove => {
+        delete newFormData[fieldToRemove];
+      });
+    }
+
+    return { formData: newFormData, metadata: newMetadata };
   },
 ];

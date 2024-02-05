@@ -249,7 +249,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^34.2.0",
+    "@department-of-veterans-affairs/component-library": "^35.0.0",
     "@department-of-veterans-affairs/css-library": "^0.3.0",
     "@department-of-veterans-affairs/formation": "^10.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -317,7 +317,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4cb6bd2d2abe57dd1d48e83caca3d39562b5961f"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d11fa23200e236042ffab9230fa0f62f20054b09"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
