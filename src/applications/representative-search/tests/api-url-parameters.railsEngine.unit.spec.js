@@ -81,6 +81,12 @@ describe('Locator url and parameters builder', () => {
     );
   });
 
+  it('should set csrfToken in request headers', () => {
+    localStorage.setItem('csrfToken', '12345');
+    const { apiSettings } = getApi('/flag_accredited_representatives');
+    expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
+  });
+
   it('should exclude null params from request', () => {
     const { requestUrl } = getApi('/other_accredited_representatives');
 
