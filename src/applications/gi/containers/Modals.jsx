@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as actions from '../actions';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
@@ -37,8 +38,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('retention')}
+        modalTitle="Retention rate"
       >
-        <h3>Retention rate</h3>
         <p>
           The share of first-time, full-time undergraduates who returned to the
           institution after their freshman year.
@@ -47,8 +48,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('gradrates')}
+        modalTitle="Graduation rate"
       >
-        <h3>Graduation rate</h3>
         <p>
           The graduation rate after six years for schools that mostly award
           four-year degrees and after four years for all other schools. These
@@ -63,8 +64,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('salaries')}
+        modalTitle="Average salaries"
       >
-        <h3>Average salaries</h3>
         <p>
           The median earnings of former students who received federal financial
           aid, 10 years after they started school.
@@ -73,8 +74,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('repayment')}
+        modalTitle="Repayment rate"
       >
-        <h3>Repayment rate</h3>
         <p>
           The share of students who have repaid at least $1 of the principal
           balance on their federal loans within 3 years of leaving school.
@@ -83,8 +84,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('preferredProviders')}
+        modalTitle="Preferred training providers"
       >
-        <h3>Preferred training providers</h3>
         <p>
           A provider is “preferred” if the training facility agrees to refund
           tuition and fees to VA if the student completes the program and
@@ -94,8 +95,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('tuitionAndFees')}
+        modalTitle="Tuition and fees"
       >
-        <h3>Tuition and fees</h3>
         <p>
           VA pays all tuition and fees for the VET TEC program directly to the
           training provider.
@@ -114,8 +115,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('scholarships')}
+        modalTitle="Scholarships"
       >
-        <h3>Scholarships</h3>
         <p>
           Are you receiving any scholarships or grants that go directly to pay
           your tuition or fees for this program? If so, add that number here.
@@ -124,8 +125,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('payToProvider')}
+        modalTitle="VA pays to provider"
       >
-        <h3>VA pays to provider</h3>
         <p>
           To help ensure that Veterans find jobs, VA pays VET TEC training
           providers in three installments based on the progress and success of
@@ -151,8 +152,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('housingAllowance')}
+        modalTitle="Housing allowance"
       >
-        <h3>Housing allowance</h3>
         <p>
           If you attend your training program in person, your housing stipend
           will be equal to the monthly military Basic Allowance for Housing
@@ -176,6 +177,7 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('gibillstudents')}
+        modalTitle="GI Bill students"
       >
         <GiBillStudentsModalContent />
       </VaModal>
@@ -187,17 +189,23 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('vetgroups')}
+        modalTitle="Student Veteran group"
       >
         <StudentVeteranGroupModalContent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('yribbon')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('yribbon')}
+        modalTitle="Yellow Ribbon Program"
+      >
         <YellowRibbonModalContent />
       </VaModal>
 
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('studentComplaints')}
+        modalTitle="Student complaints"
       >
         <StudentComplaintsModalContent />
       </VaModal>
@@ -209,17 +217,26 @@ export function Modals({ hideModal, modals, profile }) {
         <AllCampusesModalContent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('poe')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('poe')}
+        modalTitle="VA Complaints (all campuses):"
+      >
         <PrinciplesOfExcellenceModalContent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('ta')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('ta')}
+        modalTitle="Military Tuition Assistance (TA)"
+      >
         <MilitaryTuitionAssistanceModalContent />
       </VaModal>
 
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('priorityEnrollment')}
+        modalTitle="Priority enrollment"
       >
         <PriorityEnrollmentModalContent />
       </VaModal>
@@ -227,11 +244,9 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('onlineOnlyDistanceLearning')}
+        modalTitle="Your housing allowance is determined by where you take classes"
       >
         <div>
-          <h3>
-            Your housing allowance is determined by where you take classes
-          </h3>
           <p>
             <p>
               Under the GI Bill you’re eligible to receive a monthly housing
@@ -258,18 +273,21 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('tuitionAndFeesSchool')}
+        modalTitle="Tuition and fees per year"
       >
         <TuitionAndFeesModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('housingAllowanceSchool')}
+        modalTitle="Your housing allowance is determined by where you take classes"
       >
         <HousingAllowanceSchoolModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('housingAllowanceOJT')}
+        modalTitle="Your housing allowance is determined by where you take training"
       >
         <HousingAllowanceOJTModalConent />
       </VaModal>
@@ -277,11 +295,16 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('eightKeys')}
+        modalTitle="8 Keys to Veteran Success"
       >
         <EightKeysModalContent />
       </VaModal>
 
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('vsoc')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('vsoc')}
+        modalTitle="VetSuccess on Campus (VSOC)"
+      >
         <VeteranSuccessModalContent />
       </VaModal>
     </span>
@@ -292,9 +315,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accredited')}
-        elementToFocusOnClose="accredited-button"
+        modalTitle="Accreditation and why it matters"
       >
-        <h3>Accreditation and why it matters</h3>
         <p>
           The goal of accreditation is to ensure that the education provided by
           institutions of higher education meets acceptable levels of quality.
@@ -311,9 +333,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('typeAccredited')}
-        elementToFocusOnClose="typeAccredited-button"
+        modalTitle="Accreditation types (regional vs. national vs. hybrid)"
       >
-        <h3>Accreditation types (regional vs. national vs. hybrid)</h3>
         <p>
           Is the school regionally or nationally accredited at the institution
           level?
@@ -352,14 +373,14 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accreditation')}
-        elementToFocusOnClose="accreditation-button"
+        modalTitle="Accreditation and why it matters"
       >
         <AccreditationModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('singleContact')}
-        elementToFocusOnClose="singleContact-button"
+        modalTitle="Single point of contact for Veterans"
       >
         <SingleContactModalContent />
       </VaModal>
@@ -367,14 +388,14 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('militaryTrainingCredit')}
-        elementToFocusOnClose="creditTraining-button"
+        modalTitle="Credit for military training"
       >
         <MilitaryTrainingCreditModalContent />
       </VaModal>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('independentStudy')}
-        elementToFocusOnClose="independentStudy-button"
+        modalTitle="Independent study"
       >
         <IndependentStudyModalContent />
       </VaModal>
@@ -382,11 +403,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('section103')}
-        elementToFocusOnClose="section103-button"
+        modalTitle="Protection against late VA payments"
       >
-        <div className="align-left">
-          <h3>Protection against late VA payments</h3>
-        </div>
         <p>
           If VA is late making a tuition payment to a GI Bill school, the school
           can’t prevent a GI Bill student from attending classes or accessing
@@ -436,11 +454,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('vrrap')}
-        elementToFocusOnClose="vrrap-button"
+        modalTitle="Veteran Rapid Retraining Assistance Program (VRRAP)"
       >
-        <h3 className="vads-u-margin-right--1p5">
-          Veteran Rapid Retraining Assistance Program (VRRAP)
-        </h3>
         <p>
           The Veteran Rapid Retraining Assistance Program (VRRAP) offers
           education and training for high-demand jobs to Veterans who are
@@ -462,7 +477,7 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('facilityCode')}
-        elementToFocusOnClose="facilityCode-button"
+        modalTitle="VA facility code"
       >
         <FacilityCodeModalContent />
       </VaModal>
@@ -470,7 +485,7 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('ipedsCode')}
-        elementToFocusOnClose="ipedsCode-button"
+        modalTitle="ED IPEDS code"
       >
         <IpedsCodeModalContent />
       </VaModal>
@@ -478,7 +493,7 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('opeCode')}
-        elementToFocusOnClose="opeCode-button"
+        modalTitle="ED OPE code"
       >
         <OpeCodeModalContent />
       </VaModal>
@@ -490,8 +505,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('cautionInfo')}
+        modalTitle="Learn more about these warnings"
       >
-        <h3>Learn more about these warnings</h3>
         <p>
           These are indicators VA has determined potential students should pay
           attention to and consider before enrolling in this program. A caution
@@ -602,9 +617,6 @@ export function Modals({ hideModal, modals, profile }) {
   const renderProfileCalculatorModals = () => {
     const whenUsedGiBill = (
       <div>
-        <h3 className="align-left">
-          What is Section 501 (Monthly Housing Allowance Rate)?
-        </h3>
         <p>
           Effective January 1, 2018, the Post-9/11 GI Bill monthly housing
           allowance rate will be the same as the Department of Defense’s E-5
@@ -680,8 +692,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcInStateTuition')}
+          modalTitle="In-state tuition and fees per year"
         >
-          <h3>In-state tuition and fees per year</h3>
           <p>
             Enter the amount of tuition/fees your school charges in-state
             students.
@@ -716,6 +728,7 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('whenUsedGiBill')}
+          modalTitle="What is Section 501 (Monthly Housing Allowance Rate)?"
         >
           {whenUsedGiBill}
         </VaModal>
@@ -723,8 +736,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcScholarships')}
+          modalTitle="Scholarships (excluding Pell Grants)"
         >
-          <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
             Are you receiving any scholarships or grants that go directly to pay
             tuition/fees this year? If so, add that number here.
@@ -734,8 +747,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcTuitionAssist')}
+          modalTitle="Military Tuition Assistance (TA)"
         >
-          <h3>Military Tuition Assistance (TA)</h3>
           <p>
             Are you receiving any military tuition assistance this year? If so,
             how much?
@@ -750,8 +763,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcEnrolled')}
+          modalTitle="Enrollment status"
         >
-          <h3>Enrollment status</h3>
           <div>
             {' '}
             <p>
@@ -766,8 +779,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcSchoolCalendar')}
+          modalTitle="School calendar"
         >
-          <h3>School calendar</h3>
           <p>
             Is your school on a semester, quarter, or non-traditional calendar
             system?
@@ -777,8 +790,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcKicker')}
+          modalTitle="Eligible for kicker bonus?"
         >
-          <h3>Eligible for kicker bonus?</h3>
           <div>
             {' '}
             <p>
@@ -795,6 +808,7 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcBeneficiaryLocationQuestion')}
+          modalTitle="Location where you'll take classes"
         >
           <CalcBeneficiaryLocationQuestionModalContent />
         </VaModal>
@@ -802,8 +816,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcWorking')}
+          modalTitle="Will be working"
         >
-          <h3>Will be working</h3>
           <p>
             How many hours per week will you be working on your OJT /
             Apprenticeship? Beneficiaries working less than 120 hours/month (or
@@ -815,8 +829,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('inStateWithoutLink')}
+          modalTitle="Qualifying for in-state tuition"
         >
-          <h3>Qualifying for in-state tuition</h3>
           <p>
             If you’re using GI Bill education benefits, you probably qualify for
             in-state tuition.
@@ -830,8 +844,8 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('inStateWithLink')}
+          modalTitle="Qualifying for in-state tuition"
         >
-          <h3>Qualifying for in-state tuition</h3>
           <p>
             If you’re using GI Bill education benefits, you probably qualify for
             in-state tuition.
@@ -856,10 +870,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('giBillChapter')}
+        modalTitle="Which GI Bill benefit do you want to use?"
       >
-        <div className="align-left">
-          <h3>Which GI Bill benefit do you want to use?</h3>
-        </div>
         <div>
           {' '}
           <p>
@@ -885,16 +897,16 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('bookStipendInfo')}
+        modalTitle="Book stipend"
       >
         <BookStipendInfoModalContent />
       </VaModal>
-      <VaModal onCloseEvent={hideModal} visible={shouldDisplayModal('vetTec')}>
+      <VaModal
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('vetTec')}
+        modalTitle="VET TEC"
+      >
         <div>
-          <div>
-            <strong>
-              <h3>VET TEC</h3>
-            </strong>
-          </div>
           <p>
             Veteran Employment Through Technology Education Courses (VET TEC) is
             a 5-year pilot program that matches Veterans with high-tech training
@@ -919,8 +931,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('cumulativeService')}
+        modalTitle="Cumulative Post-9/11 service"
       >
-        <h3>Cumulative Post-9/11 service</h3>
         <div>
           <p>
             The Post-9/11 GI Bill provides financial support for education and a
@@ -937,8 +949,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('comparisonLimit')}
+        modalTitle="You’ve reached the comparison limit"
       >
-        <h3>You’ve reached the comparison limit</h3>
         <p>
           You can compare up to 3 schools or employers. You’ll have to remove
           one of your selections before you can add another to the comparison.
@@ -948,8 +960,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('enlistmentService')}
+        modalTitle="Completed an enlistment of (MGIB):"
       >
-        <h3>Completed an enlistment of (MGIB):</h3>
         <p>
           The Montgomery GI Bill – Active Duty provides education benefits to
           Veterans and service members who have served at least two years of
@@ -974,8 +986,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('consecutiveService')}
+        modalTitle="Length of longest active duty tour (REAP)"
       >
-        <h3>Length of longest active duty tour (REAP)</h3>
         <p>
           The REAP program pays benefits to eligible Reservists or Guard members
           who were called or ordered to active duty for at least 90 consecutive
@@ -1003,8 +1015,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('preferredProvider')}
+        modalTitle="Preferred training providers"
       >
-        <h3>Preferred training providers</h3>
         <p>
           A provider is "preferred" if the training facility agrees to refund
           tuition and fees to VA if the student completes the program and
@@ -1015,8 +1027,8 @@ export function Modals({ hideModal, modals, profile }) {
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('cautionaryWarnings')}
+        modalTitle="Cautionary warnings and school closings"
       >
-        <h3>Cautionary warnings and school closings</h3>
         <p>
           VA applies caution flags when we, or another federal agency, have
           increased regulatory or legal scrutiny of an educational program. We
@@ -1051,12 +1063,18 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('sizeOfInstitution')}
+          modalTitle="Size of institution"
         >
           <SizeOfInstitutionsModalContent />
         </VaModal>
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('specializedMission')}
+          modalTitle={
+            environment.isProduction()
+              ? 'Specialized mission'
+              : 'Community focus'
+          }
         >
           <SpecializedMissionModalContent />
         </VaModal>
