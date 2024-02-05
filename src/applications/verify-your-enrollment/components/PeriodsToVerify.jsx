@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
