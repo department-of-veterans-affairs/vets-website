@@ -44,18 +44,18 @@ export const renderAdditionalInfo = deductionCode => {
           </p>
           <p>
             <strong>Disability compensation:</strong>{' '}
-            <VaTelephone contact="8008271000" uswds />, Monday through Friday,
-            8:00 a.m to 8:00 p.m. ET
+            <VaTelephone contact="8008271000" />, Monday through Friday, 8:00
+            a.m to 8:00 p.m. ET
           </p>
           <p>
             <strong>Veterans Pension:</strong>{' '}
-            <VaTelephone contact="87729463850" uswds />, Monday through Friday,
-            8:00 a.m to 4:30 p.m. ET
+            <VaTelephone contact="87729463850" />, Monday through Friday, 8:00
+            a.m to 4:30 p.m. ET
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <VaTelephone contact="8008270648" uswds />.
+            <VaTelephone contact="8008270648" />.
           </p>
         </section>
       );
@@ -86,14 +86,14 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at{' '}
-            <VaTelephone contact="8884424551" uswds />. We’re here Monday
-            through Friday, 8:00 a.m. to 7:00 p.m. ET.
+            <VaTelephone contact="8884424551" />. We’re here Monday through
+            Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
 
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <VaTelephone contact="8008270648" uswds />.
+            <VaTelephone contact="8008270648" />.
           </p>
         </section>
       );
@@ -127,13 +127,13 @@ export const renderAdditionalInfo = deductionCode => {
           <p>
             If you want more information about the reason for this debt or the
             decision resulting in this debt, please call the Education office at{' '}
-            <VaTelephone contact="8884424551" uswds />. We’re here Monday
-            through Friday, 8:00 a.m. to 7:00 p.m. ET.
+            <VaTelephone contact="8884424551" />. We’re here Monday through
+            Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
           <p>
             If you want more information about debt overpayment and available
             options, please call the Debt Management Center at{' '}
-            <VaTelephone contact="8008270648" uswds />.
+            <VaTelephone contact="8008270648" />.
           </p>
         </section>
       );

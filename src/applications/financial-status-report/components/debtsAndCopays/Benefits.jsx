@@ -35,8 +35,8 @@ const NoBenefits = () => {
 
       <p>
         If this information isn’t right, you can call our VA benefits hotline at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} uswds /> (
-        <va-telephone contact={CONTACTS[711]} uswds />
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </section>
@@ -64,9 +64,8 @@ const Benefits = ({ pending, income }) => {
       )}
       <p>
         <strong>Note:</strong> If this information isn’t right, you can call our
-        VA benefits hotline at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} uswds /> (
-        <va-telephone contact={CONTACTS[711]} uswds />
+        VA benefits hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+        <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>

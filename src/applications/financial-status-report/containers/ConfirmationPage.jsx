@@ -162,8 +162,8 @@ const ConfirmationPage = ({ form, download }) => {
         <p>You don’t need to do anything else at this time.</p>
         <p>
           If you don’t receive your letter in the next 30 days or have any
-          questions, call us at <va-telephone contact="8664001238" uswds />(
-          <va-telephone contact="711" tty uswds />
+          questions, call us at <va-telephone contact="8664001238" />(
+          <va-telephone contact="711" tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </>

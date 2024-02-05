@@ -35,9 +35,9 @@ const VetTec = () => {
           </li>
           <li>
             <strong>Phone: </strong>
-            Call us at <VaTelephone contact="716-857-5061" uswds /> (
-            <VaTelephone contact="711" tty uswds />) and leave a detailed
-            message. We’ll call you back as soon as possible.
+            Call us at <VaTelephone contact="716-857-5061" /> (
+            <VaTelephone contact="711" tty />) and leave a detailed message.
+            We’ll call you back as soon as possible.
           </li>
           <li>
             <strong>Mail: </strong>

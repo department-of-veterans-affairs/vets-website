@@ -72,9 +72,9 @@ export const bankInfoHelpText = (
       <strong>Note:</strong> The Department of the Treasury requires us to make
       electronic payments. If you don’t want to use direct deposit, you’ll need
       to call the Department of the Treasury at{' '}
-      <va-telephone contact="8882242950" uswds />. Ask to talk with a
-      representative who handles waiver requests. They can answer any questions
-      or concerns you may have.
+      <va-telephone contact="8882242950" />. Ask to talk with a representative
+      who handles waiver requests. They can answer any questions or concerns you
+      may have.
     </p>
   </va-additional-info>
 );

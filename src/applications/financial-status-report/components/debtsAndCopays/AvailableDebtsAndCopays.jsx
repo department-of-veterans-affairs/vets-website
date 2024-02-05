@@ -149,9 +149,9 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       )}
       <va-additional-info trigger="What if my debt isn’t listed here?" uswds>
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="8008270648" uswds /> (or{' '}
-        <va-telephone contact="6127136415" international uswds /> from
-        overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        call us at <va-telephone contact="8008270648" /> (or{' '}
+        <va-telephone contact="6127136415" international /> from overseas).
+        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
     </div>
   );
