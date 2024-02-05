@@ -156,7 +156,7 @@ describe('<DocumentRequestPage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('AddFilesForm').props.onSubmit();
+    tree.subTree('AddFilesFormOld').props.onSubmit();
     expect(onSubmit.called).to.be.true;
   });
 
