@@ -21,7 +21,7 @@ const HomeAcreageValueReview = ({ data, editPage }) => {
     : '';
 
   return isHomeAcreageMoreThanTwo(data) ? (
-    <div className="form-review-panel-page pensions-custom-review">
+    <div className="form-review-panel-page vads-u-margin-bottom--7">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
