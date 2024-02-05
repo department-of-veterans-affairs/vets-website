@@ -400,7 +400,9 @@ describe('Compose form component', () => {
     await waitFor(() => {
       expect(screen.getByTestId('compose-recipient-select')).to.exist;
     });
-    expect(getCategoriesSpy.calledOnce).to.be.true;
+    waitFor(() => {
+      expect(getCategoriesSpy.calledOnce).to.be.true;
+    });
   });
 
   it('renders without errors to recipient selection', async () => {
