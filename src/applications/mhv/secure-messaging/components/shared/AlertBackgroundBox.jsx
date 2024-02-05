@@ -50,7 +50,6 @@ const AlertBackgroundBox = props => {
       {activeAlert && (
         <VaAlert
           ref={alertRef}
-          aria-live="polite"
           background-only
           closeable={props.closeable}
           className="vads-u-margin-bottom--1 va-alert"
