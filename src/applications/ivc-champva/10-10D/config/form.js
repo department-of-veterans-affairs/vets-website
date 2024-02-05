@@ -25,6 +25,7 @@ import {
   radioUI,
   titleSchema,
   inlineTitleUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
@@ -37,6 +38,7 @@ import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
+import { sponsorWording } from '../helpers/wordingCustomization';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -82,27 +84,31 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
-      title: 'Your information',
+      title: 'Signer information',
       pages: {
         page1: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
+            ...titleUI('Your relationship to this form'),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
               required: true,
               labels: {
-                sponsor: "I'm the sponsoring Veteran",
-                applicant: "I'm an applicant",
+                applicant: "I'm an applicant applying for CHAMPVA benefits",
+                sponsor:
+                  "I'm a Veteran applying for my spouse, dependents, or caretaker",
                 other:
-                  "I'm neither the sponsoring Veteran, nor an applicant - I'm a third party",
+                  "I'm a third party representative, power of attorney or VSO (Veterans Service Officer)",
               },
             }),
           },
+          // TODO: add a info blurb on who can be a third-party
           schema: {
             type: 'object',
             required: ['certifierRole'],
             properties: {
+              titleSchema,
               certifierRole: radioSchema(['sponsor', 'applicant', 'other']),
             },
           },
@@ -190,9 +196,17 @@ const formConfig = {
       pages: {
         page6: {
           path: 'sponsor-information/name-dob',
-          title: 'Sponsor name and date of birth',
+          title: formData =>
+            `${sponsorWording(formData)} name and date of birth`,
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor name and date of birth'),
+            ...titleUI(
+              ({ formData }) =>
+                `${sponsorWording(formData)} name and date of birth`,
+              ({ formData }) =>
+                formData?.certifierRole === 'sponsor'
+                  ? 'Please provide your information. We use this information to identify eligibility.'
+                  : `Please provide the information for the Veteran that you're connected to (called your "Sponsor"). We use this information to identify eligibility.`,
+            ),
             veteransFullName: fullNameUI(),
             sponsorDOB: dateOfBirthUI(),
           },
@@ -200,7 +214,7 @@ const formConfig = {
             type: 'object',
             required: ['sponsorDOB'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               veteransFullName: fullNameSchema,
               sponsorDOB: dateOfBirthSchema,
             },
@@ -208,16 +222,22 @@ const formConfig = {
         },
         page7: {
           path: 'sponsor-information/ssn',
-          title: 'Sponsor SSN and VA file number',
+          title: formData =>
+            `${sponsorWording(formData)} identification information`,
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor SSN or VA file number'),
+            ...titleUI(
+              ({ formData }) =>
+                `${sponsorWording(formData)} identification information`,
+              'You must enter either a Social Security number or VA File number',
+            ),
             ssn: ssnOrVaFileNumberUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
+              // TODO: remove description from above va file number
               ssn: ssnOrVaFileNumberSchema,
             },
           },
@@ -225,6 +245,8 @@ const formConfig = {
         page8: {
           path: 'sponsor-information/status',
           title: 'Sponsor status',
+          // TODO: fix spacing above title
+          depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
             sponsorInfoTitle: inlineTitleUI('Sponsor status'),
             sponsorIsDeceased: yesNoUI({
@@ -247,10 +269,10 @@ const formConfig = {
         },
         page9: {
           path: 'sponsor-information/status-date',
-          title: 'Sponsor status',
+          title: 'Sponsor status (continued)',
           depends: formData => get('sponsorIsDeceased', formData),
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor status'),
+            sponsorInfoTitle: inlineTitleUI('Sponsor status (continued)'),
             sponsorDOD: dateOfDeathUI(),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor pass away on active military service?',
@@ -271,17 +293,50 @@ const formConfig = {
             },
           },
         },
-        page10: {
-          path: 'sponsor-information/address',
-          title: "Sponsor's address",
-          depends: formData => !get('sponsorIsDeceased', formData),
+        // If person filling out the form is the sponsor:
+        page10a: {
+          path: 'sponsor-information/your-address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) === 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI("Sponsor's address"),
+            ...titleUI('Your mailing address'),
+            sponsorHasAddress: radioUI({
+              title: 'Do you have a current mailing address?',
+              hint:
+                "If we have a way to contact you, we'll be able to process this request faster. But we don't require a mailing address for this request.",
+              required: true,
+              labels: {
+                yes: 'Yes, I know my current mailing address',
+                no: "No, I don't have a current mailing address",
+                unknown: "I don't know if I have a current mailing address",
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasAddress'],
+            properties: {
+              titleSchema,
+              sponsorHasAddress: radioSchema(['yes', 'no', 'unknown']),
+            },
+          },
+        },
+        page10a1: {
+          path: 'sponsor-information/your-address-continued',
+          title: 'Your mailing address (continued)',
+          depends: formData =>
+            get('sponsorHasAddress', formData) === 'yes' &&
+            get('certifierRole', formData) === 'sponsor',
+          uiSchema: {
+            ...titleUI(
+              'Your mailing address (continued)',
+              "We'll send any important information about your application to this address.",
+            ),
             sponsorAddress: {
               ...addressUI({
                 labels: {
                   militaryCheckbox:
-                    'My sponsor lives on a United States military base outside the country.',
+                    'I live on a United States military base outside the country.',
                 },
               }),
             },
@@ -290,34 +345,158 @@ const formConfig = {
             type: 'object',
             required: ['sponsorAddress'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               sponsorAddress: addressSchema(),
             },
           },
         },
-        page11: {
-          path: 'sponsor-information/phone',
-          title: "Sponsor's phone number",
-          depends: formData => !get('sponsorIsDeceased', formData),
+        // If person filling out the form is NOT the sponsor:
+        page10b: {
+          path: 'sponsor-information/address',
+          title: "Sponsor's mailing address",
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI("Sponsor's phone number"),
+            ...titleUI("Sponsor's mailing address"),
+            sponsorHasAddress: radioUI({
+              title: 'Does the Sponsor have a current mailing address?',
+              hint:
+                "If we have a way to contact the Sponsor, we'll be able to process this request faster. But we don't require a mailing address for this request.",
+              required: true,
+              labels: {
+                yes: "Yes, I know the Sponsor's current mailing address",
+                no: "No, the Sponsor doesn't have a current mailing address",
+                unknown:
+                  "I don't know if the Sponsor has a current mailing address",
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasAddress'],
+            properties: {
+              titleSchema,
+              sponsorHasAddress: radioSchema(['yes', 'no', 'unknown']),
+            },
+          },
+        },
+        page10b1: {
+          path: 'sponsor-information/address-continued',
+          title: "Sponsor's mailing address (continued)",
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('sponsorHasAddress', formData) === 'yes' &&
+            get('certifierRole', formData) !== 'sponsor',
+          uiSchema: {
+            ...titleUI(
+              "Sponsor's mailing address (continued)",
+              "We'll send any important information about your application to this address.",
+            ),
+            sponsorAddress: {
+              ...addressUI({
+                labels: {
+                  militaryCheckbox:
+                    'My Sponsor lives on a United States military base outside the country.',
+                },
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorAddress'],
+            properties: {
+              titleSchema,
+              sponsorAddress: addressSchema(),
+            },
+          },
+        },
+        // If person filling out the form is the sponsor:
+        page11a: {
+          path: 'sponsor-information/your-phone',
+          title: 'Your contact information',
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) === 'sponsor',
+          uiSchema: {
+            ...titleUI('Your contact information'),
+            sponsorHasPhone: radioUI({
+              title: 'Do you have a current phone number?',
+              hint:
+                "If we have a way to contact you, we'll be able to process this request faster. But we don't require a mailing address for this request.",
+              required: true,
+              labels: {
+                yes: 'Yes, I know my current phone number',
+                no: "No, I don't have a current phone number",
+                unknown: "I don't know if I have a current phone number",
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasPhone'],
+            properties: {
+              titleSchema,
+              sponsorHasPhone: radioSchema(['yes', 'no', 'unknown']),
+            },
+          },
+        },
+        // If person filling out the form is NOT the sponsor:
+        page11b: {
+          path: 'sponsor-information/phone',
+          title: "Sponsor's contact information",
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor',
+          uiSchema: {
+            ...titleUI("Sponsor's contact information"),
+            sponsorHasPhone: radioUI({
+              title: 'Does the Sponsor have a current phone number?',
+              hint:
+                "If we have a way to contact the Sponsor, we'll be able to process this request faster. But we don't require a mailing address for this request.",
+              required: true,
+              labels: {
+                yes: "Yes, I know the Sponsor's current phone number",
+                no: "No, the Sponsor doesn't have a current phone number",
+                unknown:
+                  "I don't know if the Sponsor has a current phone number",
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sponsorHasPhone'],
+            properties: {
+              titleSchema,
+              sponsorHasPhone: radioSchema(['yes', 'no', 'unknown']),
+            },
+          },
+        },
+        page11: {
+          path: 'sponsor-information/phone-continued',
+          title: formData =>
+            `${sponsorWording(formData)} contact information (continued)`,
+          depends: formData =>
+            get('sponsorHasPhone', formData) === 'yes' &&
+            !get('sponsorIsDeceased', formData),
+          uiSchema: {
+            ...titleUI(
+              ({ formData }) =>
+                `${sponsorWording(formData)} contact information (continued)`,
+            ),
             sponsorPhone: {
               ...phoneUI({
-                title: 'Home phone number',
+                title: 'Phone number',
               }),
               'ui:required': () => true,
-            },
-            sponsorPhoneAlt: {
-              ...phoneUI({ title: 'Mobile phone number' }),
             },
           },
           schema: {
             type: 'object',
             required: ['sponsorPhone'],
             properties: {
-              sponsorInfoTitle: titleSchema,
+              titleSchema,
               sponsorPhone: phoneSchema,
-              sponsorPhoneAlt: phoneSchema,
             },
           },
         },
