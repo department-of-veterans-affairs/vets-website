@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
@@ -38,14 +39,16 @@ class MedicationsListPage {
   };
 
   verifyTextInsideDropDownOnListPage = () => {
-    cy.contains(
-      'If you print this page, it won’t include your allergies and reactions to medications.',
+    cy.get('[data-testid="dropdown-info"]').should(
+      'contain',
+      'we’ll include a list of allergies and reactions',
     );
   };
 
   clickWhatToKnowAboutMedicationsDropDown = () => {
-    cy.contains('What to know before you print or download').click({
-      force: true,
+    cy.get('[data-testid="before-download"]').should('be.visible');
+    cy.get('[data-testid="before-download"]').click({
+      waitForAnimations: true,
     });
   };
 
@@ -107,11 +110,67 @@ class MedicationsListPage {
     });
   };
 
+  clickDownloadListAsTxtButtonOnListPage = () => {
+    cy.get('[data-testid="download-txt-button"]').should(
+      'contain',
+      'Download a text file',
+    );
+    cy.get('[data-testid="download-txt-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyDownloadCompleteSuccessMessageBanner = () => {
     cy.get('[data-testid="download-success-banner"]').should(
       'contain',
       'Download complete',
     );
+  };
+
+  verifyDownloadTextFileHeadless = (
+    userFirstName = 'Safari',
+    userLastName = 'Mhvtp',
+    searchText = 'Date',
+  ) => {
+    this.downloadTime1sec = moment()
+      .add(1, 'seconds')
+      .format('M-D-YYYY_hhmmssa');
+    this.downloadTime2sec = moment()
+      .add(2, 'seconds')
+      .format('M-D-YYYY_hhmmssa');
+    this.downloadTime3sec = moment()
+      .add(3, 'seconds')
+      .format('M-D-YYYY_hhmmssa');
+
+    if (Cypress.browser.isHeadless) {
+      cy.log('browser is headless');
+      const downloadsFolder = Cypress.config('downloadsFolder');
+      const txtPath1 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime1sec
+      }.txt`;
+      const txtPath2 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime2sec
+      }.txt`;
+      const txtPath3 = `${downloadsFolder}/VA-medications-list-${userFirstName}-${userLastName}-${
+        this.downloadTime3sec
+      }.txt`;
+      this.internalReadFileMaybe(txtPath1, searchText);
+      this.internalReadFileMaybe(txtPath2, searchText);
+      this.internalReadFileMaybe(txtPath3, searchText);
+    } else {
+      cy.log('browser is not headless');
+    }
+  };
+
+  internalReadFileMaybe = (fileName, searchText) => {
+    cy.task('log', `attempting to find file = ${fileName}`);
+    cy.task('readFileMaybe', fileName).then(textOrNull => {
+      const taskFileName = fileName;
+      if (textOrNull != null) {
+        cy.task('log', `found the text in ${taskFileName}`);
+        cy.readFile(fileName).should('contain', `${searchText}`);
+      }
+    });
   };
 
   verifyInformationBasedOnStatusActiveNoRefillsLeft = () => {
@@ -278,7 +337,7 @@ class MedicationsListPage {
 
   selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
-      .find('#select')
+      .find('#options')
       .select(text, { force: true });
   };
 
@@ -293,7 +352,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
@@ -320,7 +379,7 @@ class MedicationsListPage {
       prescriptions,
     );
 
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 

@@ -1,9 +1,9 @@
 const baseURL = '/ask_va_api/v0';
 
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/categories?mock=true`,
-  GET_TOPICS: `/topics?mock=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?mock=true`,
+  GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_TOPICS: `/topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   // TODO: Add address validation endpoint
   ADDRESS_VALIDATION: '',
   GET_INQUIRY: '',
@@ -132,6 +132,20 @@ export const reasonOptions = {
   SOMETHING_ELSE: 'I want to say something else',
 };
 
+// Reason options
+export const yourRoleOptions = {
+  ACCREDITED_REP:
+    'Accredited representative (such as an accredited attorney, claims agent, or Veterans Service Officer)',
+  FIDUCIARY: 'Fiduciary',
+  FUNERAL_DIR: 'Funeral director',
+  TRAINING_OR_APPRENTICESHIP_SUP:
+    'On-the-job training or apprenticeship supervisor',
+  SCO: 'School Certifying Official (SCO)',
+  VA_EMPLOYEE: 'VA employee',
+  WORK_STUDY_SUP: 'Work study site supervisor',
+  OTHER: 'Other',
+};
+
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
@@ -181,39 +195,34 @@ export const CHAPTER_2 = {
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
-  PAGE_1: {
-    PATH: 'personal-info-1',
+  RELATIONSHIP_TO_VET: {
+    PATH: 'relationship-to-veteran',
     TITLE: 'Your relationship to the Veteran',
     PAGE_DESCRIPTION:
       "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
     QUESTION_1: 'Select your relationship to the Veteran:',
   },
-  PAGE_2: {
-    PATH: 'personal-info-2',
+  ABOUT_YOUR_RELATIONSHIP: {
     TITLE: 'Tell us more about your relationship to the Veteran',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select your relationship to the Veteran:',
   },
-  PAGE_3: {
-    PATH: 'personal-info-3',
+  ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
     PAGE_DESCRIPTION: '',
   },
-  PAGE_4: {
-    PATH: 'personal-info-4',
+  VET_DECEASED: {
     TITLE: 'Is the Veteran deceased?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Selection',
   },
-  PAGE_5: {
-    PATH: 'personal-info-5',
+  DEATH_DATE: {
     TITLE: 'When did the Veteran die?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Date',
   },
-  PAGE_6: {
-    PATH: 'personal-info-6',
-    TITLE: "Veteran's address",
+  VET_POSTAL_CODE: {
+    TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'The Veteran lives on a United States military base outside of the country.',
@@ -221,72 +230,74 @@ export const CHAPTER_3 = {
     QUESTION_3: 'Region',
     QUESTION_4: 'Postal code',
   },
-  PAGE_7: {
-    PATH: 'personal-info-7',
+  YOUR_POSTAL_CODE: {
+    TITLE: 'Your postal code',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'I receive mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'Region',
+    QUESTION_4: 'Postal code',
+  },
+  WHO_QUES_IS_ABOUT: {
     TITLE: 'Who your question is about',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       "Is your question about the Veteran's benefits or someone else's",
   },
-  PAGE_8: {
-    PATH: 'personal-info-8',
+  VA_EMPLOYEE: {
     TITLE: 'VA employee',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Are you currently an employee of the VA?',
   },
-  PAGE_9: {
-    PATH: 'personal-info-9',
+  ABOUT_YOURSELF: {
     TITLE: 'Tell us about yourself',
     PAGE_DESCRIPTION: '',
   },
-  PAGE_10: {
-    PATH: 'personal-info-10',
+  VA_MED_CENTER: {
     TITLE: 'VA Medical Center',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PAGE_11: {
-    PATH: 'personal-info-11',
+  PHONE_EMAIL: {
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Mobile phone number',
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },
-  PAGE_12: {
-    PATH: 'personal-info-12',
+  CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'How should we contact you?',
   },
-  PAGE_13: {
-    PATH: 'personal-info-13',
+  YOUR_COUNTRY: {
     TITLE: 'Your country', // country
     PAGE_DESCRIPTION: '',
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  PAGE_14: {
-    PATH: 'personal-info-14',
+  YOUR_ADDRESS: {
     TITLE: 'Your address', // full address
     PAGE_DESCRIPTION: '',
   },
-  PAGE_15: {
-    PATH: 'personal-info-15',
+  ADDRESS_CONFIRM: {
     TITLE: 'Your address confirmation',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PAGE_16: {
-    PATH: 'personal-info-16',
+  ABOUT_YOUR_FAM_MEM: {
     TITLE: 'Your relationship to the family member',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select your relationship to the family member',
   },
-  PAGE_17: {
-    PATH: 'personal-info-17',
+  RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'Tell us about the family member',
     PAGE_DESCRIPTION: '',
+  },
+  YOUR_ROLE: {
+    TITLE: 'Your role',
+    QUESTION_1: 'Select your role:',
   },
 };
 
@@ -294,5 +305,42 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
-  CHAPTER_3.PAGE_2.TITLE,
+  CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
 ];
+
+export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+
+export const contactUsBreadcrumbs = [
+  ...homeBreadcrumbs,
+  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+];
+
+export const askVABreadcrumbs = [
+  ...contactUsBreadcrumbs,
+  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+];
+
+export const responsePageBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { title: 'Response Page', key: 'responsePage' },
+];
+
+export const newInquiryBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { title: 'New Inquiry', key: 'newInquiry' },
+];
+
+export const reviewPageBreadcrumbs = [
+  ...homeBreadcrumbs,
+  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { title: 'New Inquiry', key: 'newInquiry' },
+];
+
+export const breadcrumbsDictionary = {
+  '/': homeBreadcrumbs,
+  '/contact-us': contactUsBreadcrumbs,
+  '/introduction': askVABreadcrumbs,
+  '/user/dashboard': responsePageBreadcrumbs,
+  '/newInquiry': newInquiryBreadcrumbs,
+  '/review-then-submit': reviewPageBreadcrumbs,
+};

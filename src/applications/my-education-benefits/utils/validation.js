@@ -1,4 +1,4 @@
-import { isValidEmail } from 'platform/forms/validations';
+import { isValidEmail, isValidRoutingNumber } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
@@ -58,6 +58,60 @@ export const validateEffectiveDate = (errors, dateString) => {
         minDate.format('YYYY-MM-DD'),
       )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
     );
+  }
+};
+
+const isValidAccountNumber = accountNumber => {
+  return /^[a-z0-9]+$/.test(accountNumber);
+};
+
+export const validateBankAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  const accountNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
+
+  const bankAccount = formData[formFields.bankAccount];
+  const matchesOriginal =
+    accountNumber.trim() === bankAccount[formFields.originalAccountNumber];
+  const routingNumberMatchesOriginal =
+    bankAccount[formFields.routingNumber] ===
+    bankAccount[formFields.originalRoutingNumber];
+
+  if (
+    !isValidAccountNumber(accountNumber) &&
+    !(isValidObfuscated && matchesOriginal && routingNumberMatchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+
+export const validateRoutingNumber = (
+  errors,
+  routingNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  const rountingNumberRegex = new RegExp(schema.pattern);
+  const isValidObfuscated = rountingNumberRegex.test(routingNumber.trim());
+
+  const bankAccount = formData[formFields.bankAccount];
+  const matchesOriginal =
+    routingNumber.trim() === bankAccount[formFields.originalRoutingNumber];
+  const accountNumberMatchesOriginal =
+    bankAccount[formFields.accountNumber] ===
+    bankAccount[formFields.originalAccountNumber];
+
+  if (
+    !isValidRoutingNumber(routingNumber) &&
+    !(isValidObfuscated && matchesOriginal && accountNumberMatchesOriginal)
+  ) {
+    errors.addError(errorMessages.pattern);
   }
 };
 

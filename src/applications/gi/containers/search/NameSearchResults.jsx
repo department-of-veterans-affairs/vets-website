@@ -132,14 +132,20 @@ export function NameSearchResults({
               environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
                   <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults smallScreen={smallScreen} />
+                  <FilterYourResults
+                    smallScreen={smallScreen}
+                    searchType="name"
+                  />
                 </div>
               )}
             {!smallScreen &&
               !environment.isProduction() && (
                 <div className="column small-4 vads-u-padding--0">
                   <TuitionAndHousingEstimates smallScreen={smallScreen} />
-                  <FilterYourResults smallScreen={smallScreen} />
+                  <FilterYourResults
+                    smallScreen={smallScreen}
+                    searchType="name"
+                  />
                 </div>
               )}
             {/* {!smallScreen &&

@@ -13,10 +13,6 @@
       {
         "name": "hcaUseFacilitiesApi",
         "value": false
-      },
-      {
-        "name": "hcaHouseholdV2Enabled",
-        "value": false
       }
     ]
   }

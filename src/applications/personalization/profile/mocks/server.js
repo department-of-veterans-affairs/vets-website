@@ -62,7 +62,6 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileUseFieldEditingPage: true,
             profileUseHubPage: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
@@ -76,6 +75,7 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
+    // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
@@ -88,7 +88,6 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
-
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -157,7 +156,7 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+    ratingInfo.success.serviceConnectedNoRating,
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
