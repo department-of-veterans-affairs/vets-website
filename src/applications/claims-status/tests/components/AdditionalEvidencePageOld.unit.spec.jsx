@@ -101,7 +101,7 @@ describe('<AdditionalEvidencePageOld>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('AddFilesForm').props.onSubmit();
+    tree.subTree('AddFilesFormOld').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
   });
 
