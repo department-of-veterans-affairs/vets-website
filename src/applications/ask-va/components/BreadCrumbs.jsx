@@ -6,9 +6,6 @@ const adjustLocation = currentLocation => {
   if (currentLocation.startsWith('/contact-us/ask-va-too/user/dashboard')) {
     return '/user/dashboard';
   }
-  if (currentLocation.startsWith('/review-then-submit')) {
-    return '/review-then-submit';
-  }
   if (currentLocation.startsWith('/introduction')) {
     return '/introduction';
   }
