@@ -925,11 +925,11 @@ describe('Schemaform <FormPage>', () => {
       ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
     });
 
-    it('should focus on ".nav-header > h2" when useCustomScrollAndFocus is not set in form config', async () => {
+    it('should focus on ".nav-header > h2" in pre-v3 forms when useCustomScrollAndFocus is not set in form config', async () => {
       const CustomPage = () => (
         <div id="main" className="nav-header">
           <div name="topScrollElement" />
-          <h2>H2</h2>
+          <h2 id="nav-form-header">H2</h2>
           <div name="topContentElement" />
           <h3>H3</h3>
         </div>
@@ -950,28 +950,71 @@ describe('Schemaform <FormPage>', () => {
       });
     });
 
-    it('should focus on "#main h3" when useCustomScrollAndFocus is set in form config', async () => {
-      const CustomPage = () => (
-        <div id="main">
+    it('should focus on ".usa-step-indicator__heading" in v3 forms when useCustomScrollAndFocus is not set in form config', async () => {
+      const CustomPageV3 = () => (
+        <div id="main" className="nav-header">
           <div name="topScrollElement" />
-          <h2>H2</h2>
-          <div name="topContentElement" />
+          <va-segmented-progress-bar
+            total="7"
+            current="1"
+            uswds="true"
+            heading-text="Your identity"
+            name="v3SegmentedProgressBar"
+            header-level="2"
+            className="hydrated"
+          >
+            <div className="usa-step-indicator__header">
+              <h2 className="usa-step-indicator__heading">
+                <span className="usa-step-indicator__heading-counter">
+                  <span className="usa-sr-only">Step</span>
+                  <span className="usa-step-indicator__current-step">1</span>
+                  <span className="usa-step-indicator__total-steps"> of 7</span>
+                </span>
+                <span className="usa-step-indicator__heading-text">H2</span>
+              </h2>
+            </div>
+          </va-segmented-progress-bar>
           <h3>H3</h3>
         </div>
       );
       render(
         <FormPage
-          form={makeBypassForm(CustomPage)()}
+          form={makeBypassForm(CustomPageV3)()}
           route={{
-            ...makeBypassRoute(CustomPage)(),
-            formConfig: { useCustomScrollAndFocus: true },
+            ...makeBypassRoute(CustomPageV3)(),
+            formConfig: { useCustomScrollAndFocus: false },
           }}
           location={location}
         />,
       );
 
+      it('should focus on "#main h3" when useCustomScrollAndFocus is set in form config', async () => {
+        const CustomPage = () => (
+          <div id="main">
+            <div name="topScrollElement" />
+            <h2>H2</h2>
+            <div name="topContentElement" />
+            <h3>H3</h3>
+          </div>
+        );
+        render(
+          <FormPage
+            form={makeBypassForm(CustomPage)()}
+            route={{
+              ...makeBypassRoute(CustomPage)(),
+              formConfig: { useCustomScrollAndFocus: true },
+            }}
+            location={location}
+          />,
+        );
+
+        await waitFor(() => {
+          expect(document.activeElement.tagName).to.eq('H3');
+        });
+      });
+
       await waitFor(() => {
-        expect(document.activeElement.tagName).to.eq('H3');
+        expect(document.activeElement.tagName).to.eq('H2');
       });
     });
 
