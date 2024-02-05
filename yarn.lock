@@ -2769,12 +2769,12 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^36.0.0":
-  version "36.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-36.0.0.tgz#cd292b17d0e0fd567298b0e0d6df93b647a3b64a"
-  integrity sha512-kVt4KHps9ekynk/lnEOJ0928vZVH3O/6UdmtNQnV8ejjB6HePWK7U+TGQSctEZMf/fFUhYw9hp/9x1guD/t7jw==
+"@department-of-veterans-affairs/component-library@^35.0.0":
+  version "35.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-35.0.0.tgz#6d204a8a90fa9a1a4df98d2d21481b2214e0d3be"
+  integrity sha512-oNJr2Ywzv5Aya5Z9ksAqHLLNI8XkTy8qWjZQDn/P0dUvWNq8oxBVPAaMxGLkR2oPc9iiZchmMd//up7NWKBWTA==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "27.0.0"
+    "@department-of-veterans-affairs/react-components" "26.0.1"
     "@department-of-veterans-affairs/web-components" "4.59.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
@@ -2821,10 +2821,10 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@27.0.0":
-  version "27.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-27.0.0.tgz#6c3ee04aae097b3c553647b2bf4b45459212212d"
-  integrity sha512-iGwXPlgUZ1JYY14seOL+Qp7b7nR7o28Sfe8qecBDfi7Vx1LcquY9D7g4K+8bD/WCeYnIWsFA6OVp7sFELpylFQ==
+"@department-of-veterans-affairs/react-components@26.0.1":
+  version "26.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-26.0.1.tgz#38eeb0dbe14ffe5f4a5fad6007d4688b33eabfdf"
+  integrity sha512-qCT32ZH7m6B5QMScML+dd/urB4IVNHmiJfX2XTFNE2ROzi2C61A7XMtDEt4bILa1Dno4H49QVhCFe3DqV6rU4w==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
