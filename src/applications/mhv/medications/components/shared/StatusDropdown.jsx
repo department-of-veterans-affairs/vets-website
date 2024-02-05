@@ -30,6 +30,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Active</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -73,7 +74,7 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: Non-VA</div>
             <div data-testid="status-dropdown">
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info uswds trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -117,6 +118,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Active: Parked</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -153,6 +155,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Active: On hold</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -178,7 +181,7 @@ const StatusDropdown = props => {
           <>
             <div data-testid="status">Active: Refill in process</div>
             <div>
-              <va-additional-info trigger="What does this status mean?">
+              <va-additional-info uswds trigger="What does this status mean?">
                 {dropdownContent()}
               </va-additional-info>
             </div>
@@ -217,6 +220,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Discontinued</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -245,6 +249,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Active: Submitted</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -281,6 +286,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Expired</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -305,6 +311,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Transferred</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >
@@ -332,6 +339,7 @@ const StatusDropdown = props => {
             <div data-testid="status">Unknown</div>
             <div>
               <va-additional-info
+                uswds
                 trigger="What does this status mean?"
                 data-testid="status-dropdown"
               >

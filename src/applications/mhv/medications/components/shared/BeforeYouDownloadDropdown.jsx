@@ -6,6 +6,7 @@ const BeforeYouDownloadDropdown = () => {
       <va-additional-info
         trigger="What to know before you print or download"
         data-testid="dropdown-info"
+        uswds
       >
         <ul>
           <li>

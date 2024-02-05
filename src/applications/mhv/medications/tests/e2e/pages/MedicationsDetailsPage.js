@@ -117,19 +117,32 @@ class MedicationsDetailsPage {
   };
 
   clickMedicationsLandingPageBreadcrumbsOnListPage = () => {
-    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(1) > a').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(1) > a').click({
-      force: true,
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+    cy.get('[href="/my-health/medications/about"]').click({
+      waitForAnimations: true,
     });
   };
 
   clickMedicationsListPageBreadcrumbsOnDetailsPage = () => {
-    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
-    cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').click({
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+    cy.get('[href="/my-health/medications/1"]').click({
       waitForAnimations: true,
     });
+    // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
+    // cy.get('[data-testid="rx-breadcrumb"]').click({
+    //   waitForAnimations: true,
+    // });
+  };
+
+  clickMedicationsListPageTwoBreadcrumbsOnDetailsPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+    cy.get('[href="/my-health/medications/2"]').click({
+      waitForAnimations: true,
+    });
+    // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
+    // cy.get('[data-testid="rx-breadcrumb"]').click({
+    //   waitForAnimations: true,
+    // });
   };
 
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {

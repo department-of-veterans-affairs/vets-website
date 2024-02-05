@@ -35,6 +35,9 @@
     text-decoration: none;
   }
 }
+.va-button {
+  margin: 4px 0;
+}
 .landing-page {
   h1 {
     color: $color-gray-dark;
@@ -42,6 +45,11 @@
   .medications-list-sort {
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
+    .va-button {
+      padding: 2px 0;
+      margin: 0 0 2.5px 0;
+    }
     .sort-button {
       margin-left: 8px;
       margin-top: 57px;

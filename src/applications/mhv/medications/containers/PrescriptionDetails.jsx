@@ -402,16 +402,18 @@ const PrescriptionDetails = () => {
             preface="This is a single medication record from your VA medical records. When you download a medication record, we
         also include a list of allergies and reactions in your VA medical records."
           >
-            <PrescriptionPrintOnly
-              hideLineBreak
-              rx={prescription}
-              refillHistory={!nonVaPrescription ? refillHistory : []}
-              isDetailsRx
-            />
-            <AllergiesPrintOnly
-              allergies={allergies}
-              allergiesError={allergiesError}
-            />
+            <>
+              <PrescriptionPrintOnly
+                hideLineBreak
+                rx={prescription}
+                refillHistory={!nonVaPrescription ? refillHistory : []}
+                isDetailsRx
+              />
+              <AllergiesPrintOnly
+                allergies={allergies}
+                allergiesError={allergiesError}
+              />
+            </>
           </PrintOnlyPage>
         </>
       );

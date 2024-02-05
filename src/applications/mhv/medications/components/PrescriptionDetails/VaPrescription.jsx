@@ -162,6 +162,7 @@ const VaPrescription = prescription => {
                       <va-additional-info
                         trigger="Review image"
                         data-testid="review-rx-image"
+                        uswds
                       >
                         <img
                           src={getImageUri(entry.cmopNdcNumber)}
