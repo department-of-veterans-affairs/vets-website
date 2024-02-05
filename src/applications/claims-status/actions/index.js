@@ -16,6 +16,7 @@ import {
   roundToNearest,
 } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
+import manifest from '../manifest.json';
 
 import {
   ADD_FILE,
@@ -537,6 +538,7 @@ export function submitFiles(claimId, trackedItem, files) {
             }/v0/evss_claims/${claimId}/documents`,
             inputName: 'file',
             customHeaders: {
+              'Source-App-Name': manifest.entryName,
               'X-Key-Inflection': 'camel',
               'X-CSRF-Token': csrfTokenStored,
             },
@@ -718,6 +720,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
             }/v0/benefits_claims/${claimId}/benefits_documents`,
             inputName: 'file',
             customHeaders: {
+              'Source-App-Name': manifest.entryName,
               'X-Key-Inflection': 'camel',
               'X-CSRF-Token': csrfTokenStored,
             },

@@ -7,6 +7,8 @@ export default Object.freeze({
   benefitsDocumentsUseLighthouse: 'benefits_documents_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
+  cernerTransition556T30: 'cerner_transition_556_t30',
+  cernerTransition556T5: 'cerner_transition_556_t5',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
