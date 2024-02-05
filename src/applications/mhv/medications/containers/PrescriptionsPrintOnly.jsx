@@ -63,18 +63,20 @@ const PrescriptionsPrintOnly = () => {
               preface="This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records."
               subtitle="Medications list"
             >
-              <MedicationsList
-                rxList={fullPrescriptionsList}
-                pagination={{
-                  currentPage: 1,
-                  totalEntries: fullPrescriptionsList.length,
-                }}
-                selectedSortOption={selectedSortOption}
-              />
-              <AllergiesPrintOnly
-                allergies={allergies}
-                allergiesError={allergiesError}
-              />
+              <>
+                <MedicationsList
+                  rxList={fullPrescriptionsList}
+                  pagination={{
+                    currentPage: 1,
+                    totalEntries: fullPrescriptionsList.length,
+                  }}
+                  selectedSortOption={selectedSortOption}
+                />
+                <AllergiesPrintOnly
+                  allergies={allergies}
+                  allergiesError={allergiesError}
+                />
+              </>
             </PrintOnlyPage>
           </div>
         ) : (
