@@ -1,4 +1,8 @@
-import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  EMERGENCY_CONTACT_VIEW_FIELDS,
+  INSURANCE_VIEW_FIELDS,
+} from '../constants';
 
 /**
  * Helper that determines if the form data is missing the Veteran's date of birth
@@ -123,4 +127,8 @@ export function collectMedicareInformation(formData) {
  */
 export function includeInsuranceInformation(formData) {
   return !formData[INSURANCE_VIEW_FIELDS.skip];
+}
+
+export function includeEmergencyContactInformation(formData) {
+  return !formData[EMERGENCY_CONTACT_VIEW_FIELDS.skip];
 }

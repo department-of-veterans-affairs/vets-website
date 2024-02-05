@@ -112,6 +112,7 @@ export const MOCK_ENROLLMENT_RESPONSE = {
 export const SESSION_ITEMS = {
   dependent: 'ezrDependentIndex',
   insurance: 'ezrPolicyIndex',
+  emergencyContact: 'ezrEmergencyContactIndex',
 };
 
 // declare routes that are shared between custom form pages
@@ -123,6 +124,10 @@ export const SHARED_PATHS = {
   insurance: {
     summary: 'insurance-information/policies',
     info: 'insurance-information/policy-information',
+  },
+  emergencyContacts: {
+    summary: 'emergency-contact-information/contacts',
+    info: 'emergency-contact-information/contact-information',
   },
 };
 
@@ -149,3 +154,9 @@ export const VALID_ENROLLMENT_STATUSES = [
   'pending_mt',
   'pending_other',
 ];
+
+// declare view fields for use in the emergency contact info section
+export const EMERGENCY_CONTACT_VIEW_FIELDS = {
+  add: 'view:addEmergencyContact',
+  skip: 'view:skipEmergencyContactInfo',
+};
