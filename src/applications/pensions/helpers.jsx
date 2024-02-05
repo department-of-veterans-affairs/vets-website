@@ -392,3 +392,30 @@ export const validateWorkHours = (errors, fieldData) => {
     errors.addError('Enter a number less than 169');
   }
 };
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export const formatFullName = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
+};
