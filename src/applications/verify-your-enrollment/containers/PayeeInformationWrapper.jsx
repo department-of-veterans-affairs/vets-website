@@ -1,11 +1,12 @@
 import React from 'react';
 import PayeeInformationCard from '../components/PayeeInformationCard';
 import { PAYEE_INFO_TITLE } from '../constants';
+import { useData } from '../hooks/useData';
 
 const PayeeInformationWrapper = () => {
   const applicantName = 'Ronald Gary';
-  const applicantChapter =
-    'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)';
+  const { indicator: applicantChapter } = useData();
+
   // const applicantClaimNumber = "401512630"
 
   return (

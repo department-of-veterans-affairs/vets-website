@@ -35,7 +35,18 @@ const PayeeInformationCard = ({
           </va-additional-info>
         </>
       )}
-      {!showAdditionalInformation && <p>{applicantChapter}</p>}
+      {!showAdditionalInformation && (
+        <div>
+          {applicantChapter ? (
+            <p>{applicantChapter}</p>
+          ) : (
+            <va-loading-indicator
+              label="Loading"
+              message="Loading applicant chapter..."
+            />
+          )}
+        </div>
+      )}
       {applicantClaimNumber !== '' && <p>{applicantClaimNumber}</p>}
     </div>
   );

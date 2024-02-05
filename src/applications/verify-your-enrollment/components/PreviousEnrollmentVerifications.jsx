@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import {
@@ -9,14 +10,12 @@ import {
   scrollToElement,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
-import { useData } from '../hooks/useData';
 
-const PreviousEnrollmentVerifications = () => {
-  const { awards, verifications } = useData();
-  // const [userEnrollmentData, setUserEnrollmentData] = useState([]);
+const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
+  const [userEnrollmentData, setUserEnrollmentData] = useState([]);
   const [pastAndCurrentAwards, setPastAndCurrentAwards] = useState([]);
   const [totalEnrollmentCount, setTotalEnrollmentCount] = useState(
-    awards?.length,
+    enrollmentData?.['vye::UserInfo']?.awards?.length,
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -156,8 +155,9 @@ const PreviousEnrollmentVerifications = () => {
                             'montgomery-gi-bill-enrollment-statement',
                           )
                         }
-                        text="  verify your enrollment"
-                      />{' '}
+                        className="vads-u-color--link-default vads-u-text-decoration--underline vye-mimic-link"
+                        text="verify your enrollment"
+                      />
                       for this month.
                     </p>
                   </va-alert>
@@ -189,23 +189,29 @@ const PreviousEnrollmentVerifications = () => {
     [setCurrentPage],
   );
 
-  // useEffect(
-  //   () => {
-  //     setUserEnrollmentData(enrollmentData);
-  //   },
-  //   [enrollmentData],
-  // );
-
   useEffect(
     () => {
-      setTotalEnrollmentCount(awards?.length);
+      setUserEnrollmentData(enrollmentData);
     },
-    [awards?.length],
+    [enrollmentData],
   );
 
   useEffect(
     () => {
-      if (awards && verifications) {
+      setTotalEnrollmentCount(
+        userEnrollmentData?.['vye::UserInfo']?.awards?.length,
+      );
+    },
+    [userEnrollmentData],
+  );
+
+  useEffect(
+    () => {
+      if (
+        userEnrollmentData?.['vye::UserInfo']?.awards &&
+        userEnrollmentData?.['vye::UserInfo']?.verifications
+      ) {
+        const { awards, verifications } = userEnrollmentData?.['vye::UserInfo'];
         // add all awards data into single array, verified and non-verified
         const allEnrollments = awards.flatMap((award, index) => {
           // check each award that has been verified and add the
@@ -243,7 +249,7 @@ const PreviousEnrollmentVerifications = () => {
         setPastAndCurrentAwards(allEnrollments);
       }
     },
-    [awards, verifications],
+    [userEnrollmentData],
   );
 
   useEffect(
@@ -313,5 +319,8 @@ const PreviousEnrollmentVerifications = () => {
       )}
     </div>
   );
+};
+PreviousEnrollmentVerifications.propTypes = {
+  enrollmentData: PropTypes.object,
 };
 export default PreviousEnrollmentVerifications;

@@ -14,12 +14,16 @@ describe('PreviousEnrollmentVerifications', () => {
   });
 
   it('should render', () => {
-    const { container } = render(<PreviousEnrollmentVerifications />);
+    const { container } = render(
+      <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
+    );
     expect(container).to.be.ok;
   });
 
   it('should render with mock enrollment data', async () => {
-    const { getByText } = render(<PreviousEnrollmentVerifications />);
+    const { getByText } = render(
+      <PreviousEnrollmentVerifications enrollmentData={USER_MOCK_DATA} />,
+    );
 
     // added to hopefully address flaky test issues
     // test should wait for data to laod before assertion

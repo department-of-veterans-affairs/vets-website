@@ -13,7 +13,7 @@ export const USER_MOCK_DATA = {
     delDate: '2021-09-03T00:00:00.000Z',
     dateLastCertified: '2018-06-21T00:00:00.000Z',
     paymentAmt: '3989.36',
-    indicator: 'perferendis',
+    indicator: 'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
     awards: [
       {
         id: 8,
