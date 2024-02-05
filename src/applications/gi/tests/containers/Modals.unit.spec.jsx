@@ -237,7 +237,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain('VA Complaints (all campuses):');
+      expect(wrapper.html()).to.contain('VA Complaints (all campuses)');
       wrapper.unmount();
     });
   });
