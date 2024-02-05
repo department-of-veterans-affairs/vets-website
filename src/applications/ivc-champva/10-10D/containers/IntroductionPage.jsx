@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -17,19 +16,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <article className="schemaform-intro">
-        <FormTitle
-          title="Application for CHAMPVA Benefits"
-          subtitle="Equal to VA Form 10-10D (Application for CHAMPVA Benefits)"
-        />
-        <VaAlert
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-          status="warning"
-          visible
-          uswds
-        >
-          <h2 slot="headline">This form is under development.</h2>
-          <p>Any interactions with this form will not be saved or submitted.</p>
-        </VaAlert>
+        <FormTitle title="Apply for CHAMPVA benefits" subTitle="Form 10-10d" />
 
         <SaveInProgressIntro
           headingLevel={2}
