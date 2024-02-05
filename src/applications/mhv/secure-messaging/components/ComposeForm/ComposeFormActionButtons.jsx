@@ -34,6 +34,7 @@ const ComposeFormActionButtons = ({
             vads-u-width--full
           `}
           data-testid="Send-Button"
+          data-dd-action-name="Send Button"
           onClick={onSend}
         />
       )}
