@@ -17,7 +17,7 @@ import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
-  selectMhvMrEnabledFlag,
+  flagsLoadedAndMhvEnabled,
   selectSidenavFlag,
   selectVaccinesFlag,
   selectNotesFlag,
@@ -26,14 +26,15 @@ import { resetPagination } from '../actions/pagination';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles.loading,
+  const { featureTogglesLoading, appEnabled } = useSelector(
+    flagsLoadedAndMhvEnabled,
+    state => state.featureToggles,
   );
+
   const history = useHistory();
   const dispatch = useDispatch();
 
   // Individual feature flags
-  const appEnabled = useSelector(selectMhvMrEnabledFlag);
   const showSideNav = useSelector(selectSidenavFlag);
   const showVaccines = useSelector(selectVaccinesFlag);
   const showNotes = useSelector(selectNotesFlag);
