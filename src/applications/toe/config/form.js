@@ -1345,7 +1345,7 @@ const formConfig = {
                 properties: {
                   accountNumber: {
                     type: 'string',
-                    pattern: '^\\**[a-z0-9]{5,17}$',
+                    pattern: '^[*a-zA-Z0-9]{5,17}$',
                   },
                   accountType: {
                     type: 'string',

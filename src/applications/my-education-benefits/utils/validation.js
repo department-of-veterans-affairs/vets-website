@@ -62,7 +62,7 @@ export const validateEffectiveDate = (errors, dateString) => {
 };
 
 const isValidAccountNumber = accountNumber => {
-  return /^[a-z0-9]+$/.test(accountNumber);
+  return /^[a-z0-9*]+$/.test(accountNumber);
 };
 
 export const validateBankAccountNumber = (
@@ -72,16 +72,21 @@ export const validateBankAccountNumber = (
   schema,
   errorMessages,
 ) => {
+  // Compile the regular expression based on the schema pattern
   const accountNumberRegex = new RegExp(schema.pattern);
+  // Check if the account number matches the obfuscated format
   const isValidObfuscated = accountNumberRegex.test(accountNumber.trim());
+  // Access bank account data from the form
+  const bankAccount = formData['view:directDeposit']?.bankAccount;
 
-  const bankAccount = formData[formFields.bankAccount];
+  // Check if the provided account number matches the original (obfuscated) account number
   const matchesOriginal =
     accountNumber.trim() === bankAccount[formFields.originalAccountNumber];
+  // Check if the provided routing number matches the original (obfuscated) routing number
   const routingNumberMatchesOriginal =
     bankAccount[formFields.routingNumber] ===
     bankAccount[formFields.originalRoutingNumber];
-
+  // Validate the account number
   if (
     !isValidAccountNumber(accountNumber) &&
     !(isValidObfuscated && matchesOriginal && routingNumberMatchesOriginal)
@@ -97,16 +102,20 @@ export const validateRoutingNumber = (
   schema,
   errorMessages,
 ) => {
-  const rountingNumberRegex = new RegExp(schema.pattern);
-  const isValidObfuscated = rountingNumberRegex.test(routingNumber.trim());
-
-  const bankAccount = formData[formFields.bankAccount];
+  // Compile the regular expression based on the schema pattern
+  const routingNumberRegex = new RegExp(schema.pattern);
+  // Check if the routing number matches the obfuscated format
+  const isValidObfuscated = routingNumberRegex.test(routingNumber.trim());
+  // Access bank account data from the form
+  const bankAccount = formData['view:directDeposit']?.bankAccount;
+  // Check if the provided routing number matches the original (obfuscated) routing number
   const matchesOriginal =
     routingNumber.trim() === bankAccount[formFields.originalRoutingNumber];
+  // Check if the provided account number matches the original (obfuscated) account number
   const accountNumberMatchesOriginal =
     bankAccount[formFields.accountNumber] ===
     bankAccount[formFields.originalAccountNumber];
-
+  // Validate the routing number
   if (
     !isValidRoutingNumber(routingNumber) &&
     !(isValidObfuscated && matchesOriginal && accountNumberMatchesOriginal)

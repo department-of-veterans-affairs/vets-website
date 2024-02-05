@@ -509,8 +509,7 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  const bankAccountInView =
-    submissionForm['view:directDepositField']?.bankAccount;
+  const bankAccountInView = submissionForm['view:directDeposit']?.bankAccount;
   const bankAccountDirectly = submissionForm?.bankAccount;
 
   const hasDataInView =

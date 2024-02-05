@@ -371,8 +371,8 @@ describe('form submit transform', () => {
         expect(result.directDepositAccountNumber).to.eql('123456');
         expect(result.directDepositRoutingNumber).to.eql('322271627');
       });
-      it('extracts bank account info from view:directDepositField in submissionForm', () => {
-        mockSubmissionForm['view:directDepositField'] = {
+      it('extracts bank account info from view:directDeposit in submissionForm', () => {
+        mockSubmissionForm['view:directDeposit'] = {
           bankAccount: {
             accountType: 'Checking',
             accountNumber: '654321',
@@ -388,7 +388,7 @@ describe('form submit transform', () => {
         expect(result.directDepositRoutingNumber).to.eql('123456789');
       });
       it('returns empty object when bank account info is not available', () => {
-        mockSubmissionForm['view:directDepositField'] = {};
+        mockSubmissionForm['view:directDeposit'] = {};
         mockSubmissionForm.bankAccount = {};
 
         const result = createDirectDeposit(mockSubmissionForm);
