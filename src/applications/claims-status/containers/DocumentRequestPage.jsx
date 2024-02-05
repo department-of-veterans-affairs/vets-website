@@ -9,7 +9,7 @@ import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollT
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
-import AddFilesForm from '../components/AddFilesForm';
+import AddFilesFormOld from '../components/AddFilesFormOld';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import DueDateOld from '../components/DueDateOld';
@@ -149,7 +149,7 @@ class DocumentRequestPage extends React.Component {
             </div>
           )}
           {this.getPageContent()}
-          <AddFilesForm
+          <AddFilesFormOld
             field={this.props.uploadField}
             progress={this.props.progress}
             uploading={this.props.uploading}
