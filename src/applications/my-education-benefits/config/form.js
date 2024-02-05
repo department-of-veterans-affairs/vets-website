@@ -1889,7 +1889,7 @@ const formConfig = {
                       },
                       routingNumber: {
                         type: 'string',
-                        pattern: '^[*\\d]{9}$',
+                        pattern: '^[\\d*]{5}\\d{4}$',
                       },
                     },
                   },
