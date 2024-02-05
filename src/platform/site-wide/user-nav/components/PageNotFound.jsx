@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import PropTypes from 'prop-types';
+import { recordEvent as recordEventFn } from '@department-of-veterans-affairs/platform-monitoring';
 
-const PageNotFound = () => {
+const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(() => {
     recordEvent({
       event: `nav-404-error`,
@@ -110,6 +111,10 @@ const PageNotFound = () => {
       </div>
     </>
   );
+};
+
+PageNotFound.propTypes = {
+  recordEvent: PropTypes.func,
 };
 
 export default PageNotFound;
