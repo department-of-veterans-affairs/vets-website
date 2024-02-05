@@ -52,11 +52,11 @@ const DebtLettersDownload = () => {
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at{' '}
             <span className="no-wrap">
-              <va-telephone contact="8008270648" uswds />
+              <va-telephone contact="8008270648" />
             </span>{' '}
             (or{' '}
             <span className="no-wrap">
-              <va-telephone contact="6127136415" international uswds />
+              <va-telephone contact="6127136415" international />
             </span>{' '}
             from overseas). You can also call us to get information about your
             resolved debts.

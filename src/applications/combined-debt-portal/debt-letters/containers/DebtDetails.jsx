@@ -110,7 +110,6 @@ const DebtDetails = () => {
                 <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"
-                  uswds
                 />
                 .
               </p>

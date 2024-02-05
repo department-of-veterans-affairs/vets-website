@@ -46,7 +46,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-x--0p5"
               contact="8008271000"
-              uswds
             />
             Monday through Friday, 8:00 a.m to 8:00 p.m. ET
           </p>
@@ -55,7 +54,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8772946385"
-              uswds
             />
             , Monday through Friday, 8:00 a.m to 4:30 p.m. ET
           </p>
@@ -65,7 +63,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
-              uswds
             />
             .
           </p>
@@ -101,7 +98,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8884424551"
-              uswds
             />
             . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
@@ -112,7 +108,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
-              uswds
             />
             .
           </p>
@@ -151,7 +146,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8884424551"
-              uswds
             />
             . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
@@ -161,7 +155,6 @@ export const renderAdditionalInfo = deductionCode => {
             <va-telephone
               className="vads-u-margin-left--0p5"
               contact="8008270648"
-              uswds
             />
             .
           </p>

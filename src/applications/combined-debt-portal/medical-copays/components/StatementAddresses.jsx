@@ -74,7 +74,7 @@ const StatementAddresses = ({ copay }) => {
           <p>
             <strong>Note:</strong> If your address has changed, call &nbsp;
             <span>
-              <va-telephone contact="8662602614" international="true" uswds />.
+              <va-telephone contact="8662602614" international="true" />.
             </span>
           </p>
         </dd>

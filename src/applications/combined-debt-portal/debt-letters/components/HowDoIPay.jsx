@@ -11,7 +11,7 @@ const HowDoIPay = ({ userData }) => (
     <p className="vads-u-margin-top--0">
       You can pay your debt online, by phone, or by mail. If you can’t pay all
       of your debt or if you currently receive monthly benefits, call the Debt
-      Management Center at <va-telephone contact="8008270648" uswds />.
+      Management Center at <va-telephone contact="8008270648" />.
     </p>
     <va-accordion
       uswds
@@ -82,13 +82,12 @@ const HowDoIPay = ({ userData }) => (
           <va-telephone
             className="vads-u-margin-left--0p5"
             contact="8008270648"
-            uswds
           />
           .
         </p>
         <p>
           If calling internationally, use{' '}
-          <va-telephone contact="6127136415" international uswds />.
+          <va-telephone contact="6127136415" international />.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 3: Pay by mail" id="third" uswds>

@@ -85,8 +85,8 @@ const HTMLStatementPage = ({ match }) => {
         </h2>
         <p>
           Contact the VA Health Resource Center at{' '}
-          <va-telephone contact="8664001238" uswds /> (
-          <va-telephone tty contact="711" uswds />
+          <va-telephone contact="8664001238" /> (
+          <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <Modals title="Notice of rights and responsibilities">

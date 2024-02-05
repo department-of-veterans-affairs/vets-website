@@ -27,9 +27,9 @@ Alert.Error = () => (
       </strong>
       contact us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" uswds />
+        <va-telephone contact="8664001238" />
       </span>{' '}
-      (TTY: <va-telephone contact={CONTACTS[711]} uswds />
+      (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
     <p>
@@ -72,9 +72,9 @@ Alert.PastDue = ({ copay }) => {
         </strong>
         contact us at{' '}
         <span className="no-wrap">
-          <va-telephone contact="8664001238" uswds />
+          <va-telephone contact="8664001238" />
         </span>{' '}
-        (TTY: <va-telephone contact={CONTACTS[711]} uswds />
+        (TTY: <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
     </va-alert>
@@ -154,7 +154,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8772228387" uswds />
+        <va-telephone contact="8772228387" />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -178,9 +178,9 @@ Alert.NoHistory = () => (
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" uswds />
+        <va-telephone contact="8664001238" />
       </span>
-      . (TTY: <va-telephone contact={CONTACTS[711]} uswds />
+      . (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
@@ -231,7 +231,7 @@ Alert.Status = ({ copay }) => (
       You may need to continue making payments while we review your request.
       Call us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" uswds />
+        <va-telephone contact="8664001238" />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>

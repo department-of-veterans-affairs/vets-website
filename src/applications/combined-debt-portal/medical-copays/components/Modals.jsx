@@ -73,7 +73,6 @@ Modals.Rights = () => (
           international
           contact="8888274817"
           className="vads-u-margin-x--0p5"
-          uswds
         />
       </li>
       <li>
@@ -219,7 +218,6 @@ Modals.Rights = () => (
           international
           contact="8884001238"
           className="vads-u-margin-x--0p5"
-          uswds
         />
       </li>
       <li>
@@ -261,7 +259,6 @@ Modals.Rights = () => (
         international
         contact="8664001238"
         className="vads-u-margin-left--0p5"
-        uswds
       />
       .
     </p>
@@ -279,7 +276,6 @@ Modals.Rights = () => (
         international
         contact="8664001238"
         className="vads-u-margin--0p5"
-        uswds
       />
       to request the necessary forms. If an attorney or accredited agent
       represents you before VA, a copy of any agreement between you and the
@@ -313,7 +309,6 @@ Modals.Rights = () => (
         international
         contact="8664001238"
         className="vads-u-margin-x--0p5"
-        uswds
       />
       to obtain a copy by mail. Furnishing the check information is voluntary,
       but a decision not to do so may require you to make payment by some other
@@ -331,7 +326,6 @@ Modals.Rights = () => (
         international
         contact="8664001238"
         className="vads-u-margin-left--0p5"
-        uswds
       />
       .
     </p>
