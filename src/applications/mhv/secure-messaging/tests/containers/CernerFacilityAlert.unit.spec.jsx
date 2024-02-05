@@ -45,7 +45,28 @@ describe('Cerner Facility Alert', () => {
   });
 
   it(`renders CernerFacilityAlert with list of facilities if cernerFacilities.length > 1`, async () => {
-    const screen = setup(initialStateMock, Paths.INBOX, {
+    const customState = {
+      ...initialStateMock,
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '463',
+              isCerner: true,
+            },
+            {
+              facilityId: '583',
+              isCerner: true,
+            },
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(customState, Paths.INBOX, {
       facilities: [],
       cernerFacilities,
     });
@@ -57,7 +78,20 @@ describe('Cerner Facility Alert', () => {
   });
 
   it(`renders CernerFacilityAlert with 1 facility if cernerFacilities.length === 1`, async () => {
-    const screen = setup(initialStateMock, Paths.INBOX, {
+    const customState = {
+      ...initialStateMock,
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '668',
+              isCerner: true,
+            },
+          ],
+        },
+      },
+    };
+    const screen = setup(customState, Paths.INBOX, {
       facilities: [],
       cernerFacilities: [
         {

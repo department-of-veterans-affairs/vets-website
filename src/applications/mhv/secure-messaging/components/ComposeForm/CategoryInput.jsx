@@ -4,17 +4,18 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSelector } from 'react-redux';
 import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
   const {
-    categories,
     category,
     categoryError,
     setCategory,
     setCategoryError,
     setUnsavedNavigationError,
   } = props;
+  const categories = useSelector(state => state.sm.categories.categories);
 
   const categoryChangeHandler = e => {
     setCategory(e.detail.value);
@@ -62,7 +63,6 @@ const CategoryInput = props => {
 };
 
 CategoryInput.propTypes = {
-  categories: PropTypes.array,
   category: PropTypes.string,
   categoryError: PropTypes.string,
   setCategory: PropTypes.func,
