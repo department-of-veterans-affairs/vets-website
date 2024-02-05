@@ -1,0 +1,7 @@
+{
+  "appName": "A Travel Claim App",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "travel-claims",
+  "rootUrl": "/travel-claims",
+  "productId": "8b5b996a-dd60-45b4-8dbc-d018c00591b5"
+}
