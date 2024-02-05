@@ -95,11 +95,12 @@ jobs:
       #     sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get Mapbox Token
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
@@ -177,11 +178,12 @@ jobs:
 
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -287,11 +289,12 @@ jobs:
         run: yarn generate-app-list
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get va-vsp-bot token
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
@@ -331,11 +334,12 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get va-vsp-bot token
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
@@ -359,7 +363,7 @@ jobs:
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -367,6 +371,7 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
 
       # --------------------------------------
       # | Publish Cypress E2E Testing Report |
@@ -435,11 +440,13 @@ jobs:
   #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
   #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
+  #       uses: aws-actions/configure-aws-credentials@v4
   #       with:
   #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
   #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   #         aws-region: us-gov-west-1
+  #         mask-aws-account-id: true
+
 
   #     - name: Get GitHub token
   #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
