@@ -19,7 +19,7 @@ import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
 import {
   getEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions';
+} from '../utils/actions/enrollment-status';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import {

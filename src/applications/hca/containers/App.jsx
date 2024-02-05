@@ -7,7 +7,7 @@ import { setData } from '@department-of-veterans-affairs/platform-forms-system/a
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { fetchTotalDisabilityRating } from '../utils/actions';
+import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob } from '../utils/helpers';
 import { isUserLOA3 } from '../utils/selectors';
