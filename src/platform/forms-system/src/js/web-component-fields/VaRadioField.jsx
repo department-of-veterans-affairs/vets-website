@@ -47,6 +47,7 @@ export default function VaRadioField(props) {
         props.childrenProps.onChange(newVal);
       }}
     >
+      {mappedProps?.children}
       {enumOptions.map((option, index) => {
         return (
           <va-radio-option

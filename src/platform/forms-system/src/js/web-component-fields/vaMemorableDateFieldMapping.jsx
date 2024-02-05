@@ -1,5 +1,6 @@
 import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaMemorableDateFieldMapping(props) {
@@ -12,8 +13,13 @@ export default function vaMemorableDateFieldMapping(props) {
     childrenProps,
   } = props;
 
+  const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
+    props,
+  );
+
   return {
     ...commonFieldMapping(props),
+    ...formsPatternProps,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
@@ -21,6 +27,7 @@ export default function vaMemorableDateFieldMapping(props) {
     'month-select': uiOptions?.monthSelect ?? true,
     children: (
       <>
+        {formDescriptionSlot}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
           <DescriptionField options={uiOptions} index={index} />
