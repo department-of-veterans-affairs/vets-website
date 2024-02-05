@@ -119,7 +119,6 @@ export const SearchResultsHeader = props => {
                 value={selectedSortType}
                 title="Sort by:"
                 onChange={e => setSelectedSortType(e.target.value)}
-                style={{ fontWeight: 'bold' }}
               >
                 {' '}
                 {options}{' '}
