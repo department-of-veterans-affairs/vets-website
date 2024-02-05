@@ -310,7 +310,7 @@ const Prescriptions = () => {
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
-    await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
+    if (!allergies) dispatch(getAllergiesList());
   };
 
   const handleModalClose = () => {
