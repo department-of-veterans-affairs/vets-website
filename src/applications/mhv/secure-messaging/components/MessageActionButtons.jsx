@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
@@ -15,12 +15,11 @@ const MessageActionButtons = props => {
     handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    setPrintThread,
-    printThread,
   } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
+  const [printThread, setPrintThread] = useState(false);
 
   const handlePrint = () => {
     dispatch({

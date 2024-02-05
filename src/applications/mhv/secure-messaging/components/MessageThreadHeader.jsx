@@ -29,8 +29,6 @@ const MessageThreadHeader = props => {
     cannotReply,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
-    setPrintThread,
-    printThread,
     recipients,
   } = props;
   const {
@@ -176,8 +174,6 @@ const MessageThreadHeader = props => {
         handleReplyButton={handleReplyButton}
         isCreateNewModalVisible={isCreateNewModalVisible}
         setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-        printThread={printThread}
-        setPrintThread={setPrintThread}
       />
     </div>
   );

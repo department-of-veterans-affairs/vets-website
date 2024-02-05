@@ -8,10 +8,10 @@ import { VaAccordion } from '@department-of-veterans-affairs/component-library/d
 import MessageThreadItem from './MessageThreadItem';
 
 const MessageThreadForPrint = props => {
-  const { messageHistory, printThread } = props;
+  const { messageHistory } = props;
 
   return (
-    <div data-testid="message-thread-for-print">
+    <div data-testid="message-thread-for-print" className="print-only">
       <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg">
         {messageHistory?.length > 0 &&
           `${messageHistory?.length} Message${
@@ -22,12 +22,7 @@ const MessageThreadForPrint = props => {
         {messageHistory?.map(m => {
           return (
             <>
-              <MessageThreadItem
-                printThread={printThread}
-                key={m.messageId}
-                message={m}
-                expanded
-              />
+              <MessageThreadItem key={m.messageId} message={m} printThread />
             </>
           );
         })}
@@ -38,6 +33,5 @@ const MessageThreadForPrint = props => {
 MessageThreadForPrint.propTypes = {
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
-  printThread: PropType.bool,
 };
 export default MessageThreadForPrint;
