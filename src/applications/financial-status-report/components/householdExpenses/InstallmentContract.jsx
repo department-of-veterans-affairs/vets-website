@@ -261,6 +261,7 @@ const InstallmentContract = props => {
             required
             type="text"
             value={purpose || ''}
+            uswds
           />
         </div>
         <div className="input-size-6">
@@ -272,6 +273,7 @@ const InstallmentContract = props => {
             onInput={handleCreditorNameChange}
             type="text"
             value={creditorName || ''}
+            uswds
           />
         </div>
         <div className="input-size-4">
@@ -284,6 +286,7 @@ const InstallmentContract = props => {
             id="originalAmount"
             onInput={handleOriginalLoanAmountChange}
             value={contractRecord.originalAmount}
+            uswds
           />
         </div>
         <div className="input-size-4">
@@ -298,6 +301,7 @@ const InstallmentContract = props => {
             max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleUnpaidBalanceChange}
             value={contractRecord.unpaidBalance}
+            uswds
           />
         </div>
         <div className="input-size-4">
@@ -314,6 +318,7 @@ const InstallmentContract = props => {
             max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleAmountDueMonthlyChange}
             value={contractRecord.amountDueMonthly}
+            uswds
           />
         </div>
         <div>
@@ -334,6 +339,7 @@ const InstallmentContract = props => {
               )
             }
             required
+            uswds
             error={(submitted && fromDateError) || null}
           />
         </div>
@@ -347,6 +353,7 @@ const InstallmentContract = props => {
             id="amountPastDue"
             onInput={handleAmountOverdueChange}
             value={contractRecord.amountPastDue}
+            uswds
           />
         </div>
       </fieldset>

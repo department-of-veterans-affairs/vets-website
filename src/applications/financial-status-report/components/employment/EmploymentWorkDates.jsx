@@ -182,6 +182,7 @@ const EmploymentWorkDates = props => {
           }
           required
           error={fromDateError}
+          uswds
         />
         {!employmentRecord.isCurrent ? (
           <VaDate
@@ -199,6 +200,7 @@ const EmploymentWorkDates = props => {
             }
             required
             error={toDateError}
+            uswds
           />
         ) : null}
       </div>
@@ -213,10 +215,11 @@ const EmploymentWorkDates = props => {
         </legend>
         <div>{ShowWorkDates()}</div>
         <p>
-          <VaButton text="Back" onClick={handlers.onCancel} />
+          <VaButton text="Back" onClick={handlers.onCancel} uswds />
           <VaButton
             text={handlers.getContinueButtonText()}
             onClick={handlers.onUpdate}
+            uswds
           />
         </p>
       </fieldset>

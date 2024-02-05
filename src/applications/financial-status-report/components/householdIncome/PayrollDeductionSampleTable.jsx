@@ -10,7 +10,7 @@ const DeductionSampleTable = () => {
       </p>
       <div aria-hidden="true">
         <va-table class="usa-table usa-table--borderless" uswds>
-          <va-table-row slot="headers">
+          <va-table-row slot="headers" uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border--0 vads-u-border-bottom--1px vads-u-background-color--white vads-u-border-color--gray-medium vads-u-padding-x--0">
               Deduction
             </span>
@@ -18,7 +18,7 @@ const DeductionSampleTable = () => {
               Amount
             </span>
           </va-table-row>
-          <va-table-row>
+          <va-table-row uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border-color--gray-light vads-u-padding-x--0">
               Federal tax
             </span>
@@ -26,7 +26,7 @@ const DeductionSampleTable = () => {
               $128.92
             </span>
           </va-table-row>
-          <va-table-row>
+          <va-table-row uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border-color--gray-light vads-u-padding-x--0">
               State tax
             </span>
@@ -34,7 +34,7 @@ const DeductionSampleTable = () => {
               $28.94
             </span>
           </va-table-row>
-          <va-table-row>
+          <va-table-row uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border-color--gray-light vads-u-padding-x--0">
               Health Insurance
             </span>
@@ -42,7 +42,7 @@ const DeductionSampleTable = () => {
               $28.25
             </span>
           </va-table-row>
-          <va-table-row>
+          <va-table-row uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border-color--gray-light vads-u-padding-x--0">
               FICA
             </span>
@@ -50,7 +50,7 @@ const DeductionSampleTable = () => {
               $68.36
             </span>
           </va-table-row>
-          <va-table-row>
+          <va-table-row uswds>
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border-color--gray-light vads-u-padding-x--0">
               Retirement acccount
             </span>

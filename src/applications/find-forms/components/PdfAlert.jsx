@@ -27,7 +27,7 @@ const PdfAlert = () => {
   }
 
   return ReactDOM.createPortal(
-    <va-alert>
+    <va-alert uswds>
       <h2 slot="headline" className="vads-u-font-size--h3">
         Use the latest version of Acrobat Reader
       </h2>
@@ -37,6 +37,7 @@ const PdfAlert = () => {
         <va-link
           href="https://get.adobe.com/reader/"
           text="Get Acrobat Reader for free from Adobe"
+          uswds
         />
       </p>
     </va-alert>,

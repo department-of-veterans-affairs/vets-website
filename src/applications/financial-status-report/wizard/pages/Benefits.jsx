@@ -26,9 +26,9 @@ const ContactBenefits = () => {
           <strong>
             For help with debt related to separation pay/attorney fees
           </strong>
-          , call us at <VaTelephone contact="800-827-1000" />. We’re here Monday
-          through Friday, 7:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
-          call (<VaTelephone contact={CONTACTS[711]} tty />
+          , call us at <VaTelephone contact="800-827-1000" uswds />. We’re here
+          Monday through Friday, 7:00 a.m. to 8:00 p.m. ET. If you have hearing
+          loss, call (<VaTelephone contact={CONTACTS[711]} tty uswds />
           ).
         </p>
       </div>

@@ -58,7 +58,7 @@ const IntroductionPage = ({ route, formId }) => {
         uswds
         class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
       >
-        <va-process-list-item header="Prepare">
+        <va-process-list-item header="Prepare" uswds>
           <p>
             You’ll need this information for you (and your spouse if you’re
             married):
@@ -130,7 +130,7 @@ const IntroductionPage = ({ route, formId }) => {
             </p>
           </va-alert>
         </va-process-list-item>
-        <va-process-list-item header="Submit your request">
+        <va-process-list-item header="Submit your request" uswds>
           <p>
             We’ll take you through each step of the process. It should take
             about 60 minutes.
@@ -147,7 +147,7 @@ const IntroductionPage = ({ route, formId }) => {
             interest, and other collection actions.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Follow-up">
+        <va-process-list-item header="Follow-up" uswds>
           <p>
             After we review your request, we’ll send you this information by
             mail:
@@ -178,6 +178,7 @@ const IntroductionPage = ({ route, formId }) => {
         omb-number="2900-0165"
         exp-date="11/30/2026"
         class="vads-u-margin-top--2"
+        uswds
       />
     </div>
   );

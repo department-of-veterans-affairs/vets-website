@@ -162,8 +162,8 @@ const ConfirmationPage = ({ form, download }) => {
         <p>You don’t need to do anything else at this time.</p>
         <p>
           If you don’t receive your letter in the next 30 days or have any
-          questions, call us at <va-telephone contact="8664001238" />(
-          <va-telephone contact="711" tty />
+          questions, call us at <va-telephone contact="8664001238" uswds />(
+          <va-telephone contact="711" tty uswds />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </>
@@ -190,13 +190,13 @@ const ConfirmationPage = ({ form, download }) => {
         uswds
         class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
       >
-        <va-process-list-item header="Sign in to VA.gov" level="4">
+        <va-process-list-item header="Sign in to VA.gov" level="4" uswds>
           <p>
             You can sign in with your Login.gov, ID.me, DS Logon, or My
             HealtheVet
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Submit your request" level="4">
+        <va-process-list-item header="Submit your request" level="4" uswds>
           <p>
             This helps keep your information safe, and prevents fraud and
             identity theft. If you’ve already verified your identity with us,
@@ -206,6 +206,7 @@ const ConfirmationPage = ({ form, download }) => {
         <va-process-list-item
           header="Go to your debt management portal"
           level="4"
+          uswds
         >
           <p>
             After you sign in, you can go to

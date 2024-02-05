@@ -164,6 +164,7 @@ const PreSubmitSignature = ({
         <va-loading-indicator
           label="Loading"
           message="We’re processing your application."
+          uswds
         />
       </div>
     );
@@ -194,6 +195,7 @@ const PreSubmitSignature = ({
           type="text"
           messageAriaDescribedby={getAriaMessage()}
           required
+          uswds
           error={
             signatureError
               ? `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
@@ -213,6 +215,7 @@ const PreSubmitSignature = ({
           }
           required
           enable-analytics
+          uswds
         />
       </article>
 
@@ -231,6 +234,7 @@ const PreSubmitSignature = ({
           privacyCheckboxError && 'You must accept by checking the box.'
         }
         onVaChange={value => setPrivacyChecked(value.detail.checked)}
+        uswds
       />
     </>
   );

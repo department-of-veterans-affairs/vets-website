@@ -64,7 +64,7 @@ const Dependents = () => {
             <div>St. Paul, MN 55111-0930</div>
           </li>
           <li>
-            <strong>Fax:</strong> <VaTelephone contact="1-612-970-5688" />
+            <strong>Fax:</strong> <VaTelephone contact="1-612-970-5688" uswds />
           </li>
         </ul>
 

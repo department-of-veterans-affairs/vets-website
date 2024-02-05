@@ -176,6 +176,7 @@ const App = ({
         label="Loading"
         message="Loading your information..."
         set-focus
+        uswds
       />
     );
   }
