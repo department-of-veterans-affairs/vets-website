@@ -190,9 +190,16 @@ const validateAccountNumber = (
     errors.addError(errorMessages.pattern);
   }
 };
-function shouldStartInEditMode(formData) {
-  return !formData.bankAccount || !formData.bankAccount.accountNumber;
-}
+const shouldStartInEditMode = formData => {
+  const bankAccount = formData?.bankAccount;
+  const hasData = [
+    bankAccount?.accountType,
+    bankAccount?.routingNumber,
+    bankAccount?.accountNumber,
+  ].some(field => field?.length > 0);
+  // Return false to not start in edit mode if any data is present
+  return !hasData;
+};
 
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
@@ -1785,7 +1792,7 @@ const formConfig = {
           title: 'Direct deposit',
           depends: formData => formData.showDgiDirectDeposit1990EZ,
           uiSchema: {
-            'view:directDepositField': {
+            'view:directDeposit': {
               'ui:title': (
                 <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
                   Direct deposit information
@@ -1794,10 +1801,13 @@ const formConfig = {
               'ui:field': ReviewCardField,
               'ui:options': {
                 editTitle: 'Direct deposit information',
+                hideLabelText: true,
                 itemName: 'account information',
                 itemNameAction: 'Update',
                 reviewTitle: 'Direct deposit information',
+                showFieldLabel: false,
                 startInEdit: formData => shouldStartInEditMode(formData),
+                // startInEdit: false,
                 viewComponent: DirectDepositViewField,
                 volatileData: true,
               },
@@ -1862,7 +1872,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:directDepositField': {
+              'view:directDeposit': {
                 type: 'object',
                 properties: {
                   bankAccount: {
@@ -1871,7 +1881,7 @@ const formConfig = {
                     properties: {
                       accountNumber: {
                         type: 'string',
-                        pattern: '^\\**[a-z0-9]{5,17}$',
+                        pattern: '^[*a-zA-Z0-9]{5,17}$',
                       },
                       accountType: {
                         type: 'string',
@@ -1879,7 +1889,7 @@ const formConfig = {
                       },
                       routingNumber: {
                         type: 'string',
-                        pattern: '^[\\d*]{5}\\d{4}$',
+                        pattern: '^[*\\d]{9}$',
                       },
                     },
                   },
