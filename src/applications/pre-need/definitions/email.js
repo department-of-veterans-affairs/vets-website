@@ -1,8 +1,8 @@
-import { validateTopLevelDomain } from '../validation';
+import { validateEmailParts } from '../validation';
 
 export function validateEmail(errors, pageData) {
   const email = pageData;
-  validateTopLevelDomain(errors, email);
+  validateEmailParts(errors, email);
 }
 
 /*
