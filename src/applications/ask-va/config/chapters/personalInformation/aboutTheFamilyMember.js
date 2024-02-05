@@ -6,7 +6,9 @@ import {
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = FormElementTitle({ title: CHAPTER_3.PAGE_16.TITLE });
+const question = FormElementTitle({
+  title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
+});
 
 const aboutVetUiSchema = { ...personalInformationUiSchemas };
 delete aboutVetUiSchema.genderIdentity;

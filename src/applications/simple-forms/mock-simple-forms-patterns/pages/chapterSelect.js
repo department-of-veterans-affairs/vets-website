@@ -27,6 +27,7 @@ export default {
       labels: {
         textInput: 'Text input',
         numberInput: 'Number input',
+        formsPattern: 'Forms pattern',
         checkbox: 'Checkbox',
         select: 'Select',
         radio: 'Radio',
@@ -43,6 +44,7 @@ export default {
       chapterSelect: checkboxGroupSchema([
         'textInput',
         'numberInput',
+        'formsPattern',
         'checkbox',
         'radio',
         'select',

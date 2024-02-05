@@ -15,7 +15,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.howToContact;
+} = formConfig.chapters.personalInformation.pages.howToContact_generalquestion;
 
 describe('howToContactPage', () => {
   it('should render', () => {
