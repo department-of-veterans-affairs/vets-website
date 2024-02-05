@@ -15,6 +15,7 @@ import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
 import ResultsList from '../components/results/ResultsList';
 import PaginationWrapper from '../components/results/PaginationWrapper';
+import GetFormHelp from '../components/footer/GetFormHelp';
 import { ErrorTypes } from '../constants';
 
 import {
@@ -371,6 +372,7 @@ const SearchPage = props => {
       <div className="usa-grid use-grid-full">
         {renderSearchSection()}
         {renderResultsSection()}
+        <GetFormHelp />
       </div>
     </>
   );

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import GetFormHelp from '../components/footer/GetFormHelp';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 // import DowntimeNotification, {
@@ -41,9 +40,6 @@ function App({ children }) {
     <>
       <div className="find-a-representative vads-u-margin-x--3">
         <div className="row">{children}</div>
-        <div className="row">
-          <GetFormHelp />
-        </div>
       </div>
     </>
   );
