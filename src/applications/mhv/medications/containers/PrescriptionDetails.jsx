@@ -38,6 +38,7 @@ import PrescriptionPrintOnly from '../components/PrescriptionDetails/Prescriptio
 import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -108,30 +109,8 @@ const PrescriptionDetails = () => {
     [prescription],
   );
 
-  useEffect(
-    () => {
-      const title = `${prescription?.prescriptionName} | Veterans Affairs`;
-      const { first, last, middle, suffix } = userName;
-      const name = first
-        ? `${last}, ${first} ${middle}, ${suffix}`
-        : 'Doe, John R., Jr.';
-      const beforePrintHandler = () => {
-        updatePageTitle(
-          `${title} ${name} ${dateFormat(new Date(dob)) || 'March 15, 1982'}`,
-        );
-      };
-      const afterPrintHandler = () => {
-        updatePageTitle(`${title}`);
-      };
-      window.addEventListener('beforeprint', beforePrintHandler);
-      window.addEventListener('afterprint', afterPrintHandler);
-      return () => {
-        window.removeEventListener('beforeprint', beforePrintHandler);
-        window.removeEventListener('afterprint', afterPrintHandler);
-      };
-    },
-    [dob, userName, prescription],
-  );
+  const baseTitle = `${prescription?.prescriptionName} | Veterans Affairs`;
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
     () => {

@@ -38,6 +38,7 @@ import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { reportGeneratedBy } from '../../shared/util/constants';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
 const Prescriptions = props => {
   const { fullList = [] } = props;
@@ -134,30 +135,8 @@ const Prescriptions = props => {
     [dispatch, location.pathname, selectedSortOption],
   );
 
-  useEffect(
-    () => {
-      const beforePrintHandler = () => {
-        const { first, last, middle, suffix } = userName;
-        const name = first
-          ? `${last}, ${first} ${middle}, ${suffix}`
-          : 'Doe, John R., Jr.';
-        updatePageTitle(
-          `Medications | Veterans Affairs ${name} ${dateFormat(new Date(dob)) ||
-            'March 15, 1982'}`,
-        );
-      };
-      const afterPrintHandler = () => {
-        updatePageTitle('Medications | Veterans Affairs');
-      };
-      window.addEventListener('beforeprint', beforePrintHandler);
-      window.addEventListener('afterprint', afterPrintHandler);
-      return () => {
-        window.removeEventListener('beforeprint', beforePrintHandler);
-        window.removeEventListener('afterprint', afterPrintHandler);
-      };
-    },
-    [dob, userName],
-  );
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
     () => {
