@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { recordEvent as recordEventFn } from '@department-of-veterans-affairs/platform-monitoring';
+import recordEventFn from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(() => {
