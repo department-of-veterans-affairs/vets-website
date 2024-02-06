@@ -208,7 +208,7 @@ const AttachmentsList = props => {
                 <>
                   <a
                     className="attachment"
-                    data-testid="attachment-link-metadata"
+                    data-testid={`attachment-link-metadata-${file.messageId}`}
                     href={file.link}
                     target="_blank"
                     rel="noreferrer"

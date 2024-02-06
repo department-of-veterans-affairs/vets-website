@@ -56,8 +56,10 @@ describe('MessageThreadForPrint component', () => {
 
     expect(attachmentFile).to.exist;
     expect(screen.queryByText(attachmentName)).to.exist;
-    expect(screen.getByTestId('attachment-link-metadata').textContent).to.equal(
-      `${attachmentName}(${getSize(attachmentSize)})Has attachment`,
-    );
+    expect(
+      screen.getByTestId(
+        `attachment-link-metadata-${messages[1]?.attachments[0].messageId}`,
+      ).textContent,
+    ).to.equal(`${attachmentName}(${getSize(attachmentSize)})Has attachment`);
   });
 });
