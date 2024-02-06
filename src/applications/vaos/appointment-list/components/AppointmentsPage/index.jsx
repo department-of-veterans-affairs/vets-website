@@ -20,41 +20,30 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 
-const DROPDOWN_VALUES = {
-  upcoming: 'upcoming',
-  requested: 'requested',
-  past: 'past',
-  canceled: 'canceled',
+const SUBPAGE_TITLES = {
+  upcoming: 'Your appointments',
+  requested: 'Requested',
+  past: 'Past appointments',
+  canceled: 'Canceled appointments',
 };
 
-// TODO: [RS] refactor the dropdown function, no longer using dropdown
-function getDropdownValueFromLocation(pathname) {
-  if (pathname.endsWith(DROPDOWN_VALUES.requested)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.requested,
-      subPageTitle: 'Requested',
-      subHeading: 'Requested appointments',
-    };
+function getSubPageTitleFromLocation(pathname) {
+  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
+    return SUBPAGE_TITLES.requested;
   }
-  if (pathname.endsWith(DROPDOWN_VALUES.past)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.past,
-      subPageTitle: 'Past appointments',
-      subHeading: 'Past appointments',
-    };
+
+  if (pathname.endsWith(SUBPAGE_TITLES.past)) {
+    return SUBPAGE_TITLES.past;
   }
-  if (pathname.endsWith(DROPDOWN_VALUES.canceled)) {
-    return {
-      dropdownValue: DROPDOWN_VALUES.canceled,
-      subPageTitle: 'Canceled appointments',
-      subHeading: 'Canceled appointments',
-    };
+  if (pathname.endsWith(SUBPAGE_TITLES.canceled)) {
+    return SUBPAGE_TITLES.canceled;
   }
-  return {
-    dropdownValue: DROPDOWN_VALUES.upcoming,
-    subPageTitle: 'Your appointments',
-    subHeading: 'Your appointments',
-  };
+
+  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
+    return SUBPAGE_TITLES.requested;
+  }
+
+  return SUBPAGE_TITLES.upcoming;
 }
 
 function renderWarningNotification() {
@@ -80,7 +69,7 @@ export default function AppointmentsPage() {
     selectFeatureBreadcrumbUrlUpdate(state),
   );
 
-  const { subPageTitle } = getDropdownValueFromLocation(location.pathname);
+  const subPageTitle = getSubPageTitleFromLocation(location.pathname);
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
