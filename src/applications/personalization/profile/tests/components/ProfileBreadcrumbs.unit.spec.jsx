@@ -7,7 +7,7 @@ import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-lib
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 const setup = path => {
-  return renderInReduxProvider(
+  const view = renderInReduxProvider(
     <MemoryRouter initialEntries={[path]}>
       <ProfileBreadcrumbs />
     </MemoryRouter>,
@@ -20,63 +20,71 @@ const setup = path => {
       },
     },
   );
+
+  const breadcrumbList = JSON.parse(
+    view.container
+      .querySelector('va-breadcrumbs')
+      .getAttribute('breadcrumb-list'),
+  );
+
+  return { breadcrumbList };
 };
 
 describe('<ProfileBreadcrumbs />', () => {
   it('should render "Home" and "Profile" as base breadcrumbs', () => {
-    const { getByText } = setup(PROFILE_PATHS.PROFILE_ROOT);
+    const { breadcrumbList } = setup(PROFILE_PATHS.PROFILE_ROOT);
 
-    expect(getByText('Home')).to.exist;
-    expect(getByText('Profile')).to.exist;
+    expect(breadcrumbList[0].label).to.equal('Home');
+    expect(breadcrumbList[1].label).to.equal('Profile');
   });
 
   describe('should render additional breadcrumb based on route', () => {
     it('renders personal information breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.PERSONAL_INFORMATION);
+      const { breadcrumbList } = setup(PROFILE_PATHS.PERSONAL_INFORMATION);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Personal information')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Personal information');
     });
 
     it('renders contact information breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.CONTACT_INFORMATION);
+      const { breadcrumbList } = setup(PROFILE_PATHS.CONTACT_INFORMATION);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Contact information')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Contact information');
     });
 
     it('renders military information breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.MILITARY_INFORMATION);
+      const { breadcrumbList } = setup(PROFILE_PATHS.MILITARY_INFORMATION);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Military information')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Military information');
     });
 
     it('renders direct deposit breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.DIRECT_DEPOSIT);
+      const { breadcrumbList } = setup(PROFILE_PATHS.DIRECT_DEPOSIT);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Direct deposit information')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Direct deposit information');
     });
 
     it('renders notification settings breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+      const { breadcrumbList } = setup(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Notification settings')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Notification settings');
     });
 
     it('renders connected apps breadcrumb', () => {
-      const { getByText } = setup(PROFILE_PATHS.CONNECTED_APPLICATIONS);
+      const { breadcrumbList } = setup(PROFILE_PATHS.CONNECTED_APPLICATIONS);
 
-      expect(getByText('Home')).to.exist;
-      expect(getByText('Profile')).to.exist;
-      expect(getByText('Connected apps')).to.exist;
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
+      expect(breadcrumbList[2].label).to.equal('Connected apps');
     });
   });
 });

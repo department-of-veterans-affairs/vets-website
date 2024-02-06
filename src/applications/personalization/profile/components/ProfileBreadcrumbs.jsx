@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -14,8 +14,14 @@ import {
 } from '../constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
-const BreadcrumbItems = () => {
+export const ProfileBreadcrumbs = ({ className }) => {
   const location = useLocation();
+  const history = useHistory();
+
+  function handleRouteChange({ detail }) {
+    const { href } = detail;
+    history.push(href);
+  }
 
   const breadcrumbs = useMemo(
     () => {
@@ -32,44 +38,22 @@ const BreadcrumbItems = () => {
         {
           href: path,
           label: routeInfo.name,
+          isRouterLink: true,
         },
       ];
     },
     [location],
   );
 
-  return breadcrumbs.map(crumb => {
-    // only the home breadcrumb should be an anchor tag
-    // the rest should be react-router-dom Links
-    const Element =
-      crumb.href === '/'
-        ? {
-            Type: 'a',
-            linkProp: 'href',
-          }
-        : {
-            Type: Link,
-            linkProp: 'to',
-          };
-
-    return (
-      <li key={crumb.href}>
-        <Element.Type {...{ [Element.linkProp]: crumb.href }}>
-          {crumb.label}
-        </Element.Type>
-      </li>
-    );
-  });
-};
-
-export const ProfileBreadcrumbs = ({ className }) => {
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseHubPage}>
       <Toggler.Enabled>
         <div className={className}>
-          <VaBreadcrumbs>
-            <BreadcrumbItems />
-          </VaBreadcrumbs>
+          <VaBreadcrumbs
+            uswds
+            breadcrumb-list={JSON.stringify(breadcrumbs)}
+            onRouteChange={handleRouteChange}
+          />
         </div>
       </Toggler.Enabled>
     </Toggler>
