@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import {
   getFormDOM,
   DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import ChangeOfDirectDepositForm, {
   makeSchemas,

@@ -18,6 +18,7 @@ export const translateDateIntoMonthYearFormat = dateString => {
 
 export const translateDateIntoMonthDayYearFormat = dateString => {
   // Parse the date string as UTC
+  if (!dateString) return null;
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));

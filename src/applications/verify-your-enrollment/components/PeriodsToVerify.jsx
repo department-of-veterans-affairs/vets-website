@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
@@ -157,6 +158,11 @@ const mapDispatchToProps = {
   dispatchUpdateVerifications: updateVerifications,
 };
 
+PeriodsToVerify.propTypes = {
+  dispatchUpdatePendingVerifications: PropTypes.func,
+  dispatchUpdateVerifications: PropTypes.func,
+  enrollmentData: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
