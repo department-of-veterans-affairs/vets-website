@@ -130,6 +130,7 @@ const ResourcesAndSupportSearchApp = () => {
               page={page}
               pages={totalPages}
               showLastPage
+              uswds={false}
             />
           </>
         )}
