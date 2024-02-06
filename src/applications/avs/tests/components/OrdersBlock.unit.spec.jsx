@@ -27,7 +27,7 @@ describe('Avs: Orders Block', () => {
       .to.have.attribute('data-testid')
       .match(/lab-tests/);
     expect(screen.getAllByRole('listitem')[0]).to.have.text(
-      'OCCULT BLOOD FIT X1 SCREEN STOOL FECES',
+      'OCCULT BLOOD FIT X1 SCREEN STOOL FECES (January 01, 2023)',
     );
   });
 
