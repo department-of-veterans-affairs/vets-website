@@ -81,14 +81,19 @@ describe('Thread Details container', () => {
       screen.getByTestId(`expand-message-button-${messageId}`).textContent,
     ).to.contain(`Message ID: ${messageId}`);
 
-    expect(screen.getByText(body)).to.exist;
+    expect(
+      screen.getByTestId(`message-body-${messageId}`).textContent,
+    ).to.contain(body);
 
-    expect(screen.getByText('2 Messages in this conversation')).to.exist;
     expect(
       document
         .querySelector('.older-messages')
         .querySelectorAll('.older-message'),
     ).to.have.length(2);
+
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 Messages in this conversation',
+    );
   });
 
   it('renders Print Window on `Print` button click in Thread Details', async () => {
@@ -101,7 +106,6 @@ describe('Thread Details container', () => {
     const printButton = screen.getByTestId('print-button');
     const printSpy = sinon.spy(window, 'print');
 
-    expect(screen.queryByTestId('message-thread-for-print')).to.not.exist;
     expect(printButton).to.exist;
 
     await waitFor(() => {
@@ -109,7 +113,7 @@ describe('Thread Details container', () => {
       expect(printSpy.calledOnce).to.equal(true);
       printSpy.restore();
     });
-    expect(screen.getByTestId('message-thread-for-print')).to.exist;
+    expect(screen.getByTestId('message-thread-for-print')).to.be.visible;
   });
 
   it('renders Thread Details with NO message history in a thread', async () => {
@@ -154,9 +158,13 @@ describe('Thread Details container', () => {
       screen.getByTestId(`expand-message-button-${messageId}`).textContent,
     ).to.contain(`Message ID: ${messageId}`);
 
-    expect(screen.getByText(body)).to.exist;
+    expect(
+      screen.getByTestId(`message-body-${messageId}`).textContent,
+    ).to.contain(body);
 
-    expect(screen.queryByText('1 Message in this conversation')).to.exist;
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '1 Message in this conversation',
+    );
     expect(document.querySelector('.older-messages')).to.not.be.null;
   });
 
@@ -268,14 +276,13 @@ describe('Thread Details container', () => {
       '(Draft) To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
-    expect(
-      screen.getByText('2 Messages in this conversation', {
-        exact: true,
-        selector: 'h2',
-      }),
-    ).to.exist;
+    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
+      '2 Messages in this conversation',
+    );
 
-    expect(screen.getByText(olderMessage.body, { exact: false })).to.exist;
+    expect(
+      screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
+    ).to.contain(olderMessage.body);
     expect(screen.queryByTestId('Send-Button')).to.be.null;
     expect(screen.queryByTestId('Save-Draft-Button')).to.be.null;
     expect(screen.getByTestId('delete-draft-button')).to.exist;

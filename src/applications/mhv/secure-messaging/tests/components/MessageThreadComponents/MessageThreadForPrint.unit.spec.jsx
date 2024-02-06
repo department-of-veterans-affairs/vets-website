@@ -19,7 +19,7 @@ describe('MessageThreadForPrint component', () => {
     messageHistory = messages,
   ) => {
     return renderWithStoreAndRouter(
-      <MessageThreadForPrint messageHistory={messageHistory} printThread />,
+      <MessageThreadForPrint messageHistory={messageHistory} open />,
       {
         initialState: state,
         reducers: reducer,
@@ -37,12 +37,12 @@ describe('MessageThreadForPrint component', () => {
     );
 
     const extendedMessages = messages.map(
-      m => `expand-message-button-${m.messageId}`,
+      m => `expand-message-button-for-print-${m.messageId}`,
     );
 
     expect(extendedMessages).to.have.lengthOf(messages.length);
 
-    const messageBody = screen.getAllByTestId('message-body');
+    const messageBody = screen.getAllByTestId(`message-body-for-print`);
     const numOfCharacters = messageBody[0].textContent.length;
     const wordCount = messageBody[0].textContent.split(/\s+/).length;
     expect(numOfCharacters).to.equal(3469);

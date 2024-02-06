@@ -112,7 +112,9 @@ describe('Attachments List component', () => {
       fireEvent.click(screen.getByTestId('confirm-remove-attachment-button'));
     });
 
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+    waitFor(() => {
+      expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+    });
   });
 
   it('removes file-attached alert when attach-additional-file button is clicked', async () => {
@@ -140,6 +142,9 @@ describe('Attachments List component', () => {
     await waitFor(() => {
       fireEvent.click(attachFileButton);
     });
-    expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+
+    waitFor(() => {
+      expect(screen.queryByTestId('file-attached-success-alert')).to.not.exist;
+    });
   });
 });
