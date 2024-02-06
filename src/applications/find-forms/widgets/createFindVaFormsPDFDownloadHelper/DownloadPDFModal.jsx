@@ -44,7 +44,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
         }}
         modalTitle="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
-        uswds
+        uswds={false}
       >
         <>
           <p>

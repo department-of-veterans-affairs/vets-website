@@ -137,7 +137,7 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error" uswds={false}>
         <h3 slot="headline">Something went wrong</h3>
         <div className="usa-alert-text vads-u-font-size--base">{error}</div>
       </va-alert>
@@ -235,7 +235,7 @@ export const SearchResults = ({
             setSortByPropertyNameState(formMetaInfo)(value);
           }}
           value={sortByPropertyName}
-          uswds
+          uswds={false}
         >
           {FAF_SORT_OPTIONS.map(opt => (
             <option key={opt} value={opt}>
@@ -259,7 +259,7 @@ export const SearchResults = ({
           modalTitle="Download this PDF and open it in Acrobat Reader"
           initialFocusSelector="#va-modal-title"
           visible={isOpen}
-          uswds
+          uswds={false}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <p>
