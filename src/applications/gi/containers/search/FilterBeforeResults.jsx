@@ -74,7 +74,7 @@ export function FilterBeforeResults({
   const smfDefinitions = specializedMissionDefinitions.map(smf => {
     return (
       <div key={smf.key}>
-        <h6>{smf.title}</h6>
+        <h3>{smf.title}</h3>
         <p>{smf.definition}</p>
       </div>
     );
@@ -206,14 +206,14 @@ export function FilterBeforeResults({
         <CheckboxGroup
           className="about-school-checkbox"
           label={
-            <h5
+            <h3
               className={
                 isProductionOfTestProdEnv() ? '' : 'school-types-label'
               }
               aria-level={2}
             >
               School types
-            </h5>
+            </h3>
           }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
@@ -265,12 +265,12 @@ export function FilterBeforeResults({
       <CheckboxGroup
         className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
-          <h5
+          <h3
             className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
             aria-level={2}
           >
             About the school
-          </h5>
+          </h3>
         }
         onChange={onChangeCheckbox}
         options={options}
@@ -298,12 +298,12 @@ export function FilterBeforeResults({
       <CheckboxGroup
         className={isProductionOfTestProdEnv() ? '' : 'other-checkbox'}
         label={
-          <h5
+          <h3
             className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
             aria-level={2}
           >
             Other
-          </h5>
+          </h3>
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
@@ -462,14 +462,14 @@ export function FilterBeforeResults({
         className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
         label={
           <>
-            <h5
+            <h3
               className={
                 isProductionOfTestProdEnv() ? '' : 'school-types-label'
               }
               aria-level={2}
             >
               Community focus
-            </h5>
+            </h3>
             <button
               className={
                 isProductionOfTestProdEnv()
@@ -554,7 +554,7 @@ export function FilterBeforeResults({
         <div className="horizontal-line" />
         <fieldset className="gi-mission-filter-fieldset">
           <legend>
-            <h3>{title}</h3>
+            <h2>{title}</h2>
           </legend>
           {excludedSchoolTypesGroup()}
           {schoolAttributes()}
