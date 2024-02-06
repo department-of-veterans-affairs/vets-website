@@ -12,7 +12,7 @@ describe('Secure Messaging Message Details', () => {
   const detailsPage = new PatientMessageDetailsPage();
   const site = new SecureMessagingSite();
 
-  const messageDetails = mockMessageDetails;
+  var messageDetails = mockMessageDetails;
   const date = new Date();
 
   before('Axe Check Message Details Page', () => {
