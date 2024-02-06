@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
+import { Actions } from '../util/actionTypes';
 import { rxListSortingOptions } from '../util/constants';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import { getAllergiesList } from '../actions/prescriptions';
@@ -27,11 +28,15 @@ const PrescriptionsPrintOnly = () => {
         await getPrescriptionSortedList(
           rxListSortingOptions[selectedSortOption].API_ENDPOINT,
           true,
-        ).then(response =>
+        ).then(response => {
           setFullPrescriptionsList(
             response.data.map(rx => ({ ...rx.attributes })),
-          ),
-        );
+          );
+          dispatch({
+            type: Actions.Prescriptions.GET_SORTED_LIST,
+            response,
+          });
+        });
         dispatch(getAllergiesList());
       };
       if (
