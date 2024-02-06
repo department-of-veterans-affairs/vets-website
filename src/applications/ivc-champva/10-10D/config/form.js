@@ -180,14 +180,20 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
+            ...titleUI(
+              "What's your relationship to the Applicant(s)?",
+              'Depending on your response, additional documentation may be required to determine eligibility',
+            ),
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
+              labelHeaderLevel: 0,
             }),
           },
           schema: {
             type: 'object',
             required: ['certifierRelationship'],
             properties: {
+              titleSchema,
               certifierRelationship: {
                 ...relationshipToVeteranSchema,
                 required: [],

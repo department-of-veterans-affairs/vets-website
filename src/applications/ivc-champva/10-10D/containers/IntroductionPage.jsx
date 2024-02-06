@@ -88,32 +88,20 @@ class IntroductionPage extends React.Component {
                 </a>
               </li>
               <li>
-                Documents related to any dependent children you’re including in
-                your application:
-                <li>
-                  A copy of each child’s birth certificate or adoption papers
-                </li>
-                <li>
-                  School certification of enrollment for children ages 18-23.
-                  <br />
-                  <a href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf">
-                    View our fact sheet on school enrollment certification
-                    requirements - PDF
-                  </a>
-                </li>
-                <li>
-                  A copy of documents related to the applicant's marriage
-                  status:
-                </li>
-                <li>A copy of your marriage certificate</li>
-                <li>A copy of the document that ended your marriage</li>
-                <li>
-                  Documents related to the applicant's other healthcare status
-                  CHAMPVA Other Health (OHI) Certification form 10-7959c
-                </li>
-                <li>A copy of your Medicare card(s)</li>
-                <li>A copy of your health insurance card(s)</li>
+                A copy of each child’s birth certificate or adoption papers
               </li>
+              <li>
+                School certification of enrollment for children ages 18-23.
+                <br />
+                <a href="https://www.va.gov/COMMUNITYCARE/docs/pubfiles/factsheets/FactSheet_01-15.pdf">
+                  View our fact sheet on school enrollment certification
+                  requirements - PDF
+                </a>
+              </li>
+              <li>A copy of your marriage certificate</li>
+              <li>A copy of the document that ended your marriage</li>
+              <li>A copy of your Medicare card(s)</li>
+              <li>A copy of your health insurance card(s)</li>
             </ul>
           </va-process-list-item>
           <va-process-list-item header="Apply">
