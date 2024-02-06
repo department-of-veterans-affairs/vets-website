@@ -14,12 +14,10 @@ function FilesNeeded({ id, item }) {
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>
-      <div className="item-container">
-        <DueDate date={item.suspenseDate} />
-        <p className="alert-description">
-          {truncateDescription(item.description, 200)}
-        </p>
-      </div>
+      <DueDate date={item.suspenseDate} />
+      <p className="alert-description">
+        {truncateDescription(item.description, 200)}
+      </p>
       <div className="link-action-container">
         <Link
           aria-label={`View details for ${item.displayName}`}
