@@ -12,7 +12,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 import {
   replaceRefSchemas,
-  updateSchemaAndData,
+  updateSchemasAndData,
 } from 'platform/forms-system/src/js/state/helpers';
 import { fireEvent } from '@testing-library/dom';
 import { fillDate as oldFillDate } from './helpers';
@@ -58,7 +58,7 @@ export class DefinitionTester extends React.Component {
     };
     const schema = replaceRefSchemas(props.schema, definitions);
 
-    const { data: newData, schema: newSchema } = updateSchemaAndData(
+    const { data: newData, schema: newSchema } = updateSchemasAndData(
       schema,
       uiSchema,
       data || getDefaultData(schema),
@@ -83,7 +83,7 @@ export class DefinitionTester extends React.Component {
       fullData = set([arrayPath, pagePerItemIndex], data, formData);
     }
 
-    const newSchemaAndData = updateSchemaAndData(schema, uiSchema, fullData);
+    const newSchemaAndData = updateSchemasAndData(schema, uiSchema, fullData);
 
     let newData = newSchemaAndData.data;
     const newSchema = newSchemaAndData.schema;

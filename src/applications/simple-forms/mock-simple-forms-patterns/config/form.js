@@ -18,6 +18,7 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import dynamicFields from '../pages/mockDynamicFields';
 import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
 import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
 import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
@@ -42,6 +43,7 @@ const chapterSelectInitialData = {
     radio: true,
     select: true,
     date: true,
+    miscellaneous: true,
     arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
@@ -226,6 +228,18 @@ const formConfig = {
           uiSchema: date.uiSchema,
           schema: date.schema,
           depends: includeChapter('date'),
+        },
+      },
+    },
+    miscellaneous: {
+      title: 'Miscellaneous',
+      pages: {
+        date: {
+          title: 'Dynamic fields', // for review page (has to be more than one word)
+          path: 'dynamic-fields',
+          uiSchema: dynamicFields.uiSchema,
+          schema: dynamicFields.schema,
+          depends: includeChapter('miscellaneous'),
         },
       },
     },

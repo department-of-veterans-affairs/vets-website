@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
-  updateSchemaAndData,
+  updateSchemasAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
@@ -17,7 +17,7 @@ export default function useFormPageTester(
   function openFormPage(page, uiSchema, schema) {
     const schemaWithItemsCorrected = updateItemsSchema(schema);
     setDataAndSchema(
-      updateSchemaAndData(
+      updateSchemasAndData(
         schemaWithItemsCorrected,
         uiSchema,
         getDefaultFormState(schemaWithItemsCorrected, dataAndSchema.data, {}),
@@ -26,7 +26,9 @@ export default function useFormPageTester(
   }
 
   function updateFormData(page, uiSchema, data) {
-    setDataAndSchema(updateSchemaAndData(dataAndSchema.schema, uiSchema, data));
+    setDataAndSchema(
+      updateSchemasAndData(dataAndSchema.schema, uiSchema, data),
+    );
   }
 
   return {
