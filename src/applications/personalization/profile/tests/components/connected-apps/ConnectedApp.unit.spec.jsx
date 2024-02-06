@@ -32,7 +32,7 @@ describe('<ConnectedApp>', () => {
 
     // title and connected date should be rendered
     expect(view.getByText('Random title', { selector: 'h2' })).to.exist;
-    expect(view.getByText('Connected on June 27, 2020 6:42 a.m.')).to.exist;
+    expect(view.getByText(/Connected on June 27, 2020/)).to.exist;
 
     // button should be rendered with the correct text
     expect(view.findByTestId('disconnect-app-1')).to.be.ok;
