@@ -211,10 +211,14 @@ function selectTests(graph, pathsOfChangedFiles) {
   console.log('graph: ', graph);
   console.log('paths of changed files: ', pathsOfChangedFiles);
   for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
+    console.log(!pathsOfChangedFiles[i].endsWith('.md'));
     if (!pathsOfChangedFiles[i].endsWith('.md')) {
       allMdFiles = false;
     }
-
+    console.log(
+      !pathsOfChangedFiles[i].endsWith('.md') &&
+        !pathsOfChangedFiles[i].startsWith('src/applications'),
+    );
     if (
       !pathsOfChangedFiles[i].endsWith('.md') &&
       !pathsOfChangedFiles[i].startsWith('src/applications')
