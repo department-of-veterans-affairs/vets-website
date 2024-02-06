@@ -16,7 +16,7 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
         class="vads-u-padding-bottom--0 vasd-u-margin-bottom--2"
         uswds
       >
-        <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+        <p className="vads-u-margin-top--0" role="alert" aria-live="polite">
           We disconnected {title} from your VA.gov profile. If you have
           questions about data the app has already collected, review the app’s
           privacy policy or contact customer support.

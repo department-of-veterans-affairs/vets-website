@@ -151,11 +151,7 @@ export class ConnectedApps extends Component {
                 key={`${app.attributes?.title}`}
                 uswds
               >
-                <div className="vads-u-display--flex">
-                  <i
-                    aria-hidden="true"
-                    className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-                  />
+                <div>
                   <p
                     className="vads-u-margin-y--0"
                     role="alert"
