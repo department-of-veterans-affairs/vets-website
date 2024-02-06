@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -35,15 +36,25 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+        ]}
         className="vads-u-font-family--sans"
         label="Breadcrumb"
         uswds
-      >
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary">Your VA debt and bills</a>
-      </va-breadcrumbs>
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="vads-u-font-size--lg vads-u-font-family--serif">

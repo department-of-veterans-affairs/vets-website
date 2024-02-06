@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
   sortStatementsByDate,
@@ -104,15 +105,29 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans no-wrap" uswds>
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-        <a href="/manage-va-debt/summary/copay-balances">
-          {' '}
-          Current copay balances
-        </a>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/copay-balances',
+            label: 'Current copay balances',
+          },
+        ]}
+        className="vads-u-font-family--sans no-wrap"
+        label="Breadcrumb"
+        uswds
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="vads-u-font-size--lg vads-u-font-family--sans">

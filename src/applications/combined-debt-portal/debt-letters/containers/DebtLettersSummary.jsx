@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
   ALERT_TYPES,
@@ -97,12 +98,29 @@ const DebtLettersSummary = () => {
 
   return (
     <>
-      <va-breadcrumbs label="Breadcrumb" uswds>
-        <a href="/">Home</a>
-        <a href="/manage-va-debt/">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-        <Link to="/debt-balances">Current VA debt</Link>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/debt-balances',
+            label: 'Current VA debt',
+          },
+        ]}
+        className="vads-u-font-family--sans no-wrap"
+        label="Breadcrumb"
+        uswds
+      />
       <div
         className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
         data-testid="current-va-debt"

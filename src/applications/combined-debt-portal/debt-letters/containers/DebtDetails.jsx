@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
@@ -54,18 +55,34 @@ const DebtDetails = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb" uswds>
-          <a href="/">Home</a>
-          <a href="/manage-va-debt/">Manage your VA debt</a>
-          <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
-          <Link to="/debt-balances/">Current VA debt</Link>
-          <Link
-            to={`/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`}
-          >
-            Debt details
-          </Link>
-        </va-breadcrumbs>
+        <VaBreadcrumbs
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'Home',
+            },
+            {
+              href: '/manage-va-debt',
+              label: 'Manage your VA debt',
+            },
+            {
+              href: '/manage-va-debt/summary',
+              label: 'Your VA debt and bills',
+            },
+            {
+              href: '/debt-balances',
+              label: 'Current VA debt',
+            },
+            {
+              href: `/debt-balances/details/${selectedDebt.fileNumber +
+                selectedDebt.deductionCode}`,
+              label: 'Debt details',
+            },
+          ]}
+          className="vads-u-font-family--sans no-wrap"
+          label="Breadcrumb"
+          uswds
+        />
       </div>
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1
