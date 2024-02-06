@@ -9,7 +9,7 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details', () => {
   const landingPage = new PatientInboxPage();
-  const detailsPage = new PatientMessageDetailsPage();
+  let detailsPage = new PatientMessageDetailsPage();
   const site = new SecureMessagingSite();
 
   var messageDetails = mockMessageDetails;
