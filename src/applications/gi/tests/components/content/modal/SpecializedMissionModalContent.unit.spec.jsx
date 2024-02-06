@@ -10,4 +10,10 @@ describe('SpecializedMissionModalContent modal', () => {
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
+  it('should render', () => {
+    global.window.buildType = true;
+    const wrapper = shallow(<SpecializedMissionModalContent />);
+    expect(wrapper.find('h3').text()).to.equal('Specialized mission');
+    wrapper.unmount();
+  });
 });

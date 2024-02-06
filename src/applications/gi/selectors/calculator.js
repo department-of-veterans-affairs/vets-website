@@ -15,7 +15,7 @@ const getInstitution = state => state.profile.attributes;
 
 const getFormInputs = state => state.calculator;
 
-const getInstitutionType = institution =>
+export const getInstitutionType = institution =>
   institution.type
     ? institution.type.toLowerCase()
     : institution.institutionTypeName.toLowerCase();
