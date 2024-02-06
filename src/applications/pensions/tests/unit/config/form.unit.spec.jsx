@@ -9,7 +9,6 @@ import {
   hasNoSocialSecurityDisability,
   isInNursingHome,
   medicaidDoesNotCoverNursingHome,
-  isHomeAcreageMoreThanTwo,
   ownsHome,
   hasVaTreatmentHistory,
   hasFederalTreatmentHistory,
@@ -129,17 +128,6 @@ describe('Pensions medicaidDoesNotCoverNursingHome', () => {
       medicaidDoesNotCoverNursingHome({
         nursingHome: true,
         medicaidCoverage: false,
-      }),
-    ).to.be.true;
-  });
-});
-
-describe('Pensions isHomeAcreageMoreThanTwo', () => {
-  it('returns true if home acreage is more than two', () => {
-    expect(
-      isHomeAcreageMoreThanTwo({
-        homeOwnership: true,
-        homeAcreageMoreThanTwo: true,
       }),
     ).to.be.true;
   });

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
+
 import { isValidCurrency } from '../validation';
 
 const validateCurrency = (value, setError) => {
@@ -16,7 +18,13 @@ const validateCurrency = (value, setError) => {
 };
 
 const HomeAcreageValueInput = props => {
-  const { goBack, goForward, onReviewPage = false, setFormData } = props;
+  const {
+    goBack,
+    goForward,
+    onReviewPage = false,
+    setFormData,
+    updatePage,
+  } = props;
 
   const formData = useSelector(state => state.form.data);
   const currentHomeAcreageValue = formData.homeAcreageValue;
@@ -84,7 +92,18 @@ const HomeAcreageValueInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <va-button type="submit">Update</va-button>;
+  const updateButton = (
+    <ProgressButton
+      submitButton
+      onButtonClick={e => {
+        updateFormData(e);
+        updatePage(e);
+      }}
+      buttonText="Update page"
+      buttonClass="usa-button-primary"
+      ariaLabel="Update Home acreage value page"
+    />
+  );
 
   return (
     <form onSubmit={updateFormData}>
@@ -114,6 +133,7 @@ HomeAcreageValueInput.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   onReviewPage: PropTypes.bool,
 };
 
