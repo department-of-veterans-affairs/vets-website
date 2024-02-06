@@ -813,7 +813,6 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
-  categories: PropTypes.array,
   draft: PropTypes.object,
   recipients: PropTypes.object,
   signature: PropTypes.object,
