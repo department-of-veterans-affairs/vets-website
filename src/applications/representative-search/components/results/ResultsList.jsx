@@ -45,6 +45,7 @@ const ResultsList = props => {
                 phone={result.attributes.phone}
                 email={result.attributes.email}
                 distance={result.attributes.distance}
+                associatedOrgs={result.attributes.organizationNames}
                 representative={result}
                 representativeId={result.id}
                 submitRepresentativeReport={props.submitRepresentativeReport}

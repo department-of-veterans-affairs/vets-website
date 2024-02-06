@@ -15,6 +15,7 @@ const SearchResult = ({
   phone,
   distance,
   email,
+  associatedOrgs,
   submitRepresentativeReport,
   reports,
   representative,
@@ -91,12 +92,16 @@ const SearchResult = ({
 
           <div className="vads-u-margin-top--2p5">
             <va-additional-info trigger="See associated organizations" uswds>
-              <p>
-                {/* <strong>Veterans Service Officers (VSOs)</strong> can help you
-              gather evidence, file claims, and request decision reviews. They
-              can also communicate with VA on your behalf. VSOs provide free
-              services for Veterans and their families. */}
-              </p>
+              {associatedOrgs.map((org, index) => {
+                return (
+                  <>
+                    <p>{org}</p>
+                    {index < associatedOrgs.length - 1 ? (
+                      <br style={{ lineHeight: '1rem' }} />
+                    ) : null}
+                  </>
+                );
+              })}
             </va-additional-info>
           </div>
 
@@ -121,7 +126,6 @@ const SearchResult = ({
             )}
           </div>
         </div>
-
         <div className="report-outdated-information-button">
           <va-button
             onClick={() => {

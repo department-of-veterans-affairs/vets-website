@@ -87,6 +87,7 @@ export const SearchResultsHeader = props => {
           id="search-results-subheader"
           className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
           tabIndex="-1"
+          style={{ fontSize: 16 }}
         >
           {handleNumberOfResults()} for
           {` `}
