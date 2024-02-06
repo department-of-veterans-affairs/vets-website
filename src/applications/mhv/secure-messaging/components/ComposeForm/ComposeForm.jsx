@@ -1,15 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-  VaAlert,
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -45,7 +38,6 @@ import {
 import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
-import RemoveAttachmentModal from '../Modals/RemoveAttachmentModal';
 import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
@@ -56,8 +48,6 @@ const ComposeForm = props => {
   const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const attachFileAlertRef = useRef();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
@@ -83,13 +73,6 @@ const ComposeForm = props => {
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
-  const attachmentReference = useRef(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
-  const [removedAttachmentName, setRemovedAttachmentName] = useState('');
-  const [fileToRemove, setFileToRemove] = useState(null);
-  const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
-  const [focusedElement, setFocusedElement] = useState(null);
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
@@ -277,35 +260,6 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
-  useEffect(
-    () => {
-      if (attachments.length === 0) {
-        setAttachFileSuccess(false);
-      }
-    },
-    [attachments],
-  );
-
-  useEffect(
-    () => {
-      focusElement(focusedElement);
-    },
-    [focusedElement],
-  );
-
-  useEffect(
-    () => {
-      if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
-        setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
-        }, 300);
-      }
-    },
-    [attachFileSuccess, attachments, attachFileAlertRef],
-  );
-
   //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
@@ -334,29 +288,6 @@ const ComposeForm = props => {
         bod: draft.body,
       }),
     );
-  };
-
-  const removeAttachment = file => {
-    const newAttArr = attachments?.filter(item => {
-      if (item.name !== file.name) {
-        return true;
-      }
-      return item.size !== file.size;
-    });
-    setRemovedAttachmentName(file.name);
-    setAttachments(newAttArr);
-    setIsAttachmentRemoved(true);
-    setAttachFileSuccess(false);
-
-    setFocusedElement(
-      document
-        .querySelector('.attach-file-button')
-        .shadowRoot.querySelector('button'),
-    );
-
-    if (newAttArr.some(item => item.name !== file.name)) {
-      setRecentlyRemovedFile(true);
-    }
   };
 
   if (draft && !formPopulated) populateForm();
@@ -556,22 +487,6 @@ const ComposeForm = props => {
       modalVisible,
     ],
   );
-
-  const handleSuccessAlertClose = () => {
-    setAttachFileSuccess(false);
-    if (attachments.length > 0) {
-      setFocusedElement(
-        document.querySelector('.attachments-list').firstChild.firstChild
-          .lastChild,
-      );
-    } else {
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
-      );
-    }
-  };
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
@@ -833,87 +748,16 @@ const ComposeForm = props => {
               (!noAssociations &&
                 !allTriageGroupsBlocked && (
                   <section className="attachments-section">
-                    {attachFileSuccess &&
-                      attachments.length > 0 && (
-                        <VaAlert
-                          aria-live="polite"
-                          aria-label="file successfully attached"
-                          ref={attachFileAlertRef}
-                          background-only
-                          className="file-attached-success vads-u-margin-top--2"
-                          data-testid="file-attached-success-alert"
-                          disable-analytics
-                          full-width="false"
-                          show-icon
-                          status="success"
-                          onCloseEvent={handleSuccessAlertClose}
-                        >
-                          <p className="vads-u-margin-bottom--0">
-                            File attached
-                          </p>
-                          <button
-                            className="close-success-alert-button vads-u-padding--0p5"
-                            id="close-success-alert-button"
-                            data-testid="close-success-alert-button"
-                            aria-label="Close notification"
-                            type="button"
-                            onClick={() => {
-                              setAttachFileSuccess(false);
-                              handleSuccessAlertClose();
-                            }}
-                          >
-                            <i
-                              className="fas fa-times-circle vads-u-color--black"
-                              style={{ fontSize: '2.4rem' }}
-                              alt="Close notification icon"
-                              aria-hidden="true"
-                              role="presentation"
-                            />
-                          </button>
-                        </VaAlert>
-                      )}
                     <AttachmentsList
-                      attachFileSuccess={attachFileSuccess}
-                      attachments={attachments}
                       compose
-                      editingEnabled
-                      recentlyRemovedFile={recentlyRemovedFile}
-                      setAttachFileSuccess={setAttachFileSuccess}
+                      attachments={attachments}
                       setAttachments={setAttachments}
-                      setFileToRemove={setFileToRemove}
-                      setFocusedElement={setFocusedElement}
-                      setIsModalVisible={setIsModalVisible}
+                      attachFileSuccess={attachFileSuccess}
+                      setAttachFileSuccess={setAttachFileSuccess}
                       setNavigationError={setNavigationError}
+                      editingEnabled
                     />
-                    {/* Maybe move RemoveAttachmentModal here so that it doesn't render in other components */}
-                    <RemoveAttachmentModal
-                      visible={isModalVisible}
-                      onClose={() => {
-                        setIsModalVisible(false);
-                        setIsAttachmentRemoved(false);
-                      }}
-                      onDelete={() => {
-                        setNavigationError();
-                        setIsModalVisible(false);
-                        removeAttachment(fileToRemove);
-                      }}
-                      data-testid="remove-attachment-modal"
-                      file={attachments}
-                    />
-                    {isAttachmentRemoved ? (
-                      <>
-                        <div
-                          ref={attachmentReference}
-                          role="status"
-                          aria-live="polite"
-                          className="sr-only"
-                          id="attachment-removed-successfully"
-                          data-dd-privacy="mask"
-                        >
-                          {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
-                        </div>
-                      </>
-                    ) : null}
+
                     <FileInput
                       attachments={attachments}
                       setAttachments={setAttachments}
@@ -923,84 +767,16 @@ const ComposeForm = props => {
                 ))
             : recipientsList && (
                 <section className="attachments-section">
-                  {attachFileSuccess &&
-                    attachments.length > 0 && (
-                      <VaAlert
-                        aria-live="polite"
-                        aria-label="file successfully attached"
-                        ref={attachFileAlertRef}
-                        background-only
-                        className="file-attached-success vads-u-margin-top--2"
-                        data-testid="file-attached-success-alert"
-                        disable-analytics
-                        full-width="false"
-                        show-icon
-                        status="success"
-                        onCloseEvent={handleSuccessAlertClose}
-                      >
-                        <p className="vads-u-margin-bottom--0">File attached</p>
-                        <button
-                          className="close-success-alert-button vads-u-padding--0p5"
-                          id="close-success-alert-button"
-                          data-testid="close-success-alert-button"
-                          aria-label="Close notification"
-                          type="button"
-                          onClick={() => {
-                            setAttachFileSuccess(false);
-                            handleSuccessAlertClose();
-                          }}
-                        >
-                          <i
-                            className="fas fa-times-circle vads-u-color--black"
-                            style={{ fontSize: '2.4rem' }}
-                            alt="Close notification icon"
-                            aria-hidden="true"
-                            role="presentation"
-                          />
-                        </button>
-                      </VaAlert>
-                    )}
                   <AttachmentsList
-                    attachFileAlertRef={attachFileAlertRef}
-                    attachFileSuccess={attachFileSuccess}
-                    attachments={attachments}
                     compose
-                    editingEnabled
-                    recentlyRemovedFile={recentlyRemovedFile}
-                    setAttachFileSuccess={setAttachFileSuccess}
+                    attachments={attachments}
                     setAttachments={setAttachments}
-                    setFileToRemove={setFileToRemove}
-                    setFocusedElement={setFocusedElement}
-                    setIsModalVisible={setIsModalVisible}
+                    attachFileSuccess={attachFileSuccess}
+                    setAttachFileSuccess={setAttachFileSuccess}
                     setNavigationError={setNavigationError}
+                    editingEnabled
                   />
-                  <RemoveAttachmentModal
-                    visible={isModalVisible}
-                    onClose={() => {
-                      setIsModalVisible(false);
-                      setIsAttachmentRemoved(false);
-                    }}
-                    onDelete={() => {
-                      setNavigationError();
-                      setIsModalVisible(false);
-                      removeAttachment(fileToRemove);
-                    }}
-                    data-testid="remove-attachment-modal"
-                  />
-                  {isAttachmentRemoved ? (
-                    <>
-                      <div
-                        ref={attachmentReference}
-                        role="status"
-                        aria-live="polite"
-                        className="sr-only"
-                        id="attachment-removed-successfully"
-                        data-dd-privacy="mask"
-                      >
-                        {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
-                      </div>
-                    </>
-                  ) : null}
+
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
