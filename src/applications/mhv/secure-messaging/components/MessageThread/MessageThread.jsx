@@ -28,7 +28,10 @@ const MessageThread = props => {
         }
         className="older-messages vads-u-margin-top--3 vads-u-padding-left--0p5 do-not-print"
       >
-        <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5">
+        <h2
+          data-testid="not-for-print-header"
+          className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5"
+        >
           {messageHistory?.length > 0 &&
             `${messageHistory?.length} Message${
               messageHistory?.length > 1 ? 's' : ''

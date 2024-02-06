@@ -183,10 +183,8 @@ MessageThreadHeader.propTypes = {
   cannotReply: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   message: PropTypes.object,
-  printThread: PropTypes.bool,
   recipients: PropTypes.object,
   setIsCreateNewModalVisible: PropTypes.func,
-  setPrintThread: PropTypes.func,
   onReply: PropTypes.func,
 };
 

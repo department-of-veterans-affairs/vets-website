@@ -13,7 +13,7 @@ import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const { message, isDraftThread, open, printThread } = props;
+  const { message, isDraftThread, open, forPrint } = props;
   const {
     attachment,
     attachments,
@@ -92,8 +92,11 @@ const MessageThreadItem = props => {
       onAccordionItemToggled={() => {
         handleExpand();
       }}
-      data-testid={`expand-message-button-${messageId}`}
-      open={printThread}
+      data-testid={
+        forPrint
+          ? `expand-message-button-for-print-${messageId}`
+          : `expand-message-button-${messageId}`
+      }
     >
       <h3 slot="headline">
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
@@ -122,7 +125,11 @@ const MessageThreadItem = props => {
       <div>
         <MessageThreadMeta message={message} fromMe={fromMe} />
         <HorizontalRule />
-        <MessageThreadBody text={body} />
+        <MessageThreadBody
+          text={body}
+          forPrint={forPrint}
+          messageId={messageId}
+        />
 
         {attachments?.length > 0 && (
           <MessageThreadAttachments attachments={attachments} />
@@ -133,10 +140,10 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
+  forPrint: PropTypes.bool,
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   open: PropTypes.bool,
-  printThread: PropTypes.bool,
   printView: PropTypes.bool,
 };
 

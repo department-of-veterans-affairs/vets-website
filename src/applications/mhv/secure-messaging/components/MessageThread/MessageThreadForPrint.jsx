@@ -11,7 +11,7 @@ const MessageThreadForPrint = props => {
   const { messageHistory } = props;
 
   return (
-    <div data-testid="message-thread-for-print" className="print-only">
+    <div visible data-testid="message-thread-for-print" className="print-only">
       <h2 className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5 vads-u-font-size--lg">
         {messageHistory?.length > 0 &&
           `${messageHistory?.length} Message${
@@ -22,7 +22,7 @@ const MessageThreadForPrint = props => {
         {messageHistory?.map(m => {
           return (
             <>
-              <MessageThreadItem key={m.messageId} message={m} printThread />
+              <MessageThreadItem key={m.messageId} message={m} open forPrint />
             </>
           );
         })}
@@ -33,5 +33,6 @@ const MessageThreadForPrint = props => {
 MessageThreadForPrint.propTypes = {
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
+  visible: PropType.bool,
 };
 export default MessageThreadForPrint;
