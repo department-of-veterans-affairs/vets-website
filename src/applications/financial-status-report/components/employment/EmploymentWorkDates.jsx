@@ -182,7 +182,6 @@ const EmploymentWorkDates = props => {
           }
           required
           error={fromDateError}
-          uswds
         />
         {!employmentRecord.isCurrent ? (
           <VaDate
@@ -200,7 +199,6 @@ const EmploymentWorkDates = props => {
             }
             required
             error={toDateError}
-            uswds
           />
         ) : null}
       </div>

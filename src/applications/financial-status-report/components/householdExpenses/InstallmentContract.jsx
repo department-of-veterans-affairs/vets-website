@@ -318,7 +318,6 @@ const InstallmentContract = props => {
             max={MAXIMUM_INSTALLMENT_AMOUNT}
             onInput={handleAmountDueMonthlyChange}
             value={contractRecord.amountDueMonthly}
-            uswds
           />
         </div>
         <div>

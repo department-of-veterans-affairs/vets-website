@@ -154,7 +154,6 @@ const EmploymentRecord = ({
           }
           required
           error={fromDateError}
-          uswds
         />
       </div>
       <div
@@ -173,7 +172,6 @@ const EmploymentRecord = ({
           }
           required
           error={toDateError}
-          uswds
         />
       </div>
       <VaCheckbox

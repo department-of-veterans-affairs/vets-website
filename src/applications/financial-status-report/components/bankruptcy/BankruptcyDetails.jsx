@@ -134,7 +134,6 @@ const BankruptcyDetails = ({
             setDateDischarged(target.value);
           }}
           value={dateDischarged}
-          uswds
         />
         <VaTextInput
           error={courtError}
