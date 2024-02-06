@@ -10,6 +10,7 @@ import _ from 'platform/utilities/data';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   DATA_PATHS,
@@ -678,11 +679,17 @@ export const show526MaxRating = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <va-breadcrumbs>
-      <a href="/">Home</a>
-      <a href="/disability">Disability Benefits</a>
-      <a href="/disability/file-disability-claim-form-21-526ez">{title}</a>
-    </va-breadcrumbs>
+    <VaBreadcrumbs
+      uswds
+      breadcrumbList={[
+        { href: '/', label: 'Home' },
+        { href: '/disability', label: 'Disability Benefits' },
+        {
+          href: '/disability/file-disability-claim-form-21-526ez',
+          label: title,
+        },
+      ]}
+    />
     {component}
   </>
 );
