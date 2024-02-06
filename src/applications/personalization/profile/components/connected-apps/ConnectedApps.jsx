@@ -149,6 +149,7 @@ export class ConnectedApps extends Component {
                 status="error"
                 background-only
                 key={`${app.attributes?.title}`}
+                uswds
               >
                 <div className="vads-u-display--flex">
                   <i
@@ -182,6 +183,7 @@ export class ConnectedApps extends Component {
             <va-additional-info
               disable-border
               trigger="What other third-party apps can I connect to my profile?"
+              uswds
             >
               To find out what other third-party apps are available to connect
               to your profile,{' '}

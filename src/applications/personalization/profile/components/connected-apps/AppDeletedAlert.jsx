@@ -13,18 +13,17 @@ export const AppDeletedAlert = ({ title, privacyUrl }) => {
       <va-alert
         status="success"
         backgroundOnly
-        class="vads-u-padding-bottom--0"
+        class="vads-u-padding-bottom--0 vasd-u-margin-bottom--2"
+        uswds
       >
         <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
           We disconnected {title} from your VA.gov profile. If you have
           questions about data the app has already collected, review the app’s
           privacy policy or contact customer support.
-          <p>
-            <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
-              Review the {title} privacy policy.
-            </a>
-          </p>
         </p>
+        <a href={privacyUrl} target="_blank" rel="noopener noreferrer">
+          Review the {title} privacy policy.
+        </a>
       </va-alert>
     </div>
   );

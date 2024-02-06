@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export function ConnectedAppDeleteModal({
   title,
@@ -10,15 +10,14 @@ export function ConnectedAppDeleteModal({
   closeModal,
   confirmDelete,
 }) {
-  return (
-    <Modal
+  return modalOpen ? (
+    <VaModal
       clickToClose
-      cssClass="va-modal"
-      id="disconnect-alert"
-      onClose={closeModal}
-      title="Are you sure?"
+      onCloseEvent={closeModal}
+      modalTitle="Are you sure?"
       visible={modalOpen}
       status="warning"
+      uswds={false}
     >
       <p>
         After you disconnect this app, the app won’t have access to new
@@ -33,26 +32,28 @@ export function ConnectedAppDeleteModal({
 
       {!deleting && (
         <>
-          <button
-            className="usa-button-primary"
+          <va-button
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
-          >
-            Disconnect
-          </button>
-          <button className="usa-button-secondary" onClick={closeModal}>
-            No, cancel this change
-          </button>
+            text="Disconnect"
+          />
+          <va-button
+            secondary
+            onClick={closeModal}
+            text="No, cancel this change"
+          />
         </>
       )}
 
       {deleting && (
-        <button className="usa-button-primary" disabled>
-          Processing update...
-        </button>
+        <va-button
+          className="usa-button-primary"
+          disabled
+          text="Processing update..."
+        />
       )}
-    </Modal>
-  );
+    </VaModal>
+  ) : null;
 }
 
 ConnectedAppDeleteModal.propTypes = {
