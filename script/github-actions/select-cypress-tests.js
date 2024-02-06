@@ -152,8 +152,6 @@ function selectedTests(graph, pathsOfChangedFiles) {
     .filter(filePath => !filePath.endsWith('.md'))
     .map(filePath => filePath.split('/')[2]);
 
-  console.log('appNames: ', applicationNames);
-
   [...new Set(applicationNames)].forEach(app => {
     if (graph[app]) {
       // Lookup app in cross-app imports graph to reference which app's tests
@@ -210,7 +208,8 @@ function selectTests(graph, pathsOfChangedFiles) {
   }
   let allMdFiles = true;
   let allMdAndOrSrcApplicationsFiles = true;
-
+  console.log('graph: ', graph);
+  console.log('paths of changed files: ', pathsOfChangedFiles);
   for (let i = 0; i < pathsOfChangedFiles.length; i += 1) {
     if (!pathsOfChangedFiles[i].endsWith('.md')) {
       allMdFiles = false;
