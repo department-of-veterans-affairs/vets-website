@@ -27,6 +27,7 @@ export class PaginationWrapper extends Component {
     ) {
       return (
         <VaPagination
+          uswds={false}
           onPageSelect={handlePageSelect}
           page={currentPage}
           pages={totalPages}

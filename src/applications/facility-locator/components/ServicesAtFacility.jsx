@@ -98,7 +98,7 @@ class ServicesAtFacility extends Component {
         </p>
 
         <div className="vads-u-margin-bottom--4">
-          <va-alert visible status="warning">
+          <va-alert visible status="warning" uswds="false">
             <h2 slot="headline">
               This list may not include all of the services available at this
               location

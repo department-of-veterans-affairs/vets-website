@@ -204,7 +204,7 @@ export const ResultsList = ({
           message={`Searching for ${facilityTypeName} in ${searchString}`}
         />
         <DelayedRender>
-          <va-alert visible status="info">
+          <va-alert visible status="info" uswds="false">
             <h3 slot="headline">Please wait</h3>
             <p>
               Your results should appear in less than a minute. Thank you for
