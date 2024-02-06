@@ -52,8 +52,9 @@ const IdentityPage = props => {
     },
     onSubmit: data => {
       const { submitIDForm } = props;
+      const { formData: dataToSubmit } = data;
       recordEvent({ event: 'hca-continue-application' });
-      submitIDForm(data);
+      submitIDForm(dataToSubmit);
     },
     goToNextPage: () => {
       const {
