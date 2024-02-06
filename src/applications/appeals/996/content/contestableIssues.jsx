@@ -66,7 +66,7 @@ const disabilitiesList = (
 );
 
 export const disabilitiesExplanation = (
-  <va-additional-info trigger="Why isn’t my issue listed here?">
+  <va-additional-info trigger="Why isn’t my issue listed here?" uswds>
     {disabilitiesList}
   </va-additional-info>
 );

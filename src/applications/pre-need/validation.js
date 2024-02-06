@@ -13,16 +13,25 @@ export function validateSponsorDeathDate(
     errors.dateOfDeath.addError('Date of death must be after date of birth');
   }
 }
-export function validateTopLevelDomain(errors, email) {
+export function validateEmailParts(errors, email) {
   if (email.length === 0) return;
-  const index = email.lastIndexOf('.');
-  const topLevelDomain = email.substring(index + 1, email.length);
+  const localPartIndex = email.lastIndexOf('@');
+  const topLevelDomainIndex = email.lastIndexOf('.');
+  const localPart = email.substring(0, localPartIndex);
+  const topLevelDomain = email.substring(topLevelDomainIndex + 1, email.length);
 
-  const hasNumbers = input => {
+  const localPartHasAmpersand = input => {
+    return input.includes('&');
+  };
+
+  const topLevelDomainHasNumbers = input => {
     return /\d/.test(input);
   };
 
-  if (hasNumbers(topLevelDomain))
+  if (
+    localPartHasAmpersand(localPart) ||
+    topLevelDomainHasNumbers(topLevelDomain)
+  )
     errors.addError(
       'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
     );

@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsListPage from './pages/MedicationsListPage';
@@ -14,7 +15,15 @@ describe('Medications Details Page Download', () => {
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
+    listPage.clickPrintOrDownloadThisListDropDown();
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
+    detailsPage.clickDownloadMedicationDetailsAsPdfOnDetailsPage();
+    listPage.verifyDownloadCompleteSuccessMessageBanner();
+    site.verifyDownloadedPdfFile(
+      'VA-medications-list-Safari-Mhvtp',
+      moment(),
+      '',
+    );
     cy.injectAxe();
     cy.axeCheck('main');
   });

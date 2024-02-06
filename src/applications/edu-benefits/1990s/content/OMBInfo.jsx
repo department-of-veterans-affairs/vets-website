@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 class OMBInfo extends React.Component {
@@ -96,17 +96,17 @@ class OMBInfo extends React.Component {
           </button>
         </div>
 
-        <Modal
-          cssClass="va-modal-large"
-          contents={
-            this.props.children
-              ? this.props.children
-              : this.modalContents(resBurden)
-          }
+        <VaModal
+          large
           id="omb-modal"
           visible={this.state.modalOpen}
-          onClose={this.closeModal}
-        />
+          onCloseEvent={this.closeModal}
+          uswds
+        >
+          {this.props.children
+            ? this.props.children
+            : this.modalContents(resBurden)}
+        </VaModal>
       </div>
     );
   }

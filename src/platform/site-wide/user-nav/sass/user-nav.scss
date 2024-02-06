@@ -72,7 +72,7 @@ span.sidelines {
 
   .login {
     .explanation-content {
-      @include media($medium-large-screen) {
+      @include media($medium-screen) {
         margin-left: 2em;
       }
 
