@@ -17,7 +17,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
   const headingText = getHeadingText(ratedDisability);
 
   return (
-    <va-card class="vads-u-margin-bottom--2">
+    <va-card class="vads-u-margin-bottom--2" uswds="false">
       <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{headingText}</h4>
       {effectiveDate !== null && (
         <div className="vads-u-margin-top--2">

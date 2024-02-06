@@ -18,6 +18,7 @@ export default function Learn() {
       <va-link
         href="/disability/about-disability-ratings"
         text="About VA disability ratings"
+        uswds="false"
       />
     </div>
   );

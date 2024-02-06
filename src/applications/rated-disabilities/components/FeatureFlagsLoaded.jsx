@@ -6,6 +6,7 @@ const loadingIndicator = (
     <va-loading-indicator
       data-testid="feature-flags-loading"
       message="Loading your information..."
+      uswds="false"
     />
   </div>
 );
