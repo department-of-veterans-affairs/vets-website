@@ -1,23 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDatetime } from '../utils/date';
+import { formatDatetime, formatElapsedHours } from '../utils/date';
 
 function MHVDown({ appTitle = 'My HealtheVet', endTime, startTime }) {
   const startString = startTime ? formatDatetime(startTime) : '';
   const endString = endTime ? formatDatetime(endTime) : '';
+  const timeInterval = formatElapsedHours(startTime, endTime);
+
   return (
     <>
       <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
-        <h3 slot="headline">{appTitle} is down for maintenance</h3>
+        <h3 slot="headline">Maintenance on {appTitle}</h3>
         <p>
-          We’re working on My HealtheVet right now. If you have trouble using
-          tools, check back after we're finished.
+          We&#x2019;re working on My HealtheVet. The maintenance will last{' '}
+          {timeInterval}. During this time, you may have trouble using some of
+          our health tools.
         </p>
-        {startString && <p>Start time: {startString}</p>}
-        {endString && <p>End time: {endString}</p>}
+        {startString && (
+          <p>
+            <b>Start:</b> {startString}
+          </p>
+        )}
+        {endString && (
+          <p>
+            <b>End:</b> {endString}
+          </p>
+        )}
         <p>
-          If you need any assistance, please contact your{' '}
-          <va-link href="" text="near facilities" />
+          If you need to contact your care team during this time, call your VA
+          health facility.
+        </p>
+        <p>
+          Find your <va-link href="" text="VA health facility" />
         </p>
       </va-alert>
     </>

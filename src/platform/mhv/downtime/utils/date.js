@@ -1,5 +1,7 @@
 // Date parsing
 
+const HOUR_MS = 3600000; // 1000 * 60 * 60
+
 /**
  * Turns an ISO 8601 datetime string into a Date object
  * @param {string} input - ISO 8601 datetime string
@@ -84,4 +86,25 @@ function formatDatetime(input) {
   return `${month} ${day}, ${year} at ${timeString} ${timeZoneName}`;
 }
 
-export { formatDatetime, parseDate };
+/*
+ * Calculate a fractional number of hours between two datetimes
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {Number}
+ */
+function getElapsedHours(startDate, endDate) {
+  const elapsedMs = Math.abs(endDate - startDate);
+  return elapsedMs / HOUR_MS;
+}
+
+/*
+ * Create a string representing estimated elaps
+ */
+function formatElapsedHours(startDate, endDate) {
+  const hours = getElapsedHours(startDate, endDate);
+  // TODO: Use Intl.NumberFormat
+  const nf = Intl.NumberFormat('en');
+  return `${nf.format(hours)} hours`;
+}
+
+export { formatDatetime, formatElapsedHours, getElapsedHours, parseDate };
