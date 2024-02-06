@@ -40,7 +40,7 @@ const MessageThreadItem = props => {
 
   const handleExpand = () => {
     // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
-    if (!isSentOrReadOrDraft) {
+    if (!forPrint && !isSentOrReadOrDraft) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
   };
