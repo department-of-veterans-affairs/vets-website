@@ -1,11 +1,13 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
+import { isProductionOfTestProdEnv } from '../../../utils/helpers';
 
 export default function SpecializedMissionModalContent() {
   return (
     <>
       <h3>
-        {environment.isProduction() ? 'Specialized mission' : 'Community focus'}
+        {isProductionOfTestProdEnv()
+          ? 'Specialized mission'
+          : 'Community focus'}
       </h3>
       <p>
         Is the school single-gender, a Historically Black college or university,
