@@ -1,9 +1,6 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
-import _ from 'platform/utilities/data';
-
-import fullSchema from '../config/form-0995-schema.json';
 
 import { EVIDENCE_UPLOAD_API } from '../constants';
 
@@ -23,6 +20,7 @@ export const fileUploadUi = content => {
       focusElement(lastSelect[0]);
     }
   };
+
   const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content.label, {
@@ -58,13 +56,4 @@ export const fileUploadUi = content => {
     hideOnReview: true,
     attachmentName: false,
   });
-};
-
-export const getAttachmentsSchema = defaultAttachmentId => {
-  const { attachments } = fullSchema.properties;
-  return _.set(
-    'items.properties.attachmentId.default',
-    defaultAttachmentId,
-    attachments,
-  );
 };
