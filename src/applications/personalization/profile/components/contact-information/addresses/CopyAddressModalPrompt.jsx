@@ -61,6 +61,7 @@ const CopyAddressModalPrompt = ({
       onClose={onClose}
       onCloseEvent={handleClick('dismiss')}
       data-testid="copy-address-prompt"
+      uswds
     >
       <div data-testid="modal-content">
         <p>
