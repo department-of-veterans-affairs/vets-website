@@ -73,11 +73,11 @@ export class ConnectedApp extends Component {
             uswds
           >
             <div>
-              <p className="vads-u-margin-top--0">
+              <p className="vads-u-margin-y--0">
                 <strong>{title}</strong>
                 &nbsp;can access:
               </p>
-              <ul>
+              <ul className="vads-u-margin-top--0">
                 {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
               </ul>
             </div>
