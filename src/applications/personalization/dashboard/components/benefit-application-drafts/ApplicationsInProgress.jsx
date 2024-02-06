@@ -49,7 +49,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
             const formTitle = `application for ${FORM_BENEFITS[formId]}`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
-            const lastOpenedDate = format(
+            const lastSavedDate = format(
               fromUnixTime(lastUpdated),
               'MMMM d, yyyy',
             );
@@ -65,7 +65,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
                 expirationDate={expirationDate}
                 formId={formId}
                 formTitle={formTitle}
-                lastOpenedDate={lastOpenedDate}
+                lastSavedDate={lastSavedDate}
                 presentableFormId={presentableFormId}
               />
             );

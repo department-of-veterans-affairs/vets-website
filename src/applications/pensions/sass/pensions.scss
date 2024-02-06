@@ -42,3 +42,21 @@ p.pension-employment-desc, .pension-dd-warning {
 .pensions-disclosure-warning {
   margin-bottom: 1em;
 }
+
+// a11y - Change gray box to white box with gray border.
+// Needed because when using a web component which
+// has a gray color hint text, the hint text compared to
+// the background color is too low contrast.
+.rjsf-array-field .va-growable-background {
+  border: 1px solid $color-gray-medium;
+  background-color: $color-white;
+}
+
+// The '(*Required)' indicator is included in the question title
+.special-monthly-pension-question .schemaform-required-span {
+  display: none !important;
+}
+
+.pensions-custom-review {
+  margin-bottom: 5rem !important;
+}

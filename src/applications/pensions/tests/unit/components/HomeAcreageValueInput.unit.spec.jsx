@@ -144,10 +144,10 @@ describe('<HomeAcreageValueInput />', () => {
     input.value = '25000000000';
 
     fireEvent.input(input);
-    fireEvent.submit($('form', container));
 
     await waitFor(() => {
       expect(input.value).to.equal('25000000000');
+      fireEvent.submit($('form', container));
       expect(input.getAttribute('error')).to.equal(
         'Please enter an amount less than $999,999,999',
       );

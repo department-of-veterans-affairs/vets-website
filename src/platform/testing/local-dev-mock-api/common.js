@@ -79,7 +79,6 @@ const responses = {
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
         { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
-        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },

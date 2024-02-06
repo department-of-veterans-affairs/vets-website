@@ -27,8 +27,12 @@ import {
   crisisLineHeader,
   reportGeneratedBy,
 } from '../../../shared/util/constants';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
+import {
+  generateLabsIntro,
+  generateChemHemContent,
+} from '../../util/pdfHelpers/labsAndTests';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -43,98 +47,19 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record.date, record.name],
   );
 
   const generateChemHemPdf = async () => {
-    const title = `Lab and test results: ${record.name} on ${formatDateLong(
-      record.date,
-    )}`;
-    const subject = 'VA Medical Record';
-    const preface =
-      'If you have questions about these results, send a secure message to your care team. ';
+    const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
-
-    scaffold.details = {
-      header: 'Details about this test',
-      items: [
-        {
-          title: 'Type of test',
-          value: record.type,
-          inline: true,
-        },
-        {
-          title: 'Sample tested',
-          value: record.sampleTested,
-          inline: true,
-        },
-        {
-          title: 'Ordered by',
-          value: record.orderedBy,
-          inline: true,
-        },
-        {
-          title: 'Ordering location',
-          value: record.orderingLocation,
-          inline: true,
-        },
-        {
-          title: 'Collecting location',
-          value: record.collectingLocation,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: processList(record.comments),
-          inline: !record.comments,
-        },
-      ],
-    };
-    scaffold.results = {
-      header: 'Results',
-      preface:
-        "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
-      sectionSeparators: true,
-      items: record.results.map(item => ({
-        header: item.name,
-        items: [
-          {
-            title: 'Result',
-            value: item.result,
-            inline: true,
-          },
-          {
-            title: 'Standard range',
-            value: item.standardRange,
-            inline: true,
-          },
-          {
-            title: 'Status',
-            value: item.status,
-            inline: true,
-          },
-          {
-            title: 'Lab location',
-            value: item.labLocation,
-            inline: true,
-          },
-          {
-            title: 'Interpretation',
-            value: item.interpretation,
-            inline: true,
-          },
-        ],
-      })),
-    };
-
-    makePdf('chem/hem_report', scaffold, 'Chem/Hem details', runningUnitTest);
+    const pdfData = { ...scaffold, ...generateChemHemContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
   };
 
   const generateChemHemTxt = async () => {
@@ -177,7 +102,11 @@ Interpretation: ${entry.interpretation}\n`,
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--1" aria-describedby="chem-hem-date">
+      <h1
+        className="vads-u-margin-bottom--1"
+        aria-describedby="chem-hem-date"
+        data-testid="chem-hem-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="chem-hem-date" />
@@ -196,23 +125,27 @@ Interpretation: ${entry.interpretation}\n`,
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Type of test
         </h3>
-        <p>{record.category}</p>
+        <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h3>
-        <p>{record.orderingLocation}</p>
+        <p data-testid="chem-hem-ordering-location">
+          {record.orderingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
-        <p>{record.collectingLocation}</p>
+        <p data-testid="chem-hem-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Provider notes
         </h3>

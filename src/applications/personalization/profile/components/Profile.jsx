@@ -7,8 +7,8 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
-  fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
+
 import {
   cnpDirectDepositInformation,
   selectProfileToggles,
@@ -19,6 +19,7 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -164,9 +165,7 @@ class Profile extends Component {
 
     const routes = getRoutes({
       profileContactsPage: toggles.profileContacts,
-      useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
-      profileShowProofOfVeteranStatus: toggles.profileShowProofOfVeteranStatus,
     });
 
     return (

@@ -65,6 +65,11 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
+      "rootFolder": "personalization",
+      "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
+      "continuousDeployment": false
+    },
+    {
       "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },
@@ -92,6 +97,10 @@
     {
       "rootFolder": "letters",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "representatives",
+      "slackGroup": "@arfeng"
     }
   ]
 }

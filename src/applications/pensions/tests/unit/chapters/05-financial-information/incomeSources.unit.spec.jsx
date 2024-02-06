@@ -89,7 +89,7 @@ describe('Pension: Financial information, income sources page', () => {
       incomeSources: [
         {
           typeOfIncome: 'SOCIAL_SECURITY',
-          receiver: 'Jane Doe',
+          receiver: 'VETERAN',
           payer: 'John Doe',
           amount: 2.0,
         },

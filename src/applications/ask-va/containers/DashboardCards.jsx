@@ -6,6 +6,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { ServerErrorAlert } from '../config/helpers';
 
 const DashboardCards = () => {
@@ -38,7 +39,10 @@ const DashboardCards = () => {
     const data = [];
     if (response) {
       for (const inquiry of response.data) {
-        data.push(inquiry.attributes);
+        data.push({
+          ...inquiry.attributes,
+          id: inquiry.id,
+        });
       }
     }
     setInquiries(data);
@@ -104,12 +108,12 @@ const DashboardCards = () => {
                   </p>
                 </div>
                 <hr className="vads-u-margin-y--2" />
-                <a
+                <Link
                   className="vads-c-action-link--blue"
-                  href={`/user/dashboard/${card.inquiryNumber}`}
+                  to={`/user/dashboard/${card.id}`}
                 >
                   Check details
-                </a>
+                </Link>
               </va-card>
             </div>
           ))}
@@ -144,11 +148,7 @@ const DashboardCards = () => {
               <div className="vads-l-col--2">{card.status}</div>
               <div className="vads-l-col--2">{formatDate(card.lastUpdate)}</div>
               <div className="vads-l-col--2">
-                <va-link
-                  active
-                  href={`/user/dashboard/${card.inquiryNumber}`}
-                  text="Check details"
-                />
+                <Link to={`/user/dashboard/${card.id}`}>Check details</Link>
               </div>
             </div>
           ))}

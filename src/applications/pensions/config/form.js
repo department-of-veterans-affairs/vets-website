@@ -17,8 +17,6 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import {
-  addressSchema,
-  addressUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -31,8 +29,10 @@ import {
   submit,
   createSpouseLabelSelector,
   generateHelpText,
+  isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
+import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
@@ -55,6 +55,7 @@ import documentUpload from './chapters/06-additional-information/documentUpload'
 import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
 import generalHistory from './chapters/02-military-history/generalHistory';
+import previousNames from './chapters/02-military-history/previousNames';
 import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
 import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
 import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
@@ -84,7 +85,7 @@ import landMarketable from './chapters/05-financial-information/landMarketable';
 
 import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
-import { marriageTypeLabels } from '../labels';
+import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
@@ -178,7 +179,7 @@ export function currentSpouseHasFormerMarriages(formData) {
 }
 
 export function hasNoSocialSecurityDisability(formData) {
-  return formData.socialSecurityDisability !== true;
+  return formData.socialSecurityDisability === false;
 }
 
 export function isInNursingHome(formData) {
@@ -187,12 +188,6 @@ export function isInNursingHome(formData) {
 
 export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
-}
-
-export function isHomeAcreageMoreThanTwo(formData) {
-  return (
-    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
-  );
 }
 
 export function ownsHome(formData) {
@@ -213,6 +208,10 @@ export function isEmployedUnder65(formData) {
 
 export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
+}
+
+export function doesHavePreviousNames(formData) {
+  return formData.serveUnderOtherNames === true;
 }
 
 export function doesReceiveIncome(formData) {
@@ -245,7 +244,7 @@ const marriageType = {
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Spouse’s death', 'Divorce'],
+  enum: Object.values(separationTypeLabels),
 };
 
 const formConfig = {
@@ -265,11 +264,10 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-  // transformForSubmit: transform,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
@@ -282,8 +280,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
+  title: 'Apply for Veterans’ pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -352,6 +350,13 @@ const formConfig = {
           uiSchema: generalHistory.uiSchema,
           schema: generalHistory.schema,
         },
+        previousNames: {
+          path: 'military/general/add',
+          title: 'Previous names',
+          depends: doesHavePreviousNames,
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
+        },
         pow: {
           path: 'military/pow',
           title: 'POW status',
@@ -407,6 +412,7 @@ const formConfig = {
           path: 'medical/history/monthly-pension',
           uiSchema: specialMonthlyPension.uiSchema,
           schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
         },
         vaTreatmentHistory: {
           title: 'Treatment from a VA medical center',
@@ -478,6 +484,7 @@ const formConfig = {
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
+                useDlWrap: true,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -521,14 +528,19 @@ const formConfig = {
                     'ui:title': 'Spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Place of marriage (city and state or foreign country)',
-                },
                 'view:currentMarriage': {
                   'ui:options': {
                     hideIf: (form, index) => !isCurrentMarriage(form, index),
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
+                  ),
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
                   },
                   marriageType: {
                     'ui:title': 'How did you get married?',
@@ -541,8 +553,15 @@ const formConfig = {
                       'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
                     ),
                     'ui:required': (form, index) =>
-                      get(['marriages', index, 'marriageType'], form) ===
-                      'Other',
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:currentMarriage',
+                          'marriageType',
+                        ],
+                        form,
+                      ) === marriageTypeLabels.other,
                     'ui:options': {
                       expandUnder: 'marriageType',
                       expandUnderCondition: marriageTypeLabels.other,
@@ -558,10 +577,37 @@ const formConfig = {
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:pastMarriage',
+                          'reasonForSeparation',
+                        ],
+                        form,
+                      ) === separationTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: separationTypeLabels.other,
+                    },
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
+                  ),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                     'ui:validations': [validateAfterMarriageDate],
+                  },
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
                   locationOfSeparation: {
                     'ui:title':
@@ -579,18 +625,15 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                  ],
+                  required: ['spouseFullName'],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
                     'view:currentMarriage': {
                       type: 'object',
                       properties: {
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         marriageType,
                         otherExplanation: marriageProperties.otherExplanation,
                       },
@@ -599,7 +642,11 @@ const formConfig = {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
+                        otherExplanation: marriageProperties.otherExplanation,
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
                       },
@@ -650,7 +697,8 @@ const formConfig = {
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'If yes, what is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -745,6 +793,7 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item => getDependentChildTitle(item, 'household'),
+          depends: form => get(['view:hasDependents'], form) === true,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -775,7 +824,8 @@ const formConfig = {
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
-          depends: form => get(['view:hasDependents'], form),
+          depends: (form, index) =>
+            !get(['dependents', index, 'childInHousehold'], form),
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -786,9 +836,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    childAddress: addressSchema({
-                      omit: ['street3', 'isMilitary'],
-                    }),
+                    childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
                     monthlyPayment: dependents.items.properties.monthlyPayment,
@@ -801,23 +849,26 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childAddress: {
-                  ...addressUI({
-                    omit: ['street3', 'isMilitary'],
-                    required: {
-                      country: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      street: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      city: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                      postalCode: (form, index) =>
-                        !get(['dependents', index, 'childInHousehold'], form),
-                    },
-                  }),
-                },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  (form, index) =>
+                    !get(['dependents', index, 'childInHousehold'], form),
+                ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
                   'ui:options': {
                     updateSchema: (form, UISchema, schema, index) => {
                       if (
@@ -887,7 +938,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
-          CustomPageReview: null,
+          CustomPageReview: HomeAcreageValueReview,
         },
         landMarketable: {
           title: 'Land marketable',
@@ -924,13 +975,13 @@ const formConfig = {
         },
         hasMedicalExpenses: {
           path: 'financial/medical-expenses',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           uiSchema: hasMedicalExpenses.uiSchema,
           schema: hasMedicalExpenses.schema,
         },
         medicalExpenses: {
           path: 'financial/medical-expenses/add',
-          title: 'Medical expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
           depends: doesHaveMedicalExpenses,
           uiSchema: medicalExpenses.uiSchema,
           schema: medicalExpenses.schema,
@@ -1010,24 +1061,6 @@ const formConfig = {
           path: 'additional-information/faster-claim-processing',
           uiSchema: fasterClaimProcessing.uiSchema,
           schema: fasterClaimProcessing.schema,
-        },
-      },
-    },
-    // This chapter is here so that the cypress test ends successfully since
-    // the form tester will only consider the test a success when it gets to a
-    // page which has a URL ending in '/confirmation';
-    //
-    // This chapter should be entirely removed/replaced once the form has an
-    // actual confirmation page.
-    confirmation: {
-      title: 'Confirmation',
-      pages: {
-        confirmation: {
-          path: 'confirmation',
-          title: 'Confirmation',
-          // Needs something as a schema. Doesn't matter what.
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
         },
       },
     },

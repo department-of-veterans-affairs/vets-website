@@ -29,10 +29,12 @@ const MedicationsList = props => {
     },
     [prescriptionId],
   );
+
   const displaynumberOfPrescriptionsSelector =
-    "[data-testid='page-total-info']";
+    ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
+    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
     updateLoadingStatus(true, 'Loading your list...');
     history.push(`/${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);

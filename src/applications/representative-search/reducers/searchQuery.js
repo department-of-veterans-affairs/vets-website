@@ -7,7 +7,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   GEOCODE_COMPLETE,
-  GEOCODE_CLEAR_ERROR,
+  // CLEAR_GEOCODE_ERROR,
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
 } from '../utils/actionTypes';
@@ -29,7 +29,6 @@ export const INITIAL_STATE = {
   geocodeInProgress: false,
   geocodeResults: [],
   isErrorEmptyInput: false,
-  isErrorCleared: true,
   mapMoved: false,
   error: false,
   isValid: true,
@@ -60,14 +59,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        error: false,
         inProgress: true,
       };
     case SEARCH_COMPLETE:
       return {
         ...state,
         ...action.payload,
-        error: false,
         inProgress: false,
         searchCounter: state.searchCounter + 1,
       };
@@ -75,7 +72,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        error: false,
         inProgress: false,
         searchWithInputInProgress: false,
         ...validateForm(state, action.payload),
@@ -83,7 +79,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case SEARCH_FAILED:
       return {
         ...state,
-        error: true,
         inProgress: false,
         searchCounter: state.searchCounter + 1,
         searchWithInputInProgress: false,
@@ -92,13 +87,10 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...action.payload,
-        ...validateForm(state, action.payload),
-        error: false,
       };
     case GEOCODE_STARTED:
       return {
         ...state,
-        error: false,
         geocodeInProgress: true,
       };
     case GEOLOCATE_USER:
@@ -109,7 +101,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case GEOCODE_FAILED:
       return {
         ...state,
-        geocodeError: action.code || -1,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };
@@ -117,13 +108,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         geocodeResults: action.payload,
-        geocodeInProgress: false,
-        geolocationInProgress: false,
-      };
-    case GEOCODE_CLEAR_ERROR:
-      return {
-        ...state,
-        geocodeError: 0,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };

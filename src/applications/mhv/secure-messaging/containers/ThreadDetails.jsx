@@ -9,7 +9,6 @@ import MessageThreadHeader from '../components/MessageThreadHeader';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import { getTriageTeams } from '../actions/triageTeams';
 import { PageTitles, PrintMessageOptions } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
@@ -23,7 +22,7 @@ const ThreadDetails = props => {
   const history = useHistory();
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
-  const { triageTeams } = useSelector(state => state.sm.triageTeams);
+  const { recipients } = useSelector(state => state.sm);
   const {
     cannotReply,
     drafts,
@@ -59,7 +58,6 @@ const ThreadDetails = props => {
   useEffect(
     () => {
       if (threadId) {
-        dispatch(getTriageTeams());
         dispatch(retrieveMessageThread(threadId))
           .then(() => {
             setIsLoaded(true);
@@ -114,6 +112,8 @@ const ThreadDetails = props => {
             cannotReply={cannotReply}
             drafts={drafts}
             header={header}
+            messages={messages}
+            recipients={recipients}
             replyMessage={messages[0]}
           />
           <MessageThread
@@ -132,7 +132,8 @@ const ThreadDetails = props => {
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <ComposeForm draft={drafts[0]} recipients={triageTeams} />
+
+          <ComposeForm draft={drafts[0]} recipients={recipients} />
         </div>
       );
     }
@@ -144,6 +145,7 @@ const ThreadDetails = props => {
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            recipients={recipients}
           />
           <MessageThread
             messageHistory={messages}

@@ -71,7 +71,11 @@ const LandingPage = () => {
               Get a list of all vaccines (immunizations) in your VA medical
               records.
             </p>
-            <Link to="/vaccines" className="vads-c-action-link--blue">
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+            >
               Go to your vaccines
             </Link>
           </section>
@@ -85,7 +89,11 @@ const LandingPage = () => {
             medical records. This includes medication side effects (also called
             adverse drug reactions).
           </p>
-          <Link to="/allergies" className="vads-c-action-link--blue">
+          <Link
+            to="/allergies"
+            className="vads-c-action-link--blue"
+            data-testid="allergies-landing-page-link"
+          >
             Go to your allergies and reactions
           </Link>
         </section>

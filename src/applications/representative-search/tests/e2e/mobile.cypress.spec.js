@@ -3,14 +3,14 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 Cypress.Commands.add('checkSearch', () => {
-  cy.get('input[name="City, state, postal code or address"]', {
+  cy.get('input[name="Address, city, state, or postal code"]', {
     timeout: 5000,
   }).type(`Austin, TX`, { force: true });
 
-  cy.get('#representative-search').click();
+  cy.get('va-button[text="Search"]').click();
 
   // Result list
-  cy.get('.representative-search-results-container').should('exist');
+  cy.get('.results-section').should('exist');
 });
 
 describe('Mobile', () => {

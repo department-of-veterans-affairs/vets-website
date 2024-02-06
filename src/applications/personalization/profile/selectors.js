@@ -1,4 +1,3 @@
-import set from 'lodash/set';
 import has from 'lodash/has';
 import { createSelector } from 'reselect';
 
@@ -11,7 +10,7 @@ import {
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from './util';
-import { createNotListedTextKey } from './util/personal-information/personalInformationUtils';
+
 import { PROFILE_TOGGLES } from './constants';
 
 export const cnpDirectDepositInformation = state =>
@@ -132,23 +131,6 @@ export const selectProfileToggles = createSelector(toggleValues, values => {
     { loading, ...PROFILE_TOGGLES },
   );
 });
-
-export function selectVAProfilePersonalInformation(state, fieldName) {
-  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
-
-  const notListedTextKey = createNotListedTextKey(fieldName);
-
-  const notListedTextValue =
-    state?.vaProfile?.personalInformation?.[notListedTextKey];
-
-  if (!fieldValue && !notListedTextValue) return null;
-
-  const result = set({}, fieldName, fieldValue);
-
-  return notListedTextValue
-    ? set(result, notListedTextKey, notListedTextValue)
-    : result;
-}
 
 export const selectHideDirectDepositCompAndPen = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];

@@ -29,6 +29,9 @@ class IntroductionPage extends React.Component {
           <h3>Pages</h3>
           <ul>
             <li>
+              <Link to="/chapter-select">Chapter select</Link>
+            </li>
+            <li>
               <Link to="/text-input">Text input</Link>
             </li>
             <li>
@@ -39,6 +42,21 @@ class IntroductionPage extends React.Component {
             </li>
             <li>
               <Link to="/text-input-address">Text input address</Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-single-radio">
+                Forms pattern - single - radio
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-single-checkbox-group">
+                Forms pattern - single - checkbox group
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-multiple">
+                Forms pattern - multiple - text
+              </Link>
             </li>
             <li>
               <Link to="/number-input">Number input</Link>

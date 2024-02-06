@@ -1,42 +1,15 @@
 import React from 'react';
 
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-
 import { useSelector } from 'react-redux';
-import {
-  isVeteran,
-  getCemeteries,
-  desiredCemeteryNoteDescriptionVeteran,
-  desiredCemeteryNoteDescriptionNonVeteran,
-} from '../../utils/helpers';
+import * as autosuggest from '../../definitions/autosuggest';
 
-function DesiredCemeteryNoteDescription() {
-  const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
-    ? desiredCemeteryNoteDescriptionVeteran
-    : desiredCemeteryNoteDescriptionNonVeteran;
-}
+import { getCemeteries, isAuthorizedAgent } from '../../utils/helpers';
 
 function DesiredCemeteryTitle() {
   const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
+  return !isAuthorizedAgent(data)
     ? 'Which VA national cemetery would you prefer to be buried in?'
     : 'Which VA national cemetery would the applicant prefer to be buried in?';
-}
-
-export const desiredCemeteryNoteTitleWrapper = (
-  <a
-    href="https://www.va.gov/find-locations/"
-    rel="noreferrer"
-    target="_blank"
-    className="desiredCemeteryNoteTitle"
-  >
-    Find a VA national cemetery
-  </a>
-);
-
-function DesiredCemeteryNoteTitle() {
-  return desiredCemeteryNoteTitleWrapper;
 }
 
 export const desiredCemeteryTitleWrapper = <DesiredCemeteryTitle />;
@@ -55,10 +28,6 @@ export const uiSchema = {
           },
         },
       ),
-      'view:desiredCemeteryNote': {
-        'ui:title': DesiredCemeteryNoteTitle,
-        'ui:description': DesiredCemeteryNoteDescription,
-      },
     },
   },
 };

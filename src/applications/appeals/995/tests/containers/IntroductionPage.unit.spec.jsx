@@ -87,7 +87,10 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     // This SIP alert is _after_ the process list
-    expect($$('.sip-wrapper .schemaform-sip-alert', container).length).to.eq(1);
+    expect($$('va-alert[status="info"]', container).length).to.eq(1);
+    expect($$('va-alert[status="info"]', container)[0].textContent).to.include(
+      'Sign in now',
+    );
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 
@@ -158,11 +161,11 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($$('.vads-c-action-link--green', container).length).to.eq(2);
-    expect($('.schemaform-sip-alert', container).textContent).to.contain(
+    expect($$('va-alert[status="info"]', container)[0].textContent).to.contain(
       'come back later to finish filling it out',
     );
     // Lower SiP alert not shown
-    expect($('.sip-wrapper .schemaform-sip-alert', container)).to.not.exist;
+    expect($('.sip-wrapper va-alert[status="info"]', container)).to.not.exist;
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 });

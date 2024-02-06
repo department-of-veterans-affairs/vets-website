@@ -125,7 +125,9 @@ const notesAndSummariesConverterMap = {
 export const convertCareSummariesAndNotesRecord = record => {
   const type = getRecordType(record);
   const convertRecord = notesAndSummariesConverterMap[type];
-  return convertRecord ? convertRecord(record) : record;
+  return convertRecord
+    ? convertRecord(record)
+    : { ...record, type: noteTypes.OTHER };
 };
 
 export const careSummariesAndNotesReducer = (state = initialState, action) => {
@@ -148,9 +150,11 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       return {
         ...state,
         careSummariesAndNotesList:
-          action.response.entry?.map(note => {
-            return convertCareSummariesAndNotesRecord(note.resource);
-          }) || [],
+          action.response.entry
+            ?.map(note => {
+              return convertCareSummariesAndNotesRecord(note.resource);
+            })
+            .filter(record => record.type !== noteTypes.OTHER) || [],
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {

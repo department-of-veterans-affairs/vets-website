@@ -1,24 +1,21 @@
 import mockRepresentativesSearchResults from '../../constants/mock-representative-data.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
-import { claimsAgentIsEnabled } from '../../config';
 
 const representativeTypeOptions = [
-  'Veteran Service Officer',
-  'Attorney',
-  'Claims agent',
+  'Accredited Veterans Service Officer (VSO)',
+  'Accredited attorney',
+  'Accredited claims agent',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
   // Verify VSO is checked by default
-  cy.contains('va-radio-option', 'Veteran Service Officer')
+  cy.contains('va-radio-option', 'Accredited Veterans Service Officer (VSO)')
     .find('input')
     .should('be.checked');
 
-  const iteratorLength = claimsAgentIsEnabled ? 3 : 2;
-
   // Verify options available
-  for (let i = 0; i < iteratorLength; i++) {
+  for (let i = 0; i < 3; i += 1) {
     cy.get('va-radio')
       .children()
       .eq(i)
@@ -62,7 +59,7 @@ describe('Representative Search', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
 
     cy.get('#search-results-subheader').contains('Austin, TX');
   });
@@ -90,7 +87,7 @@ describe('Representative Search', () => {
       .find('input[type="text"]')
       .type('Austin, TX');
 
-    cy.get('#representative-search').click({ waitForAnimations: true });
+    cy.get('va-button[text="Search"]').click({ waitForAnimations: true });
 
     cy.get('#search-results-subheader').contains('No results found');
   });

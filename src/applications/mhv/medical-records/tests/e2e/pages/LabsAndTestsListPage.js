@@ -26,15 +26,6 @@ class LabsAndTestsListPage {
       .click();
   };
 
-  clickLabsAndTestsRadiologyLink = () => {
-    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').should(
-      'be.visible',
-    );
-    cy.get(':nth-child(5) > .vads-u-margin-y--0p5 > strong').click({
-      force: true,
-    });
-  };
-
   verifyPrintOrDownload = () => {
     // should display a toggle menu button
     cy.get('[data-testid="print-records-button"]').should('be.visible');
@@ -59,7 +50,7 @@ class LabsAndTestsListPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }

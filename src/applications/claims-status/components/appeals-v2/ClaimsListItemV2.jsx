@@ -63,7 +63,7 @@ export default function ClaimsListItem({ claim }) {
       </ul>
       <div className="card-status">
         <p>
-          <strong>Submitted on:</strong> {formattedReceiptDate}
+          <strong>Received on:</strong> {formattedReceiptDate}
         </p>
       </div>
       <Link

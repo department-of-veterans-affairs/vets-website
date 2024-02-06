@@ -23,6 +23,7 @@ import ApplicantDescription from 'platform/forms/components/ApplicantDescription
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -39,6 +40,18 @@ export function ApplicantDescriptionWrapper({ formContext }) {
     </div>
   );
 }
+
+export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
+}
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
@@ -75,29 +88,30 @@ export const contactInfoDescription = (
 );
 
 export const applicantInformationDescription = (
-  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+  <va-additional-info trigger="Who we consider an adult dependent child">
+    <p>
+      We consider someone an adult dependent child if either of these
+      descriptions is true:
+    </p>
     <ul>
       <>
         <li>
-          A <strong>spouse</strong> is a person who is or was legally married to
-          a service member or Veteran. A <strong>surviving spouse</strong> is
-          someone who was legally married to the service member or Veteran at
-          the time of their death and includes a surviving spouse who remarried.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 21, <strong>or</strong>
         </li>
         <li>
-          An <strong>unmarried adult child</strong> is an individual who became
-          physically or mentally disabled permanently and incapable of
-          self-support before the age of 21, or before 23 years of age if
-          pursuing a full-time course of instruction at an approved educational
-          institution.
-        </li>
-        <li>
-          For <strong>other</strong> applicants such as the parent of a service
-          member, we’ll ask questions about the service member (the sponsor) to
-          determine eligibility for burial in a VA national cemetery.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 23, if they were enrolled full
+          time in a school or training program at the time their disability
+          started
+          <br />
         </li>
       </>
     </ul>
+    <p>
+      <strong>Note:</strong> Adult dependent children must be unmarried to be
+      eligible for burial in a VA national cemetery.
+    </p>
   </va-additional-info>
 );
 
@@ -224,22 +238,84 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescriptionVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+export const desiredCemeteryNoteDescriptionSelfVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
     unavailable, we’ll work with your family to assign a gravesite in a cemetery
     with available space at the time of need.
-  </va-alert>
+  </p>
 );
 
-export const desiredCemeteryNoteDescriptionNonVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
-    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
-    If space is unavailable, we’ll work with their family to assign a gravesite
-    in a cemetery with available space at the time of need.
-  </va-alert>
+export const desiredCemeteryNoteDescriptionPreparerVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionSelfNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
+);
+
+export const relationshipToVetTitle =
+  'What’s your relationship to the Veteran or service member you’re connected to?';
+
+export const relationshipToVetPreparerTitle =
+  'What’s the applicant’s relationship to the Veteran or service member they’re connected to?';
+
+export const relationshipToVetDescription = '';
+
+export const relationshipToVetPreparerDescription =
+  'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).';
+
+export function getRelationshipToVetOptions(option1) {
+  return {
+    labels: {
+      veteran: option1,
+      husband: 'Husband',
+      wife: 'Wife',
+      daughter: 'Adult dependent daughter',
+      son: 'Adult dependent son',
+      stepdaughter: 'Adult dependent stepdaughter',
+      stepson: 'Adult dependent stepson',
+      other: 'Other',
+    },
+    widgetProps: {
+      veteran: { 'aria-describedby': 'veteran-relationship' },
+      husband: { 'aria-describedby': 'spouse-relationship' },
+      wife: { 'aria-describedby': 'spouse-relationship' },
+      daughter: { 'aria-describedby': 'child-relationship' },
+      son: { 'aria-describedby': 'child-relationship' },
+      stepdaughter: { 'aria-describedby': 'child-relationship' },
+      stepson: { 'aria-describedby': 'child-relationship' },
+      other: { 'aria-describedby': 'other-relationship' },
+    },
+  };
+}
+
+export const relationshipToVetOptions = getRelationshipToVetOptions(
+  'I’m the Veteran or service member',
+);
+
+export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
+  'Applicant is the Veteran or service member',
 );
 
 export function preparerAddressHasState(item) {
@@ -264,15 +340,22 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === '1';
+  return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
 export function isSpouse(item) {
-  return get('application.claimant.relationshipToVet', item) === '2';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return relationshipToVet === 'husband' || relationshipToVet === 'wife';
 }
 
 export function isUnmarriedChild(item) {
-  return get('application.claimant.relationshipToVet', item) === '3';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return (
+    relationshipToVet === 'daughter' ||
+    relationshipToVet === 'son' ||
+    relationshipToVet === 'stepdaughter' ||
+    relationshipToVet === 'stepson'
+  );
 }
 
 export function isVeteranAndHasServiceName(item) {
@@ -649,6 +732,20 @@ export const militaryNameUI = {
     },
   },
 };
+
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {

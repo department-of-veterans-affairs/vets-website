@@ -1,0 +1,39 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.dash-container {
+  max-width: 1024px;
+  margin: 32px auto;
+  .dash-header {
+    margin-left: 466px;
+    @media screen and (max-width: 1008px) {
+      margin-left: 0px;
+      text-align: center;
+    }
+  }
+  .nav {
+    height: 48px;
+  }
+  .notif {
+    height: 96px;
+  }
+  .primary {
+    height: 96px;
+  }
+  .etc {
+    height: 96px;
+  }
+  .left {
+    height: 200px;
+  }
+}
+
+.homepage-hero {
+  &__look-and-feel {
+    background: linear-gradient(
+      to left,
+      $color-primary-alt 10%,
+      $color-primary-alt-dark 40%,
+      $color-primary-alt-darkest
+    );
+  }
+}

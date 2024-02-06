@@ -42,27 +42,6 @@ export const ShortFormAlert = () => (
 );
 
 /** CHAPTER 4: Household Information */
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
-export const ExpensesWarning = () => (
-  <va-alert status="warning" class="vads-u-margin-top--4">
-    <h2 slot="headline">
-      Your expenses are higher than or equal to your income.
-    </h2>
-    <p className="vads-u-margin-bottom--0">
-      You can stop entering your expenses. We’ll adjust your expenses to be
-      equal to your income. This won’t affect your application or benefits.
-    </p>
-  </va-alert>
-);
-
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
-export const FinancialDisclosureAlert = () => (
-  <va-alert status="info" class="vads-u-margin-top--4">
-    If you don’t provide your financial information and you don’t have another
-    qualifying eligibility factor, VA can’t enroll you.
-  </va-alert>
-);
-
 export const DependentSIPWarning = () => (
   <va-alert
     status="warning"

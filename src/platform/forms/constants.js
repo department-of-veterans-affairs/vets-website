@@ -70,6 +70,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
 });
 
 export const FORM_BENEFITS = {
+  [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
   [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
@@ -139,6 +140,7 @@ export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
 
 export const FORM_LINKS = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
+  [VA_FORM_IDS.FORM_10_10D]: `${getAppUrl('10-10D')}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
   [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
   [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
@@ -170,6 +172,7 @@ export const FORM_LINKS = {
 };
 
 export const TRACKING_PREFIXES = {
+  [VA_FORM_IDS.FORM_10_10D]: '10-10D-',
   [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
@@ -201,6 +204,7 @@ export const TRACKING_PREFIXES = {
 };
 
 export const SIP_ENABLED_FORMS = new Set([
+  VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,

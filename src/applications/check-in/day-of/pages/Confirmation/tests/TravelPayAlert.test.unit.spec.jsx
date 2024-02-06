@@ -11,8 +11,9 @@ describe('check in', () => {
       const component = render(
         <CheckInProvider>
           <TravelPayAlert
+            travelPayClaimError={false}
+            travelPayClaimRequested
             travelPayEligible
-            travelPayClaimData={{ claimdata: true }}
           />
         </CheckInProvider>,
       );
@@ -27,7 +28,11 @@ describe('check in', () => {
     it('renders a not eligible message', () => {
       const component = render(
         <CheckInProvider>
-          <TravelPayAlert travelPayEligible={false} />
+          <TravelPayAlert
+            travelPayClaimError={false}
+            travelPayClaimRequested
+            travelPayEligible={false}
+          />
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-not-eligible-message')).to.exist;
@@ -40,12 +45,31 @@ describe('check in', () => {
     it('renders a generic api error message', () => {
       const component = render(
         <CheckInProvider>
-          <TravelPayAlert travelPayEligible travelPayClaimError />
+          <TravelPayAlert
+            travelPayClaimError
+            travelPayClaimRequested
+            travelPayEligible
+          />
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-error-message')).to.exist;
       expect(component.getByTestId('travel-pay-error-message')).to.have.text(
         "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
+      );
+    });
+    it('renders a renders an info message if the veteran opted out', () => {
+      const component = render(
+        <CheckInProvider>
+          <TravelPayAlert
+            travelPayClaimError
+            travelPayClaimRequested={false}
+            travelPayEligible
+          />
+        </CheckInProvider>,
+      );
+      expect(component.getByTestId('travel-pay-info-message')).to.exist;
+      expect(component.getByTestId('travel-pay-info-message')).to.have.text(
+        'VA travel pay reimbursement pays eligible Veterans and caregivers back for mileage and other travel expenses to and from approved health care appointments.Find out if you’re eligible and how to file for travel reimbursement',
       );
     });
   });

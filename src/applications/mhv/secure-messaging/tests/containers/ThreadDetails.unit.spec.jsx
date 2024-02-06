@@ -21,6 +21,10 @@ import {
   getLastSentMessage,
   isOlderThan,
 } from '../../util/helpers';
+import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
+import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
+import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import lostAssociation from '../fixtures/json-triage-mocks/triage-teams-lost-association.json';
 
 describe('Thread Details container', () => {
   const setup = state => {
@@ -151,6 +155,18 @@ describe('Thread Details container', () => {
           printOption: 'PRINT_THREAD',
           threadViewCount: 5,
         },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+        messageDetails: { message: singleDraftThread.draftMessage },
       },
     };
 
@@ -467,5 +483,167 @@ describe('Thread Details container', () => {
       fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is blocked', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails,
+        recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            oneBlockedRecipient.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+          noAssociations: oneBlockedRecipient.noAssociations,
+          allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      "You can't send messages to SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert if recipient is not associated', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails,
+        recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
+          allowedRecipients: lostAssociation.mockAllowedRecipients,
+          blockedRecipients: lostAssociation.mockBlockedRecipients,
+          associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            lostAssociation.associatedBlockedTriageGroupsQty,
+          noAssociations: lostAssociation.noAssociations,
+          allTriageGroupsBlocked: lostAssociation.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    );
+  });
+
+  it('displays BlockedTriageGroupAlert if there are no associations at all', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails,
+        recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
+          allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+          blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    state.featureToggles[
+      `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+    ] = true;
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.findByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).to.exist;
+    expect(blockedTriageGroupAlert).to.have.attribute(
+      'trigger',
+      'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
+    );
   });
 });

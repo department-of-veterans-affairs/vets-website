@@ -8,6 +8,11 @@ export const initialState = {
    */
   prescriptionsList: undefined,
   /**
+   * The list of sorted prescriptions returned from the api
+   * @type {array}
+   */
+  prescriptionsFullList: [],
+  /**
    * The prescription currently being displayed to the user
    */
   prescriptionDetails: undefined,
@@ -29,6 +34,12 @@ export const prescriptionsReducer = (state = initialState, action) => {
         prescriptionDetails: action.response.data.attributes,
       };
     }
+    case Actions.Prescriptions.CLEAR_DETAILS: {
+      return {
+        ...state,
+        prescriptionDetails: undefined,
+      };
+    }
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
@@ -36,6 +47,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
+      };
+    }
+    case Actions.Prescriptions.GET_SORTED_LIST: {
+      return {
+        ...state,
+        prescriptionsFullList: action.response.data.map(rx => {
+          return { ...rx.attributes };
+        }),
       };
     }
     case Actions.Prescriptions.UPDATE_SORT_OPTION: {

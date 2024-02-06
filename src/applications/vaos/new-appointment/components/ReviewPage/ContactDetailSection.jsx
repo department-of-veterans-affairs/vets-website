@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
-import { selectFeatureAcheronService } from '../../../redux/selectors';
 import { getFlowType, getFormData } from '../../redux/selectors';
 import getNewAppointmentFlow from '../../newAppointmentFlow';
 
@@ -50,9 +49,6 @@ function handleClick(history, pageFlow) {
 
 export default function ContactDetailSection({ data }) {
   const formData = useSelector(getFormData);
-  const featureAcheronService = useSelector(state =>
-    selectFeatureAcheronService(state),
-  );
   const flowType = useSelector(getFlowType);
   const history = useHistory();
   const pageFlow = useSelector(getNewAppointmentFlow);
@@ -71,16 +67,8 @@ export default function ContactDetailSection({ data }) {
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
               />
-              {featureAcheronService &&
-                formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+              {formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
                 flowType === FLOW_TYPES.REQUEST && (
-                  <>
-                    <br />
-                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-                  </>
-                )}
-              {!featureAcheronService &&
-                flowType !== FLOW_TYPES.DIRECT && (
                   <>
                     <br />
                     <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>

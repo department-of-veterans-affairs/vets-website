@@ -48,23 +48,31 @@ const renderVitalSign = vitalSignItem => {
   );
 };
 
-const clinicMedications = avs => {
-  if (avs.vaMedications?.length > 0) {
-    // TODO: get clinic meds.
+const clinicMedsIntro = avs => {
+  return (
+    <>
+      <p>
+        Medications ordered for administration during your visit to a VA clinic
+        or emergency department.
+      </p>
+      <MedicationTerms avs={avs} />
+    </>
+  );
+};
 
-    return (
-      <div data-testid="clinic-medications">
-        <h3>Medications ordered for administration in clinic</h3>
-        <p>
-          Medications ordered for administration during your visit to a VA
-          clinic or emergency department.
-        </p>
-        <MedicationTerms avs={avs} />
-      </div>
-    );
-  }
-
-  return null;
+const renderClinicMedication = medication => {
+  return (
+    <>
+      <p>
+        <strong>{medication.name}</strong>
+        <br />
+        {medication.sig}
+        <br />
+        Status: {medication.status}
+        <br />
+      </p>
+    </>
+  );
 };
 
 const YourAppointment = props => {
@@ -99,13 +107,20 @@ const YourAppointment = props => {
         renderItem={renderVitalSign}
         showSeparators
       />
-      {/* TODO: test procedures when sample data is available. */}
       <ListBlock
         heading="Procedures"
+        itemName="name"
         items={avs.procedures}
         itemType="procedure-list"
       />
-      {clinicMedications(avs)}
+      <ItemsBlock
+        heading="Medications ordered for administration in clinic"
+        intro={clinicMedsIntro(avs)}
+        itemType="clinic-medications"
+        items={avs.clinicMedications}
+        renderItem={renderClinicMedication}
+        showSeparators
+      />
     </div>
   );
 };

@@ -264,7 +264,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
           !errorExists(processedErrors, name, errorIndex)
         ) {
           const { chapterKey = '', pageKey = '' } =
-            reviewErrors._override?.(name || err.stack || err.argument) ||
+            reviewErrors._override?.(name || err.stack || err.argument, err) ||
             getPropertyInfo(pageList, name);
           // `message` is null if we don't want a link to show up.
           // For example, this happens for the 526 when a new disability is

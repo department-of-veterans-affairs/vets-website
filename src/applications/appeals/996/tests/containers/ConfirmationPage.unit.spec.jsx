@@ -104,7 +104,7 @@ describe('Confirmation page', () => {
       expect(document.activeElement).to.eq(h2);
     });
   });
-  it('should reset the wizard sessionStorage', () => {
+  it('should reset the wizard sessionStorage', async () => {
     sessionStorage.setItem(WIZARD_STATUS, 'foo');
     sessionStorage.setItem(SAVED_CLAIM_TYPE, 'bar');
     render(
@@ -112,8 +112,10 @@ describe('Confirmation page', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
-    expect(sessionStorage.getItem(SAVED_CLAIM_TYPE)).to.be.null;
+    await waitFor(() => {
+      expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
+      expect(sessionStorage.getItem(SAVED_CLAIM_TYPE)).to.be.null;
+    });
   });
 
   it('should render with no data', () => {

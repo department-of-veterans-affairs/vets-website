@@ -4,7 +4,7 @@ import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import localStorage from 'platform/utilities/storage/localStorage';
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
@@ -78,6 +78,44 @@ export const getTrackedItemDate = item => {
   return item.closedDate || item.receivedDate || item.requestedDate;
 };
 // END lighthouse_migration
+
+export function getTrackedItems(claim, useLighthouse = true) {
+  // claimAttributes are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return claim.attributes.trackedItems;
+  }
+
+  return claim.attributes.eventsTimeline.filter(event =>
+    event.type.endsWith('_list'),
+  );
+}
+
+export function getFilesNeeded(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_YOU');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
+  );
+}
+
+export function getFilesOptional(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
+  );
+}
 
 export function getItemDate(item) {
   // Tracked item that has been marked received.
@@ -287,8 +325,7 @@ export function scrubDescription(text) {
   return stripEscapedChars(stripHtml(text));
 }
 
-export function truncateDescription(text) {
-  const maxLength = 120;
+export function truncateDescription(text, maxLength = 120) {
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }

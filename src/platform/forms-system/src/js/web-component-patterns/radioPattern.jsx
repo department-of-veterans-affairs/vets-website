@@ -25,6 +25,7 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * ```
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
+ *  labels?: UISchemaOptions['ui:options']['labels'],
  *  description?: UISchemaOptions['ui:description'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],

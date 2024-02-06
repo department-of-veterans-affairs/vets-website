@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
@@ -76,10 +77,14 @@ describe('Secure Messaging Sent Folder checks', () => {
       },
     });
     cy.get('.endOfThreads').should('not.exist');
-    PatientMessagesSentPage.navigateToLastPage();
-    cy.get('.endOfThreads').should(
-      'have.text',
-      'End of conversations in this folder',
-    );
+    cy.get('.usa-pagination__list li').then(pagesList => {
+      const lastPageIndex = pagesList.length - 2;
+      FolderLoadPage.navigateToLastPage(lastPageIndex);
+      cy.get('.endOfThreads').should(
+        'have.text',
+        'End of conversations in this folder',
+      );
+    });
+    FolderLoadPage.verifyPaginationElements();
   });
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -15,23 +15,29 @@ import {
   sortOptionsByStateName,
   addAllOption,
   createId,
+  validateSearchTerm,
 } from '../utils/helpers';
-import { showModal, filterChange } from '../actions';
+import { showModal, filterChange, setError } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
 
 export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
+  dispatchError,
   filters,
   modalClose,
   preview,
   search,
   smallScreen,
+  errorReducer,
+  searchType,
 }) {
   const history = useHistory();
   const { version } = preview;
+  const { error } = errorReducer;
   const {
     expanded,
     schools,
@@ -59,6 +65,7 @@ export function FilterYourResults({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
+  const [nameValue, setNameValue] = useState(search.query.name);
 
   const recordCheckboxEvent = e => {
     recordEvent({
@@ -77,6 +84,7 @@ export function FilterYourResults({
   };
 
   const onChange = e => {
+    setNameValue(e.target.value);
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': e.target.name,
@@ -173,6 +181,9 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
+    if (!isProductionOfTestProdEnv()) {
+      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    }
     updateInstitutionFilters('search', true);
 
     updateUrlParams(history, search.tab, search.query, filters, version);
@@ -212,7 +223,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
@@ -220,12 +231,16 @@ export function FilterYourResults({
             }}
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Has no cautionary warnings
+          </label>
         ),
       },
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
@@ -234,6 +249,10 @@ export function FilterYourResults({
             buttonId="accredited-button"
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Is accredited
+          </label>
         ),
       },
       {
@@ -515,6 +534,11 @@ export function FilterYourResults({
             >
               Update results
             </button>
+            {!environment.isProduction() && (
+              <ClearFiltersBtn smallScreen={smallScreen}>
+                Clear filters
+              </ClearFiltersBtn>
+            )}
           </div>
         </div>
       )}
@@ -526,11 +550,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+  dispatchError: setError,
 };
 
 export default connect(

@@ -3,7 +3,8 @@
 }
 
 .print-download {
-  width: 275px;
+  width: 310px;
+  cursor: pointer;
   button {
     background-color: var(--color-white);
     color: var(--color-primary);
@@ -90,7 +91,7 @@
   }
 
   .menu-options-open {
-    width: 275px;
+    width: 310px;
     position: absolute;
     z-index: 99;
     list-style: none;

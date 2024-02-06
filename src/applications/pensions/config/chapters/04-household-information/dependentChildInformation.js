@@ -18,8 +18,8 @@ import {
   dependentSeriouslyDisabledDescription,
   dependentWarning,
   disabilityDocs,
-  schoolAttendanceWarning,
 } from '../../../helpers';
+import { SchoolAttendanceAlert } from '../../../components/FormAlerts';
 
 const { dependents } = fullSchemaPensions.properties;
 
@@ -88,7 +88,7 @@ export default {
           },
         ),
         'view:schoolWarning': {
-          'ui:description': schoolAttendanceWarning,
+          'ui:description': SchoolAttendanceAlert,
           'ui:options': {
             expandUnder: 'attendingCollege',
           },

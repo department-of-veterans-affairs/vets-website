@@ -4,7 +4,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PropTypes from 'prop-types';
-import ArrayBuilderSummaryCardList from '../components/ArrayBuilderSummaryCardList';
+import ArrayBuilderSummaryCardList from '../arrayBuilder/components/ArrayBuilderSummaryCardList';
 
 const CardContent = ({ item }) => (
   <>
@@ -26,8 +26,8 @@ export default {
       <ArrayBuilderSummaryCardList
         title="Review your employers"
         CardContent={CardContent}
-        editBasePath="/array-multiple-page-builder-item-page-1"
-        formDataPath="employers"
+        arrayPath="employers"
+        itemBasePathUrl="/array-multiple-page-builder-item-page-1"
         removeTitle="Are you sure you want to remove this employer?"
         removeDescription={itemName =>
           `This will remove ${itemName} and all their information from your list of employers.`

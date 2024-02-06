@@ -30,7 +30,7 @@ export const ConfirmationPage = props => {
   const { form } = props;
   const { submission, data } = form;
 
-  const { veteranFullName } = data;
+  const { veteranFullName, activeCompensationITF, activePensionITF } = data;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -53,6 +53,10 @@ export const ConfirmationPage = props => {
   }
   if (submission.response?.survivorIntent) {
     alreadySubmittedIntents.survivor = submission.response.survivorIntent;
+  }
+  if (activeCompensationITF && activePensionITF) {
+    alreadySubmittedIntents.compensation = activeCompensationITF;
+    alreadySubmittedIntents.pension = activePensionITF;
   }
 
   const alreadySubmittedTitle = getAlreadySubmittedTitle(
@@ -156,7 +160,7 @@ export const ConfirmationPage = props => {
           return (
             <p key={nextStep}>
               <a
-                className="vads-c-action-link--green vads-u-margin-bottom--4"
+                className="vads-c-action-link--blue vads-u-margin-bottom--4"
                 href={href}
               >
                 Complete your {benefitPhrases[nextStep]}

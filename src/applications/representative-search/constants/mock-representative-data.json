@@ -2,7 +2,7 @@
   "data": [
     {
       "id": "049",
-      "type": "veteran_service_officers",
+      "type": "VSO",
       "attributes": {
         "name": "Texas Veterans Commission",
         "addressLine1": "1700 Congress Ave Ste 800",
@@ -26,7 +26,7 @@
     },
     {
       "id": "003",
-      "type": "veteran_service_officers",
+      "type": "VSO",
       "attributes": {
         "name": "Polish Legion of American Veterans",
         "addressLine1": "6410 Sunstrip Dr",

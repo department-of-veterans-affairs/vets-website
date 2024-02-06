@@ -1,6 +1,11 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders, Paths } from './constants';
+import {
+  DefaultFolders as Folders,
+  Paths,
+  RecipientStatus,
+  Recipients,
+} from './constants';
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -216,4 +221,74 @@ export const resetUserSession = localStorageValues => {
     });
   }, 1000);
   return { signOutMessage: 'non-empty string', timeOutId: timeout };
+};
+
+export const checkTriageGroupAssociation = tempRecipient => {
+  return recipient =>
+    recipient.id === tempRecipient.recipientId ||
+    recipient.name === tempRecipient.name ||
+    recipient.name === tempRecipient.triageGroupName;
+};
+
+export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
+  const formattedRecipient = tempRecipient;
+
+  const isBlocked = recipients.blockedRecipients?.some(
+    checkTriageGroupAssociation(formattedRecipient),
+  );
+
+  const isAssociated =
+    isBlocked ||
+    recipients.allowedRecipients.some(
+      checkTriageGroupAssociation(formattedRecipient),
+    );
+
+  if (!isAssociated) {
+    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+  } else if (isBlocked) {
+    formattedRecipient.status = RecipientStatus.BLOCKED;
+  }
+
+  return { isAssociated, isBlocked, formattedRecipient };
+};
+
+export const formatRecipient = recipient => {
+  return {
+    id: recipient.attributes.triageTeamId,
+    name: recipient.attributes.name,
+    stationNumber: recipient.attributes.stationNumber,
+    blockedStatus: recipient.attributes.blockedStatus,
+    preferredTeam: recipient.attributes.preferredTeam,
+    relationshipType: recipient.attributes.relationshipType,
+    type: Recipients.CARE_TEAM,
+    status: recipient.attributes.blockedStatus
+      ? RecipientStatus.BLOCKED
+      : RecipientStatus.ALLOWED,
+  };
+};
+
+export const findBlockedFacilities = recipients => {
+  const blockedFacilities = new Set();
+  const allowedFacilities = new Set();
+  const fullyBlockedFacilities = [];
+
+  recipients.forEach(recipient => {
+    if (recipient.attributes.blockedStatus === true) {
+      blockedFacilities.add(recipient.attributes.stationNumber);
+    } else {
+      allowedFacilities.add(recipient.attributes.stationNumber);
+    }
+  });
+
+  blockedFacilities.forEach(facility => {
+    if (!allowedFacilities.has(facility)) {
+      fullyBlockedFacilities.push(facility);
+    }
+  });
+
+  return fullyBlockedFacilities;
+};
+
+export const sortTriageList = list => {
+  return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };

@@ -10,7 +10,7 @@ import {
   navigateBackward,
   navigateForward,
 } from '../../utilities/page-navigation';
-import { updateCurrentPage, updateFormStore } from '../../actions';
+import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
 
 /**
@@ -30,7 +30,6 @@ const CheckboxGroup = ({
   shortName,
   testId,
   updateCleanedFormStore,
-  updateTheCurrentPage,
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -73,12 +72,12 @@ const CheckboxGroup = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router, updateTheCurrentPage);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(shortName, formResponses, router, updateTheCurrentPage);
+    navigateBackward(shortName, formResponses, router);
   };
 
   return (
@@ -114,13 +113,13 @@ const CheckboxGroup = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
+        uswds={false}
       />
     </>
   );
 };
 
 const mapDispatchToProps = {
-  updateTheCurrentPage: updateCurrentPage,
   updateCleanedFormStore: updateFormStore,
 };
 
@@ -134,7 +133,6 @@ CheckboxGroup.propTypes = {
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.array,
   locationList: PropTypes.node,
