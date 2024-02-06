@@ -15,7 +15,7 @@ export default function FormAlert() {
       status="warning"
       background-only
       data-testid="bad-address-form-alert"
-      className="vads-u-margin-top--1 vads-u-font-weight--normal"
+      className="vads-u-margin-top--1 vads-u-font-weight--normal vads-u-margin-bottom--2"
       onVa-component-did-load={recordView}
       uswds
     >

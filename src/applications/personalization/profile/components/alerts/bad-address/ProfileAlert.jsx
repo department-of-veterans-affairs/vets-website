@@ -63,14 +63,13 @@ export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
       <p id="bai-alert-body">
         The mailing address we have on file for you may not be correct.
       </p>
-      <p>
-        <Link
-          to="contact-information/#mailing-address"
-          onClick={handlers.recordLinkClick(linkText, pageName)}
-        >
-          {linkText}
-        </Link>
-      </p>
+
+      <Link
+        to="contact-information/#mailing-address"
+        onClick={handlers.recordLinkClick(linkText, pageName)}
+      >
+        {linkText}
+      </Link>
     </VaAlert>
   );
 }

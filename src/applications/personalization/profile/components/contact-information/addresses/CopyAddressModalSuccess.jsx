@@ -12,6 +12,7 @@ const CopyAddressModalSuccess = ({ address, visible = false, onClose }) => (
     onPrimaryButtonClick={onClose}
     primaryButtonText="Close"
     data-testid="copy-address-success"
+    uswds
   >
     <div data-testid="modal-content">
       <p>We’ve updated your mailing address to match your home address.</p>

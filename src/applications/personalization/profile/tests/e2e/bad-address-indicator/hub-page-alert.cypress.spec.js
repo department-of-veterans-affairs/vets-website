@@ -18,13 +18,13 @@ describe('Bad Address Alert - Profile page', () => {
     cy.login(badAddress);
     BadAddressFeature.visitHubPage();
     cy.injectAxeThenAxeCheck();
-    BadAddressFeature.confirmPersonalInformationAlertIsShowing();
+    BadAddressFeature.confirmPageAlertIsShowing();
   });
   it('should not show the bad address', () => {
     cy.intercept('GET', '/v0/user', loa3User72);
     cy.login(loa3User72);
     BadAddressFeature.visitHubPage();
     cy.injectAxeThenAxeCheck();
-    BadAddressFeature.confirmPersonalInformationAlertIsNotShowing();
+    BadAddressFeature.confirmPageAlertIsNotShowing();
   });
 });

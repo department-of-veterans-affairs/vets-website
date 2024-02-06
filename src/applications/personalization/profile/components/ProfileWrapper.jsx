@@ -83,7 +83,7 @@ const ProfileWrapper = ({
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
-            <ProfileBreadcrumbs />
+            <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 vads-u-margin-top--neg2 vads-u-margin-bottom--neg2" />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav

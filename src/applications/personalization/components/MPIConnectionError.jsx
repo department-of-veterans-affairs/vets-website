@@ -7,6 +7,7 @@ const MPIConnectionError = ({ className }) => {
       class={className}
       status="warning"
       data-testid="mpi-connection-error"
+      uswds
     >
       <h2 slot="headline">We can’t access your records right now</h2>
       <p className="vads-u-margin-bottom--0">

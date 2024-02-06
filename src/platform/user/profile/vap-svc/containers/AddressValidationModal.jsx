@@ -264,6 +264,7 @@ class AddressValidationModal extends React.Component {
         id="address-validation-warning"
         onCloseEvent={resetDataAndCloseModal}
         visible
+        uswds
       >
         {error && (
           <div className="vads-u-margin-bottom--1">
@@ -274,6 +275,7 @@ class AddressValidationModal extends React.Component {
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
+          uswds
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </VaAlert>

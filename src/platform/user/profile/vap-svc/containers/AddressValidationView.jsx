@@ -271,6 +271,7 @@ class AddressValidationView extends React.Component {
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
             status="warning"
             visible
+            uswds
           >
             <h4 id="address-validation-alert-heading" slot="headline">
               {addressValidationMessage.headline}
