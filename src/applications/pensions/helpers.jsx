@@ -352,7 +352,9 @@ export const contactWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
-        We won’t contact this person without contacting you first.
+        We usually don’t need to contact a former spouse of a Veteran’s spouse.
+        In very rare cases where we need information from this person, we’ll
+        contact you first.
       </div>
     </div>
   </div>
@@ -390,3 +392,9 @@ export const validateWorkHours = (errors, fieldData) => {
     errors.addError('Enter a number less than 169');
   }
 };
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}

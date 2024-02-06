@@ -242,11 +242,13 @@ describe('VAOS upcoming appointment flow', () => {
 
       cy.get('#cancelAppt')
         .shadow()
-        .find('h1')
+        .find('h2')
         .should('be.visible')
         .and('contain', 'Your appointment has been canceled');
-      cy.findByText(/Continue/i)
-        .should('exist')
+      cy.get('#cancelAppt')
+        .shadow()
+        .get('.va-modal-alert-body va-button')
+        .first()
         .click();
 
       cy.findByText(/You canceled your appointment/i);

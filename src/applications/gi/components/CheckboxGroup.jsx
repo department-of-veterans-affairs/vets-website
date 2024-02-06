@@ -28,13 +28,14 @@ const CheckboxGroup = ({
   const renderOptions = () => {
     const displayOptions = Array.isArray(options) ? options : [];
     return displayOptions.map((option, index) => {
-      const { checked, optionLabel, name, learnMore } = option;
+      const { checked, optionLabel, name, learnMore, dataTestId } = option;
       return (
         <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <input
             checked={checked}
             id={`${inputId}-${index}`}
             name={name}
+            data-testid={dataTestId}
             type="checkbox"
             onFocus={() => onFocus(`${inputId}-${index}`)}
             onChange={onChange}

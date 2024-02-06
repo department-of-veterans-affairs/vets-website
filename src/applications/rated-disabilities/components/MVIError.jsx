@@ -9,7 +9,7 @@ export const headline =
 
 export default function MVIError() {
   return (
-    <va-alert status="warning">
+    <va-alert status="warning" uswds="false">
       <h2 slot="headline">{headline}</h2>
       <div>
         <p>
@@ -28,6 +28,7 @@ export default function MVIError() {
           <va-link
             href={facilityLocatorUrl}
             text="Find your nearest VA medical center"
+            uswds="false"
           />
         </p>
       </div>
