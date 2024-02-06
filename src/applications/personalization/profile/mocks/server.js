@@ -75,6 +75,7 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
+    // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
@@ -87,7 +88,6 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
-
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -155,8 +155,11 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected40,
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    return res.status(200).json(ratingInfo.success);
+    // return res.status(500).json(genericErrors.error500);
+  },
+
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);

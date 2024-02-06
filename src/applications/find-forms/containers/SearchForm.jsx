@@ -100,6 +100,7 @@ export const SearchForm = ({ fetchForms }) => {
         onInput={handleQueryChange}
         onSubmit={onSubmitHandler}
         buttonText="Search"
+        uswds={false}
       />
     </div>
   );
