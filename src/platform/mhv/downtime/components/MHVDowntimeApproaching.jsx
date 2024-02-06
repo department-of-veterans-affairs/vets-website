@@ -1,30 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatDatetime } from '../utils/date';
 
 function MHVDowntimeApproaching({
-  appTitle,
-  dismissDowntimeWarning,
-  isDowntimeWarningDismissed,
+  appTitle = 'My HealtheVet',
   endTime,
   startTime,
 }) {
   const startString = startTime ? formatDatetime(startTime) : '';
   const endString = endTime ? formatDatetime(endTime) : '';
-  const close = () => {
-    dismissDowntimeWarning(appTitle);
-  };
   return (
     <>
-      <VaAlert
-        class="vads-u-margin-bottom--4"
-        status="warning"
-        closeable
-        uswds
-        visible={!isDowntimeWarningDismissed}
-        onCloseEvent={close}
-      >
+      <va-alert class="vads-u-margin-bottom--4" status="warning" uswds>
         <h3 slot="headline">{appTitle} will be down for maintenance</h3>
         <p>
           We’re going to work on My HealtheVet. If you have trouble using tools,
@@ -36,23 +23,15 @@ function MHVDowntimeApproaching({
           If you need any assistance, please contact your{' '}
           <va-link href="" text="near facilities" />
         </p>
-      </VaAlert>
+      </va-alert>
     </>
   );
 }
 
 MHVDowntimeApproaching.propTypes = {
-  appTitle: PropTypes.string.isRequired,
-  dismissDowntimeWarning: PropTypes.func.isRequired,
-  isDowntimeWarningDismissed: PropTypes.bool.isRequired,
-  endTime: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.any, // Momentjs object
-  ]),
-  startTime: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.any, // Momentjs object
-  ]),
+  appTitle: PropTypes.string,
+  endTime: PropTypes.instanceOf(Date),
+  startTime: PropTypes.instanceOf(Date),
 };
 
 export default MHVDowntimeApproaching;

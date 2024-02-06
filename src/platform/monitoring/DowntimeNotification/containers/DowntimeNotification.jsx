@@ -99,14 +99,11 @@ class DowntimeNotification extends React.Component {
     if (this.props.render) {
       return this.props.render(
         {
-          appTitle: this.props.appTitle,
-          dismissDowntimeWarning: this.props.dismissDowntimeWarning,
           externalService: this.props.externalService,
           status: this.props.status,
           startTime: this.props.startTime,
           endTime: this.props.endTime,
           description: this.props.description,
-          isDowntimeWarningDismissed: this.props.isDowntimeWarningDismissed,
         },
         children,
       );
