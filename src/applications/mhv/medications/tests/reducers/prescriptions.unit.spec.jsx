@@ -5,6 +5,7 @@ import {
 } from '../../reducers/prescriptions';
 import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
+import prescriptionsList from '../fixtures/prescriptionsList.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 
 describe('Prescriptions reducer', () => {
@@ -31,6 +32,19 @@ describe('Prescriptions reducer', () => {
     const state = reduce({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       response: paginatedSortedListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+  it('should change prescriptionsFullList when GET_SORTED_LIST action is passed', () => {
+    const rxState = {
+      ...initialState,
+      prescriptionsFullList: prescriptionsList.data.map(rx => {
+        return { ...rx.attributes };
+      }),
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_SORTED_LIST,
+      response: prescriptionsList,
     });
     expect(state).to.deep.equal(rxState);
   });
