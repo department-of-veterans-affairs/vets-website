@@ -18,7 +18,7 @@ describe('Secure Messaging Message Details', () => {
   before('Axe Check Message Details Page', () => {
     site.login();
     date.setDate(date.getDate() - 2);
-    const messageDetails = {
+    messageDetails = {
       data: {
         ...mockMessageDetails.data,
         attributes: {
