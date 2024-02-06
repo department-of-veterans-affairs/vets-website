@@ -62,7 +62,7 @@ describe('Home address update modal', () => {
 
     cy.findByTestId('copy-address-success')
       .shadow()
-      .findByText(`Close`)
+      .findByLabelText(`Close We've updated your mailing address modal`)
       .should('exist')
       .click({
         force: true,
@@ -116,7 +116,7 @@ describe('Home address update modal', () => {
 
     cy.findByTestId('copy-address-failure')
       .shadow()
-      .findByText('Close')
+      .findByLabelText(`Close We can't update your mailing address modal`)
       .click({
         force: true,
         waitForAnimations: true,
