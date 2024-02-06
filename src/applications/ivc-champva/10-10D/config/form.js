@@ -34,7 +34,6 @@ import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
-import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
@@ -181,16 +180,14 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI(
-              "Which of these best describes your relationship to this form's applicant(s)?",
-            ),
-            certifierRelationship: relationshipToVeteranUI('Applicant(s)'),
+            certifierRelationship: relationshipToVeteranUI({
+              personTitle: 'Applicant(s)',
+            }),
           },
           schema: {
             type: 'object',
             required: ['certifierRelationship'],
             properties: {
-              certifierInfoTitle: titleSchema,
               certifierRelationship: {
                 ...relationshipToVeteranSchema,
                 required: [],
@@ -506,27 +503,6 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
-            },
-          },
-        },
-        page12: {
-          path: 'sponsor-information/complete',
-          title: 'Sponsor information complete',
-          uiSchema: {
-            'view:alert': {
-              'ui:title': SectionCompleteAlert,
-            },
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:alert': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
