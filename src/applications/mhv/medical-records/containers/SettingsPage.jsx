@@ -103,17 +103,17 @@ const SettingsPage = () => {
     }
     if (isSharing === undefined) {
       return (
-        <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
+        <va-card background className="vads-u-padding--3">
           <va-loading-indicator
             message="Loading..."
             class="vads-u-margin--4"
             data-testid="sharing-status-loading-indicator"
           />
-        </div>
+        </va-card>
       );
     }
     return (
-      <div className="card vads-u-padding--3 vads-u-background-color--gray-lightest">
+      <va-card background className="vads-u-padding--3">
         <h3 className="vads-u-margin-top--0">
           Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
         </h3>
@@ -150,7 +150,7 @@ const SettingsPage = () => {
             handleUpdateSharing(isSharing)
           }
         />
-      </div>
+      </va-card>
     );
   };
 

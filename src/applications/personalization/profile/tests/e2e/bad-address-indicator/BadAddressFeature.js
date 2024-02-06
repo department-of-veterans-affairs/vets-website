@@ -8,22 +8,22 @@ class BadAddressFeature {
 
   EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
 
-  visitPersonalInformationPage = () => {
-    cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+  visitHubPage = () => {
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   };
 
   visitContactInformationPage = () => {
     cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
-  confirmPersonalInformationAlertIsShowing = () => {
+  confirmPageAlertIsShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('exist');
-    cy.get('[data-testid="bad-address-profile-alert"] > :nth-child(3) > a')
+    cy.get('[data-testid="bad-address-profile-alert"] > a')
       .should('have.attr', 'href')
       .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
-  confirmPersonalInformationAlertIsNotShowing = () => {
+  confirmPageAlertIsNotShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
   };
 

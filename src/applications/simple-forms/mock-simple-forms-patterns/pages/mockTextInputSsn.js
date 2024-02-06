@@ -5,7 +5,6 @@ import {
   vaFileNumberUI as vaFileNumberNewUI,
   ssnOrVaFileNumberUI,
   ssnOrVaFileNumberSchema,
-  titleSchema,
   titleUI,
   inlineTitleUI,
   inlineTitleSchema,
@@ -15,7 +14,7 @@ import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedU
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social security number',
@@ -45,7 +44,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       ssn: {
         $ref: '#/definitions/ssn',
       },

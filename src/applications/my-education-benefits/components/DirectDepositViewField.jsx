@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { obfuscate, titleCase } from '../helpers';
 
 export default function DirectDepositViewField({ formData }) {
@@ -10,27 +11,31 @@ export default function DirectDepositViewField({ formData }) {
     routingNumber,
   } = bankAccount;
 
+  const accountTypeDisplay = accountType
+    ? `${titleCase(accountType)} account`
+    : 'Account';
+
   return (
     <>
       <p className="vads-u-margin-bottom--4">
-        <strong>Note</strong>: We make payments only through direct deposit,
-        also called electronic funds transfer (EFT).
+        <strong>Note</strong>: Your bank account information is what we
+        currently have on file for you. Please ensure it is correct.
       </p>
       <div className="va-address-block vads-u-margin-left--0">
-        <h5>{`${titleCase(accountType)} account`}</h5>
+        <h5>{`${accountTypeDisplay}`}</h5>
         <dl className="meb-definition-list">
           {/* <dt>Bank name:</dt>
           <dd>{financialInstitutionName}</dd> */}
 
           <dt className="meb-definition-list_term toe-definition-list_term--normal">
-            Account Number:
+            Bank account Number:
           </dt>
           <dd className="meb-definition-list_definition">
             {obfuscate(accountNumber)}
           </dd>
 
           <dt className="meb-definition-list_term toe-definition-list_term--normal">
-            Routing Number:
+            Bank routing Number:
           </dt>
           <dd className="meb-definition-list_definition">
             {obfuscate(routingNumber)}
@@ -40,3 +45,14 @@ export default function DirectDepositViewField({ formData }) {
     </>
   );
 }
+
+DirectDepositViewField.propTypes = {
+  // formData is expected to be an object
+  formData: PropTypes.shape({
+    bankAccount: PropTypes.shape({
+      accountType: PropTypes.string,
+      accountNumber: PropTypes.string,
+      routingNumber: PropTypes.string,
+    }),
+  }).isRequired,
+};

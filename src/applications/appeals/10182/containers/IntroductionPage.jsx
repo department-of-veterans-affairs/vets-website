@@ -64,9 +64,8 @@ export class IntroductionPage extends React.Component {
           <SaveInProgressIntro {...sipOptions} />
         )}
         <h2>Follow these steps to request a Board Appeal</h2>
-        <va-process-list>
-          <li>
-            <h3>Check to be sure you can request a Board Appeal</h3>
+        <va-process-list uswds>
+          <va-process-list-item header="Check to be sure you can request a Board Appeal">
             {filingDeadlineContent}
             <p>You can request a Board Appeal for these claim decisions:</p>
             <ul>
@@ -79,9 +78,8 @@ export class IntroductionPage extends React.Component {
               You can’t request a Board Appeal if you’ve already requested one
               for this same claim.
             </p>
-          </li>
-          <li>
-            <h3>Gather your information</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Gather your information">
             <p>Here’s what you’ll need to apply:</p>
             <ul>
               <li>Your mailing address</li>
@@ -91,14 +89,13 @@ export class IntroductionPage extends React.Component {
                 in the mail)
               </li>
             </ul>
-          </li>
-          <li>
-            <h3>Start your request</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Start your request">
             <p>
               We’ll take you through each step of the process. It should take
               about 30 minutes.
             </p>
-            <va-additional-info trigger="What happens after you apply">
+            <va-additional-info trigger="What happens after you apply" uswds>
               <p>
                 After you submit your request for a Board Appeal, you’ll get a
                 confirmation message. You can print this for your records.
@@ -112,7 +109,7 @@ export class IntroductionPage extends React.Component {
                 </a>
               </p>
             </va-additional-info>
-          </li>
+          </va-process-list-item>
         </va-process-list>
         {showVerifyLink ? (
           <NeedsToVerify pathname={pathname} />
