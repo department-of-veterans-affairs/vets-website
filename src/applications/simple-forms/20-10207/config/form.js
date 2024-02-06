@@ -62,7 +62,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10207',
-  hideUnauthedStartLink: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your priority processing request application (20-10207) is in progress.',
@@ -321,6 +320,24 @@ const formConfig = {
           uiSchema: medalAwardPg.uiSchema,
           schema: medalAwardPg.schema,
           pageClass: 'evidence-medal-award',
+        },
+      },
+    },
+    medicalTreatmentChapter: {
+      title: '[WIP] Medical treatment',
+      pages: {
+        page1: {
+          path: 'medical-treatment-start',
+          title: '[WIP] Where did you receive medical treatment?',
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {
+              wipField: {
+                type: 'string',
+              },
+            },
+          },
         },
       },
     },
