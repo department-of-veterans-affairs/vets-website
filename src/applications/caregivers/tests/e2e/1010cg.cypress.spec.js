@@ -62,7 +62,7 @@ const checkContent = (partyLabel, content, mockContent) => {
 
 const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
-    .find('.signature-input')
+    .find('.signature-inputt')
     .shadow()
     .find('input')
     .first()

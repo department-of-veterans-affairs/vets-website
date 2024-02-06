@@ -7,6 +7,7 @@ const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
 
+console.log(findImports);
 const {
   e2e: { specPattern },
 } = require('../../config/cypress.config');
