@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
-import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
+import {
+  MAX_FILE_SIZE_MB,
+  SUPPORTED_UPLOAD_TYPES,
+} from '../../shared/constants';
 
 export const UploadDescription = () => {
   const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
@@ -17,7 +20,11 @@ export const UploadDescription = () => {
         from your device. But you may need to scan your document first, then
         save each file as a PDF before you can upload it.
       </p>
-      <va-additional-info trigger="Document upload instructions" disable-border>
+      <va-additional-info
+        trigger="Document upload instructions"
+        disable-border
+        uswds
+      >
         <div>
           <p className="vads-u-margin-top--0">You can do this one of 2 ways:</p>
           <p>

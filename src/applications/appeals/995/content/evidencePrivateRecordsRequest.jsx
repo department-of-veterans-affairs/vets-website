@@ -7,6 +7,7 @@ export const privateRecordsRequestInfo = (
   <va-additional-info
     trigger="How do I know if I have private medical records"
     class="vads-u-margin-top--4"
+    uswds
   >
     <p>
       You have private medical records if you were treated by a private doctor,
