@@ -49,7 +49,7 @@ describe('MessageThreadForPrint component', () => {
     expect(wordCount).to.equal(500);
 
     const attachmentFile = screen.getByTestId(
-      `attachment-name-${messages[1]?.attachments[0].messageId}`,
+      `attachment-name-for-print-${messages[1]?.attachments[0].messageId}`,
     );
     const attachmentName = messages[1]?.attachments[0].name;
     const attachmentSize = messages[1]?.attachments[0].attachmentSize;

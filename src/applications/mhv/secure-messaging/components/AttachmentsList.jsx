@@ -16,6 +16,7 @@ const AttachmentsList = props => {
     editingEnabled,
     attachFileSuccess,
     setAttachFileSuccess,
+    forPrint,
   } = props;
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -35,6 +36,11 @@ const AttachmentsList = props => {
     }
     return `${num} B`;
   };
+
+  const attachmentNameId = messageId =>
+    forPrint
+      ? `attachment-name-for-print-${messageId}`
+      : `attachment-name-${messageId}`;
 
   useEffect(
     () => {
@@ -221,8 +227,8 @@ const AttachmentsList = props => {
                       alt="Attachment icon"
                     />
                     <span
-                      id={`has-attachment-${file.messageId}`}
-                      data-testid={`attachment-name-${file.messageId}`}
+                      id={attachmentNameId(file.messageId)}
+                      data-testid={attachmentNameId(file.messageId)}
                       ref={attachmentReference}
                       data-dd-privacy="mask"
                     >
@@ -274,6 +280,7 @@ AttachmentsList.propTypes = {
   attachments: PropTypes.array,
   compose: PropTypes.bool,
   editingEnabled: PropTypes.bool,
+  forPrint: PropTypes.bool,
   reply: PropTypes.bool,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,

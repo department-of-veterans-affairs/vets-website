@@ -132,7 +132,10 @@ const MessageThreadItem = props => {
         />
 
         {attachments?.length > 0 && (
-          <MessageThreadAttachments attachments={attachments} />
+          <MessageThreadAttachments
+            attachments={attachments}
+            forPrint={forPrint}
+          />
         )}
       </div>
     </VaAccordionItem>
