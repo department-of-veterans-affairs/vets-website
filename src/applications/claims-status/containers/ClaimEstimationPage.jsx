@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import AskVAQuestions from '../components/AskVAQuestions';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
 
@@ -11,6 +11,7 @@ class ClaimEstimationPage extends React.Component {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
   }
+
   render() {
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

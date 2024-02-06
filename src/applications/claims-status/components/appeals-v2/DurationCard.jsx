@@ -10,7 +10,7 @@ const DurationCard = ({ durationText, cardDescription, isDisabled = true }) => {
   }
 
   return (
-    <va-card background class="duration-card">
+    <va-card background class="duration-card" uswds="false">
       <div className="number vads-u-font-family--serif 40px vads-u-font-size--h2 vads-u-font-weight--bold vads-u-line-height--1 vads-u-padding-bottom--2 vads-u-border-bottom--1px vads-u-border-color--gray-light">
         <i
           className="fas fa-clock vads-u-margin-right--1p5"

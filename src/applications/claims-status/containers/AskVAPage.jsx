@@ -112,6 +112,7 @@ class AskVAPage extends React.Component {
               <div className="usa-alert usa-alert-info background-color-only claims-alert">
                 <VaCheckbox
                   className="claims-alert-checkbox"
+                  uswds="false"
                   checked={this.state.submittedDocs}
                   label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
                   onVaChange={e => this.setSubmittedDocs(e.detail.checked)}

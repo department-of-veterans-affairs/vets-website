@@ -57,6 +57,7 @@ const ClaimLetterListItem = ({ letter }) => {
         href={getDownloadUrl(letter.documentId, letter.docType)}
         onClick={() => downloadHandler(letter.docType)}
         text={`Download ${formattedDate} letter`}
+        uswds="false"
       />
     </li>
   );

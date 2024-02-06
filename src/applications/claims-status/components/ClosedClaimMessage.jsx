@@ -5,7 +5,7 @@ import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { DATE_FORMATS } from '../constants';
 import { appealTypes } from '../utils/appeals-v2-helpers';
@@ -107,6 +107,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         status="warning"
         closeable
         onCloseEvent={onClose}
+        uswds="false"
       >
         <h4 slot="headline">Recently closed:</h4>
         <div>

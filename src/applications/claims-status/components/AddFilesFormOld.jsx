@@ -182,6 +182,7 @@ class AddFilesFormOld extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
+          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -197,6 +198,7 @@ class AddFilesFormOld extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            uswds="false"
           />
         </div>
         <dl className="file-requirements" id="file-requirements">
@@ -243,6 +245,7 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
+                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -258,6 +261,7 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
+                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -284,6 +288,7 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
+          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
@@ -314,6 +319,7 @@ class AddFilesFormOld extends React.Component {
           id="upload-status"
           onCloseEvent={() => true}
           visible={Boolean(this.props.uploading)}
+          uswds="false"
         >
           <UploadStatus
             progress={this.props.progress}
