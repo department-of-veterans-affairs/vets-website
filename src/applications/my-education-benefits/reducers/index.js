@@ -22,6 +22,7 @@ import {
   ACKNOWLEDGE_DUPLICATE,
   TOGGLE_MODAL,
 } from '../actions';
+import { formFields } from '../constants';
 
 const initialState = {
   openModal: false,
@@ -34,20 +35,21 @@ const initialState = {
   exclusionPeriodsError: null,
 };
 const handleDirectDepositApi = action => {
-  if (action?.response?.data?.attributes) {
-    return {
-      ...action?.response?.data?.attributes,
-      routingNumber:
-        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    };
+  if (!action?.response?.data?.attributes) {
+    return {};
   }
+
   return {
-    // accountType: 'Checking',
-    // accountNumber: '1234569891',
-    // routingNumber: '031000503',
-    // financialInstitutionName: 'Wells Fargo',
+    ...action?.response?.data?.attributes,
+    [formFields.originalAccountNumber]:
+      action?.response?.data?.attributes?.accountNumber,
+    [formFields.originalRoutingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.routingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
   };
 };
+
 const filterEligibility = eligibility => {
   return eligibility?.filter(
     benefit =>
@@ -111,7 +113,20 @@ export default {
           ...state,
           fetchDirectDepositInProgress: true,
         };
-      case FETCH_DIRECT_DEPOSIT_SUCCESS:
+      case FETCH_DIRECT_DEPOSIT_SUCCESS: {
+        const directDepositData = handleDirectDepositApi(action);
+        return {
+          ...state,
+          fetchDirectDepositInProgress: false,
+          bankInformation: directDepositData,
+          formData: {
+            ...state.formData,
+            'view:directDeposit': {
+              bankAccount: directDepositData,
+            },
+          },
+        };
+      }
       case FETCH_DIRECT_DEPOSIT_FAILED:
         return {
           ...state,
