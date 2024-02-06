@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,

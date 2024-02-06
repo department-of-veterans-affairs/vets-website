@@ -3,7 +3,10 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducers from '../../../redux/reducer';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
