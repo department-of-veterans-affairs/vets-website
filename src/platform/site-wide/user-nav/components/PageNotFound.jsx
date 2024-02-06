@@ -3,11 +3,14 @@ import recordEventFn from '@department-of-veterans-affairs/platform-monitoring/r
 import PropTypes from 'prop-types';
 
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
-  useEffect(() => {
-    recordEvent({
-      event: `nav-404-error`,
-    });
-  });
+  useEffect(
+    () => {
+      recordEvent({
+        event: `nav-404-error`,
+      });
+    },
+    [recordEvent],
+  );
 
   return (
     <>
