@@ -137,6 +137,10 @@
           grid-template-columns: 1fr 1fr;
           grid-template-rows: auto;
 
+          .report-thank-you-alert {
+            grid-column: 1 / 3;
+          }
+
           .representative-info-section {
             grid-column: 1;
           }

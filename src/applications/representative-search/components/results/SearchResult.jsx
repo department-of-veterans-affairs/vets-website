@@ -63,20 +63,22 @@ const SearchResult = ({
 
       <div className="vads-u-padding--4 representative-result-card">
         {reports && (
-          <va-alert
-            class="vads-u-margin-bottom--1"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            slim
-            status="info"
-            uswds
-            visible="true"
-          >
-            <p className="vads-u-margin-y--0">
-              Thank you for reporting outdated information.
-            </p>
-          </va-alert>
+          <div className="report-thank-you-alert">
+            <va-alert
+              class="vads-u-margin-bottom--2"
+              close-btn-aria-label="Close notification"
+              disable-analytics="false"
+              full-width="false"
+              slim
+              status="info"
+              uswds
+              visible="true"
+            >
+              <p className="vads-u-margin-y--0">
+                Thank you for reporting outdated information.
+              </p>
+            </va-alert>
+          </div>
         )}
         <div className="representative-info-section">
           {distance && (
@@ -90,20 +92,22 @@ const SearchResult = ({
             </div>
           )}
 
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info trigger="See associated organizations" uswds>
-              {associatedOrgs.map((org, index) => {
-                return (
-                  <>
-                    <p>{org}</p>
-                    {index < associatedOrgs.length - 1 ? (
-                      <br style={{ lineHeight: '1rem' }} />
-                    ) : null}
-                  </>
-                );
-              })}
-            </va-additional-info>
-          </div>
+          {associatedOrgs && (
+            <div className="vads-u-margin-top--2p5">
+              <va-additional-info trigger="See associated organizations" uswds>
+                {associatedOrgs?.map((org, index) => {
+                  return (
+                    <>
+                      <p>{org}</p>
+                      {index < associatedOrgs.length - 1 ? (
+                        <br style={{ lineHeight: '1rem' }} />
+                      ) : null}
+                    </>
+                  );
+                })}
+              </va-additional-info>
+            </div>
+          )}
 
           <div className="representative-contact-section vads-u-margin-top--2p5">
             {addressExists && (
@@ -145,6 +149,7 @@ SearchResult.propTypes = {
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
   addressLine3: PropTypes.string,
+  associatedOrgs: PropTypes.array,
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,

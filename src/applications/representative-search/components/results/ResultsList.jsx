@@ -27,7 +27,7 @@ const ResultsList = props => {
   return (
     <>
       <div className="representative-results-list">
-        <hr />
+        {searchResults.length ? <hr /> : null}
         {searchResults?.map((result, index) => {
           return (
             <div key={index} className="vads-u-margin-top--4">
