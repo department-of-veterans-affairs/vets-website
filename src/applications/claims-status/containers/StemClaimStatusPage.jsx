@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { setUpPage } from '../utils/page';
 
-import { Link } from 'react-router';
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -29,6 +29,7 @@ class StemClaimStatusPage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
+          uswds="false"
         />
       );
     } else if (claim) {
