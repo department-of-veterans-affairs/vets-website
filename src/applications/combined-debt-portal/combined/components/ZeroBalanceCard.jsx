@@ -10,14 +10,14 @@ const ZeroBalanceCard = ({ appType }) => {
 
   const cardContent =
     appType === APP_TYPES.DEBT ? (
-      <p>
+      <p clasName="vads-u-margin-y--0">
         If you think this is incorrect, call the Debt Management Center (DMC) at{' '}
         <va-telephone contact="8008270648" /> (
         <va-telephone tty contact="711" />
         ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
     ) : (
-      <p>
+      <p clasName="vads-u-margin-y--0">
         If you think this is incorrect, contact the VA Health Resource Center at{' '}
         <va-telephone contact="8664001238" /> (
         <va-telephone tty contact="711" />
@@ -26,17 +26,21 @@ const ZeroBalanceCard = ({ appType }) => {
     );
 
   return (
-    <div
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+    <va-card
+      show-shadow
+      class="vads-u-padding--3 vads-u-margin-bottom--3"
       data-testid={`balance-card-zero-${
         appType === APP_TYPES.DEBT ? 'debt' : 'copay'
       }`}
     >
-      <h3 className="vads-u-margin-top--0" data-testid="card-title">
+      <h3
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        data-testid="card-title"
+      >
         {cardTitle}
       </h3>
       {cardContent}
-    </div>
+    </va-card>
   );
 };
 
