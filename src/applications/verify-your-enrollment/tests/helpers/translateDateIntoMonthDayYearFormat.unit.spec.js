@@ -22,4 +22,9 @@ describe('translateDateIntoMonthDayYearFormat', () => {
       'January 25th, 2023',
     );
   });
+  it('should return null if value passed is null or undefind or empty string', () => {
+    expect(translateDateIntoMonthDayYearFormat(null)).to.be.null;
+    expect(translateDateIntoMonthDayYearFormat(undefined)).to.be.null;
+    expect(translateDateIntoMonthDayYearFormat('')).to.be.null;
+  });
 });
