@@ -259,15 +259,16 @@ export const getMessageThreadWithFullBody = messageId => {
  * @param {Long} folderId
  * @returns
  */
-export const getThreadList = (
+export const getThreadList = async (
   folderId = 0,
   pageSize = 10,
   pageNumber = 1,
   threadSort = threadSortingOptions.SENT_DATE_DESCENDING.value,
 ) => {
   const { sortField, sortOrder } = threadSortingOptions[threadSort];
+  const { sessionExpiration, sessionExpirationSSO } = localStorage;
 
-  return apiRequest(
+  const response = await apiRequest(
     `${apiBasePath}/messaging/folders/${folderId}/threads?pageSize=${pageSize}&pageNumber=${pageNumber}&sortField=${sortField}&sortOrder=${sortOrder}`,
     {
       method: 'GET',
@@ -277,6 +278,13 @@ export const getThreadList = (
       },
     },
   );
+  if (sessionExpiration) {
+    localStorage.setItem('sessionExpiration', sessionExpiration);
+  }
+  if (sessionExpirationSSO) {
+    localStorage.setItem('sessionExpirationSSO', sessionExpirationSSO);
+  }
+  return response;
 };
 
 /**
