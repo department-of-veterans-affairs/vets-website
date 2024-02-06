@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 
@@ -188,7 +188,7 @@ class IntroductionPage extends React.Component {
           />
         </VaAlert>
         <br />
-        <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2025" />
+        <OMBInfo resBurden={10} ombNumber="2900-0219" expDate="10/31/2024" />
 
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           What if I need help filling out my application?
