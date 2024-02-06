@@ -79,6 +79,7 @@ const updateFormPages = (
 };
 
 const URLS = Object.freeze({
+  HELLO: '',
   CONFIRMATION: 'complete',
   DEMOGRAPHICS: 'contact-information',
   EMERGENCY_CONTACT: 'emergency-contact',
