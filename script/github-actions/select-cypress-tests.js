@@ -152,7 +152,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
     .filter(filePath => !filePath.endsWith('.md'))
     .map(filePath => filePath.split('/')[2]);
 
-  console.log(applicationNames);
+  console.log('appNames: ', applicationNames);
 
   [...new Set(applicationNames)].forEach(app => {
     if (graph[app]) {
