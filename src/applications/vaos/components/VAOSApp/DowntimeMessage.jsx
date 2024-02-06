@@ -70,6 +70,9 @@ export default function DowntimeMessage({
             'VA online scheduling will be down for maintenance'
           }
           data-testid="downtime-approaching-modal"
+          secondaryButtonText="Dismiss"
+          onSecondaryButtonClick={close}
+          uswds
         >
           {descriptionBody ? (
             <p>{descriptionBody}</p>
@@ -83,13 +86,6 @@ export default function DowntimeMessage({
               to find contact information for your medical center.
             </p>
           )}
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={close}
-          >
-            Dismiss
-          </button>
         </VaModal>
       )}
       {children}

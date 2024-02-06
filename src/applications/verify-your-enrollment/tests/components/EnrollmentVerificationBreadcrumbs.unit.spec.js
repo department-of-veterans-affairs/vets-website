@@ -45,4 +45,20 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     delete window.location;
     window.location = location;
   });
+  it('does not include "Benefits profile" breadcrumb for other pages', () => {
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: '',
+      },
+      writable: true,
+    });
+    window.location.href = 'http://example.com/other-page';
+
+    const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
+    expect(
+      wrapper.find('a').someWhere(n => n.prop('href') === BENEFITS_PROFILE_URL),
+    ).to.equal(false);
+    wrapper.unmount();
+  });
 });
