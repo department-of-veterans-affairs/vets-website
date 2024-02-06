@@ -22,6 +22,7 @@ import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
+import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   inputVaTextInput,
@@ -71,7 +72,11 @@ describe('Compose form component', () => {
   };
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+        {...props}
+      />,
       {
         initialState: customState,
         reducers: reducer,
@@ -265,7 +270,9 @@ describe('Compose form component', () => {
         preferences: signatureReducers.signatureEnabled,
       },
     };
-    const screen = setup(customState, Paths.COMPOSE);
+    const screen = setup(customState, Paths.COMPOSE, {
+      ...signatureReducers.signatureEnabled,
+    });
 
     const messageInput = await screen.getByTestId('message-body-field');
 
@@ -353,7 +360,10 @@ describe('Compose form component', () => {
 
   it('renders without errors to category selection', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+      />,
       {
         initialState,
         reducers: reducer,
@@ -366,6 +376,32 @@ describe('Compose form component', () => {
       expect(
         $('va-radio-option[value="COVID"]', screen.container),
       ).to.have.attribute('checked', 'true');
+    });
+  });
+
+  it('renders a loading indicator if categories are not available', async () => {
+    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        categories: undefined,
+      },
+    };
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    expect(document.querySelector('va-loading-indicator')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.exist;
+    });
+    waitFor(() => {
+      expect(getCategoriesSpy.calledOnce).to.be.true;
     });
   });
 

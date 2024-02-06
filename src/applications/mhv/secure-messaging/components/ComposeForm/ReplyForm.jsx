@@ -20,6 +20,7 @@ import {
   Recipients,
 } from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
+import { getPatientSignature } from '../../actions/preferences';
 
 const ReplyForm = props => {
   const { cannotReply, drafts, replyMessage, recipients, messages } = props;
@@ -100,6 +101,15 @@ const ReplyForm = props => {
       };
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
   );
 
   useEffect(
