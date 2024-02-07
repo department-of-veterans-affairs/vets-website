@@ -306,6 +306,7 @@ class AddFilesForm extends React.Component {
           id="upload-status"
           onCloseEvent={() => true}
           visible={Boolean(this.props.uploading)}
+          uswds="false"
         >
           <UploadStatus
             progress={this.props.progress}

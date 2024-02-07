@@ -229,7 +229,10 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <va-loading-indicator message="Loading your claims and appeals..." />
+        <va-loading-indicator
+          message="Loading your claims and appeals..."
+          uswds="false"
+        />
       );
     } else if (!emptyList) {
       const listLen = list.length;
@@ -258,11 +261,15 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {atLeastOneRequestLoading && (
-              <va-loading-indicator message="Loading your claims and appeals..." />
+              <va-loading-indicator
+                message="Loading your claims and appeals..."
+                uswds="false"
+              />
             )}
             {pageItems.map(claim => this.renderListItem(claim))}
             {shouldPaginate && (
               <VaPagination
+                uswds="false"
                 page={this.state.page}
                 pages={numPages}
                 onPageSelect={this.changePage}
@@ -284,7 +291,7 @@ class YourClaimsPageV2 extends React.Component {
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page />
+            <va-on-this-page uswds="false" />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
@@ -293,6 +300,7 @@ class YourClaimsPageV2 extends React.Component {
               id="claims-combined"
               class="claims-combined"
               trigger="Find out why we sometimes combine claims."
+              uswds="false"
             >
               {consolidatedClaimsContent}
             </va-additional-info>

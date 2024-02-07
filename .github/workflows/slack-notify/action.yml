@@ -19,14 +19,15 @@ runs:
   using: composite
   steps:
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: us-gov-west-1
+        mask-aws-account-id: true
 
     - name: Get Slack bot token
-      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
         env_variable_name: SLACK_BOT_TOKEN
