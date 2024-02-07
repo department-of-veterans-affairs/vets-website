@@ -41,9 +41,10 @@ import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
+import { getCategories } from '../../actions/categories';
 
 const ComposeForm = props => {
-  const { categories, draft, recipients, signature } = props;
+  const { draft, recipients, signature } = props;
   const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -79,6 +80,7 @@ const ComposeForm = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
+  const categories = useSelector(state => state.sm.categories.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -110,6 +112,15 @@ const ComposeForm = props => {
   const noTimeout = () => {
     clearTimeout(timeoutId);
   };
+
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
 
   const formattedSignature = useMemo(
     () => {
@@ -802,7 +813,6 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
-  categories: PropTypes.array,
   draft: PropTypes.object,
   recipients: PropTypes.object,
   signature: PropTypes.object,

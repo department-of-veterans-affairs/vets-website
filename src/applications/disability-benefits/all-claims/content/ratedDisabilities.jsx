@@ -65,7 +65,7 @@ export const disabilitiesClarification = (
 export const ratedDisabilitiesAlert = ({ formContext }) => {
   if (!formContext.submitted) return null;
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h3 slot="headline">We need you to add a disability</h3>
       <p className="vads-u-font-size--base">
         You’ll need to add a new disability or choose a rated disability to
