@@ -219,6 +219,10 @@ export const generateDescription = text => {
   return <h3>{text}</h3>;
 };
 
+export const generateText = text => {
+  return <p>{text}</p>;
+};
+
 export const generateHelpText = text => {
   return (
     <span className="vads-u-color--gray vads-u-margin-left--0p25">{text}</span>
@@ -226,7 +230,11 @@ export const generateHelpText = text => {
 };
 
 export const labelSize = text => {
-  return <p className="label-size">{text}</p>;
+  return (
+    <p className="vads-u-margin-y--0 vads-u-padding-y--0 vads-u-font-size--md vads-u-font-family--sans vads-u-font-weight--normal vads-u-color--base">
+      {text}
+    </p>
+  );
 };
 
 // If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
