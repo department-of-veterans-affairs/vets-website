@@ -3,26 +3,26 @@ import PropTypes from 'prop-types';
 
 import { displayFileSize } from 'platform/utilities/ui/index';
 
-import { FINANCIAL_HARDSHIP_DESCRIPTION } from '../config/constants';
+import { TERMINAL_ILLNESS_DESCRIPTION } from '../config/constants';
 
-const FinancialHardshipViewField = props => {
+const TerminalIllnessViewField = props => {
   const { defaultEditButton, formData } = props;
-  const { financialHardshipDocuments } = formData;
+  const { terminalIllnessDocuments } = formData;
 
   return (
     <div className="form-review-panel-page-header-row">
       <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <h3 className="vads-u-margin-y--0">
-          Upload evidence for extreme financial hardship
+          Upload evidence for terminal illness
         </h3>
         {defaultEditButton()}
       </div>
-      <div data-testid="financialHardshipDescription">
-        {FINANCIAL_HARDSHIP_DESCRIPTION}
+      <div data-testid="terminalIllnessDescription">
+        {TERMINAL_ILLNESS_DESCRIPTION}
       </div>
-      {financialHardshipDocuments && (
+      {terminalIllnessDocuments && (
         <ul className="schemaform-file-list vads-u-width--full">
-          {financialHardshipDocuments.map((doc, index) => (
+          {terminalIllnessDocuments.map((doc, index) => (
             <li key={index} className="va-growable-background">
               <strong>{doc.name}</strong>
               <br />
@@ -35,10 +35,10 @@ const FinancialHardshipViewField = props => {
   );
 };
 
-FinancialHardshipViewField.propTypes = {
+TerminalIllnessViewField.propTypes = {
   defaultEditButton: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    financialHardshipDocuments: PropTypes.arrayOf(
+    terminalIllnessDocuments: PropTypes.arrayOf(
       PropTypes.shape({
         fileName: PropTypes.string,
         fileSize: PropTypes.number,
@@ -49,4 +49,4 @@ FinancialHardshipViewField.propTypes = {
   }).isRequired,
 };
 
-export default FinancialHardshipViewField;
+export default TerminalIllnessViewField;

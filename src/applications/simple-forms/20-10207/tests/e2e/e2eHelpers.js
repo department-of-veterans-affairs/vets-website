@@ -1,9 +1,9 @@
 import manifest from '../../manifest.json';
 import vetData from './fixtures/data/veteran.json';
 import vetOhrData from './fixtures/data/veteranOtherHousingRisks.json';
-import nonVetData from './fixtures/data/non-veteran.json';
-import thirdPartyVetData from './fixtures/data/third-party-veteran.json';
-import thirdPartyNonVetData from './fixtures/data/third-party-non-veteran.json';
+import nonVetData from './fixtures/data/nonVeteran.json';
+import thirdPartyVetData from './fixtures/data/thirdPartyVeteran.json';
+import thirdPartyNonVetData from './fixtures/data/thirdPartyNonVeteran.json';
 import {
   LIVING_SITUATIONS,
   LIVING_SITUATIONS_3RD_PTY_VET,
