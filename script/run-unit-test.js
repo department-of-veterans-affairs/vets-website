@@ -69,8 +69,6 @@ if (
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 
-console.log('tests to verify: ', testsToVerify);
-
 const command = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
