@@ -12,7 +12,7 @@ import {
   STATUS_TYPES,
   DECISION_REVIEW_URL,
   APPEAL_TYPES,
-} from './appeals-v2-helpers';
+} from './appeals-helpers';
 
 /**
  * Grabs the matching title and dynamically-generated description for a given current status type
