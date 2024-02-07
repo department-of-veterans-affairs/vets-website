@@ -7,10 +7,11 @@ import {
 import { getFileSize } from '../../helpers/utilities';
 
 /*
-This is a first pass at custom file upload component. This allows us to 
-mimic successful file uploads for user testing purposes despite not
-having a backend file storage solution set up yet. This wll be removed
-in coming weeks as those backend elements come online.
+Custom file upload component. Main difference from standard file upload (other 
+than custom layout) is that this does not make an backend call on upload.
+Main use for this is so we can have something in place for user testing 
+while backend details are still being ironed out. Then this can be rewired or
+removed as backend come online.
 */
 
 function FileFieldCustom({
