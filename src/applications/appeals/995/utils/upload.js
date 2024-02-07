@@ -35,7 +35,7 @@ export const fileUploadUi = content => {
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
-    minSize: 1,
+    minSize: 1024,
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {
