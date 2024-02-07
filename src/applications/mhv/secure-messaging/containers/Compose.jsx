@@ -15,6 +15,7 @@ const Compose = () => {
   const dispatch = useDispatch();
   const { recipients } = useSelector(state => state.sm);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
+  const signature = useSelector(state => state.sm.preferences.signature);
   const draftMessage = drafts?.length && drafts[0];
   const { draftId } = useParams();
 
@@ -28,8 +29,6 @@ const Compose = () => {
 
   useEffect(
     () => {
-      dispatch(getPatientSignature());
-
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearThread());
         setDraftType('compose');
@@ -41,6 +40,15 @@ const Compose = () => {
       };
     },
     [dispatch, draftId, location.pathname],
+  );
+
+  useEffect(
+    () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
   );
 
   useEffect(
@@ -84,6 +92,7 @@ const Compose = () => {
           <ComposeForm
             draft={draftMessage}
             recipients={!recipients.error && recipients}
+            signature={signature}
           />
         </>
       );
