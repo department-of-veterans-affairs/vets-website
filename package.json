@@ -160,7 +160,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cypress": "^12.17.2",
+    "cypress": "12.17.2",
     "cypress-axe": "^1.4.0",
     "cypress-multi-reporters": "^1.6.3",
     "dd-trace": "2.24.0",
