@@ -9,6 +9,7 @@ describe('Locator url and parameters builder', () => {
   const long = '-99.27246';
   const name = 'test';
   const sort = 'distance_asc';
+  const searchArea = '100';
 
   it('should build VA request with type=veteran_service_officer', () => {
     const type = 'veteran_service_officer';
@@ -24,13 +25,14 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
+      searchArea,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer`,
+      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
 
@@ -48,13 +50,14 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
+      searchArea,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents&distance=100`,
     );
   });
 
@@ -71,13 +74,14 @@ describe('Locator url and parameters builder', () => {
       perPage: 7,
       sort,
       type,
+      searchArea,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney&distance=100`,
     );
   });
 
@@ -98,13 +102,14 @@ describe('Locator url and parameters builder', () => {
       page: 2,
       perPage: 7,
       sort,
+      searchArea,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer`,
+      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
 });
