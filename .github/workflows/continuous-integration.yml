@@ -12,48 +12,9 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  download-cypress:
-    name: Download Cypress
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true    
-          
-      - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
-
-      - name: Download Cypress Binary
-        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3.zip cypress.zip  --acl public-read --region us-gov-west-1
-
-      - name: Upload Cypress Binary Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-binary
-          path: ./cypress.zip
-
   build:
     name: Build
     runs-on: self-hosted
-    needs: [download-cypress]
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -86,12 +47,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
           mask-aws-account-id: true    
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
           
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -195,7 +150,7 @@ jobs:
 
   unit-tests-prep:
     name: Unit Tests Prep
-    needs: [download-cypress, fetch-allow-lists]
+    needs: [fetch-allow-lists]
     runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
@@ -211,12 +166,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -258,7 +207,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    needs: [download-cypress, fetch-allow-lists, unit-tests-prep]
+    needs: [fetch-allow-lists, unit-tests-prep]
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
@@ -274,12 +223,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -381,7 +324,7 @@ jobs:
   unit-tests-stress-test:
     name: Unit Test Stability Review
     runs-on: self-hosted
-    needs: [download-cypress, fetch-allow-lists, unit-tests-prep]
+    needs: [fetch-allow-lists, unit-tests-prep]
     if: ${{ always() && needs.unit-tests-prep.outputs.tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' }}
 
     env:
@@ -400,12 +343,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -520,18 +457,11 @@ jobs:
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
-    needs: [download-cypress]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -557,18 +487,11 @@ jobs:
     name: Linting (All)
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    needs: [download-cypress]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -613,18 +536,11 @@ jobs:
     name: Testing Reports Prep
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: [download-cypress]
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -666,7 +582,7 @@ jobs:
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
-    needs: [download-cypress, fetch-allow-lists]
+    needs: [fetch-allow-lists]
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
@@ -680,12 +596,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -794,12 +704,6 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: ./node_modules/cypress/cypress.zip
-
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
@@ -900,12 +804,6 @@ jobs:
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -1659,12 +1557,6 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
-
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -1893,12 +1785,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
-
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -1973,12 +1859,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'
