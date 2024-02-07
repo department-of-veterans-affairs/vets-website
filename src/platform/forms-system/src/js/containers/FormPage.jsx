@@ -24,18 +24,23 @@ import {
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 import { stringifyUrlParams } from '../helpers';
+import { querySelectorWithShadowRoot } from '../../../../utilities/ui/webComponents';
 
-function focusForm(route, index) {
+async function focusForm(route, index) {
   const { useCustomScrollAndFocus, v3SegmentedProgressBar } = route.formConfig;
   const { scrollAndFocusTarget } = route.pageConfig;
   // Check main toggle to enable custom focus
-  if (useCustomScrollAndFocus && scrollAndFocusTarget) {
+  if (useCustomScrollAndFocus) {
     customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
-    // Need to provide shadowRoot to focus on elements inside shadow-DOM
-    const root = v3SegmentedProgressBar
-      ? document.querySelector('va-segmented-progress-bar').shadowRoot
-      : document.querySelector('#react-root');
+    let root = document.querySelector('#react-root');
+    if (v3SegmentedProgressBar) {
+      // Need to provide shadowRoot to focus on shadow-DOM elements
+      const shadowHost = await querySelectorWithShadowRoot(
+        'va-segmented-progress-bar',
+      );
+      root = shadowHost.shadowRoot;
+    }
     focusElement(defaultFocusSelector, {}, root);
   }
 }
