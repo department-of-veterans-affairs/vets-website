@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-const Dashboard = ({ POApermissions }) => {
+const Dashboard = ({ POApermissions = true }) => {
   let content = null;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
