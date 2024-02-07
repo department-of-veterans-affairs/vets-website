@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import {
   VaFileInput,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getFileSize } from '../../helpers/utilities';
+import { fileTypes } from '../../config/attachments';
 
 /*
 Custom file upload component. Main difference from standard file upload (other 
@@ -42,8 +44,6 @@ function FileFieldCustom({
       goForward(data);
     },
   };
-
-  const fileTypes = ['png', 'heic', 'pdf', 'jpg', 'jpeg'];
 
   return (
     <>
@@ -100,4 +100,12 @@ function FileFieldCustom({
   );
 }
 
+FileFieldCustom.propTypes = {
+  contentAfterButtons: PropTypes.any,
+  contentBeforeButtons: PropTypes.any,
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  setFormData: PropTypes.func,
+};
 export default FileFieldCustom;
