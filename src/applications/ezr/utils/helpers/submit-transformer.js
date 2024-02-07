@@ -32,10 +32,12 @@ export function submitTransformer(formConfig, form) {
   let gaClientId;
 
   // set veteran data fields to loaded profile data if its removed in filterInactivePageData
-  const veteranFields = ['veteranDateOfBirth', 'gender'];
+  const veteranFields = ['gender', 'veteranDateOfBirth'];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
-      const fieldData = loadedData.formData[field];
+      const fieldData =
+        loadedData.formData[field] ||
+        formData['view:veteranInformation'][field];
       withoutViewFields = set(field, fieldData, withoutViewFields);
     }
   });
