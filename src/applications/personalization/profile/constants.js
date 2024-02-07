@@ -37,7 +37,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 // They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
   { href: '/', label: 'Home' },
-  { href: '/profile', label: 'Profile' },
+  { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
 export const PROFILE_PATHS = Object.freeze({
