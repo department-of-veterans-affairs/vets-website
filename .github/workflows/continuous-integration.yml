@@ -42,7 +42,7 @@ jobs:
           mask-aws-account-id: true
 
       - name: Download Cypress Binary
-        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3.zip cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Upload Cypress Binary Artifact
         uses: actions/upload-artifact@v3
