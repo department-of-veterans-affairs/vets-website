@@ -37,10 +37,8 @@ const AttachmentsList = props => {
     return `${num} B`;
   };
 
-  const attachmentNameId = messageId =>
-    forPrint
-      ? `attachment-name-for-print-${messageId}`
-      : `attachment-name-${messageId}`;
+  const attachmentNameId = id =>
+    forPrint ? `attachment-name-for-print-${id}` : `attachment-name-${id}`;
 
   useEffect(
     () => {
@@ -208,7 +206,11 @@ const AttachmentsList = props => {
                 <>
                   <a
                     className="attachment"
-                    data-testid={`attachment-link-metadata-${file.messageId}`}
+                    data-testid={
+                      !forPrint
+                        ? `attachment-link-metadata-${file.id}`
+                        : `attachment-link-metadata-for-print-${file.id}`
+                    }
                     href={file.link}
                     target="_blank"
                     rel="noreferrer"
@@ -221,13 +223,15 @@ const AttachmentsList = props => {
                     }}
                   >
                     <i
-                      aria-labelledby={`has-attachment-${file.messageId}`}
+                      aria-labelledby={
+                        !forPrint ? `has-attachment-${file.id}` : ''
+                      }
                       className="fas fa-paperclip"
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
                     <span
-                      id={attachmentNameId(file.messageId)}
+                      id={attachmentNameId(file.id)}
                       data-testid={attachmentNameId(file.id)}
                       ref={attachmentReference}
                       data-dd-privacy="mask"

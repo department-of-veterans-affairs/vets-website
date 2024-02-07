@@ -49,7 +49,7 @@ describe('MessageThreadForPrint component', () => {
     expect(wordCount).to.equal(500);
 
     const attachmentFile = screen.getByTestId(
-      `attachment-name-for-print-${messages[1]?.attachments[0].messageId}`,
+      `attachment-name-for-print-${messages[1]?.attachments[0].id}`,
     );
     const attachmentName = messages[1]?.attachments[0].name;
     const attachmentSize = messages[1]?.attachments[0].attachmentSize;
@@ -58,7 +58,7 @@ describe('MessageThreadForPrint component', () => {
     expect(screen.queryByText(attachmentName)).to.exist;
     expect(
       screen.getByTestId(
-        `attachment-link-metadata-${messages[1]?.attachments[0].messageId}`,
+        `attachment-link-metadata-for-print-${messages[1]?.attachments[0].id}`,
       ).textContent,
     ).to.equal(`${attachmentName}(${getSize(attachmentSize)})Has attachment`);
   });

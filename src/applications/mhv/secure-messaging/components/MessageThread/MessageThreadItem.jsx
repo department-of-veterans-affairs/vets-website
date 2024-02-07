@@ -123,7 +123,11 @@ const MessageThreadItem = props => {
       )}
 
       <div>
-        <MessageThreadMeta message={message} fromMe={fromMe} />
+        <MessageThreadMeta
+          message={message}
+          fromMe={fromMe}
+          forPrint={forPrint}
+        />
         <HorizontalRule />
         <MessageThreadBody
           text={body}
