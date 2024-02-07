@@ -50,7 +50,6 @@ testNumberOfWebComponentFields(
   { applicants },
 );
 
-/*
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18.schema,
@@ -59,8 +58,9 @@ testNumberOfWebComponentFields(
   'Applicant - health insurance',
   { applicants },
 );
-*/
 
+/*
+// Commented out because this page doesn't exist currently (but may in future)
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page20.schema,
@@ -69,6 +69,7 @@ testNumberOfWebComponentFields(
   'Upload supporting documents',
   { applicants },
 );
+*/
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
 testComponentRender(
