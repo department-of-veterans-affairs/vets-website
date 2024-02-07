@@ -43,16 +43,20 @@ function FileFieldCustom({
     },
   };
 
+  const fileTypes = ['png', 'heic', 'pdf', 'jpg', 'jpeg'];
+
   return (
     <>
       <>
         <VaFileInput
           id="add-supporting-doc"
           name="add-supporting-doc"
-          accept={['png']}
+          accept={fileTypes}
           button-text="Upload Supporting Doc"
           data-testid="ask-va-file-upload-button"
-          hint="You can upload .png files"
+          hint={`You can upload ${fileTypes
+            .slice(0, -1)
+            .join(', ')}, and ${fileTypes.slice(-1)} files`}
           label="Upload supporting documents"
           onVaChange={onAddFile}
           uswds
