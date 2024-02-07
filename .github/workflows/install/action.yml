@@ -36,9 +36,6 @@ runs:
       shell: bash
       run: npm i -g yarn@1.19.1
 
-    - name: Download Cypress Binary
-      run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 /cypress.zip  --acl public-read --region us-gov-west-1
-
     - name: Cache dependencies
       id: cache-dependencies
       uses: actions/cache@v4
@@ -50,7 +47,7 @@ runs:
     - name: Install dependencies
       uses: nick-fields/retry@v3
       with:
-        command: CYPRESS_INSTALL_BINARY=/cypress.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
+        command: CYPRESS_INSTALL_BINARY=cypress.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
         max_attempts: 3
         timeout_minutes: 7
       env:

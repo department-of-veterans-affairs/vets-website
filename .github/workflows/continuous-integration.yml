@@ -32,6 +32,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -49,7 +52,7 @@ jobs:
         with:
           delimiter: ','
           output-type: 'entry_name, continuous_deployment'
-
+      
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: aws-actions/configure-aws-credentials@v4
@@ -95,6 +98,12 @@ jobs:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
+
+      - name: Upload Cypress Binary Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-binary
+          path: ./cypress.zip
 
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
@@ -168,6 +177,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -225,6 +240,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -346,6 +366,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -465,6 +491,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -494,6 +526,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -543,6 +581,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -598,6 +642,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -706,6 +756,12 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
+
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
@@ -806,6 +862,12 @@ jobs:
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]'
@@ -1559,6 +1621,12 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -1787,6 +1855,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -1861,6 +1935,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
+      - name: Download Cypress Binary Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-binary
+          path: .
 
       - name: Install dependencies
         if: env.ALERT_TEAMS == 'true'
