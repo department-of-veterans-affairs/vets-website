@@ -34,6 +34,7 @@ function ClaimContentionList({ contentions, onClick }) {
           onClick={showAdditionalContentions}
           secondary
           text="Show full list"
+          uswds="false"
         />
       )}
     </>
