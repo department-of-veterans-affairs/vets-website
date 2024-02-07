@@ -21,4 +21,32 @@ describe('Dashboard', () => {
     ).to.equal(false);
     wrapper.unmount();
   });
+
+  it('should render navigation', () => {
+    const wrapper = shallow(<Dashboard POApermissions />);
+
+    expect(wrapper.find('.nav').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render notifications', () => {
+    const wrapper = shallow(<Dashboard POApermissions />);
+
+    expect(wrapper.find('.notif').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render primary tasks area', () => {
+    const wrapper = shallow(<Dashboard POApermissions />);
+
+    expect(wrapper.find('.primary').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should render sidebar', () => {
+    const wrapper = shallow(<Dashboard POApermissions />);
+
+    expect(wrapper.find('.left').length).to.equal(1);
+    wrapper.unmount();
+  });
 });

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import LandingPage from '../../containers/LandingPage';
 
-describe('Landing Page Garden path', () => {
+describe('Landing Page', () => {
   it('should render hero wrapper', () => {
     const wrapper = shallow(<LandingPage />);
 
