@@ -34,11 +34,14 @@ import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
-import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 import { sponsorWording } from '../helpers/wordingCustomization';
+import {
+  thirdPartyInfoUiSchema,
+  thirdPartyInfoSchema,
+} from '../components/ThirdPartyInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -80,7 +83,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
-  title: '10-10d Application for CHAMPVA benefits',
+  title: 'Apply for CHAMPVA benefits',
+  subTitle: 'Form 10-10d',
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -90,7 +94,10 @@ const formConfig = {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
-            ...titleUI('Your relationship to this form'),
+            ...titleUI(
+              'Your relationship to this form',
+              'We use this information to contact the signer of this form and verify other details.',
+            ),
             certifierRole: radioUI({
               title: 'Which of these best describes you?',
               required: true,
@@ -102,14 +109,15 @@ const formConfig = {
                   "I'm a third party representative, power of attorney or VSO (Veterans Service Officer)",
               },
             }),
+            ...thirdPartyInfoUiSchema,
           },
-          // TODO: add a info blurb on who can be a third-party
           schema: {
             type: 'object',
             required: ['certifierRole'],
             properties: {
               titleSchema,
-              certifierRole: radioSchema(['sponsor', 'applicant', 'other']),
+              certifierRole: radioSchema(['applicant', 'sponsor', 'other']),
+              ...thirdPartyInfoSchema,
             },
           },
         },
@@ -137,7 +145,7 @@ const formConfig = {
           uiSchema: {
             certifierInfoTitle: inlineTitleUI(
               'Your mailing address',
-              "We'll send any important information about your application to this address",
+              'We’ll send any updates about your signer certification to this address',
             ),
             certifierAddress: addressUI(),
           },
@@ -155,7 +163,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI('Your phone number'),
+            certifierInfoTitle: inlineTitleUI('Your contact information'),
             certifierPhone: phoneUI(),
           },
           schema: {
@@ -172,16 +180,20 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI(
-              "Which of these best describes your relationship to this form's applicant(s)?",
+            ...titleUI(
+              "What's your relationship to the Applicant(s)?",
+              'Depending on your response, additional documentation may be required to determine eligibility',
             ),
-            certifierRelationship: relationshipToVeteranUI('Applicant(s)'),
+            certifierRelationship: relationshipToVeteranUI({
+              personTitle: 'Applicant(s)',
+              labelHeaderLevel: 0,
+            }),
           },
           schema: {
             type: 'object',
             required: ['certifierRelationship'],
             properties: {
-              certifierInfoTitle: titleSchema,
+              titleSchema,
               certifierRelationship: {
                 ...relationshipToVeteranSchema,
                 required: [],
@@ -497,27 +509,6 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
-            },
-          },
-        },
-        page12: {
-          path: 'sponsor-information/complete',
-          title: 'Sponsor information complete',
-          uiSchema: {
-            'view:alert': {
-              'ui:title': SectionCompleteAlert,
-            },
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:alert': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
