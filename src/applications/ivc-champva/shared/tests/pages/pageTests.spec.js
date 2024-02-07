@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
-const getProps = () => {
+export const getProps = () => {
   return {
     mockStore: {
       getState: () => ({

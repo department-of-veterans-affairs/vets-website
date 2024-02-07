@@ -22,7 +22,9 @@ function FileFieldCustom({
   contentBeforeButtons,
   contentAfterButtons,
 }) {
-  const [attachments, setAttachments] = useState([]);
+  const [attachments, setAttachments] = useState(
+    data?.supportingDocuments || [],
+  );
 
   const onAddFile = async event => {
     const { files } = event.detail;

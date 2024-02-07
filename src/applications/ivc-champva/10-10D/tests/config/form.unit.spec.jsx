@@ -2,8 +2,15 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import React from 'react';
 import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import {
   testNumberOfWebComponentFields,
   testComponentRender,
+  getProps,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
@@ -70,6 +77,27 @@ testComponentRender(
     data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
   />,
 );
+
+describe('FileFieldCustom remove button', () => {
+  it('should remove files when clicked', async () => {
+    const component = (
+      <FileFieldCustom
+        data={{ supportingDocuments: [{ name: 'filetest', size: 100 }] }}
+      />
+    );
+    const { mockStore } = getProps();
+
+    const view = render(<Provider store={mockStore}>{component}</Provider>);
+
+    const buttons = $$('va-button', $('.attachment-file', view.container));
+    expect(buttons.length === 1).to.be.true;
+    fireEvent.click(buttons[0]);
+
+    await waitFor(() => {
+      expect($('.no-attachments', view.container)).to.exist;
+    });
+  });
+});
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {
