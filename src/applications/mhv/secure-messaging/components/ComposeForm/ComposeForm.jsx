@@ -35,16 +35,16 @@ import {
   BlockedTriageAlertStyles,
   FormLabels,
 } from '../../util/constants';
-import { getCategories } from '../../actions/categories';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import EditPreferences from './EditPreferences';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
+import { getCategories } from '../../actions/categories';
 
 const ComposeForm = props => {
-  const { draft, recipients } = props;
+  const { draft, recipients, signature } = props;
   const { noAssociations, allTriageGroupsBlocked } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -80,9 +80,9 @@ const ComposeForm = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
+  const categories = useSelector(state => state.sm.categories.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
-  const signature = useSelector(state => state.sm.preferences.signature);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
@@ -113,18 +113,20 @@ const ComposeForm = props => {
     clearTimeout(timeoutId);
   };
 
+  useEffect(
+    () => {
+      if (!categories) {
+        dispatch(getCategories());
+      }
+    },
+    [categories, dispatch],
+  );
+
   const formattedSignature = useMemo(
     () => {
       return messageSignatureFormatter(signature);
     },
     [signature],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getCategories());
-    },
-    [dispatch],
   );
 
   const setUnsavedNavigationError = typeOfError => {
@@ -685,6 +687,7 @@ const ComposeForm = props => {
               />
             ) : (
               <CategoryInput
+                categories={categories}
                 category={category}
                 categoryError={categoryError}
                 setCategory={setCategory}
@@ -812,6 +815,7 @@ const ComposeForm = props => {
 ComposeForm.propTypes = {
   draft: PropTypes.object,
   recipients: PropTypes.object,
+  signature: PropTypes.object,
 };
 
 export default ComposeForm;
