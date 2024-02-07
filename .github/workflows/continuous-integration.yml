@@ -1765,13 +1765,11 @@ jobs:
       - name: Set environments for deploy matrix
         id: set-environments
         run: |
-          CONTINUOUS_DEPLOYMENT = ${{ needs.build.outputs.continuous_deployment }}
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && "${CONTINUOUS_DEPLOYMENT:-false}" == "true" ]]; then
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
             echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
           else
             echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
           fi
-        shell: bash
 
   deploy:
     name: Deploy
