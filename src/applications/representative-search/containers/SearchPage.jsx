@@ -51,7 +51,7 @@ const SearchPage = props => {
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-
+      searchArea: currentQuery.searchArea,
       ...params,
     };
     const queryStringObj = appendQuery(
@@ -108,6 +108,7 @@ const SearchPage = props => {
       position,
       sortType,
       page,
+      searchArea,
     } = currentQuery;
 
     const { latitude, longitude } = position;
@@ -134,6 +135,7 @@ const SearchPage = props => {
         perPage: 10,
         sort: sortType,
         type: representativeType,
+        searchArea,
       });
 
       setIsSearching(false);
@@ -419,6 +421,7 @@ SearchPage.propTypes = {
       perPage: PropTypes.string,
       sort: PropTypes.string,
       type: PropTypes.string,
+      searchArea: PropTypes.string,
     }),
     search: PropTypes.string,
   }),

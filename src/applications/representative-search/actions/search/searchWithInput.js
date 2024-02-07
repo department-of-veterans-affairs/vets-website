@@ -17,6 +17,7 @@ export const searchWithInput = ({
   perPage,
   sort,
   type,
+  searchArea,
 }) => {
   return dispatch => {
     dispatch({
@@ -36,6 +37,7 @@ export const searchWithInput = ({
       perPage,
       sort,
       type,
+      searchArea,
       dispatch,
     );
   };
