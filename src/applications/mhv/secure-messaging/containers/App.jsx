@@ -35,9 +35,11 @@ const App = () => {
 
   useEffect(
     () => {
-      dispatch(getAllTriageTeamRecipients());
+      if (user.login.currentlyLoggedIn) {
+        dispatch(getAllTriageTeamRecipients());
+      }
     },
-    [dispatch],
+    [user.login.currentlyLoggedIn, dispatch],
   );
 
   const datadogRumConfig = {
