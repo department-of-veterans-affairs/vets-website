@@ -3,7 +3,11 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import { fillAddressWebComponentPattern } from '../../../shared/tests/e2e/helpers';
+import {
+  fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
+  selectYesNoWebComponent,
+} from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -87,6 +91,29 @@ const testConfig = createTestConfig(
           cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();
+        });
+      },
+      'evidence-pow': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const {
+              powConfinementStartDate,
+              powConfinementEndDate,
+              powMultipleConfinements,
+            } = data;
+            fillDateWebComponentPattern(
+              'powConfinementStartDate',
+              powConfinementStartDate,
+            );
+            fillDateWebComponentPattern(
+              'powConfinementEndDate',
+              powConfinementEndDate,
+            );
+            selectYesNoWebComponent(
+              'powMultipleConfinements',
+              powMultipleConfinements,
+            );
+          });
         });
       },
     },

@@ -22,7 +22,10 @@
     },
     "phone": "1234567891",
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true
+      "FINANCIAL_HARDSHIP": true,
+      "ALS": true,
+      "TERMINAL_ILLNESS": true,
+      "VSI_SI": true
     }
   }
 }
