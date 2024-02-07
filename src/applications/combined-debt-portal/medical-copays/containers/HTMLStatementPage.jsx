@@ -57,7 +57,7 @@ const HTMLStatementPage = ({ match }) => {
               label: `${prevPage}`,
             },
             {
-              href: `/copay-balances/${selectedId}/detail/statement`,
+              href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
               label: `${title}`,
             },
           ]}
