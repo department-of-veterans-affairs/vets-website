@@ -90,4 +90,51 @@ describe('recordButtonClick', () => {
     expect(recordEventStub.calledOnce).to.be.true;
     expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
   });
+  it('should call recordEvent when a user clicks a quickReply button text span with prescriptions topic when in Rx skill', () => {
+    sessionStorage.setItem(IS_RX_SKILL, 'true');
+
+    const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+    const recordEventData = {
+      event: 'chatbot-button-click',
+      clickText: 'Mock Button Text',
+      topic: 'prescriptions',
+    };
+    const mockButtonClickEvent = {
+      target: {
+        classList: {
+          contains(className) {
+            return this.value.split(' ').includes(className);
+          },
+          value: 'webchat__suggested-action__text',
+        },
+        innerText: 'Mock Button Text',
+      },
+    };
+    recordButtonClick(mockButtonClickEvent);
+
+    expect(recordEventStub.calledOnce).to.be.true;
+    expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);
+  });
+  it('should not call recordEvent when a user clicks a button without the correct CSS class', () => {
+    sessionStorage.setItem(IS_RX_SKILL, 'true');
+
+    const recordEventStub = sandbox.stub(recordEventObject, 'default');
+
+    const mockButtonClickEvent = {
+      target: {
+        classList: {
+          contains(className) {
+            return this.value.split(' ').includes(className);
+          },
+          value: 'unrecognized_classname',
+        },
+        innerText: 'Mock Button Text',
+      },
+    };
+    recordButtonClick(mockButtonClickEvent);
+
+    expect(recordEventStub.notCalled).to.be.true;
+    expect(recordEventStub.firstCall).to.equal(null);
+  });
 });
