@@ -20,19 +20,19 @@ describe('<ConnectedAppDeleteModal>', () => {
 
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
-    const text = wrapper.text();
+    const text = wrapper.html();
     expect(text).to.include(disconnectTitle);
     expect(text).to.include(disconnectText);
     expect(
       wrapper
-        .find('button')
-        .at(1)
+        .find('va-button')
+        .at(0)
         .text(),
     ).to.include('Disconnect');
     expect(
       wrapper
-        .find('button')
-        .at(2)
+        .find('va-button')
+        .at(1)
         .text(),
     ).to.include('No, cancel this change');
 
@@ -51,8 +51,7 @@ describe('<ConnectedAppDeleteModal>', () => {
     };
 
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
-
-    const text = wrapper.text();
+    const text = wrapper.html();
     expect(text).to.include(disconnectTitle);
     expect(text).to.include(disconnectText);
     expect(text).to.not.include('No, cancel this change');
@@ -62,7 +61,7 @@ describe('<ConnectedAppDeleteModal>', () => {
     wrapper.unmount();
   });
 
-  it('does not render when modal is closed', () => {
+  it('is not visible when modal is closed', () => {
     const defaultProps = {
       title: 'hello',
       deleting: true,
@@ -72,14 +71,7 @@ describe('<ConnectedAppDeleteModal>', () => {
     };
 
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
-
-    const text = wrapper.text();
-    expect(text).to.not.include(disconnectTitle);
-    expect(text).to.not.include(disconnectText);
-    expect(text).to.not.include('No, cancel this change');
-    expect(text).to.not.include('Disconnect');
-    expect(text).to.not.include('Processing update...');
-
+    expect(wrapper.html()).to.include('visible="false"');
     wrapper.unmount();
   });
 });

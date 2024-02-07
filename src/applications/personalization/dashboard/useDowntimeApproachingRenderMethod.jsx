@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 /**
@@ -17,11 +20,11 @@ export default function useDowntimeApproachingRenderMethod() {
     if (downtime.status === externalServiceStatus.downtimeApproaching) {
       return (
         <>
-          <Modal
+          <VaModal
             id="downtime-approaching-modal"
-            title="Some parts of your dashboard will be down for maintenance soon"
+            modalTitle="Some parts of your dashboard will be down for maintenance soon"
             status="info"
-            onClose={() => {
+            onCloseEvent={() => {
               setModalDismissed(true);
             }}
             visible={!modalDismissed}
@@ -33,16 +36,15 @@ export default function useDowntimeApproachingRenderMethod() {
               {downtime.endTime.format('LT')} If you have trouble using parts of
               the dashboard during that time, please check back soon.
             </p>
-            <button
-              type="button"
-              className="usa-button-secondary"
+            <VaButton
+              secondary
               onClick={() => {
                 setModalDismissed(true);
               }}
             >
               Continue
-            </button>
-          </Modal>
+            </VaButton>
+          </VaModal>
           {children}
         </>
       );

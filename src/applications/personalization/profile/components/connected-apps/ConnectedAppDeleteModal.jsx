@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export function ConnectedAppDeleteModal({
   title,
@@ -11,14 +14,14 @@ export function ConnectedAppDeleteModal({
   confirmDelete,
 }) {
   return (
-    <Modal
+    <VaModal
       clickToClose
-      cssClass="va-modal"
       id="disconnect-alert"
-      onClose={closeModal}
-      title="Are you sure?"
+      onCloseEvent={closeModal}
+      modalTitle="Are you sure?"
       visible={modalOpen}
       status="warning"
+      uswds
     >
       <p>
         After you disconnect this app, the app won’t have access to new
@@ -33,32 +36,27 @@ export function ConnectedAppDeleteModal({
 
       {!deleting && (
         <>
-          <button
-            className="usa-button-primary"
+          <VaButton
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
           >
             Disconnect
-          </button>
-          <button className="usa-button-secondary" onClick={closeModal}>
+          </VaButton>
+          <VaButton secondary onClick={closeModal}>
             No, cancel this change
-          </button>
+          </VaButton>
         </>
       )}
 
-      {deleting && (
-        <button className="usa-button-primary" disabled>
-          Processing update...
-        </button>
-      )}
-    </Modal>
+      {deleting && <VaButton disabled>Processing update...</VaButton>}
+    </VaModal>
   );
 }
 
 ConnectedAppDeleteModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  deleting: PropTypes.bool,
-  modalOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  deleting: PropTypes.bool,
 };
