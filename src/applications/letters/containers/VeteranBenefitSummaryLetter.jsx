@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
-import { formatDateShort } from '@department-of-veterans-affairs/platform-utilities/date';
+import { formatDateShort } from 'platform/utilities/date';
 
 import { updateBenefitSummaryRequestOption as updateBenefitSummaryRequestOptionAction } from '../actions/letters';
 import {

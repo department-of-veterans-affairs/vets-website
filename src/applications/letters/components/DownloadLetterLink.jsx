@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
