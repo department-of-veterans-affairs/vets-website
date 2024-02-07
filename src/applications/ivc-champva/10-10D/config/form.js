@@ -1,12 +1,10 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import {
+  checkboxGroupUI,
+  checkboxGroupSchema,
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberUI,
-  ssnSchema,
-  ssnUI,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -24,24 +22,25 @@ import {
   radioSchema,
   radioUI,
   titleSchema,
-  inlineTitleUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
-import { sponsorWording } from '../helpers/wordingCustomization';
+import {
+  sponsorWording,
+  applicantWording,
+} from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
+import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -126,7 +125,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI('Your name'),
+            certifierInfoTitle: titleUI('Your name'),
             certifierName: fullNameUI(),
           },
           schema: {
@@ -143,7 +142,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI(
+            certifierInfoTitle: titleUI(
               'Your mailing address',
               'We’ll send any updates about your signer certification to this address',
             ),
@@ -163,7 +162,7 @@ const formConfig = {
           title: 'Certification',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
-            certifierInfoTitle: inlineTitleUI('Your contact information'),
+            certifierInfoTitle: titleUI('Your contact information'),
             certifierPhone: phoneUI(),
           },
           schema: {
@@ -257,10 +256,9 @@ const formConfig = {
         page8: {
           path: 'sponsor-information/status',
           title: 'Sponsor status',
-          // TODO: fix spacing above title
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor status'),
+            sponsorInfoTitle: titleUI('Sponsor status'),
             sponsorIsDeceased: yesNoUI({
               title: 'Is sponsor still living?',
               labels: {
@@ -284,7 +282,7 @@ const formConfig = {
           title: 'Sponsor status (continued)',
           depends: formData => get('sponsorIsDeceased', formData),
           uiSchema: {
-            sponsorInfoTitle: inlineTitleUI('Sponsor status (continued)'),
+            sponsorInfoTitle: titleUI('Sponsor status (continued)'),
             sponsorDOD: dateOfDeathUI(),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor pass away on active military service?',
@@ -522,6 +520,10 @@ const formConfig = {
           arrayPath: 'applicants',
           title: 'Applicants',
           uiSchema: {
+            ...titleUI(
+              'Applicant name and date of birth',
+              'Please tell us the names of the applicants that you want to enroll in CHAMPVA. You can only add up to 3 applicants at a time. If you have more than 3 applicants then you will need to submit a separate form for each applicant.',
+            ),
             applicants: {
               'ui:options': {
                 viewField: ApplicantField,
@@ -530,10 +532,11 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
+                maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'ui:title': ApplicantField,
                 applicantName: fullNameUI(),
+                applicantDOB: dateOfBirthUI({ required: true }),
               },
             },
           },
@@ -543,10 +546,14 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
+                  required: ['applicantDOB'],
                   properties: {
+                    titleSchema,
                     applicantName: fullNameSchema,
+                    applicantDOB: dateOfBirthSchema,
                   },
                 },
               },
@@ -556,9 +563,7 @@ const formConfig = {
         page14: {
           path: 'applicant-information/:index/ssn-dob',
           arrayPath: 'applicants',
-          title: item =>
-            `${item?.applicantName?.first ||
-              'Applicant'} - SSN and date of birth`,
+          title: item => `${applicantWording(item)} identification information`,
           showPagePerItem: true,
           uiSchema: {
             applicants: {
@@ -568,11 +573,15 @@ const formConfig = {
               },
               'ui:errorMessages': {
                 minItems: 'Must have at least one applicant listed.',
+                maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                'ui:title': ApplicantField,
-                applicantSSN: ssnUI(),
-                applicantDOB: dateOfBirthUI(),
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} identification information`,
+                  'You must enter either a VA file number or Social Security number',
+                ),
+                applicantSSN: ssnOrVaFileNumberUI(),
               },
             },
           },
@@ -582,11 +591,12 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
-                    applicantSSN: ssnSchema,
-                    applicantDOB: dateOfBirthSchema,
+                    titleSchema,
+                    applicantSSN: ssnOrVaFileNumberSchema,
                   },
                 },
               },
@@ -597,14 +607,23 @@ const formConfig = {
           path: 'applicant-information/:index/address',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - address`,
+          title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
-            'ui:title': 'Applicant Address',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
-                applicantAddress: addressUI(),
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} mailing address`,
+                  'We’ll send any important information about your application to this address.',
+                ),
+                applicantAddress: {
+                  ...addressUI({
+                    labels: {
+                      militaryCheckbox:
+                        'Address is on a United States military base outside the country.',
+                    },
+                  }),
+                },
               },
             },
           },
@@ -614,9 +633,11 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
+                    titleSchema,
                     applicantAddress: addressSchema(),
                   },
                 },
@@ -628,13 +649,14 @@ const formConfig = {
           path: 'applicant-information/:index/email-phone',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - email and phone`,
+          title: item => `${applicantWording(item)} contact information`,
           uiSchema: {
-            'ui:title': 'Applicant Email and Phone',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} contact information`,
+                ),
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
@@ -646,9 +668,11 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
+                    titleSchema,
                     applicantEmailAddress: emailSchema,
                     applicantPhone: phoneSchema,
                   },
@@ -661,13 +685,14 @@ const formConfig = {
           path: 'applicant-information/:index/gender',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - gender`,
+          title: item => `${applicantWording(item)} gender`,
           uiSchema: {
             'ui:title': 'Applicant Gender',
             applicants: {
               items: {
-                'ui:title': ApplicantField,
+                ...titleUI(
+                  ({ formData }) => `${applicantWording(formData)} gender`,
+                ),
                 applicantGender: radioUI({
                   title: 'Gender',
                   required: true,
@@ -682,9 +707,11 @@ const formConfig = {
               applicants: {
                 type: 'array',
                 minItems: 1,
+                maxItems: 3,
                 items: {
                   type: 'object',
                   properties: {
+                    titleSchema,
                     applicantGender: radioSchema(['male', 'female']),
                   },
                 },
@@ -693,101 +720,20 @@ const formConfig = {
           },
         },
         page18: {
-          path: 'applicant-information/:index/additional-info',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first || 'Applicant'} - health insurance`,
-          uiSchema: {
-            'ui:title': 'Applicant Health Insurance and Relationship',
-            applicants: {
-              'ui:options': {
-                viewField: ApplicantField,
-                keepInPageOnReview: true,
-              },
-              items: {
-                'ui:title': ApplicantField,
-                applicantEnrolledInMedicare: yesNoUI({
-                  title: 'Enrolled in Medicare',
-                }),
-                applicantMedicareCardFront: {
-                  ...fileUploadUI('Medicare card (Front)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInMedicare,
-                  }),
-                },
-                applicantMedicareCardBack: {
-                  ...fileUploadUI('Medicare card (Back)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInMedicare,
-                  }),
-                },
-                applicantEnrolledInOHI: yesNoUI({
-                  title: 'Enrolled in Other Health Insurance (OHI)',
-                }),
-                applicantOHICardFront: {
-                  ...fileUploadUI('OHI card (Front)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInOHI,
-                  }),
-                },
-                applicantOHICardBack: {
-                  ...fileUploadUI('OHI card (Back)', {
-                    fileTypes,
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    hideIf: (formData, index) =>
-                      !formData.applicants[index].applicantEnrolledInOHI,
-                  }),
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    applicantEnrolledInMedicare: yesNoSchema,
-                    applicantMedicareCardFront: attachmentsSchema,
-                    applicantMedicareCardBack: attachmentsSchema,
-                    applicantEnrolledInOHI: yesNoSchema,
-                    applicantOHICardFront: attachmentsSchema,
-                    applicantOHICardBack: attachmentsSchema,
-                  },
-                },
-              },
-            },
-          },
-        },
-        page19: {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${item?.applicantName?.first ||
-              'Applicant'} - relationship to sponsor`,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
           uiSchema: {
             applicants: {
               items: {
-                'ui:title': ApplicantField, // shows on each page of array
+                'view:alert': {
+                  'ui:title': AdditionalDocumentationAlert,
+                },
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} relationship to sponsor`,
+                ),
                 applicantRelationshipToSponsor: {
                   ...relationshipToVeteranUI({
                     personTitle: 'Sponsor',
@@ -806,7 +752,196 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
+                    'view:alert': {
+                      type: 'object',
+                      properties: {},
+                    },
+                    titleSchema,
                     applicantRelationshipToSponsor: relationshipToVeteranSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page19: {
+          path: 'applicant-information/:index/medicare-status',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare status`,
+          uiSchema: {
+            applicants: {
+              items: {
+                'view:alert': {
+                  'ui:title': AdditionalDocumentationAlert,
+                },
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} Medicare status`,
+                ),
+
+                applicantMedicareStatus: radioUI({
+                  title: 'Is this applicant enrolled in Medicare?',
+                  labels: {
+                    enrolled: 'Yes, this applicant is enrolled in medicare',
+                    over65Eligible:
+                      'No, this applicant is 65 or over, eligible, but not enrolled in Medicare',
+                    over65Ineligible:
+                      'No, this applicant is 65 or over and not eligible for Medicare',
+                    under65Ineligible:
+                      'No, this applicant is under 65 and not eligible for Medicare',
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['applicantMedicareStatus'],
+                  properties: {
+                    'view:alert': {
+                      type: 'object',
+                      properties: {},
+                    },
+                    titleSchema,
+                    applicantMedicareStatus: radioSchema([
+                      'enrolled',
+                      'over65Eligible',
+                      'over65Ineligible',
+                      'under65Ineligible',
+                    ]),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page20: {
+          path: 'applicant-information/:index/medicare-status-continued',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => {
+            return (
+              get(
+                'applicantMedicareStatus',
+                // On first pass, index is always undefined but then populates on next cycle
+                formData.applicants[index || 0],
+              ) === 'enrolled'
+            );
+          },
+          title: item =>
+            `${applicantWording(item)} Medicare status (continued)`,
+          uiSchema: {
+            applicants: {
+              items: {
+                'view:alert': {
+                  'ui:title': AdditionalDocumentationAlert,
+                },
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} Medicare status (continued)`,
+                ),
+
+                applicantMedicarePart: checkboxGroupUI({
+                  title: 'What parts of medicare is the applicant enrolled in?',
+                  hint: 'You can select more than one',
+                  description: 'Please select at least one option',
+                  tile: true,
+                  required: true,
+                  labels: {
+                    partA: {
+                      title: 'Part A',
+                      description: 'Applicant is enrolled in Medicare Part A',
+                    },
+                    partB: {
+                      title: 'Part B',
+                      description: 'Applicant is enrolled in Medicare Part A',
+                    },
+                    partD: {
+                      title: 'Part D',
+                      description: 'Applicant is enrolled in Medicare Part D',
+                    },
+                  },
+                  errorMessages: {
+                    required: 'Please select at least one option',
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    'view:alert': {
+                      type: 'object',
+                      properties: {},
+                    },
+                    titleSchema,
+                    applicantMedicarePart: checkboxGroupSchema([
+                      'partA',
+                      'partB',
+                      'partD',
+                    ]),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page21: {
+          path: 'applicant-information/:index/ohi',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
+          uiSchema: {
+            applicants: {
+              items: {
+                'view:alert': {
+                  'ui:title': AdditionalDocumentationAlert,
+                },
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(
+                      formData,
+                    )} other health insurance status`,
+                ),
+                applicantHasOhi: yesNoUI({
+                  title:
+                    'Does this applicant have other health insurance (that is not Medicare)?',
+                  labels: {
+                    Y: 'Yes, this applicant has other health insurance',
+                    N: "No, this applicant doesn't have other health insurance",
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  required: ['applicantHasOhi'],
+                  properties: {
+                    'view:alert': {
+                      type: 'object',
+                      properties: {},
+                    },
+                    titleSchema,
+                    applicantHasOhi: yesNoSchema,
                   },
                 },
               },
