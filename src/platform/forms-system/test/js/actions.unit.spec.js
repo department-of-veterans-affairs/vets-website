@@ -379,7 +379,83 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
     });
 
+    it('should reject if file is too big & show the custom max file size text', done => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 10,
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 5,
+          maxSizeText: '5 Bytes',
+          maxPdfSize: 20,
+        },
+        f => f,
+        onChange,
+        () => {
+          expect(onChange.firstCall.args[0]).to.eql({
+            name: 'jpg',
+            errorMessage:
+              'We couldn\u2019t upload your file because it\u2019s too big. ' +
+              `Please make sure the file is 5 Bytes or less and try again.`,
+          });
+          done();
+        },
+        undefined,
+        undefined,
+        enableShortWorkflow,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+    });
+
     it('should reject if file is too small', done => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 1,
+        },
+        {
+          minSize: 5,
+          minSizeText: '5 Bytes',
+          fileTypes: ['jpg'],
+          maxSize: 8,
+        },
+        f => f,
+        onChange,
+        () => {
+          expect(onChange.firstCall.args[0]).to.eql({
+            name: 'jpg',
+            errorMessage:
+              'We couldn\u2019t upload your file because it\u2019s too small. ' +
+              `Please make sure the file is 5 Bytes or more and try again.`,
+          });
+          done();
+        },
+        undefined,
+        undefined,
+        enableShortWorkflow,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+    });
+
+    it('should reject if file is too small & show custom min size text', done => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {

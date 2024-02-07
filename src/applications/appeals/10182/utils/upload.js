@@ -6,6 +6,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   SUPPORTED_UPLOAD_TYPES,
   MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
 } from '../../shared/constants';
 
 import {
@@ -31,6 +32,7 @@ export const evidenceUploadUI = {
     buttonText: 'Upload',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
+    maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
     minSize: 1024,
     createPayload,
     parseResponse: (response, { name }) => {
