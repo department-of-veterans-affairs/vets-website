@@ -43,16 +43,18 @@ const FolderHeader = props => {
     [featureToggles],
   );
 
-  const cernerFacilitiesPresent = useMemo(
+  const cernerFacilities = useMemo(
     () => {
-      let cernerFacilities = facilities?.filter(facility => facility.isCerner);
+      let cernerFacilitiesFiltered = facilities?.filter(
+        facility => facility.isCerner,
+      );
       if (cernerTransition556T30) {
-        cernerFacilities = cernerFacilities.filter(
+        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
           facility => facility.facilityId !== '556',
         );
-        return cernerFacilities?.length > 0;
+        return cernerFacilitiesFiltered;
       }
-      return cernerFacilities?.length > 0;
+      return cernerFacilitiesFiltered;
     },
     [facilities, cernerTransition556T30],
   );
@@ -111,7 +113,9 @@ const FolderHeader = props => {
         )}
 
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilitiesPresent && <CernerFacilityAlert />}
+        cernerFacilities?.length && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
 
       {mhvSecureMessagingBlockedTriageGroup1p0 ? (
         <>

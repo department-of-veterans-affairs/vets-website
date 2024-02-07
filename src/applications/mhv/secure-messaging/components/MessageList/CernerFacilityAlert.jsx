@@ -4,26 +4,14 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
 
-const CernerFacilityAlert = () => {
-  const facilities = useSelector(state => state?.user?.profile?.facilities);
-
-  const cernerFacilities = useMemo(
-    () => {
-      if (facilities?.length > 0) {
-        return facilities.filter(f => f.isCerner);
-      }
-      return [];
-    },
-    [facilities],
-  );
-
+const CernerFacilityAlert = ({ cernerFacilities }) => {
   const ehrDataByVhaId = useSelector(
     state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
   const cernerFacilitiesNames = useMemo(
     () => {
-      if (ehrDataByVhaId?.length > 0) {
+      if (ehrDataByVhaId) {
         return cernerFacilities?.map(facility =>
           getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
         );
