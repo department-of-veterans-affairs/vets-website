@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../5490/config/form';
+import formConfig from '../../config/form';
 
 describe('Edu 5490 benefitRelinquishment', () => {
   const {
