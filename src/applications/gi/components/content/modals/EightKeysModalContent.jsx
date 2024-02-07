@@ -3,7 +3,6 @@ import React from 'react';
 export default function EightKeysModalContent() {
   return (
     <>
-      <h3>8 Keys to Veteran Success</h3>
       <p>
         The “8 Keys to Veterans’ Success” are steps that postsecondary
         institutions can take to assist Veterans and service members in

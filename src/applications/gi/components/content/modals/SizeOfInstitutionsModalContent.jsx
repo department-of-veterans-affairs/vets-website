@@ -3,7 +3,6 @@ import React from 'react';
 export default function SizeOfInstitutionsModalContent() {
   return (
     <>
-      <h3>Size of institution</h3>
       <p>
         The size of institutions is based on calculation of full-time equivalent
         students (FTEs) which considers both full-time and part-time students.

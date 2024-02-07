@@ -3,7 +3,6 @@ import React from 'react';
 export default function CalcBeneficiaryLocationQuestionModalContent() {
   return (
     <div>
-      <h3>Location where you'll take classes</h3>
       <p>
         VA pays monthly housing allowance (MHA) based on the campus location
         where you physically attend the majority of your classes.
