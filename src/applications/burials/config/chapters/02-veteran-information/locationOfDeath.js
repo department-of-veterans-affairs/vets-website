@@ -4,6 +4,7 @@ import {
   radioUI,
   // radioSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { generateTitle } from '../../../utils/helpers';
 import { locationOfDeathLabels } from '../../../utils/labels';
@@ -87,6 +88,7 @@ export default {
             required:
               'Enter the name of the facility or nursing home that VA pays for',
           },
+          'ui:webComponentField': VaTextInput,
         },
         facilityLocation: {
           'ui:title':
@@ -98,13 +100,11 @@ export default {
             required:
               'Enter the city and state of the facility or nursing home that VA pays for',
           },
+          'ui:webComponentField': VaTextInput,
         },
         'ui:options': {
-          // hideIf: form =>
-          //   get('locationOfDeath.location', form) !== 'nursingHomePaid',
-          expandUnder: 'nursingHomePaid',
-          expandUnderCondition: 'nursingHomePaid',
-          expandedContentFocus: true,
+          hideIf: form =>
+            get('locationOfDeath.location', form) !== 'nursingHomePaid',
         },
       },
       vaMedicalCenter: {
@@ -116,6 +116,7 @@ export default {
           'ui:errorMessages': {
             required: 'Enter the Name of the VA medical center',
           },
+          'ui:webComponentField': VaTextInput,
         },
         facilityLocation: {
           'ui:title': 'City and state of the VA medical center',
@@ -125,6 +126,7 @@ export default {
           'ui:errorMessages': {
             required: 'Enter the city and state of the VA medical center',
           },
+          'ui:webComponentField': VaTextInput,
         },
         'ui:options': {
           hideIf: form =>
@@ -140,6 +142,7 @@ export default {
           'ui:errorMessages': {
             required: 'Enter the name of the state Veterans facility',
           },
+          'ui:webComponentField': VaTextInput,
         },
         facilityLocation: {
           'ui:title': 'City and state of the state Veterans facility',
@@ -149,6 +152,7 @@ export default {
           'ui:errorMessages': {
             required: 'Enter the city and state of the state Veterans facility',
           },
+          'ui:webComponentField': VaTextInput,
         },
         'ui:options': {
           hideIf: form =>
@@ -164,7 +168,9 @@ export default {
           get('locationOfDeath.location', form) === 'other',
         'ui:options': {
           hideIf: form => get('locationOfDeath.location', form) !== 'other',
+          classNames: 'vads-u-margin-top--2',
         },
+        'ui:webComponentField': VaTextInput,
       },
     },
   },

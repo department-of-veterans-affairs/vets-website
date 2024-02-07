@@ -1,13 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
-// import ServicePeriodView from '@department-of-veterans-affairs/platform-forms/ServicePeriodView';
+import { currentOrPastDateUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
-import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
 
 const { toursOfDuty } = fullSchemaBurials.properties;
+
+export function dateRangeUI(
+  from = 'From',
+  to = 'To',
+  rangeError = 'To date must be after From date',
+) {
+  return {
+    'ui:validations': [validateDateRange],
+    'ui:errorMessages': {
+      pattern: rangeError,
+      required: 'Please enter a date',
+    },
+    from: currentOrPastDateUI(from),
+    to: currentOrPastDateUI(to),
+  };
+}
 
 export function ServicePeriodView({ formData }) {
   const from = formData?.dateRange?.from
@@ -42,6 +59,7 @@ export default {
       ),
       'ui:options': {
         classNames: 'vads-u-margin-bottom--2',
+        uswds: true,
       },
     },
     toursOfDuty: {
@@ -49,6 +67,7 @@ export default {
         itemName: 'Service Period',
         viewField: ServicePeriodView,
         hideTitle: true,
+        uswds: true,
         classNames: 'vads-u-margin--0',
         reviewTitle: 'Service periods',
         keepInPageOnReview: true,
@@ -63,21 +82,44 @@ export default {
             'Service end date',
             'End of service must be after start of service',
           ),
+          'ui:options': {
+            uswds: true,
+          },
         },
         serviceBranch: {
           'ui:title': 'Branch of service',
+          'ui:webComponentField': VaTextInput,
+          'ui:options': {
+            uswds: true,
+          },
         },
         rank: {
           'ui:title': 'Grade, rank or rating',
+          'ui:webComponentField': VaTextInput,
+          'ui:options': {
+            uswds: true,
+          },
         },
         placeOfEntry: {
           'ui:title': 'Place of entry',
+          'ui:webComponentField': VaTextInput,
+          'ui:options': {
+            uswds: true,
+          },
         },
         placeOfSeparation: {
           'ui:title': 'Place of separation',
+          'ui:webComponentField': VaTextInput,
+          'ui:options': {
+            uswds: true,
+          },
         },
         unit: {
           'ui:title': 'Unit',
+          'ui:webComponentField': VaTextInput,
+          'ui:options': {
+            uswds: true,
+          },
         },
       },
     },

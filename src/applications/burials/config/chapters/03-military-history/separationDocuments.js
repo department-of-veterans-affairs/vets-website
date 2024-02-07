@@ -33,11 +33,12 @@ export default {
       </>
     ),
     'view:separationDocuments': {
-      ...yesNoUI(),
-      'ui:title':
-        'Do you want to upload a copy of the Veteran’s DD214 or other separation documents?',
-      'ui:errorMessages': {
-        required: 'Select yes or no',
+      ...yesNoUI({
+        title:
+          'Do you want to upload a copy of the Veteran’s DD214 or other separation documents?',
+      }),
+      'ui:options': {
+        classNames: 'vads-u-margin-bottom--2',
       },
     },
   },

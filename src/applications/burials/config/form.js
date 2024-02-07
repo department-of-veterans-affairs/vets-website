@@ -8,13 +8,13 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms/definitions/fullName';
+// import fullNameUI from 'platform/forms/definitions/fullName';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import * as address from 'platform/forms/definitions/address';
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
+// import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -31,13 +31,14 @@ import personalInformation from './chapters/01-claimant-information/personalInfo
 import relationshipToVeteran from './chapters/01-claimant-information/relationshipToVeteran';
 import mailingAddress from './chapters/01-claimant-information/mailingAddress';
 import contactInformation from './chapters/01-claimant-information/contactInformation';
-import veteranInformationPartOne from './chapters/02-veteran-information/veteranInformationPartOne';
-import veteranInformationPartTwo from './chapters/02-veteran-information/veteranInformationPartTwo';
-import burialInformationPartOne from './chapters/02-veteran-information/burialInformationPartOne';
-import burialInformationPartTwo from './chapters/02-veteran-information/burialInformationPartTwo';
+import veteranInformation from './chapters/02-veteran-information/veteranInformation';
+import burialInformation from './chapters/02-veteran-information/burialInformation';
+import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
+import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
+import previousNames from './chapters/03-military-history/previousNames';
 
 import {
   isEligibleNonService,
@@ -71,7 +72,7 @@ const {
   plotAllowance,
   transportation,
   amountIncurred,
-  previousNames,
+  // previousNames,
 } = fullSchemaBurials.properties;
 
 const {
@@ -160,29 +161,23 @@ const formConfig = {
     veteranInformation: {
       title: 'Deceased Veteran information',
       pages: {
-        veteranInformationPartOne: {
+        veteranInformation: {
           title: 'Deceased Veteran information',
-          path: 'veteran-information/part-one',
-          uiSchema: veteranInformationPartOne.uiSchema,
-          schema: veteranInformationPartOne.schema,
+          path: 'veteran-information',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
-        veteranInformationPartTwo: {
-          title: 'Deceased Veteran information',
-          path: 'veteran-information/part-two',
-          uiSchema: veteranInformationPartTwo.uiSchema,
-          schema: veteranInformationPartTwo.schema,
+        burialInformation: {
+          title: 'Burial dates',
+          path: 'veteran-information/burial',
+          uiSchema: burialInformation.uiSchema,
+          schema: burialInformation.schema,
         },
-        burialInformationPartOne: {
-          title: 'Burial information',
-          path: 'veteran-information/burial/part-one',
-          uiSchema: burialInformationPartOne.uiSchema,
-          schema: burialInformationPartOne.schema,
-        },
-        burialInformationPartTwo: {
-          title: 'Burial information',
-          path: 'veteran-information/burial/part-two',
-          uiSchema: burialInformationPartTwo.uiSchema,
-          schema: burialInformationPartTwo.schema,
+        locationOfDeath: {
+          title: 'Veteran death location',
+          path: 'veteran-information/location-of-death',
+          uiSchema: locationOfDeath.uiSchema,
+          schema: locationOfDeath.schema,
         },
       },
     },
@@ -209,46 +204,18 @@ const formConfig = {
           uiSchema: servicePeriods.uiSchema,
           schema: servicePeriods.schema,
         },
-        previousNames: {
+        previousNamesQuestion: {
           title: 'Previous names',
           path: 'military-history/previous-names',
-          uiSchema: {
-            previousNames: {
-              'ui:options': {
-                itemName: 'Name',
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField,
-              },
-              items: {
-                ...fullNameUI,
-                first: {
-                  'ui:title': 'Veteran’s first name',
-                },
-                middle: {
-                  'ui:title': 'Veteran’s middle name',
-                },
-                last: {
-                  'ui:title': 'Veteran’s last name',
-                },
-              },
-            },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did the Veteran serve under another name?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:serveUnderOtherNames': {
-                type: 'boolean',
-              },
-              previousNames: {
-                ...previousNames,
-                minItems: 1,
-              },
-            },
-          },
+          uiSchema: previousNamesQuestion.uiSchema,
+          schema: previousNamesQuestion.schema,
+        },
+        previousNames: {
+          title: 'Previous names',
+          path: 'military-history/previous-names/add',
+          depends: formData => formData['view:servedUnderOtherNames'],
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
         },
       },
     },
