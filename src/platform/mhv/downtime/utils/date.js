@@ -1,4 +1,5 @@
 // Date parsing
+// DowntimeNotification uses momentjs, which is deprecated.
 
 const HOUR_MS = 3600000; // 1000 * 60 * 60
 
@@ -98,13 +99,15 @@ function getElapsedHours(startDate, endDate) {
 }
 
 /*
- * Create a string representing estimated elaps
+ * Create a string representing estimated elapsed hours. Rounds to nearest hour
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {String} - Elapsed hours as a human-readable string
  */
 function formatElapsedHours(startDate, endDate) {
-  const hours = getElapsedHours(startDate, endDate);
-  // TODO: Use Intl.NumberFormat
-  const nf = Intl.NumberFormat('en');
-  return `${nf.format(hours)} hours`;
+  let hours = getElapsedHours(startDate, endDate);
+  hours = Math.round(hours);
+  return `${hours} hour${hours > 1 ? 's' : ''}`;
 }
 
 export { formatDatetime, formatElapsedHours, getElapsedHours, parseDate };

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { formatDatetime, parseDate } from '../utils/date';
+import { formatDatetime, formatElapsedHours, parseDate } from '../utils/date';
 
 describe('parseDate', () => {
   it('parses an ISO 8601 date string', () => {
@@ -20,7 +20,7 @@ describe('parseDate', () => {
   });
 });
 
-describe('formateDatetime', () => {
+describe('formatDatetime', () => {
   // Use times when UTC offset is -05:00, aka not daylight savings time
   it('formats a datetime string with long month name, full year and timezone abbreviation', () => {
     const dateString = '2024-01-01T15:17:05-05:00';
@@ -62,5 +62,25 @@ describe('formateDatetime', () => {
 
     // Test must run in context of expected timezone
     expect(result).to.equal('April 1, 2024 at 10:00 a.m. ET');
+  });
+});
+
+describe('formatElapsedHours', () => {
+  it('shows 1 hour when time difference is less than an hour and a half', () => {
+    const startDate = new Date(2024, 2, 14, 14);
+    const endDate = new Date(2024, 2, 14, 15, 15);
+
+    const result = formatElapsedHours(startDate, endDate);
+
+    expect(result).to.equal('1 hour');
+  });
+
+  it('shows a plural hours when time difference is greater than an hour and a half', () => {
+    const startDate = new Date(2024, 2, 14, 14);
+    const endDate = new Date(2024, 2, 14, 18, 30);
+
+    const result = formatElapsedHours(startDate, endDate);
+
+    expect(result).to.equal('5 hours');
   });
 });
