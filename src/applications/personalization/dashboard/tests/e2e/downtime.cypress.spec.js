@@ -47,12 +47,16 @@ describe('The My VA Dashboard', () => {
       ],
     });
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /continue/i }).click();
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    cy.get('va-button', { name: /continue/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
 
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /close/i }).click();
-    cy.findByRole('button', { name: /close/i }).should('not.exist');
+    cy.get('va-button', { name: /close/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -79,7 +83,7 @@ describe('The My VA Dashboard', () => {
     });
     cy.visit(manifest.rootUrl);
     cy.findByRole('heading', { name: /My VA/i }).should('exist');
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    cy.get('va-modal').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 

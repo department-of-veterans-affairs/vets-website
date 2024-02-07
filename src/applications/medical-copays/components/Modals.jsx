@@ -10,9 +10,7 @@ const Modals = ({ children, title }) => {
 
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
-      <VaButton secondary onClick={() => setVisible(true)}>
-        {title}
-      </VaButton>
+      <VaButton secondary onClick={() => setVisible(true)} text={title} />
       <VaModal
         onCloseEvent={() => setVisible(false)}
         visible={visible}

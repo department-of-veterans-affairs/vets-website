@@ -39,16 +39,17 @@ export function ConnectedAppDeleteModal({
           <VaButton
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
-          >
-            Disconnect
-          </VaButton>
-          <VaButton secondary onClick={closeModal}>
-            No, cancel this change
-          </VaButton>
+            text="Disconnect"
+          />
+          <VaButton
+            secondary
+            onClick={closeModal}
+            text="No, cancel this change"
+          />
         </>
       )}
 
-      {deleting && <VaButton disabled>Processing update...</VaButton>}
+      {deleting && <VaButton disabled text="Processing update..." />}
     </VaModal>
   );
 }

@@ -41,9 +41,8 @@ export default function useDowntimeApproachingRenderMethod() {
               onClick={() => {
                 setModalDismissed(true);
               }}
-            >
-              Continue
-            </VaButton>
+              text="Continue"
+            />
           </VaModal>
           {children}
         </>
