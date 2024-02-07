@@ -680,23 +680,6 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      
-      - name: Checkout vets-website
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/checkout@v4
-      
-      - name: Install dependencies
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: ./.github/workflows/install
-        timeout-minutes: 20
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
-
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: aws-actions/configure-aws-credentials@v4
@@ -705,6 +688,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
           mask-aws-account-id: true
+
+
+      - name: Checkout vets-website
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
+        uses: actions/checkout@v4
 
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
@@ -717,6 +705,18 @@ jobs:
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Install dependencies
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
 
       - name: Start server
         if: needs.cypress-tests-prep.outputs.tests != '[]'
