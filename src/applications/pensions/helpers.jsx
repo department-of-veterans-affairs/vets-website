@@ -392,3 +392,9 @@ export const validateWorkHours = (errors, fieldData) => {
     errors.addError('Enter a number less than 169');
   }
 };
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}

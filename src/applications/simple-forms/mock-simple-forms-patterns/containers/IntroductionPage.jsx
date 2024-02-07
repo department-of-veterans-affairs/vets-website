@@ -85,6 +85,9 @@ class IntroductionPage extends React.Component {
               <Link to="/date">Date</Link>
             </li>
             <li>
+              <Link to="/dynamic-fields">Dynamic fields</Link>
+            </li>
+            <li>
               <Link to="/array-single-page">Array - single page</Link>
             </li>
             <li>

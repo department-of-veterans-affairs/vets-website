@@ -5,12 +5,12 @@ import _ from 'platform/utilities/data';
 
 import fullSchema from '../config/form-0995-schema.json';
 
+import { EVIDENCE_UPLOAD_API } from '../constants';
+
 import {
-  EVIDENCE_UPLOAD_API,
   MAX_FILE_SIZE_BYTES,
   SUPPORTED_UPLOAD_TYPES,
-} from '../constants';
-
+} from '../../shared/constants';
 import { createPayload } from '../../shared/utils/upload';
 
 export const fileUploadUi = content => {
@@ -33,7 +33,7 @@ export const fileUploadUi = content => {
     buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
-    minSize: 1,
+    minSize: 1024,
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {

@@ -9,26 +9,30 @@ import { RadioCategories } from '../../../util/inputContants';
 
 describe('CategoryInput component', () => {
   const initialState = {
-    sm: {
-      categories: { categories },
-    },
+    sm: {},
   };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<CategoryInput />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.COMPOSE,
-    });
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
     expect(screen);
   });
 
   it('should contain va radio button component', () => {
-    const screen = renderWithStoreAndRouter(<CategoryInput />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.COMPOSE,
-    });
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
     const categoryRadioInputs = screen.getByTestId(
       'compose-message-categories',
     );
@@ -36,11 +40,14 @@ describe('CategoryInput component', () => {
   });
 
   it('should contain all category options', async () => {
-    const screen = renderWithStoreAndRouter(<CategoryInput />, {
-      initialState,
-      reducers: reducer,
-      path: Paths.COMPOSE,
-    });
+    const screen = renderWithStoreAndRouter(
+      <CategoryInput categories={categories} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
     const values = await screen
       .getAllByTestId('compose-category-radio-button')
       ?.map(el => el.value);
@@ -51,7 +58,7 @@ describe('CategoryInput component', () => {
   it('should have category checked when category prop is present', async () => {
     const selectedCategory = RadioCategories.OTHER.value;
     await renderWithStoreAndRouter(
-      <CategoryInput category={selectedCategory} />,
+      <CategoryInput category={selectedCategory} categories={categories} />,
       {
         initialState,
         reducers: reducer,
@@ -75,7 +82,7 @@ describe('CategoryInput component', () => {
   it('should display an error when error prop is present', async () => {
     const categoryError = ErrorMessages.ComposeForm.CATEGORY_REQUIRED;
     const screen = await renderWithStoreAndRouter(
-      <CategoryInput categoryError={categoryError} />,
+      <CategoryInput categoryError={categoryError} categories={categories} />,
       {
         initialState,
         reducers: reducer,

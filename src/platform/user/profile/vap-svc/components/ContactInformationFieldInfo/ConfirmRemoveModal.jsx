@@ -26,7 +26,7 @@ const ConfirmRemoveModal = ({
       status="warning"
       visible={isVisible}
       onCloseEvent={onHide}
-      uswds
+      uswds={false}
     >
       <div>
         This will remove your {title.toLowerCase()} across these VA benefits and
