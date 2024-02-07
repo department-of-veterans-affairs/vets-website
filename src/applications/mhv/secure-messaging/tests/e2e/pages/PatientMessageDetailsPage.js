@@ -444,7 +444,9 @@ class PatientMessageDetailsPage {
         messageThread.data[messageIndex].id
       }"]`,
     )
-      .find('[data-testid="message-body"]')
+      .find(
+        `[data-testid="message-body-${messageThread.data[messageIndex].id}"]`,
+      )
       .should(
         'have.text',
         `${messageThread.data[messageIndex].attributes.body}`,
