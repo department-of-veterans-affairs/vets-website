@@ -23,7 +23,11 @@ export function DownloadLetters() {
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.
       </p>
-      <va-segmented-progress-bar total={total} current={currentStep} />
+      <va-segmented-progress-bar
+        total={total}
+        current={currentStep}
+        uswds="false"
+      />
       <div className="section-content">
         <h2 id="nav-form-header" className="vads-u-font-size--h4">
           {headerText}
