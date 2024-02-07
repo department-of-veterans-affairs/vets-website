@@ -27,14 +27,14 @@ describe('<ConnectedAppDeleteModal>', () => {
       wrapper
         .find('va-button')
         .at(0)
-        .text(),
-    ).to.include('Disconnect');
+        .props(),
+    ).to.have.property('text', 'Disconnect');
     expect(
       wrapper
         .find('va-button')
         .at(1)
-        .text(),
-    ).to.include('No, cancel this change');
+        .props(),
+    ).to.have.property('text', 'No, cancel this change');
 
     expect(text).to.not.include('Processing update...');
 
