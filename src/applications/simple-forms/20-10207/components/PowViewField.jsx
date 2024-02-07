@@ -3,26 +3,24 @@ import PropTypes from 'prop-types';
 
 import { displayFileSize } from 'platform/utilities/ui/index';
 
-import { FINANCIAL_HARDSHIP_DESCRIPTION } from '../config/constants';
+import { POW_DESCRIPTION } from '../config/constants';
 
-const FinancialHardshipViewField = props => {
+const PowViewField = props => {
   const { defaultEditButton, formData } = props;
-  const { financialHardshipDocuments } = formData;
+  const { powDocuments } = formData;
 
   return (
     <div className="form-review-panel-page-header-row">
       <div className="vads-u-width--full vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
         <h3 className="vads-u-margin-y--0">
-          Upload evidence for extreme financial hardship
+          Upload evidence for prisoner of war status
         </h3>
         {defaultEditButton()}
       </div>
-      <div data-testid="financialHardshipDescription">
-        {FINANCIAL_HARDSHIP_DESCRIPTION}
-      </div>
-      {financialHardshipDocuments && (
+      <div data-testid="powDescription">{POW_DESCRIPTION}</div>
+      {powDocuments && (
         <ul className="schemaform-file-list vads-u-width--full">
-          {financialHardshipDocuments.map((doc, index) => (
+          {powDocuments.map((doc, index) => (
             <li key={index} className="va-growable-background">
               <strong>{doc.name}</strong>
               <br />
@@ -35,10 +33,10 @@ const FinancialHardshipViewField = props => {
   );
 };
 
-FinancialHardshipViewField.propTypes = {
+PowViewField.propTypes = {
   defaultEditButton: PropTypes.func.isRequired,
   formData: PropTypes.shape({
-    financialHardshipDocuments: PropTypes.arrayOf(
+    powDocuments: PropTypes.arrayOf(
       PropTypes.shape({
         fileName: PropTypes.string,
         fileSize: PropTypes.number,
@@ -49,4 +47,4 @@ FinancialHardshipViewField.propTypes = {
   }).isRequired,
 };
 
-export default FinancialHardshipViewField;
+export default PowViewField;
