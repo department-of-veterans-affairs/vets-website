@@ -57,9 +57,9 @@ export function ConnectedAppDeleteModal({
 }
 
 ConnectedAppDeleteModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  deleting: PropTypes.bool,
-  modalOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  deleting: PropTypes.bool,
 };
