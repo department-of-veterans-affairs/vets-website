@@ -1,68 +1,64 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import moment from 'moment';
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { createSelector } from 'reselect';
-
-// import { transform } from '../helpers';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { isFullDate } from 'platform/forms/validations';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms/definitions/fullName';
+// import fullNameUI from 'platform/forms/definitions/fullName';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import * as address from 'platform/forms/definitions/address';
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
+// import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-
-import ApplicantDescription from '../components/ApplicantDescription';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+
+// import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
+
+import { validateCentralMailPostalCode } from '../utils/validation';
+
+import personalInformation from './chapters/01-claimant-information/personalInformation';
+import relationshipToVeteran from './chapters/01-claimant-information/relationshipToVeteran';
+import mailingAddress from './chapters/01-claimant-information/mailingAddress';
+import contactInformation from './chapters/01-claimant-information/contactInformation';
+import veteranInformation from './chapters/02-veteran-information/veteranInformation';
+import burialInformation from './chapters/02-veteran-information/burialInformation';
+import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
+import separationDocuments from './chapters/03-military-history/separationDocuments';
+import uploadDD214 from './chapters/03-military-history/uploadDD214';
+import servicePeriods from './chapters/03-military-history/servicePeriods';
+import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
+import previousNames from './chapters/03-military-history/previousNames';
 
 import {
+  isEligibleNonService,
   BurialDateWarning,
   fileHelp,
   transportationWarning,
-  serviceRecordNotification,
+  // serviceRecordNotification,
   serviceRecordWarning,
   submit,
-} from '../helpers';
-import {
-  relationshipLabels,
-  locationOfDeathLabels,
-  allowanceLabels,
-} from '../labels';
-import {
-  validateBurialAndDeathDates,
-  validateCentralMailPostalCode,
-} from '../validation';
-import migrations from '../migrations';
+  // generateTitle,
+  // generateHelpText,
+} from '../utils/helpers';
+import { allowanceLabels } from '../utils/labels';
+import migrations from '../utils/migrations';
 
 import manifest from '../manifest.json';
 
 const {
-  relationship,
-  claimantFullName,
-  veteranFullName,
-  locationOfDeath,
-  burialDate,
-  deathDate,
   claimantEmail,
   claimantPhone,
-  toursOfDuty,
   placeOfRemains,
   federalCemetery,
   stateCemetery,
@@ -76,13 +72,7 @@ const {
   plotAllowance,
   transportation,
   amountIncurred,
-  previousNames,
-  veteranSocialSecurityNumber,
-  veteranDateOfBirth,
-  placeOfBirth,
-  officialPosition,
-  firmName,
-  vaFileNumber,
+  // previousNames,
 } = fullSchemaBurials.properties;
 
 const {
@@ -95,14 +85,6 @@ const {
   dateRange,
 } = fullSchemaBurials.definitions;
 
-// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
-function isEligibleNonService(veteranBurialDate) {
-  return moment()
-    .startOf('day')
-    .subtract(2, 'years')
-    .isBefore(veteranBurialDate);
-}
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -110,6 +92,8 @@ const formConfig = {
   trackingPrefix: 'burials-530-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  v3InProgressMessage: true,
   formId: VA_FORM_IDS.FORM_21P_530,
   saveInProgress: {
     messages: {
@@ -146,60 +130,31 @@ const formConfig = {
   },
   chapters: {
     claimantInformation: {
-      title: 'Claimant Information',
+      title: 'Your Information',
       pages: {
-        claimantInformation: {
-          title: 'Claimant information',
-          path: 'claimant-information',
-          uiSchema: {
-            'ui:description': ApplicantDescription,
-            claimantFullName: {
-              ...fullNameUI,
-              first: {
-                'ui:title': 'Claimant’s first name',
-              },
-              middle: {
-                'ui:title': 'Claimant’s middle name',
-              },
-              last: {
-                'ui:title': 'Claimant’s last name',
-              },
-            },
-            relationship: {
-              type: {
-                'ui:title': 'Relationship to the deceased Veteran',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: relationshipLabels,
-                },
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': form =>
-                  get('relationship.type', form) === 'other',
-                'ui:options': {
-                  expandUnder: 'type',
-                  expandUnderCondition: 'other',
-                },
-              },
-              isEntity: {
-                'ui:title': 'Claiming as a firm, corporation or state agency',
-                'ui:options': {
-                  expandUnder: 'type',
-                  expandUnderCondition: 'other',
-                  widgetClassNames: 'schemaform-label-no-top-margin',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['claimantFullName', 'relationship'],
-            properties: {
-              claimantFullName,
-              relationship,
-            },
-          },
+        personalInformation: {
+          title: 'Your information',
+          path: 'claimant-information/personal-information',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
+        },
+        relationshipToVeteran: {
+          title: 'Your information',
+          path: 'claimant-information/relationship-to-veteran',
+          uiSchema: relationshipToVeteran.uiSchema,
+          schema: relationshipToVeteran.schema,
+        },
+        mailingAddress: {
+          title: 'Your information',
+          path: 'claimant-information/mailing-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          title: 'Your information',
+          path: 'claimant-information/contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
       },
     },
@@ -209,171 +164,58 @@ const formConfig = {
         veteranInformation: {
           title: 'Deceased Veteran information',
           path: 'veteran-information',
-          uiSchema: {
-            veteranFullName: {
-              ...fullNameUI,
-              first: {
-                'ui:title': 'Veteran’s first name',
-              },
-              middle: {
-                'ui:title': 'Veteran’s middle name',
-              },
-              last: {
-                'ui:title': 'Veteran’s last name',
-              },
-            },
-            veteranSocialSecurityNumber: {
-              ...ssnUI,
-              'ui:title':
-                'Social Security number (must have this or a VA file number)',
-              'ui:required': form => !form.vaFileNumber,
-            },
-            vaFileNumber: {
-              'ui:title':
-                'VA file number (must have this or a Social Security number)',
-              'ui:required': form => !form.veteranSocialSecurityNumber,
-              'ui:options': {
-                widgetClassNames: 'usa-input-medium',
-              },
-              'ui:errorMessages': {
-                pattern: 'Your VA file number must be 8 or 9 digits',
-              },
-            },
-            veteranDateOfBirth: currentOrPastDateUI('Date of birth'),
-            placeOfBirth: {
-              'ui:title': 'Place of birth (city and state or foreign country)',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranFullName', 'veteranDateOfBirth'],
-            properties: {
-              veteranFullName,
-              veteranSocialSecurityNumber,
-              vaFileNumber,
-              veteranDateOfBirth,
-              placeOfBirth,
-            },
-          },
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
         },
         burialInformation: {
-          title: 'Burial information',
+          title: 'Burial dates',
           path: 'veteran-information/burial',
-          uiSchema: {
-            deathDate: currentOrPastDateUI('Date of death'),
-            burialDate: currentOrPastDateUI(
-              'Date of burial (includes cremation or interment)',
-            ),
-            'view:burialDateWarning': {
-              'ui:description': BurialDateWarning,
-              'ui:options': {
-                hideIf: formData => {
-                  // If they haven’t entered a complete year, don’t jump the gun and show the warning
-                  if (formData.burialDate && !isFullDate(formData.burialDate)) {
-                    return true;
-                  }
-
-                  // Show the warning if the burial date was more than 2 years ago
-                  return isEligibleNonService(formData.burialDate);
-                },
-              },
-            },
-            locationOfDeath: {
-              location: {
-                'ui:title': 'Where did the Veteran’s death occur?',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: locationOfDeathLabels,
-                },
-              },
-              other: {
-                'ui:title': 'Please specify',
-                'ui:required': form =>
-                  get('locationOfDeath.location', form) === 'other',
-                'ui:options': {
-                  expandUnder: 'location',
-                  expandUnderCondition: 'other',
-                },
-              },
-            },
-            'ui:validations': [validateBurialAndDeathDates],
-          },
-          schema: {
-            type: 'object',
-            required: ['burialDate', 'deathDate', 'locationOfDeath'],
-            properties: {
-              deathDate,
-              burialDate,
-              'view:burialDateWarning': { type: 'object', properties: {} },
-              locationOfDeath,
-            },
-          },
+          uiSchema: burialInformation.uiSchema,
+          schema: burialInformation.schema,
+        },
+        locationOfDeath: {
+          title: 'Veteran death location',
+          path: 'veteran-information/location-of-death',
+          uiSchema: locationOfDeath.uiSchema,
+          schema: locationOfDeath.schema,
         },
       },
     },
     militaryHistory: {
       title: 'Military history',
       pages: {
+        separationDocuments: {
+          title: 'Separation Documents',
+          path: 'military-history/separation-documents',
+          uiSchema: separationDocuments.uiSchema,
+          schema: separationDocuments.schema,
+        },
+        uploadDD214: {
+          title: 'Separation Documents',
+          path: 'military-history/separation-documents/upload',
+          depends: formData => formData['view:separationDocuments'],
+          uiSchema: uploadDD214.uiSchema,
+          schema: uploadDD214.schema,
+        },
         servicePeriods: {
           title: 'Service periods',
           path: 'military-history/service-periods',
-          uiSchema: {
-            'view:serviceRecordNotification': {
-              'ui:description': serviceRecordNotification,
-            },
-            toursOfDuty: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:serviceRecordNotification': {
-                type: 'object',
-                properties: {},
-              },
-              toursOfDuty,
-            },
-          },
+          depends: formData => !formData['view:separationDocuments'],
+          uiSchema: servicePeriods.uiSchema,
+          schema: servicePeriods.schema,
+        },
+        previousNamesQuestion: {
+          title: 'Previous names',
+          path: 'military-history/previous-names',
+          uiSchema: previousNamesQuestion.uiSchema,
+          schema: previousNamesQuestion.schema,
         },
         previousNames: {
           title: 'Previous names',
-          path: 'military-history/previous-names',
-          uiSchema: {
-            previousNames: {
-              'ui:options': {
-                itemName: 'Name',
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField,
-              },
-              items: {
-                ...fullNameUI,
-                first: {
-                  'ui:title': 'Veteran’s first name',
-                },
-                middle: {
-                  'ui:title': 'Veteran’s middle name',
-                },
-                last: {
-                  'ui:title': 'Veteran’s last name',
-                },
-              },
-            },
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did the Veteran serve under another name?',
-              'ui:widget': 'yesNo',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:serveUnderOtherNames': {
-                type: 'boolean',
-              },
-              previousNames: {
-                ...previousNames,
-                minItems: 1,
-              },
-            },
-          },
+          path: 'military-history/previous-names/add',
+          depends: formData => formData['view:servedUnderOtherNames'],
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
         },
       },
     },
@@ -598,19 +440,6 @@ const formConfig = {
           path: 'claimant-contact-information',
           uiSchema: {
             'ui:title': 'Claimant contact information',
-            firmName: {
-              'ui:title': 'Full name of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
-            officialPosition: {
-              'ui:title':
-                'Position of person signing on behalf of firm, corporation or state agency',
-              'ui:options': {
-                hideIf: form => get('relationship.isEntity', form) !== true,
-              },
-            },
             claimantAddress: set(
               'ui:validations[1]',
               validateCentralMailPostalCode,
@@ -623,8 +452,6 @@ const formConfig = {
             type: 'object',
             required: ['claimantAddress'],
             properties: {
-              firmName,
-              officialPosition,
               claimantAddress: address.schema(
                 fullSchemaBurials,
                 true,

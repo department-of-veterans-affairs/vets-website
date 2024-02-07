@@ -9,9 +9,7 @@ export default [
       formData.claimantAddress &&
       !isValidCentralMailPostalCode(formData.claimantAddress)
     ) {
-      newMetadata = Object.assign({}, metadata, {
-        returnUrl: '/claimant-contact-information',
-      });
+      newMetadata = { ...metadata, returnUrl: '/claimant-contact-information' };
     }
 
     return { formData, metadata: newMetadata };
@@ -22,9 +20,7 @@ export default [
     let newMetadata = metadata;
 
     if (formData.vaFileNumber && !fileNumbeRegex.test(formData.vaFileNumber)) {
-      newMetadata = Object.assign({}, metadata, {
-        returnUrl: '/veteran-information',
-      });
+      newMetadata = { ...metadata, returnUrl: '/veteran-information' };
     }
 
     return { formData, metadata: newMetadata };

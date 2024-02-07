@@ -210,3 +210,29 @@ export function fileHelp({ formContext }) {
     </p>
   );
 }
+
+export const generateTitle = text => {
+  return <h3 className="vads-u-margin-top--0">{text}</h3>;
+};
+
+export const generateDescription = text => {
+  return <h3>{text}</h3>;
+};
+
+export const generateHelpText = text => {
+  return (
+    <span className="vads-u-color--gray vads-u-margin-left--0p25">{text}</span>
+  );
+};
+
+export const labelSize = text => {
+  return <p className="label-size">{text}</p>;
+};
+
+// If filing for a non-service-connected allowance, the burial date must be within 2 years from the current date.
+export function isEligibleNonService(veteranBurialDate) {
+  return moment()
+    .startOf('day')
+    .subtract(2, 'years')
+    .isBefore(veteranBurialDate);
+}

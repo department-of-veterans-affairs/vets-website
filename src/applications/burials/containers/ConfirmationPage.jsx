@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { benefitsLabels } from '../labels';
+import { benefitsLabels } from '../utils/labels';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
