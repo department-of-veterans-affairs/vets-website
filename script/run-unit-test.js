@@ -69,9 +69,11 @@ if (
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 
-const command = `LOG_LEVEL=${options[
-  'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
-  `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
+if (!testsToVerify || (testsToVerify && testsToVerify.length > 0)) {
+  const command = `LOG_LEVEL=${options[
+    'log-level'
+  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
+    `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
 
-runCommand(command);
+  runCommand(command);
+}
