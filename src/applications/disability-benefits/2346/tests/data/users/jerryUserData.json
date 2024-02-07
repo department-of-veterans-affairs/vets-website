@@ -84,7 +84,7 @@
   "meta": {
     "errors": [
       {
-        "externalService": "EMIS",
+        "externalService": "Vet360",
         "startTime": "2020-06-18T22:28:43Z",
         "endTime": null,
         "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",

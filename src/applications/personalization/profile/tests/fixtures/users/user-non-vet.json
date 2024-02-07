@@ -95,7 +95,7 @@
   "meta": {
     "errors": [
       {
-        "externalService": "EMIS",
+        "externalService": "Vet360",
         "startTime": "2020-07-23T15:45:24Z",
         "endTime": null,
         "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",

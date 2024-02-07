@@ -66,7 +66,7 @@
         "status": 401
       },
       {
-        "externalService": "EMIS",
+        "externalService": "Vet360",
         "startTime": "2020-07-23T16:58:32Z",
         "endTime": null,
         "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
