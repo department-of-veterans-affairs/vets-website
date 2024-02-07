@@ -1,4 +1,4 @@
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   fullNameSchema,
@@ -27,7 +27,7 @@ import {
   inlineTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-// import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -35,9 +35,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import SectionCompleteAlert from '../components/SectionCompleteAlert';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import FileFieldCustom from '../components/File/FileUpload';
-import FileViewField from '../components/File/FileViewField';
-// import { fileTypes, attachmentsSchema } from './attachments';
+import { fileTypes, attachmentsSchema } from './attachments';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 
 /** @type {FormConfig} */
@@ -524,9 +522,7 @@ const formConfig = {
             },
           },
         },
-        /*
         page18: {
-          // TODO: uncomment this page when we have backend uploads setup
           path: 'applicant-information/:index/additional-info',
           arrayPath: 'applicants',
           showPagePerItem: true,
@@ -611,7 +607,6 @@ const formConfig = {
             },
           },
         },
-        */
         page19: {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
@@ -645,27 +640,6 @@ const formConfig = {
                   },
                 },
               },
-            },
-          },
-        },
-        page20: {
-          path: 'applicant-information/supporting-documents',
-          arrayPath: 'applicants',
-          CustomPage: FileFieldCustom,
-          CustomPageReview: FileViewField,
-          schema: {
-            type: 'object',
-            properties: {
-              items: {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-          uiSchema: {
-            'ui:options': {
-              viewField: FileViewField,
-              keepInPageOnReview: true,
             },
           },
         },
