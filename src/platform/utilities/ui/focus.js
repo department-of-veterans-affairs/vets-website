@@ -11,10 +11,10 @@ import {
  * NOTE: For v3 bar, pass its shadowRoot as root param to the focus methods.  [See FormNav.jsx.]
  */
 export const defaultFocusSelector =
-  // #nav-form-header is pre-v3-bar's H2
+  // .nav-header > h2 is pre-v3-bar's H2
   // .usa-step-indicator__heading is v3-bar's H2
   // TODO: Remove pre-v3 selector, after DST defaults all components to v3 [~2024-02-17].
-  '#nav-form-header, .usa-step-indicator__heading';
+  '.nav-header > h2, .usa-step-indicator__heading';
 
 /**
  * Focus on element

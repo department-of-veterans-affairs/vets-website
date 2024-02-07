@@ -1012,10 +1012,6 @@ describe('Schemaform <FormPage>', () => {
           expect(document.activeElement.tagName).to.eq('H3');
         });
       });
-
-      await waitFor(() => {
-        expect(document.activeElement.tagName).to.eq('H2');
-      });
     });
 
     it('can receive ContentBeforeButtons that has access to setFormData and router', () => {

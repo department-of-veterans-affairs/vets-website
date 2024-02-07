@@ -27,29 +27,37 @@ import { stringifyUrlParams } from '../helpers';
 import { querySelectorWithShadowRoot } from '../../../../utilities/ui/webComponents';
 
 async function focusForm(route, index) {
-  const { useCustomScrollAndFocus, v3SegmentedProgressBar } = route.formConfig;
+  const { formConfig } = route;
   const { scrollAndFocusTarget } = route.pageConfig;
   // Check main toggle to enable custom focus
-  if (useCustomScrollAndFocus) {
+  if (formConfig?.useCustomScrollAndFocus) {
     customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
     let root = document.querySelector('#react-root');
-    if (v3SegmentedProgressBar) {
+    if (formConfig?.v3SegmentedProgressBar) {
       // Need to provide shadowRoot to focus on shadow-DOM elements
-      const shadowHost = await querySelectorWithShadowRoot(
-        'va-segmented-progress-bar',
-      );
-      root = shadowHost.shadowRoot;
+      try {
+        querySelectorWithShadowRoot('va-segmented-progress-bar').then(host => {
+          root = host.shadowRoot;
+        });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error querying shadow root:', error);
+      }
     }
     focusElement(defaultFocusSelector, {}, root);
   }
 }
-
 class FormPage extends React.Component {
   componentDidMount() {
     this.prePopulateArrayData();
     if (!this.props.blockScrollOnMount) {
-      focusForm(this.props.route, this.props?.params?.index);
+      focusForm(this.props.route, this.props?.params?.index)
+        .then(() => {})
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error focusing on form:', error);
+        });
     }
   }
 
@@ -60,7 +68,12 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
-      focusForm(this.props.route, this.props?.params?.index);
+      focusForm(this.props.route, this.props?.params?.index)
+        .then(() => {})
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error focusing on form:', error);
+        });
     }
   }
 
