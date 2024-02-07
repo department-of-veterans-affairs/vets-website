@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-// import EbenefitsLink from '@department-of-veterans-affairs/platform-site-wide/ebenefits/containers/EbenefitsLink';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
