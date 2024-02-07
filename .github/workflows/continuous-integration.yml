@@ -178,11 +178,8 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -240,11 +237,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -366,11 +361,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -491,11 +483,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -527,12 +516,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
-
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
+      
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -582,11 +568,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -643,11 +626,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download Cypress Binary Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-binary
-          path: .
+      - name: Download Cypress Binary
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/artifacts/cypress/12.17.3 cypress.zip  --acl public-read --region us-gov-west-1
 
       - name: Install dependencies
         uses: ./.github/workflows/install
