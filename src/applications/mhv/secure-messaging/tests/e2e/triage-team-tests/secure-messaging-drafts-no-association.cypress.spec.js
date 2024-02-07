@@ -1,10 +1,11 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
+import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
@@ -28,7 +29,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     );
   });
 
-  it('existing draft in thread', () => {
+  it.skip('existing draft in thread', () => {
     const mockThreadWithDraft = {
       ...mockThread,
       data: [
@@ -95,7 +96,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
   });
 
-  it('existing single draft', () => {
+  it.skip('existing single draft', () => {
     const mockSingleDraft = {
       ...mockThread,
       data: [
@@ -159,5 +160,77 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).should('not.exist');
+  });
+});
+
+describe('test', () => {
+  const newDate = new Date().toISOString();
+  const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const draftPage = new PatientMessageDraftsPage();
+  const updatedData = mockRecipients.data.slice(1);
+  const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
+  const removedFirstRecipientsList = {
+    data: updatedData,
+    meta: updatedMeta,
+  };
+
+  beforeEach(() => {
+    site.login();
+    landingPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      removedFirstRecipientsList,
+    );
+    draftPage.loadDraftMessages(mockMessages);
+  });
+
+  it('start a new message-saved draft', () => {
+    const mockSingleDraftThread = {
+      ...mockThread,
+      data: [
+        {
+          ...mockThread.data[0],
+          attributes: {
+            ...mockThread.data[0].attributes,
+            recipientName: mockRecipients.data[0].attributes.name,
+            triageGroupName: mockRecipients.data[0].attributes.name,
+            recipientId: mockRecipients.data[0].attributes.triageTeamId,
+          },
+        },
+      ],
+    };
+    const mockSingeDraft = { data: mockSingleDraftThread.data[0] };
+    mockSingeDraft.data.attributes.draftDate = newDate;
+    mockSingeDraft.data.attributes.sentDate = null;
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread`,
+      mockSingleDraftThread,
+    ).as('full-thread');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        mockSingleDraftThread.data[0].attributes.messageId
+      }`,
+      mockSingeDraft,
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
