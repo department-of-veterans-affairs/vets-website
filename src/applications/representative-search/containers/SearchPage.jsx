@@ -24,7 +24,6 @@ import {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
@@ -319,7 +318,6 @@ const SearchPage = props => {
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={currentQuery.sortType}
-          onUpdateSortType={props.updateSortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
         />
       );
@@ -439,7 +437,6 @@ SearchPage.propTypes = {
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
-  updateSortType: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
@@ -463,7 +460,6 @@ const mapDispatchToProps = {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
