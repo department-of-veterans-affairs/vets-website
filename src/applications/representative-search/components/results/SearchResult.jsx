@@ -62,38 +62,21 @@ const SearchResult = ({
       )}
 
       <div className="vads-u-padding--4 representative-result-card">
-        {reports && (
-          <div className="report-thank-you-alert">
-            <va-alert
-              class="vads-u-margin-bottom--2"
-              close-btn-aria-label="Close notification"
-              disable-analytics="false"
-              full-width="false"
-              slim
-              status="info"
-              uswds
-              visible="true"
-            >
-              <p className="vads-u-margin-y--0">
-                Thank you for reporting outdated information.
-              </p>
-            </va-alert>
+        <div className="representative-result-card-content">
+          <div className="representative-info-heading">
+            {distance && (
+              <div className="vads-u-font-weight--bold vads-u-font-size--lg">
+                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
+              </div>
+            )}
+            {officer && (
+              <div className="vads-u-font-family--serif vads-u-margin-top--2">
+                <h3>{officer}</h3>
+              </div>
+            )}
           </div>
-        )}
-        <div className="representative-info-section">
-          {distance && (
-            <div className="vads-u-font-weight--bold vads-u-font-size--lg">
-              {parseFloat(JSON.parse(distance).toFixed(2))} Mi
-            </div>
-          )}
-          {officer && (
-            <div className="vads-u-font-family--serif vads-u-margin-top--2">
-              <h3>{officer}</h3>
-            </div>
-          )}
-
           {associatedOrgs && (
-            <div className="vads-u-margin-top--2p5">
+            <div className="associated-organizations-info vads-u-margin-top--2p5">
               <va-additional-info trigger="See associated organizations" uswds>
                 {associatedOrgs?.map((org, index) => {
                   return (
@@ -109,7 +92,7 @@ const SearchResult = ({
             </div>
           )}
 
-          <div className="representative-contact-section vads-u-margin-top--2p5">
+          <div className="representative-contact-section">
             {addressExists && (
               <div className="vads-u-margin-top--2">
                 <RepresentativeDirectionsLink
@@ -129,16 +112,34 @@ const SearchResult = ({
               </div>
             )}
           </div>
-        </div>
-        <div className="report-outdated-information-button">
-          <va-button
-            onClick={() => {
-              setReportModalIsShowing(true);
-            }}
-            secondary
-            text="Report outdated information"
-            uswds
-          />
+          {/* {reports && ( */}
+          <div className="report-thank-you-alert">
+            <va-alert
+              class="vads-u-margin-bottom--2"
+              close-btn-aria-label="Close notification"
+              disable-analytics="false"
+              full-width="false"
+              slim
+              status="info"
+              uswds
+              visible="true"
+            >
+              <p className="vads-u-margin-y--0">
+                Thank you for reporting outdated information.
+              </p>
+            </va-alert>
+          </div>
+          {/* )} */}
+          <div className="report-outdated-information-button">
+            <va-button
+              onClick={() => {
+                setReportModalIsShowing(true);
+              }}
+              secondary
+              text="Report outdated information"
+              uswds
+            />
+          </div>
         </div>
       </div>
     </div>
