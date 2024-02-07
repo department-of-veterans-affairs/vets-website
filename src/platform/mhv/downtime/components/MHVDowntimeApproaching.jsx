@@ -20,8 +20,16 @@ function MHVDowntimeApproaching({
           last {timeInterval}. During this time, you may have trouble using some
           of our health tools.
         </p>
-        {startString && <p>Start time: {startString}</p>}
-        {endString && <p>End time: {endString}</p>}
+        {startString && (
+          <p>
+            <b>Start:</b> {startString}
+          </p>
+        )}
+        {endString && (
+          <p>
+            <b>End:</b> {endString}
+          </p>
+        )}
       </va-alert>
     </>
   );

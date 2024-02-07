@@ -12,8 +12,8 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    getByText('APPLICATION will be down for maintenance');
-    getByText('Start time: July 4, 2019 at 9:00 a.m. ET');
-    getByText('End time: July 5, 2019 at 3:00 a.m. ET');
+    getByText('Upcoming maintenance on APPLICATION');
+    getByText('July 4, 2019 at 9:00 a.m. ET');
+    getByText('July 5, 2019 at 3:00 a.m. ET');
   });
 });
