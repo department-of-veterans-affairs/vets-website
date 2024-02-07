@@ -13,8 +13,10 @@ import {
   VERIFICATION_PROFILE_URL,
 } from '../constants';
 import { useData } from '../hooks/useData';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const BenefitsProfileWrapper = ({ children }) => {
+  useScrollToTop();
   const {
     loading,
     date,
