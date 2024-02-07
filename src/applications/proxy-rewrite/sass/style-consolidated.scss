@@ -112,14 +112,6 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
     U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
 
-@font-face {
-  font-family: "Roboto Mono";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Roboto Mono"),
-    url(/fonts/robotomono-regular.ttf) format("truetype");
-}
-
 .consolidated {
   font-family: $font-stack;
 
