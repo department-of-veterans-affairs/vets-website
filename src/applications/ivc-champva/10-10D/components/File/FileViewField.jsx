@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getFileSize } from '../../helpers/utilities';
 
 // Review page component for the FileUpload custompage.
@@ -24,3 +25,7 @@ export default function FileViewField(props) {
     </div>
   );
 }
+
+FileViewField.propTypes = {
+  data: { supportingDocuments: PropTypes.array },
+};
