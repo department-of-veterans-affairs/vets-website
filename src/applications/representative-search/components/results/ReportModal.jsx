@@ -200,6 +200,7 @@ const ReportModal = ({
                 maxlength={250}
                 onInput={e => handleOtherCommentInputChange(e)}
                 uswds
+                charcount
               />
             </div>
           </div>
