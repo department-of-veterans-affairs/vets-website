@@ -212,6 +212,7 @@ const ManageFolderButtons = props => {
           maxlength="50"
           name="new-folder-name"
           data-dd-action-name="Rename Folder Input Field"
+          charcount
         />
         <va-button
           text="Save"
