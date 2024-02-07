@@ -31,7 +31,11 @@ function MHVDown({ appTitle = 'My HealtheVet', endTime, startTime }) {
           health facility.
         </p>
         <p>
-          Find your <va-link href="" text="VA health facility" />
+          Find your{' '}
+          <va-link
+            href="/find-locations/?facilityType=health"
+            text="VA health facility"
+          />
         </p>
       </va-alert>
     </>
