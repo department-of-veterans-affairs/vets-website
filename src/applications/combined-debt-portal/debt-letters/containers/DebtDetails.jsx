@@ -70,11 +70,11 @@ const DebtDetails = () => {
               label: 'Your VA debt and bills',
             },
             {
-              href: '/debt-balances',
+              href: '/manage-va-debt/summary/debt-balances',
               label: 'Current VA debt',
             },
             {
-              href: `/debt-balances/details/${selectedDebt.fileNumber +
+              href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
                 selectedDebt.deductionCode}`,
               label: 'Debt details',
             },
