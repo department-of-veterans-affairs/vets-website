@@ -371,7 +371,11 @@ const createDetailItem = async (doc, config, x, item) => {
           .fontSize(config.text.size)
           .text(titleText, x, doc.y, paragraphOptions);
         doc
-          .font(item.monospace ? config.text.monospaceFont : config.text.font)
+          .font(
+            item.monospace
+              ? config.text.monospaceFont || config.text.font
+              : config.text.font,
+          )
           .fontSize(config.text.size)
           .text(item.value);
       }),

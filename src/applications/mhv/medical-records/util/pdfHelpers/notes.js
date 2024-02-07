@@ -2,7 +2,7 @@ import { EMPTY_FIELD } from '../constants';
 
 export const generateNotesIntro = record => {
   return {
-    title: `${record.name} on ${record.date}`,
+    title: `${record.name} on ${record.dateSigned || record.admissionDate}`,
     subject: 'VA Medical Record',
     preface:
       'Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).',
