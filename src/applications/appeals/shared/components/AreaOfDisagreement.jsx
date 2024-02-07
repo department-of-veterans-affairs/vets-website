@@ -154,6 +154,7 @@ const AreaOfDisagreement = ({
           value={disagreements.otherEntry}
           maxlength={maxLength}
           uswds
+          charcount
         />
       </VaCheckboxGroup>
 
