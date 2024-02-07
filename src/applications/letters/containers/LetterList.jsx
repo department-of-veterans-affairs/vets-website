@@ -64,7 +64,7 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <va-accordion-item key={`panel-${index}`} uswds="false">
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           {conditionalDownloadButton}
@@ -79,7 +79,7 @@ export class LetterList extends React.Component {
       AVAILABILITY_STATUSES.letterEligibilityError
     ) {
       eligibilityMessage = (
-        <va-alert status="warning" visible>
+        <va-alert status="warning" visible uswds="false">
           <h4 slot="headline">Some letters may not be available</h4>
           <p>
             One of our systems appears to be down. If you believe you’re missing
@@ -117,7 +117,9 @@ export class LetterList extends React.Component {
         <p>
           <Link to="/confirm-address">Go back to edit address</Link>
         </p>
-        <va-accordion bordered>{letterItems}</va-accordion>
+        <va-accordion bordered uswds="false">
+          {letterItems}
+        </va-accordion>
         {eligibilityMessage}
 
         <br />
@@ -139,18 +141,6 @@ export class LetterList extends React.Component {
               </strong>
             </a>
           </li>
-          {/* <li> // COE to be launched on VA.gov soon
-            <a
-              href="/housing-assistance/home-loans/request-coe-form-26-1880"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <strong>
-                Sign in to eBenefits to request a Certificate of Eligibility
-                (COE) for your home loan benefits.
-              </strong>
-            </a>
-          </li> */}
           <li>
             <a
               href="/records/get-military-service-records/"
@@ -168,8 +158,8 @@ export class LetterList extends React.Component {
           <div>
             If you have any questions, please call the VA Benefits Help Desk:
             <br />
-            <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
-            &#8211; 9 p.m. ET
+            <va-telephone contact="8008271000" uswds="false" />, Monday &#8211;
+            Friday, 8 a.m. &#8211; 9 p.m. ET
           </div>
         </div>
       </div>

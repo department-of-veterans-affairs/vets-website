@@ -2,9 +2,10 @@
 import React from 'react';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { apiRequest as commonApiClient } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+import { apiRequest as commonApiClient } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
+
 import { ADDRESS_TYPES_ALTERNATE } from '@@vap-svc/constants';
 import { BENEFIT_OPTIONS } from './constants';
 
@@ -58,7 +59,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 export const recordsNotFound = (
   <div id="records-not-found">
     <p />
-    <va-alert status="warning">
+    <va-alert status="warning" uswds="false">
       <h2 slot="headline">We couldn’t find your VA letters or documents</h2>
       <p>
         <EbenefitsLink path="ebenefits/download-letters">
@@ -71,7 +72,7 @@ export const recordsNotFound = (
     <hr className="divider" />
     <p>
       If you have questions or need help looking up your VA letters and
-      documents, please call <va-telephone contact="8008271000" />
+      documents, please call <va-telephone contact="8008271000" uswds="false" />
       from 8:00 a.m. to 7:00 pm ET.
     </p>
   </div>
@@ -93,7 +94,7 @@ export const characterOfServiceContent = {
 // letter
 const serviceVerificationLetterContent = (
   <>
-    <va-alert status="warning">
+    <va-alert status="warning" uswds="false">
       <p>
         You can now use your Benefit Summary letter instead of this Service
         Verification letter.
@@ -154,8 +155,8 @@ export const letterContent = {
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
       plan. If you’ve lost your IRS Form 1095-B, please call{' '}
-      <va-telephone contact="8772228387" />, Monday through Friday, 8:00 a.m. to
-      8:00 p.m. ET to request another copy.
+      <va-telephone contact="8772228387" uswds="false" />, Monday through
+      Friday, 8:00 a.m. to 8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,

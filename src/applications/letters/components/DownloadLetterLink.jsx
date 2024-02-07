@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import recordEvent from 'platform/monitoring/record-event';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
 
@@ -42,7 +43,7 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
-          <va-alert status="success" role="alert">
+          <va-alert status="success" role="alert" uswds="false">
             <h4 slot="headline">Your letter has successfully downloaded.</h4>
             <p>
               If you want to download your letter again, please press the button
@@ -56,7 +57,7 @@ export class DownloadLetterLink extends React.Component {
         buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
-          <va-alert status="error" role="alert">
+          <va-alert status="error" role="alert" uswds="false">
             <h4 slot="headline">Your letter didn’t download.</h4>
             <p>
               Your letter isn’t available at this time. If you need help with

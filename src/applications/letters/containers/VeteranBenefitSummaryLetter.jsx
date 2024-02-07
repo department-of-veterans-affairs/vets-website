@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { formatDateShort } from 'platform/utilities/date';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 import { updateBenefitSummaryRequestOption as updateBenefitSummaryRequestOptionAction } from '../actions/letters';
 import {
@@ -49,7 +49,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const { benefitInfo, serviceInfo } = benefitSummaryOptions;
     const { militaryService } = requestOptions;
     const militaryServiceRows = (serviceInfo || []).map((service, index) => (
-      <va-table-row key={`service${index}`}>
+      <va-table-row key={`service${index}`} uswds="false">
         <span className="service-info">
           {(service.branch || '').toLowerCase()}
         </span>
@@ -136,8 +136,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                   Include military service information
                 </label>
               </div>
-              <va-table id="militaryServiceTable">
-                <va-table-row slot="headers">
+              <va-table id="militaryServiceTable" uswds="false">
+                <va-table-row slot="headers" uswds="false">
                   <span>Branch of service</span>
                   <span>Discharge type</span>
                   <span>Active duty start</span>
