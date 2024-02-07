@@ -679,17 +679,19 @@ export const show526MaxRating = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <VaBreadcrumbs
-      uswds
-      breadcrumbList={[
-        { href: '/', label: 'Home' },
-        { href: '/disability', label: 'Disability Benefits' },
-        {
-          href: '/disability/file-disability-claim-form-21-526ez',
-          label: title,
-        },
-      ]}
-    />
+    <div className="row">
+      <VaBreadcrumbs
+        uswds
+        breadcrumbList={[
+          { href: '/', label: 'Home' },
+          { href: '/disability', label: 'Disability Benefits' },
+          {
+            href: '/disability/file-disability-claim-form-21-526ez',
+            label: title,
+          },
+        ]}
+      />
+    </div>
     {component}
   </>
 );
