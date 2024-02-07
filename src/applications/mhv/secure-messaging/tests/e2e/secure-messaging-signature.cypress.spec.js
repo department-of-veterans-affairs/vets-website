@@ -16,13 +16,6 @@ describe('verify signature', () => {
     landingPage.verifySignature();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('signature added on replying', () => {

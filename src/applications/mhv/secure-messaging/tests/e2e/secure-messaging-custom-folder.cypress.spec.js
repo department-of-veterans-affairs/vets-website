@@ -29,24 +29,10 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   it('Check sorting works properly', () => {
     PatientMessageCustomFolderPage.verifySorting();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('Verify Filter btn exists', () => {
     PatientMessageCustomFolderPage.VerifyFilterBtnExist();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });

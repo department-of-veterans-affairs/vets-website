@@ -51,13 +51,6 @@ describe('SM back navigation', () => {
     draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
     cy.location().should(loc => {

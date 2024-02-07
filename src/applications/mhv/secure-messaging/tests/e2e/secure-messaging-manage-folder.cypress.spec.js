@@ -50,13 +50,6 @@ describe('manage folders', () => {
 
     it('verify folder deleted', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
 
       PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
         folderId,

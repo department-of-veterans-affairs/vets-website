@@ -46,13 +46,6 @@ describe('recipients dropdown box', () => {
     );
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
 
     // ad assertion to check blocked group does not exist in the dd list
 

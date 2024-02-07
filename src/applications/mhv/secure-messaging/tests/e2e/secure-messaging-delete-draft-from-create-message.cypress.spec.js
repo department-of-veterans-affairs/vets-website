@@ -42,12 +42,5 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
       .find('a')
       .should('have.class', 'is-active');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });

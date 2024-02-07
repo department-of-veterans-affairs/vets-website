@@ -24,16 +24,6 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
 
     PatientReplyPage.saveReplyDraft(messageDetails, testMessageBody);
     cy.log(

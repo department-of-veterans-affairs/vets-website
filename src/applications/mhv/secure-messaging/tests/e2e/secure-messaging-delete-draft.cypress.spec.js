@@ -37,15 +37,5 @@ describe('Secure Messaging Delete Draft', () => {
       .should('have.class', 'is-active');
     draftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
   });
 });

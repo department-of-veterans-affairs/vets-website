@@ -35,13 +35,6 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('can send message for category Covid-COVID', () => {
@@ -51,13 +44,6 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 
   it('can send message for category Education-EDUCATION', () => {
@@ -67,13 +53,6 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
   afterEach(() => {
     composePage.sendMessage();

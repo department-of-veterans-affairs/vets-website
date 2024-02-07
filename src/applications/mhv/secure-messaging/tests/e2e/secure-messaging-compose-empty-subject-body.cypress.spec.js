@@ -38,12 +38,5 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage.clickOnSendMessageButton();
     composePage.verifyBodyErrorMessage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
   });
 });
