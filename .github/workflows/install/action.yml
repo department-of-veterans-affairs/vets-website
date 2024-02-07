@@ -47,7 +47,7 @@ runs:
     - name: Install dependencies
       uses: nick-fields/retry@v3
       with:
-        command: CYPRESS_INSTALL_BINARY=/node_modules/cypress/cypress.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
+        command: CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/12.17.3.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
         max_attempts: 3
         timeout_minutes: 7
       env:
