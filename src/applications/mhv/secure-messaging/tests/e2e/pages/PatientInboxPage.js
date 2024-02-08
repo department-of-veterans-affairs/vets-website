@@ -137,7 +137,8 @@ class PatientInboxPage {
     ).as('message');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId}/thread`,
+      `${Paths.SM_API_EXTENDED +
+        inputMockMessage.attributes.messageId}/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
@@ -167,7 +168,7 @@ class PatientInboxPage {
       'GET',
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(
@@ -182,7 +183,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    cy.wait('@fist-message-in-thread');
+    // cy.wait('@fist-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -329,7 +330,7 @@ class PatientInboxPage {
   replyToMessage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/messaging/messages/7192838/thread',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
       mockThread,
     ).as('threadAgain');
     cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
