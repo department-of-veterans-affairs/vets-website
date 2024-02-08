@@ -42,7 +42,9 @@ const Alert = ({ children, title }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{title}</h1>
-      <va-alert status="error">{children}</va-alert>
+      <va-alert status="error" uswds>
+        {children}
+      </va-alert>
     </div>
   </div>
 );
