@@ -9,7 +9,7 @@ describe('Locator url and parameters builder', () => {
   const long = '-99.27246';
   const name = 'test';
   const sort = 'distance_asc';
-  const searchArea = '100';
+  const distance = '100';
 
   it('should build VA request with type=veteran_service_officer', () => {
     const type = 'veteran_service_officer';
@@ -25,7 +25,7 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
-      searchArea,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
@@ -50,7 +50,7 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
-      searchArea,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
@@ -74,7 +74,7 @@ describe('Locator url and parameters builder', () => {
       perPage: 7,
       sort,
       type,
-      searchArea,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
@@ -102,7 +102,7 @@ describe('Locator url and parameters builder', () => {
       page: 2,
       perPage: 7,
       sort,
-      searchArea,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
