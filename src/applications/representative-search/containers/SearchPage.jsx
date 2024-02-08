@@ -417,6 +417,7 @@ SearchPage.propTypes = {
     pathname: PropTypes.string,
     query: PropTypes.shape({
       address: PropTypes.string,
+      distance: PropTypes.string,
       name: PropTypes.string,
       lat: PropTypes.string,
       long: PropTypes.string,
