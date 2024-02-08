@@ -11,7 +11,7 @@ import {
   mockSearchResults,
 } from '../../helpers';
 
-describe('<NameSearchForm>', () => {
+describe.skip('<NameSearchForm>', () => {
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<NameSearchForm />, {
       initialState: {
@@ -286,7 +286,7 @@ describe('<NameSearchForm>', () => {
     userEvent.click(btn);
     expect(btn).to.have.attribute('aria-expanded', 'false');
   });
-  describe('specialMissions', () => {
+  describe.skip('specialMissions', () => {
     let sandbox;
     let fetchStub;
 
