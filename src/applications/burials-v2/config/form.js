@@ -102,7 +102,7 @@ function isEligibleNonService(veteranBurialDate) {
     .isBefore(veteranBurialDate);
 }
 
-const formConfig = {
+export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submit,
@@ -118,7 +118,7 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 2,
+  version: 3,
   migrations,
   prefillEnabled: true,
   downtime: {
@@ -692,5 +692,3 @@ const formConfig = {
     },
   },
 };
-
-export default formConfig;
