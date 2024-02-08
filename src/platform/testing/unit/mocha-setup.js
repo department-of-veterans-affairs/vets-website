@@ -179,7 +179,7 @@ const cleanupStorage = () => {
 
 export const mochaHooks = {
   beforeEach() {
-    // setupJSDom();
+    setupJSDom();
     resetFetch();
     cleanupStorage();
     if (isStressTest == 'false') {
