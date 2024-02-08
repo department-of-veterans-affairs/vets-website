@@ -4,7 +4,7 @@ import moment from 'moment';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -30,7 +30,7 @@ const initialState = {
   },
 };
 
-describe.skip('VAOS vaccine flow <SelectDate1Page>', () => {
+describe('VAOS vaccine flow <SelectDate1Page>', () => {
   const clinic1 = createMockClinicByVersion({
     id: '308',
     stationId: '983',

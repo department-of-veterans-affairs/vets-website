@@ -24,7 +24,7 @@ describe('Avs: Your Treatment Plan', () => {
       'Test Imaging',
     );
     expect(screen.getByTestId('lab-tests').children[1]).to.have.text(
-      'HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$',
+      'HEMOGLOBIN A1C (LAB) BLOOD-LAVENDER$ (January 07, 2024)',
     );
     expect(screen.getByTestId('medications').firstChild).to.have.text(
       'Test Medication',

@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { resolveParamsWithUrl, getApi } from '../config';
 
