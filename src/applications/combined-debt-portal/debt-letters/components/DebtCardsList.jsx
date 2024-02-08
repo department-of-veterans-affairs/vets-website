@@ -18,7 +18,7 @@ const DebtCardsList = () => {
       </h2>
       <p>
         Any payments you may have made to your current debts will not be
-        reflected here until our systems are updated with the next monthly
+        reflected here until our systems are updated with your next monthly
         statement.
       </p>
       <div className="vads-u-margin-top--3" data-testid="debt-list">

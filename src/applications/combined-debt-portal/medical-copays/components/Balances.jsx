@@ -16,7 +16,7 @@ export const Balances = ({ statements }) => {
       {statements?.length === 1 ? single : multiple}
       <p>
         Any payments you may have made to your current copays will not be
-        reflected here until our systems are updated with the next monthly
+        reflected here until our systems are updated with your next monthly
         statement.
       </p>
       <ul className="no-bullets vads-u-padding-x--0">
