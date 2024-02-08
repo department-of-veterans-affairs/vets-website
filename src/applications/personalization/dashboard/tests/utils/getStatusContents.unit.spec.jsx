@@ -196,14 +196,153 @@ describe('getStatusContents', () => {
     );
   });
 
-  // Template
-  // it('should return correct title and description for ', () => {
-  //   const { title, description } = getStatusContents(mockAppealData.data[]);
-  //   const content = description.props;
-  //   console.log(content)
-  //   expect(title).to.equal(
-  //   );
-  //   expect(content).to.include(
-  //   );
-  // });
+  it('should return correct title and description for Merged', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[22]);
+    const content = description.props.children[0].props.children;
+    expect(title).to.equal('Your appeal was merged');
+    expect(content).to.include(
+      'Your appeal was merged with another appeal. The Board of Veterans’ Appeals merges appeals so that you can receive a single decision on as many appealed issues as possible. This appeal was merged with an older appeal that was closest to receiving a Board decision.',
+    );
+  });
+
+  it('should return correct title and description for Appeals Modernization Act opt-in', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[23]);
+    const content = description.props.children[0].props.children;
+    expect(title).to.equal(
+      'You requested a decision review under the Appeals Modernization Act',
+    );
+    expect(content).to.include(
+      'A new law, the Veterans Appeals Improvement and Modernization Act, took effect on February 19, 2019. Although your appeal started before the new law took effect, you asked for it to be converted into one of the new decision review options.',
+    );
+  });
+
+  it('should return correct title and description for New evidentiary period', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[24]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal('Your appeals file is open for new evidence');
+    expect(content).to.include(
+      'Because you requested the  appeal option, the Board of Veterans’ Appeals will hold your case open for new evidence for 90 days.',
+    );
+  });
+
+  it('should return correct title and description for BVA decision - action needed', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[25]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal(
+      'The Agency of Original Jurisdiction corrected an error',
+    );
+    expect(content).to.include(
+      'In the February 3, 2021 decision, a judge at the Board of Veterans’ Appeals identified an error that needed to be corrected. A reviewer at the Agency of Original Jurisdiction completed the judge’s instructions and sent you a new decision on February 3, 2022.',
+    );
+  });
+
+  it('should return correct title and description for BVA decision - change updated', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[26]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal(
+      'The Agency of Original Jurisdiction corrected an error',
+    );
+    expect(content).to.include(
+      'On February 3, 2021, a judge at the Board of Veterans’ Appeals made a decision that changes your disability rating or eligibility for benefits. On February 3, 2022, the Agency of Original Jurisdiction sent you a new decision that updates your benefits.',
+    );
+  });
+
+  it('should return correct title and description for Supplemental Claim - received', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[27]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal('A reviewer is examining your new evidence');
+    expect(content).to.include(
+      'A Supplemental Claim allows you to add new and relevant evidence to your case. When you filed a Supplemental Claim, you included new evidence or identified evidence that the Agency of Original Jurisdiction should obtain.',
+    );
+  });
+
+  it('should return correct title and description for Higher-level review', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[28]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal(
+      'A higher-level reviewer is taking a new look at your case',
+    );
+    expect(content).to.include(
+      'By requesting a Higher-Level Review, you asked for a higher-level at the Agency of Original Jurisdiction to look at your case and determine whether they can change the decision based on a difference of opinion or because VA made an error.',
+    );
+  });
+
+  it('should return correct title and description for Supplemental Claim - decision made', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[29]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal(
+      'The Agency of Original Jurisdiction made a decision',
+    );
+    expect(content).to.include(
+      'The Agency of Original Jurisdiction sent you a decision on your Supplemental Claim.',
+    );
+  });
+
+  it('should return correct title and description for Higher-level - decision made', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[30]);
+    const content = description.props.children[0].props.children.join('');
+    expect(title).to.equal(
+      'The Agency of Original Jurisdiction made a decision',
+    );
+    expect(content).to.include(
+      'The Agency of Original Jurisdiction sent you a decision on your Higher-Level Review.',
+    );
+  });
+
+  it('should return correct title and description for Higher-level review - error correcting', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[4]);
+    const content = description.props.children;
+    expect(title).to.equal(
+      'The Veterans Benefits Administration is correcting an error',
+    );
+    expect(content).to.include(
+      'During their review, the higher-level reviewer identified an error that must be corrected before deciding your case. If needed, VA may contact you to ask for more evidence or to schedule a new medical exam.',
+    );
+  });
+
+  it('should return correct title and description for Supplemental Claim - closed', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[31]);
+    const content = description.props.children;
+    expect(title).to.equal('Your Supplemental Claim was closed');
+    expect(content).to.include(
+      'Your Supplemental Claim was closed. Please contact VA or your Veterans Service Organization or representative for more information.',
+    );
+  });
+
+  it('should return correct title and description for Higher-level Review - closed', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[32]);
+    const content = description.props.children;
+    expect(title).to.equal('Your Higher-Level Review was closed');
+    expect(content).to.include(
+      'Your Higher-Level Review was closed. Please contact VA or your Veterans Service Organization or representative for more information.',
+    );
+  });
+
+  it('should return correct title and description for Remand return', () => {
+    const { title, description } = getStatusContents(mockAppealData.data[33]);
+    const content = description.props.children;
+    expect(title).to.equal(
+      'Your appeal was returned to the Board of Veterans’ Appeals',
+    );
+    expect(content).to.include(
+      'The Veterans Benefits Administration finished their work on the remand and will return your case to the Board of Veterans’ Appeals.',
+    );
+  });
+
+  it('should return correct title and description for Unknown Status', () => {
+    const { title, description } = getStatusContents({
+      id: '',
+      type: 'appeal',
+      attributes: {
+        status: {
+          type: 'unknown',
+        },
+      },
+    });
+    const content = description.props.children;
+    expect(title).to.equal('We don’t know your status');
+    expect(content).to.include(
+      'We’re sorry, VA.gov will soon be updated to show your status.',
+    );
+  });
 });

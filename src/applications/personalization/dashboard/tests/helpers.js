@@ -714,18 +714,143 @@ export const mockAppealData = {
         },
       },
     },
-
     {
-      // Status: - template
-      id: 'A1',
+      // Status: - merged
+      id: 'A122',
       type: 'appeal',
       attributes: {
-        appealIds: ['A1'],
+        appealIds: ['A122'],
         status: {
-          type: 'template',
+          type: 'merged',
+        },
+      },
+    },
+    {
+      // Status: - statutory_opt_in
+      id: 'A123',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A123'],
+        status: {
+          type: 'statutory_opt_in',
+        },
+      },
+    },
+    {
+      // Status: - evidentiary_period
+      id: 'A124',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A124'],
+        status: {
+          type: 'evidentiary_period',
+        },
+      },
+    },
+    {
+      // Status: - post_bva_dta_decision
+      id: 'A125',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A125'],
+        status: {
+          type: 'post_bva_dta_decision',
           details: {
-            lastSocDate: '2015-09-12',
+            bvaDecisionDate: '2021-02-03',
+            aojDecisionDate: '2022-02-03',
           },
+        },
+      },
+    },
+    {
+      // Status: - bva_decision_effectuation
+      id: 'A126',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A126'],
+        status: {
+          type: 'bva_decision_effectuation',
+          details: {
+            bvaDecisionDate: '2021-02-03',
+            aojDecisionDate: '2022-02-03',
+          },
+        },
+      },
+    },
+    {
+      // Status: - sc_received
+      id: 'A127',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A127'],
+        status: {
+          type: 'sc_received',
+        },
+      },
+    },
+    {
+      // Status: - hlr_received
+      id: 'A128',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A128'],
+        status: {
+          type: 'hlr_received',
+        },
+      },
+    },
+    {
+      // Status: - sc_decision
+      id: 'A129',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A129'],
+        status: {
+          type: 'sc_decision',
+        },
+      },
+    },
+    {
+      // Status: - hlr_decision
+      id: 'A130',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A130'],
+        status: {
+          type: 'hlr_decision',
+        },
+      },
+    },
+    {
+      // Status: - sc_closed
+      id: 'A131',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A131'],
+        status: {
+          type: 'sc_closed',
+        },
+      },
+    },
+    {
+      // Status: - hlr_closed
+      id: 'A132',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A132'],
+        status: {
+          type: 'hlr_closed',
+        },
+      },
+    },
+    {
+      // Status: - remand_return
+      id: 'A133',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A133'],
+        status: {
+          type: 'remand_return',
         },
       },
     },
