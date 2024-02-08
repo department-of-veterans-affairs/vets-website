@@ -217,7 +217,6 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
-      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
 
     steps:
       - name: Checkout
@@ -253,7 +252,6 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
           IS_STRESS_TEST: false
-          GITHUB_REF: ${{ github.ref }}
 
       - name: Archive unit test results
         if: ${{ always() }}
