@@ -11,7 +11,9 @@ import {
   getEvidence,
   getForm4142,
   getPhone,
+  getEmail,
   getTimeZone,
+  getClaimantData,
   hasDuplicateFacility,
   hasDuplicateLocation,
 } from '../../utils/submit';
@@ -26,6 +28,7 @@ describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
+    expect(getAddress()).to.deep.equal(result);
     expect(getAddress({})).to.deep.equal(result);
     expect(getAddress(wrap({}))).to.deep.equal(result);
     expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
@@ -199,6 +202,21 @@ describe('getTimeZone', () => {
   });
 });
 
+describe('getClaimantData', () => {
+  // "other" types are not implemented, but there is some minimal code in place
+  it('should handle "other" claimant types', () => {
+    expect(
+      getClaimantData({
+        claimantType: 'other',
+        claimantTypeOtherValue: 'Twenty-five characters max',
+      }),
+    ).to.deep.equal({
+      claimantType: 'other',
+      claimantTypeOtherValue: 'Twenty-five characters ma',
+    });
+  });
+});
+
 describe('hasDuplicateLocation', () => {
   const getLocation = ({
     wrap = false,
@@ -236,6 +254,27 @@ describe('hasDuplicateLocation', () => {
     const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
     expect(hasDuplicateLocation(list, first2)).to.be.true;
   });
+});
+
+describe('getEmail', () => {
+  it('should return an empty string', () => {
+    expect(getEmail()).to.eq('');
+    expect(getEmail({})).to.eq('');
+    expect(getEmail({ veteran: {} })).to.eq('');
+  });
+  it('should return the defined email', () => {
+    expect(getEmail({ veteran: { email: 'test@test.com' } })).to.eq(
+      'test@test.com',
+    );
+  });
+});
+it('should return the defined email truncated to 255 characters', () => {
+  const email = `${'abcde12345'.repeat(25)}@test.com`;
+  const result = getEmail({ veteran: { email } });
+  expect(result.length).to.eq(255);
+  // results in an invalid email, but we use profile, and they won't accept
+  // emails > 255 characters in length
+  expect(result.slice(-10)).to.eq('12345@test');
 });
 
 describe('getEvidence', () => {
@@ -403,6 +442,15 @@ describe('getForm4142', () => {
           : { from: '2001-3-3', to: '2001-4-4' },
       },
     ],
+  });
+
+  it('should return 4142 form data with undefined acceptance', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: true,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
 
   it('should return 4142 form data', () => {

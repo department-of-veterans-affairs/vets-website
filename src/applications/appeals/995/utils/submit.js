@@ -49,7 +49,7 @@ export const getClaimantData = ({
   };
 
   if (result.claimantType === 'other' && claimantTypeOtherValue) {
-    result.claimantTypeOtherValue = (claimantTypeOtherValue || '').substring(
+    result.claimantTypeOtherValue = claimantTypeOtherValue.substring(
       0,
       MAX_LENGTH.SC_CLAIMANT_OTHER,
     );

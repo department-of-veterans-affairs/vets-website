@@ -93,7 +93,6 @@ export const errorMessages = {
     city: 'You must enter a city name',
     state: 'You must choose a state',
     postal: 'You must enter a postal code',
-    overMaxLength: max => `You can enter a maximum of ${max} characters`,
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
 
