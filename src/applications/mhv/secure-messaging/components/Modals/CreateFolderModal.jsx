@@ -79,6 +79,7 @@ const CreateFolderModal = props => {
         name="folder-name"
         data-testid="folder-name"
         data-dd-action-name="Create New Folder Modal Input Field"
+        charcount
       />
       <va-button
         text="Create"

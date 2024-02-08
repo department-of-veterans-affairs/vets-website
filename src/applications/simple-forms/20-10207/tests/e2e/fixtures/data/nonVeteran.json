@@ -1,0 +1,31 @@
+{
+  "data": {
+    "preparerType": "non-veteran",
+    "fullName": {
+      "first": "John",
+      "last": "Non-Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540988"
+    },
+    "livingSituation": {
+      "NONE": true
+    },
+    "mailingAddressYesNo": true,
+    "mailingAddress": {
+      "country": "USA",
+      "street": "124 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phone": "1234567891",
+    "otherReasons": {
+      "FINANCIAL_HARDSHIP": true,
+      "ALS": true,
+      "TERMINAL_ILLNESS": true,
+      "VSI_SI": true
+    }
+  }
+}
