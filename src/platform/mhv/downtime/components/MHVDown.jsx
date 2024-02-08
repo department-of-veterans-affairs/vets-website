@@ -17,7 +17,7 @@ function MHVDown({
         <h3 slot="headline">Maintenance on My HealtheVet</h3>
         <p>
           We&#x2019;re working on My HealtheVet. The maintenance will last{' '}
-          {timeInterval}. During this time, you may have trouble using
+          {timeInterval}. During this time, you may have trouble using{' '}
           {appTitle}.
         </p>
         {startString && (
