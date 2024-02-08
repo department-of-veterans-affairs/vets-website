@@ -6,7 +6,7 @@ export const shouldMockApiRequest = () =>
 export const mockAppealData = {
   data: [
     {
-      // Status: Review your statement of the case - pending_form9
+      // Status: Review your statement of the case - pending_soc
       id: '7387389',
       type: 'legacyAppeal',
       attributes: {
@@ -334,6 +334,7 @@ export const mockAppealData = {
       },
     },
     {
+      // Status: - sc_received
       id: 'SC105',
       type: 'supplementalClaim',
       attributes: {
@@ -368,6 +369,7 @@ export const mockAppealData = {
       },
     },
     {
+      // Status: - hlr_dta_error
       id: 'HLR101',
       type: 'higherLevelReview',
       attributes: {
@@ -443,6 +445,7 @@ export const mockAppealData = {
       },
     },
     {
+      // Status: - pending_hearing_scheduling
       id: 'A102',
       type: 'appeal',
       attributes: {
@@ -502,6 +505,7 @@ export const mockAppealData = {
       },
     },
     {
+      // Status: - pending_form9
       id: 'A106',
       type: 'appeal',
       attributes: {
@@ -509,67 +513,220 @@ export const mockAppealData = {
         updated: '2021-02-29T19:38:44-04:00',
         incompleteHistory: false,
         type: 'original',
-        active: false,
+        active: true,
         description: 'Reasonableness of attorney fees',
         aod: false,
-        location: 'bva',
-        aoj: 'other',
+        location: 'vba',
         programArea: 'other',
         status: {
-          type: 'bva_decision',
+          type: 'pending_form9',
           details: {
-            issues: [
-              {
-                description: 'Reasonableness of attorney fees',
-                disposition: 'allowed',
-              },
-            ],
+            lastSocDate: '2015-09-12',
+            certificationTimeliness: [1, 4],
+            socTimeliness: [2, 16],
           },
         },
-        alerts: [
-          {
-            type: 'ama_post_decision',
-            details: {
-              decisionDate: '2021-02-20',
-              availableOptions: ['supplemental_claim', 'cavc'],
-              dueDate: '2022-02-19',
-              cavcDueDate: '2021-06-19',
-            },
-          },
-        ],
-        docket: {
-          type: 'hearing',
-          month: '2019-02-01',
-          switchDueDate: '2019-06-05',
-          eligibleToSwitch: false,
+      },
+    },
+    {
+      // Status: - pending_certification
+      id: 'A106',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A106'],
+        status: {
+          type: 'pending_certification',
         },
-        issues: [
-          {
-            description: 'Reasonableness of attorney fees',
-            diagnosticCode: null,
-            active: false,
-            lastAction: 'allowed',
-            date: '2021-02-20',
+      },
+    },
+    {
+      // Status: - pending_certification_ssoc
+      id: 'A108',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A108'],
+        status: {
+          type: 'pending_certification_ssoc',
+          details: {
+            lastSocDate: '2015-09-12',
           },
-        ],
-        events: [
-          {
-            type: 'ama_nod',
-            date: '2019-02-23',
+        },
+      },
+    },
+    {
+      // Status: - remand_ssoc
+      id: 'A109',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A109'],
+        status: {
+          type: 'remand_ssoc',
+          details: {
+            lastSocDate: '2015-09-12',
           },
-          {
-            type: 'hearing_no_show',
-            date: '2020-05-21',
+        },
+      },
+    },
+    {
+      // Status: - scheduled_hearing
+      id: 'A110',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A110'],
+        status: {
+          type: 'scheduled_hearing',
+          details: {
+            type: 'video',
+            date: '2015-09-12',
+            location: 'bva',
           },
-          {
-            type: 'hearing_held',
-            date: '2020-10-21',
+        },
+      },
+    },
+    {
+      // Status: - at_vso
+      id: 'A111',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A111'],
+        status: {
+          type: 'at_vso',
+          details: {
+            vsoName: 'Disabled American Veterans',
           },
-          {
-            type: 'bva_decision',
-            date: '2021-02-20',
+        },
+      },
+    },
+    {
+      // Status: - decision_in_progress
+      id: 'A112',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A112'],
+        status: {
+          type: 'decision_in_progress',
+        },
+      },
+    },
+    {
+      // Status: - bva_development
+      id: 'A113',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A113'],
+        status: {
+          type: 'bva_development',
+          details: {
+            lastSocDate: '2015-09-12',
           },
-        ],
+        },
+      },
+    },
+    {
+      // Status: - stayed
+      id: 'A114',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A114'],
+        status: {
+          type: 'stayed',
+        },
+      },
+    },
+    {
+      // Status: - field_grant
+      id: 'A115',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A115'],
+        status: {
+          type: 'field_grant',
+        },
+      },
+    },
+    {
+      // Status: - withdrawn
+      id: 'A116',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A116'],
+        status: {
+          type: 'withdrawn',
+        },
+      },
+    },
+    {
+      // Status: - ftr
+      id: 'A117',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A117'],
+        status: {
+          type: 'ftr',
+        },
+      },
+    },
+    {
+      // Status: - ramp
+      id: 'A118',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A118'],
+        status: {
+          type: 'ramp',
+        },
+      },
+    },
+    {
+      // Status: - reconsideration
+      id: 'A119',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A119'],
+        status: {
+          type: 'reconsideration',
+        },
+      },
+    },
+    {
+      // Status: - death
+      id: 'A120',
+      type: 'appeal',
+      name: {
+        first: 'Lorem',
+        last: 'Ipsum',
+      },
+      attributes: {
+        appealIds: ['A120'],
+        status: {
+          type: 'death',
+        },
+      },
+    },
+    {
+      // Status: - other_close
+      id: 'A121',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A121'],
+        status: {
+          type: 'other_close',
+        },
+      },
+    },
+
+    {
+      // Status: - template
+      id: 'A1',
+      type: 'appeal',
+      attributes: {
+        appealIds: ['A1'],
+        status: {
+          type: 'template',
+          details: {
+            lastSocDate: '2015-09-12',
+          },
+        },
       },
     },
   ],
