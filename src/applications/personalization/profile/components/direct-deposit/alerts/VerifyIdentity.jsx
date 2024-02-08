@@ -8,7 +8,7 @@ export default function VerifyIdentity({ useOAuth }) {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
 
   return (
-    <va-alert status="continue" visible>
+    <va-alert status="continue" visible uswds>
       <h2 slot="headline" data-testid="direct-deposit-mfa-message">
         Verify your identity with Login.gov or ID.me to change your direct
         deposit information online

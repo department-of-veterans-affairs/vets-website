@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function DirectDepositBlocked() {
   return (
-    <va-alert status="warning" visible>
+    <va-alert status="warning" visible uswds>
       <h2
         slot="headline"
         className="vads-u-font-size--base vads-u-font-family--sans"

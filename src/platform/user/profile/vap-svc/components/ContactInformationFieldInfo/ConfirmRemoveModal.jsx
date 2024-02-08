@@ -54,11 +54,9 @@ const ConfirmRemoveModal = ({
           undefined
         )}
       </ul>
-      <div className="vads-u-margin-top--1">
-        You can always come back to your profile later if you want to add this{' '}
-        {}
-        {title.toLowerCase()} again.
-      </div>
+      <p className="vads-u-margin-top--1">
+        {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
+      </p>
       {error && (
         <div
           role="alert"

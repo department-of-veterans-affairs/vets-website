@@ -6,6 +6,7 @@ const TemporaryOutageCnp = () => (
       close-btn-aria-label="Close notification"
       status="warning"
       visible
+      uswds
     >
       <h2 slot="headline">
         Disability and pension information isn’t available right now

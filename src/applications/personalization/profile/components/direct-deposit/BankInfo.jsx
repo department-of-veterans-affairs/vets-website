@@ -284,7 +284,7 @@ export const BankInfo = ({
           formSubmit={saveBankInfo}
         >
           <div className="vads-u-margin-bottom--2 vads-u-margin-top--2p5">
-            <va-additional-info trigger="Where can I find these numbers?">
+            <va-additional-info trigger="Where can I find these numbers?" uswds>
               <img
                 src="/img/direct-deposit-check-guide.svg"
                 alt="A personal check"
@@ -382,31 +382,21 @@ export const BankInfo = ({
         onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
+        primaryButtonText="Continue Editing"
+        onPrimaryButtonClick={() => {
+          setShowConfirmCancelModal(false);
+        }}
+        secondaryButtonText="Cancel"
+        onSecondaryButtonClick={() => {
+          setShowConfirmCancelModal(false);
+          toggleEditState();
+        }}
+        uswds
       >
         <p>
-          {' '}
           You haven’t finished editing and saving the changes to your direct
           deposit information. If you cancel now, we won’t save your changes.
         </p>
-        <button
-          className="usa-button-primary"
-          type="button"
-          onClick={() => {
-            setShowConfirmCancelModal(false);
-          }}
-        >
-          Continue Editing
-        </button>
-        <button
-          className="usa-button-secondary"
-          type="button"
-          onClick={() => {
-            setShowConfirmCancelModal(false);
-            toggleEditState();
-          }}
-        >
-          Cancel
-        </button>
       </VaModal>
 
       <ProfileInfoCard
