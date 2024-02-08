@@ -56,5 +56,5 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
   };
 };
 
-export const getContactInfoDeepLinkURL = fieldName =>
+export const getContactEditLinkURL = fieldName =>
   `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
