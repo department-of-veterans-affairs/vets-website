@@ -26,6 +26,8 @@ const BenefitsProfileWrapper = ({ children }) => {
     addressLine5,
     addressLine6,
     personalInfo,
+    indicator: applicantChapter,
+    fullName: applicantName,
   } = useData();
   // eslint-disable-next-line no-console
   console.log('personalInfo', personalInfo);
@@ -41,7 +43,11 @@ const BenefitsProfileWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <BenefitsProfileStatement />
-            <PayeeInformationWrapper />
+            <PayeeInformationWrapper
+              loading={loading}
+              applicantChapter={applicantChapter}
+              applicantName={applicantName}
+            />
             <ChangeOfAddressWrapper
               loading={loading}
               mailingAddress={{
