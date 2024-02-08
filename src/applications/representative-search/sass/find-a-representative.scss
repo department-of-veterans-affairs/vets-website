@@ -156,8 +156,10 @@
         border: 1px solid $color-gray-lighter;
 
         .representative-result-card-content {
-          .report-outdated-information-button {
-            min-width: 27rem;
+          @media (min-width: 29rem) {
+            .report-outdated-information-button {
+              min-width: 27rem;
+            }
           }
         }
 
