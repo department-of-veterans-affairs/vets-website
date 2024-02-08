@@ -129,7 +129,6 @@ class SubmitController extends Component {
             userId: user.profile.accountUuid,
           },
           'validationError',
-          new Error('ValidationError'), // necessary?
         );
       }
 
