@@ -130,7 +130,7 @@ const OverviewPage = () => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
-        <p className="vads-u-font-size--lg vads-u-font-family--sans">
+        <p className="va-introtext">
           Check the balance of VA health care and prescription charges from each
           of your facilities. Find out how to make payments or request financial
           help.

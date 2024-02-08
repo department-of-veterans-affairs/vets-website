@@ -93,7 +93,7 @@ const DebtDetails = () => {
         </h1>
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-font-family--sans">
           {dateUpdated && (
-            <p className="va-introtext vads-u-font-family--sans vads-u-margin-top--0">
+            <p className="va-introtext">
               Updated on
               <span className="vads-u-margin-left--0p5">
                 {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}

@@ -74,7 +74,7 @@ const DetailPage = ({ match }) => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="detail-page-title">{title}</h1>
-        <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
+        <p className="va-introtext">
           Updated on
           <time
             dateTime={statementDate}

@@ -131,7 +131,7 @@ const DebtLettersSummary = () => {
         >
           Current VA debt
         </h1>
-        <p className="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <p className="va-introtext">
           Check the details of VA debt you might have related to your education,
           disability compensation, or pension benefits. Find out how to pay your
           debt and what to do if you need financial assistance.
