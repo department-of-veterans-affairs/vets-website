@@ -96,6 +96,7 @@ export default function FacilitiesRadioWidget({
             }}
             value={sortMethod}
             data-testid="facilitiesSelect"
+            uswds
           >
             {hasUserAddress ? selectOptions : selectOptions.slice(1)}
           </VaSelect>

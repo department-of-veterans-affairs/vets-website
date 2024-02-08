@@ -123,6 +123,7 @@ export default function ProviderSortVariant({
         onVaSelect={onValueChange}
         value={selectedSortMethod}
         data-testid="providersSelect"
+        uswds
       >
         {hasUserAddress ? options : options.slice(1)}
       </VaSelect>
