@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/travel-pay.scss';
 
-import startApp from 'platform/startup';
+import startApp from '@department-of-veterans-affairs/platform-startup/index';
 
 import routes from './routes';
 import reducer from './reducers';
