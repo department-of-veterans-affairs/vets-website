@@ -5,6 +5,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { EVIDENCE_UPLOAD_API } from '../constants';
 
 import {
+  MAX_FILE_SIZE_MB,
   MAX_FILE_SIZE_BYTES,
   SUPPORTED_UPLOAD_TYPES,
 } from '../../shared/constants';
@@ -31,7 +32,8 @@ export const fileUploadUi = content => {
     buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
-    minSize: 1,
+    maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
+    minSize: 1024,
     createPayload,
     parseResponse: (response, file) => {
       setTimeout(() => {

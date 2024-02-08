@@ -25,11 +25,14 @@ export const recordRxSession = isRXSkill => {
 };
 
 export const recordButtonClick = event => {
-  if (event.target.classList.contains('webchat__suggested-action')) {
+  if (
+    event.target.classList.contains('webchat__suggested-action') ||
+    event.target.classList.contains('webchat__suggested-action__text')
+  ) {
     // This is a click event on a button
     const buttonText = event.target.innerText;
     const isRxSkill = sessionStorage.getItem(IS_RX_SKILL);
-    if (isRxSkill) {
+    if (isRxSkill === 'true') {
       recordEvent({
         event: 'chatbot-button-click',
         clickText: buttonText,
