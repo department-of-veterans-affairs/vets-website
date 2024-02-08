@@ -25,7 +25,10 @@ const BenefitsProfileWrapper = ({ children }) => {
     addressLine4,
     addressLine5,
     addressLine6,
+    personalInfo,
   } = useData();
+  // eslint-disable-next-line no-console
+  console.log('personalInfo', personalInfo);
   return (
     <>
       <div name="topScrollElement" />
