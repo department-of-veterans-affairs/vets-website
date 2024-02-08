@@ -106,7 +106,6 @@ const HomepageSearch = () => {
         onInput={handleInputChange}
         onSubmit={handleSubmit}
         suggestions={latestSuggestions}
-        uswds={false}
       />
     </div>
   );

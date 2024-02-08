@@ -52,7 +52,6 @@ const DischargeMonthQuestion = ({
             updateField(key, update.detail.value);
             scrollToLast();
           }}
-          uswds={false}
         >
           {monthOptions}
         </VaSelect>

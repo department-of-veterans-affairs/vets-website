@@ -114,7 +114,6 @@ const YearPage = ({
         required
         value={yearInput}
         onVaSelect={onYearInput}
-        uswds={false}
       >
         {makeYearArray()}
       </VaSelect>
@@ -123,7 +122,6 @@ const YearPage = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
       />
     </>
   );

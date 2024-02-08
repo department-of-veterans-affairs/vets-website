@@ -142,12 +142,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           Learn more about income limits and deductions (opens in a new tab)
         </a>
         <h2>Select your {previousYear} household income range</h2>
-        <va-accordion
-          bordered
-          data-testid="il-results"
-          open-single
-          uswds={false}
-        >
+        <va-accordion bordered data-testid="il-results" open-single>
           <va-accordion-item
             level="3"
             data-testid="il-results-1"
@@ -261,7 +256,6 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           class="vads-u-margin-top--3"
           data-testid="il-results-back"
           onClick={() => router.push(ROUTES.REVIEW)}
-          uswds={false}
         />
         <h2>More helpful information</h2>
         <ul className="il-results-more-info">

@@ -155,7 +155,6 @@ const ZipCodePage = ({
           onBlur={onBlurInput}
           onInput={onZipInput}
           required
-          uswds={false}
           value={zipCode || ''}
         />
         {!submitting && (
@@ -164,7 +163,6 @@ const ZipCodePage = ({
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
-            uswds={false}
           />
         )}
         {submitting && (

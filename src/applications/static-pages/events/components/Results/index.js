@@ -123,7 +123,6 @@ export const Results = ({
         pages={Math.ceil(totalResults / perPage)}
         maxPageListLength={perPage}
         showLastPage
-        uswds={false}
       />
     </>
   );

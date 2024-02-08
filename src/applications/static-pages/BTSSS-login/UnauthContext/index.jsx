@@ -17,7 +17,6 @@ const UnauthContext = () => {
         close-btn-aria-label="Close notification"
         status="continue"
         visible
-        uswds={false}
       >
         <h3 id="track-your-status-on-mobile" slot="headline">
           Sign in to file a travel pay claim
@@ -34,7 +33,6 @@ const UnauthContext = () => {
             onClick={handleSigninClick}
             primary-alternate
             text="Sign in or create an account"
-            uswds={false}
           />
         </div>
       </va-alert>

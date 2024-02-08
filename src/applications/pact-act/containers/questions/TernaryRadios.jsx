@@ -107,10 +107,7 @@ const TernaryRadios = ({
             className="vads-u-margin-top--1"
             data-testid="paw-orange-2-2-2-info"
           >
-            <va-additional-info
-              trigger="Learn more about C-123 airplanes"
-              uswds={false}
-            >
+            <va-additional-info trigger="Learn more about C-123 airplanes">
               <p className="vads-u-margin-top--0">
                 The U.S. Air Force used C-123 planes to spray Agent Orange to
                 clear jungles that provided enemy cover in Vietnam. After 1971,
@@ -149,7 +146,6 @@ const TernaryRadios = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds={false}
       />
     </>
   );

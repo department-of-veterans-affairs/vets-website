@@ -63,7 +63,6 @@ const DischargeYearQuestion = ({
             updateField(key, update.detail.value);
             scrollToLast();
           }}
-          uswds={false}
         >
           {yearOptions}
         </VaSelect>

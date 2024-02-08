@@ -27,7 +27,7 @@ const PdfAlert = () => {
   }
 
   return ReactDOM.createPortal(
-    <va-alert uswds={false}>
+    <va-alert>
       <h2 slot="headline" className="vads-u-font-size--h3">
         Use the latest version of Acrobat Reader
       </h2>
