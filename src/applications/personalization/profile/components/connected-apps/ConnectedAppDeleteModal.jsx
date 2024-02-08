@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  VaModal,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export function ConnectedAppDeleteModal({
   title,
@@ -13,15 +10,14 @@ export function ConnectedAppDeleteModal({
   closeModal,
   confirmDelete,
 }) {
-  return (
+  return modalOpen ? (
     <VaModal
       clickToClose
-      id="disconnect-alert"
       onCloseEvent={closeModal}
       modalTitle="Are you sure?"
       visible={modalOpen}
       status="warning"
-      uswds
+      uswds={false}
     >
       <p>
         After you disconnect this app, the app won’t have access to new
@@ -36,12 +32,12 @@ export function ConnectedAppDeleteModal({
 
       {!deleting && (
         <>
-          <VaButton
+          <va-button
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
             text="Disconnect"
           />
-          <VaButton
+          <va-button
             secondary
             onClick={closeModal}
             text="No, cancel this change"
@@ -49,9 +45,15 @@ export function ConnectedAppDeleteModal({
         </>
       )}
 
-      {deleting && <VaButton disabled text="Processing update..." />}
+      {deleting && (
+        <va-button
+          className="usa-button-primary"
+          disabled
+          text="Processing update..."
+        />
+      )}
     </VaModal>
-  );
+  ) : null;
 }
 
 ConnectedAppDeleteModal.propTypes = {

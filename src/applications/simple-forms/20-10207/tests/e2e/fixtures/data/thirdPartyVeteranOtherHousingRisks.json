@@ -18,6 +18,9 @@
       "OTHER_RISK": true
     },
     "otherHousingRisks": "The Veteran's baby giraffe is growing up fast!",
-    "phone": "1234567892"
+    "phone": "1234567892",
+    "other_reasons": {
+      "AGE_85": true
+    }
   }
 }

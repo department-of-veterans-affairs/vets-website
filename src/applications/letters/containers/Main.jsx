@@ -54,7 +54,12 @@ export class Main extends React.Component {
       case available:
         return <Outlet />;
       case awaitingResponse:
-        return <va-loading-indicator message="Loading your letters..." />;
+        return (
+          <va-loading-indicator
+            message="Loading your letters..."
+            uswds="false"
+          />
+        );
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:

@@ -8,6 +8,7 @@ import fullSchema from '../config/form-0995-schema.json';
 import { EVIDENCE_UPLOAD_API } from '../constants';
 
 import {
+  MAX_FILE_SIZE_MB,
   MAX_FILE_SIZE_BYTES,
   SUPPORTED_UPLOAD_TYPES,
 } from '../../shared/constants';
@@ -33,6 +34,7 @@ export const fileUploadUi = content => {
     buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
+    maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
     minSize: 1024,
     createPayload,
     parseResponse: (response, file) => {

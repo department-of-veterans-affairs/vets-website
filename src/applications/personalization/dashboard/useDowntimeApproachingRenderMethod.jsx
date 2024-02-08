@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  VaModal,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 /**
@@ -28,6 +25,7 @@ export default function useDowntimeApproachingRenderMethod() {
               setModalDismissed(true);
             }}
             visible={!modalDismissed}
+            uswds
           >
             <p>
               We’ll be making updates to some tools and features on{' '}
@@ -36,7 +34,7 @@ export default function useDowntimeApproachingRenderMethod() {
               {downtime.endTime.format('LT')} If you have trouble using parts of
               the dashboard during that time, please check back soon.
             </p>
-            <VaButton
+            <va-button
               secondary
               onClick={() => {
                 setModalDismissed(true);
