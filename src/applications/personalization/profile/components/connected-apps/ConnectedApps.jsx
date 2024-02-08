@@ -149,12 +149,9 @@ export class ConnectedApps extends Component {
                 status="error"
                 background-only
                 key={`${app.attributes?.title}`}
+                uswds
               >
-                <div className="vads-u-display--flex">
-                  <i
-                    aria-hidden="true"
-                    className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-                  />
+                <div>
                   <p
                     className="vads-u-margin-y--0"
                     role="alert"
@@ -182,6 +179,7 @@ export class ConnectedApps extends Component {
             <va-additional-info
               disable-border
               trigger="What other third-party apps can I connect to my profile?"
+              uswds
             >
               To find out what other third-party apps are available to connect
               to your profile,{' '}
@@ -195,8 +193,11 @@ export class ConnectedApps extends Component {
           </div>
         )}
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-background-color--primary-alt-lightest vads-u-padding--2p5 vads-u-margin-top--2">
-          <h2 className="vads-u-margin--0 vads-u-font-size--lg">
+        <va-featured-content uswds className="vads-u-margin-top--2">
+          <h2
+            slot="headline"
+            className="vads-u-margin-top--0 vads-u-font-size--lg"
+          >
             Have more questions about connected apps?
           </h2>
           <p>
@@ -209,7 +210,7 @@ export class ConnectedApps extends Component {
               profile
             </a>
           </p>
-        </div>
+        </va-featured-content>
       </div>
     );
   }

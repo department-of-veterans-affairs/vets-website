@@ -28,3 +28,11 @@ export function renderHook(renderCallback, options = {}) {
 
   return { result, rerender, unmount };
 }
+
+export const getVaButtonByText = (text, view) => {
+  return view.container.querySelector(`va-button[text="${text}"]`);
+};
+
+export const getVaLinkByText = (text, view) => {
+  return view.container.querySelector(`va-link[text="${text}"]`);
+};

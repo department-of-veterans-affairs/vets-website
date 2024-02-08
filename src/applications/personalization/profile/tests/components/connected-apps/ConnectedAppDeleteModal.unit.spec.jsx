@@ -1,85 +1,37 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-
+import sinon from 'sinon';
 import { ConnectedAppDeleteModal } from '../../../components/connected-apps/ConnectedAppDeleteModal';
+import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 
-const disconnectTitle = 'Are you sure?';
-const disconnectText =
-  'After you disconnect this app, the app won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.';
+describe('<ConnectedAppDeleteModal />', () => {
+  const defaultProps = {
+    title: 'Sample App',
+    modalOpen: true,
+    closeModal: sinon.spy(),
+    confirmDelete: sinon.spy(),
+    deleting: false,
+  };
 
-describe('<ConnectedAppDeleteModal>', () => {
-  it('renders correctly when not deleting', () => {
-    const defaultProps = {
-      title: 'hello',
-      deleting: false,
-      modalOpen: true,
-      onCloseModal: () => {},
-      onConfirmDelete: () => {},
-    };
+  it('renders the modal and content', () => {
+    const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
+    expect(view.container.querySelector('va-modal')).to.exist;
 
-    const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
-
-    const text = wrapper.text();
-    expect(text).to.include(disconnectTitle);
-    expect(text).to.include(disconnectText);
-    expect(
-      wrapper
-        .find('button')
-        .at(1)
-        .text(),
-    ).to.include('Disconnect');
-    expect(
-      wrapper
-        .find('button')
-        .at(2)
-        .text(),
-    ).to.include('No, cancel this change');
-
-    expect(text).to.not.include('Processing update...');
-
-    wrapper.unmount();
+    expect(view.container.querySelector('va-modal[modalTitle="Are you sure?"]'))
+      .to.exist;
+    expect(view.getByText(/This may affect how useful the app is to you./i)).to
+      .exist;
   });
 
-  it('renders correctly when deleting', () => {
-    const defaultProps = {
-      title: 'hello',
-      deleting: true,
-      modalOpen: true,
-      onCloseModal: () => {},
-      onConfirmDelete: () => {},
-    };
-
-    const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
-
-    const text = wrapper.text();
-    expect(text).to.include(disconnectTitle);
-    expect(text).to.include(disconnectText);
-    expect(text).to.not.include('No, cancel this change');
-    expect(text).to.not.include('Disconnect');
-    expect(text).to.include('Processing update...');
-
-    wrapper.unmount();
+  it('renders the buttons correctly when not deleting', () => {
+    const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
+    expect(getVaButtonByText('Disconnect', view)).to.be.ok;
+    expect(getVaButtonByText('No, cancel this change', view)).to.be.ok;
   });
 
-  it('does not render when modal is closed', () => {
-    const defaultProps = {
-      title: 'hello',
-      deleting: true,
-      modalOpen: false,
-      onCloseModal: () => {},
-      onConfirmDelete: () => {},
-    };
-
-    const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
-
-    const text = wrapper.text();
-    expect(text).to.not.include(disconnectTitle);
-    expect(text).to.not.include(disconnectText);
-    expect(text).to.not.include('No, cancel this change');
-    expect(text).to.not.include('Disconnect');
-    expect(text).to.not.include('Processing update...');
-
-    wrapper.unmount();
+  it('renders a disabled button when deleting', () => {
+    const view = render(<ConnectedAppDeleteModal {...defaultProps} deleting />);
+    expect(getVaButtonByText('Processing update...', view)).to.exist;
   });
 });

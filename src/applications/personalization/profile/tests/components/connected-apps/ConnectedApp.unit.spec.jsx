@@ -1,15 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { ConnectedApp } from '../../../components/connected-apps/ConnectedApp';
+import { getVaButtonByText } from '../../../../common/unitHelpers';
 
 describe('<ConnectedApp>', () => {
   it('renders correctly', () => {
     const defaultProps = {
       attributes: {
-        created: '2020-06-09T00:42:41.798Z',
-        grants: [{ title: 'hello' }, { title: 'hello' }, { title: 'hello' }],
+        grants: [
+          { created: '2020-06-27T12:42:41.798Z', title: 'hello' },
+          { title: 'hello' },
+          { title: 'hello' },
+        ],
         logo: 'logoURL',
         title: 'Random title',
       },
@@ -17,16 +21,21 @@ describe('<ConnectedApp>', () => {
       id: '1',
     };
 
-    const wrapper = shallow(<ConnectedApp {...defaultProps} />);
+    const view = render(<ConnectedApp {...defaultProps} />);
 
-    const image = wrapper.find('img');
-    expect(image.prop('src')).to.equal('logoURL');
+    // image should be rendered with the correct src
+    expect(
+      view.container.querySelector(
+        `img[src="${defaultProps.attributes.logo}"]`,
+      ),
+    ).to.exist;
 
-    const text = wrapper.text();
-    expect(text).to.include(defaultProps.attributes.title);
-    expect(text).to.include('Connected on ');
-    expect(text).to.include('Disconnect');
+    // title and connected date should be rendered
+    expect(view.getByText('Random title', { selector: 'h2' })).to.exist;
+    expect(view.getByText(/Connected on June 27, 2020/)).to.exist;
 
-    wrapper.unmount();
+    // button should be rendered with the correct text
+    expect(view.findByTestId('disconnect-app-1')).to.be.ok;
+    expect(getVaButtonByText('Disconnect', view)).to.be.ok;
   });
 });

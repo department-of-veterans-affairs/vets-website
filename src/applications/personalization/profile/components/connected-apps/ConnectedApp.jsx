@@ -44,20 +44,20 @@ export class ConnectedApp extends Component {
                 {title}
               </h2>
               <p className="vads-u-margin-top--0p5">
-                Connected on{' '}
-                {moment(grants[0]?.created).format('MMMM D, YYYY h:mm A')}
+                {`Connected on ${moment(grants[0]?.created).format(
+                  'MMMM D, YYYY h:mm A',
+                )}`}
               </p>
             </div>
 
-            <button
+            <va-button
               aria-label={`Disconnect ${title} from your account`}
-              className="usa-button-secondary vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
               onClick={this.openModal}
               data-testid={`disconnect-app-${this.props.id}`}
-              type="button"
-            >
-              Disconnect
-            </button>
+              text="Disconnect"
+              secondary
+            />
           </div>
 
           <ConnectedAppDeleteModal
@@ -67,14 +67,20 @@ export class ConnectedApp extends Component {
             closeModal={this.closeModal}
             confirmDelete={this.confirmDelete}
           />
-          <va-additional-info trigger={`Learn about ${title}`} disable-border>
-            <p>
-              <strong>{title}</strong>
-              &nbsp;can access:
-            </p>
-            <ul>
-              {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
-            </ul>
+          <va-additional-info
+            trigger={`Learn about ${title}`}
+            disable-border
+            uswds
+          >
+            <div>
+              <p className="vads-u-margin-y--0">
+                <strong>{title}</strong>
+                &nbsp;can access:
+              </p>
+              <ul className="vads-u-margin-top--0">
+                {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
+              </ul>
+            </div>
           </va-additional-info>
         </div>
       </div>
