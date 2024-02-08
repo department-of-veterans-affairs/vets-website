@@ -218,6 +218,7 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
       TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
+      CHOMA_SEED: I2cJ4bLtgr      
 
     steps:
       - name: Checkout
