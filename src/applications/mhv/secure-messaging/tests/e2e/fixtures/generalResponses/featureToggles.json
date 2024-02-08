@@ -1463,10 +1463,6 @@
         "value": true
       },
       {
-        "name": "show_header_v2",
-        "value": true
-      },
-      {
         "name": "showMebUnverifiedUserAlert",
         "value": true
       },
