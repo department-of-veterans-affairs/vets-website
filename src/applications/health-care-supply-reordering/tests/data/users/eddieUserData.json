@@ -9,25 +9,24 @@
         "edu-benefits",
         "form-save-in-progress",
         "form-prefill",
-        "evss-claims",
-        "original-claims",
         "add-person",
         "user-profile",
         "appeals-status",
-        "identity-proofed"
+        "identity-proofed",
+        "vet360"
       ],
       "account": {
-        "accountUuid": "67775fdd-3afe-48f5-b17c-9f682b5654d5"
+        "accountUuid": "26620523-34be-4e0e-98d0-fef211db692a"
       },
       "profile": {
         "email": "vets.gov.user+17@gmail.com",
-        "firstName": "EDDIE",
-        "middleName": "J",
-        "lastName": "CALDWELL",
+        "firstName": "Eddie",
+        "middleName": "Joseph",
+        "lastName": "Caldwell",
         "birthDate": "1933-10-27",
         "gender": "M",
         "zip": null,
-        "lastSignedIn": "2020-06-18T22:42:59.484Z",
+        "lastSignedIn": "2024-02-08T20:29:29.489Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -36,9 +35,23 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "accountType": "N/A"
+          "authBroker": "sis",
+          "clientId": "vaweb"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {
+          "appeals": true,
+          "ch33BankAccounts": true,
+          "coe": true,
+          "communicationPreferences": true,
+          "connectedApps": true,
+          "medicalCopays": true,
+          "militaryHistory": true,
+          "paymentHistory": false,
+          "personalInformation": true,
+          "ratingInfo": false
+        }
       },
       "vaProfile": {
         "status": "OK",
@@ -52,49 +65,122 @@
         "isCernerPatient": false,
         "facilities": [
           {
-            "facilityId": "553",
+            "facilityId": "988",
+            "isCerner": false
+          },
+          {
+            "facilityId": "660",
+            "isCerner": false
+          },
+          {
+            "facilityId": "636",
+            "isCerner": false
+          },
+          {
+            "facilityId": "554",
+            "isCerner": false
+          },
+          {
+            "facilityId": "515",
+            "isCerner": true
+          },
+          {
+            "facilityId": "459",
             "isCerner": false
           }
         ],
         "vaPatient": true,
-        "mhvAccountState": "NONE"
+        "mhvAccountState": "OK"
       },
-      "veteranStatus": null,
-      "inProgressForms": [],
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [
+        {
+          "form": "21-4142",
+          "metadata": {
+            "savedAt": 1693244495991,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1693244495986,
+              "hasAttemptedSubmit": true
+            },
+            "createdAt": 1693244360,
+            "expiresAt": 1709366788,
+            "lastUpdated": 1701216567,
+            "inProgressFormId": 24389
+          },
+          "lastUpdated": 1701216567
+        }
+      ],
       "prefillsAvailable": [
         "21-686C",
         "40-10007",
+        "0873",
         "22-1990",
         "22-1990N",
         "22-1990E",
+        "22-1990EMEB",
         "22-1995",
-        "22-1995S",
         "22-5490",
+        "22-5490E",
         "22-5495",
         "22-0993",
         "22-0994",
         "FEEDBACK-TOOL",
         "22-10203",
+        "22-1990S",
+        "22-1990EZ",
         "21-526EZ",
         "1010ez",
+        "10-10EZR",
         "21P-530",
         "21P-527EZ",
         "686C-674",
+        "20-0995",
         "20-0996",
-        "MDOT"
+        "10182",
+        "MDOT",
+        "5655",
+        "28-8832",
+        "28-1900",
+        "26-1880",
+        "26-4555"
       ],
-      "vet360ContactInformation": {}
+      "vet360ContactInformation": {
+        "email": {
+          "createdAt": "2018-04-20T17:24:13.000+00:00",
+          "emailAddress": "jacob.uhteg@oddball.io",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-05-31T19:13:30.000+00:00",
+          "id": 20426,
+          "sourceDate": "2022-05-31T19:13:30.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "6c3ca94e-769b-45df-926a-d9547f7f83f8",
+          "updatedAt": "2022-05-31T19:13:31.000+00:00",
+          "vet360Id": "1411742"
+        },
+        "residentialAddress": null,
+        "mailingAddress": null,
+        "mobilePhone": null,
+        "homePhone": null,
+        "workPhone": null,
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
+      }
     }
   },
   "meta": {
-    "errors": [
-      {
-        "externalService": "Vet360",
-        "startTime": "2020-06-18T22:43:10Z",
-        "endTime": null,
-        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
-        "status": 503
-      }
-    ]
+    "errors": null
   }
 }

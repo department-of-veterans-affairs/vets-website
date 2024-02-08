@@ -10,14 +10,15 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
-        "original-claims",
-        "add-person",
+        "lighthouse",
+        "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed"
+        "identity-proofed",
+        "vet360"
       ],
       "account": {
-        "accountUuid": "dd53a002-6680-425d-abac-9cbbd57963f0"
+        "accountUuid": "cea23b3b-1a55-452c-b0c2-528054f755c1"
       },
       "profile": {
         "email": "vets.gov.user+14@gmail.com",
@@ -26,8 +27,8 @@
         "lastName": "BROOKS",
         "birthDate": "1947-09-25",
         "gender": "M",
-        "zip": null,
-        "lastSignedIn": "2020-06-18T22:28:33.491Z",
+        "zip": "10451-2100",
+        "lastSignedIn": "2024-02-08T21:06:12.078Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -36,9 +37,23 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "accountType": "N/A"
+          "accountType": "N/A",
+          "authBroker": "iam"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {
+          "appeals": true,
+          "ch33BankAccounts": true,
+          "coe": true,
+          "communicationPreferences": true,
+          "connectedApps": true,
+          "medicalCopays": true,
+          "militaryHistory": true,
+          "paymentHistory": true,
+          "personalInformation": true,
+          "ratingInfo": true
+        }
       },
       "vaProfile": {
         "status": "OK",
@@ -50,46 +65,282 @@
           "M"
         ],
         "isCernerPatient": false,
-        "facilities": [],
-        "vaPatient": false,
+        "facilities": [
+          {
+            "facilityId": "636",
+            "isCerner": false
+          },
+          {
+            "facilityId": "459",
+            "isCerner": false
+          },
+          {
+            "facilityId": "687",
+            "isCerner": true
+          }
+        ],
+        "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": null,
-      "inProgressForms": [],
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [
+        {
+          "form": "21P-527EZ",
+          "metadata": {
+            "version": 3,
+            "returnUrl": "/applicant/mail-address",
+            "savedAt": 1705001036027,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1705001036,
+            "expiresAt": 1710185036,
+            "lastUpdated": 1705001036,
+            "inProgressFormId": 28790
+          },
+          "lastUpdated": 1705001036
+        },
+        {
+          "form": "21-4142",
+          "metadata": {
+            "savedAt": 1693243701847,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1693243701833,
+              "hasAttemptedSubmit": true
+            },
+            "createdAt": 1693243566,
+            "expiresAt": 1709366781,
+            "lastUpdated": 1701216565,
+            "inProgressFormId": 24388
+          },
+          "lastUpdated": 1701216565
+        },
+        {
+          "form": "21-526EZ",
+          "metadata": {
+            "version": 9,
+            "returnUrl": "/new-disabilities/follow-up/0",
+            "savedAt": 1706629771992,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "cfiMetric": {
+              "initLogged": true,
+              "cfiLogged": true
+            },
+            "createdAt": 1706628846,
+            "expiresAt": 1738252177,
+            "lastUpdated": 1706629777,
+            "inProgressFormId": 29472
+          },
+          "lastUpdated": 1706629777
+        }
+      ],
       "prefillsAvailable": [
         "21-686C",
         "40-10007",
+        "0873",
         "22-1990",
         "22-1990N",
         "22-1990E",
+        "22-1990EMEB",
         "22-1995",
-        "22-1995S",
         "22-5490",
+        "22-5490E",
         "22-5495",
         "22-0993",
         "22-0994",
         "FEEDBACK-TOOL",
         "22-10203",
+        "22-1990S",
+        "22-1990EZ",
         "21-526EZ",
         "1010ez",
+        "10-10EZR",
         "21P-530",
         "21P-527EZ",
         "686C-674",
+        "20-0995",
         "20-0996",
-        "MDOT"
+        "10182",
+        "MDOT",
+        "5655",
+        "28-8832",
+        "28-1900",
+        "26-1880",
+        "26-4555"
       ],
-      "vet360ContactInformation": {}
+      "vet360ContactInformation": {
+        "email": {
+          "createdAt": "2020-01-30T19:39:08.000+00:00",
+          "emailAddress": "2024-01-10@mail.com",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2024-01-10T18:55:55.000+00:00",
+          "id": 88177,
+          "sourceDate": "2024-01-10T18:55:55.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "bcdf1e47-47d8-4709-a2a4-506674fa9cee",
+          "updatedAt": "2024-01-10T18:57:11.000+00:00",
+          "vet360Id": "1134008"
+        },
+        "residentialAddress": {
+          "addressLine1": "9 E 161st St",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "RESIDENCE/CHOICE",
+          "addressType": "DOMESTIC",
+          "city": "Bronx",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": "36005",
+          "countyName": "Bronx County",
+          "createdAt": "2022-11-03T00:02:51.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-11-03T00:02:47.000+00:00",
+          "geocodeDate": "2022-11-03T00:02:51.000+00:00",
+          "geocodePrecision": 31.0,
+          "id": 363018,
+          "internationalPostalCode": null,
+          "latitude": 40.8291,
+          "longitude": -73.928,
+          "province": null,
+          "sourceDate": "2022-11-03T00:02:47.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "NY",
+          "transactionId": "2e2d82c7-92bf-434d-a7b1-41fdfa814080",
+          "updatedAt": "2022-11-03T00:02:51.000+00:00",
+          "validationKey": null,
+          "vet360Id": "1134008",
+          "zipCode": "10451",
+          "zipCodeSuffix": "2100",
+          "badAddress": false
+        },
+        "mailingAddress": {
+          "addressLine1": "Hills",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "FPO",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2020-10-19T20:20:23.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-07-13T17:58:12.000+00:00",
+          "geocodeDate": "2023-07-13T17:58:18.000+00:00",
+          "geocodePrecision": null,
+          "id": 205301,
+          "internationalPostalCode": null,
+          "latitude": 0.0,
+          "longitude": 0.0,
+          "province": null,
+          "sourceDate": "2023-07-13T17:58:12.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "AE",
+          "transactionId": "442b215a-6b62-47d2-856a-baa92d431f17",
+          "updatedAt": "2023-07-13T17:58:19.000+00:00",
+          "validationKey": null,
+          "vet360Id": "1134008",
+          "zipCode": "12345",
+          "zipCodeSuffix": null,
+          "badAddress": false
+        },
+        "mobilePhone": {
+          "areaCode": "905",
+          "countryCode": "1",
+          "createdAt": "2019-08-23T00:00:08.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-12-08T15:50:31.000+00:00",
+          "id": 68699,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5554897",
+          "phoneType": "MOBILE",
+          "sourceDate": "2022-12-08T15:50:31.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "6e4bfe42-4799-43be-8917-03ba5f63045c",
+          "updatedAt": "2022-12-08T15:51:42.000+00:00",
+          "vet360Id": "1134008"
+        },
+        "homePhone": {
+          "areaCode": "313",
+          "countryCode": "1",
+          "createdAt": "2019-03-25T18:09:05.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-12-08T15:50:31.000+00:00",
+          "id": 57679,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "2222223",
+          "phoneType": "HOME",
+          "sourceDate": "2022-12-08T15:50:31.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "6e4bfe42-4799-43be-8917-03ba5f63045c",
+          "updatedAt": "2022-12-08T15:51:42.000+00:00",
+          "vet360Id": "1134008"
+        },
+        "workPhone": {
+          "areaCode": "703",
+          "countryCode": "1",
+          "createdAt": "2024-01-03T14:53:34.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2024-01-03T14:52:19.000+00:00",
+          "id": 404513,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "6909355",
+          "phoneType": "WORK",
+          "sourceDate": "2024-01-03T14:52:19.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "6b5e6990-8a7b-4877-b172-fd1ba1dd7e2f",
+          "updatedAt": "2024-01-03T14:53:34.000+00:00",
+          "vet360Id": "1134008"
+        },
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "authBroker": "iam",
+        "ssoe": true,
+        "transactionid": "hr82MP1a0iYNEH0mytNswBT359m6SB657o4pFu6EDy0="
+      }
     }
   },
   "meta": {
-    "errors": [
-      {
-        "externalService": "Vet360",
-        "startTime": "2020-06-18T22:28:43Z",
-        "endTime": null,
-        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
-        "status": 503
-      }
-    ]
+    "errors": null
   }
 }

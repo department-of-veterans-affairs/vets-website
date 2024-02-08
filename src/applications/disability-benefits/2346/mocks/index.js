@@ -12,6 +12,7 @@ const responses = {
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
   'GET /v0/in_progress_forms/mdot': mdot.suppliesResponse,
+  'PUT /v0/in_progress_forms/MDOT': [{ status: 'something' }],
   'POST /v0/mdot/supplies': [
     { status: 'Order Processed', orderId: 10661, productId: 6650 },
   ],

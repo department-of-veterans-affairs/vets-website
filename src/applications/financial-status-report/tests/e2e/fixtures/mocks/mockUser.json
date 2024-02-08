@@ -10,23 +10,25 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
+        "lighthouse",
         "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed"
+        "identity-proofed",
+        "vet360"
       ],
       "account": {
-        "accountUuid": "6af59b36-f14d-482e-88b4-3d7820422343"
+        "accountUuid": "ab50bb37-d4c9-4c20-9d6e-767cee4a15e5"
       },
       "profile": {
         "email": "vets.gov.user+228@gmail.com",
-        "firstName": "MARK",
-        "middleName": null,
-        "lastName": "WEBB",
+        "firstName": "Mark",
+        "middleName": "Tux",
+        "lastName": "Polarbear",
         "birthDate": "1950-10-04",
         "gender": "M",
-        "zip": null,
-        "lastSignedIn": "2020-06-18T21:15:19.664Z",
+        "zip": "09618-0001",
+        "lastSignedIn": "2024-02-08T22:26:46.920Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -35,105 +37,774 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "accountType": "N/A"
+          "authBroker": "sis",
+          "clientId": "vaweb"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {
+          "appeals": true,
+          "ch33BankAccounts": true,
+          "coe": true,
+          "communicationPreferences": true,
+          "connectedApps": true,
+          "medicalCopays": true,
+          "militaryHistory": true,
+          "paymentHistory": true,
+          "personalInformation": true,
+          "ratingInfo": true
+        }
       },
       "vaProfile": {
         "status": "OK",
         "birthDate": "19501004",
-        "familyName": "Webb-ster",
+        "familyName": "Polarbear",
         "gender": "M",
-        "givenNames": ["Mark"],
-        "isCernerPatient": false,
+        "givenNames": [
+          "Mark",
+          "Tux"
+        ],
+        "isCernerPatient": true,
         "facilities": [
           {
-            "facilityId": "556",
+            "facilityId": "983",
             "isCerner": false
           },
           {
             "facilityId": "668",
+            "isCerner": true
+          },
+          {
+            "facilityId": "984",
+            "isCerner": false
+          },
+          {
+            "facilityId": "987",
+            "isCerner": false
+          },
+          {
+            "facilityId": "463",
+            "isCerner": true
+          },
+          {
+            "facilityId": "583",
+            "isCerner": true
+          },
+          {
+            "facilityId": "531",
+            "isCerner": true
+          },
+          {
+            "facilityId": "660",
+            "isCerner": false
+          },
+          {
+            "facilityId": "687",
+            "isCerner": true
+          },
+          {
+            "facilityId": "668",
+            "isCerner": true
+          },
+          {
+            "facilityId": "607",
+            "isCerner": false
+          },
+          {
+            "facilityId": "636",
+            "isCerner": false
+          },
+          {
+            "facilityId": "662",
+            "isCerner": false
+          },
+          {
+            "facilityId": "589",
             "isCerner": false
           }
         ],
         "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": null,
-      "inProgressForms": [],
-      "prefillsAvailable": ["5655"],
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [
+        {
+          "form": "28-1900",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/communication-preferences",
+            "savedAt": 1701883582335,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1701883547,
+            "expiresAt": 1709366820,
+            "lastUpdated": 1701883582,
+            "inProgressFormId": 27600
+          },
+          "lastUpdated": 1701883582
+        },
+        {
+          "form": "686C-674",
+          "metadata": {
+            "version": 1,
+            "returnUrl": "/current-marriage-address",
+            "savedAt": 1706054945896,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706054825,
+            "expiresAt": 1711238946,
+            "lastUpdated": 1706054946,
+            "inProgressFormId": 29243
+          },
+          "lastUpdated": 1706054946
+        },
+        {
+          "form": "40-10007",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/preparer-contact-details",
+            "savedAt": 1707400920594,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707400914,
+            "expiresAt": 1712584920,
+            "lastUpdated": 1707400920,
+            "inProgressFormId": 29790
+          },
+          "lastUpdated": 1707400920
+        },
+        {
+          "form": "28-8832",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/status-selection",
+            "savedAt": 1704835635006,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1704835574,
+            "expiresAt": 1710019635,
+            "lastUpdated": 1704835635,
+            "inProgressFormId": 28670
+          },
+          "lastUpdated": 1704835635
+        },
+        {
+          "form": "26-1880",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/upload-supporting-documents",
+            "savedAt": 1706916979812,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706916916,
+            "expiresAt": 1712100980,
+            "lastUpdated": 1706916980,
+            "inProgressFormId": 29627
+          },
+          "lastUpdated": 1706916980
+        },
+        {
+          "form": "1010ez",
+          "metadata": {
+            "version": 7,
+            "returnUrl": "/insurance-information/va-facility-api",
+            "savedAt": 1707241753645,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707241737,
+            "expiresAt": 1712425754,
+            "lastUpdated": 1707241754,
+            "inProgressFormId": 29735
+          },
+          "lastUpdated": 1707241754
+        },
+        {
+          "form": "FORM_MOCK_SF_PATTERNS",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/array-multiple-page-builder-summary",
+            "savedAt": 1706823455220,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1705443318,
+            "expiresAt": 1712007455,
+            "lastUpdated": 1706823455,
+            "inProgressFormId": 28935
+          },
+          "lastUpdated": 1706823455
+        },
+        {
+          "form": "21-0845",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/disclosure-information-limited-information",
+            "savedAt": 1705701246179,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1705701124,
+            "expiresAt": 1710885246,
+            "lastUpdated": 1705701246,
+            "inProgressFormId": 29102
+          },
+          "lastUpdated": 1705701246
+        },
+        {
+          "form": "FORM_MOCK_PATTERNS_V3",
+          "metadata": {
+            "savedAt": 1705088255436,
+            "submission": {
+              "status": "validationError",
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1705088255435,
+              "hasAttemptedSubmit": true
+            },
+            "createdAt": 1705088140,
+            "expiresAt": 1710272255,
+            "lastUpdated": 1705088255,
+            "inProgressFormId": 28856
+          },
+          "lastUpdated": 1705088255
+        },
+        {
+          "form": "00-1234",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/checkbox-group-pattern",
+            "savedAt": 1704999486230,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1704999352,
+            "expiresAt": 1710183486,
+            "lastUpdated": 1704999486,
+            "inProgressFormId": 28787
+          },
+          "lastUpdated": 1704999486
+        },
+        {
+          "form": "10182",
+          "metadata": {
+            "version": 2,
+            "returnUrl": "/evidence-submission/upload",
+            "savedAt": 1706824253246,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706814781,
+            "expiresAt": 1712008253,
+            "lastUpdated": 1706824253,
+            "inProgressFormId": 29587
+          },
+          "lastUpdated": 1706824253
+        },
+        {
+          "form": "21-0972",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/review-and-submit",
+            "savedAt": 1705943023707,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1705594457,
+            "expiresAt": 1711127024,
+            "lastUpdated": 1705943024,
+            "inProgressFormId": 29038
+          },
+          "lastUpdated": 1705943024
+        },
+        {
+          "form": "21-0966",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/third-party-preparer-role",
+            "savedAt": 1707184248149,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707184129,
+            "expiresAt": 1712368248,
+            "lastUpdated": 1707184248,
+            "inProgressFormId": 29691
+          },
+          "lastUpdated": 1707184248
+        },
+        {
+          "form": "20-0995",
+          "metadata": {
+            "version": 1,
+            "returnUrl": "/contact-information",
+            "savedAt": 1707319464018,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707319464,
+            "expiresAt": 1712503464,
+            "lastUpdated": 1707319464,
+            "inProgressFormId": 29772
+          },
+          "lastUpdated": 1707319464
+        },
+        {
+          "form": "21-10210",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/claimant-type",
+            "savedAt": 1701193043457,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1701193041,
+            "expiresAt": 1709366783,
+            "lastUpdated": 1701193043,
+            "inProgressFormId": 27320
+          },
+          "lastUpdated": 1701193043
+        },
+        {
+          "form": "20-10206",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/preparer-type",
+            "savedAt": 1707236277166,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707230423,
+            "expiresAt": 1712420277,
+            "lastUpdated": 1707236277,
+            "inProgressFormId": 29710
+          },
+          "lastUpdated": 1707236277
+        },
+        {
+          "form": "21-526EZ",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/veteran-information",
+            "savedAt": 1707429926700,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1707429926695,
+              "hasAttemptedSubmit": true
+            },
+            "cfiMetric": {
+              "initLogged": true,
+              "cfiLogged": true
+            },
+            "createdAt": 1707429732,
+            "expiresAt": 1739052328,
+            "lastUpdated": 1707429928,
+            "inProgressFormId": 29803
+          },
+          "lastUpdated": 1707429928
+        },
+        {
+          "form": "21P-527EZ",
+          "metadata": {
+            "version": 4,
+            "returnUrl": "/additional-information/direct-deposit",
+            "savedAt": 1707163415346,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706754072,
+            "expiresAt": 1711938072,
+            "lastUpdated": 1707163415,
+            "inProgressFormId": 29563
+          },
+          "lastUpdated": 1707163415
+        },
+        {
+          "form": "0873",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/personal-info-17",
+            "savedAt": 1706110639941,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706109843,
+            "expiresAt": 1711294640,
+            "lastUpdated": 1706110640,
+            "inProgressFormId": 29264
+          },
+          "lastUpdated": 1706110640
+        },
+        {
+          "form": "40-0247",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/applicant-contact-information",
+            "savedAt": 1707158738974,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1698242482,
+            "expiresAt": 1712342739,
+            "lastUpdated": 1707158739,
+            "inProgressFormId": 26339
+          },
+          "lastUpdated": 1707158739
+        },
+        {
+          "form": "21-4142",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/contact-information-2",
+            "savedAt": 1707158583168,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706825098,
+            "expiresAt": 1712342583,
+            "lastUpdated": 1707158583,
+            "inProgressFormId": 29593
+          },
+          "lastUpdated": 1707158583
+        },
+        {
+          "form": "21P-0847",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/preparer-identification-information",
+            "savedAt": 1706888526162,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1706888521,
+            "expiresAt": 1712072526,
+            "lastUpdated": 1706888526,
+            "inProgressFormId": 29616
+          },
+          "lastUpdated": 1706888526
+        },
+        {
+          "form": "20-10207",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/evidence-financial-hardship",
+            "savedAt": 1707144475908,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707144424,
+            "expiresAt": 1712328476,
+            "lastUpdated": 1707144476,
+            "inProgressFormId": 29675
+          },
+          "lastUpdated": 1707144476
+        },
+        {
+          "form": "MDOT",
+          "metadata": {
+            "version": 0,
+            "returnUrl": "/address",
+            "savedAt": 1707149607414,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": false,
+              "hasAttemptedSubmit": false
+            },
+            "createdAt": 1707149597,
+            "expiresAt": 1712333607,
+            "lastUpdated": 1707149607,
+            "inProgressFormId": 29680
+          },
+          "lastUpdated": 1707149607
+        }
+      ],
+      "prefillsAvailable": [
+        "21-686C",
+        "40-10007",
+        "0873",
+        "22-1990",
+        "22-1990N",
+        "22-1990E",
+        "22-1990EMEB",
+        "22-1995",
+        "22-5490",
+        "22-5490E",
+        "22-5495",
+        "22-0993",
+        "22-0994",
+        "FEEDBACK-TOOL",
+        "22-10203",
+        "22-1990S",
+        "22-1990EZ",
+        "21-526EZ",
+        "1010ez",
+        "10-10EZR",
+        "21P-530",
+        "21P-527EZ",
+        "686C-674",
+        "20-0995",
+        "20-0996",
+        "10182",
+        "MDOT",
+        "5655",
+        "28-8832",
+        "28-1900",
+        "26-1880",
+        "26-4555"
+      ],
       "vet360ContactInformation": {
         "email": {
-          "emailAddress": "test@user.com"
+          "createdAt": "2022-09-14T13:43:23.000+00:00",
+          "emailAddress": "user228@gmail.com",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-11-17T18:29:02.000+00:00",
+          "id": 227325,
+          "sourceDate": "2023-11-17T18:29:02.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "a7be7f38-cb09-4e04-a7be-b0135d060c0f",
+          "updatedAt": "2023-11-17T18:29:18.000+00:00",
+          "vet360Id": "121435"
         },
-        "residentialAddress": {},
+        "residentialAddress": {
+          "addressLine1": "PSC 808 Box 37",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "RESIDENCE/CHOICE",
+          "addressType": "OVERSEAS MILITARY",
+          "city": "FPO",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": "36061",
+          "countyName": "New York County",
+          "createdAt": "2022-07-14T19:44:08.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-12-11T13:29:57.000+00:00",
+          "geocodeDate": "2023-12-11T13:30:17.000+00:00",
+          "geocodePrecision": 0.0,
+          "id": 334314,
+          "internationalPostalCode": null,
+          "latitude": 40.7142,
+          "longitude": -74.0059,
+          "province": null,
+          "sourceDate": "2023-12-11T13:29:57.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "AE",
+          "transactionId": "fc28353b-35ef-4936-9d83-2ec869f8806b",
+          "updatedAt": "2023-12-11T13:30:17.000+00:00",
+          "validationKey": null,
+          "vet360Id": "121435",
+          "zipCode": "09618",
+          "zipCodeSuffix": "0001",
+          "badAddress": false
+        },
         "mailingAddress": {
-          "addressLine1": "1200 Park Ave",
-          "addressLine2": "c/o Pixar",
+          "addressLine1": "8814 Covey Rise Ct",
+          "addressLine2": null,
           "addressLine3": null,
           "addressPou": "CORRESPONDENCE",
           "addressType": "DOMESTIC",
-          "city": "Emeryville",
+          "city": "Charlotte",
           "countryName": "United States",
           "countryCodeIso2": "US",
           "countryCodeIso3": "USA",
           "countryCodeFips": null,
           "countyCode": null,
           "countyName": null,
-          "createdAt": "2020-05-30T03:57:20.000+00:00",
+          "createdAt": "2022-07-15T13:49:44.000+00:00",
           "effectiveEndDate": null,
-          "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
-          "id": 173917,
+          "effectiveStartDate": "2024-02-01T14:43:14.000+00:00",
+          "geocodeDate": "2024-02-01T14:43:16.000+00:00",
+          "geocodePrecision": 31.0,
+          "id": 334540,
           "internationalPostalCode": null,
+          "latitude": 35.0868,
+          "longitude": -80.8202,
           "province": null,
-          "sourceDate": "2020-07-10T20:10:45.000+00:00",
+          "sourceDate": "2024-02-01T14:43:14.000+00:00",
           "sourceSystemUser": null,
-          "stateCode": "CA",
-          "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
-          "updatedAt": "2020-07-10T20:10:46.000+00:00",
+          "stateCode": "NC",
+          "transactionId": "3b6652f4-ff1a-48e4-a6e9-3fa959675e7e",
+          "updatedAt": "2024-02-01T14:43:16.000+00:00",
           "validationKey": null,
-          "vet360Id": "1273780",
-          "zipCode": "94608",
-          "zipCodeSuffix": null
+          "vet360Id": "121435",
+          "zipCode": "28225",
+          "zipCodeSuffix": null,
+          "badAddress": false
         },
         "mobilePhone": {
-          "areaCode": "510",
+          "areaCode": "717",
           "countryCode": "1",
-          "createdAt": "2020-06-12T16:56:37.000+00:00",
-          "extension": "17477",
+          "createdAt": "2022-09-14T13:43:00.000+00:00",
+          "extension": "233423",
           "effectiveEndDate": null,
-          "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
-          "id": 146766,
+          "effectiveStartDate": "2023-08-03T18:21:47.000+00:00",
+          "id": 313007,
           "isInternational": false,
           "isTextable": null,
           "isTextPermitted": null,
           "isTty": null,
           "isVoicemailable": null,
-          "phoneNumber": "9223000",
-          "phoneType": "HOME",
-          "sourceDate": "2020-07-14T19:07:45.000+00:00",
+          "phoneNumber": "5555559",
+          "phoneType": "MOBILE",
+          "sourceDate": "2023-08-03T18:21:47.000+00:00",
           "sourceSystemUser": null,
-          "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
-          "updatedAt": "2020-07-14T19:07:46.000+00:00",
-          "vet360Id": "1273780"
+          "transactionId": "c270bc2f-dee1-4d38-9c6b-bbde687c2bc6",
+          "updatedAt": "2023-08-03T18:21:50.000+00:00",
+          "vet360Id": "121435"
         },
-        "homePhone": {},
-        "workPhone": {},
+        "homePhone": {
+          "areaCode": "202",
+          "countryCode": "1",
+          "createdAt": "2022-09-02T16:50:12.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-11-22T14:55:21.000+00:00",
+          "id": 310702,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "3334442",
+          "phoneType": "HOME",
+          "sourceDate": "2023-11-22T14:55:21.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "a145b771-0559-4a0e-b022-fbb824de4bf7",
+          "updatedAt": "2023-11-22T14:55:24.000+00:00",
+          "vet360Id": "121435"
+        },
+        "workPhone": {
+          "areaCode": "314",
+          "countryCode": "1",
+          "createdAt": "2023-02-03T16:31:18.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-02-03T16:31:16.000+00:00",
+          "id": 341136,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5222222",
+          "phoneType": "WORK",
+          "sourceDate": "2023-02-03T16:31:16.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "a372f987-dec7-46c7-8f92-d962ab338d3b",
+          "updatedAt": "2023-02-03T16:31:18.000+00:00",
+          "vet360Id": "121435"
+        },
         "temporaryPhone": null,
         "faxNumber": null,
         "textPermission": null
+      },
+      "session": {
+        "authBroker": "sis",
+        "ssoe": false,
+        "transactionid": null
       }
     }
   },
   "meta": {
-    "errors": [
-      {
-        "externalService": "Vet360",
-        "startTime": "2020-06-18T21:15:34Z",
-        "endTime": null,
-        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
-        "status": 503
-      }
-    ]
+    "errors": null
   }
 }
