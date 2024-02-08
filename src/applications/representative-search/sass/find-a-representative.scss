@@ -213,12 +213,7 @@
         }
         @media (min-width: 565px) and (max-width: $medium-screen) {
           .representative-result-card-content {
-            min-width: 470px;
-          }
-        }
-        @media (min-width: $small-screen) and (max-width: 564px) {
-          .representative-result-card-content {
-            min-width: 370px;
+            min-width: 35rem;
           }
         }
       }
