@@ -1,15 +1,9 @@
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
-  it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+  it('Visit bad URL', () => {
+    cy.visit(`${manifest.rootUrl}/dummy`);
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', { name: /we can’t find that page/ }).should.exist;
   });
 });

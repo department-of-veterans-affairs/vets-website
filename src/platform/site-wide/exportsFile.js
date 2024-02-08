@@ -42,6 +42,7 @@ import {
 } from './user-nav/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
+import PageNotFound from './user-nav/components/PageNotFound';
 
 import userNavReducer from './user-nav/reducers';
 
@@ -89,6 +90,7 @@ export {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   AutoSSO,
+  PageNotFound,
   userNavReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { dhpConnectedDevicesFitbitFeature } from '../utils/helpers';
-import { PageNotFound } from '../components/PageNotFound';
 import App from './App';
 
 export const DhpAppContainer = ({
