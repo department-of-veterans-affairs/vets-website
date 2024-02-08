@@ -193,7 +193,7 @@ export class ConnectedApps extends Component {
           </div>
         )}
 
-        <va-featured-content uswds className="vads-u-margin-top--2">
+        <va-featured-content uswds class="vads-u-margin-top--2">
           <h2
             slot="headline"
             className="vads-u-margin-top--0 vads-u-font-size--lg"
