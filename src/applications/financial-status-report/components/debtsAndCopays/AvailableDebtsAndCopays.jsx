@@ -89,7 +89,6 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
-          uswds
           label="Loading"
           message="Loading your information..."
           set-focus

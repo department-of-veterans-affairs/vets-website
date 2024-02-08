@@ -33,7 +33,6 @@ export default function TransitionAccount() {
         <va-loading-indicator
           data-testid="transition-loading"
           message="Please wait while we load the application for you."
-          uswds
         />
       ) : (
         <div className="usa-content vads-u-padding--2">

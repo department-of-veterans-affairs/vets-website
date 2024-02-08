@@ -164,7 +164,6 @@ const PreSubmitSignature = ({
         <va-loading-indicator
           label="Loading"
           message="We’re processing your application."
-          uswds
         />
       </div>
     );

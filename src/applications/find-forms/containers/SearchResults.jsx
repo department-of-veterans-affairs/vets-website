@@ -127,11 +127,7 @@ export const SearchResults = ({
 
   if (fetching) {
     return (
-      <va-loading-indicator
-        set-focus
-        message="Loading search results..."
-        uswds
-      />
+      <va-loading-indicator set-focus message="Loading search results..." />
     );
   }
 
