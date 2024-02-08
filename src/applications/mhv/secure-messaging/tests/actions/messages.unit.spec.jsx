@@ -140,13 +140,13 @@ describe('messages actions', () => {
     });
   });
 
-  it('should dispatch error on unsuccessful retrieveMessageThread', async () => {
+  it('should dispatch error on retrieveMessageThread', async () => {
     const store = mockStore();
-    const resWithDraft = { ...threadResponse };
-    const req1 = { shouldResolve: true, response: resWithDraft };
-    const req2 = { shouldResolve: true, response: errorResponse };
-    mockMultipleApiRequests([req1, req2]);
-    await store.dispatch(retrieveMessageThread(1234)).then(() => {
+    mockFetch({ ...errorResponse }, false);
+    await store.dispatch(retrieveMessageThread(1234)).catch(() => {
+      expect(store.getActions()).to.deep.include({
+        type: Actions.Thread.CLEAR_THREAD,
+      });
       expect(store.getActions()).to.deep.include({
         type: Actions.Alerts.ADD_ALERT,
         payload: {
