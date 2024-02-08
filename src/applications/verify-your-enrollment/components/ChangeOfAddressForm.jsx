@@ -287,8 +287,8 @@ const ChangeOfAddressForm = ({
 };
 
 ChangeOfAddressForm.propTypes = {
-  formChange: PropTypes.func.isRequired,
   addressFormData: PropTypes.object.isRequired,
+  formChange: PropTypes.func.isRequired,
   // Prefix to apply to all the form's schema fields
   // formPrefix: PropTypes.string.isRequired,
   formSubmit: PropTypes.func.isRequired,

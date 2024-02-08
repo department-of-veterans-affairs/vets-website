@@ -57,6 +57,7 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
         class="vads-u-margin-top--3 vads-u-display--block"
         data-testid="paw-results-back"
         onClick={() => onResultsBackClick(formResponses, router)}
+        uswds={false}
       />
     </>
   );

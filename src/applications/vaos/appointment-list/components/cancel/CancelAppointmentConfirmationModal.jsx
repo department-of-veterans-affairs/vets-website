@@ -36,6 +36,7 @@ export default function CancelAppointmentConfirmationModal({
       hideCloseButton={status === FETCH_STATUS.loading}
       modalTitle={alertTitle}
       role="alertdialog"
+      uswds
     >
       {alertText}
       <p className="vads-u-margin-top--2">
@@ -51,6 +52,7 @@ export default function CancelAppointmentConfirmationModal({
           secondary
           onClick={onClose}
           disabled={status === FETCH_STATUS.loading}
+          uswds
         />
       </p>
     </VaModal>

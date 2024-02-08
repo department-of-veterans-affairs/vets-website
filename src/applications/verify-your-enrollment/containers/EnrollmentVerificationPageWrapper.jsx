@@ -11,8 +11,10 @@ import {
   BENEFITS_PROFILE_URL,
 } from '../constants';
 import { getMockData } from '../selectors/mockData';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
+  useScrollToTop();
   const mockData = useSelector(getMockData);
   return (
     <>
