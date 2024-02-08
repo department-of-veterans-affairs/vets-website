@@ -37,8 +37,8 @@ function MHVDowntimeApproaching({
 
 MHVDowntimeApproaching.propTypes = {
   appTitle: PropTypes.string,
-  endTime: PropTypes.instanceOf(Date),
-  startTime: PropTypes.instanceOf(Date),
+  endTime: PropTypes.object, // Date|Moment object
+  startTime: PropTypes.object, // Date|Moment object
 };
 
 export default MHVDowntimeApproaching;

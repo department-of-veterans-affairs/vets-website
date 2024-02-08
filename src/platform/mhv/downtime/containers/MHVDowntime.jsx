@@ -21,8 +21,8 @@ function MHVDowntime({ children = null, endTime, status, startTime }) {
 
 MHVDowntime.propTypes = {
   children: PropTypes.node,
-  endTime: PropTypes.instanceOf(Date),
-  startTime: PropTypes.instanceOf(Date),
+  endTime: PropTypes.object, // Date|Moment object
+  startTime: PropTypes.object, // Date|Moment object
   status: PropTypes.string,
 };
 
