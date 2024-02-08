@@ -37,12 +37,6 @@ describe('Secure Messaging Inbox Message Sort', () => {
     cy.contains('more messages').should('not.exist');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });
