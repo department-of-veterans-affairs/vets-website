@@ -52,7 +52,6 @@ const FolderHeader = props => {
         cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
           facility => facility.facilityId !== '556',
         );
-        return cernerFacilitiesFiltered;
       }
       return cernerFacilitiesFiltered;
     },
