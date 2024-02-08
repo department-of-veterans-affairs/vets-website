@@ -13,7 +13,7 @@ import { DefaultFolders, MessageReadStatus } from '../../util/constants';
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
   const accordionItemRef = useRef();
-  const { message, isDraftThread, open } = props;
+  const { message, isDraftThread, open, forPrint } = props;
   const {
     attachment,
     attachments,
@@ -28,7 +28,6 @@ const MessageThreadItem = props => {
     sentDate,
     triageGroupName,
   } = message;
-
   const isDraft = folderId === DefaultFolders.DRAFTS.id;
 
   const isSentOrReadOrDraft =
@@ -39,8 +38,9 @@ const MessageThreadItem = props => {
   const fromMe = recipientName === triageGroupName;
   const from = fromMe ? 'Me' : `${senderName}`;
 
-  const handleExpand = isPreloaded => {
-    if (!isPreloaded) {
+  const handleExpand = () => {
+    // isSentOrReandOrDraft is most reliable prop to determine if message is read or unread
+    if (!forPrint && !isSentOrReadOrDraft) {
       dispatch(markMessageAsReadInThread(messageId, isDraftThread));
     }
   };
@@ -48,7 +48,7 @@ const MessageThreadItem = props => {
   useEffect(
     () => {
       if (open && !preloaded) {
-        // opening an accordion by triggering an event, as passsing in the open prop makes the accordion uncontrolled and rerender
+        // opening an accordion by triggering an event, as passing in the open prop makes the accordion uncontrolled and rerender
         const accordionItemToggledEvent = new CustomEvent(
           'accordionItemToggled',
           {
@@ -90,9 +90,13 @@ const MessageThreadItem = props => {
       ref={accordionItemRef}
       subheader={!isDraft ? from : ''}
       onAccordionItemToggled={() => {
-        handleExpand(preloaded);
+        handleExpand();
       }}
-      data-testid={`expand-message-button-${messageId}`}
+      data-testid={
+        forPrint
+          ? `expand-message-button-for-print-${messageId}`
+          : `expand-message-button-${messageId}`
+      }
     >
       <h3 slot="headline">
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
@@ -119,12 +123,23 @@ const MessageThreadItem = props => {
       )}
 
       <div>
-        <MessageThreadMeta message={message} fromMe={fromMe} />
+        <MessageThreadMeta
+          message={message}
+          fromMe={fromMe}
+          forPrint={forPrint}
+        />
         <HorizontalRule />
-        <MessageThreadBody text={body} />
+        <MessageThreadBody
+          text={body}
+          forPrint={forPrint}
+          messageId={messageId}
+        />
 
         {attachments?.length > 0 && (
-          <MessageThreadAttachments attachments={attachments} />
+          <MessageThreadAttachments
+            attachments={attachments}
+            forPrint={forPrint}
+          />
         )}
       </div>
     </VaAccordionItem>
@@ -132,6 +147,7 @@ const MessageThreadItem = props => {
 };
 
 MessageThreadItem.propTypes = {
+  forPrint: PropTypes.bool,
   isDraftThread: PropTypes.bool,
   message: PropTypes.object,
   open: PropTypes.bool,

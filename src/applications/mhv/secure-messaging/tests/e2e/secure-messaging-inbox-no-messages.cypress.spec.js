@@ -7,8 +7,14 @@ describe('Secure Messaging Inbox No Messages', () => {
   it('inbox no messages', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
+
     site.login();
     landingPage.loadInboxMessages(mockInboxNoMessages);
+
+    cy.get('@inboxMessages')
+      .its('response')
+      .should('have.property', 'statusCode', 200);
+
     cy.get('[data-testid=alert-no-messages] p')
       .should('have.text', 'There are no messages in this folder.')
       .should('be.visible');

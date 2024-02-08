@@ -24,29 +24,22 @@ describe('Secure Messaging - Print Functionality', () => {
   });
 
   it('print messages', () => {
-    cy.get(Locators.BUTTONS.PRINT)
-      .should('be.visible')
-      .click({ force: true });
-
-    cy.get('[data-testid="print-modal-popup"]')
-      .find('h1')
-      .should('have.text', 'Make sure you have all messages expanded');
-
-    cy.window().then(win => {
-      win.print();
-      expect(win.print).to.be.calledOnce;
-      cy.get('va-button[secondary]').click({ force: true });
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-          'color-contrast': {
-            enabled: false,
-          },
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
         },
-      });
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
+    cy.get(Locators.BUTTONS.PRINT).should('be.visible');
+    cy.get(Locators.BUTTONS.PRINT).click();
+    cy.window().then(win => {
+      cy.get(Locators.BUTTONS.PRINT).should('be.visible');
+      expect(win.print).to.be.calledOnce;
     });
   });
 });

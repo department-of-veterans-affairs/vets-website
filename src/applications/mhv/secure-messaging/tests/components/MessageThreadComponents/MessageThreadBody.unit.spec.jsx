@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MessageThreadBody from '../../../components/MessageThread/MessageThreadBody';
+import { messageId } from '../../fixtures/message-thread-with-full-body-response.json';
 
 describe('Message Thread Body', () => {
   const url = 'https://vajira.max.gov/browse/MHV-41390';
@@ -20,9 +21,9 @@ describe('Message Thread Body', () => {
 
   it('renders properly', () => {
     const screen = render(<MessageThreadBody text={text} />);
-    expect(screen.getByTestId('message-body').textContent).to.equal(
-      formattedText,
-    );
+    expect(
+      screen.getByTestId(`message-body-${messageId}`).textContent,
+    ).to.equal(formattedText);
     const links = screen.getAllByText(formattedUrl, { selector: 'a' });
     links.forEach(link => {
       expect(link.getAttribute('href')).to.equal(url);

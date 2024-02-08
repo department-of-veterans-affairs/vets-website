@@ -144,7 +144,7 @@ class PatientMessageDraftsPage {
       'GET',
       `/my_health/v1/messaging/messages/${
         mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.currentThread,
     ).as('full-thread');
 
@@ -159,14 +159,14 @@ class PatientMessageDraftsPage {
         },
       },
     });
-    cy.wait('@message1');
+    // cy.wait('@message1');
     cy.wait('@full-thread');
   };
 
   loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/messages/2666253/thread',
+      '/my_health/v1/messaging/messages/2666253/thread?full_body=true',
       mockResponse,
     ).as('multiDraft');
 

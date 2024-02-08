@@ -9,10 +9,11 @@ import MessageThreadHeader from '../components/MessageThreadHeader';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import { PageTitles, PrintMessageOptions } from '../util/constants';
+import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
 import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
+import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -27,7 +28,6 @@ const ThreadDetails = props => {
     cannotReply,
     drafts,
     messages,
-    printOption,
     threadFolderId,
     threadViewCount,
   } = useSelector(state => state.sm.threadDetails);
@@ -116,9 +116,11 @@ const ThreadDetails = props => {
             recipients={recipients}
             replyMessage={messages[0]}
           />
+
+          <MessageThreadForPrint messageHistory={messages} />
+
           <MessageThread
             isDraftThread
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             messageHistory={messages}
             viewCount={threadViewCount}
           />
@@ -147,10 +149,12 @@ const ThreadDetails = props => {
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             recipients={recipients}
           />
+
+          <MessageThreadForPrint messageHistory={messages} />
+
           <MessageThread
             messageHistory={messages}
             threadId={threadId}
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
           />
         </>

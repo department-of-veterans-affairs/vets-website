@@ -3,11 +3,12 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import RemoveAttachmentsModal from '../../../components/Modals/RemoveAttachmentModal';
 import { Prompts } from '../../../util/constants';
+import { file } from '../../fixtures/attachment-file-response.json';
 
 describe('Remove Message Modal component', () => {
-  it('should render without errors', () => {
-    const screen = render(<RemoveAttachmentsModal visible />);
-    const modal = screen.getByTestId('remove-attachment-modal');
+  it('should render without errors', async () => {
+    const screen = render(<RemoveAttachmentsModal visible file={file} />);
+    const modal = await screen.getByTestId(`remove-attachment-modal`);
 
     expect(modal).to.exist;
     expect(screen.getByText(Prompts.Attachment.REMOVE_ATTACHMENT_CONTENT)).to

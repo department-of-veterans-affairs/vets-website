@@ -190,7 +190,7 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
-  messages: PropTypes.object,
+  messages: PropTypes.array,
   recipients: PropTypes.object,
   replyMessage: PropTypes.object,
 };

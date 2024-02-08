@@ -9,11 +9,14 @@ import HowToAttachFiles from './HowToAttachFiles';
 const AttachmentsList = props => {
   const {
     attachments,
+    compose,
+    reply,
     setAttachments,
     setNavigationError,
     editingEnabled,
     attachFileSuccess,
     setAttachFileSuccess,
+    forPrint,
   } = props;
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,6 +36,9 @@ const AttachmentsList = props => {
     }
     return `${num} B`;
   };
+
+  const attachmentNameId = id =>
+    forPrint ? `attachment-name-for-print-${id}` : `attachment-name-${id}`;
 
   useEffect(
     () => {
@@ -200,6 +206,11 @@ const AttachmentsList = props => {
                 <>
                   <a
                     className="attachment"
+                    data-testid={
+                      !forPrint
+                        ? `attachment-link-metadata-${file.id}`
+                        : `attachment-link-metadata-for-print-${file.id}`
+                    }
                     href={file.link}
                     target="_blank"
                     rel="noreferrer"
@@ -212,13 +223,16 @@ const AttachmentsList = props => {
                     }}
                   >
                     <i
-                      aria-labelledby="has-attachment"
+                      aria-labelledby={
+                        !forPrint ? `has-attachment-${file.id}` : ''
+                      }
                       className="fas fa-paperclip"
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
                     <span
-                      id="has-attachment"
+                      id={attachmentNameId(file.id)}
+                      data-testid={attachmentNameId(file.id)}
                       ref={attachmentReference}
                       data-dd-privacy="mask"
                     >
@@ -232,19 +246,21 @@ const AttachmentsList = props => {
             </li>
           ))}
       </ul>
-      <RemoveAttachmentModal
-        visible={isModalVisible}
-        onClose={() => {
-          setIsModalVisible(false);
-          setIsAttachmentRemoved(false);
-        }}
-        onDelete={() => {
-          setNavigationError();
-          setIsModalVisible(false);
-          removeAttachment(fileToRemove);
-        }}
-        data-testid="remove-attachment-modal"
-      />
+      {(compose || reply) && (
+        <RemoveAttachmentModal
+          visible={isModalVisible}
+          onClose={() => {
+            setIsModalVisible(false);
+            setIsAttachmentRemoved(false);
+          }}
+          onDelete={() => {
+            setNavigationError();
+            setIsModalVisible(false);
+            removeAttachment(fileToRemove);
+          }}
+          data-testid="remove-attachment-modal"
+        />
+      )}
       {isAttachmentRemoved ? (
         <>
           <div
@@ -266,7 +282,10 @@ const AttachmentsList = props => {
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
   attachments: PropTypes.array,
+  compose: PropTypes.bool,
   editingEnabled: PropTypes.bool,
+  forPrint: PropTypes.bool,
+  reply: PropTypes.bool,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
