@@ -1,4 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { USER_MOCK_DATA } from '../constants/mockData';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
@@ -33,7 +34,7 @@ export const getData = () => {
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest('https://jsonplaceholder.typicode.com/todos')
+    return apiRequest(`${environment.API_URL}/vye/v1`)
       .then(response => {
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
