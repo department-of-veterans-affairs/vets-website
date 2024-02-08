@@ -19,8 +19,9 @@ describe('MHVDowntime', () => {
       status: externalServiceStatus.down,
       ...mockServiceProps,
     };
-    const { getByRole } = render(<MHVDowntime {...mockProps} />);
+    const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', { level: 3, name: 'Maintenance on My HealtheVet' });
+    getByText((content, _) => content.includes('some of our health tools'));
   });
 
   it('renders MHVDowntimeApproaching when a service is going down within an hour', () => {
@@ -38,11 +39,12 @@ describe('MHVDowntime', () => {
       status: externalServiceStatus.downtimeApproaching,
       ...mockServiceProps,
     };
-    const { getByRole } = render(<MHVDowntime {...mockProps} />);
+    const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', {
       level: 3,
       name: 'Upcoming maintenance on My HealtheVet',
     });
+    getByText((content, _) => content.includes('some of our health tools'));
   });
 
   it('renders child content when no matching services are down', () => {

@@ -4,8 +4,15 @@ import { externalServiceStatus } from '@department-of-veterans-affairs/platform-
 import MHVDown from '../components/MHVDown';
 import MHVDowntimeApproaching from '../components/MHVDowntimeApproaching';
 
-function MHVDowntime({ children = null, endTime, status, startTime }) {
+function MHVDowntime({
+  appTitle = 'some of our health tools',
+  children = null,
+  endTime,
+  status,
+  startTime,
+}) {
   const props = {
+    appTitle,
     endTime,
     startTime,
   };
@@ -20,6 +27,7 @@ function MHVDowntime({ children = null, endTime, status, startTime }) {
 }
 
 MHVDowntime.propTypes = {
+  appTitle: PropTypes.string,
   children: PropTypes.node,
   endTime: PropTypes.object, // Date|Moment object
   startTime: PropTypes.object, // Date|Moment object
