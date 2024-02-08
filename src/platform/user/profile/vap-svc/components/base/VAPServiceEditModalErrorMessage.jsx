@@ -58,7 +58,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     case hasError(INVALID_PHONE_ERROR_CODES, errors):
       content = (
-        <p className="vads-u-margin-y--0">
+        <p>
           We can’t make this update because we currently only support U.S. area
           codes. Please provide a U.S.-based phone number.
         </p>
