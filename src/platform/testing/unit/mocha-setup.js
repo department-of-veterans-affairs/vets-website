@@ -148,13 +148,17 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  const file = testContext.currentTest.file.slice(
-    testContext.currentTest.file.indexOf('src'),
-  );
-  if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
-    /* eslint-disable-next-line no-console */
-    console.log('Test skipped due to flakiness: ', file);
-    testContext.skip();
+  if (DISALLOWED_SPECS !== []) {
+    const file = testContext.currentTest.file.slice(
+      testContext.currentTest.file.indexOf('src'),
+    );
+    if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
+      /* eslint-disable-next-line no-console */
+      console.log('Test skipped due to flakiness: ', file);
+      testContext.skip();
+    }
+  } else {
+    return;
   }
 };
 // This needs to be after JSDom has been setup, otherwise
@@ -166,14 +170,22 @@ const cleanupStorage = () => {
   sessionStorage.clear();
 };
 
+// function onUncaught(err) {
+//   console.log(err);
+//   process.exit(1);
+// }
+
+// process.on('unhandledRejection', onUncaught);
+
 export const mochaHooks = {
   beforeEach() {
-    setupJSDom();
+    // setupJSDom();
     resetFetch();
     cleanupStorage();
     if (isStressTest == 'false') {
       checkAllowList(this);
     }
+    console.log(this.currentTest.file);
   },
   afterEach() {
     cleanupStorage();

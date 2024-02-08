@@ -200,7 +200,7 @@
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
-    "mocha": "^10.2.0",
+    "mocha": "10.2.0",
     "mocha-junit-reporter": "^2.0.0",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
@@ -249,7 +249,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^36.0.0",
+    "@department-of-veterans-affairs/component-library": "35.0.0",
     "@department-of-veterans-affairs/css-library": "^0.3.0",
     "@department-of-veterans-affairs/formation": "^10.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
