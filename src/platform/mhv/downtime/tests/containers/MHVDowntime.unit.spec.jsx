@@ -16,7 +16,6 @@ describe('MHVDowntime', () => {
       externalService: 'mhv_sm',
     };
     const mockProps = {
-      children: ' ',
       status: externalServiceStatus.down,
       ...mockServiceProps,
     };
@@ -36,7 +35,6 @@ describe('MHVDowntime', () => {
       externalService: 'mhv_sm',
     };
     const mockProps = {
-      children: ' ',
       status: externalServiceStatus.downtimeApproaching,
       ...mockServiceProps,
     };

@@ -4,7 +4,7 @@ import { externalServiceStatus } from '@department-of-veterans-affairs/platform-
 import MHVDown from '../components/MHVDown';
 import MHVDowntimeApproaching from '../components/MHVDowntimeApproaching';
 
-function MHVDowntime({ children, endTime, status, startTime }) {
+function MHVDowntime({ children = null, endTime, status, startTime }) {
   const props = {
     endTime,
     startTime,
