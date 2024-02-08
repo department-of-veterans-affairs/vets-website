@@ -64,7 +64,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <va-accordion-item open>
+      <va-accordion-item open uswds="false">
         <h3 slot="headline">
           {`Currently on ${isAppeal ? 'appeal' : 'review'}`}
         </h3>
@@ -82,7 +82,7 @@ const Issues = ({ issues, isAppeal }) => {
   ) {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
-      <va-accordion-item open={!activeItems}>
+      <va-accordion-item open={!activeItems} uswds="false">
         <h3 slot="headline">Closed</h3>
         {grantedSection}
         {deniedSection}
@@ -94,7 +94,7 @@ const Issues = ({ issues, isAppeal }) => {
   return (
     <div className="issues-container">
       <h2>Issues</h2>
-      <va-accordion bordered open-single>
+      <va-accordion bordered open-single uswds="false">
         {activeItems}
         {closedItems}
       </va-accordion>

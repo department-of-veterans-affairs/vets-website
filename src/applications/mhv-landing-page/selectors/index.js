@@ -13,7 +13,10 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
-import { selectGreetingName } from './selectGreetingName';
+import {
+  selectGreetingName,
+  selectPersonalInformation,
+} from './personalInformation';
 
 const selectVamcEhrData = state =>
   selectDrupalStaticData(state)?.vamcEhrData || {};
@@ -29,6 +32,7 @@ export {
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
+  selectPersonalInformation,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,

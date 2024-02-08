@@ -38,7 +38,16 @@
         "DOCTOR,GREAT B - ACOS/EDUC.",
         "NURSE,GREAT - LVN"
       ],
-      "procedures": null,
+      "procedures": [
+        {
+          "name": "Skin Barrier, Wipes or Swabs, each",
+          "code": "A5120"
+        },
+        {
+          "name": "SARSCOV2 VAC 5X1010VP/.5MLIM",
+          "code": "91302"
+        }
+      ],
       "reasonForVisit": [
         {
           "T": "Diagnosis",
@@ -413,7 +422,7 @@
         {
           "T": "PrimaryCareTeamMember",
           "name": "PROVIDER, TWO",
-          "title": "DIETITIAN"
+          "title": ""
         },
         {
           "T": "PrimaryCareTeamMember",

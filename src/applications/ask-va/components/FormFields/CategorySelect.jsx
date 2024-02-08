@@ -61,7 +61,7 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}?mock=true`);
+      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
     },
     [loggedIn],
   );

@@ -461,7 +461,7 @@
   float: none;
   width: 100%;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     float: left;
     width: 63%;
   }
@@ -484,7 +484,7 @@ h1:focus {
 }
 
 .button-container {
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-left: 1em;
     flex-shrink: 0;
   }
@@ -492,7 +492,7 @@ h1:focus {
 
 .item-container {
   margin: 0 0 0.5em 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin: 0;
   }
 }
@@ -606,7 +606,7 @@ h1:focus {
     background: $color-green;
     content: "\2713\fe0e";
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       content: "\2714\fe0e";
     }
   }
@@ -860,7 +860,7 @@ button .claim-timeline-icon.fa {
   display: flex;
   flex-direction: column;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex-direction: row;
   }
 
@@ -874,7 +874,7 @@ button .claim-timeline-icon.fa {
   font-weight: bold;
   padding-right: 10px;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 25%;
     flex-shrink: 0;
   }
@@ -962,7 +962,7 @@ button .claim-timeline-icon.fa {
   margin-bottom: 1.5em;
 }
 
-.primary-alert .item-container .due-date-header {
+.primary-alert .due-date-header {
   padding-bottom: 16px;
 }
 
@@ -971,16 +971,7 @@ button .claim-timeline-icon.fa {
   margin-left: -2px;
 }
 
-.alert-title {
-  font-size: 20px;
-  line-height: 26px;
-  padding-bottom: 0;
-  margin-top: 0;
-  margin-bottom: 16px;
-}
-
 .alert-description {
-  font-size: 16px;
   padding-bottom: 0;
   margin: 0;
 }
@@ -1005,7 +996,7 @@ button .claim-timeline-icon.fa {
 
 .past-due-icon {
   margin-right: 3px;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-right: 6px;
   }
 }
@@ -1042,17 +1033,6 @@ button .claim-timeline-icon.fa {
 
     p {
       margin-left: 2.1em;
-    }
-
-    .card {
-      margin-left: 2.1em;
-
-      .number {
-        &:before {
-          font-family: "Font Awesome 5 Free";
-          content: "\f017 "; // space added at end to keep kerning consistent
-        }
-      }
     }
 
     .sidelines {

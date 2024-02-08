@@ -85,7 +85,7 @@ const ReviewPage = props => {
         <Link to="review-then-submit2">Finish this application later</Link>
       </p>
       {/* {props.contentBeforeButtons} */}
-      <va-button onClick={handlers.onSubmit} text="Submit" />
+      <va-button onClick={handlers.onSubmit} text="Submit" uswds />
       <FormNavButtons goBack={props.goBack} goForward={handlers.onSubmit} />
       {/* {props.contentAfterButtons} */}
     </article>
