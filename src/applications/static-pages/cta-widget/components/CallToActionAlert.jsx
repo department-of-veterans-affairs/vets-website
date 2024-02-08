@@ -24,6 +24,7 @@ export default function CallToActionAlert({
             text={primaryButtonText}
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedby}
+            uswds={false}
           />
         )}
         {secondaryButtonText && (

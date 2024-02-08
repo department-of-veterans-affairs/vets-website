@@ -28,14 +28,14 @@ export default function DirectDepositViewField({ formData }) {
           <dd>{financialInstitutionName}</dd> */}
 
           <dt className="meb-definition-list_term toe-definition-list_term--normal">
-            Account Number:
+            Bank account number:
           </dt>
           <dd className="meb-definition-list_definition">
             {obfuscate(accountNumber)}
           </dd>
 
           <dt className="meb-definition-list_term toe-definition-list_term--normal">
-            Routing Number:
+            Bank routing number:
           </dt>
           <dd className="meb-definition-list_definition">
             {obfuscate(routingNumber)}

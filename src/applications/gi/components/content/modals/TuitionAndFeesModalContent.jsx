@@ -3,7 +3,6 @@ import React from 'react';
 export default function TuitionAndFeesModalContent() {
   return (
     <>
-      <h3>Tuition and fees per year</h3>
       <p>
         We display the average tuition and fees for an undergraduate student
         that is reported by the school to the Department of Education. These

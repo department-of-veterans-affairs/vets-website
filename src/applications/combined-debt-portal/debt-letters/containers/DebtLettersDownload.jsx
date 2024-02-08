@@ -34,7 +34,7 @@ const DebtLettersDownload = () => {
         >
           Download debt letters
         </h1>
-        <p className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">
+        <p className="va-introtext">
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>

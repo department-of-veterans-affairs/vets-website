@@ -74,7 +74,7 @@ export function FilterBeforeResults({
   const smfDefinitions = specializedMissionDefinitions.map(smf => {
     return (
       <div key={smf.key}>
-        <h6>{smf.title}</h6>
+        <h3>{smf.title}</h3>
         <p>{smf.definition}</p>
       </div>
     );
@@ -197,6 +197,7 @@ export function FilterBeforeResults({
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
         optionLabel: type,
+        dataTestId: `school-type-${type}`,
       };
     });
 
@@ -205,14 +206,14 @@ export function FilterBeforeResults({
         <CheckboxGroup
           className="about-school-checkbox"
           label={
-            <h5
+            <h3
               className={
                 isProductionOfTestProdEnv() ? '' : 'school-types-label'
               }
               aria-level={2}
             >
               School types
-            </h5>
+            </h3>
           }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
@@ -229,6 +230,7 @@ export function FilterBeforeResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
+        dataTestId: 'exclude-caution-flags',
         optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Has no cautionary warnings
@@ -237,6 +239,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'accredited',
+        dataTestId: 'accredited',
         checked: accredited,
         optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
@@ -246,11 +249,13 @@ export function FilterBeforeResults({
       },
       {
         name: 'studentVeteran',
+        dataTestId: 'student-veteran',
         checked: studentVeteran,
         optionLabel: 'Has a Student Veteran Group',
       },
       {
         name: 'yellowRibbonScholarship',
+        dataTestId: 'yellow-ribbon',
         checked: yellowRibbonScholarship,
         optionLabel: 'Offers Yellow Ribbon Program',
       },
@@ -260,12 +265,12 @@ export function FilterBeforeResults({
       <CheckboxGroup
         className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
         label={
-          <h5
+          <h3
             className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
             aria-level={2}
           >
             About the school
-          </h5>
+          </h3>
         }
         onChange={onChangeCheckbox}
         options={options}
@@ -278,11 +283,13 @@ export function FilterBeforeResults({
     const options = [
       {
         name: 'employers',
+        dataTestId: 'employers',
         checked: employers,
         optionLabel: 'On-the-job training and apprenticeships',
       },
       {
         name: 'vettec',
+        dataTestId: 'vettec',
         checked: vettec,
         optionLabel: 'VET TEC providers',
       },
@@ -291,12 +298,12 @@ export function FilterBeforeResults({
       <CheckboxGroup
         className={isProductionOfTestProdEnv() ? '' : 'other-checkbox'}
         label={
-          <h5
+          <h3
             className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
             aria-level={2}
           >
             Other
-          </h5>
+          </h3>
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
@@ -359,13 +366,16 @@ export function FilterBeforeResults({
       });
     }
     updateResults();
-    modalClose();
+    if (modalClose) {
+      modalClose();
+    }
   };
 
   const specializedMissionAttributes = () => {
     const options = [
       {
         name: 'specialMissionHbcu',
+        dataTestId: 'special-mission-hbcu',
         checked: specialMissionHbcu,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Historically Black college or university'
@@ -373,6 +383,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionMenonly',
+        dataTestId: 'special-mission-menonly',
         checked: specialMissionMenonly,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Men-only'
@@ -380,6 +391,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionWomenonly',
+        dataTestId: 'special-mission-womenonly',
         checked: specialMissionWomenonly,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Women-only'
@@ -388,6 +400,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionRelaffil',
+        dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Religious affiliation'
@@ -395,6 +408,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionHSI',
+        dataTestId: 'special-mission-hsi',
         checked: specialMissionHSI,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Hispanic-serving institutions'
@@ -402,6 +416,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionNANTI',
+        dataTestId: 'special-mission-nanti',
         checked: specialMissionNANTI,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Native American-serving institutions'
@@ -409,6 +424,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionANNHI',
+        dataTestId: 'special-mission-annhi',
         checked: specialMissionANNHI,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Alaska Native-serving institutions'
@@ -416,6 +432,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionAANAPII',
+        dataTestId: 'special-mission-aanapii',
         checked: specialMissionAANAPII,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Asian American Native American Pacific Islander-serving institutions'
@@ -423,6 +440,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionPBI',
+        dataTestId: 'special-mission-pbi',
         checked: specialMissionPBI,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Predominantly Black institutions'
@@ -430,6 +448,7 @@ export function FilterBeforeResults({
       },
       {
         name: 'specialMissionTRIBAL',
+        dataTestId: 'special-mission-tribal',
         checked: specialMissionTRIBAL,
         optionLabel: isProductionOfTestProdEnv()
           ? 'Tribal college and university'
@@ -443,14 +462,14 @@ export function FilterBeforeResults({
         className={isProductionOfTestProdEnv() ? '' : 'my-filters-margin'}
         label={
           <>
-            <h5
+            <h3
               className={
                 isProductionOfTestProdEnv() ? '' : 'school-types-label'
               }
               aria-level={2}
             >
               Community focus
-            </h5>
+            </h3>
             <button
               className={
                 isProductionOfTestProdEnv()
@@ -535,7 +554,7 @@ export function FilterBeforeResults({
         <div className="horizontal-line" />
         <fieldset className="gi-mission-filter-fieldset">
           <legend>
-            <h3>{title}</h3>
+            <h2>{title}</h2>
           </legend>
           {excludedSchoolTypesGroup()}
           {schoolAttributes()}
