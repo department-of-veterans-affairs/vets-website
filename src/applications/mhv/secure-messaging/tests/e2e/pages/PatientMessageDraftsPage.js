@@ -163,6 +163,28 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
+  loadSingleDraft = (singleDraftThread, singleDraft) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread`,
+      singleDraftThread,
+    ).as('full-thread');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        singleDraftThread.data[0].attributes.messageId
+      }`,
+      singleDraft,
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+  };
+
   loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
     cy.intercept(
       'GET',
