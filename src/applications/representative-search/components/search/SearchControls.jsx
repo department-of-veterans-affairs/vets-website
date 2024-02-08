@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RepTypeSelector from './RepTypeSelector';
 import { ErrorTypes } from '../../constants';
 import { searchAreaOptions } from '../../config';
@@ -228,16 +231,15 @@ const SearchControls = props => {
           </div>
 
           <div className="search-area-dropdown">
-            <va-select
-              hint={null}
-              label="Search area"
+            <VaSelect
               name="area"
-              value={searchArea}
-              vaSelect={handleSearchAreaChange}
+              value={searchArea || '50'}
+              label="Search area"
+              onVaSelect={handleSearchAreaChange}
               uswds
             >
               {searchAreaSelectOptions}
-            </va-select>
+            </VaSelect>
           </div>
 
           <div className="representative-name-input vads-u-margin-top--4">
