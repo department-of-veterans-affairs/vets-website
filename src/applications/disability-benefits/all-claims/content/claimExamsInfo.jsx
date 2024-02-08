@@ -38,8 +38,8 @@ export const claimExamsDescription = (
 export const claimExamsFAQ = (
   <>
     <h3 className="vads-u-font-size--h4">More information about claim exams</h3>
-    <va-accordion bordered>
-      <va-accordion-item>
+    <va-accordion bordered uswds>
+      <va-accordion-item bordered uswds>
         <h4 slot="headline">What happens if I miss a phone call?</h4>
         <p>
           If we can’t reach you by phone, we’ll schedule an appointment for you.
@@ -66,7 +66,7 @@ export const claimExamsFAQ = (
           for help scheduling a claim exam.
         </p>
       </va-accordion-item>
-      <va-accordion-item>
+      <va-accordion-item bordered uswds>
         <h4 slot="headline">Why do I need a claim exam?</h4>
         <p>
           Not everyone who files a disability claim will need an exam. We’ll ask
