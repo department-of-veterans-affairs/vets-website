@@ -50,10 +50,7 @@ const HTMLStatementPage = ({ match }) => {
       </div>
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
-        <p
-          className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-font-family--sarif"
-          data-testid="facility-name"
-        >
+        <p className="va-introtext" data-testid="facility-name">
           {`${selectedCopay?.station.facilityName}`}
         </p>
         <OnThisPageStatements />

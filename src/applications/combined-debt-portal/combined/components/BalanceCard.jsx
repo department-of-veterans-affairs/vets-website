@@ -20,43 +20,44 @@ const BalanceCard = ({ amount, count, date, appType }) => {
     appType === APP_TYPES.DEBT ? `/debt-balances` : `/copay-balances`;
 
   return (
-    <div
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+    <va-card
+      show-shadow
+      class="vads-u-padding--3 vads-u-margin-bottom--3"
       data-testid={`balance-card-${
         appType === APP_TYPES.DEBT ? 'debt' : 'copay'
       }`}
     >
       {/* aria-describedby={`copay-balance-${id}`} */}
       <h3
-        className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
         data-testid="card-amount"
       >
         {currency(amount)}
       </h3>
-      <p
-        className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-margin-top--0"
+      <h4
+        className="vads-u-margin-top--0  vads-u-margin-bottom--1p5 vads-u-font-weight--normal"
         data-testid="card-header"
       >
         {cardHeader}
-      </p>
+      </h4>
       {date && (
-        <p className="card-date">
+        <p className="card-date vads-u-margin-top--0  vads-u-margin-bottom--1p5">
           Updated on
           <span className="vads-u-margin-x--0p5">{formatDate(date)}</span>
         </p>
       )}
       <Link
-        className="vads-u-font-size--sm vads-u-font-weight--bold"
+        className="vads-u-font-weight--bold"
         to={linkDestination}
         data-testid="card-link"
       >
         {linkText}
         <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
+          className="fas fa-angle-right vads-u-margin-left--1"
           aria-hidden="true"
         />
       </Link>
-    </div>
+    </va-card>
   );
 };
 

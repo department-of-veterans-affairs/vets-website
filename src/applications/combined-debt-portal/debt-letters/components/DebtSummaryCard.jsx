@@ -22,33 +22,35 @@ const DebtSummaryCard = ({ debt }) => {
   );
 
   return (
-    <article
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+    <va-card
+      show-shadow
+      class="vads-u-padding--3 vads-u-margin-bottom--3"
       data-testid="debt-summary-item"
     >
-      <h3 className="vads-u-margin--0">{debtCardTotal}</h3>
-      <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
+      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+        {debtCardTotal}
+      </h3>
+      <h4 className="vads-u-margin-top--0  vads-u-margin-bottom--1p5 vads-u-font-weight--normal">
         {debtCardHeading}
-      </p>
+      </h4>
       {debtCardSubHeading}
-      <div className="vads-u-margin-right--5 vads-u-margin-top--2 vads-u-font-weight--bold">
-        <Link
-          data-testid="debt-details-button"
-          onClick={() => {
-            recordEvent({ event: 'cta-link-click-debt-summary-card' });
-            setActiveDebt(debt);
-          }}
-          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-          aria-label={`Check details and resolve this ${debtCardHeading}`}
-        >
-          Check details and resolve this debt
-          <i
-            aria-hidden="true"
-            className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
-          />
-        </Link>
-      </div>
-    </article>
+      <Link
+        className="vads-u-font-weight--bold"
+        data-testid="debt-details-button"
+        onClick={() => {
+          recordEvent({ event: 'cta-link-click-debt-summary-card' });
+          setActiveDebt(debt);
+        }}
+        to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+        aria-label={`Check details and resolve this ${debtCardHeading}`}
+      >
+        Check details and resolve this debt
+        <i
+          aria-hidden="true"
+          className="fas fa-angle-right vads-u-margin-left--1"
+        />
+      </Link>
+    </va-card>
   );
 };
 
