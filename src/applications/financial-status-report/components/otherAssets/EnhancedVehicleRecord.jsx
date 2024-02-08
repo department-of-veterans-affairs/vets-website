@@ -185,6 +185,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.make || ''}
+            charcount
           />
         </div>
         <div className="input-size-5">
@@ -199,6 +200,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.model || ''}
+            charcount
           />
         </div>
         <div className="input-size-2">
