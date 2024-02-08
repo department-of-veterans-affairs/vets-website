@@ -33,9 +33,9 @@ export default {
         <ApplicantDescription formContext={formContext} />
       </>
     ),
-    claimantFullName: fullNameUI(title => `Your ${title}`),
-    claimantSocialSecurityNumber: ssnUI('Your Social Security number'),
-    claimantDateOfBirth: dateOfBirthUI('Your date of birth'),
+    claimantFullName: fullNameUI(),
+    claimantSocialSecurityNumber: ssnUI('Social Security number'),
+    claimantDateOfBirth: dateOfBirthUI('Date of birth'),
   },
   schema: {
     type: 'object',
