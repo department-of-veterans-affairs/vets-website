@@ -79,7 +79,7 @@ export const resolveParamsWithUrl = ({
   perPage = 10,
   sort,
   type = 'veteran_service_officer',
-  searchArea,
+  distance,
 }) => {
   const params = [
     address ? `address=${address}` : null,
@@ -90,7 +90,7 @@ export const resolveParamsWithUrl = ({
     `per_page=${perPage}`,
     `sort=${sort}`,
     `type=${type}`,
-    `distance=${searchArea}`,
+    distance ? `distance=${distance}` : null,
   ];
 
   return `?${compact([...params]).join('&')}`;

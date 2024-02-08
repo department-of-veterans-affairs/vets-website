@@ -14,7 +14,7 @@ class RepresentativeFinderApi {
     perPage,
     sort,
     type,
-    searchArea,
+    distance,
   ) {
     const params = resolveParamsWithUrl({
       address,
@@ -25,7 +25,7 @@ class RepresentativeFinderApi {
       perPage,
       sort,
       type,
-      searchArea,
+      distance,
     });
 
     const endpoint =

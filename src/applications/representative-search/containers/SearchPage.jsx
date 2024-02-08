@@ -50,7 +50,7 @@ const SearchPage = props => {
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-      searchArea: currentQuery.searchArea,
+      distance: currentQuery.searchArea || null,
       ...params,
     };
     const queryStringObj = appendQuery(
@@ -94,6 +94,7 @@ const SearchPage = props => {
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
+        searchArea: location.query.distance,
       });
     }
   };
@@ -114,6 +115,8 @@ const SearchPage = props => {
 
     setIsSearching(true);
 
+    const distance = searchArea === 'Show all' ? null : searchArea;
+
     updateUrlParams({
       address: context.location,
       name: representativeInputString || null,
@@ -122,6 +125,7 @@ const SearchPage = props => {
       type: representativeType,
       page: page || 1,
       sort: sortType,
+      distance,
     });
 
     if (!props.searchWithInputInProgress) {
@@ -134,7 +138,7 @@ const SearchPage = props => {
         perPage: 10,
         sort: sortType,
         type: representativeType,
-        searchArea,
+        distance,
       });
 
       setIsSearching(false);
@@ -313,7 +317,6 @@ const SearchPage = props => {
     const resultsList = () => {
       return (
         <ResultsList
-          // updateUrlParams={updateUrlParams}
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
@@ -369,9 +372,11 @@ const SearchPage = props => {
     <>
       {renderBreadcrumbs()}
 
-      <div className="usa-grid use-grid-full">
-        {renderSearchSection()}
-        {renderResultsSection()}
+      <div className="usa-grid use-grid-full ">
+        <div className="vads-u-margin-right--3">
+          {renderSearchSection()}
+          {renderResultsSection()}
+        </div>
         <GetFormHelp />
       </div>
     </>
