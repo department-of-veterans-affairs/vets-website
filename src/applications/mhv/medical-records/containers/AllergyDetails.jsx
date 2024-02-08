@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -18,12 +19,17 @@ import {
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
+  formatName,
   generatePdfScaffold,
   updatePageTitle,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import { txtLine } from '../../shared/util/constants';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 
 const AllergyDetails = props => {
@@ -86,16 +92,22 @@ const AllergyDetails = props => {
 
   const generateAllergyTxt = async () => {
     const content = `
-    ${allergy.name} \n
-    Date entered: ${allergy.date} \n
-    ${txtLine} \n
-    \t Signs and symptoms: ${allergy.reaction} \n
-    \t Type of Allergy: ${allergy.type} \n
-    \t Location: ${allergy.location} \n
-    \t Observed or historical: ${allergy.observedOrReported} \n
-    \t Provider notes: ${allergy.notes} \n`;
+${crisisLineHeader}\n\n
+${allergy.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${allergy.date} \n
+${txtLine} \n
+Signs and symptoms: ${allergy.reaction} \n
+Type of Allergy: ${allergy.type} \n
+Location: ${allergy.location} \n
+Observed or historical: ${allergy.observedOrReported} \n
+Provider notes: ${allergy.notes} \n`;
 
-    generateTextFile(content, 'Allergy');
+    const fileName = `VA-allergies-details-${getNameDateAndTime(user)}`;
+
+    generateTextFile(content, fileName);
   };
 
   const content = () => {

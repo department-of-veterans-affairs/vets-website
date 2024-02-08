@@ -10,7 +10,6 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
@@ -138,7 +137,8 @@ class PatientInboxPage {
     ).as('message');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId}/thread`,
+      `${Paths.SM_API_EXTENDED +
+        inputMockMessage.attributes.messageId}/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
@@ -168,7 +168,7 @@ class PatientInboxPage {
       'GET',
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.singleThread,
     ).as('full-thread');
     cy.intercept(
@@ -183,7 +183,7 @@ class PatientInboxPage {
       waitForAnimations: true,
     });
     cy.wait('@full-thread', { requestTimeout: 20000 });
-    cy.wait('@fist-message-in-thread');
+    // cy.wait('@fist-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -330,7 +330,7 @@ class PatientInboxPage {
   replyToMessage = () => {
     cy.intercept(
       'GET',
-      'my_health/v1/messaging/messages/7192838/thread',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
       mockThread,
     ).as('threadAgain');
     cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
@@ -508,16 +508,17 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = () => {
+  filterMessages = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
-      inboxSearchResponse,
-    );
+      mockFilterResponse,
+    ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
   };
 
-  verifyFilterResults = (filterValue, responseData = inboxSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -534,8 +535,6 @@ class PatientInboxPage {
   };
 
   clearFilter = () => {
-    this.inputFilterData('any');
-    this.filterMessages();
     cy.get('[text="Clear Filters"]').click({ force: true });
   };
 

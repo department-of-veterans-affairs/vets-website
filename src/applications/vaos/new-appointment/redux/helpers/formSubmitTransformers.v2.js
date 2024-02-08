@@ -11,7 +11,6 @@ import {
 } from '../selectors';
 import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
-import { selectFeatureAcheronService } from '../../../redux/selectors';
 import { getReasonCode } from './getReasonCode';
 
 export function transformFormToVAOSCCRequest(state) {
@@ -70,7 +69,6 @@ export function transformFormToVAOSCCRequest(state) {
     reasonCode: getReasonCode({
       data,
       isCC: true,
-      isAcheron: false,
       isDS: false,
     }),
     contact: {
@@ -110,11 +108,10 @@ export function transformFormToVAOSCCRequest(state) {
 }
 
 export function transformFormToVAOSVARequest(state) {
-  const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(state);
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
-  const postBody = {
+  return {
     kind: data.visitType,
     status: 'proposed',
     locationId: data.vaFacility,
@@ -123,57 +120,27 @@ export function transformFormToVAOSVARequest(state) {
     reasonCode: getReasonCode({
       data,
       isCC: false,
-      isAcheron: featureAcheronVAOSServiceRequests,
       isDS: false,
     }),
     // comment: data.reasonAdditionalInfo,
-    requestedPeriods: featureAcheronVAOSServiceRequests
-      ? [
-          {
-            start: moment.utc(data.selectedDates[0]).format(),
-            end: moment
-              .utc(data.selectedDates[0])
-              .add(12, 'hours')
-              .subtract(1, 'minute')
-              .format(),
-          },
-        ]
-      : data.selectedDates.map(date => ({
-          start: moment.utc(date).format(),
-          end: moment
-            .utc(date)
-            .add(12, 'hours')
-            .subtract(1, 'minute')
-            .format(),
-        })),
+    requestedPeriods: [
+      {
+        start: moment.utc(data.selectedDates[0]).format(),
+        end: moment
+          .utc(data.selectedDates[0])
+          .add(12, 'hours')
+          .subtract(1, 'minute')
+          .format(),
+      },
+    ],
     // This field isn't in the schema yet
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall || {})
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
   };
-
-  if (featureAcheronVAOSServiceRequests) return postBody;
-
-  // add contact field and modality (visitType) for non acheron service
-  return {
-    ...postBody,
-    contact: {
-      telecom: [
-        {
-          type: 'phone',
-          value: data.phoneNumber,
-        },
-        {
-          type: 'email',
-          value: data.email,
-        },
-      ],
-    },
-  };
 }
 
 export function transformFormToVAOSAppointment(state) {
-  const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(state);
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
   const slot = getChosenSlot(state);
@@ -194,7 +161,6 @@ export function transformFormToVAOSAppointment(state) {
     reasonCode: getReasonCode({
       data,
       isCC: false,
-      isAcheron: featureAcheronVAOSServiceRequests,
       isDS: true,
     }),
   };

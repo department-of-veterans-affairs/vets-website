@@ -87,7 +87,7 @@ describe('pension service periods page', () => {
 
     const submitBtn = queryByText('Submit');
     const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_ARMY"]',
+      'va-checkbox[name="root_serviceBranch_army"]',
     );
     const startMonth = container.querySelector(
       '#root_activeServiceDateRange_fromMonth',
@@ -147,7 +147,7 @@ describe('pension service periods page', () => {
 
     const submitBtn = queryByText('Submit');
     const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_ARMY"]',
+      'va-checkbox[name="root_serviceBranch_army"]',
     );
     const startMonth = container.querySelector(
       '#root_activeServiceDateRange_fromMonth',

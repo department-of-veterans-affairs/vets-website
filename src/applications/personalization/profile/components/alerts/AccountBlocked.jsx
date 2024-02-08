@@ -25,6 +25,7 @@ const AccountBlocked = ({ recordCustomProfileEvent }) => {
         data-testid="account-blocked-alert"
         status="warning"
         onVa-component-did-load={recordView}
+        uswds
       >
         <h2 slot="headline">We can’t show your information</h2>
         <p>

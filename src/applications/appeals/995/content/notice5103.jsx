@@ -34,6 +34,7 @@ export const Notice5103Description = ({ onReviewPage }) => {
         onCloseEvent={hideAlert}
         showIcon
         visible={visibleAlert}
+        uswds
       >
         <Header slot="headline">If you have a presumptive condition</Header>
         <p>

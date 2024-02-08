@@ -38,7 +38,16 @@
         "DOCTOR,GREAT B - ACOS/EDUC.",
         "NURSE,GREAT - LVN"
       ],
-      "procedures": null,
+      "procedures": [
+        {
+          "name": "Skin Barrier, Wipes or Swabs, each",
+          "code": "A5120"
+        },
+        {
+          "name": "SARSCOV2 VAC 5X1010VP/.5MLIM",
+          "code": "91302"
+        }
+      ],
       "reasonForVisit": [
         {
           "T": "Diagnosis",
@@ -413,7 +422,7 @@
         {
           "T": "PrimaryCareTeamMember",
           "name": "PROVIDER, TWO",
-          "title": "DIETITIAN"
+          "title": ""
         },
         {
           "T": "PrimaryCareTeamMember",
@@ -860,6 +869,45 @@
           "current": null,
           "remote": null,
           "dateDocumented": "10/02/2023 16:15",
+          "fmIssueDate": 0
+        },
+        {
+          "medId": null,
+          "name": "ALFALFA TAB",
+          "type": "Outpatient",
+          "sig": "TAKE 500MG BY MOUTH EVERY 24 HOURS",
+          "source": "Non-VA",
+          "totalNumRefills": 0,
+          "refillsRemaining": 0,
+          "startDate": "01/01/2024",
+          "stopDate": null,
+          "dateExpires": null,
+          "dateLastFilled": null,
+          "dateLastReleased": null,
+          "fmDateLastReleased": 0,
+          "stationName": "CAMP MASTER",
+          "stationNo": "500",
+          "provider": null,
+          "description": null,
+          "ndc": null,
+          "statusIen": null,
+          "status": "Active",
+          "discontinuedDate": null,
+          "fmDiscontinuedDate": 0,
+          "comment": "\nNon-VA medication not recommended by VA provider.",
+          "documentor": "PROVIDER,ONE",
+          "documentingFacility": "CAMP MASTER",
+          "quantity": 0,
+          "daysSupply": 0,
+          "orderingProvider": null,
+          "fillingPharmacy": null,
+          "facilityPhone": null,
+          "rxNumber": null,
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "current": null,
+          "remote": null,
+          "dateDocumented": "01/18/2024 18:34",
           "fmIssueDate": 0
         }
       ],

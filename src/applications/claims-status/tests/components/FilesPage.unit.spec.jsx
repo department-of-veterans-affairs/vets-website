@@ -2,10 +2,195 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { createStore } from 'redux';
 import { FilesPage } from '../../containers/FilesPage';
+import * as AdditionalEvidencePage from '../../containers/AdditionalEvidencePage';
 
 describe('<FilesPage>', () => {
+  context('cstUseClaimDetailsV2 feature flag enabled', () => {
+    const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+      createStore(() => ({
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
+        },
+      }));
+
+    let stub;
+    before(() => {
+      // Stubbing out AdditionalEvidencePage because we're not interested
+      // in setting up all of the redux state needed to test it
+      stub = sinon.stub(AdditionalEvidencePage, 'default');
+      stub.returns(<div data-testid="additional-evidence-page" />);
+    });
+
+    after(() => {
+      stub.restore();
+    });
+
+    it('should render files page with an EvidenceAlerts section without alerts when using lighthouse', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+          trackedItems: [],
+        },
+      };
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <FilesPage
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+            useLighthouse
+          />
+          ,
+        </Provider>,
+      );
+      const filesPage = $('#tabPanelFiles', container);
+
+      expect(filesPage).to.exist;
+      expect(getByTestId('additional-evidence-page')).to.exist;
+      expect($('.claims-requested-files-container', container)).not.to.exist;
+    });
+
+    it('should render files page with an EvidenceAlerts section with alerts when using lighthouse', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+          trackedItems: [
+            {
+              id: 1,
+              status: 'NEEDED_FROM_YOU',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+          ],
+        },
+      };
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <FilesPage
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+            useLighthouse
+          />
+          ,
+        </Provider>,
+      );
+      const filesPage = $('#tabPanelFiles', container);
+
+      expect(filesPage).to.exist;
+      expect(getByTestId('additional-evidence-page')).to.exist;
+      expect($('.claims-requested-files-container', container)).not.to.exist;
+    });
+
+    it('should render files page with an EvidenceAlerts section without alerts when using evss', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          open: true,
+          phase: 3,
+          dateFiled: '2023-01-01',
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          eventsTimeline: [],
+        },
+      };
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <FilesPage
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+            params={{ id: '1' }}
+          />
+          ,
+        </Provider>,
+      );
+      const filesPage = $('#tabPanelFiles', container);
+
+      expect(filesPage).to.exist;
+      expect(getByTestId('additional-evidence-page')).to.exist;
+      expect($('.claims-requested-files-container', container)).not.to.exist;
+    });
+
+    it('should render files page with an EvidenceAlerts section with alerts when using evss', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          open: true,
+          phase: 3,
+          dateFiled: '2023-01-01',
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          eventsTimeline: [
+            {
+              trackedItemId: 1,
+              type: 'still_need_from_you_list',
+              status: 'NEEDED',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+          ],
+        },
+      };
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <FilesPage
+            claim={claim}
+            message={{ title: 'Test', body: 'Body' }}
+            clearNotification={() => {}}
+            params={{ id: '1' }}
+          />
+          ,
+        </Provider>,
+      );
+      const filesPage = $('#tabPanelFiles', container);
+
+      expect(filesPage).to.exist;
+      expect(getByTestId('additional-evidence-page')).to.exist;
+      expect($('.claims-requested-files-container', container)).not.to.exist;
+    });
+  });
+
   it('should render notification', () => {
     const claim = {};
 

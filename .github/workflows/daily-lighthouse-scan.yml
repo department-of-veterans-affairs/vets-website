@@ -15,7 +15,7 @@ jobs:
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: department-of-veterans-affairs/content-build
           ref: refs/heads/main
@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -57,32 +57,33 @@ jobs:
             node_modules
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+          mask-aws-account-id: true
 
       - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Get BigQuery service credentials
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
           env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
 
       - name: Get role from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -90,6 +91,7 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
+          mask-aws-account-id: true
 
       - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
         id: lighthouse-checks
@@ -109,7 +111,7 @@ jobs:
         run: yarn generate-app-list
 
       - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: department-of-veterans-affairs/qa-standards-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -122,7 +124,7 @@ jobs:
         working-directory: qa-standards-dashboard-data
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
@@ -134,12 +136,12 @@ jobs:
         working-directory: qa-standards-dashboard-data
 
       - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
 
       - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0
+        uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: vsp-analytics-and-insights
 
@@ -161,7 +163,7 @@ jobs:
     needs: [lighthouse]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true

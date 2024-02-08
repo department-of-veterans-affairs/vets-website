@@ -159,7 +159,7 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   };
 };
 
-const generateUser = ({ serviceProvider = 'idme', facilities }) => {
+const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
   return {
     ...defaultUser,
     data: {
@@ -173,6 +173,7 @@ const generateUser = ({ serviceProvider = 'idme', facilities }) => {
         },
         profile: {
           ...defaultUser.data.attributes.profile,
+          loa: { current: loa },
           sign_in: {
             service_name: serviceProvider,
           },

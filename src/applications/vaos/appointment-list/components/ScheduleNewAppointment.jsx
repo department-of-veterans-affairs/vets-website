@@ -7,7 +7,6 @@ import { startNewAppointmentFlow } from '../redux/actions';
 import {
   selectFeatureRequests,
   selectFeatureStatusImprovement,
-  selectFeaturePrintList,
   selectFeatureStartSchedulingLink,
 } from '../../redux/selectors';
 // eslint-disable-next-line import/no-restricted-paths
@@ -36,7 +35,6 @@ function handleClick(
 function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const isPrintList = useSelector(state => selectFeaturePrintList(state));
   const { typeOfCare } = useSelector(getNewAppointmentFlow);
   const featureStartSchedulingLink = useSelector(
     selectFeatureStartSchedulingLink,
@@ -59,9 +57,7 @@ function ScheduleNewAppointmentButton() {
   ) : (
     <button
       type="button"
-      className={`xsmall-screen:${
-        isPrintList ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--2'
-      } vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4`}
+      className="xsmall-screen:vads-u-margin-bottom--3 vaos-hide-for-print vads-u-margin--0 small-screen:vads-u-margin-bottom--4"
       aria-label="Start scheduling an appointment"
       id="schedule-button"
       onClick={handleClick(history, dispatch, typeOfCare)}

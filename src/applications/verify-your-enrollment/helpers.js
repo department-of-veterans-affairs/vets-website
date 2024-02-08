@@ -1,3 +1,5 @@
+import ADDRESS_DATA from 'platform/forms/address/data';
+
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
   const [year, month, day] = dateString
@@ -16,6 +18,7 @@ export const translateDateIntoMonthYearFormat = dateString => {
 
 export const translateDateIntoMonthDayYearFormat = dateString => {
   // Parse the date string as UTC
+  if (!dateString) return null;
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));
@@ -95,4 +98,28 @@ export const scrollToElement = el => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   }
+};
+
+// make an object of just the military state codes and names
+export const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
+  (militaryStates, [stateCode, stateName]) => {
+    if (ADDRESS_DATA.militaryStates.includes(stateCode)) {
+      return {
+        ...militaryStates,
+        [stateCode]: stateName,
+      };
+    }
+    return militaryStates;
+  },
+  {},
+);
+
+export const getCurrentDateFormatted = () => {
+  const today = new Date();
+
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(today.getDate()).padStart(2, '0');
+  const year = today.getFullYear();
+
+  return `${month}/${day}/${year}`;
 };

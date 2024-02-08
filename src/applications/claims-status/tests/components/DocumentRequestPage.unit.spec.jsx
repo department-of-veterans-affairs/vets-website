@@ -120,8 +120,8 @@ describe('<DocumentRequestPage>', () => {
       />,
     );
     const content = tree.dive(['DocumentRequestPageContent']);
-    expect(content.subTree('DueDate')).not.to.be.false;
-    expect(content.subTree('DueDate').props.date).to.eql(
+    expect(content.subTree('DueDateOld')).not.to.be.false;
+    expect(content.subTree('DueDateOld').props.date).to.eql(
       trackedItem.suspenseDate,
     );
   });
@@ -156,7 +156,7 @@ describe('<DocumentRequestPage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('AddFilesForm').props.onSubmit();
+    tree.subTree('AddFilesFormOld').props.onSubmit();
     expect(onSubmit.called).to.be.true;
   });
 

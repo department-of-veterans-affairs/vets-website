@@ -124,7 +124,7 @@ const PrescriptionDetails = () => {
         headerBanner: [
           {
             text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',
@@ -188,7 +188,7 @@ const PrescriptionDetails = () => {
   const txtData = useCallback(
     allergiesList => {
       return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.\n\n\n" +
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
           'Medication details\n\n' +
           'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.\n\n'}${
           userName.first
@@ -402,16 +402,18 @@ const PrescriptionDetails = () => {
             preface="This is a single medication record from your VA medical records. When you download a medication record, we
         also include a list of allergies and reactions in your VA medical records."
           >
-            <PrescriptionPrintOnly
-              hideLineBreak
-              rx={prescription}
-              refillHistory={!nonVaPrescription ? refillHistory : []}
-              isDetailsRx
-            />
-            <AllergiesPrintOnly
-              allergies={allergies}
-              allergiesError={allergiesError}
-            />
+            <>
+              <PrescriptionPrintOnly
+                hideLineBreak
+                rx={prescription}
+                refillHistory={!nonVaPrescription ? refillHistory : []}
+                isDetailsRx
+              />
+              <AllergiesPrintOnly
+                allergies={allergies}
+                allergiesError={allergiesError}
+              />
+            </>
           </PrintOnlyPage>
         </>
       );

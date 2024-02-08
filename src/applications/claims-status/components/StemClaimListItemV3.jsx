@@ -37,7 +37,7 @@ export default function StemClaimListItemV3({ claim }) {
   return (
     <ClaimCard
       title="Edith Nourse Rogers STEM Scholarship application"
-      subtitle={`Submitted on ${formattedReceiptDate}`}
+      subtitle={`Received on ${formattedReceiptDate}`}
     >
       <div className="card-status">
         <p>Status: Denied</p>

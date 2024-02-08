@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import HTMLStatementList from '../components/HTMLStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
@@ -44,20 +45,36 @@ const DetailPage = ({ match }) => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-        <a href="/manage-va-debt/summary/copay-balances">
-          Current copay balances
-        </a>
-        <a href={`/manage-va-debt/summary/copay-balances/${selectedId}/detail`}>
-          Copay bill for {selectedCopay?.station.facilityName}
-        </a>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/copay-balances',
+            label: 'Current copay balances',
+          },
+          {
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            label: `Copay bill for ${selectedCopay?.station.facilityName}`,
+          },
+        ]}
+        className="vads-u-font-family--sans no-wrap"
+        label="Breadcrumb"
+        uswds
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="detail-page-title">{title}</h1>
-        <p className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5">
+        <p className="va-introtext">
           Updated on
           <time
             dateTime={statementDate}

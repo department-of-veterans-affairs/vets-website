@@ -9,12 +9,14 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectApp, makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
 import { URLS } from '../../../utils/navigation';
 import { APP_NAMES } from '../../../utils/appConstants';
+import TravelWarningAlert from '../../TravelWarningAlert';
 
 const ConfirmablePage = ({
   header,
@@ -36,6 +38,8 @@ const ConfirmablePage = ({
   const { app } = useSelector(selectApp);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { jumpToPage } = useFormRouting(router);
   const { getCheckinComplete } = useStorage(app === APP_NAMES.PRE_CHECK_IN);
   useLayoutEffect(() => {
@@ -70,6 +74,7 @@ const ConfirmablePage = ({
       eyebrow={eyebrow}
       withBackButton={withBackButton}
     >
+      {!isTravelReimbursementEnabled && <TravelWarningAlert />}
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">
           {subtitle}
