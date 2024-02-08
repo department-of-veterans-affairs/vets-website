@@ -21,184 +21,6 @@ function nextYear() {
   return new Date().getFullYear() + 1;
 }
 
-// A CC appointment in Florida at midnight Jan 1 next year UTC.
-const futureCCAppointment = {
-  id: '8a4885896a22f88f016a2c8834b1005d',
-  type: 'cc_appointments',
-  attributes: {
-    appointmentRequestId: '8a4885896a22f88f016a2c8834b1005d',
-    distanceEligibleConfirmed: true,
-    name: { firstName: '', lastName: '' },
-    providerPractice: 'Atlantic Medical Care',
-    providerPhone: '(407) 555-1212',
-    address: {
-      street: '123 Main Street',
-      city: 'Orlando',
-      state: 'FL',
-      zipCode: '32826',
-    },
-    instructionsToVeteran: 'Please arrive 15 minutes ahead of appointment.',
-    // appointmentTime timestamps are UTC
-    appointmentTime: `01/01/${nextYear()} 00:00:00`,
-    timeZone: '-05:00 EST',
-  },
-};
-
-// A CC appointment with a date in the past that should be filtered out by the
-// action creator.
-const pastCCAppointment = {
-  id: '8a4885896a22f88f016a2c8834b1005d',
-  type: 'cc_appointments',
-  attributes: {
-    appointmentRequestId: '8a4885896a22f88f016a2c8834b1005d',
-    distanceEligibleConfirmed: true,
-    name: { firstName: '', lastName: '' },
-    providerPractice: 'Atlantic Medical Care',
-    providerPhone: '(407) 555-1212',
-    address: {
-      street: '123 Main Street',
-      city: 'Orlando',
-      state: 'FL',
-      zipCode: '32826',
-    },
-    instructionsToVeteran: 'Please arrive 15 minutes ahead of appointment.',
-    // appointmentTime timestamps are UTC
-    appointmentTime: '01/01/2020 00:00:00',
-    timeZone: '-05:00 EST',
-  },
-};
-
-// A VA appointment scheduled for midnight Jan 2 next year UTC that has been
-// cancelled by the patient and should be filtered out by the action creator
-const cancelledVAAppointment = {
-  id: '202105261615983000045500000000000000',
-  type: 'va_appointments',
-  attributes: {
-    char4: null,
-    clinicId: '455',
-    clinicFriendlyName: null,
-    communityCare: false,
-    facilityId: '983',
-    phoneOnly: null,
-    startDate: `${nextYear()}-01-02T00:00:00Z`,
-    sta6aid: '983',
-    vdsAppointments: [
-      {
-        bookingNote: null,
-        appointmentLength: null,
-        id: '455;20210526.101500',
-        appointmentTime: `${nextYear()}-01-02T00:00:00Z`,
-        clinic: {
-          name: 'CHY PC CASSIDY',
-          specialty: 'PRIMARY CARE/MEDICINE',
-          stopCode: '323',
-          askForCheckIn: false,
-          facilityCode: '983',
-        },
-        type: 'REGULAR',
-        currentStatus: 'CANCELLED BY PATIENT',
-      },
-    ],
-    vvsAppointments: [],
-  },
-};
-
-// A single appointment at facility 442, CHEYENNE WYOMING at midnight Jan 1 next
-// year UTC.
-const futureVAAppointment = {
-  id: '202101010000983000103800000000000000',
-  type: 'va_appointments',
-  attributes: {
-    char4: 'CDQC',
-    clinicId: '1038',
-    clinicFriendlyName: 'COVID VACCINE CLIN1',
-    communityCare: false,
-    facilityId: '442',
-    phoneOnly: null,
-    startDate: `${nextYear()}-01-01T00:00:00Z`,
-    sta6aid: '442',
-    vdsAppointments: [
-      {
-        bookingNote: null,
-        appointmentLength: '15',
-        id: '1038;20210525.083000',
-        appointmentTime: `${nextYear()}-01-01T00:00:00Z`,
-        clinic: {
-          name: 'COVID VACCINE CLIN1',
-          specialty: 'GENERAL INTERNAL MEDICINE',
-          stopCode: '301',
-          askForCheckIn: false,
-          facilityCode: '442',
-        },
-        type: 'REGULAR',
-        currentStatus: 'FUTURE',
-      },
-    ],
-    vvsAppointments: [],
-  },
-};
-
-// A VA appointment scheduled in the past and should be filtered out by the
-// action creator
-const pastVAAppointment = {
-  id: '202101010000983000103800000000000000',
-  type: 'va_appointments',
-  attributes: {
-    char4: 'CDQC',
-    clinicId: '1038',
-    clinicFriendlyName: 'COVID VACCINE CLIN1',
-    communityCare: false,
-    facilityId: '442',
-    phoneOnly: null,
-    startDate: '2020-01-01T00:00:00Z',
-    sta6aid: '442',
-    vdsAppointments: [
-      {
-        bookingNote: null,
-        appointmentLength: '15',
-        id: '1038;20210525.083000',
-        appointmentTime: '2020-01-01T00:00:00Z',
-        clinic: {
-          name: 'COVID VACCINE CLIN1',
-          specialty: 'GENERAL INTERNAL MEDICINE',
-          stopCode: '301',
-          askForCheckIn: false,
-          facilityCode: '442',
-        },
-        type: 'REGULAR',
-        currentStatus: 'FUTURE',
-      },
-    ],
-    vvsAppointments: [],
-  },
-};
-
-const mockCCAppointmentData = {
-  data: [futureCCAppointment, pastCCAppointment],
-  meta: {
-    pagination: {
-      currentPage: 0,
-      perPage: 0,
-      totalPages: 0,
-      totalEntries: 0,
-    },
-    errors: [],
-  },
-};
-
-const mockVAAppointmentData = {
-  data: [cancelledVAAppointment, futureVAAppointment, pastVAAppointment],
-  meta: {
-    pagination: {
-      currentPage: 0,
-      perPage: 0,
-      totalPages: 0,
-      totalEntries: 0,
-    },
-    errors: [],
-  },
-};
-
 const mockEmptyAppointmentData = {
   data: [],
   meta: {
@@ -209,6 +31,110 @@ const mockEmptyAppointmentData = {
       totalEntries: 0,
     },
     errors: [],
+  },
+};
+
+// A VAOS v2 appointment scheduled in the past and should be filtered out by the
+// action creator
+const pastAppointmentV2 = {
+  id: '151207',
+  type: 'appointments',
+  attributes: {
+    id: '151207',
+    kind: 'telehealth',
+    status: 'booked',
+    locationId: '983',
+    start: '2023-05-31T15:05:00Z',
+    end: '2023-05-31T15:25:00Z',
+    minutesDuration: '20',
+    created: '2023-01-06T15:09:32.137Z',
+    cancellable: true,
+    patientInstruction: '',
+    localStartTime: '2023-05-31T08:05:00.000-07:00',
+    location: {
+      id: '983',
+      type: 'appointments',
+      attributes: {
+        id: '983',
+        vistaSite: '983',
+        vastParent: '983',
+        type: 'va_facilities',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
+        lat: '39.744507',
+        long: '-104.830956',
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: false,
+      },
+    },
+  },
+};
+
+// A single appointment at facility 983, CHEYENNE WYOMING at midnight Jan 1 next
+// year UTC.
+const futureAppointmentV2 = {
+  id: '193312',
+  type: 'appointments',
+  attributes: {
+    id: '193312',
+    kind: 'clinic',
+    status: 'booked',
+    patientIcn: '1012845943V900681',
+    locationId: '983',
+    clinic: '923',
+    start: `${nextYear()}-01-01T00:00:00Z`,
+    end: `${nextYear()}-01-01T00:00:00Z`,
+    minutesDuration: '30',
+    created: '2023-10-31T00:00:00Z',
+    cancellable: true,
+    localStartTime: `${nextYear()}-01-01T9:00:00.000-06:00`,
+    location: {
+      id: '983',
+      type: 'appointments',
+      attributes: {
+        id: '983',
+        vistaSite: '983',
+        vastParent: '983',
+        type: 'va_facilities',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        timezone: {
+          timeZoneId: 'America/Denver',
+        },
+        lat: '39.744507',
+        long: '-104.830956',
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: false,
+      },
+    },
+  },
+};
+
+const mockAppointmentDataV2 = {
+  data: [futureAppointmentV2, pastAppointmentV2],
+  meta: {
+    pagination: {
+      currentPage: 0,
+      perPage: 0,
+      totalPages: 0,
+      totalEntries: 0,
+    },
+    failures: [],
   },
 };
 
@@ -418,16 +344,15 @@ describe('fetchConfirmedFutureAppointments', () => {
   after(() => {
     server.close();
   });
-  it('correctly adds a timezone offset to the start date/time of CC appointments and filters out past appointments', async () => {
+  it('correctly adds a timezone offset to the start date/time of appointments and filters out past appointments', async () => {
     const dispatch = sinon.spy();
     // mock the appointments API, making sure to return no VA appointments
     server.use(
       rest.get(
-        `${environment.API_URL}/vaos/v0/appointments`,
+        `${environment.API_URL}/vaos/v2/appointments`,
         (req, res, ctx) => {
-          const type = req.url.searchParams.get('type');
-          if (type === 'cc') {
-            return res(ctx.json(mockCCAppointmentData));
+          if (req) {
+            return res(ctx.json(mockAppointmentDataV2));
           }
           return res(ctx.json(mockEmptyAppointmentData));
         },
@@ -441,39 +366,12 @@ describe('fetchConfirmedFutureAppointments', () => {
     expect(dispatch.secondCall.args[0].type).to.equal(
       FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
     );
+
     const { appointments } = dispatch.secondCall.args[0];
+
     expect(appointments.length).to.equal(1);
+
     // Midnight Jan 1 UTC is 7PM Dec 31 Florida time
-    expect(appointments[0].startsAt).to.equal(
-      `${thisYear()}-12-31T19:00:00-05:00`,
-    );
-  });
-  it('correctly adds a timezone offset to the start date/time of VA appointments and filters out canceled and past appointments', async () => {
-    const dispatch = sinon.spy();
-    // mock the appointments API, making sure to return no CC appointments
-    server.use(
-      rest.get(
-        `${environment.API_URL}/vaos/v0/appointments`,
-        (req, res, ctx) => {
-          const type = req.url.searchParams.get('type');
-          if (type === 'va') {
-            return res(ctx.json(mockVAAppointmentData));
-          }
-          return res(ctx.json(mockEmptyAppointmentData));
-        },
-      ),
-    );
-    await fetchConfirmedFutureAppointments()(dispatch);
-
-    expect(dispatch.firstCall.args[0].type).to.equal(
-      FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
-    );
-    expect(dispatch.secondCall.args[0].type).to.equal(
-      FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-    );
-    const { appointments } = dispatch.secondCall.args[0];
-    expect(appointments.length).to.equal(1);
-    // Midnight Jan 1 UTC is 5PM Dec 31 Cheyenne (Mountain) time
     expect(appointments[0].startsAt).to.equal(
       `${thisYear()}-12-31T17:00:00-07:00`,
     );

@@ -3,14 +3,13 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 import {
   inlineTitleSchema,
   inlineTitleUI,
-  titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     selectDefault: {
       'ui:title': 'title - select rjsf',
       'ui:description': 'description',
@@ -134,7 +133,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       selectDefault: {
         type: 'string',
         enum: ['option1', 'option2'],

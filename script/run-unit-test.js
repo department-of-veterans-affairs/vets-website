@@ -62,7 +62,10 @@ const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageRepor
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 let testsToVerify = null;
-if (process.env.TESTS_TO_VERIFY) {
+if (
+  process.env.TESTS_TO_VERIFY &&
+  process.env.GITHUB_REF !== 'refs/heads/main'
+) {
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 

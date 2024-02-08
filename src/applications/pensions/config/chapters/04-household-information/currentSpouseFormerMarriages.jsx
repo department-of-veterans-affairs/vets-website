@@ -74,6 +74,9 @@ export default {
         viewField: SpouseMarriageView,
         reviewTitle: 'Spouse’s former marriages',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),

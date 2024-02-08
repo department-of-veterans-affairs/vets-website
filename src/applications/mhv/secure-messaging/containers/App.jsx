@@ -20,6 +20,7 @@ import { getAllTriageTeamRecipients } from '../actions/recipients';
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -42,16 +43,10 @@ const App = () => {
     () => {
       if (user.login.currentlyLoggedIn) {
         dispatch(userFacilities);
+        dispatch(getAllTriageTeamRecipients());
       }
     },
     [userFacilities, user.login.currentlyLoggedIn, dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(getAllTriageTeamRecipients());
-    },
-    [dispatch],
   );
 
   const datadogRumConfig = {
@@ -92,29 +87,37 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
     >
-      <div className="vads-l-grid-container">
-        <SmBreadcrumbs />
-        <div
-          className="secure-messaging-container
+      {user.login.currentlyLoggedIn &&
+      !userServices.includes(backendServices.MESSAGING) ? (
+        window.location.replace('/health-care/secure-messaging')
+      ) : (
+        <div className="vads-l-grid-container">
+          <SmBreadcrumbs />
+          <div
+            className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-        >
-          <DowntimeNotification
-            appTitle="Secure Messaging"
-            dependencies={[externalServices.mhv]}
           >
-            <Navigation />
-            <ScrollToTop />
-            <Switch>
-              <AuthorizedRoutes />
-            </Switch>
-          </DowntimeNotification>
+            <DowntimeNotification
+              appTitle="Secure Messaging"
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvSm,
+              ]}
+            >
+              <Navigation />
+              <ScrollToTop />
+              <Switch>
+                <AuthorizedRoutes />
+              </Switch>
+            </DowntimeNotification>
+          </div>
+          <div className="bottom-container">
+            <va-back-to-top />
+          </div>
         </div>
-        <div className="bottom-container">
-          <va-back-to-top />
-        </div>
-      </div>
+      )}
     </RequiredLoginView>
   );
 };

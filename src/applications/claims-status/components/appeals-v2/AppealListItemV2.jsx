@@ -106,7 +106,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       {requestEvent && (
         <div className="card-status">
           <p>
-            <strong>Submitted on:</strong>{' '}
+            <strong>Received on:</strong>{' '}
             {moment(requestEvent.date).format('MMMM D, YYYY')}
           </p>
         </div>

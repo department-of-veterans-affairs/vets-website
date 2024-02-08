@@ -33,6 +33,7 @@ const SubmissionError = ({ form }) => {
       id="submission-error"
       status="error"
       class="vads-u-margin-bottom--4"
+      uswds
     >
       <h3 slot="headline">Your decision review request didn’t go through</h3>
       <p>

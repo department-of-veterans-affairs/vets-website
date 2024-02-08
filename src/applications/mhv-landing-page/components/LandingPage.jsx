@@ -11,16 +11,11 @@ import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import Welcome from './Welcome';
-import {
-  hasHealthData,
-  personalizationEnabled,
-  selectGreetingName,
-} from '../selectors';
+import WelcomeContainer from '../containers/WelcomeContainer';
+import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const name = useSelector(selectGreetingName);
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
@@ -49,7 +44,7 @@ const LandingPage = ({ data = {} }) => {
         {showPersonalization && (
           <>
             <HeaderLayout />
-            <Welcome name={name} />
+            <WelcomeContainer />
           </>
         )}
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}

@@ -1,5 +1,7 @@
 import showVaExpandableAlert from './alerts/showVaAlertExpandable';
 
+import MobileAppCallout from './alerts/MobileAppCallout';
+
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
 
 import { toggleValues, isProduction } from './feature-toggles/selectors';
@@ -59,6 +61,7 @@ const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
   showVaExpandableAlert,
+  MobileAppCallout,
   EbenefitsLink,
   toggleValues,
   isProduction,

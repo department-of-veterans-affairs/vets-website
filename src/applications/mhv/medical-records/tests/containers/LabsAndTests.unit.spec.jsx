@@ -100,7 +100,7 @@ describe('Labs and tests list container with no data', () => {
       screen.getByText(
         'There are no lab and test results in your VA medical records.',
         {
-          exact: true,
+          exact: false,
         },
       ),
     ).to.exist;

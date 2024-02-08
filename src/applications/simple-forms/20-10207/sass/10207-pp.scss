@@ -5,3 +5,13 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+legend:first-child > h3 {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+va-textarea[name="root_otherHousingRisks"]::part(input-type-textarea) {
+  height: 6.5rem;
+  resize: none;
+}

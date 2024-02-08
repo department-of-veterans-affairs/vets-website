@@ -21,3 +21,29 @@ h1:focus {
     }
   }
 }
+
+.on-this-page-links {
+  display: block;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 4px;
+  padding: 1em;
+  dl {
+    margin: 0;
+  }
+}
+@media (min-width: 768px) {
+  .on-this-page-links {
+    border: none;
+    padding: 1em 1em 1em 0;
+  }
+}
+.on-this-page-links dd a {
+    max-width: 285px;
+  i {
+    font-size: 0.75em;
+  }
+}
+
+.fa-angle-right {
+  vertical-align: middle;
+}

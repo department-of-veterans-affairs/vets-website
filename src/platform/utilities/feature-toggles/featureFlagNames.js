@@ -7,6 +7,8 @@ export default Object.freeze({
   benefitsDocumentsUseLighthouse: 'benefits_documents_use_lighthouse',
   burialFormEnabled: 'burial_form_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
+  cernerTransition556T30: 'cerner_transition_556_t30',
+  cernerTransition556T5: 'cerner_transition_556_t5',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
@@ -115,7 +117,6 @@ export default Object.freeze({
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaPerformanceAlertEnabled: 'hca_performance_alert_enabled',
   hcaSigiEnabled: 'hca_sigi_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
@@ -171,7 +172,6 @@ export default Object.freeze({
   profileShowQuickSubmitNotificationSetting:
     'profile_show_quick_submit_notification_setting',
   profileUseExperimental: 'profile_use_experimental',
-  profileUseFieldEditingPage: 'profile_use_field_editing_page',
   profileUseHubPage: 'profile_use_hub_page',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
@@ -227,7 +227,6 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
-  signInPageAndModalExperimentLga: 'sign_in_page_and_modal_experiment_lga',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
@@ -266,7 +265,6 @@ export default Object.freeze({
     'va_online_scheduling_convert_utc_to_local',
   vaOnlineSchedulingBreadcrumbUrlUpdate:
     'va_online_scheduling_breadcrumb_url_update',
-  vaOnlineSchedulingPrintList: 'va_online_scheduling_print_list',
   vaOnlineSchedulingStaticLandingPage:
     'va_online_scheduling_static_landing_page',
   vaOnlineSchedulingGA4Migration: 'va_online_scheduling_GA4_migration',

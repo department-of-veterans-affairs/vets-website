@@ -22,7 +22,7 @@ const ExtraDetails = rx => {
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
             <p className="vads-u-margin-top--1">
-              Check back later. Or call your VA pharmacy
+              Call your VA pharmacy
               <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
             </p>
           </div>
@@ -31,8 +31,7 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
-            Refill in process. We expect to fill it on{' '}
-            {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            We expect to fill it on {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
@@ -60,8 +59,7 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="expired">
-            This prescription is too old to refill. If you need more, request a
-            renewal.
+            You have no refills left. If you need more, request a renewal.
           </p>
           <va-link
             href="/my-health/medications/about/accordion-renew-rx"
@@ -78,7 +76,7 @@ const ExtraDetails = rx => {
           </p>
           <va-link
             href={mhvUrl(ssoe, 'secure-messaging')}
-            text="Compose a message"
+            text="Compose a message on the My HealtheVet website"
             data-testid="discontinued-compose-message-link"
           />
         </div>

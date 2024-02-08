@@ -18,7 +18,15 @@ export const scrollToTop = () => {
   });
 };
 
+// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
+const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
+
 export function replacer(key, value) {
+  if (usaPhoneKeys.includes(key) && value?.length) {
+    // Strip spaces, dashes, and parens from phone numbers
+    return value.replace(/[^\d]/g, '');
+  }
+
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);
@@ -190,22 +198,45 @@ export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by
-    electronic funds transfer (EFT), also called direct deposit. If you don’t
-    have a bank account, you must get your payment through Direct Express Debit
-    MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a
-      href="http://www.usdirectexpress.com"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      www.usdirectexpress.com
-    </a>{' '}
-    or by telephone at <va-telephone contact="8003331795" />. If you chose not
-    to enroll, you must contact representatives handling waiver requests for the
-    Department of Treasury at <va-telephone contact="8882242950" />. They will
-    address any questions or concerns you may have and encourage your
-    participation in EFT.
+    <div>
+      <p>
+        The Department of Treasury requires all federal benefit payments be made
+        by electronic funds transfer (EFT), also called direct deposit.
+      </p>
+    </div>
+    <div>
+      <h3>If you don’t have a bank account</h3>
+      <p>
+        If you don’t have a bank account, you must get your payment through
+        Direct Express Debit MasterCard. To request a Direct Express Debit
+        MasterCard, you’ll need to apply one of these two ways:
+      </p>
+      <ul>
+        <li>
+          <a
+            href="http://www.usdirectexpress.com"
+            rel="noopener noreferrer"
+            target="_blank"
+            aria-label="Apply online for a Direct Express Debit MasterCard (opens in new tab)"
+          >
+            Apply online for a Direct Express Debit MasterCard (opens in new
+            tab)
+          </a>
+        </li>
+        <li>
+          Call <va-telephone contact="8003331795" /> to apply by phone
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>If you want to opt out of direct deposit</h3>
+      <p>
+        If you chose not to enroll, you must contact representatives handling
+        waiver requests for the Department of Treasury at{' '}
+        <va-telephone contact="8882242950" />. They will address any questions
+        or concerns you may have and encourage your participation in EFT.
+      </p>
+    </div>
   </div>
 );
 
@@ -266,25 +297,6 @@ export const disabilityDocs = (
   </div>
 );
 
-export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since your child is between 18 and 23 years old, you’ll need to fill out
-        a Request for Approval of School Attendance (
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          VA Form 21-674
-        </a>
-        ). <strong>You can send us this form later.</strong>
-      </div>
-    </div>
-  </div>
-);
-
 export const dependentWarning = (
   <div className="usa-alert usa-alert-warning">
     <div className="usa-alert-body">
@@ -340,7 +352,9 @@ export const contactWarning = (
   <div className="usa-alert usa-alert-info">
     <div className="usa-alert-body">
       <div className="usa-alert-text">
-        We won’t contact this person without contacting you first.
+        We usually don’t need to contact a former spouse of a Veteran’s spouse.
+        In very rare cases where we need information from this person, we’ll
+        contact you first.
       </div>
     </div>
   </div>
@@ -378,3 +392,9 @@ export const validateWorkHours = (errors, fieldData) => {
     errors.addError('Enter a number less than 169');
   }
 };
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}

@@ -140,6 +140,6 @@ describe('<ClaimsListItemV3>', () => {
 
     const screen = render(<ClaimsListItemV3 claim={claim} />);
     expect(screen.getByText(/Last updated: August 20, 2019/i)).to.exist;
-    expect(screen.getByText(/Submitted on February 10, 2019/i)).to.exist;
+    expect(screen.getByText(/Received on February 10, 2019/i)).to.exist;
   });
 });

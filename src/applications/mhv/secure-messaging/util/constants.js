@@ -377,3 +377,11 @@ export const BlockedTriageAlertText = {
       'If you need to contact these care teams, call your VA health facility.',
   },
 };
+
+export const FormLabels = {
+  CATEGORY: 'Category',
+  MESSAGE: 'Message',
+  SUBJECT: 'Subject',
+};
+
+export const CernerTransitioningFacilities = { NORTH_CHICAGO: 556 };

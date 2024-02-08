@@ -19,6 +19,9 @@ export default {
         viewField: DependentField,
         reviewTitle: 'Dependent children',
         keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       'ui:errorMessages': {
         minItems: dependentsMinItem,

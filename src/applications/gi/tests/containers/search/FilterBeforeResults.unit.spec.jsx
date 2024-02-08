@@ -27,6 +27,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const historyMock = {
@@ -63,6 +64,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const recordCheckboxEventSpy = sinon.spy();
@@ -98,6 +100,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const fakeEvent = { target: { name: 'someSchoolType', checked: true } };
@@ -134,6 +137,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const fakeEvent = {
@@ -224,6 +228,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: true,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     expect(wrapper).to.not.be.null;
@@ -245,6 +250,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: true,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     wrapper = shallow(<FilterBeforeResults {...props} />);
     expect(wrapper.find('VaLoadingIndicator')).to.exist;
@@ -272,6 +278,7 @@ describe('<FilterBeforeResults />', () => {
       smallScreen: false,
       history: [],
       version: 'v1.0.0',
+      errorReducer: { error: null },
     };
     beforeEach(() => {
       global.window.buildType = true;
@@ -285,23 +292,5 @@ describe('<FilterBeforeResults />', () => {
       ).to.be.false;
       wrapper.unmount();
     });
-    // it('should render button with no className when is prod', () => {
-    //   wrapper = shallow(<FilterBeforeResults {...props} />);
-    //   const button = wrapper.find('button').first();
-    //   expect(button.prop('className')).to.equal(
-    //     'update-results-button apply-filter-button vads-u-margin-top--3',
-    //   );
-    //   wrapper.unmount();
-    // });
-    // it('should render CheckboxGroup with no className when is prod', () => {
-    //   const newProps = {
-    //     ...props,
-    //     setShowFiltersBeforeSearch: () => {},
-    //   };
-    //   wrapper = shallow(<FilterBeforeResults {...newProps} />);
-    //   const checkboxGroup = wrapper.find('CheckboxGroup').first();
-    //   expect(checkboxGroup.prop('className')).to.equal('about-school-checkbox');
-    //   wrapper.unmount();
-    // });
   });
 });

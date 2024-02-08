@@ -23,8 +23,8 @@ export const FieldHasBeenUpdated = ({ history = window.history }) => {
       class="vads-u-margin-bottom--1"
       background-only
       status="success"
-      show-icon
       role="alert"
+      uswds
     >
       <p className="vads-u-margin-y--0">{text}</p>
     </va-alert>
