@@ -33,6 +33,7 @@ const SortSelect = ({ onSelect, sortBy }) => {
       name="sort-by"
       value={sortBy}
       onVaSelect={handleSelect}
+      uswds="false"
     >
       {sortOptions.map(({ label, value }, i) => (
         <option key={i} value={value}>
