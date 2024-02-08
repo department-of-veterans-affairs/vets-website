@@ -6,7 +6,7 @@ const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
     isBrowserMonitoringEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled
+      FEATURE_FLAG_NAMES.caregiverBrowserMonitoringEnabled
     ],
   }),
   toggles => toggles,
