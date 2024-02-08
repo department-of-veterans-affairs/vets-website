@@ -419,3 +419,9 @@ export const formatFullName = ({
     .filter(name => !!name)
     .join(' ');
 };
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}

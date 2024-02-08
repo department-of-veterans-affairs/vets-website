@@ -20,6 +20,7 @@ import {
   Recipients,
 } from '../../util/constants';
 import { clearThread } from '../../actions/threadDetails';
+import { getPatientSignature } from '../../actions/preferences';
 
 const ReplyForm = props => {
   const { cannotReply, drafts, replyMessage, recipients, messages } = props;
@@ -104,6 +105,15 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
+      if (!signature) {
+        dispatch(getPatientSignature());
+      }
+    },
+    [signature, dispatch],
+  );
+
+  useEffect(
+    () => {
       if (alertStatus) {
         focusElement(lastFocusableElement);
       }
@@ -180,7 +190,7 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
-  messages: PropTypes.object,
+  messages: PropTypes.array,
   recipients: PropTypes.object,
   replyMessage: PropTypes.object,
 };

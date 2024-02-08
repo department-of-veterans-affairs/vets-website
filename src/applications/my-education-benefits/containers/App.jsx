@@ -340,16 +340,22 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
-        setFetchedDirectDeposit(true);
-        getDirectDeposit();
-      }
+      const fetchAndUpdateDirectDepositInfo = async () => {
+        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+          await getDirectDeposit();
+          setFetchedDirectDeposit(true);
+        }
+      };
+      fetchAndUpdateDirectDepositInfo();
     },
     [
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      showDgiDirectDeposit1990EZ,
       fetchedDirectDeposit,
       getDirectDeposit,
-      isLoggedIn,
-      showDgiDirectDeposit1990EZ,
+      setFetchedDirectDeposit,
     ],
   );
 
