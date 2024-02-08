@@ -13,7 +13,6 @@ import {
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
-  relationshipToVeteranSchema,
   yesNoSchema,
   yesNoUI,
   radioSchema,
@@ -23,7 +22,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
-import { relationshipToVeteranUI } from '../components/customRelationshipPattern';
+import {
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
+} from '../components/customRelationshipPattern';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';

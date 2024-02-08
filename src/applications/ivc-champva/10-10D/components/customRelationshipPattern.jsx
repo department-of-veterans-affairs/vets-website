@@ -1,4 +1,7 @@
-import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 /**
@@ -10,7 +13,6 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
  *
  * ```js
  * relationshipToVeteran: relationshipToVeteran() // 'Veteran'
- * relationshipToClaimant: relationshipToVeteran('claimant')
  * relationshipAsField: relationshipToVeteran({
  *  personTitle: 'claimant',
  *  labelHeaderLevel: ''
@@ -56,8 +58,7 @@ export const relationshipToVeteranUI = options => {
       labels: {
         spouse: `${relativeBeingVerb} the ${person}’s spouse`,
         child: `${relativeBeingVerb} the ${person}’s child`,
-        parent: `${relativeBeingVerb} the ${person}’s parent`,
-        executor: `${relativeBeingVerb} the ${person}’s executor or administrator of estate`,
+        caretaker: `${relativeBeingVerb} the ${person}’s caretaker`,
         other: `${`${
           relativeTitleVal ? `${relativeTitleVal} doesn’t` : 'We don’t'
         }`} have a relationship that’s listed here`,
@@ -91,4 +92,20 @@ export const relationshipToVeteranUI = options => {
       },
     },
   };
+};
+
+export const relationshipToVeteranSchema = {
+  type: 'object',
+  properties: {
+    relationshipToVeteran: radioSchema([
+      'spouse',
+      'child',
+      'caretaker',
+      'other',
+    ]),
+    otherRelationshipToVeteran: {
+      type: 'string',
+    },
+  },
+  required: ['relationshipToVeteran'],
 };

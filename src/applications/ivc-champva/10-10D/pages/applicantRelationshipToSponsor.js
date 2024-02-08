@@ -1,12 +1,14 @@
 import {
   titleUI,
   titleSchema,
-  relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
 import { applicantWording } from '../helpers/wordingCustomization';
 
-import { relationshipToVeteranUI } from '../components/customRelationshipPattern';
+import {
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
+} from '../components/customRelationshipPattern';
 
 export const alertAndTitle = {
   'view:alert': {
