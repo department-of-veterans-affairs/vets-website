@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
@@ -33,20 +34,37 @@ const HTMLStatementPage = ({ match }) => {
   return (
     <>
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
-        <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
-          <a href="/">Home</a>
-          <a href="/manage-va-debt">Manage your VA debt</a>
-          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-          <a href="/manage-va-debt/summary/copay-balances">
-            Current copay balances
-          </a>
-          <a
-            href={`/manage-va-debt/summary/copay-balances/${selectedId}/detail`}
-          >
-            {prevPage}
-          </a>
-          <a href={`/copay-balances/${selectedId}/detail/statement`}>{title}</a>
-        </va-breadcrumbs>
+        <VaBreadcrumbs
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'Home',
+            },
+            {
+              href: '/manage-va-debt',
+              label: 'Manage your VA debt',
+            },
+            {
+              href: '/manage-va-debt/summary',
+              label: 'Your VA debt and bills',
+            },
+            {
+              href: '/manage-va-debt/summary/copay-balances',
+              label: 'Current copay balances',
+            },
+            {
+              href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+              label: `${prevPage}`,
+            },
+            {
+              href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
+              label: `${title}`,
+            },
+          ]}
+          className="vads-u-font-family--sans no-wrap"
+          label="Breadcrumb"
+          uswds
+        />
       </div>
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
