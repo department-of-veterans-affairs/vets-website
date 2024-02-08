@@ -3,7 +3,6 @@ import React from 'react';
 export default function StudentComplaintsModalContent() {
   return (
     <div>
-      <h3>Student complaints</h3>
       <p>
         This is the number of closed, Principles of Excellence-related,
         complaints submitted to VA through the GI Bill Feedback system for this

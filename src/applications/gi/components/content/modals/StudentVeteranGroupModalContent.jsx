@@ -3,7 +3,6 @@ import React from 'react';
 export default function StudentVeteranGroupModalContent() {
   return (
     <>
-      <h3>Student Veteran group</h3>
       <p>Does this school have a student-led Veteran group on campus?</p>
       <p>
         If a school has a student Veterans group that’s not represented here,
