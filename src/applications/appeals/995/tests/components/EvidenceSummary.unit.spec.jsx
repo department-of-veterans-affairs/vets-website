@@ -74,12 +74,13 @@ const setupSummary = ({
   vaMR = true,
   privateMR = true,
   other = true,
-  limit = 'Pizza addiction',
+  limit,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
   onReviewPage = false,
   updatePage = () => {},
+  list = records(),
 } = {}) =>
   render(
     <div>
@@ -89,7 +90,7 @@ const setupSummary = ({
           [EVIDENCE_PRIVATE]: privateMR,
           [EVIDENCE_OTHER]: other,
 
-          ...records(),
+          ...list,
           limitedConsent: limit,
         }}
         goBack={goBack}
@@ -106,11 +107,20 @@ const setupSummary = ({
 
 describe('<EvidenceSummary>', () => {
   it('should render', () => {
-    const { container } = setupSummary();
+    const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($$('h3', container).length).to.eq(1);
     expect($$('h4', container).length).to.eq(4);
     expect($$('ul', container).length).to.eq(3);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
+  });
+
+  it('should render with no data', () => {
+    const { container } = setupSummary({ list: {} });
+
+    expect($$('h3', container).length).to.eq(2); // includes no evidence alert
+    expect($$('ul', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
@@ -179,6 +189,7 @@ describe('<EvidenceSummary>', () => {
       vaMR: false,
       privateMR: false,
       other: false,
+      limit: 'Pizza addiction',
       goFoward,
     });
 
@@ -192,6 +203,7 @@ describe('<EvidenceSummary>', () => {
       vaMR: false,
       privateMR: false,
       other: false,
+      limit: 'Pizza addiction',
       goBack,
     });
 
@@ -268,7 +280,10 @@ describe('<EvidenceSummary>', () => {
 
   it('should remove private limitations when remove is clicked', async () => {
     const setFormData = sinon.spy();
-    const { container } = setupSummary({ setFormData });
+    const { container } = setupSummary({
+      setFormData,
+      limit: 'Pizza addiction',
+    });
     // remove limitation
     fireEvent.click($('va-button[label="Remove limitations"]', container));
 
@@ -283,7 +298,10 @@ describe('<EvidenceSummary>', () => {
 
   it('should not remove limitations when "No" is selected in the modal', async () => {
     const setFormData = sinon.spy();
-    const { container } = setupSummary({ setFormData });
+    const { container } = setupSummary({
+      setFormData,
+      limit: 'Pizza addiction',
+    });
 
     // remove second VA entry
     fireEvent.click($('va-button[label="Remove limitations"]', container));

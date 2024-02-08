@@ -47,7 +47,7 @@ export const App = ({
   router,
   // savedForms,
   getContestableIssues,
-  contestableIssues = {},
+  contestableIssues,
   legacyCount,
   isLoadingFeatures,
   accountUuid,
@@ -87,13 +87,13 @@ export const App = ({
             benefitType: subTaskBenefitType,
           });
         } else if (loggedIn && formData.benefitType) {
-          if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             issuesNeedUpdating(
-              contestableIssues?.issues,
+              contestableIssues.issues,
               formData?.contestedIssues,
             ) ||
             contestableIssues.legacyCount !== formData.legacyCount
@@ -102,9 +102,9 @@ export const App = ({
             setFormData({
               ...formData,
               contestedIssues: processContestableIssues(
-                contestableIssues?.issues,
+                contestableIssues.issues,
               ),
-              legacyCount: contestableIssues?.legacyCount,
+              legacyCount: contestableIssues.legacyCount,
             });
           } else if (evidenceNeedsUpdating(formData)) {
             // update evidence issues
@@ -176,8 +176,8 @@ export const App = ({
     );
   } else if (
     loggedIn &&
-    ((contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
+    ((contestableIssues.status || '') === '' ||
+      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
   ) {
     content = wrapInH1(
       <va-loading-indicator
@@ -199,7 +199,11 @@ App.propTypes = {
   setFormData: PropTypes.func.isRequired,
   accountUuid: PropTypes.string,
   children: PropTypes.any,
-  contestableIssues: PropTypes.shape({}),
+  contestableIssues: PropTypes.shape({
+    status: PropTypes.string,
+    issues: PropTypes.array,
+    legacyCount: PropTypes.number,
+  }),
   formData: PropTypes.shape({
     additionalIssues: PropTypes.array,
     areaOfDisagreement: PropTypes.array,

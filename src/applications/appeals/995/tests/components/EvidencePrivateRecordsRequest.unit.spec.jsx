@@ -65,6 +65,21 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     expect(goSpy.called).to.be.false;
   });
 
+  it('should submit page', () => {
+    const goSpy = sinon.spy();
+    const data = { [EVIDENCE_PRIVATE]: true };
+    const { container } = render(
+      <div>
+        <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
+      </div>,
+    );
+
+    fireEvent.click($('button.usa-button-primary', container));
+    const radio = $('va-radio', container);
+    expect(radio.getAttribute('error')).to.be.null;
+    expect(goSpy.called).to.be.true;
+  });
+
   it('should allow setting va-radio-option', () => {
     const setFormDataSpy = sinon.spy();
     const data = { [EVIDENCE_PRIVATE]: true };

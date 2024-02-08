@@ -9,7 +9,11 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
-import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
+import {
+  errorMessages,
+  EVIDENCE_VA_PATH,
+  NO_ISSUES_SELECTED,
+} from '../../constants';
 
 import { getDate } from '../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
@@ -106,6 +110,63 @@ describe('<EvidenceVaRecords>', () => {
     const pair = $('va-button-pair', container);
     pair.__events.secondaryClick(clickEvent);
   };
+
+  it('should update location name', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({ setFormData: setDataSpy });
+    const { container } = render(page);
+
+    const input = $('va-text-input', container);
+    input.value = 'location 99';
+    fireEvent.input(input, { target: { name: 'name' } });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      locationAndName: input.value,
+      issues: [],
+      evidenceDates: { from: '', to: '' },
+    });
+  });
+
+  it('should add newly selected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, locations: [mockLocation] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, label: 'test 2' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      ...mockLocation,
+      issues: ['test 1', 'test 2'],
+    });
+  });
+
+  it('should remove unselected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, locations: [mockLocation] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: false, label: 'test 1' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      ...mockLocation,
+      issues: [],
+    });
+  });
 
   // *** VALID DATA ***
   describe('valid data navigation', () => {
@@ -312,6 +373,23 @@ describe('<EvidenceVaRecords>', () => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container);
+      });
+    });
+
+    it('should cancel navigation', async () => {
+      const goSpy = sinon.spy();
+      const index = 0;
+      const page = setup({ index, goBack: goSpy, goToPath: goSpy });
+      const { container } = render(page);
+
+      // back
+      clickBack(container);
+
+      const event = new CustomEvent('closeEvent');
+      await $('va-modal', container).__events.closeEvent(event);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
       });
     });
   });
@@ -588,6 +666,14 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(input.error).to.contain(errorMessages.evidence.uniqueVA);
       });
+    });
+
+    it('should show no contestable issues were selected message', () => {
+      const data = { data: { contestedIssues: [], additionalIssues: [] } };
+      const { container } = render(setup(data));
+      expect($('va-checkbox-group', container).textContent).to.contain(
+        NO_ISSUES_SELECTED,
+      );
     });
   });
 });

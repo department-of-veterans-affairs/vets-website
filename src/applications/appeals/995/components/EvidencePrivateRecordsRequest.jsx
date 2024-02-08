@@ -31,7 +31,7 @@ const EvidencePrivateRequest = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const { locations = [] } = data;
   const [error, setError] = useState(null);
 
   const handlers = {

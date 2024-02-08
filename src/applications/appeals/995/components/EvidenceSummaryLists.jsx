@@ -41,7 +41,7 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = date => {
+const formatDate = (date = '') => {
   const result = getDate({ date, pattern: FORMAT_COMPACT });
   return result.includes(',') ? result : '';
 };

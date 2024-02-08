@@ -9,7 +9,11 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
-import { errorMessages, EVIDENCE_PRIVATE_PATH } from '../../constants';
+import {
+  errorMessages,
+  EVIDENCE_PRIVATE_PATH,
+  NO_ISSUES_SELECTED,
+} from '../../constants';
 
 import { getDate } from '../../../shared/utils/dates';
 import { SELECTED } from '../../../shared/constants';
@@ -106,6 +110,81 @@ describe('<EvidencePrivateRecords>', () => {
       $$('va-checkbox.dd-privacy-hidden[data-dd-action-name]', container)
         .length,
     ).to.eq(2);
+  });
+
+  it('should render with no data', () => {
+    const { container } = render(setup({ data: null }));
+    expect($$('va-text-input', container).length).to.eq(5);
+    expect($$('va-select', container).length).to.eq(2);
+    expect($('va-checkbox-group', container)).to.exist;
+    expect($$('va-checkbox', container).length).to.eq(0);
+    expect($$('va-memorable-date', container).length).to.eq(2);
+    expect($('.vads-c-action-link--green', container)).to.exist;
+  });
+
+  it('should update facility name', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({ setFormData: setDataSpy });
+    const { container } = render(page);
+
+    const input = $('va-text-input', container);
+    input.value = 'location 99';
+    fireEvent.input(input, { target: { name: 'name' } });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      providerFacilityName: input.value,
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        postalCode: '',
+      },
+      issues: [],
+      treatmentDateRange: { from: '', to: '' },
+    });
+  });
+
+  it('should add newly selected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, providerFacility: [mockFacility] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, label: 'test 2' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      ...mockFacility,
+      issues: ['test 1', 'test 2'],
+    });
+  });
+
+  it('should remove unselected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, providerFacility: [mockFacility] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: false, label: 'test 1' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      ...mockFacility,
+      issues: [],
+    });
   });
 
   // *** VALID DATA ***
@@ -318,6 +397,22 @@ describe('<EvidencePrivateRecords>', () => {
         getAndTestAllErrors(container);
       });
     });
+    it('should cancel navigation', async () => {
+      const goSpy = sinon.spy();
+      const index = 0;
+      const page = setup({ index, goBack: goSpy, goToPath: goSpy });
+      const { container } = render(page);
+
+      // back
+      await fireEvent.click($('.usa-button-secondary', container));
+
+      const event = new CustomEvent('closeEvent');
+      await $('va-modal', container).__events.closeEvent(event);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+      });
+    });
   });
 
   describe('partial/invalid data navigation', () => {
@@ -329,8 +424,8 @@ describe('<EvidencePrivateRecords>', () => {
       });
 
       // close modal
-      $('va-modal').__events[event]();
-      await waitFor(() => {
+      await $('va-modal').__events[event]();
+      return waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
       });
     };
@@ -366,7 +461,7 @@ describe('<EvidencePrivateRecords>', () => {
 
     // *** BACK ***
     // consistently flaky test
-    it.skip('should show modal, select "No, remove this location", then navigate back to previous index', async () => {
+    it('should show modal, select "No, remove this location", then navigate back to previous index', async () => {
       const goSpy = sinon.spy();
       const setDataSpy = sinon.spy();
       const index = 1;
@@ -402,7 +497,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     // consistently flaky test
-    it.skip('should show modal, select "Yes", then navigate back to previous index', async () => {
+    it('should show modal, select "Yes", then navigate back to previous index', async () => {
       const goSpy = sinon.spy();
       const setDataSpy = sinon.spy();
       const index = 2;
@@ -583,6 +678,14 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         expect(input.error).to.contain(errorMessages.evidence.uniquePrivate);
       });
+    });
+
+    it('should show no contestable issues were selected message', () => {
+      const data = { data: { contestedIssues: [], additionalIssues: [] } };
+      const { container } = render(setup(data));
+      expect($('va-checkbox-group', container).textContent).to.contain(
+        NO_ISSUES_SELECTED,
+      );
     });
   });
 });
