@@ -16,7 +16,7 @@ import { useUpdateError } from '../../../hooks/useUpdateError';
 import {
   createForm,
   getTokenFromLocation,
-} from '../../../utils/navigation/pre-check-in';
+} from '../../../utils/navigation/travel-claim';
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
