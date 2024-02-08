@@ -7,8 +7,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
-import LearnMoreLabel from '../../components/LearnMoreLabel';
-import AccordionItem from '../../components/AccordionItem';
+// import LearnMoreLabel from '../../components/LearnMoreLabel';
+// import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
 import {
   isProductionOfTestProdEnv,
@@ -24,9 +24,9 @@ import { TABS, INSTITUTION_TYPES } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
+import VaAccordionGi from '../../components/VaAccordionGi';
 
 export function FilterBeforeResults({
-  dispatchShowModal,
   dispatchFilterChange,
   dispatchError,
   filters,
@@ -593,15 +593,16 @@ export function FilterBeforeResults({
             id="learn-more-about-specialized-missions-accordion-button"
             className="vads-u-margin-top--3"
           >
-            <AccordionItem
-              button="Learn more about community focus filters"
-              section
+            <VaAccordionGi
+              onChange={e => {
+                e.preventDefault();
+                setSmfAccordionExpanded(!smfAccordionExpanded);
+              }}
               expanded={smfAccordionExpanded}
-              onClick={() => setSmfAccordionExpanded(!smfAccordionExpanded)}
-              expandedWidth
+              title="Learn more about community focus filters"
             >
               <div>{smfDefinitions}</div>
-            </AccordionItem>
+            </VaAccordionGi>
           </div>
         </fieldset>
       </>
