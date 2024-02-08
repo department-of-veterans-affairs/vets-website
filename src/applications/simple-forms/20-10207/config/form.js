@@ -31,6 +31,7 @@ import powConfinementPg from '../pages/evidencePowConfinement';
 import powConfinement2Pg from '../pages/evidencePowConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import medalAwardPg from '../pages/evidenceMedalAward';
+import medTreatmentPg from '../pages/medicalTreatment';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -324,20 +325,13 @@ const formConfig = {
       },
     },
     medicalTreatmentChapter: {
-      title: '[WIP] Medical treatment',
+      title: 'Medical treatment',
       pages: {
-        page1: {
-          path: 'medical-treatment-start',
-          title: '[WIP] Where did you receive medical treatment?',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {
-              wipField: {
-                type: 'string',
-              },
-            },
-          },
+        medicalTreatmentPage: {
+          title: 'Where did you receive medical treatment?', // for review page (has to be more than one word)
+          path: 'medical-treatment',
+          uiSchema: medTreatmentPg.uiSchema,
+          schema: medTreatmentPg.schema,
         },
       },
     },
