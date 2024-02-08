@@ -169,9 +169,13 @@ describe('Folder Thread List View container', () => {
     const screen = setup({ sm: {} });
 
     await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert)
+        .to.have.attribute('status')
+        .to.equal('error');
       expect(screen.getByText(res.errors[0].detail)).to.exist;
+      expect(document.querySelector('h1')).to.not.exist;
     });
-    expect(document.querySelector('h1')).to.not.exist;
   });
 
   describe(`verifies page title tag for 'Custom Folder' FolderThreadListView page`, () => {

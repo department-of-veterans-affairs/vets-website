@@ -121,6 +121,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            charcount
             uswds
           />
           <VaNumberInput

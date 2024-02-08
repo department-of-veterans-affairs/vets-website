@@ -185,6 +185,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.make || ''}
+            charcount
             uswds
           />
         </div>
@@ -200,6 +201,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={vehicleRecord.model || ''}
+            charcount
             uswds
           />
         </div>

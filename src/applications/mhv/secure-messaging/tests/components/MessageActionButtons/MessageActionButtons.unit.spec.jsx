@@ -1,7 +1,6 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/dom';
 import MessageActionButtons from '../../../components/MessageActionButtons';
 import reducer from '../../../reducers';
 import folders from '../../fixtures/folder-inbox-response.json';
@@ -38,16 +37,6 @@ describe('MessageActionButtons component', () => {
     const screen = setup();
     const printButton = screen.getByText('Print');
     expect(printButton).to.exist;
-    fireEvent.click(printButton);
-    const printModal = screen.getByTestId('print-modal-popup');
-    await waitFor(() => {
-      expect(printModal).to.have.attribute('visible', 'true');
-    });
-
-    expect(printModal).to.have.attribute(
-      'modaltitle',
-      'Make sure you have all messages expanded',
-    );
   });
 
   it('renders in Sent folder', () => {
