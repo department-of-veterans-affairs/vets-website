@@ -1,6 +1,4 @@
 import {
-  checkboxGroupUI,
-  checkboxGroupSchema,
   fullNameSchema,
   fullNameUI,
   ssnOrVaFileNumberSchema,
@@ -16,7 +14,6 @@ import {
   dateOfDeathSchema,
   dateOfDeathUI,
   relationshipToVeteranSchema,
-  relationshipToVeteranUI,
   yesNoSchema,
   yesNoUI,
   radioSchema,
@@ -26,6 +23,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
+import { relationshipToVeteranUI } from '../components/customRelationshipPattern';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -35,12 +33,36 @@ import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   sponsorWording,
   applicantWording,
+  firstPersonLanguage,
+  thirdPersonLanguage,
 } from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
-import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
+
+import {
+  medicareStatusThirdPersonUiSchema,
+  medicareStatusFirstPersonUiSchema,
+  medicarePartChecboxGroupThirdPersonUiSchema,
+  medicarePartChecboxGroupFirstPersonUiSchema,
+  medicarePartCheckboxGroupSchema,
+  medicareStatusSchema,
+} from '../pages/applicantMedicareStatus';
+
+import {
+  ohiStatusThirdPersonUiSchema,
+  ohiStatusFirstPersonUiSchema,
+  ohiStatusSchema,
+} from '../pages/applicantOHIStatus';
+
+import {
+  relationshipToSponsorFirstPersonUiSchema,
+  relationshipToSponsorFirstPersonPastTenseUiSchema,
+  relationshipToSponsorThirdPersonUiSchema,
+  relationshipToSponsorThirdPersonPastTenseUiSchema,
+  relationshipToSponsorSchema,
+} from '../pages/applicantRelationshipToSponsor';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -719,234 +741,120 @@ const formConfig = {
             },
           },
         },
+        // Using "depends" to route us to the relationship page with
+        // the correct wording based on several conditions including
+        // whether or not we're an applicant/sponsor/certifier and the
+        // status of the sponsor (deceased/alive):
         page18: {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
-          uiSchema: {
-            applicants: {
-              items: {
-                'view:alert': {
-                  'ui:title': AdditionalDocumentationAlert,
-                },
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} relationship to sponsor`,
-                ),
-                applicantRelationshipToSponsor: {
-                  ...relationshipToVeteranUI({
-                    personTitle: 'Sponsor',
-                    labelHeaderLevel: '', // no header
-                  }),
-                  'ui:required': () => true,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    'view:alert': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    titleSchema,
-                    applicantRelationshipToSponsor: relationshipToVeteranSchema,
-                  },
-                },
-              },
-            },
-          },
+          depends: (formData, index) =>
+            firstPersonLanguage(formData, index) &&
+            !get('sponsorIsDeceased', formData),
+          uiSchema: relationshipToSponsorFirstPersonUiSchema,
+          schema: relationshipToSponsorSchema,
+        },
+        page18b: {
+          path: 'applicant-information/:index/relationship-b',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          depends: (formData, index) =>
+            firstPersonLanguage(formData, index) &&
+            get('sponsorIsDeceased', formData),
+          uiSchema: relationshipToSponsorFirstPersonPastTenseUiSchema,
+          schema: relationshipToSponsorSchema,
+        },
+        page18c: {
+          path: 'applicant-information/:index/relationship-c',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          depends: (formData, index) =>
+            thirdPersonLanguage(formData, index) &&
+            !get('sponsorIsDeceased', formData), // Sponsor is alive
+          uiSchema: relationshipToSponsorThirdPersonUiSchema,
+          schema: relationshipToSponsorSchema,
+        },
+        page18d: {
+          path: 'applicant-information/:index/relationship-d',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          depends: (formData, index) =>
+            thirdPersonLanguage(formData, index) &&
+            get('sponsorIsDeceased', formData), // Sponsor is deceased
+          uiSchema: relationshipToSponsorThirdPersonPastTenseUiSchema,
+          schema: relationshipToSponsorSchema,
         },
         page19: {
           path: 'applicant-information/:index/medicare-status',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} Medicare status`,
-          uiSchema: {
-            applicants: {
-              items: {
-                'view:alert': {
-                  'ui:title': AdditionalDocumentationAlert,
-                },
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} Medicare status`,
-                ),
-
-                applicantMedicareStatus: radioUI({
-                  title: 'Is this applicant enrolled in Medicare?',
-                  labels: {
-                    enrolled: 'Yes, this applicant is enrolled in medicare',
-                    over65Eligible:
-                      'No, this applicant is 65 or over, eligible, but not enrolled in Medicare',
-                    over65Ineligible:
-                      'No, this applicant is 65 or over and not eligible for Medicare',
-                    under65Ineligible:
-                      'No, this applicant is under 65 and not eligible for Medicare',
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['applicantMedicareStatus'],
-                  properties: {
-                    'view:alert': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    titleSchema,
-                    applicantMedicareStatus: radioSchema([
-                      'enrolled',
-                      'over65Eligible',
-                      'over65Ineligible',
-                      'under65Ineligible',
-                    ]),
-                  },
-                },
-              },
-            },
-          },
+          depends: (formData, index) => thirdPersonLanguage(formData, index),
+          uiSchema: medicareStatusThirdPersonUiSchema,
+          schema: medicareStatusSchema,
+        },
+        page19a: {
+          path: 'applicant-information/:index/medicare-status-a',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => firstPersonLanguage(formData, index),
+          title: item => `${applicantWording(item)} Medicare status`,
+          uiSchema: medicareStatusFirstPersonUiSchema,
+          schema: medicareStatusSchema,
         },
         page20: {
           path: 'applicant-information/:index/medicare-status-continued',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          depends: (formData, index) => {
-            return (
-              get(
-                'applicantMedicareStatus',
-                // On first pass, index is always undefined but then populates on next cycle
-                formData.applicants[index || 0],
-              ) === 'enrolled'
-            );
-          },
+          depends: (formData, index) =>
+            get(
+              'applicantMedicareStatus',
+              // On first pass, index is always undefined but then populates on next cycle
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled' && thirdPersonLanguage(formData, index),
           title: item =>
             `${applicantWording(item)} Medicare status (continued)`,
-          uiSchema: {
-            applicants: {
-              items: {
-                'view:alert': {
-                  'ui:title': AdditionalDocumentationAlert,
-                },
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} Medicare status (continued)`,
-                ),
-
-                applicantMedicarePart: checkboxGroupUI({
-                  title: 'What parts of medicare is the applicant enrolled in?',
-                  hint: 'You can select more than one',
-                  description: 'Please select at least one option',
-                  tile: true,
-                  required: true,
-                  labels: {
-                    partA: {
-                      title: 'Part A',
-                      description: 'Applicant is enrolled in Medicare Part A',
-                    },
-                    partB: {
-                      title: 'Part B',
-                      description: 'Applicant is enrolled in Medicare Part A',
-                    },
-                    partD: {
-                      title: 'Part D',
-                      description: 'Applicant is enrolled in Medicare Part D',
-                    },
-                  },
-                  errorMessages: {
-                    required: 'Please select at least one option',
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    'view:alert': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    titleSchema,
-                    applicantMedicarePart: checkboxGroupSchema([
-                      'partA',
-                      'partB',
-                      'partD',
-                    ]),
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: medicarePartChecboxGroupThirdPersonUiSchema,
+          schema: medicarePartCheckboxGroupSchema,
+        },
+        page20a: {
+          path: 'applicant-information/:index/medicare-status-continued-a',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) =>
+            get(
+              'applicantMedicareStatus',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'enrolled' && firstPersonLanguage(formData, index),
+          title: item =>
+            `${applicantWording(item)} Medicare status (continued)`,
+          uiSchema: medicarePartChecboxGroupFirstPersonUiSchema,
+          schema: medicarePartCheckboxGroupSchema,
         },
         page21: {
           path: 'applicant-information/:index/ohi',
           arrayPath: 'applicants',
           showPagePerItem: true,
+          depends: (formData, index) => firstPersonLanguage(formData, index),
           title: item =>
             `${applicantWording(item)} other health insurance status`,
-          uiSchema: {
-            applicants: {
-              items: {
-                'view:alert': {
-                  'ui:title': AdditionalDocumentationAlert,
-                },
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(
-                      formData,
-                    )} other health insurance status`,
-                ),
-                applicantHasOhi: yesNoUI({
-                  title:
-                    'Does this applicant have other health insurance (that is not Medicare)?',
-                  labels: {
-                    Y: 'Yes, this applicant has other health insurance',
-                    N: "No, this applicant doesn't have other health insurance",
-                  },
-                }),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['applicantHasOhi'],
-                  properties: {
-                    'view:alert': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    titleSchema,
-                    applicantHasOhi: yesNoSchema,
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: ohiStatusFirstPersonUiSchema,
+          schema: ohiStatusSchema,
+        },
+        page21a: {
+          path: 'applicant-information/:index/ohi-a',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
+          depends: (formData, index) => thirdPersonLanguage(formData, index),
+          uiSchema: ohiStatusThirdPersonUiSchema,
+          schema: ohiStatusSchema,
         },
       },
     },
