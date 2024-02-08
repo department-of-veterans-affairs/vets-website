@@ -143,7 +143,7 @@ export const pageTitles = {
   CARE_SUMMARIES_AND_NOTES_PAGE_TITLE:
     'Care Summaries And Notes - Medical Records | Veterans Affairs',
   VACCINES_PAGE_TITLE: 'Vaccines - Medical Records | Veterans Affairs',
-  ALLERGIES_PAGE_TITLE: 'Allergies - Medical Records | Veterans Affairs',
+  ALLERGIES_PAGE_TITLE: 'Allergies and reactions',
   HEALTH_CONDITIONS_PAGE_TITLE:
     'Health Conditions - Medical Records | Veterans Affairs',
   VITALS_PAGE_TITLE: 'Vitals - Medical Records | Veterans Affairs',
