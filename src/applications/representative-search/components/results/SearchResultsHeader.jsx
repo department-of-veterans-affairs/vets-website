@@ -143,36 +143,6 @@ export const SearchResultsHeader = props => {
             </div>
           </div>
         )}
-        {!noResultsFound && (
-          <div className="sort-dropdown">
-            <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
-              Sort by
-            </label>
-            <div className="sort-select-and-apply">
-              <div className="sort-select">
-                <select
-                  id="representative-sorting-dropdown"
-                  aria-label="Sort"
-                  // ref={sortTypeRef}
-                  value={selectedSortType}
-                  title="Sort by:"
-                  onChange={e => setSelectedSortType(e.target.value)}
-                >
-                  {' '}
-                  {options}{' '}
-                </select>
-              </div>
-
-              <div className="vads-u-margin-left--2 sort-apply-button">
-                <va-button
-                  onClick={onClickApplyButton}
-                  text="Apply"
-                  secondary
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
