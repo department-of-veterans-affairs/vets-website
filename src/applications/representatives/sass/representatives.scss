@@ -3,13 +3,7 @@
 .dash-container {
   max-width: 1024px;
   margin: 32px auto;
-  .dash-header {
-    margin-left: 466px;
-    @media screen and (max-width: 1008px) {
-      margin-left: 0px;
-      text-align: center;
-    }
-  }
+
   .nav {
     height: 48px;
   }
@@ -36,4 +30,8 @@
       $color-primary-alt-darkest
     );
   }
+}
+
+.rounded-corners {
+  border-radius: 10px;
 }
