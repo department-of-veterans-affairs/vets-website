@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDatetime, formatElapsedHours } from '../utils/date';
 
-function MHVDown({ appTitle = 'My HealtheVet', endTime, startTime }) {
+function MHVDown({
+  appTitle = 'some of our health tools',
+  endTime,
+  startTime,
+}) {
   const startString = startTime ? formatDatetime(startTime) : '';
   const endString = endTime ? formatDatetime(endTime) : '';
   const timeInterval = formatElapsedHours(startTime, endTime);
@@ -10,11 +14,11 @@ function MHVDown({ appTitle = 'My HealtheVet', endTime, startTime }) {
   return (
     <>
       <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
-        <h3 slot="headline">Maintenance on {appTitle}</h3>
+        <h3 slot="headline">Maintenance on My HealtheVet</h3>
         <p>
           We&#x2019;re working on My HealtheVet. The maintenance will last{' '}
-          {timeInterval}. During this time, you may have trouble using some of
-          our health tools.
+          {timeInterval}. During this time, you may have trouble using
+          {appTitle}.
         </p>
         {startString && (
           <p>

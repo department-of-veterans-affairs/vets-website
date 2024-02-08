@@ -21,7 +21,7 @@ describe('MHVDowntime', () => {
       ...mockServiceProps,
     };
     const { getByRole } = render(<MHVDowntime {...mockProps} />);
-    getByRole('heading', { level: 3, name: /My HealtheVet is down/ });
+    getByRole('heading', { level: 3, name: 'Maintenance on My HealtheVet' });
   });
 
   it('renders MHVDowntimeApproaching when a service is going down within an hour', () => {
@@ -41,7 +41,10 @@ describe('MHVDowntime', () => {
       ...mockServiceProps,
     };
     const { getByRole } = render(<MHVDowntime {...mockProps} />);
-    getByRole('heading', { level: 3, name: /My HealtheVet will be down/ });
+    getByRole('heading', {
+      level: 3,
+      name: 'Upcoming maintenance on My HealtheVet',
+    });
   });
 
   it('renders child content when no matching services are down', () => {
