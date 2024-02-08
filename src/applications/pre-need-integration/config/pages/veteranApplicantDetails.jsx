@@ -13,7 +13,7 @@ import {
 
 const {
   claimant,
-  veteran,
+  // veteran,
 } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
@@ -63,7 +63,17 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['birthCity', 'birthState'],
-          properties: pick(veteran.properties, ['placeOfBirth']),
+          // properties: pick(veteran.properties, ['birthCity', 'birthState']),
+          properties: {
+            birthCity: {
+              type: 'string',
+              maxLength: 100,
+            },
+            birthState: {
+              type: 'string',
+              maxLength: 100,
+            },
+          },
         },
       },
     },
