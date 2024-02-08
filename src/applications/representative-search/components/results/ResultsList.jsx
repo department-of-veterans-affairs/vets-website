@@ -40,7 +40,7 @@ const ResultsList = props => {
                 addressLine2={result.attributes.addressLine2}
                 addressLine3={result.attributes.addressLine3}
                 city={result.attributes.city}
-                state={result.attributes.stateCode}
+                stateCode={result.attributes.stateCode}
                 zipCode={result.attributes.zipCode}
                 phone={result.attributes.phone}
                 email={result.attributes.email}

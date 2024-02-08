@@ -19,10 +19,10 @@ function RepresentativeDirectionsLink({ representative, query }) {
         rel="noopener noreferrer"
       >
         <div>
-          {rep.addressLine1}, {rep.addressLine2}
+          {rep.addressLine1} {rep.addressLine2}
         </div>
         <div>
-          {rep.city} {rep.state} {rep.zipCode}
+          {rep.city}, {rep.stateCode} {rep.zipCode}
         </div>
       </a>
     </div>
