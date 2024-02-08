@@ -1,18 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 import { normalizeFullName } from '../utils/helpers';
 
-const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
-  const { submission, data } = form;
+const ConfirmationPage = () => {
+  const { submission, data } = useSelector(state => state.form);
+  const { userFullName } = useSelector(selectProfile);
+  const loggedIn = useSelector(isLoggedIn);
   const { response } = submission;
+
   // if authenticated, get veteran's name from profile, else, from form data
-  const nameToDisplay = isLoggedIn
-    ? profile.userFullName
+  const nameToDisplay = loggedIn
+    ? userFullName
     : data['view:veteranInformation'].veteranFullName;
   const veteranName = normalizeFullName(nameToDisplay, true);
 
@@ -99,16 +102,4 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
   );
 };
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.object,
-  isLoggedIn: PropTypes.bool,
-  profile: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  form: state.form,
-  isLoggedIn: state.user?.login?.currentlyLoggedIn,
-  profile: state.user?.profile,
-});
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

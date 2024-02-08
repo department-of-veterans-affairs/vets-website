@@ -7,7 +7,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { ServerErrorAlert } from '../FormAlerts';
+import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 
 const apiRequestWithUrl = `${
   environment.API_URL

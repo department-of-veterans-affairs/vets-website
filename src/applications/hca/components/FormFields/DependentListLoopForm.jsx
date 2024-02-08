@@ -8,7 +8,7 @@ import {
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
 import { isLoggedOut as authSelector } from '../../utils/selectors';
-import { DependentSIPWarning } from '../FormAlerts';
+import DependentSIPWarning from '../FormAlerts/DependentSIPWarning';
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;

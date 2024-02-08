@@ -2,46 +2,49 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 describe('hca ConfirmationPage', () => {
-  const initState = {
-    form: {
-      submission: false,
-      data: {
-        'view:veteranInformation': {
-          veteranFullName: {
-            first: 'Jack',
-            middle: 'William',
-            last: 'Smith',
+  const getData = ({ submission = {}, loggedIn = false }) => ({
+    mockStore: {
+      getState: () => ({
+        form: {
+          submission,
+          data: {
+            'view:veteranInformation': {
+              veteranFullName: {
+                first: 'Jack',
+                middle: 'William',
+                last: 'Smith',
+              },
+            },
           },
         },
-      },
-    },
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        userFullName: {
-          first: 'John',
-          middle: 'Marjorie',
-          last: 'Smith',
-          suffix: 'Sr.',
+        user: {
+          login: {
+            currentlyLoggedIn: loggedIn,
+          },
+          profile: {
+            userFullName: {
+              first: 'John',
+              middle: 'William',
+              last: 'Smith',
+              suffix: 'Sr.',
+            },
+          },
         },
-      },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
     },
-  };
-  const middleware = [];
-  const mockStore = configureStore(middleware);
+  });
 
-  describe('when the page renders', () => {
+  context('when the page renders', () => {
     it('should render success alert & guidance messages', () => {
-      const store = mockStore(initState);
+      const { mockStore } = getData({});
       const { container } = render(
-        <Provider store={store}>
+        <Provider store={mockStore}>
           <ConfirmationPage />
         </Provider>,
       );
@@ -58,12 +61,12 @@ describe('hca ConfirmationPage', () => {
     });
   });
 
-  describe('when the submission is parsed', () => {
-    describe('when there is no response data', () => {
+  context('when the submission is parsed', () => {
+    context('when there is no response data', () => {
       it('should not render the application date container', () => {
-        const store = mockStore(initState);
+        const { mockStore } = getData({});
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <ConfirmationPage />
           </Provider>,
         );
@@ -72,22 +75,18 @@ describe('hca ConfirmationPage', () => {
       });
     });
 
-    describe('when there is response data', () => {
+    context('when there is response data', () => {
       it('should not render the application date container', () => {
-        const formData = {
+        const { mockStore } = getData({
           submission: {
             response: {
               timestamp: '2010-01-01',
               formSubmissionId: '3702390024',
             },
           },
-        };
-        const store = mockStore({
-          ...initState,
-          form: { ...initState.form, ...formData },
         });
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <ConfirmationPage />
           </Provider>,
         );
@@ -98,12 +97,12 @@ describe('hca ConfirmationPage', () => {
     });
   });
 
-  describe('when the form data is parsed', () => {
-    describe('when the user is not logged in', () => {
+  context('when the form data is parsed', () => {
+    context('when the user is not logged in', () => {
       it('should render Veteran’s name from form data', () => {
-        const store = mockStore(initState);
+        const { mockStore } = getData({});
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <ConfirmationPage />
           </Provider>,
         );
@@ -112,22 +111,16 @@ describe('hca ConfirmationPage', () => {
       });
     });
 
-    describe('when the user is logged in', () => {
+    context('when the user is logged in', () => {
       it('should render Veteran’s name from profile', () => {
-        const store = mockStore({
-          ...initState,
-          user: {
-            ...initState.user,
-            login: { currentlyLoggedIn: true },
-          },
-        });
+        const { mockStore } = getData({ loggedIn: true });
         const { container } = render(
-          <Provider store={store}>
+          <Provider store={mockStore}>
             <ConfirmationPage />
           </Provider>,
         );
         const selector = container.querySelector('.hca-veteran-fullname');
-        expect(selector).to.contain.text('John Marjorie Smith Sr.');
+        expect(selector).to.contain.text('John William Smith Sr.');
       });
     });
   });

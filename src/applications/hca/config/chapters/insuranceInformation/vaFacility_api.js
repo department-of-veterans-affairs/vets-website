@@ -5,7 +5,7 @@ import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';

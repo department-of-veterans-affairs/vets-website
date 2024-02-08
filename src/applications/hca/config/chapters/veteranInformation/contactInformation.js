@@ -3,7 +3,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import { ShortFormAlert } from '../../../components/FormAlerts';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';

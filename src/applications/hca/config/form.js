@@ -14,11 +14,11 @@ import {
 import { HIGH_DISABILITY_MINIMUM, SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
 import manifest from '../manifest.json';
-import IDPage from '../containers/IDPage';
+import IdentityPage from '../containers/IdentityPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import { DowntimeWarning } from '../components/FormAlerts';
+import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
@@ -114,7 +114,7 @@ const formConfig = {
   additionalRoutes: [
     {
       path: 'id-form',
-      component: IDPage,
+      component: IdentityPage,
       pageKey: 'id-form',
       depends: formData => !formData['view:isLoggedIn'],
     },

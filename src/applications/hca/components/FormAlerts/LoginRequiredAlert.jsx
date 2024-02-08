@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const LoginRequiredAlert = ({ handleLogin }) => (
-  <va-alert status="error">
+  <va-alert status="error" data-testid="hca-idform-login-alert">
     <h2 slot="headline">Please sign in to review your information</h2>
     <p>
       We’re sorry for the interruption, but we’ve found some more information
