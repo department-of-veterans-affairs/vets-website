@@ -3,7 +3,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 import DemographicField from '../../../components/FormFields/DemographicViewField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
