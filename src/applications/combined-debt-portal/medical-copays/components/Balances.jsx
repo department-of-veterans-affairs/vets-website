@@ -14,6 +14,11 @@ export const Balances = ({ statements }) => {
   return (
     <>
       {statements?.length === 1 ? single : multiple}
+      <p>
+        Any payments you may have made to your current copays will not be
+        reflected here until our systems are updated with the next monthly
+        statement.
+      </p>
       <ul className="no-bullets vads-u-padding-x--0">
         {statements?.map((balance, idx) => {
           const facilityName =
