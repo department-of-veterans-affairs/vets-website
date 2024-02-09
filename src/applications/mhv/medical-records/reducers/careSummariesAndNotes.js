@@ -24,7 +24,9 @@ const extractName = record => {
   ) {
     return record.content[0].attachment.title;
   }
-  return isArrayAndHasItems(record.type?.coding) && record.type.coding[0].code;
+  return (
+    isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
+  );
 };
 
 const extractType = record => {
