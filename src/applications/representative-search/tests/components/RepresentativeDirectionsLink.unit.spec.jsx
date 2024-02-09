@@ -22,7 +22,7 @@ const verifyLink = data => {
     rel: 'noopener noreferrer',
   });
   expect(wrapper.find('a').text()).to.equal(
-    '7901 Metropolis Drive, Austin  78744-3111',
+    '7901 Metropolis Drive Austin, TX 78744-3111',
   );
 
   wrapper.unmount();
