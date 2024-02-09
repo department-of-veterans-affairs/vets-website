@@ -3,6 +3,24 @@
 
 const HOUR_MS = 3600000; // 1000 * 60 * 60
 
+/*
+ * Attempts to coerce a momentjs object to a plain date. Returns null if it cannot return a date
+ * @param {Object} d
+ * @returns {(Date|null)}
+ */
+function coerceToDate(d) {
+  if (d instanceof Object && 'toDate' in d) {
+    const d1 = d.toDate();
+    if (d1 instanceof Date) {
+      return d1;
+    }
+  }
+  if (d instanceof Date) {
+    return d;
+  }
+  return null;
+}
+
 /**
  * Turns an ISO 8601 datetime string into a Date object
  * @param {string} input - ISO 8601 datetime string
@@ -64,7 +82,9 @@ function datetimePartsToObj(dtParts) {
  * @returns {string}
  */
 function formatDatetime(input) {
-  const dtParts = vaDatetimeFormat.formatToParts(input);
+  const d = coerceToDate(input);
+  if (d === null) return '';
+  const dtParts = vaDatetimeFormat.formatToParts(d);
   const dtDict = datetimePartsToObj(dtParts);
   const { year, month, day, hour, minute } = dtDict;
   let { dayPeriod, timeZoneName } = dtDict;
@@ -91,7 +111,7 @@ function formatDatetime(input) {
  * Calculate a fractional number of hours between two datetimes
  * @param {Date} startDate
  * @param {Date} endDate
- * @returns {Number}
+ * @returns {number}
  */
 function getElapsedHours(startDate, endDate) {
   const elapsedMs = Math.abs(endDate - startDate);
@@ -100,14 +120,23 @@ function getElapsedHours(startDate, endDate) {
 
 /*
  * Create a string representing estimated elapsed hours. Rounds to nearest hour
- * @param {Date} startDate
- * @param {Date} endDate
- * @returns {String} - Elapsed hours as a human-readable string
+ * @param {Date|Moment} start
+ * @param {Date|Moment} end
+ * @returns {?string} - Elapsed hours as a human-readable string
  */
-function formatElapsedHours(startDate, endDate) {
+function formatElapsedHours(start, end) {
+  const startDate = coerceToDate(start);
+  const endDate = coerceToDate(end);
+  if (!(startDate && endDate)) return null;
   let hours = getElapsedHours(startDate, endDate);
   hours = Math.round(hours);
   return `${hours} hour${hours > 1 ? 's' : ''}`;
 }
 
-export { formatDatetime, formatElapsedHours, getElapsedHours, parseDate };
+export {
+  coerceToDate,
+  formatDatetime,
+  formatElapsedHours,
+  getElapsedHours,
+  parseDate,
+};

@@ -1,6 +1,40 @@
 import { expect } from 'chai';
+// NOTE: moment is deprecated, should only be used for testing compatibility with older code
+import moment from 'moment';
 
-import { formatDatetime, formatElapsedHours, parseDate } from '../utils/date';
+import {
+  coerceToDate,
+  formatDatetime,
+  formatElapsedHours,
+  parseDate,
+} from '../utils/date';
+
+describe('coerceToDate', () => {
+  it('returns a Date instance when passed a moment object', () => {
+    const m = moment('2024-02-14 09:30');
+    const d = coerceToDate(m);
+    expect(d).to.be.an.instanceOf(Date);
+  });
+
+  it('returns a date instance when passed a date instance', () => {
+    const d1 = new Date();
+    const d2 = coerceToDate(d1);
+    expect(d2).to.equal(d1);
+  });
+
+  it('returns null when passed something that is not a date or moment object', () => {
+    const x = '';
+    const y = undefined;
+    const z = {};
+    // F is for Fake
+    const f = { toDate: () => 'Tricked you!' };
+
+    expect(coerceToDate(x)).to.be.null;
+    expect(coerceToDate(y)).to.be.null;
+    expect(coerceToDate(z)).to.be.null;
+    expect(coerceToDate(f)).to.be.null;
+  });
+});
 
 describe('parseDate', () => {
   it('parses an ISO 8601 date string', () => {
