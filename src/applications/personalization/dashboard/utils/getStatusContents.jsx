@@ -1,5 +1,5 @@
 import React from 'react';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
@@ -13,6 +13,7 @@ import {
   DECISION_REVIEW_URL,
   APPEAL_TYPES,
 } from './appeals-helpers';
+import { replaceDashesWithSlashes } from './date-formatting/helpers';
 
 /**
  * Grabs the matching title and dynamically-generated description for a given current status type
@@ -53,7 +54,7 @@ export function getStatusContents(appeal, name = {}) {
       break;
     case STATUS_TYPES.pendingForm9: {
       const formattedSocDate = format(
-        addDays(new Date(details.lastSocDate), 1),
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
         'MMMM d, yyyy',
       );
       contents.title = 'Please review your Statement of the Case';
@@ -97,7 +98,7 @@ export function getStatusContents(appeal, name = {}) {
       break;
     case STATUS_TYPES.pendingCertificationSsoc: {
       const formattedSocDate = format(
-        addDays(new Date(details.lastSocDate), 1),
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
         'MMMM d, yyyy',
       );
       contents.title = 'Please review your Supplemental Statement of the Case';
@@ -125,7 +126,7 @@ export function getStatusContents(appeal, name = {}) {
     }
     case STATUS_TYPES.remandSsoc: {
       const formattedSocDate = format(
-        addDays(new Date(details.lastSocDate), 1),
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
         'MMMM d, yyyy',
       );
       contents.title = 'Please review your Supplemental Statement of the Case';
@@ -159,7 +160,7 @@ export function getStatusContents(appeal, name = {}) {
       break;
     case STATUS_TYPES.scheduledHearing: {
       const formattedDate = format(
-        addDays(new Date(details.date), 1),
+        new Date(replaceDashesWithSlashes(details.date)),
         'MMMM d, yyyy',
       );
       contents.title = 'Your hearing has been scheduled';
@@ -401,11 +402,11 @@ export function getStatusContents(appeal, name = {}) {
       break;
     case STATUS_TYPES.postBvaDtaDecision: {
       const formattedBvaDecisionDate = format(
-        addDays(new Date(details.bvaDecisionDate), 1),
+        new Date(replaceDashesWithSlashes(details.bvaDecisionDate)),
         'MMMM d, yyyy',
       );
       const formattedAojDecisionDate = format(
-        addDays(new Date(details.aojDecisionDate), 1),
+        new Date(replaceDashesWithSlashes(details.aojDecisionDate)),
         'MMMM d, yyyy',
       );
       contents.title = `The ${aojDescription} corrected an error`;
@@ -431,11 +432,11 @@ export function getStatusContents(appeal, name = {}) {
     }
     case STATUS_TYPES.bvaDecisionEffectuation: {
       const formattedBvaDecisionDate = format(
-        addDays(new Date(details.bvaDecisionDate), 1),
+        new Date(replaceDashesWithSlashes(details.bvaDecisionDate)),
         'MMMM d, yyyy',
       );
       const formattedAojDecisionDate = format(
-        addDays(new Date(details.aojDecisionDate), 1),
+        new Date(replaceDashesWithSlashes(details.aojDecisionDate)),
         'MMMM d, yyyy',
       );
       contents.title = `The ${aojDescription} corrected an error`;
