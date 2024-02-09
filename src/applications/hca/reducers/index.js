@@ -1,7 +1,7 @@
 import { createSaveInProgressFormReducer } from '~/platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
 import hcaEnrollmentStatus from './enrollment-status';
-import totalRating from './total-disabilities';
+import totalRating from './disability-rating';
 
 export default {
   form: createSaveInProgressFormReducer(formConfig),

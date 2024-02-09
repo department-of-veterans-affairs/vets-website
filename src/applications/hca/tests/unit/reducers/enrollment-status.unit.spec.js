@@ -1,7 +1,9 @@
 import { expect } from 'chai';
-
-import { ENROLLMENT_STATUS_ACTIONS } from '../../utils/constants';
-import reducer from '../../reducers/enrollment-status';
+import {
+  ENROLLMENT_STATUS_ACTIONS,
+  ENROLLMENT_STATUS_INIT_STATE,
+} from '../../../utils/constants';
+import reducer from '../../../reducers/enrollment-status';
 
 describe('hca EnrollmentStatus reducer', () => {
   let state;
@@ -12,45 +14,27 @@ describe('hca EnrollmentStatus reducer', () => {
     state = undefined;
   });
 
-  describe('default behavior', () => {
+  context('default behavior', () => {
     it('should return the initial state', () => {
       action = {};
       reducedState = reducer(state, action);
-      expect(reducedState.applicationDate).to.be.null;
-      expect(reducedState.enrollmentDate).to.be.null;
-      expect(reducedState.preferredFacility).to.be.null;
-      expect(reducedState.enrollmentStatus).to.be.null;
-      expect(reducedState.enrollmentStatusEffectiveDate).to.be.null;
-      expect(reducedState.isUserInMVI).to.be.false;
-      expect(reducedState.loginRequired).to.be.false;
-      expect(reducedState.noESRRecordFound).to.be.false;
-      expect(reducedState.showReapplyContent).to.be.false;
-      expect(reducedState.hasServerError).to.be.false;
-      expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
+      expect(JSON.stringify(reducedState)).to.eq(
+        JSON.stringify(ENROLLMENT_STATUS_INIT_STATE),
+      );
     });
   });
 
-  describe('when the action type is not a match', () => {
+  context('when the action type is not a match', () => {
     it('should return the initial state', () => {
       action = { type: '@@INIT' };
       reducedState = reducer(state, action);
-      expect(reducedState.applicationDate).to.be.null;
-      expect(reducedState.enrollmentDate).to.be.null;
-      expect(reducedState.preferredFacility).to.be.null;
-      expect(reducedState.enrollmentStatus).to.be.null;
-      expect(reducedState.enrollmentStatusEffectiveDate).to.be.null;
-      expect(reducedState.isUserInMVI).to.be.false;
-      expect(reducedState.loginRequired).to.be.false;
-      expect(reducedState.noESRRecordFound).to.be.false;
-      expect(reducedState.showReapplyContent).to.be.false;
-      expect(reducedState.hasServerError).to.be.false;
-      expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
+      expect(JSON.stringify(reducedState)).to.eq(
+        JSON.stringify(ENROLLMENT_STATUS_INIT_STATE),
+      );
     });
   });
 
-  describe('when `FETCH_ENROLLMENT_STATUS_STARTED` executes', () => {
+  context('when `FETCH_ENROLLMENT_STATUS_STARTED` executes', () => {
     const { FETCH_ENROLLMENT_STATUS_STARTED } = ENROLLMENT_STATUS_ACTIONS;
     it('should set `isLoadingApplicationStatus` to `true`', () => {
       action = {
@@ -61,15 +45,14 @@ describe('hca EnrollmentStatus reducer', () => {
     });
   });
 
-  describe('when `FETCH_ENROLLMENT_STATUS_SUCCEEDED` executes', () => {
+  context('when `FETCH_ENROLLMENT_STATUS_SUCCEEDED` executes', () => {
     const { FETCH_ENROLLMENT_STATUS_SUCCEEDED } = ENROLLMENT_STATUS_ACTIONS;
-    describe('when `parsedStatus` contains any value', () => {
+    context('when `parsedStatus` contains any value', () => {
       it('should set the state correctly', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
           data: {
             parsedStatus: 'enrolled',
-            effectiveDate: '2019-01-02T21:58:55.000-06:00',
             applicationDate: '2018-12-27T00:00:00.000-06:00',
             enrollmentDate: '2018-12-27T17:15:39.000-06:00',
             preferredFacility: '123 - ABC',
@@ -85,9 +68,6 @@ describe('hca EnrollmentStatus reducer', () => {
         expect(reducedState.enrollmentDate).to.equal(
           action.data.enrollmentDate,
         );
-        expect(reducedState.enrollmentStatusEffectiveDate).to.equal(
-          action.data.effectiveDate,
-        );
         expect(reducedState.preferredFacility).to.equal(
           action.data.preferredFacility,
         );
@@ -96,7 +76,7 @@ describe('hca EnrollmentStatus reducer', () => {
       });
     });
 
-    describe('when `parsedStatus` is `none_of_the_above`', () => {
+    context('when `parsedStatus` is `none_of_the_above`', () => {
       beforeEach(() => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
@@ -114,7 +94,7 @@ describe('hca EnrollmentStatus reducer', () => {
       });
     });
 
-    describe('when `parsedStatus` is anything other than `none_of_the_above`', () => {
+    context('when `parsedStatus` is not `none_of_the_above`', () => {
       beforeEach(() => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_SUCCEEDED,
@@ -133,9 +113,9 @@ describe('hca EnrollmentStatus reducer', () => {
     });
   });
 
-  describe('when `FETCH_ENROLLMENT_STATUS_FAILED` executes', () => {
+  context('when `FETCH_ENROLLMENT_STATUS_FAILED` executes', () => {
     const { FETCH_ENROLLMENT_STATUS_FAILED } = ENROLLMENT_STATUS_ACTIONS;
-    describe('when the error code is 404', () => {
+    context('when the error code is 404', () => {
       it('should set `noESRRecordFound` to `true` and `hasServerError` to `false`', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_FAILED,
@@ -149,7 +129,7 @@ describe('hca EnrollmentStatus reducer', () => {
       });
     });
 
-    describe('when the error code is 429', () => {
+    context('when the error code is 429', () => {
       it('should set `loginRequired` to `true` and `hasServerError` to `false`', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_FAILED,
@@ -163,7 +143,7 @@ describe('hca EnrollmentStatus reducer', () => {
       });
     });
 
-    describe('when the error code is >=500', () => {
+    context('when the error code is >=500', () => {
       it('should set `hasServerError` to `true`', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_FAILED,
@@ -177,7 +157,7 @@ describe('hca EnrollmentStatus reducer', () => {
       });
     });
 
-    describe('when the error code cannot be determined', () => {
+    context('when the error code cannot be determined', () => {
       it('should set `hasServerError` to `true`', () => {
         action = {
           type: FETCH_ENROLLMENT_STATUS_FAILED,
@@ -190,7 +170,7 @@ describe('hca EnrollmentStatus reducer', () => {
     });
   });
 
-  describe('when `RESET_ENROLLMENT_STATUS` executes', () => {
+  context('when `RESET_ENROLLMENT_STATUS` executes', () => {
     const { RESET_ENROLLMENT_STATUS } = ENROLLMENT_STATUS_ACTIONS;
     it('should reset enrollment data', () => {
       action = {
@@ -201,7 +181,6 @@ describe('hca EnrollmentStatus reducer', () => {
       expect(reducedState.enrollmentDate).to.be.null;
       expect(reducedState.preferredFacility).to.be.null;
       expect(reducedState.enrollmentStatus).to.be.null;
-      expect(reducedState.enrollmentStatusEffectiveDate).to.be.null;
     });
 
     it('should reset user lookup values', () => {
@@ -222,75 +201,14 @@ describe('hca EnrollmentStatus reducer', () => {
       reducedState = reducer(state, action);
       expect(reducedState.hasServerError).to.be.false;
       expect(reducedState.isLoadingApplicationStatus).to.be.false;
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
     });
   });
 
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_STARTED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set `isLoadingDismissedNotification` to `true`', () => {
-      state = { isLoadingDismissedNotification: false };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.true;
-    });
-  });
-
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set the state correctly', () => {
-      state = {
-        isLoadingDismissedNotification: true,
-        dismissedNotificationDate: null,
-      };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-        response: {
-          data: {
-            attributes: {
-              subject: 'form_10_10ez',
-              status: 'pending_mt',
-              statusEffectiveAt: '2019-02-25T01:22:00.000Z',
-              readAt: '2019-02-26T21:20:50.151Z',
-            },
-          },
-        },
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
-      expect(reducedState.dismissedNotificationDate).to.equal(
-        '2019-02-25T01:22:00.000Z',
-      );
-    });
-  });
-
-  describe('when `FETCH_DISMISSED_HCA_NOTIFICATION_FAILED` executes', () => {
-    const {
-      FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-    } = ENROLLMENT_STATUS_ACTIONS;
-    it('should set `isLoadingDismissedNotification` to `false`', () => {
-      state = {
-        isLoadingDismissedNotification: true,
-      };
-      action = {
-        type: FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-      };
-      reducedState = reducer(state, action);
-      expect(reducedState.isLoadingDismissedNotification).to.be.false;
-    });
-  });
-
-  describe('when `SHOW_HCA_REAPPLY_CONTENT` executes', () => {
-    const { SHOW_HCA_REAPPLY_CONTENT } = ENROLLMENT_STATUS_ACTIONS;
+  context('when `SHOW_REAPPLY_CONTENT` executes', () => {
+    const { SHOW_REAPPLY_CONTENT } = ENROLLMENT_STATUS_ACTIONS;
     it('should set `showReapplyContent` to `true`', () => {
       action = {
-        type: SHOW_HCA_REAPPLY_CONTENT,
+        type: SHOW_REAPPLY_CONTENT,
       };
       reducedState = reducer(state, action);
       expect(reducedState.showReapplyContent).to.be.true;

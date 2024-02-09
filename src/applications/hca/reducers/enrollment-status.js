@@ -1,36 +1,24 @@
 import {
-  ENROLLMENT_STATUS_ACTIONS,
   HCA_ENROLLMENT_STATUSES,
+  ENROLLMENT_STATUS_ACTIONS,
+  ENROLLMENT_STATUS_INIT_STATE,
 } from '../utils/constants';
 
-const initialState = {
-  applicationDate: null,
-  enrollmentDate: null,
-  preferredFacility: null,
-  enrollmentStatus: null,
-  enrollmentStatusEffectiveDate: null,
-  dismissedNotificationDate: null,
-  hasServerError: false,
-  isLoadingApplicationStatus: false,
-  isLoadingDismissedNotification: false,
-  isUserInMVI: false,
-  loginRequired: false,
-  noESRRecordFound: false,
-  showReapplyContent: false,
-};
-
-function hcaEnrollmentStatus(state = initialState, action) {
-  const { data = {}, response = {}, type } = action;
+/**
+ * Map proper data values to enrollment status actions
+ * @param {Object} state - initial data object to map
+ * @param {Object} action - dispatched action to perform
+ * @returns {Boolean} - mapped data object or initial state object if action type is
+ * not relevant to this function
+ */
+const enrollmentStatus = (state = ENROLLMENT_STATUS_INIT_STATE, action) => {
+  const { data = {}, type } = action;
   const {
     FETCH_ENROLLMENT_STATUS_STARTED,
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
     FETCH_ENROLLMENT_STATUS_FAILED,
     RESET_ENROLLMENT_STATUS,
-    FETCH_DISMISSED_HCA_NOTIFICATION_STARTED,
-    FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED,
-    FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
-    SET_DISMISSED_HCA_NOTIFICATION,
-    SHOW_HCA_REAPPLY_CONTENT,
+    SHOW_REAPPLY_CONTENT,
   } = ENROLLMENT_STATUS_ACTIONS;
 
   const actionMap = {
@@ -42,18 +30,15 @@ function hcaEnrollmentStatus(state = initialState, action) {
       const {
         parsedStatus,
         applicationDate,
-        effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
       } = data;
-      const enrollmentStatus = parsedStatus;
-      const isInESR =
-        enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
+      const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
+      const isInESR = parsedStatus !== noneOfTheAbove;
       return {
         ...state,
         hasServerError: false,
-        enrollmentStatus,
-        enrollmentStatusEffectiveDate,
+        enrollmentStatus: parsedStatus,
         applicationDate,
         enrollmentDate,
         preferredFacility,
@@ -79,33 +64,11 @@ function hcaEnrollmentStatus(state = initialState, action) {
         noESRRecordFound,
       };
     },
-    [RESET_ENROLLMENT_STATUS]: () => ({ ...initialState }),
-    [FETCH_DISMISSED_HCA_NOTIFICATION_STARTED]: () => ({
-      ...state,
-      isLoadingDismissedNotification: true,
-    }),
-    [FETCH_DISMISSED_HCA_NOTIFICATION_SUCCEEDED]: () => {
-      const {
-        statusEffectiveAt: dismissedNotificationDate,
-      } = response.data.attributes;
-      return {
-        ...state,
-        dismissedNotificationDate,
-        isLoadingDismissedNotification: false,
-      };
-    },
-    [FETCH_DISMISSED_HCA_NOTIFICATION_FAILED]: () => ({
-      ...state,
-      isLoadingDismissedNotification: false,
-    }),
-    [SET_DISMISSED_HCA_NOTIFICATION]: () => ({
-      ...state,
-      dismissedNotificationDate: data,
-    }),
-    [SHOW_HCA_REAPPLY_CONTENT]: () => ({ ...state, showReapplyContent: true }),
+    [RESET_ENROLLMENT_STATUS]: () => ({ ...ENROLLMENT_STATUS_INIT_STATE }),
+    [SHOW_REAPPLY_CONTENT]: () => ({ ...state, showReapplyContent: true }),
   };
 
   return actionMap[type] ? actionMap[type]() : state;
-}
+};
 
-export default hcaEnrollmentStatus;
+export default enrollmentStatus;
