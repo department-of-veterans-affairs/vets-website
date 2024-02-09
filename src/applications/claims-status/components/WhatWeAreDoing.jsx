@@ -15,7 +15,7 @@ function getStatusDescription(status) {
   return statusMap[status];
 }
 
-function WhatWereDoing({ claim }) {
+function WhatWeAreDoing({ claim }) {
   const { status } = claim.attributes;
 
   const humanStatus = getStatusDescription(status);
@@ -34,26 +34,20 @@ function WhatWereDoing({ claim }) {
         </p>
         <Link
           aria-label="Overview of the process"
-          className="overview-of-process-link"
+          className="vads-u-margin-top--1 active-va-link"
           to={`your-claims/${claim.id}/overview`}
         >
-          <span>
-            <strong>Overview of the process</strong>
-            <i
-              aria-hidden="true"
-              role="img"
-              className="fas fa-chevron-right vads-u-padding-left--0p5"
-            />
-          </span>
+          Overview of the process
+          <i aria-hidden="true" />
         </Link>
       </va-card>
     </div>
   );
 }
 
-WhatWereDoing.propTypes = {
+WhatWeAreDoing.propTypes = {
   claim: PropTypes.object,
   status: PropTypes.bool,
 };
 
-export default WhatWereDoing;
+export default WhatWeAreDoing;

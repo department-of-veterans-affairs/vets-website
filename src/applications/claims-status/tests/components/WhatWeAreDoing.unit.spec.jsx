@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import WhatWereDoing from '../../components/WhatWereDoing';
+import WhatWeAreDoing from '../../components/WhatWeAreDoing';
 
 const statusMap = {
   CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
@@ -18,7 +18,7 @@ function getStatusDescription(status) {
   return statusMap[status];
 }
 
-describe('<WhatWereDoing>', () => {
+describe('<WhatWeAreDoing>', () => {
   it('should render a WhatWereDoing section', () => {
     const claim = {
       id: '1',
@@ -40,7 +40,7 @@ describe('<WhatWereDoing>', () => {
         },
       },
     };
-    const { container, getByText } = render(<WhatWereDoing claim={claim} />);
+    const { container, getByText } = render(<WhatWeAreDoing claim={claim} />);
     expect($('.what-were-doing-container', container)).to.exist;
     getByText(getStatusDescription(claim.attributes.status));
   });

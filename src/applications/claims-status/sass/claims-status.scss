@@ -1406,12 +1406,9 @@ $marker-text-width: 9rem;
   color: $color-primary-darkest;
 }
 
-.overview-of-process-link {
-  display: block;
-  margin-top: 8px;
-}
-
-.claim-card-link {
+// React Router Link css that allows us to
+// have the same styling as va-link active prop
+.active-va-link {
   display: block;
   font-weight: bold;
   margin-top: 16px;

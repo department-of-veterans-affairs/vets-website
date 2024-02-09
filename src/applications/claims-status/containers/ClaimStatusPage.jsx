@@ -16,7 +16,7 @@ import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
-import WhatWereDoing from '../components/WhatWereDoing';
+import WhatWeAreDoing from '../components/WhatWeAreDoing';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -249,7 +249,7 @@ class ClaimStatusPage extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
-            <WhatWereDoing claim={claim} />
+            <WhatWeAreDoing claim={claim} />
           </Toggler.Enabled>
           {showDocsNeeded && (
             <Toggler.Disabled>
