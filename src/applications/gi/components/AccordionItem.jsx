@@ -48,7 +48,7 @@ export default function AccordionItem({
           {environment.isProduction() ? (
             <span className="section-button-span">{button}</span>
           ) : (
-            <h2 className="section-button-span">{button}</h2>
+            <h5 className="section-button-span">{button}</h5>
           )}
         </button>
       )}
