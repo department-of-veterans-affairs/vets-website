@@ -93,7 +93,7 @@ const convertProgressNote = record => {
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the type of note/summary that was passed
  */
-const getRecordType = record => {
+export const getRecordType = record => {
   const typeMapping = {
     [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
     [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
