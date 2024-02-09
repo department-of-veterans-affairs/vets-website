@@ -35,7 +35,7 @@ class PatientComposePage {
   };
 
   getCategory = (category = 'COVID') => {
-    return cy.get(`[name=${category}]`);
+    return cy.get(`[name="compose-message-categories"][value=${category}]`);
   };
 
   pushSendMessageWithKeyboardPress = () => {

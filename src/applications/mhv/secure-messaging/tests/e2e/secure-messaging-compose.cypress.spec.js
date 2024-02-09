@@ -3,15 +3,18 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from './utils/constants';
+import categories from './fixtures/categories-response.json';
 
 describe('Secure Messaging Compose', () => {
-  it('can send message', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const composePage = new PatientComposePage();
+  const site = new SecureMessagingSite();
+  beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
+  });
+  it('can send message', () => {
     composePage.selectRecipient(requestBody.recipientId);
     composePage
       .getCategory(requestBody.category)
@@ -32,5 +35,21 @@ describe('Secure Messaging Compose', () => {
         },
       },
     });
+  });
+
+  it('verify radio buttons focus', () => {
+    const listOfCategories = categories.data.attributes.messageCategoryType;
+
+    cy.get(`#compose-message-categories${listOfCategories[0]}input`)
+      .click()
+      .should('be.focused');
+    for (let i = 1; i < listOfCategories.length; i++) {
+      cy.realPress('ArrowDown');
+      cy.focused().should(
+        'have.attr',
+        'id',
+        `compose-message-categories${listOfCategories[i]}input`,
+      );
+    }
   });
 });
