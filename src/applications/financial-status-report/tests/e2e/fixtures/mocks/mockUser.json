@@ -10,25 +10,23 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
-        "lighthouse",
         "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed",
-        "vet360"
+        "identity-proofed"
       ],
       "account": {
-        "accountUuid": "ab50bb37-d4c9-4c20-9d6e-767cee4a15e5"
+        "accountUuid": "6af59b36-f14d-482e-88b4-3d7820422343"
       },
       "profile": {
         "email": "vets.gov.user+228@gmail.com",
-        "firstName": "Mark",
-        "middleName": "Tux",
-        "lastName": "Polarbear",
+        "firstName": "MARK",
+        "middleName": null,
+        "lastName": "WEBB",
         "birthDate": "1950-10-04",
         "gender": "M",
-        "zip": "09618-0001",
-        "lastSignedIn": "2024-02-08T22:26:46.920Z",
+        "zip": null,
+        "lastSignedIn": "2020-06-18T21:15:19.664Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -37,37 +35,20 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "authBroker": "sis",
-          "clientId": "vaweb"
+          "accountType": "N/A"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
-        "inheritedProofVerified": false,
-        "claims": {
-          "appeals": true,
-          "ch33BankAccounts": true,
-          "coe": true,
-          "communicationPreferences": true,
-          "connectedApps": true,
-          "medicalCopays": true,
-          "militaryHistory": true,
-          "paymentHistory": true,
-          "personalInformation": true,
-          "ratingInfo": true
-        }
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
       },
       "vaProfile": {
         "status": "OK",
         "birthDate": "19501004",
-        "familyName": "Polarbear",
+        "familyName": "Webb-ster",
         "gender": "M",
-        "givenNames": [
-          "Mark",
-          "Tux"
-        ],
-        "isCernerPatient": true,
+        "givenNames": ["Mark"],
+        "isCernerPatient": false,
         "facilities": [
           {
-            "facilityId": "983",
+            "facilityId": "556",
             "isCerner": false
           },
           {
@@ -78,55 +59,81 @@
         "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": {
-        "status": "OK",
-        "isVeteran": false,
-        "servedInMilitary": false
-      },
+      "veteranStatus": null,
       "inProgressForms": [],
-      "prefillsAvailable": [
-        "21-686C",
-        "40-10007",
-        "0873",
-        "22-1990",
-        "22-1990N",
-        "22-1990E",
-        "22-1990EMEB",
-        "22-1995",
-        "22-5490",
-        "22-5490E",
-        "22-5495",
-        "22-0993",
-        "22-0994",
-        "FEEDBACK-TOOL",
-        "22-10203",
-        "22-1990S",
-        "22-1990EZ",
-        "21-526EZ",
-        "1010ez",
-        "10-10EZR",
-        "21P-530",
-        "21P-527EZ",
-        "686C-674",
-        "20-0995",
-        "20-0996",
-        "10182",
-        "MDOT",
-        "5655",
-        "28-8832",
-        "28-1900",
-        "26-1880",
-        "26-4555"
-      ],
-      "vet360ContactInformation": {},
-      "session": {
-        "authBroker": "sis",
-        "ssoe": false,
-        "transactionid": null
+      "prefillsAvailable": ["5655"],
+      "vet360ContactInformation": {
+        "email": {
+          "emailAddress": "test@user.com"
+        },
+        "residentialAddress": {},
+        "mailingAddress": {
+          "addressLine1": "1200 Park Ave",
+          "addressLine2": "c/o Pixar",
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "Emeryville",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2020-05-30T03:57:20.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+          "id": 173917,
+          "internationalPostalCode": null,
+          "province": null,
+          "sourceDate": "2020-07-10T20:10:45.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "CA",
+          "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+          "updatedAt": "2020-07-10T20:10:46.000+00:00",
+          "validationKey": null,
+          "vet360Id": "1273780",
+          "zipCode": "94608",
+          "zipCodeSuffix": null
+        },
+        "mobilePhone": {
+          "areaCode": "510",
+          "countryCode": "1",
+          "createdAt": "2020-06-12T16:56:37.000+00:00",
+          "extension": "17477",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+          "id": 146766,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "9223000",
+          "phoneType": "HOME",
+          "sourceDate": "2020-07-14T19:07:45.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+          "updatedAt": "2020-07-14T19:07:46.000+00:00",
+          "vet360Id": "1273780"
+        },
+        "homePhone": {},
+        "workPhone": {},
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
       }
     }
   },
   "meta": {
-    "errors": null
+    "errors": [
+      {
+        "externalService": "Vet360",
+        "startTime": "2020-06-18T21:15:34Z",
+        "endTime": null,
+        "description": "fake error",
+        "status": 503
+      }
+    ]
   }
 }
