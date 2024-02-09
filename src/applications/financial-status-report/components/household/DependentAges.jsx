@@ -261,14 +261,15 @@ const DependentAges = ({
               buttons={[
                 {
                   label: 'Back',
-                  onClick: handlers.onCancel,
-                  secondary: true,
-                  iconLeft: '«',
+                  isBackButton: true,
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
                 },
                 {
                   label: continueButtonText,
-                  type: 'submit',
-                  iconRight: '»',
+                  isContinueButton: false,
+                  onClick: handlers.onSubmit,
+                  isSubmitting: true, // If this button submits a form
                 },
               ]}
             />

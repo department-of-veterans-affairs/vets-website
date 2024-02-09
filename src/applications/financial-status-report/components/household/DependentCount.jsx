@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -9,28 +11,26 @@ import useClearSpouseData from '../../hooks/useClearSpouseData';
 const WHOLE_NUMBER_PATTERN = /^\d+$/;
 
 const DependentCount = ({
-  data,
   goBack,
-  goForward,
   goToPath,
-  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const headerRef = useRef(null);
-
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
   const {
     questions: { hasDependents, isMarried },
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
-  } = data;
+  } = formData;
 
   const MAXIMUM_DEPENDENT_COUNT = 25;
 
   const [error, setError] = useState(null);
   const [dependents, setDependents] = useState(hasDependents);
   // Hook will handle the logic based on isMarried.
-  useClearSpouseData(isMarried, data, setFormData);
+  useClearSpouseData(isMarried, formData, setData);
   // Header ref for setting focus
   useEffect(
     () => {
@@ -41,65 +41,57 @@ const DependentCount = ({
     [headerRef],
   );
 
-  // setData on goForward, nav is handled in onSubmit so goForward has teh most up to date data
-  const onGoForward = () => {
-    if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-      setError('Please enter your dependent(s) information');
-      focusElement('va-number-input');
-      return;
+  function determineNextPath() {
+    // Navigate to 'review-and-submit' if reviewNavigation and showReviewNavigation are true,
+    if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+      return '/review-and-submit';
     }
 
-    if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
-      setError(
-        'Please enter a value greater than or equal to 0 and less than 25',
-      );
-      focusElement('va-number-input');
+    // If dependents is '0' but not in review mode, navigate to 'employment-question'.
+    if (dependents === '0') {
+      return '/employment-question';
+    }
+
+    // Default to 'dependent-ages' if none of the above conditions are met.
+    return '/dependent-ages';
+  }
+
+  const validateAndNavigate = () => {
+    // Validate input and prepare navigation based on the updated form data
+    if (
+      !WHOLE_NUMBER_PATTERN.test(dependents) ||
+      dependents > MAXIMUM_DEPENDENT_COUNT ||
+      dependents < 0
+    ) {
+      setError('Please enter a valid number of dependents (0-25).');
+      focusElement('#dependent-count');
       return;
     }
 
     setError(null);
-    if (dependents === '0') {
-      // clear dependent array if it was previously populated
-      setFormData({
-        ...data,
-        questions: {
-          ...data?.questions,
-          hasDependents: dependents,
-        },
-        personalData: {
-          ...data?.personalData,
-          dependents: [],
-        },
-      });
-    } else {
-      setFormData({
-        ...data,
-        questions: {
-          ...data?.questions,
-          hasDependents: dependents,
-        },
-      });
-    }
+
+    // Update the formData in Redux store
+    dispatch(
+      setData({
+        ...formData,
+        questions: { ...formData.questions, hasDependents: dependents },
+        personalData:
+          dependents === '0'
+            ? { ...formData.personalData, dependents: [] }
+            : formData.personalData,
+      }),
+    );
+    // Determine and navigate to the next path based on the dependents value
+    goToPath(determineNextPath());
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    validateAndNavigate();
   };
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        if (error) return;
-        // head to review page if nav is true, and there are no dependents to get ages for
-        if (dependents === '0' && reviewNavigation && showReviewNavigation) {
-          // Don't forget to disable reviewNav!
-          setFormData({
-            ...data,
-            reviewNavigation: false,
-          });
-          goToPath('/review-and-submit');
-        } else {
-          goForward(data);
-        }
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
@@ -144,18 +136,19 @@ const DependentCount = ({
         buttons={[
           {
             label: 'Back',
+            isBackButton: true,
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
           },
           {
             label: 'Continue',
-            onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            isContinueButton: true,
+            onClick: handleSubmit,
+            isSubmitting: true,
           },
         ]}
       />
+
       {contentAfterButtons}
     </form>
   );

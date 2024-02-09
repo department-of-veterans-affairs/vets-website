@@ -104,15 +104,15 @@ const ResolutionComments = ({
           buttons={[
             {
               label: 'Back',
-              onClick: goBack,
-              secondary: true,
-              iconLeft: '«',
+              isBackButton: true,
+              onClick: goBack, // Define this function based on page-specific logic
+              isSecondary: true,
             },
             {
               label: continueButtonText,
+              isContinueButton: false,
               onClick: onContinue,
-              type: 'submit',
-              iconRight: '»',
+              isSubmitting: true, // If this button submits a form
             },
           ]}
         />
