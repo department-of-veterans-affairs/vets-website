@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-key */
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
 
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import _ from 'platform/utilities/data';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -173,6 +174,10 @@ export const ReservesGuardDescription = ({ formData }) => {
       {formatDate(to)}.
     </div>
   );
+};
+
+ReservesGuardDescription.propTypes = {
+  formData: PropTypes.object,
 };
 
 export const title10DatesRequired = formData =>
