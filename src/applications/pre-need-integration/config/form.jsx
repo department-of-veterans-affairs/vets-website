@@ -202,7 +202,7 @@ const formConfig = {
             application: {
               applicant: {
                 'view:validateAddress': {
-                  'ui:title': 'Hello Mate',
+                  'ui:title': 'Validate Address',
                   'ui:field': preparerContactDetailsCustom,
                 },
               },
