@@ -249,7 +249,7 @@
   "dependencies": {
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^35.0.0",
+    "@department-of-veterans-affairs/component-library": "^36.1.0",
     "@department-of-veterans-affairs/css-library": "^0.3.0",
     "@department-of-veterans-affairs/formation": "^10.1.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
