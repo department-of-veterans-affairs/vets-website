@@ -83,6 +83,19 @@ class SecureMessagingSite {
     cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
+  loadVAPaginationLastPage = (pageNumber, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${pageNumber}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessages${pageNumber}`);
+    cy.get('.usa-pagination__list')
+      .last()
+      .should('be.visible')
+      .click();
+    cy.wait(`@inboxMessages${pageNumber}`);
+  };
+
   loadVAPaginationPageMessages = (interceptedPage = 1, mockMessages) => {
     cy.intercept(
       'GET',

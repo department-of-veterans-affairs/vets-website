@@ -32,7 +32,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
   if (messageType === 'error') {
     return (
       <>
-        <va-alert visible status={messageType}>
+        <va-alert visible status={messageType} uswds>
           <h2 slot="headline">{title}</h2>
           {content}
         </va-alert>
@@ -53,7 +53,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2>{pageTitle}</h2>
       </div>
 
-      <va-alert visible status={messageType}>
+      <va-alert visible status={messageType} uswds>
         <h2 slot="headline">{title}</h2>
         {content}
       </va-alert>

@@ -22,6 +22,7 @@ import { Paths, Prompts } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
+import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   inputVaTextInput,
@@ -341,11 +342,13 @@ describe('Compose form component', () => {
       }),
     );
     expect(uploader.files[0].name).to.equal('test.png');
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     let modal = null;
+
     await waitFor(() => {
+      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       modal = screen.getByTestId('quit-compose-double-dare');
     });
+
     expect(modal).to.exist;
     expect(modal).to.have.attribute(
       'modaltitle',
@@ -375,6 +378,32 @@ describe('Compose form component', () => {
       expect(
         $('va-radio-option[value="COVID"]', screen.container),
       ).to.have.attribute('checked', 'true');
+    });
+  });
+
+  it('renders a loading indicator if categories are not available', async () => {
+    const getCategoriesSpy = sinon.spy(categoriesActions, 'getCategories');
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        categories: undefined,
+      },
+    };
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      },
+    );
+    expect(document.querySelector('va-loading-indicator')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.exist;
+    });
+    waitFor(() => {
+      expect(getCategoriesSpy.calledOnce).to.be.true;
     });
   });
 

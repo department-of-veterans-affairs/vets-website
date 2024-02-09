@@ -61,6 +61,16 @@ describe('Confirmation page', () => {
     expect($('va-alert[status="success"]', container)).to.exist;
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
   });
+
+  it('should render with no data', () => {
+    const { container } = render(
+      <Provider store={mockStore({})}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect($('va-alert[status="success"]', container)).to.exist;
+  });
+
   it('should render the user name', () => {
     const { container } = render(
       <Provider store={mockStore(getData())}>
