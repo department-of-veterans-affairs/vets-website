@@ -1,6 +1,6 @@
 ## MHV Downtime
 
-The downtime implementation for My HealtheVet applications is based in part on the platform monitoring [`DowntimeNotification` implementation](src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx), and is intended to be passed to the `DowntimeNotification` component's render method.
+The downtime implementation for My HealtheVet applications is based in part on the platform monitoring [`DowntimeNotification` implementation](/src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx), and is intended to be passed to the `DowntimeNotification` component's render method.
 
 ## Usage
 
@@ -23,7 +23,7 @@ Import the `renderMHVDowntime` function and pass that to the `DowntimeNotificati
 The `renderMHVDowntime` will receive the `appTitle` along with props that `DowntimeNotification` passes on concerning the soonest service to go down (if any).
 
 - `appTitle`: should be a value like `appTitle='this medical records tool'` that uses text appropriate to append to sentences like `you won't be able to use this ${appTitle}.`.
-- `dependencies`: Select the appropriate property-key of the [`externalServices` object](src/platform/monitoring/DowntimeNotification/config/externalServices.js);
+- `dependencies`: Select the appropriate property-key of the [`externalServices` object](/src/platform/monitoring/DowntimeNotification/config/externalServices.js);
 - `render`: Use the [`renderMHVDowntime` function](./index.js) for convenience.
 
 ### No child content to hide?
