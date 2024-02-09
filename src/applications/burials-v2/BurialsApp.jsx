@@ -25,16 +25,17 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
     return <NoFormPage />;
   }
 
+  const metadataVersion2017 = 2;
+  const metadataVersion2024 = 3;
+
   const hasV1Form = profile.savedForms.some(form => {
-    // Two is the correct metadata version.
     return (
-      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === 2
+      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === metadataVersion2017
     );
   });
   const hasV2Form = profile.savedForms.some(form => {
-    // Three is the correct metadata version.
     return (
-      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === 3
+      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === metadataVersion2024
     );
   });
 
