@@ -8,7 +8,7 @@ import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { fetchTotalDisabilityRating } from '../utils/actions';
+import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob } from '../utils/helpers';
 import formConfig from '../config/form';
