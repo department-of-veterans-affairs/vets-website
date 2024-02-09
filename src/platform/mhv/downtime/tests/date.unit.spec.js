@@ -117,4 +117,13 @@ describe('formatElapsedHours', () => {
 
     expect(result).to.equal('5 hours');
   });
+
+  it('returns null when start or end time is not or cannot be coerced to a date', () => {
+    expect(formatElapsedHours('foo', new Date())).to.be.null;
+
+    expect(formatElapsedHours(new Date(), { toDate: () => "It's a trap!" })).to
+      .be.null;
+
+    expect(formatElapsedHours(undefined, null)).to.be.null;
+  });
 });
