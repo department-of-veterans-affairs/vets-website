@@ -33,6 +33,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment'
+
+      - name: Configure AWS credentials
+        if: ${{ matrix.buildtype == 'vagovprod' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          mask-aws-account-id: true    
+          
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -42,23 +58,6 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
-
-      - name: Configure AWS Credentials
-        if: ${{ matrix.buildtype == 'vagovprod' }}
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -153,7 +152,7 @@ jobs:
   unit-tests-prep:
     name: Unit Tests Prep
     needs: [fetch-allow-lists]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       tests-to-stress-test: ${{ steps.tests-to-stress-test.outputs.tests }}
@@ -218,7 +217,6 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
-      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
 
     steps:
       - name: Checkout
@@ -254,7 +252,6 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
           IS_STRESS_TEST: false
-          GITHUB_REF: ${{ github.ref }}
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -1765,12 +1762,7 @@ jobs:
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
-        run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
-          else
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
-          fi
+        run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy
@@ -1850,7 +1842,7 @@ jobs:
     name: Notify Failure
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
-    needs: deploy
+    needs: [deploy, build]
     env:
       ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
