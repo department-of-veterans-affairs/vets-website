@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import recordEventFn from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import PropTypes from 'prop-types';
 
-export const PageNotFound = () => {
+const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
+  useEffect(
+    () => {
+      recordEvent({
+        event: `nav-404-error`,
+      });
+    },
+    [recordEvent],
+  );
+
   return (
     <>
       <div className="main maintenance-page vads-u-padding-top--4" role="main">
         <div className="primary">
           <div className="row">
             <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto">
-              <h3>Sorry — we can’t find that page</h3>
+              <h3 id="sorry--we-cant-find-that-page">
+                Sorry — we can’t find that page
+              </h3>
               <p>Try the search box or one of the common questions below.</p>
               <div className="feature vads-u-display--flex vads-u-align-items--center">
                 <form
@@ -44,10 +57,12 @@ export const PageNotFound = () => {
           </div>
         </div>
       </div>
-
       <div className="row vads-u-padding-bottom--9">
         <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3 className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl">
+          <h3
+            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
+            id="common-questions"
+          >
             Common Questions
           </h3>
           <ul className="va-list--plain vads-u-margin-top--1">
@@ -69,7 +84,10 @@ export const PageNotFound = () => {
           </ul>
         </div>
         <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3 className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl">
+          <h3
+            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
+            id="popular-on-vagov"
+          >
             Popular on VA.gov
           </h3>
           <ul className="va-list--plain vads-u-margin-top--1">
@@ -97,3 +115,9 @@ export const PageNotFound = () => {
     </>
   );
 };
+
+PageNotFound.propTypes = {
+  recordEvent: PropTypes.func,
+};
+
+export default PageNotFound;
