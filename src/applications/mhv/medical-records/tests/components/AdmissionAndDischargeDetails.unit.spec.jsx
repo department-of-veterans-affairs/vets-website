@@ -44,7 +44,7 @@ describe('Admission and discharge summary details component', () => {
   });
 
   it('should display the summary name', () => {
-    const header = screen.getAllByText('Discharge summary', {
+    const header = screen.getAllByText('Discharge Summary', {
       exact: true,
       selector: 'h1',
     });
@@ -70,7 +70,7 @@ describe('Admission and discharge summary details component', () => {
   });
 });
 
-describe('Admission and discharge summary details component with no dates', () => {
+describe(' with no dates', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
