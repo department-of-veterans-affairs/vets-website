@@ -195,7 +195,7 @@ const formConfig = {
           schema: preparerContactDetails.schema,
         },
         validatePreparerContactDetails: {
-          title: 'Validate and stuff',
+          title: 'Validate Address',
           path: 'validate-preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
