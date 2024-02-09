@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
 
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
