@@ -37,6 +37,13 @@ class NotesDetailsPage {
       .click();
   };
 
+  verifyDischargeSummaryTitle = expectedTitle => {
+    cy.get('[data-testid="admission-discharge-name"]').should(
+      'contain',
+      expectedTitle,
+    );
+  };
+
   clickBreadCrumbsLink = breadcrumb => {
     // Click Back to Care summaries and notes
     cy.get('[data-testid="breadcrumbs"]')
