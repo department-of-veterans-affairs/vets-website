@@ -1406,7 +1406,9 @@ $marker-text-width: 9rem;
   color: $color-primary-darkest;
 }
 
-.claim-card-link {
+// React Router Link css that allows us to
+// have the same styling as va-link active prop
+.active-va-link {
   display: block;
   font-weight: bold;
   margin-top: 16px;
