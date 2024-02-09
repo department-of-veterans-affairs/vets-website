@@ -13,6 +13,7 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
+import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
   selectPersonalInformation,
@@ -23,6 +24,7 @@ const selectVamcEhrData = state =>
 
 export {
   hasHealthData,
+  hasMhvAccount,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLandingPageEnabled,
