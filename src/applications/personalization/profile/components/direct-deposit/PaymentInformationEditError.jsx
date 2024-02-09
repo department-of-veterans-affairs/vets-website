@@ -154,8 +154,8 @@ export default function PaymentInformationEditError({
       background-only
       status="error"
       visible="true"
-      show-icon
       class={className}
+      uswds
     >
       {content}
     </va-alert>
