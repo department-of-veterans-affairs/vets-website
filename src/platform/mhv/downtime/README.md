@@ -2,6 +2,8 @@
 
 The downtime implementation for My HealtheVet applications is based in part on the platform monitoring [`DowntimeNotification` implementation](/src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx), and is intended to be passed to the `DowntimeNotification` component's render method.
 
+The Platform docs describe the overall [downtime notifications](https://depo-platform-documentation.scrollhelp.site/developer-docs/downtime-notifications) functionality. The MHV downtime implementation builds on and adapts the platform monitoring solution.
+
 ## Usage
 
 Import the `renderMHVDowntime` function and pass that to the `DowntimeNotification` component:
