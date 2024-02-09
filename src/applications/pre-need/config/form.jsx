@@ -236,9 +236,8 @@ const formConfig = {
         },
         sponsorDateOfDeath: {
           path: 'sponsor-date-of-death',
-          depends:
-            (formData => !isVeteran(formData)) &&
-            (formData => isSponsorDeceased(formData)),
+          depends: formData =>
+            !isVeteran(formData) && isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
