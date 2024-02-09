@@ -388,12 +388,9 @@ const ItemLoop = ({
       <div className="va-growable">
         <ScrollElement name={`topOfTable_${idSchema.$id}`} />
         {uiOptions.viewType === 'table' ? (
-          <va-table
-            className="vads-u-margin-top--3 vads-u-margin-bottom--0"
-            uswds
-          >
+          <va-table className="vads-u-margin-top--3 vads-u-margin-bottom--0">
             {showTable && (
-              <va-table-row slot="headers" uswds>
+              <va-table-row slot="headers">
                 {tableHeaders.map((item, i) => (
                   <span
                     key={i}
@@ -412,7 +409,7 @@ const ItemLoop = ({
               const isEditing = editing[index];
 
               return isReviewMode || isEditing ? (
-                <va-table-row key={index} uswds>
+                <va-table-row key={index}>
                   <span className="vads-u-padding--0 vads-u-border--0">
                     <InputSection
                       key={index}
@@ -438,7 +435,6 @@ const ItemLoop = ({
                 <va-table-row
                   key={index}
                   style={{ backgroundColor: '#ffffff' }}
-                  uswds
                 >
                   <ViewField
                     key={index}

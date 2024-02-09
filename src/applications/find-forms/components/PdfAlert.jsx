@@ -37,7 +37,6 @@ const PdfAlert = () => {
         <va-link
           href="https://get.adobe.com/reader/"
           text="Get Acrobat Reader for free from Adobe"
-          uswds
         />
       </p>
     </va-alert>,

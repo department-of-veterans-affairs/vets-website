@@ -58,7 +58,7 @@ const IntroductionPage = ({ route, formId }) => {
         uswds
         class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
       >
-        <va-process-list-item header="Prepare" uswds>
+        <va-process-list-item header="Prepare">
           <p>
             You’ll need this information for you (and your spouse if you’re
             married):
@@ -130,7 +130,7 @@ const IntroductionPage = ({ route, formId }) => {
             </p>
           </va-alert>
         </va-process-list-item>
-        <va-process-list-item header="Submit your request" uswds>
+        <va-process-list-item header="Submit your request">
           <p>
             We’ll take you through each step of the process. It should take
             about 60 minutes.
