@@ -1,4 +1,5 @@
 import React from 'react';
+import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import { externalServiceStatus } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -60,5 +61,76 @@ describe('MHVDowntime', () => {
     };
     const { getByText } = render(<MHVDowntime {...mockProps} />);
     getByText('Child content renders');
+  });
+
+  it('renders content with vague time interval and no start/end time if no valid dates provided', () => {
+    const mockServiceProps = {
+      endTime: {},
+      startTime: undefined,
+      externalService: 'mhv_sm',
+    };
+    const mockProps = {
+      status: externalServiceStatus.downtimeApproaching,
+      ...mockServiceProps,
+    };
+
+    const { getByText, queryByText } = render(<MHVDowntime {...mockProps} />);
+    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
+    getByText((content, _) => {
+      return (
+        content.includes('some time') &&
+        content.includes('you may have trouble using') &&
+        content.includes('some of our health tools')
+      );
+    });
+    expect(queryByText('July 4, 2019 at 9:00 a.m. ET')).to.be.null;
+    expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
+  });
+
+  it('renders content with vague time interval and start time if end time does not exist', () => {
+    const mockServiceProps = {
+      endTime: {},
+      startTime: new Date('July 4, 2019 09:00:00 EDT'),
+      externalService: 'mhv_sm',
+    };
+    const mockProps = {
+      status: externalServiceStatus.downtimeApproaching,
+      ...mockServiceProps,
+    };
+
+    const { getByText, queryByText } = render(<MHVDowntime {...mockProps} />);
+    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
+    getByText((content, _) => {
+      return (
+        content.includes('some time') &&
+        content.includes('you may have trouble using') &&
+        content.includes('some of our health tools')
+      );
+    });
+    getByText('July 4, 2019 at 9:00 a.m. ET');
+    expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
+  });
+
+  it('renders content with vague time interval and end time if start time does not exist', () => {
+    const mockServiceProps = {
+      endTime: new Date('July 7, 2019 09:00:00 EDT'),
+      startTime: { toDate: () => 'FAKE' },
+      externalService: 'mhv_sm',
+    };
+    const mockProps = {
+      status: externalServiceStatus.downtimeApproaching,
+      ...mockServiceProps,
+    };
+
+    const { getByText } = render(<MHVDowntime {...mockProps} />);
+    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
+    getByText((content, _) => {
+      return (
+        content.includes('some time') &&
+        content.includes('you may have trouble using') &&
+        content.includes('some of our health tools')
+      );
+    });
+    getByText('July 7, 2019 at 9:00 a.m. ET');
   });
 });

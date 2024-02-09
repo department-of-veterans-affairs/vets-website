@@ -23,8 +23,8 @@ const responses = {
         type: 'maintenance_windows',
         attributes: {
           externalService: 'mhv_platform',
-          startTime: lateStartTime.toISOString(),
-          endTime: lateEndTime.toISOString(),
+          startTime: soonStartTime.toISOString(),
+          endTime: soonEndTime.toISOString(),
           description: '',
         },
       },
@@ -33,8 +33,8 @@ const responses = {
         type: 'maintenance_windows',
         attributes: {
           externalService: 'mhv_sm',
-          startTime: soonStartTime.toISOString(),
-          endTime: soonEndTime.toISOString(),
+          startTime: lateStartTime.toISOString(),
+          endTime: lateEndTime.toISOString(),
           description: '',
         },
       },

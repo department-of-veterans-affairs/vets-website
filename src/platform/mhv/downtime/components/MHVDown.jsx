@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDatetime, formatElapsedHours } from '../utils/date';
 
 function MHVDown({
   appTitle = 'some of our health tools',
-  endTime,
-  startTime,
+  endString,
+  startString,
+  timeInterval,
 }) {
-  const startString = startTime ? formatDatetime(startTime) : '';
-  const endString = endTime ? formatDatetime(endTime) : '';
-  const timeInterval = formatElapsedHours(startTime, endTime);
-
   return (
     <>
       <va-alert class="vads-u-margin-bottom--4" status="error" uswds visible>
@@ -48,8 +44,9 @@ function MHVDown({
 
 MHVDown.propTypes = {
   appTitle: PropTypes.string,
-  endTime: PropTypes.object, // Date|Moment object
-  startTime: PropTypes.object, // Date|Moment object
+  endString: PropTypes.string,
+  startString: PropTypes.string,
+  timeInterval: PropTypes.string,
 };
 
 export default MHVDown;
