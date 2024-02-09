@@ -8,7 +8,7 @@ export const USER_MOCK_DATA = {
     addressLine5: 'Montana',
     addressLine6: '03729-2762',
     zip: '46786-3217',
-    remEnt: '2854321', // 28(first 2 numbers) for months .54321 * 30 = res needs to be rounded
+    remEnt: 'earum',
     certIssueDate: '2019-06-28T00:00:00.000Z',
     delDate: '2021-09-03T00:00:00.000Z',
     dateLastCertified: '2018-06-21T00:00:00.000Z',

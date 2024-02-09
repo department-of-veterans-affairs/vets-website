@@ -7,12 +7,10 @@ export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
   const { data, loading } = useSelector(state => state.getDataReducer);
-  // const { personalInfo } = useSelector(state => state.personalInfo);
 
   useEffect(
     () => {
       dispatch(getData());
-      // dispatch(fetchPersonalInfo());
     },
     [dispatch],
   );
@@ -22,7 +20,6 @@ export const useData = () => {
     loading,
     date,
     enrollmentData: userInfo,
-    // personalInfo,
     ...userInfo,
   };
 };
