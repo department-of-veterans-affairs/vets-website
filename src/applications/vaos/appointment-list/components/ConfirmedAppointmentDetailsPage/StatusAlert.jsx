@@ -53,7 +53,7 @@ export default function StatusAlert({ appointment, facility }) {
             level={1}
             headline="We can't access after-visit summaries at this time."
           >
-            Were sorry. We’ve run into a problem.
+            We’re sorry. We’ve run into a problem.
           </InfoAlert>
         </div>
       );
