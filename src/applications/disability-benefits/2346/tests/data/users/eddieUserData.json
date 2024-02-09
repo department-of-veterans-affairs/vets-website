@@ -97,26 +97,7 @@
         "isVeteran": false,
         "servedInMilitary": false
       },
-      "inProgressForms": [
-        {
-          "form": "21-4142",
-          "metadata": {
-            "savedAt": 1693244495991,
-            "submission": {
-              "status": false,
-              "errorMessage": false,
-              "id": false,
-              "timestamp": 1693244495986,
-              "hasAttemptedSubmit": true
-            },
-            "createdAt": 1693244360,
-            "expiresAt": 1709366788,
-            "lastUpdated": 1701216567,
-            "inProgressFormId": 24389
-          },
-          "lastUpdated": 1701216567
-        }
-      ],
+      "inProgressForms": [],
       "prefillsAvailable": [
         "21-686C",
         "40-10007",
@@ -151,28 +132,7 @@
         "26-1880",
         "26-4555"
       ],
-      "vet360ContactInformation": {
-        "email": {
-          "createdAt": "2018-04-20T17:24:13.000+00:00",
-          "emailAddress": "jacob.uhteg@oddball.io",
-          "effectiveEndDate": null,
-          "effectiveStartDate": "2022-05-31T19:13:30.000+00:00",
-          "id": 20426,
-          "sourceDate": "2022-05-31T19:13:30.000+00:00",
-          "sourceSystemUser": null,
-          "transactionId": "6c3ca94e-769b-45df-926a-d9547f7f83f8",
-          "updatedAt": "2022-05-31T19:13:31.000+00:00",
-          "vet360Id": "1411742"
-        },
-        "residentialAddress": null,
-        "mailingAddress": null,
-        "mobilePhone": null,
-        "homePhone": null,
-        "workPhone": null,
-        "temporaryPhone": null,
-        "faxNumber": null,
-        "textPermission": null
-      },
+      "vet360ContactInformation": {},
       "session": {
         "authBroker": "sis",
         "ssoe": false,

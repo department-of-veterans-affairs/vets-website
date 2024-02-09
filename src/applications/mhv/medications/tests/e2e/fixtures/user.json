@@ -133,7 +133,7 @@
                 "externalService": "Vet360",
                 "startTime": "2023-06-22T19:17:15Z",
                 "endTime": null,
-                "description": "EMISRedis::VeteranStatus::RecordNotFound, NOT_FOUND",
+                "description": "fake error",
                 "status": 404
             }
         ]

@@ -67,60 +67,8 @@
         "isCernerPatient": true,
         "facilities": [
           {
-            "facilityId": "983",
-            "isCerner": false
-          },
-          {
-            "facilityId": "668",
-            "isCerner": true
-          },
-          {
-            "facilityId": "984",
-            "isCerner": false
-          },
-          {
-            "facilityId": "987",
-            "isCerner": false
-          },
-          {
             "facilityId": "463",
             "isCerner": true
-          },
-          {
-            "facilityId": "583",
-            "isCerner": true
-          },
-          {
-            "facilityId": "531",
-            "isCerner": true
-          },
-          {
-            "facilityId": "660",
-            "isCerner": false
-          },
-          {
-            "facilityId": "687",
-            "isCerner": true
-          },
-          {
-            "facilityId": "668",
-            "isCerner": true
-          },
-          {
-            "facilityId": "607",
-            "isCerner": false
-          },
-          {
-            "facilityId": "636",
-            "isCerner": false
-          },
-          {
-            "facilityId": "662",
-            "isCerner": false
-          },
-          {
-            "facilityId": "589",
-            "isCerner": false
           }
         ],
         "vaPatient": true,

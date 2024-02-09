@@ -69,7 +69,7 @@
         "externalService": "Vet360",
         "startTime": "2020-07-23T16:58:32Z",
         "endTime": null,
-        "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
+        "description": "fake error",
         "status": 401
       }
     ]
