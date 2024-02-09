@@ -1,14 +1,15 @@
 import manifest from '../../manifest.json';
 import vetData from './fixtures/data/veteran.json';
 import vetOhrData from './fixtures/data/veteranOtherHousingRisks.json';
-import nonVetData from './fixtures/data/non-veteran.json';
-import thirdPartyVetData from './fixtures/data/third-party-veteran.json';
-import thirdPartyNonVetData from './fixtures/data/third-party-non-veteran.json';
+import nonVetData from './fixtures/data/nonVeteran.json';
+import thirdPartyVetData from './fixtures/data/thirdPartyVeteran.json';
+import thirdPartyNonVetData from './fixtures/data/thirdPartyNonVeteran.json';
 import {
   LIVING_SITUATIONS,
   LIVING_SITUATIONS_3RD_PTY_VET,
   LIVING_SITUATIONS_3RD_PTY_NON_VET,
   PREPARER_TYPES,
+  OTHER_REASONS,
 } from '../../config/constants';
 
 const { rootUrl } = manifest;
@@ -126,5 +127,57 @@ export const fillOtherHousingRisksPage = story => {
 
   cy.get('textarea[name="root_otherHousingRisks"]').type(otherHousingRisks, {
     force: true,
+  });
+};
+
+export const fillMailingAddressPage = story => {
+  const data = getTestData(story);
+  const { mailingAddress } = data;
+  const { country, street, city, state, postalCode } = mailingAddress;
+  const countryDropdownSelector = 'select[name="root_mailingAddress_country"]';
+  const stateDropdownSelector = 'select[name="root_mailingAddress_state"]';
+
+  cy.get(countryDropdownSelector).should('not.be.disabled');
+  cy.get(countryDropdownSelector).select(country);
+  cy.get('input[name="root_mailingAddress_street"]').type(street, {
+    force: true,
+  });
+  cy.get('input[name="root_mailingAddress_city"]').type(city, { force: true });
+  cy.get(stateDropdownSelector).should('not.be.disabled');
+  cy.get(stateDropdownSelector).select(state);
+  cy.get('input[name="root_mailingAddress_postalCode"]').type(postalCode, {
+    force: true,
+  });
+};
+
+export const fillPhoneAndEmailPage = story => {
+  const data = getTestData(story);
+  const { phone } = data;
+
+  cy.get('input[name="root_phone"]').type(phone, { force: true });
+};
+
+export const showsCorrectOtherReasonsLabels = () => {
+  const otherReasonsKeys = Object.keys(OTHER_REASONS);
+  const otherReasonsKeysLength = otherReasonsKeys.length;
+
+  cy.get('va-checkbox-group[name="root_otherReasons"] va-checkbox').should(
+    'have.length',
+    otherReasonsKeysLength,
+  );
+
+  otherReasonsKeys.forEach(key => {
+    cy.get(
+      `va-checkbox-group[name="root_otherReasons"] va-checkbox[data-key="${key}"]`,
+    ).should('have.attr', 'label', OTHER_REASONS[key]);
+  });
+};
+
+export const fillOtherReasonsPage = story => {
+  const data = getTestData(story);
+  const { otherReasons } = data;
+
+  Object.keys(otherReasons).forEach(key => {
+    cy.selectVaCheckbox(`root_otherReasons_${key}`, otherReasons[key]);
   });
 };

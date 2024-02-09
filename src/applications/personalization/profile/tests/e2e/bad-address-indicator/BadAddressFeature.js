@@ -16,14 +16,14 @@ class BadAddressFeature {
     cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
-  confirmPersonalInformationAlertIsShowing = () => {
+  confirmPageAlertIsShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('exist');
-    cy.get('[data-testid="bad-address-profile-alert"] > :nth-child(3) > a')
+    cy.get('[data-testid="bad-address-profile-alert"] > a')
       .should('have.attr', 'href')
       .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
-  confirmPersonalInformationAlertIsNotShowing = () => {
+  confirmPageAlertIsNotShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
   };
 

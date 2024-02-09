@@ -29,8 +29,10 @@ import {
   submit,
   createSpouseLabelSelector,
   generateHelpText,
+  isHomeAcreageMoreThanTwo,
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
+import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
@@ -188,12 +190,6 @@ export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
 
-export function isHomeAcreageMoreThanTwo(formData) {
-  return (
-    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
-  );
-}
-
 export function ownsHome(formData) {
   return formData.homeOwnership === true;
 }
@@ -268,7 +264,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
@@ -942,7 +938,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
           CustomPage: HomeAcreageValueInput,
-          CustomPageReview: null,
+          CustomPageReview: HomeAcreageValueReview,
         },
         landMarketable: {
           title: 'Land marketable',
