@@ -70,7 +70,7 @@ describe('Admission and discharge summary details component', () => {
   });
 });
 
-describe(' Admission and discharge summary details component with no dates', () => {
+describe('Admission and discharge summary details component with no dates', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
