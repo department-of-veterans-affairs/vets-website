@@ -33,7 +33,7 @@ What we know
 
 ### How to run locally
 
-Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/pre-check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/main/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
+TBD
 
 ### Enable local type checking with jsconfig (Optional)
 
@@ -60,7 +60,7 @@ To share an app instance using the mock API running on Codespaces publicly, use 
 
 ### Where is the data coming from?
 
-- Patient and Appointment data are coming from Profile service.
+- Patient and Appointment data are coming from VeText.
 
 ### What API(s) does this use?
 
