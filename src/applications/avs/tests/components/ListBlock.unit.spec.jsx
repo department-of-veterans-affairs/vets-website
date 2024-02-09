@@ -76,4 +76,50 @@ describe('Avs: List Block', () => {
     const screen = render(<ListBlock {...props} />);
     expect(screen.queryByRole('heading')).to.not.exist;
   });
+
+  it('string lists with only null/empty values are hidden', async () => {
+    const items = ['', ''];
+
+    const props = {
+      heading: 'Test Heading',
+      itemType: 'test-list-type',
+      items,
+      itemName: null,
+      keyName: 'code',
+    };
+    const screen = render(<ListBlock {...props} />);
+    expect(screen.queryByRole('heading')).to.not.exist;
+  });
+
+  it('defaults the heading level to h3', async () => {
+    const heading = 'Test Heading';
+    const items = ['foo'];
+    const props = {
+      heading,
+      itemType: 'test-list-type',
+      items,
+      keyName: 'code',
+      itemName: 'text',
+    };
+
+    const screen = render(<ListBlock {...props} />);
+    expect(screen.getByRole('heading', { level: 3 })).to.have.text(heading);
+  });
+
+  it('allows setting the heading level', async () => {
+    const heading = 'This is a test heading';
+    const items = ['foo'];
+    const headingLevel = 5;
+    const props = {
+      heading,
+      headingLevel,
+      itemType: 'test-list-type',
+      items,
+      keyName: 'code',
+      itemName: 'text',
+    };
+
+    const screen = render(<ListBlock {...props} />);
+    expect(screen.getByRole('heading', { level: 5 })).to.have.text(heading);
+  });
 });
