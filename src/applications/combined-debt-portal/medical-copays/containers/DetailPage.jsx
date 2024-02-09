@@ -83,6 +83,7 @@ const DetailPage = ({ match }) => {
           >
             {statementDate}
           </time>
+          . Payments after this date will not be reflected here.
         </p>
         <Alert type={alert} copay={selectedCopay} />
         <OnThisPageDetails />

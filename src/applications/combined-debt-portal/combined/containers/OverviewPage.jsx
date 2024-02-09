@@ -71,6 +71,10 @@ const OverviewPage = () => {
         ) : (
           <>
             <h2>Debt and bill overview</h2>
+            <p>
+              Any payments you may have made will not be reflected here until
+              our systems are updated with your next monthly statement.
+            </p>
             <Balances />
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>
