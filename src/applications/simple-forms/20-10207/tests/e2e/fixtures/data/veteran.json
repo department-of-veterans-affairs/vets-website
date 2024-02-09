@@ -22,7 +22,17 @@
     },
     "phone": "1234567890",
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true
-    }
+      "FINANCIAL_HARDSHIP": true,
+      "ALS": true,
+      "TERMINAL_ILLNESS": true,
+      "VSI_SI": true,
+      "FORMER_POW": true,
+      "MEDAL_AWARD": true
+    },
+    "powConfinementStartDate": "2018-01-01",
+    "powConfinementEndDate": "2018-02-03",
+    "powMultipleConfinements": true,
+    "powConfinement2StartDate": "2018-11-01",
+    "powConfinement2EndDate": "2018-11-12"
   }
 }
