@@ -121,6 +121,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            charcount
           />
           <VaNumberInput
             className="no-wrap input-size-3"
