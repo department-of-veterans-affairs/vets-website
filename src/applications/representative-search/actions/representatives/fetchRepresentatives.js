@@ -26,6 +26,7 @@ export const fetchRepresentatives = async (
   perPage,
   sort,
   type,
+  distance,
   dispatch,
 ) => {
   try {
@@ -38,6 +39,7 @@ export const fetchRepresentatives = async (
       perPage,
       sort,
       type,
+      distance,
     );
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });

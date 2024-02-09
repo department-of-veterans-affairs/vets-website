@@ -2,7 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const GetFormHelp = () => (
-  <div className="help-footer-container usa-width-three-fourths vads-u-padding-x--4 vads-u-padding-bottom--4">
+  <div className="row help-footer-container vads-u-padding-bottom--4">
     <h2 className="help-heading" style={{ margin: 0 }}>
       How to contact us if you have questions
     </h2>

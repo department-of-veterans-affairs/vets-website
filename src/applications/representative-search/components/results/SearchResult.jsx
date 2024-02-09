@@ -10,11 +10,12 @@ const SearchResult = ({
   addressLine2,
   addressLine3,
   city,
-  state,
+  stateCode,
   zipCode,
   phone,
   distance,
   email,
+  associatedOrgs,
   submitRepresentativeReport,
   reports,
   representative,
@@ -26,7 +27,12 @@ const SearchResult = ({
   const { contact, extension } = parsePhoneNumber(phone);
 
   const addressExists =
-    addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
+    addressLine1 ||
+    addressLine2 ||
+    addressLine3 ||
+    city ||
+    stateCode ||
+    zipCode;
 
   // concatenating address for ReportModal
   const address =
@@ -38,7 +44,7 @@ const SearchResult = ({
       .filter(Boolean)
       .join(' ') +
     (city ? ` ${city},` : '') +
-    (state ? ` ${state}` : '') +
+    (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
   const closeReportModal = () => {
@@ -61,76 +67,82 @@ const SearchResult = ({
       )}
 
       <div className="vads-u-padding--4 representative-result-card">
-        {reports && (
-          <va-alert
-            class="vads-u-margin-bottom--1"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            slim
-            status="info"
-            uswds
-            visible="true"
-          >
-            <p className="vads-u-margin-y--0">
-              Thank you for reporting outdated information.
-            </p>
-          </va-alert>
-        )}
-        <div className="representative-info-section">
-          {distance && (
-            <div className="vads-u-font-weight--bold vads-u-font-size--lg">
-              {parseFloat(JSON.parse(distance).toFixed(2))} Mi
-            </div>
-          )}
-          {officer && (
-            <div className="vads-u-font-family--serif vads-u-margin-top--2">
-              <h3>{officer}</h3>
-            </div>
-          )}
-
-          <div className="vads-u-margin-top--2p5">
-            <va-additional-info trigger="See associated organizations" uswds>
-              <p>
-                {/* <strong>Veterans Service Officers (VSOs)</strong> can help you
-              gather evidence, file claims, and request decision reviews. They
-              can also communicate with VA on your behalf. VSOs provide free
-              services for Veterans and their families. */}
-              </p>
-            </va-additional-info>
-          </div>
-
-          <div className="representative-contact-section vads-u-margin-top--2p5">
-            {addressExists && (
-              <div className="vads-u-margin-top--2">
-                <RepresentativeDirectionsLink
-                  representative={representative}
-                  query={query}
-                />
+        <div className="representative-result-card-content">
+          <div className="representative-info-heading">
+            {distance && (
+              <div className="vads-u-font-weight--bold vads-u-font-family--serif">
+                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
               </div>
             )}
+            {officer && (
+              <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
+                <h3>{officer}</h3>
+              </div>
+            )}
+          </div>
+          {associatedOrgs && (
+            <div className="associated-organizations-info vads-u-margin-top--1p5">
+              <va-additional-info trigger="See associated organizations" uswds>
+                {associatedOrgs?.map((org, index) => {
+                  return (
+                    <>
+                      <p>{org}</p>
+                      {index < associatedOrgs.length - 1 ? (
+                        <br style={{ lineHeight: '1rem' }} />
+                      ) : null}
+                    </>
+                  );
+                })}
+              </va-additional-info>
+            </div>
+          )}
+
+          <div className="representative-contact-section vads-u-margin-top--3">
+            {addressExists && (
+              <RepresentativeDirectionsLink
+                representative={representative}
+                query={query}
+              />
+            )}
             {phone && (
-              <div className="vads-u-margin-top--2">
+              <div className="vads-u-margin-top--1p5">
                 <va-telephone contact={contact} extension={extension} />
               </div>
             )}
             {email && (
-              <div className="vads-u-margin-top--2">
+              <div className="vads-u-margin-top--1p5">
                 <a href={`mailto:${email}`}>{email}</a>
               </div>
             )}
           </div>
-        </div>
-
-        <div className="report-outdated-information-button">
-          <va-button
-            onClick={() => {
-              setReportModalIsShowing(true);
-            }}
-            secondary
-            text="Report outdated information"
-            uswds
-          />
+          {reports && (
+            <div className="report-thank-you-alert">
+              <va-alert
+                class="vads-u-margin-bottom--2"
+                close-btn-aria-label="Close notification"
+                disable-analytics="false"
+                full-width="false"
+                slim
+                status="info"
+                uswds
+                visible="true"
+              >
+                <p className="vads-u-margin-y--0">
+                  Thank you for reporting outdated information.
+                </p>
+              </va-alert>
+            </div>
+          )}
+          <div className="report-outdated-information-button">
+            <va-button
+              onClick={() => {
+                setReportModalIsShowing(true);
+              }}
+              secondary
+              text="Report outdated information"
+              uswds
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -141,8 +153,9 @@ SearchResult.propTypes = {
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
   addressLine3: PropTypes.string,
+  associatedOrgs: PropTypes.array,
   city: PropTypes.string,
-  distance: PropTypes.number,
+  distance: PropTypes.string,
   email: PropTypes.string,
   officer: PropTypes.string,
   phone: PropTypes.string,
@@ -153,9 +166,9 @@ SearchResult.propTypes = {
     address: PropTypes.string,
     otherComment: PropTypes.string,
   }),
-  representative: PropTypes.string,
+  representative: PropTypes.object,
   representativeId: PropTypes.string,
-  state: PropTypes.string,
+  stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,
