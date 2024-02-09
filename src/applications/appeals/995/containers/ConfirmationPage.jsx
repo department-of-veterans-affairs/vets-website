@@ -69,9 +69,7 @@ export const ConfirmationPage = () => {
           </div>
         ) : null}
 
-        {submitDate.isValid() ? (
-          <DateSubmitted submitDate={submitDate} />
-        ) : null}
+        {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
         <IssuesSubmitted issues={issues} />
       </div>
 

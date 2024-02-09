@@ -36,7 +36,8 @@ export const ConfirmationPage = () => {
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
+  const fullName = `${name.first || ''} ${name.middle || ''} ${name.last ||
+    ''}`.trim();
   const submitDate = moment(submission?.timestamp);
 
   return (
@@ -66,7 +67,7 @@ export const ConfirmationPage = () => {
             className="dd-privacy-hidden"
             data-dd-action-name="Veteran full name"
           >
-            {name.first} {name.middle} {name.last}
+            {fullName}
             {name.suffix ? `, ${name.suffix}` : null}
           </div>
         ) : null}
