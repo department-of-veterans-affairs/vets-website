@@ -98,6 +98,7 @@ const DebtDetails = () => {
               <span className="vads-u-margin-left--0p5">
                 {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
               </span>
+              . Payments after this date will not be reflected here.
             </p>
           )}
           <DebtDetailsCard debt={currentDebt} />
