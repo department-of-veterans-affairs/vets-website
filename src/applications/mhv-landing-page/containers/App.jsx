@@ -35,6 +35,7 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
+  const mhvAccount = useSelector(state => state.mhvAccount);
 
   const data = useMemo(
     () => {
@@ -78,16 +79,19 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
+        // only proceed if an mhvAccount exists
+        if (!mhvAccount?.termsAndConditionsAccepted) {
+          return;
+        }
         const folders = await getFolderList();
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-
       if (enabled) {
         loadMessages();
       }
     },
-    [enabled],
+    [enabled, mhvAccount],
   );
 
   useEffect(
