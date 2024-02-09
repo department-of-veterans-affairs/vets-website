@@ -56,7 +56,9 @@ describe('Message thread item', () => {
     );
     expect(
       accordion
-        .querySelector('[data-testid="message-body"]')
+        .querySelector(
+          `[data-testid="message-body-${messageResponse.messageId}"]`,
+        )
         .textContent.trim(),
     ).to.equal(messageResponse.body);
     expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
@@ -100,7 +102,9 @@ describe('Message thread item', () => {
     );
     expect(
       accordion
-        .querySelector('[data-testid="message-body"]')
+        .querySelector(
+          `[data-testid="message-body-${messageResponse.messageId}"]`,
+        )
         .textContent.trim(),
     ).to.equal(messageResponse.body);
     expect(screen.getByText(messageResponse.attachments[0].name)).to.exist;
