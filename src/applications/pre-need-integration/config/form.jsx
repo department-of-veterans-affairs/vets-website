@@ -1,5 +1,5 @@
 import React from 'react';
-import { merge, pick } from 'lodash';
+import { pick } from 'lodash';
 import set from 'platform/utilities/data/set';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import fullNameUI from 'platform/forms/definitions/fullName';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -20,6 +19,11 @@ import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
+import * as sponsorDetails from './pages/sponsorDetails';
+import * as sponsorDemographics from './pages/sponsorDemographics';
+import * as sponsorDeceased from './pages/sponsorDeceased';
+import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
+import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
@@ -38,7 +42,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
-import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
 
@@ -55,7 +58,6 @@ import {
   spouseRelationshipDescription,
   childRelationshipDescription,
   otherRelationshipDescription,
-  sponsorMilitaryStatusDescription,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
@@ -66,6 +68,7 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  isSponsorDeceased,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -192,14 +195,14 @@ const formConfig = {
           schema: preparerContactDetails.schema,
         },
         validatePreparerContactDetails: {
-          title: 'Validate and stuff',
+          title: 'Validate Address',
           path: 'validate-preparer-contact-details',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: {
             application: {
               applicant: {
                 'view:validateAddress': {
-                  'ui:title': 'Hello Mate',
+                  'ui:title': 'Validate Address',
                   'ui:field': preparerContactDetailsCustom,
                 },
               },
@@ -395,134 +398,39 @@ const formConfig = {
     sponsorInformation: {
       title: 'Sponsor information',
       pages: {
-        sponsorInformation: {
-          path: 'sponsor-information',
+        sponsorDetails: {
+          title: 'Sponsor details',
+          path: 'sponsor-details',
           depends: formData => !isVeteran(formData),
-          uiSchema: {
-            'ui:description': applicantDescription,
-            application: {
-              veteran: merge({}, veteranUI, {
-                currentName: merge({}, fullNameUI, {
-                  first: {
-                    'ui:title': 'Sponsor’s first name',
-                  },
-                  last: {
-                    'ui:title': 'Sponsor’s last name',
-                  },
-                  middle: {
-                    'ui:title': 'Sponsor’s middle name',
-                  },
-                  suffix: {
-                    'ui:title': 'Sponsor’s suffix',
-                  },
-                  maiden: {
-                    'ui:title': 'Sponsor’s maiden name',
-                  },
-                  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-                }),
-                militaryServiceNumber: {
-                  'ui:title':
-                    'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
-                  'ui:errorMessages': {
-                    pattern:
-                      'Sponsor’s Military Service number must be between 4 to 9 characters',
-                  },
-                },
-                vaClaimNumber: {
-                  'ui:title': 'Sponsor’s VA claim number (if known)',
-                  'ui:errorMessages': {
-                    pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
-                  },
-                },
-                ssn: {
-                  ...ssnDashesUI,
-                  'ui:title': 'Sponsor’s Social Security number',
-                },
-                dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
-                placeOfBirth: {
-                  'ui:title':
-                    "Sponsor's place of birth (City, State, or Territory)",
-                },
-                gender: {
-                  'ui:title':
-                    "Sponsor's sex (information will be used for statistical purposes only)",
-                },
-                race: {
-                  'ui:title':
-                    'Which categories best describe your sponsor? (You may check more than one)',
-                },
-                maritalStatus: {
-                  'ui:title': 'Sponsor’s marital status',
-                },
-                militaryStatus: {
-                  'ui:title':
-                    'Sponsor’s current military status (You can add more service history information later in this application)',
-                  'ui:options': {
-                    nestedContent: {
-                      X: sponsorMilitaryStatusDescription,
-                    },
-                  },
-                },
-                isDeceased: {
-                  'ui:title': 'Has the sponsor died?',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      yes: 'Yes',
-                      no: 'No',
-                      unsure: 'I don’t know',
-                    },
-                  },
-                },
-                dateOfDeath: merge(
-                  {},
-                  currentOrPastDateUI('Sponsor’s date of death'),
-                  {
-                    'ui:options': {
-                      expandUnder: 'isDeceased',
-                      expandUnderCondition: 'yes',
-                    },
-                  },
-                ),
-                'ui:validations': [validateSponsorDeathDate],
-              }),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  veteran: {
-                    type: 'object',
-                    required: [
-                      'ssn',
-                      'gender',
-                      'maritalStatus',
-                      'militaryStatus',
-                      'isDeceased',
-                      'race',
-                    ],
-                    properties: pick(veteran.properties, [
-                      'currentName',
-                      'ssn',
-                      'dateOfBirth',
-                      'militaryServiceNumber',
-                      'vaClaimNumber',
-                      'placeOfBirth',
-                      'gender',
-                      'race',
-                      'maritalStatus',
-                      'militaryStatus',
-                      'isDeceased',
-                      'dateOfDeath',
-                    ]),
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: sponsorDetails.uiSchema,
+          schema: sponsorDetails.schema,
+        },
+        sponsorDemographics: {
+          title: 'Sponsor demographics',
+          path: 'sponsor-demographics',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDemographics.uiSchema,
+          schema: sponsorDemographics.schema,
+        },
+        sponsorDeceased: {
+          path: 'sponsor-deceased',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDeceased.uiSchema,
+          schema: sponsorDeceased.schema,
+        },
+        sponsorDateOfDeath: {
+          path: 'sponsor-date-of-death',
+          depends: formData =>
+            !isVeteran(formData) && isSponsorDeceased(formData),
+          uiSchema: sponsorDateOfDeath.uiSchema,
+          schema: sponsorDateOfDeath.schema,
+        },
+        sponsorMilitaryDetails: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorMilitaryDetails.uiSchema,
+          schema: sponsorMilitaryDetails.schema,
         },
       },
     },
