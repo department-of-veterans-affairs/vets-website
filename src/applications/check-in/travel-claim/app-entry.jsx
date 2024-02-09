@@ -1,7 +1,7 @@
-import '@department-of-veterans-affairs/platform-polyfills';
+import 'platform/polyfills';
 import '../sass/check-in.scss';
 
-import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
+import startApp from 'platform/startup';
 
 import createRoutesWithStore from './routes';
 import reducer from '../reducers';
