@@ -2,7 +2,14 @@ import { useEffect, useRef } from 'react';
 import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
+
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import {
+  focusByOrder,
+  customScrollAndFocus,
+  defaultFocusSelector,
+} from '../../../utilities/ui';
+import { querySelectorWithShadowRoot } from '../../../utilities/ui/webComponents';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
@@ -132,6 +139,41 @@ export function createPageList(formConfig, formPages) {
     .map(page =>
       set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
     );
+}
+
+export async function getFocusTargetRoot(formConfig) {
+  if (formConfig.v3SegmentedProgressBar) {
+    // Need to provide shadowRoot for focusing on shadow-DOM elements
+    const shadowHost = await querySelectorWithShadowRoot(
+      'va-segmented-progress-bar',
+    );
+    return shadowHost.shadowRoot;
+  }
+  return document.querySelector('#react-root');
+}
+
+export function handleFocus(page, formConfig, index) {
+  // Check main toggle to enable custom focus; the unmounting of the page
+  // before the review & submit page may cause the customScrollAndFocus
+  // function to be called inadvertently
+  if (
+    !(
+      page.chapterKey === 'review' ||
+      window.location.pathname.endsWith('review-and-submit')
+    )
+  ) {
+    if (formConfig.useCustomScrollAndFocus) {
+      customScrollAndFocus(page.scrollAndFocusTarget, index);
+      return Promise.resolve();
+    }
+    return getFocusTargetRoot(formConfig).then(root => {
+      focusByOrder([defaultFocusSelector, 'h2'], root);
+    });
+  }
+  // h2 fallback for review page
+  return getFocusTargetRoot(formConfig).then(root => {
+    focusByOrder([defaultFocusSelector, 'h2'], root);
+  });
 }
 
 function formatDayMonth(val) {
