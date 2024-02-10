@@ -13,8 +13,10 @@ import {
   VERIFICATION_PROFILE_URL,
 } from '../constants';
 import { useData } from '../hooks/useData';
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const BenefitsProfileWrapper = ({ children }) => {
+  useScrollToTop();
   const {
     loading,
     date,
@@ -23,6 +25,8 @@ const BenefitsProfileWrapper = ({ children }) => {
     addressLine4,
     addressLine5,
     addressLine6,
+    indicator: applicantChapter,
+    fullName: applicantName,
   } = useData();
   return (
     <>
@@ -36,7 +40,11 @@ const BenefitsProfileWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <BenefitsProfileStatement />
-            <PayeeInformationWrapper />
+            <PayeeInformationWrapper
+              loading={loading}
+              applicantChapter={applicantChapter}
+              applicantName={applicantName}
+            />
             <ChangeOfAddressWrapper
               loading={loading}
               mailingAddress={{
