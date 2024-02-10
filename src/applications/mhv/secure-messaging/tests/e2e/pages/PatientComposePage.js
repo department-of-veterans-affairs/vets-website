@@ -65,8 +65,10 @@ class PatientComposePage {
       .select(recipient, { force: true });
   };
 
-  selectCategory = (category = 'OTHEROTHERinput') => {
-    cy.get(`#${category}`).click({ force: true });
+  selectCategory = (category = 'OTHER') => {
+    cy.get(`#compose-message-categories${category}input`).click({
+      force: true,
+    });
   };
 
   getMessageSubjectField = () => {

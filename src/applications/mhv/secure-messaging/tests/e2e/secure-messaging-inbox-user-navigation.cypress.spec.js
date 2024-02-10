@@ -29,7 +29,7 @@ describe('Secure Messaging Compose', () => {
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4', {
       force: true,
     });
-    cy.get('[name="COVID"]')
+    cy.get('[data-testid="compose-category-radio-button"]')
       .first()
       .click();
     composePage.attachMessageFromFile('test_image.jpg', { force: true });
@@ -39,6 +39,6 @@ describe('Secure Messaging Compose', () => {
       .type('Test message body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
     composePage.verifySendMessageConfirmationMessageText();
-    // landingPage.verifyInboxHeader('Inbox');
+    landingPage.getInboxHeader('Inbox');
   });
 });
