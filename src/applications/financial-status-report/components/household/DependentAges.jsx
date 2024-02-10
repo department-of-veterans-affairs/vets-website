@@ -257,22 +257,24 @@ const DependentAges = ({
           </div>
         ) : (
           !isReviewMode && (
-            <ButtonGroup
-              buttons={[
-                {
-                  label: 'Back',
-                  isBackButton: true,
-                  onClick: handlers.onCancel, // Define this function based on page-specific logic
-                  isSecondary: true,
-                },
-                {
-                  label: continueButtonText,
-                  isContinueButton: false,
-                  onClick: handlers.onSubmit,
-                  isSubmitting: true, // If this button submits a form
-                },
-              ]}
-            />
+            <div className="va-button-override">
+              <ButtonGroup
+                buttons={[
+                  {
+                    label: 'Back',
+                    isBackButton: true,
+                    onClick: handlers.onCancel, // Define this function based on page-specific logic
+                    isSecondary: true,
+                  },
+                  {
+                    label: continueButtonText,
+                    isContinueButton: false,
+                    onClick: handlers.onSubmit,
+                    isSubmitting: true, // If this button submits a form
+                  },
+                ]}
+              />
+            </div>
           )
         )}
         {contentAfterButtons}

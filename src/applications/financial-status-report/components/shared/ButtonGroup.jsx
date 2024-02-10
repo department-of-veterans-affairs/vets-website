@@ -13,7 +13,6 @@ const Button = ({
   isSecondary,
   isContinueButton,
   isBackButton,
-  type, // Add this line
 }) => {
   return (
     <VaButton
@@ -23,7 +22,6 @@ const Button = ({
       continue={isContinueButton}
       secondary={isSecondary}
       back={isBackButton}
-      type={type} // Use the type prop here
     />
   );
 };
@@ -53,7 +51,7 @@ Button.propTypes = {
  */
 const ButtonGroup = ({ buttons }) => {
   return (
-    <div className="row form-progress-buttons schemaform-buttons vads-u-display--flex vads-u-margin-y--2">
+    <div className="form-progress-buttons schemaform-buttons fsr-buttons vads-u-margin-y--2">
       {buttons.map((button, index) => {
         return (
           <div key={`button-group-${index}`}>
