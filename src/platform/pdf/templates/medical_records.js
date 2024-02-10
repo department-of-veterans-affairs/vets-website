@@ -21,7 +21,7 @@ import {
   generateFooterContent,
 } from './utils';
 
-const config = {
+const defaultConfig = {
   margins: {
     top: 40,
     bottom: 40,
@@ -54,7 +54,7 @@ const config = {
   },
 };
 
-const generateIntroductionContent = async (doc, parent, data) => {
+const generateIntroductionContent = async (doc, parent, data, config) => {
   const headOptions = { x: 20, paragraphGap: 5 };
   const subHeadOptions = { paragraphGap: 0 };
   const introduction = doc.struct('Sect', {
@@ -71,7 +71,7 @@ const generateIntroductionContent = async (doc, parent, data) => {
   introduction.end();
 };
 
-const generateDetailsContent = async (doc, parent, data) => {
+const generateDetailsContent = async (doc, parent, data, config) => {
   const details = doc.struct('Sect', {
     title: 'Details',
   });
@@ -98,6 +98,7 @@ const generateResultItemContent = async (
   doc,
   results,
   hasHorizontalRule,
+  config,
 ) => {
   const headingOptions = { paragraphGap: 10, x: 30 };
   if (item.header) {
@@ -118,7 +119,7 @@ const generateResultItemContent = async (
   }
 };
 
-const generateResultsContent = async (doc, parent, data) => {
+const generateResultsContent = async (doc, parent, data, config) => {
   const results = doc.struct('Sect', {
     title: 'Results',
   });
@@ -144,6 +145,7 @@ const generateResultsContent = async (doc, parent, data) => {
       doc,
       results,
       hasHorizontalRule,
+      config,
     );
   } else {
     for (const item of data.results.items) {
@@ -156,7 +158,13 @@ const generateResultsContent = async (doc, parent, data) => {
       );
       if (doc.y + blockHeight > 740) await doc.addPage();
 
-      await generateResultItemContent(item, doc, results, hasHorizontalRule);
+      await generateResultItemContent(
+        item,
+        doc,
+        results,
+        hasHorizontalRule,
+        config,
+      );
     }
   }
   results.end();
@@ -177,7 +185,7 @@ const validate = data => {
   }
 };
 
-const generate = async data => {
+const generate = async (data, config = defaultConfig) => {
   validate(data);
 
   const doc = createAccessibleDoc(data, config);
@@ -194,14 +202,14 @@ const generate = async data => {
 
   await generateInitialHeaderContent(doc, wrapper, data, config);
 
-  await generateIntroductionContent(doc, wrapper, data);
+  await generateIntroductionContent(doc, wrapper, data, config);
 
   if (data.details) {
-    await generateDetailsContent(doc, wrapper, data);
+    await generateDetailsContent(doc, wrapper, data, config);
   }
 
   if (data.results) {
-    await generateResultsContent(doc, wrapper, data);
+    await generateResultsContent(doc, wrapper, data, config);
   }
 
   await generateFinalHeaderContent(doc, data, config);

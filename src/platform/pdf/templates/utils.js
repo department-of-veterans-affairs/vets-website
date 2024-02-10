@@ -361,6 +361,7 @@ const createDetailItem = async (doc, config, x, item) => {
   const paragraphOptions = { lineGap: 6 };
   let titleText = item.title ?? '';
   const content = [];
+  const monospaceFont = config.text.monospaceFont || config.text.font;
   if (item.inline === true) {
     paragraphOptions.continued = true;
     titleText += ': ';
@@ -371,11 +372,7 @@ const createDetailItem = async (doc, config, x, item) => {
           .fontSize(config.text.size)
           .text(titleText, x, doc.y, paragraphOptions);
         doc
-          .font(
-            item.monospace
-              ? config.text.monospaceFont || config.text.font
-              : config.text.font,
-          )
+          .font(item.monospace ? monospaceFont : config.text.font)
           .fontSize(config.text.size)
           .text(item.value);
       }),
@@ -397,7 +394,7 @@ const createDetailItem = async (doc, config, x, item) => {
     content.push(
       doc.struct('P', () => {
         doc
-          .font(item.monospace ? config.text.monospaceFont : config.text.font)
+          .font(item.monospace ? monospaceFont : config.text.font)
           .fontSize(config.text.size)
           .text(item.value, x, doc.y, blockValueOptions);
       }),

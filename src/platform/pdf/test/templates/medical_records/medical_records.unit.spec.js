@@ -14,16 +14,16 @@ describe('Medical records PDF template', () => {
     navigator.platform = originalPlatform;
   });
 
-  const generatePdf = async data => {
+  const generatePdf = async (data, config) => {
     const template = require('../../../templates/medical_records');
 
-    const doc = await template.generate(data);
+    const doc = await template.generate(data, config);
     doc.end();
     return getStream.buffer(doc);
   };
 
-  const generateAndParsePdf = async data => {
-    const pdfData = await generatePdf(data);
+  const generateAndParsePdf = async (data, config) => {
+    const pdfData = await generatePdf(data, config);
     const pdf = await pdfjs.getDocument(pdfData).promise;
     const metadata = await pdf.getMetadata();
 
@@ -243,6 +243,69 @@ describe('Medical records PDF template', () => {
       );
       const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
         item => item.fontName === monospaceFontCode,
+      );
+
+      expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);
+    });
+
+    it('Can opt for results to be in monospace font but fallback to text font if no monospace font specified', async () => {
+      const config = {
+        margins: {
+          top: 40,
+          bottom: 40,
+          left: 20,
+          right: 20,
+        },
+        headings: {
+          H1: {
+            font: 'Bitter-Bold',
+            size: 24,
+          },
+          H2: {
+            font: 'Bitter-Bold',
+            size: 18,
+          },
+          H3: {
+            font: 'Bitter-Bold',
+            size: 16,
+          },
+        },
+        subHeading: {
+          font: 'Bitter-Regular',
+          size: 12,
+        },
+        text: {
+          boldFont: 'SourceSansPro-Bold',
+          font: 'SourceSansPro-Regular',
+          size: 12,
+        },
+      };
+
+      const data = require('./fixtures/monospace_result.json');
+      const { pdf } = await generateAndParsePdf(data, config);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // This code represents the font in the content items
+      // It is something like g_d3_f5
+      const textFontCode = Object.keys(content.styles).find(
+        key => content.styles[key].fontFamily === 'sans-serif',
+      );
+
+      // The number of indexes is less for the this font than the monospace font test above
+      // because the use of the monospace font breaks the text up into more content items.
+      const monospaceStartItemIndex = 81;
+      const monospaceEndItemIndex = 98;
+      const monospaceItems = content.items.slice(
+        monospaceStartItemIndex,
+        monospaceEndItemIndex + 1,
+      );
+      const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
+        item => item.fontName === textFontCode,
       );
 
       expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);
