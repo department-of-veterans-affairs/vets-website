@@ -412,3 +412,6 @@ va-button[text="Back"] {
     }
   }
 }
+.va-button-override va-button[text="Continue to review page"]::part(button) {
+  white-space: nowrap;
+}
