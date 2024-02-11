@@ -11,7 +11,7 @@ export default function ClaimCardLink({
   return (
     <Link
       aria-label={ariaLabel}
-      className="claim-card-link"
+      className="active-va-link"
       to={href}
       onClick={onClick}
     >
