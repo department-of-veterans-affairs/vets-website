@@ -14,28 +14,51 @@ describe('Validate the category', () => {
     cy.tabToElement('[data-testid="edit-preferences-button"]').should(
       'have.focus',
     );
-    cy.realPress(['Tab']);
-    cy.realPress(['Tab']);
+    cy.realPress('Tab');
+    cy.realPress('Tab');
 
-    cy.get('#OTHEROTHERinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#COVIDCOVIDinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#APPOINTMENTSAPPOINTMENTSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#MEDICATIONSMEDICATIONSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#TEST_RESULTSTEST_RESULTSinput').should('have.focus');
-    cy.realPress(['Tab']);
-
-    cy.get('#EDUCATIONEDUCATIONinput').should('have.focus');
-    cy.tabToElement('[data-testid="message-subject-field"]').should(
-      'have.focus',
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesOTHERinput`,
     );
+    cy.realPress('ArrowDown');
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesCOVIDinput`,
+    );
+    cy.realPress('ArrowDown');
+
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesAPPOINTMENTSinput`,
+    );
+    cy.realPress('ArrowDown');
+
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesMEDICATIONSinput`,
+    );
+    cy.realPress('ArrowDown');
+
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesTEST_RESULTSinput`,
+    );
+    cy.realPress('ArrowDown');
+
+    cy.focused().should(
+      'have.attr',
+      'id',
+      `compose-message-categoriesEDUCATIONinput`,
+    );
+
+    cy.realPress('Tab');
+    cy.get('[data-testid="message-subject-field"]').should('have.focus');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
