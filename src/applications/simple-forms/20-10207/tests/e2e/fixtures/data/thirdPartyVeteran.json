@@ -38,6 +38,19 @@
     "powConfinementEndDate": "2018-02-03",
     "powMultipleConfinements": true,
     "powConfinement2StartDate": "2018-11-01",
-    "powConfinement2EndDate": "2018-11-12"
+    "powConfinement2EndDate": "2018-11-12",
+    "medicalTreatments": [
+      {
+        "facilityName": "Guido’s Trailer",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2018-01-01"
+      }
+    ]
   }
 }

@@ -32,6 +32,8 @@ import powConfinement2Pg from '../pages/evidencePowConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import medalAwardPg from '../pages/evidenceMedalAward';
 import medTreatmentPg from '../pages/medicalTreatment';
+import medTreatment3rdPtyVetPg from '../pages/medicalTreatmentThirdPartyVeteran';
+import medTreatment3rdPtyNonVetPg from '../pages/medicalTreatmentThirdPartyNonVeteran';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -328,10 +330,32 @@ const formConfig = {
       title: 'Medical treatment',
       pages: {
         medicalTreatmentPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           title: 'Where did you receive medical treatment?', // for review page (has to be more than one word)
           path: 'medical-treatment',
           uiSchema: medTreatmentPg.uiSchema,
           schema: medTreatmentPg.schema,
+          pageClass: 'medical-treatment',
+        },
+        medicalTreatmentThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          title: 'Where did the veteran receive medical treatment?',
+          path: 'medical-treatment-third-party-veteran',
+          uiSchema: medTreatment3rdPtyVetPg.uiSchema,
+          schema: medTreatment3rdPtyVetPg.schema,
+          pageClass: 'medical-treatment-third-party-veteran',
+        },
+        medicalTreatmentThirdPartyNonVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          title: 'Where did the claimant receive medical treatment?',
+          path: 'medical-treatment-third-party-non-veteran',
+          uiSchema: medTreatment3rdPtyNonVetPg.uiSchema,
+          schema: medTreatment3rdPtyNonVetPg.schema,
+          pageClass: 'medical-treatment-third-party-non-veteran',
         },
       },
     },
