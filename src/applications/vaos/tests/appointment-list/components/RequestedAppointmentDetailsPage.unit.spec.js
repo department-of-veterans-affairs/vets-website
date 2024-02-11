@@ -20,7 +20,7 @@ import {
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 
-describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
+describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   const testDate = getTestDate();
 
   const initialState = {
