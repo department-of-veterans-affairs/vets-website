@@ -1,7 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 function StemAskVAQuestions() {
   const handler = {
@@ -37,11 +36,11 @@ function StemAskVAQuestions() {
       <br />
       <p>Education Call Center:</p>
       <p>
-        <va-telephone contact={CONTACTS.GI_BILL} />
+        <va-telephone contact={CONTACTS.GI_BILL} uswds="false" />
         <span id="inside-US-tele">(inside the U.S.)</span>
       </p>
       <p>
-        <va-telephone contact="19187815678" international />
+        <va-telephone contact="9187815678" international uswds="false" />
         <span id="outside-US-tele">(outside the U.S.)</span>
       </p>
       <p>

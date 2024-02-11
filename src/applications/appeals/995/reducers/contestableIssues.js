@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export default function contestableIssues(state = initialState, action) {
-  switch (action.type) {
+  switch (action?.type) {
     case FETCH_CONTESTABLE_ISSUES_INIT: {
       return {
         ...state,
