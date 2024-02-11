@@ -860,7 +860,7 @@ describe('VAOS upcoming appointment flow', () => {
           text: /VA Video Connect at VA location/,
         })
         .assertText({
-          text: /You must join this video meeting from the VA location where the appointment was scheduled/i,
+          text: /You must join this video meeting from the VA location listed below/i,
         })
         .assertJoinAppointment({ exist: false })
         .assertAddToCalendar()
