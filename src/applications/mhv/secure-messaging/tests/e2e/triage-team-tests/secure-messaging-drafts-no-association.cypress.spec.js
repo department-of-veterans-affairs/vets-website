@@ -10,8 +10,8 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 describe('Verify drafts - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
-  const newDate = new Date().toISOString();
   const draftPage = new PatientMessageDraftsPage();
+  const newDate = new Date().toISOString();
 
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
@@ -28,7 +28,6 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       mockSingleMessage,
       removedFirstRecipientsList,
     );
-    draftPage.loadDraftMessages(mockMessages);
   });
 
   it('draft in thread', () => {
@@ -166,12 +165,12 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
   it('single new draft', () => {
     const mockSingleDraftThread = {
-      ...mockThread,
+      ...mockMessages,
       data: [
         {
-          ...mockThread.data[0],
+          ...mockMessages.data[0],
           attributes: {
-            ...mockThread.data[0].attributes,
+            ...mockMessages.data[0].attributes,
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
@@ -179,6 +178,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
         },
       ],
     };
+
     const mockSingeDraft = { data: mockSingleDraftThread.data[0] };
     mockSingeDraft.data.attributes.draftDate = newDate;
     mockSingeDraft.data.attributes.sentDate = null;

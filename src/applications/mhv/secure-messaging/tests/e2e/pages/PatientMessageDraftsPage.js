@@ -168,7 +168,7 @@ class PatientMessageDraftsPage {
       'GET',
       `${Paths.SM_API_EXTENDED}/${
         mockMessages.data[0].attributes.messageId
-      }/thread`,
+      }/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
