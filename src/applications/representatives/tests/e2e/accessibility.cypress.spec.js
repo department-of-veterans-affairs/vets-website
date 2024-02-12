@@ -5,6 +5,9 @@ describe('Accessibility', () => {
   // Remove this block when the app has a content page in production.
   before(() => {
     if (Cypress.env('CI')) this.skip();
+  });
+
+  beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [{ name: 'representatives_portal_frontend', value: true }],
