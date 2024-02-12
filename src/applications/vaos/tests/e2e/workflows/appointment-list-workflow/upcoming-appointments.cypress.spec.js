@@ -276,6 +276,18 @@ describe('VAOS upcoming appointment flow', () => {
 
       mockAppointmentsGetApi({ response: [response] });
       mockAppointmentUpdateApi({ response: canceledAppt });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
+        }),
+      });
 
       // Act
       cy.login(new MockUser());
@@ -627,6 +639,19 @@ describe('VAOS upcoming appointment flow', () => {
 
       mockFeatureToggles();
       mockVamcEhrApi();
+
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
+        }),
+      });
     });
 
     it('should display "Join" button if 30 minutes in the future', () => {
