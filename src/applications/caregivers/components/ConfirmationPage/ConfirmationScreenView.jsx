@@ -26,10 +26,8 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         </va-alert>
       </div>
 
-      <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2p5 vads-u-margin-bottom--4">
-        <h2 className="vads-u-font-size--h3 vads-margin-top--0 vads-u-margin-bottom--2">
-          Your application information
-        </h2>
+      <va-featured-content class="vads-u-margin-bottom--4" uswds>
+        <h2 slot="headline">Your application information</h2>
         <dl>
           <div className="vads-u-margin-bottom--2">
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
@@ -71,7 +69,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         <div className="caregiver-application--download">
           <ApplicationDownloadLink form={form} />
         </div>
-      </div>
+      </va-featured-content>
     </>
   );
 };
