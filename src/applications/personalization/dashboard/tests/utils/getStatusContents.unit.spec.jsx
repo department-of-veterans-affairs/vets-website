@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { mockAppealData } from '../helpers';
+import { mockAppealData } from '../fixtures/test-appeals-mock';
 import { getStatusContents } from '../../utils/getStatusContents';
 
 describe('getStatusContents', () => {
