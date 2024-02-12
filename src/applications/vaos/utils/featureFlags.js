@@ -16,7 +16,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingStatusImprovement', value: true },
   { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
   { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
-  { name: 'vaOnlineSchedulingAppointmentList', value: true },
   { name: 'vaOnlineSchedulingClinicFilter', value: true },
   { name: 'vaOnlineSchedulingUseDsot', value: true },
   { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },

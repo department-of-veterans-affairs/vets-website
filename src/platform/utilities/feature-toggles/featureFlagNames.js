@@ -256,7 +256,6 @@ export default Object.freeze({
     'va_online_scheduling_status_improvement_canceled',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
-  vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineSchedulingClinicFilter: 'va_online_scheduling_clinic_filter',
   vaOnlineSchedulingRequestFlowUpdate:
     'va_online_scheduling_request_flow_update',
