@@ -35,8 +35,6 @@ import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   sponsorWording,
   applicantWording,
-  firstPersonLanguage,
-  thirdPersonLanguage,
 } from '../helpers/wordingCustomization';
 import {
   thirdPartyInfoUiSchema,
@@ -44,27 +42,20 @@ import {
 } from '../components/ThirdPartyInfo';
 
 import {
-  medicareStatusThirdPersonUiSchema,
-  medicareStatusFirstPersonUiSchema,
-  medicarePartChecboxGroupThirdPersonUiSchema,
-  medicarePartChecboxGroupFirstPersonUiSchema,
-  medicarePartCheckboxGroupSchema,
-  medicareStatusSchema,
-} from '../pages/applicantMedicareStatus';
+  ApplicantMedicareStatusPage,
+  ApplicantMedicareStatusReviewPage,
+} from '../pages/ApplicantMedicareStatusPage';
+import ApplicantRelationshipPage, {
+  ApplicantRelationshipReviewPage,
+} from '../pages/ApplicantRelationshipPage';
+import ApplicantMedicareStatusContinuedPage, {
+  ApplicantMedicareStatusContinuedReviewPage,
+} from '../pages/ApplicantMedicareStatusContinuedPage';
+import ApplicantOhiStatusPage, {
+  ApplicantOhiStatusReviewPage,
+} from '../pages/ApplicantOhiStatusPage';
 
-import {
-  ohiStatusThirdPersonUiSchema,
-  ohiStatusFirstPersonUiSchema,
-  ohiStatusSchema,
-} from '../pages/applicantOHIStatus';
-
-import {
-  relationshipToSponsorFirstPersonUiSchema,
-  relationshipToSponsorFirstPersonPastTenseUiSchema,
-  relationshipToSponsorThirdPersonUiSchema,
-  relationshipToSponsorThirdPersonPastTenseUiSchema,
-  relationshipToSponsorSchema,
-} from '../pages/applicantRelationshipToSponsor';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -114,6 +105,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
+          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -304,7 +296,9 @@ const formConfig = {
         page9: {
           path: 'sponsor-information/status-date',
           title: 'Sponsor status (continued)',
-          depends: formData => get('sponsorIsDeceased', formData),
+          depends: formData =>
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('sponsorIsDeceased', formData),
           uiSchema: {
             sponsorInfoTitle: titleUI('Sponsor status (continued)'),
             sponsorDOD: dateOfDeathUI(),
@@ -743,120 +737,129 @@ const formConfig = {
             },
           },
         },
-        // Using "depends" to route us to the relationship page with
-        // the correct wording based on several conditions including
-        // whether or not we're an applicant/sponsor/certifier and the
-        // status of the sponsor (deceased/alive):
         page18: {
           path: 'applicant-information/:index/relationship',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            firstPersonLanguage(formData, index) &&
-            !get('sponsorIsDeceased', formData),
-          uiSchema: relationshipToSponsorFirstPersonUiSchema,
-          schema: relationshipToSponsorSchema,
-        },
-        page18b: {
-          path: 'applicant-information/:index/relationship-b',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            firstPersonLanguage(formData, index) &&
-            get('sponsorIsDeceased', formData),
-          uiSchema: relationshipToSponsorFirstPersonPastTenseUiSchema,
-          schema: relationshipToSponsorSchema,
-        },
-        page18c: {
-          path: 'applicant-information/:index/relationship-c',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            thirdPersonLanguage(formData, index) &&
-            !get('sponsorIsDeceased', formData), // Sponsor is alive
-          uiSchema: relationshipToSponsorThirdPersonUiSchema,
-          schema: relationshipToSponsorSchema,
-        },
-        page18d: {
-          path: 'applicant-information/:index/relationship-d',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          depends: (formData, index) =>
-            thirdPersonLanguage(formData, index) &&
-            get('sponsorIsDeceased', formData), // Sponsor is deceased
-          uiSchema: relationshipToSponsorThirdPersonPastTenseUiSchema,
-          schema: relationshipToSponsorSchema,
+          CustomPage: ApplicantRelationshipPage,
+          CustomPageReview: ApplicantRelationshipReviewPage, // CustomReviewField,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantRelationshipToSponsor: {
+                      type: 'object',
+                      properties: {
+                        relationshipToVeteran: { type: 'string' },
+                        otherRelationshipToVeteran: { type: 'string' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
         },
         page19: {
           path: 'applicant-information/:index/medicare-status',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} Medicare status`,
-          depends: (formData, index) => thirdPersonLanguage(formData, index),
-          uiSchema: medicareStatusThirdPersonUiSchema,
-          schema: medicareStatusSchema,
-        },
-        page19a: {
-          path: 'applicant-information/:index/medicare-status-a',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          depends: (formData, index) => firstPersonLanguage(formData, index),
-          title: item => `${applicantWording(item)} Medicare status`,
-          uiSchema: medicareStatusFirstPersonUiSchema,
-          schema: medicareStatusSchema,
+          CustomPage: ApplicantMedicareStatusPage,
+          CustomPageReview: ApplicantMedicareStatusReviewPage,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantMedicareStatus: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
         },
         page20: {
           path: 'applicant-information/:index/medicare-status-continued',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          depends: (formData, index) =>
-            get(
-              'applicantMedicareStatus',
-              // On first pass, index is always undefined but then populates on next cycle
-              formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled' && thirdPersonLanguage(formData, index),
           title: item =>
             `${applicantWording(item)} Medicare status (continued)`,
-          uiSchema: medicarePartChecboxGroupThirdPersonUiSchema,
-          schema: medicarePartCheckboxGroupSchema,
-        },
-        page20a: {
-          path: 'applicant-information/:index/medicare-status-continued-a',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
           depends: (formData, index) =>
             get(
               'applicantMedicareStatus',
               formData?.applicants?.[`${index || 0}`],
-            ) === 'enrolled' && firstPersonLanguage(formData, index),
-          title: item =>
-            `${applicantWording(item)} Medicare status (continued)`,
-          uiSchema: medicarePartChecboxGroupFirstPersonUiSchema,
-          schema: medicarePartCheckboxGroupSchema,
+            ) === 'enrolled',
+          CustomPage: ApplicantMedicareStatusContinuedPage,
+          CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantMedicarePart: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
         },
         page21: {
           path: 'applicant-information/:index/ohi',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          depends: (formData, index) => firstPersonLanguage(formData, index),
-          title: item =>
-            `${applicantWording(item)} other health insurance status`,
-          uiSchema: ohiStatusFirstPersonUiSchema,
-          schema: ohiStatusSchema,
-        },
-        page21a: {
-          path: 'applicant-information/:index/ohi-a',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} other health insurance status`,
-          depends: (formData, index) => thirdPersonLanguage(formData, index),
-          uiSchema: ohiStatusThirdPersonUiSchema,
-          schema: ohiStatusSchema,
+          title: item => `${applicantWording(item)} other health insurance`,
+          CustomPage: ApplicantOhiStatusPage,
+          CustomPageReview: ApplicantOhiStatusReviewPage,
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    applicantHasOhi: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            applicants: {
+              items: {},
+            },
+          },
         },
       },
     },
