@@ -2,7 +2,6 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
@@ -16,6 +15,7 @@ import {
   createMockFacilityByVersion,
 } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
+import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 
 const initialState = {
   featureToggles: {
@@ -23,6 +23,7 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     vaOnlineSchedulingVAOSServiceVAAppointments: true,
     vaOnlineSchedulingVAOSServiceCCAppointments: true,
+    vaOnlineSchedulingStatusImprovement: true,
   },
 };
 
@@ -66,69 +67,48 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
     expect(await findByText(/Past 3 months/i)).to.exist;
   });
 
-  // TODO: Skipping since RTL doesn't work with web components va-select.
-  it.skip('should update range on dropdown change', async () => {
-    const url = '/va/1234';
-
+  it('should update range on dropdown change', async () => {
+    // Arrange
     const pastDate = moment(testDates().now).subtract(3, 'months');
-
-    const data = {
-      id: '1234',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: pastDate.format(),
-      locationId: '983GC',
-      status: 'booked',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
-      ...data,
+    const response = new MockAppointmentResponse({
+      localStartTime: pastDate,
+      serviceType: null,
     });
-
-    const rangeLabel = `${moment()
-      .subtract(3, 'months')
-      .startOf('month')
-      .format('MMMM YYYY')}`;
 
     mockVAOSAppointmentsFetch({
       start: testDates().start.format('YYYY-MM-DD'),
       end: testDates().end.format('YYYY-MM-DD'),
-      requests: [appointment],
+      requests: [],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+    mockVAOSAppointmentsFetch({
+      start: testDates()
+        .now.subtract(5, 'months')
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      end: testDates()
+        .end.subtract(3, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+      requests: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
     });
 
     await screen.findByText(/You don’t have any past appointments/i);
 
-    mockVAOSAppointmentsFetch({
-      start: testDates().format('YYYY-MM-DD'),
-      end: testDates().format('YYYY-MM-DD'),
-      requests: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
     const dropdown = await screen.findByTestId('vaosSelect');
-
     dropdown.__events.vaSelect({
       detail: { value: 1 },
     });
 
-    fireEvent.click(screen.queryByText('Update'));
-
+    // Assert
     await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
     await screen.findByText(/VA appointment/);
-
-    expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
-
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
-    expect(detailLink.getAttribute('text')).to.equal('Details');
   });
 
   it('should show information without facility name', async () => {
@@ -280,42 +260,7 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
     // expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  // TODO: Not sure if this test is still valid for v2 appointments. See
-  // ../appointment/transformers.js:338
-  it.skip('should not display when they have hidden statuses', () => {
-    const data = {
-      id: '1234',
-      currentStatus: 'NO-SHOW',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: moment()
-        .subtract(1, 'day')
-        .format(),
-      locationId: '983GC',
-      status: 'noshow',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
-      ...data,
-    });
-
-    mockVAOSAppointmentsFetch({
-      start: testDates().start.format('YYYY-MM-DD'),
-      end: testDates().end.format('YYYY-MM-DD'),
-      requests: [appointment],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-    });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-      initialState,
-    });
-
-    return expect(screen.findByText(/You don’t have any past appointments/i)).to
-      .eventually.be.ok;
-  });
-
-  // TODO: Skipping since RTL doesn't work with web components va-select.
-  it.skip('should not display when over 2 years away', () => {
+  it('should not display when over 2 years away', () => {
     const pastDate = moment(testDates().now).subtract(2, 'years');
 
     const data = {
@@ -393,7 +338,7 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
     const firstCard = screen.getAllByRole('listitem')[0];
 
     expect(
-      within(firstCard).findAllByLabelText(
+      within(firstCard).getAllByLabelText(
         new RegExp(pastDate.format('dddd, MMMM D'), 'i'),
       ),
     ).to.exist;
@@ -403,7 +348,7 @@ describe('VAOS <PastAppointmentsList> V2 api', () => {
     ).to.exist;
 
     expect(within(firstCard).getByText(/MT/i)).to.exist;
-    expect(within(firstCard).findAllByLabelText(/Video appointment/i)).to.exist;
+    expect(within(firstCard).getAllByLabelText(/Video appointment/i)).to.exist;
   });
 
   it('should display past appointments using V2 api call', async () => {
