@@ -246,17 +246,18 @@ export function mockFacilitiesFetchByVersion({
  * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
  */
 export function mockFacilityFetchByVersion({ facility, version = 2 } = {}) {
+  let baseUrl = '';
+
   if (version !== 2) {
     setFetchJSONResponse(
       global.fetch.withArgs(sinon.match(`/v1/facilities/va/${facility.id}`)),
       { data: facility },
     );
   } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/vaos/v2/facilities/${facility.id}`,
-      ),
-      { data: facility },
-    );
+    baseUrl = `${environment.API_URL}/vaos/v2/facilities/${facility.id}`;
+
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: facility });
   }
+
+  return baseUrl;
 }
