@@ -238,17 +238,20 @@ export const deleteMessage = messageId => {
 };
 
 /**
- * Get message thread.
- * @param {Long} threadId
+ * Get message threads with full body and attachments.
+ * @param {Long} messageId
  * @returns
  */
-export const getMessageThread = messageId => {
-  return apiRequest(`${apiBasePath}/messaging/messages/${messageId}/thread`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
+export const getMessageThreadWithFullBody = messageId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/messages/${messageId}/thread?full_body=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**
