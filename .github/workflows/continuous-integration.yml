@@ -209,6 +209,7 @@ jobs:
   unit-tests:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
+    timeout-minutes: 30
     runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
