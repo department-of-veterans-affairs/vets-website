@@ -120,6 +120,8 @@ describe('Avs: List Block', () => {
     };
 
     const screen = render(<ListBlock {...props} />);
-    expect(screen.getByRole('heading', { level: 5 })).to.have.text(heading);
+    expect(screen.getByRole('heading', { level: headingLevel })).to.have.text(
+      heading,
+    );
   });
 });
