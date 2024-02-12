@@ -694,6 +694,7 @@ describe('VAOS upcoming appointment flow', () => {
       cy.login(new MockUser());
 
       AppointmentListPageObject.visit()
+        .wait({ alias: '@v2:get:appointments' })
         .assertAppointmentList({ numberOfAppointments: 1 })
         .selectListItem();
 
