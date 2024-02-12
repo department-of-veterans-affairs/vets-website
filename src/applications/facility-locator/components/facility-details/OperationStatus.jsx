@@ -46,7 +46,7 @@ export default function OperationStatus(props) {
   const { operationStatusTitle, alertClass } = display[operatingStatus.code];
 
   return (
-    <va-alert close-btn-aria-label="" status={alertClass} visible>
+    <va-alert close-btn-aria-label="" status={alertClass} visible uswds="false">
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <h2 slot="headline" role="alert">
         {operationStatusTitle}

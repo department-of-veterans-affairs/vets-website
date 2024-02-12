@@ -50,7 +50,8 @@
                 "messageBody": "Draft2",
                 "draftDate": null,
                 "toDate": null,
-                "hasAttachments": false        
+                "hasAttachments": false
+               
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179963"
@@ -63,7 +64,7 @@
                 "messageId": 7161879,
                 "category": "MEDICATIONS",
                 "subject": "Medication-Inquiry",
-                "body": "Send message Api testing 27",
+                "body": "Send message Api testing 27 6789678967897678678678967896789678967896 Full Text with lots of characters.  More characters.  Finish the 80chars 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
                 "attachment": null,
                 "sentDate": "2023-09-06T19:31:18.000Z",
                 "senderId": 6820911,
@@ -78,7 +79,16 @@
                 "messageBody": "Send message Api testing 39",
                 "draftDate": null,
                 "toDate": null,
-                "hasAttachments": true
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "id": 3275644,
+                        "messageId": 7179963,
+                        "name": "SaFE Workshop Notes.txt",
+                        "attachmentSize": 2082,
+                        "download": "http://6efd25b53e5220c1830724dfb0a0914c-api.review.vetsgov-internal/my_health/v1/messaging/messages/3275646/attachments/3275644"
+                    }
+                ]       
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7161879"

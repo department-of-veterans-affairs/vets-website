@@ -19,10 +19,10 @@ function RepresentativeDirectionsLink({ representative, query }) {
         rel="noopener noreferrer"
       >
         <div>
-          {rep.addressLine1}, {rep.addressLine2}
+          {rep.addressLine1} {rep.addressLine2}
         </div>
         <div>
-          {rep.city} {rep.state} {rep.zipCode}
+          {rep.city}, {rep.stateCode} {rep.zipCode}
         </div>
       </a>
     </div>
@@ -31,17 +31,22 @@ function RepresentativeDirectionsLink({ representative, query }) {
 
 RepresentativeDirectionsLink.propTypes = {
   location: PropTypes.object,
-  representative: {
-    attributes: {
-      fullName: PropTypes.string,
-      name: PropTypes.string,
-    },
-  },
-  query: {
-    context: {
-      location: PropTypes.string,
-    },
-  },
+  query: PropTypes.shape({
+    context: PropTypes.shape({ location: PropTypes.string }),
+  }),
+  representative: PropTypes.shape({
+    representative: PropTypes.shape({
+      attributes: PropTypes.shape({
+        fullName: PropTypes.string,
+        name: PropTypes.string,
+        addressLine1: PropTypes.string,
+        addressLine2: PropTypes.string,
+        city: PropTypes.string,
+        stateCode: PropTypes.string,
+        zipCode: PropTypes.string,
+      }),
+    }),
+  }),
 };
 
 export default RepresentativeDirectionsLink;
