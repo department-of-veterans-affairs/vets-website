@@ -65,7 +65,10 @@ const CareSummariesDetails = () => {
   if (careSummary?.type === loincCodes.DISCHARGE_SUMMARY) {
     return <AdmissionAndDischargeDetails record={careSummary} />;
   }
-  if (careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE) {
+  if (
+    careSummary?.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
+    careSummary?.type === loincCodes.CONSULT_RESULT
+  ) {
     return <ProgressNoteDetails record={careSummary} />;
   }
   return (

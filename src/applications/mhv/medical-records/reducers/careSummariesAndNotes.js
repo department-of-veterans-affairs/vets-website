@@ -93,21 +93,19 @@ const convertProgressNote = record => {
  * @param {Object} record - A FHIR DiagnosticReport or DocumentReference object
  * @returns the type of note/summary that was passed
  */
-const getRecordType = record => {
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.DISCHARGE_SUMMARY,
-    )
-  ) {
-    return noteTypes.DISCHARGE_SUMMARY;
+export const getRecordType = record => {
+  const typeMapping = {
+    [loincCodes.DISCHARGE_SUMMARY]: noteTypes.DISCHARGE_SUMMARY,
+    [loincCodes.PHYSICIAN_PROCEDURE_NOTE]: noteTypes.PHYSICIAN_PROCEDURE_NOTE,
+    [loincCodes.CONSULT_RESULT]: noteTypes.CONSULT_RESULT,
+  };
+
+  for (const [code, noteType] of Object.entries(typeMapping)) {
+    if (record?.type?.coding.some(coding => coding.code === code)) {
+      return noteType;
+    }
   }
-  if (
-    record?.type?.coding.some(
-      coding => coding.code === loincCodes.PHYSICIAN_PROCEDURE_NOTE,
-    )
-  ) {
-    return noteTypes.PHYSICIAN_PROCEDURE_NOTE;
-  }
+
   return noteTypes.OTHER;
 };
 
@@ -117,6 +115,7 @@ const getRecordType = record => {
 const notesAndSummariesConverterMap = {
   [noteTypes.DISCHARGE_SUMMARY]: convertAdmissionAndDischargeDetails,
   [noteTypes.PHYSICIAN_PROCEDURE_NOTE]: convertProgressNote,
+  [noteTypes.CONSULT_RESULT]: convertProgressNote,
 };
 
 /**
