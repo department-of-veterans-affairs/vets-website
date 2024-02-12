@@ -164,7 +164,7 @@ SearchResult.propTypes = {
     phone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-    otherComment: PropTypes.string,
+    other: PropTypes.string,
   }),
   representative: PropTypes.object,
   representativeId: PropTypes.string,
