@@ -1,83 +1,114 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+const content = {
+  headlineText: 'You’ve submitted your request for priority processing',
+  nextStepsText: (
+    <>
+      <p>
+        We’ll review your request along with the supporting documents you
+        provided. And we’ll decide if we can prioritize your request. We’ll
+        notify you about our decision by mail.
+      </p>
+      <p>
+        If you are homeless, we’ll try to contact you by phone to get an address
+        if one was not provided.
+      </p>
+    </>
+  ),
+};
+const childContent = (
+  <div>
+    <h2>Where to mail additional documents</h2>
+    <p>
+      If you didn’t upload your additional documents to this request, you should
+      send your documents by mail as soon as possible. Identify the benefit type
+      you are requesting priority processing for, then use the corresponding
+      mailing address:
+    </p>
+    <p className="vads-u-font-size--h6">Compensation Claims</p>
+    <p>
+      Department of Veterans Affairs Compensation Intake Center
+      <br />
+      PO Box 4444
+      <br />
+      Janesville, WI 53547-4444
+    </p>
+    <p className="vads-u-font-size--h6">
+      Pension &amp; Survivors Benefit Claims
+    </p>
+    <p>
+      Department of Veterans Affairs Pension Intake Center
+      <br />
+      PO Box 5365
+      <br />
+      Janesville, WI 53547-5365
+    </p>
+    <p className="vads-u-font-size--h6">Board of Veterans’ Appeals</p>
+    <p>
+      Department of Veterans Affairs Board of Veterans’ Appeals
+      <br />
+      PO Box 27063
+      <br />
+      Washington, DC 20038
+    </p>
+    <p className="vads-u-font-size--h6">Fiduciary</p>
+    <p>
+      Department of Veterans Affairs Fiduciary Intake Center
+      <br />
+      PO Box 5211
+      <br />
+      Janesville, WI 53547-5211
+    </p>
+    <h2>Where to find additional support</h2>
+    <p>
+      If you’re currently homeless or at urgent risk of homelessness, we
+      encourage you to call the National Call Center for Homeless Veterans. Call
+      them at 877-424-3838 (TTY: 711).
+    </p>
+  </div>
+);
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = submission.timestamp;
-    const { fullName } = data;
+export const ConfirmationPage = () => {
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your request has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Request priority processing{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <ConfirmationPageView
+      formType="submission"
+      submitterHeader="Who submitted this form"
+      submitterName={form.data.fullName}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      content={content}
+      childContent={childContent}
+    />
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
+        last: PropTypes.string.isRequired,
         suffix: PropTypes.string,
       },
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+      timestamp: PropTypes.string.isRequired,
     }),
   }),
   name: PropTypes.string,

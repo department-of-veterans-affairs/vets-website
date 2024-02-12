@@ -55,9 +55,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   dev: {
     showNavLinks: !window.Cypress,
   },
@@ -215,14 +213,14 @@ const formConfig = {
           depends: formData =>
             formData.livingSituation.NONE && formData.mailingAddressYesNo,
           path: 'mailing-address',
-          title: 'Your mailing address',
+          title: 'Mailing address',
           uiSchema: mailingAddressPg.uiSchema,
           schema: mailingAddressPg.schema,
           pageClass: 'mailing-address',
         },
         phoneAndEmailPage: {
           path: 'phone-and-email',
-          title: 'Your phone and email address',
+          title: 'Phone and email address',
           uiSchema: phoneAndEmailPg.uiSchema,
           schema: phoneAndEmailPg.schema,
           pageClass: 'phone-and-email',
@@ -358,6 +356,17 @@ const formConfig = {
           pageClass: 'medical-treatment-third-party-non-veteran',
         },
       },
+    },
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'fullName',
+      checkboxLabel:
+        'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
   footerContent,
