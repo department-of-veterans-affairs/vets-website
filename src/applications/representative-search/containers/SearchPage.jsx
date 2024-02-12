@@ -15,6 +15,7 @@ import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
 import ResultsList from '../components/results/ResultsList';
 import PaginationWrapper from '../components/results/PaginationWrapper';
+import GetFormHelp from '../components/footer/GetFormHelp';
 import { ErrorTypes } from '../constants';
 
 import {
@@ -23,7 +24,6 @@ import {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   geolocateUser,
   geocodeUserAddress,
   submitRepresentativeReport,
@@ -50,7 +50,7 @@ const SearchPage = props => {
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-
+      distance: currentQuery.searchArea || null,
       ...params,
     };
     const queryStringObj = appendQuery(
@@ -94,6 +94,7 @@ const SearchPage = props => {
         representativeType: location.query.type,
         page: location.query.page,
         sortType: location.query.sort,
+        searchArea: location.query.distance,
       });
     }
   };
@@ -107,11 +108,14 @@ const SearchPage = props => {
       position,
       sortType,
       page,
+      searchArea,
     } = currentQuery;
 
     const { latitude, longitude } = position;
 
     setIsSearching(true);
+
+    const distance = searchArea === 'Show all' ? null : searchArea;
 
     updateUrlParams({
       address: context.location,
@@ -121,6 +125,7 @@ const SearchPage = props => {
       type: representativeType,
       page: page || 1,
       sort: sortType,
+      distance,
     });
 
     if (!props.searchWithInputInProgress) {
@@ -133,6 +138,7 @@ const SearchPage = props => {
         perPage: 10,
         sort: sortType,
         type: representativeType,
+        distance,
       });
 
       setIsSearching(false);
@@ -311,12 +317,10 @@ const SearchPage = props => {
     const resultsList = () => {
       return (
         <ResultsList
-          // updateUrlParams={updateUrlParams}
           query={currentQuery}
           inProgress={currentQuery.inProgress}
           searchResults={searchResults}
           sortType={currentQuery.sortType}
-          onUpdateSortType={props.updateSortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
         />
       );
@@ -368,9 +372,12 @@ const SearchPage = props => {
     <>
       {renderBreadcrumbs()}
 
-      <div className="usa-grid use-grid-full">
-        {renderSearchSection()}
-        {renderResultsSection()}
+      <div className="usa-grid use-grid-full ">
+        <div className="vads-u-margin-right--3">
+          {renderSearchSection()}
+          {renderResultsSection()}
+        </div>
+        <GetFormHelp />
       </div>
     </>
   );
@@ -410,13 +417,15 @@ SearchPage.propTypes = {
     pathname: PropTypes.string,
     query: PropTypes.shape({
       address: PropTypes.string,
+      distance: PropTypes.string,
       name: PropTypes.string,
-      lat: PropTypes.number,
-      long: PropTypes.number,
-      page: PropTypes.number,
-      perPage: PropTypes.number,
+      lat: PropTypes.string,
+      long: PropTypes.string,
+      page: PropTypes.string,
+      perPage: PropTypes.string,
       sort: PropTypes.string,
       type: PropTypes.string,
+      searchArea: PropTypes.string,
     }),
     search: PropTypes.string,
   }),
@@ -434,7 +443,6 @@ SearchPage.propTypes = {
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
-  updateSortType: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
@@ -458,7 +466,6 @@ const mapDispatchToProps = {
   fetchRepresentatives,
   searchWithInput,
   updateSearchQuery,
-  updateSortType,
   clearSearchResults,
   clearSearchText,
   submitRepresentativeReport,
