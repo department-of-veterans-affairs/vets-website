@@ -97,21 +97,21 @@ const YourTreatmentPlan = props => {
         content={avs.patientInstructions}
         htmlContent
       />
-      {medChanges && <h3>Summary of Medication Changes</h3>}
+      {medChanges && <h3>Summary of medication changes</h3>}
       <ListBlock
-        heading="Start the following medications and supplies"
+        heading="Start these medications and supplies"
         headingLevel={4}
         itemType="new-medications-list"
         items={medChanges?.newMedications}
       />
       <ListBlock
-        heading="Stop the following medications and supplies"
+        heading="Stop these medications and supplies"
         headingLevel={4}
         itemType="discontinued-medications-list"
         items={medChanges?.discontinuedMeds}
       />
       <ListBlock
-        heading="Change the way you take the following medications and supplies"
+        heading="Follow new instructions for these medications and supplies"
         headingLevel={4}
         itemType="changed-medications-list"
         items={medChanges?.changedMedications}
