@@ -50,7 +50,10 @@ const AdmissionAndDischargeDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
-    const { title, subject, preface } = generateNotesIntro(record);
+    const { title, subject, preface } = generateNotesIntro(
+      record,
+      record.admissionDate,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
