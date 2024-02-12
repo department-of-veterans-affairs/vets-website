@@ -8,6 +8,19 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
+const statusMap = {
+  CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
+  INITIAL_REVIEW: 'Step 2 of 5: Initial review',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'Step 3 of 5: Evidence gathering, review, and decision',
+  PREPARATION_FOR_NOTIFICATION: 'Step 4 of 5: Preparation for notification',
+  COMPLETE: 'Step 5 of 5: Closed',
+};
+
+export function getStatusDescription(status) {
+  return statusMap[status];
+}
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
