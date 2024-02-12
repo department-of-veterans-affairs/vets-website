@@ -50,10 +50,7 @@ const ProgressNoteDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
-    const { title, subject, preface } = generateNotesIntro(
-      record,
-      record.dateSigned,
-    );
+    const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
@@ -96,7 +93,13 @@ ${record.note}`;
         {record.name}
       </h1>
 
-      <DateSubheading date={record.dateSigned} id="progress-note-date" />
+      {record.date !== EMPTY_FIELD ? (
+        <div>
+          <p id="progress-note-date">Entered on {record.date}</p>
+        </div>
+      ) : (
+        <DateSubheading date={record.date} id="progress-note-date" />
+      )}
 
       <div className="no-print">
         <PrintDownload

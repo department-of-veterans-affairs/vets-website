@@ -17,6 +17,7 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import { EMPTY_FIELD } from '../../util/constants';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -50,10 +51,7 @@ const AdmissionAndDischargeDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
-    const { title, subject, preface } = generateNotesIntro(
-      record,
-      record.admissionDate,
-    );
+    const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
@@ -93,11 +91,19 @@ ${record.summary}`;
         {record.name}
       </h1>
 
-      <DateSubheading
-        date={record.admissionDate}
-        label="Admission date"
-        id="admission-discharge-date"
-      />
+      {record.admissionDate !== EMPTY_FIELD ? (
+        <div>
+          <p id="admission-discharge-date">
+            Admitted on {record.admissionDate}
+          </p>
+        </div>
+      ) : (
+        <DateSubheading
+          date={record.admissionDate}
+          label="Admission date"
+          id="admission-discharge-date"
+        />
+      )}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
