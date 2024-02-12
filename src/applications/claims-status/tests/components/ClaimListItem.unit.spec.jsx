@@ -30,7 +30,7 @@ describe('<ClaimsListItem>', () => {
     };
 
     const screen = render(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText('Closed')).to.exist;
+    expect(screen.getByText('Step 5 of 5: Closed')).to.exist;
   });
 
   it('should show the correct status', () => {
@@ -167,6 +167,7 @@ describe('<ClaimsListItem>', () => {
 
     const screen = render(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/updated on August 20, 2019/i)).to.exist;
+    expect(screen.getByText(/Received on/i)).to.exist;
     expect(screen.getByText(/February 10, 2019/i)).to.exist;
   });
 });

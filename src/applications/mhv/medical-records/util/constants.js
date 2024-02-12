@@ -159,3 +159,35 @@ export const allergyTypes = {
   REPORTED:
     'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
 };
+
+export const refreshExtractTypes = {
+  ALLERGY: 'Allergy',
+  IMAGING: 'ImagingStudy',
+  VPR: 'VPR',
+  CHEM_HEM: 'ChemistryHematology',
+};
+
+/** These are the extracts that we are actively using from the status response. */
+export const EXTRACT_LIST = [
+  refreshExtractTypes.ALLERGY,
+  refreshExtractTypes.IMAGING,
+  refreshExtractTypes.VPR,
+  refreshExtractTypes.CHEM_HEM,
+];
+
+export const VALID_REFRESH_DURATION = 3600000; // 1 hour
+
+export const STATUS_POLL_INTERVAL = 2000;
+
+export const refreshPhases = {
+  STALE: 'stale',
+  IN_PROGRESS: 'in_progress',
+  CURRENT: 'current',
+  FAILED: 'failed',
+};
+
+export const loadStates = {
+  PRE_FETCH: 'pre-fetch',
+  FETCHING: 'fetching',
+  FETCHED: 'fetched',
+};

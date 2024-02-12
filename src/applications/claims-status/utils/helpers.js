@@ -4,9 +4,22 @@ import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import localStorage from 'platform/utilities/storage/localStorage';
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
+
+const statusMap = {
+  CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
+  INITIAL_REVIEW: 'Step 2 of 5: Initial review',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'Step 3 of 5: Evidence gathering, review, and decision',
+  PREPARATION_FOR_NOTIFICATION: 'Step 4 of 5: Preparation for notification',
+  COMPLETE: 'Step 5 of 5: Closed',
+};
+
+export function getStatusDescription(status) {
+  return statusMap[status];
+}
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
@@ -78,6 +91,44 @@ export const getTrackedItemDate = item => {
   return item.closedDate || item.receivedDate || item.requestedDate;
 };
 // END lighthouse_migration
+
+export function getTrackedItems(claim, useLighthouse = true) {
+  // claimAttributes are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return claim.attributes.trackedItems;
+  }
+
+  return claim.attributes.eventsTimeline.filter(event =>
+    event.type.endsWith('_list'),
+  );
+}
+
+export function getFilesNeeded(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_YOU');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
+  );
+}
+
+export function getFilesOptional(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
+  );
+}
 
 export function getItemDate(item) {
   // Tracked item that has been marked received.
@@ -287,8 +338,7 @@ export function scrubDescription(text) {
   return stripEscapedChars(stripHtml(text));
 }
 
-export function truncateDescription(text) {
-  const maxLength = 120;
+export function truncateDescription(text, maxLength = 120) {
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }

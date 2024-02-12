@@ -32,7 +32,8 @@ export const ConfirmationPage = () => {
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
+  const fullName = `${name.first || ''} ${name.middle || ''} ${name.last ||
+    ''}`.trim();
   const submitDate = moment(submission?.timestamp);
   resetStoredSubTask();
 
@@ -46,7 +47,7 @@ export const ConfirmationPage = () => {
         />
         <h2>Application for Supplemental Claim</h2>
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">Thank you for filing a Supplemental Claim</h2>
         <p>
           After we’ve completed our review, we’ll mail you a decision packet
@@ -63,7 +64,7 @@ export const ConfirmationPage = () => {
             className="dd-privacy-hidden"
             data-dd-action-name="Veteran full name"
           >
-            {name.first} {name.middle} {name.last}
+            {fullName}
             {name.suffix ? `, ${name.suffix}` : null}
           </div>
         ) : null}

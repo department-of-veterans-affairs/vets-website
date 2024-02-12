@@ -45,7 +45,7 @@ export default function InfoAlert({
     );
   }
   return (
-    <va-alert class={className} status={status}>
+    <va-alert class={className} status={status} uswds>
       {headline && (
         <H className="vads-u-font-size--h3" slot="headline">
           {headline}

@@ -237,7 +237,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain('VA Complaints (all campuses):');
+      expect(wrapper.html()).to.contain('VA Complaints (all campuses)');
       wrapper.unmount();
     });
   });
@@ -516,10 +516,12 @@ describe('<Modals>', () => {
 
     it('should track link click', () => {
       const wrapper = mount(<Modals {...props} />);
-      wrapper
-        .find('a')
-        .at(0)
-        .simulate('click');
+      const anchorText =
+        'Read our policy on protecting students from late VA payments';
+      const [anchor] = Array.from(wrapper.find('a')).filter(a =>
+        a.props.children.toString().startsWith(anchorText),
+      );
+      anchor.props.onClick();
       const recordedEvent = global.window.dataLayer[0];
       expect(recordedEvent.event).to.eq('gibct-modal-link-click');
       wrapper.unmount();

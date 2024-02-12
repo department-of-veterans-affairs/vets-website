@@ -34,13 +34,11 @@ import {
   buildAllergiesPDFList,
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
-import { getPrescriptionSortedList } from '../api/rxApi';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { reportGeneratedBy } from '../../shared/util/constants';
 
-const Prescriptions = props => {
-  const { fullList = [] } = props;
+const Prescriptions = () => {
   const location = useLocation();
   const history = useHistory();
   const { page } = useParams();
@@ -48,7 +46,6 @@ const Prescriptions = props => {
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
-  const [fullPrescriptionsList, setFullPrescriptionsList] = useState(fullList);
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -59,6 +56,9 @@ const Prescriptions = props => {
   );
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
+  );
+  const prescriptionsFullList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFullList,
   );
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
@@ -153,7 +153,7 @@ const Prescriptions = props => {
         headerBanner: [
           {
             text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
           },
           {
             text: '988',
@@ -221,7 +221,7 @@ const Prescriptions = props => {
   const txtData = useCallback(
     (rxList, allergiesList) => {
       return (
-        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.\n\n\n" +
+        `${"\nIf you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.\n\n\n" +
           'Medications\n\n'}${
           userName.first
             ? `${userName.last}, ${userName.first}`
@@ -235,13 +235,13 @@ const Prescriptions = props => {
         `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
         `Medications list\n\n` +
         `Showing ${
-          fullPrescriptionsList?.length
+          prescriptionsFullList?.length
         } records, ${rxListSortingOptions[
           selectedSortOption
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, fullPrescriptionsList],
+    [userName, dob, selectedSortOption, prescriptionsFullList],
   );
 
   const generatePDF = useCallback(
@@ -277,18 +277,18 @@ const Prescriptions = props => {
   useEffect(
     () => {
       if (
-        fullPrescriptionsList?.length &&
+        prescriptionsFullList?.length &&
         allergies &&
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
       ) {
         if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
           generatePDF(
-            buildPrescriptionsPDFList(fullPrescriptionsList),
+            buildPrescriptionsPDFList(prescriptionsFullList),
             buildAllergiesPDFList(allergies),
           );
         } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
           generateTXT(
-            buildPrescriptionsTXT(fullPrescriptionsList),
+            buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
         }
@@ -296,7 +296,7 @@ const Prescriptions = props => {
     },
     [
       allergies,
-      fullPrescriptionsList,
+      prescriptionsFullList,
       pdfTxtGenerateStatus.status,
       pdfTxtGenerateStatus.format,
       generatePDF,
@@ -306,24 +306,11 @@ const Prescriptions = props => {
 
   const handleFullListDownload = async format => {
     updateLoadingStatus(true, 'Downloading your file...');
-    setFullPrescriptionsList([]);
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
     });
-    await Promise.allSettled([
-      getPrescriptionSortedList(
-        rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-        true,
-      ).then(response =>
-        setFullPrescriptionsList(
-          response.data.map(rx => {
-            return { ...rx.attributes };
-          }),
-        ),
-      ),
-      !allergies && dispatch(getAllergiesList()),
-    ]);
+    if (!allergies) await dispatch(getAllergiesList());
   };
 
   const handleModalClose = () => {
@@ -336,10 +323,10 @@ const Prescriptions = props => {
 
   const handleModalDownloadButton = () => {
     if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-      generatePDF(buildPrescriptionsPDFList(fullPrescriptionsList));
+      generatePDF(buildPrescriptionsPDFList(prescriptionsFullList));
     } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
       generateTXT(
-        buildPrescriptionsTXT(fullPrescriptionsList),
+        buildPrescriptionsTXT(prescriptionsFullList),
         buildAllergiesTXT(),
       );
     }
@@ -369,7 +356,7 @@ const Prescriptions = props => {
             onCloseButtonClick={handleModalClose}
             onDownloadButtonClick={handleModalDownloadButton}
             onCancelButtonClick={handleModalClose}
-            visible={Boolean(fullPrescriptionsList?.length && allergiesError)}
+            visible={Boolean(prescriptionsFullList?.length && allergiesError)}
           />
           {paginatedPrescriptionsList?.length ? (
             <div className="landing-page-content">

@@ -5,14 +5,8 @@ import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
 import { QUESTION_MAP } from '../../constants/question-data-map';
-import { updateCurrentPage } from '../../actions';
 
-const Results2 = ({
-  formResponses,
-  router,
-  updateTheCurrentPage,
-  viewedIntroPage,
-}) => {
+const Results2 = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = QUESTION_MAP.RESULTS_2;
 
   useEffect(() => {
@@ -69,9 +63,8 @@ const Results2 = ({
         back
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
-        onClick={() =>
-          onResultsBackClick(formResponses, router, updateTheCurrentPage)
-        }
+        onClick={() => onResultsBackClick(formResponses, router)}
+        uswds={false}
       />
     </>
   );
@@ -82,7 +75,6 @@ Results2.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -91,11 +83,4 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.pactAct?.viewedIntroPage,
 });
 
-const mapDispatchToProps = {
-  updateTheCurrentPage: updateCurrentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Results2);
+export default connect(mapStateToProps)(Results2);

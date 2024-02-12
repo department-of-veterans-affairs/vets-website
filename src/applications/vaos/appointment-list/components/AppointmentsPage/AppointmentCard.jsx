@@ -10,10 +10,7 @@ import {
   getLink,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 export default function AppointmentCard({
   appointment,
@@ -84,15 +81,11 @@ export default function AppointmentCard({
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
   const label = getLabelText();
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
   const link = getLink({
     featureBreadcrumbUrlUpdate,
-    featureStatusImprovement,
     appointment,
   });
 

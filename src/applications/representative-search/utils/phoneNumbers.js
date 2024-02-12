@@ -1,26 +1,43 @@
 /**
  * @typedef {Object} ParsedPhoneNumber
- * @property {string} formattedPhoneNumber - 9-digit number with dashes added
- * @property {string} extension - the extension, can be any number of digits
  * @property {string} contact - the "raw" phone number, used to populate the tel: link
+ * @property {string} extension - the extension, can be any number of digits
  */
 
 /**
  * Parses a phone number string for use with the Telephone component.
- * @param phone {String} "raw" phone number. The first 9 digits are treated as the "main" number.
+ * @param phone {String} "raw" phone number. The first 10 digits are treated as the "main" number.
  * Any remaining digits are treated as the extension.
  * Non-digits preceding the extension are ignored.
  * @returns {ParsedPhoneNumber}
  */
 
 export const parsePhoneNumber = phone => {
-  const phoneUS = phone.replace(/^1-/, '');
-  const re = /^(\d{3})[ -]*?(\d{3})[ -]*?(\d{4})\s?(\D*)?[ ]?(\d*)?/;
-  const extension = phoneUS.replace(re, '$5').replace(/\D/g, '');
-  const formattedPhoneNumber = extension
-    ? phoneUS.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
-    : phoneUS.replace(re, '$1-$2-$3');
-  const contact = phoneUS.replace(re, '$1$2$3');
+  let sanitizedNumber = phone
+    .replace(/[()\s]/g, '') // remove parentheses
+    .replace(/(?<=.)([+.*])/g, '-'); // replace .*+ symbols being used as dashes
 
-  return { formattedPhoneNumber, extension, contact };
+  // return null for non-US country codes
+  if (sanitizedNumber.match(/\+(\d+)[^\d1]/g)) {
+    return { contact: null, extension: null };
+  }
+
+  // remove US country codes +1 or 1
+  sanitizedNumber = sanitizedNumber.replace(/^(\+1|1)\s*/, '');
+
+  // capture first 10 digits + ext if applicable
+  const parserRegex = /^(\d{10})(\D*?(\d+))?/;
+  const contact = sanitizedNumber.replace(/-/g, '').replace(parserRegex, '$1');
+  const extension =
+    sanitizedNumber
+      .replace(/-/g, '')
+      .replace(parserRegex, '$3')
+      .replace(/\D/g, '') || null;
+
+  const isValidContactNumberRegex = /^(?:[2-9]\d{2})[2-9]\d{2}\d{4}$/;
+
+  if (isValidContactNumberRegex.test(contact)) {
+    return { contact, extension };
+  }
+  return { contact: null, extension: null };
 };

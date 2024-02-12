@@ -12,8 +12,7 @@ describe('Medical Records View Allergies', () => {
     cy.visit('my-health/medical-records');
     cy.reload({ force: true });
     // Given Navigate to Allergy Page
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.wait('@session');
+
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);

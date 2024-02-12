@@ -4,7 +4,7 @@
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getAppointment,
   getAppointments,
@@ -80,19 +80,15 @@ function apptRequestSort(a, b) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function fetchAppointments({ startDate, endDate }) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(
-      startDate,
-      endDate,
-      ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      useAcheron,
-    );
+    const allAppointments = await getAppointments(startDate, endDate, [
+      'booked',
+      'arrived',
+      'fulfilled',
+      'cancelled',
+    ]);
 
     const filteredAppointments = allAppointments.data.filter(appt => {
       return !appt.requestedPeriods;
@@ -121,18 +117,12 @@ export async function fetchAppointments({
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = await getAppointments(
-      startDate,
-      endDate,
-      ['proposed', 'cancelled'],
-      useAcheron,
-    );
+    const appointments = await getAppointments(startDate, endDate, [
+      'proposed',
+      'cancelled',
+    ]);
 
     const requestsWithoutAppointments = appointments.data.filter(
       appt => !!appt.requestedPeriods,
@@ -166,9 +156,9 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useAcheron }) {
+export async function fetchRequestById({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
 
     return transformVAOSAppointment(appointment);
   } catch (e) {
@@ -188,9 +178,9 @@ export async function fetchRequestById({ id, useAcheron }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, useAcheron = false }) {
+export async function fetchBookedAppointment({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -547,8 +537,8 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment, useAcheron = false }) {
-  const result = await postAppointment(appointment, useAcheron);
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
 
   return transformVAOSAppointment(result);
 }
@@ -563,7 +553,7 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @param {Appointment} params.appointment The appointment to cancel
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment, useAcheron = false }) {
+export async function cancelAppointment({ appointment }) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -578,13 +568,9 @@ export async function cancelAppointment({ appointment, useAcheron = false }) {
   });
 
   try {
-    const updatedAppointment = await putAppointment(
-      appointment.id,
-      {
-        status: APPOINTMENT_STATUS.cancelled,
-      },
-      useAcheron,
-    );
+    const updatedAppointment = await putAppointment(appointment.id, {
+      status: APPOINTMENT_STATUS.cancelled,
+    });
 
     recordEvent({
       event: `${eventPrefix}-successful`,
@@ -859,25 +845,15 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({
-  featureBreadcrumbUrlUpdate,
-  featureStatusImprovement,
-  appointment,
-}) {
+export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
 
   if (!featureBreadcrumbUrlUpdate) {
     return isCommunityCare
-      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-          appointment.id
-        }`
-      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-          appointment.id
-        }`;
+      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
+      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
   }
-  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
-    appointment.id
-  }`;
+  return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 
 export function getPractitionerName(appointment) {

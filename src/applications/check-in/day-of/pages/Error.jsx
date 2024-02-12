@@ -136,18 +136,21 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
+          subHeading: t('your-appointment'),
           type: 'warning',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
         },
         {
+          subHeading: t('travel-reimbursement'),
           type:
             form.data['travel-question'] === 'no' ||
             !isTravelReimbursementEnabled
-              ? 'info'
+              ? 'text'
               : 'warning',
           message: getTravelMessage(),
+          travelMessage: true,
         },
       ];
       break;
@@ -167,16 +170,28 @@ const Error = () => {
     <Wrapper pageTitle={header}>
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`}>
-          <va-alert
-            show-icon
-            status={alert.type}
-            data-testid={`error-message-${index}`}
-            class={index !== 0 ? 'vads-u-margin-top--2' : ''}
-            uswds
-            slim
-          >
-            <div>{alert.message}</div>
-          </va-alert>
+          {alert.subHeading && (
+            <h2 data-testid="message-subheading">{alert.subHeading}</h2>
+          )}
+          {alert.type === 'text' ? (
+            <div
+              data-testid={`error-message-${index}`}
+              className={index !== 0 ? 'vads-u-margin-top--2' : ''}
+            >
+              {alert.message}
+            </div>
+          ) : (
+            <va-alert
+              show-icon
+              status={alert.type}
+              data-testid={`error-message-${index}`}
+              class={index !== 0 ? 'vads-u-margin-top--2' : ''}
+              uswds
+              slim
+            >
+              <div>{alert.message}</div>
+            </va-alert>
+          )}
         </div>
       ))}
     </Wrapper>

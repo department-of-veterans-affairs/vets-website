@@ -7,31 +7,37 @@ import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
   updateAutocompleteName,
+  setError,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
+import { validateSearchTerm } from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
   dispatchFetchNameAutocompleteSuggestions,
   dispatchFetchSearchByNameResults,
   dispatchUpdateAutocompleteName,
+  dispatchError,
   filters,
   preview,
   search,
   smallScreen,
+  errorReducer,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
   const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
+  const { error } = errorReducer;
   const history = useHistory();
 
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, 1, filters, version);
+    const searchName = value || search.query.name;
+    dispatchFetchSearchByNameResults(searchName, 1, filters, version);
     const clonedFilters = filters;
     clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
       exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
@@ -42,7 +48,7 @@ export function NameSearchForm({
       search.tab,
       {
         ...search.query,
-        name: value,
+        name: searchName,
       },
       clonedFilters,
       version,
@@ -76,40 +82,9 @@ export function NameSearchForm({
     [search.loadFromUrl],
   );
 
-  const validateSearchTerm = searchTerm => {
-    const empty = searchTerm.trim() === '';
-    if (empty) {
-      setError('Please fill in a school, employer, or training provider.');
-    } else if (
-      filters.schools === false &&
-      filters.excludeCautionFlags === false &&
-      filters.accredited === false &&
-      filters.studentVeteran === false &&
-      filters.yellowRibbonScholarship === false &&
-      filters.employers === false &&
-      filters.vettec === false &&
-      filters.preferredProvider === false &&
-      filters.specialMissionHbcu === false &&
-      filters.specialMissionMenonly === false &&
-      filters.specialMissionWomenonly === false &&
-      filters.specialMissionRelaffil === false &&
-      filters.specialMissionHSI === false &&
-      filters.specialMissionNANTI === false &&
-      filters.specialMissionANNHI === false &&
-      filters.specialMissionAANAPII === false &&
-      filters.specialMissionPBI === false &&
-      filters.specialMissionTRIBAL === false
-    ) {
-      setError('Please select at least one filter.');
-    } else if (error !== null) {
-      setError(null);
-    }
-    return !empty;
-  };
-
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name)) {
+    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
@@ -142,7 +117,6 @@ export function NameSearchForm({
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
               className="name-search"
-              error={error}
               inputValue={name}
               label="School, employer, or training provider"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
@@ -150,7 +124,9 @@ export function NameSearchForm({
               onSelection={s => setName(s.label)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
-              validateSearchTerm={validateSearchTerm}
+              type="name"
+              // validateSearchTerm={validateSearchTerm}
+              filters={filters}
               version={version}
             />
           </div>
@@ -173,9 +149,7 @@ export function NameSearchForm({
         !environment.isProduction() &&
         showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults
-              setShowFiltersBeforeSearch={setShowFiltersBeforeSearch}
-            />
+            <FilterBeforeResults nameVal={name} searchType="name" />
           </div>
         )}
     </div>
@@ -187,12 +161,14 @@ const mapStateToProps = state => ({
   filters: state.filters,
   preview: state.preview,
   search: state.search,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchFetchNameAutocompleteSuggestions: fetchNameAutocompleteSuggestions,
   dispatchUpdateAutocompleteName: updateAutocompleteName,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchError: setError,
 };
 
 export default connect(

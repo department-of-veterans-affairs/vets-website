@@ -3,20 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import { getClaimType } from '../utils/helpers';
-
-const statusMap = {
-  CLAIM_RECEIVED: 'Claim received',
-  INITIAL_REVIEW: 'Initial review',
-  EVIDENCE_GATHERING_REVIEW_DECISION:
-    'Evidence gathering, review, and decision',
-  PREPARATION_FOR_NOTIFICATION: 'Preparation for notification',
-  COMPLETE: 'Closed',
-};
-
-function getStatusDescription(status) {
-  return statusMap[status];
-}
+import { getClaimType, getStatusDescription } from '../utils/helpers';
 
 const formatDate = date => moment(date).format('MMMM D, YYYY');
 
@@ -93,7 +80,7 @@ export default function ClaimsListItem({ claim }) {
       </ul>
       <div className="card-status">
         <p>
-          <strong>Submitted on:</strong> {formattedReceiptDate}
+          <strong>Received on:</strong> {formattedReceiptDate}
         </p>
       </div>
       <Link

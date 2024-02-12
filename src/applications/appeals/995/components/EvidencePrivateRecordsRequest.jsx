@@ -31,7 +31,7 @@ const EvidencePrivateRequest = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const { locations = [] } = data;
   const [error, setError] = useState(null);
 
   const handlers = {
@@ -77,18 +77,21 @@ const EvidencePrivateRequest = ({
         onVaValueChange={handlers.onSelected}
         required
         error={error}
+        uswds
       >
         <va-radio-option
           label="Yes"
           name="private"
           value="y"
           checked={data[EVIDENCE_PRIVATE]}
+          uswds
         />
         <va-radio-option
           label="No"
           name="private"
           value="n"
           checked={data[EVIDENCE_PRIVATE] === false}
+          uswds
         />
       </VaRadio>
       {privateRecordsRequestInfo}

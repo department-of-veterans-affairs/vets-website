@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import set from 'platform/utilities/data/set';
 
-import { getCalculatedBenefits } from '../../selectors/calculator';
+import {
+  getCalculatedBenefits,
+  getInstitutionType,
+} from '../../selectors/calculator';
 import { formatCurrency } from '../../utils/helpers';
 import { getDefaultState } from '../helpers';
 
@@ -505,5 +508,17 @@ describe('getCalculatedBenefits', () => {
     expect(
       getCalculatedBenefits(state).outputs.housingAllowance.value,
     ).to.equal(formatCurrency(monthlyRateFinal));
+  });
+  describe('getInstitutionType', () => {
+    it('should return the type in lowercase when it is present', () => {
+      const institution = { type: 'University' };
+      const result = getInstitutionType(institution);
+      expect(result).to.equal('university');
+    });
+    it('should return the institutionTypeName in lowercase when type is not present', () => {
+      const institution = { institutionTypeName: 'College' };
+      const result = getInstitutionType(institution);
+      expect(result).to.equal('college');
+    });
   });
 });
