@@ -1,7 +1,0 @@
-{
-  "appName": "check-in",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "check-in",
-  "rootUrl": "/health-care/appointment-check-in",
-  "productId": "d177192b-4c3f-4d42-87ee-068b02904d31"
-}
