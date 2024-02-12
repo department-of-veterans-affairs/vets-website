@@ -22,7 +22,7 @@ describe('evidenceUploadUI', () => {
   });
 
   describe('parseResponse', () => {
-    it('should return undefined', () => {
+    it('should return parsed file name & confirmation code', () => {
       const { parseResponse } = evidenceUploadUI['ui:options'];
 
       const result = parseResponse(

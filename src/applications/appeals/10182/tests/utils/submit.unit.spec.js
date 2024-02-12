@@ -143,7 +143,7 @@ describe('createIssueName', () => {
       },
     });
 
-  it('should return an empty string', () => {
+  it('should return no issue details', () => {
     expect(createIssueName()).to.eq('0%');
   });
   it('should combine issue details into the name', () => {
