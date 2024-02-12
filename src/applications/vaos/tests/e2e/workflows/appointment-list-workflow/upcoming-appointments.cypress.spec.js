@@ -846,6 +846,18 @@ describe('VAOS upcoming appointment flow', () => {
           localStartTime: moment(),
         }),
       });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
+        }),
+      });
 
       // Act
       cy.login(new MockUser());
