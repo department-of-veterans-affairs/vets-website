@@ -94,7 +94,7 @@
         "status": 504
       },
       {
-        "externalService": "Vet360",
+        "externalService": "VAProfile",
         "startTime": "2020-08-21T22:17:28Z",
         "endTime": null,
         "description": "fake error",

@@ -11,7 +11,7 @@ import {
 
 const commonServices = {
   MVI: 'MVI',
-  VA_PROFILE: 'Vet360',
+  VA_PROFILE: 'VAProfile',
 };
 
 function getErrorStatusDesc(code) {
