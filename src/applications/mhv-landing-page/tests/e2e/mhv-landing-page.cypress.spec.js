@@ -1,25 +1,9 @@
-import { appName, rootUrl } from '../../manifest.json';
-import user from '../fixtures/user.json';
-import { generateFeatureToggles } from '../../mocks/api/feature-toggles';
+import manifest from '../../manifest.json';
 
-describe(`${appName} - landing page`, () => {
-  beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles()).as(
-      'featureToggles',
-    );
-  });
-
-  it('display the landing page when visiting root URL', () => {
-    cy.login(user);
-    cy.visit(rootUrl);
+describe(manifest.appName, () => {
+  it('Visit bad URL', () => {
+    cy.visit(`${manifest.rootUrl}/dummy`);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
-    cy.findByRole('heading', { level: 2, name: /^Welcome/ }).should.exist;
-  });
-
-  it('display 404 page on unknown URLs', () => {
-    cy.visit(`${rootUrl}/dummy`);
-    cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: /we can’t find that page/i }).should.exist;
+    cy.findByRole('heading', { name: /we can’t find that page/ }).should.exist;
   });
 });

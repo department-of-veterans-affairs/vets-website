@@ -10,11 +10,6 @@ describe(manifest.appName, () => {
       ApiInitializer.initializeUserData.withDefaultUser();
     });
 
-    const getUnreadLink = () =>
-      cy.findByRole('link', {
-        name: /You have unread messages. Go to your inbox/i,
-      });
-
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('indicator is shown when there are unread messages', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
@@ -22,7 +17,7 @@ describe(manifest.appName, () => {
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
 
-      getUnreadLink().should('be.visible');
+      LandingPage.unreadMessageIndicator().should('be.visible');
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
@@ -32,7 +27,7 @@ describe(manifest.appName, () => {
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
 
-      getUnreadLink().should('not.exist');
+      LandingPage.unreadMessageIndicator().should('not.exist');
     });
   });
 });
