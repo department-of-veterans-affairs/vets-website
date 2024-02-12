@@ -17,13 +17,12 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
-import { EMPTY_FIELD } from '../../util/constants';
 import {
   updatePageTitle,
   generatePdfScaffold,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, EMPTY_FIELD } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
