@@ -74,7 +74,7 @@ describe('<ClaimStatusPage>', () => {
       }));
 
     context('should render status page without a timeline', () => {
-      it('shows WhatWereDoing section and WhatYouNeedToDo section without alerts when using lighthouse', () => {
+      it('shows ClaimStatusHeader, WhatWereDoing and WhatYouNeedToDo sections without alerts when using lighthouse', () => {
         const claim = {
           id: '1',
           attributes: {
@@ -111,13 +111,14 @@ describe('<ClaimStatusPage>', () => {
 
         expect(statusPage).to.exist;
         expect(within(statusPage).queryByRole('list')).to.not.exist;
+        expect($('.claim-status-header-container', container)).to.exist;
         expect($('.what-were-doing-container', container)).to.exist;
         expect($('.what-you-need-to-do-container', container)).to.exist;
         expect($('va-alert', container)).not.to.exist;
         expect($('.need-files-alert', container)).not.to.exist;
       });
 
-      it('shows WhatWereDoing section and WhatYouNeedToDo section with alerts when using lighthouse', () => {
+      it('shows ClaimStatusHeader, WhatWereDoing and WhatYouNeedToDo sections with alerts when using lighthouse', () => {
         const claim = {
           id: '1',
           attributes: {
@@ -163,12 +164,13 @@ describe('<ClaimStatusPage>', () => {
 
         expect(statusPage).to.exist;
         expect(within(statusPage).queryByRole('list')).to.not.exist;
+        expect($('.claim-status-header-container', container)).to.exist;
         expect($('.what-were-doing-container', container)).to.exist;
         expect($('.what-you-need-to-do-container', container)).to.exist;
         expect($('va-alert', container)).to.exist;
       });
 
-      it('doesnt show WhatWereDoing section and shows WhatYouNeedToDo section without alerts when using evss', () => {
+      it('doesnt show ClaimStatusHeader or WhatWereDoing sections and shows WhatYouNeedToDo section without alerts when using evss', () => {
         const claim = {
           id: '1',
           attributes: {
@@ -194,6 +196,7 @@ describe('<ClaimStatusPage>', () => {
 
         expect(statusPage).to.exist;
         expect(within(statusPage).queryByRole('list')).to.not.exist;
+        expect($('.claim-status-header-container', container)).to.not.exist;
         expect($('.what-were-doing-container', container)).to.not.exist;
         expect($('.what-you-need-to-do-container', container)).to.exist;
         expect($('va-alert', container)).not.to.exist;
@@ -202,7 +205,7 @@ describe('<ClaimStatusPage>', () => {
     });
 
     context('should render status page with a timeline', () => {
-      it('doesnt show WhatWereDoing section and shows WhatYouNeedToDo section with alerts when using evss', () => {
+      it('doesnt show ClaimStatusHeader or WhatWereDoing sections and shows WhatYouNeedToDo section with alerts when using evss', () => {
         const claim = {
           id: '1',
           attributes: {
@@ -240,6 +243,7 @@ describe('<ClaimStatusPage>', () => {
 
         expect(statusPage).to.exist;
         expect(within(statusPage).queryByRole('list')).to.not.exist;
+        expect($('.claim-status-header-container', container)).to.not.exist;
         expect($('.what-were-doing-container', container)).to.not.exist;
         expect($('.what-you-need-to-do-container', container)).to.exist;
         expect($('va-alert', container)).to.exist;
