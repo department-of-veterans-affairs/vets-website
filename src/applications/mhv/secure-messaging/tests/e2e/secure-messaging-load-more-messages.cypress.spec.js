@@ -38,11 +38,11 @@ describe('Secure Messaging Inbox Message Sort', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
+      // rules: {
+      //   'aria-required-children': {
+      //     enabled: false,
+      //   },
+      // },
     });
   });
 });
