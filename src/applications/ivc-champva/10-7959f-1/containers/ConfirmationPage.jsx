@@ -54,13 +54,13 @@ export class ConfirmationPage extends React.Component {
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
           ) : null}
-          <button
+          <va-button
             type="button"
             className="usa-button screen-only"
             onClick={window.print}
           >
             Print this for your records
-          </button>
+          </va-button>
         </div>
       </div>
     );
