@@ -33,7 +33,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  // TODO [rs] WIP: need to update test
+  // TODO (ryanshaw) WIP: need to update test
   it.skip('should navigate to community care appointments detail page', async () => {
     const url = '/cc/01aa456cc';
     const appointmentTime = moment().add(1, 'days');
