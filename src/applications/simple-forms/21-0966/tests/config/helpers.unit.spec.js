@@ -12,7 +12,7 @@ import {
   initializeFormDataWithPreparerIdentification,
   hasActiveCompensationITF,
   hasActivePensionITF,
-  noActiveITFOrCreationFailed,
+  noActiveITF,
   statementOfTruthFullNamePath,
   getAlertType,
   getSuccessAlertTitle,
@@ -44,7 +44,7 @@ describe('form helper functions', () => {
     expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
     expect(hasActiveCompensationITF()).to.equal(false);
     expect(hasActivePensionITF()).to.equal(false);
-    expect(noActiveITFOrCreationFailed()).to.equal(true);
+    expect(noActiveITF()).to.equal(true);
     expect(statementOfTruthFullNamePath()).to.equal(
       'survivingDependentFullName',
     );
@@ -194,36 +194,37 @@ describe('form helper functions', () => {
     );
   });
 
-  it('returns true for ITF functions when ITF formData values are present and false when values are undefined', () => {
+  it('returns true for ITF functions when ITF formData values are present and false when values are empty objects', () => {
     const formData = {
-      activeCompensationITF: { expirationDate: '1-1-1999' },
-      activePensionITF: undefined,
+      'view:activeCompensationITF': {
+        expirationDate: '1-1-1999',
+        status: 'active',
+      },
+      'view:activePensionITF': {},
     };
 
     expect(hasActiveCompensationITF({ formData })).to.equal(true);
     expect(hasActivePensionITF({ formData })).to.equal(false);
-    expect(noActiveITFOrCreationFailed({ formData })).to.equal(false);
+    expect(noActiveITF({ formData })).to.equal(false);
 
-    formData.activeCompensationITF = undefined;
-    formData.activePensionITF = { expirationDate: '1-1-1999' };
+    formData['view:activeCompensationITF'] = {};
+    formData['view:activePensionITF'] = {
+      expirationDate: '1-1-1999',
+      status: 'active',
+    };
 
     expect(hasActiveCompensationITF({ formData })).to.equal(false);
     expect(hasActivePensionITF({ formData })).to.equal(true);
-    expect(noActiveITFOrCreationFailed({ formData })).to.equal(false);
+    expect(noActiveITF({ formData })).to.equal(false);
   });
 
-  it('returns true for noActiveITFOrCreationFailed when itfCreationFailed is true or when there are no active ITFs', () => {
+  it('returns true for noActiveITF when there are no active ITFs', () => {
     const formData = {
-      activeCompensationITF: undefined,
-      activePensionITF: undefined,
+      'view:activeCompensationITF': {},
+      'view:activePensionITF': {},
     };
 
-    expect(noActiveITFOrCreationFailed({ formData })).to.equal(true);
-
-    formData.activePensionITF = { expirationDate: '1-1-1999' };
-    formData.itfCreationFailed = true;
-
-    expect(noActiveITFOrCreationFailed({ formData })).to.equal(true);
+    expect(noActiveITF({ formData })).to.equal(true);
   });
 });
 
