@@ -25,7 +25,7 @@ export default class SignInModal extends React.Component {
         onClose={this.props.onClose}
         id="signin-signup-modal"
       >
-        <LoginContainer />
+        <LoginContainer externalApplication={this.props.externalApplication} />
       </Modal>
     );
   }
@@ -35,4 +35,5 @@ SignInModal.propTypes = {
   useSiS: PropTypes.bool,
   visible: PropTypes.bool,
   onClose: PropTypes.func,
+  externalApplication: PropTypes.string,
 };

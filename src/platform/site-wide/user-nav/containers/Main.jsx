@@ -245,6 +245,7 @@ export class Main extends Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
           useSiS={this.props.useSignInService}
+          externalApplication={this.props.externalApplication}
         />
         {mhvTransition &&
           mhvTransitionModal && (
@@ -339,6 +340,7 @@ Main.propTypes = {
   showLoginModal: PropTypes.bool,
   showNavLogin: PropTypes.bool,
   useSignInService: PropTypes.bool,
+  externalApplication: PropTypes.string,
   userGreeting: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.object,
