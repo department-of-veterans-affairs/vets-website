@@ -5,11 +5,11 @@ const POARequests = () => {
   const breadcrumbs = [
     { link: '/', label: 'Home' },
     { link: '/dashboard', label: 'Dashboard' },
-    { link: '/poa-requests', label: 'POA Requests' },
+    { link: '/poa-requests', label: 'POA requests' },
   ];
   return (
     <LoginViewWrapper breadcrumbs={breadcrumbs}>
-      <h1>Power of Attorney Requests</h1>
+      <h1>Power of attorney requests</h1>
       <label
         htmlFor="poa-requests-search"
         id="poa-requests-search-label"

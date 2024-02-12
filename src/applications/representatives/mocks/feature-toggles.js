@@ -1,4 +1,4 @@
-const generateFeatureToggles = (toggles = {}) => {
+export const generateFeatureToggles = (toggles = {}) => {
   const { representativesPortalFrontend = false } = toggles;
 
   return {
@@ -13,5 +13,3 @@ const generateFeatureToggles = (toggles = {}) => {
     },
   };
 };
-
-module.exports = { generateFeatureToggles };

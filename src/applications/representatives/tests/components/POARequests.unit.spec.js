@@ -13,12 +13,12 @@ describe('POARequests', () => {
     const { getByText } = render(<POARequests />);
     expect(getByText('Home')).to.exist;
     expect(getByText('Dashboard')).to.exist;
-    expect(getByText('POA Requests')).to.exist;
+    expect(getByText('POA requests')).to.exist;
   });
 
   it('renders header', () => {
     const { getByText } = render(<POARequests />);
-    expect(getByText('Power of Attorney Requests')).to.exist;
+    expect(getByText('Power of attorney requests')).to.exist;
   });
 
   it('renders search input', () => {

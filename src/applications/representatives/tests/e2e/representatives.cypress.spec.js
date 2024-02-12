@@ -1,3 +1,5 @@
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
+
 describe('Representatives', () => {
   // Skip tests in CI until the app is released.
   // Remove this block when the app has a content page in production.
@@ -5,7 +7,7 @@ describe('Representatives', () => {
     if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'representativesPortalFrontend', value: true }],
+        features: [{ name: 'representatives_portal_frontend', value: true }],
       },
     });
   });
@@ -14,6 +16,7 @@ describe('Representatives', () => {
     cy.visit('/representatives')
       .injectAxe()
       .axeCheck();
+    generateFeatureToggles();
     cy.contains('Welcome to Representative.VA.gov');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
@@ -27,6 +30,6 @@ describe('Representatives', () => {
     cy.url().should('include', '/representatives/poa-requests');
     cy.injectAxe();
     cy.axeCheck();
-    cy.contains('Power of Attorney Requests');
+    cy.contains('Power of attorney requests');
   });
 });
