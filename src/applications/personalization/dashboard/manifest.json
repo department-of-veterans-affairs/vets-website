@@ -1,7 +1,0 @@
-{
-  "appName": "Dashboard",
-  "entryFile": "./dashboard-entry.jsx",
-  "entryName": "dashboard",
-  "rootUrl": "/my-va",
-  "productId": "e72a828d-94a2-4e39-b668-526940b85253"
-}

@@ -1,9 +1,0 @@
-{
-  "errors": [
-    {
-      "title": "Not authorized",
-      "code": "404",
-      "status": "404"
-    }
-  ]
-}
