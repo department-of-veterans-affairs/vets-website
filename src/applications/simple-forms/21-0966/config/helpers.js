@@ -42,11 +42,11 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
 };
 
 export const hasActiveCompensationITF = ({ formData } = {}) => {
-  return !isEmpty(formData['view:activeCompensationITF']);
+  return !isEmpty(formData?.['view:activeCompensationITF']);
 };
 
 export const hasActivePensionITF = ({ formData } = {}) => {
-  return !isEmpty(formData['view:activePensionITF']);
+  return !isEmpty(formData?.['view:activePensionITF']);
 };
 
 export const noActiveITF = ({ formData } = {}) => {
