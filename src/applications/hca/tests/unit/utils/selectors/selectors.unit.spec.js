@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import * as selectors from '../../../utils/selectors';
-import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
+import * as selectors from '../../../../utils/selectors';
+import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 
 const basicEnrollmentStatusState = {
   applicationDate: null,
