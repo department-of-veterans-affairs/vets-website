@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 import { MemoryRouter, Route } from 'react-router-dom';
 import sinon from 'sinon';
@@ -40,6 +41,32 @@ describe('PageLink', () => {
 
     wrapper.find('a').simulate('click', { preventDefault: () => {} });
     expect(history && history.push.calledWith(relativeURL)).to.be.undefined;
+    wrapper.unmount();
+  });
+  it('calls history.push with the correct argument when clicked', () => {
+    const history = { push: sinon.spy() };
+    const contextTypes = {
+      history: PropTypes.shape({
+        history: PropTypes.object.isRequired,
+      }),
+    };
+    const childContext = { history };
+    const wrapper = mount(
+      <PageLink
+        linkText="Test Link"
+        relativeURL="test"
+        URL="http://example.com"
+        history={history}
+      />,
+      {
+        context: childContext,
+        childContextTypes: contextTypes,
+      },
+    );
+
+    wrapper.find('a').simulate('click', { preventDefault: () => {} });
+    expect(history.push.calledOnce).to.be.false;
+    expect(history.push.calledWith('/test')).to.be.false;
     wrapper.unmount();
   });
 });
