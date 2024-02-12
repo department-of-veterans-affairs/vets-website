@@ -55,7 +55,7 @@ const extractNote = record => {
   );
 };
 
-const getDateSigned = record => {
+export const getDateSigned = record => {
   const ext = record.authenticator.extension;
   if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
     return formatDateLong(ext[0].valueDateTime);
