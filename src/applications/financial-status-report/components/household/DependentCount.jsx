@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -11,53 +9,60 @@ import useClearSpouseData from '../../hooks/useClearSpouseData';
 const WHOLE_NUMBER_PATTERN = /^\d+$/;
 
 const DependentCount = ({
+  data,
   goBack,
   goToPath,
+  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
   const headerRef = useRef(null);
-  const dispatch = useDispatch();
-  const formData = useSelector(state => state.form.data);
+
   const {
     questions: { hasDependents, isMarried },
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
-  } = formData;
+  } = data;
 
   const MAXIMUM_DEPENDENT_COUNT = 25;
 
   const [error, setError] = useState(null);
-  const [dependents, setDependents] = useState(hasDependents);
-  // Hook will handle the logic based on isMarried.
-  useClearSpouseData(isMarried, formData, setData);
-  // Header ref for setting focus
+  const [dependents, setDependents] = useState(hasDependents || '0');
+
+  // Correctly handle the hook to clear spouse data based on marital status
+  useClearSpouseData(isMarried, data, setFormData);
+
   useEffect(
     () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
+      if (headerRef.current) {
+        focusElement(headerRef.current);
       }
     },
     [headerRef],
   );
 
-  function determineNextPath() {
-    // Navigate to 'review-and-submit' if reviewNavigation and showReviewNavigation are true,
+  useEffect(
+    () => {
+      setDependents(hasDependents || '0');
+    },
+    [hasDependents],
+  );
+
+  const determineNextPath = () => {
     if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
       return '/review-and-submit';
     }
-
-    // If dependents is '0' but not in review mode, navigate to 'employment-question'.
     if (dependents === '0') {
       return '/employment-question';
     }
-
-    // Default to 'dependent-ages' if none of the above conditions are met.
     return '/dependent-ages';
-  }
+  };
 
-  const validateAndNavigate = () => {
-    // Validate input and prepare navigation based on the updated form data
+  const validateInput = () => {
     if (
       !WHOLE_NUMBER_PATTERN.test(dependents) ||
       dependents > MAXIMUM_DEPENDENT_COUNT ||
@@ -65,29 +70,17 @@ const DependentCount = ({
     ) {
       setError('Please enter a valid number of dependents (0-25).');
       focusElement('#dependent-count');
-      return;
+      return false;
     }
-
     setError(null);
-
-    // Update the formData in Redux store
-    dispatch(
-      setData({
-        ...formData,
-        questions: { ...formData.questions, hasDependents: dependents },
-        personalData:
-          dependents === '0'
-            ? { ...formData.personalData, dependents: [] }
-            : formData.personalData,
-      }),
-    );
-    // Determine and navigate to the next path based on the dependents value
-    goToPath(determineNextPath());
+    return true;
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    validateAndNavigate();
+    if (validateInput()) {
+      goToPath(determineNextPath());
+    }
   };
 
   return (
@@ -101,32 +94,27 @@ const DependentCount = ({
         <VaNumberInput
           label="Number of dependents"
           error={error}
-          hint="Dependents include your spouse, unmarried children under 18 years old, and other dependents."
-          id="dependent-count"
-          name="dependent-count"
-          onBlur={() => {
-            if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-              setError('Please enter your dependent(s) information');
-              focusElement('va-number-input');
-              return;
-            }
-
-            if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
-              setError(
-                'Please enter a value greater than or equal to 0 and less than 25',
-              );
-              focusElement('va-number-input');
-            }
-          }}
           onInput={({ target }) => {
-            setDependents(target.value);
+            const newValue = target?.value;
+            setDependents(newValue); // Update local state first
+            setFormData({
+              ...data,
+              questions: {
+                ...data?.questions,
+                hasDependents: newValue, // Use the new value
+              },
+              personalData:
+                newValue === '0'
+                  ? { ...data?.personalData, dependents: [] }
+                  : data?.personalData,
+            });
           }}
-          inputMode="number"
-          value={dependents}
+          value={dependents.toString()} // Ensure value is always a string
+          inputMode="numeric" // Use "numeric" for better mobile keyboard support
           className="no-wrap input-size-2"
-          required
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}
+          required
           uswds
         />
         <DependentExplainer />
@@ -142,13 +130,12 @@ const DependentCount = ({
           },
           {
             label: 'Continue',
-            isContinueButton: true,
+            isContinueButton: false,
             onClick: handleSubmit,
             isSubmitting: true,
           },
         ]}
       />
-
       {contentAfterButtons}
     </form>
   );
