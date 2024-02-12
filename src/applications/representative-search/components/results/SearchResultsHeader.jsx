@@ -98,17 +98,23 @@ export const SearchResultsHeader = props => {
         >
           {handleNumberOfResults()} for
           {` `}
+          &quot;
           <b>{repFormat[representativeType]}</b>
+          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              matching <b>"{context.repOrgName}"</b>
+              matching &quot;
+              <b>{context.repOrgName}</b>
+              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within <b>{searchArea} miles</b> of &quot;
+              within &quot;
+              <b>{searchArea} miles</b>
+              &quot; of &quot;
               <b>{context.location}</b>
               &quot;
             </>
