@@ -5,10 +5,10 @@ import { isAfter, parse } from 'date-fns';
 import {
   VA_FORM_IDS,
   FORM_BENEFITS,
-  FORM_LINKS,
   FORM_TITLES,
   SIP_ENABLED_FORMS,
   TRACKING_PREFIXES,
+  getFormLink,
 } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -37,7 +37,7 @@ export const presentableFormIDs = Object.keys(FORM_BENEFITS).reduce(
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
-  if (!FORM_TITLES[formNumber] || !FORM_LINKS[formNumber]) {
+  if (!FORM_TITLES[formNumber] || !getFormLink(formNumber)) {
     Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }

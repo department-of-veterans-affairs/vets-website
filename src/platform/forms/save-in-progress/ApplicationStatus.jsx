@@ -10,7 +10,7 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
-import { FORM_LINKS, FORM_DESCRIPTIONS, FORM_BENEFITS } from '../constants';
+import { FORM_DESCRIPTIONS, FORM_BENEFITS, getFormLink } from '../constants';
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
@@ -47,7 +47,7 @@ export class ApplicationStatus extends React.Component {
         // obsolete once all wizards are moved to the intro page
         sessionStorage.removeItem(this.props.wizardStatus || WIZARD_STATUS);
         if (!this.props.stayAfterDelete) {
-          window.location.href = FORM_LINKS[formId];
+          window.location.href = getFormLink(formId);
         } else {
           this.setState({ modalOpen: false, loading: false });
         }
@@ -154,7 +154,7 @@ export class ApplicationStatus extends React.Component {
             <p>
               <a
                 className="usa-button-primary"
-                href={`${FORM_LINKS[formId]}resume`}
+                href={`${getFormLink(formId)}resume`}
                 onClick={this.handleResume}
               >
                 {continueAppButtonText}
@@ -250,7 +250,7 @@ export class ApplicationStatus extends React.Component {
             <div className="sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
               <a
                 className="vads-c-action-link--green"
-                href={FORM_LINKS[formId]}
+                href={getFormLink(formId)}
               >
                 {applyText}
               </a>

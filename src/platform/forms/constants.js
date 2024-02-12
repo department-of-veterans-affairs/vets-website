@@ -138,38 +138,57 @@ export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
   {},
 );
 
-export const FORM_LINKS = {
-  [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
-  [VA_FORM_IDS.FORM_10_10D]: `${getAppUrl('10-10D')}/`,
-  [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
-  [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
-  [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
-  [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
-  [VA_FORM_IDS.FORM_20_10206]: `${getAppUrl('10206-pa')}/`,
-  [VA_FORM_IDS.FORM_21_0972]: `${getAppUrl('21-0972-alternate-signer')}/`,
-  [VA_FORM_IDS.FORM_21_10210]: `${getAppUrl('10210-lay-witness-statement')}/`,
-  [VA_FORM_IDS.FORM_21_4142]: `${getAppUrl('21-4142-medical-release')}/`,
-  [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
-  [VA_FORM_IDS.FORM_21_686C]: `${getAppUrl('686C-674')}/`,
-  [VA_FORM_IDS.FORM_21P_0847]: `${getAppUrl('21P-0847-substitute-claimant')}/`,
-  [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrl('pensions')}/`,
-  [VA_FORM_IDS.FORM_21P_530]: `${getAppUrl('burials')}/`,
-  [VA_FORM_IDS.FORM_22_0993]: `${getAppUrl('0993-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_0994]: `${getAppUrl('0994-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_1990]: `${getAppUrl('1990-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_1990E]: `${getAppUrl('1990e-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_1990EZ]: `${getAppUrl('1990ez-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_1990N]: `${getAppUrl('1990n-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_1995]: `${getAppUrl('1995-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_5490]: `${getAppUrl('5490-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}/`,
-  [VA_FORM_IDS.FORM_28_1900]: `${getAppUrl('28-1900-chapter-31')}/`,
-  [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
-  [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
-  [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
+// memoizing so that we don't have to recompute the form links every time
+// returns a function that takes a formId and returns a link
+const memoizedGetFormLink = () => {
+  let cache = {};
+  return formId => {
+    if (!(formId in cache)) {
+      const FORM_LINKS = {
+        [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
+        [VA_FORM_IDS.FORM_10_10D]: `${getAppUrl('10-10D')}/`,
+        [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
+        [VA_FORM_IDS.FORM_10182]: `${getAppUrl('10182-board-appeal')}/`,
+        [VA_FORM_IDS.FORM_20_0995]: `${getAppUrl('995-supplemental-claim')}/`,
+        [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
+        [VA_FORM_IDS.FORM_20_10206]: `${getAppUrl('10206-pa')}/`,
+        [VA_FORM_IDS.FORM_21_0972]: `${getAppUrl('21-0972-alternate-signer')}/`,
+        [VA_FORM_IDS.FORM_21_10210]: `${getAppUrl(
+          '10210-lay-witness-statement',
+        )}/`,
+        [VA_FORM_IDS.FORM_21_4142]: `${getAppUrl('21-4142-medical-release')}/`,
+        [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
+        [VA_FORM_IDS.FORM_21_686C]: `${getAppUrl('686C-674')}/`,
+        [VA_FORM_IDS.FORM_21P_0847]: `${getAppUrl(
+          '21P-0847-substitute-claimant',
+        )}/`,
+        [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrl('pensions')}/`,
+        [VA_FORM_IDS.FORM_21P_530]: `${getAppUrl('burials')}/`,
+        [VA_FORM_IDS.FORM_22_0993]: `${getAppUrl('0993-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_0994]: `${getAppUrl('0994-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_1990]: `${getAppUrl('1990-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_1990E]: `${getAppUrl('1990e-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_1990EZ]: `${getAppUrl('1990ez-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_1990N]: `${getAppUrl('1990n-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_1995]: `${getAppUrl('1995-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_5490]: `${getAppUrl('5490-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
+        [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}/`,
+        [VA_FORM_IDS.FORM_28_1900]: `${getAppUrl('28-1900-chapter-31')}/`,
+        [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
+        [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
+        [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
+      };
+      cache = FORM_LINKS;
+    }
+
+    return cache?.[formId] || null;
+  };
 };
+
+// use this exported function to get the form link
+export const getFormLink = memoizedGetFormLink();
 
 export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10D]: '10-10D-',

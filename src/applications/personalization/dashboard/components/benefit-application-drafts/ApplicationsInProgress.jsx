@@ -11,7 +11,7 @@ import {
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_LINKS, FORM_BENEFITS } from '~/platform/forms/constants';
+import { FORM_BENEFITS, getFormLink } from '~/platform/forms/constants';
 
 import ApplicationInProgress from './ApplicationInProgress';
 
@@ -57,7 +57,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
               fromUnixTime(expiresAt),
               'MMMM d, yyyy',
             );
-            const continueUrl = `${FORM_LINKS[formId]}resume`;
+            const continueUrl = `${getFormLink(formId)}resume`;
             return (
               <ApplicationInProgress
                 key={formId}
