@@ -639,7 +639,15 @@ describe('VAOS upcoming appointment flow', () => {
 
       mockFeatureToggles();
       mockVamcEhrApi();
+    });
 
+    it('should display "Join" button if 30 minutes in the future', () => {
+      // Arrange
+      mockAppointmentsGetApi({
+        response: MockAppointmentResponse.createMobileResponses({
+          localStartTime: moment().add(30, 'minutes'),
+        }),
+      });
       mockClinicsApi({
         locationId: '983',
         response: MockClinicResponse.createResponses({
@@ -650,15 +658,6 @@ describe('VAOS upcoming appointment flow', () => {
         id: '983',
         response: new MockFacilityResponse({
           id: '983',
-        }),
-      });
-    });
-
-    it('should display "Join" button if 30 minutes in the future', () => {
-      // Arrange
-      mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment().add(30, 'minutes'),
         }),
       });
 
@@ -687,6 +686,18 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
           localStartTime: moment().add(-240, 'minutes'),
+        }),
+      });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
         }),
       });
 
@@ -718,6 +729,18 @@ describe('VAOS upcoming appointment flow', () => {
           localStartTime: moment().add(20, 'minutes'),
         }),
       });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
+        }),
+      });
 
       // Act
       cy.login(new MockUser());
@@ -744,6 +767,18 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createAtlasResponses({
           localStartTime: moment().add(1, 'day'),
+        }),
+      });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
         }),
       });
 
@@ -817,6 +852,18 @@ describe('VAOS upcoming appointment flow', () => {
           localStartTime: moment().add(2, 'day'),
         }),
       });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
+        }),
+      });
 
       // Act
       cy.login(new MockUser());
@@ -842,6 +889,18 @@ describe('VAOS upcoming appointment flow', () => {
       mockAppointmentsGetApi({
         response: MockAppointmentResponse.createMobileResponses({
           localStartTime: moment().add(32, 'minutes'),
+        }),
+      });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+        }),
+      });
+      mockFacilityApi({
+        id: '983',
+        response: new MockFacilityResponse({
+          id: '983',
         }),
       });
 
