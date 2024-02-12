@@ -70,7 +70,7 @@ export const geocodeUserAddress = query => {
               placeName: features[0].place_name,
               placeType: features[0].place_type[0],
             },
-            searchArea: null,
+            searchArea: query.searchArea,
             address: query.locationInputString,
             locationQueryString: query.locationInputString,
             representativeQueryString: query.representativeInputString,
