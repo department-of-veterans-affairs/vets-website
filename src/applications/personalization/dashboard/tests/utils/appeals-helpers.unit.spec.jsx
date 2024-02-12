@@ -11,6 +11,9 @@ describe('formatDate', () => {
   it('should format date', () => {
     expect(formatDate('2/6/2024')).to.equal('February 06, 2024');
   });
+  it('should format date', () => {
+    expect(formatDate('2/4/2024')).to.not.equal('February 06, 2024');
+  });
 });
 
 describe('getHearingType', () => {

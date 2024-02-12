@@ -72,6 +72,7 @@ export function getDocketName(docket) {
   }
 }
 
+// Agency of Original Jurisdictions
 export const AOJS = {
   vba: 'vba',
   vha: 'vha',
@@ -79,6 +80,11 @@ export const AOJS = {
   other: 'other',
 };
 
+/**
+ *
+ * @param {string} aoj
+ * @returns full name of Agency of Original Jurisdiction (AOJ) abbreviation
+ */
 export function getAojDescription(aoj) {
   switch (aoj) {
     case AOJS.vba:
