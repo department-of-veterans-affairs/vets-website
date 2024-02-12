@@ -37,6 +37,7 @@ const ProcessTimeline = () => (
           <va-additional-info
             trigger="What if I don't want to put my SSN or TIN in the application?"
             class="vads-u-margin-top--2 vads-u-margin-bottom--5"
+            uswds
           >
             <p className="vads-u-margin-top--0">
               We only require your SSN or TIN if you apply online. If you want
@@ -95,6 +96,7 @@ const ProcessTimeline = () => (
           <va-additional-info
             trigger="What&apos;s a Caregiver Support Coordinator ?"
             class="vads-u-margin-y--1p5"
+            uswds
           >
             A Caregiver Support Coordinator is a clinical professional who
             connects Veteran caregivers with VA and community resources that
