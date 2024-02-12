@@ -203,6 +203,7 @@ const PreSubmitSignature = ({
         />
         <VaCheckbox
           id="veteran-certify"
+          name="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
           checked={certifyChecked}
           onVaChange={value => setCertifyChecked(value.detail.checked)}
