@@ -66,9 +66,10 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
+Date: ${record.date}\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}`}
+${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
