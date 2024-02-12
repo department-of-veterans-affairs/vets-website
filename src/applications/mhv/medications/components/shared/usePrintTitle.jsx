@@ -9,16 +9,14 @@ const usePrintTitle = (
 ) => {
   useEffect(
     () => {
-      const { first, last, middle, suffix } = userDetails;
+      const { first, last, suffix } = userDetails;
       const name = first
-        ? `${last}, ${first} ${middle} ${suffix}`
-            .replace(/undefined/g, '')
-            .trim()
-        : 'Doe, John R., Jr.';
+        ? `${first} ${last} ${suffix}`.replace(/undefined/g, '').trim()
+        : 'John Doe Jr.';
       const formattedDob = dateFormat(new Date(dob)) || 'March 15, 1982';
 
       const beforePrintHandler = () => {
-        updatePageTitle(`${baseTitle} ${name} ${formattedDob}`);
+        updatePageTitle(`${baseTitle} | ${name} | ${formattedDob}`);
       };
 
       const afterPrintHandler = () => {
