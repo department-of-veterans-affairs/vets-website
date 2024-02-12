@@ -27,6 +27,7 @@ const Contacts = ({ data }) => {
         <Contact
           testId={`phcc-emergency-contact-${i}`}
           key={ec.id}
+          index={i}
           {...ec.attributes}
         />
       ))
@@ -40,6 +41,7 @@ const Contacts = ({ data }) => {
         <Contact
           testId={`phcc-next-of-kin-${i}`}
           key={nok.id}
+          index={i}
           {...nok.attributes}
         />
       ))

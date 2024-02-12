@@ -16,7 +16,8 @@ const PersonalHealthCareContacts = () => {
   const { data, loading, error } = useSelector(selectProfileContacts);
 
   useEffect(
-    () => !data && !loading && !error && dispatch(fetchProfileContacts()),
+    () =>
+      !data.length && !loading && !error && dispatch(fetchProfileContacts()),
     [data, dispatch, error, loading],
   );
 
