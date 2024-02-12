@@ -49,7 +49,9 @@ const extractNote = record => {
   return (
     isArrayAndHasItems(record.content) &&
     typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64').toString('utf-8')
+    Buffer.from(record.content[0].attachment.data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n') // Standardize line endings
   );
 };
 
