@@ -211,6 +211,7 @@ export default [
       }
       return transformedExpense;
     }
+
     const newFormData = {
       ...formData,
       ...(formData.marriages && {

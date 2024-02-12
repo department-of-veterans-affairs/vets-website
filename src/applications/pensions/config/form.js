@@ -264,7 +264,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: migrations.length,
+  version: 5,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
