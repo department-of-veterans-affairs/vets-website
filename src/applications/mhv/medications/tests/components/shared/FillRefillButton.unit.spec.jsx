@@ -77,4 +77,27 @@ describe('Fill Refill Button component', () => {
     );
     expect(screen.queryByTestId('refill-request-button')).to.not.exist;
   });
+
+  it('renders the correct text when dispensedDate is null', () => {
+    const screen = renderWithStoreAndRouter(
+      <FillRefillButton {...{ ...rx, dispensedDate: null }} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: '/1234567890',
+      },
+    );
+    const button = screen.getByTestId('refill-request-button');
+    expect(button).to.have.property('text', 'Request the first fill');
+  });
+
+  it('renders the correct text when dispensedDate exists', () => {
+    const screen = renderWithStoreAndRouter(<FillRefillButton {...rx} />, {
+      initialState: {},
+      reducers: reducer,
+      path: '/1234567890',
+    });
+    const button = screen.getByTestId('refill-request-button');
+    expect(button).to.have.property('text', 'Request a refill');
+  });
 });
