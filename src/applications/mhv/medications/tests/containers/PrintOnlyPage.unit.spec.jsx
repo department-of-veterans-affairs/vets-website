@@ -26,21 +26,7 @@ describe('Medications List Print Page', () => {
 
   it('renders content as body of table', () => {
     setup();
-    const text = document.querySelector('tbody').textContent;
+    const text = document.querySelector('span').textContent;
     expect(text).to.contain('This is the page content.');
-  });
-
-  it('Medications | Veterans Affairs', () => {
-    const screen = setup();
-    const rxName = screen.findByText('Medications | Veterans Affairs');
-    expect(rxName).to.exist;
-  });
-
-  it('display user name and dob', () => {
-    const screen = setup();
-    const name = 'Doe, John R., Jr.';
-    const dob = 'March 15, 1982';
-    expect(screen.findByText(name)).to.exist;
-    expect(screen.findByText(`Date of birth: ${dob}`)).to.exist;
   });
 });

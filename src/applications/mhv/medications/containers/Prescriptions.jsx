@@ -37,6 +37,7 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import { updatePageTitle } from '../../shared/util/helpers';
 import { reportGeneratedBy } from '../../shared/util/constants';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
 const Prescriptions = () => {
   const location = useLocation();
@@ -133,6 +134,9 @@ const Prescriptions = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption],
   );
+
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
     () => {
