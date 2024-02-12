@@ -7,7 +7,13 @@ import { sortOptions } from '../../config';
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-  const { inProgress, context, representativeType, sortType } = query;
+  const {
+    inProgress,
+    context,
+    representativeType,
+    sortType,
+    searchArea,
+  } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults.length;
 
@@ -102,7 +108,7 @@ export const SearchResultsHeader = props => {
           {` `}
           {context.location && (
             <>
-              within <b>50 miles</b> of &quot;
+              within <b>{searchArea} miles</b> of &quot;
               <b>{context.location}</b>
               &quot;
             </>
