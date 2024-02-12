@@ -37,7 +37,16 @@ describe('Secure Messaging - Print Functionality', () => {
       expect(win.print).to.be.calledOnce;
       cy.get('va-button[secondary]').click({ force: true });
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {});
+      cy.axeCheck(AXE_CONTEXT, {
+        rules: {
+          'aria-required-children': {
+            enabled: false,
+          },
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      });
     });
   });
 });

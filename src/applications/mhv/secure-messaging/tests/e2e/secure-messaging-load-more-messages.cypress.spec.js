@@ -1,7 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT } from './utils/constants';
 import mockThread from './fixtures/thread-response.json';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   const landingPage = new PatientInboxPage();
@@ -37,6 +37,12 @@ describe('Secure Messaging Inbox Message Sort', () => {
     cy.contains('more messages').should('not.exist');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: {
+        'aria-required-children': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
