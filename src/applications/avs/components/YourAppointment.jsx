@@ -112,6 +112,7 @@ const YourAppointment = props => {
         itemName="name"
         items={avs.procedures}
         itemType="procedure-list"
+        keyName="code"
       />
       <ItemsBlock
         heading="Medications ordered for administration in clinic"
