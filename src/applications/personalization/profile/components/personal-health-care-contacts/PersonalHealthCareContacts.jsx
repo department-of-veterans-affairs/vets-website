@@ -37,8 +37,7 @@ const PersonalHealthCareContacts = () => {
       </h1>
 
       {error && <LoadFail />}
-      {!error && loading && <Loading />}
-      {!error && !loading && <Contacts />}
+      {!error && loading ? <Loading /> : <Contacts data={data} />}
     </div>
   );
 };

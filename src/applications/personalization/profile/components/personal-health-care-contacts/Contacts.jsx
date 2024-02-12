@@ -1,21 +1,51 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-
-import { selectEmergencyContact, selectNextOfKin } from '@@profile/selectors';
+import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import Contact from './Contact';
 
+const Instructions = () => (
+  <div>
+    To add a contact, call us at <HelpDeskContact />.
+  </div>
+);
+
 const HelpDeskContact = () => (
   <>
-    <va-telephone data-testid="va-800-number" contact={CONTACTS.HELP_DESK} /> (
-    <va-telephone data-testid="va-711-number" contact={CONTACTS['711']} tty />)
+    <va-telephone contact={CONTACTS.HELP_DESK} /> (
+    <va-telephone contact={CONTACTS['711']} tty />)
   </>
 );
 
-const Contacts = () => {
-  const emergencyContact = useSelector(selectEmergencyContact);
-  const nextOfKin = useSelector(selectNextOfKin);
+const Contacts = ({ data }) => {
+  const ecs = data.filter(el => el.id.match(/emergency contact/i));
+  const noks = data.filter(el => el.id.match(/next of kin/i));
+
+  const renderEmergencyContacts =
+    ecs && ecs.length ? (
+      ecs.map((ec, i) => (
+        <Contact
+          testId={`phcc-emergency-contact-${i}`}
+          key={ec.id}
+          {...ec.attributes}
+        />
+      ))
+    ) : (
+      <Instructions />
+    );
+
+  const renderNextOfKin =
+    noks && noks.length ? (
+      noks.map((nok, i) => (
+        <Contact
+          testId={`phcc-next-of-kin-${i}`}
+          key={nok.id}
+          {...nok.attributes}
+        />
+      ))
+    ) : (
+      <Instructions />
+    );
 
   return (
     <>
@@ -39,48 +69,30 @@ const Contacts = () => {
       <section className="profile-info-card">
         <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border--1px">
           <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Medical emergency contact
+            Medical emergency contacts
           </h2>
           <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The person we’ll contact in an emergency.
+            The people we’ll contact in an emergency.
           </p>
-          {emergencyContact && (
-            <Contact
-              testId="phcc-emergency-contact"
-              key={emergencyContact.id}
-              {...emergencyContact.attributes}
-            />
-          )}
-          {!emergencyContact && (
-            <div>
-              To add an emergency contact, call us at <HelpDeskContact />.
-            </div>
-          )}
+          {renderEmergencyContacts}
         </div>
 
         <div className="row vads-u-border-color--gray-lighter vads-u-color-gray-dark vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-padding-y--1p5 medium-screen:vads-u-padding--4 vads-u-border-left--1px vads-u-border-right--1px vads-u-border-bottom--1px">
           <h2 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin--0">
-            Next of kin contact
+            Next of kin contacts
           </h2>
           <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--1">
-            The person you want to represent your health care wishes if needed.
+            The people you want to represent your health care wishes if needed.
           </p>
-          {nextOfKin && (
-            <Contact
-              testId="phcc-next-of-kin"
-              key={nextOfKin.id}
-              {...nextOfKin.attributes}
-            />
-          )}
-          {!nextOfKin && (
-            <div>
-              To add a next of kin, call us at <HelpDeskContact />.
-            </div>
-          )}
+          {renderNextOfKin}
         </div>
       </section>
     </>
   );
+};
+
+Contacts.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
 };
 
 export default Contacts;
