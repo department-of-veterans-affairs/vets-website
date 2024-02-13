@@ -405,7 +405,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Continue to review page"],
 .va-button-override va-button[text="Back"] {
   &::part(button) {
-    &::after {
+    &::after, &::before {
       font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
       font-weight: 900; /* Use 900 for solid icons */
       font-size: 1.6rem;
