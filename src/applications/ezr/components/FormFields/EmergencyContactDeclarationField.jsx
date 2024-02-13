@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
 import { EMERGENCY_CONTACT_VIEW_FIELDS } from '../../utils/constants';
@@ -43,8 +42,8 @@ const EmergencyContactDeclarationField = ({
         })}
       >
         {!hasList
-          ? content['insurance-coverage-question']
-          : content['insurance-coverage-question-addtl']}
+          ? content['emergency-contact-declaration-question']
+          : content['emergency-contact-declaration-question-addtl']}
         <span className="schemaform-required-span">
           {content['validation-required-label']}
         </span>

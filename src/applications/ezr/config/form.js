@@ -66,11 +66,10 @@ import InsuranceSummaryPage from '../components/FormPages/InsuranceSummary';
 import InsurancePolicyInformationPage from '../components/FormPages/InsurancePolicyInformation';
 import InsurancePolicyReviewPage from '../components/FormReview/InsurancePolicyReviewPage';
 
-// chapter 3 - Insurance Information
+// chapter 4 - Emergency Contact Information
 import emergencyContactSummary from './chapters/emergencyContactInformation/contactSummary';
-import emergencyContactInformation from './chapters/emergencyContactInformation/contactInformation';
-import EmergencyContactSummaryPage from '../components/FormPages/EmergencyContactSummaryPage';
-// import EmergencyContactInformationPage from '../components/FormPages/EmergencyContactInformationPage';
+import EmergencyContactSummaryPage from '../components/FormPages/EmergencyContactSummary';
+import EmergencyContactInformationPage from '../components/FormPages/EmergencyContactInformation';
 import EmergencyContactReviewPage from '../components/FormReview/EmergencyContactReviewPage';
 
 // declare shared paths for custom form page navigation
@@ -291,30 +290,6 @@ const formConfig = {
         },
       },
     },
-    emergencyContactInformation: {
-      title: 'Emergency contact information',
-      pages: {
-        contactSummary: {
-          path: EMERGENCY_CONTACT_PATHS.summary,
-          title: 'Emergency contacts',
-          CustomPage: EmergencyContactSummaryPage,
-          CustomPageReview: EmergencyContactReviewPage,
-          uiSchema: emergencyContactSummary.uiSchema,
-          schema: emergencyContactSummary.schema,
-        },
-        contactInformation: {
-          path: EMERGENCY_CONTACT_PATHS.info,
-          title: 'Emergency contact information',
-          depends: includeEmergencyContactInformation,
-          // CustomPage: EmergencyContactInformationPage,
-          // CustomPageReview: null,
-          // uiSchema: {},
-          // schema: VIEW_FIELD_SCHEMA,
-          uiSchema: emergencyContactInformation.uiSchema,
-          schema: emergencyContactInformation.schema,
-        },
-      },
-    },
     insuranceInformation: {
       title: 'Insurance information',
       pages: {
@@ -353,6 +328,28 @@ const formConfig = {
           title: 'Insurance policy information',
           depends: includeInsuranceInformation,
           CustomPage: InsurancePolicyInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
+        },
+      },
+    },
+    emergencyContactInformation: {
+      title: 'Emergency contact information',
+      pages: {
+        contactSummary: {
+          path: EMERGENCY_CONTACT_PATHS.summary,
+          title: 'Emergency contacts',
+          CustomPage: EmergencyContactSummaryPage,
+          CustomPageReview: EmergencyContactReviewPage,
+          uiSchema: emergencyContactSummary.uiSchema,
+          schema: emergencyContactSummary.schema,
+        },
+        contactInformation: {
+          path: EMERGENCY_CONTACT_PATHS.info,
+          title: 'Emergency contact information',
+          depends: includeEmergencyContactInformation,
+          CustomPage: EmergencyContactInformationPage,
           CustomPageReview: null,
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,

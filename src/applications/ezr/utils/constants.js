@@ -55,6 +55,22 @@ export const DEPENDENT_SUBPAGES = [
   },
 ];
 
+// declare subpage configs for emergency contact information page
+export const EMERGENCY_CONTACT_SUBPAGES = [
+  {
+    id: 'nameAndRelationship',
+    title: 'Medical emergency contact',
+  },
+  {
+    id: 'address',
+    title: 'Medical emergency contact address',
+  },
+  {
+    id: 'phoneNumber',
+    title: 'Medical emergency contact phone number',
+  },
+];
+
 // declare prefix for use in GA events related to disability rating
 export const DISABILITY_PREFIX = 'disability-ratings';
 

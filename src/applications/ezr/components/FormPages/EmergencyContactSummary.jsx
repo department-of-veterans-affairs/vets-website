@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  HealthInsuranceDescription,
-  HealthInsuranceAddtlInfoDescription,
-} from '../FormDescriptions/HealthInsuranceDescriptions';
-import InsuranceCoverageField from '../FormFields/InsuranceCoverageField';
-import InsurancePolicyList from '../FormFields/InsurancePolicyList';
+import EmergencyContactDeclarationField from '../FormFields/EmergencyContactDeclarationField';
+import EmergencyContactDescription from '../FormDescriptions/EmergencyContactDescription';
+import EmergencyContactList from '../FormFields/EmergencyContactList';
 import {
   EMERGENCY_CONTACT_VIEW_FIELDS,
   SHARED_PATHS,
@@ -33,8 +30,11 @@ const EmergencyContactSummary = props => {
 
   const {
     veteranContacts = [],
-    [EMERGENCY_CONTACT_VIEW_FIELDS.add]: addVeteranContact = null,
+    [EMERGENCY_CONTACT_VIEW_FIELDS.add]: addVeteranContacts = null,
   } = data;
+  const pageTitle = veteranContacts.length
+    ? content['emergency-contact-list-title']
+    : content['emergency-contact-title'];
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -43,13 +43,14 @@ const EmergencyContactSummary = props => {
    *  - fieldData - data value to use for radio group and continue path
    */
   const [error, hasError] = useState(false);
-  const [fieldData, setFieldData] = useState(addVeteranContact);
+  const [fieldData, setFieldData] = useState(addVeteranContacts);
 
   /**
    * declare event handlers
-   *  - onChange - fired when user chooses to add policy or not - sets radio group view field
-   *  - onDelete - fired when user deletes a policy from their list - sets new list of providers
-   *  - onGoForward - first on continue progress button click - go to next form page (if radio is 'No') or go into add policy flow (if radio is 'Yes')
+   *  - onChange - fired when user chooses to report emergency contacts or not - sets radio group view field
+   *  - onDelete - fired when user deletes an emergency contact from their list - sets new list of contacts
+   *  - onGoForward - first on continue progress button click - go to next form page (if radio is 'No') or go
+   *    into add contact flow (if radio is 'Yes')
    */
   const handlers = {
     onChange: value => {
@@ -76,7 +77,7 @@ const EmergencyContactSummary = props => {
         return;
       }
 
-      // navigate to policy information or next form page based on form field value
+      // navigate to emergency contact name and relationship or next form page based on form field value
       if (fieldData === true) {
         goToPath(
           `/${EMERGENCY_CONTACT_PATHS.info}?index=${veteranContacts.length}`,
@@ -90,43 +91,34 @@ const EmergencyContactSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-bottom--2">
-        <legend id="root__title" className="schemaform-block-title">
+        <legend
+          id="root__title"
+          className="schemaform-block-title vads-u-padding-bottom--0"
+        >
           <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
-            {content['insurance-summary-title']}
+            {pageTitle}
           </h3>
-          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-            <HealthInsuranceDescription />
-          </span>
         </legend>
 
-        <HealthInsuranceAddtlInfoDescription />
+        <EmergencyContactDescription />
 
-        {/** Policy tile list */}
+        {/** Emergency contact tile list */}
         {veteranContacts.length > 0 ? (
-          <div data-testid="ezr-policy-list-field">
-            <fieldset className="vads-u-margin-y--2 rjsf-object-field">
-              <legend
-                className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--3"
-                id="root_view:insurancePolicyList__title"
-              >
-                {content['insurance-summary-list-title']}
-              </legend>
-
-              <InsurancePolicyList
-                labelledBy="root_view:insurancePolicyList__title"
-                list={veteranContacts}
-                mode={mode}
-                onDelete={handlers.onDelete}
-              />
-            </fieldset>
+          <div data-testid="ezr-emergency-contact-list-field">
+            <EmergencyContactList
+              labelledBy="root__title"
+              list={veteranContacts}
+              mode={mode}
+              onDelete={handlers.onDelete}
+            />
           </div>
         ) : null}
 
         {!onReviewPage ? (
           <>
             {/** Field radio group */}
-            <div data-testid="ezr-policy-declaration-field">
-              <InsuranceCoverageField
+            <div data-testid="ezr-emergency-contact-declaration-field">
+              <EmergencyContactDeclarationField
                 defaultValue={fieldData}
                 error={error}
                 hasList={veteranContacts.length > 0}
@@ -148,7 +140,7 @@ const EmergencyContactSummary = props => {
         <va-button
           onClick={updatePage}
           text={content['button-update-page']}
-          label={content['insurance-update-button-aria-label']}
+          label={content['emergency-contact-update-button-aria-label']}
           data-testid="ezr-update-button"
         />
       )}

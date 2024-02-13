@@ -5,10 +5,8 @@ import {
   addressUI,
   addressSchema,
   descriptionUI,
-  titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import content from '../../../locales/en/content.json';
 
 const {
   veteranContacts: { items: emergencyContact },
@@ -20,7 +18,6 @@ const {
 export default {
   uiSchema: {
     ...descriptionUI(PrefillMessage, { hideOnReview: true }),
-    'view:pageTitle': titleUI(content['emergency-contact-address-title']),
     address: addressUI(),
   },
   schema: {
