@@ -58,6 +58,13 @@ const defaultUser = {
           },
         ],
       },
+      mhvAccount: {
+        accountLevel: 'Premium',
+        accountState: 'upgraded',
+        errors: null,
+        loading: false,
+        termsAndConditionsAccepted: true,
+      },
     },
   },
   meta: { errors: null },
