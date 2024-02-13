@@ -68,7 +68,9 @@ const MedicationsListCard = props => {
         </h3>
         {rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
-            <div>Prescription number: {rx.prescriptionNumber}</div>
+            <div data-testid="rx-number">
+              Prescription number: {rx.prescriptionNumber}
+            </div>
           )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
