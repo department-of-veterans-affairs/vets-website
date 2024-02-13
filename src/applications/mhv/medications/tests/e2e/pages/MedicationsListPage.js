@@ -429,5 +429,39 @@ class MedicationsListPage {
         });
       });
   };
+
+  verifyCmopNdcNumberIsNull = () => {
+    // cy.intercept(
+    //   'GET',
+    //   `/my_health/v1/prescriptions/${
+    //     prescriptionDetails.data.attributes.prescriptionId
+    //   }`,
+    //   prescriptionDetails,
+    // ).as('prescriptionDetails');
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[1].attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
+
+  verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
+    // cy.intercept(
+    //   'GET',
+    //   `/my_health/v1/prescriptions/${
+    //     prescriptionDetails.data.attributes.prescriptionId
+    //   }`,
+    //   prescriptionDetails,
+    // ).as('prescriptionDetails');
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[3].attributes).to.include({
+          prescriptionSource: 'NV',
+        });
+      });
+  };
 }
 export default MedicationsListPage;
