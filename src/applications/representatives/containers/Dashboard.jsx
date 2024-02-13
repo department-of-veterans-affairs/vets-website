@@ -52,6 +52,7 @@ const Dashboard = ({ POApermissions = true }) => {
 
 Dashboard.propTypes = {
   user: PropTypes.object,
+  POApermissions: PropTypes.bool,
 };
 
 export default Dashboard;
