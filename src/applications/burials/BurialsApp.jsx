@@ -21,6 +21,7 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
   if (!burialFormEnabled) {
     if (location.pathname !== '/introduction') {
       window.location.href = '/burials-memorials/veterans-burial-allowance/';
+      return <React.Fragment />
     }
     return <NoFormPage />;
   }
@@ -40,9 +41,9 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
   });
 
   const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
-
   if (shouldUseV2) {
     window.location.href = '/burials-and-memorials-v2/application/530/';
+    return <React.Fragment />
   }
 
   return (
