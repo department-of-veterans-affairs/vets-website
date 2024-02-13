@@ -81,7 +81,7 @@ const App = () => {
     () => {
       async function loadMessages() {
         // only proceed if an mhvAccount exists
-        if (mhvAccountAccepted && enabled) {
+        if (mhvAccountAccepted) {
           const folders = await getFolderList();
           const unreadMessages = countUnreadMessages(folders);
           setUnreadMessageCount(unreadMessages);
