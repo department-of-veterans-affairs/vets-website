@@ -19,6 +19,7 @@ import {
   selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
+  hasMhvAccount,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -35,6 +36,7 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
+  const mhvAccountAccepted = useSelector(hasMhvAccount);
 
   const data = useMemo(
     () => {
@@ -78,16 +80,18 @@ const App = () => {
   useEffect(
     () => {
       async function loadMessages() {
-        const folders = await getFolderList();
-        const unreadMessages = countUnreadMessages(folders);
-        setUnreadMessageCount(unreadMessages);
+        if (mhvAccountAccepted && enabled) {
+          const folders = await getFolderList();
+          const unreadMessages = countUnreadMessages(folders);
+          setUnreadMessageCount(unreadMessages);
+        }
       }
 
       if (enabled) {
         loadMessages();
       }
     },
-    [enabled],
+    [enabled, mhvAccountAccepted],
   );
 
   useEffect(
