@@ -24,18 +24,32 @@ const PayeeInformationWrapper = ({
                 vads-u-border--1px
                 vye-position-relative"
       >
-        <PayeeInformationCard
-          title="Payee Name"
-          loading={loading}
-          showAdditionalInformation
-          applicantName={applicantName}
-        />
+        {loading ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading applicant Name..."
+          />
+        ) : (
+          <PayeeInformationCard
+            title="Payee Name"
+            loading={loading}
+            showAdditionalInformation
+            applicantName={applicantName}
+          />
+        )}
         <span className="vye-top-border" />
-        <PayeeInformationCard
-          title="Program"
-          showAdditionalInformation={false}
-          applicantChapter={applicantChapter}
-        />
+        {loading ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading applicant chapter..."
+          />
+        ) : (
+          <PayeeInformationCard
+            title="Program"
+            showAdditionalInformation={false}
+            applicantChapter={applicantChapter}
+          />
+        )}
       </div>
     </div>
   );
