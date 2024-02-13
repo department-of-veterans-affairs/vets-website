@@ -133,7 +133,7 @@
                 "externalService": "VAProfile",
                 "startTime": "2023-06-22T19:17:15Z",
                 "endTime": null,
-                "description": "fake error",
+                "description": "Mock Error Description for Testing",
                 "status": 404
             }
         ]

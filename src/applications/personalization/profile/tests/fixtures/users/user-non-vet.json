@@ -98,7 +98,7 @@
         "externalService": "VAProfile",
         "startTime": "2020-07-23T15:45:24Z",
         "endTime": null,
-        "description": "fake error",
+        "description": "Mock Error Description for Testing",
         "status": 401
       }
     ]
