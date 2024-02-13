@@ -133,10 +133,13 @@ export default Object.freeze({
   mhvSecureMessagingBlockedTriageGroup1p0:
     'mhv_secure_messaging_blocked_triage_group_1_0',
   mhvMedicalRecordsAllowTxtDownloads: 'mhv_medical_records_allow_txt_downloads',
+  mhvMedicalRecordsDisplayConditions: 'mhv_medical_records_display_conditions',
   mhvMedicalRecordsDisplayDomains: 'mhv_medical_records_display_domains',
+  mhvMedicalRecordsDisplayLabsAndTests: 'mhv_medical_records_display_labs_and_tests',
   mhvMedicalRecordsDisplayNotes: 'mhv_medical_records_display_notes',
   mhvMedicalRecordsDisplaySidenav: 'mhv_medical_records_display_sidenav',
   mhvMedicalRecordsDisplayVaccines: 'mhv_medical_records_display_vaccines',
+  mhvMedicalRecordsDisplayVitals: 'mhv_medical_records_display_vitals',
   mhvMedicalRecordsToVaGovRelease: 'mhv_medical_records_to_va_gov_release',
   mhvMedicationsToVaGovRelease: 'mhv_medications_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
