@@ -1,14 +1,13 @@
-// Appeals helpers
-const APPEAL_TYPES = {
-  legacy: 'legacyAppeal',
-  supplementalClaim: 'supplementalClaim',
-  higherLevelReview: 'higherLevelReview',
-  appeal: 'appeal',
-};
-
-export const appealTypes = Object.values(APPEAL_TYPES);
-
 // Claims helpers
+export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
+export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
+export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
+export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
+
+export const claimsAvailability = {
+  AVAILABLE: 'AVAILABLE',
+  UNAVAILABLE: 'UNAVAILABLE',
+};
 export function isClaimComplete(claim) {
   return (
     claim.attributes.decisionLetterSent ||
@@ -33,11 +32,4 @@ export function getClaimType(claim) {
   return (
     claim?.attributes?.claimType || 'disability compensation'
   ).toLowerCase();
-}
-
-// returns the value rounded to the nearest interval
-// ex: roundToNearest({interval: 5000, value: 13000}) => 15000
-// ex: roundToNearest({interval: 5000, value: 6500}) => 5000
-export function roundToNearest({ interval, value }) {
-  return Math.round(value / interval) * interval;
 }

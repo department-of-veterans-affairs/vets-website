@@ -3,6 +3,7 @@ import {
   countUnreadMessages,
   createUrlWithQuery,
   currency,
+  roundToNearest,
 } from '../../utils/helpers';
 
 describe('createUrlWithQuery function', () => {
@@ -19,6 +20,9 @@ describe('createUrlWithQuery function', () => {
 describe('currency function', () => {
   it('should format a number to American dollar', () => {
     expect(currency(44)).to.equal('$44.00');
+  });
+  it('should format a number to American dollar', () => {
+    expect(currency(23)).to.not.equal('€23');
   });
 });
 
@@ -77,5 +81,13 @@ describe('countUnreadMessages function', () => {
         data: {},
       }),
     ).to.equal(0);
+  });
+});
+
+describe('roundToNearest function', () => {
+  it('should return value rounded to the nearest interval', () => {
+    expect(roundToNearest({ interval: 5000, value: 13000 })).to.equal(15000);
+    expect(roundToNearest({ interval: 5000, value: 6500 })).to.equal(5000);
+    expect(roundToNearest({ interval: 5000, value: 7500 })).to.not.equal(5000);
   });
 });

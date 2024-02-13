@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getAojDescription } from '../../utils/appeals-v2-helpers';
+import { getAojDescription } from '../../utils/appeals-helpers';
 
 const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
   const allowedIssues = issues
