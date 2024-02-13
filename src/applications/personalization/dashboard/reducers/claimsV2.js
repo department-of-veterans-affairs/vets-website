@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
 
 import {
   FETCH_STEM_CLAIMS_ERROR,
@@ -8,9 +8,6 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
 } from '../actions/claims';
 import {
-  FETCH_CLAIMS_PENDING,
-  FETCH_CLAIMS_SUCCESS,
-  FETCH_CLAIMS_ERROR,
   FETCH_APPEALS_SUCCESS,
   FETCH_APPEALS_PENDING,
   FETCH_APPEALS_ERROR,
@@ -18,10 +15,15 @@ import {
   RECORD_NOT_FOUND_ERROR,
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
-  claimsAvailability,
   appealsAvailability,
+} from '../utils/appeals-helpers';
+import {
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  claimsAvailability,
   CHANGE_INDEX_PAGE,
-} from '../utils/appeals-v2-helpers';
+} from '../utils/claims-helpers';
 
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
 
