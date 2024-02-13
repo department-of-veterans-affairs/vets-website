@@ -25,12 +25,12 @@ describe('Dashboard', () => {
     expect(getByText('Manage power of attorney requests')).to.exist;
   });
 
-  it('renders content when POApermissions is true', () => {
+  it('renders content when has POA permissions', () => {
     const { container } = render(<Dashboard POApermissions />);
     expect(container.querySelector('.placeholder-container')).to.exist;
   });
 
-  it('renders alert header when POApermissions is false', () => {
+  it('renders alert header when does not have POA permissions', () => {
     const { getByText } = render(<Dashboard POApermissions={false} />);
     expect(getByText('You are missing some permissions')).to.exist;
   });

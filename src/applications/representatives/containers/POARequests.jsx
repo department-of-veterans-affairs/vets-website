@@ -1,14 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import LoginViewWrapper from './LoginViewWrapper';
 
-const POARequests = () => {
+const POARequests = ({ POApermissions = true }) => {
   const breadcrumbs = [
     { link: '/', label: 'Home' },
     { link: '/dashboard', label: 'Dashboard' },
     { link: '/poa-requests', label: 'POA requests' },
   ];
   return (
-    <LoginViewWrapper breadcrumbs={breadcrumbs}>
+    <LoginViewWrapper breadcrumbs={breadcrumbs} POApermissions={POApermissions}>
       <h1>Power of attorney requests</h1>
       <label
         htmlFor="poa-requests-search"
@@ -31,6 +32,10 @@ const POARequests = () => {
       </div>
     </LoginViewWrapper>
   );
+};
+
+POARequests.propTypes = {
+  POApermissions: PropTypes.bool,
 };
 
 export default POARequests;
