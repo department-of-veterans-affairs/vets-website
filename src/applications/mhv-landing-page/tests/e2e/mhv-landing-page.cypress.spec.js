@@ -1,5 +1,6 @@
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
+import vamcEhr from '../fixtures/vamc-ehr.json';
 import { generateFeatureToggles } from '../../mocks/api/feature-toggles';
 import ApiInitializer from './utilities/ApiInitializer';
 
@@ -8,6 +9,7 @@ describe(`${appName} - landing page`, () => {
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles()).as(
       'featureToggles',
     );
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
   });
 
   it('display the landing page when visiting root URL', () => {
