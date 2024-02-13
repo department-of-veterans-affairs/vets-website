@@ -259,6 +259,7 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
+          NUM_CONTAINERS: 5
 
 
       - name: Archive unit test results
