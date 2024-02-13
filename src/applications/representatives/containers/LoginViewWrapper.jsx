@@ -15,10 +15,12 @@ const LoginViewWrapper = ({
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!POApermissions) {
     content = (
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          You are missing some permissions
-        </h2>
+      <va-alert
+        close-btn-aria-label="Close insufficient permission alert"
+        status="info"
+        visible
+      >
+        <h2 slot="headline">You are missing some permissions</h2>
         <div>
           <p className="vads-u-margin-y--0">
             In order to access the features of the Accredited Representative
