@@ -13,6 +13,7 @@ args="$*"
 # Prepend "--env" to all args so they get passed to the Webpack config
 webpackArgs=$(echo "${args}" | sed -E 's/--([^ =]+)/--env \1/g')
 
+webpackArgs="$webpackArgs --env parallel=true"
 # Get options
 for o in "$@"; do
     case "${o}" in
