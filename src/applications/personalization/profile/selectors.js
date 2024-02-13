@@ -143,23 +143,4 @@ export const selectProfileContactsToggle = state =>
 export const selectProfileShowProofOfVeteranStatusToggle = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowProofOfVeteranStatus];
 
-export const selectProfileContacts = state =>
-  state?.profileContacts || { data: [] };
-
-export const selectEmergencyContacts = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  return (
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/emergency contact/i),
-    ) || []
-  );
-};
-
-export const selectNextOfKin = state => {
-  const contacts = selectProfileContacts(state).data || [];
-  return (
-    contacts.filter(contact =>
-      contact?.attributes?.contactType?.match(/next of kin/i),
-    ) || []
-  );
-};
+export const selectProfileContacts = state => state?.profileContacts || {};

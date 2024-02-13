@@ -12,8 +12,8 @@ const Instructions = () => (
 
 const HelpDeskContact = () => (
   <>
-    <va-telephone contact={CONTACTS.HELP_DESK} /> (
-    <va-telephone contact={CONTACTS['711']} tty />)
+    <va-telephone data-testid="va-800-number" contact={CONTACTS.HELP_DESK} /> (
+    <va-telephone data-testid="va-711-number" contact={CONTACTS['711']} tty />)
   </>
 );
 
@@ -94,7 +94,7 @@ const Contacts = ({ data }) => {
 };
 
 Contacts.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  data: PropTypes.array,
 };
 
 export default Contacts;
