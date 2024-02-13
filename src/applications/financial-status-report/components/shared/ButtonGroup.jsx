@@ -25,7 +25,6 @@ Button.defaultProps = {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-
   isSecondary: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   onClick: PropTypes.func,
