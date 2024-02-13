@@ -131,7 +131,7 @@ const DependentCount = ({
           },
           {
             label: 'Continue',
-            isContinueButton: false,
+            isContinueButton: true,
             onClick: handleSubmit,
             isSubmitting: true,
           },

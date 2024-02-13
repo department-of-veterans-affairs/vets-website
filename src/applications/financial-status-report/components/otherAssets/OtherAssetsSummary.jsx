@@ -168,22 +168,24 @@ const OtherAssetsSummary = ({
             </ul>
           </va-additional-info>
           {contentBeforeButtons}
-          <ButtonGroup
-            buttons={[
-              {
-                label: 'Back',
-                isBackButton: true,
-                onClick: goBack, // Define this function based on page-specific logic
-                isSecondary: true,
-              },
-              {
-                label: continueButtonText,
-                isContinueButton: false,
-                onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
-              },
-            ]}
-          />
+          <div className="va-button-override">
+            <ButtonGroup
+              buttons={[
+                {
+                  label: 'Back',
+                  isBackButton: true,
+                  onClick: goBack, // Define this function based on page-specific logic
+                  isSecondary: true,
+                },
+                {
+                  label: continueButtonText,
+                  isContinueButton: false,
+                  onClick: onSubmit,
+                  isSubmitting: true, // If this button submits a form
+                },
+              ]}
+            />
+          </div>
           {contentAfterButtons}
         </div>
         {isModalOpen ? (

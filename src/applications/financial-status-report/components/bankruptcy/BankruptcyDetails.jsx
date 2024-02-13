@@ -181,22 +181,24 @@ const BankruptcyDetails = ({
         />
       </fieldset>
       {contentBeforeButtons}
-      <ButtonGroup
-        buttons={[
-          {
-            label: 'Back',
-            isBackButton: true,
-            onClick: goBack,
-            isSecondary: true,
-          },
-          {
-            label: continueButtonText,
-            isContinueButton: false,
-            onClick: onSubmit,
-            isSubmitting: true,
-          },
-        ]}
-      />
+      <div className="va-button-override">
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              isBackButton: true,
+              onClick: goBack,
+              isSecondary: true,
+            },
+            {
+              label: continueButtonText,
+              isContinueButton: false,
+              onClick: onSubmit,
+              isSubmitting: true,
+            },
+          ]}
+        />
+      </div>
       {contentAfterButtons}
     </form>
   );
