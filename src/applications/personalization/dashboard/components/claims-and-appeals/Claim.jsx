@@ -7,7 +7,7 @@ import {
   getClaimStatusDescription,
   isClaimComplete,
   getClaimType,
-} from '../../utils/claims-and-appeals-helpers';
+} from '../../utils/claims-helpers';
 import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import CTALink from '../CTALink';
