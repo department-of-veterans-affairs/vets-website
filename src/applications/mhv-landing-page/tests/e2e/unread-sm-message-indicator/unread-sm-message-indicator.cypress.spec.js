@@ -33,7 +33,6 @@ describe(manifest.appName, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('indicator is not shown when MHV terms and conditions are not accepted, despite unread messages', () => {
-      ApiInitializer.initializeUserData.withMHVTermsAccepted(true);
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withMHVTermsNotAccepted();
       ApiInitializer.initializeMessageData.withUnreadMessages();
@@ -46,6 +45,7 @@ describe(manifest.appName, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('indicator is shown when MHV terms and conditions are accepted and there are unread messages', () => {
+      ApiInitializer.initializeUserData.withMHVTermsAccepted(true);
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       ApiInitializer.initializeUserData.withDefaultUser();
       ApiInitializer.initializeMessageData.withUnreadMessages();
