@@ -22,7 +22,7 @@ describe('MHVDowntime', () => {
     };
     const { getByRole, getByText } = render(<MHVDowntime {...mockProps} />);
     getByRole('heading', { level: 3, name: 'Maintenance on My HealtheVet' });
-    getByText((content, _) => content.includes('some of our health tools'));
+    getByText(/some of our health tools/i);
   });
 
   it('renders MHVDowntimeApproaching when a service is going down within an hour', () => {
@@ -45,7 +45,7 @@ describe('MHVDowntime', () => {
       level: 3,
       name: 'Upcoming maintenance on My HealtheVet',
     });
-    getByText((content, _) => content.includes('some of our health tools'));
+    getByText(/you may have trouble using some of our health tools/i);
   });
 
   it('renders child content when no matching services are down', () => {
@@ -75,14 +75,10 @@ describe('MHVDowntime', () => {
     };
 
     const { getByText, queryByText } = render(<MHVDowntime {...mockProps} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes('some time') &&
-        content.includes('you may have trouble using') &&
-        content.includes('some of our health tools')
-      );
-    });
+    getByText(/The maintenance will last some time/i);
+    getByText(
+      /During this time, you may have trouble using some of our health tools/i,
+    );
     expect(queryByText('July 4, 2019 at 9:00 a.m. ET')).to.be.null;
     expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
   });
@@ -99,14 +95,10 @@ describe('MHVDowntime', () => {
     };
 
     const { getByText, queryByText } = render(<MHVDowntime {...mockProps} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes('some time') &&
-        content.includes('you may have trouble using') &&
-        content.includes('some of our health tools')
-      );
-    });
+    getByText(/The maintenance will last some time/i);
+    getByText(
+      /During this time, you may have trouble using some of our health tools/i,
+    );
     getByText('July 4, 2019 at 9:00 a.m. ET');
     expect(queryByText('July 5, 2019 at 3:00 a.m. ET')).to.be.null;
   });
@@ -123,14 +115,10 @@ describe('MHVDowntime', () => {
     };
 
     const { getByText } = render(<MHVDowntime {...mockProps} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes('some time') &&
-        content.includes('you may have trouble using') &&
-        content.includes('some of our health tools')
-      );
-    });
+    getByText(/The maintenance will last some time/i);
+    getByText(
+      /During this time, you may have trouble using some of our health tools/i,
+    );
     getByText('July 7, 2019 at 9:00 a.m. ET');
   });
 });

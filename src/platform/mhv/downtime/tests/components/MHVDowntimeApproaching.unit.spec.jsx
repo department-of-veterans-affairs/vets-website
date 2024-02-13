@@ -17,13 +17,7 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes('you may have trouble using') &&
-        content.includes('APPLICATION')
-      );
-    });
+    getByText(/you may have trouble using APPLICATION/i);
     getByText(startString);
     getByText(endString);
   });
@@ -36,13 +30,7 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes('you may have trouble using') &&
-        content.includes('some of our health tools')
-      );
-    });
+    getByText(/you may have trouble using some of our health tools/i);
     getByText(startString);
     getByText(endString);
   });

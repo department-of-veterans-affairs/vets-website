@@ -17,14 +17,8 @@ describe('MHVDown', () => {
     };
 
     const { getByText } = render(<MHVDown {...props} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes(timeInterval) &&
-        content.includes('you may have trouble using') &&
-        content.includes('APPLICATION')
-      );
-    });
+    getByText(/The maintenance will last TIME INTERVAL/i);
+    getByText(/you may have trouble using APPLICATION/i);
     getByText(startString);
     getByText(endString);
   });
@@ -37,14 +31,7 @@ describe('MHVDown', () => {
     };
 
     const { getByText } = render(<MHVDown {...props} />);
-    // Use function because testing-library has trouble with text that spans multiple lines (newlines)?!?
-    getByText((content, _) => {
-      return (
-        content.includes(timeInterval) &&
-        content.includes('you may have trouble using') &&
-        content.includes('some of our health tools')
-      );
-    });
+    getByText(/The maintenance will last TIME INTERVAL/i);
     getByText(startString);
     getByText(endString);
   });
