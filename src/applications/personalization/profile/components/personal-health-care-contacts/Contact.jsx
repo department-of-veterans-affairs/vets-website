@@ -30,7 +30,9 @@ const Contact = ({
 }) => {
   const names = [prefix, givenName, middleName, familyName, suffix];
   const name = names.filter(el => !!el).join(' ');
-  const addressLine4 = `${city}, ${state} ${zipCode}`;
+  const addressLine4 = [city, ', ', state, ' ', zipCode]
+    .filter(el => !!el)
+    .join('');
   const addressLines = [
     addressLine1,
     addressLine2,

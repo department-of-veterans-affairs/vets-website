@@ -10,8 +10,10 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.findByTestId('phcc-emergency-contact');
-    cy.findByTestId('phcc-next-of-kin');
+    cy.findByTestId('phcc-emergency-contact-0');
+    cy.findByTestId('phcc-emergency-contact-1');
+    cy.findByTestId('phcc-next-of-kin-0');
+    cy.findByTestId('phcc-next-of-kin-1');
     cy.injectAxeThenAxeCheck();
   });
 });
