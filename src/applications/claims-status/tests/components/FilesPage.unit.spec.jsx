@@ -67,6 +67,7 @@ describe('<FilesPage>', () => {
       const filesPage = $('#tabPanelFiles', container);
 
       expect(filesPage).to.exist;
+      expect($('.claim-file-header-container', container)).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
       expect($('.claims-requested-files-container', container)).not.to.exist;
     });
@@ -116,6 +117,7 @@ describe('<FilesPage>', () => {
       const filesPage = $('#tabPanelFiles', container);
 
       expect(filesPage).to.exist;
+      expect($('.claim-file-header-container', container)).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
       expect($('.claims-requested-files-container', container)).not.to.exist;
     });
@@ -146,6 +148,7 @@ describe('<FilesPage>', () => {
       const filesPage = $('#tabPanelFiles', container);
 
       expect(filesPage).to.exist;
+      expect($('.claim-file-header-container', container)).to.not.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
       expect($('.claims-requested-files-container', container)).not.to.exist;
     });
@@ -186,6 +189,7 @@ describe('<FilesPage>', () => {
       const filesPage = $('#tabPanelFiles', container);
 
       expect(filesPage).to.exist;
+      expect($('.claim-file-header-container', container)).to.not.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
       expect($('.claims-requested-files-container', container)).not.to.exist;
     });
