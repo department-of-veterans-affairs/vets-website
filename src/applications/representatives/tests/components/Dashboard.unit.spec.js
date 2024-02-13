@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
@@ -10,9 +10,11 @@ describe('Dashboard', () => {
   });
 
   it('renders breadcrumbs', () => {
-    const { getByText } = render(<Dashboard />);
-    expect(getByText('Home')).to.exist;
-    expect(getByText('Dashboard')).to.exist;
+    const { container } = render(<Dashboard />);
+
+    const breadcrumbs = container.querySelector('va-breadcrumbs');
+    expect(within(breadcrumbs).getByText('Home')).to.exist;
+    expect(within(breadcrumbs).getByText('Dashboard')).to.exist;
   });
 
   it('renders header', () => {

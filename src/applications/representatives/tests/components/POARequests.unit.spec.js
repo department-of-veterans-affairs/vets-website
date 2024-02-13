@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
@@ -10,10 +10,12 @@ describe('POARequests', () => {
   });
 
   it('renders breadcrumbs', () => {
-    const { getByText } = render(<POARequests />);
-    expect(getByText('Home')).to.exist;
-    expect(getByText('Dashboard')).to.exist;
-    expect(getByText('POA requests')).to.exist;
+    const { container } = render(<POARequests />);
+
+    const breadcrumbs = container.querySelector('va-breadcrumbs');
+    expect(within(breadcrumbs).getByText('Home')).to.exist;
+    expect(within(breadcrumbs).getByText('Dashboard')).to.exist;
+    expect(within(breadcrumbs).getByText('POA requests')).to.exist;
   });
 
   it('renders header', () => {
