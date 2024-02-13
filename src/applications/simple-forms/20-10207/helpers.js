@@ -28,16 +28,6 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
-export function getNameAndDobPageTitle(formData) {
-  const preparerString = getPreparerString(formData.preparerType);
-
-  return (
-    <h3 className="vads-u-margin-y--0">
-      {preparerString} name and date of birth
-    </h3>
-  );
-}
-
 export function getIdentityInfoPageTitle(formData) {
   const preparerString = getPreparerString(formData.preparerType);
 

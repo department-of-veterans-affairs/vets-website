@@ -21,6 +21,14 @@
       "postalCode": "12345"
     },
     "phone": "1234567891",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540987"
+    },
     "otherReasons": {
       "FINANCIAL_HARDSHIP": true,
       "ALS": true,

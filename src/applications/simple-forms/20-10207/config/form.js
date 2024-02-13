@@ -12,6 +12,8 @@ import idInfoThirdPartyVetPg from '../pages/idInfoThirdPartyVeteran';
 import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
 import nameAndDobPg from '../pages/nameAndDateofBirth';
 import idInfoPg from '../pages/idInfo';
+import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
+import vetIdInfoPg from '../pages/veteranIdInfo';
 import livingSituationPg from '../pages/livingSituation';
 import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
 import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
@@ -47,7 +49,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/veteran.json';
+import testData from '../tests/e2e/fixtures/data/nonVeteran.json';
 
 const mockData = testData.data;
 
@@ -224,6 +226,29 @@ const formConfig = {
           uiSchema: phoneAndEmailPg.uiSchema,
           schema: phoneAndEmailPg.schema,
           pageClass: 'phone-and-email',
+        },
+      },
+    },
+    veteranPersonalInformationChapter: {
+      title: 'Veteran’s personal information',
+      pages: {
+        veteranNameAndDateOfBirthPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
+          path: 'veteran-name-and-date-of-birth',
+          title: 'Veteran’s name and date of birth',
+          uiSchema: vetNameAndDobPg.uiSchema,
+          schema: vetNameAndDobPg.schema,
+          pageClass: 'veteran-name-and-date-of-birth',
+        },
+        veteranIdentificationInformationPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
+          path: 'veteran-identification-information',
+          title: 'Veteran’s identification information',
+          uiSchema: vetIdInfoPg.uiSchema,
+          schema: vetIdInfoPg.schema,
+          pageClass: 'veteran-identification-information',
         },
       },
     },
