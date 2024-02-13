@@ -209,14 +209,20 @@ jobs:
   unit-tests:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
-    runs-on: self-hosted
+    timeout-minutes: 30
+    runs-on: ubuntu-16-cores-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        ci_node_index: [0,1,2,3,4]
 
     steps:
       - name: Checkout
@@ -250,8 +256,9 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: 1
+          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
+          NUM_CONTAINERS: 5
 
       - name: Archive unit test results
         if: ${{ always() }}
