@@ -294,6 +294,9 @@ describe('<NameSearchForm>', () => {
         });
       });
     });
+    afterEach(() => {
+      sandbox.restore();
+    });
     const setupRTL = (
       value,
       testId,
