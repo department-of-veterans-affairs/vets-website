@@ -11,7 +11,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         results={[]}
-        query={{ inProgress: false }}
+        query={{ inProgress: false, searchArea: '50' }}
         pagination={{ totalEntries: 0 }}
       />,
     );
@@ -28,6 +28,7 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: '11111' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 0 }}
       />,
@@ -38,7 +39,7 @@ describe('SearchResultsHeader', () => {
         .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for Attorneys within 50 miles of "11111"');
+    ).to.equal('No results found for "Attorneys" within "50 miles" of "11111"');
     wrapper.unmount();
   });
 
@@ -46,7 +47,7 @@ describe('SearchResultsHeader', () => {
     const wrapper = shallow(
       <SearchResultsHeader
         searchResults={[{}]}
-        query={{ inProgress: true }}
+        query={{ inProgress: true, searchArea: '50' }}
         pagination={{ totalEntries: 3, currentPage: 1, totalPages: 1 }}
       />,
     );
@@ -63,6 +64,7 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -73,7 +75,9 @@ describe('SearchResultsHeader', () => {
         .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for Attorneys within 50 miles of "new york"');
+    ).to.equal(
+      'No results found for "Attorneys" within "50 miles" of "new york"',
+    );
 
     wrapper.unmount();
   });
@@ -86,6 +90,7 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 1 }}
       />,
@@ -96,7 +101,9 @@ describe('SearchResultsHeader', () => {
         .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('Showing 1 result for Attorneys within 50 miles of "new york"');
+    ).to.equal(
+      'Showing 1 result for "Attorneys" within "50 miles" of "new york"',
+    );
 
     wrapper.unmount();
   });
@@ -109,13 +116,14 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 12, currentPage: 2, totalPages: 2 }}
       />,
     );
 
     const expectedString =
-      'Showing 11 - 12 of 12 results for Attorneys within 50 miles of "new york"';
+      'Showing 11 - 12 of 12 results for "Attorneys" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -135,13 +143,14 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 5 }}
       />,
     );
 
     const expectedString =
-      'Showing 5 results for Attorneys within 50 miles of "new york"';
+      'Showing 5 results for "Attorneys" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -161,13 +170,14 @@ describe('SearchResultsHeader', () => {
           representativeType: 'attorney',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 12, currentPage: 1, totalPages: 2 }}
       />,
     );
 
     const expectedString =
-      'Showing 1 - 10 of 12 results for Attorneys within 50 miles of "new york"';
+      'Showing1-10of12resultsfor"Attorneys"within"50miles"of"newyork"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -187,13 +197,14 @@ describe('SearchResultsHeader', () => {
           representativeType: 'claim_agents',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 25, currentPage: 2, totalPages: 3 }}
       />,
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
+      'Showing 11 - 20 of 25 results for "Claims agents" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -214,13 +225,14 @@ describe('SearchResultsHeader', () => {
           sortType: 'last_name_asc',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 25, currentPage: 2, totalPages: 3 }}
       />,
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for Claims agents within 50 miles of "new york"';
+      'Showing 11 - 20 of 25 results for "Claims agents" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -240,6 +252,7 @@ describe('SearchResultsHeader', () => {
           representativeType: 'claim_agents',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -251,6 +264,7 @@ describe('SearchResultsHeader', () => {
           representativeType: 'claim_agents',
           inProgress: false,
           context: { location: 'new york' },
+          searchArea: '50',
         }}
         pagination={{ totalEntries: 5 }}
       />,
@@ -262,7 +276,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for Claims agents within 50 miles of "new york"',
+      'No results found for "Claims agents" within "50 miles" of "new york"',
     );
     wrapper.unmount();
   });
