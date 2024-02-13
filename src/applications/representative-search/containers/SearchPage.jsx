@@ -232,7 +232,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative',
-        label: 'Get help from a VA accredited representative',
+        label: 'Get help from a VA accredited representative or VSO',
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
