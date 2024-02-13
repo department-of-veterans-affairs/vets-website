@@ -28,8 +28,8 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
-        <h3 className="vads-u-margin-bottom--2">
+      <va-featured-content class="vads-u-margin-bottom--4" uswds>
+        <h3 slot="headline" className="vads-u-margin-bottom--2">
           {content['confirm-app-title']}
         </h3>
 
@@ -60,7 +60,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             data-testid="ezr-print-button"
           />
         </div>
-      </va-alert>
+      </va-featured-content>
     </>
   );
 };
