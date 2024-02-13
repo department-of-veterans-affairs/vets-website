@@ -35,7 +35,7 @@ Button.propTypes = {
  */
 const ButtonGroup = ({ buttons }) => {
   return (
-    <div className="va-button-override form-progress-buttons schemaform-buttons fsr-buttons vads-u-margin-y--2 ">
+    <div className="va-button-override form-progress-buttons schemaform-buttons vads-u-margin-y--2 ">
       {buttons.map((button, index) => {
         return (
           <div key={`button-group-${index}`}>
