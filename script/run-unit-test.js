@@ -73,7 +73,10 @@ let testsToVerify = null;
 if (process.env.TESTS_TO_VERIFY) {
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
-const splitUnitTests = splitArray(allUnitTests, process.env.NUM_CONTAINERS);
+const splitUnitTests = splitArray(
+  allUnitTests,
+  Math.ceil(allUnitTests.length / process.env.NUM_CONTAINERS),
+);
 console.log(splitUnitTests);
 const testsToRun = options['app-folder']
   ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
