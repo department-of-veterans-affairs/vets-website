@@ -35,14 +35,10 @@ Button.defaultProps = {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  className: PropTypes.string,
   isBackButton: PropTypes.bool,
   isContinueButton: PropTypes.bool,
   isSecondary: PropTypes.bool,
   isSubmitting: PropTypes.bool,
-  secondary: PropTypes.bool,
-  submit: PropTypes.bool,
-  type: PropTypes.string,
   onClick: PropTypes.func,
 };
 
@@ -67,10 +63,11 @@ ButtonGroup.propTypes = {
   buttons: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      type: PropTypes.oneOf(['button', 'submit', 'cancel']),
-      onClick: PropTypes.func,
-      disabled: PropTypes.bool,
-      secondary: PropTypes.bool,
+      onClick: PropTypes.func.isRequired,
+      isSubmitting: PropTypes.bool,
+      isSecondary: PropTypes.bool,
+      isContinueButton: PropTypes.bool,
+      isBackButton: PropTypes.bool,
     }),
   ).isRequired,
 };
