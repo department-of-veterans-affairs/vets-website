@@ -1,11 +1,15 @@
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+// import { useSelector } from 'react-redux';
+// import { createSelector } from 'reselect';
 import {
   fullNameUI,
-  checkboxGroupUI,
-  checkboxGroupSchema,
+  // checkboxGroupUI,
+  // checkboxGroupSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+// import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import FullNameField from '@department-of-veterans-affairs/platform-forms-system/FullNameField';
 import { merge } from 'lodash';
+import { generateTitle } from '../../../utils/helpers';
 // import { generateHelpText, labelSize } from '../../../utils/helpers';
 
 const { previousNames } = fullSchemaBurials.properties;
@@ -16,7 +20,6 @@ const modifiedPreviousNames = merge(previousNames, {
       'view:serviceBranches': {
         type: 'object',
         properties: {
-          // serviceBranch: checkboxGroupSchema(['hasA', 'hasB']),
           serviceBranch: {
             type: 'string',
           },
@@ -29,6 +32,7 @@ const modifiedPreviousNames = merge(previousNames, {
 export default {
   uiSchema: {
     previousNames: {
+      'ui:title': generateTitle('Previous names'),
       'ui:options': {
         viewField: FullNameField,
       },
@@ -43,70 +47,69 @@ export default {
         last: {
           'ui:title': 'Veteran’s last name',
         },
-        'view:serviceBranches': {
-          // serviceBranch: {
-          //   'ui:title': 'TESTING TITLE',
-          // },
-          serviceBranch: form => {
-            if (
-              form?.['view:separationDocuments'] === true ||
-              form?.['view:separationDocuments'] === undefined
-            ) {
-              return {
-                'ui:title': 'Branch of service (string)',
-              };
-            }
-            return {
-              'ui:title': 'Branch of service (checkbox)',
-              ...checkboxGroupUI({
-                // title: 'Checkbox group',
-                // hint: 'This is a hint',
-                required: false,
-                description: 'Please select at least one option',
-                labelHeaderLevel: '',
-                tile: true,
-                labels: {
-                  hasA: {
-                    title: 'Option A',
-                    description:
-                      'Select this option if you want to do option A',
-                  },
-                  hasB: {
-                    title: 'Option B',
-                    description:
-                      'Select this option if you want to do option B',
-                  },
-                },
-                errorMessages: {
-                  required: 'Please select at least one option',
-                },
-                // validations: [validateBooleanGroup],
-              }),
-            };
-          },
-          'ui:options': {
-            replaceSchema: form => {
-              if (!form?.['view:separationDocuments']) {
-                return {
-                  type: 'object',
-                  properties: {
-                    serviceBranch: {
-                      ...checkboxGroupSchema(['hasA', 'hasB']),
-                    },
-                  },
-                };
-              }
-              return {
-                type: 'object',
-                properties: {
-                  serviceBranch: {
-                    type: 'string',
-                  },
-                },
-              };
-            },
-          },
-        },
+        // 'view:serviceBranches': createSelector(
+        //   form => form['view:separationDocuments'],
+        //   separationDocuments =>
+        //     separationDocuments === true
+        //       ? {
+        //           serviceBranch: {
+        //             'ui:title': 'Title',
+        //             'ui:description': 'Description',
+        //             'ui:options': {},
+        //           },
+        //         }
+        //       : {
+        //           serviceBranch: {
+        //             ...checkboxGroupUI({
+        //               title: 'Checkbox group',
+        //               hint: 'This is a hint',
+        //               required: false,
+        //               description: 'Please select at least one option',
+        //               labelHeaderLevel: '',
+        //               tile: true,
+        //               labels: {
+        //                 hasA: 'Type A',
+        //                 hasB: 'Type B',
+        //               },
+        //               errorMessages: {
+        //                 required: 'Please select at least one option',
+        //               },
+        //             }),
+        //           },
+        //         },
+        // ),
+        // 'ui:options': {
+        //   replaceSchema: form => {
+        //     if (!form?.['view:separationDocuments']) {
+        //       return {
+        //         type: 'object',
+        //         properties: {
+        //           'view:serviceBranches': {
+        //             type: 'object',
+        //             properties: {
+        //               serviceBranch: {
+        //                 ...checkboxGroupSchema(['hasA', 'hasB']),
+        //               },
+        //             },
+        //           },
+        //         },
+        //       };
+        //     }
+        //     return {
+        //       type: 'object',
+        //       properties: {
+        //         'view:serviceBranches': {
+        //           type: 'object',
+        //           properties: {
+        //             serviceBranch: {
+        //               type: 'string',
+        //             },
+        //           },
+        //         },
+        //       },
+        //     };
+        //   },
+        // },
 
         // 'view:serviceBranches': {
         //   'ui:required': () => true,
