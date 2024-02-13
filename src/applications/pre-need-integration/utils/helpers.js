@@ -639,9 +639,8 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -656,15 +655,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -673,19 +675,42 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
     },
   },
-  race: {
+  ethnicity: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
     isSpanishHispanicLatino: {
       'ui:title': 'Hispanic or Latino',
     },
     notSpanishHispanicLatino: {
       'ui:title': 'Not Hispanic or Latino',
     },
+    unknown: {
+      'ui:title': 'Unknown',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
+    },
+    'ui:validations': [
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
+      },
+    ],
+    'ui:options': {
+      showFieldLabel: true,
+    },
+  },
+  race: {
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
     },

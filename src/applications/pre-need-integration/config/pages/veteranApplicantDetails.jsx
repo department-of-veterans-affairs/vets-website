@@ -3,6 +3,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { merge, pick } from 'lodash';
+import * as address from '../../definitions/address';
 
 import {
   applicantDetailsDescription,
@@ -11,10 +12,7 @@ import {
   ssnDashesUI,
 } from '../../utils/helpers';
 
-const {
-  claimant,
-  // veteran,
-} = fullSchemaPreNeed.properties.application.properties;
+const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
@@ -31,12 +29,17 @@ export const uiSchema = {
       dateOfBirth: currentOrPastDateUI('Date of birth'),
     },
     veteran: {
-      birthCity: {
-        'ui:title': 'Your birth city or county',
-      },
-      birthState: {
-        'ui:title': 'Your birth state or territory',
-      },
+      placeOfBirth: pick(
+        merge({}, address.uiSchema(''), {
+          city: {
+            'ui:title': 'Your birth city or county',
+          },
+          state: {
+            'ui:title': 'Your birth state or territory',
+          },
+        }),
+        ['city', 'state'],
+      ),
     },
   },
 };
@@ -62,17 +65,8 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['birthCity', 'birthState'],
-          // properties: pick(veteran.properties, ['birthCity', 'birthState']),
           properties: {
-            birthCity: {
-              type: 'string',
-              maxLength: 100,
-            },
-            birthState: {
-              type: 'string',
-              maxLength: 100,
-            },
+            placeOfBirth: address.schema(fullSchemaPreNeed),
           },
         },
       },

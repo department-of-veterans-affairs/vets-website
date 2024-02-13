@@ -1,8 +1,14 @@
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
+
+import { pick } from 'lodash';
+
 import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
 } from '../../utils/helpers';
+
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
@@ -28,28 +34,8 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['gender', 'maritalStatus'],
-          // properties: pick(veteran.properties, [
-          //   'gender',
-          //   'maritalStatus',
-          // ]),
-          properties: {
-            gender: {
-              type: 'string',
-              enum: ['Female', 'Male', 'na'],
-            },
-            maritalStatus: {
-              type: 'string',
-              enum: [
-                'Single',
-                'Separated',
-                'Married',
-                'Divorced',
-                'Widowed',
-                'na',
-              ],
-            },
-          },
+          required: ['race'],
+          properties: pick(veteran.properties, ['race']),
         },
       },
     },
