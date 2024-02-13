@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
+import * as Sentry from '@sentry/browser';
+import {
+  AUTH_ERRORS,
+  AUTH_LEVEL,
+  SENTRY_TAGS,
+} from 'platform/user/authentication/errors';
 import Helpdesk from './HelpdeskContact';
 
 export default function RenderErrorContainer({
@@ -14,8 +19,16 @@ export default function RenderErrorContainer({
   let troubleshootingContent;
 
   if (auth === AUTH_LEVEL.FAIL) {
+    const eventMessage = code
+      ? `login-error-code-${code}`
+      : 'login-error-no-code';
+    Sentry.withScope(scope => {
+      scope.setTag(SENTRY_TAGS.REQUEST_ID, requestId);
+      scope.setTag(SENTRY_TAGS.ERROR_CODE, code);
+      Sentry.captureMessage(eventMessage);
+    });
     recordEvent({
-      event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      event: eventMessage,
     });
   }
 

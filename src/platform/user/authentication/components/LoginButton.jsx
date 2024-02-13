@@ -1,11 +1,19 @@
 import React from 'react';
+import * as Sentry from '@sentry/browser';
+import { SENTRY_TAGS } from 'platform/user/authentication/errors';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { SERVICE_PROVIDERS } from '../constants';
 
 export function loginHandler(loginType, isOAuth) {
   const isOAuthAttempt = isOAuth && '-oauth';
-  recordEvent({ event: `login-attempted-${loginType}${isOAuthAttempt}` });
+  const eventMessage = `login-attempted-${loginType}${isOAuthAttempt}`;
+  Sentry.withScope(scope => {
+    scope.setTag(SENTRY_TAGS.LOGIN_TYPE, loginType);
+    scope.setTag('isOAuth', isOAuth);
+    Sentry.captureMessage(eventMessage);
+  });
+  recordEvent({ event: eventMessage });
   authUtilities.login({ policy: loginType });
 }
 

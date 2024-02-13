@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import differenceInSeconds from 'date-fns/differenceInSeconds';
+import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { logout as IAMLogout } from 'platform/user/authentication/utilities';
 import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
@@ -61,7 +62,9 @@ export class SessionTimeoutModal extends React.Component {
   };
 
   expireSession = () => {
-    recordEvent({ event: 'logout-session-expired' });
+    const eventMessage = 'logout-session-expired';
+    Sentry.captureMessage(eventMessage);
+    recordEvent({ event: eventMessage });
     teardownProfileSession();
     if (!this.props.authenticatedWithOAuth) {
       IAMLogout();
@@ -71,7 +74,9 @@ export class SessionTimeoutModal extends React.Component {
   };
 
   extendSession = () => {
-    recordEvent({ event: 'login-cta-stay-signed-in' });
+    const eventMessage = 'login-cta-stay-signed-in';
+    Sentry.captureMessage(eventMessage);
+    recordEvent({ event: eventMessage });
 
     // Remove session expiration to temporarily prevent the interval from
     // overwriting countdown immediately after clearing it.
@@ -86,7 +91,9 @@ export class SessionTimeoutModal extends React.Component {
   };
 
   signOut = () => {
-    recordEvent({ event: 'logout-cta-manual-signout' });
+    const eventMessage = 'logout-cta-manual-signout';
+    Sentry.captureMessage(eventMessage);
+    recordEvent({ event: eventMessage });
     if (!this.props.authenticatedWithOAuth) {
       IAMLogout();
     } else {

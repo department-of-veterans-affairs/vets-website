@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import * as Sentry from '@sentry/browser';
+
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { LoginContainer } from 'platform/user/authentication/components';
 
@@ -10,9 +12,19 @@ export default class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
     const isOAuthEvent = this.props.useSiS ? '-oauth' : '';
     if (!prevProps.visible && this.props.visible) {
-      recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
+      const eventMessage = `login-modal-opened${isOAuthEvent}`;
+      Sentry.withScope(scope => {
+        scope.setTag('isOAuth', isOAuthEvent);
+        Sentry.captureMessage(eventMessage);
+      });
+      recordEvent({ event: eventMessage });
     } else if (prevProps.visible && !this.props.visible) {
-      recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
+      const eventMessage = `login-modal-closed${isOAuthEvent}`;
+      Sentry.withScope(scope => {
+        scope.setTag('isOAuth', isOAuthEvent);
+        Sentry.captureMessage(eventMessage);
+      });
+      recordEvent({ event: eventMessage });
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
@@ -20,6 +21,7 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
         window.location.replace('/');
       }
 
+      Sentry.captureMessage('verify-prompt-displayed');
       recordEvent({ event: 'verify-prompt-displayed' });
 
       if (!loading) {
