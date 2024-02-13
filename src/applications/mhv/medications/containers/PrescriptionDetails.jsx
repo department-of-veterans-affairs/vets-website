@@ -38,6 +38,7 @@ import PrescriptionPrintOnly from '../components/PrescriptionDetails/Prescriptio
 import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
+import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -107,6 +108,9 @@ const PrescriptionDetails = () => {
     },
     [prescription],
   );
+
+  const baseTitle = `${prescription?.prescriptionName} | Veterans Affairs`;
+  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
     () => {
