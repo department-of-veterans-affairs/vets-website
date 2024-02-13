@@ -54,9 +54,9 @@ if (options.help) {
   process.exit(0);
 }
 
-const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha --max-workers 50% ${reporterOption}`;
 const coverageReporter = options['coverage-html']
-  ? '--reporter=html mocha --retries 5'
+  ? '--reporter=html mocha --retries 5 --max-workers 50%'
   : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
@@ -68,7 +68,7 @@ if (process.env.TESTS_TO_VERIFY) {
 
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
+].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
   `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
 
 runCommand(command);
