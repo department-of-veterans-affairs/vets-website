@@ -74,6 +74,7 @@ if (process.env.TESTS_TO_VERIFY) {
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 const splitUnitTests = splitArray(allUnitTests, process.env.NUM_CONTAINERS);
+console.log(splitUnitTests);
 const testsToRun = options['app-folder']
   ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
   : splitUnitTests[process.env.CI_NODE_INDEX];
