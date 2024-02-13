@@ -1,5 +1,5 @@
 import featureToggles from '../../../mocks/api/feature-toggles';
-import userData from '../../../mocks/api/user';
+import { userData, mhvTermsNotAcceptedUser } from '../../../mocks/api/user';
 import vamcEhr from '../../fixtures/vamc-ehr.json';
 import {
   allFoldersWithUnreadMessages,
@@ -39,6 +39,15 @@ class ApiInitializer {
         }),
       );
     },
+    withFeatureDisabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          mhvLandingPagePersonalization: false,
+        }),
+      );
+    },
   };
 
   initializeMessageData = {
@@ -71,6 +80,12 @@ class ApiInitializer {
         '/v0/user*',
         userData.generateUserWithFacilities({ facilities }),
       );
+    },
+    withMHVTermsNotAccepted: () => {
+      cy.intercept('GET', '/v0/user*', mhvTermsNotAcceptedUser);
+    },
+    withCustomUser: customUserData => {
+      cy.intercept('GET', '/v0/user*', customUserData);
     },
   };
 }
