@@ -210,13 +210,12 @@ jobs:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
     timeout-minutes: 30
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
 
     strategy:
