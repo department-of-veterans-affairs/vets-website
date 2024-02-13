@@ -429,5 +429,11 @@ class MedicationsListPage {
         });
       });
   };
+
+  verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
+    cy.get('[data-testid="rx-number"]')
+      .first()
+      .should('contain', prescriptionNumber);
+  };
 }
 export default MedicationsListPage;
