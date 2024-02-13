@@ -116,7 +116,7 @@ const SpouseOtherIncomeSummary = ({
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
-          id="added-income-summary"
+          id="spouse-added-income-summary"
           className="schemaform-block-title"
           name="addedIncomeSummary"
         >
