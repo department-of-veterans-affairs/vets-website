@@ -19,6 +19,7 @@ import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
+  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -40,6 +41,7 @@ import {
   generateVaccinesIntro,
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -72,6 +74,14 @@ const Vaccines = props => {
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  usePrintTitle(
+    pageTitles.VACCINES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateVaccinesPdf = async () => {

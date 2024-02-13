@@ -15,6 +15,7 @@ import {
   processList,
   generateTextFile,
   getNameDateAndTime,
+  dateFormat,
 } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -33,6 +34,7 @@ import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -52,6 +54,14 @@ const ChemHemDetails = props => {
       );
     },
     [record.date, record.name],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateChemHemPdf = async () => {

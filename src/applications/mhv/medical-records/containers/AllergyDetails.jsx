@@ -11,7 +11,12 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  dateFormat,
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+} from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -31,6 +36,7 @@ import {
   txtLine,
 } from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -79,6 +85,14 @@ const AllergyDetails = props => {
       }
     },
     [dispatch, allergy],
+  );
+
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateAllergyPdf = async () => {

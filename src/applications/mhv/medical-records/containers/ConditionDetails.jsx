@@ -6,6 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
+  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -39,6 +40,7 @@ import {
   reportGeneratedBy,
 } from '../../shared/util/constants';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -92,6 +94,14 @@ const ConditionDetails = props => {
       }
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateConditionDetails = async () => {

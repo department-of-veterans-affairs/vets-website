@@ -7,6 +7,7 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -22,6 +23,7 @@ import {
   generateLabsIntro,
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -41,6 +43,14 @@ const EkgDetails = props => {
       );
     },
     [record.date, record.name],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateEkgDetails = async () => {

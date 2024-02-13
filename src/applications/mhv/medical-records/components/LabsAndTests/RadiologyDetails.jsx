@@ -11,7 +11,11 @@ import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { formatName, updatePageTitle } from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
-import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
+import {
+  dateFormat,
+  generateTextFile,
+  getNameDateAndTime,
+} from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
@@ -20,6 +24,7 @@ import {
   reportGeneratedBy,
   txtLine,
 } from '../../../shared/util/constants';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -39,6 +44,14 @@ const RadiologyDetails = props => {
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const download = () => {

@@ -16,9 +16,12 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import { dateFormat } from '../util/helpers';
 
 const Vitals = () => {
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const user = useSelector(state => state.user.profile);
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   const activeAlert = useAlerts();
@@ -41,6 +44,14 @@ const Vitals = () => {
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  usePrintTitle(
+    pageTitles.VITALS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   useEffect(

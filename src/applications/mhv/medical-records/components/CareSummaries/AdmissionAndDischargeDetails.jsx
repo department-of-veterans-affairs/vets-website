@@ -8,6 +8,7 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
+  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -28,6 +29,7 @@ import {
   generateNotesIntro,
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -47,6 +49,14 @@ const AdmissionAndDischargeDetails = props => {
       );
     },
     [record],
+  );
+
+  usePrintTitle(
+    pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    dateFormat,
+    updatePageTitle,
   );
 
   const generateCareNotesPDF = async () => {
