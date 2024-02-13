@@ -192,6 +192,45 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
 
 const noFacilityUser = generateUserWithFacilities({ facilities: [] });
 
+const mhvTermsNotAcceptedUser = {
+  ...defaultUser,
+  data: {
+    ...defaultUser.data,
+    attributes: {
+      ...defaultUser.data.attributes,
+      profile: {
+        ...defaultUser.data.attributes.profile,
+        mhvAccount: {
+          accountLevel: null,
+          accountState: null,
+          errors: null,
+          loading: false,
+          termsAndConditionsAccepted: false,
+        },
+      },
+    },
+  },
+};
+
+const generateUserWithMHVTermsAccepted = termsAccepted => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          mhvAccount: {
+            ...defaultUser.data.attributes.profile.mhvAccount,
+            termsAndConditionsAccepted: termsAccepted,
+          },
+        },
+      },
+    },
+  };
+};
+
 module.exports = {
   defaultUser,
   cernerUser,
@@ -199,4 +238,6 @@ module.exports = {
   generateUser,
   generateUserWithServiceProvider,
   generateUserWithFacilities,
+  mhvTermsNotAcceptedUser,
+  generateUserWithMHVTermsAccepted,
 };
