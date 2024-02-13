@@ -263,7 +263,7 @@ class MedicationsListPage {
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3)',
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
     )
 
       // cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)')
@@ -398,7 +398,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
