@@ -1,5 +1,4 @@
 import manifest from '../../../manifest.json';
-
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
