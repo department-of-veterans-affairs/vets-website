@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReportModal from './ReportModal';
-import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
@@ -18,7 +17,6 @@ const SearchResult = ({
   associatedOrgs,
   submitRepresentativeReport,
   reports,
-  representative,
   representativeId,
   query,
 }) => {
@@ -99,10 +97,17 @@ const SearchResult = ({
 
           <div className="representative-contact-section vads-u-margin-top--3">
             {addressExists && (
-              <RepresentativeDirectionsLink
-                representative={representative}
-                query={query}
-              />
+              <div className="address-link">
+                <a
+                  href={`https://maps.google.com?saddr=${
+                    query?.context?.location
+                  }&daddr=${address}`}
+                  tabIndex="0"
+                >
+                  {addressLine1} {addressLine2} <br />
+                  {city}, {stateCode} {zipCode}
+                </a>
+              </div>
             )}
             {phone && (
               <div className="vads-u-margin-top--1p5">
@@ -166,7 +171,6 @@ SearchResult.propTypes = {
     address: PropTypes.string,
     other: PropTypes.string,
   }),
-  representative: PropTypes.object,
   representativeId: PropTypes.string,
   stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
