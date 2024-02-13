@@ -20,9 +20,9 @@ const Dashboard = ({ POApermissions = true }) => {
         </h2>
         <div>
           <p className="vads-u-margin-y--0">
-            In order to access the features of the VSO portal you need to have
-            certain permissions, such as being registered with the VA to accept
-            Power of Attorney for a Veteran.
+            In order to access the features of the Accredited Representative
+            Portal you need to have certain permissions, such as being
+            registered with the VA to accept Power of Attorney for a Veteran.
           </p>
         </div>
       </va-alert>
@@ -31,23 +31,25 @@ const Dashboard = ({ POApermissions = true }) => {
 
   if (POApermissions) {
     content = (
-      <div className="placeholder-container">
-        <div className="notif vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div className="primary vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
-        <div className="etc vads-u-background-color--gray-lightest" />
-      </div>
+      <>
+        <Link
+          to="/poa-requests"
+          className="vads-c-action-link--green vads-u-margin-bottom--2"
+        >
+          Manage power of attorney requests
+        </Link>
+        <div className="placeholder-container">
+          <div className="notif vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
+          <div className="primary vads-u-background-color--gray-lightest vads-u-margin-bottom--2" />
+          <div className="etc vads-u-background-color--gray-lightest" />
+        </div>
+      </>
     );
   }
 
   return (
     <LoginViewWrapper breadcrumbs={breadcrumbs}>
       <h1>Accredited Representative Portal</h1>
-      <Link
-        to="/poa-requests"
-        className="vads-c-action-link--green vads-u-margin-bottom--2"
-      >
-        Manage power of attorney requests
-      </Link>
       {content}
     </LoginViewWrapper>
   );
