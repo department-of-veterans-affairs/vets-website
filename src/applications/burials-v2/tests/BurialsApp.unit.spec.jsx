@@ -112,6 +112,6 @@ describe('BurialsApp', () => {
         <BurialsApp location={burialsLocation} />
       </Provider>,
     );
-    expect(window.location.href).to.eq("/burials-and-memorials-v2/application/530/");
+    expect(window.location.href).to.eq("/burials-and-memorials/application/530/");
   });
 });
