@@ -4,11 +4,22 @@ import PropTypes from 'prop-types';
 import { fieldHasValue } from '../utils';
 
 const ListBlock = props => {
-  const { heading, items, itemType, keyName, itemName } = props;
+  const {
+    heading,
+    headingLevel = 3,
+    items,
+    itemType,
+    keyName,
+    itemName = null,
+  } = props;
   if (!Array.isArray(items)) return null;
 
   // Filter out null/empty field values.
-  let listItems = items.filter(item => fieldHasValue(item[itemName])) || [];
+  let listItems =
+    items.filter(item => {
+      const fieldValue = itemName ? item[itemName] : item;
+      return fieldHasValue(fieldValue);
+    }) || [];
 
   if (!listItems.length) return null;
 
@@ -19,9 +30,10 @@ const ListBlock = props => {
     return <li key={key}>{value}</li>;
   });
 
+  const Heading = `h${headingLevel}`;
   return (
     <div>
-      <h3>{heading}</h3>
+      <Heading>{heading}</Heading>
       <ul data-testid={itemType}>{listItems}</ul>
     </div>
   );
@@ -32,6 +44,7 @@ export default ListBlock;
 ListBlock.propTypes = {
   heading: PropTypes.string.isRequired,
   itemType: PropTypes.string.isRequired,
+  headingLevel: PropTypes.number,
   itemName: PropTypes.string,
   items: PropTypes.array,
   keyName: PropTypes.string,

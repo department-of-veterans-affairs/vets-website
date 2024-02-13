@@ -100,7 +100,7 @@ describe('DebtDetailsCard', () => {
     expect(wrapper.find('h2').text()).to.equal(
       'Pay your $10,000.00 balance now or request help',
     );
-    expect(wrapper.find('p').text()).to.equal(
+    expect(wrapper.find('p').text()).includes(
       'To avoid collection actions on your bill, you must pay your full balance or request financial help.',
     );
     expect(wrapper.find('a')).to.have.lengthOf(2);

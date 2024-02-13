@@ -7,7 +7,7 @@ import {
 } from 'platform/forms/definitions/address';
 
 import { MailingAddressDescription } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 

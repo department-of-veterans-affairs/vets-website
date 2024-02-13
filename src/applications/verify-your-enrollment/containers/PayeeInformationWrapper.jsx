@@ -1,15 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PayeeInformationCard from '../components/PayeeInformationCard';
 import { PAYEE_INFO_TITLE } from '../constants';
-import { useData } from '../hooks/useData';
 
-const PayeeInformationWrapper = () => {
-  const {
-    indicator: applicantChapter,
-    fullName: applicantName,
-    loading,
-  } = useData();
-
+const PayeeInformationWrapper = ({
+  applicantChapter,
+  applicantName,
+  loading,
+}) => {
   // const applicantClaimNumber = "401512630"
 
   return (
@@ -43,4 +41,9 @@ const PayeeInformationWrapper = () => {
   );
 };
 
+PayeeInformationWrapper.propTypes = {
+  applicantChapter: PropTypes.string,
+  applicantName: PropTypes.string,
+  loading: PropTypes.bool,
+};
 export default PayeeInformationWrapper;
