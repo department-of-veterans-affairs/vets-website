@@ -84,6 +84,12 @@ class ApiInitializer {
     withMHVTermsNotAccepted: () => {
       cy.intercept('GET', '/v0/user*', userData.mhvTermsNotAcceptedUser);
     },
+    withMHVTermsAccepted: termsAccepted => {
+      const userDataWithMHVTerms = userData.generateUserWithMHVTermsAccepted(
+        termsAccepted,
+      );
+      cy.intercept('GET', '/v0/user', userDataWithMHVTerms);
+    },
     withCustomUser: customUserData => {
       cy.intercept('GET', '/v0/user*', customUserData);
     },
