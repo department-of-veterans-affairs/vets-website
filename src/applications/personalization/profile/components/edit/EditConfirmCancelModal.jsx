@@ -33,6 +33,7 @@ export const EditConfirmCancelModal = props => {
       primaryButtonText="Yes, cancel my changes"
       secondaryButtonText="No, go back to editing"
       data-testid="edit-confirm-cancel-modal"
+      uswds
     >
       <p>
         {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
