@@ -39,6 +39,15 @@ class ApiInitializer {
         }),
       );
     },
+    withFeatureDisabled: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          mhvLandingPagePersonalization: false,
+        }),
+      );
+    },
   };
 
   initializeMessageData = {
@@ -55,6 +64,12 @@ class ApiInitializer {
         '/my_health/v1/messaging/folders*',
         oneFolderWithNoUnreadMessages,
       );
+    },
+    withMHVTermsNotAccepted: () => {
+      cy.intercept('GET', '/v0/user*', userData.mhvTermsNotAcceptedUser);
+    },
+    withCustomUser: customUserData => {
+      cy.intercept('GET', '/v0/user*', customUserData);
     },
   };
 
