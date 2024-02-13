@@ -24,7 +24,15 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     defaultValue: [defaultPath],
   },
 ];
-
+const allUnitTests = glob.sync(defaultPath);
+function splitArray(array, chunks) {
+  const [...arrayCopy] = array;
+  const arrayChunks = [];
+  while (arrayCopy.length) {
+    arrayChunks.push(arrayCopy.splice(0, chunks));
+  }
+  return arrayChunks;
+}
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 let coverageInclude = '';
 
@@ -65,10 +73,13 @@ let testsToVerify = null;
 if (process.env.TESTS_TO_VERIFY) {
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
-
+const splitUnitTests = splitArray(allUnitTests);
+const testsToRun = options['app-folder']
+  ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
+  : splitUnitTests[process.env.CI_NODE_INDEX];
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
-  `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`}`;
+].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
+  testsToRun}`;
 
 runCommand(command);

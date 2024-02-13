@@ -219,6 +219,12 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
 
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        ci_node_index: [0,1,2,3,4,5,6,7,8,9]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -251,8 +257,9 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: 1
+          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
+
 
       - name: Archive unit test results
         if: ${{ always() }}
