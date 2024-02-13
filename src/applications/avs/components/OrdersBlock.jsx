@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { kebabCase } from 'lodash';
+import { ORDER_TYPES } from '../utils/constants';
 
 const getOrderItems = (type, orders) => {
   return orders?.filter(order => order.type === type.label);
@@ -9,7 +10,13 @@ const getOrderItems = (type, orders) => {
 
 const getOrderListItemsByType = (type, orders) => {
   const items = getOrderItems(type, orders);
-  return items?.map((item, idx) => <li key={idx}>{item.text}</li>) || [];
+  return (
+    items?.map((item, idx) => {
+      let itemText = item.text;
+      if (type === ORDER_TYPES.LAB) itemText += ` (${item.date})`;
+      return <li key={idx}>{itemText}</li>;
+    }) || []
+  );
 };
 
 const OrdersBlock = props => {

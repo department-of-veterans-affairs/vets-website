@@ -13,6 +13,16 @@ export const sortOptions = {
   last_name_desc: 'Last Name (Z - A)',
 };
 
+export const searchAreaOptions = {
+  '5': '5 miles',
+  '10': '10 miles',
+  '25': '25 miles',
+  '50': '50 miles',
+  '100': '100 miles',
+  '200': '200 miles',
+  'Show all': 'Show all',
+};
+
 /*
  * Toggle true for local development
  */
@@ -33,7 +43,7 @@ const baseUrl =
 export const getApi = (endpoint, method = 'GET', requestBody) => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
-  const csrfToken = JSON.parse(localStorage.getItem('csrfToken'));
+  const csrfToken = localStorage.getItem('csrfToken');
 
   const apiSettings = {
     mode: 'cors',
@@ -69,6 +79,7 @@ export const resolveParamsWithUrl = ({
   perPage = 10,
   sort,
   type = 'veteran_service_officer',
+  distance,
 }) => {
   const params = [
     address ? `address=${address}` : null,
@@ -79,6 +90,7 @@ export const resolveParamsWithUrl = ({
     `per_page=${perPage}`,
     `sort=${sort}`,
     `type=${type}`,
+    distance ? `distance=${distance}` : null,
   ];
 
   return `?${compact([...params]).join('&')}`;

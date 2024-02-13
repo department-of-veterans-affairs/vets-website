@@ -19,6 +19,18 @@ import otherHousingRisksPg from '../pages/otherHousingRisks';
 import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
 import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
 import mailingAddressYesNo from '../pages/mailingAddressYesNo';
+import mailingAddressPg from '../pages/mailingAddress';
+import phoneAndEmailPg from '../pages/phoneAndEmail';
+import otherReasonsPg from '../pages/otherReasons';
+import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
+import financialHardshipPg from '../pages/evidenceFinancialHardship';
+import terminalIllnessPg from '../pages/evidenceTerminalIllness';
+import alsPg from '../pages/evidenceALS';
+import vsiPg from '../pages/evidenceVSI';
+import powConfinementPg from '../pages/evidencePowConfinement';
+import powConfinement2Pg from '../pages/evidencePowConfinement2';
+import powDocsPg from '../pages/evidencePowDocuments';
+import medalAwardPg from '../pages/evidenceMedalAward';
 import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
 import {
   getMockData,
@@ -50,7 +62,6 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '20-10207',
-  hideUnauthedStartLink: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your priority processing request application (20-10207) is in progress.',
@@ -198,24 +209,135 @@ const formConfig = {
           pageClass: 'contact-information',
         },
         mailingAddressPage: {
-          depends: formData => formData.mailingAddressYesNo,
+          depends: formData =>
+            formData.livingSituation.NONE && formData.mailingAddressYesNo,
           path: 'mailing-address',
           title: 'Your mailing address',
-          uiSchema: {
-            'ui:title': '[WIP] Your mailing address',
-            firstField: {
-              'ui:title': '[firstField]',
-            },
-          },
+          uiSchema: mailingAddressPg.uiSchema,
+          schema: mailingAddressPg.schema,
+          pageClass: 'mailing-address',
+        },
+        phoneAndEmailPage: {
+          path: 'phone-and-email',
+          title: 'Your phone and email address',
+          uiSchema: phoneAndEmailPg.uiSchema,
+          schema: phoneAndEmailPg.schema,
+          pageClass: 'phone-and-email',
+        },
+      },
+    },
+    otherReasonsChapter: {
+      title: 'Other reasons for request',
+      pages: {
+        otherReasonsPage: {
+          depends: formData => formData.livingSituation.NONE,
+          path: 'other-reasons',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsPg.uiSchema,
+          schema: otherReasonsPg.schema,
+          pageClass: 'other-reasons',
+        },
+        otherReasonsHomelessPage: {
+          depends: formData => !formData.livingSituation.NONE,
+          path: 'other-reasons-homeless',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsHomelessPg.uiSchema,
+          schema: otherReasonsHomelessPg.schema,
+          pageClass: 'other-reasons-homeless',
+        },
+      },
+    },
+    evidenceChapter: {
+      title: 'Evidence',
+      pages: {
+        financialHardshipPage: {
+          depends: formData => formData.otherReasons.FINANCIAL_HARDSHIP,
+          path: 'evidence-financial-hardship',
+          title: 'Upload evidence for extreme financial hardship',
+          uiSchema: financialHardshipPg.uiSchema,
+          schema: financialHardshipPg.schema,
+          pageClass: 'evidence-financial-hardship',
+        },
+        terminalIllnessPage: {
+          depends: formData => formData.otherReasons.TERMINAL_ILLNESS,
+          path: 'evidence-terminal-illness',
+          title: 'Upload evidence for terminal illness',
+          uiSchema: terminalIllnessPg.uiSchema,
+          schema: terminalIllnessPg.schema,
+          pageClass: 'evidence-terminal-illness',
+        },
+        alsPage: {
+          depends: formData => formData.otherReasons.ALS,
+          path: 'evidence-als',
+          title:
+            'Upload evidence for diagnosis of ALS (amyotrophic lateral sclerosis)',
+          uiSchema: alsPg.uiSchema,
+          schema: alsPg.schema,
+          pageClass: 'evidence-als',
+        },
+        vsiPage: {
+          depends: formData => formData.otherReasons.VSI_SI,
+          path: 'evidence-vsi',
+          title:
+            'Upload evidence for Seriously or Very Seriously Injured or Ill during military operations',
+          uiSchema: vsiPg.uiSchema,
+          schema: vsiPg.schema,
+          pageClass: 'evidence-vsi',
+        },
+        powConfinementPage: {
+          // TODO: Verify which stories this should be shown for.
+          // Not sure about non-veteran & third-party-non-veteran stories.
+          depends: formData => formData.otherReasons.FORMER_POW,
+          path: 'evidence-pow-confinement',
+          title: 'Former prisoner of war',
+          uiSchema: powConfinementPg.uiSchema,
+          schema: powConfinementPg.schema,
+          pageClass: 'evidence-pow-confinement',
+        },
+        powConfinement2Page: {
+          depends: formData =>
+            formData.otherReasons.FORMER_POW &&
+            formData.powMultipleConfinements,
+          path: 'evidence-pow-confinement-2',
+          title: 'Former prisoner of war',
+          uiSchema: powConfinement2Pg.uiSchema,
+          schema: powConfinement2Pg.schema,
+          pageClass: 'evidence-pow-confinement-2',
+        },
+        powDocumentsPage: {
+          depends: formData => formData.otherReasons.FORMER_POW,
+          path: 'evidence-pow-documents',
+          title: 'Upload evidence for prisoner of war status',
+          uiSchema: powDocsPg.uiSchema,
+          schema: powDocsPg.schema,
+          pageClass: 'evidence-pow-documents',
+        },
+        medalAwardPage: {
+          depends: formData => formData.otherReasons.MEDAL_AWARD,
+          path: 'evidence-medal-award',
+          title:
+            'Upload evidence for Medal of Honor or Purple Heart award recipient',
+          uiSchema: medalAwardPg.uiSchema,
+          schema: medalAwardPg.schema,
+          pageClass: 'evidence-medal-award',
+        },
+      },
+    },
+    medicalTreatmentChapter: {
+      title: '[WIP] Medical treatment',
+      pages: {
+        page1: {
+          path: 'medical-treatment-start',
+          title: '[WIP] Where did you receive medical treatment?',
+          uiSchema: {},
           schema: {
             type: 'object',
             properties: {
-              firstField: {
+              wipField: {
                 type: 'string',
               },
             },
           },
-          pageClass: 'mailing-address',
         },
       },
     },

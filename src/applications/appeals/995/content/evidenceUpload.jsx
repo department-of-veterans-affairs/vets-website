@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
-import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
+import {
+  MAX_FILE_SIZE_MB,
+  SUPPORTED_UPLOAD_TYPES,
+} from '../../shared/constants';
 
 export const UploadDescription = () => {
   const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());

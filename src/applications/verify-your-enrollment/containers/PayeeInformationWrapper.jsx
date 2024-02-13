@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PayeeInformationCard from '../components/PayeeInformationCard';
 import { PAYEE_INFO_TITLE } from '../constants';
 
-const PayeeInformationWrapper = () => {
-  const applicantName = 'Ronald Gary';
-  const applicantChapter =
-    'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)';
+const PayeeInformationWrapper = ({
+  applicantChapter,
+  applicantName,
+  loading,
+}) => {
   // const applicantClaimNumber = "401512630"
 
   return (
@@ -24,6 +26,7 @@ const PayeeInformationWrapper = () => {
       >
         <PayeeInformationCard
           title="Payee Name"
+          loading={loading}
           showAdditionalInformation
           applicantName={applicantName}
         />
@@ -38,4 +41,9 @@ const PayeeInformationWrapper = () => {
   );
 };
 
+PayeeInformationWrapper.propTypes = {
+  applicantChapter: PropTypes.string,
+  applicantName: PropTypes.string,
+  loading: PropTypes.bool,
+};
 export default PayeeInformationWrapper;

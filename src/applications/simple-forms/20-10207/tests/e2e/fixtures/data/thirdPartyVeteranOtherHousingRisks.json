@@ -1,0 +1,26 @@
+{
+  "data": {
+    "preparerType": "third-party-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Representative"
+    },
+    "thirdPartyType": "representative",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540989"
+    },
+    "livingSituation": {
+      "OTHER_RISK": true
+    },
+    "otherHousingRisks": "The Veteran's baby giraffe is growing up fast!",
+    "phone": "1234567892",
+    "other_reasons": {
+      "AGE_85": true
+    }
+  }
+}
