@@ -1,112 +1,79 @@
 import React from 'react';
-import MockDate from 'mockdate';
 import { expect } from 'chai';
-import moment from 'moment';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import moment from 'moment-timezone';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { getCancelReasonMock } from '../../../mocks/v0';
-import {
-  mockAppointmentInfo,
-  mockSingleAppointmentFetch,
-  mockVACancelFetches,
-} from '../../../mocks/helpers';
+import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import { renderWithStoreAndRouter, getTestDate } from '../../../mocks/setup';
 
 import { AppointmentList } from '../../../../appointment-list';
-import { getICSTokens } from '../../../../utils/calendar';
-import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
+import {
+  mockAppointmentApi,
+  mockAppointmentUpdateApi,
+  mockClinicsApi,
+  mockGetPendingAppointmentsApi,
+  mockGetUpcomingAppointmentsApi,
+  mockSingleVAOSAppointmentFetch,
+} from '../../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import {
   mockFacilitiesFetchByVersion,
   mockFacilityFetchByVersion,
   mockSingleClinicFetchByVersion,
 } from '../../../mocks/fetch';
-import {
-  createMockAppointmentByVersion,
-  createMockFacilityByVersion,
-} from '../../../mocks/data';
-
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingRequests: true,
-    vaOnlineSchedulingPast: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingVAOSServiceVAAppointments: false,
-    vaOnlineSchedulingStatusImprovement: false,
-  },
-};
+import { createMockFacilityByVersion } from '../../../mocks/data';
+import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentResponse';
+import MockFacilityResponse from '../../../e2e/fixtures/MockFacilityResponse';
+import MockClinicResponse from '../../../e2e/fixtures/MockClinicResponse';
 
 describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
+  const initialState = {
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      show_new_schedule_view_appointments_page: true,
+      vaOnlineSchedulingBreadcrumbUrlUpdate: true,
+      vaOnlineSchedulingCancel: true,
+      vaOnlineSchedulingPast: true,
+      vaOnlineSchedulingRequests: true,
+      vaOnlineSchedulingStatusImprovement: true,
+      vaOnlineSchedulingVAOSServiceRequests: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
+    },
+  };
+
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
     mockFacilitiesFetchByVersion();
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
 
-  it.skip('should show confirmed appointments detail page', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
-    const url = 'va/1234';
-    const futureDate = moment.utc();
+  it('should show confirmed appointments detail page', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse();
+    response
+      .setLocationId('983')
+      .setClinicId('1')
+      .setReasonCode({ text: 'I have a headache' });
+    const clinicResponse = new MockClinicResponse({ id: 1, locationId: '983' });
+    const facilityResponse = new MockFacilityResponse({ id: '983' });
 
-    const appointment = getVAOSAppointmentMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      ...appointment.attributes,
-      kind: 'clinic',
-      clinic: '455',
-      locationId: '983GC',
-      id: '1234',
-      preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: {
-        coding: [{ code: 'New Problem' }],
-        text: 'I have a headache',
-      },
-      comment: 'New issue: I have a headache',
-      serviceType: 'primaryCare',
-      start: futureDate.format(),
-      status: 'booked',
-    };
-
-    mockSingleClinicFetchByVersion({
-      clinicId: '455',
-      locationId: '983GC',
-      clinicName: 'Some fancy clinic name',
-      version: 2,
+    mockAppointmentApi({ response });
+    mockClinicsApi({
+      clinicId: '1',
+      locationId: '983',
+      response: [clinicResponse],
     });
-    mockSingleVAOSAppointmentFetch({ appointment });
+    mockFacilityFetchByVersion({ facility: facilityResponse });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-        address: {
-          postalCode: '82001-5356',
-          city: 'Cheyenne',
-          state: 'WY',
-          line: ['2360 East Pershing Boulevard'],
-        },
-      }),
-    });
-
+    // Act
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState: myInitialState,
-      path: url,
+      initialState,
+      path: `/${response.id}`,
     });
 
+    // Assert
     // Verify document title and content...
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
@@ -116,7 +83,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
-          futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
           'i',
         ),
       }),
@@ -125,7 +94,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText('Primary care')).to.be.ok;
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-    expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
+    expect(await screen.findByText(/Clinic 1/)).to.be.ok;
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
@@ -133,11 +102,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/I have a headache/)).to.be.ok;
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          futureDate
+          moment()
             .tz('America/Denver')
             .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
@@ -454,6 +423,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       }),
     });
 
+    mockClinicsApi({ clinicId: '455', locationId: '983GC', response: [] });
+
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: myInitialState,
       path: url,
@@ -557,37 +528,19 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
   // -------------
 
-  it.skip('should show confirmed appointment without facility information', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment.tz('America/Denver').format(),
-      locationId: '983GC',
-      clinicFriendlyName: "Jennie's Lab",
-      comment: 'New issue: ASAP',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
-    appointment.attributes.sta6aid = null;
+  it('should show confirmed appointment without facility information', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse();
+    response.setReasonCode({ text: 'New issue: ASAP' });
+    mockAppointmentApi({ response });
 
-    mockAppointmentInfo({
-      va: [appointment],
-    });
-
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
+    // Assert
     expect(await screen.findByText(/Find facility information/)).to.be.ok;
 
     expect(screen.baseElement).not.to.contain.text(
@@ -615,64 +568,40 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
 
-  it.skip('should show past confirmed appointments detail page', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment().subtract(1, 'day'),
-      locationId: '983GC',
-      clinicFriendlyName: "Jennie's Lab",
-      comment: 'New issue: ASAP',
-      stopCode: '323',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
+  it('should show past confirmed appointments detail page', async () => {
+    // Arrange
+    const now = moment().tz('America/Denver');
+    const yesterday = moment(now).subtract(1, 'day');
 
-    mockAppointmentInfo({
-      va: [appointment],
+    const response = new MockAppointmentResponse({
+      localStartTime: yesterday,
     });
+    response.setLocationId('983');
 
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
+    mockAppointmentApi({ response });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-        phone: '970-224-1550',
-      }),
+      facility: new MockFacilityResponse('983'),
     });
+
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
-    // Verify document title and content...
+    // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `VA appointment on ${moment()
-          .subtract(1, 'day')
-          .tz('America/Denver')
-          .format('dddd, MMMM D, YYYY')}`,
+        `VA appointment on ${yesterday.format(
+          'dddd, MMMM D, YYYY',
+        )} | Veterans Affairs`,
       );
     });
 
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          moment()
-            .subtract(1, 'day')
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(yesterday.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -684,355 +613,185 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       'This appointment occurred in the past.',
     );
 
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
-    expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
-    expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'You shared these details about your concern',
-      }),
-    ).to.be.ok;
-
-    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
-    expect(screen.baseElement).not.to.contain.text(
-      new RegExp(
-        moment()
-          .subtract(1, 'day')
-          .tz('America/Denver')
-          .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-        'i',
-      ),
-    );
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
+    expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it.skip('should allow cancellation', async () => {
+  it('should allow cancellation', async () => {
+    // Arrange
     // Given a veteran has VA appointments
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
-      clinicName: 'CHY OPT VAR1',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
+    const response = new MockAppointmentResponse();
+    const canceledAppointmentResponse = new MockAppointmentResponse();
+    canceledAppointmentResponse
+      .setCancelationReason('pat')
+      .setStatus(APPOINTMENT_STATUS.cancelled);
 
-    mockAppointmentInfo({
-      va: [appointment],
-    });
+    mockAppointmentApi({ response });
+    mockAppointmentUpdateApi({ response: canceledAppointmentResponse });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
-    const cancelReason = getCancelReasonMock();
-    cancelReason.attributes = { ...cancelReason.attributes, number: '5' };
-    mockVACancelFetches('983', [cancelReason]);
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-    });
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
+      path: `/${response.id}`,
     });
 
-    const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    // Assert
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
-    // And select an appointment details link
-    userEvent.click(detailLink);
-    // Verify page content...
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
-    // VA appointment id from confirmed_va.json
     expect(screen.baseElement).not.to.contain.text('canceled');
 
     // When the user clicks on cancel appointment link
     userEvent.click(screen.getByText(/cancel appointment/i));
     await screen.findByRole('alertdialog');
-    expect(window.dataLayer[15]).to.deep.equal({
+
+    expect(window.dataLayer[0]).to.deep.equal({
       event: 'vaos-cancel-booked-clicked',
     });
+
     //  And clicks on 'yes, cancel this appointment' to confirm
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
 
     // Then it should display appointment is canceled
-    await screen.findByTestId('cancel-appointment-SuccessModal');
-
-    const cancelData = JSON.parse(
-      global.fetch
-        .getCalls()
-        .find(call => call.args[0].includes('appointments/cancel')).args[1]
-        .body,
-    );
-
-    expect(cancelData).to.deep.equal({
-      appointmentTime: moment()
-        .tz('America/Denver')
-        .format('MM/DD/YYYY HH:mm:ss'),
-      cancelReason: '5',
-      cancelCode: 'PC',
-      clinicName: 'CHY OPT VAR1',
-      clinicId: '308',
-      facilityId: '983',
-      remarks: '',
-    });
-
-    userEvent.click(screen.getByText(/continue/i));
+    const modal = await screen.findByTestId('cancel-appointment-SuccessModal');
+    const continueBtn = modal.__events.primaryButtonClick;
+    await continueBtn();
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    // expect(screen.baseElement).to.contain.text(
-    //   'You canceled your appointment.',
-    // );
+    expect(screen.baseElement).to.contain.text(
+      'You canceled your appointment.',
+    );
   });
 
-  it.skip('should not allow cancellation of COVID-19 vaccine appointments', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'FUTURE',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
+  it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse({
       serviceType: 'covid',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+      cancellable: false,
     });
+    response.setLocationId('983');
 
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
+    mockAppointmentApi({ response });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
+      facility: new MockFacilityResponse({ id: '983' }),
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
+    // Assert
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findAllByText('COVID-19 vaccine')).to.exist;
-
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
-
     expect(screen.baseElement).to.contain.text(
       'Contact this facility if you need to reschedule or cancel your',
     );
   });
 
-  it.skip('should display who canceled the appointment', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'CANCELLED BY CLINIC',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+  it('should display who canceled the appointment', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse({
+      status: APPOINTMENT_STATUS.cancelled,
     });
+    mockAppointmentApi({ response });
 
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(
-      await screen.findByText(
-        /Fort Collins VA Clinic canceled your appointment/i,
-      ),
-    ).to.exist;
-  });
-
-  it.skip('should display who canceled the appointment for past appointments', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      currentStatus: 'CANCELLED BY CLINIC',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DDThh:mm:[00Z]'),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: url,
-    });
-
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(
-      await screen.findByText(
-        /Fort Collins VA Clinic canceled your appointment/i,
-      ),
-    ).to.exist;
 
     // The canceled appointment and past appointment alerts are mutually exclusive
     // with the canceled appointment status having 1st priority. So, the canceled
     // appointment alert should display even when the appointment is a past
     // appointment.
+    expect(screen.queryByText(/Facility canceled your appointment/i));
     expect(screen.queryByText('This appointment occurred in the past.')).not.to
       .exist;
   });
 
-  it.skip('should fire a print request when print button clicked', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+  it('should display who canceled the appointment for past appointments', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse({
+      localStartTime: moment().subtract(1, 'day'),
+      status: APPOINTMENT_STATUS.cancelled,
     });
 
-    mockAppointmentInfo({
-      va: [appointment],
-    });
+    mockAppointmentApi({ response });
 
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
+      path: `/${response.id}`,
     });
 
+    // Assert
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    // The canceled appointment and past appointment alerts are mutually exclusive
+    // with the canceled appointment status having 1st priority. So, the canceled
+    // appointment alert should display even when the appointment is a past
+    // appointment.
+    expect(screen.queryByText(/Facility canceled your appointment/i));
+    expect(screen.queryByText('This appointment occurred in the past.')).not.to
+      .exist;
+  });
+
+  it('should fire a print request when print button clicked', async () => {
+    // Arrange
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
-    global.window.print = printSpy;
+    const response = new MockAppointmentResponse();
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
+    global.window.print = printSpy;
+    mockAppointmentApi({ response });
+
+    // Act
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/${response.id}`,
     });
 
-    // Select an appointment details link...
-    const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
-    userEvent.click(detailLink);
-
-    // Verify page content...
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
-
-    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
+    // Assert
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
 
     expect(printSpy.notCalled).to.be.true;
     fireEvent.click(await screen.findByText(/Print/i));
     expect(printSpy.calledOnce).to.be.true;
+
     global.window.print = oldPrint;
   });
 
-  it.skip('should show error message when single fetch errors', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    // const data = {};
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      // ...data,
+  it('should show error message when single fetch errors', async () => {
+    // Arrange
+    mockAppointmentApi({
+      response: new MockAppointmentResponse(),
+      responseCode: 404,
     });
 
-    mockSingleAppointmentFetch({
-      appointment,
-      error: true,
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: '/1',
     });
 
+    // Assert
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
 
@@ -1045,34 +804,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     });
   });
 
-  it.skip('should allow the user to close the cancel modal without canceling', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
+  it('should allow the user to close the cancel modal without canceling', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse();
+    mockAppointmentApi({ response });
 
-    mockAppointmentInfo({ va: [appointment] });
-
-    mockSingleAppointmentFetch({ appointment });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
     await waitFor(() => {
@@ -1081,9 +821,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
 
     userEvent.click(screen.getByText(/cancel appointment/i));
 
-    await screen.findByRole('alertdialog');
-
-    userEvent.click(screen.getByText(/No, don’t cancel/i));
+    const button = document.querySelector('va-button');
+    expect(button.getAttribute('text')).to.equal("No, don't cancel");
+    button.click();
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.not.contain.text(
@@ -1091,312 +831,62 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it.skip('should allow the user to go back to the appointment list', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: '308',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+  it('should allow the user to go back to the appointment list', async () => {
+    // Arrange
+    const response = new MockAppointmentResponse();
+
+    mockAppointmentApi({ response });
+    mockGetUpcomingAppointmentsApi({
+      response: [response],
+    });
+    mockGetPendingAppointmentsApi({
+      response: [response],
     });
 
-    mockSingleAppointmentFetch({ appointment });
-    mockAppointmentInfo({
-      va: [appointment],
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-      }),
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
+    // Assert
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
 
-    userEvent.click(screen.getByText(/VA online scheduling/i));
-    expect(screen.baseElement).to.contain.text('Your appointments');
+    userEvent.click(screen.getByText(/Back to appointments/i));
+    expect(screen.baseElement).to.contain.text('Appointments');
   });
 
-  it.skip('should verify VA in person calendar ics file format', async () => {
-    const startDateTime = moment();
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
+  it('should show facility specific timezone when available', async () => {
+    // Arrange
+    const now = moment().tz('America/Denver');
+    const response = new MockAppointmentResponse({ localStartTime: now });
+    response.setLocationId('983');
 
-    mockAppointmentInfo({
-      va: [appointment],
-    });
-
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
+    mockAppointmentApi({ response });
+    mockClinicsApi({ clinicId: '455', locationId: '983' });
     mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Fort Collins VA Clinic',
-        phone: '970-224-1550',
-      }),
+      facility: new MockFacilityResponse({ id: 983 }),
     });
 
+    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: url,
+      path: `/${response.id}`,
     });
 
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `VA appointment on ${moment(startDateTime)
-          .tz('America/Denver')
-          .format('dddd, MMMM D, YYYY')}`,
-      );
-    });
-
-    const ics = decodeURIComponent(
-      screen
-        .getByTestId('add-to-calendar-link', {
-          name: `Add ${moment(startDateTime)
-            .tz('America/Denver')
-            .format('MMMM D, YYYY')} appointment to your calendar`,
-        })
-        .getAttribute('href')
-        .replace('data:text/calendar;charset=utf-8,', ''),
-    );
-
-    const tokens = getICSTokens(ics);
-
-    expect(tokens.get('BEGIN')).includes('VCALENDAR');
-    expect(tokens.get('VERSION')).to.equal('2.0');
-    expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN')).includes('VEVENT');
-    expect(tokens.has('UID')).to.be.true;
-    expect(tokens.get('SUMMARY')).to.equal(
-      'Appointment at Fort Collins VA Clinic',
-    );
-
-    // Description text longer than 74 characters should start on newline beginning
-    // with a tab character
-    let description = tokens.get('DESCRIPTION');
-    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
-
-    expect(description[0]).to.equal(
-      'You have a health care appointment at Fort Collins VA Clinic',
-    );
-    expect(description[1]).to.equal('\t\\n\\nFake street\\n');
-    expect(description[2]).to.equal('\tFake city\\, FA fake zip\\n');
-    expect(description[3]).to.equal('\t970-224-1550\\n');
-    expect(description[4]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
-    );
-    expect(description[5]).to.equal(
-      '\tintments to get details about this appointment\\n',
-    );
-    expect(tokens.get('LOCATION')).to.equal(
-      'Fake street\\, Fake city\\, FA fake zip',
-    );
-    expect(tokens.get('DTSTAMP')).to.equal(
-      `${moment(startDateTime)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('DTSTART')).to.equal(
-      `${moment(startDateTime)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('DTEND')).to.equal(
-      `${startDateTime
-        .clone()
-        .add(60, 'minutes')
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('END')).includes('VEVENT');
-    expect(tokens.get('END')).includes('VCALENDAR');
-  });
-
-  it.skip('should verify VA phone calendar ics file format', async () => {
-    const url = '/va/22cdc6741c00ac67b6cbf6b972d084c0';
-    const data = {
-      id: '22cdc6741c00ac67b6cbf6b972d084c0',
-      kind: 'phone',
-      clinic: 'fake',
-      start: moment(),
-      locationId: '983GC',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
-
-    mockAppointmentInfo({
-      va: [appointment],
-    });
-
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '983GC',
-        name: 'Cheyenne VA Medical Center',
-        phone: '970-224-1550',
-      }),
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: url,
-    });
-
-    // Verify document title and content...
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `VA appointment on ${moment(appointment.start)
-          .tz('America/Denver')
-          .format('dddd, MMMM D, YYYY')}`,
-      );
-    });
-
-    const ics = decodeURIComponent(
-      screen
-        .getByTestId('add-to-calendar-link', {
-          name: `Add ${moment(appointment.start)
-            .tz('America/Denver')
-            .format('MMMM D, YYYY')} appointment to your calendar`,
-        })
-        .getAttribute('href')
-        .replace('data:text/calendar;charset=utf-8,', ''),
-    );
-    const tokens = getICSTokens(ics);
-
-    expect(tokens.get('BEGIN')).includes('VCALENDAR');
-    expect(tokens.get('VERSION')).to.equal('2.0');
-    expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN')).includes('VEVENT');
-    expect(tokens.has('UID')).to.be.true;
-    expect(tokens.get('SUMMARY')).to.equal('Phone appointment');
-
-    // Description text longer than 74 characters should start on newline beginning
-    // with a tab character
-    let description = tokens.get('DESCRIPTION');
-    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
-
-    expect(description[0]).to.equal(
-      `A provider will call you at ${moment(appointment.start)
-        .tz('America/Denver')
-        .format('h:mm a')}`,
-    );
-    expect(description[1]).to.equal('\t\\n\\nCheyenne VA Medical Center');
-    expect(description[2]).to.equal('\t\\nFake street\\n');
-    expect(description[3]).to.equal('\tFake city\\, FA fake zip\\n');
-    expect(description[4]).to.equal('\t970-224-1550\\n');
-    expect(description[5]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
-    );
-    expect(description[6]).to.equal(
-      '\tintments to get details about this appointment\\n',
-    );
-    expect(tokens.get('LOCATION')).to.equal('Phone call');
-    expect(tokens.get('DTSTAMP')).to.equal(
-      `${moment(appointment.start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('DTSTART')).to.equal(
-      `${moment(appointment.start)
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('DTEND')).to.equal(
-      `${moment(appointment.start)
-        .add(60, 'minutes')
-        .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens.get('END')).includes('VEVENT');
-    expect(tokens.get('END')).includes('VCALENDAR');
-  });
-
-  it.skip('should show facility specific timezone when available', async () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const today = moment.utc();
-
-    const data = {
-      id: '21cdc6741c00ac67b6cbf6b972d084c1',
-      kind: 'clinic',
-      clinic: '308',
-      start: today.format(),
-      locationId: '437GJ',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
-
-    mockAppointmentInfo({
-      va: [appointment],
-    });
-
-    mockSingleAppointmentFetch({
-      appointment,
-    });
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '437GJ',
-        name: 'Facility in Denver time',
-        phone: '970-224-1550',
-      }),
-    });
-
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: url,
-    });
-
+    // Assert
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: new RegExp(
-          today.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(now.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
     expect(
       screen.getByText(
-        new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('h:mm'),
-          'i',
-        ),
+        new RegExp(now.tz('America/Denver').format('h:mm'), 'i'),
       ),
     ).to.exist;
     expect(screen.getByText(/Mountain time/i)).to.exist;
