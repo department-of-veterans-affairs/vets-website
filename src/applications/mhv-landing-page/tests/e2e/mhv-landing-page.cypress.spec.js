@@ -1,6 +1,7 @@
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import { generateFeatureToggles } from '../../mocks/api/feature-toggles';
+import ApiInitializer from './utilities/ApiInitializer';
 
 describe(`${appName} - landing page`, () => {
   beforeEach(() => {
@@ -10,6 +11,7 @@ describe(`${appName} - landing page`, () => {
   });
 
   it('display the landing page when visiting root URL', () => {
+    ApiInitializer.initializeMessageData.withNoUnreadMessages();
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
