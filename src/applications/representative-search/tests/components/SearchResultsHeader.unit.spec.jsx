@@ -39,7 +39,9 @@ describe('SearchResultsHeader', () => {
         .find('h3')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
-    ).to.equal('No results found for "Attorneys" within "50 miles" of "11111"');
+    ).to.equal(
+      'No results found for "Accredited attorney" within "50 miles" of "11111"',
+    );
     wrapper.unmount();
   });
 
@@ -76,7 +78,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for "Attorneys" within "50 miles" of "new york"',
+      'No results found for "Accredited attorney" within "50 miles" of "new york"',
     );
 
     wrapper.unmount();
@@ -102,7 +104,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'Showing 1 result for "Attorneys" within "50 miles" of "new york"',
+      'Showing 1 result for "Accredited attorney" within "50 miles" of "new york"',
     );
 
     wrapper.unmount();
@@ -123,7 +125,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 12 of 12 results for "Attorneys" within "50 miles" of "new york"';
+      'Showing 11 - 12 of 12 results for "Accredited attorney" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -150,7 +152,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 5 results for "Attorneys" within "50 miles" of "new york"';
+      'Showing 5 results for "Accredited attorney" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -177,7 +179,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing1-10of12resultsfor"Attorneys"within"50miles"of"newyork"';
+      'Showing1-10of12resultsfor"Accreditedattorney"within"50miles"of"newyork"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -204,7 +206,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for "Claims agents" within "50 miles" of "new york"';
+      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -232,7 +234,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing 11 - 20 of 25 results for "Claims agents" within "50 miles" of "new york"';
+      'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
@@ -276,7 +278,7 @@ describe('SearchResultsHeader', () => {
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
-      'No results found for "Claims agents" within "50 miles" of "new york"',
+      'No results found for "Accredited claims agent" within "50 miles" of "new york"',
     );
     wrapper.unmount();
   });
