@@ -24,7 +24,7 @@ const BlockedTriageGroupAlert = props => {
   );
 
   const ehrDataByVhaId = useSelector(
-    state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
+    state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
