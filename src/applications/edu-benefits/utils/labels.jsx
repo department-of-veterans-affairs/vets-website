@@ -108,7 +108,7 @@ export const benefitsLabels = {
 export const benefitsLabelsUpdate = {
   chapter33: (
     <p>
-      Post-9/11 GI Bill (Chapter 33)
+      Post-9/11 GI bill (Chapter 33)
       <br />
       <a
         aria-label="Learn more about Post-9/11 benefits"
@@ -173,6 +173,18 @@ export const benefitsLabelsUpdate = {
       <a
         aria-label="Learn more about Transfer of Entitlement Program benefits"
         href="/education/transfer-post-9-11-gi-bill-benefits/"
+        target="_blank"
+      >
+        Learn more
+      </a>
+    </p>
+  ),
+  chapter35: (
+    <p>
+      Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
+      <a
+        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
+        href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
         Learn more
