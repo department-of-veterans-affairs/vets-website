@@ -79,7 +79,7 @@ const testsToRun = options['app-folder']
   : splitUnitTests[process.env.CI_NODE_INDEX];
 const command = `LOG_LEVEL=${options[
   'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify ||
+].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
   testsToRun}`;
-
+console.log('command: ', command);
 runCommand(command);
