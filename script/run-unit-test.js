@@ -77,7 +77,7 @@ const splitUnitTests = splitArray(allUnitTests, process.env.NUM_CONTAINERS);
 console.log(splitUnitTests);
 const testsToRun = options['app-folder']
   ? `--recursive ${options.path.map(p => `'${p}'`).join(' ')}`
-  : splitUnitTests[process.env.CI_NODE_INDEX];
+  : splitUnitTests[process.env.STEP];
 const command = `LOG_LEVEL=${options[
   'log-level'
 ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${testsToVerify ||
