@@ -89,6 +89,7 @@ ${record.note}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
+        data-testid="progress-note-name"
       >
         {record.name}
       </h1>

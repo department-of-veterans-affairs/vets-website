@@ -86,6 +86,7 @@ ${record.summary}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
+        data-testid="admission-discharge-name"
       >
         {record.name}
       </h1>
