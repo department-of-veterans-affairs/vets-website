@@ -126,6 +126,13 @@ const cernerUser = {
           },
         ],
       },
+      mhvAccount: {
+        accountLevel: 'Premium',
+        accountState: 'upgraded',
+        errors: null,
+        loading: false,
+        termsAndConditionsAccepted: true,
+      },
     },
   },
   meta: { errors: null },
@@ -184,6 +191,13 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
           sign_in: {
             service_name: serviceProvider,
           },
+        },
+        mhvAccount: {
+          accountLevel: 'Premium',
+          accountState: 'upgraded',
+          errors: null,
+          loading: false,
+          termsAndConditionsAccepted: true,
         },
       },
     },
