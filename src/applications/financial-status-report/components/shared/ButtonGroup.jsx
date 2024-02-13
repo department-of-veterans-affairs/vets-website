@@ -6,22 +6,14 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
  * Individual Button component
  */
 
-const Button = ({
-  label,
-  onClick,
-  isSubmitting,
-  isSecondary,
-  isContinueButton,
-  isBackButton,
-}) => {
+const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
   return (
     <VaButton
       text={label}
       onClick={onClick}
       submit={isSubmitting}
-      continue={isContinueButton}
       secondary={isSecondary}
-      back={isBackButton}
+      uswds
     />
   );
 };
@@ -29,14 +21,11 @@ const Button = ({
 Button.defaultProps = {
   isSubmitting: false,
   isSecondary: false,
-  isContinueButton: false,
-  isBackButton: false,
 };
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  isBackButton: PropTypes.bool,
-  isContinueButton: PropTypes.bool,
+
   isSecondary: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   onClick: PropTypes.func,
@@ -47,7 +36,7 @@ Button.propTypes = {
  */
 const ButtonGroup = ({ buttons }) => {
   return (
-    <div className="form-progress-buttons schemaform-buttons fsr-buttons vads-u-margin-y--2">
+    <div className="va-button-override form-progress-buttons schemaform-buttons fsr-buttons vads-u-margin-y--2 ">
       {buttons.map((button, index) => {
         return (
           <div key={`button-group-${index}`}>
@@ -66,8 +55,6 @@ ButtonGroup.propTypes = {
       onClick: PropTypes.func.isRequired,
       isSubmitting: PropTypes.bool,
       isSecondary: PropTypes.bool,
-      isContinueButton: PropTypes.bool,
-      isBackButton: PropTypes.bool,
     }),
   ).isRequired,
 };

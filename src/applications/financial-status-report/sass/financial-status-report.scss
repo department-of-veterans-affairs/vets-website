@@ -371,7 +371,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   }
 }
 
-.schemaform-buttons.fsr-buttons {
+.va-button-override {
   @media (min-width: $xsmall-screen) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -384,9 +384,10 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   }
 }
 
-va-button[text="Continue"],
-va-button[text="Continue to review page"],
-va-button[text="Back"] {
+.va-button-override va-button {
+  &::part(button) {
+    white-space: nowrap;
+  }
   @media (max-width: $xsmall-screen) {
     width: -webkit-fill-available;
     &::part(button) {
@@ -404,14 +405,22 @@ va-button[text="Back"] {
 .va-button-override va-button[text="Continue"],
 .va-button-override va-button[text="Continue to review page"] {
   &::part(button) {
-    &::after{
-        content: "\f101";
-        font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
-        font-weight: 900; /* Use 900 for solid icons */
-        margin-left: 8px;
+    &::after {
+      content: "\f101";
+      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
+      font-weight: 900; /* Use 900 for solid icons */
+      margin-left: 8px;
     }
   }
 }
-.va-button-override va-button[text="Continue to review page"]::part(button) {
-  white-space: nowrap;
+
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::before {
+      content: "\f100";
+      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
+      font-weight: 900; /* Use 900 for solid icons */
+      margin-right: 8px;
+    }
+  }
 }

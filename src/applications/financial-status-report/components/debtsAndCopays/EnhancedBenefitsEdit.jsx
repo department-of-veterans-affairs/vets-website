@@ -115,7 +115,6 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           },
           {
             label: 'Update',
-            isContinueButton: false,
             onClick: onUpdate,
             isSubmitting: true,
           },

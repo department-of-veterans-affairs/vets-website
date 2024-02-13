@@ -100,24 +100,20 @@ const ResolutionComments = ({
           </div>
         </VaTextarea>
         {contentBeforeButtons}
-        <div className="va-button-override">
-          <ButtonGroup
-            buttons={[
-              {
-                label: 'Back',
-                isBackButton: true,
-                onClick: goBack, // Define this function based on page-specific logic
-                isSecondary: true,
-              },
-              {
-                label: continueButtonText,
-                isContinueButton: false,
-                onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
-              },
-            ]}
-          />
-        </div>
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              onClick: goBack, // Define this function based on page-specific logic
+              isSecondary: true,
+            },
+            {
+              label: continueButtonText,
+              onClick: onSubmit,
+              isSubmitting: true, // If this button submits a form
+            },
+          ]}
+        />
         {contentAfterButtons}
       </fieldset>
     </form>
