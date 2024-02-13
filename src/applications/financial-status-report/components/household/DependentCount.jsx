@@ -92,6 +92,7 @@ const DependentCount = ({
           </h3>
         </legend>
         <VaNumberInput
+          id="dependent-count"
           label="Number of dependents"
           error={error}
           onInput={({ target }) => {
