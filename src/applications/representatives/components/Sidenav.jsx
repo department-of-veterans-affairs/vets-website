@@ -9,19 +9,14 @@ const Sidenav = () => {
     >
       <div>
         <div className="left-side-nav-title">
-          <h4>Sidenav</h4>
+          <h4>Navigation</h4>
         </div>
         <ul className="usa-sidenav-list">
           <li>
-            <Link className="usa-current" to="/dashboard">
-              Nav section
-            </Link>
+            <Link to="/dashboard">Dashboard</Link>
           </li>
           <li>
-            <Link to="/dashboard">Nav section</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Nav section</Link>
+            <Link to="/poa-requests">POA requests</Link>
           </li>
         </ul>
       </div>
