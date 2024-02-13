@@ -23,7 +23,7 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
@@ -332,7 +332,7 @@ jobs:
       DISALLOWED_TESTS: '[]'
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 10
       matrix:
         runs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -657,7 +657,7 @@ jobs:
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 12
       matrix:
         ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
@@ -767,7 +767,7 @@ jobs:
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 10
       matrix:
         ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
