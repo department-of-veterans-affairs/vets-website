@@ -16,7 +16,6 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
-  dateFormat,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -99,7 +98,7 @@ const VitalDetails = props => {
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    dateFormat,
+    formatDateLong,
     updatePageTitle,
   );
 

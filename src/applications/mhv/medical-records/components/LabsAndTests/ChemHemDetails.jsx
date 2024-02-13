@@ -15,7 +15,6 @@ import {
   processList,
   generateTextFile,
   getNameDateAndTime,
-  dateFormat,
 } from '../../util/helpers';
 import {
   generatePdfScaffold,
@@ -60,7 +59,7 @@ const ChemHemDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    dateFormat,
+    formatDateLong,
     updatePageTitle,
   );
 

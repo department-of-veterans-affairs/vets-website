@@ -6,7 +6,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
-  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -100,7 +99,7 @@ const ConditionDetails = props => {
     pageTitles.HEALTH_CONDITIONS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    dateFormat,
+    formatDateLong,
     updatePageTitle,
   );
 

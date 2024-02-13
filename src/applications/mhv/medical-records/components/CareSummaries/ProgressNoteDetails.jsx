@@ -8,7 +8,6 @@ import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import {
-  dateFormat,
   generateTextFile,
   getNameDateAndTime,
   makePdf,
@@ -55,7 +54,7 @@ const ProgressNoteDetails = props => {
     pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    dateFormat,
+    formatDateLong,
     updatePageTitle,
   );
 

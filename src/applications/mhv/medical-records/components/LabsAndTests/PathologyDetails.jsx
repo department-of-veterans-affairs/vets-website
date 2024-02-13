@@ -12,7 +12,6 @@ import {
   makePdf,
   getNameDateAndTime,
   generateTextFile,
-  dateFormat,
 } from '../../util/helpers';
 import {
   updatePageTitle,
@@ -52,7 +51,7 @@ const PathologyDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    dateFormat,
+    formatDateLong,
     updatePageTitle,
   );
 
