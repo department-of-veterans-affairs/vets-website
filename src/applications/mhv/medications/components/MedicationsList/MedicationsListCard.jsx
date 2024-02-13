@@ -7,6 +7,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 const MedicationsListCard = props => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const MedicationsListCard = props => {
         },
       ),
     );
+    dispatch(setPrescriptionDetails(rx));
   };
   return (
     <div className="no-print rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
