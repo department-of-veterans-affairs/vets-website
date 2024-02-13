@@ -1,5 +1,5 @@
 import featureToggles from '../../../mocks/api/feature-toggles';
-import { userData, mhvTermsNotAcceptedUser } from '../../../mocks/api/user';
+import userData from '../../../mocks/api/user';
 import vamcEhr from '../../fixtures/vamc-ehr.json';
 import {
   allFoldersWithUnreadMessages,
@@ -82,7 +82,7 @@ class ApiInitializer {
       );
     },
     withMHVTermsNotAccepted: () => {
-      cy.intercept('GET', '/v0/user*', mhvTermsNotAcceptedUser);
+      cy.intercept('GET', '/v0/user*', userData.mhvTermsNotAcceptedUser);
     },
     withCustomUser: customUserData => {
       cy.intercept('GET', '/v0/user*', customUserData);
