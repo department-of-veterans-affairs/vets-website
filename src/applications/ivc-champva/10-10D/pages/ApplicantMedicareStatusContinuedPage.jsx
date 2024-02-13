@@ -4,8 +4,8 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import NavUpdateButton from '../helpers/NavUpdateButton';
 import { applicantWording } from '../helpers/wordingCustomization';
 
 // TODO:
@@ -86,7 +86,11 @@ export default function ApplicantMedicareStatusContinuedPage({
 }) {
   const [allLabels, setAllLabels] = useState([]);
   const [stringArr, setStringArr] = useState('');
+  const [error, setError] = useState(undefined);
+  const [dirty, setDirty] = useState(false);
 
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Update page</button>;
   const { labels, useFirstPerson, applicant } = generateOptions({
     data,
     pagePerItemIndex,
@@ -101,12 +105,24 @@ export default function ApplicantMedicareStatusContinuedPage({
           ),
         ),
       );
+      setStringArr(data?.applicants?.[pagePerItemIndex]?.applicantMedicarePart);
     },
     [data],
   );
 
   const handlers = {
+    validate() {
+      let isValid = true;
+      if (!stringArr) {
+        setError('This field is required');
+        isValid = false;
+      } else {
+        setError(null); // Clear any existing err msg
+      }
+      return isValid;
+    },
     onGroupChange: event => {
+      setDirty(true);
       const checkboxIndex = Number(event.target.dataset.index);
       const isChecked = event.detail.checked;
 
@@ -125,19 +141,23 @@ export default function ApplicantMedicareStatusContinuedPage({
       setStringArr(dataArray.join(', '));
     },
 
-    onGoBack: () => {
-      goBack();
-    },
-
     onGoForward: event => {
       event.preventDefault();
+      if (!handlers.validate()) return;
       const testVal = { ...data };
       testVal.applicants[pagePerItemIndex].applicantMedicarePart = stringArr;
       setFormData(testVal); // Commit changes to the actual formdata
-      if (onReviewPage) updatePage(); // TODO: fix this logic per docs
+      if (onReviewPage) updatePage();
       goForward(data);
     },
   };
+
+  useEffect(
+    () => {
+      if (dirty) handlers.validate();
+    },
+    [data, stringArr],
+  );
 
   return (
     <>
@@ -155,6 +175,8 @@ export default function ApplicantMedicareStatusContinuedPage({
             useFirstPerson ? 'are you' : `is ${applicant}`
           } enrolled in?`}
           hint="You can select more than one"
+          error={error}
+          required
           onVaChange={handlers.onGroupChange}
         >
           {labels.map((el, index) => (
@@ -166,12 +188,7 @@ export default function ApplicantMedicareStatusContinuedPage({
             />
           ))}
         </VaCheckboxGroup>
-
-        <NavUpdateButton
-          goBack={goBack}
-          onGoForward={handlers.onGoForward}
-          onReviewPage={onReviewPage}
-        />
+        {onReviewPage ? updateButton : navButtons}
       </form>
     </>
   );

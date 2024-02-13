@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VaRadio,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import NavUpdateButton from '../helpers/NavUpdateButton';
 import { applicantWording } from '../helpers/wordingCustomization';
-
-// TODO:
-// - Update labels on display page
-
-const keyname = 'applicantHasOhi';
 
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
@@ -60,7 +55,8 @@ export function ApplicantOhiStatusReviewPage(props) {
           <dt>{description}</dt>
           <dd>
             {options.map(
-              opt => (opt.value === currentApp?.[keyname] ? opt.label : ''),
+              opt =>
+                opt.value === currentApp?.applicantHasOhi ? opt.label : '',
             )}
           </dd>
         </div>
@@ -81,33 +77,49 @@ export default function ApplicantOhiStatusPage({
   const [checkValue, setCheckValue] = useState(
     data?.applicants?.[pagePerItemIndex]?.applicantHasOhi,
   );
-
+  const [dirty, setDirty] = useState(false);
+  const [error, setError] = useState(undefined);
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Update page</button>;
   const { options, useFirstPerson, applicant } = generateOptions({
     data,
     pagePerItemIndex,
   });
 
   const handlers = {
+    validate() {
+      let isValid = true;
+      if (!checkValue) {
+        setError('This field is required');
+        isValid = false;
+      } else {
+        setError(null); // Clear any existing err msg
+      }
+      return isValid;
+    },
     radioUpdate: ({ detail }) => {
       setCheckValue(detail.value);
-    },
-
-    onGoBack: () => {
-      goBack();
+      setDirty(true);
     },
 
     onGoForward: event => {
+      setDirty(true);
       event.preventDefault();
-
+      if (!handlers.validate()) return;
       const testVal = { ...data };
-
       testVal.applicants[pagePerItemIndex].applicantHasOhi = checkValue;
-
       setFormData(testVal); // Commit changes to the actual formdata
       if (onReviewPage) updatePage();
       goForward(data);
     },
   };
+
+  useEffect(
+    () => {
+      if (dirty) handlers.validate();
+    },
+    [checkValue],
+  );
 
   return (
     <>
@@ -126,6 +138,7 @@ export default function ApplicantOhiStatusPage({
             useFirstPerson ? 'Do you' : `Does ${applicant}`
           } have other health insurance (that is not Medicare)?`}
           required
+          error={error}
           onVaValueChange={handlers.radioUpdate}
         >
           {options.map(option => (
@@ -142,11 +155,7 @@ export default function ApplicantOhiStatusPage({
           ))}
         </VaRadio>
 
-        <NavUpdateButton
-          goBack={goBack}
-          onGoForward={handlers.onGoForward}
-          onReviewPage={onReviewPage}
-        />
+        {onReviewPage ? updateButton : navButtons}
       </form>
     </>
   );

@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VaRadio,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { applicantWording } from '../helpers/wordingCustomization';
-import NavUpdateButton from '../helpers/NavUpdateButton';
-
-// TODO:
-// - Add proper validation
 
 const keyname = 'applicantMedicareStatus';
 
@@ -96,35 +93,47 @@ export function ApplicantMedicareStatusPage({
   const [checkValue, setCheckValue] = useState(
     data?.applicants?.[pagePerItemIndex]?.[keyname],
   );
-
+  const [error, setError] = useState(undefined);
+  const [dirty, setDirty] = useState(false);
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Update page</button>;
   const { options, useFirstPerson, applicant } = generateOptions({
     data,
     pagePerItemIndex,
   });
 
   const handlers = {
+    validate() {
+      let isValid = true;
+      if (!checkValue) {
+        setError('This field is required');
+        isValid = false;
+      } else {
+        setError(null); // Clear any existing err msg
+      }
+      return isValid;
+    },
     radioUpdate: ({ detail }) => {
-      // const val = { relationshipToVeteran: detail.value };
+      setDirty(true);
       setCheckValue(detail.value);
     },
-
-    onGoBack: () => {
-      goBack();
-    },
-
     onGoForward: event => {
       event.preventDefault();
-
-      // TODO: implement proper validation before proceeding
+      if (!handlers.validate()) return;
       const testVal = { ...data }; // is this useful? It's a shallow copy.
-
       testVal.applicants[pagePerItemIndex][keyname] = checkValue;
-
       setFormData(testVal); // Commit changes to the actual formdata
-      if (onReviewPage) updatePage(); // TODO: fix this logic per docs
+      if (onReviewPage) updatePage();
       goForward(data);
     },
   };
+
+  useEffect(
+    () => {
+      if (dirty) handlers.validate();
+    },
+    [data, checkValue],
+  );
 
   return (
     <>
@@ -141,6 +150,7 @@ export function ApplicantMedicareStatusPage({
             useFirstPerson ? `Are you` : `Is ${applicant}`
           } enrolled in Medicare?`}
           required
+          error={error}
           onVaValueChange={handlers.radioUpdate}
         >
           {options.map(option => (
@@ -156,12 +166,7 @@ export function ApplicantMedicareStatusPage({
             />
           ))}
         </VaRadio>
-
-        <NavUpdateButton
-          goBack={goBack}
-          onGoForward={handlers.onGoForward}
-          onReviewPage={onReviewPage}
-        />
+        {onReviewPage ? updateButton : navButtons}
       </form>
     </>
   );

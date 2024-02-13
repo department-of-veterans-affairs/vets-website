@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   VaButton,
   VaRadio,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import NavUpdateButton from '../helpers/NavUpdateButton';
 import { applicantWording } from '../helpers/wordingCustomization';
 
 // TODO:
@@ -33,9 +33,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     useFirstPerson ? 'your' : `${applicant}’s`
   }`}`;
 
-  // Create dynamic radio labels based on above phrasing;
-  // e.g., if sponsor is deceased and we're the applicant,
-  // phrasing would be like "I was the Sponsor's spouse".
+  // Create dynamic radio labels based on above phrasing
   const options = [
     {
       label: `${relativeBeingVerb} the ${personTitle}'s spouse`,
@@ -77,7 +75,13 @@ const relationshipStructure = {
 
 export function ApplicantRelationshipReviewPage(props) {
   const { data } = props || {};
-  const { options, description, personTitle } = generateOptions(props);
+  const {
+    options,
+    description,
+    useFirstPerson,
+    applicant,
+    personTitle,
+  } = generateOptions(props);
   const currentApp = data?.applicants?.[props.pagePerItemIndex];
   const other = currentApp?.[keyname]?.otherRelationshipToVeteran;
   return data ? (
@@ -103,7 +107,10 @@ export function ApplicantRelationshipReviewPage(props) {
 
         {other ? (
           <div className="review-row">
-            <dt>Other relationship to {personTitle}</dt>
+            <dt>
+              Since {useFirstPerson ? 'your' : `${applicant}'s `} relationship
+              with the {personTitle} was not listed, please describe it here
+            </dt>
             <dd>{other}</dd>
           </div>
         ) : null}
@@ -125,7 +132,11 @@ export default function ApplicantRelationshipPage({
     data?.applicants?.[pagePerItemIndex]?.applicantRelationshipToSponsor ||
       relationshipStructure,
   );
-
+  const [checkError, setCheckError] = useState(undefined);
+  const [inputError, setInputError] = useState(undefined);
+  const [dirty, setDirty] = useState(false);
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Update page</button>;
   const {
     options,
     relativePossessive,
@@ -137,6 +148,25 @@ export default function ApplicantRelationshipPage({
   });
 
   const handlers = {
+    validate() {
+      let isValid = true;
+      if (!checkValue.relationshipToVeteran) {
+        setCheckError('This field is required');
+        isValid = false;
+      } else {
+        setCheckError(null); // Clear any existing err msg
+      }
+      if (
+        checkValue.relationshipToVeteran === 'other' &&
+        !checkValue.otherRelationshipToVeteran
+      ) {
+        setInputError('This field is required');
+        isValid = false;
+      } else {
+        setInputError(null);
+      }
+      return isValid;
+    },
     radioUpdate: ({ detail }) => {
       const val =
         detail.value === 'other'
@@ -145,36 +175,36 @@ export default function ApplicantRelationshipPage({
               otherRelationshipToVeteran: undefined,
             }
           : { relationshipToVeteran: detail.value };
+      setDirty(true);
       setCheckValue(val);
+      handlers.validate();
     },
-
     inputUpdate: ({ target }) => {
       const val = checkValue;
       val.otherRelationshipToVeteran = target.value;
+      setDirty(true);
       setCheckValue(val);
+      handlers.validate();
     },
-
-    onGoBack: () => {
-      goBack();
-    },
-
     onGoForward: event => {
       event.preventDefault();
-
-      // TODO: implement proper validation before proceeding
-      // i.e., if 'other' is required, it must be filled out
+      if (!handlers.validate()) return;
       const testVal = { ...data }; // is this useful? It's a shallow copy.
-
       testVal.applicants[
         pagePerItemIndex
       ].applicantRelationshipToSponsor = checkValue;
-
       setFormData(testVal); // Commit changes to the actual formdata
       if (onReviewPage) updatePage();
       goForward(data);
     },
   };
 
+  useEffect(
+    () => {
+      if (dirty) handlers.validate();
+    },
+    [data, checkValue],
+  );
   return (
     <>
       {
@@ -190,6 +220,7 @@ export default function ApplicantRelationshipPage({
             currentListItem,
           )} relationship to the ${personTitle}?`}
           required
+          error={checkError}
           onVaValueChange={handlers.radioUpdate}
         >
           {options.map(option => (
@@ -221,6 +252,7 @@ export default function ApplicantRelationshipPage({
                   label={`Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`}
                   onInput={handlers.inputUpdate}
                   required={checkValue.relationshipToVeteran === 'other'}
+                  error={inputError}
                   value={checkValue.otherRelationshipToVeteran}
                   uswds
                 />
@@ -228,12 +260,7 @@ export default function ApplicantRelationshipPage({
             </div>
           </div>
         )}
-
-        <NavUpdateButton
-          goBack={goBack}
-          onGoForward={handlers.onGoForward}
-          onReviewPage={onReviewPage}
-        />
+        {onReviewPage ? updateButton : navButtons}
       </form>
     </>
   );
