@@ -3,7 +3,10 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { getStatusDescription } from '../../utils/helpers';
+import {
+  getStatusDescription,
+  getClaimStatusDescription,
+} from '../../utils/helpers';
 
 import WhatWeAreDoing from '../../components/WhatWeAreDoing';
 
@@ -32,5 +35,6 @@ describe('<WhatWeAreDoing>', () => {
     const { container, getByText } = render(<WhatWeAreDoing claim={claim} />);
     expect($('.what-were-doing-container', container)).to.exist;
     getByText(getStatusDescription(claim.attributes.status));
+    getByText(getClaimStatusDescription(claim.attributes.status));
   });
 });
