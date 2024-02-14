@@ -42,7 +42,11 @@ import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
-import { sponsorCasualtyReportConfig } from '../components/Sponsor/sponsorFileUploads';
+import {
+  sponsorCasualtyReportConfig,
+  sponsorDisabilityRatingConfig,
+  sponsorDischargePapersConfig,
+} from '../components/Sponsor/sponsorFileUploads';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -543,6 +547,66 @@ const formConfig = {
             properties: {
               titleSchema,
               sponsorPhone: phoneSchema,
+            },
+          },
+        },
+        page12: {
+          path: 'sponsor-information/disability',
+          title: 'Sponsor disability rating',
+          uiSchema: {
+            ...titleUI(
+              'Optional supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the disability rating for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
+            ),
+            ...sponsorDisabilityRatingConfig.uiSchema,
+            sponsorDisabilityRating: {
+              ...fileUploadUI("Upload Sponsor's disability rating", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              ...sponsorDisabilityRatingConfig.schema,
+              sponsorDisabilityRating: attachmentsSchema,
+            },
+          },
+        },
+        page12a: {
+          path: 'sponsor-information/discharge-papers',
+          title: 'Sponsor discharge papers',
+          uiSchema: {
+            ...titleUI(
+              'Optional supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the discharge papers for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
+            ),
+            ...sponsorDischargePapersConfig.uiSchema,
+            sponsorDischargePapers: {
+              ...fileUploadUI("Upload Sponsor's discharge papers", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              ...sponsorDischargePapersConfig.schema,
+              sponsorDischargePapers: attachmentsSchema,
             },
           },
         },

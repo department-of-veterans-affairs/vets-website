@@ -1,6 +1,27 @@
 import React from 'react';
 import { fileTypes, maxSize } from '../../config/attachments';
 
+const blankSchema = { type: 'object', properties: {} };
+
+function acceptableFileList(list) {
+  return {
+    'view:acceptableFilesList': {
+      'ui:description': (
+        <>
+          <p>
+            <b>Acceptable files include:</b>
+          </p>
+          <ul>
+            {list.map((item, index) => (
+              <li key={`file-${item}-${index}`}>{item}</li>
+            ))}
+          </ul>
+        </>
+      ),
+    },
+  };
+}
+
 const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
@@ -50,24 +71,24 @@ const requiredFileUploadMessage = {
   },
 };
 
-const blankSchema = { type: 'object', properties: {} };
+const optionalFileUploadMessage = {
+  'view:optionalFileUploadMessage': {
+    'ui:description': (
+      <p>
+        This file is not required for your application, but
+        <b>
+          not uploading this optional file will delay your application’s
+          processing time.
+        </b>
+      </p>
+    ),
+  },
+};
 
 export const sponsorCasualtyReportConfig = {
   uiSchema: {
-    'view:acceptableFilesList': {
-      'ui:description': (
-        <>
-          <p>
-            <b>Acceptable files include:</b>
-          </p>
-          <ul>
-            <li>Casualty report</li>
-            <li>Death certificate</li>
-          </ul>
-        </>
-      ),
-    },
-    'view:casualtyReportResource': {
+    ...acceptableFileList(['Casualty report', 'Death certificate']),
+    'view:additionalResources': {
       'ui:description': (
         <>
           <p>
@@ -86,8 +107,64 @@ export const sponsorCasualtyReportConfig = {
   },
   schema: {
     'view:acceptableFilesList': blankSchema,
-    'view:casualtyReportResource': blankSchema,
+    'view:additionalResources': blankSchema,
     'view:requiredFileUploadMessage': blankSchema,
+    'view:fileUploadBlurb': blankSchema,
+  },
+};
+
+export const sponsorDisabilityRatingConfig = {
+  uiSchema: {
+    ...acceptableFileList(['VBA rating decision']),
+    'view:additionalResources': {
+      'ui:description': (
+        <>
+          <p>
+            <b>Resources regarding disability rating</b>
+          </p>
+          <ul>
+            <li>
+              <p>Resources coming soon</p>
+            </li>
+          </ul>
+        </>
+      ),
+    },
+    ...optionalFileUploadMessage,
+    ...fileUploadBlurb,
+  },
+  schema: {
+    'view:acceptableFilesList': blankSchema,
+    'view:additionalResources': blankSchema,
+    'view:optionalFileUploadMessage': blankSchema,
+    'view:fileUploadBlurb': blankSchema,
+  },
+};
+
+export const sponsorDischargePapersConfig = {
+  uiSchema: {
+    ...acceptableFileList(['DD214']),
+    'view:additionalResources': {
+      'ui:description': (
+        <>
+          <p>
+            <b>Resources regarding discharge papers</b>
+          </p>
+          <ul>
+            <li>
+              <p>Resources coming soon</p>
+            </li>
+          </ul>
+        </>
+      ),
+    },
+    ...optionalFileUploadMessage,
+    ...fileUploadBlurb,
+  },
+  schema: {
+    'view:acceptableFilesList': blankSchema,
+    'view:additionalResources': blankSchema,
+    'view:optionalFileUploadMessage': blankSchema,
     'view:fileUploadBlurb': blankSchema,
   },
 };
