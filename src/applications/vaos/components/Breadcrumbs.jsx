@@ -53,6 +53,7 @@ export default function VAOSBreadcrumbs({ children }) {
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
       class="vaos-hide-for-print"
+      uswds={false}
     >
       <a href="/" key="home" onClick={handleClick('home')}>
         {featureBreadcrumbUrlUpdate ? 'VA.gov home' : 'Home'}
