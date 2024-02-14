@@ -5,6 +5,7 @@ import {
   replacementFunctions as dataUtils,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 
+import { roundToNearest } from '../utils/helpers';
 import {
   getErrorStatus,
   USER_FORBIDDEN_ERROR,
@@ -13,11 +14,12 @@ import {
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
   FETCH_APPEALS_PENDING,
+} from '../utils/appeals-helpers';
+import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
-} from '../utils/appeals-v2-helpers';
-import { roundToNearest } from '../utils/claims-and-appeals-helpers';
+} from '../utils/claims-helpers';
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
