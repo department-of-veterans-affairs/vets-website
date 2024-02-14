@@ -142,7 +142,6 @@ describe('PreviousEnrollmentVerifications', () => {
         ),
       ).to.false;
     });
-    scrollToElementMock.restore();
     wrapper.unmount();
   });
 });
