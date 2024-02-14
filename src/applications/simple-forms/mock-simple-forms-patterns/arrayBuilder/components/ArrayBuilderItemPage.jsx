@@ -65,11 +65,7 @@ export default function ArrayBuilderItemPage({
         appStateData={props.appStateData}
         schema={schema}
         uiSchema={uiSchema}
-        pagePerItemIndex={
-          props.pagePerItemIndex
-            ? Number(props.pagePerItemIndex)
-            : props.pagePerItemIndex
-        }
+        pagePerItemIndex={props.pagePerItemIndex}
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
