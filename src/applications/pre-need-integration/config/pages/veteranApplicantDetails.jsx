@@ -10,39 +10,47 @@ import {
   applicantDetailsSubHeader,
   fullMaidenNameUI,
   ssnDashesUI,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
 } from '../../utils/helpers';
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
-export const uiSchema = {
-  application: {
-    'ui:title': applicantDetailsSubHeader,
-    claimant: {
-      'view:applicantDetailsDescription': {
-        'ui:description': applicantDetailsDescription,
-        'ui:options': {
-          displayEmptyObjectOnReview: true,
+export function uiSchema(
+  cityTitle = applicantDetailsCityTitle,
+  stateTitle = applicantDetailsStateTitle,
+) {
+  return {
+    application: {
+      'ui:title': applicantDetailsSubHeader,
+      claimant: {
+        'view:applicantDetailsDescription': {
+          'ui:description': applicantDetailsDescription,
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
         },
+        name: fullMaidenNameUI,
+        ssn: ssnDashesUI,
+        dateOfBirth: currentOrPastDateUI('Date of birth'),
       },
-      name: fullMaidenNameUI,
-      ssn: ssnDashesUI,
-      dateOfBirth: currentOrPastDateUI('Date of birth'),
+      veteran: {
+        placeOfBirth: pick(
+          merge({}, address.uiSchema(''), {
+            city: {
+              'ui:title': cityTitle,
+            },
+            state: {
+              'ui:title': stateTitle,
+            },
+          }),
+          ['city', 'state'],
+        ),
+      },
     },
-    veteran: {
-      placeOfBirth: pick(
-        merge({}, address.uiSchema(''), {
-          city: {
-            'ui:title': 'Your birth city or county',
-          },
-          state: {
-            'ui:title': 'Your birth state or territory',
-          },
-        }),
-        ['city', 'state'],
-      ),
-    },
-  },
-};
+  };
+}
+
 export const schema = {
   type: 'object',
   properties: {

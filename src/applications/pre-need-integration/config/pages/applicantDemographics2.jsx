@@ -1,21 +1,34 @@
+import { merge } from 'lodash';
+
 import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
+  applicantDemographicsEthnicityTitle,
+  applicantDemographicsRaceTitle,
 } from '../../utils/helpers';
 
-export const uiSchema = {
-  application: {
-    'ui:title': applicantDemographicsSubHeader,
-    'view:applicantDemographicsDescription': {
-      'ui:description': applicantDemographicsDescription,
-      'ui:options': {
-        displayEmptyObjectOnReview: true,
+export function uiSchema(
+  ethnicityTitle = applicantDemographicsEthnicityTitle,
+  raceTitle = applicantDemographicsRaceTitle,
+) {
+  return {
+    application: {
+      'ui:title': applicantDemographicsSubHeader,
+      'view:applicantDemographicsDescription': {
+        'ui:description': applicantDemographicsDescription,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
       },
+      veteran: merge({}, veteranUI, {
+        ethnicity: { 'ui:title': ethnicityTitle },
+        race: { 'ui:title': raceTitle },
+      }),
     },
-    veteran: veteranUI,
-  },
-};
+  };
+}
+
 export const schema = {
   type: 'object',
   properties: {

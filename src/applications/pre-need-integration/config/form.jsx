@@ -58,6 +58,18 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
+  applicantDetailsPreparerCityTitle,
+  applicantDetailsPreparerStateTitle,
+  applicantDemographicsGenderTitle,
+  applicantDemographicsMaritalStatusTitle,
+  applicantDemographicsPreparerGenderTitle,
+  applicantDemographicsPreparerMaritalStatusTitle,
+  applicantDemographicsEthnicityTitle,
+  applicantDemographicsRaceTitle,
+  applicantDemographicsPreparerEthnicityTitle,
+  applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
@@ -244,8 +256,23 @@ const formConfig = {
         veteranApplicantDetails: {
           title: 'Applicant details',
           path: 'veteran-applicant-details',
-          depends: isVeteran,
-          uiSchema: veteranApplicantDetails.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranApplicantDetails.uiSchema(
+            applicantDetailsCityTitle,
+            applicantDetailsStateTitle,
+          ),
+          schema: veteranApplicantDetails.schema,
+        },
+        veteranApplicantDetailsPreparer: {
+          title: 'Applicant details',
+          path: 'veteran-applicant-details-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: veteranApplicantDetails.uiSchema(
+            applicantDetailsPreparerCityTitle,
+            applicantDetailsPreparerStateTitle,
+          ),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
@@ -258,15 +285,45 @@ const formConfig = {
         applicantDemographics: {
           title: 'Applicant demographics',
           path: 'applicant-demographics',
-          depends: isVeteran,
-          uiSchema: applicantDemographics.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsGenderTitle,
+            applicantDemographicsMaritalStatusTitle,
+          ),
+          schema: applicantDemographics.schema,
+        },
+        applicantDemographicsPreparer: {
+          title: 'Applicant demographics',
+          path: 'applicant-demographics-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics.uiSchema(
+            applicantDemographicsPreparerGenderTitle,
+            applicantDemographicsPreparerMaritalStatusTitle,
+          ),
           schema: applicantDemographics.schema,
         },
         applicantDemographics2: {
           title: 'Applicant demographics',
           path: 'applicant-demographics-2',
-          depends: isVeteran,
-          uiSchema: applicantDemographics2.uiSchema,
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsEthnicityTitle,
+            applicantDemographicsRaceTitle,
+          ),
+          schema: applicantDemographics2.schema,
+        },
+        applicantDemographics2Preparer: {
+          title: 'Applicant demographics',
+          path: 'applicant-demographics-2-preparer',
+          depends: formData =>
+            isAuthorizedAgent(formData) && isVeteran(formData),
+          uuiSchema: applicantDemographics2.uiSchema(
+            applicantDemographicsPreparerEthnicityTitle,
+            applicantDemographicsPreparerRaceTitle,
+          ),
           schema: applicantDemographics2.schema,
         },
         militaryDetails: {

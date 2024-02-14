@@ -387,6 +387,37 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
+export const applicantDetailsCityTitle = 'Your birth city or county';
+
+export const applicantDetailsStateTitle = 'Your birth state or territory';
+
+export const applicantDetailsPreparerCityTitle =
+  'Applicant’s birth city or county';
+
+export const applicantDetailsPreparerStateTitle =
+  'Applicant’s birth state or territory';
+
+export const applicantDemographicsGenderTitle = 'What’s your sex?';
+
+export const applicantDemographicsMaritalStatusTitle =
+  'What’s your marital status?';
+
+export const applicantDemographicsPreparerGenderTitle =
+  'What’s the applicant’s sex?';
+
+export const applicantDemographicsPreparerMaritalStatusTitle =
+  'What’s the applicant’s marital status?';
+
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
+export const applicantDemographicsPreparerEthnicityTitle =
+  'What’s the applicant’s ethnicity?';
+
+export const applicantDemographicsPreparerRaceTitle =
+  'What’s the applicant’s race?';
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -701,8 +732,8 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
+    'ui:title': 'What’s your race?',
+    'ui:hint': 'You can select more than one option.',
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
     },
