@@ -111,6 +111,7 @@ const FormStartControls = props => {
         )}
         <VaModal
           id="start-over-modal"
+          status="warning"
           clickToClose
           modalTitle={`Starting over will delete your in-progress ${appType}.`}
           primaryButtonText={startNewAppButtonText}
