@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  VaRadio,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
 import { applicantWording } from '../helpers/wordingCustomization';
 
@@ -56,29 +54,11 @@ export function generateOptions({ data, pagePerItemIndex }) {
 }
 
 export function ApplicantMedicareStatusReviewPage(props) {
-  const { data } = props || {};
-  const { options, description } = generateOptions(props);
-  const currentApp = data?.applicants?.[props.pagePerItemIndex];
-  return data ? (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {props.title(currentApp)}
-        </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
-      </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
-            {options.map(
-              opt => (opt.value === currentApp?.[keyname] ? opt.label : ''),
-            )}
-          </dd>
-        </div>
-      </dl>
-    </div>
-  ) : null;
+  return CustomCheckboxRadioReviewPage({
+    ...props,
+    useLabels: false,
+    generateOptions,
+  });
 }
 
 export function ApplicantMedicareStatusPage({

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  VaRadio,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
 import { applicantWording } from '../helpers/wordingCustomization';
+
+const keyname = 'applicantHasOhi';
 
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
@@ -34,35 +34,17 @@ function generateOptions({ data, pagePerItemIndex }) {
     options,
     useFirstPerson,
     applicant,
+    keyname,
     description: 'Has other health insurance',
   };
 }
 
 export function ApplicantOhiStatusReviewPage(props) {
-  const { data } = props || {};
-  const { options, description } = generateOptions(props);
-  const currentApp = data?.applicants?.[props.pagePerItemIndex];
-  return data ? (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {props.title(currentApp)}
-        </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
-      </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
-            {options.map(
-              opt =>
-                opt.value === currentApp?.applicantHasOhi ? opt.label : '',
-            )}
-          </dd>
-        </div>
-      </dl>
-    </div>
-  ) : null;
+  return CustomCheckboxRadioReviewPage({
+    ...props,
+    useLabels: false,
+    generateOptions,
+  });
 }
 
 export default function ApplicantOhiStatusPage({
@@ -75,7 +57,7 @@ export default function ApplicantOhiStatusPage({
   onReviewPage,
 }) {
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.applicantHasOhi,
+    data?.applicants?.[pagePerItemIndex]?.[keyname],
   );
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState(undefined);
@@ -107,7 +89,7 @@ export default function ApplicantOhiStatusPage({
       event.preventDefault();
       if (!handlers.validate()) return;
       const testVal = { ...data };
-      testVal.applicants[pagePerItemIndex].applicantHasOhi = checkValue;
+      testVal.applicants[pagePerItemIndex][keyname] = checkValue;
       setFormData(testVal); // Commit changes to the actual formdata
       if (onReviewPage) updatePage();
       goForward(data);
