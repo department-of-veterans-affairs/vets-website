@@ -431,13 +431,6 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    // cy.intercept(
-    //   'GET',
-    //   `/my_health/v1/prescriptions/${
-    //     prescriptionDetails.data.attributes.prescriptionId
-    //   }`,
-    //   prescriptionDetails,
-    // ).as('prescriptionDetails');
     cy.get('@medicationsList')
       .its('response')
       .then(res => {
@@ -448,13 +441,6 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
-    // cy.intercept(
-    //   'GET',
-    //   `/my_health/v1/prescriptions/${
-    //     prescriptionDetails.data.attributes.prescriptionId
-    //   }`,
-    //   prescriptionDetails,
-    // ).as('prescriptionDetails');
     cy.get('@medicationsList')
       .its('response')
       .then(res => {

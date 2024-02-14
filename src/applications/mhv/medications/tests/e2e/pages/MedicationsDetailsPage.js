@@ -337,53 +337,11 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="no-image"]').should('contain', 'No image available');
   };
 
-  // verifyCmopNdcNumberIsNull = prescriptionDetails => {
-  //   cy.intercept(
-  //     'GET',
-  //     `/my_health/v1/prescriptions/${prescriptionDetails.data.attributes.prescriptionId
-  //     }`,
-  //     prescriptionDetails,
-  //   ).as('prescriptionDetails');
-  //   cy.get('@prescriptionDetails')
-  //     .its('response')
-  //     .then(res => {
-  //       expect(res.body.data.attributes).to.include({
-  //         cmopNdcNumber: null,
-  //       });
-  //     });
-  // };
-
   verifyNonVaMedicationStatusOnDetailsPage = prescriptionDetails => {
     cy.get('[data-testid="rx-status"]').should(
       'have.text',
       `${prescriptionDetails.data.attributes.dispStatus}`,
     );
   };
-
-  // verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = prescriptionDetails => {
-  //   // cy.intercept(
-  //   //   'GET',
-  //   //   `/my_health/v1/prescriptions/${
-  //   //     prescriptionDetails.data.attributes.prescriptionId
-  //   //   }`,
-  //   //   prescriptionDetails,
-  //   // ).as('prescriptionDetails');
-  //   cy.get('@prescriptionDetails')
-  //     .its('response')
-  //     .then(res => {
-  //       expect(res.body.data.attributes).to.include({
-  //         prescriptionSource: 'NV',
-  //       });
-  //     });
-  // };
-
-  // verifyNonVAMedicationDisplayMessageOnDetailsPage = (prescriptionDetails) => {
-  //   if (prescriptionDetails.data.attributes.dispStatus = "Active: Non-VA") {
-  //     cy.get('[data-testid="non-VA-prescription"]').should(
-  //       'contain',
-  //       'This isn’t a prescription that you filled through a VA pharmacy.',
-  //     );
-  //   };
-  // };
 }
 export default MedicationsDetailsPage;
