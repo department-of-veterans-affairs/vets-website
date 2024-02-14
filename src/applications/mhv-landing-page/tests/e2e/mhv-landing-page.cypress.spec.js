@@ -22,7 +22,7 @@ describe(`${appName} - landing page`, () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
   });
 
-  it('display the landing page and welcome message', () => {
+  it('display the landing page', () => {
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles()).as(
       'featureToggles',
