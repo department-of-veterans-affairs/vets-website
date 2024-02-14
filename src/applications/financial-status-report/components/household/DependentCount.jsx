@@ -27,7 +27,7 @@ const DependentCount = ({
   const MAXIMUM_DEPENDENT_COUNT = 25;
 
   const [error, setError] = useState(null);
-  const [dependents, setDependents] = useState(hasDependents || '0');
+  const [dependents, setDependents] = useState(hasDependents || '');
 
   // Correctly handle the hook to clear spouse data based on marital status
   useClearSpouseData(isMarried, data, setFormData);
@@ -43,7 +43,7 @@ const DependentCount = ({
 
   useEffect(
     () => {
-      setDependents(hasDependents || '0');
+      setDependents(hasDependents || '');
     },
     [hasDependents],
   );
