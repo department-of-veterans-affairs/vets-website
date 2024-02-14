@@ -8,14 +8,10 @@ import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatu
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
-import DowntimeNotification, {
-  externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
 
 import LoadFail from '../alerts/LoadFail';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
@@ -208,16 +204,10 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
   return (
     <div>
       <Headline>Military information</Headline>
-      <DowntimeNotification
-        appTitle="Military Information"
-        render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.emis]}
-      >
-        <MilitaryInformationContent
-          militaryInformation={militaryInformation}
-          veteranStatus={veteranStatus}
-        />
-      </DowntimeNotification>
+      <MilitaryInformationContent
+        militaryInformation={militaryInformation}
+        veteranStatus={veteranStatus}
+      />
       <va-featured-content uswds>
         <h3 className="vads-u-margin-top--0" slot="headline">
           Request your military records (DD214)
