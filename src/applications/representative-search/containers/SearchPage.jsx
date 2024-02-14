@@ -50,9 +50,13 @@ const SearchPage = props => {
       sort: currentQuery.sortType.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
-      distance: currentQuery.searchArea || null,
       ...params,
     };
+
+    if (currentQuery.searchArea !== null) {
+      queryParams.distance = currentQuery.searchArea;
+    }
+
     const queryStringObj = appendQuery(
       `/get-help-from-accredited-representative/find-rep${location.pathname}`,
       queryParams,
@@ -228,7 +232,7 @@ const SearchPage = props => {
       },
       {
         href: '/get-help-from-accredited-representative',
-        label: 'Get help from a VA accredited representative',
+        label: 'Get help from a VA accredited representative or VSO',
       },
       {
         href: '/get-help-from-accredited-representative/find-rep',
@@ -326,10 +330,20 @@ const SearchPage = props => {
       );
     };
 
-    if (isLoading && !isErrorFetchRepresentatives) {
+    if (
+      isLoading &&
+      !isErrorFetchRepresentatives &&
+      props.currentQuery.searchCounter > 0
+    ) {
       return (
-        <div>
-          <va-loading-indicator message="Search in progress" />
+        <div className="row usa-width-three-fourths results-section">
+          <div className="loading-indicator-container">
+            <va-loading-indicator
+              label="Searching"
+              message="Searching for representatives..."
+              set-focus
+            />
+          </div>
         </div>
       );
     }
