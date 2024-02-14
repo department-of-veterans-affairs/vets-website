@@ -73,9 +73,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <p>Or you can submit a PDF version of this form.</p>
       <h2>What types of information can I request?</h2>
       <p>You can request any of these kinds of personal records:</p>
-      <p>
-        <strong>Compensation and pension records</strong>
-      </p>
+      <h3 className="vads-u-font-size--h6">Compensation and pension records</h3>
       <ul>
         <li>
           Certificate of Release or Discharge from Active Duty (DD Form 214)
@@ -87,9 +85,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Service or military treatment</li>
         <li>Other compensation and pension records</li>
       </ul>
-      <p>
-        <strong>Benefit records</strong>
-      </p>
+      <h3 className="vads-u-font-size--h6">Benefit records</h3>
       <ul>
         <li>Education benefit</li>
         <li>Fiduciary services</li>
