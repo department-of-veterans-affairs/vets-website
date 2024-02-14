@@ -80,7 +80,11 @@ const SearchResult = ({
           </div>
           {associatedOrgs && (
             <div className="associated-organizations-info vads-u-margin-top--1p5">
-              <va-additional-info trigger="See associated organizations" uswds>
+              <va-additional-info
+                trigger="See associated organizations"
+                disable-border
+                uswds
+              >
                 {associatedOrgs?.map((org, index) => {
                   return (
                     <>
