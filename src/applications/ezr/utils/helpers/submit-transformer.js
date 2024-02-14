@@ -35,9 +35,7 @@ export function submitTransformer(formConfig, form) {
   const veteranFields = ['veteranDateOfBirth', 'gender'];
   veteranFields.forEach(field => {
     if (!withoutViewFields[field]) {
-      const fieldData =
-        loadedData.formData[field] ||
-        formData['view:veteranInformation'][field];
+      const fieldData = loadedData.formData[field];
       withoutViewFields = set(field, fieldData, withoutViewFields);
     }
   });

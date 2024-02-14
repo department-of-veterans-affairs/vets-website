@@ -6,7 +6,7 @@ import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
  * @returns {Boolean} - true if the viewfield is empty
  */
 export function isMissingVeteranDob(formData) {
-  return !formData['view:userDob'];
+  return formData['view:userDob'] === null;
 }
 
 /**
@@ -15,7 +15,7 @@ export function isMissingVeteranDob(formData) {
  * @returns {Boolean} - true if the viewfield is empty
  */
 export function isMissingVeteranGender(formData) {
-  return !formData['view:userGender'];
+  return formData['view:userGender'] === null;
 }
 
 /**
