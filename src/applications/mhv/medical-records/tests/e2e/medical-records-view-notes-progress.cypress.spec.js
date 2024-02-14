@@ -22,7 +22,7 @@ describe('Medical Records Care Summary Page ', () => {
     // Verify Progress Note Details Signed by
     NotesDetailsPage.verifyProgressNoteSignedBy('AHMED,MARUF');
     // Verify Progress Note Details Signed Date
-    NotesDetailsPage.verifyProgressNoteSignedDate('August 8, 2022');
+    NotesDetailsPage.verifyProgressNoteSignedDate('August 5, 2022');
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(
       'LOCAL TITLE: Adverse React/Allergy',

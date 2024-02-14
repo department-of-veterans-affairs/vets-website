@@ -49,8 +49,18 @@ const extractNote = record => {
   return (
     isArrayAndHasItems(record.content) &&
     typeof record.content[0].attachment?.data === 'string' &&
-    Buffer.from(record.content[0].attachment.data, 'base64').toString('utf-8')
+    Buffer.from(record.content[0].attachment.data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n') // Standardize line endings
   );
+};
+
+export const getDateSigned = record => {
+  const ext = record.authenticator.extension;
+  if (isArrayAndHasItems(ext) && ext[0].valueDateTime) {
+    return formatDateLong(ext[0].valueDateTime);
+  }
+  return null;
 };
 
 const convertAdmissionAndDischargeDetails = record => {
@@ -81,7 +91,8 @@ const convertProgressNote = record => {
     id: record.id,
     name: extractName(record),
     type: extractType(record),
-    dateSigned: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    dateSigned: getDateSigned(record) || EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
     coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
