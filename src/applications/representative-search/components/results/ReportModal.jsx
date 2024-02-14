@@ -109,8 +109,6 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report outdated information for 
-          ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
         onSecondaryButtonClick={onCloseModal}
@@ -119,6 +117,7 @@ const ReportModal = ({
         visible
         uswds
       >
+        <h3>Report outdated information for ${representativeName}</h3>
         {someItemsReported && (
           <>
             <h3>You reported this information</h3>
