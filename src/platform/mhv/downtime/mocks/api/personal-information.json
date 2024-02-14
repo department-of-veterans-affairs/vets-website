@@ -1,0 +1,13 @@
+{
+  "data": {
+    "attributes": {
+      "gender": "F",
+      "birthDate": "1985-01-01",
+      "preferredName": "Ginny",
+      "genderIdentity": {
+        "code": "F",
+        "name": "Female"
+      }
+    }
+  }
+}
