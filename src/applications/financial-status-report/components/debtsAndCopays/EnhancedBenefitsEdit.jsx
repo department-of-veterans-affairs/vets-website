@@ -103,6 +103,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           value={inputValue}
           className="no-wrap input-size-2"
           required
+          uswds
         />
       </fieldset>
       <ButtonGroup
