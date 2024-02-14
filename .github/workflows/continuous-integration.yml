@@ -209,15 +209,20 @@ jobs:
   unit-tests:
     name: Unit Tests
     needs: [fetch-allow-lists, unit-tests-prep]
-    runs-on: self-hosted
+    timeout-minutes: 30
+    runs-on: ubuntu-16-cores-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       DISALLOWED_TESTS: ${{ needs.unit-tests-prep.outputs.disallowed-tests }}
-      TESTS_TO_VERIFY: ${{ needs.unit-tests-prep.outputs.tests-to-stress-test }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 72
+      matrix:
+        ci_node_index: [mock-form, ezr, post-911-gib-status, appeals, facility-locator, pre-need-integration, ask-a-question, financial-status-report, pre-need, ask-va, auth, avs, gi, hca, rated-disabilities, burial-poc-v6, burials, caregivers, check-in, claims-status, combined-debt-portal, coronavirus-research, coronavirus-screener, debt-letters, dhp-connected-devices, disability-benefits, discharge-wizard, ds-playground, ds-v3-playground, e-folders, edu-benefits, education-letters, enrollment-verification, find-forms, fry-dea, health-care-supply-reordering, income-limits, ivc-champva, letters, lgy, login, medical-copays, messages, mhv-inherited-proofing, mhv-landing-page, mhv, mock-sip-form, my-education-benefits, office-directory, pact-act, pensions, personalization, proxy-rewrite, public-outreach-materials, representative-search, representatives, resources-and-support, sah, search, simple-forms, static-pages, terms-of-use, third-party-app-directory, toe, travel-pay, vaos, verify-your-enrollment, verify, veteran-id-card, virtual-agent, vre, yellow-ribbon]
 
     steps:
       - name: Checkout
@@ -246,14 +251,14 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit --app-folder ${{ matrix.ci_node_index }} ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
-          STEP: 1
+          STEP: ${{ matrix.ci_node_index }}
           IS_STRESS_TEST: false
-          GITHUB_REF: ${{ github.ref }}
+          NUM_CONTAINERS: 72
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -1764,12 +1769,7 @@ jobs:
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
-        run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
-          else
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
-          fi
+        run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy

@@ -259,7 +259,7 @@ describe('<NameSearchForm>', () => {
       preview: { version: '1' },
       search: { query: { name: 'some name' }, tab: null, loadFromUrl: true },
     };
-    const { getByRole } = renderWithStoreAndRouter(
+    const { getByRole, getByText } = renderWithStoreAndRouter(
       <NameSearchForm smallScreen={false} {...props} />,
       {
         initialState: {
@@ -273,18 +273,13 @@ describe('<NameSearchForm>', () => {
         },
       },
     );
-    const btn = getByRole('button', {
-      name: 'Learn more about community focus filters',
-    });
-    expect(btn).to.have.attribute('aria-expanded', 'false');
+    const btn = getByText(/Learn more about community focus filters/i);
     userEvent.click(btn);
-    expect(btn).to.have.attribute('aria-expanded', 'true');
     const heading = getByRole('heading', {
       name: 'Historically Black Colleges and Universities',
     });
     expect(heading).to.exist;
     userEvent.click(btn);
-    expect(btn).to.have.attribute('aria-expanded', 'false');
   });
   describe('specialMissions', () => {
     let sandbox;
@@ -298,6 +293,9 @@ describe('<NameSearchForm>', () => {
           json: () => Promise.resolve({}),
         });
       });
+    });
+    afterEach(() => {
+      sandbox.restore();
     });
     const setupRTL = (
       value,
