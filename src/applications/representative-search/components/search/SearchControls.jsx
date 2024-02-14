@@ -97,7 +97,11 @@ const SearchControls = props => {
       <form id="representative-search-controls" onSubmit={e => onSubmit(e)}>
         <div className="additional-representative-info">
           <div className="vads-u-margin-top--2p5">
-            <va-additional-info trigger="What does an accredited VSO do?" uswds>
+            <va-additional-info
+              trigger="What does an accredited VSO do?"
+              uswds
+              disable-border
+            >
               <p>
                 <strong>An accredited Veterans Service Officer (VSO)</strong>{' '}
                 can help you gather evidence, file a claim, or request a
@@ -122,6 +126,7 @@ const SearchControls = props => {
           <div className="vads-u-margin-top--2p5">
             <va-additional-info
               trigger="What does an accredited attorney do?"
+              disable-border
               uswds
             >
               <p>
@@ -141,6 +146,7 @@ const SearchControls = props => {
           <div className="vads-u-margin-top--2p5">
             <va-additional-info
               trigger="What does an accredited claims agent do?"
+              disable-border
               uswds
             >
               <p>

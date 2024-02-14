@@ -7,7 +7,13 @@ import { sortOptions } from '../../config';
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-  const { inProgress, context, representativeType, sortType } = query;
+  const {
+    inProgress,
+    context,
+    representativeType,
+    sortType,
+    searchArea,
+  } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults.length;
 
@@ -18,9 +24,9 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Veteran Service Officers',
-    attorney: 'Attorneys',
-    claim_agents: 'Claims agents',
+    veteran_service_officer: 'Accredited Veteran Service Officer (VSO)',
+    attorney: 'Accredited attorney',
+    claim_agents: 'Accredited claims agent',
   };
 
   const handleNumberOfResults = () => {
@@ -92,17 +98,23 @@ export const SearchResultsHeader = props => {
         >
           {handleNumberOfResults()} for
           {` `}
+          &quot;
           <b>{repFormat[representativeType]}</b>
+          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              matching <b>"{context.repOrgName}"</b>
+              matching &quot;
+              <b>{context.repOrgName}</b>
+              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within <b>50 miles</b> of &quot;
+              within &quot;
+              <b>{searchArea} miles</b>
+              &quot; of &quot;
               <b>{context.location}</b>
               &quot;
             </>

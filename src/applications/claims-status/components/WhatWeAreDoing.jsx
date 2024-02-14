@@ -2,12 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import { getStatusDescription } from '../utils/helpers';
+import {
+  getStatusDescription,
+  getClaimStatusDescription,
+} from '../utils/helpers';
 
 function WhatWeAreDoing({ claim }) {
   const { status } = claim.attributes;
-
   const humanStatus = getStatusDescription(status);
+  const description = getClaimStatusDescription(status);
 
   return (
     <div className="what-were-doing-container vads-u-margin-bottom--4">
@@ -17,9 +20,7 @@ function WhatWeAreDoing({ claim }) {
           {humanStatus}
         </h4>
         <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam.
+          {description}
         </p>
         <Link
           aria-label="Overview of the process"
