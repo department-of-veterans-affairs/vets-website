@@ -79,12 +79,13 @@ const DependentCount = ({
   const handleSubmit = event => {
     event.preventDefault();
     if (validateInput()) {
+      setError(null);
       goToPath(determineNextPath());
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
