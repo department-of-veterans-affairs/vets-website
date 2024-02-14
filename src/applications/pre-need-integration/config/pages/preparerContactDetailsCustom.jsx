@@ -18,7 +18,7 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
       formData?.application?.applicant['view:applicantInfo']?.mailingAddress;
 
     const addressForAPIRequest = {
-      addressLine1: formDataUserAddress.steet,
+      addressLine1: formDataUserAddress.street,
       addressLine2: formDataUserAddress.street2,
       city: formDataUserAddress.city,
       countryCodeIso3: formDataUserAddress.country,
