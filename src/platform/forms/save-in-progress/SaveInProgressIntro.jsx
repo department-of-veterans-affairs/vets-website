@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
@@ -199,15 +201,13 @@ class SaveInProgressIntro extends React.Component {
         unauthStartText,
       } = this.props;
       const unauthStartButton = (
-        <button
-          className="usa-button-primary"
+        <VaButton
           onClick={this.openLoginModal}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
-          type="button"
-        >
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </button>
+          label={ariaLabel}
+          // aria-describedby={ariaDescribedby}
+          uswds
+          text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        />
       );
       alert = buttonOnly ? (
         <>
