@@ -4,6 +4,7 @@ import {
   VaModal,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { snakeCase } from 'lodash';
 
 const ReportModal = ({
   representativeName,
@@ -80,8 +81,9 @@ const ReportModal = ({
     // push non-null items to reports object
     Object.keys(reportObject).forEach(prop => {
       if (reportObject[prop] !== null) {
-        if (prop === 'other') {
-          formattedReportObject.reports.other = reportObject.other;
+        if (prop === 'phone') {
+          formattedReportObject.reports[snakeCase('phoneNumber')] =
+            reportObject.phone;
         } else {
           formattedReportObject.reports[prop] = reportObject[prop];
         }
