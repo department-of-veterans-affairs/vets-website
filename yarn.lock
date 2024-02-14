@@ -2771,7 +2771,7 @@
 
 "@department-of-veterans-affairs/component-library@^37.0.0":
   version "37.0.0"
-  resolved "http://localhost:4873/@department-of-veterans-affairs%2fcomponent-library/-/component-library-37.0.0.tgz#b36cce43dc1d53b0f0fd55c496b5ddded5035e69"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-37.0.0.tgz#b36cce43dc1d53b0f0fd55c496b5ddded5035e69"
   integrity sha512-Y1fJhicBlTM5AAaQfWOByAJKt0LOJ9wY7wBqZ6co5H/+rbkty5/Ur5ISmS8112ammyAb/OYKkN6VmKx8ucHw7w==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
@@ -2823,7 +2823,7 @@
 
 "@department-of-veterans-affairs/react-components@28.0.0":
   version "28.0.0"
-  resolved "http://localhost:4873/@department-of-veterans-affairs%2freact-components/-/react-components-28.0.0.tgz#8ff7bbc1303a68e7ad2806e743a8ee72416aa284"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-28.0.0.tgz#8ff7bbc1303a68e7ad2806e743a8ee72416aa284"
   integrity sha512-FJW/z+Tpr1SiOnxOLhdDtgjF0rtGqSc00yvMhItY+P29AL8UPRo6SiR6C3Ephi6MpeCzC6L3x0HhrdcYL6omMA==
   dependencies:
     classnames "^2.2.6"
@@ -2864,7 +2864,7 @@
 
 "@department-of-veterans-affairs/web-components@5.0.0":
   version "5.0.0"
-  resolved "http://localhost:4873/@department-of-veterans-affairs%2fweb-components/-/web-components-5.0.0.tgz#81628780cef1e647dfd3f87d1473058b8cee481d"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-5.0.0.tgz#81628780cef1e647dfd3f87d1473058b8cee481d"
   integrity sha512-OHeCxd89lgzjCmF/G5RIvWjH81X0aq7XfoSx54RR1jl7pNbAZkm9oWxCD6adG4YGqrtmr2GArMvS17bO+lRRsg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.3.1"
