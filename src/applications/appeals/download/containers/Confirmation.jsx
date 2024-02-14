@@ -80,12 +80,14 @@ const Confirmation = () => {
               <li key={issue.name}>{issue.name}</li>
             ))}
           </ul>
+
+          <h4>Get a copy of your Board Appeal request</h4>
           <p>
             <a
               href="/decision-reviews/submitted-appeal/view-appeal"
               className="vads-c-action-link--green"
             >
-              View and save your completed request
+              View your submission and download a copy for your records
             </a>
           </p>
         </div>
