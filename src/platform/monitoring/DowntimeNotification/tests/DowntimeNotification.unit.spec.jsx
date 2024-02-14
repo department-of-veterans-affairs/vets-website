@@ -83,15 +83,13 @@ describe('mapStateToProps', () => {
 });
 
 describe('<DowntimeNotification/>', () => {
-  it('calls getGlobalDowntime and getScheduledDowntime when rendered', () => {
-    const props = {
-      dependencies: [],
-      getScheduledDowntime: sinon.spy(),
-      getGlobalDowntime: sinon.spy(),
-    };
-    getComponent(props);
-    // expect(props.getGlobalDowntime.calledOnce).to.be.true;
-    expect(props.getScheduledDowntime.calledOnce).to.be.true;
+  it('renders and calls getScheduledDowntime if shouldSendRequest is true', () => {
+    const getScheduledDowntimeSpy = sinon.spy();
+    getComponent({
+      getScheduledDowntime: getScheduledDowntimeSpy,
+      shouldSendRequest: true,
+    });
+    expect(getScheduledDowntimeSpy.calledOnce).to.be.true;
   });
 
   describe('No impending downtime', () => {
@@ -110,7 +108,13 @@ describe('<DowntimeNotification/>', () => {
 
   describe('Approaching downtime', () => {
     it('should render the children and a Modal when downtime is approaching', () => {
-      const wrapper = getComponent({ dependencies: [externalServices.mhv] });
+      const wrapper = getComponent({
+        dependencies: [externalServices.mhv],
+        isReady: true,
+        status: externalServiceStatus.downtimeApproaching,
+      });
+      expect(wrapper.find('DowntimeApproaching')).to.have.lengthOf(1);
+      expect(wrapper.text()).to.contain(innerText);
       wrapper.setProps({
         isReady: true,
         initializeDowntimeWarnings() {},
