@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
-import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
+import { APPEAL_TYPES } from '../../../utils/appeals-helpers';
 import { replaceDashesWithSlashes } from '../../../utils/date-formatting/helpers';
 
 function makeAppealObject({
