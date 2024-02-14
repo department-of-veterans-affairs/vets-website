@@ -77,7 +77,7 @@ const SearchResult = ({
                 <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
                   <h3>{officer}</h3>
                 </div>
-                {associatedOrgs.length === 1 && (
+                {associatedOrgs?.length === 1 && (
                   <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
                 )}
               </>
