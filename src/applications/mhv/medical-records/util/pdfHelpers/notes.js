@@ -2,10 +2,8 @@ import { EMPTY_FIELD } from '../constants';
 
 export const generateNotesIntro = record => {
   return {
-    title: `${record.name} on ${record.dateSigned || record.admissionDate}`,
+    title: `Care summaries and notes: ${record.name}`,
     subject: 'VA Medical Record',
-    preface:
-      'Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).',
   };
 };
 
@@ -16,6 +14,11 @@ export const generateDischargeSummaryContent = record => ({
       {
         title: 'Location',
         value: record.location,
+        inline: true,
+      },
+      {
+        title: 'Admission date',
+        value: record.admissionDate,
         inline: true,
       },
       {
@@ -51,6 +54,11 @@ export const generateProgressNoteContent = record => {
       header: 'Details',
       items: [
         {
+          title: 'Date',
+          value: record.date,
+          inline: true,
+        },
+        {
           title: 'Location',
           value: record.location,
           inline: true,
@@ -83,7 +91,7 @@ export const generateProgressNoteContent = record => {
   };
 
   if (record.coSignedBy !== EMPTY_FIELD) {
-    content.details.items.splice(2, 0, {
+    content.details.items.splice(3, 0, {
       title: 'Co-signed by',
       value: record.coSignedBy,
       inline: true,
