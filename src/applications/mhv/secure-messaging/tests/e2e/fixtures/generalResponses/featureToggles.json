@@ -91,44 +91,12 @@
         "value": true
       },
       {
-        "name": "cernerOverride463",
-        "value": false
-      },
-      {
-        "name": "cerner_override_463",
-        "value": false
-      },
-      {
-        "name": "cernerOverride531",
-        "value": true
-      },
-      {
-        "name": "cerner_override_531",
-        "value": true
-      },
-      {
-        "name": "cernerOverride648",
-        "value": false
-      },
-      {
-        "name": "cerner_override_648",
-        "value": false
-      },
-      {
         "name": "cernerOverride653",
         "value": true
       },
       {
         "name": "cerner_override_653",
         "value": true
-      },
-      {
-        "name": "cernerOverride663",
-        "value": false
-      },
-      {
-        "name": "cerner_override_663",
-        "value": false
       },
       {
         "name": "cernerOverride668",
