@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import {
@@ -17,8 +16,8 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { setFocus } from '../utils/page';
@@ -37,8 +36,6 @@ import {
 } from '../utils/validations';
 import UploadStatus from './UploadStatus';
 import mailMessage from './MailMessage';
-
-const displayTypes = FILE_TYPES.join(', ');
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -179,39 +176,35 @@ class AddFilesForm extends React.Component {
   render() {
     return (
       <>
-        <va-additional-info
-          class="vads-u-margin-y--2"
-          trigger="Need to mail your files?"
-        >
-          {mailMessage}
-        </va-additional-info>
-        <Element name="filesList" />
-        <div>
+        <div className="add-files-form">
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--0">
+            Please only submit evidence that supports this claim. You’ll need to
+            scan your document onto the device you’re using to submit this
+            application, such as your computer, tablet, or mobile phone. You can
+            upload your document from there.
+          </p>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
+            To submit supporting documents for a new disability claim, please
+            visit our{' '}
+            <a id="how-to-file-claim" href="/disability/how-to-file-claim">
+              How to File a Claim
+            </a>{' '}
+            page.
+          </p>
           <VaFileInput
             id="file-upload"
+            className="vads-u-margin-bottom--3"
             error={this.getErrorMessage()}
-            label="Select files to upload"
+            label="Upload additional evidence"
+            hint="You can upload a .pdf, gif, .jpeg, .bmp, or txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
             accept={FILE_TYPES.map(type => `.${type}`).join(', ')}
             onVaChange={e => this.add(e.detail.files)}
-            button-text="Add Files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            uswds
           />
         </div>
-        <dl className="file-requirements" id="file-requirements">
-          <dt className="file-requirement-header">Accepted file types:</dt>
-          <dd className="file-requirement-text">{displayTypes}</dd>
-          <dt className="file-requirement-header">Maximum file size:</dt>
-          <dd>
-            <p className="file-requirement-text">
-              {`${MAX_FILE_SIZE_MB}MB (non-PDF)`}
-            </p>
-            <p className="file-requirement-text">
-              {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
-            </p>
-          </dd>
-        </dl>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
@@ -225,13 +218,12 @@ class AddFilesForm extends React.Component {
                     <div>{displayFileSize(file.size)}</div>
                   </div>
                   <div className="remove-document-button">
-                    <button
-                      type="button"
-                      className="usa-button-secondary"
+                    <va-button
+                      secondary
+                      uswds
+                      text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                    >
-                      Remove
-                    </button>
+                    />
                   </div>
                 </div>
                 {isEncrypted && (
@@ -243,6 +235,7 @@ class AddFilesForm extends React.Component {
                     </p>
                     <VaTextInput
                       required
+                      uswds
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -258,6 +251,7 @@ class AddFilesForm extends React.Component {
                 )}
                 <VaSelect
                   required
+                  uswds
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -284,36 +278,35 @@ class AddFilesForm extends React.Component {
           ),
         )}
         <VaCheckbox
+          label="The files I uploaded support this claim only."
+          className="vads-u-margin-y--3"
+          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
+          checked={this.state.checked}
+          error={this.state.errorMessageCheckbox}
+          uswds
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
-          checked={this.state.checked}
-          error={this.state.errorMessageCheckbox}
-          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
-          label="The files I uploaded are supporting documents for this claim only."
         />
-        <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
-          To submit supporting documents for a new disability claim, please
-          visit our{' '}
-          <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="usa-button"
-            data-cy="submit-files-button"
-            onClick={this.submit}
-          >
-            Submit Files for Review
-          </button>
-          <Link to={this.props.backUrl} className="claims-files-cancel">
-            Cancel
-          </Link>
-        </div>
+        <va-button
+          id="submit"
+          submit
+          uswds
+          text="Submit files for review"
+          onClick={this.submit}
+        />
+        <va-additional-info
+          class="vads-u-margin-y--3"
+          trigger="Need to mail your files?"
+          uswds
+        >
+          {mailMessage}
+        </va-additional-info>
         <VaModal
           id="upload-status"
           onCloseEvent={() => true}
           visible={Boolean(this.props.uploading)}
+          uswds="false"
         >
           <UploadStatus
             progress={this.props.progress}
@@ -336,7 +329,7 @@ AddFilesForm.propTypes = {
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
-  mockReadAndCheckFile: PropTypes.bool,
+  mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };

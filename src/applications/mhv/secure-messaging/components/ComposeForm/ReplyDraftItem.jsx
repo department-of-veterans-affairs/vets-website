@@ -498,6 +498,7 @@ const ReplyDraftItem = props => {
                 <section className="attachments-section vads-u-margin-top--2">
                   <AttachmentsList
                     attachments={attachments}
+                    reply
                     setAttachments={setAttachments}
                     setNavigationError={setNavigationError}
                     editingEnabled
@@ -516,6 +517,7 @@ const ReplyDraftItem = props => {
                 <section className="attachments-section vads-u-margin-top--2">
                   <AttachmentsList
                     attachments={attachments}
+                    reply
                     setAttachments={setAttachments}
                     setNavigationError={setNavigationError}
                     editingEnabled
