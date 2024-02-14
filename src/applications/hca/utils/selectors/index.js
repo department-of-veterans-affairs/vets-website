@@ -23,6 +23,9 @@ export const selectEnrollmentStatus = state => state.hcaEnrollmentStatus;
 export const isEnrollmentStatusLoading = state =>
   selectEnrollmentStatus(state).isLoadingApplicationStatus;
 
+export const isLoadingDismissedNotification = state =>
+  selectEnrollmentStatus(state).isLoadingDismissedNotification;
+
 export const hasServerError = state =>
   selectEnrollmentStatus(state).hasServerError;
 
@@ -40,6 +43,9 @@ export const hasApplicationInESR = state => {
 export const isEnrolledInESR = state =>
   selectEnrollmentStatus(state).enrollmentStatus ===
   HCA_ENROLLMENT_STATUSES.enrolled;
+
+export const dismissedHCANotificationDate = state =>
+  selectEnrollmentStatus(state).dismissedNotificationDate;
 
 /*
  * Compound Selectors

@@ -44,7 +44,7 @@ describe('Admission and discharge summary details component', () => {
   });
 
   it('should display the summary name', () => {
-    const header = screen.getAllByText('Discharge summary', {
+    const header = screen.getAllByText('Discharge Summary', {
       exact: true,
       selector: 'h1',
     });
