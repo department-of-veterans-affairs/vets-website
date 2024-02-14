@@ -320,7 +320,7 @@ const formConfig = {
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uuiSchema: applicantDemographics2.uiSchema(
+          uiSchema: applicantDemographics2.uiSchema(
             applicantDemographicsPreparerEthnicityTitle,
             applicantDemographicsPreparerRaceTitle,
           ),

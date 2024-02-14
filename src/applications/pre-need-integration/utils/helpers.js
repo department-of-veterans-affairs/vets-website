@@ -711,22 +711,16 @@ export const veteranUI = {
     },
   },
   ethnicity: {
-    'ui:field': RaceEthnicityReviewField,
+    // 'ui:field': RaceEthnicityReviewField,
     'ui:title': 'What’s your ethnicity?',
     'ui:widget': 'radio',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
-    unknown: {
-      'ui:title': 'Unknown',
-    },
-    na: {
-      'ui:title': 'Prefer not to answer',
-    },
     'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
       showFieldLabel: true,
     },
   },
