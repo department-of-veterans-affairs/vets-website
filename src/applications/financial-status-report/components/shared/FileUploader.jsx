@@ -84,6 +84,7 @@ const FileUploader = ({ files, onAddFile }) => {
         error={errorMessage}
         name="fileUpload"
         onVaChange={handleChange}
+        uswds
       />
     </>
   );

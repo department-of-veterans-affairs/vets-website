@@ -185,6 +185,7 @@ const DependentAges = ({
         required
         min={0}
         max={MAXIMUM_DEPENDENT_AGE}
+        uswds
       />
     </div>
   );

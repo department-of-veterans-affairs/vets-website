@@ -10,7 +10,7 @@ import {
 } from '../../../constants/typeaheadOptions';
 
 const AssetInfo = (
-  <va-additional-info trigger="What counts as an expense?">
+  <va-additional-info trigger="What counts as an expense?" uswds>
     Many everyday living costs count as expenses. If you’re not sure about a
     specific expense, we encourage you to start typing the expense into the
     form. The form will help you fill in options that count as expenses.

@@ -145,16 +145,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

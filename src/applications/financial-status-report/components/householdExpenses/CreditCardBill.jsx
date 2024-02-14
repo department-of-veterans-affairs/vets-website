@@ -226,6 +226,7 @@ const CreditCardBill = props => {
             id="unpaidBalance"
             onInput={handleUnpaidBalanceChange}
             value={creditCardBillRecord.unpaidBalance}
+            uswds
           />
         </div>
         <div className="input-size-3 no-wrap">
@@ -242,6 +243,7 @@ const CreditCardBill = props => {
             id="amountDueMonthly"
             onInput={handleMinMonthlyPaymentChange}
             value={creditCardBillRecord.amountDueMonthly}
+            uswds
           />
         </div>
         <div className="input-size-3 no-wrap">
@@ -255,6 +257,7 @@ const CreditCardBill = props => {
             id="amountPastDue"
             onInput={handleAmountOverdueChange}
             value={creditCardBillRecord.amountPastDue}
+            uswds
           />
         </div>
         <p>

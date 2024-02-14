@@ -213,10 +213,11 @@ const EmploymentWorkDates = props => {
         </legend>
         <div>{ShowWorkDates()}</div>
         <p>
-          <VaButton text="Back" onClick={handlers.onCancel} />
+          <VaButton text="Back" onClick={handlers.onCancel} uswds />
           <VaButton
             text={handlers.getContinueButtonText()}
             onClick={handlers.onUpdate}
+            uswds
           />
         </p>
       </fieldset>

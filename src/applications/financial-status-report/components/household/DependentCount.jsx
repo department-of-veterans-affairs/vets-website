@@ -135,6 +135,7 @@ const DependentCount = ({
           required
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}
+          uswds
         />
         <DependentExplainer />
       </fieldset>

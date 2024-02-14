@@ -12,7 +12,7 @@ class EmploymentRecords {
       cy.get(`va-checkbox[name="current-employment"]`)
         .shadow()
         .find('input')
-        .check();
+        .check({ force: true });
     } else {
       cy.fillDate(
         'to',

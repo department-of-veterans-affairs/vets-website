@@ -4,7 +4,10 @@ import CardDetailsView from '../../../components/shared/CardDetailsView';
 import { validateCurrency } from '../../../utils/validations';
 
 const VehicleInfo = (
-  <va-additional-info trigger="What if I don’t know the estimated value of my car or other vehicle?">
+  <va-additional-info
+    trigger="What if I don’t know the estimated value of my car or other vehicle?"
+    uswds
+  >
     Include the amount of money you think you would get if you sold the vehicle
     in your local community. To get an idea of prices, you can check these
     places:

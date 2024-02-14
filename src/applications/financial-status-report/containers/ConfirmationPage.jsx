@@ -190,13 +190,13 @@ const ConfirmationPage = ({ form, download }) => {
         uswds
         class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
       >
-        <va-process-list-item header="Sign in to VA.gov" level="4">
+        <va-process-list-item header="Sign in to VA.gov" level="4" uswds>
           <p>
             You can sign in with your Login.gov, ID.me, DS Logon, or My
             HealtheVet
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Submit your request" level="4">
+        <va-process-list-item header="Submit your request" level="4" uswds>
           <p>
             This helps keep your information safe, and prevents fraud and
             identity theft. If you’ve already verified your identity with us,
@@ -206,6 +206,7 @@ const ConfirmationPage = ({ form, download }) => {
         <va-process-list-item
           header="Go to your debt management portal"
           level="4"
+          uswds
         >
           <p>
             After you sign in, you can go to

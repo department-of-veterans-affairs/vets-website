@@ -5,6 +5,7 @@ const ContractsExplainer = () => {
     <va-additional-info
       trigger="What are examples of installment contracts or other debts?"
       class="vads-u-margin-top--2"
+      uswds
     >
       <p>Examples include:</p>
       <ul>
