@@ -5,7 +5,7 @@ import {
   moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
-  getMessageThread,
+  getMessageThreadWithFullBody,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -16,8 +16,12 @@ export const clearThread = () => async dispatch => {
 };
 
 /**
+ * Call to mark message as read.
  * @param {Long} messageId
  * @returns
+ *
+ * Still need to use getMessage (single message) call to mark unread accordions
+ * as read and to handle expanded messages.
  */
 export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
@@ -32,86 +36,55 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
 };
 
 /**
- * Retrieves a message thread, and sends getMessage call to fill the most recent messasge in the thread with more context
- * such as full body text, attachments, etc.
+ * Retrieves full message thread that includes full body text, attachments, drafts etc..
  * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
+ *
  */
 export const retrieveMessageThread = messageId => async dispatch => {
   try {
     dispatch(clearThread());
-    const response = await getMessageThread(messageId);
-    const msgResponse = await getMessage(response.data[0].attributes.messageId);
-    if (msgResponse.errors) {
-      dispatch(
-        addAlert(Constants.ALERT_TYPE_ERROR, '', msgResponse.errors[0]?.detail),
-      );
-    } else {
-      // finding last sent message in a thread to check if it is not too old for replies
-      const lastSentDate = getLastSentMessage(response.data)?.attributes
-        .sentDate;
+    const response = await getMessageThreadWithFullBody(messageId);
 
-      const drafts = response.data.filter(m => m.attributes.draftDate !== null);
-      const messages = response.data.filter(
-        m => m.attributes.sentDate !== null,
-      );
-      const replyToName =
-        response.data
-          .find(
-            m => m.attributes.triageGroupName !== m.attributes.recipientName,
-          )
-          ?.attributes.senderName.trim() ||
-        response.data[0].attributes.triageGroupName;
+    // finding last sent message in a thread to check if it is not too old for replies
+    const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
 
-      const threadFolderId =
-        response.data
-          .find(
-            m => m.attributes.triageGroupName !== m.attributes.recipientName,
-          )
-          ?.attributes.folderId.toString() ||
-        response.data[0].attributes.folderId;
+    const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+    const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
-      const fullDrafts = async () => {
-        if (drafts?.length) {
-          const arr = await Promise.all(
-            drafts.map(async m => {
-              const fullDraft = await getMessage(m.attributes.messageId);
-              return { ...m.attributes, ...fullDraft.data.attributes };
-            }),
-          );
-          arr.sort((a, b) => {
-            const dateA = new Date(a.draftDate);
-            const dateB = new Date(b.draftDate);
+    const replyToName =
+      response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        ?.attributes.senderName.trim() ||
+      response.data[0].attributes.triageGroupName;
 
-            return dateB - dateA;
-          });
-          return arr;
-        }
-        return undefined;
-      };
+    const threadFolderId =
+      response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        ?.attributes.folderId.toString() ||
+      response.data[0].attributes.folderId;
 
-      const fullDraftsArr = await fullDrafts();
-
-      dispatch({
-        type: Actions.Thread.GET_THREAD,
-        payload: {
-          replyToName,
-          threadFolderId,
-          cannotReply: isOlderThan(lastSentDate, 45),
-          replyToMessageId: msgResponse.data.attributes.messageId,
-          drafts: fullDraftsArr,
-          messages: messages.map(m => m.attributes),
-        },
-      });
-    }
+    dispatch({
+      type: Actions.Thread.GET_THREAD,
+      payload: {
+        replyToName,
+        threadFolderId,
+        cannotReply: isOlderThan(lastSentDate, 45),
+        replyToMessageId: response.data[0].attributes.messageId,
+        drafts: drafts.map(m => m.attributes),
+        messages: messages.map(m => m.attributes),
+      },
+    });
   } catch (e) {
     const errorMessage =
       e.errors[0].status === '404'
         ? Constants.Alerts.Thread.THREAD_NOT_FOUND_ERROR
         : e.errors[0]?.detail;
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    if (errorMessage) {
+      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    }
     throw e;
   }
 };

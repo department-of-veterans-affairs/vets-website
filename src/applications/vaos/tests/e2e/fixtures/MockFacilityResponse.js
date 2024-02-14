@@ -6,6 +6,9 @@ export default class MockFacilityResponse {
     this.attributes = {
       id: this.id,
       name,
+      phone: {
+        main: '1234567890',
+      },
       physicalAddress: {
         type: 'physical',
         line: ['2360 East Pershing Boulevard', null, 'Suite 10'],

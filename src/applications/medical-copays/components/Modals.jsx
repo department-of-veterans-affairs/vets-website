@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  VaModal,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 const Modals = ({ children, title }) => {
@@ -7,20 +10,16 @@ const Modals = ({ children, title }) => {
 
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
-      <button
-        type="button"
-        className="usa-button-secondary"
-        onClick={() => setVisible(true)}
-      >
-        {title}
-      </button>
-      <Modal
-        onClose={() => setVisible(false)}
+      <VaButton secondary onClick={() => setVisible(true)} text={title} />
+      <VaModal
+        onCloseEvent={() => setVisible(false)}
         visible={visible}
-        title={title}
-        cssClass="va-modal-large"
-        contents={children}
-      />
+        modalTitle={title}
+        large
+        uswds
+      >
+        {children}
+      </VaModal>
     </div>
   );
 };
