@@ -23,6 +23,7 @@ import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as applicantContactInfo from './pages/applicantContactInfo';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -58,10 +59,10 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
-  applicantDetailsCityTitle,
-  applicantDetailsStateTitle,
-  applicantDetailsPreparerCityTitle,
-  applicantDetailsPreparerStateTitle,
+  // applicantDetailsCityTitle,
+  // applicantDetailsStateTitle,
+  // applicantDetailsPreparerCityTitle,
+  // applicantDetailsPreparerStateTitle,
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
@@ -121,7 +122,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: true,
+    showNavLinks: false,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -258,10 +259,11 @@ const formConfig = {
           path: 'veteran-applicant-details',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails.uiSchema(
-            applicantDetailsCityTitle,
-            applicantDetailsStateTitle,
-          ),
+          uiSchema: veteranApplicantDetails
+            .uiSchema
+            // applicantDetailsCityTitle,
+            // applicantDetailsStateTitle,
+            (),
           schema: veteranApplicantDetails.schema,
         },
         veteranApplicantDetailsPreparer: {
@@ -269,10 +271,11 @@ const formConfig = {
           path: 'veteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails.uiSchema(
-            applicantDetailsPreparerCityTitle,
-            applicantDetailsPreparerStateTitle,
-          ),
+          uiSchema: veteranApplicantDetails
+            .uiSchema
+            // applicantDetailsPreparerCityTitle,
+            // applicantDetailsPreparerStateTitle,
+            (),
           schema: veteranApplicantDetails.schema,
         },
         nonVeteranApplicantDetails: {
@@ -281,6 +284,13 @@ const formConfig = {
           depends: formData => !isVeteran(formData),
           uiSchema: nonVeteranApplicantDetails.uiSchema,
           schema: nonVeteranApplicantDetails.schema,
+        },
+        applicantContactInfo: {
+          title: 'Applicant contact information',
+          path: 'applicant-contact-info',
+          depends: formData => isVeteran(formData),
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
         applicantDemographics: {
           title: 'Applicant demographics',
@@ -305,7 +315,6 @@ const formConfig = {
           schema: applicantDemographics.schema,
         },
         applicantDemographics2: {
-          title: 'Applicant demographics',
           path: 'applicant-demographics-2',
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
@@ -316,7 +325,6 @@ const formConfig = {
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
-          title: 'Applicant demographics',
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
