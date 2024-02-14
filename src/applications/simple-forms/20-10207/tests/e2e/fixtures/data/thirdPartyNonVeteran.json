@@ -6,12 +6,12 @@
       "last": "Power-of-Attorney"
     },
     "thirdPartyType": "power-of-attorney",
-    "fullName": {
+    "nonVeteranFullName": {
       "first": "John",
       "last": "Non-Veteran"
     },
-    "dateOfBirth": "1980-01-01",
-    "id": {
+    "nonVeteranDateOfBirth": "1980-01-01",
+    "nonVeteranId": {
       "ssn": "321540990"
     },
     "livingSituation": {

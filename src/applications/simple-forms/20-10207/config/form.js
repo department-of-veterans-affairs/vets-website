@@ -13,7 +13,9 @@ import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
 // import nameAndDobPg from '../pages/nameAndDateofBirth';
 // import idInfoPg from '../pages/idInfo';
 import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
+import nonVetNameAndDobPg from '../pages/nonVeteranNameAndDateOfBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
+import nonVetIdInfoPg from '../pages/nonVeteranIdInfo';
 import livingSituationPg from '../pages/livingSituation';
 import livingSituationThirdPartyVetPg from '../pages/livingSituationThirdPartyVeteran';
 import livingSituationThirdPartyNonVetPg from '../pages/livingSituationThirdPartyNonVeteran';
@@ -55,7 +57,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/thirdPartyVeteran.json';
+import testData from '../tests/e2e/fixtures/data/thirdPartyNonVeteran.json';
 
 const mockData = testData.data;
 
@@ -151,6 +153,16 @@ const formConfig = {
           schema: vetNameAndDobPg.schema,
           pageClass: 'veteran-name-and-date-of-birth',
         },
+        nonVeteranNameAndDateOfBirthPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'non-veteran-name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nonVetNameAndDobPg.uiSchema,
+          schema: nonVetNameAndDobPg.schema,
+          pageClass: 'non-veteran-name-and-date-of-birth',
+        },
         veteranIdentificationInformationPageA: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.VETERAN ||
@@ -160,6 +172,16 @@ const formConfig = {
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',
+        },
+        nonVeteranIdentificationInformationPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'non-veteran-identification-information',
+          title: 'Identification information',
+          uiSchema: nonVetIdInfoPg.uiSchema,
+          schema: nonVetIdInfoPg.schema,
+          pageClass: 'non-veteran-identification-information',
         },
       },
     },
@@ -328,7 +350,7 @@ const formConfig = {
         veteranNameAndDateOfBirthPageB: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-            PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'veteran-name-and-date-of-birth-b',
           title: 'Veteran’s name and date of birth',
           uiSchema: vetNameAndDobPg.uiSchema,
@@ -338,7 +360,7 @@ const formConfig = {
         veteranIdentificationInformationPageB: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-            PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'veteran-identification-information-b',
           title: 'Veteran’s identification information',
           uiSchema: vetIdInfoPg.uiSchema,
