@@ -51,10 +51,10 @@ export const benefitsLabels = {
   ),
   chapter30: (
     <p>
-      Montgomery GI Bill (MGIB-AD, Chapter 30)
+      Montgomery GI bill (MGIB-AD, Chapter 30)
       <br />
       <a
-        aria-label="Learn more about Montgomery GI Bill benefits"
+        aria-label="Learn more about Montgomery GI bill benefits"
         href="/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
       >
@@ -64,10 +64,10 @@ export const benefitsLabels = {
   ),
   chapter1606: (
     <p>
-      Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
+      Montgomery GI bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
       <a
-        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
+        aria-label="Learn more about Montgomery GI bill Selected Reserve benefits"
         href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
@@ -142,10 +142,10 @@ export const benefitsLabelsUpdate = {
   ),
   chapter30: (
     <p>
-      Montgomery GI Bill (MGIB-AD, Chapter 30)
+      Montgomery GI bill (MGIB-AD, Chapter 30)
       <br />
       <a
-        aria-label="Learn more about Montgomery GI Bill benefits"
+        aria-label="Learn more about Montgomery GI bill benefits"
         href="/education/about-gi-bill-benefits/montgomery-active-duty/"
         target="_blank"
       >
@@ -155,10 +155,10 @@ export const benefitsLabelsUpdate = {
   ),
   chapter1606: (
     <p>
-      Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)
+      Montgomery GI bill Selected Reserve (MGIB-SR, Chapter 1606)
       <br />
       <a
-        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
+        aria-label="Learn more about Montgomery GI bill Selected Reserve benefits"
         href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
@@ -183,7 +183,7 @@ export const benefitsLabelsUpdate = {
     <p>
       Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
       <a
-        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
+        aria-label="Learn more about Montgomery GI bill Selected Reserve benefits"
         href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
         target="_blank"
       >
