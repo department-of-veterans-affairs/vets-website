@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  VaCheckboxGroup,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
+import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 import { applicantWording } from '../helpers/wordingCustomization';
+
+const keyname = 'applicantMedicarePart';
 
 function generateOptions({ data, pagePerItemIndex }) {
   const applicant = applicantWording(
@@ -41,36 +41,21 @@ function generateOptions({ data, pagePerItemIndex }) {
     },
   ];
 
-  return { labels, useFirstPerson, applicant, description: 'Medicare parts' };
+  return {
+    labels,
+    useFirstPerson,
+    applicant,
+    keyname,
+    description: 'Medicare parts',
+  };
 }
 
 export function ApplicantMedicareStatusContinuedReviewPage(props) {
-  const { data } = props || {};
-  const { labels, description } = generateOptions(props);
-  const currentApp = data?.applicants?.[props.pagePerItemIndex];
-  return data ? (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {props.title(currentApp)}
-        </h4>
-        <VaButton secondary onClick={props.editPage} text="Edit" uswds />
-      </div>
-      <dl className="review">
-        <div className="review-row">
-          <dt>{description}</dt>
-          <dd>
-            {labels
-              .filter(el =>
-                currentApp?.applicantMedicarePart?.includes(el.value),
-              )
-              .map(el => el.title)
-              .join(', ')}
-          </dd>
-        </div>
-      </dl>
-    </div>
-  ) : null;
+  return CustomCheckboxRadioReviewPage({
+    ...props,
+    useLabels: true,
+    generateOptions,
+  });
 }
 
 export default function ApplicantMedicareStatusContinuedPage({
@@ -99,12 +84,12 @@ export default function ApplicantMedicareStatusContinuedPage({
     () => {
       setAllLabels(
         labels.map(label =>
-          data?.applicants?.[pagePerItemIndex]?.applicantMedicarePart?.includes(
+          data?.applicants?.[pagePerItemIndex]?.[keyname]?.includes(
             label.value,
           ),
         ),
       );
-      setStringArr(data?.applicants?.[pagePerItemIndex]?.applicantMedicarePart);
+      setStringArr(data?.applicants?.[pagePerItemIndex]?.[keyname]);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data],
@@ -145,7 +130,7 @@ export default function ApplicantMedicareStatusContinuedPage({
       event.preventDefault();
       if (!handlers.validate()) return;
       const testVal = { ...data };
-      testVal.applicants[pagePerItemIndex].applicantMedicarePart = stringArr;
+      testVal.applicants[pagePerItemIndex][keyname] = stringArr;
       setFormData(testVal); // Commit changes to the actual formdata
       if (onReviewPage) updatePage();
       goForward(data);
@@ -196,11 +181,7 @@ export default function ApplicantMedicareStatusContinuedPage({
 }
 
 ApplicantMedicareStatusContinuedReviewPage.propTypes = {
-  data: PropTypes.object,
-  editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
   props: PropTypes.object,
-  title: PropTypes.func,
 };
 
 ApplicantMedicareStatusContinuedPage.propTypes = {
