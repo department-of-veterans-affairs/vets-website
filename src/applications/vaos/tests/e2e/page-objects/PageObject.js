@@ -12,6 +12,18 @@ export default class PageObject {
     return this;
   }
 
+  assertButton({ label, exist = true, isEnabled = true } = {}) {
+    if (exist) {
+      cy.contains('button', label)
+        .as('button')
+        .should(isEnabled ? 'be.enabled' : 'be.disabled');
+    } else {
+      cy.contains('button', label).should('not.exist');
+    }
+
+    return this;
+  }
+
   assertCallCount({ alias, count }) {
     cy.get(`${alias}.all`).then(calls => {
       cy.wrap(calls.length).should('equal', count);
@@ -56,6 +68,15 @@ export default class PageObject {
     return this;
   }
 
+  assertShadow({ element, text, exist = true } = {}) {
+    cy.get(element)
+      .shadow()
+      .findByText(text)
+      .should(exist ? 'exist' : 'not.existF');
+
+    return this;
+  }
+
   assertText({ text, exist = true } = {}) {
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
     return this;
@@ -70,6 +91,10 @@ export default class PageObject {
   }
 
   clickBackButton(label = 'Back') {
+    return this.clickButton({ label });
+  }
+
+  clickButton({ label }) {
     cy.contains('button', label)
       .as('button')
       .should('not.be.disabled');
@@ -80,13 +105,7 @@ export default class PageObject {
   }
 
   clickNextButton(label = 'Continue') {
-    cy.contains('button', label)
-      .as('button')
-      .should('not.be.disabled');
-    cy.get('@button').focus();
-    cy.get('@button').click({ waitForAnimations: true });
-
-    return this;
+    return this.clickButton({ label });
   }
 
   selectRadioButton(label) {
