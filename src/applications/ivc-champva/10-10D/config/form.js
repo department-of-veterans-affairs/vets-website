@@ -42,6 +42,7 @@ import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
 } from '../components/ThirdPartyInfo';
+import { sponsorCasualtyReportConfig } from '../components/Sponsor/sponsorFileUploads';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -289,8 +290,8 @@ const formConfig = {
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor pass away on active military service?',
               labels: {
-                Y: 'Yes, sponsor passed away during active military service',
-                N:
+                yes: 'Yes, sponsor passed away during active military service',
+                no:
                   'No, sponsor did not pass away during active military service',
               },
             }),
@@ -302,6 +303,39 @@ const formConfig = {
               sponsorInfoTitle: titleSchema,
               sponsorDOD: dateOfDeathSchema,
               sponsorDeathConditions: yesNoSchema,
+            },
+          },
+        },
+        page9a: {
+          path: 'sponsor-information/status-documents',
+          title: 'Sponsor casualty report',
+          depends: formData =>
+            get('sponsorIsDeceased', formData) &&
+            get('sponsorDeathConditions', formData),
+          uiSchema: {
+            ...titleUI(
+              'Required supporting file upload',
+              ({ formData }) =>
+                `Upload a file showing the casualty report for ${
+                  formData.veteransFullName.first
+                } ${formData.veteransFullName.last}`,
+            ),
+            ...sponsorCasualtyReportConfig.uiSchema,
+            sponsorCasualtyReport: {
+              ...fileUploadUI("Upload Sponsor's casualty report", {
+                fileTypes,
+                fileUploadUrl: `${
+                  environment.API_URL
+                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              ...sponsorCasualtyReportConfig.schema,
+              sponsorCasualtyReport: attachmentsSchema,
             },
           },
         },
