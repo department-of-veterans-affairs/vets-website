@@ -279,5 +279,6 @@
   "in-person": "in person",
   "details-for": "Details for",
   "the-staff-can-call-you-back": "The staff can call you back once you complete check-in.",
-  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time."
+  "tell-a-staff-member-if-you-wait": "Tell a staff member if you wait more than 15 minutes or if you haven’t been called back by your scheduled appointment time.",
+  "fpo-header": "Placeholder header"
 }
