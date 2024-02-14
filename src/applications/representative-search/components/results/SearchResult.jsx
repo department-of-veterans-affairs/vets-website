@@ -73,12 +73,17 @@ const SearchResult = ({
               </div>
             )}
             {officer && (
-              <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
-                <h3>{officer}</h3>
-              </div>
+              <>
+                <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
+                  <h3>{officer}</h3>
+                </div>
+                {associatedOrgs.length === 1 && (
+                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
+                )}
+              </>
             )}
           </div>
-          {associatedOrgs && (
+          {associatedOrgs?.length > 1 && (
             <div className="associated-organizations-info vads-u-margin-top--1p5">
               <va-additional-info
                 trigger="See associated organizations"
