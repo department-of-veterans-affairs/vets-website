@@ -5,11 +5,12 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getPhoneAndEmailPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Veteran’s phone and email address'),
+    ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
     veteranPhone: phoneUI('Phone number'),
     veteranEmailAddress: emailUI(),
   },

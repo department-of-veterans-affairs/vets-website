@@ -259,6 +259,16 @@ export const MAILING_ADDRESS_YES_NO_LABELS = Object.freeze({
   N: 'No, I don’t have a current mailing address.',
 });
 
+export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_VET = Object.freeze({
+  Y: 'Yes, the Veteran has a current mailing address.',
+  N: 'No, the Veteran doesn’t have a current mailing address.',
+});
+
+export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_NON_VET = Object.freeze({
+  Y: 'Yes, the Claimant has a current mailing address.',
+  N: 'No, the Claimant doesn’t have a current mailing address.',
+});
+
 export const OTHER_REASONS = Object.freeze({
   FINANCIAL_HARDSHIP: 'I’m experiencing extreme financial hardship.',
   ALS:

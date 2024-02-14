@@ -1,5 +1,3 @@
-import React from 'react';
-
 import moment from 'moment';
 
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -28,14 +26,16 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
+export function getNameAndDobPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+
+  return `${preparerString} name and date of birth`;
+}
+
 export function getIdentityInfoPageTitle(formData) {
   const preparerString = getPreparerString(formData.preparerType);
 
-  return (
-    <h3 className="vads-u-margin-y--0">
-      {preparerString} identification information
-    </h3>
-  );
+  return `${preparerString} identification information`;
 }
 
 export function getLivingSituationChapterTitle(formData) {
@@ -67,6 +67,21 @@ export function validateLivingSituation(errors, fields) {
       `If none of these situations apply to ${preparerString}, unselect the other options you selected`,
     );
   }
+}
+
+export function getContactInfoChapterTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} contact information`;
+}
+
+export function getMailindAddressPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} mailing address`;
+}
+
+export function getPhoneAndEmailPageTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} phone and email address`;
 }
 
 export function createPayload(file, formId, password) {

@@ -5,11 +5,12 @@ import {
   fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getNameAndDobPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Veteran’s name and date of birth'),
+    ...titleUI(({ formData }) => getNameAndDobPageTitle(formData)),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI({ required: true }),
   },

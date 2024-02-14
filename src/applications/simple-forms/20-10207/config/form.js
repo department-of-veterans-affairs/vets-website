@@ -10,8 +10,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import preparerTypePg from '../pages/preparerType';
 import idInfoThirdPartyVetPg from '../pages/idInfoThirdPartyVeteran';
 import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
-import nameAndDobPg from '../pages/nameAndDateofBirth';
-import idInfoPg from '../pages/idInfo';
+// import nameAndDobPg from '../pages/nameAndDateofBirth';
+// import idInfoPg from '../pages/idInfo';
 import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import livingSituationPg from '../pages/livingSituation';
@@ -21,8 +21,13 @@ import otherHousingRisksPg from '../pages/otherHousingRisks';
 import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
 import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
 import mailingAddressYesNo from '../pages/mailingAddressYesNo';
+import veteranMailingAddressYesNoPg from '../pages/veteranMailingAddressYesNo';
+import veteranMailingAddressYesNo3rdPtyVetPg from '../pages/veteranMailingAddressYesNoThirdPartyVeteran';
 import mailingAddressPg from '../pages/mailingAddress';
+import veteranMailingAddressPg from '../pages/veteranMailingAddress';
+import veteranMailingAddress3rdPtyVetPg from '../pages/veteranMailingAddressThirdPartyVeteran';
 import phoneAndEmailPg from '../pages/phoneAndEmail';
+import veteranPhoneAndEmailPg from '../pages/veteranPhoneAndEmail';
 import otherReasonsPg from '../pages/otherReasons';
 import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
 import financialHardshipPg from '../pages/evidenceFinancialHardship';
@@ -41,6 +46,7 @@ import {
   getMockData,
   getPersonalInformationChapterTitle,
   getLivingSituationChapterTitle,
+  getContactInfoChapterTitle,
 } from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
@@ -49,7 +55,7 @@ export function isLocalhost() {
 }
 
 // mock-data import for local development
-import testData from '../tests/e2e/fixtures/data/nonVeteran.json';
+import testData from '../tests/e2e/fixtures/data/thirdPartyVeteran.json';
 
 const mockData = testData.data;
 
@@ -120,19 +126,40 @@ const formConfig = {
     personalInformationChapter: {
       title: ({ formData }) => getPersonalInformationChapterTitle(formData),
       pages: {
-        nameAndDateOfBirthPage: {
-          path: 'name-and-date-of-birth',
+        // TODO: Refactor for non-veteran story
+        // nameAndDateOfBirthPage: {
+        //   path: 'name-and-date-of-birth',
+        //   title: 'Name and date of birth',
+        //   uiSchema: nameAndDobPg.uiSchema,
+        //   schema: nameAndDobPg.schema,
+        //   pageClass: 'name-and-date-of-birth',
+        // },
+        // identificationInformationPage: {
+        //   path: 'identification-information',
+        //   title: 'Identification information',
+        //   uiSchema: idInfoPg.uiSchema,
+        //   schema: idInfoPg.schema,
+        //   pageClass: 'identification-information',
+        // },
+        veteranNameAndDateOfBirthPageA: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'veteran-name-and-date-of-birth-a',
           title: 'Name and date of birth',
-          uiSchema: nameAndDobPg.uiSchema,
-          schema: nameAndDobPg.schema,
-          pageClass: 'name-and-date-of-birth',
+          uiSchema: vetNameAndDobPg.uiSchema,
+          schema: vetNameAndDobPg.schema,
+          pageClass: 'veteran-name-and-date-of-birth',
         },
-        identificationInformationPage: {
-          path: 'identification-information',
+        veteranIdentificationInformationPageA: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'veteran-identification-information-a',
           title: 'Identification information',
-          uiSchema: idInfoPg.uiSchema,
-          schema: idInfoPg.schema,
-          pageClass: 'identification-information',
+          uiSchema: vetIdInfoPg.uiSchema,
+          schema: vetIdInfoPg.schema,
+          pageClass: 'veteran-identification-information',
         },
       },
     },
@@ -201,50 +228,118 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Your contact information',
+      title: ({ formData }) => getContactInfoChapterTitle(formData),
       pages: {
         mailingAddressYesNoPage: {
-          depends: formData => formData.livingSituation.NONE,
+          depends: formData =>
+            (formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+              formData.preparerType ===
+                PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) &&
+            formData.livingSituation.NONE,
           path: 'mailing-address-yes-no',
           title: 'Mailing address yes/no',
           uiSchema: mailingAddressYesNo.uiSchema,
           schema: mailingAddressYesNo.schema,
-          pageClass: 'contact-information',
+          pageClass: 'mailing-address-yes-no',
         },
+        veteranMailingAddressYesNoPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN &&
+            formData.livingSituation.NONE,
+          path: 'veteran-mailing-address-yes-no',
+          title: 'Mailing address yes/no',
+          uiSchema: veteranMailingAddressYesNoPg.uiSchema,
+          schema: veteranMailingAddressYesNoPg.schema,
+          pageClass: 'veteran-mailing-address-yes-no',
+        },
+        veteranMailingAddressYesNoThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
+            formData.livingSituation.NONE,
+          path: 'veteran-mailing-address-yes-no-third-party-veteran',
+          title: 'Mailing address yes/no',
+          uiSchema: veteranMailingAddressYesNo3rdPtyVetPg.uiSchema,
+          schema: veteranMailingAddressYesNo3rdPtyVetPg.schema,
+          pageClass: 'veteran-mailing-address-yes-no-third-party-veteran',
+        },
+        // TODO: Add claimant-story address yes/no page
         mailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE && formData.mailingAddressYesNo,
+            (formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+              formData.preparerType ===
+                PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) &&
+            formData.livingSituation.NONE &&
+            formData.mailingAddressYesNo,
           path: 'mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddressPg.uiSchema,
           schema: mailingAddressPg.schema,
           pageClass: 'mailing-address',
         },
+        veteranMailingAddressPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN &&
+            formData.livingSituation.NONE &&
+            formData.mailingAddressYesNo,
+          path: 'veteran-mailing-address',
+          title: 'Mailing address',
+          uiSchema: veteranMailingAddressPg.uiSchema,
+          schema: veteranMailingAddressPg.schema,
+          pageClass: 'veteran-mailing-address',
+        },
+        veteranMailingAddressThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
+            formData.livingSituation.NONE &&
+            formData.mailingAddressYesNo,
+          path: 'veteran-mailing-address-third-party-veteran',
+          title: 'Mailing address',
+          uiSchema: veteranMailingAddress3rdPtyVetPg.uiSchema,
+          schema: veteranMailingAddress3rdPtyVetPg.schema,
+          pageClass: 'veteran-mailing-address-third-party-veteran',
+        },
+        // TODO: Add claimant-story address page
         phoneAndEmailPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'phone-and-email',
           title: 'Phone and email address',
           uiSchema: phoneAndEmailPg.uiSchema,
           schema: phoneAndEmailPg.schema,
           pageClass: 'phone-and-email',
         },
+        veteranPhoneAndEmailPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+          path: 'veteran-phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: veteranPhoneAndEmailPg.uiSchema,
+          schema: veteranPhoneAndEmailPg.schema,
+          pageClass: 'veteran-phone-and-email',
+        },
+        // TODO: Add claimant-story phone and email page
       },
     },
     veteranPersonalInformationChapter: {
       title: 'Veteran’s personal information',
       pages: {
-        veteranNameAndDateOfBirthPage: {
+        veteranNameAndDateOfBirthPageB: {
           depends: formData =>
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
-          path: 'veteran-name-and-date-of-birth',
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'veteran-name-and-date-of-birth-b',
           title: 'Veteran’s name and date of birth',
           uiSchema: vetNameAndDobPg.uiSchema,
           schema: vetNameAndDobPg.schema,
           pageClass: 'veteran-name-and-date-of-birth',
         },
-        veteranIdentificationInformationPage: {
+        veteranIdentificationInformationPageB: {
           depends: formData =>
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
-          path: 'veteran-identification-information',
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'veteran-identification-information-b',
           title: 'Veteran’s identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,

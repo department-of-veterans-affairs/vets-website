@@ -3,29 +3,29 @@
     "preparerType": "third-party-veteran",
     "thirdPartyFullName": {
       "first": "Joe",
-      "last": "Representative"
+      "last": "Third-party-veteran"
     },
     "thirdPartyType": "representative",
-    "fullName": {
+    "veteranFullName": {
       "first": "John",
       "last": "Veteran"
     },
-    "dateOfBirth": "1980-01-01",
-    "id": {
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
       "ssn": "321540989"
     },
     "livingSituation": {
       "NONE": true
     },
     "mailingAddressYesNo": true,
-    "mailingAddress": {
+    "veteranMailingAddress": {
       "country": "USA",
       "street": "125 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
-    "phone": "1234567892",
+    "veteranPhone": "1234567892",
     "otherReasons": {
       "FINANCIAL_HARDSHIP": true,
       "ALS": true,

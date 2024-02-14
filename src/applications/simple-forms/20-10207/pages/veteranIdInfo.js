@@ -3,11 +3,12 @@ import {
   ssnOrVaFileNumberUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { getIdentityInfoPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Veteran’s identification information'),
+    ...titleUI(({ formData }) => getIdentityInfoPageTitle(formData)),
     veteranId: ssnOrVaFileNumberUI(),
     veteranInsuranceFileNumber: {
       'ui:title': 'VA insurance file number',
