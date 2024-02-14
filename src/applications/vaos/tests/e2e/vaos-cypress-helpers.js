@@ -213,7 +213,8 @@ export function mockAppointmentsGetApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
           return;
         }
@@ -255,7 +256,8 @@ export function mockFacilityApi({
       req => {
         if (responseCode !== 200) {
           req.reply({
-            forceNetworkError: true,
+            body: '404 Not Found',
+            statusCode: 404,
           });
 
           return;
@@ -306,7 +308,9 @@ export function mockFacilitiesApi({
         }
 
         if (data) {
-          req.reply({ data });
+          req.reply({
+            data,
+          });
         }
       },
     ).as('v2:get:facilities');
@@ -557,7 +561,7 @@ export function mockClinicsApi({
     cy.intercept(
       {
         method: 'GET',
-        path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+        pathname: `/vaos/v2/locations/${locationId}/clinics`,
       },
       req => {
         if (responseCode !== 200) {

@@ -61,10 +61,12 @@ export default class MockAppointmentResponse {
     this.attributes = {
       id,
       cancellable,
+      clinic: '1',
       extension: {
         patientHasMobileGfe,
       },
       kind,
+      locationId: '983',
       localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
@@ -231,6 +233,35 @@ export default class MockAppointmentResponse {
   setId(value) {
     this.id = value.toString();
     return this;
+  }
+
+  setLocation(location) {
+    this.attributes.location = location;
+  }
+
+  setTypeOfCare(value) {
+    this.attributes.serviceType = value;
+  }
+
+  setCCProvider() {
+    this.attributes.extension = {
+      ccLocation: {
+        address: {
+          line: ['Address line 1'],
+          city: 'City',
+          state: 'State',
+          postalCode: '12345',
+          text: '10640 MAIN ST ; STE 100\nFAIRFAX VA 22030',
+        },
+        telecom: [
+          {
+            system: 'phone',
+            value: '123-456-7890',
+          },
+        ],
+      },
+      ccTreatingSpecialty: 'Treating specialty',
+    };
   }
 
   setLocationId(value) {

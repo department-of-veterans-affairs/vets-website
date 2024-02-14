@@ -275,6 +275,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
+    mockFacilityFetchByVersion({
+      facility: new MockFacilityResponse({ id: '983' }),
+    });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
