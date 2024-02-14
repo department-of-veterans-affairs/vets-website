@@ -46,7 +46,6 @@ export const bankInfoHelpText = (
   <va-additional-info
     trigger="What if I don’t have a bank account?"
     onClick={gaBankInfoHelpText}
-    uswds
   >
     <p>
       The Veterans{' '}

@@ -117,10 +117,7 @@ const USA = {
 
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
-    <va-additional-info
-      trigger="Learn more about military base addresses"
-      uswds
-    >
+    <va-additional-info trigger="Learn more about military base addresses">
       <span>
         The United States is automatically chosen as your country if you live on
         a military base outside of the country.
