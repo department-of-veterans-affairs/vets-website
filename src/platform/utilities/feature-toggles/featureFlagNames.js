@@ -225,7 +225,6 @@ export default Object.freeze({
   showNewScheduleViewAppointmentsPage:
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
-  showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
   stemAutomatedDecision: 'stem_automated_decision',
