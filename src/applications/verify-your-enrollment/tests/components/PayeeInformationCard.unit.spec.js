@@ -30,6 +30,28 @@ describe('PayeeInformationCard', () => {
     expect(wrapper.find('div > div > p').text()).to.equal('applicantChapter');
     wrapper.unmount();
   });
+  it('should render va-loading-indicator when is loading for applicantName', () => {
+    const wrapper = shallow(
+      <PayeeInformationCard
+        showAdditionalInformation
+        applicantName="applicantName"
+        loading
+      />,
+    );
+    expect(wrapper.find('va-loading-indicator')).to.exist;
+    wrapper.unmount();
+  });
+  it('should render va-loading-indicator when is loading for applicantChapter', () => {
+    const wrapper = shallow(
+      <PayeeInformationCard
+        showAdditionalInformation={false}
+        applicantChapter="applicantChapter"
+        loading
+      />,
+    );
+    expect(wrapper.find('va-loading-indicator')).to.exist;
+    wrapper.unmount();
+  });
   it('should render applicantClaimNumber when applicantClaimNumber is not null', () => {
     const wrapper = shallow(
       <PayeeInformationCard applicantClaimNumber="applicantClaimNumber" />,
