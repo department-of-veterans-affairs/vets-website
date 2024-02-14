@@ -72,7 +72,7 @@ export default function ConfirmationPage() {
       <p>
         If we haven’t contacted you within a week after you submitted your
         application, don’t apply again. Instead, call our toll-free hotline at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
+        <va-telephone contact={CONTACTS.VA_BENEFITS} uswds={true} />. We’re here Monday
         through Friday, 8:00 am to 8:00 pm ET.
       </p>
       <h2 className="vads-u-font-size--h3">
@@ -127,7 +127,7 @@ export default function ConfirmationPage() {
       </a>
       <h3 className="vads-u-margin-top--1p5">What if I have more questions?</h3>
       <p>
-        Please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re
+        Please call us at <va-telephone contact={CONTACTS.VA_BENEFITS} uswds={true}/>. We’re
         here Monday through Friday, 8:00 am to 8:00 p.m. ET.
       </p>
     </div>
