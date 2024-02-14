@@ -47,7 +47,7 @@ const PayeeInformationCard = ({
       )}
       {!showAdditionalInformation && (
         <div>
-          {!applicantChapter ? (
+          {loading ? (
             <va-loading-indicator
               label="Loading"
               message="Loading applicant chapter..."
