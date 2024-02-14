@@ -449,7 +449,7 @@ class MedicationsListPage {
         });
       });
   };
-    
+
   verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
     cy.get('[data-testid="rx-number"]')
       .first()
