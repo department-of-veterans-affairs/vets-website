@@ -93,10 +93,8 @@ const testConfig = createTestConfig(
             .find('input')
             .type('2');
           cy.get('va-button[data-testid="custom-button-group-button"]')
-            .first()
             .shadow()
-            .find('button')
-            .contains('Continue')
+            .find('button:contains("Continue")')
             .click();
         });
       },
@@ -111,10 +109,8 @@ const testConfig = createTestConfig(
             .find('input')
             .type('17');
           cy.get('va-button[data-testid="custom-button-group-button"]')
-            .first()
             .shadow()
-            .find('button')
-            .contains('Continue')
+            .find('button:contains("Continue")')
             .click();
         });
       },
