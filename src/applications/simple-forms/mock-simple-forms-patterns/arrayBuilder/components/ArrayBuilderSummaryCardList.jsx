@@ -95,10 +95,13 @@ const ArrayBuilderSummaryCardList = ({
     <div>
       <Heading>{title}</Heading>
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column">
-        {arrayData?.length &&
-          arrayData.map((item, index) => (
-            <Card key={index} item={item} index={index} />
-          ))}
+        {arrayData?.length && (
+          <div className="vads-u-margin-top--4">
+            {arrayData.map((item, index) => (
+              <Card key={index} item={item} index={index} />
+            ))}
+          </div>
+        )}
       </div>
       <VaModal
         clickToClose
