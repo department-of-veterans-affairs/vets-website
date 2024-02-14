@@ -1,14 +1,8 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
-
-import { pick } from 'lodash';
-
 import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
 } from '../../utils/helpers';
-
-const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
@@ -34,8 +28,45 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['race'],
-          properties: pick(veteran.properties, ['race']),
+          required: ['ethnicity', 'race'],
+          // properties: pick(veteran.properties, ['ethnicity','race']),
+          properties: {
+            ethnicity: {
+              type: 'string',
+              enum: [
+                'isSpanishHispanicLatino',
+                'notSpanishHispanicLatino',
+                'unknown',
+                'na',
+              ],
+            },
+            race: {
+              type: 'object',
+              properties: {
+                isAmericanIndianOrAlaskanNative: {
+                  type: 'boolean',
+                },
+                isAsian: {
+                  type: 'boolean',
+                },
+                isBlackOrAfricanAmerican: {
+                  type: 'boolean',
+                },
+                isNativeHawaiianOrOtherPacificIslander: {
+                  type: 'boolean',
+                },
+                isWhite: {
+                  type: 'boolean',
+                },
+                isOther: {
+                  type: 'boolean',
+                },
+                na: {
+                  type: 'boolean',
+                },
+              },
+            },
+          },
         },
       },
     },

@@ -695,14 +695,6 @@ export const veteranUI = {
     na: {
       'ui:title': 'Prefer not to answer',
     },
-    'ui:validations': [
-      // require at least one value to be true/checked
-      (errors, fields) => {
-        if (!Object.values(fields).some(val => val === true)) {
-          errors.addError('Please provide a response');
-        }
-      },
-    ],
     'ui:options': {
       showFieldLabel: true,
     },
@@ -714,17 +706,23 @@ export const veteranUI = {
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
     },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
     },
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
