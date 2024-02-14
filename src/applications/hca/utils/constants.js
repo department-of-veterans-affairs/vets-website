@@ -1,3 +1,12 @@
+// declare alert types for enrollment status helpers
+export const DASHBOARD_ALERT_TYPES = Object.freeze({
+  closed: 'closed', // Black, exclamation mark
+  decision: 'decision', // Red, exclamation mark
+  enrolled: 'enrolled', // Green, checkmark
+  inProgress: 'in-progress', // Blue, pause (TBD)
+  update: 'update', // Gold, exclamation
+});
+
 // declare view fields for use in household section
 export const DEPENDENT_VIEW_FIELDS = {
   report: 'view:reportDependents',
@@ -9,15 +18,9 @@ export const DISABILITY_PREFIX = 'disability-ratings';
 
 // declare action statuses for fetching disability rating
 export const DISABILITY_RATING_ACTIONS = {
-  FETCH_DISABILITY_RATING_STARTED: 'FETCH_DISABILITY_RATING_STARTED',
-  FETCH_DISABILITY_RATING_SUCCEEDED: 'FETCH_DISABILITY_RATING_SUCCEEDED',
-  FETCH_DISABILITY_RATING_FAILED: 'FETCH_DISABILITY_RATING_FAILED',
-};
-
-export const DISABILITY_RATING_INIT_STATE = {
-  loading: false,
-  error: null,
-  totalDisabilityRating: null,
+  FETCH_TOTAL_RATING_STARTED: 'FETCH_TOTAL_RATING_STARTED',
+  FETCH_TOTAL_RATING_SUCCEEDED: 'FETCH_TOTAL_RATING_SUCCEEDED',
+  FETCH_TOTAL_RATING_FAILED: 'FETCH_TOTAL_RATING_FAILED',
 };
 
 // declare labels for discharge type select box
@@ -43,21 +46,7 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
   RESET_ENROLLMENT_STATUS: 'RESET_ENROLLMENT_STATUS',
   SET_DISMISSED_HCA_NOTIFICATION: 'SET_DISMISSED_HCA_NOTIFICATION',
-  SHOW_REAPPLY_CONTENT: 'SHOW_REAPPLY_CONTENT',
-};
-
-// declare initial state for enrollment status reducer
-export const ENROLLMENT_STATUS_INIT_STATE = {
-  applicationDate: null,
-  enrollmentDate: null,
-  preferredFacility: null,
-  enrollmentStatus: null,
-  hasServerError: false,
-  isLoadingApplicationStatus: false,
-  isUserInMVI: false,
-  loginRequired: false,
-  noESRRecordFound: false,
-  showReapplyContent: false,
+  SHOW_HCA_REAPPLY_CONTENT: 'SHOW_HCA_REAPPLY_CONTENT',
 };
 
 // declare enrollment status strings
@@ -94,15 +83,6 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
 // declare the minimum percentage value to be considered high disability
 export const HIGH_DISABILITY_MINIMUM = 50;
 
-// declare a valid response for the enrollment status endpoint
-export const MOCK_ENROLLMENT_RESPONSE = {
-  applicationDate: '2019-04-24T00:00:00.000-06:00',
-  enrollmentDate: '2019-04-30T00:00:00.000-06:00',
-  preferredFacility: '463 - CHEY6',
-  parsedStatus: 'enrolled',
-  effectiveDate: '2019-04-25T00:00:00.000-06:00',
-};
-
 // declare labels for last service branch select box
 export const SERVICE_BRANCH_LABELS = {
   'air force': 'Air Force',
@@ -124,7 +104,9 @@ export const SERVICE_BRANCH_LABELS = {
 // declare name to use for window session storage item
 export const SESSION_ITEM_NAME = 'hcaDependentIndex';
 
-// declare routes that are shared between custom form pages
+/**
+ * declare routes that are shared between custom form pages
+ */
 export const SHARED_PATHS = {
   dependents: {
     summary: 'household-information/dependents',

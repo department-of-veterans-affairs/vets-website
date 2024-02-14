@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions/enrollment-status';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
 import { selectEnrollmentStatus } from '../../../utils/selectors';
 import EnrollmentStatusWarning from './Warning';
 import EnrollmentStatusFAQ from './FAQ';

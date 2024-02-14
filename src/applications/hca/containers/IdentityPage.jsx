@@ -12,7 +12,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import {
   getEnrollmentStatus,
   resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions/enrollment-status';
+} from '../utils/actions';
 import { didEnrollmentStatusChange } from '../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import { selectEnrollmentStatus } from '../utils/selectors';
