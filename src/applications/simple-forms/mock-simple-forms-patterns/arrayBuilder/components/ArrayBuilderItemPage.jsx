@@ -53,7 +53,7 @@ export default function ArrayBuilderItemPage({
       onSubmit: props.onSubmit,
     });
 
-    if (isEdit && !props.schema) {
+    if (isEdit && !schema) {
       return null;
     }
 
@@ -65,7 +65,11 @@ export default function ArrayBuilderItemPage({
         appStateData={props.appStateData}
         schema={schema}
         uiSchema={uiSchema}
-        pagePerItemIndex={props.pagePerItemIndex}
+        pagePerItemIndex={
+          props.pagePerItemIndex
+            ? Number(props.pagePerItemIndex)
+            : props.pagePerItemIndex
+        }
         formContext={props.formContext}
         trackingPrefix={props.trackingPrefix}
         onChange={onChange}
@@ -109,7 +113,7 @@ export default function ArrayBuilderItemPage({
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
     onSubmit: PropTypes.func,
-    pagePerItemIndex: PropTypes.number,
+    pagePerItemIndex: PropTypes.string,
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,

@@ -274,12 +274,6 @@ class FormPage extends React.Component {
     if (isReactComponent(route.pageConfig.CustomPage)) {
       return (
         <div className={pageClasses}>
-          {showNavLinks && (
-            <DevModeNavLinks
-              pageList={route.pageList}
-              collapsible={route.formConfig?.dev?.collapsibleNavLinks}
-            />
-          )}
           <route.pageConfig.CustomPage
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
@@ -299,7 +293,6 @@ class FormPage extends React.Component {
             setFormData={this.props.setData}
             contentBeforeButtons={contentBeforeButtons}
             contentAfterButtons={contentAfterButtons}
-            PageContentBeforeButtons={route.pageConfig.ContentBeforeButtons}
             appStateData={appStateData}
             formContext={this.formContext}
           />
@@ -309,12 +302,7 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
-        {showNavLinks && (
-          <DevModeNavLinks
-            pageList={route.pageList}
-            collapsible={route.formConfig?.dev?.collapsibleNavLinks}
-          />
-        )}
+        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
@@ -330,7 +318,9 @@ class FormPage extends React.Component {
           onSubmit={this.onSubmit}
         >
           {pageContentBeforeButtons}
-          {!hideNavButtons && (
+          {hideNavButtons ? (
+            <div />
+          ) : (
             <>
               {contentBeforeButtons}
               <FormNavButtons
@@ -411,7 +401,6 @@ FormPage.propTypes = {
     formConfig: PropTypes.shape({
       dev: PropTypes.shape({
         showNavLinks: PropTypes.bool,
-        collapsibleNavLinks: PropTypes.bool,
       }),
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,

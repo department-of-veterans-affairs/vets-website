@@ -87,12 +87,12 @@ const mapDispatchToProps = {
 
 ArrayBuilderCancelAddingButton.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  buttonText: PropTypes.object.isRequired,
-  formData: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
+  formData: PropTypes.object.isRequired,
   goToPath: PropTypes.func.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
-  setFormData: PropTypes.string.isRequired,
+  setFormData: PropTypes.func.isRequired,
   summaryRoute: PropTypes.string.isRequired,
 };
 

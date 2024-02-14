@@ -41,7 +41,7 @@ export function useEditOrAddForm({
       if (isEdit) {
         // We run updateSchemasAndData before setting data in case
         // there are updateSchema, replaceSchema, updateUiSchema
-        // 'or other dynamic properties
+        // or other dynamic properties
         const {
           data: initialData,
           schema: initialSchema,
@@ -65,7 +65,7 @@ export function useEditOrAddForm({
       if (isEdit) {
         // We run updateSchemasAndData before setting data in case
         // there are updateSchema, replaceSchema, updateUiSchema,
-        // 'or other dynamic properties
+        // or other dynamic properties
         const {
           data: newData,
           schema: newSchema,

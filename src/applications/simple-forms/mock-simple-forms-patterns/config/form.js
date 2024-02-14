@@ -28,7 +28,6 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
-import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import {
   onNavBackKeepUrlParams,
   onNavForwardKeepUrlParams,
@@ -61,7 +60,6 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
-    collapsibleNavLinks: false,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -241,14 +239,6 @@ const formConfig = {
           path: 'dynamic-fields',
           uiSchema: dynamicFields.uiSchema,
           schema: dynamicFields.schema,
-          depends: includeChapter('miscellaneous'),
-        },
-        mockCustomPage: {
-          path: 'mock-custom-page',
-          title: 'Mock Custom Page', // for review page (has to be more than one word)
-          CustomPage: MockCustomPage,
-          uiSchema: mockCustomPage.uiSchema,
-          schema: mockCustomPage.schema,
           depends: includeChapter('miscellaneous'),
         },
       },
