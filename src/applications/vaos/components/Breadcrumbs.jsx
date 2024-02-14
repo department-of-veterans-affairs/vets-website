@@ -1,102 +1,120 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, useLocation } from 'react-router-dom';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { useLocation } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
-import { GA_PREFIX } from '../utils/constants';
+import manifest from '../manifest.json';
+import { BREADCRUMB_LISTS } from '../utils/constants';
+import {
+  getFormPageInfo,
+  getTypeOfCare,
+  getFacilityPageV2Info,
+} from '../new-appointment/redux/selectors';
+import { lowerCase } from '../utils/formatters';
 
 export default function VAOSBreadcrumbs({ children }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
   const location = useLocation();
-  const isPast = location.pathname.includes('/past');
-  const isPending =
-    location.pathname.includes('/pending') ||
-    location.pathname.includes('/requests');
-  const breadcrumbsRef = useRef(null);
+  // get boolean if single va location
+  const { singleValidVALocation } = useSelector(state =>
+    getFacilityPageV2Info(state),
+  );
+  // get form data that contains selected type of care
+  const { data } = useSelector(state => getFormPageInfo(state));
+  const typeOfCare = getTypeOfCare(data);
+  const [breadcrumb, setBreadcrumb] = useState([]);
 
   useEffect(
     () => {
-      const updateBreadcrumbs = () => {
-        const anchorNodes = Array.from(
-          breadcrumbsRef.current.querySelectorAll('a'),
-        );
-
-        anchorNodes.forEach((crumb, index) => {
-          crumb.removeAttribute('aria-current');
-
-          if (index === anchorNodes.length - 1) {
-            crumb.setAttribute('aria-current', 'page');
-          }
-        });
-      };
-      updateBreadcrumbs();
+      const labelCrumb = BREADCRUMB_LISTS.filter(
+        crumb => crumb.url === location.pathname,
+      ).map(crumb => crumb.label);
+      setBreadcrumb(labelCrumb);
     },
-    [location, breadcrumbsRef],
+    [location],
   );
 
-  const handleClick = gaEvent => {
-    return () => {
-      recordEvent({
-        event: `${GA_PREFIX}-breadcrumb-${gaEvent}-clicked`,
-      });
-    };
+  const getBreadcrumbList = () => {
+    const isPast = location.pathname.includes('/past');
+    const isPending = location.pathname.includes('/pending');
+    const isPreferredProvider = location.pathname.includes(
+      '/preferred-provider',
+    );
+
+    const BREADCRUMB_BASE = [
+      {
+        href: '/',
+        label: 'Home',
+      },
+      {
+        href: '/my-health',
+        label: 'My HealtheVet',
+      },
+      {
+        href: manifest.rootUrl,
+        label: 'Appointments',
+      },
+    ];
+    if (window.location.pathname === `${manifest.rootUrl}/`) {
+      return BREADCRUMB_BASE;
+    }
+
+    if (isPast) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: 'Past appointments',
+        },
+      ];
+    }
+    if (isPending) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: 'Pending appointments',
+        },
+      ];
+    }
+    if (isPreferredProvider) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: `Request a ${lowerCase(typeOfCare.name)} provider`,
+        },
+      ];
+    }
+    if (singleValidVALocation) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: 'Your appointment location',
+        },
+      ];
+    }
+    return [
+      ...BREADCRUMB_BASE,
+      {
+        href: window.location.href,
+        label: breadcrumb,
+      },
+    ];
   };
 
-  // The va-breadcrumbs component only allows for either Link components or anchor links,
-  // it will not work with the va-link component currently
   return (
-    <va-breadcrumbs
-      role="navigation"
-      aria-label="Breadcrumbs"
-      ref={breadcrumbsRef}
-      class="vaos-hide-for-print"
-    >
-      <a href="/" key="home" onClick={handleClick('home')}>
-        {featureBreadcrumbUrlUpdate ? 'VA.gov home' : 'Home'}
-      </a>
-      <a
-        href={featureBreadcrumbUrlUpdate ? '/my-health' : '/health-care'}
-        key={featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care'}
-        onClick={handleClick(
-          featureBreadcrumbUrlUpdate ? '/my-health' : 'health-care',
-        )}
+    <>
+      <VaBreadcrumbs
+        role="navigation"
+        aria-label="Breadcrumbs"
+        class="vaos-hide-for-print"
+        breadcrumbList={getBreadcrumbList()}
+        uswds
       >
-        {featureBreadcrumbUrlUpdate ? 'My HealtheVet' : 'Health care'}
-      </a>
-      {!featureBreadcrumbUrlUpdate && (
-        <a
-          href="/health-care/schedule-view-va-appointments"
-          key="schedule-view-va-appointments"
-          onClick={handleClick('schedule-managed')}
-        >
-          Schedule and manage health appointments
-        </a>
-      )}
-      <NavLink to="/" id="vaos-home">
-        Appointments
-      </NavLink>
-
-      {isPast && (
-        <li className="va-breadcrumbs-li">
-          <NavLink to="/past" id="past">
-            {featureBreadcrumbUrlUpdate ? 'Past appointments' : 'Past'}
-          </NavLink>
-        </li>
-      )}
-
-      {isPending && (
-        <li className="va-breadcrumbs-li">
-          <NavLink to="/pending" id="pending">
-            {featureBreadcrumbUrlUpdate ? 'Pending appointments' : 'Pending'}
-          </NavLink>
-        </li>
-      )}
-
-      {children}
-    </va-breadcrumbs>
+        {children}
+      </VaBreadcrumbs>
+    </>
   );
 }
 

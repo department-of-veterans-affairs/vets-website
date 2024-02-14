@@ -470,3 +470,143 @@ export const SERVICE_CATEGORY = [
     displayName: 'Claim exam',
   },
 ];
+export const BREADCRUMB_LISTS = [
+  {
+    url: '/schedule/type-of-care',
+    label: 'Choose the type of care you need',
+  },
+  {
+    url: '/schedule/facility-type',
+    label: 'Choose where you want to receive your care',
+  },
+  {
+    url: '/schedule/audiology-care',
+    label: 'Choose the type of audiology care you need',
+  },
+  {
+    url: '/schedule/sleep-care',
+    label: 'Choose the type of sleep care you need',
+  },
+  {
+    url: '/schedule/eye-care',
+    label: 'Choose the type of eye care you need',
+  },
+  {
+    url: '/schedule/location',
+    label: 'Choose a VA location',
+  },
+  {
+    url: '/schedule/clinic',
+    label: 'Choose a VA clinic',
+  },
+  {
+    url: '/schedule/preferred-date',
+    label: 'When do you want to schedule this appointment?',
+  },
+  {
+    url: '/schedule/date-time',
+    label: 'Choose a date and time',
+  },
+  {
+    url: '/schedule/reason',
+    label: 'Choose a reason for this appointment',
+  },
+  {
+    url: '/schedule/contact-information',
+    label: 'Confirm your contact information',
+  },
+  {
+    url: '/schedule/review',
+    label: 'Review your appointment details',
+  },
+  {
+    url: '/schedule/va-request/',
+    label: 'Choose an appointment day and time',
+  },
+  {
+    url: '/schedule/va-request/reason',
+    label: 'Choose a reason for this appointment',
+  },
+  {
+    url: '/schedule/va-request/preferred-method',
+    label: 'Choose a type of appointment',
+  },
+  {
+    url: '/schedule/va-request/contact-information',
+    label: 'Confirm your contact information',
+  },
+  {
+    url: '/schedule/va-request/review',
+    label: 'Review your appointment details',
+  },
+  {
+    url: '/schedule/community-request/',
+    label: 'Choose an appointment day and time',
+  },
+  {
+    url: '/schedule/community-request/reason',
+    label: 'Tell us the reason for this appointment',
+  },
+  {
+    url: '/schedule/community-request/contact-information',
+    label: 'Confirm your contact information',
+  },
+  {
+    url: '/schedule/community-request/preferred-provider',
+    label: 'Request a preferred provider',
+  },
+  {
+    url: '/schedule/community-request/preferred-language',
+    label: 'Choose a preferred language',
+  },
+  {
+    url: '/schedule/community-request/closest-city',
+    label: 'What’s the closest city to you?',
+  },
+  {
+    url: '/schedule/community-request/review',
+    label: 'Review your appointment details',
+  },
+  { url: 'contact-facility' },
+  {
+    url: '/schedule/covid-vaccine/',
+    label: 'COVID-19 vaccine appointment',
+  },
+  {
+    url: '/schedule/covid-vaccine/contact-facility',
+    label: 'We can’t schedule your second dose online',
+  },
+  {
+    url: '/schedule/covid-vaccine/doses-received',
+    label: 'Have you received a COVID-19 vaccine?',
+  },
+  {
+    url: '/schedule/covid-vaccine/second-dose',
+    label: 'When to plan for a second dose',
+  },
+  {
+    url: '/schedule/covid-vaccine/date-time',
+    label: 'Choose a date and time',
+  },
+  {
+    url: '/schedule/covid-vaccine/location',
+    label: 'Choose a location',
+  },
+  {
+    url: '/schedule/covid-vaccine/clinic',
+    next: 'selectDate1',
+    label: 'Choose a clinic',
+  },
+  {
+    url: '/schedule/covid-vaccine/contact-information',
+    label: 'Confirm your contact information',
+  },
+  {
+    url: '/schedule/covid-vaccine/review',
+    label: 'Review your appointment details',
+  },
+  {
+    url: '/schedule/how-to-schedule',
+    label: 'How to schedule',
+  },
+];
