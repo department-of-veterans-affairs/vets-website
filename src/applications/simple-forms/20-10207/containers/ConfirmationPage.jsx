@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+import { getSubmitterName } from '../helpers';
 
 const content = {
   headlineText: 'You’ve submitted your request for priority processing',
@@ -77,12 +78,13 @@ export const ConfirmationPage = () => {
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
+  const submitterFullName = getSubmitterName(form.data);
 
   return (
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
-      submitterName={form.data.fullName}
+      submitterName={submitterFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
@@ -94,11 +96,20 @@ export const ConfirmationPage = () => {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      preparerType: PropTypes.string.isRequired,
+      veteranFullName: {
         first: PropTypes.string.isRequired,
         middle: PropTypes.string,
         last: PropTypes.string.isRequired,
-        suffix: PropTypes.string,
+      },
+      nonVeteranFullName: {
+        first: PropTypes.string.isRequired,
+        middle: PropTypes.string,
+        last: PropTypes.string.isRequired,
+      },
+      thirdPartyFullName: {
+        first: PropTypes.string.isRequired,
+        last: PropTypes.string.isRequired,
       },
     }),
     formId: PropTypes.string,

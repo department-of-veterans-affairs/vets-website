@@ -54,6 +54,7 @@ import {
   getPersonalInformationChapterTitle,
   getLivingSituationChapterTitle,
   getContactInfoChapterTitle,
+  statementOfTruthFullNamePath,
 } from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
@@ -562,7 +563,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'fullName',
+      fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },

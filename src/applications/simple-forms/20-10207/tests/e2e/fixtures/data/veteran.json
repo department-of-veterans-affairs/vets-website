@@ -22,12 +22,7 @@
     },
     "veteranPhone": "1234567890",
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true,
-      "ALS": true,
-      "TERMINAL_ILLNESS": true,
-      "VSI_SI": true,
-      "FORMER_POW": true,
-      "MEDAL_AWARD": true
+      "OVER_85": true
     },
     "powConfinementStartDate": "2018-01-01",
     "powConfinementEndDate": "2018-02-03",

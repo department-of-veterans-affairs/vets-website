@@ -30,10 +30,7 @@
       "ssn": "321540987"
     },
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true,
-      "ALS": true,
-      "TERMINAL_ILLNESS": true,
-      "VSI_SI": true
+      "OVER_85": true
     },
     "medicalTreatments": [
       {

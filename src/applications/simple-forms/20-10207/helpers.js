@@ -179,3 +179,27 @@ export function powConfinement2DateRangeValidation(errors, fields) {
     );
   }
 }
+
+export const statementOfTruthFullNamePath = ({ formData } = {}) => {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.VETERAN:
+      return 'veteranFullName';
+    case PREPARER_TYPES.NON_VETERAN:
+      return 'nonVeteranFullName';
+    default:
+      return 'thirdPartyFullName';
+  }
+};
+
+export const getSubmitterName = formData => {
+  const { preparerType } = formData;
+  switch (preparerType) {
+    case PREPARER_TYPES.VETERAN:
+      return formData.veteranFullName;
+    case PREPARER_TYPES.NON_VETERAN:
+      return formData.nonVeteranFullName;
+    default:
+      return formData.thirdPartyFullName;
+  }
+};

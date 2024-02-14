@@ -3,7 +3,7 @@
     "preparerType": "third-party-non-veteran",
     "thirdPartyFullName": {
       "first": "Joe",
-      "last": "Power-of-Attorney"
+      "last": "Third-Party-Non-Veteran"
     },
     "thirdPartyType": "power-of-attorney",
     "nonVeteranFullName": {
@@ -35,10 +35,7 @@
       "ssn": "321540987"
     },
     "otherReasons": {
-      "FINANCIAL_HARDSHIP": true,
-      "ALS": true,
-      "TERMINAL_ILLNESS": true,
-      "VSI_SI": true
+      "OVER_85": true
     },
     "medicalTreatments": [
       {
