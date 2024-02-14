@@ -18,6 +18,7 @@ import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
+import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 
 export default function InstitutionProfile({
   institution,
@@ -162,6 +163,7 @@ export default function InstitutionProfile({
         label="Cautionary information"
         id="cautionary-information"
       >
+        <CautionaryInformationLearMore />
         <CautionaryInformation
           institution={institution}
           showModal={showModal}
