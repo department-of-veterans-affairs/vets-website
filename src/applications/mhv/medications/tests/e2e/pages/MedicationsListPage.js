@@ -448,6 +448,7 @@ class MedicationsListPage {
           prescriptionSource: 'NV',
         });
       });
+  };
     
   verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
     cy.get('[data-testid="rx-number"]')
