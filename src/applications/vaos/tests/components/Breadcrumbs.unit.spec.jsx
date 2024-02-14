@@ -4,40 +4,83 @@ import { renderWithStoreAndRouter } from '../mocks/setup';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
 describe('VAOS <Breadcrumbs>', () => {
-  it('should display the text within the breadcrumb', () => {
-    const initialState = {
-      featureToggles: { vaOnlineSchedulingBreadcrumbUrlUpdate: false },
-    }; // eslint-disable-next-line camelcase
+  it('should display Pending appointments as last crumb', () => {
+    // Given the path is on pending
+    const url = 'my-health/appointments/pending';
+    const initialState = {};
 
+    // when web component  is rendered
     const screen = renderWithStoreAndRouter(
-      <Breadcrumbs>
-        <a href="https://www.va.gov/">test</a>
-      </Breadcrumbs>,
-      { initialState },
+      <Breadcrumbs breadcrumbList={Breadcrumbs} />,
+      {
+        initialState,
+        path: url,
+      },
     );
-
-    expect(screen.getByText(/Health care/i)).to.be.ok;
-    expect(screen.getByText(/Schedule and manage health appointments/i)).to.be
-      .ok;
-    expect(screen.getByRole('link', { name: 'Appointments' })).to.be.ok;
-    expect(screen.getByText(/test/i)).to.be.ok;
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    // it will display the last crumb
+    expect(crumb).to.equal('Pending appointments');
   });
 
-  it('should display new text within the breadcrumb when breadcrumb  toggle is on', () => {
-    const initialState = {
-      featureToggles: { vaOnlineSchedulingBreadcrumbUrlUpdate: true },
-    }; // eslint-disable-next-line camelcase
+  it('should display text in the breadcrumb when path is type-of-care', () => {
+    // Given the path is on type of care
+    const url = '/schedule/type-of-care';
+    const initialState = {};
+    // when web component is rendered
+    const screen = renderWithStoreAndRouter(
+      <Breadcrumbs breadcrumbList={Breadcrumbs} />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    // it will display the last crumb
+    expect(crumb[0]).to.equal('Choose the type of care you need');
+  });
+
+  it('should display Review in the breadcrumb when path is review page', () => {
+    // Given the path is on review
+    const url = '/schedule/review';
+    const initialState = {};
+    // when web component is rendered
+    const screen = renderWithStoreAndRouter(
+      <Breadcrumbs breadcrumbList={Breadcrumbs} />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    // it will display the last crumb
+    expect(crumb[0]).to.equal('Review your appointment details');
+  });
+
+  it('should display covid in the breadcrumb when path is covid-vaccine', () => {
+    const url = '/schedule/covid-vaccine/';
+    const initialState = {};
 
     const screen = renderWithStoreAndRouter(
-      <Breadcrumbs>
-        <a href="https://www.va.gov/">test</a>
-      </Breadcrumbs>,
-      { initialState },
+      <Breadcrumbs breadcrumbList={Breadcrumbs} />,
+      {
+        initialState,
+        path: url,
+      },
     );
 
-    expect(screen.getByText(/VA.gov home/i)).to.be.ok;
-    expect(screen.getByText(/My HealtheVet/i)).to.be.ok;
-    expect(screen.getByRole('link', { name: 'Appointments' })).to.be.ok;
-    expect(screen.getByText(/test/i)).to.be.ok;
+    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    expect(navigation).to.exist;
+    const crumb =
+      navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+    expect(crumb[0]).to.equal('COVID-19 vaccine appointment');
   });
 });

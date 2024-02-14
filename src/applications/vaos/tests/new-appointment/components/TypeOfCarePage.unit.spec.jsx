@@ -20,6 +20,7 @@ import {
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import { createMockFacilityByVersion } from '../../mocks/data';
+import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -386,19 +387,12 @@ describe('VAOS <TypeOfCarePage>', () => {
       ...initialState,
       newAppointment: {
         ...initialState.newAppointment,
-        pages: {
-          vaFacilityV2: {
-            properties: {
-              vaFacility: {
-                enum: [{}, {}],
-              },
-            },
-          },
-        },
+        flowType: FLOW_TYPES.REQUEST,
+        data: { facilityType: 'communityCare' },
         isNewAppointmentStarted: true,
+        pages: {},
       },
     };
-
     const store = createTestStore(state);
     const screen = renderWithStoreAndRouter(<NewAppointment />, {
       store,

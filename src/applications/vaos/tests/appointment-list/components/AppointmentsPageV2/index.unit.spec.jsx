@@ -320,10 +320,10 @@ describe('VAOS <AppointmentsPage>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).to.be
-        .ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(navigation).to.exist;
+      const crumb =
+        navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+      expect(crumb).to.equal('Pending appointments');
 
       expect(
         screen.getByText(
@@ -395,9 +395,10 @@ describe('VAOS <AppointmentsPage>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).to.exist;
+      expect(navigation).to.exist;
+      const crumb =
+        navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
+      expect(crumb).to.equal('Past appointments');
 
       const dropdown = await screen.findByTestId('vaosSelect');
 
