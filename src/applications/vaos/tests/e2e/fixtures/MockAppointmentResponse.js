@@ -69,7 +69,6 @@ export default class MockAppointmentResponse {
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
       serviceType,
-      start: timestamp.format('YYYY-MM-DDTHH:mm:ssZ'),
       status,
       telehealth: {
         atlas,
@@ -306,6 +305,11 @@ export default class MockAppointmentResponse {
       };
     });
 
+    return this;
+  }
+
+  setStart(value) {
+    this.attributes.start = value;
     return this;
   }
 

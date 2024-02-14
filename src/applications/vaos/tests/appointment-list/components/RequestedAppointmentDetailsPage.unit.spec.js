@@ -262,7 +262,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   it('should allow cancellation', async () => {
     // Arrange
     const requestedPeriods = [moment()];
-    const appointment = new MockAppointmentResponse({
+    const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
     });
     const canceledResponse = MockAppointmentResponse.createCCResponse({
@@ -273,13 +273,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .setRequestedPeriods(requestedPeriods)
       .setStatus(APPOINTMENT_STATUS.cancelled);
 
-    mockAppointmentApi({ response: appointment });
+    mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
-      path: `/pending/${appointment.id}`,
+      path: `/pending/${response.id}`,
     });
 
     // Assert

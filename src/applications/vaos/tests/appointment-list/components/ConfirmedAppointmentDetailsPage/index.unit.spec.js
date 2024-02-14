@@ -576,7 +576,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     const response = new MockAppointmentResponse({
       localStartTime: yesterday,
     });
-    response.setLocationId('983');
+    response.setLocationId('983').setStart(yesterday);
 
     mockAppointmentApi({ response });
     mockFacilityFetchByVersion({
