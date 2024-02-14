@@ -198,6 +198,7 @@ const WebChat = ({
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
+          cardActionMiddleware={cardActionMiddleware}
           styleOptions={styleOptions}
           directLine={directLine}
           store={store}
