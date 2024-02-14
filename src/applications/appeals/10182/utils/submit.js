@@ -49,7 +49,7 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
  * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
-export const createIssueName = ({ attributes } = {}) => {
+export const createIssueName = ({ attributes = {} } = {}) => {
   const {
     ratingIssueSubjectText,
     ratingIssuePercentNumber,

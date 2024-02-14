@@ -5,7 +5,7 @@ import { SHOW_PART3_REDIRECT } from '../constants';
 
 const title = 'Request an extension';
 
-const ShowAlert = () => {
+export const ShowAlert = () => {
   // Show info alert after redirect
   const part3Redirect = useSelector(
     state => state.form?.data?.[SHOW_PART3_REDIRECT],
