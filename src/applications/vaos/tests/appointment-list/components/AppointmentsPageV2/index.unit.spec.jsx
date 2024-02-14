@@ -230,10 +230,14 @@ describe('VAOS <AppointmentsPage>', () => {
         name: 'Breadcrumbs',
       });
       expect(navigation).to.be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .exist;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).not.to.exist;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).not.to.exist;
 
       // and scheduling button should be displayed
       expect(
