@@ -14,6 +14,11 @@ class NotesListPage {
     }
   };
 
+  verifyCareSummariesAndNotesPageTitle = () => {
+    // Very Care Summary Page title Text
+    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
+  };
+
   clickNotesDetailsLink = (_NotesIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')

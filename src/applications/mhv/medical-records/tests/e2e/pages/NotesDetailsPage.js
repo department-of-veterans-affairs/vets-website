@@ -18,10 +18,6 @@ class NotesDetailsPage {
     });
   }
   */
-  verifyCareSummaryPageText = () => {
-    // Very Care Summary Page title Text
-    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
-  };
 
   clickProgressNoteLink = (ProgressNote = 0) => {
     cy.get('[data-testid="record-list-item"]')
@@ -35,6 +31,20 @@ class NotesDetailsPage {
       .find('a')
       .eq(DischargeSummary)
       .click();
+  };
+
+  verifyProgressNoteTitle = expectedTitle => {
+    cy.get('[data-testid="progress-note-name"]').should(
+      'contain',
+      expectedTitle,
+    );
+  };
+
+  verifyDischargeSummaryTitle = expectedTitle => {
+    cy.get('[data-testid="admission-discharge-name"]').should(
+      'contain',
+      expectedTitle,
+    );
   };
 
   clickBreadCrumbsLink = breadcrumb => {

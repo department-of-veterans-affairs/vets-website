@@ -8,7 +8,7 @@ import progressNote from '../fixtures/physicianProcedureNote.json';
 import noteWithFieldsMissing from '../fixtures/physicianProcedureNoteWithFieldsMissing.json';
 import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 
-describe('Progress Note details component', () => {
+describe('Adverse React/Allergy details component', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -42,7 +42,7 @@ describe('Progress Note details component', () => {
   });
 
   it('should display the summary name', () => {
-    const header = screen.getAllByText('Progress note', {
+    const header = screen.getAllByText('Adverse React/Allergy', {
       exact: true,
       selector: 'h1',
     });
@@ -76,7 +76,7 @@ describe('Progress Note details component', () => {
   });
 });
 
-describe('Progress note details component with fields missing', () => {
+describe('Adverse React/Allergy details component with fields missing', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {

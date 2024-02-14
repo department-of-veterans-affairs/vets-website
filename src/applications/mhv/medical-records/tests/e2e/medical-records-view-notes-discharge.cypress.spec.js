@@ -1,6 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
+import notes from './fixtures/notes/notes.json';
 
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,11 +13,15 @@ describe('Medical Records Care Summary Page', () => {
   });
 
   it('Discharge Summary Details  ', () => {
-    // Very Care Summary Page title Text
-    NotesDetailsPage.verifyCareSummaryPageText();
+    // Verify Care Summary Page title
+    NotesListPage.verifyCareSummariesAndNotesPageTitle();
 
     // should display Discharge Summary
     NotesDetailsPage.clickDischargeSummaryLink(1);
+
+    NotesDetailsPage.verifyDischargeSummaryTitle(
+      notes.entry[1].resource.content[0].attachment.title,
+    );
 
     // Verify Discharge Summary Note Details Location
     NotesDetailsPage.verifyDischargeSummaryLocation('DAYTON');

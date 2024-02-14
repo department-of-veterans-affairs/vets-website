@@ -1,6 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
+import notes from './fixtures/notes/notes.json';
 
 describe('Medical Records Care Summary Page ', () => {
   const site = new MedicalRecordsSite();
@@ -12,10 +13,14 @@ describe('Medical Records Care Summary Page ', () => {
   });
 
   it('Progress Note Details', () => {
-    // Very Care Summary Page title Text
-    NotesDetailsPage.verifyCareSummaryPageText();
-    // should display Progress Note
+    // Verify Care Summary Page title
+    NotesListPage.verifyCareSummariesAndNotesPageTitle();
+
     NotesDetailsPage.clickProgressNoteLink(0);
+
+    NotesDetailsPage.verifyProgressNoteTitle(
+      notes.entry[0].resource.content[0].attachment.title,
+    );
 
     // Verify Progress Note Details Location
     NotesDetailsPage.verifyProgressNoteLocation('DAYTSHR TEST LAB');
