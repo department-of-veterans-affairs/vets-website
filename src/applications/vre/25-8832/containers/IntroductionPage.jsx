@@ -114,10 +114,9 @@ const IntroductionPage = props => {
           res-burden={30}
           omb-number="2900-0265"
           exp-date="12/31/2021"
-          uswds={false}
         />
       </div>
-      <va-alert status="info" background-only uswds={false}>
+      <va-alert status="info" background-only uswds="false">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Do you have a service-connected disability or pre-discharge disability
           rating?
