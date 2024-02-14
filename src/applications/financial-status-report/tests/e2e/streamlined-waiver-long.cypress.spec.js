@@ -132,6 +132,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'other-income-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
+        });
+      },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="Clothing"]`)
@@ -148,6 +156,14 @@ const testConfig = createTestConfig(
             .find('input')
             .type('6759');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'skip-questions-explainer': ({ afterHook }) => {
