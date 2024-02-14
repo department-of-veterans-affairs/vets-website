@@ -22,7 +22,7 @@ import {
   generatePdfScaffold,
   formatName,
 } from '../../../shared/util/helpers';
-import { pageTitles } from '../../util/constants';
+import { pageTitles, EMPTY_FIELD } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
@@ -77,6 +77,7 @@ Review a summary of your stay at a hospital or other health facility (called an 
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
+Admission date: ${record.admissionDate}\n
 Discharge date: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
@@ -99,11 +100,19 @@ ${record.summary}`;
         {record.name}
       </h1>
 
-      <DateSubheading
-        date={record.admissionDate}
-        label="Admission date"
-        id="admission-discharge-date"
-      />
+      {record.admissionDate !== EMPTY_FIELD ? (
+        <div>
+          <p id="admission-discharge-date">
+            Admitted on {record.admissionDate}
+          </p>
+        </div>
+      ) : (
+        <DateSubheading
+          date={record.admissionDate}
+          label="Admission date"
+          id="admission-discharge-date"
+        />
+      )}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility

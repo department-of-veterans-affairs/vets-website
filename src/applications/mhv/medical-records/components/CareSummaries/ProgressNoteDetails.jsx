@@ -75,9 +75,10 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
+Date: ${record.date}\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}`}
+${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
 Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
@@ -102,7 +103,13 @@ ${record.note}`;
         {record.name}
       </h1>
 
-      <DateSubheading date={record.dateSigned} id="progress-note-date" />
+      {record.date !== EMPTY_FIELD ? (
+        <div>
+          <p id="progress-note-date">Entered on {record.date}</p>
+        </div>
+      ) : (
+        <DateSubheading date={record.date} id="progress-note-date" />
+      )}
 
       <div className="no-print">
         <PrintDownload
