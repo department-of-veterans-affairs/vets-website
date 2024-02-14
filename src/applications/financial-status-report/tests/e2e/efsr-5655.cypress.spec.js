@@ -163,7 +163,12 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .first()
+            .shadow()
+            .find('button')
+            .contains('Continue')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -176,7 +181,12 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .first()
+            .shadow()
+            .find('button')
+            .contains('Continue')
+            .click();
         });
       },
       'monetary-asset-checklist': ({ afterHook }) => {

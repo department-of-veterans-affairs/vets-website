@@ -9,6 +9,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
   return (
     <VaButton
+      data-testid="custom-button-group-button"
       text={label}
       onClick={onClick}
       submit={isSubmitting}
