@@ -53,6 +53,7 @@
           "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
           "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
           "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
+          "@department-of-veterans-affairs/mhv/exports": "./src/platform/mhv/exportsFile.js",
           "@department-of-veterans-affairs/platform-pdf/exports": "./src/platform/pdf/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/exports": "./src/platform/startup/exportsFile.js",
           "@department-of-veterans-affairs/platform-startup/index": "./src/platform/startup/index.js",
