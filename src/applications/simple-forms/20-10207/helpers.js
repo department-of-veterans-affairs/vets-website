@@ -27,15 +27,43 @@ export function getPersonalInformationChapterTitle(formData) {
 }
 
 export function getNameAndDobPageTitle(formData) {
-  const preparerString = getPreparerString(formData.preparerType);
+  const { preparerType } = formData;
+  const titleEnding = 'name and date of birth';
+  switch (preparerType) {
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return `Veteran’s ${titleEnding}`;
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return `Claimant’s ${titleEnding}`;
+    default:
+      return 'Your name and date of birth';
+  }
+}
 
-  return `${preparerString} name and date of birth`;
+export function getVeteranNameAndDobPageTitle(formData) {
+  const titleEnding = 'name and date of birth';
+  return formData.preparerType === PREPARER_TYPES.VETERAN
+    ? `Your ${titleEnding}`
+    : `Veteran’s ${titleEnding}`;
 }
 
 export function getIdentityInfoPageTitle(formData) {
-  const preparerString = getPreparerString(formData.preparerType);
+  const { preparerType } = formData;
+  const titleEnding = 'identification information';
+  switch (preparerType) {
+    case PREPARER_TYPES.THIRD_PARTY_VETERAN:
+      return `Veteran’s ${titleEnding}`;
+    case PREPARER_TYPES.THIRD_PARTY_NON_VETERAN:
+      return `Claimant’s ${titleEnding}`;
+    default:
+      return `Your ${titleEnding}`;
+  }
+}
 
-  return `${preparerString} identification information`;
+export function getVeteranIdentityInfoPageTitle(formData) {
+  const titleEnding = 'identification information';
+  return formData.preparerType === PREPARER_TYPES.VETERAN
+    ? `Your ${titleEnding}`
+    : `Veteran’s ${titleEnding}`;
 }
 
 export function getLivingSituationChapterTitle(formData) {

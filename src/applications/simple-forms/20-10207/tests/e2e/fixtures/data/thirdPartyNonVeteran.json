@@ -18,14 +18,14 @@
       "NONE": true
     },
     "mailingAddressYesNo": true,
-    "mailingAddress": {
+    "nonVeteranMailingAddress": {
       "country": "USA",
       "street": "126 Any St",
       "city": "Anytown",
       "state": "CA",
       "postalCode": "12345"
     },
-    "phone": "1234567893",
+    "nonVeteranPhone": "1234567893",
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"

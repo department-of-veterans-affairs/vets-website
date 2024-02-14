@@ -23,15 +23,20 @@ import otherHousingRisksPg from '../pages/otherHousingRisks';
 import otherHousingRisksThirdPartyVeteran from '../pages/otherHousingRisksThirdPartyVeteran';
 import otherHousingRisksThirdPartyNonVeteran from '../pages/otherHousingRisksThirdPartyNonVeteran';
 import mailingAddressYesNo from '../pages/mailingAddressYesNo';
-import veteranMailingAddressYesNoPg from '../pages/veteranMailingAddressYesNo';
-import veteranMailingAddressYesNo3rdPtyVetPg from '../pages/veteranMailingAddressYesNoThirdPartyVeteran';
-import mailingAddressPg from '../pages/mailingAddress';
+import mailingAddressYesNo3rdPtyVetPg from '../pages/mailingAddressYesNoThirdPartyVeteran';
+import mailingAddressYesNo3rdPtyNonVetPg from '../pages/mailingAddressYesNoThirdPartyNonVeteran';
 import veteranMailingAddressPg from '../pages/veteranMailingAddress';
+import nonVeteranMailingAddressPg from '../pages/nonVeteranMailingAddress';
 import veteranMailingAddress3rdPtyVetPg from '../pages/veteranMailingAddressThirdPartyVeteran';
-import phoneAndEmailPg from '../pages/phoneAndEmail';
+import nonVeteranMailingAddress3rdPtyNonVetPg from '../pages/nonVeteranMailingAddressThirdPartyNonVeteran';
 import veteranPhoneAndEmailPg from '../pages/veteranPhoneAndEmail';
+import nonVeteranPhoneAndEmailPg from '../pages/nonVeteranPhoneAndEmail';
 import otherReasonsPg from '../pages/otherReasons';
+import otherReasons3rdPtyVetPg from '../pages/otherReasonsThirdPartyVeteran';
+import otherReasons3rdPtyNonVetPg from '../pages/otherReasonsThirdPartyNonVeteran';
 import otherReasonsHomelessPg from '../pages/otherReasonsHomeless';
+import otherReasonsHomeless3rdPtyVetPg from '../pages/otherReasonsHomelessThirdPartyVeteran';
+import otherReasonsHomeless3rdPtyNonVetPg from '../pages/otherReasonsHomelessThirdPartyNonVeteran';
 import financialHardshipPg from '../pages/evidenceFinancialHardship';
 import terminalIllnessPg from '../pages/evidenceTerminalIllness';
 import alsPg from '../pages/evidenceALS';
@@ -254,9 +259,8 @@ const formConfig = {
       pages: {
         mailingAddressYesNoPage: {
           depends: formData =>
-            (formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-              formData.preparerType ===
-                PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) &&
+            (formData.preparerType === PREPARER_TYPES.VETERAN ||
+              formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
             formData.livingSituation.NONE,
           path: 'mailing-address-yes-no',
           title: 'Mailing address yes/no',
@@ -264,39 +268,25 @@ const formConfig = {
           schema: mailingAddressYesNo.schema,
           pageClass: 'mailing-address-yes-no',
         },
-        veteranMailingAddressYesNoPage: {
-          depends: formData =>
-            formData.preparerType === PREPARER_TYPES.VETERAN &&
-            formData.livingSituation.NONE,
-          path: 'veteran-mailing-address-yes-no',
-          title: 'Mailing address yes/no',
-          uiSchema: veteranMailingAddressYesNoPg.uiSchema,
-          schema: veteranMailingAddressYesNoPg.schema,
-          pageClass: 'veteran-mailing-address-yes-no',
-        },
-        veteranMailingAddressYesNoThirdPartyVeteranPage: {
+        mailingAddressYesNoThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
             formData.livingSituation.NONE,
-          path: 'veteran-mailing-address-yes-no-third-party-veteran',
+          path: 'mailing-address-yes-no-third-party-veteran',
           title: 'Mailing address yes/no',
-          uiSchema: veteranMailingAddressYesNo3rdPtyVetPg.uiSchema,
-          schema: veteranMailingAddressYesNo3rdPtyVetPg.schema,
-          pageClass: 'veteran-mailing-address-yes-no-third-party-veteran',
+          uiSchema: mailingAddressYesNo3rdPtyVetPg.uiSchema,
+          schema: mailingAddressYesNo3rdPtyVetPg.schema,
+          pageClass: 'mailing-address-yes-no-third-party-veteran',
         },
-        // TODO: Add claimant-story address yes/no page
-        mailingAddressPage: {
+        mailingAddressYesNoThirdPartyNonVeteranPage: {
           depends: formData =>
-            (formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-              formData.preparerType ===
-                PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) &&
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo,
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddressPg.uiSchema,
-          schema: mailingAddressPg.schema,
-          pageClass: 'mailing-address',
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
+            formData.livingSituation.NONE,
+          path: 'mailing-address-yes-no-third-party-non-veteran',
+          title: 'Mailing address yes/no',
+          uiSchema: mailingAddressYesNo3rdPtyNonVetPg.uiSchema,
+          schema: mailingAddressYesNo3rdPtyNonVetPg.schema,
+          pageClass: 'mailing-address-yes-no-third-party-non-veteran',
         },
         veteranMailingAddressPage: {
           depends: formData =>
@@ -309,6 +299,17 @@ const formConfig = {
           schema: veteranMailingAddressPg.schema,
           pageClass: 'veteran-mailing-address',
         },
+        nonVeteranMailingAddressPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN &&
+            formData.livingSituation.NONE &&
+            formData.mailingAddressYesNo,
+          path: 'non-veteran-mailing-address',
+          title: 'Mailing address',
+          uiSchema: nonVeteranMailingAddressPg.uiSchema,
+          schema: nonVeteranMailingAddressPg.schema,
+          pageClass: 'non-veteran-mailing-address',
+        },
         veteranMailingAddressThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
@@ -320,16 +321,16 @@ const formConfig = {
           schema: veteranMailingAddress3rdPtyVetPg.schema,
           pageClass: 'veteran-mailing-address-third-party-veteran',
         },
-        // TODO: Add claimant-story address page
-        phoneAndEmailPage: {
+        nonVeteranMailingAddressThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
-            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-          path: 'phone-and-email',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailPg.uiSchema,
-          schema: phoneAndEmailPg.schema,
-          pageClass: 'phone-and-email',
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
+            formData.livingSituation.NONE &&
+            formData.mailingAddressYesNo,
+          path: 'non-veteran-mailing-address-third-party-non-veteran',
+          title: 'Mailing address',
+          uiSchema: nonVeteranMailingAddress3rdPtyNonVetPg.uiSchema,
+          schema: nonVeteranMailingAddress3rdPtyNonVetPg.schema,
+          pageClass: 'non-veteran-mailing-address-third-party-non-veteran',
         },
         veteranPhoneAndEmailPage: {
           depends: formData =>
@@ -341,7 +342,16 @@ const formConfig = {
           schema: veteranPhoneAndEmailPg.schema,
           pageClass: 'veteran-phone-and-email',
         },
-        // TODO: Add claimant-story phone and email page
+        nonVeteranPhoneAndEmailPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.NON_VETERAN ||
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+          path: 'non-veteran-phone-and-email',
+          title: 'Phone and email address',
+          uiSchema: nonVeteranPhoneAndEmailPg.uiSchema,
+          schema: nonVeteranPhoneAndEmailPg.schema,
+          pageClass: 'non-veteran-phone-and-email',
+        },
       },
     },
     veteranPersonalInformationChapter: {
@@ -373,20 +383,66 @@ const formConfig = {
       title: 'Other reasons for request',
       pages: {
         otherReasonsPage: {
-          depends: formData => formData.livingSituation.NONE,
+          depends: formData =>
+            (formData.preparerType === PREPARER_TYPES.VETERAN ||
+              formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
+            formData.livingSituation.NONE,
           path: 'other-reasons',
           title: 'Other reasons for request',
           uiSchema: otherReasonsPg.uiSchema,
           schema: otherReasonsPg.schema,
           pageClass: 'other-reasons',
         },
+        otherReasonsThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
+            formData.livingSituation.NONE,
+          path: 'other-reasons-third-party-veteran',
+          title: 'Other reasons for request',
+          uiSchema: otherReasons3rdPtyVetPg.uiSchema,
+          schema: otherReasons3rdPtyVetPg.schema,
+          pageClass: 'other-reasons-third-party-veteran',
+        },
+        otherReasonsThirdPartyNonVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
+            formData.livingSituation.NONE,
+          path: 'other-reasons-third-party-non-veteran',
+          title: 'Other reasons for request',
+          uiSchema: otherReasons3rdPtyNonVetPg.uiSchema,
+          schema: otherReasons3rdPtyNonVetPg.schema,
+          pageClass: 'other-reasons-third-party-non-veteran',
+        },
         otherReasonsHomelessPage: {
-          depends: formData => !formData.livingSituation.NONE,
+          depends: formData =>
+            (formData.preparerType === PREPARER_TYPES.VETERAN ||
+              formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
+            !formData.livingSituation.NONE,
           path: 'other-reasons-homeless',
           title: 'Other reasons for request',
           uiSchema: otherReasonsHomelessPg.uiSchema,
           schema: otherReasonsHomelessPg.schema,
           pageClass: 'other-reasons-homeless',
+        },
+        otherReasonsHomelessThirdPartyVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
+            !formData.livingSituation.NONE,
+          path: 'other-reasons-homeless-third-party-veteran',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsHomeless3rdPtyVetPg.uiSchema,
+          schema: otherReasonsHomeless3rdPtyVetPg.schema,
+          pageClass: 'other-reasons-homeless-third-party-veteran',
+        },
+        otherReasonsHomelessThirdPartyNonVeteranPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
+            !formData.livingSituation.NONE,
+          path: 'other-reasons-homeless-third-party-non-veteran',
+          title: 'Other reasons for request',
+          uiSchema: otherReasonsHomeless3rdPtyNonVetPg.uiSchema,
+          schema: otherReasonsHomeless3rdPtyNonVetPg.schema,
+          pageClass: 'other-reasons-homeless-third-party-non-veteran',
         },
       },
     },

@@ -281,6 +281,33 @@ export const OTHER_REASONS = Object.freeze({
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
 });
 
+export const OTHER_REASONS_3RD_PTY_VET = Object.freeze({
+  FINANCIAL_HARDSHIP: 'The Veteran is experiencing extreme financial hardship.',
+  ALS:
+    'The Veteran has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'The Veteran has a terminal illness.',
+  VSI_SI:
+    'The Veteran has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'The Veteran is age 85 or older.',
+  FORMER_POW: 'The Veteran is a former prisoner of war (POW).',
+  MEDAL_AWARD:
+    'The Veteran is a Medal of Honor or Purple Heart award recipient.',
+});
+
+export const OTHER_REASONS_3RD_PTY_NON_VET = Object.freeze({
+  FINANCIAL_HARDSHIP:
+    'The Claimant is experiencing extreme financial hardship.',
+  ALS:
+    'The Claimant has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'The Claimant has a terminal illness.',
+  VSI_SI:
+    'The Claimant has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'The Claimant is age 85 or older.',
+  FORMER_POW: 'The Claimant is a former prisoner of war (POW).',
+  MEDAL_AWARD:
+    'The Claimant is a Medal of Honor or Purple Heart award recipient.',
+});
+
 export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
   <>
     <p>
