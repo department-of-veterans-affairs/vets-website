@@ -217,8 +217,9 @@ const SpouseEmploymentWorkDates = props => {
         <div>{ShowWorkDates()}</div>
       </fieldset>
       <p>
-        <VaButton text="Back" onClick={handlers.onCancel} />
+        <VaButton text="Back" onClick={handlers.onCancel} uswds />
         <VaButton
+          uswds
           text={handlers.getContinueButtonText()}
           onClick={handlers.onUpdate}
         />
