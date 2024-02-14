@@ -194,6 +194,7 @@ const PreSubmitSignature = ({
           type="text"
           messageAriaDescribedby={getAriaMessage()}
           required
+          uswds
           error={
             signatureError
               ? `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
@@ -202,6 +203,7 @@ const PreSubmitSignature = ({
         />
         <VaCheckbox
           id="veteran-certify"
+          name="veteran-certify"
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
           checked={certifyChecked}
           onVaChange={value => setCertifyChecked(value.detail.checked)}
@@ -213,6 +215,7 @@ const PreSubmitSignature = ({
           }
           required
           enable-analytics
+          uswds
         />
       </article>
 
@@ -231,6 +234,7 @@ const PreSubmitSignature = ({
           privacyCheckboxError && 'You must accept by checking the box.'
         }
         onVaChange={value => setPrivacyChecked(value.detail.checked)}
+        uswds
       />
     </>
   );
