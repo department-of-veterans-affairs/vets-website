@@ -17,7 +17,7 @@ export const chapterNames = {
 export const benefitsLabels = {
   chapter33: (
     <p>
-      Post-9/11 GI Bill (Chapter 33)
+      Post-9/11 GI bill (Chapter 33)
       <br />
       <a
         aria-label="Learn more about Post-9/11 benefits"
