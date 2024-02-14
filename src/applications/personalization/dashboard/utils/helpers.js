@@ -59,3 +59,10 @@ export const countUnreadMessages = folders => {
 
   return 0;
 };
+
+// returns the value rounded to the nearest interval
+// ex: roundToNearest({interval: 5000, value: 13000}) => 15000
+// ex: roundToNearest({interval: 5000, value: 6500}) => 5000
+export function roundToNearest({ interval, value }) {
+  return Math.round(value / interval) * interval;
+}

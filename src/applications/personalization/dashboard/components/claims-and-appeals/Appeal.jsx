@@ -7,7 +7,7 @@ import {
   EVENT_TYPES,
   getTypeName,
   programAreaMap,
-} from '../../utils/appeals-v2-helpers';
+} from '../../utils/appeals-helpers';
 import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import { getStatusContents } from '../../utils/getStatusContents';
