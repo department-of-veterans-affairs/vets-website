@@ -91,14 +91,6 @@
         "value": true
       },
       {
-        "name": "cernerAllowPartialFacilities",
-        "value": false
-      },
-      {
-        "name": "cerner_allow_partial_facilities",
-        "value": false
-      },
-      {
         "name": "cernerOverride463",
         "value": false
       },
@@ -1463,10 +1455,6 @@
         "value": true
       },
       {
-        "name": "show_header_v2",
-        "value": true
-      },
-      {
         "name": "showMebUnverifiedUserAlert",
         "value": true
       },
@@ -1552,14 +1540,6 @@
       },
       {
         "name": "show_new_secure_messaging_page",
-        "value": true
-      },
-      {
-        "name": "showNewViewTestLabResultsPage",
-        "value": true
-      },
-      {
-        "name": "show_new_view_test_lab_results_page",
         "value": true
       },
       {

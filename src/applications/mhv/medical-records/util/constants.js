@@ -27,6 +27,7 @@ export const labTypes = {
 
 export const noteTypes = {
   PHYSICIAN_PROCEDURE_NOTE: 'physician_procedure_note',
+  CONSULT_RESULT: 'consult_result',
   DISCHARGE_SUMMARY: 'discharge_summary',
   OTHER: 'other',
 };
@@ -39,6 +40,7 @@ export const loincCodes = {
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',
+  CONSULT_RESULT: '11488-4',
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',

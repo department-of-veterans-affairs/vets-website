@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 
@@ -18,13 +18,33 @@ const DebtLettersDownload = () => {
   return (
     <>
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
-        <va-breadcrumbs label="Breadcrumb">
-          <a href="/">Home</a>
-          <a href="/manage-va-debt/">Manage your VA debt</a>
-          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-          <Link to="/debt-balances/">Current VA debt</Link>
-          <Link to="/debt-balances/letters">Debt letters</Link>
-        </va-breadcrumbs>
+        <VaBreadcrumbs
+          breadcrumbList={[
+            {
+              href: '/',
+              label: 'Home',
+            },
+            {
+              href: '/manage-va-debt',
+              label: 'Manage your VA debt',
+            },
+            {
+              href: '/manage-va-debt/summary',
+              label: 'Your VA debt and bills',
+            },
+            {
+              href: '/manage-va-debt/summary/debt-balances',
+              label: 'Current VA debt',
+            },
+            {
+              href: '/manage-va-debt/summary/debt-balances/letters',
+              label: 'Debt letters',
+            },
+          ]}
+          className="vads-u-font-family--sans no-wrap"
+          label="Breadcrumb"
+          uswds
+        />
       </div>
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1

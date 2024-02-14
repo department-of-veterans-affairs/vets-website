@@ -31,6 +31,7 @@ function Select({
       className={className}
       value={value}
       data-testid="vaosSelect"
+      uswds
     >
       {selectOptions}
     </VaSelect>

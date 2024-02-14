@@ -88,7 +88,10 @@ const ResolutionComments = ({
           value={commentText}
         >
           <div>
-            <va-additional-info trigger="Why do I need to share this information?">
+            <va-additional-info
+              trigger="Why do I need to share this information?"
+              uswds
+            >
               We want to fully understand your situation so we can make the best
               decision on your request. You can share any details that you think
               we should know about why it is hard for you or your family to
