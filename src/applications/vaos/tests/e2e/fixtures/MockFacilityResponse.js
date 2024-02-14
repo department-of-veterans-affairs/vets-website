@@ -11,6 +11,9 @@ export default class MockFacilityResponse {
       phone: {
         main: '307-778-7550',
       },
+      // phone: {
+      //   main: '1234567890',
+      // },
       physicalAddress: {
         type: 'physical',
         line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
