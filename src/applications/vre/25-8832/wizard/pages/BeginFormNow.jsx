@@ -44,7 +44,7 @@ const BeginFormNow = ({ setPageState, state = {} }) => {
           aria-describedby={
             state.selected === option.value ? option.value : null
           }
-          uswds={true}
+          uswds={false}
         />
       ))}
     </VaRadio>
