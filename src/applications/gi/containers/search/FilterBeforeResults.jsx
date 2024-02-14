@@ -5,10 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
-// import LearnMoreLabel from '../../components/LearnMoreLabel';
-// import AccordionItem from '../../components/AccordionItem';
 import Dropdown from '../../components/Dropdown';
 import {
   isProductionOfTestProdEnv,
@@ -25,6 +22,7 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
+import VaCheckboxGroupGi from '../../components/VaCheckboxGroupGi';
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -160,12 +158,13 @@ export function FilterBeforeResults({
     }
   };
 
-  const onChangeCheckbox = e => {
+  const onChangeCheckbox = (e, currentName) => {
+    const name = currentName || e.target.name;
     recordCheckboxEvent(e);
-    updateInstitutionFilters(e.target.name, e.target.checked);
+    updateInstitutionFilters(name, e.target.checked);
   };
 
-  const handleIncludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = (e, currentName) => {
     // The filter consumes these as exclusions
     /* 
       if schools boolean is false, no matter what school type filter
@@ -177,7 +176,8 @@ export function FilterBeforeResults({
       makes it true if any of the school types filters
       are checked.
     */
-    const { name } = e.target;
+    const name = currentName || e.target.name;
+    // const { name } = e.target;
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
@@ -203,6 +203,13 @@ export function FilterBeforeResults({
 
     return (
       <div className="filter-your-results">
+        <VaCheckboxGroupGi
+          label="Va School types"
+          onChange={handleIncludedSchoolTypesChange}
+          options={options}
+          row
+          isVaGroup={false}
+        />
         <CheckboxGroup
           className="about-school-checkbox"
           label={
@@ -262,21 +269,32 @@ export function FilterBeforeResults({
     ];
 
     return (
-      <CheckboxGroup
-        className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
-        label={
-          <h3
-            className={isProductionOfTestProdEnv() ? '' : 'about-school-label'}
-            aria-level={2}
-          >
-            About the school
-          </h3>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4p5"
-      />
+      <div className="">
+        <VaCheckboxGroupGi
+          label="Va About the school"
+          onChange={onChangeCheckbox}
+          options={options}
+          row
+          isVaGroup={false}
+        />
+        <CheckboxGroup
+          className={isProductionOfTestProdEnv() ? '' : 'about-school-checkbox'}
+          label={
+            <h3
+              className={
+                isProductionOfTestProdEnv() ? '' : 'about-school-label'
+              }
+              aria-level={2}
+            >
+              About the school
+            </h3>
+          }
+          onChange={onChangeCheckbox}
+          options={options}
+          row={!smallScreen}
+          colNum="4p5"
+        />
+      </div>
     );
   };
   const vetTecOJT = () => {
