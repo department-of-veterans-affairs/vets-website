@@ -1,7 +1,7 @@
 import React from 'react';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 
 const IdentityNotVerified = () => {
   const content = (
@@ -27,7 +27,7 @@ const IdentityNotVerified = () => {
   );
 
   return (
-    <va-alert status="warning">
+    <va-alert status="warning" uswds="false">
       <h2 slot="headline" className="vads-u-fontsize--h3">
         Verify your identity to view your VA payments
       </h2>
