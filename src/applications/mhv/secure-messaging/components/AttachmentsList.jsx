@@ -38,7 +38,7 @@ const AttachmentsList = props => {
   };
 
   const attachmentNameId = id =>
-    forPrint ? `attachment-name-for-print-${id}` : `attachment-name-${id}`;
+    forPrint ? `has-attachment-for-print-${id}` : `has-attachment-${id}`;
 
   useEffect(
     () => {
@@ -206,6 +206,7 @@ const AttachmentsList = props => {
                 <>
                   <a
                     className="attachment"
+                    tabIndex={0}
                     data-testid={
                       !forPrint
                         ? `attachment-link-metadata-${file.id}`
@@ -223,9 +224,7 @@ const AttachmentsList = props => {
                     }}
                   >
                     <i
-                      aria-labelledby={
-                        !forPrint ? `has-attachment-${file.id}` : ''
-                      }
+                      aria-labelledby={attachmentNameId(file.id)}
                       className="fas fa-paperclip"
                       aria-hidden="true"
                       alt="Attachment icon"
