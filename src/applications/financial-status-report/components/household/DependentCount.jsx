@@ -26,7 +26,7 @@ const DependentCount = ({
 
   const MAXIMUM_DEPENDENT_COUNT = 25;
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null || '');
   const [dependents, setDependents] = useState(hasDependents || '');
 
   // Correctly handle the hook to clear spouse data based on marital status
@@ -62,26 +62,37 @@ const DependentCount = ({
     return '/dependent-ages';
   };
 
-  const validateInput = () => {
+  const handleInput = ({ target }) => {
+    const newValue = target?.value;
+    setDependents(newValue); // Update local state first
+    // Validate immediately on input
     if (
-      !WHOLE_NUMBER_PATTERN.test(dependents) ||
-      dependents > MAXIMUM_DEPENDENT_COUNT ||
-      dependents < 0
+      !WHOLE_NUMBER_PATTERN.test(newValue) ||
+      parseInt(newValue, 10) > MAXIMUM_DEPENDENT_COUNT ||
+      parseInt(newValue, 10) < 0
     ) {
       setError('Please enter a valid number of dependents (0-25).');
-      focusElement('#dependent-count');
-      return false;
+    } else {
+      setError(undefined); // Clear error
     }
-    setError(null);
-    return true;
+
+    // Update form data
+    setFormData({
+      ...data,
+      questions: {
+        ...data?.questions,
+        hasDependents: newValue,
+      },
+      personalData:
+        newValue === '0'
+          ? { ...data?.personalData, dependents: [] }
+          : data?.personalData,
+    });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateInput()) {
-      setError(null);
-      goToPath(determineNextPath());
-    }
+    goToPath(determineNextPath());
   };
 
   return (
@@ -96,21 +107,7 @@ const DependentCount = ({
           id="dependent-count"
           label="Number of dependents"
           error={error}
-          onInput={({ target }) => {
-            const newValue = target?.value;
-            setDependents(newValue); // Update local state first
-            setFormData({
-              ...data,
-              questions: {
-                ...data?.questions,
-                hasDependents: newValue, // Use the new value
-              },
-              personalData:
-                newValue === '0'
-                  ? { ...data?.personalData, dependents: [] }
-                  : data?.personalData,
-            });
-          }}
+          onInput={handleInput}
           value={dependents.toString()} // Ensure value is always a string
           inputMode="numeric" // Use "numeric" for better mobile keyboard support
           className="no-wrap input-size-2"
