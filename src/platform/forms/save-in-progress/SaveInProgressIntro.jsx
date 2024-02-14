@@ -6,17 +6,17 @@ import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
   expiredMessage,
   inProgressMessage as getInProgressMessage,
-} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
-import recordEvent from 'platform/monitoring/record-event';
+} from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import recordEvent from '~/platform/monitoring/record-event';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
+} from '~/platform/monitoring/DowntimeNotification';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -295,6 +295,7 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
+              {/* button that looks like a link - needs design review */}
               <button
                 className="va-button-link"
                 onClick={this.openLoginModal}
@@ -421,6 +422,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
     signInHelpList: PropTypes.func,
@@ -431,7 +433,6 @@ SaveInProgressIntro.propTypes = {
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
-  displayNonVeteranMessaging: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,
