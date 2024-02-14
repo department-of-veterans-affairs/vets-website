@@ -114,3 +114,16 @@
     margin: 16px 0px;
   }
 }
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Mono"),
+    url(../../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
+}
+
+.monospace {
+  font-family: Roboto Mono;
+  // font-family: monospace;
+}

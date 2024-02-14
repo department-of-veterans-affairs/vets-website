@@ -1,0 +1,1507 @@
+{
+  "recordSets": [
+      {
+          "type": "lab and test results",
+          "title": "Lab and test results",
+          "subtitles": [
+              "If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health."
+          ],
+          "toc": {
+              "title": "Lab and test results…………………………………………",
+              "subtitle": "Review lab and test results in your VA medical records."
+          },
+          "records": [
+              {
+                  "title": "POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN: on January 21, 2021",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Type of test",
+                              "value": "chemistry_hematology",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider notes",
+                              "value": [
+                                  "Lisa's Test 1/20/2021 - Second lab\nAdded Potassium test"
+                              ],
+                              "inline": false
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "header": "POTASSIUM",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "3.5 mEq/L",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Standard range",
+                                      "value": "3.6-5.1",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Status",
+                                      "value": "final",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Lab location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Interpretation",
+                                      "value": "Low",
+                                      "inline": true
+                                  }
+                              ]
+                          },
+                          {
+                              "header": "SODIUM:SCNC:PT:SER/PLAS:QN:",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "138 mEq/L",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Standard range",
+                                      "value": "136-145",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Status",
+                                      "value": "final",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Lab location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Interpretation",
+                                      "value": "Low",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Microbiology on August 3, 1995",
+                  "details": {
+                      "header": "Details about this test",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample from",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "Beth M. Smith",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 3, 1995",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": false,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Microbiology on August 3, 1995",
+                  "details": {
+                      "header": "Details about this test",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample from",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "Beth M. Smith",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 3, 1995",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": false,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Electrocardiogram (EKG) on 2000-12-14T11:35:00Z",
+                  "results": {
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "title": "Date",
+                                      "value": "2000-12-14T11:35:00Z",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "school parking lot",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider",
+                                      "value": "Beth M. Smith",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS on September 24, 2004",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Reason for test",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Clinical history",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "GARFUNKEL,FELIX",
+                              "inline": true
+                          },
+                          {
+                              "title": "Imaging location",
+                              "value": "GARFUNKEL,FELIX, DAYT29 TEST LAB",
+                              "inline": true
+                          },
+                          {
+                              "title": "Imaging provider",
+                              "value": "None noted",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "SPINE LUMBOSACRAL MIN 2 VIEWS\n   \nExm Date: SEP 24, 2004@11:25\nReq Phys: FELKLEY,KENNETH E              Pat Loc: PCT_O PATIL (F/U) (Req'g Loc)\n                                         Img Loc: RADIOLOGY\n                                         Service: Unknown\n\n \n\n(Case 1582 COMPLETE) SPINE LUMBOSACRAL MIN 2 VIEWS    (RAD  Detailed) CPT:72100\n     Proc Modifiers : BILATERAL EXAM\n\n    Clinical History:\n      having 3 weeks of back pains need to re-eval for arhritis or any \n      worsneing disc spaces etc. \n\n    Report Status: Verified                   Date Reported: SEP 27, 2004\n                                              Date Verified: SEP 28, 2004\n    Verifier E-Sig:/ES/Thong D. Nguyen, M.D.\n\n    Report:\n      Three views of the lumbosacral spine are compared with a previous \n      examination of 9/23/02.  \n       \n      There has been a partial collapse of L2 which is similar in\n      appearance and degree to the previous examination of September\n      2002.  There is also collapse of the body of T12 which apparently\n      is new since the previous exam and the collapse has been\n      estimated above 75 to 80% of the height of the vertebral body.  \n       \n      There is mild marginal spurring of the upper anterior aspect of\n      L4.  There are arteriosclerotic calcifications in the abdominal\n      aorta and branches.  \n       \n      The intervertebral disc spaces are preserved.  \n\n    Impression:\n      1.  Old compression fracture of L2 with anterior marginal\n      spurring and apparent ankylosis L1-L2.  \n       \n      2.  Collapse or compression fracture of the body of T12 which is\n      new since the previous examination in 2002 and involves loss of\n      height of that vertebral body by about 70%.  Arteriosclerotic\n      calcifications of the aorta.  \n\n    Primary Diagnostic Code: \n\nPrimary Interpreting Staff:\n  FELIX GARFUNKEL, Staff Physician\nVERIFIED BY:\n  THONG NGUYEN, Radiologist/Chief\n\n/GEG",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Microbiology on August 3, 1995",
+                  "details": {
+                      "header": "Details about this test",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample from",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "Beth M. Smith",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 3, 1995",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": false,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Microbiology on August 3, 1995",
+                  "details": {
+                      "header": "Details about this test",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample from",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "Beth M. Smith",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 3, 1995",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": false,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Accession [UID]: PARAS 95 263 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 29, 1995 07:00\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND \nMODERATE WBC'S SEEN \nMODERATE YEAST",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Microbiology on August 1, 1995",
+                  "details": {
+                      "header": "Details about this test",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Sample from",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordered by",
+                              "value": "Beth M. Smith",
+                              "inline": true
+                          },
+                          {
+                              "title": "Ordering location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Collecting location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 1, 1995",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": false,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Accession [UID]: PARAS 95 262 []            Received: Aug 01, 1995@11:00\nCollection sample: STOOL               Collection date: Jul 28, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 01, 1995   TECH CODE: 420\nParasitology Remark(s):\nREJECTED=LEAKED",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "LR SURGICAL PATHOLOGY REPORT on August 10, 2000",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 10, 2000",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Date Spec taken: Aug 09, 2000        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 09, 2000 16:14  Resident: \nDate  completed: Aug 10, 2000        Accession #: SP 00 1982\nSubmitted by: MARK MAZUR MD          Practitioner:MARK MAZUR DPM\n-------------------------------------------------------------------------------\nSpecimen: \nOLD HARDWARE LEFT FOOT X2\nBrief Clinical History:\nThis 71 y/o wm presents with painful hardware L 1st metatarsal head. The\npins were inserted 3 years ago for a bunion procedure. The Bunionprocedure\nis well healed and pt is now wanting the pin removed. Will probably need\nk-wire driver and power for this case.\nPreoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nPostoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nGross description:\nRECEIVED UNFIXED AND LABELED \"OLD HARDWARE LEFT FOOT X 2\" CONSISTS OF TWO\n1.7 CM AND 2.5 CM LONG 1 MM WIDE METALLIC PINS.\n|TAB||NOWRAP|\nDIAGNOSIS: HARDWARE (CLINICALLY FROM LEFT FOOT)",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "LR SURGICAL PATHOLOGY REPORT on September 27, 1999",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "September 27, 1999",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Date Spec taken: Sep 24, 1999        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 24, 1999 13:46  Resident: \nDate  completed: Sep 27, 1999        Accession #: SP 99 2207\nSubmitted by: KHURSHID YOUSUF MD     Practitioner:KHURSHID YOUSUF\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYPS (A) CECAL\n       (B) PROXIMAL ASCENDING\n       (C) RECTAL\nBrief Clinical History:\nCOLON POLYPS PER FLEX SIG\nPreoperative Diagnosis:\nCOLON POLYPS\nOperative Findings:\n|TAB||NOWRAP|\n1. CECAL POLYPS X 2\n2. ASCENDING COLON POLYP\n3. RECTAL POLYP\nPostoperative Diagnosis:\nSAME\nGross description:\n|TAB||NOWRAP|\nSPECIMEN (A) LABELED CECAL POLYP X 2.  RECEIVED IN FORMALIN IS ONE PALE\nGREY TISSUE FRAGMENT MEASURING 0.4 CM IN DIAMETER.  EMBEDDED ENTIRELY IN\nONE BLOCK.\nSPECIMEN (B) LABELED PROXIMAL ASCENDING COLON.  RECEIVED IN FORMALIN ARE\nTWO PALE BROWN TISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED\nENTIRELY IN ONE BLOCK.\nSPECIMEN (C) LABELED RECTAL POLYP.  RECEIVED IN FORMALIN ARE THREE MINUTE\nTISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED ENTIRELY\nIN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Sep 24, 1999)\n|TAB||BLANK(3)|\n|TAB||NOWRAP|\nDIAGNOSIS:\nA) CECAL POLYP: HYPERPLASTIC POLYP.  (SEE NOTE)\nB &amp; C)\nPROXIMAL ASCENDING COLON AND RECTAL POLYPS: TUBULAR ADENOMAS. (SEE\nNOTE)\n\nNOTE: COAGULATION ARTEFACT AND POOR TISSUE PRESERVATION IS NOTED CAUSING\nDIFFICULTY IN EVALUATION OF LESION.\nDR. YOUSUF WAS NOTIFIED.",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "LR SURGICAL PATHOLOGY REPORT on August 11, 1999",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "August 11, 1999",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Date Spec taken: Aug 09, 1999        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 10, 1999 13:27  Resident: \nDate  completed: Aug 11, 1999        Accession #: SP 99 1804\nSubmitted by: KATHLEEN MARIE WOLNER  Practitioner:KATHLEEN MARIE WOLNER MD\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYP @ 12CM\nBrief Clinical History:\n70 YEAR OLD MALE FOR SCREENING EXAM.  \nOperative Findings:\nSMOOTH BROAD BASED POLYP\nPostoperative Diagnosis:\nPROBABLE BENIGN POLYP\nGross description:\nRECEIVED IN FORMALIN AND LABELED \"POLYP\"  CONSISTS OF TWO 1 MM FRAGMENTS\nOF PINK TISSUE.  SUBMITTED IN TOTAL IN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Aug 09, 1999)\n|TAB||BLANK(3)|\nDIAGNOSIS:\nPOLYP AT 12 CM. TUBULAR ADENOMA.",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "LR SURGICAL PATHOLOGY REPORT on September 9, 1997",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "September 9, 1997",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Date Spec taken: Sep 08, 1997        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 08, 1997 13:08  Resident: \nDate  completed: Sep 09, 1997        Accession #: SP 97 2091\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \n(A) BONE FROM RIGHT FOOT\n(B) BONE RIGHT FOOT",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "LR SURGICAL PATHOLOGY REPORT on May 14, 1997",
+                  "details": {
+                      "header": "Details about this test",
+                      "items": [
+                          {
+                              "title": "Sample tested",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Lab location",
+                              "value": "None noted",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date completed",
+                              "value": "May 14, 1997",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Results",
+                      "sectionSeparators": true,
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "Date Spec taken: May 12, 1997        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: May 12, 1997 14:00  Resident: \nDate  completed: May 13, 1997        Accession #: SP 97 1099\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \nBONE FRAGMENTS, LEFT FOOT",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }
+          ]
+      },
+      {
+          "type": "care summaries and notes",
+          "title": "Care summaries and notes",
+          "subtitles": [
+              "This report only includes care summaries and notes from 2013 and later.",
+              "For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records."
+          ],
+          "toc": {
+              "title": "Care summaries and notes………………………………",
+              "subtitle": "Review notes from your VA providers about your health and health care."
+          },
+          "records": [
+              {
+                  "title": "Progress note",
+                  "details": {
+                      "header": "Details",
+                      "items": [
+                          {
+                              "title": "Location",
+                              "value": "DAYTSHR TEST LAB",
+                              "inline": true
+                          },
+                          {
+                              "title": "Signed by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          },
+                          {
+                              "title": "Co-signed by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date signed",
+                              "value": "August 8, 2022",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Notes",
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "LOCAL TITLE: Adverse React/Allergy                              \nSTANDARD TITLE: ALLERGY &amp; IMMUNOLOGY ADVERSE EVENT NOTE         \nDATE OF NOTE: AUG 05, 2022@11:23:54  ENTRY DATE: AUG 05, 2022@11:23:54      \n      AUTHOR: AHMED,MARUF          EXP COSIGNER:                           \n     URGENCY:                            STATUS: COMPLETED                     \n\nThis patient has had the following reactions \nsigned-off on Aug 05, 2022@11:23:54.\n\nWHITE FISH\n\nAuthor's comments:\n\nMaruf's test data \n\n \n/es/ MARUF AHMED\nPHYSICIAN\nSigned: 08/08/2022 10:50",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Discharge summary",
+                  "details": {
+                      "header": "Details",
+                      "items": [
+                          {
+                              "title": "Location",
+                              "value": "DAYTON",
+                              "inline": true
+                          },
+                          {
+                              "title": "Discharge date",
+                              "value": "August 9, 2022",
+                              "inline": true
+                          },
+                          {
+                              "title": "Discharged by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Summary",
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "LOCAL TITLE: Discharge Summary                                  \nSTANDARD TITLE: DISCHARGE SUMMARY                               \n   DICT DATE: AUG 09, 2022@13:42     ENTRY DATE: AUG 09, 2022@13:43:02      \n DICTATED BY: AHMED,MARUF             ATTENDING: AHMED,NAJEEB                 \n     URGENCY: routine                    STATUS: COMPLETED                     \n\n \n \nDATE OF ADMISSION:\nDATE OF DISCHARGE: Aug 9,2022\n \nPRINCIPLE DISCHARGE DIAGNOSIS: TEST DISGNOSIS, Maruf Ahmed.\nADDITIONAL DIAGNOSES:\n \nCONSULTANT(S):\nPROCEDURE(S):\n \nBRIEF ADMISSION HISTORY:\n71 year old MALE test\n \nBRIEF ADMISSION PHYSICAL EXAM:  test exam\n \nADMISSION LAB/EKG/X-RAY RESULTS:  test again\n \nHOSPITAL COURSE:\n  via2vdif transstition\n \nCONDITION ON DISCHARGE: test\n \nDISCHARGE INSTRUCTIONS:\n   Activity:    test1\n   Diet:        test2\n   Medications: test3\n   Special Instructions: test again\n   Follow-up Plans: test again again\n \n/es/ MARUF AHMED\nPHYSICIAN\nSigned: 08/09/2022 13:44\n \n/es/ MUAZZAM KHAN\nPhysician\nCosigned: 08/12/2022 12:17\nfor NAJEEB AHMED                                  \nAMOD",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Progress note",
+                  "details": {
+                      "header": "Details",
+                      "items": [
+                          {
+                              "title": "Location",
+                              "value": "DAYTSHR TEST LAB",
+                              "inline": true
+                          },
+                          {
+                              "title": "Signed by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          },
+                          {
+                              "title": "Co-signed by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          },
+                          {
+                              "title": "Date signed",
+                              "value": "August 14, 2022",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Notes",
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "LOCAL TITLE: Adverse React/Allergy                              \nSTANDARD TITLE: ALLERGY &amp; IMMUNOLOGY ADVERSE EVENT NOTE         \nDATE OF NOTE: AUG 05, 2022@11:23:54  ENTRY DATE: AUG 05, 2022@11:23:54      \n      AUTHOR: AHMED,MARUF          EXP COSIGNER:                           \n     URGENCY:                            STATUS: COMPLETED                     \n\nThis patient has had the following reactions \nsigned-off on Aug 05, 2022@11:23:54.\n\nWHITE FISH\n\nAuthor's comments:\n\nMaruf's test data \n\n \n/es/ MARUF AHMED\nPHYSICIAN\nSigned: 08/08/2022 10:50",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Discharge summary",
+                  "details": {
+                      "header": "Details",
+                      "items": [
+                          {
+                              "title": "Location",
+                              "value": "DAYTON",
+                              "inline": true
+                          },
+                          {
+                              "title": "Discharge date",
+                              "value": "August 15, 2022",
+                              "inline": true
+                          },
+                          {
+                              "title": "Discharged by",
+                              "value": "AHMED,MARUF",
+                              "inline": true
+                          }
+                      ]
+                  },
+                  "results": {
+                      "header": "Summary",
+                      "items": [
+                          {
+                              "items": [
+                                  {
+                                      "value": "LOCAL TITLE: Discharge Summary                                  \nSTANDARD TITLE: DISCHARGE SUMMARY                               \n   DICT DATE: AUG 09, 2022@13:42     ENTRY DATE: AUG 09, 2022@13:43:02      \n DICTATED BY: AHMED,MARUF             ATTENDING: AHMED,NAJEEB                 \n     URGENCY: routine                    STATUS: COMPLETED                     \n\n \n \nDATE OF ADMISSION:\nDATE OF DISCHARGE: Aug 9,2022\n \nPRINCIPLE DISCHARGE DIAGNOSIS: TEST DISGNOSIS, Maruf Ahmed.\nADDITIONAL DIAGNOSES:\n \nCONSULTANT(S):\nPROCEDURE(S):\n \nBRIEF ADMISSION HISTORY:\n71 year old MALE test\n \nBRIEF ADMISSION PHYSICAL EXAM:  test exam\n \nADMISSION LAB/EKG/X-RAY RESULTS:  test again\n \nHOSPITAL COURSE:\n  via2vdif transstition\n \nCONDITION ON DISCHARGE: test\n \nDISCHARGE INSTRUCTIONS:\n   Activity:    test1\n   Diet:        test2\n   Medications: test3\n   Special Instructions: test again\n   Follow-up Plans: test again again\n \n/es/ MARUF AHMED\nPHYSICIAN\nSigned: 08/09/2022 13:44\n \n/es/ MUAZZAM KHAN\nPhysician\nCosigned: 08/12/2022 12:17\nfor NAJEEB AHMED                                  \nAMOD",
+                                      "monospace": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }
+          ]
+      },
+      {
+          "type": "vaccines",
+          "title": "Vaccines",
+          "subtitles": [
+              "This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.",
+              "For complete records of your allergies and reactions to vaccines, review your allergy records in this report."
+          ],
+          "toc": {
+              "title": "Vaccines……………………………………………………………",
+              "subtitle": "Review a list of all vaccines (immunizations) in your VA medical records."
+          },
+          "records": {
+              "results": {
+                  "items": [
+                      {
+                          "header": "INFLUENZA, INJECTABLE, QUADRIVALENT",
+                          "items": [
+                              {
+                                  "title": "Date received",
+                                  "value": "March 5, 2023",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "test comment",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "INFLUENZA, INJECTABLE, QUADRIVALENT",
+                          "items": [
+                              {
+                                  "title": "Date received",
+                                  "value": "January 3, 2023",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "test comment",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "COVID-19 (MODERNA), MRNA, LNP-S, PF, 100 MCG/0.5ML DOSE OR 50 MCG/0.25ML DOSE",
+                          "items": [
+                              {
+                                  "title": "Date received",
+                                  "value": "August 8, 2022",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "test",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "INFLUENZA, INJECTABLE, QUADRIVALENT",
+                          "items": [
+                              {
+                                  "title": "Date received",
+                                  "value": "August 5, 2022",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "ADTP BURNETT",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "test comment",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "INFLUENZA, INJECTABLE, QUADRIVALENT",
+                          "items": [
+                              {
+                                  "title": "Date received",
+                                  "value": "August 5, 2022",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "test comment",
+                                  "inline": false
+                              }
+                          ]
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "type": "allergies",
+          "title": "Allergies",
+          "subtitles": [
+              "If you have allergies that are missing from this list, send a secure message to your care team."
+          ],
+          "toc": {
+              "title": "Allergies…………………………………………………………",
+              "subtitle": "Review a list of all allergies, reactions, and side effects in your VA medical records."
+          },
+          "records": {
+              "results": {
+                  "items": [
+                      {
+                          "header": "RED MEAT",
+                          "items": [
+                              {
+                                  "title": "Date entered",
+                                  "value": "September 27, 2023",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Signs and symptoms",
+                                  "value": "SWELLING",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Type of allergy",
+                                  "value": "Food",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Observed or historical",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "Maruf's test ",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "NUTS",
+                          "items": [
+                              {
+                                  "title": "Date entered",
+                                  "value": "August 4, 2023",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Signs and symptoms",
+                                  "value": "RASH",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Type of allergy",
+                                  "value": "Food",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Observed or historical",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "Maruf's test ",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "PENICILLIN",
+                          "items": [
+                              {
+                                  "title": "Date entered",
+                                  "value": "July 27, 2022",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Signs and symptoms",
+                                  "value": "SEDATED",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Type of allergy",
+                                  "value": "Medication",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Observed or historical",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "Maruf's test ",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "PENNSAID",
+                          "items": [
+                              {
+                                  "title": "Date entered",
+                                  "value": "March 27, 2022",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Signs and symptoms",
+                                  "value": "RENAL IMPAIRMENT",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Type of allergy",
+                                  "value": "Medication",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Observed or historical",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "maruf's test ",
+                                  "inline": false
+                              }
+                          ]
+                      },
+                      {
+                          "header": "MEDIPLAST",
+                          "items": [
+                              {
+                                  "title": "Date entered",
+                                  "value": "December 27, 2020",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Signs and symptoms",
+                                  "value": "DELIRIUM. RASH",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Type of allergy",
+                                  "value": "Medication",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Location",
+                                  "value": "SLC10.FO-BAYPINES.MED.VA.GOV",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Observed or historical",
+                                  "value": "None noted",
+                                  "inline": true
+                              },
+                              {
+                                  "title": "Provider notes",
+                                  "value": "Maruf's test ",
+                                  "inline": false
+                              }
+                          ]
+                      }
+                  ]
+              }
+          }
+      },
+      {
+          "title": "Health conditions",
+          "subtitles": [
+              "This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage."
+          ],
+          "toc": {
+              "title": "Health conditions……………………………………………",
+              "subtitle": "Review a list of all health conditions in your VA medical records."
+          },
+          "records": [
+              {
+                  "title": "Back pain (SCT 161891005)",
+                  "details": {
+                      "items": [
+                          {
+                              "title": "Date",
+                              "value": "April 1, 2022",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider",
+                              "value": "Dr. John",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider Notes",
+                              "inline": false
+                          },
+                          {
+                              "title": "Status of health condition",
+                              "value": "abc123",
+                              "inline": true
+                          },
+                          {
+                              "title": "Location",
+                              "value": "chiropractor's office",
+                              "inline": true
+                          },
+                          {
+                              "title": "SNOMED Clinical term",
+                              "value": "Back pain (SCT 161891005)",
+                              "inline": true
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Sick sinus syndrome (SCT 867530999)",
+                  "details": {
+                      "items": [
+                          {
+                              "title": "Date",
+                              "value": "April 1, 2021",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider",
+                              "value": "Dr. John",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider Notes",
+                              "inline": false
+                          },
+                          {
+                              "title": "Status of health condition",
+                              "value": "abc123",
+                              "inline": true
+                          },
+                          {
+                              "title": "Location",
+                              "value": "No one nose",
+                              "inline": true
+                          },
+                          {
+                              "title": "SNOMED Clinical term",
+                              "value": "Sick sinus syndrome (SCT 867530999)",
+                              "inline": true
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Asthma (SCT 525000600)",
+                  "details": {
+                      "items": [
+                          {
+                              "title": "Date",
+                              "value": "April 1, 2019",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider",
+                              "value": "Dr. John",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider Notes",
+                              "inline": false
+                          },
+                          {
+                              "title": "Status of health condition",
+                              "value": "abc123",
+                              "inline": true
+                          },
+                          {
+                              "title": "Location",
+                              "value": "Lung doctor's office",
+                              "inline": true
+                          },
+                          {
+                              "title": "SNOMED Clinical term",
+                              "value": "Asthma (SCT 525000600)",
+                              "inline": true
+                          }
+                      ]
+                  }
+              },
+              {
+                  "title": "Hypertension (SCT 500530505)",
+                  "details": {
+                      "items": [
+                          {
+                              "title": "Date",
+                              "value": "April 1, 2018",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider",
+                              "value": "Dr. John",
+                              "inline": true
+                          },
+                          {
+                              "title": "Provider Notes",
+                              "inline": false
+                          },
+                          {
+                              "title": "Status of health condition",
+                              "value": "abc123",
+                              "inline": true
+                          },
+                          {
+                              "title": "Location",
+                              "value": "Cardiologist's office",
+                              "inline": true
+                          },
+                          {
+                              "title": "SNOMED Clinical term",
+                              "value": "Hypertension (SCT 500530505)",
+                              "inline": true
+                          }
+                      ]
+                  }
+              }
+          ]
+      },
+      {
+          "type": "vitals",
+          "title": "Vitals",
+          "subtitles": [
+              "This list includes vitals and other basic health numbers your providers check at your appointments."
+          ],
+          "toc": {
+              "title": "Vitals…………………………………………………………………",
+              "subtitle": "Review a list of vitals and other basic health numbers your providers check at your appointments. This includes your blood pressure, breathing rate, heart rate, height, temperature, pain level, and weight."
+          },
+          "records": [
+              {
+                  "results": {
+                      "header": "Heart rate",
+                      "items": [
+                          {
+                              "header": "December 25, 2004, 8:50 p.m. PST",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "185 /min",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "a bit fast",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "results": {
+                      "header": "Blood pressure",
+                      "items": [
+                          {
+                              "header": "September 24, 2004, 4:17 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "126/70",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "None noted",
+                                      "inline": true
+                                  }
+                              ]
+                          },
+                          {
+                              "header": "September 24, 2004, 4:17 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "126/70",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "None noted",
+                                      "inline": true
+                                  }
+                              ]
+                          },
+                          {
+                              "header": "September 24, 2004, 4:17 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "126/70",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "None noted",
+                                      "inline": true
+                                  }
+                              ]
+                          },
+                          {
+                              "header": "September 24, 2004, 4:17 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "126/70",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "None noted",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "None noted",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "results": {
+                      "header": "Weight",
+                      "items": [
+                          {
+                              "header": "August 9, 1999, 6:13 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "150.4 [lb_av]",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "PCT_O",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "Here is a provider note",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              },
+              {
+                  "results": {
+                      "header": "Pain",
+                      "items": [
+                          {
+                              "header": "September 14, 2000, 6:00 a.m. PDT",
+                              "items": [
+                                  {
+                                      "title": "Result",
+                                      "value": "0 undefined",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Location",
+                                      "value": "ZZZHEMATOLOGY II",
+                                      "inline": true
+                                  },
+                                  {
+                                      "title": "Provider notes",
+                                      "value": "None noted",
+                                      "inline": true
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              }
+          ]
+      }
+  ],
+  "headerLeft": "null",
+  "headerRight": "Date of birth: Invalid date",
+  "headerBanner": [
+      {
+          "text": "If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at "
+      },
+      {
+          "text": "988",
+          "weight": "bold"
+      },
+      {
+          "text": ". Then select 1."
+      }
+  ],
+  "footerLeft": "Report generated by My HealtheVet on VA.gov on January 25, 2024",
+  "footerRight": "Page %PAGE_NUMBER% of %TOTAL_PAGES%",
+  "title": "Blue Button report",
+  "subject": "VA Medical Record",
+  "name": "null",
+  "dob": "Invalid date"
+}

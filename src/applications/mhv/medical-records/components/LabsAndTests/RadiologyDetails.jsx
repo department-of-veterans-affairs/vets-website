@@ -57,7 +57,6 @@ ${txtLine}\n\n
 Reason for test: ${record.reason} \n
 Clinical history: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
-Order location: ${record.orderingLocation} \n
 Imaging location: ${record.imagingLocation} \n
 Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n

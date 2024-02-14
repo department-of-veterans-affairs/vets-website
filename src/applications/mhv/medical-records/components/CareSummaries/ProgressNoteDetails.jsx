@@ -138,7 +138,9 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record">{record.note}</p>
+        <p data-testid="note-record" className="monospace">
+          {record.note}
+        </p>
       </div>
     </div>
   );
