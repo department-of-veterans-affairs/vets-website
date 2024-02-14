@@ -78,6 +78,8 @@
     }
     va-textarea#reply-message-body::part(textarea) {
       max-width: 100%;
+      resize: vertical;
+      box-sizing: border-box;
     }
 
     .compose-inputs-container {
