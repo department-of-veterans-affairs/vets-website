@@ -26,7 +26,7 @@ const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
       <>
-        <va-alert status="info" visible>
+        <va-alert status="info" visible uswds>
           <h3 slot="headline">
             Upload your file now or at the end of your application
           </h3>
