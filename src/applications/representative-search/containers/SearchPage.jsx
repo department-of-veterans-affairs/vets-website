@@ -241,7 +241,7 @@ const SearchPage = props => {
     ];
     return (
       <>
-        <div className="row vads-u-padding-left--4">
+        <div className="row vads-u-padding-left--3">
           <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
         </div>
       </>
