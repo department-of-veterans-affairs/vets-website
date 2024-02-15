@@ -19,13 +19,7 @@ describe('Secure Messaging Compose Categories', () => {
     landingPage.loadInboxMessages();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('can send message for category Medication-MEDICATIONS', () => {
@@ -35,13 +29,7 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('can send message for category General-OTHER', () => {
@@ -51,13 +39,7 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('can send message for category Test-TEST_RESULTS', () => {
@@ -67,13 +49,7 @@ describe('Secure Messaging Compose Categories', () => {
     composePage.enterDataToMessageSubject();
     composePage.enterDataToMessageBody();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   afterEach(() => {
