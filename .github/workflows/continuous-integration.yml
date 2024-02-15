@@ -28,6 +28,11 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Build vets-website
         uses: ./.github/workflows/continuous-integration/build
         with:
