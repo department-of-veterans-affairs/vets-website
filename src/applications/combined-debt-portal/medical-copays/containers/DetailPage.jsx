@@ -70,6 +70,7 @@ const DetailPage = ({ match }) => {
         ]}
         label="Breadcrumb"
         uswds
+        wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="detail-page-title" className="vads-u-margin-bottom--2">
