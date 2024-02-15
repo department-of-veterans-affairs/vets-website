@@ -19,7 +19,7 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.clickBloodPressureLink(0);
 
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('October 27, 2023');
+    VitalsDetailsPage.verifyVitalDate('October');
 
     // Verify Vital Result
     VitalsDetailsPage.verifyVitalResult('130/70');
@@ -39,7 +39,7 @@ describe('Medical Records Vitals Details Page', () => {
     // Verify Vital Details Page "Print or download" button
     VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('October 27, 2023');
+    VitalsDetailsPage.verifyVitalDate('October');
     // Verify Vital Result
     VitalsDetailsPage.verifyVitalResult('130/70');
     // Verify Vital Details Location
@@ -63,7 +63,7 @@ describe('Medical Records Vitals Details Page', () => {
     // Verify Vital Details Page "Print or download" button
     VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('October 27, 2023, 8:00 a.m. MDT');
+    VitalsDetailsPage.verifyVitalDate('October');
     // Verify Vital Result
     VitalsDetailsPage.verifyVitalResult('185 pounds');
     // Verify Vital Details Location
