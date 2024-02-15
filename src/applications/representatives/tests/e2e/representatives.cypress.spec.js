@@ -1,8 +1,19 @@
+import { generateFeatureToggles } from '../../mocks/feature-toggles';
+
 describe('Representatives', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [{ name: 'representatives_portal_frontend', value: true }],
+      },
+    });
+  });
+
   it('allows navigation from landing page to dashboard to poa requests', () => {
     cy.visit('/representatives')
       .injectAxe()
       .axeCheck();
+    generateFeatureToggles();
     cy.contains('Welcome to Representative.VA.gov');
     cy.contains('Until sign in is added use this to see dashboard').click();
 
