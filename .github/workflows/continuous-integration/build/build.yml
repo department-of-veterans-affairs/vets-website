@@ -1,0 +1,78 @@
+name: Build
+description: Build vets-website
+
+inputs:
+  buildtype:
+    description: buildtype passed from matrix
+    required: true
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
+
+  - name: Get changed applications
+    id: get-changed-apps
+    uses: ./.github/workflows/get-changed-apps
+    with:
+      delimiter: ','
+      output-type: 'entry_name, continuous_deployment'
+
+  - name: Configure AWS credentials
+    if: ${{ inputs.buildtype == 'vagovprod' }}
+    uses: aws-actions/configure-aws-credentials@v4
+    with:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-region: us-gov-west-1
+      mask-aws-account-id: true    
+      
+  - name: Install dependencies
+    uses: /.github/workflows/install
+    timeout-minutes: 30
+    with:
+      key: ${{ hashFiles('yarn.lock') }}
+      yarn_cache_folder: .cache/yarn
+      path: |
+        .cache/yarn
+        node_modules
+
+  - name: Get Mapbox Token
+    if: ${{ inputs.buildtype == 'vagovprod' }}
+    uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+    with:
+      ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+      env_variable_name: MAPBOX_TOKEN
+
+  - name: Build
+    run: yarn build --verbose --buildtype=${{ inputs.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
+    timeout-minutes: 30
+    env:
+      ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
+
+  - name: Generate build details
+    run: |
+      cat > build/${{ inputs.buildtype }}/BUILD.txt << EOF
+      BUILDTYPE=${{ inputs.buildtype }}
+      NODE_ENV=production
+      BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+      CHANGE_TARGET=null
+      RUN_ID=${{ github.run_id }}
+      RUN_NUMBER=${{ github.run_number }}
+      REF=${{ github.sha }}
+      BUILDTIME=$(date +%s)
+      EOF
+
+  - name: Compress and archive build
+    run: tar -C build/${{ inputs.buildtype }} -cjf ${{ inputs.buildtype }}.tar.bz2 .
+
+  - name: Upload build artifact
+    uses: actions/upload-artifact@v3
+    with:
+      name: ${{ inputs.buildtype }}.tar.bz2
+      path: ${{ inputs.buildtype }}.tar.bz2
+      retention-days: 1
