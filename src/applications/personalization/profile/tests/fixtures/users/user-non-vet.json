@@ -95,7 +95,7 @@
   "meta": {
     "errors": [
       {
-        "externalService": "VAProfile",
+        "externalService": "Vet360",
         "startTime": "2020-07-23T15:45:24Z",
         "endTime": null,
         "description": "Mock Error Description for Testing",

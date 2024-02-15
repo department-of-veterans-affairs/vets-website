@@ -66,7 +66,7 @@
         "status": 401
       },
       {
-        "externalService": "VAProfile",
+        "externalService": "Vet360",
         "startTime": "2020-07-23T16:58:32Z",
         "endTime": null,
         "description": "Mock Error Description for Testing",

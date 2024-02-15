@@ -12,7 +12,7 @@ import {
 const commonServices = {
   EMIS: 'EMIS',
   MVI: 'MVI',
-  VA_PROFILE: 'VAProfile',
+  VA_PROFILE: 'Vet360',
 };
 
 function getErrorStatusDesc(code) {

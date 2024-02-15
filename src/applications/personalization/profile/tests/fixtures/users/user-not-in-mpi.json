@@ -48,7 +48,7 @@
         "status": 404
       },
       {
-        "externalService": "VAProfile",
+        "externalService": "Vet360",
         "startTime": "2020-08-21T22:17:28Z",
         "endTime": null,
         "description": "Mock Error Description for Testing",

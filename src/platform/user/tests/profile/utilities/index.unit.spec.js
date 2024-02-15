@@ -143,7 +143,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              externalService: 'VAProfile',
+              externalService: 'Vet360',
               startTime: '2020-11-19T17:32:54Z',
               endTime: null,
               description:
@@ -209,7 +209,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              externalService: 'VAProfile',
+              externalService: 'Vet360',
               status: 404,
             },
           ],
@@ -227,7 +227,7 @@ describe('Profile utilities', () => {
         meta: {
           errors: [
             {
-              externalService: 'VAProfile',
+              externalService: 'Vet360',
               status: 'SERVER_ERROR',
             },
           ],
