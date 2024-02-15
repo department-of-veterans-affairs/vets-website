@@ -54,7 +54,7 @@ export default function VAOSBreadcrumbs({ children }) {
         VA.gov home
       </a>
       <a href="/my-health" key="/my-health" onClick={handleClick('/my-health')}>
-        'My HealtheVet'
+        My HealtheVet
       </a>
       <NavLink to="/" id="vaos-home">
         Appointments
