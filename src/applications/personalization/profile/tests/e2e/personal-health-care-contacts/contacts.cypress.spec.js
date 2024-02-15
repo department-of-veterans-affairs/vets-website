@@ -16,6 +16,16 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.findByTestId('phcc-next-of-kin-1');
     cy.injectAxeThenAxeCheck();
   });
+
+  it('displays instructions when no contacts are present', () => {
+    const featureToggles = generateFeatureToggles({ profileContacts: true });
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('GET', '/v0/profile/contacts', { data: [] });
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.get(/To add a contact, call us/);
+    cy.injectAxeThenAxeCheck();
+  });
 });
 
 describe('Personal health care contacts -- feature disabled', () => {

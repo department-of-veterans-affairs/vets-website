@@ -4,18 +4,35 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import Contact from './Contact';
 
-const Instructions = () => (
-  <div>
-    To add a contact, call us at <HelpDeskContact />.
+const Instructions = ({ testId }) => (
+  <div data-testid={testId}>
+    To add a contact, call us at <HelpDeskContact testId={testId} />.
   </div>
 );
 
-const HelpDeskContact = () => (
+Instructions.propTypes = {
+  testId: PropTypes.string,
+};
+
+const HelpDeskContact = ({ testId }) => (
   <>
-    <va-telephone data-testid="va-800-number" contact={CONTACTS.HELP_DESK} /> (
-    <va-telephone data-testid="va-711-number" contact={CONTACTS['711']} tty />)
+    <va-telephone
+      data-testid={`${testId}-va-800-number`}
+      contact={CONTACTS.HELP_DESK}
+    />{' '}
+    (
+    <va-telephone
+      data-testid={`${testId}-va-711-number`}
+      contact={CONTACTS['711']}
+      tty
+    />
+    )
   </>
 );
+
+HelpDeskContact.propTypes = {
+  testId: PropTypes.string,
+};
 
 const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
@@ -32,7 +49,7 @@ const Contacts = ({ data }) => {
         />
       ))
     ) : (
-      <Instructions />
+      <Instructions testId="phcc-no-ecs" />
     );
 
   const renderNextOfKin =
@@ -46,7 +63,7 @@ const Contacts = ({ data }) => {
         />
       ))
     ) : (
-      <Instructions />
+      <Instructions testId="phcc-no-nok" />
     );
 
   return (
@@ -62,7 +79,8 @@ const Contacts = ({ data }) => {
           <ul className="vads-u-margin-y--0">
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call us at <HelpDeskContact />. We’re here 24/7.
+              Call us at <HelpDeskContact testId="help-desk" />. We’re here
+              24/7.
             </li>
           </ul>
         </va-additional-info>
