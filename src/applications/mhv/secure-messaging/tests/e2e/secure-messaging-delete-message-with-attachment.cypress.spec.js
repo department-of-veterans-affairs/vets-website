@@ -46,12 +46,6 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });
