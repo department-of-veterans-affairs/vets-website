@@ -322,81 +322,81 @@ jobs:
   #         name: unit-test-stress-test-results
   #         path: mocha/results
 
-  update-unit-test-allow-list:
-    name: Update Unit Test Stability Allow List
-    runs-on: ubuntu-latest
-    needs: [unit-tests-stress-test, fetch-allow-lists]
-    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # update-unit-test-allow-list:
+  #   name: Update Unit Test Stability Allow List
+  #   runs-on: ubuntu-latest
+  #   needs: [unit-tests-stress-test, fetch-allow-lists]
+  #   if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure') }}
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
-
-      - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-      - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         mask-aws-account-id: true
 
 
-      - name: Download Unit Test results
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-stress-test-results
-          path: qa-standards-dashboard-data/src/allow-list/data
+  #     - name: Get va-vsp-bot token
+  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Download Unit Test Stability Allow List
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-allow-list
-          path: qa-standards-dashboard-data
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Copy test results to mochawesome directory
-        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
+  #     - name: Get AWS IAM role
+  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      - name: Update Unit Test Stability Allow List
-        run: yarn update-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: unit_test
-          IS_CI: true
-          GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+  #         mask-aws-account-id: true
+
+
+  #     - name: Download Unit Test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-test-stress-test-results
+  #         path: qa-standards-dashboard-data/src/allow-list/data
+
+  #     - name: Download Unit Test Stability Allow List
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-test-allow-list
+  #         path: qa-standards-dashboard-data
+
+  #     - name: Copy test results to mochawesome directory
+  #       run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
+  #     - name: Update Unit Test Stability Allow List
+  #       run: yarn update-allow-list
+  #       working-directory: qa-standards-dashboard-data
+  #       env:
+  #         TEST_TYPE: unit_test
+  #         IS_CI: true
+  #         GITHUB_WORKFLOW_URL: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   security-audit:
     name: Security Audit
@@ -1465,128 +1465,128 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  test-stability-review-merge-status:
-    name: QA Merge Status
-    runs-on: ubuntu-latest
-    needs:
-      [
-        cypress-tests,
-        stress-test-cypress-tests,
-        cypress-tests-prep,
-        unit-tests,
-        unit-tests-stress-test,
-        update-e2e-allow-list,
-        update-unit-test-allow-list,
-      ]
-    if: ${{ always() && github.ref != 'refs/heads/main' }}
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # test-stability-review-merge-status:
+  #   name: QA Merge Status
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     [
+  #       cypress-tests,
+  #       stress-test-cypress-tests,
+  #       cypress-tests-prep,
+  #       unit-tests,
+  #       unit-tests-stress-test,
+  #       update-e2e-allow-list,
+  #       update-unit-test-allow-list,
+  #     ]
+  #   if: ${{ always() && github.ref != 'refs/heads/main' }}
+  #   continue-on-error: true
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         mask-aws-account-id: true
 
 
-      - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Get va-vsp-bot token
+  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
+  #     - name: Get changed applications
+  #       id: get-changed-apps
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         delimiter: ','
+  #         output-type: 'folder'
 
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
 
-      - name: Fetch E2E Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: e2e
+  #     - name: Fetch E2E Test Stability Allow List
+  #       run: yarn get-allow-list
+  #       working-directory: qa-standards-dashboard-data
+  #       env:
+  #         TEST_TYPE: e2e
 
-      - name: Fetch Unit Test Stability Allow List
-        run: yarn get-allow-list
-        working-directory: qa-standards-dashboard-data
-        env:
-          TEST_TYPE: unit_test
+  #     - name: Fetch Unit Test Stability Allow List
+  #       run: yarn get-allow-list
+  #       working-directory: qa-standards-dashboard-data
+  #       env:
+  #         TEST_TYPE: unit_test
 
-      - name: Copy Test Stability Allow List files to vets-website
-        run: |
-          cp ./qa-standards-dashboard-data/unit_test_allow_list.json ./
-          cp ./qa-standards-dashboard-data/e2e_allow_list.json ./
+  #     - name: Copy Test Stability Allow List files to vets-website
+  #       run: |
+  #         cp ./qa-standards-dashboard-data/unit_test_allow_list.json ./
+  #         cp ./qa-standards-dashboard-data/e2e_allow_list.json ./
 
-      - name: Check for disallowed E2E Tests
-        run: node script/github-actions/annotate-disallowed-tests.js
-        env:
-          TEST_TYPE: e2e
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+  #     - name: Check for disallowed E2E Tests
+  #       run: node script/github-actions/annotate-disallowed-tests.js
+  #       env:
+  #         TEST_TYPE: e2e
+  #         CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
-      - name: Check for disallowed Unit Tests
-        run: node script/github-actions/annotate-disallowed-tests.js
-        env:
-          TEST_TYPE: unit_test
-          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+  #     - name: Check for disallowed Unit Tests
+  #       run: node script/github-actions/annotate-disallowed-tests.js
+  #       env:
+  #         TEST_TYPE: unit_test
+  #         CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
 
-      - name: Create E2E annotations file
-        if: ${{ env.e2e-annotations-json != '[]' }}
-        run: |
-          echo "$E2E_ANNOTATIONS_JSON" > e2e-annotations.json
-          cat e2e-annotations.json
+  #     - name: Create E2E annotations file
+  #       if: ${{ env.e2e-annotations-json != '[]' }}
+  #       run: |
+  #         echo "$E2E_ANNOTATIONS_JSON" > e2e-annotations.json
+  #         cat e2e-annotations.json
 
-      - name: Create Unit Test annotations file
-        if: ${{ env.unit-test-annotations-json != '[]' }}
-        run: |
-          echo "$UNIT_TEST_ANNOTATIONS_JSON" > unit-test-annotations.json
-          cat unit-test-annotations.json
+  #     - name: Create Unit Test annotations file
+  #       if: ${{ env.unit-test-annotations-json != '[]' }}
+  #       run: |
+  #         echo "$UNIT_TEST_ANNOTATIONS_JSON" > unit-test-annotations.json
+  #         cat unit-test-annotations.json
 
-      - name: Annotate E2E Files accordingly
-        if: ${{ env.e2e-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'E2E Test Stability Allow List Annotations'
-          input: './e2e-annotations.json'
+  #     - name: Annotate E2E Files accordingly
+  #       if: ${{ env.e2e-annotations-json != '[]' }}
+  #       uses: yuzutech/annotations-action@v0.4.0
+  #       with:
+  #         repo-token: ${{ secrets.GITHUB_TOKEN }}
+  #         title: 'E2E Test Stability Allow List Annotations'
+  #         input: './e2e-annotations.json'
 
-      - name: Annotate Unit Test Files accordingly
-        if: ${{ env.unit-test-annotations-json != '[]' }}
-        uses: yuzutech/annotations-action@v0.4.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          title: 'Unit Test Stability Allow List Annotations'
-          input: './unit-test-annotations.json'
+  #     - name: Annotate Unit Test Files accordingly
+  #       if: ${{ env.unit-test-annotations-json != '[]' }}
+  #       uses: yuzutech/annotations-action@v0.4.0
+  #       with:
+  #         repo-token: ${{ secrets.GITHUB_TOKEN }}
+  #         title: 'Unit Test Stability Allow List Annotations'
+  #         input: './unit-test-annotations.json'
 
-      - name: Verify Merge Eligibility
-        run: node script/github-actions/verify-merge-eligibility.js
-        env:
-          CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
-          CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
-          UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
+  #     - name: Verify Merge Eligibility
+  #       run: node script/github-actions/verify-merge-eligibility.js
+  #       env:
+  #         CYPRESS_TESTS_RESULT: ${{ needs.cypress-tests.result  }}
+  #         CYPRESS_TESTS_STRESS_TEST_RESULT: ${{ needs.stress-test-cypress-tests.result }}
+  #         UNIT_TESTS_STRESS_TEST_RESULT: ${{ needs.unit-tests-stress-test.result }}
 
   archive:
     name: Archive
