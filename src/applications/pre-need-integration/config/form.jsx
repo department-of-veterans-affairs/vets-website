@@ -419,6 +419,7 @@ const formConfig = {
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
+        // sponsorContactInfo is a placeholder screen for MBMS-54141
         sponsorContactInfo: {
           path: 'sponsor-contact-info',
           depends: formData =>

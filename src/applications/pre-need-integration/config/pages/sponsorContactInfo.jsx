@@ -1,3 +1,5 @@
+// Below is placeholder code which will be updated in MBMS-54141
+
 export const uiSchema = {
   application: {
     applicant: {
