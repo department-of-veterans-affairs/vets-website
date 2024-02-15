@@ -33,10 +33,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment'
+
       - name: Build vets-website
         uses: ./.github/workflows/continuous-integration/build
         with:
           buildtype: ${{ matrix.buildtype }}
+          entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          run_id: ${{ github.run_id }}
+          run_number: ${{ github.run_number }}
+          ref: ${{ github.sha }}
 
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists

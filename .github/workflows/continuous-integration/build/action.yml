@@ -6,23 +6,42 @@ inputs:
     description: buildtype passed from matrix
     required: true
     default: ''
-
+  entry_names:
+    description: entry_names from changed-apps step
+    required: true
+    default: ''
+  aws_id:
+    description: aws key id
+    required: true
+    default: ''
+  aws_key:
+    description: aws secret access key
+    required: true
+    default: ''
+  run_id:
+    description: github run id
+    required: true
+    default: ''
+  run_number:
+    description: github run number
+    required: true
+    default: ''
+  ref:
+    description: commit sha
+    required: true
+    default: ''
+        
+      
 runs:
   using: composite
   steps:
-  - name: Get changed applications
-    id: get-changed-apps
-    uses: ./.github/workflows/get-changed-apps
-    with:
-      delimiter: ','
-      output-type: 'entry_name, continuous_deployment'
 
   - name: Configure AWS credentials
     if: ${{ inputs.buildtype == 'vagovprod' }}
     uses: aws-actions/configure-aws-credentials@v4
     with:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-access-key-id: ${{ inputs.aws_id }}
+      aws-secret-access-key: ${{ inputs.aws_key }}
       aws-region: us-gov-west-1
       mask-aws-account-id: true    
       
@@ -47,7 +66,7 @@ runs:
     run: yarn build --verbose --buildtype=${{ inputs.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
     timeout-minutes: 30
     env:
-      ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
+      ENTRY: ${{ inputs.entry_names }}
 
   - name: Generate build details
     run: |
@@ -56,9 +75,9 @@ runs:
       NODE_ENV=production
       BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
       CHANGE_TARGET=null
-      RUN_ID=${{ github.run_id }}
-      RUN_NUMBER=${{ github.run_number }}
-      REF=${{ github.sha }}
+      RUN_ID=${{ inputs.run_id }}
+      RUN_NUMBER=${{ inputs.run_number }}
+      REF=${{ inputs.sha }}
       BUILDTIME=$(date +%s)
       EOF
 
