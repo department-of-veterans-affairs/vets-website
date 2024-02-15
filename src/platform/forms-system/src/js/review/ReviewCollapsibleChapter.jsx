@@ -476,6 +476,8 @@ class ReviewCollapsibleChapter extends React.Component {
           subHeader={this.props.hasUnviewedPages ? subHeader : ''}
           data-unviewed-pages={this.props.hasUnviewedPages}
           open={this.props.open}
+          bordered
+          uswds
         >
           {this.props.hasUnviewedPages && (
             <i

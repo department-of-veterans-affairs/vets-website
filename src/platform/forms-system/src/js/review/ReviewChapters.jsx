@@ -70,7 +70,11 @@ class ReviewChapters extends React.Component {
     } = this.props;
 
     return (
-      <VaAccordion bordered onAccordionItemToggled={this.handleToggleChapter}>
+      <VaAccordion
+        bordered
+        onAccordionItemToggled={this.handleToggleChapter}
+        uswds
+      >
         {chapters.map(chapter => (
           <ReviewCollapsibleChapter
             expandedPages={chapter.expandedPages}

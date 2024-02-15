@@ -289,6 +289,7 @@ const ContactInfoReview = ({
           onClick={handlers.onEditPage}
           label={content.editLabel}
           text={content.edit}
+          uswds
         />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
