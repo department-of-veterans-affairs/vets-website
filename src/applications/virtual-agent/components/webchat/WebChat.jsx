@@ -5,11 +5,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
-import {
-  recordRxSession,
-  recordButtonClick,
-  handleTelemetry,
-} from './helpers/tracking';
+import { recordRxSession, handleTelemetry } from './helpers/tracking';
 import { ERROR } from '../chatbox/loadingStatus';
 // import PropTypes from 'prop-types';
 import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
@@ -198,19 +194,11 @@ const WebChat = ({
     [isRXSkill],
   );
 
-  useEffect(() => {
-    document.addEventListener('click', recordButtonClick);
-
-    // Cleanup function to remove the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('click', recordButtonClick);
-    };
-  }, []);
-
   if (isRXSkill === 'true') {
     return (
       <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
         <ReactWebChat
+          cardActionMiddleware={cardActionMiddleware}
           styleOptions={styleOptions}
           directLine={directLine}
           store={store}
