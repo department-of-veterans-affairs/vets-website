@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 import PropTypes from 'prop-types';
+import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
 import { applicantWording } from '../helpers/wordingCustomization';
 
@@ -133,6 +133,7 @@ export function ApplicantMedicareStatusPage({
           } enrolled in Medicare?`}
           required
           error={error}
+          uswds
           onVaValueChange={handlers.radioUpdate}
         >
           {options.map(option => (
@@ -142,6 +143,7 @@ export function ApplicantMedicareStatusPage({
               label={option.label}
               value={option.value}
               checked={checkValue === option.value}
+              uswds
               aria-describedby={
                 checkValue === option.value ? option.value : null
               }
