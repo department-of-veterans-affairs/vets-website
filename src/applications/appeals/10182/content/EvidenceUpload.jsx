@@ -7,12 +7,12 @@ import {
 
 export const evidenceUploadTitle = 'Additional evidence';
 
-const fileTypes =
-  SUPPORTED_UPLOAD_TYPES.length > 1
-    ? `.${SUPPORTED_UPLOAD_TYPES.slice(0, -1).join(
-        ', .',
-      )} or .${SUPPORTED_UPLOAD_TYPES.slice(-1)}`
-    : `.${SUPPORTED_UPLOAD_TYPES}`;
+export const fileTypes = (types = SUPPORTED_UPLOAD_TYPES) =>
+  types.length > 1
+    ? `.${types.slice(0, -1).join(', .')}${
+        types.length === 2 ? '' : ','
+      } or .${types.slice(-1)}`
+    : `.${types}`;
 
 export const EvidenceUploadLabel = (
   <h3 className="vads-u-display--inline">Upload your additional evidence</h3>
@@ -21,13 +21,13 @@ export const EvidenceUploadLabel = (
 export const EvidenceUploadDescription = (
   <div>
     <p>
-      You can upload your document in a {fileTypes} file format. You’ll first
+      You can upload your document in a {fileTypes()} file format. You’ll first
       need to scan a copy of your document onto your computer or mobile phone.
       You can then upload the document from there.
     </p>
     <p>Guidelines for uploading a file:</p>
     <ul>
-      <li>File types you can upload: {fileTypes}</li>
+      <li>File types you can upload: {fileTypes()}</li>
       <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
     </ul>
     <p>

@@ -47,13 +47,7 @@ describe('Secure Messaging Reply', () => {
     });
     FolderLoadPage.verifyPaginationElements();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('verify pagination for one message on last page', () => {
