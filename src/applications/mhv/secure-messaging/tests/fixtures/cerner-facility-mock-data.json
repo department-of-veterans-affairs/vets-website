@@ -26,12 +26,6 @@
     }
   },
 
-  "cernerFacilities": [
-    { "uniqueId": 463 },
-    { "uniqueId": 583 },
-    { "uniqueId": 668 }
-  ],
-
   "userProfileFacilities": [
     { "facilityId": "463", "isCerner": true },
     { "facilityId": "583", "isCerner": true },

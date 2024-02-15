@@ -4,29 +4,28 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
 
-const CernerFacilityAlert = () => {
-  const cernerFacilities = useSelector(
-    state => state.sm.facilities.cernerFacilities,
-  );
-
+const CernerFacilityAlert = ({ cernerFacilities }) => {
   const ehrDataByVhaId = useSelector(
     state => state.drupalStaticData.vamcEhrData.data.ehrDataByVhaId,
   );
 
   const cernerFacilitiesNames = useMemo(
     () => {
-      return cernerFacilities?.map(facility =>
-        getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.uniqueId),
-      );
+      if (ehrDataByVhaId) {
+        return cernerFacilities?.map(facility =>
+          getVamcSystemNameFromVhaId(ehrDataByVhaId, facility.facilityId),
+        );
+      }
+      return [];
     },
     [cernerFacilities, ehrDataByVhaId],
   );
 
   return (
     <>
-      {cernerFacilities?.length > 0 && (
+      {cernerFacilitiesNames?.length > 0 && (
         <va-alert
-          class="vads-u-margin-bottom--2"
+          className="vads-u-margin-bottom--2"
           status="warning"
           background-only
           close-btn-aria-label="Close notification"
