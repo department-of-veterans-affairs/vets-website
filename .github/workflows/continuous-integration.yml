@@ -252,7 +252,6 @@ jobs:
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           STEP: 1
           IS_STRESS_TEST: false
-          NUM_CONTAINERS: 72
 
       - name: Archive unit test results
         if: ${{ always() }}
