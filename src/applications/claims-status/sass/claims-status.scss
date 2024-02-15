@@ -911,6 +911,11 @@ button .claim-timeline-icon.fa {
   }
 }
 
+.recent-activity-list-item {
+  border-bottom: 1px solid $color-gray-light;
+  list-style: none;
+}
+
 .submitted-files-list {
   margin-bottom: 2em;
 }
