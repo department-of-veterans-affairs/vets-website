@@ -4,13 +4,14 @@ import { useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import manifest from '../manifest.json';
-import { BREADCRUMB_LISTS } from '../utils/constants';
 import {
   getFormPageInfo,
   getTypeOfCare,
   getFacilityPageV2Info,
 } from '../new-appointment/redux/selectors';
 import { lowerCase } from '../utils/formatters';
+import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
+import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
 
 export default function VAOSBreadcrumbs({ children }) {
   const location = useLocation();
@@ -21,16 +22,18 @@ export default function VAOSBreadcrumbs({ children }) {
   // get form data that contains selected type of care
   const { data } = useSelector(state => getFormPageInfo(state));
   const typeOfCare = getTypeOfCare(data);
+  const { facilityType } = data;
   const [breadcrumb, setBreadcrumb] = useState([]);
+
+  const label = useSelector(state => getUrlLabel(state, location));
+  const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
+  const newLabel = label === undefined || label === null ? covidLabel : label;
 
   useEffect(
     () => {
-      const labelCrumb = BREADCRUMB_LISTS.filter(
-        crumb => crumb.url === location.pathname,
-      ).map(crumb => crumb.label);
-      setBreadcrumb(labelCrumb);
+      setBreadcrumb(newLabel);
     },
-    [location],
+    [location, newLabel],
   );
 
   const getBreadcrumbList = () => {
@@ -85,12 +88,22 @@ export default function VAOSBreadcrumbs({ children }) {
         },
       ];
     }
-    if (singleValidVALocation) {
+    if (singleValidVALocation && breadcrumb === 'Choose a VA location') {
+      return [
+        ...BREADCRUMB_BASE,
+        { href: window.location.href, label: 'Your appointment location' },
+      ];
+    }
+    // community care's reason page is text entry only
+    if (
+      facilityType === 'communityCare' &&
+      breadcrumb === 'Choose a reason for this appointment'
+    ) {
       return [
         ...BREADCRUMB_BASE,
         {
           href: window.location.href,
-          label: 'Your appointment location',
+          label: 'Tell us the reason for this appointment',
         },
       ];
     }
