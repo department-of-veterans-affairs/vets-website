@@ -39,7 +39,7 @@ const VaCheckboxGroupGi = ({
           onVaChange={target => {
             onChange(target, name);
           }}
-          class="vads-l-col--1p5 about-school-checkbox"
+          class="vads-l-col--1p5 va-checkbox-horizontal"
         />
       );
     });
@@ -70,8 +70,6 @@ const VaCheckboxGroupGi = ({
 };
 
 VaCheckboxGroupGi.propTypes = {
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.shape({
@@ -81,9 +79,11 @@ VaCheckboxGroupGi.propTypes = {
       }),
     ]),
   ).isRequired,
-  row: PropTypes.bool,
-  isVaGroup: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  isVaGroup: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  row: PropTypes.bool,
 };
 
 export default VaCheckboxGroupGi;
