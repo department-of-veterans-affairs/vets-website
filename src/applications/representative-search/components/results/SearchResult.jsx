@@ -112,6 +112,8 @@ const SearchResult = ({
                     query?.context?.location
                   }&daddr=${address}`}
                   tabIndex="0"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {addressLine1} {addressLine2} <br />
                   {city}, {stateCode} {zipCode}
