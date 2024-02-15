@@ -23,6 +23,8 @@ import {
   shouldShowGetStartedContent,
 } from '../utils/selectors';
 
+import { setDatadogRUMUserConfig } from '../utils/helpers/datadog-rum-user';
+
 const IntroductionPage = props => {
   const { route, displayConditions, features } = props;
   const {
@@ -93,19 +95,23 @@ IntroductionPage.propTypes = {
   route: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  displayConditions: {
-    showLoader: isLoading(state),
-    showLOA3Content: isUserLOA3(state),
-    showGetStartedContent: shouldShowGetStartedContent(state),
-    showLoginAlert: isLoggedOut(state),
-    showIdentityAlert: isUserLOA1(state),
-  },
-  features: {
-    enrollmentOverrideEnabled:
-      state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
-  },
-});
+const mapStateToProps = state => {
+  setDatadogRUMUserConfig(state);
+
+  return {
+    displayConditions: {
+      showLoader: isLoading(state),
+      showLOA3Content: isUserLOA3(state),
+      showGetStartedContent: shouldShowGetStartedContent(state),
+      showLoginAlert: isLoggedOut(state),
+      showIdentityAlert: isUserLOA1(state),
+    },
+    features: {
+      enrollmentOverrideEnabled:
+        state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
+    },
+  };
+};
 
 export { IntroductionPage };
 export default connect(mapStateToProps)(IntroductionPage);

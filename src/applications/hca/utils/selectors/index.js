@@ -3,6 +3,7 @@ import {
   isLOA3,
   isLoggedIn,
   isProfileLoading,
+  selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
@@ -59,6 +60,15 @@ export const isUserLOA3 = state =>
 
 export const isLoggedOut = state =>
   !isLoggedIn(state) && !isProfileLoading(state);
+
+export const rumUserConfig = state => {
+  return {
+    disabilityRating: state.totalRating,
+    isSignedIn: isLoggedIn(state),
+    loa: selectProfile(state).loa.current,
+    serviceName: selectProfile(state).signIn.serviceName,
+  };
+};
 
 export const shouldShowGetStartedContent = state =>
   !isLoading(state) &&
