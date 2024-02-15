@@ -1,15 +1,30 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
-  const diff = moment().diff(moment(appointment.start), 'minutes');
+  const timezone = getTimezoneByFacilityId(
+    appointment.location?.vistaId || appointment.location?.stationId,
+  );
+  const diff = moment()
+    .tz(timezone)
+    .diff(moment(appointment.start), 'minutes');
 
   // Button is enabled 30 minutes prior to start time, until 4 hours after start time
-  const disableVideoLink = diff < -30 || diff > 240;
+  // NOTE: If the moment is earlier than the moment you are passing to moment.fn.diff,
+  // the return value will be negative. So checking to see if the appointment start
+  // time is before or after the current time.
+  let disableVideoLink;
+  if (diff > 0) {
+    disableVideoLink = diff > 30;
+  } else {
+    disableVideoLink = diff < -240;
+  }
+
   const linkClasses = classNames(
     'usa-button',
     'vads-u-margin-left--0',
