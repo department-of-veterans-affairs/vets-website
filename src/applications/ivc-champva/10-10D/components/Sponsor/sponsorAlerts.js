@@ -1,4 +1,6 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const blankSchema = { type: 'object', properties: {} };
 
@@ -20,7 +22,7 @@ export const homelessInfo = {
             If you are a veteran who is homeless or at imminent risk of
             homelessness, we strongly encourage you to contact the National Call
             Center for Homeless Veterans at{' '}
-            <va-telephone contact="8774243838" /> for assistance.
+            <VaTelephone contact={CONTACTS['4AID_VET']} /> for assistance.
           </p>
         </va-alert>
       ),
@@ -37,7 +39,7 @@ export const noPhoneInfo = {
           <h3 slot="headline">Resources available</h3>
           <p>
             If you don’t currently have a phone number, here is a suggestion and
-            a<va-telephone contact="8774243838" />
+            a link to a resource <VaTelephone contact={CONTACTS['4AID_VET']} />.
           </p>
         </va-alert>
       ),
