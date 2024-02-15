@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/22-1995-schema.json';
 
 import { benefitsLabelsUpdate } from '../../utils/labels';
 
-const { benefitUpdate } = fullSchema.properties;
+const { benefitUpdate, changeAnotherBenefit } = fullSchema.properties;
 
 const displayBenefit = {
   ...benefitUpdate,
@@ -29,10 +29,14 @@ displayBenefit.enum.splice(1, 1, 'fryScholarship');
 export const uiSchema = {
   benefitUpdate: {
     'ui:widget': 'radio',
-    'ui:title': 'Which benefit are you currently using?',
+    'ui:title': 'Which benefit have you most recently used?',
     'ui:options': {
       labels: benefitsLabelsUpdate,
     },
+  },
+  changeAnotherBenefit: {
+    'ui:title': 'Do you want to change to another benefit?',
+    'ui:widget': 'radio',
   },
 };
 
@@ -51,5 +55,6 @@ export const schema = {
   type: 'object',
   properties: {
     benefitUpdate: displayBenefit,
+    changeAnotherBenefit,
   },
 };
