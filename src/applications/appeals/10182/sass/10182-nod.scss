@@ -198,13 +198,9 @@ article[data-location="review-and-submit"] {
 }
 
 /* Fix va-radio v3 input overlapping finish this request later link */
-article[data-location="homeless"],
-article[data-location="extension-request"],
-article[data-location="appealing-denial"] {
-  .schemaform-save-container {
-    position: relative;
-    z-index: 1;
-  }
+.schemaform-save-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* contestable issues widget - copy uswds v3 style */
