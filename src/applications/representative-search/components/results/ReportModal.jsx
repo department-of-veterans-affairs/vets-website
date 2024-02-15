@@ -121,10 +121,10 @@ const ReportModal = ({
         visible
         uswds
       >
-        <h3>Report outdated information for ${representativeName}</h3>
+        <h3>Report outdated information for {representativeName}</h3>
         {someItemsReported && (
           <>
-            <h3>You reported this information</h3>
+            <h4>You reported this information</h4>
             <ul>
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
@@ -138,7 +138,7 @@ const ReportModal = ({
         {someItemsReported &&
           notAllItemsReported && (
             <>
-              <h3>You can add to your report</h3>
+              <h4>You can add to your report</h4>
             </>
           )}
 
