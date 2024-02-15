@@ -430,6 +430,26 @@ class MedicationsListPage {
       });
   };
 
+  verifyCmopNdcNumberIsNull = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[1].attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
+
+  verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[3].attributes).to.include({
+          prescriptionSource: 'NV',
+        });
+      });
+  };
+
   verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
     cy.get('[data-testid="rx-number"]')
       .first()
