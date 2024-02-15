@@ -428,6 +428,8 @@ SaveInProgressIntro.propTypes = {
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      appAction: PropTypes.string,
+      appContinuing: PropTypes.string,
     }),
   }),
   formData: PropTypes.object,

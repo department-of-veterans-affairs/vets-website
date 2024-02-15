@@ -5,7 +5,7 @@ import {
   VaButton,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from '../../monitoring/record-event';
 
 import {
   WIZARD_STATUS,
