@@ -38,7 +38,7 @@ function App({ children }) {
 
   return (
     <>
-      <div className="find-a-representative vads-u-margin-left--3">
+      <div className="find-a-representative">
         <div className="row">{children}</div>
       </div>
     </>
