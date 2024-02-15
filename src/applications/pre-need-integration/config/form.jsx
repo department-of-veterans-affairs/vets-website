@@ -23,6 +23,7 @@ import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
+import * as sponsorContactInfo from './pages/sponsorContactInfo';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
@@ -417,6 +418,13 @@ const formConfig = {
             !isVeteran(formData) && isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
+        },
+        sponsorContactInfo: {
+          path: 'sponsor-contact-info',
+          depends: formData =>
+            !isVeteran(formData) && !isSponsorDeceased(formData),
+          uiSchema: sponsorContactInfo.uiSchema,
+          schema: sponsorContactInfo.schema,
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',
