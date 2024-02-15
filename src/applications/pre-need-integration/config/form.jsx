@@ -405,13 +405,6 @@ const formConfig = {
           uiSchema: sponsorDetails.uiSchema,
           schema: sponsorDetails.schema,
         },
-        sponsorDemographics: {
-          title: 'Sponsor demographics',
-          path: 'sponsor-demographics',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorDemographics.uiSchema,
-          schema: sponsorDemographics.schema,
-        },
         sponsorDeceased: {
           path: 'sponsor-deceased',
           depends: formData => !isVeteran(formData),
@@ -424,6 +417,13 @@ const formConfig = {
             !isVeteran(formData) && isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
+        },
+        sponsorDemographics: {
+          title: 'Sponsor demographics',
+          path: 'sponsor-demographics',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDemographics.uiSchema,
+          schema: sponsorDemographics.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",
