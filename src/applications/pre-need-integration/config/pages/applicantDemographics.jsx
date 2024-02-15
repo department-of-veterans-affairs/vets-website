@@ -41,16 +41,12 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['gender', 'maritalStatus'],
+          required: ['maritalStatus', 'gender'],
           // properties: pick(veteran.properties, [
-          //   'gender',
           //   'maritalStatus',
+          //   'gender',
           // ]),
           properties: {
-            gender: {
-              type: 'string',
-              enum: ['Female', 'Male', 'na'],
-            },
             maritalStatus: {
               type: 'string',
               enum: [
@@ -61,6 +57,10 @@ export const schema = {
                 'Widowed',
                 'na',
               ],
+            },
+            gender: {
+              type: 'string',
+              enum: ['Female', 'Male', 'na'],
             },
           },
         },
