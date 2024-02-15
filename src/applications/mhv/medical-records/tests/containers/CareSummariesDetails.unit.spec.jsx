@@ -36,7 +36,7 @@ describe('CareSummariesAndNotes details', () => {
   });
 });
 
-describe('CareSummariesDetails progress note', () => {
+describe('CareSummariesDetails Adverse React/Allergy', () => {
   it('displays progress note heading', () => {
     const initialState = {
       user,
@@ -55,7 +55,11 @@ describe('CareSummariesDetails progress note', () => {
       path: '/summaries-and-notes/123',
     });
 
-    expect(screen.getByText('Progress note', { selector: 'h1' })).to.exist;
+    expect(
+      screen.getByText('Adverse React/Allergy', {
+        selector: 'h1',
+      }),
+    ).to.exist;
   });
 });
 
@@ -78,7 +82,7 @@ describe('CareSummariesDetails discharge summary', () => {
       path: '/summaries-and-notes/123',
     });
 
-    expect(screen.getByText('Discharge summary', { selector: 'h1' })).to.exist;
+    expect(screen.getByText('Discharge Summary', { selector: 'h1' })).to.exist;
   });
 });
 
