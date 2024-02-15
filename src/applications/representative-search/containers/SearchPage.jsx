@@ -382,7 +382,7 @@ const SearchPage = props => {
 
   return (
     <>
-      <div className="usa-grid">
+      <div className="usa-grid vads-u-padding-left--1p5">
         {renderBreadcrumbs()}
         {renderSearchSection()}
         {renderResultsSection()}
