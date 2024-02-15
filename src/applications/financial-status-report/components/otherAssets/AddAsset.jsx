@@ -109,6 +109,8 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            uswds
+            charcount
           />
           <VaNumberInput
             className="no-wrap input-size-3"
@@ -122,17 +124,22 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
+            uswds
           />
           <br />
           <va-additional-info
             class="vads-u-margin-top--4"
             trigger="Why do I need to provide this information?"
+            uswds
           >
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
           </va-additional-info>
-          <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
+          <va-additional-info
+            trigger="What if I don’t know the estimated value of an asset?"
+            uswds
+          >
             Don’t worry. We just want to get an idea of items of value you may
             own so we can better understand your financial situation. Include
             the amount of money you think you would get if you sold the asset.

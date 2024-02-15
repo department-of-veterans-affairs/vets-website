@@ -5,7 +5,8 @@
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    ".": "./exportsFile.js"
+    ".": "./exportsFile.js",
+    "./downtime/MHVDown": "./downtime/components/MHVDown.jsx"
   },
   "peerDependencies": {
     "react": "*",
