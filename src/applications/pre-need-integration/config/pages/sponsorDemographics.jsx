@@ -1,13 +1,16 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+// This will be used again once the changes are made in the json-schema
+// import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import { merge, pick } from 'lodash';
+// pick will need to be added back to this 'lodash' import
+import { merge } from 'lodash';
 import {
   sponsorDemographicsDescription,
   sponsorDemographicsSubHeader,
   veteranUI,
 } from '../../utils/helpers';
 
-const { veteran } = fullSchemaPreNeed.properties.application.properties;
+// This will be used again once the changes are made in the json-schema
+// const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   'ui:title': sponsorDemographicsSubHeader,
@@ -39,11 +42,25 @@ export const schema = {
           type: 'object',
           // 'race', was deleted from the line below
           required: ['maritalStatus', 'gender'],
-          properties: pick(veteran.properties, [
-            'maritalStatus',
-            'gender',
-            // 'race',
-          ]),
+          // Below will updated once the json-schema stuff is updated and merged
+          // properties: pick(veteran.properties, ['maritalStatus', 'gender']),
+          properties: {
+            maritalStatus: {
+              type: 'string',
+              enum: [
+                'Single',
+                'Separated',
+                'Married',
+                'Divorced',
+                'Widowed',
+                'na',
+              ],
+            },
+            gender: {
+              type: 'string',
+              enum: ['Female', 'Male', 'na'],
+            },
+          },
         },
       },
     },

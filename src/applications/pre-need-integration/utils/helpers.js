@@ -656,15 +656,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -673,6 +676,7 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
     },
   },
