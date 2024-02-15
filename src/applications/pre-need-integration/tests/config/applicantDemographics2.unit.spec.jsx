@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  fillData,
+  selectCheckbox,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -14,7 +14,7 @@ describe('Pre-need applicant demographics', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.applicantInformation.pages.applicantDemographics;
+  } = formConfig.chapters.applicantInformation.pages.applicantDemographics2;
 
   it('should render', () => {
     const form = mount(
@@ -25,7 +25,8 @@ describe('Pre-need applicant demographics', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(4);
+    expect(form.find('label').length).to.equal(7);
     form.unmount();
   });
 
@@ -57,8 +58,8 @@ describe('Pre-need applicant demographics', () => {
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'input#root_application_veteran_gender_0', 'Female');
-    selectRadio(form, 'root_application_veteran_maritalStatus', 'Single');
+    selectRadio(form, 'root_application_veteran_ethnicity', 'Unknown');
+    selectCheckbox(form, 'root_application_veteran_race_isAsian', true);
 
     form.find('form').simulate('submit');
 
