@@ -154,28 +154,13 @@ const ReportModal = ({
               uswds
             >
               {addressReportable && (
-                <va-checkbox
-                  label="Incorrect address"
-                  name="address"
-                  uswds
-                  id="1"
-                />
+                <va-checkbox label="Address" name="address" uswds id="1" />
               )}
               {emailReportable && (
-                <va-checkbox
-                  label="Incorrect email"
-                  name="email"
-                  uswds
-                  id="2"
-                />
+                <va-checkbox label="Email" name="email" uswds id="2" />
               )}
               {phoneReportable && (
-                <va-checkbox
-                  label="Incorrect phone number"
-                  name="phone"
-                  uswds
-                  id="3"
-                />
+                <va-checkbox label="Phone number" name="phone" uswds id="3" />
               )}
               {otherReportable && (
                 <va-checkbox label="Other" name="other" uswds id="4" />
