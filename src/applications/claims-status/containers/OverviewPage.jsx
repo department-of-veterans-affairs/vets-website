@@ -13,6 +13,7 @@ import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
 // END lighthouse_migration
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimTimeline from '../components/ClaimTimeline';
+import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -242,6 +243,7 @@ class OverviewPage extends React.Component {
 
     return (
       <div>
+        <ClaimOverviewHeader />
         {showDocsNeeded ? (
           <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
         ) : null}

@@ -178,7 +178,7 @@ const ViewAppeal = () => {
         <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Uploaded evidence
         </h5>
-        <span>filename.pdf</span>
+        <span>103123_Medical-Records_Baker-H.pdf</span>
         <p />
         <va-button
           class="screen-only"

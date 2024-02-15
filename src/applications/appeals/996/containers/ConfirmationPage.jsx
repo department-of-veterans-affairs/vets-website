@@ -13,6 +13,7 @@ import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
+import { renderFullName } from '../../shared/utils/data';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -36,7 +37,6 @@ export const ConfirmationPage = () => {
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
   const submitDate = moment(submission?.timestamp);
 
   return (
@@ -61,15 +61,7 @@ export const ConfirmationPage = () => {
           Your information for this claim
         </h3>
         <h4>Your name</h4>
-        {fullName ? (
-          <div
-            className="dd-privacy-hidden"
-            data-dd-action-name="Veteran full name"
-          >
-            {name.first} {name.middle} {name.last}
-            {name.suffix ? `, ${name.suffix}` : null}
-          </div>
-        ) : null}
+        {renderFullName(name)}
 
         {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
         <IssuesSubmitted issues={issues} />
