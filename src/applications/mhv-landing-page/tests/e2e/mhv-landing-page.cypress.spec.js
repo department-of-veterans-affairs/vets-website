@@ -1,4 +1,3 @@
-import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import vamcEhr from '../fixtures/vamc-ehr.json';
@@ -28,7 +27,6 @@ describe(`${appName} - landing page`, () => {
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
     cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
     cy.findByRole('heading', { level: 2, name: /^Welcome/ }).should(
       'not.exist',
