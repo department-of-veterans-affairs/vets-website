@@ -26,6 +26,7 @@ import {
   titleSchema,
   inlineTitleUI,
   titleUI,
+  customRelationshipSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
@@ -200,6 +201,12 @@ const formConfig = {
             certifierRelationship: relationshipToVeteranUI({
               personTitle: 'Applicant(s)',
               labelHeaderLevel: 0,
+              customLabels: {
+                spouse: `I’m spouse of an Applicant`,
+                child: 'I’m the child of an Applicant',
+                caretaker: 'I’m the caretaker of an Applicant',
+                other: 'A relationship not listed',
+              },
             }),
           },
           schema: {
@@ -207,10 +214,12 @@ const formConfig = {
             required: ['certifierRelationship'],
             properties: {
               titleSchema,
-              certifierRelationship: {
-                ...relationshipToVeteranSchema,
-                required: [],
-              },
+              certifierRelationship: customRelationshipSchema([
+                'spouse',
+                'child',
+                'caretaker',
+                'other',
+              ]),
             },
           },
         },
