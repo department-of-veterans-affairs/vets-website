@@ -40,26 +40,26 @@ class IntroductionPage extends React.Component {
         </VaAlert>
 
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for CHAMPVA benefits.
+          Follow the steps to apply for CHAMPVA benefits.
         </h2>
         <va-process-list uswds>
           <va-process-list-item header="Prepare">
             <p>When you apply, be sure to have these on hand:</p>
             <ul>
               <li>Required information</li>
-              <li>Veteran's Social Security number</li>
-              <li>Veteran's VA file number, if you know it</li>
+              <li>Veteran’s Social Security number</li>
+              <li>Veteran’s VA file number, if you know it</li>
               <li>
-                Veteran's address, phone number, and email where we can contact
+                Veteran’s address, phone number, and email where we can contact
                 them, if you know it
               </li>
               <li>
-                Veteran's date of birth, marriage, and death (if applicable)
+                Veteran’s date of birth, marriage, and death (if applicable)
               </li>
-              <li>Additional applicants' Social Security numbers</li>
-              <li>Additional applicants' dates of birth</li>
+              <li>Additional applicants’ Social Security numbers</li>
+              <li>Additional applicants’ dates of birth</li>
               <li>
-                Additional applicants' address, phone number, and email where we
+                Additional applicants’ address, phone number, and email where we
                 can contact them
               </li>
             </ul>
@@ -88,6 +88,10 @@ class IntroductionPage extends React.Component {
                 </a>
               </li>
               <li>
+                Documents related to any dependent children you’re including in
+                your application:
+              </li>
+              <li>
                 A copy of each child’s birth certificate or adoption papers
               </li>
               <li>
@@ -98,8 +102,15 @@ class IntroductionPage extends React.Component {
                   requirements - PDF
                 </a>
               </li>
+              <li>
+                A copy of documents related to the applicant’s marriage status:
+              </li>
               <li>A copy of your marriage certificate</li>
               <li>A copy of the document that ended your marriage</li>
+              <li>
+                Documents related to the applicant’s other healthcare status
+                CHAMPVA Other Health (OHI) Certification form 10-7959c:
+              </li>
               <li>A copy of your Medicare card(s)</li>
               <li>A copy of your health insurance card(s)</li>
             </ul>
@@ -107,8 +118,8 @@ class IntroductionPage extends React.Component {
           <va-process-list-item header="Apply">
             <p>Complete this application for CHAMPVA benefits form.</p>
             <p>
-              After submitting the form, you’ll get a confirmation message. It
-              will include details about your next steps.
+              After submitting your application, you’ll get a confirmation
+              message. It will include details about your next steps.
             </p>
             <p>You can print this for your records.</p>
           </va-process-list-item>
@@ -137,9 +148,10 @@ class IntroductionPage extends React.Component {
               mail to let you know if your application has been approved.
             </p>
             <va-additional-info trigger="How long will it take to hear back about my application?">
-              If you send us all required and optional documents—and if your
-              application is complete—it’ll take about 6 weeks after we get your
-              package until you get your CHAMPVA ID card and related materials.
+              If you send us all required and optional documents — and if your
+              application is complete — it’ll take about 6 weeks after we get
+              your package until you get your CHAMPVA ID card and related
+              materials.
               <br />
               <br />
               If you submit the application without the optional documents, it
