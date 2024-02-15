@@ -23,7 +23,8 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.intercept('GET', '/v0/profile/contacts', { data: [] });
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
-    cy.get(/To add a contact, call us/);
+    cy.findByTestId('phcc-no-ecs');
+    cy.findByTestId('phcc-no-nok');
     cy.injectAxeThenAxeCheck();
   });
 });
