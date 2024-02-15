@@ -13,10 +13,11 @@ const usePrintTitle = (
       const name = first
         ? `${first} ${last} ${suffix}`.replace(/undefined/g, '').trim()
         : 'John Doe Jr.';
-      const formattedDob = dateFormat(new Date(dob)) || 'March 15, 1982';
+      let pageTitle = `${baseTitle} | ${name}`;
+      if (dob) pageTitle += ` | ${dateFormat(new Date(dob))}`;
 
       const beforePrintHandler = () => {
-        updatePageTitle(`${baseTitle} | ${name} | ${formattedDob}`);
+        updatePageTitle(pageTitle);
       };
 
       const afterPrintHandler = () => {
