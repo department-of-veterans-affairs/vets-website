@@ -18,8 +18,6 @@ describe('Medications Details Page Non VA Prescription ', () => {
     detailsPage.clickMedicationDetailsLink(nonVARx);
     detailsPage.verifyNonVaMedicationStatusOnDetailsPage(nonVARx);
     // detailsPage.verifyNonVAMedicationDisplayMessageOnDetailsPage(nonVARx);
-    detailsPage.verifyPrescriptionSourceForNonVAMedicationOnDetailsPage(
-      nonVARx,
-    );
+    listPage.verifyPrescriptionSourceForNonVAMedicationOnDetailsPage();
   });
 });

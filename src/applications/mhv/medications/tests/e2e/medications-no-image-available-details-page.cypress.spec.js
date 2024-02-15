@@ -15,8 +15,9 @@ describe('Medications Refill History No Image on Details Page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
+    listPage.verifyCmopNdcNumberIsNull();
     detailsPage.clickMedicationDetailsLink(activeRxNoImage);
-    detailsPage.verifyCmopNdcNumberIsNull(activeRxNoImage);
+
     detailsPage.verifyNoImageFieldMessageOnDetailsPage();
   });
 });
