@@ -64,7 +64,7 @@ export default {
     },
     toursOfDuty: {
       'ui:options': {
-        itemName: 'Service Period',
+        itemName: 'Service period',
         viewField: ServicePeriodView,
         hideTitle: true,
         uswds: true,
