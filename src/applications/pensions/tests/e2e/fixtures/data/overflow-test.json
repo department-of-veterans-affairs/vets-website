@@ -273,6 +273,7 @@
         "childSocialSecurityNumber": "122222222",
         "childRelationship": "ADOPTED",
         "previouslyMarried": false,
+        "disabled": false,
         "fullName": {
           "first": "Sam",
           "middle": "Jason",
