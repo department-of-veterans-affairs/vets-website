@@ -16,6 +16,7 @@ import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import AdditionalEvidencePage from './AdditionalEvidencePage';
+import ClaimFileHeader from '../components/ClaimFileHeader';
 
 import { clearNotification } from '../actions';
 import { cstUseLighthouse } from '../selectors';
@@ -135,6 +136,7 @@ class FilesPage extends React.Component {
               />
             </Toggler.Disabled>
             <Toggler.Enabled>
+              <ClaimFileHeader />
               <AdditionalEvidencePage />
             </Toggler.Enabled>
           </Toggler>
