@@ -79,9 +79,9 @@ export const SearchResultsHeader = props => {
             uswds
             visible
           >
-            <h2 id="track-your-status-on-mobile" slot="headline">
+            <h3 id="track-your-status-on-mobile" slot="headline">
               We’re updating our search tool
-            </h2>
+            </h3>
             <p>
               Our search tool may show outdated contact information for some
               accredited representatives. You can report outdated information in
@@ -90,11 +90,10 @@ export const SearchResultsHeader = props => {
           </va-alert>
         </div>
 
-        <h3
+        <p
           id="search-results-subheader"
           className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
           tabIndex="-1"
-          style={{ fontSize: 16 }}
         >
           {handleNumberOfResults()} for
           {` `}
@@ -119,7 +118,7 @@ export const SearchResultsHeader = props => {
               &quot;
             </>
           )}
-        </h3>
+        </p>
 
         {noResultsFound ? (
           <p className="vads-u-margin-bottom--8">
