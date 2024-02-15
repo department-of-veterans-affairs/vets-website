@@ -124,7 +124,6 @@ const OverviewPage = () => {
             label: 'Current copay balances',
           },
         ]}
-        className="vads-u-font-family--sans no-wrap"
         label="Breadcrumb"
         uswds
       />

@@ -33,39 +33,36 @@ const HTMLStatementPage = ({ match }) => {
 
   return (
     <>
-      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
-        <VaBreadcrumbs
-          breadcrumbList={[
-            {
-              href: '/',
-              label: 'Home',
-            },
-            {
-              href: '/manage-va-debt',
-              label: 'Manage your VA debt',
-            },
-            {
-              href: '/manage-va-debt/summary',
-              label: 'Your VA debt and bills',
-            },
-            {
-              href: '/manage-va-debt/summary/copay-balances',
-              label: 'Current copay balances',
-            },
-            {
-              href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
-              label: `${prevPage}`,
-            },
-            {
-              href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
-              label: `${title}`,
-            },
-          ]}
-          className="vads-u-font-family--sans no-wrap"
-          label="Breadcrumb"
-          uswds
-        />
-      </div>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/copay-balances',
+            label: 'Current copay balances',
+          },
+          {
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            label: `${prevPage}`,
+          },
+          {
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
+            label: `${title}`,
+          },
+        ]}
+        label="Breadcrumb"
+        uswds
+      />
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
         <p className="va-introtext" data-testid="facility-name">

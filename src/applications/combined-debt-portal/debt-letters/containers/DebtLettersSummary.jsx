@@ -117,7 +117,6 @@ const DebtLettersSummary = () => {
             label: 'Current VA debt',
           },
         ]}
-        className="vads-u-font-family--sans no-wrap"
         label="Breadcrumb"
         uswds
       />
