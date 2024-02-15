@@ -8,6 +8,7 @@ import {
   conditionsQuestion,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
+  validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 
@@ -22,6 +23,7 @@ export const uiSchema = {
     replaceSchema: makeTEConditionsSchema,
     updateUiSchema: makeTEConditionsUISchema,
   }),
+  'ui:validations': [validateTEConditions],
 };
 
 export const schema = {

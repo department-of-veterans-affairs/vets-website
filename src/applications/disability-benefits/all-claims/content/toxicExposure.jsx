@@ -70,7 +70,7 @@ export const gulfWar1990Question =
   }
 }
  *
- * @param {*} formData Full formData for the form
+ * @param {object} formData - Full formData for the form
  * @returns {object} Object with id's for each condition
  */
 export const makeTEConditionsSchema = formData => {
@@ -98,27 +98,25 @@ export const makeTEConditionsSchema = formData => {
  *     'ui:title': 'I am not claiming any conditions related to toxic exposure',
  *   },
  * };
- * @param {*} formData Full formData for the form
+ * @param {*} formData - Full formData for the form
  * @returns {object} Object with id and title for each condition
  */
 export const makeTEConditionsUISchema = formData => {
-  const { newDisabilities } = formData;
+  const { newDisabilities = [] } = formData;
   const options = {};
 
-  if (newDisabilities) {
-    newDisabilities.forEach(disability => {
-      const { condition } = disability;
+  newDisabilities.forEach(disability => {
+    const { condition } = disability;
 
-      const capitalizedDisabilityName =
-        typeof condition === 'string'
-          ? capitalizeEachWord(condition)
-          : NULL_CONDITION_STRING;
+    const capitalizedDisabilityName =
+      typeof condition === 'string'
+        ? capitalizeEachWord(condition)
+        : NULL_CONDITION_STRING;
 
-      options[sippableId(condition)] = {
-        'ui:title': capitalizedDisabilityName,
-      };
-    });
-  }
+    options[sippableId(condition)] = {
+      'ui:title': capitalizedDisabilityName,
+    };
+  });
 
   options.none = {
     'ui:title': 'I am not claiming any conditions related to toxic exposure',
@@ -126,3 +124,24 @@ export const makeTEConditionsUISchema = formData => {
 
   return options;
 };
+
+/**
+ * Validates selected Toxic Exposure conditions. If the 'none' checkbox is selected along with a new condition
+ * adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ */
+export function validateTEConditions(errors, formData) {
+  const { toxicExposureConditions = {} } = formData;
+
+  if (
+    toxicExposureConditions.none === true &&
+    Object.values(toxicExposureConditions).filter(value => value === true)
+      .length > 1
+  ) {
+    errors.addError(
+      'You selected a condition, and you selected “I’m not claiming any conditions relaetd to toxic exposure.” You’ll need to uncheck one of these options to continue',
+    );
+  }
+}
