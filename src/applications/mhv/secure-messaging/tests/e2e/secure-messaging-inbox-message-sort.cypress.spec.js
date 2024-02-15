@@ -33,13 +33,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
       .select('SENT_DATE_ASCENDING', { force: true })
       .should('contain', 'newest');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
   it('Sort Inbox Messages from A to Z', () => {
     cy.get('#sort-order-dropdown')
@@ -48,13 +42,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
       .select('SENDER_ALPHA_ASCENDING', { force: true })
       .should('contain', 'A to Z');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Sort Inbox Messages from Z to A', () => {
@@ -64,13 +52,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
       .select('SENDER_ALPHA_DESCENDING', { force: true })
       .should('contain', 'Z to A');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   afterEach(() => {

@@ -35,16 +35,7 @@ describe('Secure Messaging Move Message tests', () => {
     folderPage.verifyMoveMessageSuccessConfirmationMessage();
     folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('move message from inbox to deleted', () => {
@@ -61,15 +52,6 @@ describe('Secure Messaging Move Message tests', () => {
     folderPage.verifyMoveMessageSuccessConfirmationMessage();
     folderPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

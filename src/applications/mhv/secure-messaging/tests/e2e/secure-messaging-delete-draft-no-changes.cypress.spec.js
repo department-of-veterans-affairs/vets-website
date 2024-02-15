@@ -14,26 +14,11 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     draftsPage.clickDeleteButton();
     draftsPage.verifyDeleteConfirmationMessage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get('[data-testid="inbox-sidebar"]')
       .find('a')
       .should('have.class', 'is-active');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

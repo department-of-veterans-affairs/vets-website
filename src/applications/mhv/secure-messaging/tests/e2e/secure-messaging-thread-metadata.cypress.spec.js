@@ -17,12 +17,6 @@ describe('Secure Messaging Message Details AXE Check', () => {
       );
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

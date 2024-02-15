@@ -36,16 +36,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
 
     cy.wait('@autosaveResponse');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);
   });
 });

@@ -42,15 +42,6 @@ describe('Secure Messaging Delete Reply Draft', () => {
     draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

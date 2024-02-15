@@ -17,13 +17,7 @@ describe('recipients dropdown box', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     PatientInterstitialPage.getContinueButton().click();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get('[data-testid="compose-recipient-select"]').should('exist');
     cy.get('[data-testid="compose-recipient-select"]')
       .find('select')
@@ -46,13 +40,7 @@ describe('recipients dropdown box', () => {
     );
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     // ad assertion to check blocked group does not exist in the dd list
 

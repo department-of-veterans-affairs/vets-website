@@ -25,25 +25,13 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage.clickOnSendMessageButton();
     composePage.verifySubjectErrorMessage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
   it('empty message body error', () => {
     composePage.getMessageSubjectField().type('Test Subject');
     composePage.clickOnSendMessageButton();
     composePage.verifyBodyErrorMessage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });
