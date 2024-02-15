@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 
 import { waitFor, within } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
 import {
