@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
@@ -126,25 +127,20 @@ export const SearchResultsHeader = props => {
           </p>
         ) : (
           <div className="sort-dropdown">
-            <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
-              Sort by
-            </label>
             <div className="sort-select-and-apply">
               <div className="sort-select">
-                <select
-                  id="representative-sorting-dropdown"
-                  aria-label="Sort"
-                  // ref={sortTypeRef}
+                <VaSelect
+                  name="sort"
                   value={selectedSortType}
-                  title="Sort by:"
-                  onChange={e => setSelectedSortType(e.target.value)}
+                  label="Sort by"
+                  onVaSelect={e => setSelectedSortType(e.target.value)}
+                  uswds
                 >
-                  {' '}
-                  {options}{' '}
-                </select>
+                  {options}
+                </VaSelect>
               </div>
 
-              <div className="vads-u-margin-left--2 sort-apply-button">
+              <div className="sort-apply-button">
                 <va-button
                   onClick={onClickApplyButton}
                   text="Apply"
