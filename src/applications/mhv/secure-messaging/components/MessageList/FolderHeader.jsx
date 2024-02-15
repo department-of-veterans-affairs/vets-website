@@ -105,10 +105,9 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
-      {cernerTransition556T30 &&
-        folder.folderId === Folders.INBOX.id && (
-          <CernerTransitioningFacilityAlert />
-        )}
+      {folder.folderId === Folders.INBOX.id && (
+        <CernerTransitioningFacilityAlert />
+      )}
 
       {folder.folderId === Folders.INBOX.id &&
         cernerFacilitiesPresent && <CernerFacilityAlert />}
