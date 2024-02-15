@@ -59,7 +59,7 @@ const UploadMessage = (
       <br />
       PO Box 5365
       <br />
-      Janesville, WI 53547-5192
+      Janesville, WI 53547-5365
       <br />
     </p>
   </div>
