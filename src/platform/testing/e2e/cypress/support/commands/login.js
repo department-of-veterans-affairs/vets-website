@@ -46,6 +46,7 @@ const mockUser = {
         'hca',
         'edu-benefits',
         'evss-claims',
+        'lighthouse',
         'form526',
         'user-profile',
         'health-records',
