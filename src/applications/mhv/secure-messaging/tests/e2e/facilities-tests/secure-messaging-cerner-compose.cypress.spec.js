@@ -19,13 +19,7 @@ describe('Secure Messaging Inbox Cerner', () => {
       mockEhrData,
     );
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Displays warning with cerner facilities list for one Cerner Facility', () => {
@@ -38,13 +32,7 @@ describe('Secure Messaging Inbox Cerner', () => {
       mockEhrData,
     );
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Does not display warning with no cerner facilities', () => {
@@ -54,12 +42,6 @@ describe('Secure Messaging Inbox Cerner', () => {
     landingPage.loadInboxMessages();
     landingPage.verifyCernerFacilityNames(noCernerFacilitiesUser, mockEhrData);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });
