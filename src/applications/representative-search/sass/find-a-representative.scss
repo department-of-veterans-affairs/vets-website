@@ -144,11 +144,27 @@
     .sort-dropdown {
       .sort-select-and-apply {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
 
         .sort-select {
           margin-bottom: 4.8px;
-          width: 32rem;
+          min-width: 25rem;
+          margin-left: 0;
+        }
+
+        .sort-apply-button {
+          margin-left: 2rem;
+        }
+      }
+
+      @media (max-width: 26rem) {
+        .sort-select-and-apply {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .sort-apply-button {
+            margin: 0;
+          }
         }
       }
     }
