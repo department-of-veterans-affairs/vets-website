@@ -13,13 +13,26 @@ export default {
     arrayPath: 'employers',
     modalTitle: 'Are you sure you want to cancel adding this employer?',
     modalDescription:
-      "If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers.",
+      "If you cancel adding this employer, we won't save the information. You’ll return to a screen where you can add or remove employers.",
     summaryRoute: '/array-multiple-page-builder-summary',
   }),
   uiSchema: {
-    ...titleUI('Name and address of employer or unit'),
     employers: {
       items: {
+        ...titleUI(
+          () => {
+            const isEdit = window.location.search.includes('edit=true');
+            return isEdit
+              ? 'Edit name and address of employer or unit'
+              : 'Name and address of employer or unit';
+          },
+          () => {
+            const isEdit = window.location.search.includes('edit=true');
+            return isEdit
+              ? 'We’ll take you through each of the sections of this employer for you to review and edit'
+              : '';
+          },
+        ),
         name: {
           'ui:title': 'Name of employer',
           'ui:webComponentField': VaTextInputField,
