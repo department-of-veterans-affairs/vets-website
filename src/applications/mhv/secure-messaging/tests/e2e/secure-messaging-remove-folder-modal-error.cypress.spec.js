@@ -21,13 +21,7 @@ describe('remove folder error modal', () => {
 
   it('verify modal message', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     PatientMessageCustomFolderPage.loadSingleFolderWithMessages(
       folderId,
