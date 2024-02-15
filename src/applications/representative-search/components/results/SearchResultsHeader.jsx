@@ -70,7 +70,7 @@ export const SearchResultsHeader = props => {
 
   return (
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
-      <h2 className="vads-u-margin-y--0">Your search results</h2>
+      <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
         <div>
           {' '}
