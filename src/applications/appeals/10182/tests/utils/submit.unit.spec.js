@@ -10,6 +10,7 @@ import {
   getEligibleContestableIssues,
   getPart3Data,
   getTimeZone,
+  getEmail,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
@@ -86,6 +87,10 @@ const issue2 = {
 };
 
 describe('getEligibleContestableIssues', () => {
+  it('should empty array', () => {
+    expect(getEligibleContestableIssues()).to.deep.equal([]);
+    expect(getEligibleContestableIssues([{}])).to.deep.equal([]);
+  });
   it('should remove ineligible dates', () => {
     expect(
       getEligibleContestableIssues([
@@ -138,6 +143,9 @@ describe('createIssueName', () => {
       },
     });
 
+  it('should return no issue details', () => {
+    expect(createIssueName()).to.eq('0%');
+  });
   it('should combine issue details into the name', () => {
     // contestable issues only
     expect(getName('test', 'foo', '10')).to.eq('test - 10% - foo');
@@ -396,5 +404,19 @@ describe('getPart3Data', () => {
       extensionReason: 'yep',
     };
     expect(getPart3Data(formData)).to.deep.equal(result);
+  });
+});
+
+describe('getEmail', () => {
+  it('should return empty string', () => {
+    expect(getEmail()).to.deep.equal({ emailAddressText: '' });
+  });
+  it('should return v0 email', () => {
+    const data = { [SHOW_PART3]: false, veteran: { email: 'test@test.com' } };
+    expect(getEmail(data)).to.deep.equal({ emailAddressText: 'test@test.com' });
+  });
+  it('should return v1 email', () => {
+    const data = { [SHOW_PART3]: true, veteran: { email: 'test@test.com' } };
+    expect(getEmail(data)).to.deep.equal({ email: 'test@test.com' });
   });
 });

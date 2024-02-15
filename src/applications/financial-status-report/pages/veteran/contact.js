@@ -77,7 +77,10 @@ export const uiSchema = {
       },
       livesOnMilitaryBaseInfo: {
         'ui:description': () => (
-          <va-additional-info trigger="Learn more about military base addresses">
+          <va-additional-info
+            trigger="Learn more about military base addresses"
+            uswds
+          >
             <span>
               The United States is automatically chosen as your country if you
               live on a military base outside of the country.
