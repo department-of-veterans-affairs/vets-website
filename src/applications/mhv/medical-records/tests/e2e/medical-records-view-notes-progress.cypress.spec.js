@@ -26,6 +26,8 @@ describe('Medical Records Care Summary Page ', () => {
     NotesDetailsPage.verifyProgressNoteLocation('DAYTSHR TEST LAB');
     // Verify Progress Note Details Signed by
     NotesDetailsPage.verifyProgressNoteSignedBy('AHMED,MARUF');
+    // Verify Progress Note Details Cosigned by
+    NotesDetailsPage.verifyProgressNoteCoSignedBy('AHMED,MARUF');
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate('August 5, 2022');
     // Verify Progress Note Record Details

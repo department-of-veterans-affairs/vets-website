@@ -27,6 +27,8 @@ describe('Medical Records Care Summary Page ', () => {
     NotesDetailsPage.verifyProgressNoteLocation('DAYTON');
     // Verify Progress Note Details Signed by
     NotesDetailsPage.verifyProgressNoteSignedBy('TESTER,JOHN');
+    // Verify Progress Note Details Cosigned by
+    NotesDetailsPage.verifyProgressNoteCoSignedBy('TESTER,JOHN');
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate('February 7, 2024');
     // Verify Progress Note Record Details
