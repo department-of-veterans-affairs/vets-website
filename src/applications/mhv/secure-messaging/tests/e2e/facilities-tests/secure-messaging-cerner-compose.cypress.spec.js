@@ -1,12 +1,12 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
-import noCernerFacilitiesUser from './fixtures/userResponse/user.json';
-import mockOneCernerFacilitiesUser from './fixtures/userResponse/user-cerner-all.json';
-import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
-import mockEhrData from './fixtures/vamc-ehr.json';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
+import noCernerFacilitiesUser from '../fixtures/userResponse/user.json';
+import mockOneCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-all.json';
+import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
+import mockEhrData from '../fixtures/vamc-ehr.json';
 
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Cerner', () => {
   it('Displays warning with cerner facilities list for mixed Cerner Facilities', () => {
@@ -19,13 +19,7 @@ describe('Secure Messaging Inbox Cerner', () => {
       mockEhrData,
     );
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Displays warning with cerner facilities list for one Cerner Facility', () => {
@@ -38,13 +32,7 @@ describe('Secure Messaging Inbox Cerner', () => {
       mockEhrData,
     );
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('Does not display warning with no cerner facilities', () => {
@@ -54,12 +42,6 @@ describe('Secure Messaging Inbox Cerner', () => {
     landingPage.loadInboxMessages();
     landingPage.verifyCernerFacilityNames(noCernerFacilitiesUser, mockEhrData);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });
