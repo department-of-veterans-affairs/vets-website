@@ -14,15 +14,16 @@ export const uiSchema = {
   'ui:description': sponsorDemographicsDescription,
   application: {
     veteran: merge({}, veteranUI, {
-      gender: {
-        'ui:title': 'What’s the sponsor’s sex?',
-      },
-      race: {
-        'ui:title':
-          'Which categories best describe the sponsor? (You may check more than one.)',
-      },
+      // race (below) is going to be moved to the new screen 6 from MBMS-54135
+      // race: {
+      //   'ui:title':
+      //     'Which categories best describe the sponsor? (You may check more than one.)',
+      // },
       maritalStatus: {
         'ui:title': 'What’s the sponsor’s marital status?',
+      },
+      gender: {
+        'ui:title': 'What’s the sponsor’s sex?',
       },
     }),
   },
@@ -36,11 +37,12 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['gender', 'race', 'maritalStatus'],
+          // 'race', was deleted from the line below
+          required: ['maritalStatus', 'gender'],
           properties: pick(veteran.properties, [
-            'gender',
-            'race',
             'maritalStatus',
+            'gender',
+            // 'race',
           ]),
         },
       },
