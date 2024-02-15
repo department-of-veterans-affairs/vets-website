@@ -20,6 +20,8 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
     const addressForAPIRequest = {
       addressLine1: formDataUserAddress.street,
       addressLine2: formDataUserAddress.street2,
+      addressPou: 'CORRESPONDENCE',
+      addressType: 'DOMESTIC',
       city: formDataUserAddress.city,
       countryCodeIso3: formDataUserAddress.country,
       stateCode: formDataUserAddress.state,
