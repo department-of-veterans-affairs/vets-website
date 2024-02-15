@@ -230,10 +230,14 @@ describe('VAOS <AppointmentsPage>', () => {
         name: 'Breadcrumbs',
       });
       expect(navigation).to.be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .exist;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).not.to.exist;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).not.to.exist;
 
       // and scheduling button should be displayed
       expect(
@@ -320,10 +324,14 @@ describe('VAOS <AppointmentsPage>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).to.be
-        .ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).to.be.ok;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).not.to.exist;
 
       expect(
         screen.getByText(
@@ -395,9 +403,14 @@ describe('VAOS <AppointmentsPage>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).to.exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).not.to.be.ok;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).to.exist;
 
       const dropdown = await screen.findByTestId('vaosSelect');
 
