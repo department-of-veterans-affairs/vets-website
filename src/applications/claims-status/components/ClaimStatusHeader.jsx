@@ -20,10 +20,10 @@ function ClaimStatusHeader({ claim }) {
   return (
     <div className="claim-status-header-container">
       <h2 className="vads-u-margin-y--0">Claim status</h2>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--3 va-introtext">
         Here’s the latest information on your claim.{' '}
       </p>
-      <div className="vads-u-margin-top--1 vads-u-margin-bottom--4">
+      <div className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         {inProgress && <span className="usa-label">{inProgress}</span>}
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
           {getLastUpdated(claim)}
