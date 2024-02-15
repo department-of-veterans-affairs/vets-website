@@ -123,7 +123,7 @@ describe('Get vitals api call', () => {
     const mockData = vitals;
     mockApiRequest(mockData);
 
-    return getVitalsList(true).then(res => {
+    return getVitalsList().then(res => {
       expect(res.entry.length).to.equal(7);
     });
   });
