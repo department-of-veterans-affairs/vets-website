@@ -11,7 +11,8 @@
     "src/platform/testing/unit/enzyme-setup.js",
     "dd-trace/ci/init"
   ],
-  "reporter": "progress",
+  "parallel": "true",
+  "reporter": "min",
   "timeout": 10000,
   "slow": 0
 }
