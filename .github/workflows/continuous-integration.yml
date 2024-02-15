@@ -1047,105 +1047,105 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  testing-reports-unit-tests-stress-test:
-    name: Testing Reports - Unit Test Stability Review
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, unit-tests-stress-test]
-    if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
-      - name: Checkout
-        uses: actions/checkout@v4
+  # testing-reports-unit-tests-stress-test:
+  #   name: Testing Reports - Unit Test Stability Review
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, unit-tests-stress-test]
+  #   if: ${{ always() && (needs.unit-tests-stress-test.result == 'success' || needs.unit-tests-stress-test.result == 'failure')}}
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Set IS_MASTER_BUILD
+  #       run: |
+  #         if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+  #             echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+  #         else
+  #             echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+  #         fi
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
+  #     # ------------------------
+  #     # | Upload BigQuery Data |
+  #     # ------------------------
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-
-
-      - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         mask-aws-account-id: true
 
 
-      # --------------------------------------------------
-      # | Publish Unit Test Report and Upload to BigQuery |
-      # --------------------------------------------------
+  #     - name: Get va-vsp-bot token
+  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-stress-test-results
-          path: qa-standards-dashboard-data/src/testing-reports/data
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Create Unit Test report
-        run: yarn unit-mochawesome-to-bigquery
-        working-directory: qa-standards-dashboard-data
-        env:
-          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
-          TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
 
-      - name: Upload Unit Test Stability Review Report to S3
-        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+  #     - name: Get AWS IAM role
+  #       uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      # -------------------------
-      # | Unit Tests Summary |
-      # -------------------------
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Publish Unit Test Stability Review Results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Test Stability Review Summary
-          conclusion: ${{ needs.unit-tests-stress-test.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+  #         mask-aws-account-id: true
+
+
+  #     # --------------------------------------------------
+  #     # | Publish Unit Test Report and Upload to BigQuery |
+  #     # --------------------------------------------------
+
+  #     - name: Download Unit Test Mochawesome test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-test-stress-test-results
+  #         path: qa-standards-dashboard-data/src/testing-reports/data
+
+  #     - name: Create Unit Test report
+  #       run: yarn unit-mochawesome-to-bigquery
+  #       working-directory: qa-standards-dashboard-data
+  #       env:
+  #         UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+  #         UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+  #         TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-stress-test-reports
+
+  #     - name: Upload Unit Test Stability Review Report to S3
+  #       run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-unit-test-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+  #     # -------------------------
+  #     # | Unit Tests Summary |
+  #     # -------------------------
+
+  #     - name: Publish Unit Test Stability Review Results
+  #       if: ${{ always() }}
+  #       uses: LouisBrunner/checks-action@v1.1.1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         name: Unit Test Stability Review Summary
+  #         conclusion: ${{ needs.unit-tests-stress-test.result }}
+  #         output: |
+  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   testing-reports-unit-tests-coverage:
     name: Testing Reports - Unit Tests Coverage
