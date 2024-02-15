@@ -13,16 +13,20 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   return (
     <>
       {showLoginAlert ? (
-        <va-alert status="info" background-only>
-          <h2 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <va-featured-content uswds>
+          <h2
+            slot="headline"
+            className="vads-u-font-size--h4 vads-u-margin-bottom--2"
+          >
             Have you applied for VA health care before?
           </h2>
           <va-button
             text="Sign in to check your application status"
             onClick={() => toggleLoginModal(true, 'hcainfo')}
             data-testid="hca-login-alert-button"
+            uswds
           />
-        </va-alert>
+        </va-featured-content>
       ) : (
         <SaveInProgressIntro
           headingLevel={2}
@@ -37,7 +41,7 @@ const GetStartedContent = ({ route, showLoginAlert, toggleLoginModal }) => {
       <ProcessTimeline />
 
       {showLoginAlert ? (
-        <va-alert status="info" class="vads-u-margin-bottom--5">
+        <va-alert status="info" class="vads-u-margin-bottom--5" uswds>
           <h2 slot="headline">Save time and save your work in progress</h2>
           <p>Here’s how signing in now helps you:</p>
           <ul>

@@ -81,13 +81,15 @@ describe('hca <GetStartedContent>', () => {
   context('when the user is logged out', () => {
     const { mockStore, props } = getData({});
 
-    it('should render the correct number of login alerts', () => {
+    it('should render the correct number of login boxes', () => {
       const { container } = render(
         <Provider store={mockStore}>
           <GetStartedContent {...props} />
         </Provider>,
       );
-      const selector = container.querySelectorAll('va-alert');
+      const selector = container.querySelectorAll(
+        'va-alert, va-featured-content',
+      );
       expect(selector).to.have.lengthOf(2);
     });
 
