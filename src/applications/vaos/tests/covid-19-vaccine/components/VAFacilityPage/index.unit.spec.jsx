@@ -97,10 +97,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
       const buttons = await screen.findAllByRole('radio');
 
-      expect(await screen.findByText(/Choose a location/i)).to.exist;
+      expect(await screen.findByText(/Choose a VA location/i)).to.exist;
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          'Choose a location | Veterans Affairs',
+          'Choose a VA location | Veterans Affairs',
         );
       });
 
