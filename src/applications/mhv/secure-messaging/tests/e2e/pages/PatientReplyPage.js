@@ -22,7 +22,6 @@ class PatientReplyPage {
       mockReplyMessage,
     ).as('replyMessage');
     cy.get('[data-testid="Send-Button"]').click();
-    cy.wait('@replyMessage');
   };
 
   saveReplyDraft = (repliedToMessage, replyMessageBody) => {
