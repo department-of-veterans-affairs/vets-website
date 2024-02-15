@@ -66,10 +66,10 @@
         "status": 401
       },
       {
-        "externalService": "EMIS",
+        "externalService": "VAProfile",
         "startTime": "2020-07-23T16:58:32Z",
         "endTime": null,
-        "description": "EMISRedis::VeteranStatus::NotAuthorized, NOT_AUTHORIZED",
+        "description": "Mock Error Description for Testing",
         "status": 401
       }
     ]
