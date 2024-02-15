@@ -29,7 +29,7 @@
         "documentsNeeded": true,
         "developmentLetterSent": true,
         "decisionLetterSent": true,
-        "STATUS": "COMPLETE"
+        "status": "COMPLETE"
       }
     }
   ]
