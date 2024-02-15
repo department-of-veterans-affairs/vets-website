@@ -422,7 +422,7 @@ class PatientMessageDetailsPage {
       }"]`,
     )
       .find(
-        `[data-testid="attachment-name-${
+        `[data-testid="has-attachment-${
           messageThread.data[messageIndex].attributes.attachments[
             attachmentIndex
           ].id

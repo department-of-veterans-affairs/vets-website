@@ -147,7 +147,7 @@ const IntroductionPage = ({ route, formId }) => {
             interest, and other collection actions.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Follow-up">
+        <va-process-list-item header="Follow-up" uswds>
           <p>
             After we review your request, we’ll send you this information by
             mail:
@@ -178,6 +178,7 @@ const IntroductionPage = ({ route, formId }) => {
         omb-number="2900-0165"
         exp-date="11/30/2026"
         class="vads-u-margin-top--2"
+        uswds
       />
     </div>
   );

@@ -225,6 +225,7 @@ export function PreSubmitSection(props) {
                 onVaChange={event =>
                   setPreSubmit(preSubmit?.field, event.target.checked)
                 }
+                uswds
               />
             ) : (
               <VaCheckbox
