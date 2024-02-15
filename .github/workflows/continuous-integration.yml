@@ -308,7 +308,8 @@ jobs:
 
 
       - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
+        # if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
+        if: ${{  steps.get-changed-apps.outputs.folders == '' }}
         run: |
           if [ -f coverage/test-coverage-report.json ]; then
             aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
