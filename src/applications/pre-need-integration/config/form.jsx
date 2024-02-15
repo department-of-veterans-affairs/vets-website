@@ -24,6 +24,7 @@ import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorContactInfo from './pages/sponsorContactInfo';
+import * as sponsorRace from './pages/sponsorRace';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
@@ -433,6 +434,13 @@ const formConfig = {
           depends: formData => !isVeteran(formData),
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
+        },
+        sponsorRace: {
+          title: 'Sponsor ethnicity and race details ',
+          path: 'sponsor-race',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorRace.uiSchema,
+          schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",
