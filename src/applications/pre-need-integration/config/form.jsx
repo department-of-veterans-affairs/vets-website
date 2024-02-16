@@ -96,6 +96,7 @@ const {
   files,
   centralMailVaFile,
   race,
+  ethnicity,
 } = fullSchemaPreNeed.definitions;
 
 export const applicantMailingAddressStateTitleWrapper = (
@@ -172,6 +173,7 @@ const formConfig = {
     phone,
     files,
     centralMailVaFile,
+    ethnicity,
   },
   chapters: {
     preparerInformation: {
