@@ -241,9 +241,7 @@ const SearchPage = props => {
     ];
     return (
       <>
-        <div className="row vads-u-padding-left--4">
-          <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
-        </div>
+        <VaBreadcrumbs breadcrumbList={breadcrumbs} uswds />
       </>
     );
   };
@@ -384,13 +382,10 @@ const SearchPage = props => {
 
   return (
     <>
-      {renderBreadcrumbs()}
-
-      <div className="usa-grid use-grid-full ">
-        <div className="vads-u-margin-right--3">
-          {renderSearchSection()}
-          {renderResultsSection()}
-        </div>
+      <div className="usa-grid vads-u-padding-left--1p5">
+        {renderBreadcrumbs()}
+        {renderSearchSection()}
+        {renderResultsSection()}
         <GetFormHelp />
       </div>
     </>

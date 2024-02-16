@@ -16,7 +16,7 @@ describe('SearchResultsHeader', () => {
       />,
     );
 
-    expect(wrapper.find('h3').length).to.equal(0);
+    expect(wrapper.find('#search-results-subheader').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -36,7 +36,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h3')
+        .find('#search-results-subheader')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
@@ -54,7 +54,7 @@ describe('SearchResultsHeader', () => {
       />,
     );
 
-    expect(wrapper.find('h3').length).to.equal(0);
+    expect(wrapper.find('#search-results-subheader').length).to.equal(0);
     wrapper.unmount();
   });
 
@@ -74,7 +74,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h3')
+        .find('#search-results-subheader')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
@@ -100,7 +100,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h3')
+        .find('#search-results-subheader')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(
@@ -126,7 +126,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 12 of 12 results for "Accredited attorney" within "50 miles" of "new york"';
-    const actualString = wrapper.find('h3').text();
+    const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -153,7 +153,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 5 results for "Accredited attorney" within "50 miles" of "new york"';
-    const actualString = wrapper.find('h3').text();
+    const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -180,7 +180,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing1-10of12resultsfor"Accreditedattorney"within"50miles"of"newyork"';
-    const actualString = wrapper.find('h3').text();
+    const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -207,7 +207,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
-    const actualString = wrapper.find('h3').text();
+    const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -235,7 +235,7 @@ describe('SearchResultsHeader', () => {
 
     const expectedString =
       'Showing 11 - 20 of 25 results for "Accredited claims agent" within "50 miles" of "new york"';
-    const actualString = wrapper.find('h3').text();
+    const actualString = wrapper.find('#search-results-subheader').text();
 
     // Remove whitespaces and special characters
     const cleanExpected = expectedString.replace(/\s+/g, '');
@@ -274,7 +274,7 @@ describe('SearchResultsHeader', () => {
 
     expect(
       wrapper
-        .find('h3')
+        .find('#search-results-subheader')
         .text()
         .replace(/[^A-Za-z0-9" ]/g, ' '),
     ).to.equal(

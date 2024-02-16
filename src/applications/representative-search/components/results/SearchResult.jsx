@@ -112,6 +112,8 @@ const SearchResult = ({
                     query?.context?.location
                   }&daddr=${address}`}
                   tabIndex="0"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {addressLine1} {addressLine2} <br />
                   {city}, {stateCode} {zipCode}
@@ -142,7 +144,7 @@ const SearchResult = ({
                 visible="true"
               >
                 <p className="vads-u-margin-y--0">
-                  Thank you for reporting outdated information.
+                  Thanks for reporting outdated information.
                 </p>
               </va-alert>
             </div>
