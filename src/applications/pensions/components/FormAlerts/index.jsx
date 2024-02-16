@@ -167,8 +167,13 @@ export const LandMarketableAlert = () => (
       The additional land might not be marketable in these situations:
     </p>
     <ul>
-      <li>The entire lot of land is only slightly more than 2 acres, or</li>
-      <li>The additional land isn’t accessible, or</li>
+      <li>
+        The entire lot of land is only slightly more than 2 acres,{' '}
+        <strong>or</strong>
+      </li>
+      <li>
+        The additional land isn’t accessible, <strong>or</strong>
+      </li>
       <li>
         There are zoning rules that prevent selling the additional property
       </li>
