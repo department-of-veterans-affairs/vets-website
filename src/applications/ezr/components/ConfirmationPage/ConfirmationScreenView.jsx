@@ -29,9 +29,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
       </div>
 
       <va-featured-content class="vads-u-margin-bottom--4" uswds>
-        <h3 slot="headline" className="vads-u-margin-bottom--2">
-          {content['confirm-app-title']}
-        </h3>
+        <h3 slot="headline">{content['confirm-app-title']}</h3>
 
         <h4>{content['confirm-app-list-name']}</h4>
         <p
@@ -58,6 +56,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
             text={content['button-print']}
             onClick={() => window.print()}
             data-testid="ezr-print-button"
+            uswds
           />
         </div>
       </va-featured-content>
