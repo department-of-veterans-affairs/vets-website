@@ -7,7 +7,7 @@ import BenefitsProfileStatement from '../components/BenefitsProfileStatement';
 import RemainingBenefits from '../components/RemainingBenefits';
 import BenefitsExpirationDate from '../components/BenefitsExpirationDate';
 import PayeeInformationWrapper from './PayeeInformationWrapper';
-import PendingDocumentsWrapper from './PendingDocumentsWrapper';
+import PendingDocuments from '../components/PendingDocuments';
 import PageLink from '../components/PageLink';
 import {
   VERIFICATION_RELATIVE_URL,
@@ -58,7 +58,7 @@ const BenefitsProfileWrapper = ({ children }) => {
               }}
             />
             <ChangeOfDirectDepositWrapper />
-            <PendingDocumentsWrapper
+            <PendingDocuments
               loading={loading}
               pendingDocuments={pendingDocuments}
             />

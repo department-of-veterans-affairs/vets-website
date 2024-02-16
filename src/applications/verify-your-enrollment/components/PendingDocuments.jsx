@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../sass/change-of-direct-deposit-wrapper.scss';
 import { getPendingDocumentDescription } from '../helpers';
 import {
   PENDING_DOCUMENTS_TITLE,
@@ -8,7 +7,7 @@ import {
   NO_PENDING_DOCUMENTS_STATMENT,
 } from '../constants/index';
 
-const PendingDocumentsWrapper = ({ loading, pendingDocuments }) => {
+const PendingDocuments = ({ loading, pendingDocuments }) => {
   const handlePendingDocuments = () => {
     const documentInfo = getPendingDocumentDescription(
       pendingDocuments[0]?.docType,
@@ -58,9 +57,9 @@ const PendingDocumentsWrapper = ({ loading, pendingDocuments }) => {
   );
 };
 
-PendingDocumentsWrapper.propTypes = {
+PendingDocuments.propTypes = {
   loading: PropTypes.bool,
   pendingDocuments: PropTypes.object,
 };
 
-export default PendingDocumentsWrapper;
+export default PendingDocuments;
