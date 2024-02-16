@@ -179,7 +179,7 @@ describe('SearchResultsHeader', () => {
     );
 
     const expectedString =
-      'Showing1-10of12resultsfor"Accreditedattorney"within"50miles"of"newyork"';
+      'Showing 1-10 of 12 results fo r"Accredited attorney" within "50 miles" of "new york"';
     const actualString = wrapper.find('h3').text();
 
     // Remove whitespaces and special characters
