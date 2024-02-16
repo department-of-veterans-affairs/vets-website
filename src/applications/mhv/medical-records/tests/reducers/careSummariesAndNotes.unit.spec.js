@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   getRecordType,
   convertCareSummariesAndNotesRecord,
+  getDateSigned,
 } from '../../reducers/careSummariesAndNotes';
 import { noteTypes } from '../../util/constants';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
@@ -46,5 +47,45 @@ describe('convertCareSummariesAndNotesRecord', () => {
     expect(note.admissionDate).to.be.undefined;
     expect(note.dischargeDate).to.be.undefined;
     expect(note.dateSigned).to.be.not.null;
+  });
+});
+
+describe('getDateSigned', () => {
+  it('returns formatted date when extension array has an item with valueDateTime', () => {
+    const mockRecord = {
+      authenticator: {
+        extension: [{ valueDateTime: '2024-02-07T15:41:47-05:00' }],
+      },
+    };
+    const result = getDateSigned(mockRecord);
+    expect(result).to.equal('February 7, 2024');
+  });
+
+  it('returns null when extension array is present but empty', () => {
+    const mockRecord = {
+      authenticator: {
+        extension: [],
+      },
+    };
+    const result = getDateSigned(mockRecord);
+    expect(result).to.be.null;
+  });
+
+  it("returns null when extension array's first item lacks valueDateTime", () => {
+    const mockRecord = {
+      authenticator: {
+        extension: [{ notValueDateTime: 'some value' }],
+      },
+    };
+    const result = getDateSigned(mockRecord);
+    expect(result).to.be.null;
+  });
+
+  it('returns null when record does not have authenticator.extension array', () => {
+    const mockRecord = {
+      authenticator: {},
+    };
+    const result = getDateSigned(mockRecord);
+    expect(result).to.be.null;
   });
 });
