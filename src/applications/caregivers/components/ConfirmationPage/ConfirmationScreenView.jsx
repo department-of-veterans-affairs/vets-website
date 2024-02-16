@@ -27,43 +27,39 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
       </div>
 
       <va-featured-content class="vads-u-margin-bottom--4" uswds>
-        <h2 slot="headline">Your application information</h2>
-        <dl>
-          <div className="vads-u-margin-bottom--2">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Veteran’s name
-            </dt>
-            <dd data-testid="cg-veteranfullname">
-              {name.first} {name.middle} {name.last} {name.suffix}
-            </dd>
-          </div>
-          {!!timestamp && (
-            <div className="vads-u-margin-bottom--2">
-              <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-                Date you applied
-              </dt>
-              <dd data-testid="cg-timestamp">
-                {moment(timestamp).format('MMM D, YYYY')}
-              </dd>
-            </div>
-          )}
-          <div>
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Confirmation for your records
-            </dt>
-            <dd>
-              You can print this confirmation page for your records. You can
-              also download your completed application as a{' '}
-              <dfn>
-                <abbr title="Portable Document Format">PDF</abbr>
-              </dfn>
-              .
-            </dd>
-          </div>
-        </dl>
+        <h3 slot="headline">Your application information</h3>
+
+        <h4>Veteran’s name</h4>
+        <p data-testid="cg-veteran-fullname">
+          {name.first} {name.middle} {name.last} {name.suffix}
+        </p>
+
+        {timestamp ? (
+          <>
+            <h4>Date you applied</h4>
+            <p data-testid="cg-submission-date">
+              {moment(timestamp).format('MMM D, YYYY')}
+            </p>
+          </>
+        ) : null}
+
+        <h4>Confirmation for your records</h4>
+        <p>
+          You can print this confirmation page for your records. You can also
+          download your completed application as a{' '}
+          <dfn>
+            <abbr title="Portable Document Format">PDF</abbr>
+          </dfn>
+          .
+        </p>
 
         <div className="vads-u-margin-y--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            onClick={() => window.print()}
+            data-testid="cg-print-button"
+            uswds
+          />
         </div>
 
         <div className="caregiver-application--download">
