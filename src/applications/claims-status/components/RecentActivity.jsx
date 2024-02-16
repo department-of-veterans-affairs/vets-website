@@ -34,10 +34,10 @@ const getTrackedItemDescription = item => {
     case 'NO_LONGER_REQUIRED':
       return `We closed a request for "${item.displayName}"`;
     case 'SUBMITTED_AWAITING_REVIEW':
-      return `We are awaiting review for request ${item.displayName}`;
+      return `We received your document(s) for "${item.displayName}"`;
     case 'INITIAL_REVIEW_COMPLETE':
     case 'ACCEPTED':
-      return `A review was completed for request ${item.displayName}`;
+      return `We completed a review for "${item.displayName}"`;
     default:
       return '';
   }
