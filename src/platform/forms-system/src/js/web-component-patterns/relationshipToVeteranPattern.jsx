@@ -15,30 +15,24 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
  *  personTitle: 'claimant',
  *  labelHeaderLevel: ''
  * })
- * customRelationshipToVeteran: relationshipToVeteranUI({
- *   customLabels: {
- *     caretaker: "I’m the Veteran’s caretaker"
- *   }
- * })
  * ```
  *
  * @param {string | {
  *   personTitle?: string,
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
- *   customLabels?: object
  * }} options - a string representing the person type, or an object with options
  * @returns {UISchemaOptions}
  */
 
 export const relationshipToVeteranUI = options => {
-  const { personTitle, labelHeaderLevel, customLabels } =
+  const { personTitle, labelHeaderLevel } =
     typeof options === 'object' ? options : { personTitle: options };
   const person = personTitle ?? 'Veteran';
 
   return {
     relationshipToVeteran: radioUI({
       title: `What’s your relationship to the ${person}?`,
-      labels: customLabels || {
+      labels: {
         spouse: `I’m the ${person}’s spouse`,
         child: `I’m the ${person}’s child`,
         parent: `I’m the ${person}’s parent`,
@@ -109,35 +103,6 @@ export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
       },
       labelHeaderLevel: '3',
     }),
-  };
-};
-
-/**
- * Schema that takes a list of label keys, to be used in
- * conjunction with customLabels property of relationshipToVeteranUI.
- *
- * This provides a way to have customized labels while still
- * optionally taking advantage of the dropdown "other" behavior without
- * reinventing the wheel.
- *
- * ```js
- * relationshipToVeteran: customRelationshipSchema([
- *  'spouse',
- *  'caretaker',
- *  'other',     // Include if you want the functionality
- * ]),
- * ```
- * @param {array} labels array of strings that correspond to label keys
- *   provided to relationshipToVeteranUI
- * @returns {object}
- */
-export const customRelationshipSchema = labels => {
-  return {
-    type: 'object',
-    properties: {
-      relationshipToVeteran: radioSchema([...labels]),
-      otherRelationshipToVeteran: { type: 'string' },
-    },
   };
 };
 
