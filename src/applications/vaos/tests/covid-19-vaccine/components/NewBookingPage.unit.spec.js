@@ -27,7 +27,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow <NewBookingSection>', () => {
+describe('VAOS vaccine flow: NewBookingSection', () => {
   beforeEach(() => {
     mockFetch();
   });

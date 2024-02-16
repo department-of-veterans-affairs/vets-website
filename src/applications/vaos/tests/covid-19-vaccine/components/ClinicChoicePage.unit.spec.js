@@ -26,7 +26,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow <ClinicChoicePage>', () => {
+describe('VAOS vaccine flow: ClinicChoicePage', () => {
   const clinic1 = createMockClinicByVersion({
     id: '308',
     stationId: '983',

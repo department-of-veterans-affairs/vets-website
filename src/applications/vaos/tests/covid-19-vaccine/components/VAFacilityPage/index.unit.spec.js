@@ -54,7 +54,7 @@ closestFacility.attributes.name = 'Closest facility';
 closestFacility.attributes.lat = 39.50603012; // Dayton, OH
 closestFacility.attributes.long = -84.3164749;
 
-describe('VAOS vaccine flow: <VAFacilityPage>', () => {
+describe('VAOS vaccine flow: VAFacilityPage', () => {
   describe('When there are more than 5 facilities', () => {
     const initialState = {
       user: {

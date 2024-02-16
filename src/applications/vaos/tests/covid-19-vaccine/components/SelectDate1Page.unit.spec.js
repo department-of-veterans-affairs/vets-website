@@ -30,7 +30,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow <SelectDate1Page>', () => {
+describe('VAOS vaccine flow: SelectDate1Page', () => {
   const clinic1 = createMockClinicByVersion({
     id: '308',
     stationId: '983',

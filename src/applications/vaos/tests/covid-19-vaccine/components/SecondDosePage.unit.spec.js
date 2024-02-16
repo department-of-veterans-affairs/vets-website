@@ -14,7 +14,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow <SecondDosePage>', () => {
+describe('VAOS vaccine flow: SecondDosePage', () => {
   const start = moment();
   const store = createTestStore({
     ...initialState,

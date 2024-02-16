@@ -9,7 +9,7 @@ import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../mocks/v2';
 
-describe('VAOS vaccine flow <ContactFacilitiesPage>', () => {
+describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingDirect: true,

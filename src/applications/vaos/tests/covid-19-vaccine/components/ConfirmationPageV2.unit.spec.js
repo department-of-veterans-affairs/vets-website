@@ -66,7 +66,7 @@ const store = createTestStore({
   },
 });
 
-describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
+describe('VAOS vaccine flow: ConfirmationPageV2', () => {
   it('should show confirmation details', async () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPageV2 />, { store });
 

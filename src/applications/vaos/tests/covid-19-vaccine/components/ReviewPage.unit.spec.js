@@ -16,7 +16,7 @@ import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
 import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
 import { mockAppointmentSubmitV2 } from '../../mocks/helpers.v2';
 
-describe('VAOS vaccine flow <ReviewPage>', () => {
+describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
   let start;
   const initialState = {

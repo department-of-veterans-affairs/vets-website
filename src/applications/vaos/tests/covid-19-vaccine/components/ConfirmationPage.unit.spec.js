@@ -13,7 +13,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow <ConfirmationPage>', () => {
+describe('VAOS vaccine flow: ConfirmationPage', () => {
   it('should show confirmation details', async () => {
     const start = moment();
     const store = createTestStore({
