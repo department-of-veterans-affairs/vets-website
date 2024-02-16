@@ -280,7 +280,9 @@ const formConfig = {
         cemeteryLocation: {
           title: 'Cemetery location',
           path: 'cemetery-location/add',
-          depends: form => get('cemetaryLocationQuestion', form) === 'cemetery',
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true &&
+            get('cemetaryLocationQuestion', form) === 'cemetery',
           uiSchema: cemeteryLocation.uiSchema,
           schema: cemeteryLocation.schema,
         },
@@ -288,6 +290,7 @@ const formConfig = {
           title: 'Cemetery location',
           path: 'cemetery-location/tribal-land/add',
           depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true &&
             get('cemetaryLocationQuestion', form) === 'tribalLand',
           uiSchema: tribalLandLocation.uiSchema,
           schema: tribalLandLocation.schema,
