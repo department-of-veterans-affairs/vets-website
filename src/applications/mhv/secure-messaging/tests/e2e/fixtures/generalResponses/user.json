@@ -130,10 +130,10 @@
   "meta": {
     "errors": [
       {
-        "externalService": "VAProfile",
+        "externalService": "EMIS",
         "startTime": "2023-08-22T16:15:17Z",
         "endTime": null,
-        "description": "Mock Error Description for Testing",
+        "description": "EMISRedis::VeteranStatus::RecordNotFound, NOT_FOUND",
         "status": 404
       }
     ]

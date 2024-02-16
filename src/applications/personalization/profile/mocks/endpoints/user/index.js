@@ -1392,7 +1392,7 @@ const mockErrorResponses = {
     meta: {
       errors: [
         {
-          externalService: 'VAProfile',
+          externalService: 'Vet360',
           startTime: '2020-11-19T17:32:54Z',
           endTime: null,
           description:
@@ -1400,7 +1400,7 @@ const mockErrorResponses = {
           status: 502,
         },
         {
-          externalService: 'VAProfile',
+          externalService: 'Vet360',
           startTime: '2020-11-19T17:32:54Z',
           endTime: null,
           description: 'Second error message',

@@ -10,25 +10,23 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
-        "lighthouse",
         "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed",
-        "vet360"
+        "identity-proofed"
       ],
       "account": {
-        "accountUuid": "ab50bb37-d4c9-4c20-9d6e-767cee4a15e5"
+        "accountUuid": "6af59b36-f14d-482e-88b4-3d7820422343"
       },
       "profile": {
         "email": "vets.gov.user+228@gmail.com",
-        "firstName": "Mark",
-        "middleName": "Tux",
-        "lastName": "Polarbear",
+        "firstName": "MARK",
+        "middleName": null,
+        "lastName": "WEBB",
         "birthDate": "1950-10-04",
         "gender": "M",
-        "zip": "09618-0001",
-        "lastSignedIn": "2024-02-08T22:26:46.920Z",
+        "zip": null,
+        "lastSignedIn": "2020-06-18T21:15:19.664Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -37,37 +35,20 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "authBroker": "sis",
-          "clientId": "vaweb"
+          "accountType": "N/A"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
-        "inheritedProofVerified": false,
-        "claims": {
-          "appeals": true,
-          "ch33BankAccounts": true,
-          "coe": true,
-          "communicationPreferences": true,
-          "connectedApps": true,
-          "medicalCopays": true,
-          "militaryHistory": true,
-          "paymentHistory": true,
-          "personalInformation": true,
-          "ratingInfo": true
-        }
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
       },
       "vaProfile": {
         "status": "OK",
         "birthDate": "19501004",
-        "familyName": "Polarbear",
+        "familyName": "Webb-ster",
         "gender": "M",
-        "givenNames": [
-          "Mark",
-          "Tux"
-        ],
-        "isCernerPatient": true,
+        "givenNames": ["Mark"],
+        "isCernerPatient": false,
         "facilities": [
           {
-            "facilityId": "983",
+            "facilityId": "556",
             "isCerner": false
           },
           {
@@ -78,55 +59,42 @@
         "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": {
-        "status": "OK",
-        "isVeteran": false,
-        "servedInMilitary": false
-      },
+      "veteranStatus": null,
       "inProgressForms": [],
       "prefillsAvailable": [
         "21-686C",
         "40-10007",
-        "0873",
         "22-1990",
         "22-1990N",
         "22-1990E",
-        "22-1990EMEB",
         "22-1995",
+        "22-1995S",
         "22-5490",
-        "22-5490E",
         "22-5495",
         "22-0993",
         "22-0994",
         "FEEDBACK-TOOL",
         "22-10203",
-        "22-1990S",
-        "22-1990EZ",
         "21-526EZ",
         "1010ez",
-        "10-10EZR",
         "21P-530",
         "21P-527EZ",
         "686C-674",
-        "20-0995",
         "20-0996",
-        "10182",
-        "MDOT",
-        "5655",
-        "28-8832",
-        "28-1900",
-        "26-1880",
-        "26-4555"
+        "MDOT"
       ],
-      "vet360ContactInformation": {},
-      "session": {
-        "authBroker": "sis",
-        "ssoe": false,
-        "transactionid": null
-      }
+      "vet360ContactInformation": {}
     }
   },
   "meta": {
-    "errors": null
+    "errors": [
+      {
+        "externalService": "EMIS",
+        "startTime": "2020-06-18T21:15:34Z",
+        "endTime": null,
+        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
+        "status": 503
+      }
+    ]
   }
 }
