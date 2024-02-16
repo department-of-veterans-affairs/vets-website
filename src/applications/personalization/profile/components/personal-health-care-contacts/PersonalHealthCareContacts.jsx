@@ -18,7 +18,10 @@ const PersonalHealthCareContacts = ({
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector(selectProfileContacts);
 
-  useEffect(() => dispatch(fetchProfileContacts()), []);
+  useEffect(() => dispatch(fetchProfileContacts()), [
+    dispatch,
+    fetchProfileContacts,
+  ]);
 
   useEffect(() => {
     document.title = PAGE_TITLE;
