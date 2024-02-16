@@ -11,9 +11,11 @@ export const homelessInfo = {
           <p>
             If you don’t currently have a mailing address or are experiencing
             homelessness you can use{' '}
-            <a href="https://faq.usps.com/s/article/What-is-General-Delivery">
-              General Delivery
-            </a>{' '}
+            <va-link
+              text="General Delivery"
+              target="_blank"
+              href="https://faq.usps.com/s/article/What-is-General-Delivery"
+            />{' '}
             through your local post office.
             <br />
             <br />
@@ -37,7 +39,7 @@ export const noPhoneInfo = {
           <h3 slot="headline">Resources available</h3>
           <p>
             If you don’t currently have a phone number, here is a suggestion and
-            a<va-telephone contact="8774243838" />
+            a link to a resource <va-telephone contact="8774243838" />
           </p>
         </va-alert>
       ),
