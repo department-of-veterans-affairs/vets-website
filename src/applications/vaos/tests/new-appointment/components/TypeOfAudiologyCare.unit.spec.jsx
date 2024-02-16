@@ -5,7 +5,7 @@ import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   createTestStore,
