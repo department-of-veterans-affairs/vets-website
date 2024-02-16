@@ -6,11 +6,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
 
 import { applicantWording } from '../helpers/wordingCustomization';
 
-// TODO:
-// - Add props validation
 const keyname = 'applicantRelationshipToSponsor';
 
 function generateOptions({ data, pagePerItemIndex }) {
@@ -48,9 +47,9 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'caretaker',
     },
     {
-      label: `${`${
+      label: `${
         applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
-      }`} have a relationship that’s listed here`,
+      } have a relationship that’s listed here`,
       value: 'other',
     },
   ];
@@ -129,13 +128,13 @@ export default function ApplicantRelationshipPage({
   onReviewPage,
 }) {
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.applicantRelationshipToSponsor ||
-      relationshipStructure,
+    data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
   );
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const {
     options,
@@ -190,11 +189,9 @@ export default function ApplicantRelationshipPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data }; // is this useful? It's a shallow copy.
-      testVal.applicants[
-        pagePerItemIndex
-      ].applicantRelationshipToSponsor = checkValue;
-      setFormData(testVal); // Commit changes to the actual formdata
+      const testVal = { ...data };
+      testVal.applicants[pagePerItemIndex][keyname] = checkValue;
+      setFormData(testVal);
       if (onReviewPage) updatePage();
       goForward(data);
     },
@@ -204,6 +201,7 @@ export default function ApplicantRelationshipPage({
     () => {
       if (dirty) handlers.validate();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, checkValue],
   );
   return (
@@ -233,6 +231,7 @@ export default function ApplicantRelationshipPage({
               label={option.label}
               value={option.value}
               checked={checkValue.relationshipToVeteran === option.value}
+              uswds
               aria-describedby={
                 checkValue.relationshipToVeteran === option.value
                   ? option.value
@@ -268,3 +267,19 @@ export default function ApplicantRelationshipPage({
     </>
   );
 }
+
+ApplicantRelationshipReviewPage.propTypes = {
+  data: PropTypes.object,
+  editPage: PropTypes.func,
+  title: PropTypes.func,
+};
+
+ApplicantRelationshipPage.propTypes = {
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+};
