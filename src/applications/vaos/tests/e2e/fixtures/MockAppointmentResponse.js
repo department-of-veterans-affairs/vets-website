@@ -212,6 +212,11 @@ export default class MockAppointmentResponse {
     return this;
   }
 
+  setClinicId(id) {
+    this.attributes.clinic = id;
+    return this;
+  }
+
   setContact({ phone, email }) {
     this.attributes.contact = {
       telecom: [
@@ -225,6 +230,39 @@ export default class MockAppointmentResponse {
 
   setId(value) {
     this.id = value.toString();
+    return this;
+  }
+
+  setLocation(location) {
+    this.attributes.location = location;
+    return this;
+  }
+
+  setTypeOfCare(value) {
+    this.attributes.serviceType = value;
+    return this;
+  }
+
+  setCCProvider() {
+    this.attributes.extension = {
+      ccLocation: {
+        address: {
+          line: ['Address line 1'],
+          city: 'City',
+          state: 'State',
+          postalCode: '12345',
+          text: '10640 MAIN ST ; STE 100\nFAIRFAX VA 22030',
+        },
+        telecom: [
+          {
+            system: 'phone',
+            value: '123-456-7890',
+          },
+        ],
+      },
+      ccTreatingSpecialty: 'Treating specialty',
+    };
+
     return this;
   }
 
@@ -300,6 +338,11 @@ export default class MockAppointmentResponse {
       };
     });
 
+    return this;
+  }
+
+  setStart(value) {
+    this.attributes.start = value;
     return this;
   }
 
