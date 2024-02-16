@@ -47,9 +47,9 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'caretaker',
     },
     {
-      label: `${`${
+      label: `${
         applicant && !useFirstPerson ? `${applicant} doesn’t` : 'We don’t'
-      }`} have a relationship that’s listed here`,
+      } have a relationship that’s listed here`,
       value: 'other',
     },
   ];
@@ -231,6 +231,7 @@ export default function ApplicantRelationshipPage({
               label={option.label}
               value={option.value}
               checked={checkValue.relationshipToVeteran === option.value}
+              uswds
               aria-describedby={
                 checkValue.relationshipToVeteran === option.value
                   ? option.value
