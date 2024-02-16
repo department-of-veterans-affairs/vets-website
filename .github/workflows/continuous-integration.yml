@@ -307,9 +307,14 @@ jobs:
           mask-aws-account-id: true
 
 
-      # - name: Upload coverage report to S3
-      #   if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
-      #   run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
+        run: |
+          if [ -f coverage/test-coverage-report.json ]; then
+            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
 
       - name: Get code coverage
         if: ${{ always() }}
