@@ -1,9 +1,25 @@
+import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import contacts from '@@profile/tests/fixtures/contacts.json';
+import contactsSingleEc from '@@profile/tests/fixtures/contacts-single-ec.json';
+import contactsSingleNok from '@@profile/tests/fixtures/contacts-single-nok.json';
+
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72 } from '@@profile/mocks/endpoints/user';
 
 describe('Personal health care contacts -- feature enabled', () => {
+  beforeEach(() => {
+    const otherEndpoints = [
+      '/v0/profile/ch33_bank_accounts',
+      '/v0/profile/direct_deposits/disability_compensations',
+      '/v0/profile/full_name',
+      '/v0/disability_compensation_form/rating_info',
+      '/v0/profile/service_history',
+      '/v0/profile/personal_information',
+    ];
+    mockGETEndpoints(otherEndpoints, 200, {});
+  });
+
   it("displays a Veteran's Next of kin and Emergency contacts", () => {
     const featureToggles = generateFeatureToggles({ profileContacts: true });
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
@@ -25,6 +41,28 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.visit(PROFILE_PATHS.CONTACTS);
     cy.findByTestId('phcc-no-ecs');
     cy.findByTestId('phcc-no-nok');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles one emergency contact', () => {
+    const featureToggles = generateFeatureToggles({ profileContacts: true });
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('GET', '/v0/profile/contacts', contactsSingleEc);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByText(/Ethan Jermey Bishop/);
+    cy.findByTestId('phcc-no-nok');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles one next of kin', () => {
+    const featureToggles = generateFeatureToggles({ profileContacts: true });
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('GET', '/v0/profile/contacts', contactsSingleNok);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('phcc-no-ecs');
+    cy.findByText(/James Daniel Bishop/);
     cy.injectAxeThenAxeCheck();
   });
 });
