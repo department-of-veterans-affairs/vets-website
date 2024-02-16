@@ -1,6 +1,6 @@
 /** @module testing/mocks/fetch */
 import sinon from 'sinon';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { mockEligibilityFetches } from './helpers';
 import { getV2ClinicMock, getVAOSAppointmentMock } from './v2';
