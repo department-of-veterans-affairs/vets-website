@@ -2,6 +2,7 @@
 
 // Images + pdf
 export const fileTypes = ['bmp', 'heic', 'jpeg', 'jpg', 'pdf', 'png'];
+export const maxSize = '1.0MB'; // Arbitrary - TODO: update in future.
 
 export const attachmentsSchema = {
   type: 'array',
