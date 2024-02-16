@@ -413,9 +413,9 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
-export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+export const sponsorEthnicityTitle = "What’s your sponsor's ethnicity? ";
 
-export const applicantDemographicsRaceTitle = 'What’s your race?';
+export const sponsorRaceTitle = "What’s your sponsor's race?";
 
 export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
@@ -687,7 +687,7 @@ export const veteranUI = {
   },
   ethnicity: {
     // 'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your ethnicity?',
+    'ui:title': 'Duder',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -701,8 +701,7 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
+    'ui:title': 'Duderino',
     'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',

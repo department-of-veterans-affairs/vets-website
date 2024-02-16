@@ -71,6 +71,8 @@ import {
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
   isSponsorDeceased,
+  sponsorEthnicityTitle,
+  sponsorRaceTitle,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -435,11 +437,21 @@ const formConfig = {
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
         },
+        // V1
+        // sponsorRace: {
+        //   title: 'Sponsor ethnicity and race details ',
+        //   path: 'sponsor-race',
+        //   depends: formData => !isVeteran(formData),
+        //   uiSchema: sponsorRace.uiSchema,
+        //   schema: sponsorRace.schema,
+        // },
         sponsorRace: {
-          title: 'Sponsor ethnicity and race details ',
           path: 'sponsor-race',
           depends: formData => !isVeteran(formData),
-          uiSchema: sponsorRace.uiSchema,
+          uiSchema: sponsorRace.uiSchema(
+            sponsorEthnicityTitle,
+            sponsorRaceTitle,
+          ),
           schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
