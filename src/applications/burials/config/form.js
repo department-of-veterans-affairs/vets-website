@@ -40,7 +40,13 @@ import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
-import burialAllowance from './chapters/04-benefits-selection/burialAllowance';
+import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
+import burialAllowancePartTwo from './chapters/04-benefits-selection/burialAllowancePartTwo';
+import finalRestingPlace from './chapters/04-benefits-selection/finalRestingPlace';
+import nationalOrFederalCemetery from './chapters/04-benefits-selection/nationalOrFederalCemetery';
+import cemeteryLocationQuestion from './chapters/04-benefits-selection/cemeteryLocationQuestion';
+import cemeteryLocation from './chapters/04-benefits-selection/cemeteryLocation';
+import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocation';
 
 import {
   // isEligibleNonService,
@@ -231,91 +237,60 @@ const formConfig = {
           uiSchema: benefitsSelection.uiSchema,
           schema: benefitsSelection.schema,
         },
-        burialAllowance: {
+        burialAllowancePartOne: {
           title: 'Burial allowance',
-          path: 'benefits/burial-allowance',
+          path: 'benefits/burial-allowance/part-one',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true,
-          uiSchema: burialAllowance.uiSchema,
-          schema: burialAllowance.schema,
-          // uiSchema: {
-          //   'ui:title': generateTitle('Type of burial allowance'),
-          //   burialAllowanceRequested: {
-          //     'ui:title': 'Type of burial allowance requested',
-          //     'ui:widget': 'radio',
-          //     'ui:options': {
-          //       labels: allowanceLabels,
-          //       updateSchema: (() => {
-          //         const burialAllowanceTypes = burialAllowanceRequested.enum;
-          //         const filterAllowanceType = createSelector(
-          //           form => get('locationOfDeath.location', form),
-          //           locationData => {
-          //             let allowanceTypes = burialAllowanceTypes;
-          //             if (
-          //               locationData !== 'vaMedicalCenter' &&
-          //               locationData !== 'nursingHome'
-          //             ) {
-          //               allowanceTypes = allowanceTypes.filter(
-          //                 type => type !== 'vaMC',
-          //               );
-          //             }
-          //             return { enum: allowanceTypes };
-          //           },
-          //         );
-          //         return form => filterAllowanceType(form);
-          //       })(),
-          //     },
-          //   },
-          //   'view:nonServiceWarning': {
-          //     'ui:description': BurialDateWarning,
-          //     'ui:options': {
-          //       hideIf: formData => {
-          //         if (
-          //           !formData.burialAllowanceRequested ||
-          //           isEligibleNonService(formData.burialDate)
-          //         ) {
-          //           return true;
-          //         }
-          //         return formData.burialAllowanceRequested !== 'nonService';
-          //       },
-          //     },
-          //   },
-          //   burialCost: merge({}, currencyUI('Actual burial cost'), {
-          //     'ui:options': {
-          //       expandUnder: 'burialAllowanceRequested',
-          //       expandUnderCondition: 'vaMC',
-          //     },
-          //   }),
-          //   previouslyReceivedAllowance: {
-          //     'ui:title': 'Did you previously receive a VA burial allowance?',
-          //     'ui:widget': 'yesNo',
-          //     'ui:required': form =>
-          //       get('relationship.type', form) === 'spouse',
-          //     'ui:options': {
-          //       hideIf: form => get('relationship.type', form) !== 'spouse',
-          //     },
-          //   },
-          //   benefitsUnclaimedRemains: {
-          //     'ui:title':
-          //       'Are you seeking burial benefits for the unclaimed remains of a Veteran?',
-          //     'ui:widget': 'yesNo',
-          //     'ui:required': form => get('relationship.type', form) === 'other',
-          //     'ui:options': {
-          //       hideIf: form => get('relationship.type', form) !== 'other',
-          //     },
-          //   },
-          // },
-          // schema: {
-          //   type: 'object',
-          //   required: ['burialAllowanceRequested'],
-          //   properties: {
-          //     burialAllowanceRequested,
-          //     'view:nonServiceWarning': { type: 'object', properties: {} },
-          //     burialCost,
-          //     previouslyReceivedAllowance,
-          //     benefitsUnclaimedRemains,
-          //   },
-          // },
+          uiSchema: burialAllowancePartOne.uiSchema,
+          schema: burialAllowancePartOne.schema,
+        },
+        burialAllowancePartTwo: {
+          title: 'Burial allowance',
+          path: 'benefits/burial-allowance/part-two',
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true,
+          uiSchema: burialAllowancePartTwo.uiSchema,
+          schema: burialAllowancePartTwo.schema,
+        },
+        finalRestingPlace: {
+          title: 'Final resting place',
+          path: 'benefits/final-resting-place',
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true,
+          uiSchema: finalRestingPlace.uiSchema,
+          schema: finalRestingPlace.schema,
+        },
+        nationalOrFederalCemetery: {
+          title: 'Cemetery location',
+          path: 'national-or-federal-cemetery',
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true,
+          uiSchema: nationalOrFederalCemetery.uiSchema,
+          schema: nationalOrFederalCemetery.schema,
+        },
+        cemeteryLocationQuestion: {
+          title: 'Cemetery location',
+          path: 'cemetery-location',
+          depends: form =>
+            get('view:claimedBenefits.burialAllowance', form) === true,
+          uiSchema: cemeteryLocationQuestion.uiSchema,
+          schema: cemeteryLocationQuestion.schema,
+        },
+        cemeteryLocation: {
+          title: 'Cemetery location',
+          path: 'cemetery-location/add',
+          depends: form => get('cemetaryLocationQuestion', form) === 'cemetery',
+          uiSchema: cemeteryLocation.uiSchema,
+          schema: cemeteryLocation.schema,
+        },
+        tribalLandLocation: {
+          title: 'Cemetery location',
+          path: 'cemetery-location/tribal-land/add',
+          depends: form =>
+            get('cemetaryLocationQuestion', form) === 'tribalLand',
+          uiSchema: tribalLandLocation.uiSchema,
+          schema: tribalLandLocation.schema,
         },
         plotAllowance: {
           title: 'Plot or interment allowance',

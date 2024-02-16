@@ -27,3 +27,16 @@ export const benefitsLabels = {
   transportation:
     'Transportation costs of transporting the Veteran’s remains to the final resting place',
 };
+
+export const restingPlaceLabels = {
+  cemetary: 'Cemetery or graveyard',
+  mausoleum: 'Mausoleum, vault, tomb, or crypt',
+  privateResidence: 'Private residence',
+  other: 'Other',
+};
+
+export const cemeteryTypeLabels = {
+  cemetery: 'Yes, in a state cemetery',
+  tribalLand: 'Yes, on tribal trust land',
+  none: 'No, in neither of these types of cemeteries',
+};

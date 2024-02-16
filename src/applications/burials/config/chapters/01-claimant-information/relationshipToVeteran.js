@@ -3,7 +3,6 @@ import {
   radioUI,
   radioSchema,
 } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { relationshipLabels } from '../../../utils/labels';
 import { generateTitle } from '../../../utils/helpers';
 
@@ -22,30 +21,8 @@ export const relationshipToVeteranUI = options => {
         required: `Select your relationship to the ${person}`,
       },
       labelHeaderLevel: '',
+      classNames: 'vads-u-margin-bottom--2',
     }),
-    otherRelationshipToVeteran: {
-      'ui:title': `Since your relationship with the ${person} was not listed, please describe it here`,
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'relationshipToVeteran',
-        expandUnderCondition: 'otherFamily',
-        expandedContentFocus: true,
-      },
-      'ui:errorMessages': {
-        required: `Enter your relationship to the ${person}`,
-      },
-    },
-    'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (formSchema.properties.otherRelationshipToVeteran['ui:collapsed']) {
-          return { ...formSchema, required: ['relationshipToVeteran'] };
-        }
-        return {
-          ...formSchema,
-          required: ['relationshipToVeteran', 'otherRelationshipToVeteran'],
-        };
-      },
-    },
   };
 };
 
@@ -60,9 +37,6 @@ const relationshipToVeteranSchema = {
       'funeralDirector',
       'otherFamily',
     ]),
-    otherRelationshipToVeteran: {
-      type: 'string',
-    },
   },
   required: ['relationshipToVeteran'],
 };

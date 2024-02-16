@@ -27,6 +27,8 @@ export default {
     militarySeparationDocuments: {
       ...fileUploadUI('Upload DD214 or other separation documents', {
         fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        confirmRemove: true,
+        uswds: true,
       }),
     },
   },
