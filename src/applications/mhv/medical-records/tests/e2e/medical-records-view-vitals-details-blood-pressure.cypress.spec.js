@@ -13,7 +13,7 @@ describe('Medical Records Vitals Details Page', () => {
     // Click Vitals Page Blood Pressure Link
     VitalsDetailsPage.clickLinkByRecordListItemIndex(0);
     // Verify First Reading
-    VitalsDetailsPage.verifyBloodPressureReadingByIndex(
+    VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
       'October 27, 2023, 7:00 a.m. PDT',
       '130/70',
@@ -21,14 +21,6 @@ describe('Medical Records Vitals Details Page', () => {
       'None noted',
     );
 
-    // // Verify Vital Date
-    // VitalsDetailsPage.verifyVitalDate('December 25, 2004 12:00 a.m.');
-    // // Verify Vital Result
-    // VitalsDetailsPage.verifyVitalResult('185 /min');
-    // // Verify Vital Details Location
-    // VitalsDetailsPage.verifyVitalLocation('None noted');
-    // // Verify Vital Details  Provider Notes
-    // VitalsDetailsPage.verifyVitalProviderNotes('a bit fast');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

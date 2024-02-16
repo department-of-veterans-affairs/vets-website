@@ -22,7 +22,7 @@ class VitalsDetailsPage {
       .click();
   };
 
-  verifyBloodPressureReadingByIndex = (
+  verifyVitalReadingByIndex = (
     index = 0,
     date,
     measurement,
