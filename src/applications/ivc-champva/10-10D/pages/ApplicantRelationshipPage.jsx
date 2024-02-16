@@ -76,19 +76,19 @@ const relationshipStructure = {
 export function ApplicantRelationshipReviewPage(props) {
   const { data } = props || {};
   const {
+    currentListItem,
     options,
     description,
     useFirstPerson,
     applicant,
     personTitle,
   } = generateOptions(props);
-  const currentApp = data?.applicants?.[props.pagePerItemIndex];
-  const other = currentApp?.[keyname]?.otherRelationshipToVeteran;
+  const other = currentListItem?.[keyname]?.otherRelationshipToVeteran;
   return data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          {props.title(currentApp)}
+          {props.title(currentListItem)}
         </h4>
         <VaButton secondary onClick={props.editPage} text="Edit" uswds />
       </div>
@@ -98,7 +98,7 @@ export function ApplicantRelationshipReviewPage(props) {
           <dd>
             {options.map(
               opt =>
-                opt.value === currentApp?.[keyname]?.relationshipToVeteran
+                opt.value === currentListItem?.[keyname]?.relationshipToVeteran
                   ? opt.label
                   : '',
             )}
@@ -140,7 +140,8 @@ export default function ApplicantRelationshipPage({
   const {
     options,
     relativePossessive,
-    currentListItem,
+    useFirstPerson,
+    applicant,
     personTitle,
   } = generateOptions({
     data,
@@ -209,16 +210,18 @@ export default function ApplicantRelationshipPage({
     <>
       {
         titleUI(
-          `${applicantWording(currentListItem)} relationship to ${personTitle}`,
+          `${
+            useFirstPerson ? `Your` : `${applicant}'s`
+          } relationship to the ${personTitle}`,
         )['ui:title']
       }
 
       <form onSubmit={handlers.onGoForward}>
         <VaRadio
           class="vads-u-margin-y--2"
-          label={`What's ${applicantWording(
-            currentListItem,
-          )} relationship to the ${personTitle}?`}
+          label={`What's ${
+            useFirstPerson ? `your` : `${applicant}'s`
+          } relationship to the ${personTitle}?`}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
