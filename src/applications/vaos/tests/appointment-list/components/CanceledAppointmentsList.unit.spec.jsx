@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
 import { mockAppointmentInfo } from '../../mocks/helpers';
