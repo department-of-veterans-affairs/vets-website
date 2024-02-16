@@ -18,7 +18,7 @@ function UseHandleKeyDown() {
   );
 }
 
-describe('VAOS Appointment list hooks: useHandleKeyDown', () => {
+describe('VAOS Hooks: useHandleKeyDown', () => {
   it('should push link to history object when button is clicked', async () => {
     // Arrange
     const screen = renderWithStoreAndRouter(<UseHandleKeyDown />, {
