@@ -2,8 +2,8 @@
 import { merge } from 'lodash';
 
 import {
-  applicantDemographicsDescription,
-  applicantDemographicsSubHeader,
+  sponsorDemographicsDescription,
+  sponsorDemographicsSubHeader,
   veteranUI,
   sponsorEthnicityTitle,
   sponsorRaceTitle,
@@ -15,9 +15,9 @@ export function uiSchema(
 ) {
   return {
     application: {
-      'ui:title': applicantDemographicsSubHeader,
-      'view:applicantDemographicsDescription': {
-        'ui:description': applicantDemographicsDescription,
+      'ui:title': sponsorDemographicsSubHeader,
+      'view:sponsorDemographicsDescription': {
+        'ui:description': sponsorDemographicsDescription,
         'ui:options': {
           displayEmptyObjectOnReview: true,
         },
@@ -36,7 +36,7 @@ export const schema = {
     application: {
       type: 'object',
       properties: {
-        'view:applicantDemographicsDescription': {
+        'view:sponsorDemographicsDescription': {
           type: 'object',
           properties: {},
         },
@@ -91,7 +91,7 @@ export const schema = {
 // import { merge } from 'lodash';
 
 // import {
-//   applicantDemographicsDescription,
+//   sponsorDemographicsDescription,
 //   applicantDemographicsSubHeader,
 //   veteranUI,
 //   applicantDemographicsEthnicityTitle,
@@ -105,8 +105,8 @@ export const schema = {
 //   return {
 //     application: {
 //       'ui:title': applicantDemographicsSubHeader,
-//       'view:applicantDemographicsDescription': {
-//         'ui:description': applicantDemographicsDescription,
+//       'view:sponsorDemographicsDescription': {
+//         'ui:description': sponsorDemographicsDescription,
 //         'ui:options': {
 //           displayEmptyObjectOnReview: true,
 //         },
@@ -124,7 +124,7 @@ export const schema = {
 //     application: {
 //       type: 'object',
 //       properties: {
-//         'view:applicantDemographicsDescription': {
+//         'view:sponsorDemographicsDescription': {
 //           type: 'object',
 //           properties: {},
 //         },
