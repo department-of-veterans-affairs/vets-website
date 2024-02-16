@@ -73,7 +73,8 @@
 
 /**
  * @typedef {Object} Dev
- * @property {boolean} [showNavLinks]
+ * @property {boolean} [showNavLinks] - Show navigation links on every page to every route in your form (dev only)
+ * @property {boolean} [collapsibleNavLinks] - Must be used with `showNavLinks: true`. If true, the nav links will be wrapped in a `va-additional-info` component
  */
 
 /**
@@ -145,6 +146,7 @@
  * @property {(props: any) => JSX.Element} [CustomPageReview]
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
+ * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
  * @property {({ formData, goPath, goPreviousPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
  * @property {({ formData, goPath, goNextPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
@@ -157,6 +159,31 @@
  * @property {string | ({ formData }) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
+ */
+
+/**
+ * @typedef {({
+ *   name,
+ *   title,
+ *   data,
+ *   pagePerItemIndex,
+ *   onReviewPage,
+ *   trackingPrefix,
+ *   uploadFile,
+ *   schema,
+ *   uiSchema,
+ *   goBack,
+ *   goForward,
+ *   goToPath,
+ *   onContinue,
+ *   onChange,
+ *   onSubmit,
+ *   setFormData,
+ *   contentBeforeButtons,
+ *   contentAfterButtons,
+ *   appStateData,
+ *   formContext,
+ * }) => React.ReactNode} CustomPageType
  */
 
 /**

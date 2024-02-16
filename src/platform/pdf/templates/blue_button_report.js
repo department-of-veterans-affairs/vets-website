@@ -59,6 +59,7 @@ const config = {
   },
   text: {
     boldFont: 'SourceSansPro-Bold',
+    monospaceFont: 'RobotoMono-Regular',
     font: 'SourceSansPro-Regular',
     size: 12,
   },
