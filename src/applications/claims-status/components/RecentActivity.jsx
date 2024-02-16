@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { buildDateFormatter } from '../utils/helpers';
+import { ITEMS_PER_PAGE } from '../constants';
 
 const getOldestDocuentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
@@ -22,7 +24,7 @@ const getTrackedItemDateFromStatus = item => {
     case 'ACCEPTED':
       return item.receivedDate;
     default:
-      return '';
+      return item.requestedDate;
   }
 };
 
@@ -47,29 +49,70 @@ const generateTrackedItems = claim => {
   const { trackedItems } = claim.attributes;
 
   return trackedItems.map(item => ({
-    // ...item,
-    date: formatDate(getTrackedItemDateFromStatus(item)),
+    id: item.id,
+    date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
     type: 'tracked_item',
   }));
 };
 
-function RecentActivity({ claim }) {
+const getSortedItems = claim => {
+  // Get items from trackedItems and claimPhaseDates
   const trackedItems = generateTrackedItems(claim);
+  const phaseItems = [];
+  const items = [...trackedItems, ...phaseItems];
+
+  return items.sort((item1, item2) => {
+    return item1.date - item2.date;
+  });
+};
+
+function RecentActivity({ claim }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const items = getSortedItems(claim).sort();
+  const pageLength = items.length;
+  const numPages = Math.ceil(pageLength / ITEMS_PER_PAGE);
+  const shouldPaginate = numPages > 1;
+
+  let currentPageItems = items;
+
+  if (shouldPaginate) {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = Math.min(currentPage * ITEMS_PER_PAGE, pageLength);
+    currentPageItems = items.slice(start, end);
+  }
+
+  const onPageSelect = useCallback(
+    selectedPage => {
+      setCurrentPage(selectedPage);
+    },
+    [setCurrentPage],
+  );
 
   return (
     <div className="recent-activity-container">
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
         Recent activity
       </h3>
-      <ol>
-        {trackedItems.map(item => (
-          <li key={item.id} className="recent-activity-list-item">
-            <h4 className="vads-u-margin-y--0">{item.date}</h4>
-            <p className="vads-u-margin-top--0p5">{item.description}</p>
-          </li>
-        ))}
-      </ol>
+      {pageLength > 0 && (
+        <ol className="va-list-horizontal">
+          {currentPageItems.map(item => (
+            <li key={item.id} className="vads-u-margin-bottom--2">
+              <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
+              <p className="vads-u-margin-top--0p5">{item.description}</p>
+            </li>
+          ))}
+        </ol>
+      )}
+      {shouldPaginate && (
+        <VaPagination
+          uswds
+          className="vads-u-border--0"
+          page={currentPage}
+          pages={numPages}
+          onPageSelect={e => onPageSelect(e.detail.page)}
+        />
+      )}
     </div>
   );
 }
