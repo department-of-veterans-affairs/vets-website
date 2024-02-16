@@ -125,7 +125,11 @@ class ViewPaymentsLists extends Component {
       // If there are either payments OR payments returned, run payment list builders
       const { returnPayments, payments } = this.props.payments;
       if (returnPayments.length === 0 && payments.length === 0) {
-        content = <va-alert status="info">{NoPaymentsContent}</va-alert>;
+        content = (
+          <va-alert status="info" uswds>
+            {NoPaymentsContent}
+          </va-alert>
+        );
       } else {
         // run payments returned list builder
         paymentsReturnedTable = this.buildReturnedPaymentListContent(
