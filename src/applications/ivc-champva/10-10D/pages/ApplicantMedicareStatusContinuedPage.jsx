@@ -30,7 +30,7 @@ function generateOptions({ data, pagePerItemIndex }) {
       title: 'Part B',
       description: `${
         useFirstPerson ? "I'm" : `${applicant} is `
-      } enrolled in Medicare Part A`,
+      } enrolled in Medicare Part B`,
     },
     {
       value: 'partD',
@@ -163,6 +163,7 @@ export default function ApplicantMedicareStatusContinuedPage({
           hint="You can select more than one"
           error={error}
           required
+          uswds
           onVaChange={handlers.onGroupChange}
         >
           {labels.map((el, index) => (
