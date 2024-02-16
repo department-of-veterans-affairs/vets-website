@@ -9,6 +9,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 
 import {
   stringifyFormReplacer,
@@ -700,8 +701,9 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your race?',
-    // 'ui:webComponentField': VaCheckboxGroupField,
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
+    'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
     },
