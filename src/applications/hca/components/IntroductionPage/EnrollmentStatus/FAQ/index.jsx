@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { showReapplyContent as showReapplyContentAction } from '../../../../utils/actions/enrollment-status';
+import { showReapplyContent as showReapplyContentAction } from '../../../../utils/actions';
 import { shouldShowReapplyContent } from '../../../../utils/selectors';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 
