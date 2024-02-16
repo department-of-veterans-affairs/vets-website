@@ -51,7 +51,6 @@ const OverviewPage = () => {
             label: 'Your VA debt and bills',
           },
         ]}
-        className="vads-u-font-family--sans"
         label="Breadcrumb"
         uswds
       />

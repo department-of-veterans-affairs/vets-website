@@ -60,6 +60,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: false,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
