@@ -174,6 +174,10 @@ export const mochaHooks = {
     if (isStressTest == 'false') {
       checkAllowList(this);
     }
+    console.log(
+      'running: ',
+      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
+    );
   },
   afterEach() {
     cleanupStorage();

@@ -19,6 +19,7 @@ const MessageThreadAttachments = props => {
 
 MessageThreadAttachments.propTypes = {
   attachments: PropTypes.array,
+  forPrint: PropTypes.bool,
 };
 
 export default MessageThreadAttachments;

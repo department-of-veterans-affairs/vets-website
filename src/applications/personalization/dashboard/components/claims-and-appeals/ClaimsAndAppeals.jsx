@@ -13,10 +13,8 @@ import {
   getAppealsV2 as getAppealsAction,
   getClaims as getClaimsAction,
 } from '../../actions/claims';
-import {
-  appealsAvailability,
-  claimsAvailability,
-} from '../../utils/appeals-v2-helpers';
+import { appealsAvailability } from '../../utils/appeals-helpers';
+import { claimsAvailability } from '../../utils/claims-helpers';
 import { canAccess } from '../../../common/selectors';
 import { API_NAMES } from '../../../common/constants';
 

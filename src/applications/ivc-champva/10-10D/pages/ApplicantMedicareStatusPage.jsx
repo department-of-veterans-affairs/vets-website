@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
 import { applicantWording } from '../helpers/wordingCustomization';
@@ -43,7 +44,6 @@ export function generateOptions({ data, pagePerItemIndex }) {
     },
   ];
 
-  // "description" is used by review page when it calls generateOptions
   return {
     options,
     useFirstPerson,
@@ -76,6 +76,7 @@ export function ApplicantMedicareStatusPage({
   const [error, setError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const { options, useFirstPerson, applicant } = generateOptions({
     data,
@@ -100,7 +101,7 @@ export function ApplicantMedicareStatusPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data }; // is this useful? It's a shallow copy.
+      const testVal = { ...data };
       testVal.applicants[pagePerItemIndex][keyname] = checkValue;
       setFormData(testVal); // Commit changes to the actual formdata
       if (onReviewPage) updatePage();
@@ -112,6 +113,7 @@ export function ApplicantMedicareStatusPage({
     () => {
       if (dirty) handlers.validate();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, checkValue],
   );
 
@@ -131,6 +133,7 @@ export function ApplicantMedicareStatusPage({
           } enrolled in Medicare?`}
           required
           error={error}
+          uswds
           onVaValueChange={handlers.radioUpdate}
         >
           {options.map(option => (
@@ -140,6 +143,7 @@ export function ApplicantMedicareStatusPage({
               label={option.label}
               value={option.value}
               checked={checkValue === option.value}
+              uswds
               aria-describedby={
                 checkValue === option.value ? option.value : null
               }
@@ -151,3 +155,21 @@ export function ApplicantMedicareStatusPage({
     </>
   );
 }
+
+ApplicantMedicareStatusReviewPage.propTypes = {
+  data: PropTypes.object,
+  editPage: PropTypes.func,
+  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  props: PropTypes.object,
+  title: PropTypes.func,
+};
+
+ApplicantMedicareStatusPage.propTypes = {
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+};
