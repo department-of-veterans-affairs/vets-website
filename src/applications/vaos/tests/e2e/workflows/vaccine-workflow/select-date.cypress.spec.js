@@ -221,6 +221,7 @@ describe('VAOS select appointment date', () => {
         // Account for 1st call returning 2 months of slots
         .clickNextMonth()
         .clickNextMonth()
+        .wait({ alias: '@v2:get:slots' })
         .assertCallCount({ alias: '@v2:get:slots', count: 2 });
 
       // Assert

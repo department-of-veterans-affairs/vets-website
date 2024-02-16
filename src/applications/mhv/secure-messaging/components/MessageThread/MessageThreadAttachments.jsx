@@ -8,7 +8,10 @@ const MessageThreadAttachments = props => {
     !!props.attachments && (
       <div className="message-thread-attachments">
         <HorizontalRule />
-        <AttachmentsList attachments={props.attachments} />
+        <AttachmentsList
+          attachments={props.attachments}
+          forPrint={props.forPrint}
+        />
       </div>
     )
   );
@@ -16,6 +19,7 @@ const MessageThreadAttachments = props => {
 
 MessageThreadAttachments.propTypes = {
   attachments: PropTypes.array,
+  forPrint: PropTypes.bool,
 };
 
 export default MessageThreadAttachments;

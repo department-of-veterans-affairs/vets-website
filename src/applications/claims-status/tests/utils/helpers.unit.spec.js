@@ -17,6 +17,8 @@ import {
   getUserPhase,
   getUserPhaseDescription,
   getPhaseDescription,
+  getStatusDescription,
+  getClaimStatusDescription,
   truncateDescription,
   getItemDate,
   isClaimComplete,
@@ -567,6 +569,24 @@ describe('Disability benefits helpers: ', () => {
       const desc = getUserPhaseDescription(3);
 
       expect(desc).to.equal('Evidence gathering, review, and decision');
+    });
+  });
+
+  describe('getStatusDescription', () => {
+    it('should display status description from map', () => {
+      const desc = getStatusDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('Step 1 of 5: Claim received');
+    });
+  });
+
+  describe('getClaimStatusDescription', () => {
+    it('should display claim status description from map', () => {
+      const desc = getClaimStatusDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal(
+        'We received your claim. We haven’t assigned the claim to a reviewer yet.',
+      );
     });
   });
 

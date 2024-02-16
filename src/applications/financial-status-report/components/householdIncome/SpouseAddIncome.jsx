@@ -121,6 +121,8 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            uswds
+            charcount
           />
           <VaNumberInput
             className="no-wrap input-size-3"
@@ -135,6 +137,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
+            uswds
           />
           <br />
           <p>

@@ -27,7 +27,6 @@
         .search-controls-text-inputs {
           @media (min-width: $medium-screen) {
             .geolocation-container {
-              // position: relative;
               display: flex;
               min-width: 10rem;
 
@@ -43,8 +42,25 @@
               }
             }
 
+            .search-area-dropdown {
+              width: 48rem;
+            }
+
             .representative-name-input {
-              min-width: 48rem;
+              width: 48rem;
+            }
+          }
+          @media (max-width: $medium-screen) {
+            .location-input {
+              max-width: 46rem;
+            }
+
+            .search-area-dropdown {
+              max-width: 46rem;
+            }
+
+            .representative-name-input {
+              max-width: 46rem;
             }
           }
         }
@@ -97,8 +113,21 @@
   }
 
   .results-section {
-    @media (min-width: $medium-screen) and (max-width: ($large-screen)) {
-      width: 80%;
+    @media (min-width: $medium-screen) {
+      min-width: 60rem;
+    }
+
+    .loading-indicator-container {
+      margin-bottom: 60rem !important;
+    }
+
+    hr {
+      @media (min-width: $medium-screen) {
+        min-width: 60rem;
+      }
+      @media (max-width: $medium-screen) {
+        max-width: 57rem;
+      }
     }
     .pagination-container .hydrated {
       border-top: none !important;
@@ -126,35 +155,80 @@
 
     .representative-results-list {
       width: 100%;
-    }
 
-    .representative-results-list {
       .representative-result-card {
         border: 1px solid $color-gray-lighter;
 
-        @media (min-width: 900px) {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto;
-
-          .representative-info-section {
-            grid-column: 1;
-          }
-
-          .report-outdated-information-button {
-            grid-column: 2;
-            text-align: right;
+        .representative-result-card-content {
+          @media (min-width: 29rem) {
+            .report-outdated-information-button {
+              min-width: 27rem;
+            }
           }
         }
-        @media (max-width: 909px) {
-          word-wrap: break-word;
+
+        @media (min-width: $medium-screen) {
+          min-width: 60rem;
+
+          .representative-result-card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto;
+
+            .report-thank-you-alert {
+              grid-column: 1 / 5;
+              margin-bottom: 1rem;
+            }
+
+            .associated-organizations-info {
+              grid-column: 1 / 5;
+              grid-row: 3;
+            }
+
+            .representative-info-heading {
+              grid-column: 1 / 3;
+              grid-row: 2;
+            }
+            .representative-contact-section {
+              grid-column: 1 / 3;
+              grid-row: 4;
+            }
+
+            .report-outdated-information-button {
+              grid-column: 3 / 5;
+              grid-row: 2;
+              text-align: right;
+            }
+          }
+        }
+
+        @media (max-width: $medium-screen) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          max-width: 57rem;
+
+          .report-thank-you-alert {
+            margin-top: 3rem;
+            margin-bottom: 0;
+          }
 
           .report-outdated-information-button {
-            width: 100%;
-            margin-top: 2rem;
+            margin-top: 3rem;
+          }
+        }
+        @media (min-width: 565px) and (max-width: $medium-screen) {
+          .representative-result-card-content {
+            min-width: 35rem;
           }
         }
       }
+    }
+  }
+
+  .help-footer-container {
+    @media (max-width: $medium-screen) {
+      padding-right: 2.5rem;
     }
   }
 }
