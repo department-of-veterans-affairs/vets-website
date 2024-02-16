@@ -22,9 +22,8 @@ const verifyLink = data => {
     rel: 'noopener noreferrer',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directions on Google Maps to Bobby Low',
+    '7901 Metropolis Drive Austin, TX 78744-3111',
   );
-  expect(wrapper.find('.sr-only').text()).to.equal('to Bobby Low');
 
   wrapper.unmount();
 };

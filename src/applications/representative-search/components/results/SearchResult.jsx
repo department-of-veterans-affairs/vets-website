@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaModal,
-  VaCheckboxGroup,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import RepresentativeDirectionsLink from './RepresentativeDirectionsLink';
+import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
 const SearchResult = ({
@@ -13,35 +9,30 @@ const SearchResult = ({
   addressLine2,
   addressLine3,
   city,
-  state,
+  stateCode,
   zipCode,
   phone,
   distance,
   email,
+  associatedOrgs,
   submitRepresentativeReport,
   reports,
-  representative,
   representativeId,
   query,
 }) => {
-  const [reportObject, setReportObject] = useState({
-    phone: null,
-    email: null,
-    address: null,
-    otherComment: null,
-  });
-
-  const [
-    reportOutdatedInformationModalIsShowing,
-    setReportOutdatedInformationModalIsShowing,
-  ] = useState(false);
+  const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
 
   const { contact, extension } = parsePhoneNumber(phone);
 
   const addressExists =
-    addressLine1 || addressLine2 || addressLine3 || city || state || zipCode;
+    addressLine1 ||
+    addressLine2 ||
+    addressLine3 ||
+    city ||
+    stateCode ||
+    zipCode;
 
-  // concatenating address for user reports
+  // concatenating address for ReportModal
   const address =
     [
       addressLine1.trim(),
@@ -51,210 +42,121 @@ const SearchResult = ({
       .filter(Boolean)
       .join(' ') +
     (city ? ` ${city},` : '') +
-    (state ? ` ${state}` : '') +
+    (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  // for conditional rendering of the modal
-  const reportableItemsCount =
-    (address !== null) + (phone !== null) + (email !== null) + 1;
-
-  const handleOtherCommentInputChange = event => {
-    const newState = { ...reportObject };
-    newState.otherComment = event.target.value;
-    setReportObject(newState);
-  };
-
-  const handleCheckboxChange = event => {
-    const {
-      target: { id, checked },
-    } = event;
-
-    const newState = { ...reportObject };
-
-    switch (id) {
-      case '1':
-        newState.phone = checked ? phone : null;
-        break;
-      case '2':
-        newState.email = checked ? email : null;
-        break;
-      case '3':
-        newState.address = checked ? address : null;
-        break;
-      default:
-        break;
-    }
-
-    setReportObject(newState);
-  };
-
-  const onSubmitReportOutdatedInformation = () => {
-    const formattedReportObject = { representativeId, reports: {} };
-
-    // push non-null items to reports object
-    Object.keys(reportObject).forEach(prop => {
-      if (reportObject[prop] !== null) {
-        formattedReportObject.reports[prop] = reportObject[prop];
-      }
-    });
-
-    submitRepresentativeReport(formattedReportObject);
-    setReportObject({
-      phone: null,
-      email: null,
-      address: null,
-      otherComment: null,
-    });
-    setReportOutdatedInformationModalIsShowing(false);
+  const closeReportModal = () => {
+    setReportModalIsShowing(false);
   };
 
   return (
     <div className="report-outdated-information-modal">
-      <VaModal
-        modalTitle={`Report Outdated Information for 
-          ${officer}`}
-        onCloseEvent={() => setReportOutdatedInformationModalIsShowing(false)}
-        onPrimaryButtonClick={onSubmitReportOutdatedInformation}
-        onSecondaryButtonClick={() =>
-          setReportOutdatedInformationModalIsShowing(false)
-        }
-        primaryButtonText="Submit"
-        secondaryButtonText="Cancel"
-        visible={reportOutdatedInformationModalIsShowing}
-        uswds
-      >
-        {reports && (
-          <>
-            <h3>You reported this information</h3>
-            <ul>
-              {reports.phone && <li>Outdated phone number</li>}
-              {reports.email && <li>Outdated email</li>}
-              {reports.address && <li>Outdated address</li>}
-              {reports.otherComment && <li>Other: "{reports.otherComment}"</li>}
-            </ul>
-          </>
-        )}
-        {reports &&
-          Object.keys(reports).length < reportableItemsCount && (
-            <>
-              <h3>You can add to your report</h3>
-            </>
+      {reportModalIsShowing && (
+        <ReportModal
+          representativeName={officer}
+          representativeId={representativeId}
+          address={address}
+          phone={phone}
+          email={email}
+          existingReports={reports}
+          onCloseModal={closeReportModal}
+          submitRepresentativeReport={submitRepresentativeReport}
+        />
+      )}
+
+      <div className="vads-u-padding--4 representative-result-card">
+        <div className="representative-result-card-content">
+          <div className="representative-info-heading">
+            {distance && (
+              <div className="vads-u-font-weight--bold vads-u-font-family--serif">
+                {parseFloat(JSON.parse(distance).toFixed(2))} Mi
+              </div>
+            )}
+            {officer && (
+              <>
+                <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
+                  <h3>{officer}</h3>
+                </div>
+                {associatedOrgs?.length === 1 && (
+                  <p style={{ marginTop: 0 }}>{associatedOrgs[0]}</p>
+                )}
+              </>
+            )}
+          </div>
+          {associatedOrgs?.length > 1 && (
+            <div className="associated-organizations-info vads-u-margin-top--1p5">
+              <va-additional-info
+                trigger="See associated organizations"
+                disable-border
+                uswds
+              >
+                {associatedOrgs?.map((org, index) => {
+                  return (
+                    <>
+                      <p>{org}</p>
+                      {index < associatedOrgs.length - 1 ? (
+                        <br style={{ lineHeight: '1rem' }} />
+                      ) : null}
+                    </>
+                  );
+                })}
+              </va-additional-info>
+            </div>
           )}
 
-        {(!reports ||
-          (reports && Object.keys(reports).length < reportableItemsCount)) && (
-          <>
-            <VaCheckboxGroup
-              error={null}
-              hint={null}
-              onVaChange={handleCheckboxChange}
-              required
-              label="Select the information we need to update"
-              label-header-level=""
+          <div className="representative-contact-section vads-u-margin-top--3">
+            {addressExists && (
+              <div className="address-link">
+                <a
+                  href={`https://maps.google.com?saddr=${
+                    query?.context?.location
+                  }&daddr=${address}`}
+                  tabIndex="0"
+                >
+                  {addressLine1} {addressLine2} <br />
+                  {city}, {stateCode} {zipCode}
+                </a>
+              </div>
+            )}
+            {phone && (
+              <div className="vads-u-margin-top--1p5">
+                <va-telephone contact={contact} extension={extension} />
+              </div>
+            )}
+            {email && (
+              <div className="vads-u-margin-top--1p5">
+                <a href={`mailto:${email}`}>{email}</a>
+              </div>
+            )}
+          </div>
+          {reports && (
+            <div className="report-thank-you-alert">
+              <va-alert
+                class="vads-u-margin-bottom--2"
+                close-btn-aria-label="Close notification"
+                disable-analytics="false"
+                full-width="false"
+                slim
+                status="info"
+                uswds
+                visible="true"
+              >
+                <p className="vads-u-margin-y--0">
+                  Thank you for reporting outdated information.
+                </p>
+              </va-alert>
+            </div>
+          )}
+          <div className="report-outdated-information-button">
+            <va-button
+              onClick={() => {
+                setReportModalIsShowing(true);
+              }}
+              secondary
+              text="Report outdated information"
               uswds
-            >
-              {!reports?.phone && (
-                <va-checkbox
-                  label="Incorrect phone number"
-                  name="phone"
-                  uswds
-                  id="1"
-                />
-              )}
-              {email &&
-                !reports?.email && (
-                  <va-checkbox
-                    label="Incorrect email"
-                    name="email"
-                    uswds
-                    id="2"
-                  />
-                )}
-              {!reports?.address && (
-                <va-checkbox
-                  label="Incorrect address"
-                  name="address"
-                  uswds
-                  id="3"
-                />
-              )}
-            </VaCheckboxGroup>
-          </>
-        )}
-
-        {!reports?.otherComment && (
-          <va-text-input
-            hint={null}
-            label="Describe the other information we need to update"
-            value={reportObject.otherComment}
-            name="my-input"
-            maxlength={250}
-            onInput={e => handleOtherCommentInputChange(e)}
-            uswds
-          />
-        )}
-      </VaModal>
-      <div className="vads-u-padding-y--4">
-        {reports && (
-          <va-alert
-            class="vads-u-margin-bottom--1"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            slim
-            status="info"
-            uswds
-            visible="true"
-          >
-            <p className="vads-u-margin-y--0">
-              Thank you for reporting outdated information.
-            </p>
-          </va-alert>
-        )}
-        {distance && (
-          <div>
-            <strong>{parseFloat(JSON.parse(distance).toFixed(2))} Mi</strong>
-          </div>
-        )}
-        {officer && (
-          <div className="vads-u-font-family--serif vads-u-padding-top--0p5">
-            <h3>{officer}</h3>
-          </div>
-        )}
-        {addressExists && (
-          <div className="vads-u-margin-top--1p5">
-            <div>
-              {addressLine1}, {addressLine2}
-            </div>
-            <div>
-              {city} {state} {zipCode}
-            </div>
-            <RepresentativeDirectionsLink
-              representative={representative}
-              query={query}
             />
           </div>
-        )}
-        {phone && (
-          <div className="vads-u-margin-top--1p5">
-            <strong>Main number: </strong>
-            <va-telephone contact={contact} extension={extension} />
-          </div>
-        )}
-        {email && (
-          <div className="vads-u-margin-top--1p5">
-            <strong>E-mail: </strong> <a href={`mailto:${email}`}>{email}</a>
-          </div>
-        )}
-        <div className="vads-u-margin-top--2">
-          <va-button
-            onClick={() => {
-              setReportOutdatedInformationModalIsShowing(true);
-            }}
-            secondary
-            text="Report outdated information"
-            uswds
-          />
         </div>
       </div>
     </div>
@@ -265,8 +167,9 @@ SearchResult.propTypes = {
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
   addressLine3: PropTypes.string,
+  associatedOrgs: PropTypes.array,
   city: PropTypes.string,
-  distance: PropTypes.number,
+  distance: PropTypes.string,
   email: PropTypes.string,
   officer: PropTypes.string,
   phone: PropTypes.string,
@@ -275,11 +178,10 @@ SearchResult.propTypes = {
     phone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-    otherComment: PropTypes.string,
+    other: PropTypes.string,
   }),
-  representative: PropTypes.string,
   representativeId: PropTypes.string,
-  state: PropTypes.string,
+  stateCode: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
   type: PropTypes.string,
   zipCode: PropTypes.string,

@@ -623,8 +623,7 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
 }
 
 export function prefillTransformerV4(pages, formData, metadata, state) {
-  const bankInformation =
-    state.data?.['view:directDepositField]']?.bankInformation || {};
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
@@ -729,9 +728,11 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
     },
-    [formFields.bankAccount]: {
-      ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
+    [formFields.viewDirectDeposit]: {
+      [formFields.bankAccount]: {
+        ...bankInformation,
+        accountType: bankInformation?.accountType?.toLowerCase(),
+      },
     },
     [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };
@@ -760,7 +761,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const mebExclusionPeriodEnabled =
     state.featureToggles?.mebExclusionPeriodEnabled;
   const showDgiDirectDeposit1990EZ =
-    state.featureToggles?.showDgiDirectDeposit1990EZ;
+    state.featureToggles?.show_dgi_direct_deposit_1990EZ;
 
   // Return an empty object if feature toggles haven't loaded yet
   if (!featureTogglesLoaded) {

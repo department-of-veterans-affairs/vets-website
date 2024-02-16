@@ -9,6 +9,7 @@ const knownFonts = {
   'SourceSansPro-Italic': 'sourcesanspro-italic-webfont.ttf',
   'SourceSansPro-Light': 'sourcesanspro-light-webfont.ttf',
   'SourceSansPro-Regular': 'sourcesanspro-regular-webfont.ttf',
+  'RobotoMono-Regular': 'robotomono-regular.ttf',
 };
 
 const registerLocalFont = (doc, font) => {

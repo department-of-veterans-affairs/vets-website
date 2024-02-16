@@ -263,7 +263,7 @@ class MedicationsListPage {
       `[aria-describedby="card-header-${activeRxRefills.data.id}"]`,
     ).should('exist');
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3)',
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
     )
 
       // cy.get(':nth-child(2) > .rx-card-detials > :nth-child(3)')
@@ -337,7 +337,7 @@ class MedicationsListPage {
 
   selectSortDropDownOption = text => {
     cy.get('[data-testid="sort-dropdown"]')
-      .find('#select')
+      .find('#options')
       .select(text, { force: true });
   };
 
@@ -352,7 +352,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
@@ -379,7 +379,7 @@ class MedicationsListPage {
       prescriptions,
     );
 
-    cy.get('[data-testid="sort-button"]').should('be.enabled');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
     cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
@@ -398,7 +398,7 @@ class MedicationsListPage {
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(2) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(3) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
@@ -428,6 +428,32 @@ class MedicationsListPage {
           }`,
         });
       });
+  };
+
+  verifyCmopNdcNumberIsNull = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[1].attributes).to.include({
+          cmopNdcNumber: null,
+        });
+      });
+  };
+
+  verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[3].attributes).to.include({
+          prescriptionSource: 'NV',
+        });
+      });
+  };
+
+  verifyPrescriptionNumberIsVisibleOnRxCardOnListPage = prescriptionNumber => {
+    cy.get('[data-testid="rx-number"]')
+      .first()
+      .should('contain', prescriptionNumber);
   };
 }
 export default MedicationsListPage;

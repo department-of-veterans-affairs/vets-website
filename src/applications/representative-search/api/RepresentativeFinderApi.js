@@ -14,6 +14,7 @@ class RepresentativeFinderApi {
     perPage,
     sort,
     type,
+    distance,
   ) {
     const params = resolveParamsWithUrl({
       address,
@@ -24,10 +25,11 @@ class RepresentativeFinderApi {
       perPage,
       sort,
       type,
+      distance,
     });
 
     const endpoint =
-      type === 'VSO'
+      type === 'veteran_service_officer'
         ? '/vso_accredited_representatives'
         : '/other_accredited_representatives';
 

@@ -6,6 +6,7 @@ import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   SUPPORTED_UPLOAD_TYPES,
   MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
 } from '../../shared/constants';
 
 import {
@@ -15,8 +16,8 @@ import {
 
 import { createPayload } from '../../shared/utils/upload';
 
-const focusFileCard = name => {
-  const target = $$('.schemaform-file-list li').find(entry =>
+export const focusFileCard = (name, root = document) => {
+  const target = $$('.schemaform-file-list li', root).find(entry =>
     entry.textContent?.trim().includes(name),
   );
   if (target) {
@@ -31,6 +32,7 @@ export const evidenceUploadUI = {
     buttonText: 'Upload',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
+    maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
     minSize: 1024,
     createPayload,
     parseResponse: (response, { name }) => {

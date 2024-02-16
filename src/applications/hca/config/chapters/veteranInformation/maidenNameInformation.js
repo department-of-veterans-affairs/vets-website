@@ -1,7 +1,7 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import set from 'platform/utilities/data/set';
 
-import { ShortFormAlert } from '../../../components/FormAlerts';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 

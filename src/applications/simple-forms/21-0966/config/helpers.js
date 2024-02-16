@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import {
@@ -37,6 +38,21 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   return (
     preparerIsThirdPartyToTheVeteran({ formData }) ||
     preparerIsThirdPartyToASurvivingDependent({ formData })
+  );
+};
+
+export const hasActiveCompensationITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activeCompensationITF']);
+};
+
+export const hasActivePensionITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activePensionITF']);
+};
+
+export const noActiveITF = ({ formData } = {}) => {
+  return (
+    !hasActiveCompensationITF({ formData }) &&
+    !hasActivePensionITF({ formData })
   );
 };
 

@@ -6,10 +6,12 @@ import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Reply', () => {
-  it('Axe Check Message Reply', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  beforeEach(() => {
     site.login();
+  });
+  it('Axe Pagination Test', () => {
     const threadLength = 28;
 
     mockMessagesPageOne.data.forEach(item => {
@@ -44,6 +46,25 @@ describe('Secure Messaging Reply', () => {
       );
     });
     FolderLoadPage.verifyPaginationElements();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
+  });
+
+  it('verify pagination for one message on last page', () => {
+    const threadLength = 21;
+    const pageNumber = Math.ceil(threadLength / 10);
+
+    mockMessagesPageOne.data.forEach(item => {
+      const currentItem = item;
+      currentItem.attributes.threadPageSize = threadLength;
+    });
+
+    const mockSingleMessageThread = {
+      data: [mockMessagesPageOne.data[mockMessagesPageOne.data.length - 1]],
+    };
+
+    landingPage.loadInboxMessages(mockMessagesPageOne);
+    site.loadVAPaginationLastPage(pageNumber, mockSingleMessageThread);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -52,6 +73,16 @@ describe('Secure Messaging Reply', () => {
           enabled: false,
         },
       },
+    });
+
+    cy.get('.thread-list').should('have.length', 1);
+
+    cy.get('.endOfThreads').should(
+      'have.text',
+      'End of conversations in this folder',
+    );
+    cy.get('.usa-pagination__item').each(el => {
+      cy.get(el).should('be.visible');
     });
   });
 });

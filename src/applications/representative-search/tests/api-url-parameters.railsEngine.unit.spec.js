@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { resolveParamsWithUrl, getApi } from '../config';
 
@@ -9,9 +8,10 @@ describe('Locator url and parameters builder', () => {
   const long = '-99.27246';
   const name = 'test';
   const sort = 'distance_asc';
+  const distance = '100';
 
-  it('should build VA request with type=VSO', () => {
-    const type = 'VSO';
+  it('should build VA request with type=veteran_service_officer', () => {
+    const type = 'veteran_service_officer';
 
     const { requestUrl } = getApi('/vso_accredited_representatives');
 
@@ -24,18 +24,19 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=VSO`,
+      }/services/veteran/v0/vso_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
 
-  it('should build VA request with type=claims_agent', () => {
-    const type = 'claims_agent';
+  it('should build VA request with type=claim_agents', () => {
+    const type = 'claim_agents';
 
     const { requestUrl } = getApi('/other_accredited_representatives');
 
@@ -48,13 +49,14 @@ describe('Locator url and parameters builder', () => {
       perPage: 10,
       sort,
       type,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claims_agent`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=1&per_page=10&sort=distance_asc&type=claim_agents&distance=100`,
     );
   });
 
@@ -71,14 +73,21 @@ describe('Locator url and parameters builder', () => {
       perPage: 7,
       sort,
       type,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney`,
+      }/services/veteran/v0/other_accredited_representatives?address=43210&lat=40.17887&long=-99.27246&name=test&page=2&per_page=7&sort=distance_asc&type=attorney&distance=100`,
     );
+  });
+
+  it('should set csrfToken in request headers', () => {
+    localStorage.setItem('csrfToken', '12345');
+    const { apiSettings } = getApi('/flag_accredited_representatives');
+    expect(apiSettings?.headers?.['X-CSRF-Token']).to.eql('12345');
   });
 
   it('should exclude null params from request', () => {
@@ -92,14 +101,14 @@ describe('Locator url and parameters builder', () => {
       page: 2,
       perPage: 7,
       sort,
-      type: null,
+      distance,
     });
 
     const test = `${requestUrl}${params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc`,
+      }/services/veteran/v0/other_accredited_representatives?page=2&per_page=7&sort=distance_asc&type=veteran_service_officer&distance=100`,
     );
   });
 });
