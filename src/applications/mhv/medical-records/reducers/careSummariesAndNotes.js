@@ -16,6 +16,14 @@ const initialState = {
 };
 
 const extractName = record => {
+  if (
+    record.content &&
+    record.content.length > 0 &&
+    record.content[0].attachment &&
+    record.content[0].attachment.title
+  ) {
+    return record.content[0].attachment.title;
+  }
   return (
     isArrayAndHasItems(record.type?.coding) && record.type.coding[0].display
   );

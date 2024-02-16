@@ -99,6 +99,7 @@ ${record.note}`;
       <h1
         className="vads-u-margin-bottom--0"
         aria-describedby="progress-note-date"
+        data-testid="progress-note-name"
       >
         {record.name}
       </h1>
@@ -146,7 +147,9 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record">{record.note}</p>
+        <p data-testid="note-record" className="monospace">
+          {record.note}
+        </p>
       </div>
     </div>
   );

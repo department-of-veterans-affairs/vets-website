@@ -120,7 +120,9 @@ ${record.results} \n`;
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-results">{record.results}</p>
+        <p data-testid="pathology-results" className="monospace">
+          {record.results}
+        </p>
       </div>
     </div>
   );
