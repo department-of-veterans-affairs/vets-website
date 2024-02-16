@@ -19,16 +19,7 @@ describe('Secure Messaging Delete Draft', () => {
     PatientInterstitialPage.getContinueButton().should('not.exist');
     draftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     draftsPage.confirmDeleteDraft(mockDraftResponse, false);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDeleteConfirmationHasFocus();

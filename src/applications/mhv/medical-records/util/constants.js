@@ -118,22 +118,42 @@ export const IS_TESTING = false;
 
 export const vitalTypes = {
   BLOOD_PRESSURE: 'BLOOD_PRESSURE',
-  BREATHING_RATE: 'BREATHING_RATE',
   PULSE: 'PULSE',
-  HEIGHT: 'HEIGHT',
+  RESPIRATION: 'RESPIRATION',
+  PULSE_OXIMETRY: 'PULSE_OXIMETRY',
   TEMPERATURE: 'TEMPERATURE',
   WEIGHT: 'WEIGHT',
-  PAIN: 'PAIN',
+  HEIGHT: 'HEIGHT',
 };
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
-  BREATHING_RATE: 'Breathing rate',
   PULSE: 'Heart rate',
-  HEIGHT: 'Height',
+  RESPIRATION: 'Breathing rate',
+  PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
-  PAIN: 'Pain',
+  HEIGHT: 'Height',
+};
+
+export const vitalUnitCodes = {
+  BLOOD_PRESSURE: '',
+  PULSE: '/min',
+  RESPIRATION: '/min',
+  PULSE_OXIMETRY: '%',
+  TEMPERATURE: '[degF]',
+  WEIGHT: '[lb_av]',
+  HEIGHT: '[in_i]',
+};
+
+export const vitalUnitDisplayText = {
+  BLOOD_PRESSURE: '',
+  PULSE: ' beats per minute',
+  RESPIRATION: ' breaths per minute',
+  PULSE_OXIMETRY: '%',
+  TEMPERATURE: ' °F',
+  WEIGHT: ' pounds',
+  HEIGHT: ' inches',
 };
 
 export const ALERT_TYPE_ERROR = 'error';
