@@ -20,7 +20,6 @@
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.config.js",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
-    "cy:sm:run": "cypress run --config-file config/cypress.config.js --browser chrome --spec src/applications/mhv/secure-messaging/tests/e2e/*/*.cypress.spec.js",
     "cy:run:localreports": "node script/run-local-cy-with-reports.js",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
