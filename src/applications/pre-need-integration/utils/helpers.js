@@ -412,6 +412,10 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
 export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
 }
