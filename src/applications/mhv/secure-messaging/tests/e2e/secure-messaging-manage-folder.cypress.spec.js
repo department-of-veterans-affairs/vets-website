@@ -21,13 +21,7 @@ describe('manage folders', () => {
 
     it('verify folder created', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT, {});
 
       PatientMessageCustomFolderPage.createCustomFolder(newFolder);
       folderPage.verifyCreateFolderSuccessMessage();
@@ -50,13 +44,7 @@ describe('manage folders', () => {
 
     it('verify folder deleted', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT, {});
 
       PatientMessageCustomFolderPage.loadSingleFolderWithNoMessages(
         folderId,

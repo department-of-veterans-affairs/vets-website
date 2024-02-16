@@ -6,9 +6,14 @@ export default class MockFacilityResponse {
     this.attributes = {
       id: this.id,
       name,
+      lat: 0,
+      long: 0,
       phone: {
-        main: '1234567890',
+        main: '307-778-7550',
       },
+      // phone: {
+      //   main: '1234567890',
+      // },
       physicalAddress: {
         type: 'physical',
         line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
@@ -16,6 +21,7 @@ export default class MockFacilityResponse {
         state: 'WY',
         postalCode: '82001-5356',
       },
+      vistaSite: id,
       vastParent: id,
     };
   }
