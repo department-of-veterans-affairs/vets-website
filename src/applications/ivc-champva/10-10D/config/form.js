@@ -1,4 +1,4 @@
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   fullNameSchema,
   fullNameUI,
@@ -10,7 +10,6 @@ import {
   phoneUI,
   emailSchema,
   emailUI,
-  fileUploadUI,
   dateOfBirthSchema,
   dateOfBirthUI,
   dateOfDeathSchema,
@@ -22,6 +21,7 @@ import {
   titleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
 import {
