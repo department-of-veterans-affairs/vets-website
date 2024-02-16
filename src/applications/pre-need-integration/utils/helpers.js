@@ -680,18 +680,29 @@ export const veteranUI = {
       },
     },
   },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
+    },
+  },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
+    'ui:title': 'What’s your race?',
+    // 'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -699,11 +710,14 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -714,6 +728,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },
