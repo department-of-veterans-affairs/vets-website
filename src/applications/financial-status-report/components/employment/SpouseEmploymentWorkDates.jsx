@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  VaDate,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import PropTypes from 'prop-types';
+import ButtonGroup from '../shared/ButtonGroup';
 import {
   getJobIndex,
   getJobButton,
@@ -216,14 +214,21 @@ const SpouseEmploymentWorkDates = props => {
         </legend>
         <div>{ShowWorkDates()}</div>
       </fieldset>
-      <p>
-        <VaButton text="Back" onClick={handlers.onCancel} uswds />
-        <VaButton
-          uswds
-          text={handlers.getContinueButtonText()}
-          onClick={handlers.onUpdate}
-        />
-      </p>
+
+      <ButtonGroup
+        buttons={[
+          {
+            label: 'Back',
+            onClick: handlers.onCancel,
+            isSecondary: true,
+          },
+          {
+            label: handlers.getContinueButtonText(),
+            onClick: handlers.onUpdate,
+            isSubmitting: true,
+          },
+        ]}
+      />
     </form>
   );
 };

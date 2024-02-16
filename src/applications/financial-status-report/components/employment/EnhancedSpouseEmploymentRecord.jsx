@@ -7,6 +7,7 @@ import {
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import ButtonGroup from '../shared/ButtonGroup';
 import {
   getJobIndex,
   getJobButton,
@@ -234,24 +235,21 @@ const EmploymentRecord = props => {
             uswds
           />
         </VaRadio>
-        <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            {handlers.getCancelButtonText()}
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={updateFormData}
-          >
-            Continue
-          </button>
-        </p>
+
+        <ButtonGroup
+          buttons={[
+            {
+              label: handlers.getCancelButtonText(),
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: handlers.getContinueButtonText(),
+              onClick: updateFormData,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </fieldset>
     </form>
   );

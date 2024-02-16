@@ -159,7 +159,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('textarea')
             .type('Some Resolution Comments . . .');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'bankruptcy-history': ({ afterHook }) => {

@@ -51,7 +51,7 @@ const ResolutionComments = ({
   const onSubmit = event => {
     event.preventDefault();
     if (error) return;
-
+    onContinue();
     if (reviewNavigation && showReviewNavigation) {
       setFormData({
         ...data,
@@ -104,15 +104,13 @@ const ResolutionComments = ({
           buttons={[
             {
               label: 'Back',
-              onClick: goBack,
-              secondary: true,
-              iconLeft: '«',
+              onClick: goBack, // Define this function based on page-specific logic
+              isSecondary: true,
             },
             {
               label: continueButtonText,
-              onClick: onContinue,
-              type: 'submit',
-              iconRight: '»',
+              onClick: onSubmit,
+              isSubmitting: true, // If this button submits a form
             },
           ]}
         />
