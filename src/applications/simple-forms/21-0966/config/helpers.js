@@ -137,8 +137,6 @@ export const initializeFormDataWithPreparerIdentification = preparerIdentificati
   );
 };
 
-// Confirmation page
-
 export const confirmationPageFormBypassed = formData => {
   return Object.values(formData.benefitSelection).every(benefit => !benefit);
 };

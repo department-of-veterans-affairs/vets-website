@@ -16,8 +16,17 @@ import {
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
+  confirmationPageFormBypassed,
+  confirmationPageAlertStatus,
+  confirmationPageAlertHeadline,
+  confirmationPageAlertParagraph,
+  confirmationPageNextStepsParagraph,
 } from '../../config/helpers';
-import { preparerIdentifications } from '../../definitions/constants';
+import {
+  preparerIdentifications,
+  veteranBenefits,
+  survivingDependentBenefits,
+} from '../../definitions/constants';
 import formConfig from '../../config/form';
 
 describe('form helper functions', () => {
@@ -263,5 +272,155 @@ describe('statementOfTruthFullNamePath', () => {
     expect(statementOfTruthFullNamePath({ formData })).to.equal(
       'survivingDependentFullName',
     );
+  });
+});
+
+describe('Confirmation Page helper functions', () => {
+  it('determines if the form flow was bypassed to go directly to the confirmation page', () => {
+    const formData = {
+      benefitSelection: {},
+    };
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+  });
+
+  it('returns the correct alert status depending on if the form was bypassed', () => {
+    const formData = {
+      benefitSelection: {},
+    };
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageAlertStatus(formData)).to.equal('warning');
+
+    formData.benefitSelection[veteranBenefits.PENSION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageAlertStatus(formData)).to.equal('success');
+  });
+
+  it('returns the correct alert headline depending on if the form was bypassed', () => {
+    const formData = {
+      benefitSelection: {},
+    };
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageAlertHeadline(formData)).to.equal(
+      'You already have an intent to file on record',
+    );
+
+    formData.benefitSelection[survivingDependentBenefits.SURVIVOR] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageAlertHeadline(formData)).to.equal(
+      'You’ve submitted your intent to file',
+    );
+  });
+
+  it('return the correct alert paragraph depending on the formData', () => {
+    const formData = {
+      benefitSelection: {},
+      'view:activeCompensationITF': {
+        expirationDate: '1-1-2025',
+      },
+      'view:activePensionITF': {
+        expirationDate: '1-1-2025',
+      },
+    };
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'Our records show that you already have an intent to file for disability compensation and for pension claims.',
+    );
+
+    formData['view:activePensionITF'] = {};
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'Our records show that you already have an intent to file for disability compensation and it will expire on 1-1-2025.',
+    );
+
+    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activeCompensationITF'] = {};
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'Our records show that you already have an intent to file for pension claims and it will expire on 1-1-2025.',
+    );
+
+    formData['view:activePensionITF'] = {};
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageAlertParagraph(formData)).to.equal(
+      'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.',
+    );
+  });
+
+  it('returns the correct next steps paragraph or null depending on the formData', () => {
+    const formData = {
+      benefitSelection: {},
+      'view:activeCompensationITF': {
+        expirationDate: '1-1-2025',
+      },
+      'view:activePensionITF': {
+        expirationDate: '1-1-2025',
+      },
+    };
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'disability compensation',
+    );
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'pension claims',
+    );
+
+    formData['view:activePensionITF'] = {};
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'disability compensation',
+    );
+
+    formData['view:activePensionITF'] = { expirationDate: '1-1-2025' };
+    formData['view:activeCompensationITF'] = {};
+
+    expect(confirmationPageFormBypassed(formData)).to.be.true;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'pension claims',
+    );
+
+    formData['view:activePensionITF'] = {};
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'disability compensation',
+    );
+
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = false;
+    formData.benefitSelection[veteranBenefits.PENSION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'pension claims',
+    );
+
+    formData.benefitSelection[veteranBenefits.PENSION] = false;
+    formData.benefitSelection[survivingDependentBenefits.SURVIVOR] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageNextStepsParagraph(formData)).to.contain(
+      'pension claims for survivors',
+    );
+
+    formData.benefitSelection[veteranBenefits.COMPENSATION] = true;
+
+    expect(confirmationPageFormBypassed(formData)).to.be.false;
+    expect(confirmationPageNextStepsParagraph(formData)).to.be.null;
   });
 });
