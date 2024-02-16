@@ -13,7 +13,10 @@
  */
 
 export const parsePhoneNumber = phone => {
-  let sanitizedNumber = (phone || '')
+  if (!phone) {
+    return { contact: null, extension: null };
+  }
+  let sanitizedNumber = phone
     .replace(/[()\s]/g, '') // remove parentheses
     .replace(/(?<=.)([+.*])/g, '-'); // replace .*+ symbols being used as dashes
 
