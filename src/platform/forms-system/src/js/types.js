@@ -73,7 +73,8 @@
 
 /**
  * @typedef {Object} Dev
- * @property {boolean} [showNavLinks]
+ * @property {boolean} [showNavLinks] - Show navigation links on every page to every route in your form (dev only)
+ * @property {boolean} [collapsibleNavLinks] - Must be used with `showNavLinks: true`. If true, the nav links will be wrapped in a `va-additional-info` component
  */
 
 /**

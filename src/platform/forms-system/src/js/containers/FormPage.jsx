@@ -264,6 +264,12 @@ class FormPage extends React.Component {
     if (isReactComponent(route.pageConfig.CustomPage)) {
       return (
         <div className={pageClasses}>
+          {showNavLinks && (
+            <DevModeNavLinks
+              pageList={route.pageList}
+              collapsible={route.formConfig?.dev?.collapsibleNavLinks}
+            />
+          )}
           <route.pageConfig.CustomPage
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
@@ -290,7 +296,12 @@ class FormPage extends React.Component {
 
     return (
       <div className={pageClasses}>
-        {showNavLinks && <DevModeNavLinks pageList={route.pageList} />}
+        {showNavLinks && (
+          <DevModeNavLinks
+            pageList={route.pageList}
+            collapsible={route.formConfig?.dev?.collapsibleNavLinks}
+          />
+        )}
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
@@ -388,6 +399,7 @@ FormPage.propTypes = {
     formConfig: PropTypes.shape({
       dev: PropTypes.shape({
         showNavLinks: PropTypes.bool,
+        collapsibleNavLinks: PropTypes.bool,
       }),
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
