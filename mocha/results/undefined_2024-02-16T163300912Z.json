@@ -1,0 +1,192 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 0,
+    "pending": 0,
+    "failures": 2,
+    "start": "2024-02-16T16:33:00.956Z",
+    "end": "2024-02-16T16:33:01.007Z",
+    "duration": 51,
+    "testsRegistered": 2,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8ec8d628-1c5f-4bcf-a0e3-14785b0d139b",
+      "title": "",
+      "fullFile": "/Users/fatmakhan/Documents/vets-website/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+      "file": "/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+      "beforeHooks": [
+        {
+          "title": "\"before each\" hook: beforeEach in \"{root}\"",
+          "fullTitle": "\"before each\" hook: beforeEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 3,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "setupJSDom();\nresetFetch();\ncleanupStorage();\nif (isStressTest == 'false') {\n  checkAllowList(this);\n}\nconsole.log('running: ', this.currentTest.file.slice(this.currentTest.file.indexOf('src')));",
+          "err": {},
+          "uuid": "4688f854-6f1e-4dd1-b7a3-381adfe9d518",
+          "parentUUID": "8ec8d628-1c5f-4bcf-a0e3-14785b0d139b",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after each\" hook: afterEach in \"{root}\"",
+          "fullTitle": "\"after each\" hook: afterEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cleanupStorage();",
+          "err": {},
+          "uuid": "3b974545-19ed-4058-b1e1-2b7cb37aeb61",
+          "parentUUID": "8ec8d628-1c5f-4bcf-a0e3-14785b0d139b",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ea2a696c-6492-49bd-b938-afff408337a7",
+          "title": "filterBeforeResultsReducer",
+          "fullFile": "/Users/fatmakhan/Documents/vets-website/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+          "file": "/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"filterBeforeResultsReducer\"",
+              "fullTitle": "filterBeforeResultsReducer \"before each\" hook in \"filterBeforeResultsReducer\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "store = (0, _redux.createStore)(_filterBeforeResultsReducer.default);",
+              "err": {},
+              "uuid": "92357c29-bf46-4867-98bc-53d524e6476b",
+              "parentUUID": "ea2a696c-6492-49bd-b938-afff408337a7",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should handle FILTER_BEFORE_RESULTS action",
+              "fullTitle": "filterBeforeResultsReducer should handle FILTER_BEFORE_RESULTS action",
+              "timedOut": false,
+              "duration": 0,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "store.dispatch({\n  type: _actions.FILTER_BEFORE_RESULTS\n});\n(0, _chai.expect)(store.getState()).to.deep.equal({\n  showFilterBeforeResults: false\n});",
+              "err": {
+                "message": "AssertionError: expected { showFiltersBeforeResult: false } to deeply equal { showFilterBeforeResults: false }",
+                "estack": "AssertionError: expected { showFiltersBeforeResult: false } to deeply equal { showFilterBeforeResults: false }\n    at Context.<anonymous> (src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js:19:38)\n    at Test.Runnable.run (node_modules/mocha-snapshots/src/index.js:19:22)\n    at Hook.Runnable.run (node_modules/mocha-snapshots/src/index.js:19:22)\n    at processImmediate (internal/timers.js:461:21)\n    at process.callbackTrampoline (internal/async_hooks.js:129:14)",
+                "diff": " {\n-   \"showFiltersBeforeResult\": false\n+   \"showFilterBeforeResults\": false\n }\n"
+              },
+              "uuid": "33e7213e-3539-41fc-b54d-0f5ca748756c",
+              "parentUUID": "ea2a696c-6492-49bd-b938-afff408337a7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return the initial state",
+              "fullTitle": "filterBeforeResultsReducer should return the initial state",
+              "timedOut": false,
+              "duration": 0,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "(0, _chai.expect)(store.getState()).to.deep.equal({\n  showFilterBeforeResults: true\n});",
+              "err": {
+                "message": "AssertionError: expected { showFiltersBeforeResult: true } to deeply equal { showFilterBeforeResults: true }",
+                "estack": "AssertionError: expected { showFiltersBeforeResult: true } to deeply equal { showFilterBeforeResults: true }\n    at Context.<anonymous> (src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js:14:38)\n    at Test.Runnable.run (node_modules/mocha-snapshots/src/index.js:19:22)\n    at Hook.Runnable.run (node_modules/mocha-snapshots/src/index.js:19:22)\n    at processImmediate (internal/timers.js:461:21)\n    at process.callbackTrampoline (internal/async_hooks.js:129:14)",
+                "diff": " {\n-   \"showFiltersBeforeResult\": true\n+   \"showFilterBeforeResults\": true\n }\n"
+              },
+              "uuid": "36b48d67-1c8e-4d83-9696-e5dc8eb150ee",
+              "parentUUID": "ea2a696c-6492-49bd-b938-afff408337a7",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "33e7213e-3539-41fc-b54d-0f5ca748756c",
+            "36b48d67-1c8e-4d83-9696-e5dc8eb150ee"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "undefined_2024-02-16T163300912Z",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "min",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "consoleReporter": "min",
+        "reportDir": "mocha/results",
+        "reportFilename": "undefined_2024-02-16T163300912Z",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

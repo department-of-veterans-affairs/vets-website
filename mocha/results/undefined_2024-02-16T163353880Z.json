@@ -1,0 +1,184 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-02-16T16:33:53.925Z",
+    "end": "2024-02-16T16:33:53.939Z",
+    "duration": 14,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a2b3ebf2-ca39-4411-ab8d-b7e68870e780",
+      "title": "",
+      "fullFile": "/Users/fatmakhan/Documents/vets-website/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+      "file": "/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+      "beforeHooks": [
+        {
+          "title": "\"before each\" hook: beforeEach in \"{root}\"",
+          "fullTitle": "\"before each\" hook: beforeEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 2,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "setupJSDom();\nresetFetch();\ncleanupStorage();\nif (isStressTest == 'false') {\n  checkAllowList(this);\n}\nconsole.log('running: ', this.currentTest.file.slice(this.currentTest.file.indexOf('src')));",
+          "err": {},
+          "uuid": "12c94446-3424-4937-ac17-d73a4f65a7e7",
+          "parentUUID": "a2b3ebf2-ca39-4411-ab8d-b7e68870e780",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after each\" hook: afterEach in \"{root}\"",
+          "fullTitle": "\"after each\" hook: afterEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cleanupStorage();",
+          "err": {},
+          "uuid": "1bcea02f-dc84-44c8-8e99-66dd54e135a5",
+          "parentUUID": "a2b3ebf2-ca39-4411-ab8d-b7e68870e780",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c0cb867d-cf99-4f7c-8e19-dc46c0bf6c25",
+          "title": "filterBeforeResultsReducer",
+          "fullFile": "/Users/fatmakhan/Documents/vets-website/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+          "file": "/src/applications/gi/tests/reducers/filterBeforeResultsReducer.unit.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"filterBeforeResultsReducer\"",
+              "fullTitle": "filterBeforeResultsReducer \"before each\" hook in \"filterBeforeResultsReducer\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "store = (0, _redux.createStore)(_filterBeforeResultsReducer.default);",
+              "err": {},
+              "uuid": "1b2bffc9-6ac4-41a9-a379-d0269288a1ab",
+              "parentUUID": "c0cb867d-cf99-4f7c-8e19-dc46c0bf6c25",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return the initial state",
+              "fullTitle": "filterBeforeResultsReducer should return the initial state",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "(0, _chai.expect)(store.getState()).to.deep.equal({\n  showFiltersBeforeResult: true\n});",
+              "err": {},
+              "uuid": "d391b628-853f-4c8e-b7ed-d294dd43a6ef",
+              "parentUUID": "c0cb867d-cf99-4f7c-8e19-dc46c0bf6c25",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should handle FILTER_BEFORE_RESULTS action",
+              "fullTitle": "filterBeforeResultsReducer should handle FILTER_BEFORE_RESULTS action",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "store.dispatch({\n  type: _actions.FILTER_BEFORE_RESULTS\n});\n(0, _chai.expect)(store.getState()).to.deep.equal({\n  showFiltersBeforeResult: false\n});",
+              "err": {},
+              "uuid": "e9a0a7d7-c3b3-4dba-8852-d91ea8db5c6d",
+              "parentUUID": "c0cb867d-cf99-4f7c-8e19-dc46c0bf6c25",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d391b628-853f-4c8e-b7ed-d294dd43a6ef",
+            "e9a0a7d7-c3b3-4dba-8852-d91ea8db5c6d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "undefined_2024-02-16T163353880Z",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "min",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "consoleReporter": "min",
+        "reportDir": "mocha/results",
+        "reportFilename": "undefined_2024-02-16T163353880Z",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
