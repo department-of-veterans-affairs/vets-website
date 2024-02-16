@@ -132,6 +132,7 @@ const DependentSummary = props => {
           text="Update page"
           label="Update your dependents"
           data-testid="hca-update-button"
+          uswds
         />
       )}
     </form>
