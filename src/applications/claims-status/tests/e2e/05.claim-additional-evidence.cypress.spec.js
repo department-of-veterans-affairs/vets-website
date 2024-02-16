@@ -1,5 +1,5 @@
 import TrackClaimsPage from './page-objects/TrackClaimsPage';
-import claimsList from './fixtures/mocks/claims-list.json';
+import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 
 let mockDetails = {};
 
