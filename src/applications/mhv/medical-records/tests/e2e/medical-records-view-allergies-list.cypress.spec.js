@@ -10,6 +10,11 @@ describe('Medical Records View Allergies', () => {
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 
+    cy.title().should(
+      'contain',
+      'Allergies and Reactions - Medical Records | Veterans Affairs',
+    );
+
     cy.get('[data-testid="print-records-button"]')
       .should('be.visible')
       .click({ force: true });
