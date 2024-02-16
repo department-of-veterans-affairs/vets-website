@@ -105,7 +105,7 @@ describe('File sizes', () => {
     expect(getFileSize(998)).to.equal('998 B');
   });
   it('should be in KB for values between a thousand and a million', () => {
-    expect(getFileSize(1024)).to.equal('1 KB');
+    expect(getFileSize(1024)).to.equal('1.0 KB');
   });
   it('should be in MB for values greater than a million', () => {
     expect(getFileSize(2000000)).to.equal('2.0 MB');
