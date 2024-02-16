@@ -50,6 +50,7 @@ const CernerTransitioningFacilityAlert = () => {
       const transitioningFacility = ehrFacilities[transitioningFacilityId];
       if (
         userFacilities &&
+        transitioningFacility &&
         transitioningFacility.ehr !== 'cerner' &&
         userFacilities.some(
           facility =>

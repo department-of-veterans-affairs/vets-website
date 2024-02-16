@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
@@ -20,8 +21,9 @@ import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacil
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
-  const { featureToggles } = useSelector(state => state);
-  const facilities = useSelector(state => state?.user?.profile?.facilities);
+  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
+
+  const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -34,28 +36,13 @@ const FolderHeader = props => {
       ],
   );
 
-  const cernerTransition556T30 = useMemo(
-    () => {
-      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
-        : false;
-    },
-    [featureToggles],
-  );
-
   const cernerFacilities = useMemo(
     () => {
-      let cernerFacilitiesFiltered = facilities?.filter(
-        facility => facility.isCerner,
+      return userFacilities?.filter(facility =>
+        drupalCernerFacilities.some(f => f.vhaId === facility.facilityId),
       );
-      if (cernerTransition556T30) {
-        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
-          facility => facility.facilityId !== '556',
-        );
-      }
-      return cernerFacilitiesFiltered;
     },
-    [facilities, cernerTransition556T30],
+    [userFacilities, drupalCernerFacilities],
   );
 
   const folderDescription = useMemo(
@@ -111,7 +98,7 @@ const FolderHeader = props => {
       )}
 
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length && (
+        cernerFacilities?.length > 0 && (
           <CernerFacilityAlert cernerFacilities={cernerFacilities} />
         )}
 
