@@ -113,8 +113,7 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report outdated information for 
-          ${representativeName}`}
+        modalTitle={`Report outdated information for ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
         onSecondaryButtonClick={onCloseModal}
@@ -125,7 +124,7 @@ const ReportModal = ({
       >
         {someItemsReported && (
           <>
-            <h3>You reported this information</h3>
+            <h4>You reported this information</h4>
             <ul>
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
@@ -139,7 +138,7 @@ const ReportModal = ({
         {someItemsReported &&
           notAllItemsReported && (
             <>
-              <h3>You can add to your report</h3>
+              <h4>You can add to your report</h4>
             </>
           )}
 
@@ -155,28 +154,13 @@ const ReportModal = ({
               uswds
             >
               {addressReportable && (
-                <va-checkbox
-                  label="Incorrect address"
-                  name="address"
-                  uswds
-                  id="1"
-                />
+                <va-checkbox label="Address" name="address" uswds id="1" />
               )}
               {emailReportable && (
-                <va-checkbox
-                  label="Incorrect email"
-                  name="email"
-                  uswds
-                  id="2"
-                />
+                <va-checkbox label="Email" name="email" uswds id="2" />
               )}
               {phoneReportable && (
-                <va-checkbox
-                  label="Incorrect phone number"
-                  name="phone"
-                  uswds
-                  id="3"
-                />
+                <va-checkbox label="Phone number" name="phone" uswds id="3" />
               )}
               {otherReportable && (
                 <va-checkbox label="Other" name="other" uswds id="4" />
@@ -186,7 +170,7 @@ const ReportModal = ({
         )}
 
         {otherIsChecked && (
-          <div className="vads-u-padding-left--4">
+          <div className="report-other-text-input">
             <div
               className={`${
                 !otherIsBlankError ? 'form-expanding-group-open' : null
