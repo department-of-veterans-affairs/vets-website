@@ -17,8 +17,6 @@ import {
   dateOfBirthUI,
   dateOfDeathSchema,
   dateOfDeathUI,
-  relationshipToVeteranSchema,
-  relationshipToVeteranUI,
   yesNoSchema,
   yesNoUI,
   radioSchema,
@@ -26,10 +24,15 @@ import {
   titleSchema,
   inlineTitleUI,
   titleUI,
-  customRelationshipSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fileUploadUI from '@department-of-veterans-affairs/platform-forms-system/definitions/file';
+
+import {
+  relationshipToVeteranSchema,
+  relationshipToVeteranUI,
+  customRelationshipSchema,
+} from '../components/CustomRelationshipPattern';
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -202,7 +205,7 @@ const formConfig = {
               personTitle: 'Applicant(s)',
               labelHeaderLevel: 0,
               customLabels: {
-                spouse: `I’m spouse of an Applicant`,
+                spouse: `I’m the spouse of an Applicant`,
                 child: 'I’m the child of an Applicant',
                 caretaker: 'I’m the caretaker of an Applicant',
                 other: 'A relationship not listed',
