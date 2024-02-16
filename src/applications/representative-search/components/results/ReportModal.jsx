@@ -4,7 +4,6 @@ import {
   VaModal,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { snakeCase } from 'lodash';
 
 const ReportModal = ({
   representativeName,
@@ -82,8 +81,8 @@ const ReportModal = ({
     Object.keys(reportObject).forEach(prop => {
       if (reportObject[prop] !== null) {
         if (prop === 'phone') {
-          formattedReportObject.reports[snakeCase('phoneNumber')] =
-            reportObject.phone;
+          /* eslint-disable-next-line camelcase */
+          formattedReportObject.phone_number = reportObject.phone;
         } else {
           formattedReportObject.reports[prop] = reportObject[prop];
         }
