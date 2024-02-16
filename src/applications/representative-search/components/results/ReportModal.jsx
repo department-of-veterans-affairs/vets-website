@@ -170,7 +170,7 @@ const ReportModal = ({
         )}
 
         {otherIsChecked && (
-          <div className="vads-u-padding-left--4">
+          <div className="report-other-text-input">
             <div
               className={`${
                 !otherIsBlankError ? 'form-expanding-group-open' : null

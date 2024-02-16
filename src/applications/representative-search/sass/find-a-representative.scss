@@ -239,6 +239,12 @@
         }
       }
     }
+
+    .report-other-text-input {
+      @media (min-width: $small-screen) {
+        padding-left: 4rem;
+      }
+    }
   }
 
   .help-footer-container {
