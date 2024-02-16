@@ -3,8 +3,8 @@
     "id": "",
     "type": "va_file_number_response",
     "attributes": {
-      "VALIDVAFILENUMBER": true,
-      "FILENBRMATCHESSSN": true
+      "VALIDVAFILENUMBER": false,
+      "FILENBRMATCHESSSN":false
     }
   }
 }

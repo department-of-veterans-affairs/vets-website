@@ -31,7 +31,9 @@ function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   // redirect them to the introduction page.
   if (
     !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
+    (isLoggedIn &&
+      (!vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER ||
+        !vaFileNumber?.hasVaFileNumber?.FILENBRMATCHESSSN))
   ) {
     document.location.replace(`${manifest.rootUrl}`);
     return (

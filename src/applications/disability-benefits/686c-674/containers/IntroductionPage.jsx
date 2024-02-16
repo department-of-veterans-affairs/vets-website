@@ -12,6 +12,7 @@ import { IntroductionPageFormProcess } from '../components/IntroductionPageFormP
 import {
   VerifiedAlert,
   VaFileNumberMissingAlert,
+  VaFileNumberSSNMismatchAlert,
   ServerErrorAlert,
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
@@ -76,13 +77,18 @@ class IntroductionPage extends React.Component {
       );
     } else if (
       user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.VALIDVAFILENUMBER &&
+      (!hasVaFileNumber?.VALIDVAFILENUMBER ||
+        !hasVaFileNumber?.FILENBRMATCHESSSN) &&
       !isLoading
     ) {
       content = (
         <div className="schemaform-intro">
           <IntroductionPageHeader />
-          <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
+          <va-alert status="error">
+            {!hasVaFileNumber?.VALIDVAFILENUMBER
+              ? VaFileNumberMissingAlert
+              : VaFileNumberSSNMismatchAlert}
+          </va-alert>
         </div>
       );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {

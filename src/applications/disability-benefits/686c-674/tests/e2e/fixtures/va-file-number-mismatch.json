@@ -4,7 +4,7 @@
     "type": "va_file_number_response",
     "attributes": {
       "VALIDVAFILENUMBER": true,
-      "FILENBRMATCHESSSN": true
+      "FILENBRMATCHESSSN": false
     }
   }
 }
