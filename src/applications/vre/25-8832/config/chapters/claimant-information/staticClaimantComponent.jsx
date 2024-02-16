@@ -18,7 +18,7 @@ export default function ClaimantInformationComponent() {
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
-      <va-alert status="info">
+      <va-alert status="info" uswds="false">
         <dl className="vads-u-margin--0">
           <dt className="vads-u-line-height--4 vads-u-padding-bottom--2 vads-u-font-size--base">
             <strong>
