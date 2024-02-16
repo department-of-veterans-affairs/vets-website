@@ -8,8 +8,8 @@ import {
   FORM_TITLES,
   SIP_ENABLED_FORMS,
   TRACKING_PREFIXES,
-  getFormLink,
 } from '~/platform/forms/constants';
+import { getFormLink } from '~/platform/forms/helpers';
 import recordEvent from '~/platform/monitoring/record-event';
 
 /**

@@ -11,7 +11,8 @@ import {
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_BENEFITS, getFormLink } from '~/platform/forms/constants';
+import { FORM_BENEFITS } from '~/platform/forms/constants';
+import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
 

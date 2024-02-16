@@ -10,7 +10,8 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
-import { FORM_DESCRIPTIONS, FORM_BENEFITS, getFormLink } from '../constants';
+import { FORM_DESCRIPTIONS, FORM_BENEFITS } from '../constants';
+import { getFormLink } from '../helpers';
 import { removeSavedForm } from '../../user/profile/actions';
 
 import {
