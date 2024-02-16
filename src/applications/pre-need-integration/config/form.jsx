@@ -59,6 +59,7 @@ import {
   relationshipToVetPreparerDescription,
   relationshipToVetOptions,
   relationshipToVetPreparerOptions,
+  // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
   // applicantDetailsPreparerCityTitle,
@@ -261,6 +262,7 @@ const formConfig = {
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: veteranApplicantDetails
             .uiSchema
+            // partial implementation of story resolving the address change:
             // applicantDetailsCityTitle,
             // applicantDetailsStateTitle,
             (),
@@ -273,6 +275,7 @@ const formConfig = {
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: veteranApplicantDetails
             .uiSchema
+            // partial implementation of story resolving the address change:
             // applicantDetailsPreparerCityTitle,
             // applicantDetailsPreparerStateTitle,
             (),

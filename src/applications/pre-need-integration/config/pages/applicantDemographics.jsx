@@ -1,4 +1,6 @@
-import { merge } from 'lodash';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
+
+import { merge, pick } from 'lodash';
 
 import {
   applicantDemographicsDescription,
@@ -7,6 +9,8 @@ import {
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
 } from '../../utils/helpers';
+
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
   genderTitle = applicantDemographicsGenderTitle,
@@ -42,27 +46,7 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['maritalStatus', 'gender'],
-          // properties: pick(veteran.properties, [
-          //   'maritalStatus',
-          //   'gender',
-          // ]),
-          properties: {
-            maritalStatus: {
-              type: 'string',
-              enum: [
-                'Single',
-                'Separated',
-                'Married',
-                'Divorced',
-                'Widowed',
-                'na',
-              ],
-            },
-            gender: {
-              type: 'string',
-              enum: ['Female', 'Male', 'na'],
-            },
-          },
+          properties: pick(veteran.properties, ['maritalStatus', 'gender']),
         },
       },
     },

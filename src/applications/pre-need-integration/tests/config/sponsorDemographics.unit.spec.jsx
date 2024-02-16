@@ -16,6 +16,7 @@ describe('Pre-need sponsor demogrpahics', () => {
     uiSchema,
   } = formConfig.chapters.sponsorInformation.pages.sponsorDemographics;
 
+  // to be implemented in MBMS-54135:
   it.skip('should render', () => {
     const form = mount(
       <DefinitionTester
@@ -29,6 +30,7 @@ describe('Pre-need sponsor demogrpahics', () => {
     form.unmount();
   });
 
+  // to be implemented in MBMS-54135:
   it.skip('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -47,6 +49,7 @@ describe('Pre-need sponsor demogrpahics', () => {
     form.unmount();
   });
 
+  // to be implemented in MBMS-54135:
   it.skip('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(

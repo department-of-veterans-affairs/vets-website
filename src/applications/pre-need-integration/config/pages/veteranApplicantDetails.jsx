@@ -9,13 +9,18 @@ import {
   applicantDetailsSubHeader,
   fullMaidenNameUI,
   ssnDashesUI,
+  // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
 } from '../../utils/helpers';
 
-const { claimant } = fullSchemaPreNeed.properties.application.properties;
+const {
+  claimant,
+  veteran,
+} = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema() {
+  // partial implementation of story resolving the address change:
   // cityTitle = applicantDetailsCityTitle,
   // stateTitle = applicantDetailsStateTitle,
   return {
@@ -65,11 +70,7 @@ export const schema = {
           type: 'object',
           required: ['placeOfBirth'],
           properties: {
-            // placeOfBirth: pick(veteran.properties, ['placeOfBirth']),
-            placeOfBirth: {
-              type: 'string',
-              maxLength: 100,
-            },
+            placeOfBirth: pick(veteran.properties, ['placeOfBirth']),
           },
         },
       },
