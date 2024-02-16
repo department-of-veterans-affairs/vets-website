@@ -5,9 +5,9 @@ import { MAX_LENGTH } from '../../shared/constants';
 const title = 'Reason for extension';
 
 export const content = {
-  title: <h3 className="vads-u-margin-top--0">{title}</h3>,
+  title: <h3 className="vads-u-margin-y--0">{title}</h3>,
   description: (
-    <p className="vads-u-margin-top--0">
+    <p className="vads-u-margin-y--0">
       Tell us why you have good cause for an extension.
     </p>
   ),

@@ -46,6 +46,7 @@ export const evidenceUploadUI = {
     },
     classNames: '',
     attachmentName: false,
+    uswds: true,
   }),
   'ui:description': EvidenceUploadDescription,
 };
