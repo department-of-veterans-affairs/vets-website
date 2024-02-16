@@ -69,9 +69,7 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['placeOfBirth'],
-          properties: {
-            placeOfBirth: pick(veteran.properties, ['placeOfBirth']),
-          },
+          properties: pick(veteran.properties, ['placeOfBirth']),
         },
       },
     },
