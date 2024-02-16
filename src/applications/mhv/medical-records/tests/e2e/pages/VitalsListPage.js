@@ -1,4 +1,4 @@
-// import defaultVitals from '../fixtures/Vitals.json';
+import defaultVitals from '../../fixtures/vitals.json';
 
 class VitalsListPage {
   /*
@@ -18,6 +18,18 @@ class VitalsListPage {
     });
   }
   */
+
+  goToVitals = (vitals = defaultVitals, waitForVitals = false) => {
+    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    cy.wait('@session');
+    cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
+      'vitalsList',
+    );
+    cy.visit('my-health/medical-records/vitals');
+    if (waitForVitals) {
+      cy.wait('@vitalsList');
+    }
+  };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')

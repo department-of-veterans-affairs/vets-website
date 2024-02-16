@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
-describe.skip('Medical Records Vitals Details Page', () => {
+describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe.skip('Medical Records Vitals Details Page', () => {
     cy.axeCheck('main');
   });
 
-  afterEach(() => {
-    VitalsDetailsPage.clickBreadCrumbsLink(0);
-  });
+  // afterEach(() => {
+  //   VitalsDetailsPage.clickBreadCrumbsLink(0);
+  // });
 });
