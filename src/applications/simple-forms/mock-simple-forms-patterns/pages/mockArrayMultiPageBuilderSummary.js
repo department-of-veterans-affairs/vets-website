@@ -6,14 +6,35 @@ import {
 import PropTypes from 'prop-types';
 import ArrayBuilderSummaryCardList from '../arrayBuilder/components/ArrayBuilderSummaryCardList';
 
-const CardContent = ({ item }) => (
-  <>
-    <div className="vads-u-font-weight--bold">{item?.name}</div>
-    <div>
-      {item?.dateStart} - {item?.dateEnd}
-    </div>
-  </>
-);
+const CardContent = ({ item }) => {
+  const incomplete =
+    !item?.name ||
+    !item?.address?.country ||
+    !item?.address?.city ||
+    !item?.address?.street ||
+    !item?.address?.postalCode;
+  return (
+    <>
+      {incomplete && (
+        <div className="vads-u-margin-bottom--1">
+          <span className="usa-label">INCOMPLETE</span>
+        </div>
+      )}
+      <div className="vads-u-font-weight--bold">{item?.name}</div>
+      <div>
+        {item?.dateStart} - {item?.dateEnd}
+      </div>
+      {incomplete && (
+        <div className="vads-u-margin-top--2">
+          <va-alert status="warning" uswds>
+            This item is missing information. Edit and complete this item’s
+            information before continuing.
+          </va-alert>
+        </div>
+      )}
+    </>
+  );
+};
 
 CardContent.propTypes = {
   item: PropTypes.object,
@@ -36,10 +57,32 @@ export default {
       />
     ),
     hasEmployment: yesNoUI({
-      title: 'Do you have any employment to report?',
-      description:
-        'Includes self-employment and military duty (including inactive duty for training).',
-      labelHeaderLevel: '3',
+      updateUiSchema: formData => {
+        return formData?.employers?.length
+          ? {
+              'ui:title': `Do you have another employer to report?`,
+              'ui:options': {
+                labelHeaderLevel: '',
+                hint: '',
+                labels: {
+                  Y: 'Yes, I have another employer to report',
+                  N: 'No, I don’t have another employer to report',
+                },
+              },
+            }
+          : {
+              'ui:title': `Do you have any employment, including self-employment for the last 5 years to report?`,
+              'ui:options': {
+                labelHeaderLevel: '3',
+                hint:
+                  'Include self-employment and military duty (including inactive duty for training).',
+                labels: {
+                  Y: 'Yes, I have employment to report',
+                  N: 'No, I don’t have employment to report',
+                },
+              },
+            };
+      },
     }),
   },
   schema: {
