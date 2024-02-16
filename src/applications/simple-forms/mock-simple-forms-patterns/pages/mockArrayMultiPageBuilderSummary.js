@@ -26,7 +26,7 @@ const CardContent = ({ item }) => {
       </div>
       {incomplete && (
         <div className="vads-u-margin-top--2">
-          <va-alert status="warning" uswds>
+          <va-alert status="error" uswds>
             This item is missing information. Edit and complete this item’s
             information before continuing.
           </va-alert>

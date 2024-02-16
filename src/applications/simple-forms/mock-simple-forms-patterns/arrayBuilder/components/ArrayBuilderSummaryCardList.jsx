@@ -58,7 +58,7 @@ const ArrayBuilderSummaryCardList = ({
     <div className="vads-u-margin-bottom--2">
       <va-card name={`${arrayPath}_${index}`}>
         <CardContent item={item} />
-        <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
+        <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
           <Link to={`${itemBasePathUrl}/${index}?edit=true`} data-action="edit">
             Edit
             <i
@@ -69,13 +69,13 @@ const ArrayBuilderSummaryCardList = ({
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
-            className="va-button-link vads-u-color--secondary-dark"
+            className="va-button-link vads-u-color--secondary-dark vads-u-font-weight--bold vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
             data-action="remove"
             onClick={() => showRemoveConfirmationModal(index)}
           >
             <i
               aria-hidden="true"
-              className="fa fa-times vads-u-margin-right--1"
+              className="fa fa-times vads-u-margin-right--1 vads-u-font-weight--bold vads-u-font-size--lg "
             />
             Remove
           </button>
@@ -108,7 +108,7 @@ const ArrayBuilderSummaryCardList = ({
         status="warning"
         modalTitle={removeTitle}
         primaryButtonText={removeYesLabel}
-        secondaryButtonText="No, cancel"
+        secondaryButtonText="No, continue adding"
         onCloseEvent={hideRemoveConfirmationModal}
         onPrimaryButtonClick={removeAction}
         onSecondaryButtonClick={hideRemoveConfirmationModal}
