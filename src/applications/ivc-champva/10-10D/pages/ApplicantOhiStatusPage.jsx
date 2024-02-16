@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
 import { applicantWording } from '../helpers/wordingCustomization';
@@ -49,10 +50,10 @@ export function ApplicantOhiStatusReviewPage(props) {
 
 export default function ApplicantOhiStatusPage({
   data,
-  setFormData,
   goBack,
   goForward,
   pagePerItemIndex,
+  setFormData,
   updatePage,
   onReviewPage,
 }) {
@@ -62,6 +63,7 @@ export default function ApplicantOhiStatusPage({
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState(undefined);
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const { options, useFirstPerson, applicant } = generateOptions({
     data,
@@ -100,6 +102,7 @@ export default function ApplicantOhiStatusPage({
     () => {
       if (dirty) handlers.validate();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [checkValue],
   );
 
@@ -142,3 +145,17 @@ export default function ApplicantOhiStatusPage({
     </>
   );
 }
+
+ApplicantOhiStatusReviewPage.propTypes = {
+  data: PropTypes.object,
+};
+
+ApplicantOhiStatusPage.propTypes = {
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+};
