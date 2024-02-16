@@ -235,6 +235,19 @@ function usingDirectDeposit(formData) {
   return formData['view:noDirectDeposit'] !== true;
 }
 
+export function doesHaveDependents(formData) {
+  return get(['view:hasDependents'], formData) === true;
+}
+
+export function dependentIsOutsideHousehold(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    !get(['dependents', index, 'childInHousehold'], formData)
+  );
+}
+
 const marriageProperties = marriages.items.properties;
 
 const marriageType = {
@@ -280,7 +293,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for Veterans’ pension benefits',
+  title: 'Apply for Veterans Pension benefits',
   subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
@@ -777,14 +790,14 @@ const formConfig = {
         dependents: {
           title: 'Dependent children',
           path: 'household/dependents/add',
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           uiSchema: dependentChildren.uiSchema,
           schema: dependentChildren.schema,
         },
         dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
           title: item => getDependentChildTitle(item, 'information'),
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: dependentChildInformation.schema,
@@ -793,7 +806,7 @@ const formConfig = {
         dependentChildInHousehold: {
           path: 'household/dependents/children/inhousehold/:index',
           title: item => getDependentChildTitle(item, 'household'),
-          depends: form => get(['view:hasDependents'], form) === true,
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -824,8 +837,7 @@ const formConfig = {
         dependentChildAddress: {
           path: 'household/dependents/children/address/:index',
           title: item => getDependentChildTitle(item, 'address'),
-          depends: (form, index) =>
-            !get(['dependents', index, 'childInHousehold'], form),
+          depends: dependentIsOutsideHousehold,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -852,8 +864,7 @@ const formConfig = {
                 childAddress: address.uiSchema(
                   '',
                   false,
-                  (form, index) =>
-                    !get(['dependents', index, 'childInHousehold'], form),
+                  dependentIsOutsideHousehold,
                 ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
@@ -870,10 +881,8 @@ const formConfig = {
                     'ui:title': 'Suffix',
                   },
                   'ui:options': {
-                    updateSchema: (form, UISchema, schema, index) => {
-                      if (
-                        !get(['dependents', index, 'childInHousehold'], form)
-                      ) {
+                    updateSchema: (form, _UISchema, _schema, index) => {
+                      if (dependentIsOutsideHousehold(form, index)) {
                         return fullName;
                       }
                       return nonRequiredFullName;
@@ -886,8 +895,7 @@ const formConfig = {
                     "How much do you contribute per month to your child's support?",
                   ),
                   {
-                    'ui:required': (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
+                    'ui:required': dependentIsOutsideHousehold,
                   },
                 ),
               },

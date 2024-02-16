@@ -163,7 +163,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -176,7 +179,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'monetary-asset-checklist': ({ afterHook }) => {
@@ -305,7 +311,10 @@ const testConfig = createTestConfig(
             .eq(1)
             .should('contain', 'Collectibles')
             .and('contain', '$1,500.00');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'utility-bill-checklist': ({ afterHook }) => {
@@ -500,7 +509,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('textarea')
             .type('Some Resolution Comments . . .');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'bankruptcy-history': ({ afterHook }) => {
@@ -535,7 +547,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('ABC123');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'review-and-submit': ({ afterHook }) => {
@@ -545,16 +560,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

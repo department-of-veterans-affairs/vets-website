@@ -17,7 +17,7 @@ export default {
     },
     transferredAssets: yesNoUI({
       title:
-        'Did you, your spouse or your dependents transfer any assets in the last 3 calendar years?',
+        'Did you, your spouse, or your dependents transfer any assets in the last 3 calendar years?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
