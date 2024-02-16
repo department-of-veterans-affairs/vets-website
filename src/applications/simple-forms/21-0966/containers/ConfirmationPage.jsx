@@ -11,6 +11,11 @@ import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
   hasActiveCompensationITF,
   hasActivePensionITF,
+  confirmationPageFormBypassed,
+  confirmationPageAlertStatus,
+  confirmationPageAlertHeadline,
+  confirmationPageAlertParagraph,
+  confirmationPageNextStepsParagraph,
 } from '../config/helpers';
 import {
   veteranBenefits,
@@ -30,10 +35,11 @@ export const ConfirmationPage = props => {
   const confirmationNumber = submission.response?.confirmationNumber;
   const submitDate = submission.timestamp;
 
-  const activeSurvivorITF = submission.response?.survivorIntent;
+  // Re-enable and incorporate if needed for certain flows
+  // const activeSurvivorITF = submission.response?.survivorIntent;
 
   return (
-    <div>
+    <>
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
@@ -41,113 +47,56 @@ export const ConfirmationPage = props => {
           width="300"
         />
       </div>
-      {hasActiveCompensationITF({ formData: data }) &&
-      hasActivePensionITF({ formData: data }) ? (
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status={confirmationPageAlertStatus(data)}
+        visible
+      >
+        <h2 slot="headline">{confirmationPageAlertHeadline(data)}</h2>
+        <p className="vads-u-margin-bottom--0">
+          {confirmationPageAlertParagraph(data)}
+        </p>
+      </va-alert>
+      {!confirmationPageFormBypassed(data) && (
+        <div className="inset">
+          <h3 className="vads-u-margin-top--1" slot="headline">
+            Your submission information
+          </h3>
+          <dl>
+            {statementOfTruthSignature && (
+              <>
+                <dt>
+                  <h4>Who submitted this form</h4>
+                </dt>
+                <dd>{statementOfTruthSignature}</dd>
+              </>
+            )}
+            {confirmationNumber && (
+              <>
+                <dt>
+                  <h4>Confirmation number</h4>
+                </dt>
+                <dd>{confirmationNumber}</dd>
+              </>
+            )}
+            {isValid(submitDate) && (
+              <>
+                <dt>
+                  <h4>Date submitted</h4>
+                </dt>
+                <dd>{format(submitDate, 'MMMM d, yyyy')}</dd>
+              </>
+            )}
+            <dt>
+              <h4>Confirmation for your records</h4>
+            </dt>
+            <dd>You can print this confirmation page for your records</dd>
+          </dl>
+          <va-button onClick={window.print} text="Print this page" />
+        </div>
+      )}
+      {!confirmationPageFormBypassed(data) && (
         <>
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-          >
-            <h2 slot="headline">
-              You already have an intent to file on record
-            </h2>
-            <p className="vads-u-margin-bottom--0">
-              Our records show that you already have an intent to file for
-              disability compensation and for pension claims.
-            </p>
-          </va-alert>
-          <div>
-            <h2>What are my next steps?</h2>
-            <p>You should complete and file your claims as soon as possible.</p>
-            <p>
-              Your intent to file for disability compensation expires on{' '}
-              {data['view:activeCompensationITF'].expirationDate} and your
-              intent to file for pension claims expires on{' '}
-              {data['view:activePensionITF'].expirationDate}. You’ll need to
-              file your claims by these dates to get retroactive payments
-              (payments for the time between when you submit your intent to file
-              and when we approve your claim).
-            </p>
-            <div>
-              <a
-                className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                href="/disability/file-disability-claim-form-21-526ez/introduction"
-              >
-                Complete your disability compensation claim
-              </a>
-            </div>
-            <div>
-              <a
-                className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                href="/find-forms/about-form-21p-527ez/"
-              >
-                Complete your pension claim
-              </a>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="success"
-            visible
-          >
-            <h2 slot="headline">You’ve submitted your intent to file</h2>
-            <p className="vads-u-margin-bottom--0">
-              Your intent to file for{' '}
-              {(data.benefitSelection[veteranBenefits.COMPENSATION] ||
-                (hasActiveCompensationITF({ formData: data }) &&
-                  !data.benefitSelection[veteranBenefits.PENSION])) &&
-                'disability compensation'}
-              {(data.benefitSelection[veteranBenefits.PENSION] ||
-                (hasActivePensionITF({ formData: data }) &&
-                  !data.benefitSelection[veteranBenefits.COMPENSATION])) &&
-                (data.benefitSelection[veteranBenefits.COMPENSATION]
-                  ? ' and pension'
-                  : 'pension')}
-              {data.benefitSelection[survivingDependentBenefits.SURVIVOR] &&
-                'pension for survivors'}{' '}
-              will expire in one year.
-            </p>
-          </va-alert>
-          <div className="inset">
-            <h3 className="vads-u-margin-top--1" slot="headline">
-              Your submission information
-            </h3>
-            <dl>
-              {statementOfTruthSignature && (
-                <>
-                  <dt>
-                    <h4>Who submitted this form</h4>
-                  </dt>
-                  <dd>{statementOfTruthSignature}</dd>
-                </>
-              )}
-              {confirmationNumber && (
-                <>
-                  <dt>
-                    <h4>Confirmation number</h4>
-                  </dt>
-                  <dd>{confirmationNumber}</dd>
-                </>
-              )}
-              {isValid(submitDate) && (
-                <>
-                  <dt>
-                    <h4>Date submitted</h4>
-                  </dt>
-                  <dd>{format(submitDate, 'MMMM d, yyyy')}</dd>
-                </>
-              )}
-              <dt>
-                <h4>Confirmation for your records</h4>
-              </dt>
-              <dd>You can print this confirmation page for your records</dd>
-            </dl>
-            <va-button onClick={window.print} text="Print this page" />
-          </div>
           {hasActiveCompensationITF({ formData: data }) &&
             data.benefitSelection[veteranBenefits.PENSION] && (
               <div>
@@ -159,118 +108,83 @@ export const ConfirmationPage = props => {
                   Our records show that you already have an intent to file for
                   disability compensation. Your intent to file for disability
                   compensation expires on{' '}
-                  {data['view:activeCompensationITF'].expirationDate}. You’ll
-                  need to submit your claim by this date in order to receive
-                  payments starting from your effective date.
+                  {data['view:activeCompensationITF'].expirationDate}.
                 </p>
               </div>
             )}
           {hasActivePensionITF({ formData: data }) &&
             data.benefitSelection[veteranBenefits.COMPENSATION] && (
               <div>
-                <h2>You’ve already submitted an intent to file for pension</h2>
+                <h2>
+                  You’ve already submitted an intent to file for pension claims
+                </h2>
                 <p>
                   Our records show that you already have an intent to file for
-                  pension. Your intent to file for pension expires on{' '}
-                  {data['view:activePensionITF'].expirationDate}. You’ll need to
-                  submit your claim by this date in order to receive payments
-                  starting from your effective date.
+                  pension claims. Your intent to file for pension claims expires
+                  on {data['view:activePensionITF'].expirationDate}.
                 </p>
               </div>
             )}
-          {activeSurvivorITF && (
-            <div>
-              <h2>
-                You’ve already submitted an intent to file for pension for
-                survivors
-              </h2>
-              <p>
-                Our records show that you already have an intent to file for
-                pension for survivors. Your intent to file for pension for
-                survivors expires on {activeSurvivorITF.expirationDate}. You’ll
-                need to submit your claim by this date in order to receive
-                payments starting from your effective date.
-              </p>
-            </div>
-          )}
-          <div>
-            <h2>What are my next steps?</h2>
-            <p>You should complete and file your claims as soon as possible.</p>
-            <p>
-              {(hasActiveCompensationITF({ formData: data }) &&
-                data.benefitSelection[veteranBenefits.PENSION]) ||
-              (hasActivePensionITF({ formData: data }) &&
-                data.benefitSelection[veteranBenefits.COMPENSATION]) ||
-              (data.benefitSelection[veteranBenefits.COMPENSATION] &&
-                data.benefitSelection[veteranBenefits.PENSION]) ? (
-                <>
-                  You’ll need to file your claims within 1 year to get
-                  retroactive payments (payments for the time between when you
-                  submit your intent to file and when we approve your claim).
-                </>
-              ) : (
-                <>
-                  Your intent to file for{' '}
-                  {(hasActiveCompensationITF({ formData: data }) ||
-                    data.benefitSelection[veteranBenefits.COMPENSATION]) &&
-                    'disability compensation'}
-                  {(hasActivePensionITF({ formData: data }) ||
-                    data.benefitSelection[veteranBenefits.PENSION]) &&
-                    'pension'}
-                  {data.benefitSelection[survivingDependentBenefits.SURVIVOR] &&
-                    'pension for survivors'}{' '}
-                  expires one year from today. You’ll need to file your claim by
-                  this date to get retroactive payments (payments for the time
-                  between when you submit your intent to file and when we
-                  approve your claim).
-                </>
-              )}
-            </p>
-            {(hasActiveCompensationITF({ formData: data }) ||
-              data.benefitSelection[veteranBenefits.COMPENSATION]) && (
-              <div>
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                  href="/disability/file-disability-claim-form-21-526ez/introduction"
-                >
-                  Complete your disability compensation claim
-                </a>
-              </div>
-            )}
-            {(hasActivePensionITF({ formData: data }) ||
-              data.benefitSelection[veteranBenefits.PENSION]) && (
-              <div>
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                  href="/find-forms/about-form-21p-527ez/"
-                >
-                  Complete your pension claim
-                </a>
-              </div>
-            )}
-            {data.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
-              <div>
-                <a
-                  className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                  href="/find-forms/about-form-21p-534ez/"
-                >
-                  Complete your pension for survivors claim
-                </a>
-              </div>
-            )}
-          </div>
-          <a
-            className="vads-c-action-link--green vads-u-margin-bottom--4"
-            href="/"
-          >
-            Go back to VA.gov
-          </a>
         </>
+      )}
+      <div>
+        <h2>What are my next steps?</h2>
+        {confirmationPageNextStepsParagraph(data) ? (
+          <>
+            <p>You should complete and file your claims as soon as possible.</p>
+            <p>{confirmationPageNextStepsParagraph(data)}</p>
+          </>
+        ) : (
+          <p>
+            You should complete and file your claims as soon as possible. If you
+            complete and file your claim before the intent to file expires and
+            we approve your claim, you may be able to get retroactive payments.
+            Retroactive payments are payments for the time between when we
+            processed your intent to file and when we approved your claim.
+          </p>
+        )}
+      </div>
+      {(hasActiveCompensationITF({ formData: data }) ||
+        data.benefitSelection[veteranBenefits.COMPENSATION]) && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/disability/file-disability-claim-form-21-526ez/introduction"
+          >
+            Complete your disability compensation claim
+          </a>
+        </div>
+      )}
+      {(hasActivePensionITF({ formData: data }) ||
+        data.benefitSelection[veteranBenefits.PENSION]) && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/find-forms/about-form-21p-527ez/"
+          >
+            Complete your pension claim
+          </a>
+        </div>
+      )}
+      {data.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/find-forms/about-form-21p-534ez/"
+          >
+            Complete your pension for survivors claim
+          </a>
+        </div>
+      )}
+      {!confirmationPageFormBypassed(data) && (
+        <a className="vads-c-action-link--green vads-u-margin-y--2" href="/">
+          Go back to VA.gov
+        </a>
       )}
       <div>
         <FormFooter formConfig={{ getHelp: GetFormHelp }} />
       </div>
-    </div>
+    </>
   );
 };
 
