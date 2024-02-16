@@ -1,7 +1,10 @@
 import React from 'react';
 
 const Explainer = (
-  <va-additional-info trigger="Why do I need to provide this information?">
+  <va-additional-info
+    trigger="Why do I need to provide this information?"
+    uswds
+  >
     <p>
       We want to make sure we fully understand your financial situation. We ask
       for details about your real estate assets because it allows us to make a

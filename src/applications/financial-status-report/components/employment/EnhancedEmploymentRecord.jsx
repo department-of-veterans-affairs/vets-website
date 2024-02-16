@@ -187,6 +187,7 @@ const EmploymentRecord = props => {
             value={employmentRecord.type}
             onVaSelect={handlers.onChange}
             error={typeError}
+            uswds
           >
             <option value=""> </option>
             <option value="Full time">Full time</option>
@@ -206,6 +207,7 @@ const EmploymentRecord = props => {
             required
             type="text"
             value={employmentRecord.employerName}
+            uswds
           />
         </div>
         <VaRadio
@@ -213,12 +215,14 @@ const EmploymentRecord = props => {
           label="Do you currently work at this job?"
           onVaValueChange={handlers.onRadioSelect}
           required
+          uswds
         >
           <va-radio-option
             id="works-here"
             label="Yes"
             value="true"
             checked={currentlyWorksHere}
+            uswds
           />
           <va-radio-option
             id="does-not-work-here"
@@ -226,6 +230,7 @@ const EmploymentRecord = props => {
             value="false"
             name="primary"
             checked={!currentlyWorksHere}
+            uswds
           />
         </VaRadio>
         <p>
