@@ -103,10 +103,12 @@ describe('VAOS upcoming appointment flow', () => {
     it('should verify Video Connect at VA location calendar ics file format', () => {
       // Arrange
       const startDate = moment().add(1, 'day');
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: startDate,
+      });
+      responses[0].setLocationId('983');
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createClinicResponses({
-          localStartTime: startDate,
-        }),
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',
@@ -543,14 +545,13 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for CC appointment', () => {
       // Arrange
-      const response = MockAppointmentResponse.createCCResponses({
+      const responses = MockAppointmentResponse.createCCResponses({
         localStartTime: moment().add(1, 'day'),
       });
-      response[0].setTypeOfCare('audiology');
-      response[0].setCCProvider();
+      responses[0].setTypeOfCare('audiology').setCCProvider();
 
       mockAppointmentsGetApi({
-        response,
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',
@@ -594,11 +595,12 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for VA appointment', () => {
       // Arrange
-      const response = MockAppointmentResponse.createVAResponses({
+      const responses = MockAppointmentResponse.createVAResponses({
         localStartTime: moment().add(1, 'day'),
       });
+      responses[0].setLocationId('983').setClinicId(1);
       mockAppointmentsGetApi({
-        response,
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',
@@ -804,10 +806,12 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for clinic video appointment', () => {
       // Arrange
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: moment(),
+      });
+      responses[0].setLocationId('983').setClinicId(1);
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createClinicResponses({
-          localStartTime: moment(),
-        }),
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',
@@ -926,10 +930,12 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for VA video appointment', () => {
       // Arrange
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: moment(),
+      });
+      responses[0].setLocationId('983').setClinicId(1);
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createClinicResponses({
-          localStartTime: moment(),
-        }),
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',
@@ -968,10 +974,12 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display appointment details for store forward video appointment', () => {
       // Arrange
+      const responses = MockAppointmentResponse.createStoreForwardResponses({
+        localStartTime: moment(),
+      });
+      responses[0].setLocationId('983').setClinicId(1);
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createStoreForwardResponses({
-          localStartTime: moment(),
-        }),
+        response: responses,
       });
       mockClinicsApi({
         locationId: '983',

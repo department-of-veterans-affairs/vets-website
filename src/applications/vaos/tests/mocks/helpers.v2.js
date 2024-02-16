@@ -373,3 +373,114 @@ export function mockAppointmentsApi({
 
   return baseUrl;
 }
+
+/**
+ * Function to mock the API call to get all upcoming appointments.
+ *
+ * @example GET '/vaos/v2/appointments'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockGetUpcomingAppointmentsApi({
+  response: data,
+  backendServiceFailures = false,
+  responseCode = 200,
+  version = 2,
+}) {
+  const end = moment()
+    .add(395, 'days')
+    .format('YYYY-MM-DD');
+  const start = moment()
+    .subtract(30, 'days')
+    .format('YYYY-MM-DD');
+  const statuses = ['booked', 'arrived', 'fulfilled', 'cancelled'];
+
+  return mockAppointmentsApi({
+    end,
+    start,
+    statuses,
+    response: data,
+    backendServiceFailures,
+    responseCode,
+    version,
+  });
+}
+
+/**
+ * Function to mock the API call to get all pending appointments.
+ *
+ * @example GET '/vaos/v2/appointments'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockGetPendingAppointmentsApi({
+  response: data,
+  backendServiceFailures = false,
+  responseCode = 200,
+  version = 2,
+}) {
+  const end = moment()
+    .add(1, 'day')
+    .format('YYYY-MM-DD');
+  const start = moment()
+    .subtract(120, 'days')
+    .format('YYYY-MM-DD');
+  const statuses = ['proposed', 'cancelled'];
+
+  return mockAppointmentsApi({
+    end,
+    start,
+    statuses,
+    response: data,
+    backendServiceFailures,
+    responseCode,
+    version,
+  });
+}
+
+/**
+ * Function to mock the 'GET' clinics endpoint. This function is used get all
+ * clinics associated with the given facility/location.
+ *
+ * @example GET '/vaos/v2/locations/:locationId/clinics'
+ *
+ * @export
+ * @param {Object} arguments - Function arguments.
+ * @param {String} arguments.locationId - Location id.
+ * @param {Object} [arguments.response] - The response to return from the mock api call.
+ * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
+ * @param {number} [arguments.version=2] - Api version number.
+ */
+export function mockClinicsApi({
+  clinicId,
+  locationId,
+  response: data,
+  responseCode = 200,
+  version = 2,
+}) {
+  let baseUrl = '';
+
+  if (version === 2) {
+    baseUrl = `${
+      environment.API_URL
+    }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`;
+
+    if (responseCode === 200) {
+      setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+        data,
+      });
+    } else {
+      setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+    }
+  }
+
+  return baseUrl;
+}
