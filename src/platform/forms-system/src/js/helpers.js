@@ -141,7 +141,7 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
-export async function getFocusTargetRoot(formConfig) {
+export async function getFormNavFocusTargetRoot(formConfig) {
   if (formConfig.v3SegmentedProgressBar) {
     // Need to provide shadowRoot for focusing on shadow-DOM elements
     const shadowHost = await querySelectorWithShadowRoot(
@@ -152,7 +152,7 @@ export async function getFocusTargetRoot(formConfig) {
   return document.querySelector('#react-root');
 }
 
-export function handleFocus(page, formConfig, index) {
+export function handleFormNavFocus(page, formConfig, index) {
   // Check main toggle to enable custom focus; the unmounting of the page
   // before the review & submit page may cause the customScrollAndFocus
   // function to be called inadvertently
@@ -166,12 +166,12 @@ export function handleFocus(page, formConfig, index) {
       customScrollAndFocus(page.scrollAndFocusTarget, index);
       return Promise.resolve();
     }
-    return getFocusTargetRoot(formConfig).then(root => {
+    return getFormNavFocusTargetRoot(formConfig).then(root => {
       focusByOrder([defaultFocusSelector, 'h2'], root);
     });
   }
   // h2 fallback for review page
-  return getFocusTargetRoot(formConfig).then(root => {
+  return getFormNavFocusTargetRoot(formConfig).then(root => {
     focusByOrder([defaultFocusSelector, 'h2'], root);
   });
 }

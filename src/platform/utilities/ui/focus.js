@@ -26,6 +26,14 @@ export const defaultFocusSelector =
  *  on elements inside of shadow dom
  */
 export async function focusElement(selectorOrElement, options, root) {
+  // TODO: Remove console.log once expanded testing is complete
+  // eslint-disable-next-line no-console
+  console.log(
+    '[focusElement] selectorOrElement',
+    selectorOrElement,
+    '; root:',
+    root,
+  );
   function applyFocus(el) {
     if (el) {
       // Use getAttribute to grab the "tabindex" attribute (returns string), not

@@ -9,7 +9,7 @@ import {
   createPageList,
   getActiveExpandedPages,
   getCurrentChapterDisplay,
-  handleFocus,
+  handleFormNavFocus,
 } from '../helpers';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
@@ -107,14 +107,14 @@ export default function FormNav(props) {
       } else if (current === index) {
         setIndex(index - 1);
       }
-      handleFocus(page, formConfig, index).then(() => {
-        const progressBar = document.querySelector('va-segmented-progress-bar');
-        if (progressBar) {
-          scrollTo(document.querySelector('va-segmented-progress-bar'));
-        }
+      scrollTo('vaSegmentedProgressBar', { offset: -20 });
+      handleFormNavFocus(page, formConfig, index).then(() => {
+        // TODO: Remove console.log once expanded testing is complete
+        // eslint-disable-next-line no-console
+        console.log('[FormNav] handleFormNavFocus resolved.');
       });
     },
-    [current, index],
+    [current, index, page, formConfig],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
@@ -127,7 +127,7 @@ export default function FormNav(props) {
           current={currentChapterDisplay}
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
-          name="v3SegmentedProgressBar"
+          name="vaSegmentedProgressBar"
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}
