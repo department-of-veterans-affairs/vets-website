@@ -20,8 +20,8 @@ class VitalsListPage {
   */
 
   goToVitals = (vitals = defaultVitals, waitForVitals = false) => {
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.wait('@session');
+    // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    // cy.wait('@session');
     cy.intercept('GET', '/my_health/v1/medical_records/vitals', vitals).as(
       'vitalsList',
     );
@@ -29,6 +29,21 @@ class VitalsListPage {
     if (waitForVitals) {
       cy.wait('@vitalsList');
     }
+  };
+
+  verifyVitalOnListPage = (index, name, measurement, date, location) => {
+    cy.get('[data-testid="vital-li-display-name"]')
+      .eq(index)
+      .contains(name);
+    cy.get('[data-testid="vital-li-measurement"]')
+      .eq(index)
+      .contains(measurement);
+    cy.get('[data-testid="vital-li-date"]')
+      .eq(index)
+      .contains(date);
+    cy.get('[data-testid="vital-li-location"]')
+      .eq(index)
+      .contains(location);
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {

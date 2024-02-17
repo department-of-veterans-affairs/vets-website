@@ -1,4 +1,5 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
 describe('Medical Records Vitals Details Page', () => {
@@ -6,20 +7,49 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records/vitals');
+    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Heart Rate', () => {
-    // Click Vitals Page Heart Rate  Link
-    VitalsDetailsPage.clickHeartRateLink(1);
-    // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('December 25, 2004 12:00 a.m.');
-    // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('185 /min');
-    // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('None noted');
-    // Verify Vital Details  Provider Notes
-    VitalsDetailsPage.verifyVitalProviderNotes('a bit fast');
+    VitalsListPage.goToVitals();
+    // Click Vitals Page Heart Rate Link
+    VitalsDetailsPage.clickLinkByRecordListItemIndex(1);
+
+    // verify first reading
+    VitalsDetailsPage.verifyVitalReadingByIndex(
+      0,
+      'October 27, 2023, 7:00 a.m. PDT',
+      '70 beats per minute',
+      'ADTP BURNETT',
+      'None noted',
+    );
+
+    // verify second reading
+    VitalsDetailsPage.verifyVitalReadingByIndex(
+      1,
+      'August 4, 2023, 7:08 a.m. PDT',
+      '85 beats per minute',
+      '23 HOUR OBSERVATION',
+      'None noted',
+    );
+
+    // verify third reading
+    VitalsDetailsPage.verifyVitalReadingByIndex(
+      2,
+      'August 18, 2022, 1:29 p.m. PDT',
+      '90 beats per minute',
+      'ADMISSIONS (LOC)',
+      'None noted',
+    );
+
+    // verify fourth reading
+    VitalsDetailsPage.verifyVitalReadingByIndex(
+      3,
+      'May 11, 2021, 7:20 a.m. PDT',
+      '60 beats per minute',
+      'ADTP SCREENING',
+      'None noted',
+    );
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

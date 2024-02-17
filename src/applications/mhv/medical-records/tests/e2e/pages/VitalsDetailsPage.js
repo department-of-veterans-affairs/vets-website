@@ -1,6 +1,50 @@
 // import defaultVitals from '../fixtures/Vitals.json';
 
 class VitalsDetailsPage {
+  clickLinkByRecordListItemIndex = (index = 0) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(index)
+      .click();
+  };
+
+  verifyVitalReadingByIndex = (
+    index = 0,
+    date,
+    measurement,
+    location,
+    notes,
+  ) => {
+    // Verify date
+    cy.get('[data-testid="vital-date"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-date"]')
+      .eq(index)
+      .contains(date);
+    // Verify measurement
+    cy.get('[data-testid="vital-result"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-result"]')
+      .eq(index)
+      .contains(measurement);
+    // Verify location
+    cy.get('[data-testid="vital-location"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-location"]')
+      .eq(index)
+      .contains(location);
+    // Verify provider notes
+    cy.get('[data-testid="vital-provider-note"]')
+      .eq(index)
+      .should('be.visible');
+    cy.get('[data-testid="vital-provider-note"]')
+      .eq(index)
+      .contains(notes);
+  };
+
   verifyVitalsPageText = Vitals => {
     // Verify "Vitals" Page title Text
     cy.get('[data-testid="vitals"]').should('be.visible');
