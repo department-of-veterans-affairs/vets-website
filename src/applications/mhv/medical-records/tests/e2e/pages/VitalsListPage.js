@@ -31,6 +31,13 @@ class VitalsListPage {
     }
   };
 
+  clickLinkByRecordListItemIndex = (index = 0) => {
+    cy.get('[data-testid="record-list-item"]')
+      .find('a')
+      .eq(index)
+      .click();
+  };
+
   verifyVitalOnListPage = (index, name, measurement, date, location) => {
     cy.get('[data-testid="vital-li-display-name"]')
       .eq(index)
@@ -44,6 +51,9 @@ class VitalsListPage {
     cy.get('[data-testid="vital-li-location"]')
       .eq(index)
       .contains(location);
+    cy.get('[data-testid="vital-li-review-over-time"]')
+      .eq(index)
+      .contains(`Review ${name} over time`, { matchCase: false });
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {

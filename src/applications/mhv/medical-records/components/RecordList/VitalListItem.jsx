@@ -53,7 +53,7 @@ const VitalListItem = props => {
       <Link
         to={`/vitals/${_.kebabCase(record.type)}-history`}
         className="vads-u-margin-y--0p5"
-        data-testid="vital-review-over-time"
+        data-testid="vital-li-review-over-time"
       >
         <strong>Review {displayName.toLowerCase()} over time</strong>
         <i

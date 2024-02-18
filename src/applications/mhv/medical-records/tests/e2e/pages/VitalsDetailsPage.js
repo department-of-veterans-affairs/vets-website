@@ -1,13 +1,6 @@
 // import defaultVitals from '../fixtures/Vitals.json';
 
 class VitalsDetailsPage {
-  clickLinkByRecordListItemIndex = (index = 0) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(index)
-      .click();
-  };
-
   verifyVitalReadingByIndex = (
     index = 0,
     date,
