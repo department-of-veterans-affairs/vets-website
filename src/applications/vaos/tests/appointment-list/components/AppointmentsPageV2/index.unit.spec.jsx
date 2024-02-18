@@ -86,8 +86,7 @@ describe('VAOS <AppointmentsPage>', () => {
       },
     });
 
-    expect(screen.getByText(/Schedule primary or specialty care appointments./))
-      .to.be.ok;
+    expect(screen.getByText(/Start scheduling/)).to.be.ok;
     userEvent.click(
       await screen.findByRole('button', { name: /Start scheduling/i }),
     );
