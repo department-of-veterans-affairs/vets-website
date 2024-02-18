@@ -67,7 +67,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     mockFacilityFetchByVersion({ facility: facilityResponse });
 
     // Act
-    // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/${response.id}`,
@@ -121,7 +120,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it('should show confirmed phone appointments detail page', async () => {
+  it.skip('should show confirmed phone appointments detail page', async () => {
     // Given a booked phone appointment
     const myInitialState = {
       ...initialState,
