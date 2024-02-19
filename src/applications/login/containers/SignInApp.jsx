@@ -52,7 +52,7 @@ export function UnifiedSigninPage({ router, location }) {
   );
 
   const css = `
-  #legacy-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {
+  #desktop-header > div:nth-child(3) > div.menu-rule.usa-one-whole,   div .profile-nav-container, .menu-rule.usa-one-whole,  .hidden-header {
     visibility:hidden;
   }
 `;

@@ -15,7 +15,7 @@
 
 files:
   include: 'src/**/*.scss'
-  ignore: 'src/applications/proxy-rewrite/sass/style-consolidated.scss'
+  ignore: 'src/applications/proxy-rewrite/sass/styleConsolidated.scss'
 options:
   formatter: stylish
   merge-default-rules: false

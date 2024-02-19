@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { replaceDomainsInData } from 'platform/utilities/environment/stagingDomains';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
-import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,

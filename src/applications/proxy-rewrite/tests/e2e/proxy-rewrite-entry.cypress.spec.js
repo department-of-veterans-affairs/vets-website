@@ -15,8 +15,8 @@ describe(manifest.appName, () => {
 
     if (!isAllowed) {
       cy.visit(`https://${hostToEval}`);
-      cy.get('.consolidated > header').should('not.exist');
-      cy.get('.consolidated > footer').should('not.exist');
+      cy.get('.ts-header-container > header').should('not.exist');
+      cy.get('.ts-header-container > footer').should('not.exist');
     } else {
       throw new Error('Evaluated hostname is allowed.');
     }
@@ -29,8 +29,8 @@ describe(manifest.appName, () => {
 
     if (cookieOnly) {
       cy.visit(`https://${hostToEval}`);
-      cy.get('.consolidated > header').should('not.exist');
-      cy.get('.consolidated > footer').should('not.exist');
+      cy.get('.ts-header-container > header').should('not.exist');
+      cy.get('.ts-header-container > footer').should('not.exist');
     } else {
       throw new Error(
         'Evaluated hostname is not allowed or is not cookie-only.',
@@ -45,8 +45,8 @@ describe(manifest.appName, () => {
 
     if (!cookieOnly) {
       cy.visit(`https://${hostToEval}`);
-      cy.get('.consolidated > header').should('exist');
-      cy.get('.consolidated > footer').should('exist');
+      cy.get('.ts-header-container > header').should('exist');
+      cy.get('.ts-header-container > footer').should('exist');
     } else {
       throw new Error('Evaluated hostname is not allowed or is cookie-only.');
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 import Header from '../Header';
-import { hideLegacyHeader, showLegacyHeader } from '../../helpers';
+import { hideDesktopHeader, showDesktopHeader } from '../../helpers';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
@@ -30,11 +30,11 @@ export const App = ({ megaMenuData, show, showMegaMenu, showNavLogin }) => {
   }
 
   if (isDesktop) {
-    showLegacyHeader();
+    showDesktopHeader();
     return null;
   }
 
-  hideLegacyHeader();
+  hideDesktopHeader();
 
   return (
     <Header
