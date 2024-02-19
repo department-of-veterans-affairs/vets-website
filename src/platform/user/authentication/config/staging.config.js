@@ -86,8 +86,14 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
   },
   [EXTERNAL_APPS.ARP]: {
-    allowedSignInProviders: { ...defaultSignInProviders }, // TODO: Confirm we want all default sign-in providers
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    allowedSignInProviders: {
+      idme: true,
+      logingov: true,
+    },
+    allowedSignUpProviders: {
+      idme: true,
+      logingov: true,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: true,
@@ -97,5 +103,6 @@ export default {
     oAuthOptions: defaultWebOAuthOptions,
     OAuthEnabled: true,
     requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
   },
 };
