@@ -30,17 +30,17 @@ src/applications/ds-v3-playground @department-of-veterans-affairs/platform-desig
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms
 src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms
 
-# VSP-Identity authentication
+# OCTO-Identity authentication
 
-src/applications/auth @department-of-veterans-affairs/vsp-identity
-src/applications/login @department-of-veterans-affairs/vsp-identity
-src/applications/terms-of-use @department-of-veterans-affairs/vsp-identity
-src/applications/verify @department-of-veterans-affairs/vsp-identity
-src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/vsp-identity
-src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/vsp-identity
-src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
-src/platform/utilities/oauth @department-of-veterans-affairs/vsp-identity
-src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
+src/applications/auth @department-of-veterans-affairs/octo-identity
+src/applications/login @department-of-veterans-affairs/octo-identity
+src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
+src/applications/verify @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity
+src/platform/user/authentication @department-of-veterans-affairs/octo-identity
+src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity
+src/platform/utilities/sso @department-of-veterans-affairs/octo-identity
 
 # VSP QA Standards
 
