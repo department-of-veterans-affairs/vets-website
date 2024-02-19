@@ -2,7 +2,7 @@ import { makeMegaMenu } from './mega-menu';
 
 export const getMobileHeaderHtml = megaMenuData => {
   return `
-    <header id="ts-mobile-header" role="banner">
+    <header role="banner">
       <div id="preview-site-alert"></div>
       
       <!-- start US Gov banner -->
