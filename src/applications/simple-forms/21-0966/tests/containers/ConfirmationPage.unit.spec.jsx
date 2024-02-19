@@ -122,7 +122,7 @@ describe('Confirmation page', () => {
       'success',
     );
     getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim for survivors');
+    getByText('Complete your pension for survivors claim');
   });
 
   it('it should show status success and the correct name of person for a veteran submitting for a second time', () => {
@@ -151,6 +151,6 @@ describe('Confirmation page', () => {
       'success',
     );
     getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim for survivors');
+    getByText('Complete your pension for survivors claim');
   });
 });
