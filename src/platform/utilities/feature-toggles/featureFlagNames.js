@@ -218,7 +218,6 @@ export default Object.freeze({
     'show_meb_service_history_categorize_disagreement',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
-  showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage:
     'show_new_refill_track_prescriptions_page',
   showNewScheduleViewAppointmentsPage:
