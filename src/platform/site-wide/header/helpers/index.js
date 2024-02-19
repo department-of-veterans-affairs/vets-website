@@ -4,27 +4,27 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
-export const hideLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const hideDesktopHeader = () => {
+  const desktopHeader = document.getElementById('desktop-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (!legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.add('vads-u-display--none');
+  if (!desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.add('vads-u-display--none');
   }
 };
 
-export const showLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const showDesktopHeader = () => {
+  const desktopHeader = document.getElementById('desktop-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.remove('vads-u-display--none');
+  if (desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.remove('vads-u-display--none');
   }
 };
 

@@ -109,6 +109,16 @@ export const App = ({
     return null;
   }
 
+<<<<<<< HEAD
+=======
+  if (isDesktop) {
+    showDesktopHeader();
+    return null;
+  }
+
+  hideDesktopHeader();
+
+>>>>>>> bab4c82fd3 (VACMS-16815 Separate header and footer for TeamSites)
   return (
     <MobileHeader
       megaMenuData={megaMenuData}

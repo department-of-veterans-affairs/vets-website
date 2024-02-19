@@ -14,11 +14,12 @@
 }
 
 #legacy-header {
+#desktop-header {
     min-height: 189.19px;
 }
 
 @media screen and (min-width: 481px) {
-  #legacy-header {
+  #desktop-header {
     min-height: 167.19px;
   }
 }

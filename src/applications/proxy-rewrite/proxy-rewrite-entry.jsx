@@ -1,24 +1,30 @@
-// Node modules.
+// eslint-disable no-param-reassign
 import 'platform/polyfills';
+import React from 'react';
+import { Provider } from 'react-redux';
 import cookie from 'cookie';
-// Relative imports.
-import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
+import { debounce } from 'lodash';
 import bucketsContent from 'site/constants/buckets-content';
-import createCommonStore from 'platform/startup/store';
-import environment from 'platform/utilities/environment';
 import environments from 'site/constants/environments';
-import startHeader from 'platform/site-wide/header';
-import startMegaMenuWidget from 'platform/site-wide/mega-menu';
-import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
-import startUserNavWidget from 'platform/site-wide/user-nav';
-import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
-import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
-import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
-import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
+import environment from 'platform/utilities/environment';
+import createCommonStore from 'platform/startup/store';
+import startReactApp from 'platform/startup/react';
+import addFocusBehaviorToCrisisLineModal from './utilities/accessible-VCL-modal';
+import { getAssetPath } from './utilities/get-asset-path';
+import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
-import headerPartial from './partials/header';
-import footerPartial from './partials/footer';
+import { getDesktopHeaderHtml } from './partials/desktop/header';
+import { getMobileHeaderHtml } from './partials/mobile/header';
+import { getDesktopFooterHtml } from './partials/desktop/footer';
+import { getMobileFooterHtml } from './partials/mobile/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
+import {
+  addHeaderEventListeners,
+  addOverlayTriggers,
+} from './utilities/menu-behavior';
+import Search from './partials/search';
+
+const store = createCommonStore();
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -31,6 +37,7 @@ function createMutationObserverCallback() {
   ];
 
   let deprecatedSelector;
+
   for (const config of DEPRECATED_SELECTOR_CONFIG) {
     if (document.location.pathname.match(config.path) !== null) {
       deprecatedSelector = config.selector;
@@ -42,11 +49,14 @@ function createMutationObserverCallback() {
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
       Array.from(mutation.addedNodes).forEach(node => {
+        const addedNode = node;
+
         if (node.nodeType === Node.ELEMENT_NODE) {
-          if (node.tagName === 'BODY') {
-            node.classList.add('merger');
-          } else if (node.matches(deprecatedSelector)) {
-            node.classList.add('brand-consolidation-deprecated');
+          if (addedNode.tagName === 'BODY') {
+            addedNode.classList.add('merger');
+            addedNode.style.fontSize = '12px';
+          } else if (addedNode.matches(deprecatedSelector)) {
+            addedNode.classList.add('brand-consolidation-deprecated');
           }
         }
       });
@@ -54,35 +64,58 @@ function createMutationObserverCallback() {
   };
 }
 
-function activateHeaderFooter() {
-  // Set up elements for the new header and footer
-  const headerContainer = document.createElement('div');
+function renderHeader(megaMenuData, headerContainer = null) {
+  const container =
+    headerContainer || document.querySelector('.ts-header-container');
   const skipLink = document.getElementById('skiplink');
-  headerContainer.innerHTML = headerPartial;
-  headerContainer.classList.add('consolidated');
+  const isMobile = window.innerWidth < 768;
 
-  const footerContainer = document.createElement('div');
-  footerContainer.innerHTML = footerPartial;
-  footerContainer.classList.add('consolidated');
+  if (container) {
+    if (isMobile) {
+      container.innerHTML = getMobileHeaderHtml(megaMenuData);
+    } else {
+      container.innerHTML = getDesktopHeaderHtml(megaMenuData);
+    }
 
-  if (skipLink) {
-    skipLink.after(headerContainer);
-  } else if (document.body.firstChild) {
-    document.body.firstChild.before(headerContainer);
+    if (skipLink) {
+      skipLink.after(container);
+    } else if (document.body.firstChild) {
+      document.body.firstChild.before(container);
+    }
   }
-  document.body.appendChild(footerContainer);
+
+  addHeaderEventListeners();
+
+  const parentElement = isMobile
+    ? 'mobile-search-container'
+    : 'search-dropdown';
+
+  startReactApp(
+    <Provider store={store}>
+      <Search isMobile={isMobile} />
+    </Provider>,
+    document.getElementById(parentElement),
+  );
+
+  return null;
 }
 
-function renderFooter(data, commonStore) {
+function renderFooter(footerData, footerContainer = null) {
+  const container =
+    footerContainer || document.querySelector('.ts-footer-container');
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
-  const lastUpdated = subFooter && subFooter.item(0).textContent;
+  const lastUpdated = (subFooter && subFooter.item(0).textContent) || null;
 
-  startVAFooter(data, commonStore, () => {
-    if (lastUpdated) {
-      const lastUpdatedPanel = document.createElement('div');
-      const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
+  const footer =
+    window.innerWidth < 768
+      ? getMobileFooterHtml(footerData)
+      : getDesktopFooterHtml(footerData);
 
-      lastUpdatedPanel.innerHTML = `
+  if (lastUpdated) {
+    const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
+
+    container.innerHTML = `
+      <div>
         <div class="footer-lastupdated">
           <div class="usa-grid">
             <div class="col-md-3"></div>
@@ -91,36 +124,38 @@ function renderFooter(data, commonStore) {
             </div>
           </div>
         </div>
-      `;
+      </div>
+      ${footer}
+    `;
+  } else {
+    container.innerHTML = footer;
+  }
 
-      const footer = document.getElementById(footerElemementId);
-
-      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
-    }
-  });
+  document.body.appendChild(container);
 }
 
-function mountReactComponents(headerFooterData, commonStore) {
-  const crisisModal = document.getElementById('modal-crisisline');
-  if (crisisModal) {
-    crisisModal.parentNode.removeChild(crisisModal);
-  }
-
-  // New navigation menu
-  if (document.querySelector('#vetnav')) {
-    require('../../platform/site-wide/legacy/mega-menu');
-  }
-
+function teamsitesSetup() {
   // set up sizes for rem
-  document.documentElement.style.fontSize = '10px';
+  document.getElementsByTagName('html')[0].style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
-  // Start site-wide widgets.
-  startUserNavWidget(commonStore);
-  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
-  startMobileMenuButton(commonStore);
-  renderFooter(headerFooterData.footerData, commonStore);
-  startHeader(commonStore, headerFooterData.megaMenuData);
+  const fonts = [
+    'sourcesanspro-bold-webfont.woff2',
+    'sourcesanspro-regular-webfont.woff2',
+    'bitter-bold.woff2',
+    'fa-solid-900.woff2',
+  ];
+
+  fonts.forEach(font => {
+    const link = document.createElement('link');
+    link.type = 'font/woff2';
+    link.rel = 'preload';
+    link.href = `/generated/${font}`;
+    link.as = 'font';
+    link.crossOrigin = true;
+
+    document.head.appendChild(link);
+  });
 
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();
@@ -134,15 +169,6 @@ function getContentHostName() {
 
   return bucketsContent[environment.BUILDTYPE];
 }
-
-// TO DO remove on clean up
-// function getAssetHostName() {
-//   if (environment.BUILDTYPE === environments.LOCALHOST) {
-//     return environment.BASE_URL;
-//   }
-
-//   return buckets[environment.BUILDTYPE];
-// }
 
 function removeCurrentHeaderFooter() {
   const observer = new MutationObserver(createMutationObserverCallback());
@@ -158,7 +184,6 @@ function removeCurrentHeaderFooter() {
 }
 
 function activateInjectedAssets() {
-  activateHeaderFooter();
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
       if (resp.ok) {
@@ -172,7 +197,25 @@ function activateInjectedAssets() {
       );
     })
     .then(headerFooterData => {
-      mountReactComponents(headerFooterData, createCommonStore());
+      const headerContainer = document.createElement('div');
+      headerContainer.classList.add('ts-header-container');
+
+      const footerContainer = document.createElement('div');
+      footerContainer.classList.add('ts-footer-container');
+
+      renderHeader(headerFooterData.megaMenuData, headerContainer);
+      renderFooter(headerFooterData.footerData, footerContainer);
+
+      window.addEventListener(
+        'resize',
+        debounce(() => renderHeader(headerFooterData.megaMenuData), 200),
+      );
+      window.addEventListener(
+        'resize',
+        debounce(() => renderFooter(headerFooterData.footerData), 200),
+      );
+
+      teamsitesSetup();
     });
 }
 
@@ -213,7 +256,7 @@ const scriptPaths = [
   '/generated/proxy-rewrite.entry.js',
 ];
 
-const linkPaths = ['/generated/styleConsolidated.css'];
+const linkPaths = ['/generated/styleConsolidated.css', './sass/newStyles.scss'];
 
 function removeInjectedHeaderFooter(docHead = document.head) {
   Array.from(
