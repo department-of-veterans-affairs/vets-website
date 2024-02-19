@@ -49,7 +49,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     const { benefitInfo, serviceInfo } = benefitSummaryOptions;
     const { militaryService } = requestOptions;
     const militaryServiceRows = (serviceInfo || []).map((service, index) => (
-      <va-table-row key={`service${index}`} uswds="false">
+      <va-table-row key={`service${index}`}>
         <span className="service-info">
           {(service.branch || '').toLowerCase()}
         </span>
@@ -136,8 +136,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
                   Include military service information
                 </label>
               </div>
-              <va-table id="militaryServiceTable" uswds="false">
-                <va-table-row slot="headers" uswds="false">
+              <va-table id="militaryServiceTable">
+                <va-table-row slot="headers">
                   <span>Branch of service</span>
                   <span>Discharge type</span>
                   <span>Active duty start</span>
