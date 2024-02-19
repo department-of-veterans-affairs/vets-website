@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInputSsn;
 
 const pageTitle = 'mock ssn inputs';
 
-const expectedNumberOfWebComponentFields = 4;
+const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -19,7 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 2;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

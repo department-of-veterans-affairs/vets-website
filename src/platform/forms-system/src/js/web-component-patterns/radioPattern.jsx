@@ -1,7 +1,7 @@
 import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
- * Web component uiSchema for generic radio field
+ * Web component v3 uiSchema for generic radio field
  *
  * Usage uiSchema:
  * ```js

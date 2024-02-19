@@ -1,8 +1,4 @@
 import {
-  ssnUI as ssnNewUI,
-  ssnSchema as ssnNewSchema,
-  vaFileNumberSchema as vaFileNumberNewSchema,
-  vaFileNumberUI as vaFileNumberNewUI,
   ssnOrVaFileNumberUI,
   ssnOrVaFileNumberSchema,
   titleUI,
@@ -25,19 +21,6 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    'view:wcTitle': inlineTitleUI('Web component'),
-    wcOldSsn: {
-      ...ssnNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldVaFileNumber: {
-      ...vaFileNumberNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
     'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3SsnNew: ssnOrVaFileNumberUI(),
   },
@@ -50,13 +33,10 @@ export default {
       vaFileNumber: {
         $ref: '#/definitions/vaFileNumber',
       },
-      'view:wcTitle': inlineTitleSchema,
-      wcOldSsn: ssnNewSchema,
-      wcOldVaFileNumber: vaFileNumberNewSchema,
       'view:wcv3Title': inlineTitleSchema,
       wcv3SsnNew: ssnOrVaFileNumberSchema,
     },
-    required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
+    required: ['ssn', 'wcv3SsnNew'],
   },
   initialData: {},
 };

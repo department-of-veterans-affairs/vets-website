@@ -18,7 +18,7 @@ const checkboxGroupItemUI = props => {
 };
 
 /**
- * Web component uiSchema for checkbox group
+ * Web component v3 uiSchema for checkbox group
  *
  * Usage uiSchema:
  * ```js
