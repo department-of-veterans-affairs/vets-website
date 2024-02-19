@@ -100,8 +100,8 @@ describe('<ClaimStatusPage>', () => {
                   {
                     id: 1,
                     requestedDate: '2023-02-01',
-                    status: 'NEEDED_FROM_OTHERS',
-                    displayName: 'Needed from others Request',
+                    status: 'INITIAL_REVIEW_COMPLETE',
+                    displayName: 'Initial review complete Request',
                   },
                 ],
               },

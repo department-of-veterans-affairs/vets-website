@@ -43,7 +43,7 @@ describe('<RecentActivity>', () => {
       expect($('va-pagination', container)).not.to.exist;
     });
 
-    it('should render list with NEEDED_FROM_OTHERS list item with no pagination', () => {
+    it('should render list with NEEDED_FROM_OTHERS list item, an alert and no pagination', () => {
       const claim = {
         attributes: {
           open: true,
@@ -61,6 +61,7 @@ describe('<RecentActivity>', () => {
       getByText('Recent activity');
       getByText('We opened a request for "Needed from others Request"');
       expect($('ol', container)).to.exist;
+      expect($('va-alert', container)).to.exist;
       expect($('va-pagination', container)).not.to.exist;
     });
 
