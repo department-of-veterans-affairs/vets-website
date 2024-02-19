@@ -182,7 +182,7 @@ export const updateFormDataAddress = (
  */
 
 /**
- * Web component uiSchema for address
+ * Web component v3 uiSchema for address
  *
  * ```js
  * schema: {
@@ -541,7 +541,7 @@ export const addressSchema = options => {
 };
 
 /**
- * Web component uiSchema for address
+ * Web component v3 uiSchema for address
  *
  * ```js
  * schema: {
