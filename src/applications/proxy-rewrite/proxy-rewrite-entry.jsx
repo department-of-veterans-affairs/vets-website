@@ -134,11 +134,7 @@ function renderFooter(footerData, footerContainer = null) {
   document.body.appendChild(container);
 }
 
-function teamsitesSetup() {
-  // set up sizes for rem
-  document.getElementsByTagName('html')[0].style.fontSize = '10px';
-  document.getElementsByTagName('body')[0].style.fontSize = '12px';
-
+function addFonts() {
   const fonts = [
     'sourcesanspro-bold-webfont.woff2',
     'sourcesanspro-regular-webfont.woff2',
@@ -150,12 +146,18 @@ function teamsitesSetup() {
     const link = document.createElement('link');
     link.type = 'font/woff2';
     link.rel = 'preload';
-    link.href = `/generated/${font}`;
+    link.href = `https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/${font}`;
     link.as = 'font';
     link.crossOrigin = true;
 
     document.head.appendChild(link);
   });
+}
+
+function teamsitesSetup() {
+  // set up sizes for rem
+  document.getElementsByTagName('html')[0].style.fontSize = '10px';
+  document.getElementsByTagName('body')[0].style.fontSize = '12px';
 
   // Start Veteran Crisis Line modal functionality.
   addFocusBehaviorToCrisisLineModal();
@@ -197,6 +199,8 @@ function activateInjectedAssets() {
       );
     })
     .then(headerFooterData => {
+      teamsitesSetup();
+
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');
 
@@ -214,8 +218,6 @@ function activateInjectedAssets() {
         'resize',
         debounce(() => renderFooter(headerFooterData.footerData), 200),
       );
-
-      teamsitesSetup();
     });
 }
 
@@ -311,6 +313,7 @@ function main() {
   ) {
     redirectIfNecessary(window);
     removeCurrentHeaderFooter();
+    addFonts();
 
     if (
       document.readyState === 'complete' ||

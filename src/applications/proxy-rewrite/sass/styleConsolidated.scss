@@ -21,94 +21,11 @@
   "Arial",
   sans-serif;
 
-  @font-face {
-    font-family: "Font Awesome 5 Free";
-    src: url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"),
-      url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"),
-      url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    font-weight: 300;
-    font-display: swap;
-    src: url(#{$font-path}/sourcesanspro-light-webfont.eot?#iefix) format("embedded-opentype"),
-    url(#{$font-path}/sourcesanspro-light-webfont.woff2) format("woff2"),
-    url(#{$font-path}/sourcesanspro-light-webfont.woff) format("woff"),
-    url(#{$font-path}/sourcesanspro-light-webfont.ttf) format("truetype");
-  }
-
-  @font-face {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(#{$font-path}/sourcesanspro-regular-webfont.eot?#iefix) format("embedded-opentype"),
-    url(#{$font-path}/sourcesanspro-regular-webfont.woff) format("woff"),
-    url(#{$font-path}/sourcesanspro-regular-webfont.ttf) format("truetype");
-  }
-
-  @font-face {
-    font-family: "Source Sans Pro";
-    font-style: italic;
-    font-weight: 400;
-    font-display: swap;
-    src: url(#{$font-path}/sourcesanspro-italic-webfont.eot?#iefix) format("embedded-opentype"),
-    url(#{$font-path}/sourcesanspro-italic-webfont.woff2) format("woff2"),
-    url(#{$font-path}/sourcesanspro-italic-webfont.woff) format("woff"),
-    url(#{$font-path}/sourcesanspro-italic-webfont.ttf) format("truetype");
-  }
-
-  @font-face {
-    font-family: "Source Sans Pro";
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url(#{$font-path}/sourcesanspro-bold-webfont.eot?#iefix) format("embedded-opentype"),
-    url(#{$font-path}/sourcesanspro-bold-webfont.woff) format("woff"),
-    url(#{$font-path}/sourcesanspro-bold-webfont.ttf) format("truetype");
-  }
-
-  @font-face {
-    font-family: "Bitter";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src:
-      local("Bitter Regular"),
-      local("Bitter-Regular"),
-      url(/fonts/bitter-regular.woff2) format("woff2"),
-      url(/fonts/bitter-regular.ttf) format("truetype");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-  }
-
-  @font-face {
-    font-family: "Bitter";
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src:
-      local("Bitter Bold"),
-      local("Bitter-Bold"),
-      url(/fonts/bitter-bold.woff2) format("woff2"),
-      url(/fonts/bitter-bold.ttf) format("truetype");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
-  }
-
   @media print {
     display: none !important;
   }
 
-  font-family: "Source Sans Pro",
-  "Helvetica Neue",
-  "Helvetica",
-  "Roboto",
-  "Arial",
-  sans-serif;
+  font-family: $font-stack !important;
 
   header,
   hgroup,

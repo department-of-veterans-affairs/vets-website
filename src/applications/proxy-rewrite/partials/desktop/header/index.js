@@ -2,7 +2,7 @@ import { makeMegaMenu } from './mega-menu';
 
 export const getDesktopHeaderHtml = megaMenuData => {
   return `
-    <header id="ts-desktop-header" role="banner">
+    <header role="banner">
       <div id="preview-site-alert">
       </div>
       
