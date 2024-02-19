@@ -26,7 +26,6 @@ describe('<NotificationSettings />', () => {
         featureToggles: {
           loading: false,
           [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
-          [featureFlagNames.profileUseNotificationSettingsCheckboxes]: true,
           [featureFlagNames.profileShowMhvNotificationSettings]: true,
           [featureFlagNames.profileShowEmailNotificationSettings]: true,
           [featureFlagNames.profileShowQuickSubmitNotificationSetting]: true,
@@ -75,7 +74,6 @@ describe('<NotificationSettings />', () => {
         featureToggles: {
           loading: false,
           [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
-          [featureFlagNames.profileUseNotificationSettingsCheckboxes]: true,
           [featureFlagNames.profileShowMhvNotificationSettings]: true,
           [featureFlagNames.profileShowEmailNotificationSettings]: true,
           [featureFlagNames.profileShowQuickSubmitNotificationSetting]: true,

@@ -313,22 +313,37 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const getCurrentEmploymentHistoryObject = () => {
-  return null;
-};
-
 export const dateTemplate = 'YYYY-MM-DD';
 
 export const maxDate = moment().add(100, 'year');
 export const getDate = date => moment(date, dateTemplate);
 export const isDateComplete = date => date?.length === dateTemplate.length;
 export const isDateInFuture = date => date?.diff(moment()) > 0;
-export const isDateLessThanMax = date => date?.isBefore(maxDate);
+export const isDateBeyondMax = date => moment(date).isAfter(maxDate);
 
-export const isValidPastDate = date => {
+export const isValidFromDate = date => {
   if (date && isDateComplete(date)) {
     const dateObj = getDate(date);
-    return !isDateInFuture(dateObj);
+    return !isDateInFuture(dateObj) && !isDateBeyondMax(dateObj);
+  }
+  return false;
+};
+
+export const isValidToDate = (fromDate, toDate) => {
+  if (
+    fromDate &&
+    toDate &&
+    isDateComplete(fromDate) &&
+    isDateComplete(toDate)
+  ) {
+    const fromDateObj = getDate(fromDate);
+    const toDateObj = getDate(toDate);
+
+    return (
+      !isDateInFuture(toDateObj) &&
+      !moment(toDateObj).isBefore(fromDateObj) &&
+      !isDateBeyondMax(toDateObj)
+    );
   }
   return false;
 };

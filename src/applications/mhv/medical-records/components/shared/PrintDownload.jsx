@@ -44,6 +44,10 @@ const PrintDownload = props => {
       setMenuOpen(false);
     }
   };
+  const handleFocus = () => {
+    // Reset printIndex to 0 every time the element receives focus
+    setPrintIndex(0);
+  };
 
   return (
     <div
@@ -51,6 +55,7 @@ const PrintDownload = props => {
       role="none"
       onKeyDown={handleUserKeyPress}
       ref={menu}
+      onFocus={handleFocus}
     >
       <button
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}

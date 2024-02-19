@@ -6,26 +6,13 @@ import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
 import { getDynamicContent } from '../../utilities/results-1-1-dynamic-content';
-import {
-  QUESTION_MAP,
-  SHORT_NAME_MAP,
-} from '../../constants/question-data-map';
-import { updateCurrentPage } from '../../actions';
+import { QUESTION_MAP } from '../../constants/question-data-map';
 
-const Results1Page1 = ({
-  formResponses,
-  router,
-  viewedIntroPage,
-  updateTheCurrentPage,
-}) => {
+const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = QUESTION_MAP.RESULTS_1_1;
 
   useEffect(() => {
     pageSetup(H1);
-
-    // For setting the current page (for breadcrumbs)
-    // when coming back from Results 1-2
-    updateTheCurrentPage(SHORT_NAME_MAP.RESULTS_1_1);
   });
 
   useEffect(
@@ -54,10 +41,6 @@ const Results1Page1 = ({
       <ul>{getDynamicContent(formResponses)}</ul>
       <h2>What this means for you</h2>
       <p>
-        We automatically assume (or “presume”) that these exposures cause
-        certain health conditions. We call these “presumptive conditions.”
-      </p>
-      <p>
         If you have a presumptive condition, you don’t need to prove that your
         service caused the condition to get VA disability compensation. You only
         need to meet the service requirements for presumption.
@@ -65,7 +48,6 @@ const Results1Page1 = ({
       <Link
         className="vads-c-action-link--green"
         data-testid="paw-results-1-1-continue"
-        onClick={() => updateTheCurrentPage(SHORT_NAME_MAP.RESULTS_1_2)}
         to={ROUTES.RESULTS_1_2}
       >
         Learn more about presumptive conditions and what to do next
@@ -74,9 +56,8 @@ const Results1Page1 = ({
         back
         class="vads-u-margin-top--3 vads-u-display--block"
         data-testid="paw-results-back"
-        onClick={() =>
-          onResultsBackClick(formResponses, router, updateTheCurrentPage)
-        }
+        onClick={() => onResultsBackClick(formResponses, router)}
+        uswds={false}
       />
     </>
   );
@@ -87,7 +68,6 @@ Results1Page1.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -96,11 +76,4 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.pactAct?.viewedIntroPage,
 });
 
-const mapDispatchToProps = {
-  updateTheCurrentPage: updateCurrentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Results1Page1);
+export default connect(mapStateToProps)(Results1Page1);

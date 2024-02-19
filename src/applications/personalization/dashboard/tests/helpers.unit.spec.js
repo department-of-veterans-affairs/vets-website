@@ -4,8 +4,7 @@ import {
   FORM_DESCRIPTIONS,
   SIP_ENABLED_FORMS,
 } from '~/platform/forms/constants';
-
-import { replaceDashesWithSlashes } from '../utils/date-formatting/helpers';
+import { shouldMockApiRequest } from './helpers';
 
 describe('profile helpers:', () => {
   describe('FORM_DESCRIPTIONS', () => {
@@ -17,8 +16,22 @@ describe('profile helpers:', () => {
   });
 });
 
-describe('replaceDashesWithSlashes function', () => {
-  it('should replace the dashes in a string with slashes', () => {
-    expect(replaceDashesWithSlashes('2023-10-23')).to.equal('2023/10/23');
+describe('shouldMockApiRequest function', () => {
+  it('should return false when environment is in localhost and not in Cypress', () => {
+    const environment = {
+      isLocalhost: () => true,
+    };
+    const window = {
+      Cypress: false,
+      VetsGov: {
+        pollTimeout: false,
+      },
+    };
+
+    const result =
+      environment.isLocalhost() && window.Cypress && window.VetsGov.pollTimeout;
+
+    expect(result).equal(false);
+    expect(result).equal(shouldMockApiRequest());
   });
 });

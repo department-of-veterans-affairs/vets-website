@@ -8,12 +8,10 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseFieldEditingPage: false,
   profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
 };

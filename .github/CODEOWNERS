@@ -58,7 +58,7 @@ src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/disability-benefits/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/disability-benefits/view-payments @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/letters @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/rated-disabilities @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/view-payment-history @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -118,7 +118,6 @@ src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/letters-mobile-cta @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/shifted-vets-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
@@ -186,8 +185,10 @@ src/applications/mhv @department-of-veterans-affairs/vfs-mhv-medical-records @de
 src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/medications @department-of-veterans-affairs/vfs-mhv-medications @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/mhv/secure-messaging-pilot @department-of-veterans-affairs/vfs-mhv-secure-messaging @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mhv-landing-page @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/avs @department-of-veterans-affairs/after-visit-summary @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/mhv @department-of-veterans-affairs/vfs-mhv-integration @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Profile
 
@@ -215,6 +216,9 @@ src/applications/static-pages/widget-creators @department-of-veterans-affairs/fl
 
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appointments-page  @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Benefits Accredited Representative Facing (ARF)
+src/applications/representatives @department-of-veterans-affairs/benefits-accredited-rep-facing
 
 # Other
 

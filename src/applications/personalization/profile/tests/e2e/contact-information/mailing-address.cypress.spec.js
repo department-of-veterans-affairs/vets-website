@@ -81,75 +81,111 @@ const confirmWebAddressesAreBlocked = () => {
   // choose something other than USA for the country
   cy.findByRole('combobox', { name: /country/i }).select('France');
 
-  cy.findByRole('textbox', { name: /street address.*required/i })
-    .clear()
-    .type('x.com', { delay: 1 });
+  cy.findByRole('textbox', { name: /street address.*required/i });
+
+  cy.findByRole('textbox', { name: /street address.*required/i }).clear();
+
+  cy.findByRole('textbox', { name: /street address.*required/i }).type(
+    'x.com',
+    { delay: 1 },
+  );
+
   cy.findByRole('button', { name: 'Save' }).focus();
 
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
-  cy.findByRole('textbox', { name: /street address.*required/i })
-    .clear()
-    .type('123 main', { delay: 1 });
+
+  cy.findByRole('textbox', { name: /street address.*required/i }).clear();
+
+  cy.findByRole('textbox', { name: /street address.*required/i }).type(
+    '123 main',
+    { delay: 1 },
+  );
+
   cy.findByRole('alert').should('not.exist');
 
-  cy.findByLabelText(/^Street address line 2/i)
-    .clear()
-    .type('www.x.blah', { delay: 1 });
+  cy.findByLabelText(/^Street address line 2/i).clear();
+
+  cy.findByLabelText(/^Street address line 2/i).type('www.x.blah', {
+    delay: 1,
+  });
   cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
+
   cy.findByLabelText(/^Street address line 2/i).clear();
+
   cy.findByRole('alert').should('not.exist');
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
   // street lines on this form with identical labels :(
-  cy.findByLabelText(/^Street address line 3/i)
-    .clear()
-    .type('x.net', { delay: 1 });
+  cy.findByLabelText(/^Street address line 3/i).clear();
+
+  cy.findByLabelText(/^Street address line 3/i).type('x.net', { delay: 1 });
+
   cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
+
   cy.findByLabelText(/^Street address line 3/i).clear();
+
   cy.findByRole('alert').should('not.exist');
 
-  cy.findByRole('textbox', { name: /city/i })
-    .clear()
-    .type('http://', { delay: 1 });
+  cy.findByRole('textbox', { name: /city/i }).clear();
+
+  cy.findByRole('textbox', { name: /city/i }).type('http://', { delay: 1 });
+
   cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid city/i);
-  cy.findByRole('textbox', { name: /city/i })
-    .clear()
-    .type('Paris', { delay: 1 });
+
+  cy.findByRole('textbox', { name: /city/i }).clear();
+
+  cy.findByRole('textbox', { name: /city/i }).type('Paris', { delay: 1 });
+
   cy.findByRole('alert').should('not.exist');
 
-  cy.findByRole('textbox', { name: /state/i })
-    .clear()
-    .type('x.gov', { delay: 1 });
+  cy.findByRole('textbox', { name: /state/i }).clear();
+
+  cy.findByRole('textbox', { name: /state/i }).type('x.gov', { delay: 1 });
+
   cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid state/i);
-  cy.findByRole('textbox', { name: /state/i })
-    .clear()
-    .type('Paris', { delay: 1 });
+
+  cy.findByRole('textbox', { name: /state/i }).clear();
+
+  cy.findByRole('textbox', { name: /state/i }).type('Paris', { delay: 1 });
+
   cy.findByRole('alert').should('not.exist');
 
-  cy.findByRole('textbox', { name: /postal code/i })
-    .clear()
-    .type('x.edu', { delay: 1 });
+  cy.findByRole('textbox', { name: /postal code/i }).clear();
+
+  cy.findByRole('textbox', { name: /postal code/i }).type('x.edu', {
+    delay: 1,
+  });
+
   cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid postal code/i);
-  cy.findByRole('textbox', { name: /postal code/i })
-    .clear()
-    .type('12345-1234', { delay: 1 });
+
+  cy.findByRole('textbox', { name: /postal code/i }).clear();
+
+  cy.findByRole('textbox', { name: /postal code/i }).type('12345-1234', {
+    delay: 1,
+  });
+
   cy.findByRole('alert').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes
@@ -157,7 +193,11 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByRole('button', { name: /cancel/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/yes, cancel my changes/i)
     .click();
 };
 

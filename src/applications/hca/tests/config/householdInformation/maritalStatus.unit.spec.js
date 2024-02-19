@@ -15,7 +15,7 @@ describe('hca MaritalStatus config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.householdInformation.pages.v1MaritalStatus;
+  } = formConfig.chapters.householdInformation.pages.MaritalStatus;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
@@ -40,7 +40,9 @@ describe('hca MaritalStatus config', () => {
         uiSchema={uiSchema}
       />,
     );
+
     const formDOM = findDOMNode(form);
+
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
@@ -52,7 +54,6 @@ describe('hca MaritalStatus config', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
-        data={{}}
         definitions={definitions}
         onSubmit={onSubmit}
         uiSchema={uiSchema}

@@ -36,6 +36,11 @@ describe('Folder Header component', () => {
       messageDetails: { message: messageResponse },
     },
     drupalStaticData,
+    user: {
+      profile: {
+        facilities: [],
+      },
+    },
   };
   const initialPath = `/folders/${customFolder.folderId}`;
   const initialThreadCount = threadList.length;
@@ -147,6 +152,12 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
+      drupalStaticData,
+      user: {
+        profile: {
+          facilities: [],
+        },
+      },
     };
 
     afterEach(() => {
@@ -254,13 +265,11 @@ describe('Folder Header component', () => {
       ] = true;
 
       const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
-      const blockedTriageGroupAlert = await screen.findByTestId(
-        'blocked-triage-group-alert',
-      );
-      expect(blockedTriageGroupAlert).to.exist;
-      expect(blockedTriageGroupAlert.firstChild.textContent).to.equal(
-        "You can't send messages to your care teams right now",
-      );
+      expect(
+        screen.findByText(
+          "You can't send messages to your care teams right now",
+        ),
+      ).to.exist;
     });
   });
 

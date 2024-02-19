@@ -114,7 +114,7 @@ describe('IntroductionPage', () => {
     const userNotVerifiedDiv = container.querySelector(
       '[data-testid=verifyIdAlert]',
     );
-    const sipAlert = container.querySelector('.schemaform-sip-alert');
+    const sipAlert = container.querySelector('va-alert[status=info]');
     expect(userNotVerifiedDiv).to.exist;
     expect(sipAlert).to.not.exist;
   });
@@ -147,7 +147,7 @@ describe('IntroductionPage', () => {
     const userNotVerifiedDiv = container.querySelector(
       '[data-testid=verifyIdAlert]',
     );
-    const sipAlert = container.querySelector('.schemaform-sip-alert');
+    const sipAlert = container.querySelector('va-alert[status=info]');
     expect(userNotVerifiedDiv).to.not.exist;
     expect(sipAlert).to.exist;
   });

@@ -9,7 +9,7 @@ describe('Secure Messaging Compose', () => {
     site.login(false);
     site.loadPageUnauthenticated();
 
-    cy.url().should('contain', '/my-health/secure-messages');
+    cy.url().should('contain', '/health-care/secure-messaging');
 
     site.login();
 
@@ -17,12 +17,6 @@ describe('Secure Messaging Compose', () => {
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

@@ -107,11 +107,12 @@ const YourAppointment = props => {
         renderItem={renderVitalSign}
         showSeparators
       />
-      {/* TODO: test procedures when sample data is available. */}
       <ListBlock
         heading="Procedures"
+        itemName="name"
         items={avs.procedures}
         itemType="procedure-list"
+        keyName="code"
       />
       <ItemsBlock
         heading="Medications ordered for administration in clinic"

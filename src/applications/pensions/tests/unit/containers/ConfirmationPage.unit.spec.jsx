@@ -10,7 +10,7 @@ import { scrollToTop } from '../../../helpers';
 const generateForm = ({
   hasResponse = true,
   hasRegionalOffice = true,
-  submittedAt = new Date('12/29/2014'),
+  timestamp = new Date('12/29/2014'),
 } = {}) => {
   return {
     submission: {
@@ -27,7 +27,7 @@ const generateForm = ({
           }),
         },
       }),
-      submittedAt,
+      timestamp,
     },
     data: { veteranFullName: { first: 'Jane', last: 'Doe' } },
   };

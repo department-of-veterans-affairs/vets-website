@@ -30,7 +30,7 @@ describe('Child address page', () => {
     ],
   };
 
-  it('should render address fields', () => {
+  it('should render all fields', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -44,10 +44,8 @@ describe('Child address page', () => {
 
     const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('input, select, textarea').length).to.equal(
-      5,
+      11,
     );
-    expect(formDOM.querySelectorAll('va-select').length).to.equal(1);
-    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(5);
   });
 
   it('should show errors when required fields are empty', () => {
@@ -65,7 +63,7 @@ describe('Child address page', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm(form);
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
     expect(onSubmit.called).not.to.be.true;
   });
 

@@ -52,27 +52,32 @@ export const IncomeInformationAlert = () => (
   </va-alert-expandable>
 );
 
-const RequestFormAlert = ({ title, formName, formLink, children }) => (
-  <va-alert status="warning" uswds slim>
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit an {title} (
-      <a href={formLink} rel="noopener noreferrer" target="_blank">
-        {formName}
-      </a>
-      ).
-    </p>
-    <p>{children}</p>
-    <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
-    </p>
-    <p>
-      <a href={formLink} rel="noopener noreferrer" target="_blank">
-        Get {formName} to download
-      </a>
-    </p>
-  </va-alert>
-);
+const RequestFormAlert = ({ title, formName, formLink, children }) => {
+  const linkText = `Get ${formName} to download (opens in new tab)`;
+  return (
+    <va-alert status="warning" uswds slim>
+      <p className="vads-u-margin-y--0">
+        You’ll need to submit an {title} ({formName}
+        ).
+      </p>
+      <p>{children}</p>
+      <p>
+        We’ll ask you to upload this form at the end of this application. Or you
+        can send it to us by mail.
+      </p>
+      <p>
+        <a
+          href={formLink}
+          rel="noopener noreferrer"
+          target="_blank"
+          aria-label={linkText}
+        >
+          {linkText}
+        </a>
+      </p>
+    </va-alert>
+  );
+};
 
 RequestFormAlert.propTypes = {
   children: PropTypes.node.isRequired,
@@ -83,9 +88,9 @@ RequestFormAlert.propTypes = {
 
 export const RequestIncomeAndAssetInformationAlert = () => (
   <RequestFormAlert
-    title="Income and Asset Statement in Support of Claim for Pension or Parents"
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
     formName="VA Form 21P-0969"
-    formLink="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
   />
 );
 
@@ -94,7 +99,7 @@ export const RequestNursingHomeInformationAlert = () => (
     title="Nursing Home Information in Connection with Claim
     for Aid and Attendance"
     formName="VA Form 21-0779"
-    formLink="https://www.vba.va.gov/pubs/forms/vba-21-0779-are.pdf"
+    formLink="https://www.va.gov/find-forms/about-form-21-0779/"
   >
     An official from your nursing home must complete the form.
   </RequestFormAlert>
@@ -105,7 +110,7 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     title="Examination for Household Status or Permanent
     Need for Regular Aid and Attendance"
     formName="VA Form 21-2680"
-    formLink="https://www.vba.va.gov/pubs/forms/vba-21-2680-are.pdf"
+    formLink="https://www.va.gov/find-forms/about-form-21-2680/"
   >
     Make sure every box is complete and has a signature from a physician,
     physician assistant, certified nurse practitioner (CNP), or clinical nurse
@@ -113,65 +118,47 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
   </RequestFormAlert>
 );
 
-export const TotalNetWorthOverTwentyFiveThousandAlert = () => (
-  <va-alert status="warning" uswds slim>
-    <p className="vads-u-margin-y--0">
-      You answered that you have more than $25,000 in assets. You’ll need to
-      submit an Income and Asset Statement in Support of Claim for Pension or
-      Parents' Dependency and Indemnity Compensation (
-      <a
-        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        VA Form 21P-0969
-      </a>
-      ).
-    </p>
-    <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
-    </p>
-    <p>
-      <a
-        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Get VA Form 21P-0969 to download.
-      </a>
-    </p>
-  </va-alert>
-);
+export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
+  const linkText = 'Get VA Form 21P-0969 to download (opens in new tab)';
+  return (
+    <va-alert status="warning" uswds slim>
+      <p className="vads-u-margin-y--0">
+        You answered that you have more than $25,000 in assets. You’ll need to
+        submit an Income and Asset Statement in Support of Claim for Pension or
+        Parents' Dependency and Indemnity Compensation (
+        <a
+          href="https://www.va.gov/find-forms/about-form-21-2680/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          VA Form 21P-0969
+        </a>
+        ).
+      </p>
+      <p>
+        We’ll ask you to upload this form at the end of this application. Or you
+        can send it to us by mail.
+      </p>
+      <p>
+        <a
+          href="https://www.va.gov/find-forms/about-form-21p-0969/"
+          rel="noopener noreferrer"
+          target="_blank"
+          aria-label={linkText}
+        >
+          {linkText}
+        </a>
+      </p>
+    </va-alert>
+  );
+};
 
 export const IncomeAssetStatementFormAlert = () => (
-  <va-alert status="warning" uswds slim>
-    <p className="vads-u-margin-y--0">
-      You’ll need to submit an Income and Asset Statement in Support of Claim
-      for Pension or Parents' Dependency and Indemnity Compensation (
-      <a
-        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        VA Form 21P-0969
-      </a>
-      ).
-    </p>
-    <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can mail it to us.
-    </p>
-    <p>
-      <a
-        href="https://www.vba.va.gov/pubs/forms/VBA-21P-0969-ARE.pdf"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Get VA Form 21P-0969 to download.
-      </a>
-    </p>
-  </va-alert>
+  <RequestFormAlert
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
 );
 
 export const LandMarketableAlert = () => (
@@ -180,11 +167,24 @@ export const LandMarketableAlert = () => (
       The additional land might not be marketable in these situations:
     </p>
     <ul>
-      <li>The entire lot of land is only slightly more than 2 acres, or</li>
-      <li>The additional land isn’t accessible, or</li>
+      <li>
+        The entire lot of land is only slightly more than 2 acres,{' '}
+        <strong>or</strong>
+      </li>
+      <li>
+        The additional land isn’t accessible, <strong>or</strong>
+      </li>
       <li>
         There are zoning rules that prevent selling the additional property
       </li>
     </ul>
   </va-alert>
+);
+
+export const SchoolAttendanceAlert = (
+  <RequestFormAlert
+    title="Request for Approval of School Attendance"
+    formName="VA Form 21-674"
+    formLink="https://www.va.gov/find-forms/about-form-21-674/"
+  />
 );

@@ -42,8 +42,66 @@ export function ApplicantDescriptionWrapper({ formContext }) {
 }
 
 export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
-  return <CurrentlyBuriedDescription formContext={formContext} />;
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
 }
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
+
+export const sponsorDeceasedDescription = (
+  <div className="sponsorDeceasedDescriptionNotProd">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+);
+
+export const sponsorDetailsSubHeader = (
+  <div className="sponsorDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+  </div>
+);
+
+export const sponsorDemographicsSubHeader = (
+  <div className="sponsorDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+  </div>
+);
+
+export const sponsorDemographicsDescription = (
+  <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+);
+
+export const sponsorDeceasedSubheader = (
+  <div className="sponsorDeceasedSubheader">
+    <p>Has the sponsor died?</p>
+  </div>
+);
+
+export const sponsorDateOfDeathSubheader = (
+  <div className="sponsorDateOfDeathSubheader">
+    <p>Sponsor’s date of death</p>
+  </div>
+);
+
+export const sponsorMilitaryDetailsSubHeader = (
+  <div className="sponsorMilitaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+  </div>
+);
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
@@ -80,29 +138,30 @@ export const contactInfoDescription = (
 );
 
 export const applicantInformationDescription = (
-  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+  <va-additional-info trigger="Who we consider an adult dependent child">
+    <p>
+      We consider someone an adult dependent child if either of these
+      descriptions is true:
+    </p>
     <ul>
       <>
         <li>
-          A <strong>spouse</strong> is a person who is or was legally married to
-          a service member or Veteran. A <strong>surviving spouse</strong> is
-          someone who was legally married to the service member or Veteran at
-          the time of their death and includes a surviving spouse who remarried.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 21, <strong>or</strong>
         </li>
         <li>
-          An <strong>unmarried adult child</strong> is an individual who became
-          physically or mentally disabled permanently and incapable of
-          self-support before the age of 21, or before 23 years of age if
-          pursuing a full-time course of instruction at an approved educational
-          institution.
-        </li>
-        <li>
-          For <strong>other</strong> applicants such as the parent of a service
-          member, we’ll ask questions about the service member (the sponsor) to
-          determine eligibility for burial in a VA national cemetery.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 23, if they were enrolled full
+          time in a school or training program at the time their disability
+          started
+          <br />
         </li>
       </>
     </ul>
+    <p>
+      <strong>Note:</strong> Adult dependent children must be unmarried to be
+      eligible for burial in a VA national cemetery.
+    </p>
   </va-additional-info>
 );
 
@@ -113,6 +172,25 @@ export const applicantDetailsDescription = (
       provide their details below. As the preparer, we’ll ask for your own
       details later.
     </p>
+  </va-additional-info>
+);
+
+export const sponsorDetailsDescription = (
+  <va-additional-info trigger="What is a sponsor?">
+    <ul>
+      <>
+        <li>
+          You’re considered the sponsor if you’re the service member or Veteran
+          sponsoring the applicant’s benefits. We’ll ask you to provide your
+          details.
+        </li>
+        <li>
+          If you’re not the sponsor, you’ll still need to provide the details
+          for the service member or Veteran who is sponsoring the applicant’s
+          benefits.
+        </li>
+      </>
+    </ul>
   </va-additional-info>
 );
 
@@ -265,6 +343,50 @@ export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
   </p>
 );
 
+export const relationshipToVetTitle =
+  'What’s your relationship to the Veteran or service member you’re connected to?';
+
+export const relationshipToVetPreparerTitle =
+  'What’s the applicant’s relationship to the Veteran or service member they’re connected to?';
+
+export const relationshipToVetDescription = '';
+
+export const relationshipToVetPreparerDescription =
+  'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).';
+
+export function getRelationshipToVetOptions(option1) {
+  return {
+    labels: {
+      veteran: option1,
+      husband: 'Husband',
+      wife: 'Wife',
+      daughter: 'Adult dependent daughter',
+      son: 'Adult dependent son',
+      stepdaughter: 'Adult dependent stepdaughter',
+      stepson: 'Adult dependent stepson',
+      other: 'Other',
+    },
+    widgetProps: {
+      veteran: { 'aria-describedby': 'veteran-relationship' },
+      husband: { 'aria-describedby': 'spouse-relationship' },
+      wife: { 'aria-describedby': 'spouse-relationship' },
+      daughter: { 'aria-describedby': 'child-relationship' },
+      son: { 'aria-describedby': 'child-relationship' },
+      stepdaughter: { 'aria-describedby': 'child-relationship' },
+      stepson: { 'aria-describedby': 'child-relationship' },
+      other: { 'aria-describedby': 'other-relationship' },
+    },
+  };
+}
+
+export const relationshipToVetOptions = getRelationshipToVetOptions(
+  'I’m the Veteran or service member',
+);
+
+export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
+  'Applicant is the Veteran or service member',
+);
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -287,15 +409,26 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === '1';
+  return get('application.claimant.relationshipToVet', item) === 'veteran';
+}
+
+export function isSponsorDeceased(item) {
+  return get('application.veteran.isDeceased', item) === 'yes';
 }
 
 export function isSpouse(item) {
-  return get('application.claimant.relationshipToVet', item) === '2';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return relationshipToVet === 'husband' || relationshipToVet === 'wife';
 }
 
 export function isUnmarriedChild(item) {
-  return get('application.claimant.relationshipToVet', item) === '3';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return (
+    relationshipToVet === 'daughter' ||
+    relationshipToVet === 'son' ||
+    relationshipToVet === 'stepdaughter' ||
+    relationshipToVet === 'stepson'
+  );
 }
 
 export function isVeteranAndHasServiceName(item) {
@@ -672,6 +805,20 @@ export const militaryNameUI = {
     },
   },
 };
+
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
 
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {

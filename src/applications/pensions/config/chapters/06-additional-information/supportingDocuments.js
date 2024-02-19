@@ -3,12 +3,28 @@ import React from 'react';
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
 
+const SupportingDocument = ({ formId, formName }) => {
+  const linkText = `Get VA Form ${formId} to download (opens in new tab)`;
+  return (
+    <li>
+      A completed {formName} (VA Form {formId})<br />
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href={`https://www.va.gov/find-forms/about-form-${formId.toLowerCase()}`}
+        aria-label={linkText}
+      >
+        {linkText}
+      </a>
+    </li>
+  );
+};
+
 function Description({ formData }) {
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
   const livesInNursingHome = formData.nursingHome;
-
   const assetsOverThreshold = formData.totalNetWorth; // over $25,000 in assets
   const homeAcreageMoreThanTwo =
     formData.homeOwnership && formData.homeAcreageMoreThanTwo;
@@ -37,59 +53,41 @@ function Description({ formData }) {
 
           <ul>
             {hasSpecialMonthlyPension && (
-              <li>
-                a completed Examination for Housebound Status or Permanent Need
-                for Regular Aid and Attendance (VA Form 21-2680)
-                <br />
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21-2680"
-                  text="Get VA Form 21-2680 to download"
-                />
-              </li>
+              <SupportingDocument
+                formName="Examination for Housebound Status or Permanent Need
+              for Regular Aid and Attendance"
+                formId="21-2680"
+              />
             )}
 
             {livesInNursingHome && (
-              <li>
-                a completed Request for Nursing Home Information in Connection
-                with Claim for Aid and Attendance (VA Form 21-0779)
-                <br />
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21-0779"
-                  text="Get VA Form 21-0779 to download"
-                />
-              </li>
+              <SupportingDocument
+                formName="Request for Nursing Home Information in Connection
+              with Claim for Aid and Attendance"
+                formId="21-0779"
+              />
             )}
 
             {hasSchoolChild && (
-              <li>
-                a completed Request for Approval of School Attendance (VA Form
-                21-674)
-                <br />
-                <va-link
-                  href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-                  text="Get VA Form 21-674 to download"
-                />
-              </li>
+              <SupportingDocument
+                formName="Request for Approval of School Attendance"
+                formId="21-674"
+              />
             )}
 
             {hasDisabledChild && (
               <li>
-                private medical records documenting your child's disability
+                Private medical records documenting your child's disability
                 before the age of 18
               </li>
             )}
 
             {needsIncomeAndAssetStatement && (
-              <li>
-                a completed Income and Asset Statement in Support of Claim for
-                Pension or Parents' Dependency and Indemnity Compensation (VA
-                Form 21P-0969)
-                <br />
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21p-0969/"
-                  text="Get VA Form 21P-0969 to download"
-                />
-              </li>
+              <SupportingDocument
+                formName="Income and Asset Statement in Support of Claim for
+              Pension or Parents' Dependency and Indemnity Compensation"
+                formId="21P-0969"
+              />
             )}
           </ul>
         </>

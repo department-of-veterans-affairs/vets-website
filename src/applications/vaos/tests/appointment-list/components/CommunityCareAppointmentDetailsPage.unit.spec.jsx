@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import {
   mockSingleVAOSAppointmentFetch,
@@ -33,7 +33,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it.skip('should navigate to community care appointments detail page', async () => {
+  it('should navigate to community care appointments detail page', async () => {
     const url = '/cc/01aa456cc';
     const appointmentTime = moment().add(1, 'days');
     const start = moment()
@@ -129,7 +129,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Print/)).to.be.ok;
 
     // Verify back button works...
-    userEvent.click(screen.getByText(/VA online scheduling/i));
+    userEvent.click(screen.getByText(/Back to appointments/i));
     detailLinks = await screen.findAllByRole('link', { name: /Detail/i });
     detailLink = detailLinks.find(a => a.getAttribute('href') === url);
 
@@ -149,7 +149,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
 
     // Verify breadcrumb links works...
     const VAOSHomepageLink = await screen.findByRole('link', {
-      name: /VA online scheduling/,
+      name: /Back to appointments/i,
     });
     userEvent.click(VAOSHomepageLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;

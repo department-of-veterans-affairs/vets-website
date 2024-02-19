@@ -10,6 +10,9 @@ import {
   survivingDependentPersonalInformationChapterTitle,
   benefitSelectionChapterTitle,
   initializeFormDataWithPreparerIdentification,
+  hasActiveCompensationITF,
+  hasActivePensionITF,
+  noActiveITF,
   statementOfTruthFullNamePath,
   getAlertType,
   getSuccessAlertTitle,
@@ -39,6 +42,9 @@ describe('form helper functions', () => {
     expect(preparerIsThirdPartyToASurvivingDependent()).to.equal(false);
     expect(preparerIsThirdParty()).to.equal(false);
     expect(benefitSelectionChapterTitle()).to.match(/Your benefit selection/i);
+    expect(hasActiveCompensationITF()).to.equal(false);
+    expect(hasActivePensionITF()).to.equal(false);
+    expect(noActiveITF()).to.equal(true);
     expect(statementOfTruthFullNamePath()).to.equal(
       'survivingDependentFullName',
     );
@@ -186,6 +192,39 @@ describe('form helper functions', () => {
     expect(veteranPersonalInformationChapterTitle({ formData })).to.match(
       /Veteran/i,
     );
+  });
+
+  it('returns true for ITF functions when ITF formData values are present and false when values are empty objects', () => {
+    const formData = {
+      'view:activeCompensationITF': {
+        expirationDate: '1-1-1999',
+        status: 'active',
+      },
+      'view:activePensionITF': {},
+    };
+
+    expect(hasActiveCompensationITF({ formData })).to.equal(true);
+    expect(hasActivePensionITF({ formData })).to.equal(false);
+    expect(noActiveITF({ formData })).to.equal(false);
+
+    formData['view:activeCompensationITF'] = {};
+    formData['view:activePensionITF'] = {
+      expirationDate: '1-1-1999',
+      status: 'active',
+    };
+
+    expect(hasActiveCompensationITF({ formData })).to.equal(false);
+    expect(hasActivePensionITF({ formData })).to.equal(true);
+    expect(noActiveITF({ formData })).to.equal(false);
+  });
+
+  it('returns true for noActiveITF when there are no active ITFs', () => {
+    const formData = {
+      'view:activeCompensationITF': {},
+      'view:activePensionITF': {},
+    };
+
+    expect(noActiveITF({ formData })).to.equal(true);
   });
 });
 

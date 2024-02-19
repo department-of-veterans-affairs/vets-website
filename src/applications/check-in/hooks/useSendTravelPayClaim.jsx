@@ -74,4 +74,4 @@ const useSendTravelPayClaim = appointment => {
   };
 };
 
-export default useSendTravelPayClaim;
+export { useSendTravelPayClaim };

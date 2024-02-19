@@ -2,50 +2,33 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 
+import moment from 'moment';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import StatusAlert from '../StatusAlert';
-import { Facility } from '../../../../tests/mocks/unit-test-helpers';
-
-const appointmentData = {
-  start: '2024-07-19T08:00:00-07:00',
-  version: 2,
-  vaos: {
-    isCanceled: false,
-    appointmentType: 'vaAppointment',
-    isUpcomingAppointment: true,
-    isPastAppointment: false,
-    isCompAndPenAppointment: false,
-  },
-  videoData: {
-    isVideo: false,
-  },
-  location: {
-    vistaId: '983',
-    clinicId: '848',
-    stationId: '983',
-    clinicName: 'CHY PC VAR2',
-  },
-};
+import {
+  Facility,
+  MockAppointment,
+} from '../../../../tests/mocks/unit-test-helpers';
 
 const facilityData = new Facility();
 
 describe('VAOS <StatusAlert> component', () => {
   const initialState = {
-    featureToggles: {},
+    featureToggles: {
+      vaOnlineSchedulingAfterVisitSummary: false,
+    },
   };
   it('Should display confirmation of VA appointment alert message', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'booked',
-    };
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}?confirmMsg=true`,
+        path: `/${mockAppointment.id}?confirmMsg=true`,
       },
     );
     expect(screen.baseElement).to.contain('.usa-alert-success');
@@ -62,17 +45,15 @@ describe('VAOS <StatusAlert> component', () => {
     });
   });
   it('Should record google analytics when schedule link is clicked ', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'booked',
-    };
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}?confirmMsg=true`,
+        path: `/${mockAppointment.id}?confirmMsg=true`,
       },
     );
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
@@ -82,18 +63,16 @@ describe('VAOS <StatusAlert> component', () => {
     });
   });
   it('Should display cancellation alert message', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'cancelled',
-      cancelationReason: 'pat',
-    };
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('cancelled');
+    mockAppointment.setCancelationReason('pat');
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}`,
+        path: `/${mockAppointment.id}`,
       },
     );
     expect(screen.baseElement).to.contain('.usa-alert-error');
@@ -103,21 +82,18 @@ describe('VAOS <StatusAlert> component', () => {
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
   });
   it('Should display past appointment alert message', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'booked',
-      vaos: {
-        isUpcomingAppointment: false,
-        isPastAppointment: true,
-      },
-    };
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setCancelationReason('pat');
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}`,
+        path: `/${mockAppointment.id}`,
       },
     );
     expect(screen.baseElement).to.contain('.usa-alert-warning');
@@ -136,44 +112,55 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
     },
   };
   it('Should display after visit summary link', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'booked',
-      avsPath: '/test-avs-path',
-      vaos: {
-        isUpcomingAppointment: false,
-        isPastAppointment: true,
-      },
-    };
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setAvsPath('/test-avs-path');
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}`,
+        path: `/${mockAppointment.id}`,
       },
     );
     expect(screen.baseElement).to.not.contain('.usa-alert-warning');
     expect(screen.queryByTestId('after-vist-summary-link')).to.exist;
   });
-  it('Should record google analytics when after visit summary link is clicked ', () => {
-    const appointment = {
-      ...appointmentData,
-      kind: 'clinic',
-      status: 'booked',
-      avsPath: '/test-avs-path',
-      vaos: {
-        isUpcomingAppointment: false,
-        isPastAppointment: true,
-      },
-    };
+  it('Should display after visit summary link error message', async () => {
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setAvsPath('Error retrieving AVS link');
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
 
     const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={appointment} facility={facilityData} />,
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
       {
         initialState,
-        path: `/${appointment.id}`,
+        path: `/${mockAppointment.id}`,
+      },
+    );
+    await screen.findByRole('heading', {
+      name: /We can't access after-visit summaries at this time./i,
+    });
+  });
+  it('Should record google analytics when after visit summary link is clicked ', () => {
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setAvsPath('/test-avs-path');
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
+
+    const screen = renderWithStoreAndRouter(
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+      {
+        initialState,
+        path: `/${mockAppointment.id}`,
       },
     );
     expect(screen.queryByTestId('after-vist-summary-link')).to.exist;

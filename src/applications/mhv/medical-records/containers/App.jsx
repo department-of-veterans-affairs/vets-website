@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  useLocation,
+  useHistory,
+} from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -10,23 +13,28 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
+import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
 import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
 import {
-  selectMhvMrEnabledFlag,
+  flagsLoadedAndMhvEnabled,
   selectSidenavFlag,
   selectVaccinesFlag,
   selectNotesFlag,
 } from '../util/selectors';
+import { resetPagination } from '../actions/pagination';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const featureTogglesLoading = useSelector(
-    state => state.featureToggles.loading,
+  const { featureTogglesLoading, appEnabled } = useSelector(
+    flagsLoadedAndMhvEnabled,
+    state => state.featureToggles,
   );
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   // Individual feature flags
-  const appEnabled = useSelector(selectMhvMrEnabledFlag);
   const showSideNav = useSelector(selectSidenavFlag);
   const showVaccines = useSelector(selectVaccinesFlag);
   const showNotes = useSelector(selectNotesFlag);
@@ -51,6 +59,15 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
+
+  useEffect(
+    () => {
+      return () => {
+        dispatch(resetPagination(history.location.pathname));
+      };
+    },
+    [dispatch, history.location.pathname],
+  );
 
   useEffect(
     () => {
@@ -130,13 +147,18 @@ const App = ({ children }) => {
     [height, location],
   );
 
-  useEffect(() => {
-    if (!measuredRef.current) return;
-    const resizeObserver = new ResizeObserver(() => {
-      setHeight(measuredRef.current.offsetHeight);
-    });
-    resizeObserver.observe(measuredRef.current);
-  }, []);
+  const { current } = measuredRef;
+
+  useEffect(
+    () => {
+      if (!current) return;
+      const resizeObserver = new ResizeObserver(() => {
+        setHeight(current.offsetHeight);
+      });
+      resizeObserver.observe(current);
+    },
+    [current],
+  );
 
   if (featureTogglesLoading) {
     return (
@@ -163,7 +185,7 @@ const App = ({ children }) => {
         <MrBreadcrumbs />
         <DowntimeNotification
           appTitle="Medical Records"
-          dependencies={[externalServices.mhv]}
+          dependencies={[externalServices.mhvPlatform, externalServices.mhvMr]}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
             {showSideNav && (
@@ -184,6 +206,7 @@ const App = ({ children }) => {
         </DowntimeNotification>
         <va-back-to-top hidden={isHidden} />
         <ScrollToTop />
+        <PhrRefresh />
       </div>
     </RequiredLoginView>
   );

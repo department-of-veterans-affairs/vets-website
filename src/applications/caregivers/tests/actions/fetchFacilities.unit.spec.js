@@ -21,15 +21,17 @@ describe('fetchFacilities', () => {
 
   context('when the response is successful', () => {
     it('should return facility results', async () => {
+      // Use the mockLightHouseFacilitiesResponse as the response data
       const facilities = await fetchFacilities(
         [1, 2, 3, 4],
         Promise.resolve(mockLightHouseFacilitiesResponse),
       );
 
-      // Make sure the physical address object is transformed correctly
-      expect(facilities).to.deep.eq(
-        mockLightHouseFacilitiesResponseWithTransformedAddresses.data,
-      );
+      const expectedFacilities =
+        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+
+      // expect(facilities).to.be.an('array');
+      expect(facilities).to.deep.eq(expectedFacilities);
     });
   });
 
