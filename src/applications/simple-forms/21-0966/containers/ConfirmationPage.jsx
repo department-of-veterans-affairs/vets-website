@@ -9,17 +9,18 @@ import FormFooter from 'platform/forms/components/FormFooter';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import {
-  getAlreadySubmittedTitle,
-  getAlreadySubmittedText,
-  getAlertType,
-  getSuccessAlertTitle,
-  getSuccessAlertText,
-  getInfoAlertTitle,
-  getInfoAlertText,
-  getNextStepsTextSecondParagraph,
-  getNextStepsLinks,
+  hasActiveCompensationITF,
+  hasActivePensionITF,
+  confirmationPageFormBypassed,
+  confirmationPageAlertStatus,
+  confirmationPageAlertHeadline,
+  confirmationPageAlertParagraph,
+  confirmationPageNextStepsParagraph,
 } from '../config/helpers';
-import { benefitPhrases, veteranBenefits } from '../definitions/constants';
+import {
+  veteranBenefits,
+  survivingDependentBenefits,
+} from '../definitions/constants';
 
 export const ConfirmationPage = props => {
   useLayoutEffect(() => {
@@ -30,59 +31,15 @@ export const ConfirmationPage = props => {
   const { form } = props;
   const { submission, data } = form;
 
-  const { veteranFullName } = data;
-  const submitDate = submission.timestamp;
+  const { statementOfTruthSignature } = data;
   const confirmationNumber = submission.response?.confirmationNumber;
+  const submitDate = submission.timestamp;
 
-  const dateOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  const expirationDate = new Date(
-    submission.response?.expirationDate,
-  ).toLocaleDateString('en-US', dateOptions);
-  const alreadySubmittedIntents = {};
-  if (submission.response?.compensationIntent) {
-    alreadySubmittedIntents.compensation =
-      submission.response.compensationIntent;
-  }
-  if (submission.response?.pensionIntent) {
-    alreadySubmittedIntents.pension = submission.response.pensionIntent;
-  }
-  if (submission.response?.survivorIntent) {
-    alreadySubmittedIntents.survivor = submission.response.survivorIntent;
-  }
-
-  const alreadySubmittedTitle = getAlreadySubmittedTitle(
-    data,
-    alreadySubmittedIntents,
-  );
-  const alreadySubmittedText = getAlreadySubmittedText(
-    data,
-    alreadySubmittedIntents,
-    expirationDate,
-  );
-  const nextStepsTextSecondParagraph = getNextStepsTextSecondParagraph(
-    data,
-    alreadySubmittedIntents,
-    expirationDate,
-  );
-  const nextStepsLinks = getNextStepsLinks(data);
-
-  const alertType = getAlertType(data, alreadySubmittedIntents);
-  const alertTitle =
-    alertType === 'info'
-      ? getInfoAlertTitle()
-      : getSuccessAlertTitle(data, alreadySubmittedIntents);
-  const alertText =
-    alertType === 'info'
-      ? getInfoAlertText(data, alreadySubmittedIntents)
-      : getSuccessAlertText(data, alreadySubmittedIntents);
+  // Re-enable and incorporate if needed for certain flows
+  // const activeSurvivorITF = submission.response?.survivorIntent;
 
   return (
-    <div>
+    <>
       <div className="print-only">
         <img
           src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
@@ -92,98 +49,149 @@ export const ConfirmationPage = props => {
       </div>
       <va-alert
         close-btn-aria-label="Close notification"
-        status={alertType}
+        status={confirmationPageAlertStatus(data)}
         visible
       >
-        <h2 slot="headline">{alertTitle}</h2>
-        <p>{alertText}</p>
+        <h2 slot="headline">{confirmationPageAlertHeadline(data)}</h2>
+        <p className="vads-u-margin-bottom--0">
+          {confirmationPageAlertParagraph(data)}
+        </p>
       </va-alert>
-      <div className="inset">
-        <h3 className="v.ads-u-margin-top--0">Your application information</h3>
-        {veteranFullName && (
-          <>
-            <h4>Applicant</h4>
-            <p>
-              {veteranFullName.first} {veteranFullName.middle}{' '}
-              {veteranFullName.last}
-              {veteranFullName.suffix ? `, ${veteranFullName.suffix}` : null}
-            </p>
-          </>
-        )}
-        {confirmationNumber && (
-          <>
-            <h4>Confirmation number</h4>
-            <p>{confirmationNumber}</p>
-          </>
-        )}
-        {isValid(submitDate) && (
-          <>
-            <h4>Date submitted</h4>
-            <p>{format(submitDate, 'MMMM d, yyyy')}</p>
-          </>
-        )}
-        <h4>Confirmation for your records</h4>
-        <p>You can print this confirmation page for your records</p>
-        <button
-          type="button"
-          className="usa-button vads-u-margin-top--0 screen-only"
-          onClick={window.print}
-        >
-          Print this page
-        </button>
-      </div>
-      {alreadySubmittedTitle && alreadySubmittedText ? (
-        <div>
-          <h2>{alreadySubmittedTitle}</h2>
-          <p>{alreadySubmittedText}</p>
+      {!confirmationPageFormBypassed(data) && (
+        <div className="inset">
+          <h3 className="vads-u-margin-top--1" slot="headline">
+            Your submission information
+          </h3>
+          <dl>
+            {statementOfTruthSignature && (
+              <>
+                <dt>
+                  <h4>Who submitted this form</h4>
+                </dt>
+                <dd>{statementOfTruthSignature}</dd>
+              </>
+            )}
+            {confirmationNumber && (
+              <>
+                <dt>
+                  <h4>Confirmation number</h4>
+                </dt>
+                <dd>{confirmationNumber}</dd>
+              </>
+            )}
+            {isValid(submitDate) && (
+              <>
+                <dt>
+                  <h4>Date submitted</h4>
+                </dt>
+                <dd>{format(submitDate, 'MMMM d, yyyy')}</dd>
+              </>
+            )}
+            <dt>
+              <h4>Confirmation for your records</h4>
+            </dt>
+            <dd>You can print this confirmation page for your records</dd>
+          </dl>
+          <va-button onClick={window.print} text="Print this page" />
         </div>
-      ) : null}
+      )}
+      {!confirmationPageFormBypassed(data) && (
+        <>
+          {hasActiveCompensationITF({ formData: data }) &&
+            data.benefitSelection[veteranBenefits.PENSION] && (
+              <div>
+                <h2>
+                  You’ve already submitted an intent to file for disability
+                  compensation
+                </h2>
+                <p>
+                  Our records show that you already have an intent to file for
+                  disability compensation. Your intent to file for disability
+                  compensation expires on{' '}
+                  {data['view:activeCompensationITF'].expirationDate}.
+                </p>
+              </div>
+            )}
+          {hasActivePensionITF({ formData: data }) &&
+            data.benefitSelection[veteranBenefits.COMPENSATION] && (
+              <div>
+                <h2>
+                  You’ve already submitted an intent to file for pension claims
+                </h2>
+                <p>
+                  Our records show that you already have an intent to file for
+                  pension claims. Your intent to file for pension claims expires
+                  on {data['view:activePensionITF'].expirationDate}.
+                </p>
+              </div>
+            )}
+        </>
+      )}
       <div>
         <h2>What are my next steps?</h2>
-        <p>You should complete and file your claim as soon as possible.</p>
-        <p>{nextStepsTextSecondParagraph}</p>
-        {nextStepsLinks.map(nextStep => {
-          let href = '/';
-          if (nextStep === veteranBenefits.COMPENSATION) {
-            href =
-              '/disability/file-disability-claim-form-21-526ez/introduction';
-          } else if (nextStep === veteranBenefits.PENSION) {
-            href = '/find-forms/about-form-21p-527ez/';
-          } else if (nextStep === veteranBenefits.SURVIVOR) {
-            href = '/find-forms/about-form-21p-534ez/';
-          }
-
-          return (
-            <p key={nextStep}>
-              <a
-                className="vads-c-action-link--blue vads-u-margin-bottom--4"
-                href={href}
-              >
-                Complete your {benefitPhrases[nextStep]}
-              </a>
-            </p>
-          );
-        })}
+        {confirmationPageNextStepsParagraph(data) ? (
+          <>
+            <p>You should complete and file your claims as soon as possible.</p>
+            <p>{confirmationPageNextStepsParagraph(data)}</p>
+          </>
+        ) : (
+          <p>
+            You should complete and file your claims as soon as possible. If you
+            complete and file your claim before the intent to file expires and
+            we approve your claim, you may be able to get retroactive payments.
+            Retroactive payments are payments for the time between when we
+            processed your intent to file and when we approved your claim.
+          </p>
+        )}
       </div>
-      <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">
-        Go back to VA.gov
-      </a>
+      {(hasActiveCompensationITF({ formData: data }) ||
+        data.benefitSelection[veteranBenefits.COMPENSATION]) && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/disability/file-disability-claim-form-21-526ez/introduction"
+          >
+            Complete your disability compensation claim
+          </a>
+        </div>
+      )}
+      {(hasActivePensionITF({ formData: data }) ||
+        data.benefitSelection[veteranBenefits.PENSION]) && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/find-forms/about-form-21p-527ez/"
+          >
+            Complete your pension claim
+          </a>
+        </div>
+      )}
+      {data.benefitSelection[survivingDependentBenefits.SURVIVOR] && (
+        <div>
+          <a
+            className="vads-c-action-link--blue vads-u-margin-y--2"
+            href="/find-forms/about-form-21p-534ez/"
+          >
+            Complete your pension for survivors claim
+          </a>
+        </div>
+      )}
+      {!confirmationPageFormBypassed(data) && (
+        <a className="vads-c-action-link--green vads-u-margin-y--2" href="/">
+          Go back to VA.gov
+        </a>
+      )}
       <div>
         <FormFooter formConfig={{ getHelp: GetFormHelp }} />
       </div>
-    </div>
+    </>
   );
 };
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      veteranFullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
+      statementOfTruthSignature: PropTypes.string,
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({

@@ -13,10 +13,3 @@ export const veteranBenefits = {
 export const survivingDependentBenefits = {
   SURVIVOR: 'survivor',
 };
-
-export const benefitPhrases = {
-  compensation: 'disability compensation claim',
-  pension: 'pension claim',
-  survivor: 'pension claim for survivors',
-  compensationAndPension: 'disability compensation and pension claims',
-};
