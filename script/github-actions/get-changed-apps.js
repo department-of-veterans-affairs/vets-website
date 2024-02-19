@@ -78,7 +78,7 @@ const getChangedAppsString = (
 
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
-
+    console.log(allowedApps);
     if (allowedApps.length) {
       allowedApps.forEach(app => {
         if (outputType === 'entry') {
