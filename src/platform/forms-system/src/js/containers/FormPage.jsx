@@ -5,12 +5,7 @@ import { withRouter } from 'react-router';
 import classNames from 'classnames';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import {
-  isReactComponent,
-  focusElement,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from 'platform/utilities/ui';
+import { isReactComponent, customScrollAndFocus } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -23,29 +18,15 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
-import { stringifyUrlParams } from '../helpers';
-import { querySelectorWithShadowRoot } from '../../../../utilities/ui/webComponents';
+import { handleFormNavFocus, stringifyUrlParams } from '../helpers';
 
 async function focusForm(route, index) {
-  const { formConfig } = route;
-  const { scrollAndFocusTarget } = route.pageConfig;
+  const { formConfig, pageConfig } = route;
   // Check main toggle to enable custom focus
-  if (formConfig?.useCustomScrollAndFocus) {
-    customScrollAndFocus(scrollAndFocusTarget, index);
+  if (formConfig.useCustomScrollAndFocus) {
+    customScrollAndFocus(pageConfig.scrollAndFocusTarget, index);
   } else {
-    let root = document.querySelector('#react-root');
-    if (formConfig?.v3SegmentedProgressBar) {
-      // Need to provide shadowRoot to focus on shadow-DOM elements
-      try {
-        querySelectorWithShadowRoot('va-segmented-progress-bar').then(host => {
-          root = host.shadowRoot;
-        });
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error querying shadow root:', error);
-      }
-    }
-    focusElement(defaultFocusSelector, {}, root);
+    handleFormNavFocus(pageConfig, formConfig, index);
   }
 }
 class FormPage extends React.Component {
