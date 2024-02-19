@@ -5,6 +5,7 @@ import {
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
+  arpWebOAuthOptions,
 } from './constants';
 
 export default {
@@ -100,7 +101,7 @@ export default {
       allowPostLogin: true,
       allowRedirect: false,
     },
-    oAuthOptions: defaultWebOAuthOptions,
+    oAuthOptions: arpWebOAuthOptions,
     OAuthEnabled: true,
     requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],

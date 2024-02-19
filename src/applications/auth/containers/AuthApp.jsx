@@ -9,6 +9,7 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
+  CSP_IDS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
   FORCE_NEEDED,
@@ -135,6 +136,28 @@ export class AuthApp extends React.Component {
       window.location.replace(redirectUrl);
     };
 
+    /*
+      LOA3 enforcement for My VA Health (Cerner) will be moved to
+      usip-config.js to create the initial auth request for a verified account.
+    */
+
+    if (
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
+    ) {
+      const app = returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV])
+        ? CSP_IDS.MHV
+        : EXTERNAL_APPS.MY_VA_HEALTH;
+
+      recordEvent({
+        event: `login-inbound-redirect-to-${app}`,
+        eventCallback: handleRedirect,
+        eventTimeout: 2000,
+      });
+      return;
+    }
+
+    /* ARP redirect */
     if (returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP])) {
       window.location.replace(returnUrl);
     }
