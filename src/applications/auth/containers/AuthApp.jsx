@@ -9,7 +9,6 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
-  CSP_IDS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
   FORCE_NEEDED,
@@ -121,43 +120,21 @@ export class AuthApp extends React.Component {
   redirect = () => {
     const { returnUrl } = this.state;
 
-    const handleRedirect = () => {
-      sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
+    // remove from session storage
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-      const updatedUrl = generateReturnURL(returnUrl);
+    // redirect to my-va if necessary
+    const updatedUrl = generateReturnURL(returnUrl);
 
-      const postAuthUrl = updatedUrl
-        ? appendQuery(updatedUrl, 'postLogin=true')
-        : updatedUrl;
+    // check if usip client
+    const postAuthUrl = this.checkReturnUrl(updatedUrl)
+      ? updatedUrl
+      : appendQuery(updatedUrl, 'postLogin=true');
 
-      const redirectUrl =
-        (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
+    const redirectUrl =
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
 
-      window.location.replace(redirectUrl);
-    };
-
-    /*
-      LOA3 enforcement for My VA Health (Cerner) will be moved to
-      usip-config.js to create the initial auth request for a verified account.
-    */
-
-    if (
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
-      const app = returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV])
-        ? CSP_IDS.MHV
-        : EXTERNAL_APPS.MY_VA_HEALTH;
-
-      recordEvent({
-        event: `login-inbound-redirect-to-${app}`,
-        eventCallback: handleRedirect,
-        eventTimeout: 2000,
-      });
-      return;
-    }
-
-    handleRedirect();
+    window.location.replace(redirectUrl);
   };
 
   handleTokenRequest = async ({ code, state, csp }) => {
