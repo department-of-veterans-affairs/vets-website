@@ -191,7 +191,7 @@ const Confirmation = () => {
         <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Select a Board review option:
         </h5>
-        <span>Subumit more evidence</span>
+        <span>Submit more evidence</span>
         <h5 className="vads-u-margin-top--2 vads-u-font-size--h6 vads-u-color--gray-medium">
           Uploaded evidence
         </h5>
