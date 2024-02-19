@@ -19,6 +19,7 @@ const veteranData = {
     suffix: 'Jr.',
   },
   preparerIdentification: 'VETERAN',
+  statementOfTruthSignature: 'Jack W Veteran',
 };
 
 const survivorData = {
@@ -42,6 +43,7 @@ const survivorData = {
     middle: 'W',
     last: 'Veteran',
   },
+  statementOfTruthSignature: 'Jack W Veteran',
 };
 
 const responseNew = {
