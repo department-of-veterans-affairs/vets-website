@@ -146,7 +146,6 @@ if (process.env.CHANGED_FILE_PATHS) {
     { name: 'continuous-deployment', type: Boolean, defaultValue: false },
   ]);
 
-  console.log('options: ', JSON.stringify(options));
   if (options['continuous-deployment']) {
     const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
       changedFilePaths,
