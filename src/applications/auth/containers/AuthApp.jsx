@@ -128,8 +128,8 @@ export class AuthApp extends React.Component {
 
     // check if usip client
     const postAuthUrl = this.checkReturnUrl(updatedUrl)
-      ? appendQuery(updatedUrl, 'postLogin=true')
-      : updatedUrl;
+      ? updatedUrl
+      : appendQuery(updatedUrl, 'postLogin=true');
 
     const redirectUrl =
       (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
