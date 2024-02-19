@@ -28,6 +28,7 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
 import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
 import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import {
   onNavBackKeepUrlParams,
   onNavForwardKeepUrlParams,
@@ -235,11 +236,19 @@ const formConfig = {
     miscellaneous: {
       title: 'Miscellaneous',
       pages: {
-        date: {
+        dynamicFields: {
           title: 'Dynamic fields', // for review page (has to be more than one word)
           path: 'dynamic-fields',
           uiSchema: dynamicFields.uiSchema,
           schema: dynamicFields.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+        mockCustomPage: {
+          path: 'mock-custom-page',
+          title: 'Mock Custom Page', // for review page (has to be more than one word)
+          CustomPage: MockCustomPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
           depends: includeChapter('miscellaneous'),
         },
       },
@@ -278,7 +287,7 @@ const formConfig = {
       },
     },
     arrayMultiPageBuilder: {
-      title: 'Array Multi-Page Builder',
+      title: 'Array Multi-Page Builder (WIP)',
       pages: {
         multiPageBuilderStart: {
           title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
@@ -305,6 +314,8 @@ const formConfig = {
           arrayPath: 'employers',
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
           onNavBack: onNavBackRemoveAddingItem({
             arrayPath: 'employers',
             summaryPathUrl: '/array-multiple-page-builder-summary',
@@ -322,11 +333,11 @@ const formConfig = {
           showPagePerItem: true,
           allowPathWithNoItems: true,
           arrayPath: 'employers',
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
           onNavBack: onNavBackKeepUrlParams,
-          ContentBeforeButtons:
-            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),
