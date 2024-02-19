@@ -229,5 +229,17 @@ export const WartimeWarningAlert = () => (
         Check your eligibility
       </a>
     </p>
+    <ul>
+      <li>
+        The entire lot of land is only slightly more than 2 acres,{' '}
+        <strong>or</strong>
+      </li>
+      <li>
+        The additional land isn’t accessible, <strong>or</strong>
+      </li>
+      <li>
+        There are zoning rules that prevent selling the additional property
+      </li>
+    </ul>
   </va-alert>
 );

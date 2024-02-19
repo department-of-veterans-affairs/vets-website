@@ -60,6 +60,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: false,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -234,7 +235,7 @@ const formConfig = {
     miscellaneous: {
       title: 'Miscellaneous',
       pages: {
-        date: {
+        dynamicFields: {
           title: 'Dynamic fields', // for review page (has to be more than one word)
           path: 'dynamic-fields',
           uiSchema: dynamicFields.uiSchema,
@@ -304,6 +305,8 @@ const formConfig = {
           arrayPath: 'employers',
           uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
           schema: arrayMultiPageBuilderItemPage1.schema,
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
           onNavBack: onNavBackRemoveAddingItem({
             arrayPath: 'employers',
             summaryPathUrl: '/array-multiple-page-builder-summary',
@@ -321,11 +324,11 @@ const formConfig = {
           showPagePerItem: true,
           allowPathWithNoItems: true,
           arrayPath: 'employers',
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
           uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
           schema: arrayMultiPageBuilderItemPage2.schema,
           onNavBack: onNavBackKeepUrlParams,
-          ContentBeforeButtons:
-            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
           depends: formData =>
             includeChapter('arrayMultiPageBuilder')(formData) &&
             (formData.hasEmployment || formData.employers?.length > 0),

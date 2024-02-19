@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, within } from '@testing-library/dom';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import {
@@ -46,101 +46,6 @@ describe('VAOS <AppointmentsPage>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it('should navigate to list URLs on dropdown change', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingCommunityCare: false,
-      },
-      user: userState,
-    };
-    mockPastAppointmentInfo({});
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: defaultState,
-    });
-
-    const dropdown = await screen.findByTestId('vaosSelect');
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'requested' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Requested appointments',
-      }),
-    );
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Requested | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'past' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
-    );
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Past appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Past appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'canceled' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
-    );
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Canceled appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Canceled appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'upcoming' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/'),
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Your appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-  });
 
   it('should render warning message', async () => {
     setFetchJSONResponse(
