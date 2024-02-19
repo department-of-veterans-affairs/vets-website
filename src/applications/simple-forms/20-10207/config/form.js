@@ -56,6 +56,7 @@ import {
   getContactInfoChapterTitle,
   statementOfTruthFullNamePath,
 } from '../helpers';
+import transformForSubmit from './submit-transformer';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -71,6 +72,7 @@ const mockData = testData.data;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  transformForSubmit,
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   dev: {
     collapsibleNavLinks: true,
