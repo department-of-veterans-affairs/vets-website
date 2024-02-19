@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
+import { Link } from 'react-router';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildDateFormatter } from '../utils/helpers';
+import moment from 'moment';
+import { buildDateFormatter, getTrackedItemId } from '../utils/helpers';
 import { ITEMS_PER_PAGE } from '../constants';
 
 const getOldestDocuentDate = item => {
@@ -52,6 +54,7 @@ const generateTrackedItems = claim => {
     id: item.id,
     date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
+    status: item.status,
     type: 'tracked_item',
   }));
 };
@@ -63,13 +66,13 @@ const getSortedItems = claim => {
   const items = [...trackedItems, ...phaseItems];
 
   return items.sort((item1, item2) => {
-    return item1.date - item2.date;
+    return moment(item2.date) - moment(item1.date);
   });
 };
 
 function RecentActivity({ claim }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const items = getSortedItems(claim).sort();
+  const items = getSortedItems(claim);
   const pageLength = items.length;
   const numPages = Math.ceil(pageLength / ITEMS_PER_PAGE);
   const shouldPaginate = numPages > 1;
@@ -97,9 +100,34 @@ function RecentActivity({ claim }) {
       {pageLength > 0 && (
         <ol className="va-list-horizontal">
           {currentPageItems.map(item => (
-            <li key={item.id} className="vads-u-margin-bottom--2">
+            <li
+              key={item.id}
+              className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
+            >
               <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
-              <p className="vads-u-margin-top--0p5">{item.description}</p>
+              <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
+                {item.description}
+              </p>
+              {item.status === 'NEEDED_FROM_OTHERS' && (
+                <va-alert
+                  class="optional-alert vads-u-padding-bottom--1"
+                  status="info"
+                  slim
+                  uswds
+                >
+                  You don’t have to do anything, but if you have this
+                  information you can{' '}
+                  <Link
+                    aria-label={`Add information for ${item.displayName}`}
+                    className="add-your-claims-link"
+                    to={`your-claims/${
+                      item.id
+                    }/document-request/${getTrackedItemId(item)}`}
+                  >
+                    add it here.
+                  </Link>
+                </va-alert>
+              )}
             </li>
           ))}
         </ol>
