@@ -22,7 +22,7 @@ env:
 
 jobs:
   get-workflow-environment:
-    runs-on: vets-website-daily
+    runs-on: daily
     outputs:
       environment_name: ${{ steps.check-environment.outputs.env_name }}
     steps:
@@ -36,7 +36,7 @@ jobs:
           fi
   set-env:
     name: Set Env Variables
-    runs-on: vets-website-daily
+    runs-on: daily
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
@@ -77,7 +77,7 @@ jobs:
 
   validate-build-status:
     name: Validate Build Status
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: set-env
     steps:
       - name: Checkout
@@ -100,7 +100,7 @@ jobs:
 
   notify-start:
     name: Notify Start
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: set-env
     steps:
       - name: Checkout
@@ -135,7 +135,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: [set-env, notify-start, validate-build-status]
     
     steps:
@@ -182,7 +182,7 @@ jobs:
 
   archive:
     name: Archive
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: [set-env, build]
 
     steps:
@@ -221,7 +221,7 @@ jobs:
   
   create-release:
     name: Create Release
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: [set-env, notify-start, validate-build-status, archive]
     steps:
       - name: Configure AWS Credentials
@@ -278,7 +278,7 @@ jobs:
 
   deploy:
     name: Deploy
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: [set-env, create-release, get-workflow-environment]
     environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
@@ -324,7 +324,7 @@ jobs:
 
   notify-success:
     name: Notify Success
-    runs-on: vets-website-daily
+    runs-on: daily
     needs: deploy
 
     steps:
@@ -342,7 +342,7 @@ jobs:
 
   notify-failure:
     name: Notify Failure
-    runs-on: vets-website-daily
+    runs-on: daily
     if: ${{ failure() || cancelled() }}
     needs: deploy
 
