@@ -223,7 +223,6 @@ export default Object.freeze({
     'show_new_refill_track_prescriptions_page',
   showNewScheduleViewAppointmentsPage:
     'show_new_schedule_view_appointments_page',
-  showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   signInServiceEnabled: 'sign_in_service_enabled',
   stemAutomatedDecision: 'stem_automated_decision',
