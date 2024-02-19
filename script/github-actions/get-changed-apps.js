@@ -78,7 +78,7 @@ const getChangedAppsString = (
 
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
-    console.log(allowedApps);
+
     if (allowedApps.length) {
       allowedApps.forEach(app => {
         if (outputType === 'entry') {
@@ -146,6 +146,7 @@ if (process.env.CHANGED_FILE_PATHS) {
     { name: 'continuous-deployment', type: Boolean, defaultValue: false },
   ]);
 
+  console.log('options: ', JSON.stringify(options));
   if (options['continuous-deployment']) {
     const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
       changedFilePaths,
