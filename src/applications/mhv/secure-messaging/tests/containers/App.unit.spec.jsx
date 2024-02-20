@@ -93,7 +93,11 @@ describe('App', () => {
   });
 
   it('feature flag set to false', () => {
-    const customState = { ...initialState, featureToggles: [] };
+    const customState = {
+      ...initialState,
+      featureToggles: [],
+      scheduledDowntime: {},
+    };
     customState.featureToggles[
       `${'mhv_secure_messaging_to_va_gov_release'}`
     ] = false;
@@ -187,15 +191,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
+      screen.getByText('Maintenance on My HealtheVet', {
         selector: 'h3',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -219,15 +226,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
+      screen.getByText('Maintenance on My HealtheVet', {
         selector: 'h3',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -251,15 +261,18 @@ describe('App', () => {
       path: `/`,
     });
     expect(
-      screen.getByText('This tool is down for maintenance', {
+      screen.getByText('Maintenance on My HealtheVet', {
         selector: 'h3',
         exact: true,
       }),
     );
     expect(
-      screen.getByText('We’re making some updates to this tool', {
-        exact: false,
-      }),
+      screen.getByText(
+        'We’re working on My HealtheVet. The maintenance will last 48 hours',
+        {
+          exact: false,
+        },
+      ),
     );
   });
 
@@ -283,7 +296,7 @@ describe('App', () => {
       path: `/`,
     });
     const downtimeComponent = screen.queryByText(
-      'This tool is down for maintenance',
+      'Maintenance on My HealtheVet',
       {
         selector: 'h3',
         exact: true,

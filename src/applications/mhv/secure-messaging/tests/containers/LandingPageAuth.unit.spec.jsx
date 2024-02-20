@@ -3,6 +3,8 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
+import { format, addHours } from 'date-fns';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import { PageTitles, ErrorMessages } from '../../util/constants';
 import reducer from '../../reducers';
@@ -28,6 +30,21 @@ describe('Landing dashboard', () => {
       initialState: state,
       reducers: reducer,
     });
+  };
+
+  const downtimeApproaching = maintenanceWindows => {
+    return createServiceMap(
+      maintenanceWindows.map(maintenanceWindow => {
+        return {
+          attributes: {
+            externalService: maintenanceWindow,
+            status: 'downtimeApproaching',
+            startTime: format(addHours(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+            endTime: format(addHours(new Date(), 3), "yyyy-LL-dd'T'HH:mm:ss"),
+          },
+        };
+      }),
+    );
   };
 
   it('verifies page title tag for landing page', async () => {
@@ -167,5 +184,39 @@ describe('Landing dashboard', () => {
     ).to.not.exist;
     const allFAQs = screen.getAllByTestId('faq-accordion-item');
     expect(allFAQs.length).to.equal(4);
+  });
+
+  it('displays downtimeNotification when downtimeApproaching is true', () => {
+    const customState = {
+      featureToggles: {},
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: downtimeApproaching(['mhv_sm']),
+        dismissedDowntimeWarnings: [],
+      },
+      ...initialState,
+    };
+    customState.featureToggles[`${'mhv_secure_messaging_to_phase_1'}`] = false;
+    const screen = renderWithStoreAndRouter(<LandingPageAuth />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+
+    expect(
+      screen.getByText('Upcoming maintenance on My HealtheVet', {
+        selector: 'h3',
+        exact: true,
+      }),
+    );
+    expect(
+      screen.getByText(
+        'We’ll be working on My HealtheVet soon. The maintenance will last 2 hours',
+        {
+          exact: false,
+        },
+      ),
+    );
   });
 });
