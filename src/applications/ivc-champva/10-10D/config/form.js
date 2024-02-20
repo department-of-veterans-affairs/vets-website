@@ -74,6 +74,23 @@ import AdditionalDocumentationAlert from '../components/AdditionalDocumentationA
 import { fileTypes, attachmentsSchema } from './attachments';
 import mockData from '../tests/fixtures/data/test-data.json';
 
+// Used to condense some repetitive schema boilerplate
+const applicantListSchema = (requireds, propertyList) => {
+  return {
+    type: 'object',
+    properties: {
+      applicants: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: requireds,
+          properties: propertyList,
+        },
+      },
+    },
+  };
+};
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -518,25 +535,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  required: ['applicantDOB'],
-                  properties: {
-                    titleSchema,
-                    applicantName: fullNameSchema,
-                    applicantDOB: dateOfBirthSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema(['applicantDOB'], {
+            titleSchema,
+            applicantName: fullNameSchema,
+            applicantDOB: dateOfBirthSchema,
+          }),
         },
         page14: {
           path: 'applicant-information/:index/ssn-dob',
@@ -563,23 +566,10 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    applicantSSN: ssnOrVaFileNumberSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            applicantSSN: ssnOrVaFileNumberSchema,
+          }),
         },
         page15: {
           path: 'applicant-information/:index/address',
@@ -605,23 +595,10 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    applicantAddress: addressSchema(),
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            applicantAddress: addressSchema(),
+          }),
         },
         page16: {
           path: 'applicant-information/:index/email-phone',
@@ -640,24 +617,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    applicantEmailAddress: emailSchema,
-                    applicantPhone: phoneSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            applicantEmailAddress: emailSchema,
+            applicantPhone: phoneSchema,
+          }),
         },
         page17: {
           path: 'applicant-information/:index/gender',
@@ -679,23 +643,10 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    applicantGender: radioSchema(['male', 'female']),
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            applicantGender: radioSchema(['male', 'female']),
+          }),
         },
         page18: {
           path: 'applicant-information/:index/relationship',
@@ -704,26 +655,15 @@ const formConfig = {
           title: item => `${applicantWording(item)} relationship to sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage, // CustomReviewField,
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    applicantRelationshipToSponsor: {
-                      type: 'object',
-                      properties: {
-                        relationshipToVeteran: { type: 'string' },
-                        otherRelationshipToVeteran: { type: 'string' },
-                      },
-                    },
-                  },
-                },
+          schema: applicantListSchema([], {
+            applicantRelationshipToSponsor: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: { type: 'string' },
+                otherRelationshipToVeteran: { type: 'string' },
               },
             },
-          },
+          }),
           uiSchema: {
             applicants: {
               items: {},
@@ -763,22 +703,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    ...applicantBirthCertConfig.schema,
-                    applicantBirthCertOrSocialSecCard: attachmentsSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantBirthCertConfig.schema,
+            applicantBirthCertOrSocialSecCard: attachmentsSchema,
+          }),
         },
         page18b: {
           path: 'applicant-information/:index/school-documents',
@@ -823,22 +752,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    ...applicantSchoolCertConfig.schema,
-                    applicantSchoolCert: attachmentsSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantSchoolCertConfig.schema,
+            applicantSchoolCert: attachmentsSchema,
+          }),
         },
         page18c: {
           path: 'applicant-information/:index/child-info',
@@ -870,28 +788,15 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    'ui:description': blankSchema,
-                    applicantRelationshipOrigin: radioSchema([
-                      'blood',
-                      'adoption',
-                      'step',
-                    ]),
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            'ui:description': blankSchema,
+            applicantRelationshipOrigin: radioSchema([
+              'blood',
+              'adoption',
+              'step',
+            ]),
+          }),
         },
         page18d: {
           path: 'applicant-information/:index/adoption-documents',
@@ -930,22 +835,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    ...applicantAdoptedConfig.schema,
-                    applicantAdoptionPapers: attachmentsSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantAdoptedConfig.schema,
+            applicantAdoptionPapers: attachmentsSchema,
+          }),
         },
         page18e: {
           path: 'applicant-information/:index/via-marriage-documents',
@@ -986,22 +880,11 @@ const formConfig = {
               },
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    ...applicantStepChildConfig.schema,
-                    applicantStepMarriageCert: attachmentsSchema,
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantStepChildConfig.schema,
+            applicantStepMarriageCert: attachmentsSchema,
+          }),
         },
         page19: {
           path: 'applicant-information/:index/medicare-status',
@@ -1010,22 +893,9 @@ const formConfig = {
           title: item => `${applicantWording(item)} Medicare status`,
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    applicantMedicareStatus: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            applicantMedicareStatus: { type: 'string' },
+          }),
           uiSchema: {
             applicants: {
               items: {},
@@ -1045,20 +915,9 @@ const formConfig = {
             ) === 'enrolled',
           CustomPage: ApplicantMedicareStatusContinuedPage,
           CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    applicantMedicarePart: { type: 'string' },
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            applicantMedicarePart: { type: 'string' },
+          }),
           uiSchema: {
             applicants: {
               items: {},
@@ -1072,22 +931,9 @@ const formConfig = {
           title: item => `${applicantWording(item)} other health insurance`,
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
-          schema: {
-            type: 'object',
-            properties: {
-              applicants: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    applicantHasOhi: {
-                      type: 'string',
-                    },
-                  },
-                },
-              },
-            },
-          },
+          schema: applicantListSchema([], {
+            applicantHasOhi: { type: 'string' },
+          }),
           uiSchema: {
             applicants: {
               items: {},
