@@ -15,6 +15,7 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
+import Sinon from 'sinon';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -177,5 +178,9 @@ export const mochaHooks = {
   },
   afterEach() {
     cleanupStorage();
+    if (typeof sandbox != "undefined")
+    {
+      sandbox.restore();git 
+    }
   },
 };
