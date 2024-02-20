@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ProviderName from '../ProviderName';
 
-describe('Provider Name component', () => {
+describe('VAOS Component: ProviderName', () => {
   const appointmentData = {
     communityCareProvider: {
       providerName: ['First LastName'],

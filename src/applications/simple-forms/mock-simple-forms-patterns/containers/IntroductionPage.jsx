@@ -17,14 +17,9 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Apply for Simple Forms Patterns"
-          subTitle="Application in Simple Forms Patterns"
+          title="Simple Forms Patterns Examples"
+          subTitle="Web component v3 patterns for testing and development"
         />
-        <h2>Here&rsquo;s how to apply online</h2>
-        <p>
-          Complete this form. After you submit the form, you&rsquo;ll get a
-          confirmation message. You can print this page for your records.
-        </p>
         <div>
           <h3>Pages</h3>
           <ul>
@@ -71,6 +66,9 @@ class IntroductionPage extends React.Component {
               <Link to="/checkbox-group">Checkbox group</Link>
             </li>
             <li>
+              <Link to="/mock-custom-page">CustomPage</Link>
+            </li>
+            <li>
               <Link to="/select">Select</Link>
             </li>
             <li>
@@ -107,7 +105,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the housing grant application"
+          startText="Start application"
         >
           Please complete the Simple Forms Patterns form to apply for Simple
           Forms Patterns.

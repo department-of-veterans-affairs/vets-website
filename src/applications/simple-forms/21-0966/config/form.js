@@ -131,13 +131,11 @@ const formConfig = {
                   const formDataToSet = {
                     ...formData,
                     'view:activeCompensationITF':
-                      compensationIntent?.data?.attributes?.status === 'active'
-                        ? compensationIntent.data.attributes
+                      compensationIntent?.status === 'active'
+                        ? compensationIntent
                         : {},
                     'view:activePensionITF':
-                      pensionIntent?.data?.attributes?.status === 'active'
-                        ? pensionIntent.data.attributes
-                        : {},
+                      pensionIntent?.status === 'active' ? pensionIntent : {},
                   };
 
                   setFormData(formDataToSet);
@@ -206,6 +204,13 @@ const formConfig = {
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionCompensation.uiSchema,
           schema: veteranBenefitSelectionCompensation.schema,
+          onNavForward: ({ formData, goPath, goNextPath }) => {
+            if (formData?.benefitSelectionCompensation) {
+              goNextPath();
+            } else {
+              goPath('confirmation');
+            }
+          },
         },
         veteranBenefitSelectionPension: {
           path: 'veteran-benefit-selection-pension',
@@ -215,6 +220,13 @@ const formConfig = {
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionPension.uiSchema,
           schema: veteranBenefitSelectionPension.schema,
+          onNavForward: ({ formData, goPath, goNextPath }) => {
+            if (formData?.benefitSelectionPension) {
+              goNextPath();
+            } else {
+              goPath('confirmation');
+            }
+          },
         },
         thirdPartyVeteranBenefitSelection: {
           path: 'third-party-veteran-benefit-selection',
