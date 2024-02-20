@@ -25,7 +25,7 @@ describe('Pre-need applicant demographics', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
-    expect(form.find('.cusa-checkbox__input').length).to.equal(7);
+    expect(form.find('.usa-checkbox__input').length).to.equal(7);
     form.unmount();
   });
 
