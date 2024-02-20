@@ -9,7 +9,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'You already have an intent to file for compensation',
-      'Our records show that you already have an intent to file for pension.',
+      'Our records show that you already have an intent to file for compensation.',
     ),
     benefitSelectionPension: yesNoUI({
       title: 'Do you also intend to file a claim for pension?',
