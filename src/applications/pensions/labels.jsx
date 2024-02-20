@@ -22,3 +22,14 @@ export const separationTypeLabels = {
   DIVORCE: 'Divorce',
   OTHER: 'Other',
 };
+
+export const serviceBranchLabels = {
+  army: 'Army',
+  navy: 'Navy',
+  airForce: 'Air Force',
+  coastGuard: 'Coast Guard',
+  marineCorps: 'Marine Corps',
+  spaceForce: 'Space Force',
+  usphs: 'USPHS',
+  noaa: 'NOAA',
+};
