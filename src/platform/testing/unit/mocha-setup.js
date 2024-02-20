@@ -15,7 +15,6 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
-import sinon from 'sinon';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -179,10 +178,10 @@ export const mochaHooks = {
     if (isStressTest == 'false') {
       checkAllowList(this);
     }
-    console.log(
-      'running: ',
-      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
-    );
+    // console.log(
+    //   'running: ',
+    //   this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
+    // );
   },
   afterEach() {
     cleanupStorage();
