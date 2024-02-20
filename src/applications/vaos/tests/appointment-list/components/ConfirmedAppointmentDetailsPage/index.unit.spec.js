@@ -28,7 +28,7 @@ import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentRespon
 import MockFacilityResponse from '../../../e2e/fixtures/MockFacilityResponse';
 import MockClinicResponse from '../../../e2e/fixtures/MockClinicResponse';
 
-describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
+describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
       // eslint-disable-next-line camelcase

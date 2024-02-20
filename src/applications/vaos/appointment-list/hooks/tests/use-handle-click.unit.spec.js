@@ -24,7 +24,7 @@ UseHandleClick.propTypes = {
   idClickable: PropTypes.string.isRequired,
 };
 
-describe('VAOS Appointment list hooks: useHandleClick', () => {
+describe('VAOS Hooks: useHandleClick', () => {
   it('should push link to history object when button is clicked', async () => {
     // Arrange
     const screen = renderWithStoreAndRouter(

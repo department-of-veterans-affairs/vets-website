@@ -4,7 +4,7 @@ import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import PrintButton from '../PrintButton';
 
-describe('Print button component', () => {
+describe('VAOS Component: PrintButton', () => {
   const initialState = {
     featureToggles: {},
   };

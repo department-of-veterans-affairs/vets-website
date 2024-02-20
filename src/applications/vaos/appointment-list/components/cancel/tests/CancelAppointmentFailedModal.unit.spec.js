@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 import CancelAppointmentFailedModal from '../CancelAppointmentFailedModal';
 
-describe('Cancel appointment failed modal component', () => {
+describe('VAOS Component: CancelAppointmentFailedModal', () => {
   const initialState = {
     featureToggles: {},
   };

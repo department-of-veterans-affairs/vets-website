@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import CancelAppointmentSucceededModal from '../CancelAppointmentSucceededModal';
 
-describe('Cancel appointment succeeded modal component', () => {
+describe('VAOS Component: CancelAppointmentSucceededModal', () => {
   const initialState = {
     featureToggles: {},
   };

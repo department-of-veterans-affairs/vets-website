@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import AtlasLocation from '../AtlasLocation';
 import { AtlasAppoinment } from '../../../../tests/mocks/unit-test-helpers';
 
-describe('Atlas location component', () => {
+describe('VAOS Component: AtlasLocation', () => {
   const initialState = {
     featureToggles: {},
   };
