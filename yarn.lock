@@ -2707,6 +2707,18 @@
   resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-4.50.1.tgz#f9014628c697c1cedfd85103094934286c4339ca"
   integrity sha512-2ypS19XngsMu6W4qUBtDwvImFz886Im+PziOnEycO1w41TVS5LH8/vWBMvjSf8Suer+CeRjRN9IOu0ocRx9BVw==
 
+"@datadog/browser-core@5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-core/-/browser-core-5.8.0.tgz#912cad282651160398f2c088a796724f40e404a8"
+  integrity sha512-aNMSB+tLu5aKm/uzswy5d6KDgGtMs2uMxsGWdZ3lmqorEHLXk5kPNTEVRJfeE49EJaWaxiTYQuuuLo0c5S0rUA==
+
+"@datadog/browser-logs@^5.8.0":
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/@datadog/browser-logs/-/browser-logs-5.8.0.tgz#288a5cad014db82801eb1dc7174dac8f8865b264"
+  integrity sha512-7UnLrYEICdY4KLGct9q88f5Xxaad+47He1H7PPnfj1p6HDHtadjRYxb/+NQxoezWFLDpqIIgQgqr4GDQYgtOFQ==
+  dependencies:
+    "@datadog/browser-core" "5.8.0"
+
 "@datadog/browser-rum-core@4.50.1":
   version "4.50.1"
   resolved "https://registry.yarnpkg.com/@datadog/browser-rum-core/-/browser-rum-core-4.50.1.tgz#e0f6a261808212ef00433b6065a6a1481a596055"
@@ -20370,9 +20382,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#d11fa23200e236042ffab9230fa0f62f20054b09":
-  version "20.35.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d11fa23200e236042ffab9230fa0f62f20054b09"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#496d623816fe8248827257efd96e41422a0b835a":
+  version "20.36.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#496d623816fe8248827257efd96e41422a0b835a"
   dependencies:
     minimist "^1.2.3"
 

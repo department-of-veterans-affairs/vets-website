@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, within } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';

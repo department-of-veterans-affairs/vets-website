@@ -9,7 +9,7 @@ import reducer from '../../reducers';
 import FolderThreadListView from '../../containers/FolderThreadListView';
 import {
   drupalStaticData,
-  cernerFacilities,
+  userProfileFacilities,
 } from '../fixtures/cerner-facility-mock-data.json';
 
 describe('Cerner Facility Alert', () => {
@@ -29,10 +29,10 @@ describe('Cerner Facility Alert', () => {
   const setup = (
     state = initialStateMock,
     path = Paths.INBOX,
-    facilities = { facilities: {}, cernerFacilities: {} },
+    facilities = { facilities: [] },
   ) => {
     return renderWithStoreAndRouter(<FolderThreadListView testing />, {
-      initialState: { ...state, sm: { ...state.sm, facilities } },
+      initialState: { ...state, user: { ...state.user, profile: facilities } },
       reducers: reducer,
       path,
     });
@@ -45,30 +45,8 @@ describe('Cerner Facility Alert', () => {
   });
 
   it(`renders CernerFacilityAlert with list of facilities if cernerFacilities.length > 1`, async () => {
-    const customState = {
-      ...initialStateMock,
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId: '463',
-              isCerner: true,
-            },
-            {
-              facilityId: '583',
-              isCerner: true,
-            },
-            {
-              facilityId: '668',
-              isCerner: true,
-            },
-          ],
-        },
-      },
-    };
-    const screen = setup(customState, Paths.INBOX, {
-      facilities: [],
-      cernerFacilities,
+    const screen = setup(initialStateMock, Paths.INBOX, {
+      facilities: userProfileFacilities,
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
@@ -78,26 +56,8 @@ describe('Cerner Facility Alert', () => {
   });
 
   it(`renders CernerFacilityAlert with 1 facility if cernerFacilities.length === 1`, async () => {
-    const customState = {
-      ...initialStateMock,
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId: '668',
-              isCerner: true,
-            },
-          ],
-        },
-      },
-    };
-    const screen = setup(customState, Paths.INBOX, {
-      facilities: [],
-      cernerFacilities: [
-        {
-          uniqueId: '668',
-        },
-      ],
+    const screen = setup(initialStateMock, Paths.INBOX, {
+      facilities: [userProfileFacilities[0]],
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
@@ -105,7 +65,7 @@ describe('Cerner Facility Alert', () => {
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,
     ).to.contain(
-      'To send a secure message to a provider at VA Spokane health care, go to My VA Health.',
+      'To send a secure message to a provider at VA Alaska health care, go to My VA Health.',
     );
   });
 });

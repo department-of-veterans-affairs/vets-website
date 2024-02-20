@@ -12,16 +12,7 @@ describe('edit custom folder name validation', () => {
     PatientMessageCustomFolderPage.loadFoldersList();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
   it('verify edit folder name buttons', () => {
     const landingPage = new PatientInboxPage();
