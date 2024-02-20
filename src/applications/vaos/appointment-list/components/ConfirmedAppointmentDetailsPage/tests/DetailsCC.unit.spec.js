@@ -40,7 +40,7 @@ const appointmentData = {
   },
 };
 
-describe('DetailsCC component', () => {
+describe('VAOS Component: DetailsCC', () => {
   const initialState = {
     featureToggles: {},
   };
