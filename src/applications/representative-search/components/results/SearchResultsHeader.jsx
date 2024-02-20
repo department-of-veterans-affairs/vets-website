@@ -72,24 +72,26 @@ export const SearchResultsHeader = props => {
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
-        <div>
-          {' '}
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="info"
-            uswds
-            visible
-          >
-            <h3 id="track-your-status-on-mobile" slot="headline">
-              We’re updating our search tool
-            </h3>
-            <p>
-              Our search tool may show outdated contact information for some
-              accredited representatives. You can report outdated information in
-              your search results.
-            </p>
-          </va-alert>
-        </div>
+        {searchResults.length ? (
+          <div>
+            {' '}
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              uswds
+              visible
+            >
+              <h3 id="track-your-status-on-mobile" slot="headline">
+                We’re updating our search tool
+              </h3>
+              <p>
+                Our search tool may show outdated contact information for some
+                accredited representatives. You can report outdated information
+                in your search results.
+              </p>
+            </va-alert>
+          </div>
+        ) : null}
 
         <p
           id="search-results-subheader"
