@@ -9,7 +9,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
 import FormFooter from 'platform/forms/components/FormFooter';
 // import fullNameUI from 'platform/forms/definitions/fullName';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -17,7 +17,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 // import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 // import emailUI from 'platform/forms-system/src/js/definitions/email';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+// import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 // import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
@@ -50,15 +50,16 @@ import nationalOrFederalCemetery from './chapters/04-benefits-selection/national
 import cemeteryLocationQuestion from './chapters/04-benefits-selection/cemeteryLocationQuestion';
 import cemeteryLocation from './chapters/04-benefits-selection/cemeteryLocation';
 import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocation';
-import plotAllowance from './chapters/04-benefits-selection/plotAllowance';
+import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
+import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 
 import {
   // isEligibleNonService,
   // BurialDateWarning,
-  fileHelp,
+  // fileHelp,
   // transportationWarning,
   // serviceRecordNotification,
-  serviceRecordWarning,
+  // serviceRecordWarning,
   submit,
   // generateTitle,
   // generateTitle,
@@ -94,7 +95,7 @@ const {
   ssn,
   date,
   usaPhone,
-  files,
+  // files,
   dateRange,
 } = fullSchemaBurials.definitions;
 
@@ -243,7 +244,7 @@ const formConfig = {
         },
         burialAllowancePartOne: {
           title: 'Burial allowance',
-          path: 'benefits/burial-allowance/part-one',
+          path: 'benefits/burial-allowance/additional-information',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true,
           uiSchema: burialAllowancePartOne.uiSchema,
@@ -251,7 +252,7 @@ const formConfig = {
         },
         burialAllowancePartTwo: {
           title: 'Burial allowance',
-          path: 'benefits/burial-allowance/part-two',
+          path: 'benefits/burial-allowance/allowance-and-expense',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true,
           uiSchema: burialAllowancePartTwo.uiSchema,
@@ -299,102 +300,91 @@ const formConfig = {
           uiSchema: tribalLandLocation.uiSchema,
           schema: tribalLandLocation.schema,
         },
-        plotAllowance: {
+        plotAllowancePartOne: {
           title: 'Plot or interment allowance',
-          path: 'benefits/plot-allowance',
+          path: 'benefits/plot-allowance/contributions',
           depends: form =>
             get('view:claimedBenefits.plotAllowance', form) === true,
-          uiSchema: plotAllowance.uiSchema,
-          schema: plotAllowance.schema,
+          uiSchema: plotAllowancePartOne.uiSchema,
+          schema: plotAllowancePartOne.schema,
+        },
+        plotAllowancePartTwo: {
+          title: 'Plot or interment allowance',
+          path: 'benefits/plot-allowance/expense-responsibility',
+          depends: form =>
+            get('view:claimedBenefits.plotAllowance', form) === true,
+          uiSchema: plotAllowancePartTwo.uiSchema,
+          schema: plotAllowancePartTwo.schema,
+        },
+        transportationReceipts: {
+          title: 'Transportation allowance',
+          path: 'benefits/transportation-allowance',
+          depends: form =>
+            get('view:claimedBenefits.transportation', form) === true,
+          uiSchema: plotAllowancePartTwo.uiSchema,
+          schema: plotAllowancePartTwo.schema,
         },
       },
     },
-    additionalInformation: {
-      title: 'Additional information',
-      pages: {
-        // claimantContactInformation: {
-        //   title: 'Claimant contact information',
-        //   path: 'claimant-contact-information',
-        //   uiSchema: {
-        //     'ui:title': 'Claimant contact information',
-        //     claimantAddress: set(
-        //       'ui:validations[1]',
-        //       validateCentralMailPostalCode,
-        //       address.uiSchema('Address'),
-        //     ),
-        //     claimantEmail: emailUI(),
-        //     claimantPhone: phoneUI('Phone number'),
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     required: ['claimantAddress'],
-        //     properties: {
-        //       claimantAddress: address.schema(
-        //         fullSchemaBurials,
-        //         true,
-        //         'centralMailAddress',
-        //       ),
-        //       claimantEmail,
-        //       claimantPhone,
-        //     },
-        //   },
-        // },
-        documentUpload: {
-          title: 'Document upload',
-          path: 'documents',
-          editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:title': 'Document upload',
-            'ui:description': fileHelp,
-            deathCertificate: {
-              ...fileUploadUI('Veteran’s death certificate', {
-                fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-                hideIf: form => form.burialAllowanceRequested !== 'service',
-              }),
-              'ui:required': form =>
-                form.burialAllowanceRequested === 'service',
-            },
+    // additionalInformation: {
+    //   title: 'Additional information',
+    //   pages: {
+    //     documentUpload: {
+    //       title: 'Document upload',
+    //       path: 'documents',
+    //       editModeOnReviewPage: true,
+    //       uiSchema: {
+    //         'ui:title': 'Document upload',
+    //         'ui:description': fileHelp,
+    //         deathCertificate: {
+    //           ...fileUploadUI('Veteran’s death certificate', {
+    //             fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+    //             hideIf: form => form.burialAllowanceRequested !== 'service',
+    //           }),
+    //           'ui:required': form =>
+    //             form.burialAllowanceRequested === 'service',
+    //         },
 
-            transportationReceipts: {
-              ...fileUploadUI(
-                'Documentation for transportation of the Veteran’s remains or other supporting evidence',
-                {
-                  addAnotherLabel: 'Add Another Document',
-                  fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-                },
-              ),
-              'ui:required': form =>
-                get('view:claimedBenefits.transportation', form) === true,
-            },
+    //         transportationReceipts: {
+    //           ...fileUploadUI(
+    //             'Documentation for transportation of the Veteran’s remains or other supporting evidence',
+    //             {
+    //               addAnotherLabel: 'Add Another Document',
+    //               fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+    //             },
+    //           ),
+    //           'ui:required': form =>
+    //             get('view:claimedBenefits.transportation', form) === true,
+    //         },
 
-            'view:serviceRecordWarning': {
-              'ui:description': serviceRecordWarning,
-              'ui:options': {
-                hideIf: form => form.toursOfDuty,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              deathCertificate: {
-                ...files,
-                minItems: 1,
-                maxItems: 1,
-              },
-              transportationReceipts: {
-                ...files,
-                minItems: 1,
-              },
-              'view:serviceRecordWarning': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      },
-    },
+    //         'view:serviceRecordWarning': {
+    //           'ui:description': serviceRecordWarning,
+    //           'ui:options': {
+    //             hideIf: form => form.toursOfDuty,
+    //           },
+    //         },
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           deathCertificate: {
+    //             ...files,
+    //             minItems: 1,
+    //             maxItems: 1,
+    //           },
+    //           transportationReceipts: {
+    //             ...files,
+    //             minItems: 1,
+    //           },
+    //           'view:serviceRecordWarning': {
+    //             type: 'object',
+    //             properties: {},
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
   },
 };
 
