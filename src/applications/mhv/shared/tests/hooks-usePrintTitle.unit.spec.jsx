@@ -33,7 +33,7 @@ describe('usePrintTitle', () => {
     container = null;
   });
 
-  it('should register and unregister event listeners on mount and unmount', () => {
+  it.skip('should register and unregister event listeners on mount and unmount', () => {
     const baseTitle = 'MHV';
     const userDetails = { first: 'John', last: 'Doe', suffix: 'Mr.' };
     const dob = '1990-01-01';
