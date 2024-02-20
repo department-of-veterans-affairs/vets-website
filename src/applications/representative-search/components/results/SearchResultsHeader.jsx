@@ -16,7 +16,7 @@ export const SearchResultsHeader = props => {
     searchArea,
   } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
-  const noResultsFound = !searchResults || !searchResults.length;
+  const noResultsFound = !searchResults || !searchResults?.length;
 
   const [selectedSortType, setSelectedSortType] = useState(sortType);
 
@@ -72,7 +72,7 @@ export const SearchResultsHeader = props => {
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
-        {searchResults.length ? (
+        {searchResults?.length ? (
           <div>
             {' '}
             <va-alert
