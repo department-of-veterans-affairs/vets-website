@@ -252,9 +252,10 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
+      if (!prescription && prescriptionId)
+        dispatch(getPrescriptionDetails(prescriptionId));
     },
-    [prescriptionId, dispatch],
+    [prescriptionId, dispatch, prescription],
   );
 
   useEffect(

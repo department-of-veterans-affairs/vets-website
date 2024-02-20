@@ -76,4 +76,8 @@ export default {
     en: '/accessibility-at-va/',
     es: '/accessibility-at-va-esp/',
   },
+  education: {
+    en: '/education/eligibility/',
+    es: '/education/eligibility-esp/',
+  },
 };
