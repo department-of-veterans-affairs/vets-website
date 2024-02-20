@@ -20,14 +20,12 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
-import {
-  relationshipToVeteranUI,
-  relationshipToVeteranSchema,
-} from '../components/customRelationshipPattern';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
