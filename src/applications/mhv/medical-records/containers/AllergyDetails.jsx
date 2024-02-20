@@ -31,6 +31,7 @@ import {
   txtLine,
 } from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -79,6 +80,14 @@ const AllergyDetails = props => {
       }
     },
     [dispatch, allergy],
+  );
+
+  usePrintTitle(
+    pageTitles.ALLERGIES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateAllergyPdf = async () => {
