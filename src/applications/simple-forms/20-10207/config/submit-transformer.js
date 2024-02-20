@@ -1,4 +1,5 @@
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
+import livingSituation from '../pages/livingSituation';
 
 import { PREPARER_TYPES } from './constants';
 
@@ -25,6 +26,15 @@ export default function transformForSubmit(formConfig, form) {
     MEDAL_AWARD: 'medalAwardDocuments',
   };
 
+  // delete third-party form-data based on preparerType
+  if (
+    preparerType === PREPARER_TYPES.VETERAN ||
+    preparerType === PREPARER_TYPES.NON_VETERAN
+  ) {
+    delete transformedData.thirdPartyFullName;
+    delete transformedData.thirdPartyType;
+  }
+
   // delete any unneeded personal, identification, & contact form-data based on preparerType
   if (
     preparerType === PREPARER_TYPES.VETERAN ||
@@ -45,7 +55,12 @@ export default function transformForSubmit(formConfig, form) {
     delete transformedData.veteranEmailAddress;
   }
 
-  // delete any unneeded evidence form-data based on otherReasons selections
+  // delete unneeded otherHousingRisks data based on livingSituation
+  if (!livingSituation.OTHER_RISK) {
+    delete transformedData.otherHousingRisks;
+  }
+
+  // delete any unneeded evidence form-data based on otherReasons
   Object.keys(otherReasonsEvidenceData).forEach(key => {
     // if otherReasons[key] is not selected, delete corresponding evidence form-data
     if (!otherReasons[key]) {
