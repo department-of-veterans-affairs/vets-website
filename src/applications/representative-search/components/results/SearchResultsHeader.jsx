@@ -122,9 +122,14 @@ export const SearchResultsHeader = props => {
               </b>
               &quot; of &quot;
               <b>{context.location}</b>
-              &quot;
+              &quot;{' '}
             </>
           )}
+          <>
+            sorted by &quot;
+            <b>{sortOptions[selectedSortType]}</b>
+            &quot;
+          </>
         </p>
 
         {noResultsFound ? (
