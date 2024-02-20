@@ -1,5 +1,12 @@
 {
-  "formData": {},
+  "formData": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1985-01-01",
+    "veteranDateOfDeath": "2015-01-01"
+  },
   "metadata": {
     "version": 0,
     "prefill": true,
