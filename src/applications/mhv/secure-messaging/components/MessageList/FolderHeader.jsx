@@ -112,7 +112,7 @@ const FolderHeader = props => {
         )}
 
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilities?.length && (
+        cernerFacilities?.length > 0 && (
           <CernerFacilityAlert cernerFacilities={cernerFacilities} />
         )}
 
