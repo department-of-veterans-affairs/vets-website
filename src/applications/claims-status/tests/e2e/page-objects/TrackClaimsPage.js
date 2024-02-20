@@ -19,7 +19,7 @@ class TrackClaimsPage {
     }
 
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
+    cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
     cy.visit('/track-claims');
