@@ -1,9 +1,9 @@
 import React from 'react';
 import { fileTypes, maxSize } from '../../config/attachments';
 
-const blankSchema = { type: 'object', properties: {} };
+export const blankSchema = { type: 'object', properties: {} };
 
-function acceptableFileList(list) {
+export function acceptableFileList(list) {
   return {
     'view:acceptableFilesList': {
       'ui:description': (
@@ -22,7 +22,7 @@ function acceptableFileList(list) {
   };
 }
 
-const fileUploadBlurb = {
+export const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
       <>
@@ -59,7 +59,7 @@ const fileUploadBlurb = {
   },
 };
 
-const requiredFileUploadMessage = {
+export const requiredFileUploadMessage = {
   'view:requiredFileUploadMessage': {
     'ui:description': (
       <p>
@@ -71,7 +71,7 @@ const requiredFileUploadMessage = {
   },
 };
 
-const optionalFileUploadMessage = {
+export const optionalFileUploadMessage = {
   'view:optionalFileUploadMessage': {
     'ui:description': (
       <p>

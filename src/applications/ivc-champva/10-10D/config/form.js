@@ -47,6 +47,7 @@ import {
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
 } from '../components/Sponsor/sponsorFileUploads';
+import { applicantBirthCertConfig } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
 import {
@@ -720,6 +721,57 @@ const formConfig = {
           uiSchema: {
             applicants: {
               items: {},
+            },
+          },
+        },
+        page18a: {
+          path: 'applicant-information/:index/child-documents',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} child of sponsor supporting documents`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'child',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ item }) =>
+                    `Upload a birth certificate for ${
+                      item.applicantName.first
+                    } ${item.applicantName.last}`,
+                ),
+                ...applicantBirthCertConfig.uiSchema,
+                applicantBirthCertOrSocialSecCard: ({ item }) =>
+                  fileUploadUI(
+                    `Upload ${item.applicantName.first}'s birth cert`,
+                    {
+                      fileTypes,
+                      fileUploadUrl: `${
+                        environment.API_URL
+                      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    },
+                  ),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    titleSchema,
+                    applicantBirthCertOrSocialSecCard: attachmentsSchema,
+                  },
+                },
+              },
             },
           },
         },
