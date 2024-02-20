@@ -18,6 +18,7 @@ import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import WhatYouNeedToDo from '../components/WhatYouNeedToDo';
 import ClaimStatusHeader from '../components/ClaimStatusHeader';
 import WhatWeAreDoing from '../components/WhatWeAreDoing';
+import RecentActivity from '../components/RecentActivity';
 
 import { DATE_FORMATS } from '../constants';
 import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
@@ -252,6 +253,7 @@ class ClaimStatusPage extends React.Component {
             <ClaimStatusHeader claim={claim} />
             <WhatYouNeedToDo claim={claim} useLighthouse={useLighthouse} />
             <WhatWeAreDoing claim={claim} />
+            <RecentActivity claim={claim} />
           </Toggler.Enabled>
           {showDocsNeeded && (
             <Toggler.Disabled>
