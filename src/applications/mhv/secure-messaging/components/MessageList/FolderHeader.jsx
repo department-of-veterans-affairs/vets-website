@@ -21,8 +21,7 @@ const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
   const { featureToggles } = useSelector(state => state);
-
-  const cernerFacilities = useSelector(state => state.user.profile.facilities);
+  const facilities = useSelector(state => state?.user?.profile?.facilities);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -37,17 +36,19 @@ const FolderHeader = props => {
     [featureToggles],
   );
 
-  const cernerFacilitiesPresent = useMemo(
+  const cernerFacilities = useMemo(
     () => {
+      let cernerFacilitiesFiltered = facilities?.filter(
+        facility => facility.isCerner,
+      );
       if (cernerTransition556T30) {
-        const facilities = cernerFacilities.filter(
-          facility => facility.isCerner && facility.facilityId !== '556',
+        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
+          facility => facility.facilityId !== '556',
         );
-        return facilities.length > 0;
       }
-      return cernerFacilities?.length > 0;
+      return cernerFacilitiesFiltered;
     },
-    [cernerFacilities, cernerTransition556T30],
+    [facilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
@@ -104,7 +105,9 @@ const FolderHeader = props => {
         )}
 
       {folder.folderId === Folders.INBOX.id &&
-        cernerFacilitiesPresent && <CernerFacilityAlert />}
+        cernerFacilities?.length && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
 
       <>
         {folder.folderId === Folders.INBOX.id &&

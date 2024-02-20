@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
 import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
@@ -92,7 +92,7 @@ describe('VAOS Backend Service Alert', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Your appointments | VA online scheduling | Veterans Affairs`,
+        `Appointments | VA online scheduling | Veterans Affairs`,
       );
     });
 
@@ -159,7 +159,7 @@ describe('VAOS Backend Service Alert', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Your appointments | VA online scheduling | Veterans Affairs`,
+        `Appointments | VA online scheduling | Veterans Affairs`,
       );
     });
 
