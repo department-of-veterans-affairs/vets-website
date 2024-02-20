@@ -1,5 +1,4 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-import { isInPilot } from '../pilotFeatures';
 
 const isWithInDays = (days, pageLastUpdated) => {
   const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
@@ -60,6 +59,7 @@ const updateFormPages = (
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
     URLS.TRAVEL_MILEAGE,
+    URLS.TRAVEL_REVIEW,
   ];
 
   // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
@@ -72,14 +72,7 @@ const updateFormPages = (
       stationNo in travelPaySent &&
       !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
   }
-  if (
-    !isTravelReimbursementEnabled ||
-    skipLogic ||
-    !isInPilot({
-      appointment: appointments[0],
-      pilotFeature: 'fileTravelClaim',
-    })
-  ) {
+  if (!isTravelReimbursementEnabled || skipLogic) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));
@@ -103,6 +96,7 @@ const URLS = Object.freeze({
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
+  TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
 });
 

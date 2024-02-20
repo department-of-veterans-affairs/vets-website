@@ -3,9 +3,15 @@
  */
 export const RepresentativeType = {
   NONE: '',
-  VETERAN_SERVICE_ORGANIZATION: 'vso',
+  VETERAN_SERVICE_OFFICER: 'veteran_service_officer',
   ATTORNEY: 'attorney',
-  CLAIMS_AGENT: 'claims_agent',
+  CLAIM_AGENTS: 'claim_agents',
+};
+
+export const ErrorTypes = {
+  representativeFetchError: 'isErrorFetchRepresentatives',
+  reportSubmissionError: 'isErrorReportSubmission',
+  geocodeError: 'isErrorGeocode',
 };
 
 /**
@@ -13,9 +19,9 @@ export const RepresentativeType = {
  * Location types mapped to the filename prefix for the png/svg.
  */
 export const PinNames = {
-  [RepresentativeType.VETERAN_SERVICE_ORGANIZATION]: 'vso',
+  [RepresentativeType.VETERAN_SERVICE_OFFICER]: 'veteran_service_officer',
   [RepresentativeType.ATTORNEY]: 'attorney',
-  [RepresentativeType.CLAIMS_AGENT]: 'claims_agent',
+  [RepresentativeType.CLAIM_AGENTS]: 'claim_agents',
 };
 
 /**
@@ -69,7 +75,13 @@ export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
  * Mapbox api request types
  */
 
-export const MAPBOX_QUERY_TYPES = ['place', 'region', 'postcode', 'locality'];
+export const MAPBOX_QUERY_TYPES = [
+  'place',
+  'region',
+  'postcode',
+  'locality',
+  'address',
+];
 
 /**
  * Max search area in miles

@@ -24,14 +24,10 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     PatientReplyPage.sendReplyMessageDetails(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.verifySendMessageConfirmationHasFocus();
+    // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

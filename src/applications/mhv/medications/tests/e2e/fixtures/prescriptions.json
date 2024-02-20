@@ -81,14 +81,14 @@
                 "prescriptionNumber": "3636888",
                 "prescriptionName": "OCTREOTIDE ACETATE 1000MCG/ML INJ *SUBQ*",
                 "refillStatus": "active",
-                "refillSubmitDate": "2023-02-14T16:29:06.000Z",
+                "refillSubmitDate": "October 2, 2023",
                 "refillDate": "2023-02-12T05:00:00.000Z",
                 "refillRemaining": 0,
                 "facilityName": "SLC10 TEST LAB",
                 "orderedDate": "2022-10-08T04:00:00.000Z",
                 "quantity": 3,
                 "expirationDate": "2023-10-09T04:00:00.000Z",
-                "dispensedDate": null,
+                "dispensedDate": "October 2, 2023",
                 "stationNumber": "979",
                 "isRefillable": false,
                 "isTrackable": false,
@@ -121,7 +121,7 @@
                         [
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "October 2, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 0,
                                 "facilityName": "SLC10 TEST LAB",
@@ -207,7 +207,7 @@
                             },
                             {
                                 "refillStatus": "active",
-                                "refillSubmitDate": null,
+                                "refillSubmitDate": "February 12, 2023",
                                 "refillDate": "Sat, 08 Oct 2022 00:00:00 EDT",
                                 "refillRemaining": 2,
                                 "facilityName": "SLC10 TEST LAB",
@@ -251,7 +251,8 @@
                         ]
                     ]
                 ],
-                "tracking": false
+                "tracking": false,
+                "sortedDispensedDate": "2023-10-02"
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21457695"
@@ -555,13 +556,13 @@
                 "prescriptionName": "ACETYLCYSTEINE 20% INHL SOLN 30ML",
                 "refillStatus": "refillinprocess",
                 "refillSubmitDate": "2023-10-02T20:21:22.000Z",
-                "refillDate": "2023-10-01T04:00:00.000Z",
+                "refillDate": "October 2, 2023",
                 "refillRemaining": 4,
                 "facilityName": "SLC10 TEST LAB",
                 "orderedDate": "2023-09-02T04:00:00.000Z",
                 "quantity": 1,
                 "expirationDate": "2024-09-02T04:00:00.000Z",
-                "dispensedDate": "2023-09-04T04:00:00.000Z",
+                "dispensedDate": "October 2, 2023",
                 "stationNumber": "979",
                 "isRefillable": false,
                 "isTrackable": true,
@@ -839,7 +840,7 @@
             "attributes": {
                 "prescriptionId": 21296515,
                 "prescriptionNumber": "2720245B",
-                "prescriptionName": "ACITRETIN 25MG CAP",
+                "prescriptionName": "ACTRETIN 50MG CAP",
                 "refillStatus": "expired",
                 "refillSubmitDate": "2022-09-20T15:21:40.000Z",
                 "refillDate": "2022-09-20T04:00:00.000Z",
@@ -1235,6 +1236,108 @@
             },
             "links": {
                 "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142468"
+            }
+        },
+        {
+            "id": "21142589",
+            "type": "prescription_details",
+            "attributes": {
+                "prescriptionId": 21142589,
+                "prescriptionNumber": "3636848",
+                "prescriptionName": "PAMIDRONATE DISODIUM 3MG/ML INJ 10ML",
+                "prescriptionImage": null,
+                "refillStatus": "expired",
+                "refillSubmitDate": "2023-02-16",
+                "refillDate": "2023-01-25T05:00:00.000Z",
+                "refillRemaining": 1,
+                "facilityName": "SLC10 TEST LAB",
+                "orderedDate": "2022-05-08T04:00:00.000Z",
+                "quantity": 1,
+                "expirationDate": "May 9, 2023",
+                "dispensedDate": null,
+                "stationNumber": "979",
+                "isRefillable": false,
+                "isTrackable": false,
+                "cmopNdcNumber": null,
+                "inCernerTransition": false,
+                "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
+                "sig": "INJECT 1ML INTRAVENOUS ONCE FOR 30 DAYS",
+                "cmopDivisionPhone": null,
+                "userId": 16955936,
+                "providerFirstName": "MOHAMMAD",
+                "providerLastName": "ISLAM",
+                "remarks": null,
+                "divisionName": "VAMC SLC-OUTPTRX",
+                "modifiedDate": "2023-08-14T15:45:13.000Z",
+                "institutionId": null,
+                "dialCmopDivisionPhone": "",
+                "dispStatus": "Expired",
+                "ndc": "55390-0129-01",
+                "reason": null,
+                "prescriptionNumberIndex": "RX",
+                "prescriptionSource": "RX",
+                "disclaimer": null,
+                "indicationForUse": null,
+                "indicationForUseFlag": null,
+                "category": "Rx Medication",
+                "trackingList": [],
+                "rxRfRecords": [
+                    [
+                        "rf_record",
+                        [
+                            {
+                                "refillStatus": "expired",
+                                "refillSubmitDate": null,
+                                "refillDate": "Tue, 07 Jun 2022 00:00:00 EDT",
+                                "refillRemaining": 3,
+                                "facilityName": "SLC10 TEST LAB",
+                                "isRefillable": false,
+                                "isTrackable": false,
+                                "prescriptionId": 21297480,
+                                "sig": null,
+                                "orderedDate": "Sun, 21 Aug 2022 00:00:00 EDT",
+                                "quantity": null,
+                                "expirationDate": null,
+                                "prescriptionNumber": "3636848",
+                                "prescriptionName": "PAMIDRONATE DISODIUM 3MG/ML INJ 10ML",
+                                "dispensedDate": null,
+                                "stationNumber": "979",
+                                "inCernerTransition": false,
+                                "notRefillableDisplayMessage": null,
+                                "cmopDivisionPhone": null,
+                                "cmopNdcNumber": null,
+                                "id": 21297480,
+                                "userId": 16955936,
+                                "providerFirstName": null,
+                                "providerLastName": null,
+                                "remarks": null,
+                                "divisionName": null,
+                                "modifiedDate": null,
+                                "institutionId": null,
+                                "dialCmopDivisionPhone": "",
+                                "dispStatus": "Expired",
+                                "ndc": null,
+                                "reason": null,
+                                "prescriptionNumberIndex": "RF1",
+                                "prescriptionSource": "RF",
+                                "disclaimer": null,
+                                "indicationForUse": null,
+                                "indicationForUseFlag": null,
+                                "category": "Rx Medication",
+                                "orderableItem": null,
+                                "trackingList": null,
+                                "rxRfRecords": null,
+                                "tracking": false
+                            }
+                        ]
+                    ]
+                ],
+                "tracking": false,
+                "orderableItem": "PAMIDRONATE DISODIUM",
+                "sortedDispensedDate": "0000-01-01"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142589"
             }
         },
         {

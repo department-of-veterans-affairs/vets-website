@@ -9,36 +9,42 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { ServerErrorAlert } from '../../config/helpers';
 // import { URL } from '../../constants';
 import { formatAddress } from '../../helpers';
-import { candidateAddresses } from '../../config/chapters/contactInformation/mockValidationResponse';
+import { candidateAddresses } from '../../config/chapters/personalInformation/mockValidationResponse';
 
 const AddressValidationRadio = props => {
   const { formData, setFormData } = props;
   const [apiData, setApiData] = useState([]);
   // const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
+
   const [selectedAddress, setSelectedAddress] = useState('');
 
   const handleValueChange = (address, id) => {
     setSelectedAddress(id);
+    const addressString = JSON.stringify({
+      city: address.city,
+      country: address.country.iso3Code || address.country,
+      postalCode: address.postalCode || address.zipCode5,
+      state: address.state || address.stateProvince?.code,
+      province: address.stateProvince?.code || '',
+      street: address.street || address.addressLine1,
+      street2: address.street2 || address.addressLine2,
+    });
+
     setFormData({
       ...formData,
-      address: {
-        city: address.city,
-        country: address.country.iso3Code || address.country,
-        postalCode: address.postalCode || address.zipCode5,
-        state: address.state || address.stateProvince?.code,
-        street: address.street || address.addressLine1,
-        street2: address.street2 || address.addressLine2,
-      },
+      addressConfirmation: addressString,
     });
   };
 
   useEffect(() => {
     // TODO: Add apiRequest to get data from api when available
-    if (candidateAddresses) {
+    if (candidateAddresses.length > 0) {
       setApiData(candidateAddresses);
+      handleValueChange(candidateAddresses[0], '0');
     } else {
-      hasError(true);
+      // change when api it added
+      hasError(false);
     }
     focusElement('#address-validation-alert-heading');
   }, []);
@@ -108,19 +114,20 @@ const AddressValidationRadio = props => {
             We can’t confirm the address you entered with the U.S. Postal
             Service
           </h4>
-          <p>Tell us which of these addresses you’d like to use.</p>
+          <p>Tell us which addresses you’d like to use.</p>
         </VaAlert>
       </div>
       <div>
         <span className="vads-u-font-weight--bold">You entered:</span>
         {renderAddressOption(formData.address)}
-        {shouldShowSuggestions && (
-          <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
-        )}
-        {shouldShowSuggestions &&
+        <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
+        {shouldShowSuggestions ? (
           apiData.map((address, index) =>
             renderAddressOption(address, String(index)),
-          )}
+          )
+        ) : (
+          <p>No recommendations available</p>
+        )}
       </div>
     </>
   ) : (

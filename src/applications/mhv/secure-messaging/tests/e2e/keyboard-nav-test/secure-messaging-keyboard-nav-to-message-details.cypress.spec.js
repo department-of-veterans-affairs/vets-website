@@ -23,7 +23,9 @@ describe('Navigate to Message Details ', () => {
 
     cy.realPress('Tab');
     cy.get('button:contains("Move")').should('have.focus');
+
     cy.realPress('Tab');
+    cy.get('button:contains("Trash")').should('be.visible');
     cy.get('button:contains("Trash")').should('have.focus');
 
     cy.injectAxe();

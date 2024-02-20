@@ -34,15 +34,11 @@ const LandingPageUnauth = () => {
             <strong>My HealtheVet</strong> account. If you don’t have any of
             these accounts, you can create a free account now.
           </p>
-          {/* va-button component from design library has a bug which affects the styling */}
-          {/* However, toggleLoginModal function has appropriate analytic tags */}
-          <button
-            type="button"
-            className="va-button-primary"
+          <va-button
             onClick={handleSignIn}
-          >
-            Sign in or create an account
-          </button>
+            primary-alternate
+            text="Sign in or create account"
+          />
         </div>
       </va-alert>
       <h2>To send messages, you must be a VA patient</h2>

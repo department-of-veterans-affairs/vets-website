@@ -8,7 +8,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/avs/api/mocks/index.js`
   - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=avs`
   - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
-  - visit the app: `http://localhost:3001/my-health/medical-records/care-notes/avs/9A7AF40B2BC2471EA116891839113253`
+  - visit the app: `http://localhost:3001/my-health/medical-records/summaries-and-notes/visit-summary/9A7AF40B2BC2471EA116891839113252`
 
 ## Running tests
 Unit tests for can be run using this command: `yarn test:unit --app-folder avs`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder avs --coverage --coverage-html`. View the report at `/coverage/index.html`

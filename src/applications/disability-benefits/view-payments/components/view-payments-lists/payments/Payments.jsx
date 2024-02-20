@@ -70,13 +70,16 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
           pages={totalPages.current}
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
+          uswds
         />
       </>
     );
   }
 
   return (
-    <va-alert status="info">{clientServerErrorContent(tableVersion)}</va-alert>
+    <va-alert status="info" uswds>
+      {clientServerErrorContent(tableVersion)}
+    </va-alert>
   );
 };
 

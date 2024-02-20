@@ -5,119 +5,86 @@ import {
   moveMessageThread as moveThreadCall,
   createMessage,
   createReplyToMessage,
-  getMessageThread,
+  getMessageThreadWithFullBody,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
 
-export const oldMessageAlert = sentDate => dispatch => {
-  dispatch({
-    type: Actions.Message.CANNOT_REPLY_ALERT,
-    payload: isOlderThan(sentDate, 45),
-  });
-};
-
-export const clearMessageHistory = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR_HISTORY });
-};
-
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
+export const clearThread = () => async dispatch => {
+  dispatch({ type: Actions.Thread.CLEAR_THREAD });
 };
 
 /**
+ * Call to mark message as read.
  * @param {Long} messageId
  * @returns
+ *
+ * Still need to use getMessage (single message) call to mark unread accordions
+ * as read and to handle expanded messages.
  */
-export const markMessageAsReadInThread = (
-  messageId,
-  isDraftThread,
-) => async dispatch => {
+export const markMessageAsReadInThread = messageId => async dispatch => {
   const response = await getMessage(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
     dispatch({
-      type: isDraftThread
-        ? Actions.Draft.GET_IN_THREAD
-        : Actions.Message.GET_IN_THREAD,
+      type: Actions.Thread.GET_MESSAGE_IN_THREAD,
       response,
     });
   }
 };
 
 /**
- * Retrieves a message thread, and sends getMessage call to fill the most recent messasge in the thread with more context
- * such as full body text, attachments, etc.
+ * Retrieves full message thread that includes full body text, attachments, drafts etc..
  * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
  * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
+ *
  */
-export const retrieveMessageThread = (
-  messageId,
-  refresh = false,
-) => async dispatch => {
-  if (!refresh) {
-    dispatch(clearMessage());
-  }
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
-    const response = await getMessageThread(messageId);
-    const msgResponse = await getMessage(response.data[0].attributes.messageId);
-    if (msgResponse.errors) {
-      dispatch(
-        addAlert(Constants.ALERT_TYPE_ERROR, '', msgResponse.errors[0]?.detail),
-      );
-    } else {
-      // finding last sent message in a thread to check if it is not too old for replies
-      const lastSentDate = getLastSentMessage(response.data)?.attributes
-        .sentDate;
-      dispatch(oldMessageAlert(lastSentDate));
+    dispatch(clearThread());
+    const response = await getMessageThreadWithFullBody(messageId);
 
-      const isDraft = response.data[0].attributes.draftDate !== null;
-      const replyToName =
-        response.data
-          .find(
-            m => m.attributes.triageGroupName !== m.attributes.recipientName,
-          )
-          ?.attributes.senderName.trim() ||
-        response.data[0].attributes.triageGroupName;
+    // finding last sent message in a thread to check if it is not too old for replies
+    const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
 
-      const threadFolderId =
-        response.data
-          .find(
-            m => m.attributes.triageGroupName !== m.attributes.recipientName,
-          )
-          ?.attributes.folderId.toString() ||
-        response.data[0].attributes.folderId;
+    const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+    const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
-      dispatch({
-        type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
-        response: {
-          data: {
-            replyToName,
-            threadFolderId,
-            replyToMessageId: msgResponse.data.attributes.messageId,
-            attributes: {
-              ...response.data[0].attributes,
-              ...msgResponse.data.attributes,
-            },
-          },
-          included: msgResponse.included,
-        },
-      });
-      dispatch({
-        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-        response: { data: response.data.slice(1, response.data.length) },
-      });
-    }
+    const replyToName =
+      response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        ?.attributes.senderName.trim() ||
+      response.data[0].attributes.triageGroupName;
+
+    const threadFolderId =
+      response.data
+        .find(m => m.attributes.triageGroupName !== m.attributes.recipientName)
+        ?.attributes.folderId.toString() ||
+      response.data[0].attributes.folderId;
+
+    dispatch({
+      type: Actions.Thread.GET_THREAD,
+      payload: {
+        replyToName,
+        threadFolderId,
+        cannotReply: isOlderThan(lastSentDate, 45),
+        replyToMessageId: response.data[0].attributes.messageId,
+        drafts: drafts.map(m => m.attributes),
+        messages: messages.map(m => m.attributes),
+      },
+    });
   } catch (e) {
     const errorMessage =
       e.errors[0].status === '404'
         ? Constants.Alerts.Thread.THREAD_NOT_FOUND_ERROR
         : e.errors[0]?.detail;
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    if (errorMessage) {
+      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', errorMessage));
+    }
     throw e;
   }
 };
@@ -153,7 +120,6 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
   dispatch({ type: Actions.Message.MOVE_REQUEST });
   try {
     await moveThreadCall(threadId, folderId);
-    dispatch({ type: Actions.Message.MOVE_SUCCESS });
   } catch (e) {
     dispatch({ type: Actions.Message.MOVE_FAILED });
     dispatch(
@@ -234,6 +200,11 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
+    ) {
+      dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
     } else {
       dispatch(
         addAlert(

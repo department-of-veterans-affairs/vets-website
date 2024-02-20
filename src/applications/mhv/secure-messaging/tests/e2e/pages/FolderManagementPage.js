@@ -135,7 +135,7 @@ class FolderManagementPage {
     ).as('full-thread');
 
     cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1');
+    cy.wait('@message1', { timeout: 10000 });
     // cy.wait('@full-thread');
   };
 
@@ -148,6 +148,10 @@ class FolderManagementPage {
       'have.text',
       'Folder was successfully removed.',
     );
+  };
+
+  verifyDeleteSuccessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   verifyCreateFolderNetworkFailureMessage = () => {
@@ -164,7 +168,11 @@ class FolderManagementPage {
     );
   };
 
-  selectFolderfromModal = () => {
+  verifyCreateFolderSucessMessageHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+  };
+
+  selectFolderFromModal = () => {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -179,7 +187,6 @@ class FolderManagementPage {
       }`,
       mockMessageResponse,
     );
-    cy.get('[data-testid="move-button-text"]');
     cy.get('[data-testid="move-button-text"]').click();
     cy.get('[data-testid = "move-to-modal"')
 
@@ -228,10 +235,14 @@ class FolderManagementPage {
     cy.get('va-button[text="Confirm"]').click();
   };
 
-  verifyMoveMessageSuccessConfirmationFocus = () => {
+  verifyMoveMessageSuccessConfirmationMessage = () => {
     cy.get('[close-btn-aria-label="Close notification"]')
       .should('exist')
       .and('have.text', 'Message conversation was successfully moved.');
+  };
+
+  verifyMoveMessageSuccessConfirmationHasFocus = () => {
+    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
   confirmDeleteFolder = folderId => {

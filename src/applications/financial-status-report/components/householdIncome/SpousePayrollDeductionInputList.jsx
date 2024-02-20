@@ -3,8 +3,11 @@ import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { getJobIndex } from '../../utils/session';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidCurrency } from '../../utils/validations';
 
@@ -20,6 +23,8 @@ const SpousePayrollDeductionInputList = props => {
   const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
+
+  const MAXIMUM_DEDUCTION_AMOUNT = 40000;
 
   const {
     personalData: {
@@ -54,18 +59,36 @@ const SpousePayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
-    if (!isValidCurrency(target.value)) {
+    if (
+      !isValidCurrency(target.value) ||
+      target.value > MAXIMUM_DEDUCTION_AMOUNT
+    ) {
       setErrors([...errors, target.name]);
     } else {
       setErrors(errors.filter(error => error !== target.name));
     }
   };
 
+  const getContinueButtonText = () => {
+    if (getJobButton() === jobButtonConstants.FIRST_JOB) {
+      return 'Continue';
+    }
+
+    if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+      return 'Update employment record';
+    }
+    return 'Add employment record';
+  };
+
   const updateFormData = e => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -120,7 +143,26 @@ const SpousePayrollDeductionInputList = props => {
     goToPath(`/spouse-employment-history`);
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const navButtons = (
+    <p>
+      <button
+        type="button"
+        id="cancel"
+        className="usa-button-secondary vads-u-width--auto"
+        onClick={goBack}
+      >
+        Back
+      </button>
+      <button
+        type="submit"
+        id="submit"
+        className="vads-u-width--auto"
+        onClick={updateFormData}
+      >
+        {getContinueButtonText()}
+      </button>
+    </p>
+  );
   const updateButton = <button type="submit">Review update button</button>;
 
   return (
@@ -148,12 +190,15 @@ const SpousePayrollDeductionInputList = props => {
               inputmode="decimal"
               onInput={onChange}
               required
+              min={0}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               currency
               error={
                 errors.includes(deduction.name)
-                  ? 'Enter a valid dollar amount.'
+                  ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
+              uswds
             />
           </div>
         ))}

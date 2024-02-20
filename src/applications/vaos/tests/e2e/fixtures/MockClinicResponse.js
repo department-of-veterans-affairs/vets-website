@@ -1,12 +1,12 @@
 /* eslint-disable no-plusplus */
-export class MockClinicResponse {
-  constructor({ id, name, locationId = '983' }) {
-    this.id = id;
+export default class MockClinicResponse {
+  constructor({ id, name = null, locationId = '983' }) {
+    this.id = id.toString();
     this.type = 'MockClinic';
     this.attributes = {
       vistaSite: locationId,
-      id: '308',
-      serviceName: name,
+      id: this.id,
+      serviceName: name || `Clinic ${id}`,
       stationId: locationId,
       patientDirectScheduling: true,
     };

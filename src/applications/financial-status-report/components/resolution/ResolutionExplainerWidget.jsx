@@ -1,14 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const ResolutionExplainerWidget = ({
   data,
   goBack,
   goForward,
+  goToPath,
+  setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const {
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
+
+  const handleBackNavigation = () => {
+    if (reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goBack();
+    }
+  };
+
   return (
     <form
       onSubmit={event => {
@@ -24,6 +44,7 @@ const ResolutionExplainerWidget = ({
           show-icon
           status="info"
           visible="true"
+          uswds
         >
           <h3 slot="headline">
             Next, you’ll be asked to choose a relief option for each debt you
@@ -34,9 +55,15 @@ const ResolutionExplainerWidget = ({
             you need help with.
           </p>
         </va-alert>
+        {reviewNavigation && showReviewNavigation ? (
+          <ReviewPageNavigationAlert
+            data={data}
+            title="repayment or relief options"
+          />
+        ) : null}
         {contentBeforeButtons}
         <FormNavButtons
-          goBack={goBack}
+          goBack={handleBackNavigation}
           goForward={goForward}
           submitToContinue
         />
@@ -49,7 +76,10 @@ const ResolutionExplainerWidget = ({
 ResolutionExplainerWidget.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
+  }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

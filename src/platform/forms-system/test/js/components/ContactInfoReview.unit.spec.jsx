@@ -40,6 +40,7 @@ const getData = ({
   },
   requiredKeys,
   content: getContent(),
+  contactInfoPageKey: 'confirmContactInfo',
 });
 
 describe('<ContactInfoReview>', () => {
@@ -48,11 +49,13 @@ describe('<ContactInfoReview>', () => {
     const data = getData();
     const { container } = render(<ContactInfoReview {...data} />);
 
-    expect($('button.edit-page', container)).to.exist;
+    expect($('va-button.edit-page', container)).to.exist;
     expect($('h4', container).textContent).to.eq(content.title);
     expect(
       $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(9);
+    expect($(`[name="${data.contactInfoPageKey}ScrollElement"]`, container)).to
+      .exist;
 
     const els = $$('dt', container);
     expect(els.length).to.eq(9);
@@ -108,7 +111,7 @@ describe('<ContactInfoReview>', () => {
     const data = getData({ editPage: editPageSpy });
     const { container } = render(<ContactInfoReview {...data} />);
 
-    fireEvent.click($('button.edit-page', container));
+    fireEvent.click($('va-button.edit-page', container));
 
     expect(editPageSpy.called).to.be.true;
   });

@@ -1,5 +1,9 @@
-import { FETCH_REPRESENTATIVES, SEARCH_FAILED } from '../../utils/actionTypes';
-import { distBetween } from '../../utils/representativeDistance';
+import * as Sentry from '@sentry/browser';
+import {
+  // FETCH_REPRESENTATIVES,
+  SEARCH_FAILED,
+  SEARCH_COMPLETE,
+} from '../../utils/actionTypes';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -14,51 +18,43 @@ import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
  * @param {number} api version number
  */
 export const fetchRepresentatives = async (
-  address = null,
-  bounds,
-  representativeType,
+  address,
+  lat,
+  long,
+  name,
   page,
+  perPage,
+  sort,
+  type,
+  distance,
   dispatch,
-  center,
-  radius,
 ) => {
-  let data = {};
-
   try {
-    const dataList = await RepresentativeFinderApi.searchWithBounds(
+    const dataList = await RepresentativeFinderApi.searchByCoordinates(
       address,
-      bounds,
-      representativeType,
+      lat,
+      long,
+      name,
       page,
-      center,
-      radius,
+      perPage,
+      sort,
+      type,
+      distance,
     );
-    data = { ...dataList };
     if (dataList.data) {
-      data.data = dataList.data
-        .map(location => {
-          const distance =
-            center &&
-            distBetween(
-              center[0],
-              center[1],
-              location.attributes.lat,
-              location.attributes.long,
-            );
-          return {
-            ...location,
-            distance,
-          };
-        })
-        .sort((resultA, resultB) => resultA.distance - resultB.distance);
+      dispatch({ type: SEARCH_COMPLETE, payload: dataList });
     }
 
-    if (data.errors) {
-      dispatch({ type: SEARCH_FAILED, error: data.errors });
-    } else {
-      dispatch({ type: FETCH_REPRESENTATIVES, payload: data });
+    if (dataList.errors?.length > 0) {
+      dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage('Error fetching accredited representatives');
+    });
+
     dispatch({ type: SEARCH_FAILED, error: error.message });
+    throw error;
   }
 };

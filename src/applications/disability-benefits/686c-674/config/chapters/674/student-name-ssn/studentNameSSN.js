@@ -22,19 +22,28 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
         'ui:title': 'Student’s first name',
-        'ui:errorMessages': { required: 'Enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       middle: {
         'ui:title': 'Student’s middle name',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
         'ui:title': 'Student’s last name',
-        'ui:errorMessages': { required: 'Enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       suffix: {
         'ui:title': 'Student’s suffix',

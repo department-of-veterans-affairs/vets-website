@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import PropTypes from 'prop-types';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessageThread } from '../actions/messages';
-import MessageDetailBlock from '../components/MessageDetailBlock';
+import MessageThreadHeader from '../components/MessageThreadHeader';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
-import { getTriageTeams } from '../actions/triageTeams';
-import { clearDraft } from '../actions/draftDetails';
-import { PrintMessageOptions, PageTitles } from '../util/constants';
+import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
-import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
 import { getFolders, retrieveFolder } from '../actions/folders';
+import { navigateToFolderByFolderId, updatePageTitle } from '../util/helpers';
+import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {
   const { threadId } = useParams();
@@ -22,22 +21,20 @@ const ThreadDetails = props => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
-  const { triageTeams } = useSelector(state => state.sm.triageTeams);
+
+  const alertList = useSelector(state => state.sm.alerts?.alertList);
+  const { recipients } = useSelector(state => state.sm);
   const {
-    message,
-    messageHistory,
-    printOption,
-    threadViewCount,
     cannotReply,
-  } = useSelector(state => state.sm.messageDetails);
-  const { draftMessage, draftMessageHistory } = useSelector(
-    state => state.sm.draftDetails,
-  );
+    drafts,
+    messages,
+    threadFolderId,
+    threadViewCount,
+  } = useSelector(state => state.sm.threadDetails);
   const { folder } = useSelector(state => state.sm.folders);
 
-  const [isMessage, setIsMessage] = useState(false);
-  const [isDraft, setIsDraft] = useState(false);
-  const [isReply, setIsReply] = useState(false);
+  const message = messages?.length && messages[0];
+  const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const header = useRef();
 
@@ -51,17 +48,16 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (!folder && draftMessage) {
-        dispatch(retrieveFolder(draftMessage?.threadFolderId));
+      if (!folder && drafts?.length > 0) {
+        dispatch(retrieveFolder(threadFolderId));
       }
     },
-    [draftMessage, dispatch, folder],
+    [drafts, dispatch, folder, threadFolderId],
   );
 
   useEffect(
     () => {
       if (threadId) {
-        dispatch(getTriageTeams());
         dispatch(retrieveMessageThread(threadId))
           .then(() => {
             setIsLoaded(true);
@@ -71,7 +67,6 @@ const ThreadDetails = props => {
           });
       }
       return () => {
-        dispatch(clearDraft());
         dispatch(closeAlert());
       };
     },
@@ -80,28 +75,25 @@ const ThreadDetails = props => {
 
   useEffect(
     () => {
-      if (isLoaded) {
-        if (draftMessage?.messageId) {
-          if (draftMessageHistory?.length > 0) {
-            setIsReply(true);
-          } else {
-            setIsDraft(true);
-          }
-          updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
-        } else if (message?.messageId) {
-          setIsMessage(true);
-        }
+      if (!isCreateNewModalVisible) {
+        const alertVisible = alertList[alertList?.length - 1];
+        const alertSelector =
+          folder !== undefined && !alertVisible?.isActive
+            ? 'h1'
+            : alertVisible?.isActive && 'va-alert';
+        setTimeout(() => {
+          focusElement(document.querySelector(alertSelector));
+        }, 300);
       }
     },
-    [message, draftMessage, draftMessageHistory, isLoaded],
+    [alertList, folder, isCreateNewModalVisible, header],
   );
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (header.current) {
       focusElement(header.current);
-    },
-    [header.current],
-  );
+    }
+  });
 
   const content = () => {
     if (!isLoaded) {
@@ -113,42 +105,56 @@ const ThreadDetails = props => {
       );
     }
 
-    if (isReply && draftMessageHistory !== undefined) {
+    if (drafts?.length > 0 && messages?.length > 0) {
       return (
         <div className="compose-container">
           <ReplyForm
-            draftToEdit={draftMessage}
-            replyMessage={draftMessageHistory[0]}
             cannotReply={cannotReply}
+            drafts={drafts}
             header={header}
+            messages={messages}
+            recipients={recipients}
+            replyMessage={messages[0]}
           />
+
+          <MessageThreadForPrint messageHistory={messages} />
+
           <MessageThread
-            messageHistory={draftMessageHistory}
             isDraftThread
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
+            messageHistory={messages}
             viewCount={threadViewCount}
           />
         </div>
       );
     }
-    if (isDraft) {
+    if (drafts?.length === 1 && !messages?.length) {
+      updatePageTitle(PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG);
       return (
         <div className="compose-container">
           <h1 className="page-title vads-u-margin-top--0" ref={header}>
             Edit draft
           </h1>
-          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+
+          <ComposeForm draft={drafts[0]} recipients={recipients} />
         </div>
       );
     }
-    if (isMessage) {
+    if (messages?.length && !drafts?.length) {
       return (
         <>
-          <MessageDetailBlock message={message} cannotReply={cannotReply} />
+          <MessageThreadHeader
+            message={messages[0]}
+            cannotReply={cannotReply}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            recipients={recipients}
+          />
+
+          <MessageThreadForPrint messageHistory={messages} />
+
           <MessageThread
-            messageHistory={[message, ...messageHistory]}
+            messageHistory={messages}
             threadId={threadId}
-            isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
             viewCount={threadViewCount}
           />
         </>

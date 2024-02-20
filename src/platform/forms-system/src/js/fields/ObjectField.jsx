@@ -267,6 +267,7 @@ class ObjectField extends React.Component {
                 title={title}
                 required={required}
                 formContext={formContext}
+                useHeaderStyling={uiOptions.useHeaderStyling}
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}

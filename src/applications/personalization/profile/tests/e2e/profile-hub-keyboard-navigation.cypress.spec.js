@@ -10,6 +10,7 @@ const PROFILE_HREFS = [
   PROFILE_PATHS.MILITARY_INFORMATION,
   '/records/get-military-service-records/',
   PROFILE_PATHS.DIRECT_DEPOSIT,
+  '/va-payment-history/payments/',
   PROFILE_PATHS.NOTIFICATION_SETTINGS,
   PROFILE_PATHS.ACCOUNT_SECURITY,
   'https://wallet.id.me/settings',
@@ -17,7 +18,7 @@ const PROFILE_HREFS = [
 ];
 
 describe('Profile - Hub page, Keyboard navigation', () => {
-  it('should allow tabing through all links on the page, in order', () => {
+  it('should allow tabbing through all links on the page, in order', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
@@ -30,7 +31,7 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     const [firstHref, ...hrefs] = PROFILE_HREFS;
-    cy.tabToElement(`a[href^="${firstHref}"`);
+    cy.tabToElement(`a[href^="${firstHref}"]`);
     hrefs.forEach(href => {
       cy.realPress('Tab');
       // using the cy.focused() method as described in the documentation

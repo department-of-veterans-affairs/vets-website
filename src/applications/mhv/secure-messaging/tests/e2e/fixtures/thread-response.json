@@ -9,7 +9,7 @@
                 "subject": "test1 special message%$#*",
                 "body": "special %$#",
                 "attachment": null,
-                "sentDate": "2022-09-12T14:34:28.000Z",
+                "sentDate": "2023-10-22T14:34:28.000Z",
                 "senderId": 20029,
                 "senderName": "ISLAM, MOHAMMAD RAFIQ",
                 "recipientId": 6820911,
@@ -18,7 +18,7 @@
                 "triageGroupName": "Jeasmitha-Cardio-Clinic",
                 "proxySenderName": null,
                 "threadId": 7176615,
-                "folderId": -3,
+                "folderId": 0,
                 "messageBody": "REPLY\r\nFROM ESCALATED FOLDER\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
                 "draftDate": null,
                 "toDate": null,
@@ -35,9 +35,9 @@
                 "messageId": 7179963,
                 "category": "MEDICATIONS",
                 "subject": "Medication-Inquiry",
-                "body": "DRAFT\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer Full Text with lots of characters.  More characters.  Finish the mesage",
+                "body": "DRAFT\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer Full Text with lots of characters.  More characters.  Finish the 80chars 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
                 "attachment": null,
-                "sentDate": "2022-09-07T15:04:37.000Z",
+                "sentDate": "2023-09-07T15:04:37.000Z",
                 "senderId": 6177,
                 "senderName": "MANIVASAGAM, RAJESH ",
                 "recipientId": 6820911,
@@ -50,7 +50,8 @@
                 "messageBody": "Draft2",
                 "draftDate": null,
                 "toDate": null,
-                "hasAttachments": false        
+                "hasAttachments": false
+               
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179963"
@@ -63,9 +64,9 @@
                 "messageId": 7161879,
                 "category": "MEDICATIONS",
                 "subject": "Medication-Inquiry",
-                "body": "Send message Api testing 27",
+                "body": "Send message Api testing 27 6789678967897678678678967896789678967896 Full Text with lots of characters.  More characters.  Finish the 80chars 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
                 "attachment": null,
-                "sentDate": "2022-09-06T19:31:18.000Z",
+                "sentDate": "2023-09-06T19:31:18.000Z",
                 "senderId": 6820911,
                 "senderName": "ECSTEN, THOMAS ",
                 "recipientId": 6910405,
@@ -78,10 +79,327 @@
                 "messageBody": "Send message Api testing 39",
                 "draftDate": null,
                 "toDate": null,
-                "hasAttachments": true
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "id": 3275644,
+                        "messageId": 7179963,
+                        "name": "SaFE Workshop Notes.txt",
+                        "attachmentSize": 2082,
+                        "download": "http://6efd25b53e5220c1830724dfb0a0914c-api.review.vetsgov-internal/my_health/v1/messaging/messages/3275646/attachments/3275644"
+                    }
+                ]       
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7161879"
+            }
+        },
+        {
+            "id": "731048",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 731048,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "Hello",
+                "attachment": null,
+                "sentDate": "2023-07-05T19:28:29.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "Hello",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/731048"
+            }
+        },
+        {
+            "id": "731067",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 731067,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "hi",
+                "attachment": null,
+                "sentDate": "2023-05-15T19:28:29.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "hi",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/731067"
+            }
+        },
+        {
+            "id": "731069",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 731069,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "testing again",
+                "attachment": null,
+                "sentDate": "20122-10-05T19:28:29.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "testing again",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/731069"
+            }
+        },
+        {
+            "id": "731050",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 731050,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "Hellloooooo",
+                "attachment": null,
+                "sentDate": "2017-10-05T18:29:23.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "Hellloooooo",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/731050"
+            }
+        },
+        {
+            "id": "730650",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 730650,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "Replying",
+                "attachment": null,
+                "sentDate": "2017-10-03T21:08:46.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "Replying",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/730650"
+            }
+        },
+        {
+            "id": "711699",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 711699,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "This is from my provider",
+                "attachment": null,
+                "sentDate": "2017-07-12T18:43:35.000Z",
+                "senderId": 674887,
+                "senderName": "YARRAGOVULA, SAMATHA",
+                "recipientId": 406227,
+                "recipientName": "MHVTP, SAFARI",
+                "readReceipt": "READ",
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": 0,
+                "messageBody": "This is from my provider",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": true
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/711699"
+            }
+        },
+        {
+            "id": "708190",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 708190,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "kl;k;lk;lk",
+                "attachment": null,
+                "sentDate": "2017-06-28T19:46:24.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": "READ",
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "kl;k;lk;lk",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/708190"
+            }
+        },
+        {
+            "id": "707756",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 707756,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "jkljlkjlklklkl",
+                "attachment": null,
+                "sentDate": "2017-06-27T19:52:31.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "jkljlkjlklklkl",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/707756"
+            }
+        },
+        {
+            "id": "707742",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 707742,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "jkllkl",
+                "attachment": null,
+                "sentDate": "2017-06-27T19:48:37.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null,
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "jkllkl",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/707742"
+            }
+        },
+        {
+            "id": "701419",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 701419,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "Test Move 5",
+                "attachment": null,
+                "sentDate": "2017-05-26T14:55:10.000Z",
+                "senderId": 674887,
+                "senderName": "YARRAGOVULA, SAMATHA",
+                "recipientId": 406227,
+                "recipientName": "MHVTP, SAFARI",
+                "readReceipt": "READ",
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": 683808,
+                "messageBody": "Test Move 5",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/701419"
+            }
+        },
+        {
+            "id": "694319",
+            "type": "message_thread_details",
+            "attributes": {
+                "messageId": 694319,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": "Send a new message - demo",
+                "attachment": null,
+                "sentDate": "2017-05-03T18:40:05.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": "READ",
+                "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+                "proxySenderName": null,
+                "threadId": 694318,
+                "folderId": -1,
+                "messageBody": "Send a new message - demo",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/694319"
             }
         }
     ]

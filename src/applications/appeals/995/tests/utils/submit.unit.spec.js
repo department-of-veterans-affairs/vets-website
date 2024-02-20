@@ -6,199 +6,20 @@ import {
   EVIDENCE_VA,
   PRIMARY_PHONE,
 } from '../../constants';
-import { getDate } from '../../utils/dates';
 import {
   getAddress,
   getEvidence,
   getForm4142,
   getPhone,
+  getEmail,
   getTimeZone,
+  getClaimantData,
   hasDuplicateFacility,
   hasDuplicateLocation,
 } from '../../utils/submit';
 
-import { SELECTED } from '../../../shared/constants';
-import {
-  addIncludedIssues,
-  createIssueName,
-  getContestedIssues,
-  removeEmptyEntries,
-} from '../../../shared/utils/submit';
-
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
-const validDate1 = getDate({ offset: { months: -2 } });
-const issue1 = {
-  raw: {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'tinnitus',
-      description: 'both ears',
-      approxDecisionDate: validDate1,
-      decisionIssueId: 1,
-      ratingIssueReferenceId: '2',
-      ratingDecisionReferenceId: '3',
-      ratingIssuePercentNumber: '10',
-    },
-  },
-  result: {
-    type: 'contestableIssue',
-    attributes: {
-      issue: 'tinnitus - 10% - both ears',
-      decisionDate: validDate1,
-      decisionIssueId: 1,
-      ratingIssueReferenceId: '2',
-      ratingDecisionReferenceId: '3',
-    },
-  },
-};
-
-const validDate2 = getDate({ offset: { months: -4 } });
-const issue2 = {
-  raw: {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'left knee',
-      approxDecisionDate: validDate2,
-      decisionIssueId: 4,
-      ratingIssueReferenceId: '5',
-    },
-  },
-  result: {
-    type: 'contestableIssue',
-    attributes: {
-      issue: 'left knee - 0%',
-      decisionDate: validDate2,
-      decisionIssueId: 4,
-      ratingIssueReferenceId: '5',
-    },
-  },
-};
-
-describe('createIssueName', () => {
-  const getName = (name, description, percent) =>
-    createIssueName({
-      attributes: {
-        ratingIssueSubjectText: name,
-        ratingIssuePercentNumber: percent,
-        description,
-      },
-    });
-
-  it('should combine issue details into the name', () => {
-    // contestable issues only
-    expect(getName('test', 'foo', '10')).to.eq('test - 10% - foo');
-    expect(getName('test', 'xyz', null)).to.eq('test - 0% - xyz');
-    expect(getName('test')).to.eq('test - 0%');
-  });
-  it('should combine issue details and truncate extra long descriptions', () => {
-    // contestable issues only
-    expect(getName('test', text, '20')).to.eq(
-      'test - 20% - Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Uten',
-    );
-  });
-});
-
-describe('getContestedIssues', () => {
-  it('should return all issues', () => {
-    const formData = {
-      contestedIssues: [
-        { ...issue1.raw, [SELECTED]: true },
-        { ...issue2.raw, [SELECTED]: true },
-      ],
-    };
-    expect(getContestedIssues(formData)).to.deep.equal([
-      issue1.result,
-      issue2.result,
-    ]);
-  });
-  it('should return second issue', () => {
-    const formData = {
-      contestedIssues: [
-        { ...issue1.raw, [SELECTED]: false },
-        { ...issue2.raw, [SELECTED]: true },
-      ],
-    };
-    expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
-  });
-  it('should return empty array', () => {
-    expect(getContestedIssues()).to.deep.equal([]);
-  });
-});
-
-describe('addIncludedIssues', () => {
-  it('should add additional items to contestedIssues array', () => {
-    const issue = {
-      type: 'contestableIssue',
-      attributes: { issue: 'test', decisionDate: validDate1 },
-    };
-    const formData = {
-      contestedIssues: [
-        { ...issue1.raw, [SELECTED]: false },
-        { ...issue2.raw, [SELECTED]: true },
-      ],
-      additionalIssues: [
-        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
-        { ...issue.attributes, [SELECTED]: true },
-      ],
-    };
-    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
-    expect(
-      addIncludedIssues({ ...formData, additionalIssues: [] }),
-    ).to.deep.equal([issue2.result]);
-  });
-  it('should not add additional items to contestedIssues array', () => {
-    const issue = {
-      type: 'contestableIssue',
-      attributes: { issue: 'test', decisionDate: validDate1 },
-    };
-    const formData = {
-      contestedIssues: [
-        { ...issue1.raw, [SELECTED]: false },
-        { ...issue2.raw, [SELECTED]: true },
-      ],
-      additionalIssues: [
-        { issue: 'not-added', decisionDate: validDate2, [SELECTED]: false },
-        { ...issue.attributes },
-      ],
-    };
-    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
-    expect(
-      addIncludedIssues({ ...formData, additionalIssues: [] }),
-    ).to.deep.equal([issue2.result]);
-  });
-  it('should remove duplicate items', () => {
-    const formData = {
-      contestedIssues: [
-        { ...issue1.raw, [SELECTED]: true },
-        { ...issue2.raw, [SELECTED]: true },
-        { ...issue1.raw, [SELECTED]: true },
-        { ...issue2.raw, [SELECTED]: true },
-      ],
-      additionalIssues: [],
-    };
-    expect(addIncludedIssues(formData)).to.deep.equal([
-      issue1.result,
-      issue2.result,
-    ]);
-  });
-});
-
-describe('removeEmptyEntries', () => {
-  it('should remove empty string items', () => {
-    expect(removeEmptyEntries({ a: '', b: 1, c: 'x', d: '' })).to.deep.equal({
-      b: 1,
-      c: 'x',
-    });
-  });
-  it('should not remove null or undefined items', () => {
-    expect(removeEmptyEntries({ a: null, b: undefined, c: 3 })).to.deep.equal({
-      a: null,
-      b: undefined,
-      c: 3,
-    });
-  });
-});
 
 describe('getAddress', () => {
   const wrap = obj => ({
@@ -207,6 +28,7 @@ describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
+    expect(getAddress()).to.deep.equal(result);
     expect(getAddress({})).to.deep.equal(result);
     expect(getAddress(wrap({}))).to.deep.equal(result);
     expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
@@ -380,6 +202,21 @@ describe('getTimeZone', () => {
   });
 });
 
+describe('getClaimantData', () => {
+  // "other" types are not implemented, but there is some minimal code in place
+  it('should handle "other" claimant types', () => {
+    expect(
+      getClaimantData({
+        claimantType: 'other',
+        claimantTypeOtherValue: 'Twenty-five characters max',
+      }),
+    ).to.deep.equal({
+      claimantType: 'other',
+      claimantTypeOtherValue: 'Twenty-five characters ma',
+    });
+  });
+});
+
 describe('hasDuplicateLocation', () => {
   const getLocation = ({
     wrap = false,
@@ -417,6 +254,27 @@ describe('hasDuplicateLocation', () => {
     const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
     expect(hasDuplicateLocation(list, first2)).to.be.true;
   });
+});
+
+describe('getEmail', () => {
+  it('should return an empty string', () => {
+    expect(getEmail()).to.eq('');
+    expect(getEmail({})).to.eq('');
+    expect(getEmail({ veteran: {} })).to.eq('');
+  });
+  it('should return the defined email', () => {
+    expect(getEmail({ veteran: { email: 'test@test.com' } })).to.eq(
+      'test@test.com',
+    );
+  });
+});
+it('should return the defined email truncated to 255 characters', () => {
+  const email = `${'abcde12345'.repeat(25)}@test.com`;
+  const result = getEmail({ veteran: { email } });
+  expect(result.length).to.eq(255);
+  // results in an invalid email, but we use profile, and they won't accept
+  // emails > 255 characters in length
+  expect(result.slice(-10)).to.eq('12345@test');
 });
 
 describe('getEvidence', () => {
@@ -584,6 +442,15 @@ describe('getForm4142', () => {
           : { from: '2001-3-3', to: '2001-4-4' },
       },
     ],
+  });
+
+  it('should return 4142 form data with undefined acceptance', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: true,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
 
   it('should return 4142 form data', () => {

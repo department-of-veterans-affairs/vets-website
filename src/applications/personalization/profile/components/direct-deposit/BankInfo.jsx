@@ -24,7 +24,6 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
-  profileUseLighthouseDirectDepositEndpoint,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import { kebabCase } from 'lodash';
@@ -61,7 +60,6 @@ export const BankInfo = ({
   setFormIsDirty,
   setViewingPayments,
   showSuccessMessage,
-  useLighthouseDirectDepositEndpoint,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -147,7 +145,6 @@ export const BankInfo = ({
       saveBankInformation({
         fields,
         isEnrollingInDirectDeposit: isDirectDepositSetUp,
-        useLighthouseDirectDepositEndpoint,
       });
     } else {
       saveBankInformation({ fields });
@@ -287,7 +284,7 @@ export const BankInfo = ({
           formSubmit={saveBankInfo}
         >
           <div className="vads-u-margin-bottom--2 vads-u-margin-top--2p5">
-            <va-additional-info trigger="Where can I find these numbers?">
+            <va-additional-info trigger="Where can I find these numbers?" uswds>
               <img
                 src="/img/direct-deposit-check-guide.svg"
                 alt="A personal check"
@@ -385,31 +382,21 @@ export const BankInfo = ({
         onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
+        primaryButtonText="Continue Editing"
+        onPrimaryButtonClick={() => {
+          setShowConfirmCancelModal(false);
+        }}
+        secondaryButtonText="Cancel"
+        onSecondaryButtonClick={() => {
+          setShowConfirmCancelModal(false);
+          toggleEditState();
+        }}
+        uswds
       >
         <p>
-          {' '}
           You haven’t finished editing and saving the changes to your direct
           deposit information. If you cancel now, we won’t save your changes.
         </p>
-        <button
-          className="usa-button-primary"
-          type="button"
-          onClick={() => {
-            setShowConfirmCancelModal(false);
-          }}
-        >
-          Continue Editing
-        </button>
-        <button
-          className="usa-button-secondary"
-          type="button"
-          onClick={() => {
-            setShowConfirmCancelModal(false);
-            toggleEditState();
-          }}
-        >
-          Cancel
-        </button>
       </VaModal>
 
       <ProfileInfoCard
@@ -433,7 +420,6 @@ BankInfo.propTypes = {
   setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
@@ -451,9 +437,7 @@ BankInfo.propTypes = {
 
 export const mapStateToProps = (state, ownProps) => {
   const typeIsCNP = ownProps.type === benefitTypes.CNP;
-  const useLighthouseDirectDepositEndpoint = profileUseLighthouseDirectDepositEndpoint(
-    state,
-  );
+
   return {
     typeIsCNP,
     isLOA3: isLOA3Selector(state),
@@ -470,12 +454,11 @@ export const mapStateToProps = (state, ownProps) => {
       ? !!cnpDirectDepositLoadError(state)
       : !!eduDirectDepositLoadError(state),
     isEligibleToSetUpDirectDeposit: typeIsCNP
-      ? cnpDirectDepositIsEligible(state, useLighthouseDirectDepositEndpoint)
+      ? cnpDirectDepositIsEligible(state, true)
       : false,
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useLighthouseDirectDepositEndpoint,
   };
 };
 

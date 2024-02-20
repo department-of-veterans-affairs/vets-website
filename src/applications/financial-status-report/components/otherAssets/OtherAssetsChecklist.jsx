@@ -10,11 +10,17 @@ const OtherAssetsChecklist = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { assets, gmtData } = data;
+  const {
+    assets,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { otherAssets = [] } = assets;
 
   // Calculate total assets as necessary
@@ -59,6 +65,18 @@ const OtherAssetsChecklist = ({
         });
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (!otherAssets?.length && reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const isBoxChecked = option => {
     return otherAssets.some(asset => asset.name === option);
   };
@@ -67,12 +85,7 @@ const OtherAssetsChecklist = ({
     'Select any other items of value (called assets) you own, not including items passed down in your family for generations:';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -82,7 +95,10 @@ const OtherAssetsChecklist = ({
             prompt={prompt}
             isBoxChecked={isBoxChecked}
           />
-          <va-additional-info trigger="Why do I need to provide this information?">
+          <va-additional-info
+            trigger="Why do I need to provide this information?"
+            uswds
+          >
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
@@ -116,9 +132,11 @@ OtherAssetsChecklist.propTypes = {
       isMarried: PropTypes.bool,
     }),
     'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 

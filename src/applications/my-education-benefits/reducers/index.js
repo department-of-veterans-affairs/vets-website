@@ -1,6 +1,5 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
-
 import {
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
@@ -11,6 +10,9 @@ import {
   FETCH_DIRECT_DEPOSIT_SUCCESS,
   FETCH_ELIGIBILITY_SUCCESS,
   FETCH_ELIGIBILITY_FAILURE,
+  FETCH_EXCLUSION_PERIODS,
+  FETCH_EXCLUSION_PERIODS_SUCCESS,
+  FETCH_EXCLUSION_PERIODS_FAILURE,
   ELIGIBILITY,
   FETCH_PERSONAL_INFORMATION,
   FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
@@ -20,6 +22,7 @@ import {
   ACKNOWLEDGE_DUPLICATE,
   TOGGLE_MODAL,
 } from '../actions';
+import { formFields } from '../constants';
 
 const initialState = {
   openModal: false,
@@ -27,21 +30,23 @@ const initialState = {
   form: {
     data: {},
   },
+  exclusionPeriods: null,
+  exclusionPeriodsLoading: false,
+  exclusionPeriodsError: null,
 };
-
 const handleDirectDepositApi = action => {
-  if (action?.response?.data?.attributes) {
-    return {
-      ...action?.response?.data?.attributes,
-      routingNumber:
-        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    };
+  if (!action?.response?.data?.attributes) {
+    return {};
   }
+
   return {
-    // accountType: 'Checking',
-    // accountNumber: '1234569891',
-    // routingNumber: '031000503',
-    // financialInstitutionName: 'Wells Fargo',
+    ...action?.response?.data?.attributes,
+    [formFields.originalAccountNumber]:
+      action?.response?.data?.attributes?.accountNumber,
+    [formFields.originalRoutingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.routingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
   };
 };
 
@@ -53,11 +58,29 @@ const filterEligibility = eligibility => {
       benefit.chapter !== ELIGIBILITY.CHAPTER33,
   );
 };
-
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_EXCLUSION_PERIODS:
+        return {
+          ...state,
+          exclusionPeriodsLoading: true,
+          exclusionPeriodsError: null,
+        };
+      case FETCH_EXCLUSION_PERIODS_SUCCESS:
+        return {
+          ...state,
+          exclusionPeriodsLoading: false,
+          exclusionPeriods:
+            action?.response?.data?.attributes?.exclusionPeriods || [],
+        };
+      case FETCH_EXCLUSION_PERIODS_FAILURE:
+        return {
+          ...state,
+          exclusionPeriodsLoading: false,
+          exclusionPeriodsError: action.errors,
+        };
       case FETCH_PERSONAL_INFORMATION:
         return {
           ...state,
@@ -90,7 +113,20 @@ export default {
           ...state,
           fetchDirectDepositInProgress: true,
         };
-      case FETCH_DIRECT_DEPOSIT_SUCCESS:
+      case FETCH_DIRECT_DEPOSIT_SUCCESS: {
+        const directDepositData = handleDirectDepositApi(action);
+        return {
+          ...state,
+          fetchDirectDepositInProgress: false,
+          bankInformation: directDepositData,
+          formData: {
+            ...state.formData,
+            'view:directDeposit': {
+              bankAccount: directDepositData,
+            },
+          },
+        };
+      }
       case FETCH_DIRECT_DEPOSIT_FAILED:
         return {
           ...state,
@@ -119,7 +155,6 @@ export default {
                   : benefit.chapter,
             ) || [],
         };
-
       case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
         return {
           ...state,

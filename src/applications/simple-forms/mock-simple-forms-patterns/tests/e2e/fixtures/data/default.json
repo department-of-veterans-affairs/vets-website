@@ -1,0 +1,162 @@
+{
+  "data": {
+    "dateDefault": "1999-02-02",
+    "dateWCV3": "2000-02-12",
+    "vaCompensationType": "none",
+    "isCurrentlyActiveDuty": false,
+    "wcv3VaCompensationType": "highDisability",
+    "wcv3VaTileCompensationType": "none",
+    "wcv3IsCurrentlyActiveDuty": true,
+    "amountOrNumber": "123",
+    "selectDefault": "option1",
+    "wcOldSelectFirst": "option1",
+    "wcOldSelectSecond": "option1",
+    "wcv3Select": "option1",
+    "wcv3TextEmailNew": "abc@abc.com",
+    "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
+    "rjsfCheckRequiredCheckbox": true,
+    "rjsfCheckSsn": "454544545",
+    "rjsfCheckboxWithBackground": {},
+    "wcOldCheckSimpleText": "Lorem ipsum dolor sit amet",
+    "wcOldCheckRequiredCheckbox": true,
+    "wcOldCheckSsn": "454544545",
+    "wcOldCheckboxWithBackground": {},
+    "wcV3CheckSimpleText": "s",
+    "wcV3CheckRequiredCheckbox": true,
+    "wcV3CheckSsn": "454544545",
+    "wcV3CheckboxWithBackground": {},
+    "ssn": "454544545",
+    "wcOldSsn": "454544545",
+    "wcv3SsnNew": {
+      "ssn": "454544545"
+    },
+    "addressOld": {
+      "country": "USA",
+      "street": "1234 Main St",
+      "city": "City",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "wcv3Address": {
+      "country": "USA",
+      "street": "1234 Main St",
+      "city": "City",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "spouseFullNameOld": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
+    },
+    "wcOldSpouseFullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
+    },
+    "wcv3SpouseFullNameNew": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName"
+    },
+    "requiredOld": "Lorem ipsum dolor sit amet",
+    "wcOldRequired": "Lorem ipsum dolor sit amet",
+    "wcv3RequiredNew": "Lorem ipsum dolor sit amet",
+    "wcv3TextAreaNew": "Lorem ipsum dolor sit amet",
+    "wcv3RelationshipToVeteran": {
+      "relationshipToVeteran": "spouse"
+    },
+    "checkboxGroupAtLeastOneRequired": {
+      "hasA": true
+    },
+    "checkboxGroupTiledWithCustomErrorMessage":{
+      "hasA": false,
+      "hasB": true
+    },
+    "checkboxGroupTiledWithHeaderLabel":{
+      "hasB": true
+    },
+    "formsPatternSingleRadio": "1",
+    "formsPatternSingleCheckboxGroup": {
+      "1": true
+    },
+    "formsPatternMultiple": "Test",
+    "formsPatternOtherField": "Test",
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayTwo": [
+      {
+        "name": "Record a",
+        "proof": true
+      },
+      {
+        "name": "Record b",
+        "proof": false,
+        "checkbox": true
+      }
+    ],
+    "exampleArrayData": [
+      {
+        "address": {
+          "country": "USA",
+          "street": "street",
+          "city": "city",
+          "postalCode": "11111"
+        },
+        "fullName": {
+          "first": "Alpha",
+          "middle": "Bravo",
+          "last": "Cap"
+        }
+      },
+      {
+        "address": {
+          "country": "AUS",
+          "street": "street2",
+          "city": "city2",
+          "postalCode": "22222"
+        },
+        "fullName": {
+          "first": "Delta",
+          "last": "Cap"
+        }
+      }
+    ],
+    "hasEmployment": false,
+    "nameCustom": "Test"
+  }
+}

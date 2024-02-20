@@ -1,0 +1,55 @@
+{
+  "drupalStaticData": {
+    "vamcEhrData": {
+      "data": {
+        "ehrDataByVhaId": {
+          "463": {
+            "vhaId": "463",
+            "vamcFacilityName": "Colonel Mary Louise Rasmuson Campus of the Alaska VA Healthcare System",
+            "vamcSystemName": "VA Alaska health care",
+            "ehr": "vista"
+          },
+          "583": {
+            "vhaId": "583",
+            "vamcFacilityName": "Richard L. Roudebush Veterans' Administration Medical Center",
+            "vamcSystemName": "VA Indiana health care",
+            "ehr": "vista"
+          },
+          "668": {
+            "vhaId": "668",
+            "vamcFacilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+            "vamcSystemName": "VA Spokane health care",
+            "ehr": "cerner"
+          }
+        }
+      }
+    }
+  },
+
+  "userProfileFacilities": [
+    { "facilityId": "463", "isCerner": true },
+    { "facilityId": "583", "isCerner": true },
+    { "facilityId": "589", "isCerner": false },
+    { "facilityId": "668", "isCerner": true },
+    { "facilityId": "983", "isCerner": false },
+    { "facilityId": "987", "isCerner": false }
+  ],
+
+  "mockResponseData": {
+    "data": [
+      {
+        "id": "vha_668",
+        "type": "facility",
+        "attributes": {
+          "activeStatus": "A",
+          "classification": "VA Medical Center (VAMC)",
+          "facilityType": "va_health_facility",
+          "id": "vha_668",
+          "name": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+          "uniqueId": "668",
+          "website": "https://www.va.gov/spokane-health-care/locations/mann-grandstaff-department-of-veterans-affairs-medical-center/"
+        }
+      }
+    ]
+  }
+}

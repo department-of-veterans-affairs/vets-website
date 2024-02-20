@@ -25,7 +25,7 @@ export const formatName = ({ first, middle, last, suffix }) => {
 export const generatePdfScaffold = (user, title, subject, preface) => {
   const name = formatName(user.userFullName);
   const dob = formatDateLong(user.dob);
-  return {
+  const scaffold = {
     headerLeft: name,
     headerRight: `Date of birth: ${dob}`,
     headerBanner: [
@@ -45,8 +45,9 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title,
     subject,
-    preface,
   };
+  if (preface) scaffold.preface = preface;
+  return scaffold;
 };
 
 /**

@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
-import { format, getUnixTime } from 'date-fns';
+import { format, fromUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
   filterOutExpiredForms,
-  formLinks,
-  formBenefits,
   isSIPEnabledForm,
   presentableFormIDs,
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
+
+import { FORM_LINKS, FORM_BENEFITS } from '~/platform/forms/constants';
 
 import ApplicationInProgress from './ApplicationInProgress';
 
@@ -46,18 +46,18 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
         <div className="vads-l-row">
           {verifiedSavedForms.map(form => {
             const formId = form.form;
-            const formTitle = `application for ${formBenefits[formId]}`;
+            const formTitle = `application for ${FORM_BENEFITS[formId]}`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
-            const lastOpenedDate = format(
-              getUnixTime(lastUpdated),
+            const lastSavedDate = format(
+              fromUnixTime(lastUpdated),
               'MMMM d, yyyy',
             );
             const expirationDate = format(
-              getUnixTime(expiresAt),
+              fromUnixTime(expiresAt),
               'MMMM d, yyyy',
             );
-            const continueUrl = `${formLinks[formId]}resume`;
+            const continueUrl = `${FORM_LINKS[formId]}resume`;
             return (
               <ApplicationInProgress
                 key={formId}
@@ -65,7 +65,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
                 expirationDate={expirationDate}
                 formId={formId}
                 formTitle={formTitle}
-                lastOpenedDate={lastOpenedDate}
+                lastSavedDate={lastSavedDate}
                 presentableFormId={presentableFormId}
               />
             );

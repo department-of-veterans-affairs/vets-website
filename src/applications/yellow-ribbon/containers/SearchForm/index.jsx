@@ -110,7 +110,7 @@ export class SearchForm extends Component {
 
   render() {
     const { onCheckboxChange, onReactStateChange, onSubmitHandler } = this;
-    const { fetching, showMobileForm } = this.props;
+    const { showMobileForm } = this.props;
     const {
       city,
       contributionAmount,
@@ -220,13 +220,11 @@ export class SearchForm extends Component {
           </div>
 
           {/* Submit Button */}
-          <button
-            className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
-            disabled={fetching}
-            type="submit"
-          >
-            Search
-          </button>
+          <va-button
+            onClick={onSubmitHandler}
+            text="Search"
+            class="vads-u-width--auto vads-u-padding-y--1p5"
+          />
         </fieldset>
       </form>
     );

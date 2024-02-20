@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,7 +14,7 @@ export default function RadioWidget(props) {
   const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showRadio = !onReviewPage || (onReviewPage && !inReviewMode); // I think we need to take out first condition.
-
+  const [priorEvent, setPriorEvent] = useState();
   const onChangeEvent = option => {
     // title may be a React component
     const title = options.title?.props?.children || options.title || '';
@@ -25,7 +26,6 @@ export default function RadioWidget(props) {
       optionLabel = 'Authorized Agent/Rep';
     else if (optionLabel !== '') optionLabel = 'Self';
 
-    const priorEvent = window.dataLayer[window.dataLayer.length - 1];
     const currentEvent = {
       event: 'int-radio-option-click',
       'radio-button-label': title,
@@ -36,8 +36,10 @@ export default function RadioWidget(props) {
     if (
       !priorEvent ||
       JSON.stringify(currentEvent) !== JSON.stringify(priorEvent)
-    )
+    ) {
       recordEvent(currentEvent);
+      setPriorEvent(currentEvent);
+    }
     onChange(option.detail.value);
   };
   return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { format, fromUnixTime } from 'date-fns';
 import {
   oneDayAgo,
   oneDayFromNow,
@@ -107,8 +108,40 @@ describe('ApplicationsInProgress component', () => {
 
     expect(applicationsInProgress.length).to.equal(3);
     expect(applicationsInProgress[0]).to.contain.text('FORM 21-526EZ');
+    expect(applicationsInProgress[0]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[0]).to.contain.text(
+      format(fromUnixTime(oneDayFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[0]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[0]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
+
     expect(applicationsInProgress[1]).to.contain.text('FORM 686C-674');
+    expect(applicationsInProgress[1]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[1]).to.contain.text(
+      format(fromUnixTime(oneWeekFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[1]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[1]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
+
     expect(applicationsInProgress[2]).to.contain.text('FORM 10-10EZ');
+    expect(applicationsInProgress[2]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[2]).to.contain.text(
+      format(fromUnixTime(oneYearFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[2]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[2]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
   });
 
   it('renders correctly when there are no active saved forms', () => {

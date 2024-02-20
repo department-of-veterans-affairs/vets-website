@@ -1,9 +1,9 @@
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const errorMessage = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds="false">
     <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We’re sorry. Something went wrong on our end
     </h2>
@@ -13,15 +13,15 @@ export const errorMessage = () => (
     </p>
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <va-telephone contact={CONTACTS.VA_311} /> (
-      <va-telephone contact={CONTACTS['711']} tty />
+      <va-telephone contact={CONTACTS.VA_311} uswds="false" /> (
+      <va-telephone contact={CONTACTS['711']} tty uswds="false" />
       ). We’re here Monday though Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>
 );
 
 export const missingTotalMessage = () => (
-  <va-alert status="info">
+  <va-alert status="info" uswds="false">
     <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We don’t have a combined disability rating on file for you
     </h2>
@@ -30,13 +30,11 @@ export const missingTotalMessage = () => (
       disability that was caused by or got worse because of your service, you
       can file a claim for disability benefits.
     </p>
-    <a
-      href="/disability/how-to-file-claim/"
-      className="usa-link vads-u-font-size--base"
-      aria-label="Learn how to file a claim for disability compensation"
-    >
-      Learn how to file a claim for disability compensation
-    </a>
+    <va-link
+      href="/disability/how-to-file-claim"
+      text="Learn how to file a claim for disability compensation"
+      uswds="false"
+    />
   </va-alert>
 );
 
@@ -44,7 +42,7 @@ export const totalRatingMessage = totalDisabilityRating => {
   const heading = `Your combined disability rating is ${totalDisabilityRating}%`;
 
   return (
-    <va-featured-content>
+    <va-featured-content uswds="false">
       <h3 slot="headline">{heading}</h3>
       <p>
         This rating doesn’t include any conditions from claims that we’re still

@@ -10,7 +10,6 @@ import {
   isValidSSN,
   isValidYear,
   isValidVAFileNumber,
-  isValidPartialDate,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureDate,
@@ -19,6 +18,8 @@ import {
   isValidRoutingNumber,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
+  isValidDate,
+  isValidPartialDate,
 } from './utilities/validations';
 
 /*
@@ -370,6 +371,8 @@ export function validateDate(
     );
   } else if (!isValidPartialDate(day, month, year)) {
     errors.addError('Please provide a valid date');
+  } else if (day && month && year && !isValidDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
   }
 }
 
@@ -566,18 +569,24 @@ export function validateDateRangeAllowSameMonth(
   validateDateRange(errors, dateRange, formData, schema, errorMessages, true);
 }
 
+export const UPLOADING_FILE = 'Uploading file...';
+export const NOT_UPLOADED = 'We couldn’t upload your file';
+export const MISSING_PASSWORD_ERROR = 'Missing password';
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;
   }
   if (file.uploading) {
-    return 'Uploading file...';
+    return UPLOADING_FILE;
   }
-  if (file.isEncrypted && !file.password) {
-    return null; // still awaiting password entry
+  // Awaiting password entry, but we need to set an error so that using the form
+  // continue button blocks progression through the form; look in FileField code
+  // to see that we prevent error message rendering for this particular error
+  if (file.isEncrypted && !file.confirmationCode && !file.password) {
+    return MISSING_PASSWORD_ERROR;
   }
   if (!file.confirmationCode) {
-    return 'We couldn’t upload your file';
+    return NOT_UPLOADED;
   }
 
   return null;

@@ -109,9 +109,7 @@ const PreSubmitNotice = props => {
         name={field}
         error={error}
         onVaChange={event => setAccepted(event.target.checked)}
-        label={`I confirm that I agree to the statements listed here.
-          The information is true and correct to the best of my knowledge and belief.
-          I\u2019ve read and accept the privacy policy.`}
+        label="I confirm that I agree to the statements listed here. The information is true and correct to the best of my knowledge and belief. I’ve read and accept the privacy policy."
       />
     </>
   );

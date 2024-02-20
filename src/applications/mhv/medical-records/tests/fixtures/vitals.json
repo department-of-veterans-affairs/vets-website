@@ -1,336 +1,3837 @@
 {
-  "id": "868a0f70-f920-4483-9be4-fa64f65d2e85",
-  "meta": {
-    "lastUpdated": "2023-07-21T12:22:25.721-04:00"
-  },
-  "type": "searchset",
-  "total": 2,
-  "link": [
-    {
-      "relation": "self",
-      "url": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation?_count=100&patient=952"
-    }
-  ],
-  "entry": [
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/957",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "ex-MHV-heartRate-1",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.vitals"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"ex-MHV-heartRate-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;ex-MHV-heartRate-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitals.html\">VA MHV PHR Vital-Signs</a></p></div><p><b>identifier</b>: id:\u00a0?ngen-9?\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: PULSE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8867-4 &quot;Heart rate&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 2004-12-25 23:50:50-0500</p><p><b>value</b>: 185 /min<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code /min = '/min')</span></p><p><b>note</b>: a bit fast</p></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual"
-          }
-        ],
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "vital-signs"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "8867-4",
-              "display": "Heart rate"
-            }
-          ],
-          "text": "PULSE"
-        },
-        "subject": {
-          "reference": "Patient/ex-MHV-patient-2"
-        },
-        "effectiveDateTime": "2004-12-25T23:50:50-05:00",
-        "valueQuantity": {
-          "value": 185,
-          "system": "http://unitsofmeasure.org",
-          "code": "/min"
-        },
-        "note": [
-          {
-            "text": "a bit fast"
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/956",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "ex-MHV-vitals-1",
-        "meta": {
-          "profile": [
-            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.vitalsBP"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"ex-MHV-vitals-1\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;ex-MHV-vitals-1&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitalsBP.html\">VA MHV PHR Vital-Signs for Blood Pressure</a></p></div><p><b>identifier</b>: id:\u00a0VitalSignTO.6003810\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: BLOOD PRESSURE <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#85354-9 &quot;Blood pressure panel with all children optional&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 2004-09-24 11:17:54+0000</p><blockquote><p><b>component</b></p><p><b>code</b>: Systolic blood pressure <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8480-6)</span></p><p><b>value</b>: 126 mmHg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mm[Hg] = 'mm[Hg]')</span></p></blockquote><blockquote><p><b>component</b></p><p><b>code</b>: Diastolic blood pressure <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#8462-4)</span></p><p><b>value</b>: 70 mmHg<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code mm[Hg] = 'mm[Hg]')</span></p></blockquote></div>"
-        },
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "VitalSignTO.6003810"
-          }
-        ],
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "vital-signs"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "85354-9",
-              "display": "Blood pressure panel with all children optional"
-            }
-          ],
-          "text": "BLOOD PRESSURE"
-        },
-        "subject": {
-          "reference": "Patient/ex-MHV-patient-2"
-        },
-        "effectiveDateTime": "2004-09-24T11:17:54Z",
-        "component": [
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "8480-6",
-                  "display": "Systolic blood pressure"
+    "entry": [
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38852",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500634",
+                            "display": "BLOOD PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "BLOOD PRESSURE"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 130
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 70
+                        }
+                    }
+                ],
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38852",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544837"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsBP"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
                 }
-              ]
             },
-            "valueQuantity": {
-              "value": 126,
-              "unit": "mmHg",
-              "system": "http://unitsofmeasure.org",
-              "code": "mm[Hg]"
+            "search": {
+                "mode": "match"
             }
-          },
-          {
-            "code": {
-              "coding": [
-                {
-                  "system": "http://loinc.org",
-                  "code": "8462-4",
-                  "display": "Diastolic blood pressure"
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38853",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9844-2",
+                            "display": "Body region Circumference",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688720",
+                            "display": "CIRCUMFERENCE/GIRTH",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CIRCUMFERENCE/GIRTH"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38853",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544842"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 40
                 }
-              ]
             },
-            "valueQuantity": {
-              "value": 70,
-              "unit": "mmHg",
-              "system": "http://unitsofmeasure.org",
-              "code": "mm[Hg]"
+            "search": {
+                "mode": "match"
             }
-          }
-        ]
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/957",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "016a0b75-f9ce-47af-8bd6-7a385dc909e8",
-        "meta": {
-          "profile": [
-            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
-          ]
         },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"016a0b75-f9ce-47af-8bd6-7a385dc909e8\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;016a0b75-f9ce-47af-8bd6-7a385dc909e8&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitals.html\">VA MHV PHR Vital-Signs</a></p></div><p><b>identifier</b>: id:\u00a0VitalSignTO.2449383\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: WEIGHT <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#29463-7 &quot;Body weight&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 1999-08-09 13:13:00+0000</p><p><b>performer</b>: <span>: Location 1920</span></p><p><b>value</b>: 150.4 [lb_av]<span style=\"background: LightGoldenRodYellow\"> (Details: UCUM code [lb_av] = '[lb_av]')</span></p><hr/><blockquote><p><b>Generated Narrative: Location #location-1920</b><a name=\"location-1920\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.1920\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: PCT_O</p></blockquote></div>"
-        },
-        "contained": [
-          {
-            "resourceType": "Location",
-            "id": "location-1920",
-            "meta": {
-              "profile": [
-                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
-              ]
-            },
-            "identifier": [
-              {
-                "use": "usual",
-                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-                "value": "HospitalLocationTO.1920"
-              }
-            ],
-            "name": "PCT_O"
-          }
-        ],
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "VitalSignTO.2449383"
-          }
-        ],
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "vital-signs"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "29463-7",
-              "display": "Body weight"
-            }
-          ],
-          "text": "WEIGHT"
-        },
-        "subject": {
-          "reference": "Patient/ex-MHV-patient-2"
-        },
-        "effectiveDateTime": "1999-08-09T13:13:00Z",
-        "performer": [
-          {
-            "extension": [
-              {
-                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
-                "valueReference": {
-                  "reference": "#location-1920"
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38854",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8591-0",
+                            "display": "Central venous pressure (CVP) Mean",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688719",
+                            "display": "CENTRAL VENOUS PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CENTRAL VENOUS PRESSURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38854",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544843"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "cm[H2O]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "cmH2O",
+                    "value": 37
                 }
-              }
-            ],
-            "display": "Location 1920"
-          }
-        ],
-        "valueQuantity": {
-          "value": 150.4,
-          "system": "http://unitsofmeasure.org",
-          "code": "[lb_av]"
-        },
-        "note": [
-          {
-            "text": "Here is a provider note"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Observation/958",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "1b8bc2ff-17cb-4c61-b736-3e67d2f6b25c",
-        "meta": {
-          "profile": [
-            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsPain"
-          ]
-        },
-        "text": {
-          "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Observation</b><a name=\"1b8bc2ff-17cb-4c61-b736-3e67d2f6b25c\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Observation &quot;1b8bc2ff-17cb-4c61-b736-3e67d2f6b25c&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.vitalsPain.html\">VA MHV PHR Vital-Signs for PAIN</a></p></div><p><b>identifier</b>: id:\u00a0VitalSignTO.2870656\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: final</p><p><b>category</b>: Vital Signs <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#vital-signs)</span></p><p><b>code</b>: PAIN <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#72514-3 &quot;Pain severity - 0-10 verbal numeric rating [Score] - Reported&quot;)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-2.html\">Patient/ex-MHV-patient-2</a> &quot; MHVLISAONE&quot;</p><p><b>effective</b>: 2000-09-14 13:00:00+0000</p><p><b>performer</b>: <span>: Location 2171</span></p><p><b>value</b>: 0</p><hr/><blockquote><p><b>Generated Narrative: Location #location-2171</b><a name=\"location-2171\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.2171\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: ZZZHEMATOLOGY II</p></blockquote></div>"
-        },
-        "contained": [
-          {
-            "resourceType": "Location",
-            "id": "location-2171",
-            "meta": {
-              "profile": [
-                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
-              ]
             },
-            "identifier": [
-              {
-                "use": "usual",
-                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-                "value": "HospitalLocationTO.2171"
-              }
-            ],
-            "name": "ZZZHEMATOLOGY II"
-          }
-        ],
-        "identifier": [
-          {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "VitalSignTO.2870656"
-          }
-        ],
-        "status": "final",
-        "category": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                "code": "vital-signs"
-              }
-            ]
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "system": "http://loinc.org",
-              "code": "72514-3",
-              "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported"
+            "search": {
+                "mode": "match"
             }
-          ],
-          "text": "PAIN"
         },
-        "subject": {
-          "reference": "Patient/ex-MHV-patient-2"
-        },
-        "effectiveDateTime": "2000-09-14T13:00:00Z",
-        "performer": [
-          {
-            "extension": [
-              {
-                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
-                "valueReference": {
-                  "reference": "#location-2171"
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38855",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8302-2",
+                            "display": "Body height",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688724",
+                            "display": "HEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "HEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38855",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544841"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 70
                 }
-              }
-            ],
-            "display": "Location 2171"
-          }
-        ],
-        "valueQuantity": {
-          "value": 0
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38856",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8867-4",
+                            "display": "Heart rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500636",
+                            "display": "PULSE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38856",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544835"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 70
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38857",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72514-3",
+                            "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500635",
+                            "display": "PAIN",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PAIN"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38857",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544838"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsPain"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueInteger": 4
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38858",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "2708-6",
+                            "display": "Oxygen saturation in Arterial blood",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500637",
+                            "display": "PULSE OXIMETRY",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE OXIMETRY"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38858",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544840"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsOx"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "%",
+                    "value": 98
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38859",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9279-1",
+                            "display": "Respiratory Rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688725",
+                            "display": "RESPIRATION",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "RESPIRATION"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38859",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544836"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 15
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38860",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8310-5",
+                            "display": "Body temperature",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500638",
+                            "display": "TEMPERATURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "TEMPERATURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38860",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544839"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[degF]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "F",
+                    "value": 99
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38861",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "29463-7",
+                            "display": "Body weight",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500639",
+                            "display": "WEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "WEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3669"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-10-27T10:00:00-04:00",
+                "id": "38861",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544844"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP BURNETT",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[lb_av]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "lb",
+                    "value": 185
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38862",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500634",
+                            "display": "BLOOD PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "BLOOD PRESSURE"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 120
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 80
+                        }
+                    }
+                ],
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38862",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544334"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsBP"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38863",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9844-2",
+                            "display": "Body region Circumference",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688720",
+                            "display": "CIRCUMFERENCE/GIRTH",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CIRCUMFERENCE/GIRTH"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38863",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544339"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 150
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38864",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8591-0",
+                            "display": "Central venous pressure (CVP) Mean",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688719",
+                            "display": "CENTRAL VENOUS PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CENTRAL VENOUS PRESSURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38864",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544340"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "cm[H2O]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "cmH2O",
+                    "value": 30
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38865",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8302-2",
+                            "display": "Body height",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688724",
+                            "display": "HEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "HEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38865",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544338"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 72
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38866",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8867-4",
+                            "display": "Heart rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500636",
+                            "display": "PULSE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38866",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544332"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 85
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38867",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72514-3",
+                            "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500635",
+                            "display": "PAIN",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PAIN"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38867",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544335"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsPain"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueInteger": 5
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38868",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "2708-6",
+                            "display": "Oxygen saturation in Arterial blood",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500637",
+                            "display": "PULSE OXIMETRY",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE OXIMETRY"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38868",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544337"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsOx"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "%",
+                    "value": 100
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38869",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9279-1",
+                            "display": "Respiratory Rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688725",
+                            "display": "RESPIRATION",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "RESPIRATION"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38869",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544333"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 15
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38870",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8310-5",
+                            "display": "Body temperature",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500638",
+                            "display": "TEMPERATURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "TEMPERATURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38870",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544336"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[degF]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "F",
+                    "value": 98.5
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38871",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "29463-7",
+                            "display": "Body weight",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500639",
+                            "display": "WEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "WEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.2757"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2023-08-04T10:08:24-04:00",
+                "id": "38871",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544341"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "23 HOUR OBSERVATION",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[lb_av]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "lb",
+                    "value": 200
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38872",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500634",
+                            "display": "BLOOD PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "BLOOD PRESSURE"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 90
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 60
+                        }
+                    }
+                ],
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38872",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544229"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsBP"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38873",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9844-2",
+                            "display": "Body region Circumference",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688720",
+                            "display": "CIRCUMFERENCE/GIRTH",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CIRCUMFERENCE/GIRTH"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38873",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544234"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 4.5
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38874",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8591-0",
+                            "display": "Central venous pressure (CVP) Mean",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688719",
+                            "display": "CENTRAL VENOUS PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CENTRAL VENOUS PRESSURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38874",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544235"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "cm[H2O]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "cmH2O",
+                    "value": 80
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38875",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8302-2",
+                            "display": "Body height",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688724",
+                            "display": "HEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "HEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38875",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544233"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 70
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38876",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8867-4",
+                            "display": "Heart rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500636",
+                            "display": "PULSE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38876",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544227"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 90
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38877",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72514-3",
+                            "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500635",
+                            "display": "PAIN",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PAIN"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38877",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544230"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsPain"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueInteger": 5
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38878",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "2708-6",
+                            "display": "Oxygen saturation in Arterial blood",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500637",
+                            "display": "PULSE OXIMETRY",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE OXIMETRY"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38878",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544232"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsOx"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "%",
+                    "value": 95
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38879",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9279-1",
+                            "display": "Respiratory Rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688725",
+                            "display": "RESPIRATION",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "RESPIRATION"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38879",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544228"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 12
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38880",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8310-5",
+                            "display": "Body temperature",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500638",
+                            "display": "TEMPERATURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "TEMPERATURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38880",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544231"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[degF]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "F",
+                    "value": 98.5
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38881",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "29463-7",
+                            "display": "Body weight",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500639",
+                            "display": "WEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "WEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.603"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2022-08-18T16:29:23-04:00",
+                "id": "38881",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544236"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADMISSIONS (LOC)",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[lb_av]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "lb",
+                    "value": 190
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38882",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500634",
+                            "display": "BLOOD PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "BLOOD PRESSURE"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 125
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure",
+                                    "system": "http://loinc.org"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "code": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "unit": "mm[Hg]",
+                            "value": 80
+                        }
+                    }
+                ],
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38882",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544847"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsBP"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38883",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9844-2",
+                            "display": "Body region Circumference",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688720",
+                            "display": "CIRCUMFERENCE/GIRTH",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CIRCUMFERENCE/GIRTH"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38883",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544852"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 50
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38884",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8591-0",
+                            "display": "Central venous pressure (CVP) Mean",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688719",
+                            "display": "CENTRAL VENOUS PRESSURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "CENTRAL VENOUS PRESSURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38884",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544853"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "cm[H2O]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "cmH2O",
+                    "value": 30
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38885",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8302-2",
+                            "display": "Body height",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688724",
+                            "display": "HEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "HEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38885",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544851"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[in_i]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "in",
+                    "value": 70
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38886",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8867-4",
+                            "display": "Heart rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500636",
+                            "display": "PULSE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38886",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544845"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 60
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38887",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "72514-3",
+                            "display": "Pain severity - 0-10 verbal numeric rating [Score] - Reported",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500635",
+                            "display": "PAIN",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PAIN"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38887",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544848"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsPain"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueInteger": 7
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38888",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "2708-6",
+                            "display": "Oxygen saturation in Arterial blood",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500637",
+                            "display": "PULSE OXIMETRY",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "PULSE OXIMETRY"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38888",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544850"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-08T13:33:37.839-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitalsOx"
+                    ],
+                    "source": "#1zYe6Ly20HlOo21N",
+                    "versionId": "3"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "%",
+                    "value": 100
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38889",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "9279-1",
+                            "display": "Respiratory Rate",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4688725",
+                            "display": "RESPIRATION",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "RESPIRATION"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38889",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544846"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "/min",
+                    "value": 12
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38890",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "8310-5",
+                            "display": "Body temperature",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500638",
+                            "display": "TEMPERATURE",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "TEMPERATURE"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38890",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544849"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[degF]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "F",
+                    "value": 98.5
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "http://localhost:8081/fhir/Observation/38891",
+            "resource": {
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "code": "vital-signs",
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "code": "29463-7",
+                            "display": "Body weight",
+                            "system": "http://loinc.org"
+                        },
+                        {
+                            "code": "4500639",
+                            "display": "WEIGHT",
+                            "system": "urn:oid:2.16.840.1.113883.6.233"
+                        }
+                    ],
+                    "text": "WEIGHT"
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "identifier": [
+                            {
+                                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                                "use": "usual",
+                                "value": "HospitalLocationTO.3668"
+                            }
+                        ],
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+                            ]
+                        },
+                        "name": "ADTP SCREENING",
+                        "resourceType": "Location"
+                    }
+                ],
+                "effectiveDateTime": "2021-05-11T10:20:00-04:00",
+                "id": "38891",
+                "identifier": [
+                    {
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "use": "usual",
+                        "value": "VitalSignTO.6544854"
+                    }
+                ],
+                "meta": {
+                    "lastUpdated": "2024-02-07T12:25:07.967-05:00",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.vitals"
+                    ],
+                    "source": "#1DUMrDTQmd7QfHe4",
+                    "versionId": "2"
+                },
+                "performer": [
+                    {
+                        "display": "ADTP SCREENING",
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                                "valueReference": {
+                                    "reference": "#Location-0"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "resourceType": "Observation",
+                "status": "final",
+                "subject": {
+                    "reference": "Patient/33702"
+                },
+                "valueQuantity": {
+                    "code": "[lb_av]",
+                    "system": "http://unitsofmeasure.org",
+                    "unit": "lb",
+                    "value": 185
+                }
+            },
+            "search": {
+                "mode": "match"
+            }
         }
-      }
-    }
-  ],
-  "resourceType": "Bundle"
+    ],
+    "id": "4907d51f-f676-47cf-bf28-495bf1fac704",
+    "link": [
+        {
+            "relation": "self",
+            "url": "http://localhost:8081/fhir/Observation?patient=33702"
+        }
+    ],
+    "meta": {
+        "lastUpdated": "2024-02-08T13:33:27.851-05:00"
+    },
+    "resourceType": "Bundle",
+    "total": 40,
+    "type": "searchset"
 }

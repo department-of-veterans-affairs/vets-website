@@ -3,17 +3,28 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
+import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-import { updatePageTitle } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import { formatName, updatePageTitle } from '../../../shared/util/helpers';
+import { pageTitles } from '../../util/constants';
+import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
+import DateSubheading from '../shared/DateSubheading';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../../shared/util/constants';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
+  const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
@@ -24,18 +35,47 @@ const RadiologyDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record],
   );
 
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const download = () => {
-    GenerateRadiologyPdf(record, runningUnitTest);
+    GenerateRadiologyPdf(record, user, runningUnitTest);
+  };
+
+  const generateRadioloyTxt = async () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Reason for test: ${record.reason} \n
+Clinical history: ${record.clinicalHistory} \n
+Ordered by: ${record.orderedBy} \n
+Imaging location: ${record.imagingLocation} \n
+Imaging provider: ${record.imagingProvider} \n
+${txtLine}\n\n
+Results\n
+${record.results}`;
+
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
+    );
   };
 
   return (
@@ -44,23 +84,12 @@ const RadiologyDetails = props => {
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
         {record.name}
       </h1>
-      <div className="time-header">
-        <h2
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="radiology-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {record.date}
-          </span>
-        </h2>
-      </div>
+      <DateSubheading date={record.date} id="radiology-date" />
+
       <div className="no-print">
         <PrintDownload
           download={download}
+          downloadTxt={generateRadioloyTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
@@ -70,13 +99,13 @@ const RadiologyDetails = props => {
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
           Images
         </h3>
-        <p className="no-print">
+        <p data-testid="radiology-image" className="no-print">
           <va-link
-            active
-            href={`/my-health/medical-records/labs-and-tests/${
-              record.id
-            }/images`}
-            text={`See all ${record.images.length} images`}
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'va-medical-images-and-reports',
+            )}
+            text="Request images on the My HealtheVet website"
           />
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -92,10 +121,6 @@ const RadiologyDetails = props => {
         </h3>
         <p>{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h3>
-        <p>{record.orderingLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging location
         </h3>
         <p>{record.imagingLocation}</p>
@@ -107,36 +132,7 @@ const RadiologyDetails = props => {
 
       <div className="test-results-container">
         <h2>Results</h2>
-
-        <va-alert-expandable
-          status="info"
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p>
-            Your provider will review your results. If you need to do anything,
-            your provider will contact you.
-          </p>
-          <p>
-            If you have questions, send a message to the care team that ordered
-            this test.
-          </p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-            >
-              Compose a new message
-            </a>
-          </p>
-          <p>
-            <span className="vads-u-font-weight--bold">Note: </span>
-            If you have questions about more than 1 test ordered by the same
-            care team, send 1 message with all of your questions.
-          </p>
-        </va-alert-expandable>
+        <InfoAlert fullState={fullState} />
         <p className="monospace">{record.results}</p>
       </div>
     </div>

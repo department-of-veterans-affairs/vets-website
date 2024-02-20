@@ -31,9 +31,6 @@ const testConfig = createTestConfig(
       'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const fieldName = 'veteranAddress';
-            const fieldData = data.veteranAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
             selectYesNoWebComponent(
               'view:doesMailingMatchHomeAddress',
               data['view:doesMailingMatchHomeAddress'],
@@ -81,19 +78,21 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
+        'mockFeatures',
+      );
       cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
         statusCode: 200,
         body: MOCK_ENROLLMENT_RESPONSE,
-      });
+      }).as('mockEnrollmentStatus');
       cy.intercept('/v0/in_progress_forms/10-10EZR', {
         statusCode: 200,
         body: mockPrefill,
-      });
+      }).as('mockSip');
       cy.intercept('POST', formConfig.submitUrl, {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2023-11-01',
-      });
+      }).as('mockSubmit');
     },
 
     useWebComponentFields: true,

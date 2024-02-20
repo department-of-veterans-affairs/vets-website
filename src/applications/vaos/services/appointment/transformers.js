@@ -379,6 +379,7 @@ export function transformVAOSAppointment(appt) {
     id: appt.id,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
+    avsPath: isPast ? appt.avsPath : null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status

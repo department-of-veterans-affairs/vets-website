@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
+import { VALIDATION_LIMITS } from '../../constants';
 
 const HouseholdExpensesInputList = props => {
   const { submitted } = props.formContext;
@@ -46,6 +47,8 @@ const HouseholdExpensesInputList = props => {
       prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
+      min={VALIDATION_LIMITS.HOUSEHOLD_EXPENSES_MIN}
+      max={VALIDATION_LIMITS.HOUSEHOLD_EXPENSES_MAX}
     />
   );
 };

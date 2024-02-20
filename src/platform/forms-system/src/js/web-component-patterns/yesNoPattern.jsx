@@ -1,7 +1,7 @@
 import YesNoField from '../web-component-fields/YesNoField';
 
 /**
- * Web component uiSchema for yes or no questions
+ * Web component v3 uiSchema for yes or no questions
  *
  * ```js
  * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
@@ -16,13 +16,14 @@ import YesNoField from '../web-component-fields/YesNoField';
  *
  * if `yesNoReverse` is set to true, selecting `yes` will result in `false` instead of `true`
  *
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   description?: UISchemaOptions['ui:description'],
  *   labels?: {Y?: string, N?: string},
  *   tile?: boolean,
  *   yesNoReverse?: boolean,
  *   hint?: string,
+ *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  * }} options - a string to use as the title or an object with options
  * @returns {UISchemaOptions}
  */

@@ -11,11 +11,11 @@ import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
 
 import BreadCrumb from '../components/BreadCrumb';
-import YourAppointment from '../components/YourAppointment';
-import YourTreatmentPlan from '../components/YourTreatmentPlan';
-import YourHealthInformation from '../components/YourHealthInformation';
 import MoreInformation from '../components/MoreInformation';
-import Footer from '../components/Footer';
+import TextWithLineBreaks from '../components/TextWithLineBreaks';
+import YourAppointment from '../components/YourAppointment';
+import YourHealthInformation from '../components/YourHealthInformation';
+import YourTreatmentPlan from '../components/YourTreatmentPlan';
 
 const generateAppointmentHeader = avs => {
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -74,7 +74,7 @@ const Avs = props => {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
-        message="Loading your After-visit Summary"
+        message="Loading your after-visit summary"
       />
     );
   }
@@ -86,27 +86,37 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
-        <h1>After-visit Summary</h1>
+        <h1>After-visit summary</h1>
+        {avs.meta?.pageHeader && (
+          <p>
+            <TextWithLineBreaks text={avs.meta.pageHeader} />
+          </p>
+        )}
 
-        <va-accordion>
+        <va-accordion uswds>
           <va-accordion-item
             header={generateAppointmentHeader(avs)}
             open="true"
+            uswds
           >
             <YourAppointment avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="Your treatment plan from this appointment">
+          <va-accordion-item
+            header="Your treatment plan from this appointment"
+            uswds
+          >
             <YourTreatmentPlan avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="Your health information as of this appointment">
+          <va-accordion-item
+            header="Your health information as of this appointment"
+            uswds
+          >
             <YourHealthInformation avs={avs} />
           </va-accordion-item>
-          <va-accordion-item header="More information">
+          <va-accordion-item header="More information" uswds>
             <MoreInformation avs={avs} />
           </va-accordion-item>
         </va-accordion>
-
-        <Footer avs={avs} />
       </RequiredLoginView>
     </div>
   );

@@ -1,26 +1,26 @@
-import { clearGeocodeError } from './mapbox/clearGeocodeError';
 import { clearSearchResults } from './search/clearSearchResults';
 import { clearSearchText } from './search/clearSearchText';
 import { fetchRepresentatives } from './representatives/fetchRepresentatives';
 import { genSearchAreaFromCenter } from './mapbox/genSearchAreaFromCenter';
 import { geolocateUser } from './mapbox/geoLocateUser';
-import { searchWithBounds } from './search/searchWithBounds';
+import { geocodeUserAddress } from './mapbox/geocodeUserAddress';
+import { searchWithInput } from './search/searchWithInput';
 import { updateSearchQuery } from './search/updateSearchQuery';
-import { updateSortType } from './search/updateSortType';
-import { mockSearch } from './search/mockSearch';
-import { mockSearchPage2 } from './search/mockSearchPage2';
+import { submitRepresentativeReport } from './reports/submitRepresentativeReport';
+import { updateFromLocalStorage } from './reports/updateFromLocalStorage';
+import { clearError } from './error/clearError';
 
-export { clearGeocodeError };
 export { clearSearchResults };
 export { clearSearchText };
 export { fetchRepresentatives };
 export { genSearchAreaFromCenter };
 export { geolocateUser };
-export { searchWithBounds };
+export { geocodeUserAddress };
+export { searchWithInput };
 export { updateSearchQuery };
-export { updateSortType };
-export { mockSearch };
-export { mockSearchPage2 };
+export { submitRepresentativeReport };
+export { updateFromLocalStorage };
+export { clearError };
 
 export const FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED =
   'FETCH_REPRESENTATIVE_SEARCH_RESULTS_FAILED';
@@ -32,7 +32,7 @@ function mockSearchResults() {
     data: [
       {
         distance: 1.25,
-        organization: 'Catholic War Veterans of the USA (081)',
+        officer: 'Catholic War Veterans of the USA (081)',
         type: 'VSO',
         addressLine1: '237-20 92nd Road',
         addressLine2: 'Bellerose, NY 11426',
@@ -40,7 +40,7 @@ function mockSearchResults() {
       },
       {
         distance: 1.55,
-        organization: 'Polish Legion of American Veterans (003)',
+        officer: 'Polish Legion of American Veterans (003)',
         type: 'VSO',
         addressLine1: '237-20 92nd Road',
         addressLine2: 'Bellerose, NY 11426',
@@ -48,8 +48,7 @@ function mockSearchResults() {
       },
       {
         distance: 1.65,
-        organization:
-          'National Association of County Veterans Service Of (064)',
+        officer: 'National Association of County Veterans Service Of (064)',
         type: 'VSO',
         addressLine1: 'Union County Services',
         addressLine2: 'Elizabeth, NJ 07207',
@@ -57,7 +56,7 @@ function mockSearchResults() {
       },
       {
         distance: 1.75,
-        organization: 'Jewish War Veterans of the USA (086)',
+        officer: 'Jewish War Veterans of the USA (086)',
         type: 'VSO',
         addressLine1: '237-20 92nd Road',
         addressLine2: 'Bellerose, NY 11426',
@@ -65,7 +64,7 @@ function mockSearchResults() {
       },
       {
         distance: 2.05,
-        organization: 'Vietnam Veterans of America (070)',
+        officer: 'Vietnam Veterans of America (070)',
         type: 'VSO',
         addressLine1: '616 E. Landis Ave.',
         addressLine2: 'Vineland, NJ 08360',

@@ -105,6 +105,15 @@ const savedAddress = {
   stateCode: '',
 };
 
+const getAddressPath = path => {
+  // path examples:
+  // ["employers", 0, "address", "postalCode"]
+  // ["exampleArrayData", 0, "address", "country"]
+  // ["wcv3Address", "country"]
+  // ["address", "state"]
+  return path.slice(0, -1);
+};
+
 /**
  * Update form data to remove selected military city & state and restore any
  * previously set city & state when the "I live on a U.S. military base"
@@ -172,7 +181,7 @@ export const updateFormDataAddress = (
  */
 
 /**
- * Web component uiSchema for address
+ * Web component v3 uiSchema for address
  *
  * ```js
  * schema: {
@@ -214,6 +223,16 @@ export function addressUI(options) {
   /** @type {UISchemaOptions} */
   const uiSchema = {};
 
+  function requiredFunc(key, def) {
+    return (formData, index) => {
+      if (customRequired(key)) {
+        return customRequired(key)(formData, index);
+      }
+
+      return def;
+    };
+  }
+
   if (!omit('isMilitary')) {
     uiSchema.isMilitary = {
       'ui:title':
@@ -223,7 +242,7 @@ export function addressUI(options) {
       'ui:options': {
         hideEmptyValueInReview: true,
       },
-      'ui:required': customRequired('isMilitary') || (() => false),
+      'ui:required': requiredFunc('isMilitary', false),
     };
   }
 
@@ -235,9 +254,9 @@ export function addressUI(options) {
 
   if (!omit('country')) {
     uiSchema.country = {
-      'ui:required': formData => {
+      'ui:required': (formData, index) => {
         if (customRequired('country')) {
-          return customRequired('country')(formData);
+          return customRequired('country')(formData, index);
         }
         if (cachedPath) {
           const { isMilitary } = get(cachedPath, formData) ?? {};
@@ -257,7 +276,7 @@ export function addressUI(options) {
          * user selects that they live on a military base outside the US.
          */
         updateSchema: (formData, schema, _uiSchema, index, path) => {
-          const addressPath = [...path].shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const countryUI = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -286,7 +305,7 @@ export function addressUI(options) {
 
   if (!omit('street')) {
     uiSchema.street = {
-      'ui:required': customRequired('street') || (() => true),
+      'ui:required': requiredFunc('street', true),
       'ui:title': options?.labels?.street || 'Street address',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
@@ -301,7 +320,7 @@ export function addressUI(options) {
     uiSchema.street2 = {
       'ui:title': options?.labels?.street2 || 'Street address line 2',
       'ui:autocomplete': 'address-line2',
-      'ui:required': customRequired('street2') || (() => false),
+      'ui:required': requiredFunc('street2', false),
       'ui:options': {
         hideEmptyValueInReview: true,
       },
@@ -313,7 +332,7 @@ export function addressUI(options) {
     uiSchema.street3 = {
       'ui:title': options?.labels?.street3 || 'Street address line 3',
       'ui:autocomplete': 'address-line3',
-      'ui:required': customRequired('street3') || (() => false),
+      'ui:required': requiredFunc('street3', false),
       'ui:options': {
         hideEmptyValueInReview: true,
       },
@@ -323,7 +342,7 @@ export function addressUI(options) {
 
   if (!omit('city')) {
     uiSchema.city = {
-      'ui:required': customRequired('city') || (() => true),
+      'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'City is required',
@@ -341,7 +360,7 @@ export function addressUI(options) {
           if (schema.maxLength) {
             cityMaxLength = schema.maxLength;
           }
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const ui = _uiSchema;
           const addressFormData = get(addressPath, formData) ?? {};
@@ -370,9 +389,9 @@ export function addressUI(options) {
   if (!omit('state')) {
     uiSchema.state = {
       'ui:autocomplete': 'address-level1',
-      'ui:required': formData => {
+      'ui:required': (formData, index) => {
         if (customRequired('state')) {
-          return customRequired('state')(formData);
+          return customRequired('state')(formData, index);
         }
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
@@ -399,7 +418,7 @@ export function addressUI(options) {
          * If the country value is anything other than USA, change the title and default to string.
          */
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
@@ -435,14 +454,14 @@ export function addressUI(options) {
 
   if (!omit('postalCode')) {
     uiSchema.postalCode = {
-      'ui:required': customRequired('postalCode') || (() => true),
+      'ui:required': requiredFunc('postalCode', true),
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
-          const addressPath = path.shift(); // path is ['address', 'currentField']
+          const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
           const { country } = data;
@@ -520,14 +539,55 @@ export const addressSchema = options => {
   return schema;
 };
 
+/**
+ * Web component v3 uiSchema for address
+ *
+ * ```js
+ * schema: {
+ *   address: addressNoMilitaryUI()
+ *   simpleAddress: addressNoMilitaryUI({ omit: ['street2', 'street3'] })
+ *   futureAddress: addressNoMilitaryUI({
+ *     labels: {
+ *      street3: 'Apt or Unit number',
+ *     }
+ *   })
+ *   changeRequired: addressNoMilitaryUI({
+ *     required: {
+ *       country: (formData) => false,
+ *       street2: (formData) => true
+ *     }
+ *   })
+ * }
+ * ```
+ * @param {{
+ *   labels?: {
+ *     street?: string,
+ *     street2?: string,
+ *     street3?: string,
+ *   }},
+ *   omit?: Array<AddressSchemaKey>,
+ *   required?: Record<AddressSchemaKey, (formData:any) => boolean>
+ * }} [options]
+ * @returns {UISchemaOptions}
+ */
 export const addressNoMilitaryUI = options =>
   addressUI({
-    omit: ['isMilitary'],
     ...options,
+    omit: ['isMilitary', ...(options?.omit || [])],
   });
 
+/**
+ * Web component schema for address
+ *
+ * ```js
+ * schema: {
+ *   address: addressNoMilitarySchema()
+ *   simpleAddress: addressNoMilitarySchema({ omit: ['street2', 'street3'] })
+ * }
+ * ```
+ */
 export const addressNoMilitarySchema = options =>
   addressSchema({
-    omit: ['isMilitary'],
     ...options,
+    omit: ['isMilitary', ...(options?.omit || [])],
   });

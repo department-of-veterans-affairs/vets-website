@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 
 import {
-  CLOSE_REVIEW_CHAPTER,
-  OPEN_REVIEW_CHAPTER,
   SET_DATA,
   SET_EDIT_MODE,
   SET_PRE_SUBMIT,
@@ -68,56 +66,6 @@ describe('schemaform createSchemaFormReducer', () => {
       },
     };
     const reducer = createSchemaFormReducer(formConfig);
-
-    it('adds the chapter name to openChapters on OPEN_REVIEW_CHAPTER', () => {
-      const previousState = {
-        reviewPageView: {
-          openChapters: [],
-        },
-      };
-
-      const expectedState = {
-        reviewPageView: {
-          openChapters: ['chapter2'],
-        },
-      };
-
-      const action = {
-        type: OPEN_REVIEW_CHAPTER,
-        openedChapter: 'chapter2',
-      };
-
-      const testState = reducer(previousState, action);
-
-      expect(testState).to.deep.equal(expectedState);
-    });
-
-    it('removes the chapter name from openChapters on CLOSE_REVIEW_CHAPTER', () => {
-      const viewedPages = new Set();
-      const previousState = {
-        reviewPageView: {
-          openChapters: ['chapter1', 'chapter2', 'chapter3'],
-          viewedPages,
-        },
-      };
-
-      const action = {
-        type: CLOSE_REVIEW_CHAPTER,
-        closedChapter: 'chapter2',
-        pageKeys: ['test'],
-      };
-
-      const testState = reducer(previousState, action);
-
-      const expectedState = {
-        reviewPageView: {
-          openChapters: ['chapter1', 'chapter3'],
-          viewedPages: viewedPages.add('test'),
-        },
-      };
-
-      expect(testState).to.deep.equal(expectedState);
-    });
 
     it('should set data state', () => {
       const state = reducer(

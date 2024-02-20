@@ -10,9 +10,7 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
-import inboxSearchResponse from '../fixtures/inboxResponse/filtered-inbox-messages-response.json';
 import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
-import mockSingleThread from '../fixtures/inboxResponse/single-thread-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
@@ -47,17 +45,6 @@ class PatientInboxPage {
     this.mockInboxMessages = inboxMessages;
     this.mockRecipients = recipients;
     this.setInboxTestMessageDetails(detailedMessage);
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'mhv_secure_messaging_to_va_gov_release',
-            value: true,
-          },
-        ],
-      },
-    }).as('featureToggle');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
@@ -66,7 +53,7 @@ class PatientInboxPage {
     if (getFoldersStatus === 200) {
       cy.intercept(
         'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/*`,
+        `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
         mockFolders,
       ).as('folders');
     } else {
@@ -150,7 +137,8 @@ class PatientInboxPage {
     ).as('message');
     cy.intercept(
       'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.attributes.messageId}/thread`,
+      `${Paths.SM_API_EXTENDED +
+        inputMockMessage.attributes.messageId}/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
@@ -163,22 +151,39 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadMessageDetailsWithData = inputMockMessage => {
-    cy.log('loading message details.');
-
+  loadSingleThread = (
+    testSingleThread = mockThread,
+    sentDate = mockThread.data[0].attributes.sentDate,
+    draftDate = mockThread.data[0].attributes.draftDate,
+  ) => {
+    this.singleThread = testSingleThread;
+    this.singleThread.data[0].attributes.sentDate = sentDate;
+    this.singleThread.data[0].attributes.draftDate = draftDate;
+    cy.log(
+      `loading first message in thread details: ${JSON.stringify(
+        this.singleThread.data[0],
+      )}`,
+    );
     cy.intercept(
       'GET',
-      Paths.SM_API_EXTENDED + inputMockMessage.data.id,
-      mockSpecialCharsMessage,
-    ).as('message');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_EXTENDED + inputMockMessage.data.id}/thread`,
-      mockThread,
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread?full_body=true`,
+      this.singleThread,
     ).as('full-thread');
-    cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message');
-    cy.wait('@full-thread');
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
+      { data: this.singleThread.data[0] },
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@full-thread', { requestTimeout: 20000 });
+    // cy.wait('@fist-message-in-thread');
   };
 
   getNewMessage = () => {
@@ -323,27 +328,15 @@ class PatientInboxPage {
   };
 
   replyToMessage = () => {
-    const currentDate = new Date();
-    mockSingleThread.data[0].attributes.sentDate = currentDate.toISOString();
-    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders);
     cy.intercept(
       'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }/thread`,
-      mockSingleThread,
-    ).as('singleThread');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE}/messages/${
-        mockSingleThread.data[0].attributes.messageId
-      }`,
-      mockSingleMessage,
-    ).as('singleThread');
-    cy.get(Locators.THREADS)
-      .first()
-      .find(`#message-link-${mockSingleThread.data[0].attributes.messageId}`)
-      .click({ waitForAnimations: true });
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
@@ -364,7 +357,7 @@ class PatientInboxPage {
       .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
-  navigateToComposePage = () => {
+  navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
@@ -372,7 +365,9 @@ class PatientInboxPage {
     ).as('signature');
     cy.get('[data-testid="compose-message-link"]').click({ force: true });
     cy.wait('@signature');
-    PatientInterstitialPage.CheckFocusOnVcl();
+    if (checkFocusOnVcl) {
+      PatientInterstitialPage.CheckFocusOnVcl();
+    }
     PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
@@ -482,7 +477,7 @@ class PatientInboxPage {
     let listBefore;
     let listAfter;
     cy.get('.thread-list-item')
-      .find('.received-date')
+      .find('[data-testid="received-date"]')
       .then(list => {
         listBefore = Cypress._.map(list, el => el.innerText);
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
@@ -490,7 +485,7 @@ class PatientInboxPage {
       .then(() => {
         this.sortMessagesByDate('Oldest to newest');
         cy.get('.thread-list-item')
-          .find('.received-date')
+          .find('[data-testid="received-date"]')
           .then(list2 => {
             listAfter = Cypress._.map(list2, el => el.innerText);
             cy.log(`List after sorting${JSON.stringify(listAfter)}`);
@@ -513,16 +508,17 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  filterMessages = () => {
+  filterMessages = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
-      inboxSearchResponse,
-    );
+      mockFilterResponse,
+    ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
   };
 
-  verifyFilterResults = (filterValue, responseData = inboxSearchResponse) => {
+  verifyFilterResults = (filterValue, responseData) => {
     cy.get('[data-testid="message-list-item"]').should(
       'have.length',
       `${responseData.data.length}`,
@@ -539,8 +535,6 @@ class PatientInboxPage {
   };
 
   clearFilter = () => {
-    this.inputFilterData('any');
-    this.filterMessages();
     cy.get('[text="Clear Filters"]').click({ force: true });
   };
 
@@ -567,6 +561,66 @@ class PatientInboxPage {
   getInboxHeader = text => {
     cy.get('[data-testid="folder-header"]').should('have.text', `${text}`);
   };
+
+  verifyCernerFacilityNames(user, ehrData) {
+    this.user = user;
+    this.ehrData = ehrData;
+    let cernerIndex = 0;
+    let cernerCount = 0;
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      if (facility.isCerner) {
+        cernerCount += 1;
+      }
+    }
+
+    for (
+      let i = 0;
+      i < user.data.attributes.vaProfile.facilities.length;
+      i += 1
+    ) {
+      cy.log(` i = ${i}`);
+      const facility = user.data.attributes.vaProfile.facilities[i];
+      let facilityName = '';
+
+      if (facility.isCerner) {
+        const facilityId = `vha_${facility.facilityId}`;
+        cy.log(`id = ${facilityId}`);
+        for (let j = 0; j < ehrData.data.nodeQuery.entities.length; j += 1) {
+          if (
+            ehrData.data.nodeQuery.entities[j].fieldFacilityLocatorApiId ===
+            facilityId
+          ) {
+            facilityName =
+              ehrData.data.nodeQuery.entities[j].fieldRegionPage.entity.title;
+          }
+        }
+        cy.log(`name = ${facilityName}`);
+        if (cernerCount === 0) {
+          cy.get('[data-testid="cerner-facilities-alert"]').should(
+            'not.be.visible',
+          );
+        } else if (cernerCount === 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="single-cerner-facility-text"]')
+            .contains(facilityName);
+          break;
+        } else if (cernerCount > 1) {
+          cy.get('[data-testid="cerner-facilities-alert"]')
+            .shadow()
+            .get('[data-testid="cerner-facility"]')
+            .eq(cernerIndex)
+            .contains(facilityName);
+        }
+        cernerIndex += 1;
+      }
+    }
+  }
 }
 
 export default PatientInboxPage;

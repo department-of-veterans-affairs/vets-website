@@ -1,0 +1,26 @@
+{
+  "data": {
+    "preparerType": "third-party-non-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Power-of-Attorney"
+    },
+    "thirdPartyType": "power-of-attorney",
+    "fullName": {
+      "first": "John",
+      "last": "Non-Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "id": {
+      "ssn": "321540990"
+    },
+    "livingSituation": {
+      "OTHER_RISK": true
+    },
+    "otherHousingRisks": "The claimant's baby giraffe is growing up fast!",
+    "phone": "1234567893",
+    "other_reasons": {
+      "AGE_85": true
+    }
+  }
+}

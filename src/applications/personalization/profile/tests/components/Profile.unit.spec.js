@@ -45,11 +45,8 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
-      useLighthouseDirectDepositEndpoint: false,
       togglesLoaded: true,
-      profileToggles: {
-        profileUseFieldEditingPage: true,
-      },
+      profileToggles: {},
     };
   });
 
@@ -289,7 +286,6 @@ describe('mapStateToProps', () => {
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
-      'useLighthouseDirectDepositEndpoint',
       'togglesLoaded',
       'profileToggles',
     ];

@@ -19,8 +19,6 @@ const GrossMonthlyIncomeInput = props => {
 
   const formData = useSelector(state => state.form.data);
 
-  const [submitted, setSubmitted] = useState(false);
-
   const {
     personalData: {
       employmentHistory: {
@@ -30,6 +28,8 @@ const GrossMonthlyIncomeInput = props => {
     },
   } = formData;
 
+  const MAXIMUM_GROSS_MONTHLY_INCOME = 12000;
+
   const employmentRecord = isEditing ? employmentRecords[index] : newRecord;
 
   const {
@@ -38,6 +38,7 @@ const GrossMonthlyIncomeInput = props => {
   } = employmentRecord;
 
   const [incomeError, setIncomeError] = useState(false);
+  const [error, setError] = useState(null);
   const [grossMonthlyIncome, setGrossMonthlyIncome] = useState({
     value: currentGrossMonthlyIncome,
     dirty: false,
@@ -73,10 +74,16 @@ const GrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    setSubmitted(true);
 
     if (!isValidCurrency(grossMonthlyIncome.value)) {
       setIncomeError(true);
+      setError('Please enter a valid amount');
+      return;
+    }
+
+    if (grossMonthlyIncome.value > MAXIMUM_GROSS_MONTHLY_INCOME) {
+      setIncomeError(true);
+      setError('Please enter an amount less than $12,000');
       return;
     }
 
@@ -143,12 +150,11 @@ const GrossMonthlyIncomeInput = props => {
         type="text"
         value={grossMonthlyIncome.value}
         required
+        min={0}
+        max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
-        error={
-          incomeError && (submitted || grossMonthlyIncome.dirty)
-            ? `Please enter a valid number.`
-            : ''
-        }
+        error={error}
+        uswds
       />
       <va-additional-info
         trigger="How to calculate your gross monthly income"

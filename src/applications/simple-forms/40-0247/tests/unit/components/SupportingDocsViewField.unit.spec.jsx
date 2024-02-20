@@ -25,7 +25,7 @@ describe('SupportingDocsViewField', () => {
   });
 
   // Test to check if the component renders the correct number of list items when veteranSupportingDocuments is provided
-  it('renders the correct number of list items', () => {
+  it('renders the 4 list items if a file’s uploaded', () => {
     const formData = {
       veteranSupportingDocuments: [
         { name: 'Document 1', size: 100 },
@@ -38,14 +38,14 @@ describe('SupportingDocsViewField', () => {
         formData={formData}
       />,
     );
-    expect(getAllByRole('listitem')).to.have.lengthOf(2);
+    expect(getAllByRole('listitem')).to.have.lengthOf(4);
   });
 
   // Test to check if the component does not render the list when veteranSupportingDocuments is not provided
-  it('does not render the list when veteranSupportingDocuments is not provided', () => {
-    const { queryByRole } = render(
+  it('renders only 2 list items if no file’s uploaded', () => {
+    const { queryAllByRole } = render(
       <SupportingDocsViewField defaultEditButton={() => {}} formData={{}} />,
     );
-    expect(queryByRole('listitem')).to.be.null;
+    expect(queryAllByRole('listitem')).to.have.lengthOf(2);
   });
 });

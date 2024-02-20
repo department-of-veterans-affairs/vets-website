@@ -1,37 +1,16 @@
 {
-  "messageDetails": {
-    "message": {
-      "replyToName": "MORGUN, OLEKSII",
-      "messageId": 2715943,
-      "category": "COVID",
-      "subject": "Covid Inquiry from OM",
-      "body": "Second test reply from Clinician Oleksii",
-      "attachment": null,
-      "sentDate": "2023-03-23T14:58:03.000Z",
-      "senderId": 2708253,
-      "senderName": "MORGUN, OLEKSII ",
-      "recipientId": 251391,
-      "recipientName": "MHVDAYMARK, MARK ",
-      "readReceipt": "READ",
-      "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
-      "proxySenderName": null,
-      "threadId": 2710544,
-      "folderId": 0,
-      "messageBody": "Second test reply from Clinician Oleksii",
-      "draftDate": null,
-      "toDate": null,
-      "hasAttachments": false
-    },
-    "messageHistory": [
+  "threadDetails": {
+    "messages": [
       {
-        "messageId": 2710545,
+        "replyToName": "FREEMAN, GORDON",
+        "messageId": 2715943,
         "category": "COVID",
         "subject": "Covid Inquiry from OM",
-        "body": "Testing new triage group\r\n\r\nOleksii Morgun",
+        "body": "Second test reply from Clinician Gordon",
         "attachment": null,
-        "sentDate": "2023-03-20T14:11:09.000Z",
+        "sentDate": "2023-03-23T14:58:03.000Z",
         "senderId": 2708253,
-        "senderName": "MORGUN, OLEKSII ",
+        "senderName": "FREEMAN, GORDON ",
         "recipientId": 251391,
         "recipientName": "MHVDAYMARK, MARK ",
         "readReceipt": "READ",
@@ -39,13 +18,38 @@
         "proxySenderName": null,
         "threadId": 2710544,
         "folderId": 0,
-        "messageBody": "Testing new triage group\r\n\r\nOleksii Morgun",
+        "messageBody": "Second test reply from Clinician Gordon",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      {
+        "messageId": 2710545,
+        "category": "COVID",
+        "subject": "Covid Inquiry from OM",
+        "body": "Testing new triage group\r\n\r\nGordon Freeman",
+        "attachment": null,
+        "sentDate": "2023-03-20T14:11:09.000Z",
+        "senderId": 2708253,
+        "senderName": "FREEMAN, GORDON ",
+        "recipientId": 251391,
+        "recipientName": "MHVDAYMARK, MARK ",
+        "readReceipt": "READ",
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2710544,
+        "folderId": 0,
+        "messageBody": "Testing new triage group\r\n\r\nGordon Freeman",
         "draftDate": null,
         "toDate": null,
         "hasAttachments": false
       }
     ],
     "isLoading": false,
-    "error": null
+    "replyToName": "FREEMAN, GORDON ",
+    "threadFolderId": "0",
+    "replyToMessageId": 2715943,
+    "cannotReply": false,
+    "threadViewCount": 5
   }
 }

@@ -1,30 +1,20 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { beforeEach } from 'mocha';
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
+import vaccines from '../fixtures/vaccines.json';
+import { convertVaccine } from '../../reducers/vaccines';
 
-describe('Vaccines list container with errors', () => {
+describe('Vaccines list container', () => {
   const initialState = {
     user,
     mr: {
-      vaccines: {},
-      alerts: {
-        alertList: [
-          {
-            datestamp: '2023-10-10T16:03:28.568Z',
-            isActive: true,
-            type: 'error',
-          },
-          {
-            datestamp: '2023-10-10T16:03:28.572Z',
-            isActive: true,
-            type: 'error',
-          },
-        ],
+      vaccines: {
+        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
       },
     },
     featureToggles: {
@@ -32,8 +22,8 @@ describe('Vaccines list container with errors', () => {
       mhv_medical_records_allow_txt_downloads: true,
     },
   };
-
   let screen;
+
   beforeEach(() => {
     screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
       initialState,
@@ -88,5 +78,81 @@ describe('Vaccines list container still loading', () => {
 
   it('displays a loading indicator', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Vaccines list container with no vaccines', () => {
+  it('displays a no vaccines message', () => {
+    const initialState = {
+      user,
+      mr: {
+        vaccines: {
+          vaccinesList: [],
+        },
+        alerts: {
+          alertList: [],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    waitFor(() => {
+      expect(
+        screen.getByText('There are no vaccines in your VA medical records.', {
+          exact: true,
+        }),
+      ).to.exist;
+    });
+  });
+});
+
+describe('Vaccines list container with errors', async () => {
+  const initialState = {
+    user,
+    mr: {
+      alerts: {
+        alertList: [
+          {
+            datestamp: '2023-10-10T16:03:28.568Z',
+            isActive: true,
+            type: 'error',
+          },
+          {
+            datestamp: '2023-10-10T16:03:28.572Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+  });
+
+  it('displays an error message', async () => {
+    await waitFor(() => {
+      expect(
+        screen.getByText('We can’t access your vaccine records right now', {
+          exact: false,
+        }),
+      ).to.exist;
+    });
+  });
+
+  it('does not display a print button', () => {
+    const printButton = screen.queryByTestId('print-records-button');
+    expect(printButton).to.be.null;
   });
 });

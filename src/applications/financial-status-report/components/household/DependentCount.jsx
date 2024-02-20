@@ -4,13 +4,14 @@ import { focusElement } from 'platform/utilities/ui';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
+import useClearSpouseData from '../../hooks/useClearSpouseData';
 
 const WHOLE_NUMBER_PATTERN = /^\d+$/;
 
 const DependentCount = ({
   data,
   goBack,
-  goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -18,62 +19,84 @@ const DependentCount = ({
   const headerRef = useRef(null);
 
   const {
-    questions: { hasDependents },
+    questions: { hasDependents, isMarried },
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
-  const [error, setError] = useState(null);
-  const [dependents, setDependents] = useState(hasDependents);
+  const MAXIMUM_DEPENDENT_COUNT = 25;
 
-  // Header ref for setting focus
+  const [error, setError] = useState(null || '');
+  const [dependents, setDependents] = useState(hasDependents || '');
+
+  // Correctly handle the hook to clear spouse data based on marital status
+  useClearSpouseData(isMarried, data, setFormData);
+
   useEffect(
     () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
+      if (headerRef.current) {
+        focusElement(headerRef.current);
       }
     },
     [headerRef],
   );
 
-  // setData on goForward, nav is handled in onSubmit so goForward has teh most up to date data
-  const onGoForward = () => {
-    if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-      setError('Please enter your dependent(s) information.');
-      focusElement('va-number-input');
-    } else {
-      setError(null);
-      if (dependents === '0') {
-        // clear dependent array if it was previously populated
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-          personalData: {
-            ...data?.personalData,
-            dependents: [],
-          },
-        });
-      } else {
-        setFormData({
-          ...data,
-          questions: {
-            ...data?.questions,
-            hasDependents: dependents,
-          },
-        });
-      }
+  useEffect(
+    () => {
+      setDependents(hasDependents || '');
+    },
+    [hasDependents],
+  );
+
+  const determineNextPath = () => {
+    if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return '/review-and-submit';
     }
+    if (dependents === '0') {
+      return '/employment-question';
+    }
+    return '/dependent-ages';
+  };
+
+  const handleInput = ({ target }) => {
+    const newValue = target?.value;
+    setDependents(newValue); // Update local state first
+    // Validate immediately on input
+    if (
+      !WHOLE_NUMBER_PATTERN.test(newValue) ||
+      parseInt(newValue, 10) > MAXIMUM_DEPENDENT_COUNT ||
+      parseInt(newValue, 10) < 0
+    ) {
+      setError('Please enter a valid number of dependents (0-25).');
+    } else {
+      setError(undefined); // Clear error
+    }
+
+    // Update form data
+    setFormData({
+      ...data,
+      questions: {
+        ...data?.questions,
+        hasDependents: newValue,
+      },
+      personalData:
+        newValue === '0'
+          ? { ...data?.personalData, dependents: [] }
+          : data?.personalData,
+    });
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    goToPath(determineNextPath());
   };
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        if (error) return;
-        goForward(data);
-      }}
-    >
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
@@ -81,24 +104,17 @@ const DependentCount = ({
           </h3>
         </legend>
         <VaNumberInput
+          id="dependent-count"
           label="Number of dependents"
           error={error}
-          hint="Dependents include your spouse, unmarried children under 18 years old, and other dependents."
-          id="dependent-count"
-          name="dependent-count"
-          onBlur={() => {
-            if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-              setError('Please enter your dependent(s) information.');
-              focusElement('va-number-input');
-            }
-          }}
-          onInput={({ target }) => {
-            setDependents(target.value);
-          }}
-          inputMode="number"
-          value={dependents}
+          onInput={handleInput}
+          value={dependents.toString()} // Ensure value is always a string
+          inputMode="numeric" // Use "numeric" for better mobile keyboard support
           className="no-wrap input-size-2"
+          min={0}
+          max={MAXIMUM_DEPENDENT_COUNT}
           required
+          uswds
         />
         <DependentExplainer />
       </fieldset>
@@ -108,14 +124,12 @@ const DependentCount = ({
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
           },
           {
             label: 'Continue',
-            onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            onClick: handleSubmit,
+            isSubmitting: true,
           },
         ]}
       />
@@ -128,10 +142,13 @@ DependentCount.propTypes = {
   data: PropTypes.shape({
     questions: PropTypes.shape({
       hasDependents: PropTypes.string,
+      isMarried: PropTypes.bool,
     }),
     personalData: PropTypes.shape({
       dependents: PropTypes.array,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }).isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,

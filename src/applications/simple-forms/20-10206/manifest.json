@@ -2,6 +2,6 @@
   "appName": "Request personal records",
   "entryFile": "./app-entry.jsx",
   "entryName": "10206-pa",
-  "rootUrl": "/request-personal-records",
+  "rootUrl": "/records/request-personal-records-form-20-10206",
   "productId": "560247e7-3a80-4fdd-ad00-8d0e14435d22"
 }

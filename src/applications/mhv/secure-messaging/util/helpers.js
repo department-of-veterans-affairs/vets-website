@@ -1,6 +1,29 @@
 import moment from 'moment-timezone';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DefaultFolders as Folders, Paths } from './constants';
+import {
+  DefaultFolders as Folders,
+  Paths,
+  RecipientStatus,
+  Recipients,
+} from './constants';
+
+/**
+ * @param {Object} file The attachment file that is uploaded or saved within a message thread
+ * file.lastModified ~ this id is used on newly uploaded attachments that contain no existing id
+ * file.id ~ this id is used on saved attachments within a message thread
+ *
+ */
+export const handleRemoveAttachmentButtonId = file => {
+  return file.id === undefined
+    ? `remove-attachment-button-${file.lastModified}`
+    : `remove-attachment-button-${file.id}`;
+};
+export const handleRemoveAttachmentModalId = file => {
+  return file.id === undefined
+    ? `remove-attachment-modal-${file.lastModified}`
+    : `remove-attachment-modal-${file.id}`;
+};
+///
 
 export const folderPathByFolderId = folderId => {
   let path = '';
@@ -57,6 +80,21 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const threadsDateFormat = (timestamp, format = null) => {
+  moment.updateLocale('en', {
+    meridiem: hour => {
+      if (hour < 12) {
+        return 'a.m.';
+      }
+      return 'p.m.';
+    },
+  });
+  const timeZone = moment.tz.guess();
+  return moment
+    .tz(timestamp, timeZone)
+    .format(format || 'MMMM D, YYYY [at] h:mm a z');
 };
 
 export const sortRecipients = recipientsList => {
@@ -161,6 +199,16 @@ export const updateMessageInThread = (thread, response) => {
   });
 };
 
+export const getSize = num => {
+  if (num > 999999) {
+    return `${(num / 1000000).toFixed(1)} MB`;
+  }
+  if (num > 999) {
+    return `${Math.floor(num / 1000)} KB`;
+  }
+  return `${num} B`;
+};
+
 export const convertPathNameToTitleCase = str => {
   const formattedStr = str.replace(/\//g, '').trim(); // Remove slashes and trim whitespace
   const words = formattedStr.split('_'); // Split the string by underscores
@@ -190,4 +238,85 @@ export const messageSignatureFormatter = singatureObj => {
 export const setCaretToPos = (input, pos) => {
   input.focus();
   input.setSelectionRange(pos, pos);
+};
+
+export const resetUserSession = localStorageValues => {
+  const timeout = setTimeout(() => {
+    Object.keys(localStorageValues).forEach(storageItem => {
+      if (!localStorage.getItem(storageItem)) {
+        localStorage.setItem(storageItem, localStorageValues[storageItem]);
+      }
+    });
+  }, 1000);
+  return { signOutMessage: 'non-empty string', timeOutId: timeout };
+};
+
+export const checkTriageGroupAssociation = tempRecipient => {
+  return recipient =>
+    recipient.id === tempRecipient.recipientId ||
+    recipient.name === tempRecipient.name ||
+    recipient.name === tempRecipient.triageGroupName;
+};
+
+export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
+  const formattedRecipient = tempRecipient;
+
+  const isBlocked = recipients.blockedRecipients?.some(
+    checkTriageGroupAssociation(formattedRecipient),
+  );
+
+  const isAssociated =
+    isBlocked ||
+    recipients.allowedRecipients.some(
+      checkTriageGroupAssociation(formattedRecipient),
+    );
+
+  if (!isAssociated) {
+    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+  } else if (isBlocked) {
+    formattedRecipient.status = RecipientStatus.BLOCKED;
+  }
+
+  return { isAssociated, isBlocked, formattedRecipient };
+};
+
+export const formatRecipient = recipient => {
+  return {
+    id: recipient.attributes.triageTeamId,
+    name: recipient.attributes.name,
+    stationNumber: recipient.attributes.stationNumber,
+    blockedStatus: recipient.attributes.blockedStatus,
+    preferredTeam: recipient.attributes.preferredTeam,
+    relationshipType: recipient.attributes.relationshipType,
+    type: Recipients.CARE_TEAM,
+    status: recipient.attributes.blockedStatus
+      ? RecipientStatus.BLOCKED
+      : RecipientStatus.ALLOWED,
+  };
+};
+
+export const findBlockedFacilities = recipients => {
+  const blockedFacilities = new Set();
+  const allowedFacilities = new Set();
+  const fullyBlockedFacilities = [];
+
+  recipients.forEach(recipient => {
+    if (recipient.attributes.blockedStatus === true) {
+      blockedFacilities.add(recipient.attributes.stationNumber);
+    } else {
+      allowedFacilities.add(recipient.attributes.stationNumber);
+    }
+  });
+
+  blockedFacilities.forEach(facility => {
+    if (!allowedFacilities.has(facility)) {
+      fullyBlockedFacilities.push(facility);
+    }
+  });
+
+  return fullyBlockedFacilities;
+};
+
+export const sortTriageList = list => {
+  return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };

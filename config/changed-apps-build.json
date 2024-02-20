@@ -1,6 +1,10 @@
 {
   "apps": [
     {
+      "rootFolder": "avs",
+      "slackGroup": "<@C04UBETRY8N>"
+    },
+    {
       "rootFolder": "burials",
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
@@ -18,10 +22,6 @@
     },
     {
       "rootFolder": "coronavirus-screener",
-      "slackGroup": "@cto-health-products"
-    },
-    {
-      "rootFolder": "coronavirus-vaccination",
       "slackGroup": "@cto-health-products"
     },
     {
@@ -45,6 +45,10 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "health-care-supply-reordering",
+      "slackGroup": "<@C05DFSM57FW>"
+    },
+    {
       "rootFolder": "login",
       "slackGroup": "@vsp-identity-group"
     },
@@ -53,8 +57,17 @@
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
+      "rootFolder": "mhv-landing-page",
+      "slackGroup": "@mhv-on-va-gov-group"
+    },
+    {
       "rootFolder": "mhv-inherited-proofing",
       "slackGroup": "@vsp-identity-group"
+    },
+    {
+      "rootFolder": "personalization",
+      "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "terms-of-use",
@@ -80,6 +93,14 @@
     {
       "rootFolder": "rated-disabilities",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "letters",
+      "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "representatives",
+      "slackGroup": "@arfeng"
     }
   ]
 }

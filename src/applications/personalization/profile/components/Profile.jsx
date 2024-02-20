@@ -7,11 +7,10 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
-  fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
+
 import {
   cnpDirectDepositInformation,
-  profileUseLighthouseDirectDepositEndpoint,
   selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
@@ -20,6 +19,7 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -70,7 +70,6 @@ class Profile extends Component {
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
@@ -80,9 +79,7 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
@@ -105,7 +102,6 @@ class Profile extends Component {
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
@@ -129,9 +125,7 @@ class Profile extends Component {
         shouldFetchCNPDirectDepositInformation &&
         !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
 
     if (
@@ -171,7 +165,6 @@ class Profile extends Component {
 
     const routes = getRoutes({
       profileContactsPage: toggles.profileContacts,
-      useFieldEditingPage: toggles.profileUseFieldEditingPage,
       profileUseHubPage: toggles.profileUseHubPage,
     });
 
@@ -287,7 +280,6 @@ Profile.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -368,9 +360,6 @@ const mapStateToProps = state => {
       'profile',
     ),
     isBlocked,
-    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
-      state,
-    ),
     togglesLoaded,
     profileToggles: selectProfileToggles(state),
   };

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
-
+const dateFns = require('date-fns');
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const checkInData = require('./mocks/v2/check-in-data/index');
 const preCheckInData = require('./mocks/v2/pre-check-in-data/index');
@@ -16,6 +16,8 @@ const mockUser = Object.freeze({
   dob: '1935-04-07',
 });
 const missingUUID = 'a5895713-ca42-4244-9f38-f8b5db020d04';
+
+const demographicsConfirmedUUID = '3f93c0e0-319a-4642-91b3-750e0aec0388';
 
 const responses = {
   ...commonResponses,
@@ -53,6 +55,20 @@ const responses = {
   },
   'GET /check_in/v2/patient_check_ins/:uuid': (req, res) => {
     const { uuid } = req.params;
+    if (uuid === demographicsConfirmedUUID) {
+      const yesterday = dateFns.sub(new Date(), { days: -1 }).toISOString();
+      return res.json(
+        sharedData.get.createAppointments(
+          uuid,
+          false,
+          yesterday,
+          false,
+          yesterday,
+          false,
+          yesterday,
+        ),
+      );
+    }
     if (hasBeenValidated) {
       hasBeenValidated = false;
       return res.json(sharedData.get.createAppointments(uuid));

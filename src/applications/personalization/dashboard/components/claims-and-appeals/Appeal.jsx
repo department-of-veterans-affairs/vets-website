@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   APPEAL_TYPES,
   EVENT_TYPES,
   getTypeName,
   programAreaMap,
-} from '../../utils/appeals-v2-helpers';
+} from '../../utils/appeals-helpers';
+import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import { getStatusContents } from '../../utils/getStatusContents';
 
@@ -70,7 +70,7 @@ const Appeal = ({ appeal, name }) => {
   }
 
   appealTitle += ` updated on ${format(
-    new Date(updatedEventDateString.replace(/-/g, '/')),
+    new Date(replace(updatedEventDateString)),
     'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
@@ -119,18 +119,9 @@ const Appeal = ({ appeal, name }) => {
   );
 
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-      <Toggler.Enabled>
-        <va-card>
-          <div className="vads-u-padding--1">{content}</div>
-        </va-card>
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
-          {content}
-        </div>
-      </Toggler.Disabled>
-    </Toggler>
+    <va-card>
+      <div className="vads-u-padding--1">{content}</div>
+    </va-card>
   );
 };
 

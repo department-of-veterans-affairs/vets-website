@@ -30,6 +30,7 @@ import CreditCardBillsSummaryReview from '../../components/householdExpenses/Cre
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
 import HouseholdExpensesExplainerWidget from '../../components/householdExpenses/HouseholdExpensesExplainerWidget';
+import ExpenseExplainerReview from '../../components/householdExpenses/ExpenseExplainerReview';
 
 import {
   isStreamlinedLongForm,
@@ -47,7 +48,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: HouseholdExpensesExplainerWidget,
-        CustomPageReview: null,
+        CustomPageReview: ExpenseExplainerReview,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),

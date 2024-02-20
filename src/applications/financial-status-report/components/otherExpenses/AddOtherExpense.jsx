@@ -9,6 +9,7 @@ import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections
 
 const SUMMARY_PATH = '/other-expenses-summary';
 const CHECKLIST_PATH = '/other-expenses-checklist';
+const MAXIMUM_EXPENSE_AMOUNT = 12000;
 
 const AddOtherExpense = ({ data, goToPath, setFormData }) => {
   const { otherExpenses = [] } = data;
@@ -25,6 +26,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
 
   // Expense name data/flags
   const [expenseName, setExpenseName] = useState(currentExpense.name || null);
+  const [otherExpenseAmountError, setOtherExpenseAmountError] = useState(null);
   const nameError = !expenseName ? 'Enter valid text' : null;
 
   // Expense amount data/flags
@@ -45,7 +47,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
       // or data updates won't be reflected when page navigation occurs
       event.preventDefault();
 
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherExpenseAmountError) {
         goToPath(SUMMARY_PATH);
       }
     },
@@ -54,6 +56,12 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     },
     onExpenseAmountChange: event => {
       setExpenseAmount(event.target.value);
+
+      if (event.target.value >= MAXIMUM_EXPENSE_AMOUNT) {
+        setOtherExpenseAmountError('Amount must be less than $12,000');
+      } else {
+        setOtherExpenseAmountError(null);
+      }
     },
     onCancel: event => {
       event.preventDefault();
@@ -69,7 +77,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
       setSubmitted(true);
 
       // Check for errors
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherExpenseAmountError) {
         // Update form data
         const newExpenses = [...otherExpenses];
         // update new or existing index
@@ -113,19 +121,23 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            charcount
+            uswds
           />
           <VaNumberInput
             className="no-wrap input-size-3"
-            error={(submitted && amountError) || null}
+            error={otherExpenseAmountError}
             id="add-other-living-expense-amount"
             inputmode="decimal"
             label="How much do you pay for this expense every month?"
             min={0}
+            max={MAXIMUM_EXPENSE_AMOUNT}
             name="add-other-living-expense-amount"
             onInput={handlers.onExpenseAmountChange}
             required
             type="number"
             value={expenseAmount || ''}
+            uswds
           />
           <div className="vads-u-margin-top--2">
             <button

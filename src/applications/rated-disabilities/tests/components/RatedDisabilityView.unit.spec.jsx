@@ -1,16 +1,15 @@
 import React from 'react';
-import sinon from 'sinon';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import { render } from '@testing-library/react';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { heading as learnHeading } from '../../components/Learn';
 import RatedDisabilityView from '../../components/RatedDisabilityView';
 
 describe('<RatedDisabilityView/>', () => {
-  const user = {
-    profile: {
-      status: 'OK',
-      verified: true,
-    },
-  };
   const ratedDisabilities = { ratedDisabilities: [] };
   const fetchRatedDisabilities = sinon.stub();
   const fetchTotalDisabilityRating = sinon.stub();
@@ -18,7 +17,6 @@ describe('<RatedDisabilityView/>', () => {
   it('should render', () => {
     const wrapper = shallow(
       <RatedDisabilityView
-        user={user}
         fetchRatedDisabilities={fetchRatedDisabilities}
         fetchTotalDisabilityRating={fetchTotalDisabilityRating}
         ratedDisabilities={ratedDisabilities}
@@ -34,23 +32,27 @@ describe('<RatedDisabilityView/>', () => {
     wrapper.unmount();
   });
 
-  it('should render a MVI warning if profile status is not OK', () => {
-    const userError = {
-      profile: {
-        verified: true,
-        status: 'NOT_FOUND',
-      },
-    };
-    const wrapper = shallow(
+  it('should display the Learn component', () => {
+    const screen = render(
       <RatedDisabilityView
-        user={userError}
         fetchRatedDisabilities={fetchRatedDisabilities}
         fetchTotalDisabilityRating={fetchTotalDisabilityRating}
         ratedDisabilities={ratedDisabilities}
       />,
     );
 
-    expect(wrapper.find('.usa-alert-warning')).to.exist;
-    wrapper.unmount();
+    expect(screen.getByText(learnHeading));
+  });
+
+  it('should display the NeedHelp component', () => {
+    const { container } = render(
+      <RatedDisabilityView
+        fetchRatedDisabilities={fetchRatedDisabilities}
+        fetchTotalDisabilityRating={fetchTotalDisabilityRating}
+        ratedDisabilities={ratedDisabilities}
+      />,
+    );
+
+    expect($('va-need-help', container)).to.exist;
   });
 });

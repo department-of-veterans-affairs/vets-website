@@ -59,7 +59,6 @@ export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
   missingIssue: 'You must add an issue',
-  uniqueIssue: 'You must enter a condition you haven’t already entered',
   maxLength: `You can enter a maximum of ${MAX_LENGTH.ISSUE_NAME} characters`,
   requiredYesNo: 'You must answer yes or no',
 
@@ -94,7 +93,6 @@ export const errorMessages = {
     city: 'You must enter a city name',
     state: 'You must choose a state',
     postal: 'You must enter a postal code',
-    overMaxLength: max => `You can enter a maximum of ${max} characters`,
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
 
@@ -153,11 +151,6 @@ export const CLAIMANT_TYPES = [
   // 'parent_of_veteran',
   // 'other',
 ];
-
-export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
-
-export const MAX_FILE_SIZE_MB = 100;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
 export const ITF_STATUSES = {
   active: 'active',

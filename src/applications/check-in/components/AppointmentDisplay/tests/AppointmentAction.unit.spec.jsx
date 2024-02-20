@@ -28,9 +28,6 @@ describe('check-in', () => {
       );
 
       expect(action.getByTestId('check-in-button')).to.exist;
-      expect(action.getByTestId('check-in-button')).to.have.text(
-        'Check in now',
-      );
     });
 
     it('should render the check in button for appointments with ELIGIBLE status that expire in more than 10 seconds', () => {
@@ -48,9 +45,6 @@ describe('check-in', () => {
       );
 
       expect(action.getByTestId('check-in-button')).to.exist;
-      expect(action.getByTestId('check-in-button')).to.have.text(
-        'Check in now',
-      );
     });
     it('should render the check in button for appointments with ELIGIBLE status in an earlier timezone', () => {
       MockDate.set('2018-01-01T13:25:00-04:00');
@@ -67,9 +61,6 @@ describe('check-in', () => {
       );
 
       expect(action.getByTestId('check-in-button')).to.exist;
-      expect(action.getByTestId('check-in-button')).to.have.text(
-        'Check in now',
-      );
     });
     it('should call api on click with isTravelEnabled: true and travelSubmitted:true when enabled and submitted', () => {
       MockDate.set('2018-01-01T13:25:00-04:00');
@@ -81,6 +72,7 @@ describe('check-in', () => {
         travelAddress: 'yes',
         travelMileage: 'yes',
         travelVehicle: 'yes',
+        travelReview: 'yes',
         features: {
           /* eslint-disable-next-line camelcase */
           check_in_experience_travel_reimbursement: true,
@@ -123,9 +115,10 @@ describe('check-in', () => {
         travelAddress: null,
         travelMileage: null,
         travelVehicle: null,
+        travelReview: null,
         features: {
           /* eslint-disable-next-line camelcase */
-          check_in_experience_travel_reimbursement: true,
+          check_in_experience_travel_reimbursement: false,
         },
       };
       sandbox.stub(v2, 'postCheckInData').resolves({});

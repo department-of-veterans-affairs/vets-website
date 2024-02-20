@@ -2,36 +2,40 @@ import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isLandingPageEnabled } from 'applications/mhv/landing-page/selectors';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
 import { isLoggedIn } from '../../../user/selectors';
-import { signInServiceEnabled } from '../../../user/authentication/selectors';
 import { replaceDomainsInData } from '../../../utilities/environment/stagingDomains';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
+import { toggleValues } from '../../feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '../../../utilities/feature-toggles/featureFlagNames';
 
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+/**
+ * Adds { currentPage: true } to a link object when the current path starts
+ * with link.href.
+ *
+ * @param {Array} links - links to be displayed on right-side of header
+ * @param {String} [pathname=window.location.pathname] - optional pathname arg
+ * @return {Array}
+ */
 export function flagCurrentPageInTopLevelLinks(
   links = [],
-  href = window.location.href,
-  pathName = window.location.pathname,
+  pathname = window.location.pathname,
 ) {
+  const currentPath = pathname.endsWith('/') ? pathname : `${pathname}/`;
   return links.map(
     link =>
-      pathName.endsWith(link.href) || href.includes(link.href)
-        ? { ...link, currentPage: true }
-        : link,
+      currentPath.startsWith(link.href) ? { ...link, currentPage: true } : link,
   );
 }
 
@@ -47,29 +51,6 @@ export function getAuthorizedLinkData(
 }
 
 export class Main extends Component {
-  static propTypes = {
-    megaMenuData: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-      }).isRequired,
-    ),
-    toggleMobileDisplayHidden: PropTypes.func.isRequired,
-    togglePanelOpen: PropTypes.func.isRequired,
-    updateCurrentSection: PropTypes.func.isRequired,
-    currentDropdown: PropTypes.string,
-    currentSection: PropTypes.string,
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        href: PropTypes.string,
-        menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-        title: PropTypes.string.isRequired,
-      }).isRequired,
-    ).isRequired,
-    display: PropTypes.object,
-    loggedIn: PropTypes.bool.isRequired,
-  };
-
   toggleDropDown = currentDropdown => {
     const isVisible = !!currentDropdown;
     if (isVisible) {
@@ -174,27 +155,42 @@ export class Main extends Component {
   }
 }
 
+Main.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+      title: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  toggleMobileDisplayHidden: PropTypes.func.isRequired,
+  togglePanelOpen: PropTypes.func.isRequired,
+  updateCurrentSection: PropTypes.func.isRequired,
+  currentDropdown: PropTypes.string,
+  currentSection: PropTypes.string,
+  display: PropTypes.object,
+  megaMenuData: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string,
+      menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    }).isRequired,
+  ),
+};
+
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
-  const useOAuth = signInServiceEnabled(state) ? '&oauth=true' : '';
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-  // If user is not logged in, open login modal on current page with a redirect param to my-va
-  if (!loggedIn) {
-    const urlWithoutParams = window.location.href.split('?')[0];
-    MY_VA_LINK.href = `${urlWithoutParams}?next=%2Fmy-va%2F${useOAuth}`;
-  }
-
-  const showMyVALink = toggleValues(state)[
-    FEATURE_FLAG_NAMES.myVaShowHeaderLink
-  ];
-  if (loggedIn || (!loggedIn && showMyVALink)) {
+  if (loggedIn) {
     defaultLinks.push(MY_VA_LINK);
   }
 
-  const authenticatedLinks = isLandingPageEnabled(state)
+  const authenticatedLinks = toggleValues(state)[
+    FEATURE_FLAG_NAMES.mhvLandingPageEnabled
+  ]
     ? [{ ...MY_HEALTH_LINK }]
     : undefined;
 

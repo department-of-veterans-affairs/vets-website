@@ -1,19 +1,6 @@
 export default class PageObject {
   rootUrl = '/my-health/appointments';
 
-  assertLink({ name, exist = true } = {}) {
-    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
-    return this;
-  }
-
-  assertNexButton({ enabled = true, label = 'Continue' } = {}) {
-    cy.contains('button', label)
-      .as('button')
-      .should(enabled ? 'be.enabled' : 'be.disabled');
-
-    return this;
-  }
-
   assertAlert({ text, exist, status }) {
     cy.get(`va-alert[status=${status}]`)
       .as('alert')
@@ -22,6 +9,43 @@ export default class PageObject {
       .contains(text)
       .should(exist ? 'exist' : 'not.exist');
 
+    return this;
+  }
+
+  assertButton({ label, exist = true, isEnabled = true } = {}) {
+    if (exist) {
+      cy.contains('button', label)
+        .as('button')
+        .should(isEnabled ? 'be.enabled' : 'be.disabled');
+    } else {
+      cy.contains('button', label).should('not.exist');
+    }
+
+    return this;
+  }
+
+  assertCallCount({ alias, count }) {
+    cy.get(`${alias}.all`).then(calls => {
+      cy.wrap(calls.length).should('equal', count);
+    });
+
+    return this;
+  }
+
+  assertErrorAlert({ text, exist = true }) {
+    return this.assertAlert({ text, exist, status: 'error' });
+  }
+
+  assertHeading({ name, level = 1, exist = true } = {}) {
+    cy.findByRole('heading', { level, name }).should(
+      exist ? 'exist' : 'not.exist',
+    );
+
+    return this;
+  }
+
+  assertLink({ name, exist = true } = {}) {
+    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
     return this;
   }
 
@@ -36,8 +60,26 @@ export default class PageObject {
     return this;
   }
 
-  assertErrorAlert({ text, exist = true }) {
-    return this.assertAlert({ text, exist, status: 'error' });
+  assertNexButton({ isEnabled = true, label = 'Continue' } = {}) {
+    cy.contains('button', label)
+      .as('button')
+      .should(isEnabled ? 'be.enabled' : 'be.disabled');
+
+    return this;
+  }
+
+  assertShadow({ element, text, exist = true } = {}) {
+    cy.get(element)
+      .shadow()
+      .findByText(text)
+      .should(exist ? 'exist' : 'not.existF');
+
+    return this;
+  }
+
+  assertText({ text, exist = true } = {}) {
+    cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
   }
 
   assertWarningAlert({ text, exist = true }) {
@@ -48,7 +90,11 @@ export default class PageObject {
     return this.assertModal({ text, exist, status: 'warning' });
   }
 
-  clickNextButton(label = 'Continue') {
+  clickBackButton(label = 'Back') {
+    return this.clickButton({ label });
+  }
+
+  clickButton({ label }) {
     cy.contains('button', label)
       .as('button')
       .should('not.be.disabled');
@@ -56,6 +102,10 @@ export default class PageObject {
     cy.get('@button').click({ waitForAnimations: true });
 
     return this;
+  }
+
+  clickNextButton(label = 'Continue') {
+    return this.clickButton({ label });
   }
 
   selectRadioButton(label) {
@@ -87,6 +137,11 @@ export default class PageObject {
   }
 
   _validateHeader() {
+    return this;
+  }
+
+  wait({ alias }) {
+    cy.wait(`${alias}`);
     return this;
   }
 }

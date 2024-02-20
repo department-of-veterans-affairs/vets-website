@@ -13,13 +13,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient();
     composePage.selectCategory();
     composePage.enterDataToMessageSubject();
@@ -30,7 +24,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
 
     composePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
-    composePage.verifyRecipient('6832726');
+    composePage.verifyRecipient();
     composePage.verifySubjectField('testSubject');
   });
 });

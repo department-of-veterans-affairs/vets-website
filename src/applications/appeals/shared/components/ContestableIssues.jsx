@@ -6,13 +6,15 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
 
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import {
   ContestableIssuesLegend,
-  NoIssuesLoadedAlert,
+  ApiFailureAlert,
+  NoEligibleIssuesAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
@@ -84,6 +86,24 @@ const ContestableIssues = props => {
     .concat(formData.additionalIssues || []);
 
   const hasSelected = someSelected(items);
+  const showApiFailure =
+    !submitted &&
+    !onReviewPage &&
+    apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
+  const showNoneSelected =
+    !submitted && !onReviewPage && formData.contestedIssues?.length === 0;
+  const showEditModeError =
+    !showNoneSelected && !hasSelected && (onReviewPage || submitted);
+
+  useEffect(
+    () => {
+      if (showEditModeError) {
+        focusElement('va-alert[status="error"]');
+        scrollTo('va-alert[status="error"]');
+      }
+    },
+    [showEditModeError, submitted],
+  );
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
     return (
@@ -183,24 +203,18 @@ const ContestableIssues = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
-  const showNoIssues =
-    !submitted &&
-    !onReviewPage &&
-    apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
-
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert />}
-      {!showNoIssues &&
-        !hasSelected &&
-        (onReviewPage || submitted) && (
-          <NoneSelectedAlert
-            count={formData.contestedIssues.length}
-            headerLevel={onReviewPage ? 4 : 3}
-            inReviewMode={inReviewMode}
-          />
-        )}
+      {showApiFailure && <ApiFailureAlert />}
+      {showNoneSelected && !showApiFailure && <NoEligibleIssuesAlert />}
+      {showEditModeError && (
+        <NoneSelectedAlert
+          count={formData.contestedIssues?.length || 0}
+          headerLevel={onReviewPage ? 4 : 3}
+          inReviewMode={inReviewMode}
+        />
+      )}
       <fieldset className="review-fieldset">
         <ContestableIssuesLegend
           onReviewPage={onReviewPage}
@@ -216,6 +230,7 @@ const ContestableIssues = props => {
           onPrimaryButtonClick={handlers.onRemoveIssue}
           onSecondaryButtonClick={handlers.onRemoveModalClose}
           visible={showRemoveModal}
+          uswds
         >
           <p>
             {removeIndex !== null

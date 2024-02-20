@@ -48,7 +48,7 @@ const InterstitialPage = props => {
           // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <a
             data-testid="continue-button"
-            className="vads-c-action-link--green vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--1 link"
+            className="vads-c-action-link--green vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--1 vads-u-font-size--lg link"
             tabIndex={0}
             role="button"
             onKeyPress={handleKeyPress}

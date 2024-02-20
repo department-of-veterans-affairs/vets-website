@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, within } from '@testing-library/dom';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import {
@@ -11,7 +11,7 @@ import {
   renderWithStoreAndRouter,
   getTestDate,
 } from '../../../mocks/setup';
-import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
+import AppointmentsPage from '../../../../appointment-list/components/AppointmentsPage';
 import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
@@ -31,7 +31,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
@@ -46,101 +46,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  it('should navigate to list URLs on dropdown change', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingCommunityCare: false,
-      },
-      user: userState,
-    };
-    mockPastAppointmentInfo({});
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
-      initialState: defaultState,
-    });
-
-    const dropdown = await screen.findByTestId('vaosSelect');
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'requested' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Requested appointments',
-      }),
-    );
-
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Requested | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'past' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
-    );
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Past appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Past appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'canceled' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
-    );
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Canceled appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Canceled appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-
-    dropdown.__events.vaSelect({
-      detail: { value: 'upcoming' },
-    });
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/'),
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: 'Your appointments',
-      }),
-    );
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Your appointments | VA online scheduling | Veterans Affairs`,
-      );
-    });
-  });
 
   it('should render warning message', async () => {
     setFetchJSONResponse(
@@ -161,7 +66,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
     );
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       store,
     });
 
@@ -174,7 +79,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
   });
 
   it('start scheduling button should open new appointment flow', async () => {
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: {
         ...initialState,
         user: userState,
@@ -208,7 +113,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({});
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -230,10 +135,14 @@ describe('VAOS <AppointmentsPageV2>', () => {
         name: 'Breadcrumbs',
       });
       expect(navigation).to.be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .exist;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).not.to.exist;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).not.to.exist;
 
       // and scheduling button should be displayed
       expect(
@@ -285,7 +194,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -320,10 +229,14 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).to.be
-        .ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
-        .exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).to.be.ok;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).not.to.exist;
 
       expect(
         screen.getByText(
@@ -366,7 +279,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       mockPastAppointmentInfo({ va: [appointment] });
 
       // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
       });
 
@@ -395,9 +308,14 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       // and breadcrumbs should be updated
       navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
-        .be.ok;
-      expect(within(navigation).queryByRole('link', { name: 'Past' })).to.exist;
+      expect(
+        within(navigation).queryByRole('link', {
+          name: 'Pending appointments',
+        }),
+      ).not.to.be.ok;
+      expect(
+        within(navigation).queryByRole('link', { name: 'Past appointments' }),
+      ).to.exist;
 
       const dropdown = await screen.findByTestId('vaosSelect');
 
@@ -422,29 +340,26 @@ describe('VAOS <AppointmentsPageV2>', () => {
     });
   });
 
-  describe('when print list flag is on', () => {
+  it('should show tertiary print button', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
         vaOnlineSchedulingStatusImprovement: true,
-        vaOnlineSchedulingPrintList: true,
       },
       user: userState,
     };
 
-    it('should show tertiary print button', async () => {
-      // Given the veteran lands on the VAOS homepage
-      mockPastAppointmentInfo({});
+    // Given the veteran lands on the VAOS homepage
+    mockPastAppointmentInfo({});
 
-      // When the page displays
-      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
-        initialState: defaultState,
-      });
-
-      // Then it should display the tertiary print button
-      expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
+    // When the page displays
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
     });
+
+    // Then it should display the tertiary print button
+    expect(screen.getByRole('button', { name: 'print list' })).to.be.ok;
   });
 });

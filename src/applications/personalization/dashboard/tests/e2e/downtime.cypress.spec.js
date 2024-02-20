@@ -6,6 +6,7 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
+import { findVaLinkByText } from '../../../common/e2eHelpers';
 
 /**
  *
@@ -47,12 +48,16 @@ describe('The My VA Dashboard', () => {
       ],
     });
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /continue/i }).click();
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    cy.get('va-button', { name: /continue/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
 
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /close/i }).click();
-    cy.findByRole('button', { name: /close/i }).should('not.exist');
+    cy.get('va-button', { name: /continue/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -79,7 +84,7 @@ describe('The My VA Dashboard', () => {
     });
     cy.visit(manifest.rootUrl);
     cy.findByRole('heading', { name: /My VA/i }).should('exist');
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    findVaLinkByText('Continue').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -146,7 +151,7 @@ describe('The My VA Dashboard', () => {
   });
 
   it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
     // start time is 25 hours in the future
     const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);

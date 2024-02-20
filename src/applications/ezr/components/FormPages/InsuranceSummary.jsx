@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { HealthInsuranceDescription } from '../FormDescriptions/HealthInsuranceDescriptions';
+import {
+  HealthInsuranceDescription,
+  HealthInsuranceAddtlInfoDescription,
+} from '../FormDescriptions/HealthInsuranceDescriptions';
 import InsuranceCoverageField from '../FormFields/InsuranceCoverageField';
 import InsurancePolicyList from '../FormFields/InsurancePolicyList';
 import { INSURANCE_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
@@ -30,7 +32,6 @@ const InsuranceSummary = props => {
     providers = [],
     [INSURANCE_VIEW_FIELDS.add]: addProvider = null,
   } = data;
-  const pageTitle = providers.length ? content['insurance-summary-title'] : '';
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -84,25 +85,35 @@ const InsuranceSummary = props => {
   return (
     <form className="rjsf">
       <fieldset className="vads-u-margin-bottom--2">
-        <legend
-          id="root__title"
-          className={classNames({
-            'schemaform-block-title': true,
-            'sr-only': !pageTitle,
-          })}
-        >
-          {pageTitle}
+        <legend id="root__title" className="schemaform-block-title">
+          <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {content['insurance-summary-title']}
+          </h3>
+          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+            <HealthInsuranceDescription />
+          </span>
         </legend>
+
+        <HealthInsuranceAddtlInfoDescription />
 
         {/** Policy tile list */}
         {providers.length > 0 ? (
           <div data-testid="ezr-policy-list-field">
-            <InsurancePolicyList
-              labelledBy="root__title"
-              list={providers}
-              mode={mode}
-              onDelete={handlers.onDelete}
-            />
+            <fieldset className="vads-u-margin-y--2 rjsf-object-field">
+              <legend
+                className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--3"
+                id="root_view:insurancePolicyList__title"
+              >
+                {content['insurance-summary-list-title']}
+              </legend>
+
+              <InsurancePolicyList
+                labelledBy="root_view:insurancePolicyList__title"
+                list={providers}
+                mode={mode}
+                onDelete={handlers.onDelete}
+              />
+            </fieldset>
           </div>
         ) : null}
 
@@ -110,7 +121,6 @@ const InsuranceSummary = props => {
           <>
             {/** Field radio group */}
             <div data-testid="ezr-policy-declaration-field">
-              <HealthInsuranceDescription />
               <InsuranceCoverageField
                 defaultValue={fieldData}
                 error={error}
@@ -130,15 +140,12 @@ const InsuranceSummary = props => {
           {contentAfterButtons}
         </>
       ) : (
-        <button
-          type="button"
+        <va-button
           onClick={updatePage}
-          className="usa-button-primary"
-          aria-label={content['insurance-update-button-aria-label']}
+          text={content['button-update-page']}
+          label={content['insurance-update-button-aria-label']}
           data-testid="ezr-update-button"
-        >
-          {content['button-update-page']}
-        </button>
+        />
       )}
     </form>
   );

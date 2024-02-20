@@ -1,4 +1,3 @@
-// Dependencies.
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -11,7 +10,7 @@ const InvalidFormDownload = ({ downloadUrl }) => {
   const mailto = `mailto:VaFormsManagers@va.gov?subject=${subject}&body=${body}`;
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds={false}>
       <h3 slot="headline">This form link isn’t working</h3>
       <div className="usa-alert-text vads-u-font-size--base">
         We’re sorry, but the form you’re trying to download appears to have an

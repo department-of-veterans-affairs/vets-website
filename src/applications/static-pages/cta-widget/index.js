@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
@@ -504,19 +503,16 @@ export class CallToActionWidget extends Component {
 
     // Derive anchor tag properties.
     const isInternalLink = this._toolUrl.startsWith('/');
-    const buttonClass = isInternalLink
-      ? classNames('usa-button-primary', 'va-button-primary')
-      : '';
     const target = isInternalLink ? '_self' : '_blank';
-    const buttonText = [
+    const linkText = [
       this._serviceDescription[0].toUpperCase(),
       this._serviceDescription.slice(1),
     ].join('');
 
     // Show the CTA link.
     return (
-      <a className={buttonClass} href={this._toolUrl} target={target}>
-        {buttonText}
+      <a href={this._toolUrl} target={target}>
+        {linkText}
       </a>
     );
   }

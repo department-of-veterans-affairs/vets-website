@@ -18,7 +18,7 @@ const checkboxGroupItemUI = props => {
 };
 
 /**
- * Web component uiSchema for checkbox group
+ * Web component v3 uiSchema for checkbox group
  *
  * Usage uiSchema:
  * ```js
@@ -63,7 +63,7 @@ const checkboxGroupItemUI = props => {
  * ```
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
- *  required: boolean | (() => boolean),
+ *  required: boolean | ((formData) => boolean),
  *  labels: Record<string, string | UISchemaOptions>,
  *  description?: UISchemaOptions['ui:description'],
  *  tile?: boolean,
@@ -101,31 +101,30 @@ export const checkboxGroupUI = ({
     checkboxesUI[key] = checkboxGroupItemUI(checkboxProps);
   });
 
-  // enhancement: wrap with redux if we need to pass the form data into required
-  const isRequired = required === 'function' ? required() : required;
-
-  const withError = isRequired
-    ? {
-        'ui:validations': [validateBooleanGroup],
-        'ui:errorMessages': {
-          atLeastOne:
-            errorMessages?.atLeastOne ||
-            errorMessages?.required ||
-            'Please select at least one option',
-        },
-      }
-    : {};
-
   return {
     'ui:title': title,
     'ui:description': description,
     'ui:webComponentField': VaCheckboxGroupField,
+    'ui:errorMessages': {
+      atLeastOne:
+        errorMessages?.atLeastOne ||
+        errorMessages?.required ||
+        'Please select at least one option',
+    },
+    'ui:validations': [
+      (errors, data, formData, schema, errMessages) => {
+        const isRequired =
+          typeof required === 'function' ? required(formData) : required;
+        if (isRequired) {
+          validateBooleanGroup(errors, data, formData, schema, errMessages);
+        }
+      },
+    ],
     'ui:options': {
       ...uiOptions,
     },
-    'ui:required': required === 'function' ? required : () => required,
+    'ui:required': typeof required === 'function' ? required : () => required,
     ...checkboxesUI,
-    ...withError,
   };
 };
 

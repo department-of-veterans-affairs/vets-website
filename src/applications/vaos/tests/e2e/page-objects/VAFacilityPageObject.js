@@ -62,7 +62,6 @@ export class VAFacilityPageObject extends PageObject {
   }
 
   selectLocation(label) {
-    cy.log('selectLocation');
     cy.findByLabelText(label)
       .as('radio')
       .focus();

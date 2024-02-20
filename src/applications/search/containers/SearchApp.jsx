@@ -20,6 +20,7 @@ import {
   formatResponseString,
   truncateResponseString,
   removeDoubleBars,
+  isSearchStrInvalid,
 } from '../utils';
 import { fetchSearchResults } from '../actions';
 
@@ -57,6 +58,9 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
+      if (isSearchStrInvalid(userInput)) {
+        return;
+      }
       this.props.fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
@@ -97,6 +101,10 @@ class SearchApp extends React.Component {
     const pageFromURL = rawPageFromURL
       ? parseInt(rawPageFromURL, 10)
       : undefined;
+
+    if (isSearchStrInvalid(userInput) || isSearchStrInvalid(userInputFromURL)) {
+      return;
+    }
 
     const repeatSearch = userInputFromURL === userInput && pageFromURL === page;
 
@@ -219,6 +227,10 @@ class SearchApp extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
+    if (isSearchStrInvalid(inputValue)) {
+      return;
+    }
+
     this.props.fetchSearchResults(inputValue, 1, {
       trackEvent: true,
       eventName: 'view_search_results',
@@ -293,6 +305,10 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
+      if (isSearchStrInvalid(inputValue)) {
+        return [];
+      }
+
       const apiRequestOptions = {
         method: 'GET',
       };
@@ -317,6 +333,18 @@ class SearchApp extends React.Component {
       Sentry.captureException(error);
     }
     return [];
+  };
+
+  handleInputChange = e => {
+    this.setState({
+      userInput: e.target.value,
+    });
+  };
+
+  fetchInputValue = input => {
+    this.setState({
+      userInput: input,
+    });
   };
 
   renderResults() {
@@ -348,7 +376,7 @@ class SearchApp extends React.Component {
                 type="text"
                 name="query"
                 aria-label="Enter a keyword"
-                value={this.state.userInput}
+                value={userInput}
                 onChange={this.handleInputChange}
               />
               <button type="submit">
@@ -374,6 +402,7 @@ class SearchApp extends React.Component {
               startingValue={userInput}
               submitOnClick
               submitOnEnter
+              fetchInputValue={this.fetchInputValue}
               fetchSuggestions={this.fetchSuggestions}
               onInputSubmit={this.onInputSubmit}
               onSuggestionSubmit={this.onSuggestionSubmit}
@@ -383,16 +412,25 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if (hasErrors && !loading) {
+    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
+      let errorMessage;
+
+      if (!userInput.trim().length) {
+        errorMessage = `Enter a search term that contains letters or numbers to find what you're looking for.`;
+      } else if (userInput.length > 255) {
+        errorMessage =
+          'The search is over the character limit. Shorten the search and try again.';
+      } else {
+        errorMessage = `We’re sorry. Something went wrong on our end, and your search
+        didn't go through. Please try again.`;
+      }
+
       return (
-        <div className="columns error">
+        <div className="columns vads-u-margin-bottom--4">
           {/* this is the alert box for when searches fail due to server issues */}
-          <va-alert status="error" data-e2e-id="alert-box">
-            <h3 slot="headline">Your search didn't go through</h3>
-            <div>
-              We’re sorry. Something went wrong on our end, and your search
-              didn't go through. Please try again
-            </div>
+          <va-alert status="error" data-e2e-id="alert-box" uswds>
+            <h2 slot="headline">Your search didn't go through</h2>
+            <p>{errorMessage}</p>
           </va-alert>
           {searchInput}
         </div>
@@ -419,6 +457,7 @@ class SearchApp extends React.Component {
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}
+                uswds
               />
             )}
           <span className="powered-by">Powered by Search.gov</span>

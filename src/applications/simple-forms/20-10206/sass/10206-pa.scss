@@ -1,0 +1,33 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+// TODO: Remove this rule below once SaveInProgressIntro's
+// hide-unauth'ed-content support's fixed/refactored (#914)
+.usa-alert-info.schemaform-sip-alert .usa-alert-text > p:nth-child(2) {
+  // hide "Note" paragraph in auth'ed LOA3 intro-page SIP-alert
+  display: none;
+}
+
+// titleUI H3s
+.form-panel legend > h3 {
+  margin-bottom: 0 !important;
+}
+
+va-textarea[name="root_otherBenefitDetails"]::part(input-type-textarea) {
+  height: 6.5rem;
+  resize: none;
+}
+
+// a11y - Change gray box to white box with gray border.
+// Needed because when using a memorable date which
+// has a gray color hint text, the hint text compared to
+// the background color is too low contrast.
+.rjsf-array-field .va-growable-background {
+  border: 1px solid $color-gray-medium;
+  background-color: $color-white;
+}

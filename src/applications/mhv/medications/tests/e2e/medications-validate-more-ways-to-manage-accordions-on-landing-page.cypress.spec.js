@@ -6,18 +6,9 @@ describe('Medications Accordions on Medications Landing Page', () => {
     const site = new MedicationsSite();
     const landingPage = new MedicationsLandingPage();
     site.login();
-    cy.visit('my-health/about-medications/');
+    landingPage.visitLandingPageURL();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     landingPage.clickExpandAccordionsOnMedicationsLandingPage();
     landingPage.verifyHowtoRenewPrescriptionsAccordionDropDown();
     landingPage.verifyHowToConfirmOrUpdateMailingAddressAccordionDropDown();

@@ -1,7 +1,7 @@
 import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
- * Web component uiSchema for generic radio field
+ * Web component v3 uiSchema for generic radio field
  *
  * Usage uiSchema:
  * ```js
@@ -25,8 +25,10 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * ```
  * @param {UIOptions & {
  *  title?: UISchemaOptions['ui:title'],
+ *  labels?: UISchemaOptions['ui:options']['labels'],
  *  description?: UISchemaOptions['ui:description'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
+ *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
  * }} options
  * @returns {UISchemaOptions}

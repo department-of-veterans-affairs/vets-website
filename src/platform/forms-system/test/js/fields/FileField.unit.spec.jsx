@@ -15,6 +15,7 @@ import { fileTypeSignatures } from '../../../src/js/utilities/file';
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
 import { $, $$ } from '../../../src/js/utilities/ui';
+import { MISSING_PASSWORD_ERROR } from '../../../src/js/validation';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -1393,6 +1394,40 @@ describe('Schemaform <FileField>', () => {
       // id for main upload button is interpolated {idSchema.$id}_add_label
       const mainUploadButton = $('#myIdSchemaId_add_label', container);
       expect(mainUploadButton).to.exist;
+      expect($('.usa-input-error-message', container).textContent).to.eq(
+        'Error ERROR-123',
+      );
+    });
+
+    it('should not render missing password error', () => {
+      const idSchema = {
+        $id: 'myIdSchemaId',
+      };
+      const mockFormDataWithPasswordError = [
+        {
+          errorMessage: MISSING_PASSWORD_ERROR,
+        },
+      ];
+      const mockErrorSchemaWithPasswordError = [
+        {
+          __errors: [MISSING_PASSWORD_ERROR],
+        },
+      ];
+      const { container } = render(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={idSchema}
+          errorSchema={mockFormDataWithPasswordError}
+          formData={mockErrorSchemaWithPasswordError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      expect($('.usa-input-error-message', container)).to.not.exist;
     });
 
     it('should render remove file button as Delete file', () => {

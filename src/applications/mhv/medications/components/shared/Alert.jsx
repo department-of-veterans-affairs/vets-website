@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FeedbackEmail from './FeedbackEmail';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
 const Alert = props => {
-  const { isAlertVisible, paginatedPrescriptionsList, ssoe } = props;
+  const { isAlertVisible, paginatedPrescriptionsList } = props;
 
   return (
     <div visible={isAlertVisible} className="no-print vads-u-margin-top--5">
@@ -13,6 +12,7 @@ const Alert = props => {
           close-btn-aria-label="Close notification"
           status="warning"
           visible={isAlertVisible}
+          uswds
         >
           <h2 slot="headline">We can’t access your medications right now</h2>
           <div>
@@ -40,13 +40,8 @@ const Alert = props => {
             <h4 className="vads-u-margin-top--0" data-testid="alert-message">
               You don’t have any medications in your medications list
             </h4>
-            <strong>Note</strong>: This list doesn’t include older prescriptions
-            that have been inactive for more than <strong>180 days</strong>. To
-            find these older prescriptions, go to your VA Blue Button report on
-            the My HealtheVet website.{' '}
-            <a href={mhvUrl(ssoe, 'va-blue-button')} rel="noreferrer">
-              Go to VA Blue Button&reg; on the My HealtheVet website
-            </a>
+            <strong>Note</strong>: If you’re taking any medications or
+            supplements, tell your care team at your next appointment.
           </div>
         </va-alert>
       )}

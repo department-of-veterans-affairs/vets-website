@@ -49,8 +49,8 @@ export const uiSchema = {
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
-        'First treatment date (You can provide an estimated date.)',
-        'Last treatment date (You can provide an estimated date.)',
+        'First treatment date (you can provide an estimated date)',
+        'Last treatment date (you can provide an estimated date)',
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {

@@ -1,0 +1,12 @@
+{
+  "formData": {
+    "preparerType": "citizen",
+    "view:userLoggedIn": true,
+    "view:userIdVerified": true
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/preparer-type"
+  }
+}

@@ -6,7 +6,7 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { DefaultFolders } from '../../util/constants';
+import { Alerts, DefaultFolders } from '../../util/constants';
 
 describe('SM back navigation', () => {
   const site = new SecureMessagingSite();
@@ -29,13 +29,7 @@ describe('SM back navigation', () => {
       .type(`${requestBody.body}`, { force: true });
     composePage.sendMessage(requestBody);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.INBOX.header);
     cy.location().should(loc => {
@@ -48,16 +42,10 @@ describe('SM back navigation', () => {
     draftPage.loadDraftMessages();
     draftPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftPage.sendDraftMessage(mockDraftResponse);
-    draftPage.verifySendConfirmationMessage();
+    draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
 
     cy.get(Locators.HEADER).should('have.text', DefaultFolders.DRAFTS.header);
     cy.location().should(loc => {

@@ -13,6 +13,7 @@ import {
   scrollToFirstError,
   scrollAndFocus,
 } from './scroll';
+import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 
 export {
   focusElement,
@@ -24,6 +25,8 @@ export {
   scrollToTop,
   scrollToFirstError,
   scrollAndFocus,
+  ERROR_ELEMENTS,
+  FOCUSABLE_ELEMENTS,
 };
 
 export function displayFileSize(size) {
@@ -70,6 +73,22 @@ export function isReactComponent(value) {
  */
 export function formatSSN(ssnString = '') {
   let val = ssnString;
+
+  // Strips any dashes or spaces out of the string if they are included
+  if (val.includes('-') || val.includes(' ')) {
+    val = val.replace(/[- ]/g, '');
+  }
+  val = val.replace(/^(.{3})(.{1,2})/, '$1-$2');
+  val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
+  return val;
+}
+
+/**
+ * Accepts a string of numbers as an argument
+ * and returns a formatted ARN with dashes.
+ */
+export function formatARN(arnString = '') {
+  let val = arnString;
 
   // Strips any dashes or spaces out of the string if they are included
   if (val.includes('-') || val.includes(' ')) {

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import DashboardCards from '../../containers/DashboardCards';
@@ -40,7 +40,7 @@ describe('<DashboardCards>', () => {
       server.close();
     });
 
-    it('should render Inquiry Number', async () => {
+    it('should render Your questions and filters', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -70,8 +70,11 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        expect(view.container.querySelector('p')).to.contain.text(
-          'Inquiry Number:',
+        expect(view.container.querySelector('h2')).to.contain.text(
+          'Your questions',
+        );
+        expect(view.container.querySelector('option')).to.contain.text(
+          'Newest to oldest',
         );
       });
     });

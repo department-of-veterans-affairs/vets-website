@@ -56,7 +56,7 @@ export function getDefaultState(props) {
   const {
     searchIndex,
     searchAction,
-    defaultData = {},
+    defaultData,
     dataToSearch = [],
     name,
   } = props;

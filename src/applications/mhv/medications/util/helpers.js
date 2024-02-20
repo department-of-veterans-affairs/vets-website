@@ -10,10 +10,9 @@ import { imageRootUri } from './constants';
  */
 export const dateFormat = (timestamp, format = null) => {
   if (timestamp) {
-    const timeZone = moment.tz.guess();
     return moment
-      .tz(timestamp, timeZone)
-      .format(format || 'MMMM D, YYYY, h:mm a z');
+      .tz(timestamp, 'America/New_York')
+      .format(format || 'MMMM D, YYYY');
   }
   return 'None noted';
 };
@@ -62,4 +61,20 @@ export const getImageUri = fieldValue => {
   }
 
   return `${imageRootUri + folderName}/${fileName}`;
+};
+
+/**
+ * Download a text file
+ * @param {String} content text file content
+ * @param {String} fileName name for the text file
+ */
+export const generateTextFile = (content, fileName) => {
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
 };

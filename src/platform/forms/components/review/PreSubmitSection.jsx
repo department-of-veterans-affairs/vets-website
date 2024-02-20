@@ -33,13 +33,13 @@ export function statementOfTruthFullName(formData, fullNamePath) {
       : fullNamePath || 'veteran.fullName',
   );
 
-  let fullNameString = fullName.first || '';
+  let fullNameString = fullName?.first || '';
 
-  if (fullName.middle) {
-    fullNameString += ` ${fullName.middle}`;
+  if (fullName?.middle) {
+    fullNameString += ` ${fullName?.middle}`;
   }
 
-  fullNameString += ` ${fullName.last || ''}`;
+  fullNameString += ` ${fullName?.last || ''}`;
 
   return fullNameString;
 }
@@ -173,12 +173,12 @@ export function PreSubmitSection(props) {
                   fullNameReducer(
                     statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth.fullNamePath,
+                      statementOfTruth?.fullNamePath,
                     ),
                   )
                   ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth.fullNamePath,
+                      statementOfTruth?.fullNamePath,
                     )}`
                   : undefined
               }
@@ -225,6 +225,7 @@ export function PreSubmitSection(props) {
                 onVaChange={event =>
                   setPreSubmit(preSubmit?.field, event.target.checked)
                 }
+                uswds
               />
             ) : (
               <VaCheckbox

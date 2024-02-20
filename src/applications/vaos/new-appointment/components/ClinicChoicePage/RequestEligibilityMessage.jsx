@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function RequestEligibilityMessage({
@@ -20,9 +18,6 @@ export default function RequestEligibilityMessage({
         365) *
       12
     : '12-24';
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
 
   if (requestReason === ELIGIBILITY_REASONS.error) {
     return <ErrorMessage />;
@@ -79,11 +74,7 @@ export default function RequestEligibilityMessage({
               <li>
                 Go to{' '}
                 <va-link
-                  href={
-                    featureStatusImprovement
-                      ? '/my-health/appointments/pending'
-                      : '/my-health/appointments/requested'
-                  }
+                  href="/my-health/appointments/pending"
                   text="your appointment list"
                   data-testid="appointment-list-link"
                 />{' '}
@@ -96,6 +87,7 @@ export default function RequestEligibilityMessage({
                   <FacilityAddress
                     name={facilityDetails.name}
                     facility={facilityDetails}
+                    level={3}
                   />
                 </li>
               )}

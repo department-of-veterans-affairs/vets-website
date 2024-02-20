@@ -6,10 +6,10 @@ import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import physicianProcedureNote from '../fixtures/physicianProcedureNote.json';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 
 describe('CareSummariesAndNotesListItem with clinical note', () => {
-  const record = convertNote(physicianProcedureNote);
+  const record = convertCareSummariesAndNotesRecord(physicianProcedureNote);
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -31,15 +31,12 @@ describe('CareSummariesAndNotesListItem with clinical note', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Physician procedure note', { exact: true })).to
-      .exist;
+    expect(screen.getAllByText('Adverse React/Allergy').length).to.eq(2);
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getByText('Physician procedure note', {
-      exact: true,
-    });
-    expect(recordName).to.exist;
+    const recordName = screen.getAllByText('Adverse React/Allergy');
+    expect(recordName.length).to.eq(2);
   });
 
   it('should contain the date of the record', () => {
@@ -49,14 +46,14 @@ describe('CareSummariesAndNotesListItem with clinical note', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: /Details/,
+      name: /Adverse React\/Allergy on August 5/,
     });
     expect(recordDetailsLink).to.exist;
   });
 });
 
 describe('CareSummariesAndNotesListItem with discharge summary', () => {
-  const record = convertNote(dischargeSummary);
+  const record = convertCareSummariesAndNotesRecord(dischargeSummary);
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -78,14 +75,12 @@ describe('CareSummariesAndNotesListItem with discharge summary', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getByText('Discharge summary', { exact: true })).to.exist;
+    expect(screen.getAllByText('Discharge Summary').length).to.eq(2);
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getByText('Discharge summary', {
-      exact: true,
-    });
-    expect(recordName).to.exist;
+    const recordName = screen.getAllByText('Discharge Summary');
+    expect(recordName.length).to.eq(2);
   });
 
   it('should contain the date of the record', () => {
@@ -95,7 +90,7 @@ describe('CareSummariesAndNotesListItem with discharge summary', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: /Details/,
+      name: /Discharge Summary on August/,
     });
     expect(recordDetailsLink).to.exist;
   });

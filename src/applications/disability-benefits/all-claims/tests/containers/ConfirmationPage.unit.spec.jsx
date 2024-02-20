@@ -14,7 +14,7 @@ import { bddConfirmationHeadline } from '../../content/bddConfirmationAlert';
 const retryableErrorTitle =
   "It's taking us longer than expected to submit your claim.";
 
-describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
+describe('ConfirmationPage', () => {
   const defaultProps = {
     fullName: {
       first: 'First',
@@ -22,16 +22,28 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
       last: 'Last',
       suffix: 'Sr.',
     },
-    disabilities: ['something something'],
+    disabilities: ['something something', undefined],
     submittedAt: '2019-02-20',
   };
 
-  const testPage = status =>
-    render(<ConfirmationPage submissionStatus={status} {...defaultProps} />);
+  const testPage = (status, otherProps) =>
+    render(
+      <ConfirmationPage
+        submissionStatus={status}
+        {...defaultProps}
+        {...otherProps}
+      />,
+    );
 
   it('should render success status', () => {
     const tree = testPage(submissionStatuses.succeeded);
     tree.getByText('Claim ID number');
+    tree.getByText('Your claim has successfully been submitted.');
+    tree.getByText('Date submitted');
+
+    tree.getByText('Conditions claimed');
+    tree.getByText('Something Something');
+    tree.getByText('Unknown Condition');
   });
 
   it('should not render success with BDD SHA alert when not submitting BDD claim', () => {
@@ -85,13 +97,17 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
     tree.getByText(
       'Submit your Separation Health Assessment - Part A Self-Assessment now if you haven’t already',
     );
+    tree.getByText(
+      'Separation Health Assessment - Part A Self-Assessment (opens in new tab)',
+    );
   });
 
   it('should render other status', () => {
-    const tree = testPage(submissionStatuses.failed);
+    const tree = testPage(submissionStatuses.failed, { submissionId: '123' });
     tree.getByText(
       'We’re sorry. Something went wrong when we tried to submit your claim.',
     );
+    tree.getByText('and provide this reference number 123', { exact: false });
   });
 
   it('should render note about email', () => {

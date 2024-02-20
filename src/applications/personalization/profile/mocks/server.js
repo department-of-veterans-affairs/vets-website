@@ -20,8 +20,7 @@ const {
   generateSuccess,
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
-const paymentInformation = require('./endpoints/payment-information');
-const disabilityComps = require('./endpoints/disability-compensations');
+const mockDisabilityCompensations = require('./endpoints/disability-compensations');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -61,23 +60,23 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            authExpVbaDowntimeMessage: true,
+            authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileLighthouseDirectDeposit: true,
-            profileUseFieldEditingPage: true,
-            profileUseHubPage: true,
-            profileUseNotificationSettingsCheckboxes: true,
+            profileHideDirectDepositCompAndPen: false,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
+            profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
-            showAuthenticatedMenuEnhancements: true,
+            profileUseExperimental: true,
+            profileUseHubPage: true,
           }),
         ),
       secondsOfDelay,
     );
   },
   'GET /v0/user': (_req, res) => {
+    // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user (success)
     // return res.json(user.loa1User); // user with loa1
@@ -89,7 +88,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
-
+    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -116,45 +115,24 @@ const responses = {
 
     return res.json(maintenanceWindows.noDowntime);
   },
-  'GET /v0/ppiu/payment_information': (_req, res) => {
-    // 47841 - Below are the three cases where all of Profile should be gated off
-    // paymentInformation.isFiduciary
-    // paymentInformation.isDeceased
-    // paymentInformation.isNotCompetent
 
-    // This is a 'normal' payment history / control case data
-    // paymentInformation.base
-
-    return res.status(200).json(paymentInformation.notEligible);
-  },
-  'PUT /v0/ppiu/payment_information': (_req, res) => {
-    // substitute the various errors arrays to test various update error responses
-    // Examples:
-    // paymentInformation.updates.errors.fraud
-    // paymentsInformation.updates.errors.phoneNumber
-    // paymentsInformation.updates.errors.address
-    // return res
-    //   .status(200)
-    //   .json(
-    //     _.set(
-    //       _.cloneDeep(paymentInformation.base),
-    //       'data.attributes.error',
-    //       paymentInformation.updates.errors.invalidAddress,
-    //     ),
-    //   );
-
-    // successful update response
-    return res.status(200).json(paymentInformation.updates.success);
-  },
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
-    // alternate to the PPIU endpoint above: /v0/ppiu/payment_information
-    return res.json(disabilityComps.base);
+    // happy path response / user with data
+    return res.json(mockDisabilityCompensations.base);
+
+    // edge cases
+    // return res.json(mockDisabilityCompensations.isDeceased);
+    // return res.json(mockDisabilityCompensations.isFiduciary);
+    // return res.json(mockDisabilityCompensations.isNotCompetent);
+    // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res.status(500).json(genericErrors.error500);
+    return res
+      .status(200)
+      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
     // return res.status(200).json(disabilityComps.updates.success);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
@@ -178,8 +156,11 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    return res.status(200).json(ratingInfo.success);
+    // return res.status(500).json(genericErrors.error500);
+  },
+
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
@@ -287,7 +268,7 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
-  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
   'GET /v0/profile/contacts': contacts,
 };
 

@@ -173,29 +173,13 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       locationId: '983',
       serviceType: 'primaryCare',
       reasonCode: {
-        coding: [{ code: 'Routine/Follow-up' }],
-        text: 'I need an appt',
-      },
-      contact: {
-        telecom: [
-          {
-            type: 'phone',
-            value: '1234567890',
-          },
-          {
-            type: 'email',
-            value: 'joeblow@gmail.com',
-          },
-        ],
+        text:
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:ROUTINEVISIT|comments:I need an appt',
       },
       requestedPeriods: [
         {
           start: '2020-05-25T00:00:00Z',
           end: '2020-05-25T11:59:00Z',
-        },
-        {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
@@ -241,28 +225,13 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       locationId: '983',
       serviceType: 'primaryCare',
       reasonCode: {
-        text: 'I need an appt',
-      },
-      contact: {
-        telecom: [
-          {
-            type: 'phone',
-            value: '1234567890',
-          },
-          {
-            type: 'email',
-            value: 'joeblow@gmail.com',
-          },
-        ],
+        text:
+          'station id: 983|preferred modality: VIDEO|phone number: 1234567890|email: joeblow@gmail.com|preferred dates:05/25/2020 AM,05/26/2020 PM|reason code:OTHER_REASON|comments:I need an appt',
       },
       requestedPeriods: [
         {
           start: '2020-05-25T00:00:00Z',
           end: '2020-05-25T11:59:00Z',
-        },
-        {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
@@ -304,8 +273,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       flow: 'va-request',
-      custom_string_1: 'health-TypeOfCare: Primary care',
-      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
       'vaos-number-of-days-from-preference': '1-1-null',
     });
@@ -357,8 +326,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(window.dataLayer[1]).to.deep.include({
       event: 'vaos-request-submission-failed',
       flow: 'va-request',
-      custom_string_1: 'health-TypeOfCare: Primary care',
-      custom_string_2: 'health-ReasonForAppointment: routine-follow-up',
+      'health-TypeOfCare': 'Primary care',
+      'health-ReasonForAppointment': 'routine-follow-up',
       'vaos-preferred-combination': 'afternoon-evening-morning',
     });
   });

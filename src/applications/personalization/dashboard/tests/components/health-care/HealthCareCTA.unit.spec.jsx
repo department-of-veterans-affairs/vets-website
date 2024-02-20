@@ -9,7 +9,6 @@ describe('<HealthCareCTA />', () => {
   // delete instances of Toggler when new appts URL is launched
   const initialState = {
     featureToggles: {
-      [Toggler.TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate]: true,
       [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
     },
   };
@@ -29,6 +28,37 @@ describe('<HealthCareCTA />', () => {
         initialState,
       });
 
+      expect(tree.queryByText('Apply for VA health care')).to.be.null;
+      expect(tree.queryByTestId('apply-va-healthcare-link-from-cta')).to.be
+        .null;
+      tree.getByTestId('view-your-messages-link-from-cta');
+      tree.getByTestId('view-manage-appointments-link-from-cta');
+      expect(
+        tree.getByRole('link', {
+          name: /schedule and manage your appointments/i,
+          value: {
+            text: '/my-health/appointments',
+          },
+        }),
+      ).to.exist;
+      tree.getByTestId('refill-prescriptions-link-from-cta');
+      tree.getByTestId('request-travel-reimbursement-link-from-cta');
+      tree.getByTestId('get-medical-records-link-from-cta');
+    });
+
+    it('should render a CTA link to MHV on VA.gov', () => {
+      const tree = renderWithStoreAndRouter(
+        <HealthCareCTA isVAPatient noCerner />,
+        {
+          initialState: {
+            featureToggles: {
+              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
+            },
+          },
+        },
+      );
+
+      tree.getByTestId('visit-mhv-on-va-gov');
       expect(tree.queryByText('Apply for VA health care')).to.be.null;
       expect(tree.queryByTestId('apply-va-healthcare-link-from-cta')).to.be
         .null;

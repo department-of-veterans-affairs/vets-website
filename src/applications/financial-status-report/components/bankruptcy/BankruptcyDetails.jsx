@@ -19,6 +19,7 @@ const BankruptcyDetails = ({
   const {
     additionalData: { bankruptcy = {} },
     reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
 
   const [courtError, setCourtError] = useState(null);
@@ -51,9 +52,10 @@ const BankruptcyDetails = ({
   };
 
   // notify user they are returning to review page if they are in review mode
-  const continueButtonText = reviewNavigation
-    ? 'Continue to review page'
-    : 'Continue';
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   // Header ref for setting focus
   useEffect(
@@ -84,7 +86,7 @@ const BankruptcyDetails = ({
       return;
     }
 
-    if (reviewNavigation) {
+    if (reviewNavigation && showReviewNavigation) {
       setFormData({
         ...data,
         reviewNavigation: false,
@@ -107,6 +109,7 @@ const BankruptcyDetails = ({
   // Handle nav forward if data is valid
   const onSubmit = event => {
     event.preventDefault();
+    onGoForward();
     if (!courtError && !docketError && !dateError) {
       goForward(data);
     }
@@ -178,22 +181,22 @@ const BankruptcyDetails = ({
         />
       </fieldset>
       {contentBeforeButtons}
+
       <ButtonGroup
         buttons={[
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
           },
           {
             label: continueButtonText,
-            onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            onClick: onSubmit,
+            isSubmitting: true,
           },
         ]}
       />
+
       {contentAfterButtons}
     </form>
   );
@@ -211,6 +214,7 @@ BankruptcyDetails.propTypes = {
       }),
     }),
     reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

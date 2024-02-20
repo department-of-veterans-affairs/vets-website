@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import { getDate } from '../../utils/dates';
 import {
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
@@ -9,6 +8,7 @@ import {
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
+import { getDate } from '../../../shared/utils/dates';
 import {
   appStateSelector,
   calculateIndexOffset,

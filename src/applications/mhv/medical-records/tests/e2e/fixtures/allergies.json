@@ -1,374 +1,498 @@
 {
-  "id": "02c87d02-de44-4bdf-aa1d-93dd4d68b89d",
-  "meta": {
-      "lastUpdated": "2023-08-07T13:58:30.150-04:00"
-  },
-  "type": "searchset",
-  "total": 5,
-  "link": [
+    "resourceType": "Bundle",
+    "id": "27b154d8-18c6-41b3-a988-8474bacd19a8",
+    "meta": {
+      "lastUpdated": "2023-09-29T11:04:31.316-04:00"
+    },
+    "type": "searchset",
+    "link": [
       {
-          "relation": "self",
-          "url": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=100&patient=7005"
+        "relation": "self",
+        "url": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance?_count=5&patient=3102"
+      },
+      {
+        "relation": "next",
+        "url": "https://mhv-sysb-api.myhealth.va.gov/fhir?_getpages=27b154d8-18c6-41b3-a988-8474bacd19a8&_getpagesoffset=5&_count=5&_pretty=true&_bundletype=searchset"
       }
-  ],
-  "entry": [
+    ],
+    "entry": [
       {
-          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7006",
-          "resource": {
-              "id": "7006",
-              "meta": {
-                  "versionId": "1",
-                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
-                  "source": "#AsINRCGkVRY6tpNO"
-              },
-              "identifier": [
-                  {
-                      "system": "urn:oid:2.16.840.1.113883.4.349",
-                      "value": "991.69143"
-                  }
-              ],
-              "clinicalStatus": {
-                  "coding": [
-                      {
-                          "code": "F",
-                          "display": "FOOD"
-                      }
-                  ],
-                  "text": "active"
-              },
-              "category": [
-                  "food"
-              ],
-              "code": {
-                  "text": "NUTS"
-              },
-              "patient": {
-                  "reference": "Patient/7005"
-              },
-              "onsetDateTime": "2023-07-27T17:06:00-04:00",
-              "note": [
-                  {
-                      "time": "2023-07-27T17:07:21-04:00",
-                      "text": "maruf's test comment "
-                  }
-              ],
-              "reaction": [
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4538635",
-                                      "display": "RASH"
-                                  }
-                              ],
-                              "text": "RASH"
-                          }
-                      ]
-                  }
-              ],
-              "resourceType": "AllergyIntolerance"
+        "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance/3106",
+        "resource": {
+          "resourceType": "AllergyIntolerance",
+          "id": "3106",
+          "meta": {
+            "versionId": "38",
+            "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+            "source": "#EAedTZrjAfUfmoab",
+            "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+            ]
           },
-          "search": {
-              "mode": "match"
-          }
+          "contained": [
+            {
+              "resourceType": "Organization",
+              "id": "Organization-0",
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349",
+                  "value": "979"
+                }
+              ],
+              "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+            }
+          ],
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+              "valueString": "o"
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http://va.gov/systems/979_120.8",
+              "value": "69171"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "category": ["food"],
+          "code": {
+            "text": "NUTS"
+          },
+          "patient": {
+            "reference": "Patient/3102"
+          },
+          "recordedDate": "2023-08-04T11:14:00-06:00",
+          "recorder": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                "valueReference": {
+                  "reference": "#Organization-0"
+                }
+              }
+            ],
+            "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+          },
+          "note": [
+            {
+              "time": "2023-08-23T23:16:00-06:00",
+              "text": "Maruf's test "
+            }
+          ],
+          "reaction": [
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4538635"
+                    }
+                  ],
+                  "text": "RASH"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
       },
       {
-          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7009",
-          "resource": {
-              "id": "7009",
-              "meta": {
-                  "versionId": "1",
-                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
-                  "source": "#AsINRCGkVRY6tpNO"
-              },
-              "identifier": [
-                  {
-                      "system": "urn:oid:2.16.840.1.113883.4.349",
-                      "value": "991.69146"
-                  }
-              ],
-              "clinicalStatus": {
-                  "coding": [
-                      {
-                          "code": "M",
-                          "display": "MEDICATION"
-                      }
-                  ],
-                  "text": "active"
-              },
-              "category": [
-                  "medication"
-              ],
-              "code": {
-                  "text": "HUMAPEN"
-              },
-              "patient": {
-                  "reference": "Patient/7005"
-              },
-              "onsetDateTime": "2023-07-27T17:10:00-04:00",
-              "note": [
-                  {
-                      "time": "2023-07-27T17:11:37-04:00",
-                      "text": "maruf's test comment "
-                  }
-              ],
-              "reaction": [
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637184",
-                                      "display": "RENAL IMPAIRMENT"
-                                  }
-                              ],
-                              "text": "RENAL IMPAIRMENT"
-                          }
-                      ]
-                  },
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637164",
-                                      "display": "SWELLING"
-                                  }
-                              ],
-                              "text": "SWELLING"
-                          }
-                      ]
-                  }
-              ],
-              "resourceType": "AllergyIntolerance"
+        "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance/3108",
+        "resource": {
+          "resourceType": "AllergyIntolerance",
+          "id": "3108",
+          "meta": {
+            "versionId": "38",
+            "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+            "source": "#EAedTZrjAfUfmoab",
+            "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+            ]
           },
-          "search": {
-              "mode": "match"
-          }
+          "contained": [
+            {
+              "resourceType": "Organization",
+              "id": "Organization-0",
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349",
+                  "value": "979"
+                }
+              ],
+              "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+            }
+          ],
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+              "valueString": "o"
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http://va.gov/systems/979_120.8",
+              "value": "69173"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "category": ["medication"],
+          "code": {
+            "text": "PENNSAID"
+          },
+          "patient": {
+            "reference": "Patient/3102"
+          },
+          "recordedDate": "2022-03-27T17:10:00-06:00",
+          "recorder": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                "valueReference": {
+                  "reference": "#Organization-0"
+                }
+              }
+            ],
+            "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+          },
+          "note": [
+            {
+              "time": "2023-08-25T12:49:44-06:00",
+              "text": "maruf's test "
+            }
+          ],
+          "reaction": [
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4637184"
+                    }
+                  ],
+                  "text": "RENAL IMPAIRMENT"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
       },
       {
-          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7010",
-          "resource": {
-              "id": "7010",
-              "meta": {
-                  "versionId": "1",
-                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
-                  "source": "#AsINRCGkVRY6tpNO"
-              },
-              "identifier": [
-                  {
-                      "system": "urn:oid:2.16.840.1.113883.4.349",
-                      "value": "991.69149"
-                  }
-              ],
-              "clinicalStatus": {
-                  "coding": [
-                      {
-                          "code": "M",
-                          "display": "MEDICATION"
-                      }
-                  ],
-                  "text": "active"
-              },
-              "category": [
-                  "medication"
-              ],
-              "code": {
-                  "text": "PENNYROYAL"
-              },
-              "patient": {
-                  "reference": "Patient/7005"
-              },
-              "onsetDateTime": "2023-08-04T11:14:00-04:00",
-              "note": [
-                  {
-                      "time": "2023-08-04T11:16:26-04:00",
-                      "text": "testing with Dan , -Maruf "
-                  }
-              ],
-              "reaction": [
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637164",
-                                      "display": "SWELLING"
-                                  }
-                              ],
-                              "text": "SWELLING"
-                          }
-                      ]
-                  }
-              ],
-              "resourceType": "AllergyIntolerance"
+        "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance/3109",
+        "resource": {
+          "resourceType": "AllergyIntolerance",
+          "id": "3109",
+          "meta": {
+            "versionId": "38",
+            "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+            "source": "#EAedTZrjAfUfmoab",
+            "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+            ]
           },
-          "search": {
-              "mode": "match"
-          }
+          "contained": [
+            {
+              "resourceType": "Organization",
+              "id": "Organization-0",
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349",
+                  "value": "979"
+                }
+              ],
+              "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+            }
+          ],
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+              "valueString": "o"
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http://va.gov/systems/979_120.8",
+              "value": "69174"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "category": ["medication"],
+          "code": {
+            "text": "PENICILLIN"
+          },
+          "patient": {
+            "reference": "Patient/3102"
+          },
+          "recordedDate": "2022-07-27T17:09:00-06:00",
+          "recorder": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                "valueReference": {
+                  "reference": "#Organization-0"
+                }
+              }
+            ],
+            "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+          },
+          "note": [
+            {
+              "time": "2023-08-25T12:50:59-06:00",
+              "text": "Maruf's test "
+            }
+          ],
+          "reaction": [
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4637177"
+                    }
+                  ],
+                  "text": "SEDATED"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
       },
       {
-          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7007",
-          "resource": {
-              "id": "7007",
-              "meta": {
-                  "versionId": "1",
-                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
-                  "source": "#AsINRCGkVRY6tpNO"
-              },
-              "identifier": [
-                  {
-                      "system": "urn:oid:2.16.840.1.113883.4.349",
-                      "value": "991.69144"
-                  }
-              ],
-              "clinicalStatus": {
-                  "coding": [
-                      {
-                          "code": "F",
-                          "display": "FOOD"
-                      }
-                  ],
-                  "text": "active"
-              },
-              "category": [
-                  "food"
-              ],
-              "code": {
-                  "text": "RED MEAT"
-              },
-              "patient": {
-                  "reference": "Patient/7005"
-              },
-              "onsetDateTime": "2023-07-27T17:08:00-04:00",
-              "note": [
-                  {
-                      "time": "2023-07-27T17:08:49-04:00",
-                      "text": "maruf's test data "
-                  }
-              ],
-              "reaction": [
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4538635",
-                                      "display": "RASH"
-                                  }
-                              ],
-                              "text": "RASH"
-                          }
-                      ]
-                  },
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637164",
-                                      "display": "SWELLING"
-                                  }
-                              ],
-                              "text": "SWELLING"
-                          }
-                      ]
-                  },
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637156",
-                                      "display": "URTICARIA"
-                                  }
-                              ],
-                              "text": "URTICARIA"
-                          }
-                      ]
-                  }
-              ],
-              "resourceType": "AllergyIntolerance"
+        "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance/3104",
+        "resource": {
+          "resourceType": "AllergyIntolerance",
+          "id": "3104",
+          "meta": {
+            "versionId": "38",
+            "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+            "source": "#EAedTZrjAfUfmoab",
+            "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+            ]
           },
-          "search": {
-              "mode": "match"
-          }
+          "contained": [
+            {
+              "resourceType": "Organization",
+              "id": "Organization-0",
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349",
+                  "value": "979"
+                }
+              ],
+              "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+            }
+          ],
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+              "valueString": "h"
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http://va.gov/systems/979_120.8",
+              "value": "69169"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "category": ["food"],
+          "code": {
+            "text": "RED MEAT"
+          },
+          "patient": {
+            "reference": "Patient/3102"
+          },
+          "recordedDate": "2023-09-27T17:08:00-06:00",
+          "recorder": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                "valueReference": {
+                  "reference": "#Organization-0"
+                }
+              }
+            ],
+            "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+          },
+          "note": [
+            {
+              "time": "2023-08-23T23:13:56-06:00",
+              "text": "Maruf's test "
+            }
+          ],
+          "reaction": [
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4637164"
+                    }
+                  ],
+                  "text": "SWELLING"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
       },
       {
-          "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/AllergyIntolerance/7008",
-          "resource": {
-              "id": "7008",
-              "meta": {
-                  "versionId": "1",
-                  "lastUpdated": "2023-08-07T13:51:36.018-04:00",
-                  "source": "#AsINRCGkVRY6tpNO"
-              },
-              "identifier": [
-                  {
-                      "system": "urn:oid:2.16.840.1.113883.4.349",
-                      "value": "991.69145"
-                  }
-              ],
-              "clinicalStatus": {
-                  "text": "active"
-              },
-              "code": {
-                  "text": "POLLEN"
-              },
-              "patient": {
-                  "reference": "Patient/7005"
-              },
-              "onsetDateTime": "2023-07-27T17:09:00-04:00",
-              "note": [
-                  {
-                      "time": "2023-07-27T17:10:21-04:00",
-                      "text": "maruf's test comment intb "
-                  }
-              ],
-              "reaction": [
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637183",
-                                      "display": "RESPIRATORY DISTRESS"
-                                  }
-                              ],
-                              "text": "RESPIRATORY DISTRESS"
-                          }
-                      ]
-                  },
-                  {
-                      "manifestation": [
-                          {
-                              "coding": [
-                                  {
-                                      "system": "http://snomed.info/sct",
-                                      "code": "4637164",
-                                      "display": "SWELLING"
-                                  }
-                              ],
-                              "text": "SWELLING"
-                          }
-                      ]
-                  }
-              ],
-              "resourceType": "AllergyIntolerance"
+        "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/AllergyIntolerance/3107",
+        "resource": {
+          "resourceType": "AllergyIntolerance",
+          "id": "3107",
+          "meta": {
+            "versionId": "38",
+            "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+            "source": "#EAedTZrjAfUfmoab",
+            "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+            ]
           },
-          "search": {
-              "mode": "match"
-          }
+          "contained": [
+            {
+              "resourceType": "Organization",
+              "id": "Organization-0",
+              "identifier": [
+                {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349",
+                  "value": "979"
+                }
+              ],
+              "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+            }
+          ],
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+              "valueString": "o"
+            }
+          ],
+          "identifier": [
+            {
+              "use": "official",
+              "system": "http://va.gov/systems/979_120.8",
+              "value": "69172"
+            }
+          ],
+          "clinicalStatus": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active"
+              }
+            ]
+          },
+          "category": ["medication"],
+          "code": {
+            "text": "MEDIPLAST"
+          },
+          "patient": {
+            "reference": "Patient/3102"
+          },
+          "recordedDate": "2020-12-27T17:06:00-06:00",
+          "recorder": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+                "valueReference": {
+                  "reference": "#Organization-0"
+                }
+              }
+            ],
+            "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+          },
+          "note": [
+            {
+              "time": "2023-08-25T12:47:57-06:00",
+              "text": "Maruf's test "
+            }
+          ],
+          "reaction": [
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4637015"
+                    }
+                  ],
+                  "text": "DELIRIUM"
+                }
+              ]
+            },
+            {
+              "manifestation": [
+                {
+                  "coding": [
+                    {
+                      "system": "urn:oid:2.16.840.1.113883.6.233",
+                      "code": "4538635"
+                    }
+                  ],
+                  "text": "RASH"
+                }
+              ]
+            }
+          ]
+        },
+        "search": {
+          "mode": "match"
+        }
       }
-  ],
-  "resourceType": "Bundle"
-}
+    ]
+  }

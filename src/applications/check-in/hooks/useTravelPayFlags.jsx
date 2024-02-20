@@ -15,13 +15,13 @@ const useTravelPayFlags = appointment => {
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-
   // These will be undefined if the travel pay pages are skipped.
   const {
     'travel-question': travelQuestion,
     'travel-address': travelAddress,
     'travel-mileage': travelMileage,
     'travel-vehicle': travelVehicle,
+    'travel-review': travelReview,
   } = data;
 
   const startDate = isTravelLogicEnabled
@@ -57,11 +57,19 @@ const useTravelPayFlags = appointment => {
       travelVehicle: travelVehicle === 'yes',
     };
   }
+  if (travelReview !== undefined) {
+    travelPayData = {
+      ...travelPayData,
+      travelReview: travelReview === 'yes',
+    };
+  }
 
   const travelPayEligible =
-    travelPayData.travelAddress &&
-    travelPayData.travelMileage &&
-    travelPayData.travelVehicle;
+    (travelPayData.travelAddress &&
+      travelPayData.travelMileage &&
+      travelPayData.travelVehicle &&
+      travelPayData.travelReview) ||
+    false;
 
   return {
     travelPayData,

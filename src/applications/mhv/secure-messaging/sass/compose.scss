@@ -29,6 +29,14 @@
     margin: 0;
     width: fit-content;
   }
+
+  .message-body-draft-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .compose-form {
     background-color: $color-white;
     .required {
@@ -57,11 +65,7 @@
   }
   .reply-form {
     margin: 2rem 0 1rem 0;
-    padding-left: 2rem;
     background-color: $color-white;
-    border-left-color: $color-primary-alt-darkest;
-    border-left-style: solid;
-    border-left-width: 8px;
     .required {
       color: $color-secondary-dark;
     }
@@ -74,6 +78,8 @@
     }
     va-textarea#reply-message-body::part(textarea) {
       max-width: 100%;
+      resize: vertical;
+      box-sizing: border-box;
     }
 
     .compose-inputs-container {
@@ -113,10 +119,16 @@
       margin-top: 12px;
     }
   }
+}
 
-  .message-replied-to {
-    .message-list-body-collapsed {
-      word-break: break-word;
+#remove-attachment-modal {
+  va-button::part(button) {
+    width: 100%;
+    margin-right: 0;
+
+    @include media($small-screen) {
+      width: auto;
+      margin-right: 24px;
     }
   }
 }
@@ -140,11 +152,8 @@
     display: block;
     margin: 16px 0px 24px 0;
     width: 100%;
-
-    @media (min-width: $small-screen) {
-      width: 32.5%;
-    }
   }
+
   .attach-file-button::part(button) {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
     color: $color-gray-dark;

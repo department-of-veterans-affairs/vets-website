@@ -5,10 +5,9 @@ import {
   selectDropdownWebComponent,
   selectYesNoWebComponent,
   fillDateWebComponentPattern,
-  fillAddressWebComponentPattern,
 } from '.';
 
-export const advanceToDependents = testData => {
+export const advanceToDependents = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -17,13 +16,15 @@ export const advanceToDependents = testData => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/mailing-address');
-  fillAddressWebComponentPattern('veteranAddress', testData.veteranAddress);
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
 
   goToNextPage('/household-information/marital-status');
-  selectDropdownWebComponent('maritalStatus', 'Never Married');
+  selectDropdownWebComponent(
+    'view:maritalStatus_maritalStatus',
+    'Never Married',
+  );
 };
 
 export const advanceFromDependentsToReview = testData => {
@@ -52,10 +53,13 @@ export const advanceFromDependentsToReview = testData => {
   ).type(testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses);
 
   goToNextPage('/insurance-information/medicaid-eligibility');
-  selectYesNoWebComponent('isMedicaidEligible', false);
+  selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
   goToNextPage('/insurance-information/medicare-part-a-enrollment');
-  selectYesNoWebComponent('isEnrolledMedicarePartA', false);
+  selectYesNoWebComponent(
+    'view:isEnrolledMedicarePartA_isEnrolledMedicarePartA',
+    false,
+  );
 
   goToNextPage('/insurance-information/policies');
   cy.get(`[name="root_${INSURANCE_VIEW_FIELDS.add}"]`).check('N');
@@ -63,7 +67,11 @@ export const advanceFromDependentsToReview = testData => {
   goToNextPage('review-and-submit');
 };
 
-export const fillDependentInformation = dependent => {
+/**
+ * @param {Object} dependent dependent data
+ * @param {boolean} showDeductibleExpensesPage
+ */
+export const fillDependentInformation = (dependent, showIncomePages) => {
   const {
     fullName,
     dateOfBirth,
@@ -92,14 +100,6 @@ export const fillDependentInformation = dependent => {
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 
-  // fill educational expenses
-  selectYesNoWebComponent('attendedSchoolLastYear', attendedSchoolLastYear);
-  cy.get('[name="root_dependentEducationExpenses"]').type(
-    dependentEducationExpenses,
-  );
-  cy.injectAxeThenAxeCheck();
-  goToNextPage();
-
   // fill additional information
   selectYesNoWebComponent('disabledBefore18', disabledBefore18);
   selectYesNoWebComponent('cohabitedLastYear', cohabitedLastYear);
@@ -108,13 +108,23 @@ export const fillDependentInformation = dependent => {
   goToNextPage();
 
   // fill financial support
-  cy.get('[name="root_receivedSupportLastYear"]').check('Y');
+  selectYesNoWebComponent('receivedSupportLastYear', 'Y');
   cy.injectAxeThenAxeCheck();
   goToNextPage();
 
-  // fill income
-  cy.get('[name="root_view:grossIncome_grossIncome"]').type(grossIncome);
-  cy.get('[name="root_view:netIncome_netIncome"]').type(netIncome);
-  cy.get('[name="root_view:otherIncome_otherIncome"]').type(otherIncome);
-  cy.injectAxeThenAxeCheck();
+  // We only display the income and deductible expense pages if the dependent earned reportable income
+  if (showIncomePages) {
+    // fill income
+    cy.get('[name="root_view:grossIncome_grossIncome"]').type(grossIncome);
+    cy.get('[name="root_view:netIncome_netIncome"]').type(netIncome);
+    cy.get('[name="root_view:otherIncome_otherIncome"]').type(otherIncome);
+    cy.injectAxeThenAxeCheck();
+    goToNextPage();
+    // fill educational expenses
+    selectYesNoWebComponent('attendedSchoolLastYear', attendedSchoolLastYear);
+    cy.get('[name="root_dependentEducationExpenses"]').type(
+      dependentEducationExpenses,
+    );
+    cy.injectAxeThenAxeCheck();
+  }
 };

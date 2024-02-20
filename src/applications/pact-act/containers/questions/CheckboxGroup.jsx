@@ -93,7 +93,10 @@ const CheckboxGroup = ({
         >
           {h1}
         </h1>
-        <fieldset aria-labelledby="pact-act-form-question" data-testid={testId}>
+        <fieldset
+          aria-labelledby="pact-act-form-question pact-act-form-instructions"
+          data-testid={testId}
+        >
           {formError && (
             <span className="usa-error-message" role="alert">
               <div className="pact-act-form-text-error">
@@ -101,6 +104,7 @@ const CheckboxGroup = ({
               </div>
             </span>
           )}
+          <p id="pact-act-form-instructions">Select all that apply.</p>
           {createCheckboxes()}
         </fieldset>
       </div>
@@ -109,6 +113,7 @@ const CheckboxGroup = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
+        uswds={false}
       />
     </>
   );

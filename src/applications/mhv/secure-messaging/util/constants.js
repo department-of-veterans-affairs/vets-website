@@ -97,6 +97,11 @@ export const ErrorMessages = {
     FOLDER_NAME_INVALID_CHARACTERS:
       'Folder name can only contain letters, numbers, and spaces.',
   },
+  Navigation: {
+    UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
+      'unable to save draft with attachment error',
+    UNABLE_TO_SAVE_ERROR: 'no attachments and navigating away',
+  },
 };
 
 export const Alerts = {
@@ -164,6 +169,7 @@ export const Errors = {
   Code: {
     BLOCKED_USER: 'SM119',
     BLOCKED_USER2: 'SM151',
+    TG_NOT_ASSOCIATED: 'SM129',
   },
 };
 
@@ -200,6 +206,8 @@ export const Prompts = {
     DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
     DELETE_DRAFT_CONFIRM_NOTE:
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+    DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
+    DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
   },
 };
 
@@ -305,11 +313,6 @@ export const threadSortingOptions = {
   },
 };
 
-export const PrintMessageOptions = {
-  PRINT_MAIN: 'PRINT_MAIN',
-  PRINT_THREAD: 'PRINT_THREAD',
-};
-
 export const BreadcrumbViews = {
   DESKTOP_VIEW: 'desktop-view vads-u-margin-left--neg7',
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-margin-y--0',
@@ -323,3 +326,57 @@ export const PageTitles = {
   MY_FOLDERS_PAGE_TITLE_TAG:
     'My folders - MHV Secure Messaging | Veterans Affairs',
 };
+
+export const Recipients = {
+  CARE_TEAM: 'Care Team',
+  FACILITY: 'Facility',
+};
+
+export const ParentComponent = {
+  COMPOSE_FORM: 'Compose Form',
+  FOLDER_HEADER: 'Folder Header',
+  MESSAGE_THREAD: 'Message Thread',
+  REPLY_FORM: 'Reply Form',
+};
+
+export const RecipientStatus = {
+  BLOCKED: 'Blocked',
+  ALLOWED: 'Allowed',
+  NOT_ASSOCIATED: 'Not Associated',
+};
+
+export const BlockedTriageAlertStyles = {
+  INFO: 'info',
+  WARNING: 'warning',
+  ALERT: 'alert',
+};
+
+export const BlockedTriageAlertText = {
+  alertTitle: {
+    NO_ASSOCIATIONS:
+      "You're not connected to any care teams in this messaging tool",
+    ALL_TEAMS_BLOCKED: "You can't send messages to your care teams right now",
+    MULTIPLE_TEAMS_BLOCKED:
+      "You can't send messages to some of your care teams",
+  },
+  alertMessage: {
+    NO_ASSOCIATIONS:
+      'If you need to contact your care team, call your VA health facility.',
+    ALL_TEAMS_BLOCKED:
+      'If you need to contact your care teams, call your VA health facility.',
+    SINGLE_FACILITY_BLOCKED:
+      'If you need to contact these care teams, call the facility.',
+    SINGLE_TEAM_BLOCKED:
+      'If you need to contact this care team, call your VA health facility.',
+    MULTIPLE_TEAMS_BLOCKED:
+      'If you need to contact these care teams, call your VA health facility.',
+  },
+};
+
+export const FormLabels = {
+  CATEGORY: 'Category',
+  MESSAGE: 'Message',
+  SUBJECT: 'Subject',
+};
+
+export const CernerTransitioningFacilities = { NORTH_CHICAGO: 556 };

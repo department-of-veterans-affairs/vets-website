@@ -5,6 +5,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
+import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
 import textInputWidgets1 from '../pages/mockTextInputWidgets1';
 import numberInput from '../pages/mockNumberInput';
@@ -17,24 +18,41 @@ import radio from '../pages/mockRadio';
 import radioRelationshipToVeteran from '../pages/mockRadioRelationshipToVeteran';
 import select from '../pages/mockSelect';
 import date from '../pages/mockDate';
+import dynamicFields from '../pages/mockDynamicFields';
+import formsPatternSingleRadio from '../pages/mockFormsPatternSingleRadio';
+import formsPatternSingleCheckboxGroup from '../pages/mockFormsPatternSingleCheckboxGroup';
+import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
-import arrayMultiplePageStart from '../pages/mockArrayMultiplePageStart';
-import arrayMultiplePageItem from '../pages/mockArrayMultiplePageItem';
+import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
+import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
+import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
+import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
+import {
+  onNavBackKeepUrlParams,
+  onNavForwardKeepUrlParams,
+  onNavBackRemoveAddingItem,
+} from '../arrayBuilder/helpers';
 
-// helps for dev testing and e2e
-const INCLUDE_PAGE = {
-  text: true,
-  number: true,
-  radio: true,
-  checkbox: true,
-  select: true,
-  date: true,
-  arraySingle: true,
-  arrayMulti: true,
+const chapterSelectInitialData = {
+  chapterSelect: {
+    textInput: true,
+    numberInput: true,
+    formsPattern: true,
+    checkbox: true,
+    radio: true,
+    select: true,
+    date: true,
+    miscellaneous: true,
+    arraySinglePage: true,
+    arrayMultiPageAggregate: true,
+    arrayMultiPageBuilder: true,
+  },
 };
 
-function includePage(page) {
-  return () => INCLUDE_PAGE[page] ?? true;
+function includeChapter(page) {
+  return formData => formData?.chapterSelect[page];
 }
 
 /** @type {FormConfig} */
@@ -43,6 +61,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: false,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -61,6 +80,17 @@ const formConfig = {
   title: 'Simple Forms Patterns',
   defaultDefinitions: commonDefinitions,
   chapters: {
+    chapterSelect: {
+      title: 'Chapter Select',
+      pages: {
+        chapterSelect: {
+          title: 'Chapter Select',
+          path: 'chapter-select',
+          ...chapterSelect,
+          initialData: chapterSelectInitialData,
+        },
+      },
+    },
     textInput: {
       title: 'Text Input',
       pages: {
@@ -69,15 +99,14 @@ const formConfig = {
           title: 'Text Input', // for review page (has to be more than one word)
           uiSchema: textInput.uiSchema,
           schema: textInput.schema,
-          initialData: textInput.initialData,
-          // dont use depends here - needs first page for e2e
+          depends: includeChapter('textInput'),
         },
         textInputWidgets1: {
           path: 'text-input-widgets1',
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
           uiSchema: textInputWidgets1.uiSchema,
           schema: textInputWidgets1.schema,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputFullName: {
           path: 'text-input-full-name',
@@ -85,7 +114,7 @@ const formConfig = {
           uiSchema: textInputFullName.uiSchema,
           schema: textInputFullName.schema,
           initialData: textInputFullName.initialData,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputAddress: {
           title: 'Text Input Address', // for review page (has to be more than one word)
@@ -93,17 +122,16 @@ const formConfig = {
           uiSchema: textInputAddress.uiSchema,
           schema: textInputAddress.schema,
           initialData: textInputAddress.initialData,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
         textInputSsn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
           uiSchema: textInputSsn.uiSchema,
           schema: textInputSsn.schema,
-          depends: includePage('text'),
+          depends: includeChapter('textInput'),
         },
       },
-      depends: () => false,
     },
     numberInput: {
       title: 'Number Input',
@@ -113,7 +141,33 @@ const formConfig = {
           title: 'Number Input', // for review page (has to be more than one word)
           uiSchema: numberInput.uiSchema,
           schema: numberInput.schema,
-          depends: includePage('number'),
+          depends: includeChapter('numberInput'),
+        },
+      },
+    },
+    formsPattern: {
+      title: 'Forms Pattern',
+      pages: {
+        formsPatternSingleRadio: {
+          path: 'forms-pattern-single-radio',
+          title: 'Forms Pattern Single Radio title for review page',
+          uiSchema: formsPatternSingleRadio.uiSchema,
+          schema: formsPatternSingleRadio.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternSingleCheckboxGroup: {
+          path: 'forms-pattern-single-checkbox-group',
+          title: 'Forms Pattern Single Checkbox group title for review page',
+          uiSchema: formsPatternSingleCheckboxGroup.uiSchema,
+          schema: formsPatternSingleCheckboxGroup.schema,
+          depends: includeChapter('formsPattern'),
+        },
+        formsPatternMultiple: {
+          path: 'forms-pattern-multiple',
+          title: 'Forms Pattern Multiple title for review page',
+          uiSchema: formsPatternMultiple.uiSchema,
+          schema: formsPatternMultiple.schema,
+          depends: includeChapter('formsPattern'),
         },
       },
     },
@@ -125,14 +179,14 @@ const formConfig = {
           path: 'checkbox-and-text-input',
           uiSchema: checkboxAndTextInput.uiSchema,
           schema: checkboxAndTextInput.schema,
-          depends: includePage('checkbox'),
+          depends: includeChapter('checkbox'),
         },
         checkboxGroup: {
           title: 'Checkbox group',
           path: 'checkbox-group',
           uiSchema: checkboxGroup.uiSchema,
           schema: checkboxGroup.schema,
-          depends: includePage('checkbox'),
+          depends: includeChapter('checkbox'),
         },
       },
     },
@@ -144,7 +198,7 @@ const formConfig = {
           path: 'select',
           uiSchema: select.uiSchema,
           schema: select.schema,
-          depends: includePage('select'),
+          depends: includeChapter('select'),
         },
       },
     },
@@ -156,13 +210,14 @@ const formConfig = {
           path: 'radio',
           uiSchema: radio.uiSchema,
           schema: radio.schema,
-          depends: includePage('radio'),
+          depends: includeChapter('radio'),
         },
         radioRelationshipToVeteran: {
           path: 'radio-relationship-to-veteran',
           title: 'Radio Relationship to Veteran',
           uiSchema: radioRelationshipToVeteran.uiSchema,
           schema: radioRelationshipToVeteran.schema,
+          depends: includeChapter('radio'),
         },
       },
     },
@@ -174,7 +229,27 @@ const formConfig = {
           path: 'date',
           uiSchema: date.uiSchema,
           schema: date.schema,
-          depends: includePage('date'),
+          depends: includeChapter('date'),
+        },
+      },
+    },
+    miscellaneous: {
+      title: 'Miscellaneous',
+      pages: {
+        dynamicFields: {
+          title: 'Dynamic fields', // for review page (has to be more than one word)
+          path: 'dynamic-fields',
+          uiSchema: dynamicFields.uiSchema,
+          schema: dynamicFields.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+        mockCustomPage: {
+          path: 'mock-custom-page',
+          title: 'Mock Custom Page', // for review page (has to be more than one word)
+          CustomPage: MockCustomPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          depends: includeChapter('miscellaneous'),
         },
       },
     },
@@ -186,28 +261,89 @@ const formConfig = {
           title: 'Information for Single Page', // for review page (has to be more than one word)
           uiSchema: arraySinglePage.uiSchema,
           schema: arraySinglePage.schema,
-          depends: includePage('arraySingle'),
+          depends: includeChapter('arraySinglePage'),
         },
       },
     },
-    arrayMultiplePage: {
-      title: 'Array Multiple Pages',
+    arrayMultiPageAggregate: {
+      title: 'Array Multi-Page Aggregate',
       pages: {
-        multiplePageStart: {
+        multiPageStart: {
           title: 'Multiple Page Start Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page',
-          uiSchema: arrayMultiplePageStart.uiSchema,
-          schema: arrayMultiplePageStart.schema,
-          depends: includePage('arrayMulti'),
+          path: 'array-multiple-page-aggregate',
+          uiSchema: arrayMultiPageAggregateStart.uiSchema,
+          schema: arrayMultiPageAggregateStart.schema,
+          depends: includeChapter('arrayMultiPageAggregate'),
         },
-        multiplePageItem: {
-          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page/:index',
+        multiPageItem: {
+          title: 'Multiple Page Details Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-aggregate-details/:index',
           showPagePerItem: true,
           arrayPath: 'exampleArrayData',
-          uiSchema: arrayMultiplePageItem.uiSchema,
-          schema: arrayMultiplePageItem.schema,
-          depends: includePage('arrayMulti'),
+          uiSchema: arrayMultiPageAggregateItem.uiSchema,
+          schema: arrayMultiPageAggregateItem.schema,
+          depends: includeChapter('arrayMultiPageAggregate'),
+        },
+      },
+    },
+    arrayMultiPageBuilder: {
+      title: 'Array Multi-Page Builder (WIP)',
+      pages: {
+        multiPageBuilderStart: {
+          title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-summary',
+          uiSchema: arrayMultiPageBuilderSummary.uiSchema,
+          schema: arrayMultiPageBuilderSummary.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.hasEmployment) {
+              const index = formData.employers ? formData.employers.length : 0;
+              goPath(
+                `/array-multiple-page-builder-item-page-1/${index}?add=true`,
+              );
+            } else {
+              goPath('/review-and-submit');
+            }
+          },
+          depends: includeChapter('arrayMultiPageBuilder'),
+        },
+        multiPageBuilderStepOne: {
+          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-item-page-1/:index',
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+          arrayPath: 'employers',
+          uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
+          schema: arrayMultiPageBuilderItemPage1.schema,
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
+          onNavBack: onNavBackRemoveAddingItem({
+            arrayPath: 'employers',
+            summaryPathUrl: '/array-multiple-page-builder-summary',
+          }),
+          onNavForward: onNavForwardKeepUrlParams,
+          ContentBeforeButtons:
+            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
+          depends: formData =>
+            includeChapter('arrayMultiPageBuilder')(formData) &&
+            (formData.hasEmployment || formData.employers?.length > 0),
+        },
+        multiPageBuilderStepTwo: {
+          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
+          path: 'array-multiple-page-builder-item-page-2/:index',
+          showPagePerItem: true,
+          allowPathWithNoItems: true,
+          arrayPath: 'employers',
+          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
+          customPageUsesPagePerItemData: true,
+          uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
+          schema: arrayMultiPageBuilderItemPage2.schema,
+          onNavBack: onNavBackKeepUrlParams,
+          depends: formData =>
+            includeChapter('arrayMultiPageBuilder')(formData) &&
+            (formData.hasEmployment || formData.employers?.length > 0),
+          onNavForward: ({ goPath }) => {
+            goPath('/array-multiple-page-builder-summary');
+          },
         },
       },
     },

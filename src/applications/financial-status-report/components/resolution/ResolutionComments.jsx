@@ -7,19 +7,34 @@ const ResolutionComments = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { additionalData, selectedDebtsAndCopays = [] } = data;
+  const {
+    additionalData,
+    reviewNavigation = false,
+    selectedDebtsAndCopays = [],
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
 
   const [commentText, setCommentText] = useState(
     additionalData?.additionalComments || '',
   );
   const [error, setError] = useState(null);
+  const commentsRequired = selectedDebtsAndCopays.some(
+    debt => debt?.resolutionOption === 'waiver',
+  );
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   const onContinue = () => {
-    if (!commentText.length) {
+    if (!commentText.length && commentsRequired) {
       setError('Please provide a response');
     } else {
       setError(null);
@@ -36,7 +51,16 @@ const ResolutionComments = ({
   const onSubmit = event => {
     event.preventDefault();
     if (error) return;
-    goForward(data);
+    onContinue();
+    if (reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      goToPath('/review-and-submit');
+    } else {
+      goForward(data);
+    }
   };
 
   return (
@@ -58,15 +82,16 @@ const ResolutionComments = ({
             }
             setCommentText(target.value);
           }}
-          required={selectedDebtsAndCopays.some(
-            debt => debt?.resolutionOption === 'waiver',
-          )}
+          required={commentsRequired}
           type="text"
           uswds
           value={commentText}
         >
           <div>
-            <va-additional-info trigger="Why do I need to share this information?">
+            <va-additional-info
+              trigger="Why do I need to share this information?"
+              uswds
+            >
               We want to fully understand your situation so we can make the best
               decision on your request. You can share any details that you think
               we should know about why it is hard for you or your family to
@@ -79,15 +104,13 @@ const ResolutionComments = ({
           buttons={[
             {
               label: 'Back',
-              onClick: goBack,
-              secondary: true,
-              iconLeft: '«',
+              onClick: goBack, // Define this function based on page-specific logic
+              isSecondary: true,
             },
             {
-              label: 'Continue',
-              onClick: onContinue,
-              type: 'submit',
-              iconRight: '»',
+              label: continueButtonText,
+              onClick: onSubmit,
+              isSubmitting: true, // If this button submits a form
             },
           ]}
         />
@@ -104,11 +127,13 @@ ResolutionComments.propTypes = {
     additionalData: PropTypes.shape({
       additionalComments: PropTypes.string,
     }),
+    reviewNavigation: PropTypes.bool,
     selectedDebtsAndCopays: PropTypes.arrayOf(
       PropTypes.shape({
         resolutionOption: PropTypes.string,
       }),
     ),
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { APP_NAME } from '../constants';
 
@@ -26,21 +25,5 @@ import ContestableIssues from '../../shared/components/ContestableIssues';
 const ContestableIssuesWidget = props => (
   <ContestableIssues {...props} appName={APP_NAME} />
 );
-
-ContestableIssuesWidget.propTypes = {
-  formContext: PropTypes.shape({
-    onReviewPage: PropTypes.bool,
-    reviewMode: PropTypes.bool,
-    submitted: PropTypes.bool,
-  }),
-  formData: PropTypes.shape({
-    contestedIssues: PropTypes.array,
-    additionalIssues: PropTypes.array,
-  }),
-  id: PropTypes.string,
-  options: PropTypes.shape({}),
-  value: PropTypes.array, // not used
-  onChange: PropTypes.func, // not used
-};
 
 export default ContestableIssuesWidget;

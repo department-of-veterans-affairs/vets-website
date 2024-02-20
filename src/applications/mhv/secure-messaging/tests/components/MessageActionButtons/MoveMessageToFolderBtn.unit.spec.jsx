@@ -21,6 +21,7 @@ describe('Move button', () => {
   };
 
   const id = 7155731;
+  const threadId = 1234567;
   const initialState = {
     sm: {
       folders: {
@@ -42,13 +43,16 @@ describe('Move button', () => {
         activeFolder={activeFolder}
         key="moveMessageToFolderBtn"
         isVisible
+        threadId={threadId}
         messageId={id}
         allFolders={folderResponse}
+        setIsCreateNewModalVisible
+        isCreateNewModalVisible
       />,
       {
         initialState,
         reducers,
-        path: '/thread/123456',
+        path: `/thread/${id}`,
       },
     );
   };
@@ -109,15 +113,17 @@ describe('Move button', () => {
     );
 
     const cancelButton = document.querySelector('va-button[text="Cancel"]');
+    expect(cancelButton).to.exist;
     fireEvent.click(cancelButton);
-    expect(document.querySelector('va-modal')).to.not.exist;
+    expect(document.querySelector('va-modal[modaltitle="Move to"]')).to.not
+      .exist;
   });
 
   it('changes value on radio button selection', async () => {
     const screen = setup();
     const folder = folderResponse[0];
     fireEvent.click(screen.getByText('Move'));
-    screen.getByTestId('radiobutton-Inbox');
+    expect(screen.getByTestId('radiobutton-Inbox')).to.exist;
 
     await waitFor(() => {
       selectVaRadio(screen.container, '0');
@@ -127,7 +133,8 @@ describe('Move button', () => {
     });
     mockApiRequest({ status: 204, method: 'PATCH' });
     fireEvent.click(document.querySelector('va-button[text="Confirm"]'));
-    expect(document.querySelector('va-modal')).to.not.exist;
+    expect(document.querySelector('va-modal[modaltitle="Move to"]')).to.not
+      .exist;
   });
 
   it('displays an error when folder is not selected', async () => {
@@ -154,19 +161,22 @@ describe('Move button', () => {
       ).to.have.attribute('checked', 'true');
     });
     fireEvent.click(document.querySelector('va-button[text="Confirm"]'));
-    expect(document.querySelector('va-modal')).to.have.attribute(
+    expect(
+      document.querySelector('va-modal[modaltitle="Create a new folder"]'),
+    ).to.have.attribute(
       'modaltitle',
       Constants.Alerts.Folder.CREATE_FOLDER_MODAL_HEADER,
     );
+
     const newFolderName = 'New Folder name';
     inputVaTextInput(screen.container, newFolderName);
+
+    expect(document.querySelector(`va-text-input[value="${newFolderName}"]`)).to
+      .exist;
 
     const createButton = document.querySelector('va-button[text="Create"]');
     mockApiRequest(newFolderResponse);
     fireEvent.click(createButton);
-    await waitFor(() => {
-      expect(document.querySelector('va-modal')).to.not.exist;
-    });
   });
 
   it('displays errors in Create New Folder modal on invalid value selections', async () => {

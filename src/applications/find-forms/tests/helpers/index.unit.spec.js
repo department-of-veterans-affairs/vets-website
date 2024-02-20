@@ -1,7 +1,4 @@
-// Dependencies.
 import { expect } from 'chai';
-
-// Relative imports
 import { sortTheResults } from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
 import { FAF_SORT_OPTIONS } from '../../constants';

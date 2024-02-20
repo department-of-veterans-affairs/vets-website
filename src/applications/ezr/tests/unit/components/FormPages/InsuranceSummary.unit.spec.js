@@ -5,7 +5,6 @@ import sinon from 'sinon';
 
 import InsuranceSummary from '../../../../components/FormPages/InsuranceSummary';
 import { INSURANCE_VIEW_FIELDS } from '../../../../utils/constants';
-import content from '../../../../locales/en/content.json';
 
 describe('ezr InsuranceSummary', () => {
   const policyData = {
@@ -14,7 +13,9 @@ describe('ezr InsuranceSummary', () => {
       {
         insuranceName: 'Cigna',
         insurancePolicyHolderName: 'John Smith',
-        insurancePolicyNumber: '006655',
+        'view:policyOrGroup': {
+          insurancePolicyNumber: '006655',
+        },
       },
     ],
   };
@@ -36,12 +37,6 @@ describe('ezr InsuranceSummary', () => {
   });
 
   context('when no policies have been added', () => {
-    it('should not render a title', () => {
-      const { props } = getData({});
-      const { container } = render(<InsuranceSummary {...props} />);
-      expect(container.querySelector('#root__title').textContent).to.be.empty;
-    });
-
     it('should not render the policy list field', () => {
       const { props } = getData({ providers: policyData.empty });
       const { container } = render(<InsuranceSummary {...props} />);
@@ -52,13 +47,6 @@ describe('ezr InsuranceSummary', () => {
 
   context('when policies have been added', () => {
     const { props } = getData({ providers: policyData.populated });
-
-    it('should render the specific form page title', () => {
-      const { container } = render(<InsuranceSummary {...props} />);
-      expect(container.querySelector('#root__title')).to.contain.text(
-        content['insurance-summary-title'],
-      );
-    });
 
     it('should render the policy list field', () => {
       const { container } = render(<InsuranceSummary {...props} />);

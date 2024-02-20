@@ -1,5 +1,5 @@
-import disabilityLabelsReduced from './disabilityLabelsReduced';
+import disabilityLabelsRevised from './disabilityLabelsRevised';
 
 export const getDisabilityLabels = () => {
-  return disabilityLabelsReduced;
+  return disabilityLabelsRevised;
 };

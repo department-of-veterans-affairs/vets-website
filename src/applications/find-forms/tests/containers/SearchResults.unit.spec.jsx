@@ -1,10 +1,8 @@
-// Dependencies.
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import times from 'lodash/times';
-// Relative imports.
 import { INITIAL_SORT_STATE } from '../../constants';
 import {
   SearchResults,

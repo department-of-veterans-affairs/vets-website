@@ -60,12 +60,12 @@ export const preparerQualificationsQuestionTitle = claimant => {
 };
 
 export const preparerQualificationsQuestionLabels = claimant => {
-  return [
-    `I’m responsible for the care of the ${claimant}.`,
-    `I’m appointed by the court to represent the ${claimant}.`,
-    `I’m authorized to make decisions for the ${claimant} under durable power of attorney, as an attorney-in-fact or agent.`,
-    `I’m a manager or principal officer representing an institution that’s responsible for the care of the ${claimant}.`,
-  ];
+  return {
+    caregiver: `I’m responsible for the care of the ${claimant}.`,
+    courtAppointedRep: `I’m appointed by the court to represent the ${claimant}.`,
+    attorney: `I’m authorized to make decisions for the ${claimant} under durable power of attorney, as an attorney-in-fact or agent.`,
+    manager: `I’m a manager or principal officer representing an institution that’s responsible for the care of the ${claimant}.`,
+  };
 };
 
 export const preparerSigningReasonQuestionTitle = ({ formData } = {}) => {

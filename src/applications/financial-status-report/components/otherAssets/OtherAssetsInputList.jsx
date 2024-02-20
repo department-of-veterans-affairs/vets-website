@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
+import { VALIDATION_LIMITS } from '../../constants';
 
 const OtherAssetsInputList = props => {
   const { errorSchema, formContext } = props;
@@ -47,16 +48,22 @@ const OtherAssetsInputList = props => {
         prompt={prompt}
         submitted={submitted}
         onChange={event => onChange(event)}
+        min={VALIDATION_LIMITS.OTHER_ASSETS_MIN}
+        max={VALIDATION_LIMITS.OTHER_ASSETS_MAX}
       />
       <va-additional-info
         class="vads-u-margin-top--4"
         trigger="Why do I need to provide this information?"
+        uswds
       >
         We ask for details about items of value such as jewelry and art because
         it gives us a picture of your financial situation and allows us to make
         a more informed decision regarding your request.
       </va-additional-info>
-      <va-additional-info trigger="What if I don’t know the estimated value of an asset?">
+      <va-additional-info
+        trigger="What if I don’t know the estimated value of an asset?"
+        uswds
+      >
         Don’t worry. We just want to get an idea of items of value you may own
         so we can better understand your financial situation. Include the amount
         of money you think you would get if you sold the asset. To get an idea

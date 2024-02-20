@@ -9,6 +9,7 @@ import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 
 const SUMMARY_PATH = '/other-income-summary';
 const CHECKLIST_PATH = '/additional-income-checklist';
+const MAXIMUM_ASSET_AMOUNT = 12000;
 
 const AddIncome = ({ data, goToPath, setFormData }) => {
   const { additionalIncome } = data;
@@ -27,6 +28,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
   // Asset name data/flags
   const [assetName, setAssetName] = useState(currentAsset.name || null);
   const nameError = !assetName ? 'Enter valid text' : null;
+  const [otherAssetAmountError, setOtherAssetAmountError] = useState(null);
 
   // Asset amount data/flags
   const [assetAmount, setAssetAmount] = useState(currentAsset.amount || null);
@@ -43,7 +45,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
       // goToPath needs to be encapsulated separately from setFormData
       // or data updates won't be reflected when page navigation occurs
       event.preventDefault();
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherAssetAmountError) {
         goToPath(SUMMARY_PATH);
       }
     },
@@ -52,6 +54,12 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
     },
     onAssetAmountChange: event => {
       setAssetAmount(event.target.value);
+
+      if (event.target.value >= MAXIMUM_ASSET_AMOUNT) {
+        setOtherAssetAmountError('Amount must be less than $12,000');
+      } else {
+        setOtherAssetAmountError(null);
+      }
     },
     onCancel: event => {
       event.preventDefault();
@@ -66,7 +74,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
       setSubmitted(true);
 
       // Check for errors
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherAssetAmountError) {
         // Update form data
         const newAssets = [...addlIncRecords];
         // update new or existing index
@@ -108,19 +116,23 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            uswds
+            charcount
           />
           <VaNumberInput
             className="no-wrap input-size-3"
-            error={(submitted && amountError) || null}
+            error={otherAssetAmountError}
             id="add-other-asset-amount"
             inputmode="decimal"
             label="Other monthly income amount?"
             min={0}
+            max={MAXIMUM_ASSET_AMOUNT}
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
             required
             type="text"
             value={assetAmount || ''}
+            uswds
           />
           <br />
           <p>

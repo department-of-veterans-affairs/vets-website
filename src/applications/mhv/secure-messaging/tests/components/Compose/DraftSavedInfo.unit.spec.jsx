@@ -9,7 +9,7 @@ import { ErrorMessages } from '../../../util/constants';
 describe('DraftSavedInfo component', () => {
   const initialState = {
     sm: {
-      draftDetails: {
+      threadDetails: {
         isSaving: false,
         lastSaveTime: '2020-01-01T00:00:00.000Z',
         saveError: false,
@@ -18,7 +18,6 @@ describe('DraftSavedInfo component', () => {
   };
 
   const intialProps = {
-    userSaved: true,
     attachments: undefined,
   };
 
@@ -33,8 +32,8 @@ describe('DraftSavedInfo component', () => {
   it('return "Saving..." when isSaving is true', () => {
     const customState = {
       sm: {
-        draftDetails: {
-          ...initialState.sm.draftDetails,
+        threadDetails: {
+          ...initialState.sm.threadDetails,
           isSaving: true,
         },
       },
@@ -50,7 +49,7 @@ describe('DraftSavedInfo component', () => {
   it('returns the last save time when lastSaveTime is defined', () => {
     const screen = setup();
     const formattedDate = `Your message was saved on ${dateFormat(
-      initialState.sm.draftDetails.lastSaveTime,
+      initialState.sm.threadDetails.lastSaveTime,
       'MMMM D, YYYY [at] h:mm a z',
     )}.`;
     expect(screen.getByText(formattedDate)).to.exist;
@@ -63,7 +62,7 @@ describe('DraftSavedInfo component', () => {
   it('returns an error message when saveError is true', () => {
     const customState = {
       sm: {
-        draftDetails: {
+        threadDetails: {
           saveError: true,
         },
       },

@@ -48,7 +48,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
               </dt>
               <dd
                 className="dd-privacy-mask"
-                data-dd-action-name="Applied date"
+                data-dd-action-name="application date"
               >
                 {moment(timestamp).format('MMM D, YYYY')}
               </dd>
@@ -63,7 +63,11 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </dl>
 
         <div className="vads-u-margin-top--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            data-testid="hca-print-button"
+            onClick={() => window.print()}
+          />
         </div>
       </va-alert>
     </>

@@ -1,13 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ItemsBlock from './ItemsBlock';
+import ParagraphBlock from './ParagraphBlock';
+
 const MoreInformation = props => {
-  // eslint-disable-next-line no-unused-vars
   const { avs } = props;
+  const { clinicalServices, clinicsVisited, moreHelpAndInformation } = avs;
+
+  const renderClinicalService = service => {
+    return (
+      <>
+        <h4>{service.name}</h4>
+        <p>
+          Location: {service.location}
+          <br />
+          Hours of operation: {service.hours}
+          <br />
+          Phone: <va-telephone contact={service.phone.replace(/\D/g, '')} />
+          <br />
+          Comment: {service.comment}
+        </p>
+      </>
+    );
+  };
 
   return (
     <div>
-      <p className="vads-u-margin-top--0">More information.</p>;
+      <ItemsBlock
+        heading={`Clinical services (${clinicsVisited[0]?.site})`}
+        itemType="clinical-services"
+        items={clinicalServices}
+        renderItem={renderClinicalService}
+      />
+      <ParagraphBlock
+        heading="More help and information"
+        content={moreHelpAndInformation}
+        htmlContent
+      />
     </div>
   );
 };

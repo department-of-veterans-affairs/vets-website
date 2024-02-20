@@ -1,21 +1,49 @@
-import mockUser from '../fixtures/user.json';
+import mockUser from '../fixtures/userResponse/user.json';
 import mockNonSMUser from '../fixtures/non_sm_user.json';
 import mockStatus from '../fixtures/profile-status.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import mockFacilities from '../fixtures/facilityResponse/facilities-no-cerner.json';
 
 class SecureMessagingSite {
-  login = (isSMUser = true) => {
-    if (isSMUser) {
+  login = (
+    isSMUser = true,
+    user = mockUser,
+    userFacilities = mockFacilities,
+  ) => {
+    if (isSMUser === true) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.intercept('GET', '/v0/user_transition_availabilities', mockUser);
+      cy.intercept('GET', '/v0/user', user).as('mockUser');
+      cy.intercept('GET', '/v0/user_transition_availabilities', user);
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
         'featureToggle',
       );
+      const facilityIDs = [];
+      const objectIDs = [];
+      for (
+        let i = 0;
+        i < user.data.attributes.vaProfile.facilities.length;
+        i += 1
+      ) {
+        const obj = user.data.attributes.vaProfile.facilities[i];
+        facilityIDs.push(`vha_${obj.facilityId}`);
+        objectIDs.push('[object%20Object]');
+      }
+
+      cy.intercept(
+        'GET',
+        `/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+        userFacilities,
+      ).as('facilities');
+
+      cy.intercept(
+        'GET',
+        `v1/facilities/va?ids=${objectIDs.join(',')}`,
+        userFacilities,
+      ).as('facilitiesSet');
     } else {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
@@ -40,12 +68,9 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('va-pagination')
-      .shadow()
-      .find('button:contains("Next")')
-      .click();
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    ).as(`inboxMessages${interceptedPage}`);
+    cy.get('[aria-label="Next page"]').click();
+    cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
   loadVAPaginationPreviousMessages = (interceptedPage = 1, mockMessages) => {
@@ -53,12 +78,22 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
-    cy.get('va-pagination')
-      .shadow()
-      .find('button:contains("Previous")')
+    ).as(`inboxMessages${interceptedPage}`);
+    cy.get('[aria-label="Previous page"]').click();
+    cy.wait(`@inboxMessages${interceptedPage}`);
+  };
+
+  loadVAPaginationLastPage = (pageNumber, mockMessages) => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${pageNumber}&sortField=SENT_DATE&sortOrder=DESC`,
+      mockMessages,
+    ).as(`inboxMessages${pageNumber}`);
+    cy.get('.usa-pagination__list')
+      .last()
+      .should('be.visible')
       .click();
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    cy.wait(`@inboxMessages${pageNumber}`);
   };
 
   loadVAPaginationPageMessages = (interceptedPage = 1, mockMessages) => {
@@ -66,19 +101,19 @@ class SecureMessagingSite {
       'GET',
       `/my_health/v1/messaging/folders/0/threads?pageSize=10&pageNumber=${interceptedPage}&sortField=SENT_DATE&sortOrder=DESC`,
       mockMessages,
-    ).as(`inboxMessagesessages${interceptedPage}`);
+    ).as(`inboxMessages${interceptedPage}`);
     if (interceptedPage === 1) {
       cy.get('va-pagination')
         .shadow()
-        .find('button:contains("1")')
+        .find('a:contains("1")')
         .click();
     } else {
       cy.get('va-pagination')
         .shadow()
-        .find(`button:contains("${interceptedPage}")`)
+        .find(`a:contains("${interceptedPage}")`)
         .click();
     }
-    cy.wait(`@inboxMessagesessages${interceptedPage}`);
+    cy.wait(`@inboxMessages${interceptedPage}`);
   };
 
   verifyPaginationMessagesDisplayed = (

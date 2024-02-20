@@ -1,17 +1,17 @@
 import React from 'react';
 import { LAST_YEAR } from '../../utils/constants';
 
-export const DependentDescription = () => (
+const DependentDescription = () => (
   <va-additional-info
     trigger="Who we consider a dependent"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    class="vads-u-margin-bottom--4"
   >
     <div>
       <p className="vads-u-margin-top--0">
         <strong>Here’s who we consider to be a dependent:</strong>
       </p>
       <ul>
-        <li>A spouse (we recognize same-sex and common law marriages)</li>
+        <li>A spouse (we recognize same-sex and common-law marriages)</li>
         <li>An unmarried child (including adopted children or stepchildren)</li>
       </ul>
       <p>

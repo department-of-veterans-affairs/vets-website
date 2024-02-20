@@ -8,6 +8,25 @@ export const setFocus = (selector, tabIndexInclude = true) => {
   }
 };
 
+export const appendReportsFromLocalStorage = resultsArray => {
+  const localReportsArray = localStorage.getItem('vaReports');
+
+  if (localReportsArray) {
+    const parsedLocalReportsArray = JSON.parse(localReportsArray);
+    for (const localReport of parsedLocalReportsArray) {
+      const resultMatch = resultsArray.find(
+        resultItem => resultItem.id === localReport.representativeId,
+      );
+
+      if (resultMatch) {
+        resultMatch.reports = localReport.reports;
+      }
+    }
+  }
+
+  return resultsArray;
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
@@ -56,6 +75,34 @@ export const areBoundsEqual = (box1, box2) => {
     areGeocodeEqual(upperLeft1, upperLeft2) &&
     areGeocodeEqual(lowerRight1, lowerRight2)
   );
+};
+
+export const mockPaginatedResponse = (allResults, page) => {
+  const itemsPerPage = 10;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const data = allResults.data.slice(startIndex, endIndex);
+  const link = `https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives${window.location.search.substring(
+    1,
+  )}`;
+  const links = {
+    self: link,
+    first: link,
+    prev: null,
+    next: link,
+    last: link,
+  };
+  const meta = {
+    pagination: {
+      currentPage: page,
+      perPage: 10,
+      totalPages: Math.ceil(allResults.data.length / 10),
+      totalEntries: allResults.data.length,
+    },
+  };
+
+  return { data, links, meta };
 };
 
 /**

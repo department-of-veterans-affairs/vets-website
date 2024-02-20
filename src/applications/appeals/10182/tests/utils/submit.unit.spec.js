@@ -10,11 +10,11 @@ import {
   getEligibleContestableIssues,
   getPart3Data,
   getTimeZone,
+  getEmail,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
 import { getDate } from '../../../shared/utils/dates';
-import { getPhone, removeEmptyEntries } from '../../../shared/utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
 const issue1 = {
@@ -87,6 +87,10 @@ const issue2 = {
 };
 
 describe('getEligibleContestableIssues', () => {
+  it('should empty array', () => {
+    expect(getEligibleContestableIssues()).to.deep.equal([]);
+    expect(getEligibleContestableIssues([{}])).to.deep.equal([]);
+  });
   it('should remove ineligible dates', () => {
     expect(
       getEligibleContestableIssues([
@@ -139,6 +143,9 @@ describe('createIssueName', () => {
       },
     });
 
+  it('should return no issue details', () => {
+    expect(createIssueName()).to.eq('0%');
+  });
   it('should combine issue details into the name', () => {
     // contestable issues only
     expect(getName('test', 'foo', '10')).to.eq('test - 10% - foo');
@@ -256,22 +263,6 @@ describe('addUploads', () => {
   });
 });
 
-describe('removeEmptyEntries', () => {
-  it('should remove empty string items', () => {
-    expect(removeEmptyEntries({ a: '', b: 1, c: 'x', d: '' })).to.deep.equal({
-      b: 1,
-      c: 'x',
-    });
-  });
-  it('should not remove null or undefined items', () => {
-    expect(removeEmptyEntries({ a: null, b: undefined, c: 3 })).to.deep.equal({
-      a: null,
-      b: undefined,
-      c: 3,
-    });
-  });
-});
-
 describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
@@ -379,34 +370,6 @@ describe('getAddress', () => {
   });
 });
 
-describe('getPhone', () => {
-  it('should return a cleaned up phone object', () => {
-    const wrap = obj => ({ veteran: { phone: obj } });
-    expect(getPhone()).to.deep.equal({});
-    expect(getPhone(wrap({}))).to.deep.equal({});
-    expect(getPhone(wrap({ temp: 'test' }))).to.deep.equal({});
-    expect(getPhone(wrap({ areaCode: '111' }))).to.deep.equal({
-      areaCode: '111',
-    });
-    expect(
-      getPhone(
-        wrap({
-          countryCode: '1',
-          areaCode: '222',
-          phoneNumber: '1234567',
-          phoneNumberExt: '0000',
-          extra: 'will not be included',
-        }),
-      ),
-    ).to.deep.equal({
-      countryCode: '1',
-      areaCode: '222',
-      phoneNumber: '1234567',
-      phoneNumberExt: '0000',
-    });
-  });
-});
-
 describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
@@ -441,5 +404,19 @@ describe('getPart3Data', () => {
       extensionReason: 'yep',
     };
     expect(getPart3Data(formData)).to.deep.equal(result);
+  });
+});
+
+describe('getEmail', () => {
+  it('should return empty string', () => {
+    expect(getEmail()).to.deep.equal({ emailAddressText: '' });
+  });
+  it('should return v0 email', () => {
+    const data = { [SHOW_PART3]: false, veteran: { email: 'test@test.com' } };
+    expect(getEmail(data)).to.deep.equal({ emailAddressText: 'test@test.com' });
+  });
+  it('should return v1 email', () => {
+    const data = { [SHOW_PART3]: true, veteran: { email: 'test@test.com' } };
+    expect(getEmail(data)).to.deep.equal({ email: 'test@test.com' });
   });
 });

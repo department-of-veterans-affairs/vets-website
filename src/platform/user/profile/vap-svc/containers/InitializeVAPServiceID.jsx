@@ -64,7 +64,7 @@ class InitializeVAPServiceID extends React.Component {
 
       case VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZATION_FAILURE:
         return (
-          <va-alert visible status="info">
+          <va-alert visible status="info" uswds>
             We’re sorry. Something went wrong on our end. Please refresh this
             page or try again later.
           </va-alert>

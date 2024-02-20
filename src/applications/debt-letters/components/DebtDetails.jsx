@@ -133,7 +133,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 <strong>Note:</strong> The content of the debt letters below may
                 not include recent updates to your debt reflected above. If you
                 have any questions about your debt history, please contact the
-                Debt Management Center at
+                Debt Management Center at{' '}
                 <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"

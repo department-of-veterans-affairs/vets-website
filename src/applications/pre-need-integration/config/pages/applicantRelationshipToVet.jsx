@@ -1,47 +1,39 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import { pick } from 'lodash';
+import { merge, pick } from 'lodash';
+
 import {
-  ApplicantDescriptionWrapper,
-  childRelationshipDescription,
-  otherRelationshipDescription,
-  spouseRelationshipDescription,
-  veteranRelationshipDescription,
+  applicantInformationDescription,
+  relationshipToVetDescription,
+  relationshipToVetOptions,
 } from '../../utils/helpers';
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
-export const uiSchema = {
-  'ui:description': ApplicantDescriptionWrapper,
-  application: {
-    claimant: {
-      relationshipToVet: {
-        'ui:title': 'Relationship to service member',
-        'ui:widget': 'radio',
-        'ui:options': {
-          labels: {
-            1: 'I am the service member/Veteran',
-            2: 'Spouse or surviving spouse',
-            3: 'Unmarried adult child',
-            4: 'Other',
-          },
-          widgetProps: {
-            1: { 'aria-describedby': 'veteran-relationship' },
-            2: { 'aria-describedby': 'spouse-relationship' },
-            3: { 'aria-describedby': 'child-relationship' },
-            4: { 'aria-describedby': 'other-relationship' },
-          },
-          nestedContent: {
-            1: veteranRelationshipDescription,
-            2: spouseRelationshipDescription,
-            3: childRelationshipDescription,
-            4: otherRelationshipDescription,
+export function uiSchema(
+  description = relationshipToVetDescription,
+  title = relationshipToVetDescription,
+  options = relationshipToVetOptions,
+) {
+  return {
+    application: {
+      claimant: {
+        'ui:description': description,
+        relationshipToVet: {
+          'ui:title': title,
+          'ui:options': options,
+        },
+        'view:applicantInformationDescription': {
+          'ui:description': applicantInformationDescription,
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
           },
         },
       },
     },
-  },
-};
+  };
+}
+
 export const schema = {
   type: 'object',
   properties: {
@@ -51,7 +43,16 @@ export const schema = {
         claimant: {
           type: 'object',
           required: ['relationshipToVet'],
-          properties: pick(claimant.properties, ['relationshipToVet']),
+          properties: merge(
+            {},
+            pick(claimant.properties, ['relationshipToVet']),
+            {
+              'view:applicantInformationDescription': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          ),
         },
       },
     },

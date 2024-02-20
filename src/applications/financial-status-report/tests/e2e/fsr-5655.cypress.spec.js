@@ -159,7 +159,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('textarea')
             .type('Some Resolution Comments . . .');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'bankruptcy-history': ({ afterHook }) => {
@@ -204,16 +207,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

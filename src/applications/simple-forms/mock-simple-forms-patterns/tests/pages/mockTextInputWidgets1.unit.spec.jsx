@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'mock text input widgets';
 
-const expectedNumberOfWebComponentFields = 6;
+const expectedNumberOfWebComponentFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,7 +22,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

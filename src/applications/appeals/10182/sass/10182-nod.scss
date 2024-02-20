@@ -195,12 +195,15 @@ article[data-location="review-and-submit"] {
   dd {
     word-break: break-all;
   }
+}
 
-  .form-review-panel-page-header {
-    padding-right: 1rem;
-    line-height: 2.5rem;
-  }
-  .form-review-panel-page-header-row {
-    align-items: flex-start;
-  }
+/* Fix va-radio v3 input overlapping finish this request later link */
+.schemaform-save-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* contestable issues widget - copy uswds v3 style */
+.widget-checkbox-wrap label:before {
+  box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
 }

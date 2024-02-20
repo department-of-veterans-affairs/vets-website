@@ -121,7 +121,7 @@ class PatientMessageDetailsPage {
       'GET',
       `/my_health/v1/messaging/messages/${
         mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       this.currentThread,
     ).as('full-thread');
 
@@ -181,7 +181,7 @@ class PatientMessageDetailsPage {
       'GET',
       `/my_health/v1/messaging/messages/${
         mockMessageDetails.data.attributes.messageId
-      }/thread`,
+      }/thread?full_body=true`,
       mockThread,
     ).as('full-thread');
     cy.wait('@full-thread');
@@ -193,6 +193,17 @@ class PatientMessageDetailsPage {
     ).as('replyDraftSave');
 
     // cy.wait('@message2');
+  };
+
+  expandAllThreadMessages = () => {
+    cy.intercept('GET', '/my_health/v1/messaging/messages/**', '{}').as(
+      'allMessageDetails',
+    );
+    cy.get('[data-testid="thread-expand-all"]').should('be.visible');
+    cy.get('[data-testid="thread-expand-all"]')
+      .shadow()
+      .contains('Expand all +')
+      .click();
   };
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
@@ -389,31 +400,61 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
-    if (messageIndex > 0) {
-      cy.get('[data-testid="message-date"]')
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `Date: ${dateFormat(
-            messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY, [at] h:mm a z',
-          )}`,
-        );
-    } else {
-      cy.get('[data-testid="message-date"]')
-        .eq(messageIndex)
-        .should(
-          'have.text',
-          `Date: ${dateFormat(
-            messageDetails.data.attributes.sentDate,
-            'MMMM D, YYYY [at] h:mm a z',
-          )}`,
-        );
-    }
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `Date: ${dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        )}`,
+      );
+  };
+
+  verifyExpandedThreadAttachmentDisplay = (
+    messageThread,
+    messageIndex = 0,
+    attachmentIndex = 0,
+  ) => {
+    cy.get(
+      `[data-testid="expand-message-button-${
+        messageThread.data[messageIndex].id
+      }"]`,
+    )
+      .find(
+        `[data-testid="has-attachment-${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].id
+        }"]`,
+      )
+      .should(
+        'have.text',
+        `${
+          messageThread.data[messageIndex].attributes.attachments[
+            attachmentIndex
+          ].name
+        }`,
+      );
+  };
+
+  verifyExpandedThreadBodyDisplay = (messageThread, messageIndex = 0) => {
+    cy.get(
+      `[data-testid="expand-message-button-${
+        messageThread.data[messageIndex].id
+      }"]`,
+    )
+      .find(
+        `[data-testid="message-body-${messageThread.data[messageIndex].id}"]`,
+      )
+      .should(
+        'have.text',
+        `${messageThread.data[messageIndex].attributes.body}`,
+      );
   };
 
   ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="reply-form"] > :nth-child(3) > :nth-child(1)')
+    cy.get('[data-testid="draft-reply-to"')
       .eq(messageIndex)
       .should(
         'have.text',
@@ -435,7 +476,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessagerecipientName = (messageDetails, messageIndex = 0) => {
+  ReplyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message to recipient');
     cy.get('[data-testid="to"]')
       .eq(messageIndex)
@@ -465,6 +506,9 @@ class PatientMessageDetailsPage {
   ReplyToMessageBody = testMessageBody => {
     cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
   };
-}
 
+  verifyDeleteMessageConfirmationMessageHasFocus = () => {
+    cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  };
+}
 export default PatientMessageDetailsPage;

@@ -7,7 +7,7 @@ import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
-import { errorMessages } from '../helpers';
+import { errorMessages } from '../constants';
 
 const store = ({
   termsOfUseEnabled = true,
@@ -31,10 +31,14 @@ const store = ({
 });
 
 describe('TermsOfUse', () => {
+  const oldLocation = global.window.location;
   const server = setupServer();
 
   before(() => server.listen());
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    global.window.location = oldLocation;
+    server.resetHandlers();
+  });
   after(() => server.close());
 
   it('should render', () => {
@@ -220,8 +224,43 @@ describe('TermsOfUse', () => {
     });
   });
   it('should redirect to the `redirect_url`', async () => {
-    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    const redirectUrl = `https://dev.va.gov/?next=loginModal`;
     global.window.location = `https://dev.va.gov/terms-of-use/`;
+    sessionStorage.setItem('authReturnUrl', redirectUrl);
+
+    const mockStore = store();
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/latest`,
+        (_, res, ctx) => res(ctx.status(200)),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
+        (_, res, ctx) =>
+          res(
+            ctx.status(200),
+            ctx.json({ termsOfUseAgreement: { 'some-key': 'some-value' } }),
+          ),
+      ),
+    );
+    const { queryAllByTestId } = render(
+      <Provider store={mockStore}>
+        <TermsOfUse />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.not.eql(redirectUrl);
+      expect(global.window.location).to.eql('https://dev.va.gov');
+    });
+  });
+  it('should redirect to the `ssoeTarget`', async () => {
+    const redirectUrl = `https://int.eauth.va.gov/isam/sps/auth?PartnerId=https://staging-patientportal.myhealth.va.gov/session-api/protocol/saml2/metadata`;
+    global.window.location = `https://dev.va.gov/terms-of-use/?ssoeTarget=https%3A%2F%2Fint.eauth.va.gov%2Fisam%2Fsps%2Fauth%3FPartnerId%3Dhttps%3A%2F%2Fstaging-patientportal.myhealth.va.gov%2Fsession-api%2Fprotocol%2Fsaml2%2Fmetadata`;
     sessionStorage.setItem('authReturnUrl', redirectUrl);
 
     const mockStore = store();

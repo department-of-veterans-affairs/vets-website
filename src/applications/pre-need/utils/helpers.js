@@ -54,6 +54,16 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
+export const sponsorDeceasedDescription = (
+  <div className="sponsorDeceasedDescriptionNotProd">
+    <p>
+      We’ll now ask you questions about the sponsor’s passing. We understand
+      that the questions may be difficult to answer, but your answers will help
+      us determine eligibility for your application.
+    </p>
+  </div>
+);
+
 export const sponsorDetailsSubHeader = (
   <div className="sponsorDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Sponsor details</h3>
@@ -66,8 +76,16 @@ export const sponsorDemographicsSubHeader = (
   </div>
 );
 
-export const sponsorDemographicsDescription = (
+export const sponsorDemographicsDescription = environment.isProduction() ? (
   <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDemographicsDescriptionNotProd">
     <p>
       We require some basic details about the applicant’s sponsor as part of the
       application. Please know we need to gather the data for statistical
@@ -84,7 +102,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
+    <p>When did the sponsor pass away?</p>
   </div>
 );
 
@@ -147,6 +165,25 @@ export const applicantDetailsDescription = (
       provide their details below. As the preparer, we’ll ask for your own
       details later.
     </p>
+  </va-additional-info>
+);
+
+export const sponsorDetailsDescription = (
+  <va-additional-info trigger="What is a sponsor?">
+    <ul>
+      <>
+        <li>
+          You’re considered the sponsor if you’re the service member or Veteran
+          sponsoring the applicant’s benefits. We’ll ask you to provide your
+          details.
+        </li>
+        <li>
+          If you’re not the sponsor, you’ll still need to provide the details
+          for the service member or Veteran who is sponsoring the applicant’s
+          benefits.
+        </li>
+      </>
+    </ul>
   </va-additional-info>
 );
 
@@ -473,18 +510,13 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = !environment.isProduction()
-  ? merge({}, fullNameUI, {
-      first: { 'ui:title': 'First name' },
-      middle: { 'ui:title': 'Middle name' },
-      last: { 'ui:title': 'Last name' },
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    })
-  : merge({}, fullNameUI, {
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    });
+export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -522,9 +554,8 @@ export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -539,15 +570,11 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -623,6 +650,7 @@ export const serviceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
     generateIndividualItemHeaders: true,
+    useHeaderStyling: true,
   },
   items: {
     'ui:order': [

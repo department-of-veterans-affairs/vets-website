@@ -2,6 +2,7 @@ import { getNote, getNotes } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { dispatchDetails } from '../util/helpers';
 
 export const getCareSummariesAndNotesList = () => async dispatch => {
   try {
@@ -12,10 +13,19 @@ export const getCareSummariesAndNotesList = () => async dispatch => {
   }
 };
 
-export const getCareSummaryAndNotesDetails = noteId => async dispatch => {
+export const getCareSummaryAndNotesDetails = (
+  noteId,
+  noteList,
+) => async dispatch => {
   try {
-    const response = await getNote(noteId);
-    dispatch({ type: Actions.CareSummariesAndNotes.GET, response });
+    await dispatchDetails(
+      noteId,
+      noteList,
+      dispatch,
+      getNote,
+      Actions.CareSummariesAndNotes.GET_FROM_LIST,
+      Actions.CareSummariesAndNotes.GET,
+    );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR));
   }

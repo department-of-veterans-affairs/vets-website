@@ -14,7 +14,6 @@ describe('Secure Messaging Reply', () => {
     site.login();
     const testMessage = landingPage.getNewMessageDetails();
     landingPage.loadInboxMessages(mockMessages, testMessage);
-
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
@@ -25,23 +24,20 @@ describe('Secure Messaging Reply', () => {
     });
 
     cy.get(Locators.FOLDERS.INBOX).click();
-    cy.get('[data-testid="reply-form"]')
-      .find('h1')
-      .should('have.text', "We can't save this message yet");
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button[secondary]')
-      .should('have.attr', 'text', 'Delete draft');
+    // this test is temporarily commented-out because this functionality
+    // has been removed from the frontend. The modal design needs revision by design/ucd
+    // and will be reintroduced later
+    // cy.get('[data-testid="reply-form"]')
+    //   .find('h1')
+    //   .should('have.text', "We can't save this message yet");
+    // cy.get('[data-testid="reply-form"]')
+    //   .find('va-button')
+    //   .should('have.attr', 'text', 'Continue editing');
+    // cy.get('[data-testid="reply-form"]')
+    //   .find('va-button[secondary]')
+    //   .should('have.attr', 'text', 'Delete draft');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

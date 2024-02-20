@@ -5,18 +5,35 @@ import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PrintHeader from '../shared/PrintHeader';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import ItemList from '../shared/ItemList';
 import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
-import { makePdf, processList } from '../../util/helpers';
+import InfoAlert from '../shared/InfoAlert';
+import {
+  makePdf,
+  processList,
+  generateTextFile,
+  getNameDateAndTime,
+} from '../../util/helpers';
 import {
   generatePdfScaffold,
   updatePageTitle,
+  formatName,
 } from '../../../shared/util/helpers';
-import { EMPTY_FIELD, pageTitles } from '../../util/constants';
+import {
+  txtLine,
+  txtLineDotted,
+  crisisLineHeader,
+  reportGeneratedBy,
+} from '../../../shared/util/constants';
+import { pageTitles } from '../../util/constants';
+import DateSubheading from '../shared/DateSubheading';
+import {
+  generateLabsIntro,
+  generateChemHemContent,
+} from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -31,128 +48,82 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      const titleDate = record.date !== EMPTY_FIELD ? `${record.date} - ` : '';
       updatePageTitle(
-        `${titleDate}${record.name} - ${
-          pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE
-        }`,
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
       );
     },
     [record.date, record.name],
   );
 
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateChemHemPdf = async () => {
-    const title = `Lab and test results: ${record.name} on ${formatDateLong(
-      record.date,
-    )}`;
-    const subject = 'VA Medical Record';
-    const preface =
-      'If you have questions about these results, send a secure message to your care team. ';
+    const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateChemHemContent(record) };
+    const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
+    makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
+  };
 
-    scaffold.details = {
-      header: 'Details about this test',
-      items: [
-        {
-          title: 'Type of test',
-          value: record.type,
-          inline: true,
-        },
-        {
-          title: 'Sample tested',
-          value: record.sampleTested,
-          inline: true,
-        },
-        {
-          title: 'Ordered by',
-          value: record.orderedBy,
-          inline: true,
-        },
-        {
-          title: 'Ordering location',
-          value: record.orderingLocation,
-          inline: true,
-        },
-        {
-          title: 'Collecting location',
-          value: record.collectingLocation,
-          inline: true,
-        },
-        {
-          title: 'Provider notes',
-          value: processList(record.comments),
-          inline: !record.comments,
-        },
-      ],
-    };
-    scaffold.results = {
-      header: 'Results',
-      preface:
-        "If your results are outside the standard range, this doesn't automatically mean you have a health problem. Your provider will review your results and explain what they mean for your health.",
-      sectionSeparators: true,
-      items: record.results.map(item => ({
-        header: item.name,
-        items: [
-          {
-            title: 'Result',
-            value: item.result,
-            inline: true,
-          },
-          {
-            title: 'Standard range',
-            value: item.standardRange,
-            inline: true,
-          },
-          {
-            title: 'Status',
-            value: item.status,
-            inline: true,
-          },
-          {
-            title: 'Lab location',
-            value: item.labLocation,
-            inline: true,
-          },
-          {
-            title: 'Interpretation',
-            value: item.interpretation,
-            inline: true,
-          },
-        ],
-      })),
-    };
+  const generateChemHemTxt = async () => {
+    const content = `\n
+${crisisLineHeader}\n\n
+${record.name}\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+Date entered: ${record.date}\n
+${txtLine}\n\n
+Type of test: ${record.type} \n
+Sample tested: ${record.sampleTested} \n
+Ordered by: ${record.orderedBy} \n
+Order location: ${record.orderingLocation} \n
+Collecting location: ${record.collectingLocation} \n
+Provider notes: ${processList(record.comments)} \n
+${txtLine}\n\n
+Results:
+${record.results
+      .map(
+        entry => `
+${txtLine}\n
+${entry.name}
+${txtLineDotted}
+Result: ${entry.result}
+Standard range: ${entry.standardRange}
+Status: ${entry.status}
+Lab location: ${entry.labLocation}
+Interpretation: ${entry.interpretation}\n`,
+      )
+      .join('')}`;
 
-    makePdf(
-      'microbiology_report',
-      scaffold,
-      'Microbiology details',
-      runningUnitTest,
+    generateTextFile(
+      content,
+      `VA-labs-and-tests-details-${getNameDateAndTime(user)}`,
     );
   };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--1" aria-describedby="chem-hem-date">
+      <h1
+        className="vads-u-margin-bottom--1"
+        aria-describedby="chem-hem-date"
+        data-testid="chem-hem-name"
+      >
         {record.name}
       </h1>
-      <div className="time-header">
-        <p
-          className="vads-u-font-size--base vads-u-font-family--sans"
-          id="chem-hem-date"
-        >
-          Date:{' '}
-          <span
-            className="vads-u-font-weight--normal"
-            data-testid="header-time"
-          >
-            {record.date}
-          </span>
-        </p>
-      </div>
+      <DateSubheading date={record.date} id="chem-hem-date" />
+
       <div className="no-print">
         <PrintDownload
           download={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
@@ -163,23 +134,27 @@ const ChemHemDetails = props => {
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Type of test
         </h3>
-        <p>{record.category}</p>
+        <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h3>
-        <p>{record.orderingLocation}</p>
+        <p data-testid="chem-hem-ordering-location">
+          {record.orderingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
-        <p>{record.collectingLocation}</p>
+        <p data-testid="chem-hem-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Provider notes
         </h3>
@@ -188,28 +163,7 @@ const ChemHemDetails = props => {
       {/*         RESULTS CARDS            */}
       <div className="test-results-container">
         <h2>Results</h2>
-        <va-additional-info
-          trigger="Need help understanding your results?"
-          class="no-print"
-        >
-          <p className="vads-u-margin-bottom--1">
-            If your results are outside the standard range, this doesn’t
-            automatically mean you have a health problem. Your provider will
-            review your results and explain what they mean for your health.
-          </p>
-          <p>To ask a question now, send a secure message to your care team.</p>
-          <p>
-            <a
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'secure-messaging',
-              )}
-              rel="noreferrer" // check dis
-            >
-              Compose a message.
-            </a>
-          </p>
-        </va-additional-info>
+        <InfoAlert highLowResults fullState={fullState} />
         <div className="print-only">
           <p>
             Your provider will review your results and explain what they mean

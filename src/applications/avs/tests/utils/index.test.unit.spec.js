@@ -1,5 +1,8 @@
 import { assert, expect } from 'chai';
 import {
+  allArraysEmpty,
+  allFieldsEmpty,
+  fieldHasValue,
   parseVistaDateTime,
   parseVistaDate,
   stripDst,
@@ -132,6 +135,55 @@ describe('avs', () => {
         expect(getFormattedGenerationDate(avs)).to.equal(
           'July 12, 2023 at 5:45 p.m. CT',
         );
+      });
+    });
+
+    describe('field has value', () => {
+      it('returns true when a string is present', () => {
+        expect(fieldHasValue('foo')).to.be.true;
+      });
+      it('returns true for the string 0', () => {
+        expect(fieldHasValue('0')).to.be.true;
+      });
+      it('returns false when given an empty string', () => {
+        expect(fieldHasValue('')).to.be.false;
+      });
+      it('returns false when given null', () => {
+        expect(fieldHasValue(null)).to.be.false;
+      });
+    });
+
+    describe('all arrays empty', () => {
+      it('returns true when all child arrays are empty', () => {
+        const item = { array1: ['', ''], array2: [], array3: [''] };
+        expect(allArraysEmpty(item)).to.be.true;
+      });
+
+      it('returns false when some fields are not empty', () => {
+        const item = { array1: [''], array2: ['not empty'] };
+        expect(allArraysEmpty(item)).to.be.false;
+      });
+
+      it('returns true when object is empty', () => {
+        const item = {};
+        expect(allArraysEmpty(item)).to.be.true;
+      });
+    });
+
+    describe('all fields empty', () => {
+      it('returns true when all fields are empty', () => {
+        const item = { field1: '', field2: null };
+        expect(allFieldsEmpty(item)).to.be.true;
+      });
+
+      it('returns false when some fields are not empty', () => {
+        const item = { field1: '', field2: 'not empty' };
+        expect(allFieldsEmpty(item)).to.be.false;
+      });
+
+      it('returns true when object is empty', () => {
+        const item = {};
+        expect(allFieldsEmpty(item)).to.be.true;
       });
     });
   });

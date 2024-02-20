@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 
 import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 
@@ -12,7 +11,7 @@ const ApplicationInProgress = ({
   expirationDate,
   formId,
   formTitle,
-  lastOpenedDate,
+  lastSavedDate,
   presentableFormId,
 }) => {
   const content = (
@@ -40,7 +39,7 @@ const ApplicationInProgress = ({
             <p className="vads-u-margin-top--0">
               Application expires on: {expirationDate}
             </p>
-            <p>Last opened on: {lastOpenedDate}</p>
+            <p>Last saved on: {lastSavedDate}</p>
           </div>
         </div>
       </div>
@@ -55,28 +54,14 @@ const ApplicationInProgress = ({
 
   return (
     <DashboardWidgetWrapper>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-        <Toggler.Enabled>
-          <div
-            className="vads-u-width--full vads-u-margin-bottom--3"
-            data-testid="application-in-progress"
-          >
-            <va-card>
-              <div className="vads-u-padding--1">{content}</div>
-            </va-card>
-          </div>
-        </Toggler.Enabled>
-        <Toggler.Disabled>
-          <div
-            className="vads-u-display--flex vads-u-margin-bottom--3"
-            data-testid="application-in-progress"
-          >
-            <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
-              {content}
-            </div>
-          </div>
-        </Toggler.Disabled>
-      </Toggler>
+      <div
+        className="vads-u-width--full vads-u-margin-bottom--3"
+        data-testid="application-in-progress"
+      >
+        <va-card>
+          <div className="vads-u-padding--1">{content}</div>
+        </va-card>
+      </div>
     </DashboardWidgetWrapper>
   );
 };
@@ -90,8 +75,8 @@ ApplicationInProgress.propTypes = {
   formId: PropTypes.string.isRequired,
   // String to use as the main "headline" of the component
   formTitle: PropTypes.string.isRequired,
-  // The display-ready date when the application was last opened by the user
-  lastOpenedDate: PropTypes.string.isRequired,
+  // The display-ready date when the application was last updated by the user
+  lastSavedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string.isRequired,
 };

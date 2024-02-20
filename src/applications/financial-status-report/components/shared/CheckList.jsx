@@ -10,16 +10,14 @@ const Checklist = ({
 }) => {
   return (
     <fieldset className="checkbox-list vads-u-margin-y--2">
-      {title && (
-        <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">{title}</h3>
-          {prompt && (
-            <p className="vads-u-margin-bottom--0p5 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-              {prompt}
-            </p>
-          )}
-        </legend>
-      )}
+      <legend className="schemaform-block-title">
+        {title ? <h3 className="vads-u-margin--0">{title}</h3> : null}
+        {prompt ? (
+          <p className="vads-u-margin-bottom--0p5 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            {prompt}
+          </p>
+        ) : null}
+      </legend>
       {options?.map((option, key) => (
         <div key={option + key} className="checkbox-list-item">
           <input

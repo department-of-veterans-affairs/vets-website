@@ -2,7 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class TravelPages {
   validatePageLoaded = page => {
-    let title = 'Would you like to file a travel reimbursement claim now?';
+    let title = 'Would you like to file a travel reimbursement claim?';
     switch (page) {
       case 'vehicle':
         title = 'Did you travel in your own vehicle?';
@@ -11,7 +11,10 @@ class TravelPages {
         title = 'Did you travel from your home address?';
         break;
       case 'mileage':
-        title = 'Are you claiming only mileage and no other expenses today?';
+        title = 'Are you claiming only mileage and no other expenses?';
+        break;
+      case 'review':
+        title = 'Review your travel claim';
         break;
       default:
         break;
@@ -41,13 +44,13 @@ class TravelPages {
   };
 
   attemptToGoToNextPage = (button = 'yes') => {
-    cy.get(`button[data-testid="${button}-button"]`).click({
+    cy.get(`[data-testid="${button}-button"]`).click({
       waitForAnimations: true,
     });
   };
 
   validateBackButton = page => {
-    cy.get('a[data-testid="back-button').should(
+    cy.get('a[data-testid="back-button"]').should(
       'have.text',
       'Back to last screen',
     );
@@ -71,6 +74,11 @@ class TravelPages {
         .should('have.attr', 'href')
         .and('contain', 'travel-address');
     }
+    if (page === 'review') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-mileage');
+    }
   };
 
   validateContent = page => {
@@ -81,6 +89,25 @@ class TravelPages {
     if (body) {
       cy.get(`[data-testid="body-text"]`).should('be.visible');
     }
+  };
+
+  clickEditLink = () => {
+    cy.get(`a[data-testid="review-edit-link"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
+  acceptTerms = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`[part="checkbox"]`)
+      .click();
+  };
+
+  checkForValidationError = () => {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('#checkbox-error-message');
   };
 }
 

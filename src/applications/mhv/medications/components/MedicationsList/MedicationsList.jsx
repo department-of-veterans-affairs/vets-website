@@ -3,19 +3,22 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
+import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
-  const { rxList, pagination, setCurrentPage, selectedSortOption } = props;
+  const history = useHistory();
+  const { rxList, pagination, selectedSortOption, updateLoadingStatus } = props;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const scrollLocation = useRef();
   const goToPrevious = () => {
-    scrollLocation.current.scrollIntoView();
+    scrollLocation.current?.scrollIntoView();
   };
 
   useEffect(
@@ -26,11 +29,14 @@ const MedicationsList = props => {
     },
     [prescriptionId],
   );
+
   const displaynumberOfPrescriptionsSelector =
-    "[data-testid='page-total-info']";
+    ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
-    setCurrentPage(page);
+    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
+    updateLoadingStatus(true, 'Loading your list...');
+    history.push(`/${page}`);
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
@@ -55,14 +61,29 @@ const MedicationsList = props => {
         data-testid="page-total-info"
         id="showingRx"
       >
-        {`Showing ${displayNums[0]} - ${displayNums[1]} of ${
-          pagination.totalEntries
-        } medications, ${rxListSortingOptions[
+        Showing
+        <span className="no-print">
+          {` ${displayNums[0]} - ${displayNums[1]} of`}
+        </span>
+        {` ${pagination.totalEntries} medications, ${rxListSortingOptions[
           selectedSortOption
-        ].LABEL.toLowerCase()}`}
+        ]?.LABEL.toLowerCase()}`}
       </h2>
-      <div className="rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
-      <div className="vads-u-display--block vads-u-margin-top--3">
+      <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
+      <div className="print-only vads-u-margin--0 vads-u-width--full">
+        {rxList?.length > 0 &&
+          rxList.map((rx, idx) => (
+            <PrescriptionPrintOnly
+              hideLineBreak={idx === rxList.length - 1}
+              key={idx}
+              rx={rx}
+            />
+          ))}
+      </div>
+      <div
+        className="vads-u-display--block vads-u-margin-top--3"
+        data-testid="medication-list"
+      >
         {rxList?.length > 0 &&
           rxList.map(
             (rx, idx) =>
@@ -78,7 +99,7 @@ const MedicationsList = props => {
       <VaPagination
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"
-        className="pagination vads-u-max-width--none vads-u-justify-content--center"
+        className="pagination vads-u-justify-content--center no-print"
         onPageSelect={e => onPageChange(e.detail.page)}
         page={pagination.currentPage}
         pages={pagination.totalPages}
@@ -95,4 +116,5 @@ MedicationsList.propTypes = {
   rxList: PropTypes.array,
   selectedSortOption: PropTypes.string,
   setCurrentPage: PropTypes.func,
+  updateLoadingStatus: PropTypes.func,
 };

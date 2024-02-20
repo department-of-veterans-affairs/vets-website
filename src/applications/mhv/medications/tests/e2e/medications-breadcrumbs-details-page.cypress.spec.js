@@ -11,23 +11,14 @@ describe('Medications Details Page Breadcrumbs', () => {
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
     site.login();
-    cy.visit('my-health/about-medications/');
-
+    landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
-    detailsPage.clickMedicationsBreadcrumbsOnDetailsPage();
+    detailsPage.clickMedicationsListPageBreadcrumbsOnDetailsPage();
+    listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
+    detailsPage.clickMedicationsLandingPageBreadcrumbsOnListPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
-    // listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

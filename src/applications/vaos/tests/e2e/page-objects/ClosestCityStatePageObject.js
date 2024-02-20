@@ -8,8 +8,8 @@ export class ClosestCityStatePageObject extends PageObject {
     return this;
   }
 
-  selectFacility() {
-    cy.findByLabelText(/cheyenne/i).check();
+  selectFacility({ label }) {
+    cy.findByLabelText(label).check();
     return this;
   }
 }

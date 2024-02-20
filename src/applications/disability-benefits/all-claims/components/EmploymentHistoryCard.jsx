@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDateRange } from '../utils';
 
-export default ({ formData }) => {
+export default function EmploymentHistoryCard({ formData }) {
   const { name, dates } = formData;
 
   return (
@@ -12,4 +13,14 @@ export default ({ formData }) => {
       {formatDateRange(dates)}
     </p>
   );
+}
+
+EmploymentHistoryCard.propTypes = {
+  formData: PropTypes.shape({
+    dates: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
+    name: PropTypes.string,
+  }),
 };

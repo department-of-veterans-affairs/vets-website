@@ -1,6 +1,5 @@
-import React from 'react';
-
 import {
+  titleUI,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -8,11 +7,9 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-margin-y--0">
-        We’ll use this information in case we need to follow up with you about
-        the request.
-      </h3>
+    ...titleUI(
+      'Tell us about yourself',
+      'We’ll use this information in case we need to follow up with you about the request.',
     ),
     applicantFullName: fullNameNoSuffixUI(),
   },

@@ -60,7 +60,7 @@ describe('Medications PDF template', () => {
       // There should be one and only one root element.
       expect(structure.children.length).to.equal(1);
       expect(rootElement.role).to.equal('Document');
-      expect(rootElement.children.length).to.equal(4);
+      expect(rootElement.children.length).to.equal(3);
       expect(rootElement.children[1].children[0].role).to.equal('H1');
     });
   });
@@ -76,10 +76,10 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      // Get first details struct.
-      const { tag } = content.items[76];
+      // Get prescription number
+      const { tag } = content.items[92];
       expect(tag).to.equal('P');
-      const text = content.items[80].str;
+      const text = content.items[96].str;
       expect(text).to.equal(data.results[0].list[0].sections[0].items[5].value);
     });
 
@@ -93,14 +93,14 @@ describe('Medications PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the acetic acid medication header
+      expect(content.items[99].tag).to.eq('H3');
+      expect(content.items[101].str).to.eq('ACETIC ACID 0.25% IRRG SOLN');
 
-      expect(artifactCount).to.eq(6);
+      // The two items before it should be the start and end of the Artifact tag.
+      expect(content.items[97].type).to.eq('beginMarkedContent');
+      expect(content.items[97].tag).to.eq('Artifact');
+      expect(content.items[98].type).to.eq('endMarkedContent');
     });
 
     it('Outputs document sections in the correct order', async () => {

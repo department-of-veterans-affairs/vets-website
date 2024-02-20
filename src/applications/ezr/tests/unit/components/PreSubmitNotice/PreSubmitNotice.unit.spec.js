@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import PreSubmitNotice from '../../../../components/PreSubmitNotice';
-import content from '../../../../locales/en/content.json';
 
 describe('ezr <PreSubmitNotice>', () => {
   const getData = ({ submission = {}, formData = {}, showError = false }) => ({
@@ -23,8 +22,6 @@ describe('ezr <PreSubmitNotice>', () => {
       preSubmitInfo: {
         required: true,
         field: 'privacyAgreementAccepted',
-        error: content['presubmit-error-message'],
-        label: content['presubmit-checkbox-label'],
       },
       showError,
       onSectionComplete: sinon.spy(),
@@ -59,11 +56,8 @@ describe('ezr <PreSubmitNotice>', () => {
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.not.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      expect(selector).to.not.have.attr('error');
     });
 
     it('should not render error message if submission status is pending', () => {
@@ -76,27 +70,23 @@ describe('ezr <PreSubmitNotice>', () => {
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.not.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      expect(selector).to.not.have.attr('error');
     });
   });
 
   context('when an error occurs', () => {
-    it('should render error message if data value is `false` and `showError` is `true`', () => {
+    it('should render error message if data value is `false` and `showError` is `true`', async () => {
       const { mockStore, props } = getData({ showError: true });
       const { container } = render(
         <Provider store={mockStore}>
           <PreSubmitNotice {...props} />
         </Provider>,
       );
-      const {
-        preSubmitInfo: { field, error },
-      } = props;
-      const selector = container.querySelector(`[name="${field}"]`);
-      expect(selector).to.have.attribute('error', error);
+      const selector = container.querySelector('va-checkbox');
+      await waitFor(() => {
+        expect(selector).to.have.attr('error');
+      });
     });
   });
 

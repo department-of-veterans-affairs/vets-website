@@ -27,5 +27,15 @@ export default function VAInstructions({ appointment }) {
 }
 
 VAInstructions.propTypes = {
-  appointment: PropTypes.object,
+  appointment: PropTypes.shape({
+    comment: PropTypes.string,
+    version: PropTypes.number,
+  }),
+};
+
+VAInstructions.defaultProps = {
+  appointment: {
+    comment: '',
+    version: 2,
+  },
 };

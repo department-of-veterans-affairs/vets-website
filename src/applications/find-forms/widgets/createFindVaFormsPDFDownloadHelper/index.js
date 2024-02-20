@@ -1,7 +1,4 @@
-// Dependencies.
 import * as Sentry from '@sentry/browser';
-
-// Relative
 import { fetchFormsApi } from '../../api';
 import DownloadPDFGuidance from './DownloadPDFGuidance';
 
@@ -21,7 +18,7 @@ export async function onDownloadLinkClick(event, reduxStore, listenerFunction) {
   event.preventDefault();
   const link = event.target;
   const downloadUrl = link.href;
-  const formNumber = link.dataset.formNumber;
+  const { formNumber } = link.dataset;
 
   // Default to true in case we encounter an error
   // determining validity through the API.

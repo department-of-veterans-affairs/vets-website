@@ -1,105 +1,102 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
 import moment from 'moment';
-import { createSelector } from 'reselect';
 
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { isFullDate } from 'platform/forms/validations';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
-import GetFormHelp from 'platform/forms/components/GetPensionOrBurialFormHelp';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import * as address from 'platform/forms/definitions/address';
+import GetFormHelp from 'applications/vre/components/GetFormHelp';
+import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  employmentDescription,
-  getSpouseMarriageTitle,
+  getDependentChildTitle,
   getMarriageTitleWithCurrent,
-  spouseContribution,
-  fileHelp,
   directDepositWarning,
   isMarried,
-  uploadMessage,
-  dependentsMinItem,
-  disabilityDocs,
-  schoolAttendanceWarning,
-  marriageWarning,
-  fdcWarning,
-  noFDCWarning,
-  expeditedProcessDescription,
-  aidAttendanceEvidence,
-  dependentWarning,
-  expectedIncomeDescription,
-  spouseExpectedIncomeDescription,
   submit,
-  dependentExpectedIncomeDescription,
+  createSpouseLabelSelector,
+  generateHelpText,
+  isHomeAcreageMoreThanTwo,
 } from '../helpers';
+import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
+import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
+import ServicePeriodReview from '../components/ServicePeriodReview';
 import IntroductionPage from '../components/IntroductionPage';
-import DisabilityField from '../components/DisabilityField';
-import MedicalCenterField from '../components/MedicalCenterField';
-import SpouseMarriageTitle from '../components/SpouseMarriageTitle';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import DependentField from '../components/DependentField';
-import EmploymentField from '../components/EmploymentField';
 import ErrorText from '../components/ErrorText';
-import FinancialDisclosureDescription from '../components/FinancialDisclosureDescription';
 import createHouseholdMemberTitle from '../components/DisclosureTitle';
-import netWorthUI from '../definitions/netWorth';
-import monthlyIncomeUI from '../definitions/monthlyIncome';
-import expectedIncomeUI from '../definitions/expectedIncome';
-import { additionalSourcesSchema } from '../definitions/additionalSources';
-import otherExpensesUI from '../definitions/otherExpenses';
-import applicantInformation from '../pages/applicantInformation';
-import servicePeriods from '../pages/servicePeriods';
 
-import {
-  validateAfterMarriageDate,
-  validateCentralMailPostalCode,
-} from '../validation';
+// chapter-pages
+import age from './chapters/03-health-and-employment-information/age';
+import applicantInformation from './chapters/01-applicant-information/applicantInformation';
+import careExpenses from './chapters/05-financial-information/careExpenses';
+import contactInformation from './chapters/01-applicant-information/contactInformation';
+import currentEmployment from './chapters/03-health-and-employment-information/currentEmployment';
+import currentSpouseAddress from './chapters/04-household-information/currentSpouseAddress';
+import currentSpouseFormerMarriages from './chapters/04-household-information/currentSpouseFormerMarriages';
+import currentSpouseMaritalHistory from './chapters/04-household-information/currentSpouseMaritalHistory';
+import currentSpouseMonthlySupport from './chapters/04-household-information/currentSpouseMonthlySupport';
+import dependentChildInformation from './chapters/04-household-information/dependentChildInformation';
+import hasDependents from './chapters/04-household-information/hasDependents';
+import dependentChildren from './chapters/04-household-information/dependentChildren';
+import documentUpload from './chapters/06-additional-information/documentUpload';
+import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
+import federalTreatmentHistory from './chapters/03-health-and-employment-information/federalTreatmentHistory';
+import generalHistory from './chapters/02-military-history/generalHistory';
+import previousNames from './chapters/02-military-history/previousNames';
+import generateEmployersSchemas from './chapters/03-health-and-employment-information/employmentHistory';
+import generateMedicalCentersSchemas from './chapters/03-health-and-employment-information/medicalCenters';
+import hasCareExpenses from './chapters/05-financial-information/hasCareExpenses';
+import homeAcreageMoreThanTwo from './chapters/05-financial-information/homeAcreageMoreThanTwo';
+import homeOwnership from './chapters/05-financial-information/homeOwnership';
+import incomeSources from './chapters/05-financial-information/incomeSources';
+import mailingAddress from './chapters/01-applicant-information/mailingAddress';
+import maritalStatus from './chapters/04-household-information/maritalStatus';
+import medicaidCoverage from './chapters/03-health-and-employment-information/medicaidCoverage';
+import medicaidStatus from './chapters/03-health-and-employment-information/medicaidStatus';
+import medicalCondition from './chapters/03-health-and-employment-information/medicalCondition';
+import hasMedicalExpenses from './chapters/05-financial-information/hasMedicalExpenses';
+import medicalExpenses from './chapters/05-financial-information/medicalExpenses';
+import netWorthEstimation from './chapters/05-financial-information/netWorthEstimation';
+import nursingHome from './chapters/03-health-and-employment-information/nursingHome';
+import pow from './chapters/02-military-history/pow';
+import reasonForCurrentSeparation from './chapters/04-household-information/reasonForCurrentSeparation';
+import receivesIncome from './chapters/05-financial-information/receivesIncome';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
+import socialSecurityDisability from './chapters/03-health-and-employment-information/socialSecurityDisability';
+import specialMonthlyPension from './chapters/03-health-and-employment-information/specialMonthlyPension';
+import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
+import totalNetWorth from './chapters/05-financial-information/totalNetWorth';
+import transferredAssets from './chapters/05-financial-information/transferredAssets';
+import vaTreatmentHistory from './chapters/03-health-and-employment-information/vaTreatmentHistory';
+import landMarketable from './chapters/05-financial-information/landMarketable';
+
+import { validateAfterMarriageDate } from '../validation';
 import migrations from '../migrations';
+import { marriageTypeLabels, separationTypeLabels } from '../labels';
 
 import manifest from '../manifest.json';
 
 const {
-  nationalGuardActivation,
-  nationalGuard,
-  disabilities,
-  previousNames,
-  combatSince911,
-  jobs,
-  placeOfSeparation,
-  powDateRange,
-  severancePay,
   spouseDateOfBirth,
   spouseSocialSecurityNumber,
   spouseVaFileNumber,
   liveWithSpouse,
-  reasonForNotLivingWithSpouse,
   spouseIsVeteran,
-  monthlySpousePayment,
   dependents,
-  email,
-  altEmail,
-  dayPhone,
-  nightPhone,
-  mobilePhone,
-  vamcTreatmentCenters,
-  noRapidProcessing,
 } = fullSchemaPensions.properties;
 
 const {
@@ -109,43 +106,125 @@ const {
   date,
   monthlyIncome,
   netWorth,
-  maritalStatus,
   marriages,
   expectedIncome,
   ssn,
   centralMailVaFile,
-  files,
-  otherExpenses,
   bankAccount,
 } = fullSchemaPensions.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
-function isUnder65(formData) {
-  return moment()
-    .startOf('day')
-    .subtract(65, 'years')
-    .isBefore(formData.veteranDateOfBirth);
-}
+const vaMedicalCenters = generateMedicalCentersSchemas(
+  'vaMedicalCenters',
+  'VA medical centers',
+  'Enter all VA medical centers where you have received treatment',
+  'VA medical center',
+  'VA medical centers',
+);
 
-function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
+const federalMedicalCenters = generateMedicalCentersSchemas(
+  'federalMedicalCenters',
+  'Federal medical facilities',
+  'Enter all federal medical facilities where you have received treatment within the last year',
+  'Federal medical center',
+  'Federal medical centers',
+);
+
+const currentEmployers = generateEmployersSchemas(
+  'currentEmployers',
+  'Current employment',
+  'Enter all your current jobs',
+  'What kind of work do you currently do?',
+  'How many hours per week do you work on average?',
+  'Job title',
+  'Current employers',
+);
+
+const previousEmployers = generateEmployersSchemas(
+  'previousEmployers',
+  'Previous employment',
+  'Enter all the previous jobs you held the last time you worked',
+  'What kind of work did you do?',
+  'How many hours per week did you work on average?',
+  'What was your job title?',
+  'Previous employers',
+  4,
+  true,
+);
+
+export function isUnder65(formData, currentDate) {
+  const today = currentDate || moment();
+  return (
+    today
       .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
+      .subtract(65, 'years')
+      .isBefore(formData.veteranDateOfBirth) || !formData.isOver65
   );
 }
 
-// Checks to see if they’re under 17.75 years old
-function isEligibleForDisabilitySupport(childDOB) {
-  return moment()
-    .startOf('day')
-    .subtract(17, 'years')
-    .subtract(9, 'months')
-    .isBefore(childDOB);
+export function showSpouseAddress(form) {
+  return (
+    isMarried(form) &&
+    (form.maritalStatus === 'Separated' ||
+      get(['view:liveWithSpouse'], form) === false)
+  );
+}
+
+export function isSeparated(formData) {
+  return formData.maritalStatus === 'Separated';
+}
+
+export function currentSpouseHasFormerMarriages(formData) {
+  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'Yes';
+}
+
+export function hasNoSocialSecurityDisability(formData) {
+  return formData.socialSecurityDisability === false;
+}
+
+export function isInNursingHome(formData) {
+  return formData.nursingHome === true;
+}
+
+export function medicaidDoesNotCoverNursingHome(formData) {
+  return formData.nursingHome === true && formData.medicaidCoverage === false;
+}
+
+export function ownsHome(formData) {
+  return formData.homeOwnership === true;
+}
+
+export function hasVaTreatmentHistory(formData) {
+  return formData.vaTreatmentHistory === true;
+}
+
+export function hasFederalTreatmentHistory(formData) {
+  return formData.federalTreatmentHistory === true;
+}
+
+export function isEmployedUnder65(formData) {
+  return formData.currentEmployment === true && isUnder65(formData);
+}
+
+export function isUnemployedUnder65(formData) {
+  return formData.currentEmployment === false && isUnder65(formData);
+}
+
+export function doesHavePreviousNames(formData) {
+  return formData.serveUnderOtherNames === true;
+}
+
+export function doesReceiveIncome(formData) {
+  return formData.receivesIncome === true;
+}
+
+export function doesHaveCareExpenses(formData) {
+  return formData.hasCareExpenses === true;
+}
+
+export function doesHaveMedicalExpenses(formData) {
+  return formData.hasMedicalExpenses === true;
 }
 
 function isCurrentMarriage(form, index) {
@@ -157,37 +236,30 @@ function usingDirectDeposit(formData) {
   return formData['view:noDirectDeposit'] !== true;
 }
 
+export function doesHaveDependents(formData) {
+  return get(['view:hasDependents'], formData) === true;
+}
+
+export function dependentIsOutsideHousehold(formData, index) {
+  // if 'view:hasDependents' is false,
+  // all checks requiring dependents must be false
+  return (
+    doesHaveDependents(formData) &&
+    !get(['dependents', index, 'childInHousehold'], formData)
+  );
+}
+
 const marriageProperties = marriages.items.properties;
 
 const marriageType = {
   ...marriageProperties.marriageType,
-  enum: ['Ceremonial', 'Common-law', 'Proxy', 'Tribal', 'Other'],
+  enum: [marriageTypeLabels.ceremony, marriageTypeLabels.other],
 };
 
 const reasonForSeparation = {
   ...marriageProperties.reasonForSeparation,
-  enum: ['Widowed', 'Divorced'],
+  enum: Object.values(separationTypeLabels),
 };
-
-function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -206,26 +278,42 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 3,
+  version: 4,
   migrations,
   prefillEnabled: true,
+  // verifyRequiredPrefill: true,
   downtime: {
     dependencies: [externalServices.icmhs],
   },
+  // beforeLoad: props => { console.log('form config before load', props); },
+  // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
+  //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
+  // },
   savedFormMessages: {
     notFound: 'Please start over to apply for pension benefits.',
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for pension benefits',
-  subTitle: 'Form 21P-527EZ',
-  preSubmitInfo,
+  title: 'Apply for Veterans Pension benefits',
+  subTitle: 'VA Form 21P-527EZ',
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
+  // showReviewErrors: true,
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
   defaultDefinitions: {
     address: address.schema(fullSchemaPensions),
-    additionalSources: additionalSourcesSchema(fullSchemaPensions),
     date,
     dateRange,
     usaPhone,
@@ -245,355 +333,173 @@ const formConfig = {
           title: 'Applicant information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+          updateFormData: applicantInformation.updateFormData,
+        },
+        mailingAddress: {
+          title: 'Mailing address',
+          path: 'applicant/mail-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          title: 'Contact information',
+          path: 'applicant/contact',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
         },
       },
     },
     militaryHistory: {
       title: 'Military history',
       pages: {
-        servicePeriods: {
+        servicePeriod: {
           path: 'military/history',
-          title: 'Service periods',
-          uiSchema: servicePeriods.uiSchema,
-          schema: servicePeriods.schema,
+          title: 'Service period',
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
+          CustomPageReview: ServicePeriodReview,
         },
         general: {
           path: 'military/general',
           title: 'General history',
-          uiSchema: {
-            'view:serveUnderOtherNames': {
-              'ui:title': 'Did you serve under another name?',
-              'ui:widget': 'yesNo',
-            },
-            previousNames: {
-              'ui:options': {
-                itemName: 'Name',
-                expandUnder: 'view:serveUnderOtherNames',
-                viewField: FullNameField,
-                reviewTitle: 'Previous names',
-              },
-              items: fullNameUI,
-            },
-            placeOfSeparation: {
-              'ui:title':
-                'Place of last or anticipated separation (city and state or foreign country)',
-            },
-            combatSince911: (() => {
-              const rangeExcludes911 = createSelector(
-                form => form.servicePeriods,
-                periods =>
-                  (periods || []).every(
-                    period =>
-                      !period.activeServiceDateRange ||
-                      !isFullDate(period.activeServiceDateRange.to) ||
-                      !moment('2001-09-11').isBefore(
-                        period.activeServiceDateRange.to,
-                      ),
-                  ),
-              );
-
-              return {
-                'ui:title': 'Did you serve in a combat zone after 9/11/2001?',
-                'ui:widget': 'yesNo',
-                'ui:required': formData => !rangeExcludes911(formData),
-                'ui:options': {
-                  hideIf: rangeExcludes911,
-                },
-              };
-            })(),
-          },
-          schema: {
-            type: 'object',
-            required: ['view:serveUnderOtherNames'],
-            properties: {
-              'view:serveUnderOtherNames': {
-                type: 'boolean',
-              },
-              previousNames: {
-                ...previousNames,
-                minItems: 1,
-              },
-              placeOfSeparation,
-              combatSince911,
-            },
-          },
+          uiSchema: generalHistory.uiSchema,
+          schema: generalHistory.schema,
         },
-        reserveAndNationalGuard: {
-          path: 'military/reserve-national-guard',
-          title: 'Reserve and National Guard',
-          uiSchema: {
-            'ui:title': 'Reserve and National Guard',
-            nationalGuardActivation: {
-              'ui:title':
-                'Are you currently on federal active duty in the National Guard?',
-              'ui:widget': 'yesNo',
-            },
-            nationalGuard: {
-              'ui:options': {
-                expandUnder: 'nationalGuardActivation',
-              },
-              name: {
-                'ui:title': 'Name of Reserve/National Guard unit',
-                'ui:required': form => form.nationalGuardActivation === true,
-              },
-              address: merge(
-                {},
-                address.uiSchema('Unit address', false, false, true),
-                {
-                  state: {
-                    'ui:required': form =>
-                      form.nationalGuardActivation === true,
-                  },
-                },
-              ),
-              phone: phoneUI('Unit phone number'),
-              date: currentOrPastDateUI('Service activation date'),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['nationalGuardActivation'],
-            properties: {
-              nationalGuardActivation,
-              nationalGuard: set(
-                'properties.address',
-                address.schema(fullSchemaPensions),
-                nationalGuard,
-              ),
-            },
-          },
+        previousNames: {
+          path: 'military/general/add',
+          title: 'Previous names',
+          depends: doesHavePreviousNames,
+          uiSchema: previousNames.uiSchema,
+          schema: previousNames.schema,
         },
-        powAndSeverance: {
-          path: 'military/pow-severance',
-          title: 'POW status & severance pay',
-          uiSchema: {
-            'ui:title': 'POW Status & Severance Pay',
-            'ui:order': [
-              'view:powStatus',
-              'powDateRange',
-              'view:receivedSeverancePay',
-              'severancePay',
-            ],
-            'view:powStatus': {
-              'ui:title': 'Have you ever been a POW?',
-              'ui:widget': 'yesNo',
-            },
-            powDateRange: set(
-              'ui:options.expandUnder',
-              'view:powStatus',
-              dateRangeUI(
-                'Start of confinement',
-                'End of confinement',
-                'Confinement start date must be before end date',
-              ),
-            ),
-            'view:receivedSeverancePay': {
-              'ui:title':
-                'Have you received any type of severance or separation pay?',
-              'ui:widget': 'yesNo',
-            },
-            severancePay: {
-              'ui:order': ['type', 'amount'],
-              'ui:options': {
-                expandUnder: 'view:receivedSeverancePay',
-              },
-              amount: currencyUI('Amount'),
-              type: {
-                'ui:title': 'Pay Type',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: {
-                    PDRL: 'Permanent Disability Retirement List (PDRL)',
-                    TDRL: 'Temporary Disability Retirement List (TDRL)',
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:powStatus', 'view:receivedSeverancePay'],
-            properties: {
-              'view:powStatus': {
-                type: 'boolean',
-              },
-              powDateRange,
-              'view:receivedSeverancePay': {
-                type: 'boolean',
-              },
-              severancePay,
-            },
-          },
+        pow: {
+          path: 'military/pow',
+          title: 'POW status',
+          uiSchema: pow.uiSchema,
+          schema: pow.schema,
         },
       },
     },
-    workHistory: {
-      title: 'Work history',
+    healthAndEmploymentInformation: {
+      title: 'Health and employment information',
       pages: {
-        disabilityHistory: {
-          title: 'Disability history',
-          path: 'disability/history',
-          depends: isUnder65,
-          uiSchema: {
-            disabilities: {
-              'ui:title': 'What disabilities prevent you from working?',
-              'ui:order': ['name', 'disabilityStartDate'],
-              'ui:options': {
-                viewField: DisabilityField,
-                reviewTitle: 'Disability history',
-                itemName: 'Disability',
-              },
-              'ui:errorMessages': {
-                minItems: 'Please add at least one disability.',
-              },
-              items: {
-                name: {
-                  'ui:title': 'Disability',
-                },
-                disabilityStartDate: currentOrPastDateUI(
-                  'Date disability began',
-                ),
-              },
-            },
-            'view:hasVisitedVAMC': {
-              'ui:title':
-                'Have you been treated at a VA medical center for the above disability?',
-              'ui:widget': 'yesNo',
-            },
-            vamcTreatmentCenters: {
-              'ui:description':
-                'Please enter all VA medical centers where you have received treatment',
-              'ui:options': {
-                viewField: MedicalCenterField,
-                itemName: 'Medical Center',
-                expandUnder: 'view:hasVisitedVAMC',
-              },
-              items: {
-                location: {
-                  'ui:title':
-                    'Name and location (city, state) of VA medical center',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['disabilities', 'view:hasVisitedVAMC'],
-            properties: {
-              disabilities: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['name', 'disabilityStartDate'],
-                  properties: disabilities.items.properties,
-                },
-              },
-              'view:hasVisitedVAMC': {
-                type: 'boolean',
-              },
-              vamcTreatmentCenters: {
-                ...vamcTreatmentCenters,
-                minItems: 1,
-              },
-            },
-          },
+        age: {
+          title: 'Age',
+          path: 'medical/history/age',
+          uiSchema: age.uiSchema,
+          schema: age.schema,
         },
-        employmentHistory: {
-          title: 'Employment history',
-          path: 'employment/history',
+        socialSecurityDisability: {
+          title: 'Social Security disability',
+          path: 'medical/history/social-security-disability',
+          uiSchema: socialSecurityDisability.uiSchema,
+          schema: socialSecurityDisability.schema,
+        },
+        medicalCondition: {
+          title: 'Medical condition',
+          path: 'medical/history/condition',
+          depends: hasNoSocialSecurityDisability,
+          uiSchema: medicalCondition.uiSchema,
+          schema: medicalCondition.schema,
+        },
+        nursingHome: {
+          title: 'Nursing home information',
+          path: 'medical/history/nursing-home',
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
+        },
+        medicaidCoverage: {
+          title: 'Medicaid coverage',
+          path: 'medical/history/nursing/medicaid',
+          depends: isInNursingHome,
+          uiSchema: medicaidCoverage.uiSchema,
+          schema: medicaidCoverage.schema,
+        },
+        medicaidStatus: {
+          title: 'Medicaid application status',
+          path: 'medical/history/nursing/medicaid/status',
+          depends: medicaidDoesNotCoverNursingHome,
+          uiSchema: medicaidStatus.uiSchema,
+          schema: medicaidStatus.schema,
+        },
+        specialMonthlyPension: {
+          title: 'Special monthly pension',
+          path: 'medical/history/monthly-pension',
+          uiSchema: specialMonthlyPension.uiSchema,
+          schema: specialMonthlyPension.schema,
+          pageClass: 'special-monthly-pension-question',
+        },
+        vaTreatmentHistory: {
+          title: 'Treatment from a VA medical center',
+          path: 'medical/history/va-treatment',
+          uiSchema: vaTreatmentHistory.uiSchema,
+          schema: vaTreatmentHistory.schema,
+        },
+        vaMedicalCenters: {
+          title: 'VA medical centers',
+          path: 'medical/history/va-treatment/medical-centers',
+          depends: hasVaTreatmentHistory,
+          uiSchema: vaMedicalCenters.uiSchema,
+          schema: vaMedicalCenters.schema,
+        },
+        federalTreatmentHistory: {
+          title: 'Treatment from federal medical facilities',
+          path: 'medical/history/federal-treatment',
+          uiSchema: federalTreatmentHistory.uiSchema,
+          schema: federalTreatmentHistory.schema,
+        },
+        federalMedicalCenters: {
+          title: 'Federal medical facilities',
+          path: 'medical/history/federal-treatment/medical-centers',
+          depends: hasFederalTreatmentHistory,
+          uiSchema: federalMedicalCenters.uiSchema,
+          schema: federalMedicalCenters.schema,
+        },
+        currentEmployment: {
+          title: 'Current employment',
+          path: 'employment/current',
           depends: isUnder65,
-          uiSchema: {
-            'view:workedBeforeDisabled': {
-              'ui:title':
-                'Have you had a job (including being self-employed) from 1 year before you became disabled to now?',
-              'ui:widget': 'yesNo',
-            },
-            'view:history': {
-              'ui:options': {
-                expandUnder: 'view:workedBeforeDisabled',
-              },
-              'ui:description': employmentDescription,
-              jobs: {
-                'ui:options': {
-                  viewField: EmploymentField,
-                },
-                items: {
-                  employer: {
-                    'ui:title': 'Name of employer',
-                  },
-                  address: address.uiSchema('Address of employer'),
-                  jobTitle: {
-                    'ui:title': 'Job title',
-                  },
-                  dateRange: dateRangeUI(),
-                  daysMissed: {
-                    'ui:title': 'How many days lost to disability',
-                  },
-                  annualEarnings: currencyUI('Total annual earnings'),
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:workedBeforeDisabled'],
-            properties: {
-              'view:workedBeforeDisabled': { type: 'boolean' },
-              'view:history': {
-                type: 'object',
-                properties: {
-                  jobs: {
-                    type: 'array',
-                    minItems: 1,
-                    items: {
-                      type: 'object',
-                      required: [
-                        'address',
-                        'employer',
-                        'jobTitle',
-                        'dateRange',
-                        'daysMissed',
-                        'annualEarnings',
-                      ],
-                      properties: {
-                        ...jobs.items.properties,
-                        address: address.schema(fullSchemaPensions, true),
-                        dateRange: set('required', ['to', 'from'], dateRange),
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: currentEmployment.uiSchema,
+          schema: currentEmployment.schema,
+        },
+        currentEmploymentHistory: {
+          title: 'Current employment',
+          path: 'employment/current/history',
+          depends: isEmployedUnder65,
+          uiSchema: currentEmployers.uiSchema,
+          schema: currentEmployers.schema,
+        },
+        previousEmploymentHistory: {
+          title: 'Previous employment',
+          path: 'employment/previous/history',
+          depends: isUnemployedUnder65,
+          uiSchema: previousEmployers.uiSchema,
+          schema: previousEmployers.schema,
         },
       },
     },
     householdInformation: {
       title: 'Household information',
       pages: {
+        maritalStatus: {
+          title: 'Marital status',
+          path: 'household/marital-status',
+          uiSchema: maritalStatus.uiSchema,
+          schema: maritalStatus.schema,
+        },
         marriageInfo: {
           title: 'Marriage history',
           path: 'household/marriage-info',
+          depends: isMarried,
           uiSchema: {
-            maritalStatus: {
-              'ui:title': 'What’s your marital status?',
-              'ui:widget': 'radio',
-            },
             marriages: {
               'ui:title': 'How many times have you been married?',
               'ui:widget': ArrayCountWidget,
               'ui:field': 'StringField',
-              'ui:required': form =>
-                !!get('maritalStatus', form) &&
-                form.maritalStatus !== 'Never Married',
               'ui:options': {
                 showFieldLabel: 'label',
                 keepInPageOnReview: true,
-                expandUnder: 'maritalStatus',
-                expandUnderCondition: status =>
-                  !!status && status !== 'Never Married',
+                useDlWrap: true,
               },
               'ui:errorMessages': {
                 required: 'You must enter at least 1 marriage',
@@ -602,9 +508,8 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['maritalStatus'],
+            required: ['marriages'],
             properties: {
-              maritalStatus,
               marriages,
             },
           },
@@ -613,6 +518,7 @@ const formConfig = {
           title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
             getMarriageTitleWithCurrent(form, pagePerItemIndex),
           path: 'household/marriages/:index',
+          depends: isMarried,
           showPagePerItem: true,
           arrayPath: 'marriages',
           uiSchema: {
@@ -625,42 +531,56 @@ const formConfig = {
                 },
                 spouseFullName: merge({}, fullNameUI, {
                   first: {
-                    'ui:title': 'Spouse first name',
+                    'ui:title': 'Spouse’s first name',
                   },
                   last: {
-                    'ui:title': 'Spouse last name',
+                    'ui:title': 'Spouse’s last name',
                   },
                   middle: {
-                    'ui:title': 'Spouse middle name',
+                    'ui:title': 'Spouse’s middle name',
                   },
                   suffix: {
-                    'ui:title': 'Spouse suffix',
+                    'ui:title': 'Spouse’s suffix',
                   },
                 }),
-                dateOfMarriage: currentOrPastDateUI('Date of marriage'),
-                locationOfMarriage: {
-                  'ui:title':
-                    'Place of marriage (city and state or foreign country)',
-                },
-                marriageType: {
-                  'ui:title': 'Type of marriage',
-                  'ui:widget': 'radio',
-                },
-                otherExplanation: {
-                  'ui:title': 'Please specify',
-                  'ui:required': (form, index) =>
-                    get(['marriages', index, 'marriageType'], form) === 'Other',
+                'view:currentMarriage': {
                   'ui:options': {
-                    expandUnder: 'marriageType',
-                    expandUnderCondition: 'Other',
+                    hideIf: (form, index) => !isCurrentMarriage(form, index),
                   },
-                },
-                'view:marriageWarning': {
-                  'ui:description': marriageWarning,
-                  'ui:options': {
-                    hideIf: (form, index) =>
-                      get(['marriages', index, 'marriageType'], form) !==
-                      'Common-law',
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => isCurrentMarriage(...args) },
+                  ),
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
+                  },
+                  marriageType: {
+                    'ui:title': 'How did you get married?',
+                    'ui:widget': 'radio',
+                    'ui:required': (...args) => isCurrentMarriage(...args),
+                  },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:description': generateHelpText(
+                      'You can enter common law, proxy (someone else represented you or your spouse at your marriage ceremony), tribal ceremony, or another way.',
+                    ),
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:currentMarriage',
+                          'marriageType',
+                        ],
+                        form,
+                      ) === marriageTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'marriageType',
+                      expandUnderCondition: marriageTypeLabels.other,
+                    },
                   },
                 },
                 'view:pastMarriage': {
@@ -668,16 +588,42 @@ const formConfig = {
                     hideIf: isCurrentMarriage,
                   },
                   reasonForSeparation: {
-                    'ui:title': 'How did marriage end?',
+                    'ui:title': 'How did the marriage end?',
                     'ui:widget': 'radio',
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                   },
+                  otherExplanation: {
+                    'ui:title': 'Please specify',
+                    'ui:required': (form, index) =>
+                      get(
+                        [
+                          'marriages',
+                          index,
+                          'view:pastMarriage',
+                          'reasonForSeparation',
+                        ],
+                        form,
+                      ) === separationTypeLabels.other,
+                    'ui:options': {
+                      expandUnder: 'reasonForSeparation',
+                      expandUnderCondition: separationTypeLabels.other,
+                    },
+                  },
+                  dateOfMarriage: merge(
+                    {},
+                    currentOrPastDateUI('Date of marriage'),
+                    { 'ui:required': (...args) => !isCurrentMarriage(...args) },
+                  ),
                   dateOfSeparation: {
                     ...currentOrPastDateUI('Date marriage ended'),
                     'ui:required': (...args) => !isCurrentMarriage(...args),
                     'ui:validations': [validateAfterMarriageDate],
                   },
-
+                  locationOfMarriage: {
+                    'ui:title':
+                      'Place of marriage (city and state or foreign country)',
+                    'ui:required': (...args) => !isCurrentMarriage(...args),
+                  },
                   locationOfSeparation: {
                     'ui:title':
                       'Place marriage ended (city and state or foreign country)',
@@ -694,24 +640,28 @@ const formConfig = {
                 type: 'array',
                 items: {
                   type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'locationOfMarriage',
-                    'marriageType',
-                  ],
+                  required: ['spouseFullName'],
                   properties: {
                     spouseFullName: marriageProperties.spouseFullName,
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
-                    marriageType,
-                    otherExplanation: marriageProperties.otherExplanation,
-                    'view:marriageWarning': { type: 'object', properties: {} },
+                    'view:currentMarriage': {
+                      type: 'object',
+                      properties: {
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
+                        marriageType,
+                        otherExplanation: marriageProperties.otherExplanation,
+                      },
+                    },
                     'view:pastMarriage': {
                       type: 'object',
                       properties: {
                         reasonForSeparation,
+                        otherExplanation: marriageProperties.otherExplanation,
+                        dateOfMarriage: marriageProperties.dateOfMarriage,
                         dateOfSeparation: marriageProperties.dateOfSeparation,
+                        locationOfMarriage:
+                          marriageProperties.locationOfMarriage,
                         locationOfSeparation:
                           marriageProperties.locationOfSeparation,
                       },
@@ -754,10 +704,16 @@ const formConfig = {
                   spouseName =>
                     `Is ${spouseName.first} ${spouseName.last} also a Veteran?`,
                 ),
+                yesNoReverse: true,
+                labels: {
+                  Y: 'No',
+                  N: 'Yes',
+                },
               },
             },
             spouseVaFileNumber: {
-              'ui:title': 'What is their VA file number?',
+              'ui:title':
+                'Enter their VA file number if it does not match their SSN',
               'ui:options': {
                 expandUnder: 'spouseIsVeteran',
               },
@@ -765,57 +721,13 @@ const formConfig = {
                 pattern: 'Your VA file number must be 8 or 9 digits',
               },
             },
-            liveWithSpouse: {
+            'view:liveWithSpouse': {
               'ui:widget': 'yesNo',
               'ui:options': {
                 updateSchema: createSpouseLabelSelector(
                   spouseName =>
                     `Do you live with ${spouseName.first} ${spouseName.last}?`,
                 ),
-              },
-            },
-            spouseAddress: merge(
-              {},
-              address.uiSchema(
-                'Spouse address',
-                false,
-                form => form.liveWithSpouse === false,
-              ),
-              {
-                'ui:options': {
-                  expandUnder: 'liveWithSpouse',
-                  expandUnderCondition: false,
-                },
-              },
-            ),
-            reasonForNotLivingWithSpouse: {
-              'ui:title':
-                'What is the reason you do not live with your spouse?',
-              'ui:required': form => form.liveWithSpouse === false,
-              'ui:options': {
-                expandUnder: 'liveWithSpouse',
-                expandUnderCondition: false,
-              },
-            },
-            monthlySpousePayment: merge({}, currencyUI(spouseContribution), {
-              'ui:required': form => form.liveWithSpouse === false,
-              'ui:options': {
-                expandUnder: 'liveWithSpouse',
-                expandUnderCondition: false,
-              },
-            }),
-            spouseMarriages: {
-              'ui:title':
-                'How many times has your spouse been married (including current marriage)?',
-              'ui:widget': ArrayCountWidget,
-              'ui:field': 'StringField',
-              'ui:options': {
-                showFieldLabel: 'label',
-                keepInPageOnReview: true,
-                countOffset: -1,
-              },
-              'ui:errorMessages': {
-                required: 'You must enter at least 1 marriage',
               },
             },
           },
@@ -825,345 +737,78 @@ const formConfig = {
               'spouseDateOfBirth',
               'spouseSocialSecurityNumber',
               'spouseIsVeteran',
-              'liveWithSpouse',
-              'spouseMarriages',
+              'view:liveWithSpouse',
             ],
             properties: {
               spouseDateOfBirth,
               spouseSocialSecurityNumber,
               spouseIsVeteran,
               spouseVaFileNumber,
-              liveWithSpouse,
-              spouseAddress: address.schema(fullSchemaPensions),
-              reasonForNotLivingWithSpouse,
-              monthlySpousePayment,
-              spouseMarriages: marriages,
+              'view:liveWithSpouse': liveWithSpouse,
             },
           },
         },
-        spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
-            getSpouseMarriageTitle(pagePerItemIndex),
-          path: 'household/spouse-marriages/:index',
+        reasonForCurrentSeparation: {
+          title: 'Reason for separation',
+          path: 'household/marital-status/separated',
+          depends: isSeparated,
+          uiSchema: reasonForCurrentSeparation.uiSchema,
+          schema: reasonForCurrentSeparation.schema,
+        },
+        currentSpouseAddress: {
+          title: 'Spouse address',
+          path: 'household/marital-status/separated/spouse-address',
+          depends: showSpouseAddress,
+          uiSchema: currentSpouseAddress.uiSchema,
+          schema: currentSpouseAddress.schema,
+        },
+        currentSpouseMonthlySupport: {
+          title: 'Financial support for your spouse',
+          path: 'household/marital-status/separated/spouse-monthly-support',
+          depends: isSeparated,
+          uiSchema: currentSpouseMonthlySupport.uiSchema,
+          schema: currentSpouseMonthlySupport.schema,
+        },
+        currentSpouseMaritalHistory: {
+          title: 'Current spouse marital history',
+          path: 'household/marital-status/spouse-marital-history',
           depends: isMarried,
-          showPagePerItem: true,
-          arrayPath: 'spouseMarriages',
-          uiSchema: {
-            spouseMarriages: {
-              items: {
-                'ui:title': SpouseMarriageTitle,
-                spouseFullName: merge({}, fullNameUI, {
-                  first: {
-                    'ui:title': 'Their spouse’s first name',
-                  },
-                  last: {
-                    'ui:title': 'Their spouse’s last name',
-                  },
-                  middle: {
-                    'ui:title': 'Their spouse’s middle name',
-                  },
-                  suffix: {
-                    'ui:title': 'Their spouse’s suffix',
-                  },
-                }),
-                dateOfMarriage: merge({}, currentOrPastDateUI(''), {
-                  'ui:options': {
-                    updateSchema: createSpouseLabelSelector(
-                      spouseName =>
-                        `Date of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage`,
-                    ),
-                  },
-                }),
-                locationOfMarriage: {
-                  'ui:options': {
-                    updateSchema: createSpouseLabelSelector(
-                      spouseName =>
-                        `Place of ${spouseName.first} ${
-                          spouseName.last
-                        }’s marriage (city and state or foreign country)`,
-                    ),
-                  },
-                },
-                marriageType: {
-                  'ui:title': 'Type of marriage',
-                  'ui:widget': 'radio',
-                },
-                otherExplanation: {
-                  'ui:title': 'Please specify',
-                  'ui:required': (form, index) =>
-                    get(['spouseMarriages', index, 'marriageType'], form) ===
-                    'Other',
-                  'ui:options': {
-                    expandUnder: 'marriageType',
-                    expandUnderCondition: 'Other',
-                  },
-                },
-                'view:marriageWarning': {
-                  'ui:description': marriageWarning,
-                  'ui:options': {
-                    hideIf: (form, index) =>
-                      get(['spouseMarriages', index, 'marriageType'], form) !==
-                      'Common-law',
-                  },
-                },
-                reasonForSeparation: {
-                  'ui:title': 'Why did the marriage end?',
-                  'ui:widget': 'radio',
-                },
-                dateOfSeparation: {
-                  ...currentOrPastDateUI('Date marriage ended'),
-                  'ui:validations': [validateAfterMarriageDate],
-                },
-
-                locationOfSeparation: {
-                  'ui:title':
-                    'Place marriage ended (city and state or foreign country)',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              spouseMarriages: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: [
-                    'spouseFullName',
-                    'dateOfMarriage',
-                    'marriageType',
-                    'locationOfMarriage',
-                    'reasonForSeparation',
-                    'dateOfSeparation',
-                    'locationOfSeparation',
-                  ],
-                  properties: {
-                    dateOfMarriage: marriageProperties.dateOfMarriage,
-                    locationOfMarriage: marriageProperties.locationOfMarriage,
-                    spouseFullName: marriageProperties.spouseFullName,
-                    marriageType,
-                    otherExplanation: marriageProperties.otherExplanation,
-                    'view:marriageWarning': { type: 'object', properties: {} },
-                    reasonForSeparation,
-                    dateOfSeparation: marriageProperties.dateOfSeparation,
-                    locationOfSeparation:
-                      marriageProperties.locationOfSeparation,
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: currentSpouseMaritalHistory.uiSchema,
+          schema: currentSpouseMaritalHistory.schema,
+        },
+        spouseMarriageHistory: {
+          title: 'Spouse’s former marriages',
+          path: 'household/marital-status/spouse-marriages',
+          depends: currentSpouseHasFormerMarriages,
+          uiSchema: currentSpouseFormerMarriages.uiSchema,
+          schema: currentSpouseFormerMarriages.schema,
+        },
+        hasDependents: {
+          title: 'Dependents',
+          path: 'household/dependents',
+          uiSchema: hasDependents.uiSchema,
+          schema: hasDependents.schema,
         },
         dependents: {
           title: 'Dependent children',
-          path: 'household/dependents',
-          uiSchema: {
-            'ui:title': 'Dependent children',
-            'view:hasDependents': {
-              'ui:title': 'Do you have any dependent children?',
-              'ui:widget': 'yesNo',
-            },
-            dependents: {
-              'ui:options': {
-                itemName: 'Dependent',
-                expandUnder: 'view:hasDependents',
-                viewField: DependentField,
-              },
-              'ui:errorMessages': {
-                minItems: dependentsMinItem,
-              },
-              items: {
-                fullName: fullNameUI,
-                childDateOfBirth: currentOrPastDateUI('Date of birth'),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:hasDependents'],
-            properties: {
-              'view:hasDependents': {
-                type: 'boolean',
-              },
-              dependents: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  required: ['fullName', 'childDateOfBirth'],
-                  properties: {
-                    fullName: dependents.items.properties.fullName,
-                    childDateOfBirth:
-                      dependents.items.properties.childDateOfBirth,
-                  },
-                },
-              },
-            },
-          },
+          path: 'household/dependents/add',
+          depends: doesHaveDependents,
+          uiSchema: dependentChildren.uiSchema,
+          schema: dependentChildren.schema,
         },
-        childrenInformation: {
+        dependentChildInformation: {
           path: 'household/dependents/children/information/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} information`,
+          title: item => getDependentChildTitle(item, 'information'),
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: [
-                    'childPlaceOfBirth',
-                    'childRelationship',
-                    'previouslyMarried',
-                  ],
-                  properties: {
-                    childPlaceOfBirth:
-                      dependents.items.properties.childPlaceOfBirth,
-                    childSocialSecurityNumber:
-                      dependents.items.properties.childSocialSecurityNumber,
-                    'view:noSSN': { type: 'boolean' },
-                    childRelationship:
-                      dependents.items.properties.childRelationship,
-                    attendingCollege:
-                      dependents.items.properties.attendingCollege,
-                    'view:schoolWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    disabled: dependents.items.properties.disabled,
-                    'view:disabilityDocs': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    'view:dependentWarning': {
-                      type: 'object',
-                      properties: {},
-                    },
-                    previouslyMarried:
-                      dependents.items.properties.previouslyMarried,
-                    married: dependents.items.properties.married,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Information',
-                ),
-                childPlaceOfBirth: {
-                  'ui:title':
-                    'Place of birth (city and state or foreign country)',
-                },
-                childSocialSecurityNumber: merge({}, ssnUI, {
-                  'ui:title': 'Social Security number',
-                  'ui:required': (formData, index) =>
-                    !get(`dependents.${index}.view:noSSN`, formData),
-                }),
-                'view:noSSN': {
-                  'ui:title':
-                    'Does not have a Social Security number (foreign national, etc.)',
-                },
-                childRelationship: {
-                  'ui:title': 'Relationship',
-                  'ui:widget': 'radio',
-                  'ui:options': {
-                    labels: {
-                      biological: 'Biological child',
-                      adopted: 'Adopted child',
-                      stepchild: 'Stepchild',
-                    },
-                  },
-                },
-                attendingCollege: {
-                  'ui:title': 'Is your child in school?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    isBetween18And23(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      !isBetween18And23(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                },
-                'view:schoolWarning': {
-                  'ui:description': schoolAttendanceWarning,
-                  'ui:options': {
-                    expandUnder: 'attendingCollege',
-                  },
-                },
-                disabled: {
-                  'ui:title': 'Is your child seriously disabled?',
-                  'ui:required': (formData, index) =>
-                    !isEligibleForDisabilitySupport(
-                      get(['dependents', index, 'childDateOfBirth'], formData),
-                    ),
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      isEligibleForDisabilitySupport(
-                        get(
-                          ['dependents', index, 'childDateOfBirth'],
-                          formData,
-                        ),
-                      ),
-                  },
-                  'ui:widget': 'yesNo',
-                },
-                'view:disabilityDocs': {
-                  'ui:description': disabilityDocs,
-                  'ui:options': {
-                    expandUnder: 'disabled',
-                  },
-                },
-                'view:dependentWarning': {
-                  'ui:description': dependentWarning,
-                  'ui:options': {
-                    hideIf: (formData, index) =>
-                      get(['dependents', index, 'disabled'], formData) !==
-                        false ||
-                      get(
-                        ['dependents', index, 'attendingCollege'],
-                        formData,
-                      ) !== false,
-                  },
-                },
-                previouslyMarried: {
-                  'ui:title': 'Has your child ever been married?',
-                  'ui:widget': 'yesNo',
-                },
-                married: {
-                  'ui:title': 'Are they currently married?',
-                  'ui:widget': 'yesNo',
-                  'ui:required': (formData, index) =>
-                    !!get(['dependents', index, 'previouslyMarried'], formData),
-                  'ui:options': {
-                    expandUnder: 'previouslyMarried',
-                  },
-                },
-              },
-            },
-          },
+          schema: dependentChildInformation.schema,
+          uiSchema: dependentChildInformation.uiSchema,
         },
-        childrenAddress: {
-          path: 'household/dependents/children/address/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} address`,
+        dependentChildInHousehold: {
+          path: 'household/dependents/children/inhousehold/:index',
+          title: item => getDependentChildTitle(item, 'household'),
+          depends: doesHaveDependents,
           showPagePerItem: true,
           arrayPath: 'dependents',
           schema: {
@@ -1175,8 +820,36 @@ const formConfig = {
                   type: 'object',
                   required: ['childInHousehold'],
                   properties: {
-                    childInHousehold:
-                      dependents.items.properties.childInHousehold,
+                    childInHousehold: yesNoSchema,
+                  },
+                },
+              },
+            },
+          },
+          uiSchema: {
+            dependents: {
+              items: {
+                childInHousehold: yesNoUI({
+                  title: 'Does your child live with you?',
+                }),
+              },
+            },
+          },
+        },
+        dependentChildAddress: {
+          path: 'household/dependents/children/address/:index',
+          title: item => getDependentChildTitle(item, 'address'),
+          depends: dependentIsOutsideHousehold,
+          showPagePerItem: true,
+          arrayPath: 'dependents',
+          schema: {
+            type: 'object',
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
                     childAddress: dependents.items.properties.childAddress,
                     personWhoLivesWithChild:
                       dependents.items.properties.personWhoLivesWithChild,
@@ -1190,52 +863,41 @@ const formConfig = {
             dependents: {
               items: {
                 'ui:title': createHouseholdMemberTitle('fullName', 'Address'),
-                childInHousehold: {
-                  'ui:title': 'Does your child live with you?',
-                  'ui:widget': 'yesNo',
-                },
-                childAddress: merge(
-                  {},
-                  address.uiSchema(
-                    'Address',
-                    false,
-                    (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
-                  ),
-                  {
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
-                    },
-                  },
+                childAddress: address.uiSchema(
+                  '',
+                  false,
+                  dependentIsOutsideHousehold,
                 ),
                 personWhoLivesWithChild: merge({}, fullNameUI, {
                   'ui:title': 'Who do they live with?',
+                  first: {
+                    'ui:title': 'First name',
+                  },
+                  last: {
+                    'ui:title': 'Last name',
+                  },
+                  middle: {
+                    'ui:title': 'Middle name',
+                  },
+                  suffix: {
+                    'ui:title': 'Suffix',
+                  },
                   'ui:options': {
-                    updateSchema: (form, UISchema, schema, index) => {
-                      if (
-                        !get(['dependents', index, 'childInHousehold'], form)
-                      ) {
+                    updateSchema: (form, _UISchema, _schema, index) => {
+                      if (dependentIsOutsideHousehold(form, index)) {
                         return fullName;
                       }
                       return nonRequiredFullName;
                     },
-                    expandUnder: 'childInHousehold',
-                    expandUnderCondition: false,
                   },
                 }),
                 monthlyPayment: merge(
                   {},
                   currencyUI(
-                    'How much do you contribute per month to their support?',
+                    "How much do you contribute per month to your child's support?",
                   ),
                   {
-                    'ui:required': (form, index) =>
-                      !get(['dependents', index, 'childInHousehold'], form),
-                    'ui:options': {
-                      expandUnder: 'childInHousehold',
-                      expandUnderCondition: false,
-                    },
+                    'ui:required': dependentIsOutsideHousehold,
                   },
                 ),
               },
@@ -1244,359 +906,95 @@ const formConfig = {
         },
       },
     },
-    financialDisclosure: {
-      title: 'Financial disclosure',
-      reviewDescription: FinancialDisclosureDescription,
+    financialInformation: {
+      title: 'Financial information',
       pages: {
-        netWorth: {
-          path: 'financial-disclosure/net-worth',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } net worth`,
-          schema: {
-            type: 'object',
-            required: ['netWorth'],
-            properties: {
-              netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Net worth',
-            ),
-            'ui:description': 'Bank accounts, investments, and property',
-            netWorth: netWorthUI,
-          },
+        totalNetWorth: {
+          title: 'Total net worth',
+          path: 'financial/total-net-worth',
+          uiSchema: totalNetWorth.uiSchema,
+          schema: totalNetWorth.schema,
         },
-        monthlyIncome: {
-          path: 'financial-disclosure/monthly-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } monthly income`,
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['monthlyIncome'],
-            properties: {
-              monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Monthly income',
-            ),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            monthlyIncome: monthlyIncomeUI,
-          },
+        netWorthEstimation: {
+          title: 'Net worth estimation',
+          path: 'financial/net-worth-estimation',
+          depends: formData => formData.totalNetWorth === false,
+          uiSchema: netWorthEstimation.uiSchema,
+          schema: netWorthEstimation.schema,
         },
-        expectedIncome: {
-          path: 'financial-disclosure/expected-income',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expected income`,
-          initialData: {},
-          schema: {
-            type: 'object',
-            required: ['expectedIncome'],
-            properties: {
-              expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Expected income',
-            ),
-            'ui:description': expectedIncomeDescription,
-            expectedIncome: expectedIncomeUI,
-          },
+        transferredAssets: {
+          title: 'Transferred assets',
+          path: 'financial/transferred-assets',
+          uiSchema: transferredAssets.uiSchema,
+          schema: transferredAssets.schema,
         },
-        otherExpenses: {
-          path: 'financial-disclosure/other-expenses',
-          title: item =>
-            `${item.veteranFullName.first} ${
-              item.veteranFullName.last
-            } expenses`,
-          schema: {
-            type: 'object',
-            required: ['view:hasOtherExpenses'],
-            properties: {
-              'view:hasOtherExpenses': {
-                type: 'boolean',
-              },
-              otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'veteranFullName',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:hasOtherExpenses': {
-              'ui:title':
-                'Do you have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            otherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:hasOtherExpenses',
-              },
-            }),
-          },
+        homeOwnership: {
+          title: 'Home ownership',
+          path: 'financial/home-ownership',
+          uiSchema: homeOwnership.uiSchema,
+          schema: homeOwnership.schema,
         },
-        spouseNetWorth: {
-          path: 'financial-disclosure/net-worth/spouse',
-          title: 'Spouse net worth',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseNetWorth: netWorth,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Net worth'),
-            'ui:description': 'Bank accounts, investments, and property',
-            spouseNetWorth: netWorthUI,
-          },
+        homeAcreageMoreThanTwo: {
+          title: 'Home acreage size',
+          path: 'financial/home-ownership/acres',
+          depends: ownsHome,
+          uiSchema: homeAcreageMoreThanTwo.uiSchema,
+          schema: homeAcreageMoreThanTwo.schema,
         },
-        spouseMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/spouse',
-          title: 'Spouse monthly income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseMonthlyIncome: monthlyIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Monthly income'),
-            'ui:description':
-              'Social Security or other pensions (gross income)',
-            spouseMonthlyIncome: monthlyIncomeUI,
-          },
+        homeAcreageValue: {
+          title: 'Home acreage value',
+          path: 'financial/home-ownership/acres/value',
+          depends: isHomeAcreageMoreThanTwo,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          CustomPage: HomeAcreageValueInput,
+          CustomPageReview: HomeAcreageValueReview,
         },
-        spouseExpectedIncome: {
-          path: 'financial-disclosure/expected-income/spouse',
-          title: 'Spouse expected income',
-          depends: isMarried,
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              spouseExpectedIncome: expectedIncome,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle('spouse', 'Expected income'),
-            'ui:description': spouseExpectedIncomeDescription,
-            spouseExpectedIncome: expectedIncomeUI,
-          },
+        landMarketable: {
+          title: 'Land marketable',
+          path: 'financial/land-marketable',
+          depends: isHomeAcreageMoreThanTwo,
+          uiSchema: landMarketable.uiSchema,
+          schema: landMarketable.schema,
         },
-        spouseOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/spouse',
-          depends: isMarried,
-          title: 'Spouse other expenses',
-          schema: {
-            type: 'object',
-            required: ['view:spouseHasOtherExpenses'],
-            properties: {
-              'view:spouseHasOtherExpenses': {
-                type: 'boolean',
-              },
-              spouseOtherExpenses: otherExpenses,
-            },
-          },
-          uiSchema: {
-            'ui:title': createHouseholdMemberTitle(
-              'spouse',
-              'Medical, legal, or other unreimbursed expenses',
-            ),
-            'view:spouseHasOtherExpenses': {
-              'ui:title':
-                'Does your spouse have any medical, legal or other unreimbursed expenses?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                // HACK: Forcing wrapper to be a <div> instead of <dl>
-                // in order to avoid breaking accessibility.
-                customTitle: ' ',
-                useDlWrap: true,
-              },
-            },
-            spouseOtherExpenses: merge({}, otherExpensesUI, {
-              'ui:options': {
-                expandUnder: 'view:spouseHasOtherExpenses',
-              },
-            }),
-          },
+        receivesIncome: {
+          title: 'Receives income',
+          path: 'financial/receives-income',
+          uiSchema: receivesIncome.uiSchema,
+          schema: receivesIncome.schema,
         },
-        dependentsNetWorth: {
-          path: 'financial-disclosure/net-worth/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} net worth`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    netWorth,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle('fullName', 'Net worth'),
-                'ui:description': 'Bank accounts, investments, and property',
-                netWorth: netWorthUI,
-              },
-            },
-          },
+        incomeSources: {
+          title: 'Gross monthly income',
+          path: 'financial/income-sources',
+          depends: doesReceiveIncome,
+          uiSchema: incomeSources.uiSchema,
+          schema: incomeSources.schema,
         },
-        dependentsMonthlyIncome: {
-          path: 'financial-disclosure/monthly-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} monthly income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    monthlyIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Monthly income',
-                ),
-                'ui:description':
-                  'Social Security or other pensions (gross income)',
-                monthlyIncome: monthlyIncomeUI,
-              },
-            },
-          },
+        hasCareExpenses: {
+          path: 'financial/care-expenses',
+          title: 'Care expenses',
+          uiSchema: hasCareExpenses.uiSchema,
+          schema: hasCareExpenses.schema,
         },
-        dependentsExpectedIncome: {
-          path: 'financial-disclosure/expected-income/dependents/:index',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last ||
-              ''} expected income`,
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          initialData: {},
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    expectedIncome,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Expected income',
-                ),
-                'ui:description': dependentExpectedIncomeDescription,
-                expectedIncome: expectedIncomeUI,
-              },
-            },
-          },
+        careExpenses: {
+          path: 'financial/care-expenses/add',
+          title: 'Unreimbursed care expenses',
+          depends: doesHaveCareExpenses,
+          uiSchema: careExpenses.uiSchema,
+          schema: careExpenses.schema,
         },
-        dependentsOtherExpenses: {
-          path: 'financial-disclosure/other-expenses/dependents/:index',
-          showPagePerItem: true,
-          arrayPath: 'dependents',
-          title: item =>
-            `${item.fullName.first || ''} ${item.fullName.last || ''} expenses`,
-          schema: {
-            type: 'object',
-            properties: {
-              dependents: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  required: ['view:hasOtherExpenses'],
-                  properties: {
-                    'view:hasOtherExpenses': {
-                      type: 'boolean',
-                    },
-                    otherExpenses,
-                  },
-                },
-              },
-            },
-          },
-          uiSchema: {
-            dependents: {
-              items: {
-                'ui:title': createHouseholdMemberTitle(
-                  'fullName',
-                  'Medical, legal, or other unreimbursed expenses',
-                ),
-                'view:hasOtherExpenses': {
-                  'ui:title':
-                    'Does your child have any medical, legal or other unreimbursed expenses?',
-                  'ui:widget': 'yesNo',
-                  'ui:options': {
-                    // HACK: Forcing this to be a <div> instead of <dl>
-                    // in order to avoid breaking accessibility.
-                    customTitle: ' ',
-                    useDlWrap: true,
-                  },
-                },
-                otherExpenses: merge({}, otherExpensesUI, {
-                  'ui:options': {
-                    expandUnder: 'view:hasOtherExpenses',
-                  },
-                }),
-              },
-            },
-          },
+        hasMedicalExpenses: {
+          path: 'financial/medical-expenses',
+          title: 'Medical expenses and other unreimbursed expenses',
+          uiSchema: hasMedicalExpenses.uiSchema,
+          schema: hasMedicalExpenses.schema,
+        },
+        medicalExpenses: {
+          path: 'financial/medical-expenses/add',
+          title: 'Medical expenses and other unreimbursed expenses',
+          depends: doesHaveMedicalExpenses,
+          uiSchema: medicalExpenses.uiSchema,
+          schema: medicalExpenses.schema,
         },
       },
     },
@@ -1656,131 +1054,23 @@ const formConfig = {
             },
           },
         },
-        contactInformation: {
-          title: 'Contact information',
-          path: 'additional-information/contact',
-          uiSchema: {
-            'ui:title': 'Contact information',
-            veteranAddress: set(
-              'ui:validations[1]',
-              validateCentralMailPostalCode,
-              address.uiSchema('Mailing address'),
-            ),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            dayPhone: phoneUI('Daytime phone'),
-            nightPhone: phoneUI('Evening phone'),
-            mobilePhone: phoneUI('Mobile phone'),
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranAddress'],
-            properties: {
-              veteranAddress: address.schema(fullSchemaPensions, true),
-              email,
-              altEmail,
-              dayPhone,
-              nightPhone,
-              mobilePhone,
-            },
-          },
-        },
         aidAttendance: {
-          path: 'additional-information/aid-attendance',
-          title: 'Aid and Attendance and Housebound benefits',
-          uiSchema: {
-            'ui:title': 'Aid and Attendance and Housebound Benefits',
-            'view:evidenceInfo': {
-              'ui:description': aidAttendanceEvidence,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:evidenceInfo': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          title: 'Supporting documents',
+          path: 'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
         },
         documentUpload: {
           title: 'Document upload',
-          path: 'documents',
-          editModeOnReviewPage: true,
-          uiSchema: {
-            'ui:title': 'Document upload',
-            'ui:description': fileHelp,
-            files: fileUploadUI('', {
-              fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
-              hideLabelText: true,
-            }),
-            'view:uploadMessage': {
-              'ui:description': uploadMessage,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              files,
-              'view:uploadMessage': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          path: 'additional-information/document-upload',
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
         expedited: {
-          title: 'Fully Developed Claim program',
-          path: 'additional-information/fdc',
-          uiSchema: {
-            'ui:description': expeditedProcessDescription,
-            noRapidProcessing: {
-              'ui:title':
-                'Do you want to apply using the Fully Developed Claim program?',
-              'ui:widget': 'yesNo',
-              'ui:options': {
-                yesNoReverse: true,
-                labels: {
-                  Y: 'Yes, I have uploaded all my documentation.',
-                  N:
-                    'No, I have some extra information that I will submit to VA later.',
-                },
-              },
-            },
-            fdcWarning: {
-              'ui:description': fdcWarning,
-              'ui:options': {
-                expandUnder: 'noRapidProcessing',
-                expandUnderCondition: false,
-              },
-            },
-            noFDCWarning: {
-              'ui:description': noFDCWarning,
-              'ui:options': {
-                expandUnder: 'noRapidProcessing',
-                expandUnderCondition: true,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              noRapidProcessing,
-              fdcWarning: {
-                type: 'object',
-                properties: {},
-              },
-              noFDCWarning: {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          title: 'Faster claim processing',
+          path: 'additional-information/faster-claim-processing',
+          uiSchema: fasterClaimProcessing.uiSchema,
+          schema: fasterClaimProcessing.schema,
         },
       },
     },

@@ -1,25 +1,18 @@
 import MedicationsSite from './med_site/MedicationsSite';
+import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Medications Landing Page', () => {
   it('visits Medications landing Page', () => {
     const site = new MedicationsSite();
+    const landingPage = new MedicationsLandingPage();
     site.login(true, false);
-    cy.visit('my-health/about-medications/');
+    landingPage.visitLandingPageURL();
 
-    cy.url().should('include', '/health-care/refill-track-prescriptions');
+    cy.url().should('include', '/my-health/medications/about');
 
     site.login(true, true);
-    cy.visit('my-health/about-medications/');
+    landingPage.visitLandingPageURL();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'link-name': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

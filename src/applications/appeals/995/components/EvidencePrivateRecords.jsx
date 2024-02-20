@@ -16,7 +16,7 @@ import debounce from 'platform/utilities/data/debounce';
 import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-import { checkValidations } from '../validations';
+
 import {
   validatePrivateName,
   validateCountry,
@@ -33,6 +33,7 @@ import {
 import { focusEvidence } from '../utils/focus';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -363,6 +364,7 @@ const EvidencePrivateRecords = ({
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.showModal}
+          uswds
         >
           <p>{content.modal.description}</p>
         </VaModal>
@@ -378,6 +380,7 @@ const EvidencePrivateRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
+          uswds
         />
 
         <VaSelect
@@ -389,6 +392,7 @@ const EvidencePrivateRecords = ({
           onVaSelect={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('country')}
+          uswds
         >
           <option value=""> </option>
           {countries.map(country => (
@@ -408,6 +412,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('street')}
           autocomplete="section-provider address-line1"
+          uswds
         />
         <VaTextInput
           id="street2"
@@ -417,6 +422,7 @@ const EvidencePrivateRecords = ({
           value={currentData.providerFacilityAddress?.street2}
           onInput={handlers.onChange}
           autocomplete="section-provider address-line2"
+          uswds
         />
         <VaTextInput
           id="city"
@@ -429,6 +435,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('city')}
           autocomplete="section-provider address-level2"
+          uswds
         />
         {hasStates.length ? (
           <VaSelect
@@ -440,6 +447,7 @@ const EvidencePrivateRecords = ({
             onVaSelect={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
+            uswds
           >
             <option value=""> </option>
             {hasStates.map(state => (
@@ -460,6 +468,7 @@ const EvidencePrivateRecords = ({
             onBlur={handlers.onBlur}
             error={showError('state')}
             autocomplete="section-provider address-level1"
+            uswds
           />
         )}
 
@@ -475,6 +484,7 @@ const EvidencePrivateRecords = ({
           error={showError('postal')}
           inputmode="numeric"
           autocomplete="section-provider postal-code"
+          uswds
         />
 
         <br role="presentation" />
@@ -486,6 +496,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           error={showError('issues')}
           required
+          uswds
         >
           {availableIssues.length ? (
             availableIssues.map((issue, index) => (
@@ -497,6 +508,7 @@ const EvidencePrivateRecords = ({
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
+                uswds
               />
             ))
           ) : (
@@ -516,6 +528,8 @@ const EvidencePrivateRecords = ({
           invalidMonth={isInvalid('from', 'month')}
           invalidDay={isInvalid('from', 'day')}
           invalidYear={isInvalid('from', 'year')}
+          month-select={false}
+          uswds
         />
         <VaMemorableDate
           id="facility-to-date"
@@ -529,6 +543,8 @@ const EvidencePrivateRecords = ({
           invalidMonth={isInvalid('to', 'month')}
           invalidDay={isInvalid('to', 'day')}
           invalidYear={isInvalid('to', 'year')}
+          month-select={false}
+          uswds
         />
         <div className="vads-u-margin-top--2">
           <Link

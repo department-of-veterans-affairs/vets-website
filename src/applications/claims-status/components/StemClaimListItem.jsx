@@ -44,7 +44,7 @@ export default function StemClaimListItem({ claim }) {
       </div>
       <div className="card-status">
         <p>
-          <strong>Submitted on:</strong> {formattedReceiptDate}
+          <strong>Received on:</strong> {formattedReceiptDate}
         </p>
       </div>
       <Link

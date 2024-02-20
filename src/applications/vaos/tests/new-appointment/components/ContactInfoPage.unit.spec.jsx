@@ -84,6 +84,9 @@ describe('VAOS <ContactInfoPage>', () => {
       newAppointment: {
         ...state.newAppointment,
         flowType: FLOW_TYPES.REQUEST,
+        data: {
+          facilityType: 'communityCare',
+        },
       },
     };
     store = createTestStore(state);
@@ -177,7 +180,7 @@ describe('VAOS <ContactInfoPage>', () => {
       .not.exist;
   });
 
-  it('should show email exceeded max length when acheron service is on', async () => {
+  it('should show email exceeded max length', async () => {
     let store = createTestStore();
 
     // Get default state.
@@ -187,9 +190,6 @@ describe('VAOS <ContactInfoPage>', () => {
       newAppointment: {
         ...state.newAppointment,
         flowType: FLOW_TYPES.DIRECT,
-      },
-      featureToggles: {
-        vaOnlineSchedulingAcheronService: true,
       },
     };
     store = createTestStore(state);

@@ -5,19 +5,22 @@ import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
-import AddFilesForm from '../components/AddFilesForm';
+import AddFilesFormOld from '../components/AddFilesFormOld';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import DueDate from '../components/DueDate';
+import DueDateOld from '../components/DueDateOld';
 import Notification from '../components/Notification';
 import {
   addFile,
   removeFile,
   submitFiles,
+  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
   resetUploads,
   updateField,
   cancelUpload,
@@ -31,7 +34,7 @@ import {
 import { scrubDescription } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
-import { cstUseLighthouse } from '../selectors';
+import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
 
 const scrollToError = () => {
@@ -91,7 +94,7 @@ class DocumentRequestPage extends React.Component {
       <>
         <h1 className="claims-header">{trackedItem.displayName}</h1>
         {trackedItem.status === 'NEEDED_FROM_YOU' ? (
-          <DueDate date={trackedItem.suspenseDate} />
+          <DueDateOld date={trackedItem.suspenseDate} />
         ) : null}
         {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
           <div className="optional-upload">
@@ -127,6 +130,7 @@ class DocumentRequestPage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
+          uswds="false"
         />
       );
     } else {
@@ -145,19 +149,29 @@ class DocumentRequestPage extends React.Component {
             </div>
           )}
           {this.getPageContent()}
-          <AddFilesForm
+          <AddFilesFormOld
             field={this.props.uploadField}
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
             backUrl={this.props.lastPage || filesPath}
-            onSubmit={() =>
-              this.props.submitFiles(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              )
-            }
+            onSubmit={() => {
+              // START lighthouse_migration
+              if (this.props.documentsUseLighthouse) {
+                this.props.submitFilesLighthouse(
+                  this.props.claim.id,
+                  trackedItem,
+                  this.props.files,
+                );
+              } else {
+                this.props.submitFiles(
+                  this.props.claim.id,
+                  trackedItem,
+                  this.props.files,
+                );
+              }
+              // END lighthouse_migration
+            }}
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
             onFieldChange={this.props.updateField}
@@ -243,6 +257,7 @@ function mapStateToProps(state, ownProps) {
     message: claimsState.notifications.message,
     // START lighthouse_migration
     useLighthouse,
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
 }
@@ -256,6 +271,7 @@ const mapDispatchToProps = {
   // START lighthouse_migration
   getClaimEVSS: getClaimEVSSAction,
   getClaimLighthouse: getClaimAction,
+  submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
@@ -274,6 +290,9 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
+  // START lighthouse_migration
+  documentsUseLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   files: PropTypes.array,
   // START lighthouse_migration
   getClaimEVSS: PropTypes.func,
@@ -288,6 +307,9 @@ DocumentRequestPage.propTypes = {
   router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
+  // START lighthouse_migration
+  submitFilesLighthouse: PropTypes.func,
+  // END lighthouse_migration
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,

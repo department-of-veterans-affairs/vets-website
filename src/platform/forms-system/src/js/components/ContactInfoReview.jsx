@@ -9,12 +9,14 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { ADDRESS_TYPES } from '../../../../forms/address/helpers';
 
 import {
-  CONTACT_EDIT,
   renderTelephone,
   contactInfoPropTypes,
   validateEmail,
   validatePhone,
   validateZipcode,
+  getReturnState,
+  setReturnState,
+  clearReturnState,
 } from '../utilities/data/profile';
 
 /**
@@ -25,18 +27,23 @@ import {
  * @param {Object} keys - form data keys
  * @returns {Element}
  */
-const ContactInfoReview = ({ data, editPage, content, keys }) => {
+const ContactInfoReview = ({
+  data,
+  editPage,
+  content,
+  keys,
+  contactInfoPageKey,
+}) => {
   const editRef = useRef(null);
-
   useEffect(
     () => {
-      if (
-        window.sessionStorage.getItem(CONTACT_EDIT) === 'true' &&
-        editRef?.current
-      ) {
+      if (getReturnState() === 'true,' && editRef?.current) {
         // focus on edit button _after_ editing and returning
-        window.sessionStorage.removeItem(CONTACT_EDIT);
-        setTimeout(() => focusElement(editRef.current));
+        clearReturnState();
+        setTimeout(
+          () => focusElement('va-button', {}, editRef.current?.shadowRoot),
+          0,
+        );
       }
     },
     [editRef],
@@ -245,7 +252,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
   const handlers = {
     onEditPage: () => {
       // maintain state using session storage
-      window.sessionStorage.setItem(CONTACT_EDIT, 'true');
+      setReturnState('true');
       editPage();
     },
   };
@@ -269,21 +276,21 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 
   return (
     <div className="form-review-panel-page">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
-          id="confirmContactInformationEdit"
-          className="edit-page usa-button-secondary"
+          secondary
+          id={`${contactInfoPageKey}Edit`}
+          class="edit-page vads-u-justify-content--flex-end"
           onClick={handlers.onEditPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+          uswds
+        />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>
@@ -291,6 +298,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 };
 
 ContactInfoReview.propTypes = {
+  contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   content: contactInfoPropTypes.content,
   data: contactInfoPropTypes.data,
   editPage: PropTypes.func,

@@ -186,7 +186,7 @@ describe('Schemaform <ArrayField>', () => {
     const button = tree.everySubTree('button');
     expect(button.length).to.equal(4);
     expect(button[0].text()).to.equal('Edit');
-    expect(button[1].text()).to.equal('Update');
+    expect(button[1].text()).to.equal('Save');
     expect(button[2].text()).to.equal('Remove');
     expect(button[3].text()).to.contain('Add another');
   });
@@ -262,8 +262,8 @@ describe('Schemaform <ArrayField>', () => {
     expect(button.length).to.equal(4);
     expect(button[0].text()).to.equal('Edit');
     expect(button[0].props['aria-label']).to.equal('Edit foo');
-    expect(button[1].text()).to.equal('Update');
-    expect(button[1].props['aria-label']).to.equal('Update bar');
+    expect(button[1].text()).to.equal('Save');
+    expect(button[1].props['aria-label']).to.equal('Save bar');
     expect(button[2].text()).to.equal('Remove');
     expect(button[2].props['aria-label']).to.equal('Remove bar');
     expect(button[3].text()).to.contain('Add another');
@@ -394,8 +394,16 @@ describe('Schemaform <ArrayField>', () => {
       expect(onChange.firstCall.args[0].length).to.equal(3);
       expect(tree.getMountedInstance().state.editing[2]).to.be.false;
     });
-    it('enforces max items', () => {
-      expect(tree.everySubTree('button').pop().props.disabled).to.be.true;
+    it('enforces max items by hiding add and displaying an alert', () => {
+      const buttons = tree.everySubTree('button');
+      const alerts = tree.everySubTree('va-alert');
+      expect(buttons.length).to.equal(2);
+      expect(buttons[0].text()).to.equal('Edit');
+      expect(buttons[1].text()).to.contain('Remove');
+      expect(alerts.length).to.equal(1);
+      expect(alerts[0].text()).to.equal(
+        'You’ve entered the maximum number of items allowed.',
+      );
     });
     it('add when invalid', () => {
       errorSchema[1] = { __errors: ['Test error'] };
@@ -419,7 +427,7 @@ describe('Schemaform <ArrayField>', () => {
       expect(onChange.called).to.be.true;
     });
   });
-  it('should disable add when data has not been changed', () => {
+  it('should hide add when data has not been changed', () => {
     const idSchema = {};
     const schema = {
       type: 'array',
@@ -456,7 +464,7 @@ describe('Schemaform <ArrayField>', () => {
       />,
     );
 
-    expect(tree.subTree('button').props.disabled).to.be.true;
+    expect(tree.subTree('button').length).to.be.undefined;
   });
 });
 

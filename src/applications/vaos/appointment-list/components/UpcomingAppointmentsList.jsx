@@ -1,25 +1,13 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import moment from 'moment';
 import classNames from 'classnames';
-import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
-import {
-  FETCH_STATUS,
-  GA_PREFIX,
-  APPOINTMENT_TYPES,
-  SPACE_BAR,
-} from '../../utils/constants';
-import {
-  getLink,
-  getVAAppointmentLocationId,
-  groupAppointmentByDay,
-} from '../../services/appointment';
-import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import { groupAppointmentByDay } from '../../services/appointment';
 import NoAppointments from './NoAppointments';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
@@ -27,31 +15,11 @@ import {
   startNewAppointmentFlow,
 } from '../redux/actions';
 import {
-  selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
-import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
-import UpcomingAppointmentLayout from './AppointmentsPageV2/UpcomingAppointmentLayout';
+import UpcomingAppointmentLayout from './AppointmentsPage/UpcomingAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-
-function handleClick({ history, link, idClickable }) {
-  return () => {
-    if (!window.getSelection().toString()) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-function handleKeyDown({ history, link, idClickable }) {
-  return event => {
-    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
 
 export default function UpcomingAppointmentsList() {
   const history = useHistory();
@@ -60,29 +28,20 @@ export default function UpcomingAppointmentsList() {
     showScheduleButton,
     appointmentsByMonth,
     futureStatus,
-    facilityData,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
 
-  useEffect(
-    () => {
-      if (featureAppointmentList) {
-        recordEvent({
-          event: `${GA_PREFIX}-new-appointment-list`,
-        });
-      }
-    },
-    [featureAppointmentList],
-  );
+  useEffect(() => {
+    recordEvent({
+      event: `${GA_PREFIX}-new-appointment-list`,
+    });
+  }, []);
 
   useEffect(
     () => {
@@ -128,7 +87,6 @@ export default function UpcomingAppointmentsList() {
   }
 
   const keys = Object.keys(appointmentsByMonth);
-  const Heading = featureAppointmentList ? 'h2' : 'h3';
 
   return (
     <>
@@ -141,13 +99,11 @@ export default function UpcomingAppointmentsList() {
         const monthDate = moment(key, 'YYYY-MM');
 
         let hashTable = appointmentsByMonth;
-        if (featureAppointmentList) {
-          hashTable = groupAppointmentByDay(hashTable[key]);
-        }
+        hashTable = groupAppointmentByDay(hashTable[key]);
 
         return (
           <React.Fragment key={key}>
-            <Heading
+            <h2
               className={classNames('vads-u-font-size--h3', {
                 'vads-u-margin-top--0': index === 0,
               })}
@@ -156,7 +112,7 @@ export default function UpcomingAppointmentsList() {
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
-            </Heading>
+            </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               aria-labelledby={`appointment_list_${monthDate.format(
@@ -165,59 +121,17 @@ export default function UpcomingAppointmentsList() {
               className={classNames(
                 'usa-unstyled-list',
                 'vads-u-padding-left--0',
-                {
-                  'vads-u-border-bottom--1px vads-u-border-color--gray-medium': featureAppointmentList,
-                },
+                'vads-u-border-bottom--1px',
+                'vads-u-border-color--gray-medium',
               )}
               data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
               role="list"
             >
-              {featureAppointmentList &&
-                UpcomingAppointmentLayout({
-                  featureStatusImprovement,
-                  featureBreadcrumbUrlUpdate,
-                  hashTable,
-                  history,
-                })}
-
-              {!featureAppointmentList &&
-                hashTable[key].map(appt => {
-                  const facilityId = getVAAppointmentLocationId(appt);
-                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
-                  const link = getLink({
-                    featureBreadcrumbUrlUpdate,
-                    featureStatusImprovement,
-                    appointment: appt,
-                  });
-
-                  if (
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.vaAppointment ||
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.ccAppointment
-                  ) {
-                    return (
-                      <AppointmentListItem
-                        key={key}
-                        id={idClickable}
-                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
-                      >
-                        <AppointmentCard
-                          appointment={appt}
-                          facility={facilityData[facilityId]}
-                          link={link}
-                          handleClick={() =>
-                            handleClick({ history, link, idClickable })
-                          }
-                          handleKeyDown={() =>
-                            handleKeyDown({ history, link, idClickable })
-                          }
-                        />
-                      </AppointmentListItem>
-                    );
-                  }
-                  return null;
-                })}
+              {UpcomingAppointmentLayout({
+                featureBreadcrumbUrlUpdate,
+                hashTable,
+                history,
+              })}
             </ul>
           </React.Fragment>
         );

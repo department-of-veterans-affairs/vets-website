@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { CSP_IDS } from 'platform/user/authentication/constants';
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
 
 export const makeMockUser = () => {
   return {
@@ -14,6 +14,7 @@ export const makeMockUser = () => {
           'edu-benefits',
           'evss_common_client',
           'evss-claims',
+          'lighthouse',
           'facilities',
           'form-prefill',
           'form-save-in-progress',

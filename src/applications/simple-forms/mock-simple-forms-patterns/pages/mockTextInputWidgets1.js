@@ -6,7 +6,6 @@ import phoneOldUI from 'platform/forms-system/src/js/definitions/phone';
 import {
   ssnUI as ssnNewUI,
   ssnSchema as ssnNewSchema,
-  titleSchema,
   titleUI,
   emailUI,
   emailSchema,
@@ -19,7 +18,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     emailOld: {
       ...emailOldUI(),
       'ui:title': 'TextWidget - emailUI',
@@ -29,34 +28,17 @@ export default {
       ...ssnUI(),
       'ui:title': 'TextWidget - ssnUI',
     },
-    'view:wcTitle': inlineTitleUI('Web component'),
-    wcOldTextEmail: {
-      ...emailUI('VaTextInputField - emailUI'),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldTextPhone: {
-      ...phoneUI('VaTextInputField - phoneUI'),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldTextSsn: {
-      ...ssnNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
     'view:wcv3Title': inlineTitleUI('Web component v3'),
-    wcv3TextEmailNew: emailUI(null, true),
-    wcv3TextPhoneNew: phoneUI('VaTextInputField - phoneUI'),
+    wcv3TextEmailNew: emailUI({
+      description:
+        'By providing an email address, I agree to receive electronic correspondence from VA regarding my application',
+    }),
+    wcv3TextPhoneNew: phoneUI(),
     wcv3TextSsnNew: ssnNewUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       emailOld: {
         type: 'string',
         pattern: '^\\S+@\\S+$',
@@ -69,15 +51,11 @@ export default {
         type: 'string',
         pattern: '^[0-9]{9}$',
       },
-      'view:wcTitle': inlineTitleSchema,
-      wcOldTextEmail: emailSchema,
-      wcOldTextPhone: phoneSchema,
-      wcOldTextSsn: ssnNewSchema,
       'view:wcv3Title': inlineTitleSchema,
       wcv3TextEmailNew: emailSchema,
       wcv3TextPhoneNew: phoneSchema,
       wcv3TextSsnNew: ssnNewSchema,
     },
-    required: [],
+    required: ['wcv3TextEmailNew'],
   },
 };

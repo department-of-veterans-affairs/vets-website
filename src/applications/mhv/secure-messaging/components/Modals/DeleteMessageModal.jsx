@@ -16,6 +16,7 @@ const DeleteMessageModal = props => {
       visible={props.visible}
       status="warning"
       data-testid="delete-message-modal"
+      data-dd-action-name="Delete Message Modal Closed"
     >
       <div
         className="modal-body vads-u-padding-bottom--1p5"

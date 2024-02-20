@@ -1,5 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
+import mapboxClient from '../components/mapbox/MapboxClient';
 
 import { BOUNDING_RADIUS } from '../constants';
 
@@ -92,7 +92,7 @@ export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
 };
 
 export const staticMapURL = (lat, long, mapboxToken) =>
-  `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+e31c3d(${long},${lat})/${long},${lat},16/500x300?access_token=${mapboxToken}`;
+  `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l+d83933(${long},${lat})/${long},${lat},16/500x300?access_token=${mapboxToken}`;
 
 /**
  * Generates search criteria from lat/long geocoordinates.
@@ -119,6 +119,10 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
       coordinates[1] + BOUNDING_RADIUS,
     ],
     locationInputString: placeName,
+    context: {
+      location: placeName,
+    },
+    locationQueryString: placeName,
     position: { longitude, latitude },
   };
 };

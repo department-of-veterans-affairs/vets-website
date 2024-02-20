@@ -91,7 +91,6 @@ const mapDispatchToProps = {
   toggleLoginModal: toggleLoginModalAction,
 };
 
-export { GetStartedContent };
 export default connect(
   null,
   mapDispatchToProps,

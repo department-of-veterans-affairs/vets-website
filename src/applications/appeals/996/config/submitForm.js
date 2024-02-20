@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export const buildEventData = ({ informalConference }) => {
   let informalConf = 'no';
@@ -15,9 +14,7 @@ export const buildEventData = ({ informalConference }) => {
 
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
-  const body = formConfig.transformForSubmit
-    ? formConfig.transformForSubmit(formConfig, form)
-    : transformForSubmit(formConfig, form);
+  const body = formConfig.transformForSubmit(formConfig, form);
 
   const url = `${environment.API_URL}/v1/${submitUrl}`;
 

@@ -8,7 +8,7 @@ import {
   dependentUISchema as uiSchema,
 } from '../../definitions/dependent';
 import { isLoggedOut as authSelector } from '../../utils/selectors';
-import { DependentSIPWarning } from '../FormAlerts';
+import DependentSIPWarning from '../FormAlerts/DependentSIPWarning';
 
 const DependentListLoopForm = props => {
   const { children, data, page, onChange, onSubmit } = props;
@@ -20,7 +20,11 @@ const DependentListLoopForm = props => {
     page.id !== 'basic' ? `${fullName.first} ${fullName.last}` : 'Dependent';
   const currentUISchema = {
     ...uiSchema[page.id],
-    'ui:title': page.title.replace(/%s/g, nameToDisplay),
+    'ui:title': (
+      <span className="dd-privacy-mask" data-dd-action-name="Page title">
+        {page.title.replace(/%s/g, nameToDisplay)}
+      </span>
+    ),
   };
 
   return (

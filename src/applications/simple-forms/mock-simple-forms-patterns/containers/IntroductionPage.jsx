@@ -17,17 +17,15 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Apply for Simple Forms Patterns"
-          subTitle="Application in Simple Forms Patterns"
+          title="Simple Forms Patterns Examples"
+          subTitle="Web component v3 patterns for testing and development"
         />
-        <h2>Here&rsquo;s how to apply online</h2>
-        <p>
-          Complete this form. After you submit the form, you&rsquo;ll get a
-          confirmation message. You can print this page for your records.
-        </p>
         <div>
           <h3>Pages</h3>
           <ul>
+            <li>
+              <Link to="/chapter-select">Chapter select</Link>
+            </li>
             <li>
               <Link to="/text-input">Text input</Link>
             </li>
@@ -41,6 +39,21 @@ class IntroductionPage extends React.Component {
               <Link to="/text-input-address">Text input address</Link>
             </li>
             <li>
+              <Link to="/forms-pattern-single-radio">
+                Forms pattern - single - radio
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-single-checkbox-group">
+                Forms pattern - single - checkbox group
+              </Link>
+            </li>
+            <li>
+              <Link to="/forms-pattern-multiple">
+                Forms pattern - multiple - text
+              </Link>
+            </li>
+            <li>
               <Link to="/number-input">Number input</Link>
             </li>
             <li>
@@ -51,6 +64,9 @@ class IntroductionPage extends React.Component {
             </li>
             <li>
               <Link to="/checkbox-group">Checkbox group</Link>
+            </li>
+            <li>
+              <Link to="/mock-custom-page">CustomPage</Link>
             </li>
             <li>
               <Link to="/select">Select</Link>
@@ -67,10 +83,20 @@ class IntroductionPage extends React.Component {
               <Link to="/date">Date</Link>
             </li>
             <li>
-              <Link to="/array-single-page">Array in a single page</Link>
+              <Link to="/dynamic-fields">Dynamic fields</Link>
             </li>
             <li>
-              <Link to="/array-multiple-page">Array with multiple pages</Link>
+              <Link to="/array-single-page">Array - single page</Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page-aggregate">
+                Array - multiple page - aggregate pattern
+              </Link>
+            </li>
+            <li>
+              <Link to="/array-multiple-page-builder-summary">
+                Array - multiple page - builder pattern
+              </Link>
             </li>
           </ul>
         </div>
@@ -79,7 +105,7 @@ class IntroductionPage extends React.Component {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the housing grant application"
+          startText="Start application"
         >
           Please complete the Simple Forms Patterns form to apply for Simple
           Forms Patterns.

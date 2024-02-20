@@ -12,13 +12,7 @@ describe('Start a new message With Attacments and Errors', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     composePage
       .getCategory('COVID')
@@ -38,6 +32,6 @@ describe('Start a new message With Attacments and Errors', () => {
     composePage.sendMessage();
 
     composePage.verifySendMessageConfirmationMessageText();
-    cy.get('h1').should('be.focused');
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

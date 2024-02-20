@@ -3,3 +3,9 @@
 .ezr-listloop--tile .fas { font-size: .875em; }
 
 legend.schemaform-block-title:focus { outline: none !important; }
+
+/**
+ * HACK: Until we get a v3 currency input, we need to manually space the dependents
+ * expenses page
+ */
+ va-radio[name="root_attendedSchoolLastYear"] { margin-bottom: 32px !important; }

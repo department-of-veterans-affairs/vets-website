@@ -31,4 +31,16 @@ describe('<JumpLink>', () => {
     expect(recordEvent.calledOnce).to.be.false;
     wrapper.unmount();
   });
+  it('it should show jumplink link', () => {
+    global.window.buildType = true;
+    const label = 'Jump Link Label';
+    const iconToggle = true;
+    const jumpToId = 'targetId';
+
+    const wrapper = mount(
+      <JumpLink label={label} jumpToId={jumpToId} iconToggle={iconToggle} />,
+    );
+    expect(wrapper.find('a.jump-link.arrow-down-link')).to.exist;
+    wrapper.unmount();
+  });
 });

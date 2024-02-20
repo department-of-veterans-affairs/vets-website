@@ -4,20 +4,24 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
-import EvidenceWarning from '../components/EvidenceWarning';
-import { cstUseLighthouse } from '../selectors';
-import { setFocus, setPageFocus, setUpPage } from '../utils/page';
+import FilesOptional from '../components/FilesOptional';
+import FilesNeeded from '../components/FilesNeeded';
 
+import { cstUseLighthouse, benefitsDocumentsUseLighthouse } from '../selectors';
+import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 import {
   addFile,
   removeFile,
   submitFiles,
+  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
   updateField,
   cancelUpload,
   // START lighthouse_migration
@@ -28,6 +32,12 @@ import {
   resetUploads,
   clearAdditionalEvidenceNotification,
 } from '../actions';
+import {
+  getTrackedItemId,
+  getTrackedItems,
+  getFilesNeeded,
+  getFilesOptional,
+} from '../utils/helpers';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
@@ -93,13 +103,14 @@ class AdditionalEvidencePage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
+          uswds="false"
         />
       );
     } else {
       const { message } = this.props;
 
       content = (
-        <div className="claim-container">
+        <div className="additional-evidence-container">
           {message && (
             <>
               <Element name="uploadError" />
@@ -110,20 +121,44 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          <EvidenceWarning />
+          <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
+          {this.props.filesNeeded.map(item => (
+            <FilesNeeded
+              key={getTrackedItemId(item)}
+              id={this.props.claim.id}
+              item={item}
+            />
+          ))}
+          {this.props.filesOptional.map(item => (
+            <FilesOptional
+              key={getTrackedItemId(item)}
+              id={this.props.claim.id}
+              item={item}
+            />
+          ))}
           <AddFilesForm
             field={this.props.uploadField}
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
             backUrl={this.props.lastPage || filesPath}
-            onSubmit={() =>
-              this.props.submitFiles(
-                this.props.claim.id,
-                null,
-                this.props.files,
-              )
-            }
+            onSubmit={() => {
+              // START lighthouse_migration
+              if (this.props.documentsUseLighthouse) {
+                this.props.submitFilesLighthouse(
+                  this.props.claim.id,
+                  null,
+                  this.props.files,
+                );
+              } else {
+                this.props.submitFiles(
+                  this.props.claim.id,
+                  null,
+                  this.props.files,
+                );
+              }
+              // END lighthouse_migration
+            }}
             onAddFile={this.props.addFile}
             onRemoveFile={this.props.removeFile}
             onFieldChange={this.props.updateField}
@@ -145,9 +180,13 @@ class AdditionalEvidencePage extends React.Component {
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
+  const useLighthouse = cstUseLighthouse(state, 'show');
+  const claim = claimsState.claimDetail.detail;
+  const trackedItems = getTrackedItems(claim, useLighthouse);
+
   return {
     loading: claimsState.claimDetail.loading,
-    claim: claimsState.claimDetail.detail,
+    claim,
     files: claimsState.uploads.files,
     uploading: claimsState.uploads.uploading,
     progress: claimsState.uploads.progress,
@@ -156,8 +195,11 @@ function mapStateToProps(state) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.additionalEvidenceMessage,
+    filesNeeded: getFilesNeeded(trackedItems, useLighthouse),
+    filesOptional: getFilesOptional(trackedItems, useLighthouse),
     // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state, 'show'),
+    useLighthouse,
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
 }
@@ -171,7 +213,8 @@ const mapDispatchToProps = {
   // START lighthouse_migration
   getClaimEVSS: getClaimEVSSAction,
   getClaimLighthouse: getClaimAction,
-  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
@@ -182,7 +225,12 @@ AdditionalEvidencePage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,
+  // START lighthouse_migration
+  documentsUseLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   files: PropTypes.array,
+  filesNeeded: PropTypes.array,
+  filesOptional: PropTypes.array,
   // START lighthouse_migration
   getClaimEVSS: PropTypes.func,
   getClaimLighthouse: PropTypes.func,
@@ -197,6 +245,9 @@ AdditionalEvidencePage.propTypes = {
   router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
+  // START lighthouse_migration
+  submitFilesLighthouse: PropTypes.func,
+  // END lighthouse_migration
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
   uploadField: PropTypes.object,

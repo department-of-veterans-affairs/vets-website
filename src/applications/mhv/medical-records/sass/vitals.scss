@@ -1,53 +1,10 @@
-.vital-details {
+.vital-records-list {
   list-style: none;
-  margin: 0px;
-  padding: 0px;
-  border-bottom: 1px solid $color-gray-lightest;
 
   li {
-    margin: 0px;
-    padding: 24px 0px 24px 0px;
-    border-top: 1px solid $color-gray-lightest;
     @media print {
       break-inside: avoid;
     }
-    h2 {
-      font-size: 17px;
-      margin: 0px 0px 16px;
-    }
-    h3 {
-      font-size: 15px;
-      margin: 16px 0px 0px;
-    }
-    h3:first-child {
-      margin: 0px;
-    }
-    p {
-      margin: 0px;
-    }
-  }
-  li:first-child {
-    border-top: 0px;
-  }
-
-  strong {
-    margin: 0px;
-  }
-}
-
-.comment-list {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  li {
-    margin: 0px;
-    border: 0px;
-    padding: 0px;
-  }
-  li:first-child {
-    margin: 0px;
-    border: 0px;
-    padding: 0px;
   }
 }
 

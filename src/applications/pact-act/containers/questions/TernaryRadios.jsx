@@ -9,6 +9,7 @@ import {
 } from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
+import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 /**
  * Produces a set of 3 radio options
@@ -101,6 +102,27 @@ const TernaryRadios = ({
         >
           {h1}
         </h1>
+        {shortName === SHORT_NAME_MAP.ORANGE_2_2_2 && (
+          <div
+            className="vads-u-margin-top--1"
+            data-testid="paw-orange-2-2-2-info"
+          >
+            <va-additional-info
+              trigger="Learn more about C-123 airplanes"
+              uswds={false}
+            >
+              <p className="vads-u-margin-top--0">
+                The U.S. Air Force used C-123 planes to spray Agent Orange to
+                clear jungles that provided enemy cover in Vietnam. After 1971,
+                the Air Force reassigned the remaining C-123 planes to Air Force
+                Reserve units in the U.S. for routine cargo and medical
+                evacuation missions. Veterans, including some Reservists, who
+                flew, trained, or worked on C-123 planes anytime from 1969 to
+                1986 may have had exposure to Agent Orange.
+              </p>
+            </va-additional-info>
+          </div>
+        )}
         {locationList ? (
           <div id="pact-act-form-instructions">{locationList}</div>
         ) : null}
@@ -127,6 +149,7 @@ const TernaryRadios = ({
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
+        uswds={false}
       />
     </>
   );

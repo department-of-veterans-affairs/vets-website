@@ -14,7 +14,6 @@ import debounce from 'platform/utilities/data/debounce';
 import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
 import { content } from '../content/evidenceVaRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-import { checkValidations } from '../validations';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -26,6 +25,7 @@ import {
 import { focusEvidence } from '../utils/focus';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -314,6 +314,7 @@ const EvidenceVaRecords = ({
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.showModal}
+          uswds
         >
           <p>{content.modalDescription}</p>
         </VaModal>
@@ -329,6 +330,7 @@ const EvidenceVaRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
+          uswds
         />
 
         <br role="presentation" />
@@ -340,6 +342,7 @@ const EvidenceVaRecords = ({
           onBlur={handlers.onBlur}
           error={showError('issues')}
           required
+          uswds
         >
           {availableIssues.length ? (
             availableIssues.map((issue, index) => (
@@ -351,6 +354,7 @@ const EvidenceVaRecords = ({
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
+                uswds
               />
             ))
           ) : (
@@ -370,6 +374,8 @@ const EvidenceVaRecords = ({
           invalidMonth={isInvalid('from', 'month')}
           invalidDay={isInvalid('from', 'day')}
           invalidYear={isInvalid('from', 'year')}
+          month-select={false}
+          uswds
         />
         <VaMemorableDate
           id="location-to-date"
@@ -383,6 +389,8 @@ const EvidenceVaRecords = ({
           invalidMonth={isInvalid('to', 'month')}
           invalidDay={isInvalid('to', 'day')}
           invalidYear={isInvalid('to', 'year')}
+          month-select={false}
+          uswds
         />
         <div className="vads-u-margin-top--2">
           <Link
@@ -402,6 +410,7 @@ const EvidenceVaRecords = ({
               onPrimaryClick={handlers.onGoForward}
               onSecondaryClick={handlers.onGoBack}
               aria-describedby="nav-form-header"
+              uswds
             />
           </div>
           {contentAfterButtons}

@@ -4,30 +4,20 @@ import moment from 'moment';
 import { renderLetterHistory } from '../const/diary-codes';
 
 const HistoryTable = ({ history }) => (
-  <table className="vads-u-margin-y--4">
-    <thead>
-      <tr>
-        <th className="vads-u-font-weight--bold" scope="col">
-          Date
-        </th>
-        <th className="vads-u-font-weight--bold" scope="col">
-          Letter
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {history.map((debt, index) => (
-        <tr key={`${debt.date}-${index}`}>
-          <td>{moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}</td>
-          <td>
-            <div className="vads-u-margin-top--0">
-              {renderLetterHistory(debt.letterCode)}
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+  <va-table class="vads-u-margin-y--4">
+    <va-table-row slot="headers">
+      <span>Date</span>
+      <span>Letter</span>
+    </va-table-row>
+    {history.map((debt, index) => (
+      <va-table-row key={`${debt.date}-${index}`}>
+        <span className="vads-u-padding-top--5">
+          {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+        </span>
+        <span>{renderLetterHistory(debt.letterCode)}</span>
+      </va-table-row>
+    ))}
+  </va-table>
 );
 
 HistoryTable.propTypes = {

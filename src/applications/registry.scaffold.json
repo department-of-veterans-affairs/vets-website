@@ -77,11 +77,6 @@
     "widgetType": "medical-copays-cta"
   },
   {
-    "appName": "Download VA benefit letters",
-    "rootUrl": "/records/download-va-letters",
-    "widgetType": "letters-mobile-cta"
-  },
-  {
     "appName": "Post-9/11 GI Bill Statement Of Benefits",
     "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
     "widgetType": "post-9-11-gi-bill-status"
@@ -133,8 +128,13 @@
     "rootUrl": "/pension-how-do-i-apply-widget"
   },
   {
-      "appName": "Order hearing aid or CPAP supplies",
-      "entryName": "health-care-supply-reordering",
-      "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form"
+    "appName": "Order hearing aid or CPAP supplies",
+    "entryName": "health-care-supply-reordering",
+    "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form"
+  },
+  {
+    "appName": "Find a VA Accredited Representative or VSO",
+    "rootUrl": "/get-help-from-accredited-representative",
+    "widgetType": "find-a-rep-landing-content"
   }
 ]

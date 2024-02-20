@@ -24,7 +24,10 @@ const MrBreadcrumbs = () => {
           </VaBreadcrumbs>
         </div>
       ) : (
-        <div className="breadcrumbs-container" data-testid="no-breadcrumbs" />
+        <div
+          className="breadcrumbs-container vads-u-padding-bottom--5"
+          data-testid="no-breadcrumbs"
+        />
       )}
     </>
   );

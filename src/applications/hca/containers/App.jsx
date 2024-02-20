@@ -1,38 +1,38 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
-import { isUserLOA3 } from '../utils/selectors';
+import { parseVeteranDob } from '../utils/helpers';
 import formConfig from '../config/form';
 
 const App = props => {
-  const {
-    children,
-    location,
-    features,
-    formData,
-    isLOA3User,
-    isLoggedIn,
-    setFormData,
-    hasSavedForm,
-    isLoading = true,
-    totalDisabilityRating,
-    getTotalDisabilityRating,
-    user,
-  } = props;
+  const { children, location, setFormData, getTotalDisabilityRating } = props;
 
   const {
-    isFacilitiesApiEnabled = false,
-    isHouseholdV2Enabled = false,
-    isSigiEnabled = false,
-  } = features;
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isFacilitiesApiEnabled = useToggleValue(
+    TOGGLE_NAMES.hcaUseFacilitiesApi,
+  );
+  const isSigiEnabled = useToggleValue(TOGGLE_NAMES.hcaSigiEnabled);
+  const isLoading = useToggleLoadingValue();
+
+  const { totalDisabilityRating } = useSelector(state => state.totalRating);
+  const { data: formData } = useSelector(state => state.form);
+  const { dob: veteranDob } = useSelector(selectProfile);
+  const loggedIn = useSelector(isLoggedIn);
+  const isLOA3User = useSelector(isLOA3);
+  const { veteranFullName } = formData;
 
   // Attempt to fetch disability rating for LOA3 users
   useEffect(
@@ -54,54 +54,38 @@ const App = props => {
    * NOTE (2): we also included the DOB value from profile for authenticated users to fix a bug
    * where some profiles did not contain a DOB value. In this case we need to ask the user for
    * that data for proper submission.
-   *
-   * NOTE (3): to account for users with a form already in-progress at the time the household v2
-   * optimization is released, we need to check for that form using the "hasSavedForm" prop. The
-   * users will get their current in-progress form, instead of the household v2 option, to avoid
-   * any validation errors. This can be removed 90 days after hcaHouseholdV2Enabled flipper toggle
-   * is fully enabled for all users.
    */
   useEffect(
     () => {
       const defaultViewFields = {
-        'view:isLoggedIn': isLoggedIn,
+        'view:isLoggedIn': loggedIn,
         'view:isSigiEnabled': isSigiEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
 
-      if (hasSavedForm || typeof hasSavedForm === 'undefined') {
+      if (loggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:userDob': user.dob,
-        });
-      } else if (isLoggedIn) {
-        setFormData({
-          ...formData,
-          ...defaultViewFields,
-          'view:userDob': user.dob,
-          'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
+          'view:userDob': parseVeteranDob(veteranDob),
         });
       } else {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:isHouseholdV2Enabled': isHouseholdV2Enabled,
         });
       }
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      user.dob,
-      isLoggedIn,
-      hasSavedForm,
+      loggedIn,
+      veteranDob,
+      veteranFullName,
       isSigiEnabled,
-      isHouseholdV2Enabled,
       isFacilitiesApiEnabled,
       totalDisabilityRating,
-      formData.veteranFullName,
     ],
   );
 
@@ -142,35 +126,10 @@ App.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  features: PropTypes.object,
-  formData: PropTypes.object,
   getTotalDisabilityRating: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
-  isLOA3User: PropTypes.bool,
-  isLoading: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
 };
-
-const mapStateToProps = state => ({
-  features: {
-    isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
-    isHouseholdV2Enabled: state.featureToggles.hcaHouseholdV2Enabled,
-    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
-  },
-  formData: state.form.data,
-  hasSavedForm: state.user.profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_10_10EZ,
-  ),
-  isLOA3User: isUserLOA3(state),
-  isLoading: state.featureToggles.loading,
-  isLoggedIn: state.user.login.currentlyLoggedIn,
-  totalDisabilityRating: state.totalRating.totalDisabilityRating,
-  user: state.user.profile,
-});
 
 const mapDispatchToProps = {
   setFormData: setData,
@@ -178,6 +137,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(App);

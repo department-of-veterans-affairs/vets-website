@@ -48,7 +48,7 @@ describe('Schemaform review: ReviewPage', () => {
     const tree = shallow(
       <ReviewPage
         form={form}
-        openChapters={[]}
+        openChapters={{}}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPreSubmit={f => f}
@@ -66,7 +66,7 @@ describe('Schemaform review: ReviewPage', () => {
     const tree = shallow(
       <ReviewPage
         form={form}
-        openChapters={[]}
+        openChapters={{}}
         route={{ formConfig, pageList }}
         setEditMode={f => f}
         setPreSubmit={f => f}

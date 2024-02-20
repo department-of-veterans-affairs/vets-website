@@ -31,13 +31,10 @@ describe('apiRequestWithRetry', () => {
   let callCount = 0;
 
   const mockedApiRequest = async () => {
-    // Throw a 404 error twice, then return success on the third try.
+    // Return a 202 ACCEPTED response twice, then return success on the third try.
     callCount += 1;
     if (callCount < 3) {
-      // We are throwing a very specific object here that has an "errors" property,
-      // unlike the JS errors object.
-      // eslint-disable-next-line no-throw-literal
-      throw { errors: [{ code: '404' }] };
+      return { status: 202 };
     }
     return 'success';
   };
@@ -105,7 +102,7 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(3);
+      expect(res.entry.length).to.equal(4);
     });
   });
 });
@@ -127,7 +124,7 @@ describe('Get vitals api call', () => {
     mockApiRequest(mockData);
 
     return getVitalsList(true).then(res => {
-      expect(res.entry.length).to.equal(4);
+      expect(res.entry.length).to.equal(40);
     });
   });
 });

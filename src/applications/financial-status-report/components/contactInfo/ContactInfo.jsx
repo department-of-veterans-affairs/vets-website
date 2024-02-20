@@ -17,13 +17,6 @@ import {
 import { content } from '../../pages/veteran/contactInformationContent';
 import { REVIEW_CONTACT } from '../../constants';
 
-// Used by form config to not focus on the H3 the contact info was edited
-export const customContactFocus = () => {
-  if (!getReturnState()) {
-    focusElement('#main h3');
-  }
-};
-
 const ContactInfo = ({
   data,
   goBack,
@@ -66,6 +59,7 @@ const ContactInfo = ({
       if (missingInfo.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         goForward(data);
       }
     },
@@ -92,6 +86,9 @@ const ContactInfo = ({
           scrollTo('topScrollElement');
           focusElement(target);
         });
+      } else {
+        scrollTo('h3');
+        focusElement('topScrollElement');
       }
     },
     [editState],
@@ -125,6 +122,7 @@ const ContactInfo = ({
         status="success"
         background-only
         role="alert"
+        uswds
       >
         {`${text} updated`}
       </va-alert>
@@ -179,7 +177,7 @@ const ContactInfo = ({
   );
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={handlers.updatePage} />
+    <va-button text={content.update} onClick={handlers.updatePage} uswds />
   ) : (
     <>
       {contentBeforeButtons}
@@ -207,7 +205,7 @@ const ContactInfo = ({
           {hadError &&
             missingInfo.length === 0 && (
               <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only>
+                <va-alert status="success" background-only uswds>
                   <div className="vads-u-font-size--base">
                     {content.alertContent}
                   </div>
@@ -223,7 +221,7 @@ const ContactInfo = ({
               </p>
               {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only>
+                  <va-alert status="error" background-only uswds>
                     <div className="vads-u-font-size--base">
                       We still don’t have your {list}. Please edit and update
                       the field.
@@ -232,7 +230,7 @@ const ContactInfo = ({
                 </div>
               )}
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only>
+                <va-alert status="warning" background-only uswds>
                   <div className="vads-u-font-size--base">
                     Your {list} {plural ? 'are' : 'is'} missing. Please edit and
                     update the {plural ? 'fields' : 'field'}.

@@ -46,8 +46,10 @@
 
 .item-loop-container {
   margin-top: 10px;
-  table {
+  va-table {
     table-layout: fixed;
+    width: 100%;
+    background-color: $color-gray-lightest;
   }
   .item-loop {
     padding: 15px 30px;
@@ -346,11 +348,89 @@
   }
 }
 
-@mixin hide-button($selector) {
-  .form-review-panel #{$selector} {
-    display: none;
+.review-header {
+  border-bottom: 1px solid $color-gray-light;
+}
+
+.review-top-bottom-borders {
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+}
+
+$chapters: veteranInformationChapter, householdIncomeChapter,
+  householdAssetsChapter, bankruptcyAttestationChapter, householdExpensesChapter,
+  resolutionOptionsChapter;
+
+@each $chapter in $chapters {
+  [data-chapter="#{$chapter}"] {
+    .form-review-panel-page va-button[text="Edit"],
+    .form-review-panel-page button#confirmContactInformationEdit {
+      // hope the id doesn't change
+      display: none;
+    }
   }
 }
 
-@include hide-button("button.edit-page");
-@include hide-button(".edit-btn.primary-outline");
+.va-button-override {
+  @media (min-width: $xsmall-screen) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 18px;
+    max-width: 451.25px;
+  }
+  @media (min-width: $small-screen) {
+    max-width: 374px;
+  }
+}
+
+.va-button-override va-button {
+  &::part(button) {
+    white-space: nowrap;
+  }
+  @media (max-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+  @media (min-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"],
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::after,
+    &::before {
+      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
+      font-weight: 900; /* Use 900 for solid icons */
+      font-size: 1.6rem;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::before {
+      content: "\f100";
+      margin-right: 8px;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"] {
+  &::part(button) {
+    &::after {
+      content: "\f101";
+      margin-left: 8px;
+    }
+  }
+}

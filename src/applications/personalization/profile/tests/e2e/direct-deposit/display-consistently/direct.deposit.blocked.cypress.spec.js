@@ -1,4 +1,4 @@
-import * as paymentInfo from '@@profile/mocks/endpoints/payment-information';
+import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
 import { anAccount } from '@@profile/mocks/endpoints/bank-accounts';
 import { loa3User72 } from '@@profile/mocks/endpoints/user';
 import { data } from '@@profile/mocks/endpoints/mhvAccount';
@@ -16,7 +16,11 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('happy path', () => {
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.base);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.base,
+    );
     DirectDeposit.visitPage();
 
     DirectDeposit.confirmDirectDepositIsAvailable();
@@ -24,7 +28,11 @@ describe('Direct Deposit Consistently', () => {
     cy.injectAxeThenAxeCheck();
   });
   it('blocks profile for deceased veterans', () => {
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isDeceased);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isDeceased,
+    );
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
     DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
@@ -32,7 +40,11 @@ describe('Direct Deposit Consistently', () => {
     DirectDeposit.confirmProfileIsBlocked();
   });
   it('shows blocked message for Fiduciary', () => {
-    cy.intercept('GET', 'v0/ppiu/payment_information', paymentInfo.isFiduciary);
+    cy.intercept(
+      'GET',
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isFiduciary,
+    );
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
     DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
@@ -42,8 +54,8 @@ describe('Direct Deposit Consistently', () => {
   it('shows blocked message for Not Competent', () => {
     cy.intercept(
       'GET',
-      'v0/ppiu/payment_information',
-      paymentInfo.isNotCompetent,
+      'v0/profile/direct_deposits/disability_compensations',
+      mockDisabilityCompensations.isNotCompetent,
     );
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();

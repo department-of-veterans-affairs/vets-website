@@ -14,6 +14,8 @@ describe('ezr <SaveInProgressInfo>', () => {
     showLoader,
     enrollmentStatus = 'noneOfTheAbove',
     hasServerError = false,
+    canSubmitFinancialInfo = false,
+    preferredFacility = '463 - CHEY6',
   }) => ({
     props: {
       formConfig,
@@ -25,6 +27,8 @@ describe('ezr <SaveInProgressInfo>', () => {
           loading: showLoader,
           parsedStatus: enrollmentStatus,
           hasServerError,
+          preferredFacility,
+          canSubmitFinancialInfo,
         },
         form: {
           formId: formConfig.formId,
@@ -85,13 +89,14 @@ describe('ezr <SaveInProgressInfo>', () => {
     });
 
     context('when the user is logged in', () => {
-      context('when the user is enrolled in benefits', () => {
+      context('when the user has not submitted financials', () => {
         it('should render `va-alert` with `start` button', () => {
           const { props, mockStore } = getData({
             showLoader: false,
             loggedIn: true,
             loaState: 3,
             enrollmentStatus: 'enrolled',
+            canSubmitFinancialInfo: true,
           });
           const { container } = render(
             <Provider store={mockStore}>
@@ -100,15 +105,38 @@ describe('ezr <SaveInProgressInfo>', () => {
           );
           const selectors = {
             alert: container.querySelector(
-              '[data-testid="ezr-verified-prefill-alert"]',
+              '[data-testid="ezr-financial-status-warning"]',
             ),
             button: container.querySelector('.vads-c-action-link--green'),
           };
-          expect(selectors.alert).to.exist;
+          expect(selectors.alert).to.not.exist;
           expect(selectors.button).to.exist;
           expect(selectors.button).to.contain.text(
             content['sip-start-form-text'],
           );
+        });
+      });
+
+      context('when the user already has submitted financials', () => {
+        it('should render `va-alert` with `start` button', () => {
+          const { props, mockStore } = getData({
+            showLoader: false,
+            loggedIn: true,
+            loaState: 3,
+            enrollmentStatus: 'enrolled',
+            canSubmitFinancialInfo: false,
+          });
+          const { container } = render(
+            <Provider store={mockStore}>
+              <SaveInProgressInfo {...props} />
+            </Provider>,
+          );
+          const selectors = {
+            alert: container.querySelector(
+              '[data-testid="ezr-financial-status-warning"]',
+            ),
+          };
+          expect(selectors.alert).to.exist;
         });
       });
 
@@ -157,6 +185,51 @@ describe('ezr <SaveInProgressInfo>', () => {
           expect(selector).to.contain.text(content['alert-server-title']);
         });
       });
+
+      context('when the user has a preferred facility on file', () => {
+        it('should not render preferred facility alert', () => {
+          const { props, mockStore } = getData({
+            showLoader: false,
+            loggedIn: true,
+            loaState: 3,
+            enrollmentStatus: 'enrolled',
+          });
+          const { container } = render(
+            <Provider store={mockStore}>
+              <SaveInProgressInfo {...props} />
+            </Provider>,
+          );
+          const selector = container.querySelector(
+            '[data-testid="ezr-preferred-facility-alert"]',
+          );
+          expect(selector).to.not.exist;
+        });
+      });
+
+      context(
+        'when the user does not have a preferred facility on file',
+        () => {
+          it('should render preferred facility alert', () => {
+            const { props, mockStore } = getData({
+              showLoader: false,
+              loggedIn: true,
+              loaState: 3,
+              enrollmentStatus: 'enrolled',
+              preferredFacility: null,
+            });
+            const { container } = render(
+              <Provider store={mockStore}>
+                <SaveInProgressInfo {...props} />
+              </Provider>,
+            );
+            const selector = container.querySelector(
+              '[data-testid="ezr-preferred-facility-alert"]',
+            );
+            expect(selector).to.exist;
+            expect(selector).to.have.attr('status', 'error');
+          });
+        },
+      );
     });
   });
 });

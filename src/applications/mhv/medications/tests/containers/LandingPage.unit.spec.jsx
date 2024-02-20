@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
@@ -17,6 +18,14 @@ describe('Medicaitons Landing page container', () => {
       loading: false,
       // eslint-disable-next-line camelcase
       mhv_medications_to_va_gov_release: true,
+    },
+    user: {
+      login: {
+        currentlyLoggedIn: true,
+      },
+      profile: {
+        services: [backendServices.USER_PROFILE],
+      },
     },
   };
 
@@ -65,6 +74,14 @@ describe('App-level feature flag functionality', () => {
           loading,
           // eslint-disable-next-line camelcase
           mhv_medications_to_va_gov_release: flag,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
         },
       },
       path: `/`,
@@ -124,6 +141,9 @@ describe('App-level feature flag functionality', () => {
         user: {
           login: {
             currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
           },
         },
         featureToggles: {

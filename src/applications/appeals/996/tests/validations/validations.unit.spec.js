@@ -2,27 +2,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  requireRatedDisability,
   isFirstConferenceTimeEmpty,
   checkConferenceTimes,
   validatePhone,
   contactInfoValidation,
 } from '../../validations';
 import { errorMessages } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
-
-describe('requireRatedDisability', () => {
-  it('should show an error if no disabilities are selected', () => {
-    const errors = { addError: sinon.spy() };
-    requireRatedDisability(errors, [{}, {}]);
-    expect(errors.addError.calledWith(errorMessages.contestedIssue)).to.be.true;
-  });
-  it('should not show an error if a disabilitiy is selected', () => {
-    const errors = { addError: sinon.spy() };
-    requireRatedDisability(errors, [{}, { [SELECTED]: true }]);
-    expect(errors.addError.notCalled).to.be.true;
-  });
-});
 
 describe('isFirstConferenceTimeEmpty', () => {
   const setTime = time1 => ({ informalConferenceTimes: { time1 } });

@@ -4,6 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -26,8 +27,20 @@ import {
 import {
   updatePageTitle,
   generatePdfScaffold,
+  formatName,
 } from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import {
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+} from '../../shared/util/constants';
+import {
+  generateVaccinesIntro,
+  generateVaccinesContent,
+} from '../util/pdfHelpers/vaccines';
+import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -52,13 +65,9 @@ const Vaccines = props => {
   useEffect(
     () => {
       dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records/', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/vaccines',
-            label: 'VA vaccines',
-          },
-        ),
+        setBreadcrumbs([
+          { url: '/my-health/medical-records/', label: 'Medical records' },
+        ]),
       );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
@@ -66,66 +75,45 @@ const Vaccines = props => {
     [dispatch],
   );
 
+  usePrintTitle(
+    pageTitles.VACCINES_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
+  );
+
   const generateVaccinesPdf = async () => {
-    const title = 'Vaccines';
-    const subject = 'VA Medical Record';
-    const preface =
-      'Your VA Vaccines list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.';
-    const pdfData = generatePdfScaffold(user, title, subject, preface);
-    pdfData.results = { items: [] };
-
-    vaccines.forEach(item => {
-      pdfData.results.items.push({
-        header: item.name,
-        items: [
-          {
-            title: 'Date received',
-            value: item.date,
-            inline: true,
-          },
-          {
-            title: 'Location',
-            value: item.location,
-            inline: true,
-          },
-          {
-            title: 'Reaction',
-            value: processList(item.reactions),
-            inline: !item.reactions.length,
-          },
-          {
-            title: 'Provider notes',
-            value: processList(item.notes),
-            inline: !item.notes.length,
-          },
-        ],
-      });
-    });
-
-    const pdfName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
-
+    const { title, subject, preface } = generateVaccinesIntro();
+    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
+    const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
+  };
+
+  const generateVaccineListItemTxt = item => {
+    return `
+${txtLine}\n\n
+${item.name}\n
+Date received: ${item.date}\n
+Location: ${item.location}\n
+Reaction: ${processList(item.reactions)}\n
+Provider notes: ${processList(item.notes)}\n`;
   };
 
   const generateVaccinesTxt = async () => {
     const content = `
-    Vaccines\n 
-    For a list of your allergies and reactions (including any reactions to
-    vaccines), go to your allergy records. \n
-    If you have Vaccines that are missing from this list, tell your care
-    team at your next appointment. \n
-    
-    Showing ${vaccines.length} from newest to oldest. \n
-    ${vaccines.map(
-      entry => `_____________________________________________________ \n
-      ${entry.name} \n 
-      \t Date received: ${entry.date} \n
-      \t Location: ${entry.location} \n
-      \t Reaction: ${processList(entry.reactions)} \n
-      \t Provider notes: ${processList(entry.notes)} \n`,
-    )}`;
+${crisisLineHeader}\n\n
+Vaccines\n
+${formatName(user.userFullName)}\n
+Date of birth: ${formatDateLong(user.dob)}\n
+${reportGeneratedBy}\n
+This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
+For complete records of your allergies and reactions to vaccines, review your allergy records.\n
+Showing ${vaccines.length} records from newest to oldest
+${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
-    const fileName = `VA-Vaccines-list-${getNameDateAndTime(user)}`;
+    const fileName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
 
     generateTextFile(content, fileName);
   };
@@ -136,40 +124,46 @@ const Vaccines = props => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
     }
+    if (vaccines?.length === 0) {
+      return <NoRecordsMessage type={recordType.VACCINES} />;
+    }
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type={recordType.VACCINES} />;
+      return (
+        <>
+          <PrintDownload
+            list
+            download={generateVaccinesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateVaccinesTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <RecordList records={vaccines} type={recordType.VACCINES} />
+        </>
+      );
     }
     return (
-      <va-loading-indicator
-        message="Loading..."
-        setFocus
-        data-testid="loading-indicator"
-        class="loading-indicator"
-      />
+      <div className="vads-u-margin-y--8">
+        <va-loading-indicator
+          message="We’re loading your records. This could take up to a minute."
+          setFocus
+          data-testid="loading-indicator"
+        />
+      </div>
     );
   };
 
   return (
     <div id="vaccines">
       <PrintHeader />
-      <h1 className="page-title">Vaccines</h1>
-      <p>
+      <h1 className="vads-u-margin--0">Vaccines</h1>
+      <p>Review vaccines (immunizations) in your VA medical records.</p>
+      <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to
-        vaccines), go to your allergy records.
+        vaccines), go to your allergy records.{' '}
+        <Link to="/allergies" className="no-print">
+          Go to your allergy records
+        </Link>
       </p>
-      <Link
-        to="/allergies"
-        className="vads-u-display--block vads-u-margin-bottom--3 no-print"
-      >
-        Go to your allergy records
-      </Link>
-      <PrintDownload
-        list
-        download={generateVaccinesPdf}
-        allowTxtDownloads={allowTxtDownloads}
-        downloadTxt={generateVaccinesTxt}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
       {content()}
     </div>
   );

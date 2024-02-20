@@ -4,9 +4,14 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import PropTypes from 'prop-types';
-import { getJobIndex } from '../../utils/session';
+import ButtonGroup from '../shared/ButtonGroup';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
-import { isValidPastDate } from '../../utils/helpers';
+import { isValidFromDate, isValidToDate } from '../../utils/helpers';
 
 const SpouseEmploymentWorkDates = props => {
   const { goToPath, setFormData, data } = props;
@@ -46,8 +51,21 @@ const SpouseEmploymentWorkDates = props => {
   const [fromDateError, setFromDateError] = useState(null);
 
   const updateFormData = () => {
-    if (fromDateError || (toDateError && !employmentRecord.isCurrent))
+    if (
+      !isValidFromDate(employmentRecord.from) ||
+      (!isValidToDate(employmentRecord.from, employmentRecord.to) &&
+        !employmentRecord.isCurrent)
+    ) {
+      setToDateError(
+        isValidToDate(employmentRecord.from, employmentRecord.to)
+          ? null
+          : toError,
+      );
+      setFromDateError(
+        isValidFromDate(employmentRecord.from) ? null : fromError,
+      );
       return null;
+    }
 
     if (isEditing) {
       // find the one we are editing in the employeeRecords array
@@ -129,16 +147,23 @@ const SpouseEmploymentWorkDates = props => {
       event.preventDefault();
       goToPath(RETURN_PATH);
     },
-    onSubmitted: event => {
+    onUpdate: event => {
+      // Handle validation in update
       event.preventDefault();
       updateFormData();
     },
-    onUpdate: () => {
-      setFromDateError(
-        isValidPastDate(employmentRecord.from) ? null : fromError,
-      );
+    getContinueButtonText: () => {
+      if (
+        employmentRecord.isCurrent ||
+        getJobButton() === jobButtonConstants.FIRST_JOB
+      ) {
+        return 'Continue';
+      }
 
-      setToDateError(isValidPastDate(employmentRecord.to) ? null : toError);
+      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+        return 'Update employment record';
+      }
+      return 'Add employment record';
     },
   };
 
@@ -151,6 +176,11 @@ const SpouseEmploymentWorkDates = props => {
           label="Date your spouse started work at this job?"
           name="from"
           onDateChange={e => handlers.handleDateChange('from', e.target.value)}
+          onBlur={() =>
+            setFromDateError(
+              isValidFromDate(employmentRecord.from) ? null : fromError,
+            )
+          }
           required
           error={fromDateError}
         />
@@ -161,6 +191,13 @@ const SpouseEmploymentWorkDates = props => {
             label="Date your spouse stopped work at this job?"
             name="to"
             onDateChange={e => handlers.handleDateChange('to', e.target.value)}
+            onBlur={() =>
+              setToDateError(
+                isValidToDate(employmentRecord.from, employmentRecord.to)
+                  ? null
+                  : toError,
+              )
+            }
             required
             error={toDateError}
           />
@@ -170,33 +207,28 @@ const SpouseEmploymentWorkDates = props => {
   };
 
   return (
-    <form onSubmit={handlers.onSubmitted}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           Your spouse’s job at {employerName}
         </legend>
         <div>{ShowWorkDates()}</div>
       </fieldset>
-      <p>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            spEmploymentRecords.length === index ? 'Update' : 'Add'
-          } employment record`}
-        </button>
-      </p>
+
+      <ButtonGroup
+        buttons={[
+          {
+            label: 'Back',
+            onClick: handlers.onCancel,
+            isSecondary: true,
+          },
+          {
+            label: handlers.getContinueButtonText(),
+            onClick: handlers.onUpdate,
+            isSubmitting: true,
+          },
+        ]}
+      />
     </form>
   );
 };

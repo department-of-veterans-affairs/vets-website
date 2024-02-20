@@ -1,0 +1,24 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.placeholder-container {
+  .notif {
+    height: 96px;
+  }
+  .primary {
+    height: 96px;
+  }
+  .etc {
+    height: 96px;
+  }
+}
+
+.homepage-hero {
+  &__look-and-feel {
+    background: linear-gradient(
+      to left,
+      $color-primary-alt 10%,
+      $color-primary-alt-dark 40%,
+      $color-primary-alt-darkest
+    );
+  }
+}

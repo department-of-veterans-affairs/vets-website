@@ -1,7 +1,7 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: $red-60v;
+  background-color: $color-red-dark;
 
   @include media($small-desktop-screen) {
     max-width: 97.5rem;
@@ -10,7 +10,7 @@
 }
 
 button.va-crisis-line {
-  background-color: $red-60v;
+  background-color: $color-red-dark;
   display: block;
   border-radius: 0;
   color: $color-white;
@@ -31,10 +31,10 @@ button.va-crisis-line {
 
   &:hover,
   &:active {
-    background-color: $red-70v;
+    background-color: $color-secondary-darkest;
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
-        background-color: $red-60v;
+        background-color: $color-red-dark;
       }
     }
   }
@@ -75,7 +75,7 @@ button.va-crisis-line {
   transition-property: background-color;
 
   @include media($small-desktop-screen) {
-    background-color: $red-70v;
+    background-color: $color-secondary-darkest;
     background-position: 0.4em 0.5em;
     border-bottom-left-radius: 0.2em;
   }
@@ -105,6 +105,7 @@ button.va-crisis-line {
     background-position: left 5px;
     background-size: 32px auto;
     margin-top: 0;
+    width: 90%;
   }
   &-list {
     list-style: none;

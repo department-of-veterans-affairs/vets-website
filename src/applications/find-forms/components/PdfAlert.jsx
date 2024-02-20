@@ -15,6 +15,7 @@ const PdfAlert = () => {
 
     const introTextNode = document.getElementsByClassName('va-introtext')[0];
     const introTextParentNode = introTextNode?.parentNode;
+
     if (introTextNode && introTextParentNode) {
       introTextParentNode.insertBefore(domNode, introTextNode);
       setPdfCertWarningElementCreated(true);
@@ -26,7 +27,7 @@ const PdfAlert = () => {
   }
 
   return ReactDOM.createPortal(
-    <va-alert>
+    <va-alert uswds={false}>
       <h2 slot="headline" className="vads-u-font-size--h3">
         Use the latest version of Acrobat Reader
       </h2>

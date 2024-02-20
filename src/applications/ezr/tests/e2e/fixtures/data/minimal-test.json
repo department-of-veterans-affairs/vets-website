@@ -1,7 +1,11 @@
 {
   "data": {
-    "isMedicaidEligible": false,
-    "isEnrolledMedicarePartA": false,
+    "view:isMedicaidEligible" : {
+      "isMedicaidEligible": true
+    },
+    "view:isEnrolledMedicarePartA" : {
+      "isEnrolledMedicarePartA": false
+    },
     "view:deductibleMedicalExpenses": {
       "deductibleMedicalExpenses": 234
     },
@@ -32,7 +36,9 @@
     },
     "view:doesMailingMatchHomeAddress": true,
     "gender": "F",
-    "maritalStatus": "Never Married",
+    "view:maritalStatus": {
+      "maritalStatus": "Never Married"
+    },
     "veteranDateOfBirth": "1990-01-01",
     "veteranSocialSecurityNumber": "234243444",
     "veteranFullName": {

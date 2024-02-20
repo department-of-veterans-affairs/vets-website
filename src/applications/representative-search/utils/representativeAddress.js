@@ -10,19 +10,22 @@ export function titleCase(str) {
     .join(' ');
 }
 
-export function buildAddressArray(location, titleCaseText = false) {
-  if (location && location.attributes) {
+export function buildAddressArray(representative, titleCaseText = false) {
+  if (representative && representative.attributes) {
     const {
-      address: { physical: address },
-    } = location.attributes;
+      addressLine1,
+      addressLine2,
+      addressLine3,
+      city,
+      stateCode,
+      zipCode,
+    } = representative.attributes;
 
     return compact([
-      titleCaseText ? titleCase(address.address1) : address.address1,
-      titleCaseText ? titleCase(address.address2) : address.address2,
-      titleCaseText ? titleCase(address.address3) : address.address3,
-      `${titleCaseText ? titleCase(address.city) : address.city}, ${
-        address.state
-      } ${address.zip}`,
+      titleCaseText ? titleCase(addressLine1) : addressLine1,
+      titleCaseText ? titleCase(addressLine2) : addressLine2,
+      titleCaseText ? titleCase(addressLine3) : addressLine3,
+      `${titleCaseText ? titleCase(city) : city}, ${stateCode} ${zipCode}`,
     ]);
   }
   return '';

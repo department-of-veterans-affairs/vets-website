@@ -1,0 +1,383 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "middle": "Edmund",
+      "last": "Doe",
+      "suffix": "Sr."
+    },
+    "veteranSocialSecurityNumber": "333224444",
+    "vaClaimsHistory": true,
+    "vaFileNumber": "12345678",
+    "veteranDateOfBirth": "1960-01-01",
+    "serviceBranch": {
+      "army": true,
+      "navy": true
+    },
+    "activeServiceDateRange": {
+      "from": "2003-03-02",
+      "to": "2007-03-20"
+    },
+    "serviceNumber": "123456",
+    "serveUnderOtherNames": true,
+    "previousNames": [
+      {
+        "previousFullName": {
+          "first": "Joseph",
+          "last": "Doe"
+        }
+      }
+    ],
+    "placeOfSeparation": "West Brookfield, MA",
+    "powStatus": true,
+    "powDateRange": {
+      "from": "1971-02-26",
+      "to": "1973-03-02"
+    },
+    "socialSecurityDisability": false,
+    "medicalCondition": false,
+    "nursingHome": true,
+    "medicaidCoverage": false,
+    "medicaidStatus": true,
+    "specialMonthlyPension": false,
+    "vaTreatmentHistory": true,
+    "vaMedicalCenters": [
+      {
+        "medicalCenter": "Dallas VA Medical Center"
+      }
+    ],
+    "federalTreatmentHistory": true,
+    "federalMedicalCenters": [
+      {
+        "medicalCenter": "Memphis Health Care"
+      }
+    ],
+    "currentEmployment": true,
+    "currentEmployers": [
+      {
+        "jobType": "Customer service",
+        "jobHoursWeek": 20,
+        "jobTitle": "Manager"
+      }
+    ],
+    "maritalStatus": "Separated",
+    "marriages": [
+      {
+        "spouseFullName": {
+          "first": "Jessica",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
+          "reasonForSeparation": "Other",
+          "otherExplanation": "Other reason",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Jane",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "view:pastMarriage": {
+          "dateOfMarriage": "1989-03-02",
+          "locationOfMarriage": "Dallas",
+          "reasonForSeparation": "Spouse’s death",
+          "dateOfSeparation": "1990-03-02",
+          "locationOfSeparation": "San Antonio, TX"
+        }
+      },
+      {
+        "spouseFullName": {
+          "first": "Meg",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "view:currentMarriage": {
+          "dateOfMarriage": "1994-03-02",
+          "locationOfMarriage": "North Adams, MA",
+          "marriageType": "Some other way",
+          "otherExplanation": "Other reason"
+        }
+      }
+    ],
+    "spouseDateOfBirth": "1960-01-01",
+    "spouseSocialSecurityNumber": "333224444",
+    "spouseIsVeteran": true,
+    "spouseVaFileNumber": "23423444",
+    "view:liveWithSpouse": false,
+    "spouseAddress": {
+      "street": "123 7th st",
+      "street2": "Apt 3",
+      "city": "Pittsfield",
+      "country": "USA",
+      "state": "MA",
+      "postalCode": "01050"
+    },
+    "reasonForCurrentSeparation": "OTHER",
+    "otherExplanation": "Personal reason",
+    "currentSpouseMonthlySupport": 2444,
+    "currentSpouseMaritalHistory": "Yes",
+    "spouseMarriages": [
+      {
+        "dateOfMarriage": "1980-03-02",
+        "locationOfMarriage": "Seattle, WA",
+        "spouseFullName": {
+          "first": "Joe",
+          "middle": "F",
+          "last": "Generic",
+          "suffix": "Jr."
+        },
+        "reasonForSeparation": "DEATH",
+        "dateOfSeparation": "1990-03-02",
+        "locationOfSeparation": "Tacoma, WA"
+      },
+      {
+        "dateOfMarriage": "1995-03-02",
+        "locationOfMarriage": "Seattle, WA",
+        "spouseFullName": {
+          "first": "John",
+          "middle": "F",
+          "last": "Person",
+          "suffix": "Jr."
+        },
+        "reasonForSeparation": "OTHER",
+        "otherExplanation": "Other reason",
+        "dateOfSeparation": "2005-03-02",
+        "locationOfSeparation": "Tacoma, WA"
+      }
+    ],
+    "view:hasDependents": true,
+    "dependents": [
+      {
+        "childInHousehold": false,
+        "childAddress": {
+          "street": "123 8th st",
+          "city": "Hadley",
+          "country": "USA",
+          "state": "ME",
+          "postalCode": "01050"
+        },
+        "personWhoLivesWithChild": {
+          "first": "Joe",
+          "middle": "Middle",
+          "last": "Smith"
+        },
+        "monthlyPayment": 3444,
+        "childPlaceOfBirth": "Tallahassee, FL",
+        "childSocialSecurityNumber": "333224444",
+        "childRelationship": "biological",
+        "previouslyMarried": true,
+        "married": true,
+        "fullName": {
+          "first": "Bobby",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1997-03-02"
+      },
+      {
+        "childInHousehold": true,
+        "childPlaceOfBirth": "Troy, MT",
+        "childSocialSecurityNumber": "333224444",
+        "childRelationship": "adopted",
+        "previouslyMarried": false,
+        "fullName": {
+          "first": "Emily",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1993-03-02"
+      },
+      {
+        "childInHousehold": false,
+        "childAddress": {
+          "street": "123 8th st",
+          "city": "Hadley",
+          "country": "USA",
+          "state": "ME",
+          "postalCode": "01050"
+        },
+        "personWhoLivesWithChild": {
+          "first": "Joe",
+          "middle": "Middle",
+          "last": "Smith"
+        },
+        "monthlyPayment": 2300,
+        "childPlaceOfBirth": "Troy, MT",
+        "childSocialSecurityNumber": "333224444",
+        "childRelationship": "biological",
+        "previouslyMarried": false,
+        "fullName": {
+          "first": "Jack",
+          "middle": "Middle",
+          "last": "Doe"
+        },
+        "childDateOfBirth": "1992-04-01"
+      }
+    ],
+    "totalNetWorth": false,
+    "netWorthEstimation": 1550,
+    "hasCareExpenses": true,
+    "careExpenses": [
+      {
+        "recipients": "VETERAN",
+        "provider": "NYC Care Provider",
+        "careType": "CARE_FACILITY",
+        "ratePerHour": 100,
+        "hoursPerWeek": 20,
+        "careDateRange": {
+          "from": "2020-08-01",
+          "to": "2023-05-25"
+        },
+        "paymentFrequency": "ONCE_MONTH",
+        "paymentAmount": 2500
+      },
+      {
+        "recipients": "SPOUSE",
+        "provider": "MA Care Provider",
+        "careType": "IN_HOME_CARE_PROVIDER",
+        "ratePerHour": 150,
+        "hoursPerWeek": 15,
+        "careDateRange": {
+          "from": "2021-08-01",
+          "to": "2022-05-25"
+        },
+        "paymentFrequency": "ONCE_MONTH",
+        "paymentAmount": 1500
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "LA Care Provider",
+        "careType": "CARE_FACILITY",
+        "ratePerHour": 200,
+        "hoursPerWeek": 10,
+        "careDateRange": {
+          "from": "2020-08-01"
+        },
+        "noCareEndDate": true,
+        "paymentFrequency": "ONCE_YEAR",
+        "paymentAmount": 22500
+      }
+    ],
+    "hasMedicalExpenses": true,
+    "medicalExpenses": [
+      {
+        "recipients": "VETERAN",
+        "provider": "Funeral Home",
+        "purpose": "Burial expenses",
+        "paymentDate": "2020-03-15",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 10000
+      },
+      {
+        "recipients": "SPOUSE",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONCE_MONTH",
+        "paymentAmount": 500
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONCE_YEAR",
+        "paymentAmount": 5000
+      },
+      {
+        "recipients": "SPOUSE",
+        "provider": "Health Provider",
+        "purpose": "Medical expenses",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONCE_MONTH",
+        "paymentAmount": 200
+      },
+      {
+        "recipients": "CHILD",
+        "childName": "Joe Doe",
+        "provider": "Health Provider",
+        "purpose": "Medical fee",
+        "paymentDate": "2023-07-01",
+        "paymentFrequency": "ONE_TIME",
+        "paymentAmount": 100
+      }
+    ],
+    "transferredAssets": true,
+    "homeOwnership": true,
+    "homeAcreageMoreThanTwo": true,
+    "homeAcreageValue": 75000,
+    "landMarketable": true,
+    "receivesIncome": true,
+    "incomeSources": [
+      {
+        "typeOfIncome": "SOCIAL_SECURITY",
+        "receiver": "DEPENDENT",
+        "dependentName": "Bobby Doe",
+        "payer": "John Doe",
+        "amount": 278.05
+      },
+      {
+        "typeOfIncome": "INTEREST_DIVIDEND",
+        "receiver": "VETERAN",
+        "payer": "John Doe",
+        "amount": 78.5
+      },
+      {
+        "typeOfIncome": "OTHER",
+        "otherTypeExplanation": "part-time Uber",
+        "receiver": "SPOUSE",
+        "payer": "John Doe",
+        "amount": 278.99
+      },
+      {
+        "typeOfIncome": "OTHER",
+        "otherTypeExplanation": "full time job",
+        "receiver": "VETERAN",
+        "payer": "John Doe",
+        "amount": 3278.75
+      }
+    ],
+    "view:noDirectDeposit": false,
+    "bankAccount": {
+      "accountType": "checking",
+      "bankName": "Best Bank",
+      "accountNumber": "001122334455",
+      "routingNumber": "123123123"
+    },
+    "veteranAddress": {
+      "street": "123 8th st",
+      "street2": "A-3",
+      "city": "Hadley",
+      "country": "USA",
+      "state": "ME",
+      "postalCode": "01050",
+      "isMilitary": false
+    },
+    "email": "test@example.com",
+    "phone": "5551234567",
+    "mobilePhone": "5551234567",
+    "internationalPhone": "001-555-123-4567",
+    "view:aidAttendance": true,
+    "isOver65": false,
+    "noRapidProcessing": true,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "John Edmund Doe"
+  }
+}

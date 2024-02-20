@@ -10,6 +10,7 @@ import {
   defineCustomElementVaTelephone,
   defineCustomElementVaTextInput,
   defineCustomElementVaAdditionalInfo,
+  defineCustomElementVaButton,
 } from '@department-of-veterans-affairs/component-library/dist/components';
 
 defineCustomElementVaAccordion();
@@ -22,3 +23,4 @@ defineCustomElementVaModal();
 defineCustomElementVaTelephone();
 defineCustomElementVaTextInput();
 defineCustomElementVaAdditionalInfo();
+defineCustomElementVaButton();

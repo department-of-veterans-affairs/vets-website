@@ -28,5 +28,7 @@ describe('Secure Messaging Compose', () => {
       .getMessageBodyField()
       .type('Test message body', { force: true });
     composePage.pushSendMessageWithKeyboardPress();
+    composePage.verifySendMessageConfirmationMessageText();
+    composePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

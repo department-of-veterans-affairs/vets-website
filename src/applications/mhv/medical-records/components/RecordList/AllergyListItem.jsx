@@ -7,63 +7,86 @@ const AllergyListItem = props => {
   const { record } = props;
 
   return (
-    <div
-      className="record-list-item vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
+      {/* web view header */}
+      <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5 vads-u-line-height--4 no-print">
         <Link
           to={`/allergies/${record.id}`}
-          className="vads-u-margin--0"
+          data-dd-privacy="mask"
           aria-label={`${record.name} on ${record.date}`}
         >
           {record.name}
         </Link>
       </h3>
+
+      {/* print view header */}
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
-        aria-label={`${record.name} ${record.date}`}
+        data-dd-privacy="mask"
       >
         {record.name}
       </h3>
 
-      <div className="fields">
-        <div>
-          <span className="field-label">Date entered:</span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-            {record.date}
-          </span>
-        </div>
-        <div className="print-only">
-          <span className="field-label">Reaction:</span>{' '}
-          <ItemList list={record.reaction} />
-        </div>
-        <div className="print-only">
-          <span className="field-label">Type of allergy:</span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-            {record.type}
-          </span>
-        </div>
-        <div className="print-only">
-          <span className="field-label">Location:</span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-            {record.location}
-          </span>
-        </div>
-        <div className="print-only">
-          <span className="field-label">Observed or historical:</span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-            {record.observedOrReported}
-          </span>
-        </div>
-        <div className="print-only">
-          <span className="field-label">Provider notes:</span>{' '}
-          <span className="vads-u-display--inline-block" data-dd-privacy="mask">
-            {record.notes}
-          </span>
-        </div>
+      {/* web view fields */}
+      <div className="no-print">
+        <span className="vads-u-display--inline-block">Date entered:</span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.date}
+        </span>
       </div>
-    </div>
+
+      {/* print view fields */}
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Date entered:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.date}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Signs and symptoms:
+        </span>{' '}
+        <ItemList list={record.reaction} />
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Type of allergy:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.type}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Location:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.location}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Observed or historical:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.observedOrReported}
+        </span>
+      </div>
+      <div className="print-only">
+        <span className="vads-u-display--inline-block vads-u-font-weight--bold">
+          Provider notes:
+        </span>{' '}
+        <span className="vads-u-display--inline-block" data-dd-privacy="mask">
+          {record.notes}
+        </span>
+      </div>
+    </va-card>
   );
 };
 

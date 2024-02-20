@@ -8,10 +8,12 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
 import GetStartedContent from '../components/IntroductionPage/GetStarted';
-import { IdentityVerificationAlert } from '../components/FormAlerts';
+import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 
 import {
   isLoading,
@@ -31,6 +33,8 @@ const IntroductionPage = props => {
     showGetStartedContent,
   } = displayConditions;
   const { enrollmentOverrideEnabled } = features;
+
+  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -68,7 +72,9 @@ const IntroductionPage = props => {
           />
         )}
 
-        {showIdentityAlert && <IdentityVerificationAlert />}
+        {showIdentityAlert && (
+          <IdentityVerificationAlert onVerify={onVerifyEvent} />
+        )}
 
         {(showGetStartedContent || enrollmentOverrideEnabled) && (
           <GetStartedContent route={route} showLoginAlert={showLoginAlert} />

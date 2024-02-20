@@ -6,7 +6,7 @@ import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-lib
 import reducers from '~/applications/personalization/dashboard/reducers';
 
 import ClaimsAndAppeals from '../../../components/claims-and-appeals/ClaimsAndAppeals';
-import { claimsAvailability } from '../../../utils/appeals-v2-helpers';
+import { claimsAvailability } from '../../../utils/claims-helpers';
 
 function claimsAppealsUser() {
   return {
@@ -62,28 +62,24 @@ function makeAppealObject({ updateDate, closed = false }) {
   };
 }
 
-function makeClaimObject({ dateFiled, updateDate, phase = 1 }) {
+function makeClaimObject({ claimDate, updateDate, status = 'Claim received' }) {
   return {
     id: '600214206',
-    type: 'evss_claims',
+    type: 'claim',
     attributes: {
-      evssId: 600214206,
-      dateFiled: dateFiled || '2021-01-21',
-      minEstDate: null,
-      maxEstDate: null,
-      phaseChangeDate: updateDate,
-      // phase of 8 is also closed/complete
-      open: phase !== 8,
-      waiverSubmitted: false,
-      documentsNeeded: false,
-      developmentLetterSent: false,
-      decisionLetterSent: false,
-      phase,
-      everPhaseBack: false,
-      currentPhaseBack: false,
-      requestedDecision: false,
+      claimDate: claimDate || '2021-01-21',
+      claimPhaseDates: {
+        phaseChangeDate: updateDate,
+      },
       claimType: 'Compensation',
-      updatedAt: '2021-01-07T20:47:32.248Z',
+      closeDate: null,
+      decisionLetterSent: false,
+      developmentLetterSent: false,
+      documentsNeeded: false,
+      endProductCode: '404',
+      evidenceWaiverSubmitted5103: false,
+      lighthouseId: 600214206,
+      status,
     },
   };
 }
@@ -115,7 +111,7 @@ describe('ClaimsAndAppeals component', () => {
             claimsLoading: false,
             appeals: [],
             claims: [],
-            claimsAvailability: claimsAvailability.UNAVAILABLE,
+            v2Availability: 'ERROR',
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
@@ -211,12 +207,15 @@ describe('ClaimsAndAppeals component', () => {
               claimsLoading: false,
               appeals: [],
               claims: [
-                // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(34), phase: 3 }),
-                // claim with most recent activity
-                makeClaimObject({ updateDate: daysAgo(1), phase: 7 }),
-                // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(15), phase: 1 }),
+                makeClaimObject({
+                  updateDate: daysAgo(34),
+                  status: 'Evidence gathering, review, and decision',
+                }),
+                makeClaimObject({
+                  updateDate: daysAgo(1),
+                  status: 'Preparation for notification',
+                }),
+                makeClaimObject({ updateDate: daysAgo(15) }),
               ],
             },
           };
@@ -256,9 +255,15 @@ describe('ClaimsAndAppeals component', () => {
               ],
               claims: [
                 // closed claim updated 5 days ago
-                makeClaimObject({ updateDate: daysAgo(5), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(5),
+                  status: 'Closed',
+                }),
                 // open claim updated 40 days ago
-                makeClaimObject({ updateDate: daysAgo(40), phase: 7 }),
+                makeClaimObject({
+                  updateDate: daysAgo(40),
+                  status: 'Preparation for notification',
+                }),
               ],
             },
           };
@@ -295,11 +300,20 @@ describe('ClaimsAndAppeals component', () => {
               ],
               claims: [
                 // open claim updated 29 days ago
-                makeClaimObject({ updateDate: daysAgo(29), phase: 7 }),
+                makeClaimObject({
+                  updateDate: daysAgo(29),
+                  status: 'Preparation for notification',
+                }),
                 // closed claim without recent activity
-                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(61),
+                  status: 'Closed',
+                }),
                 // open claim without recent activity
-                makeClaimObject({ updateDate: daysAgo(100), phase: 1 }),
+                makeClaimObject({
+                  updateDate: daysAgo(5),
+                  status: 'Claim received',
+                }),
               ],
             },
           };
@@ -345,9 +359,15 @@ describe('ClaimsAndAppeals component', () => {
               ],
               claims: [
                 // closed claim with no recent activity
-                makeClaimObject({ updateDate: daysAgo(3000), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(3000),
+                  status: 'Closed',
+                }),
                 // closed claim without recent activity
-                makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(31),
+                  status: 'Closed',
+                }),
               ],
             },
           };
@@ -429,9 +449,18 @@ describe('ClaimsAndAppeals component', () => {
                 }),
               ],
               claims: [
-                makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(100),
+                  status: 'Closed',
+                }),
+                makeClaimObject({
+                  updateDate: daysAgo(85),
+                  status: 'Closed',
+                }),
+                makeClaimObject({
+                  updateDate: daysAgo(61),
+                  status: 'Closed',
+                }),
               ],
             },
           };
@@ -458,9 +487,18 @@ describe('ClaimsAndAppeals component', () => {
               appeals: [],
               claimsAvailability: claimsAvailability.UNAVAILABLE,
               claims: [
-                makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
+                makeClaimObject({
+                  updateDate: daysAgo(100),
+                  status: 'Closed',
+                }),
+                makeClaimObject({
+                  updateDate: daysAgo(85),
+                  status: 'Closed',
+                }),
+                makeClaimObject({
+                  updateDate: daysAgo(61),
+                  status: 'Closed',
+                }),
               ],
             },
           };

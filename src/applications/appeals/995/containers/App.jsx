@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -46,7 +47,7 @@ export const App = ({
   router,
   // savedForms,
   getContestableIssues,
-  contestableIssues = {},
+  contestableIssues,
   legacyCount,
   isLoadingFeatures,
   accountUuid,
@@ -86,13 +87,13 @@ export const App = ({
             benefitType: subTaskBenefitType,
           });
         } else if (loggedIn && formData.benefitType) {
-          if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             issuesNeedUpdating(
-              contestableIssues?.issues,
+              contestableIssues.issues,
               formData?.contestedIssues,
             ) ||
             contestableIssues.legacyCount !== formData.legacyCount
@@ -101,9 +102,9 @@ export const App = ({
             setFormData({
               ...formData,
               contestedIssues: processContestableIssues(
-                contestableIssues?.issues,
+                contestableIssues.issues,
               ),
-              legacyCount: contestableIssues?.legacyCount,
+              legacyCount: contestableIssues.legacyCount,
             });
           } else if (evidenceNeedsUpdating(formData)) {
             // update evidence issues
@@ -153,7 +154,9 @@ export const App = ({
     loggedIn,
     formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
     version: '1.0.0',
-    sessionReplaySampleRate: 10,
+    // record 100% of staging sessions, but only 10% of production
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 10,
     applicationId: DATA_DOG_ID,
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
@@ -173,8 +176,8 @@ export const App = ({
     );
   } else if (
     loggedIn &&
-    ((contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
+    ((contestableIssues.status || '') === '' ||
+      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
   ) {
     content = wrapInH1(
       <va-loading-indicator
@@ -196,14 +199,17 @@ App.propTypes = {
   setFormData: PropTypes.func.isRequired,
   accountUuid: PropTypes.string,
   children: PropTypes.any,
-  contestableIssues: PropTypes.shape({}),
+  contestableIssues: PropTypes.shape({
+    status: PropTypes.string,
+    issues: PropTypes.array,
+    legacyCount: PropTypes.number,
+  }),
   formData: PropTypes.shape({
     additionalIssues: PropTypes.array,
     areaOfDisagreement: PropTypes.array,
     benefitType: PropTypes.string,
     contestedIssues: PropTypes.array,
     legacyCount: PropTypes.number,
-    informalConferenceRep: PropTypes.shape({}),
   }),
   inProgressFormId: PropTypes.number,
   isLoadingFeatures: PropTypes.bool,

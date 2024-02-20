@@ -14,14 +14,14 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('happy path', () => {
-    cy.intercept('GET', 'v0/ppiu/payment_information', {
+    cy.intercept('GET', 'v0/profile/direct_deposits/disability_compensations', {
       statusCode: 500,
       body: {
         errors: [
           {
             code: '403',
             detail: 'Forbidden',
-            source: 'EVSS::PPIU::Service',
+            source: 'Lighthouse',
             status: '403',
           },
         ],

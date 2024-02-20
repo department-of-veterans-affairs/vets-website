@@ -113,10 +113,20 @@ describe('Schemaform review: ReviewChapters', () => {
 
     const instance = tree.instance();
 
-    instance.handleToggleChapter({ name: 'chapter1', open: false });
-    expect(openReviewChapter.calledWith('chapter1')).to.be.true;
-    instance.handleToggleChapter({ name: 'chapter3', open: true, pageKeys: 0 });
-    expect(closeReviewChapter.calledWith('chapter3', 0)).to.be.true;
+    instance.handleToggleChapter({
+      target: {
+        dataset: { chapter: 'chapter1' },
+        getAttribute: () => true,
+      },
+    });
+    expect(openReviewChapter.args[0][0]).to.eq('chapter1');
+    instance.handleToggleChapter({
+      target: {
+        dataset: { chapter: 'chapter2' },
+        getAttribute: () => false,
+      },
+    });
+    expect(closeReviewChapter.args[0][0]).to.eq('chapter2');
     tree.unmount();
   });
 
@@ -134,7 +144,6 @@ describe('Schemaform review: ReviewChapters', () => {
           pages: {},
           submission: {},
           reviewPageView: {
-            openChapters: [],
             viewedPages: new Set(),
           },
           data: formData,

@@ -63,6 +63,7 @@ const TrashButton = props => {
           onClick={() => {
             setIsDeleteVisible(true);
           }}
+          data-dd-action-name="Trash Button"
         >
           <i
             className="fas fa-trash-alt vads-u-margin-right--0p5"

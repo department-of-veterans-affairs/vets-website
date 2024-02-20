@@ -47,13 +47,10 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
           Review your current copay balances
         </a>
       ) : (
-        <button
-          className="va-button-primary"
+        <va-button
           onClick={() => toggleLoginModal(true)}
-          type="button"
-        >
-          Sign in or create an account
-        </button>
+          text="Sign in or create an account"
+        />
       )}
     </va-alert>
   );

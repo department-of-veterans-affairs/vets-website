@@ -8,15 +8,12 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseFieldEditingPage: false,
   profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
-  profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
+  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {

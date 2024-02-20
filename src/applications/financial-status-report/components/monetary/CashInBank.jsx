@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { safeNumber } from '../../utils/calculateIncome';
 import { currency as currencyFormatter } from '../../utils/helpers';
 import { isStreamlinedShortForm } from '../../utils/streamlinedDepends';
+import ReviewPageHeader from '../shared/ReviewPageHeader';
 
 const CASH_IN_BANK = 'Cash in a bank (savings and checkings)';
 const CASH_ON_HAND = 'Cash on hand (not in bank)';
@@ -96,6 +99,7 @@ const CashInBank = ({
           required
           value={cash}
           width="md"
+          uswds
         />
         {contentBeforeButtons}
         <FormNavButtons
@@ -127,9 +131,13 @@ CashInBank.propTypes = {
 
 // This review section should only show for SW short form
 //  otherwise the assets will show in the monetary assets section
-const CashInBankReview = formData => {
-  const { data } = formData;
-  const { assets } = data;
+const CashInBankReview = ({ data, goToPath }) => {
+  const dispatch = useDispatch();
+  const {
+    assets,
+    gmtData,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { monetaryAssets = [] } = assets;
 
   // we want this to show if a short form exited early and they have no other monetary assets where it
@@ -141,35 +149,69 @@ const CashInBankReview = formData => {
         asset?.name?.toLowerCase() !== 'cash in a bank (savings and checkings)',
     ).length === 0;
 
+  // set reviewNavigation to true to show the review page alert
+  const onReviewClick = () => {
+    dispatch(
+      setData({
+        ...data,
+        reviewNavigation: true,
+      }),
+    );
+
+    // if the user saw cash on hand/in bank, they should be routed to
+    //  cash on hand page since it's the head of the chapter
+    if (
+      (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
+      (gmtData?.isEligibleForStreamlined &&
+        gmtData?.incomeBelowOneFiftyGmt &&
+        data['view:streamlinedWaiverAssetUpdate'])
+    ) {
+      return goToPath('/cash-on-hand');
+    }
+
+    return goToPath('/monetary-asset-checklist');
+  };
+
   return isStreamlinedShortForm(data) || noOtherMonetaryAssets ? (
-    <div className="form-review-panel-page">
-      <div className="form-review-panel-page-header-row">
-        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Monetary assets
-        </h4>
+    <>
+      {showReviewNavigation ? (
+        <ReviewPageHeader title="household assets" goToPath={onReviewClick} />
+      ) : null}
+      <div className="form-review-panel-page">
+        <div className="form-review-panel-page-header-row">
+          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+            Monetary assets
+          </h4>
+        </div>
+        <dl className="review">
+          {monetaryAssets.map((income, index) => {
+            return (
+              <div
+                className="review-row"
+                key={income.name + income.amount + index}
+              >
+                <dt>{income.name}</dt>
+                <dd>{currencyFormatter(income.amount)}</dd>
+              </div>
+            );
+          })}
+        </dl>
       </div>
-      <dl className="review">
-        {monetaryAssets.map((income, index) => {
-          return (
-            <div
-              className="review-row"
-              key={income.name + income.amount + index}
-            >
-              <dt>{income.name}</dt>
-              <dd>{currencyFormatter(income.amount)}</dd>
-            </div>
-          );
-        })}
-      </dl>
-    </div>
+    </>
   ) : null;
 };
 
 CashInBankReview.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
-      cashOnHand: PropTypes.string,
+      monetaryAssets: PropTypes.array,
     }),
+    gmtData: PropTypes.shape({
+      incomeBelowGmt: PropTypes.bool,
+      isEligibleForStreamlined: PropTypes.bool,
+      incomeBelowOneFiftyGmt: PropTypes.bool,
+    }),
+    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
 };
 

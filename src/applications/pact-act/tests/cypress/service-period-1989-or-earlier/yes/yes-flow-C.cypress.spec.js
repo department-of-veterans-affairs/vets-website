@@ -41,6 +41,7 @@ describe('PACT Act', () => {
       // ORANGE_2_2_2
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
       h.selectRadio(h.ORANGE_2_2_2_INPUT, 0);
+      h.verifyElement(h.ORANGE_2_2_2_INFO);
       h.clickContinue();
 
       // RADIATION_2_3_A
@@ -59,17 +60,17 @@ describe('PACT Act', () => {
       h.clickContinue();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
-      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
+      h.verifyElement(h.RESULTS_1_1_HEADER);
       h.clickResultsContinue();
 
       // RESULTS 1, P2
-      h.verifyUrl(ROUTES.RESULTS_1_P2);
-      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_2);
+      h.verifyElement(h.RESULTS_1_2_HEADER);
       h.clickResultsBack();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
 
       // LEJEUNE_2_4

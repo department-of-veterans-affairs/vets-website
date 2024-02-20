@@ -1,35 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import {
+  isProductionOfTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
   createId,
+  validateSearchTerm,
 } from '../utils/helpers';
-import { showModal, filterChange } from '../actions';
+import { showModal, filterChange, setError } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import ClearFiltersBtn from '../components/ClearFiltersBtn';
 
 export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
+  dispatchError,
   filters,
   modalClose,
   preview,
   search,
   smallScreen,
+  errorReducer,
+  searchType,
 }) {
   const history = useHistory();
   const { version } = preview;
+  const { error } = errorReducer;
   const {
     expanded,
     schools,
@@ -57,6 +65,7 @@ export function FilterYourResults({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
+  const [nameValue, setNameValue] = useState(search.query.name);
 
   const recordCheckboxEvent = e => {
     recordEvent({
@@ -75,6 +84,7 @@ export function FilterYourResults({
   };
 
   const onChange = e => {
+    setNameValue(e.target.value);
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': e.target.name,
@@ -171,6 +181,9 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
+    if (!isProductionOfTestProdEnv()) {
+      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    }
     updateInstitutionFilters('search', true);
 
     updateUrlParams(history, search.tab, search.query, filters, version);
@@ -210,7 +223,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
@@ -218,12 +231,16 @@ export function FilterYourResults({
             }}
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Has no cautionary warnings
+          </label>
         ),
       },
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: (
+        optionLabel: isProductionOfTestProdEnv() ? (
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
@@ -232,6 +249,10 @@ export function FilterYourResults({
             buttonId="accredited-button"
             ariaLabel="Learn more about VA education and training programs"
           />
+        ) : (
+          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+            Is accredited
+          </label>
         ),
       },
       {
@@ -262,53 +283,73 @@ export function FilterYourResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: 'Historically Black college or university',
+        optionLabel: !isProductionOfTestProdEnv()
+          ? 'Historically Black college or university'
+          : 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: 'Men-only',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Men-only'
+          : 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: 'Women-only',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Women-only'
+          : 'Women’s colleges and universities',
+        // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: 'Religious affiliation',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Religious affiliation'
+          : 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: 'Hispanic-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Hispanic-serving institutions'
+          : 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: 'Native American-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Native American-serving institutions'
+          : 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: 'Alaska Native-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Alaska Native-serving institutions'
+          : 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel:
-          'Asian American Native American Pacific Islander-serving institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Asian American Native American Pacific Islander-serving institutions'
+          : 'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel: 'Predominantly Black institutions',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Predominantly Black institutions'
+          : 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: 'Tribal college and university',
+        optionLabel: isProductionOfTestProdEnv()
+          ? 'Tribal college and university'
+          : 'Tribal Colleges and Universities',
       },
     ];
 
@@ -317,8 +358,11 @@ export function FilterYourResults({
         class="vads-u-margin-y--4"
         label={
           <div className="vads-u-margin-left--neg0p25">
-            Specialized mission (i.e., Single-gender, Religious affiliation,
-            HBCU)
+            {`${
+              environment.isProduction()
+                ? 'Specialized mission'
+                : 'Community focus'
+            } (i.e., Single-gender, Religious affiliation, HBCU)`}
           </div>
         }
         onChange={onChangeCheckbox}
@@ -490,6 +534,11 @@ export function FilterYourResults({
             >
               Update results
             </button>
+            {!environment.isProduction() && (
+              <ClearFiltersBtn smallScreen={smallScreen}>
+                Clear filters
+              </ClearFiltersBtn>
+            )}
           </div>
         </div>
       )}
@@ -501,11 +550,13 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
+  dispatchError: setError,
 };
 
 export default connect(

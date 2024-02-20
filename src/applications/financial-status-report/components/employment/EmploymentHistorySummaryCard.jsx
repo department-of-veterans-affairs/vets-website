@@ -6,7 +6,11 @@ import { setData } from '~/platform/forms-system/src/js/actions';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
 import DeleteConfirmationModal from '../shared/DeleteConfirmationModal';
 import { useDeleteModal } from '../../hooks/useDeleteModal';
-import { setJobIndex } from '../../utils/session';
+import {
+  setJobIndex,
+  setJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { dateFormatter, firstLetterLowerCase } from '../../utils/helpers';
 
 const EmploymentHistorySummaryCard = ({
@@ -135,6 +139,7 @@ const EmploymentHistorySummaryCard = ({
         data-testid="mini-summary-card"
         aria-label={ariaLabel}
         class="vads-u-margin-y--3"
+        uswds
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
           <h4 className="vads-u-margin-y--0">{employmentCardHeading}</h4>
@@ -144,7 +149,10 @@ const EmploymentHistorySummaryCard = ({
           <Link
             aria-label={`Edit ${ariaLabel}`}
             to={editDestination}
-            onClick={() => setJobIndex(index)}
+            onClick={() => {
+              setJobIndex(index);
+              setJobButton(jobButtonConstants.EDIT_JOB);
+            }}
             className="vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--neg0p5"
           >
             <span>

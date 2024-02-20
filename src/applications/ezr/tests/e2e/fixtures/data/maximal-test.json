@@ -8,8 +8,12 @@
         "insuranceGroupCode": "2324234434"
       }
     ],
-    "isMedicaidEligible": true,
-    "isEnrolledMedicarePartA": true,
+    "view:isMedicaidEligible" : {
+      "isMedicaidEligible": true
+    },
+    "view:isEnrolledMedicarePartA" : {
+      "isEnrolledMedicarePartA": true
+    },
     "medicarePartAEffectiveDate": "2009-01-02",
     "medicareClaimNumber": "7AD5WC9MW60",
     "view:deductibleMedicalExpenses": {
@@ -60,6 +64,27 @@
         "grossIncome": 23424,
         "netIncome": 23424,
         "otherIncome": 23424
+      },
+      {
+        "fullName": {
+          "first": "Robert",
+          "middle": "Jeffery",
+          "last": "Doe",
+          "suffix": ""
+        },
+        "dependentRelation": "Son",
+        "socialSecurityNumber": "234666834",
+        "becameDependent": "2004-01-05",
+        "dateOfBirth": "2004-01-05",
+        "disabledBefore18": true,
+        "attendedSchoolLastYear": false,
+        "dependentEducationExpenses": 0,
+        "cohabitedLastYear": false,
+        "receivedSupportLastYear": true,
+        "view:dependentIncome": false,
+        "grossIncome": 0,
+        "netIncome": 0,
+        "otherIncome": 0
       }
     ],
     "view:addInsurancePolicy": false,
@@ -88,9 +113,11 @@
       },
       "spousePhone": "3424445555"
     },
-    "email": "test@test.com",
-    "homePhone": "5555555555",
-    "mobilePhone": "4444444444",
+    "view:contactInformation": {
+      "email": "test@test.com",
+      "homePhone": "5555555555",
+      "mobilePhone": "4444444444"
+    },
     "veteranAddress": {
       "isMilitary": false,
       "country": "USA",
@@ -113,7 +140,9 @@
       "postalCode": "33771"
     },
     "gender": "M",
-    "maritalStatus": "Married",
+    "view:maritalStatus": {
+      "maritalStatus": "Married"
+    },
     "veteranDateOfBirth": "1980-03-02",
     "veteranSocialSecurityNumber": "324234444",
     "veteranFullName": {

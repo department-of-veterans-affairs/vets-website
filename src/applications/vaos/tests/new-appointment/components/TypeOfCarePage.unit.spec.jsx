@@ -9,7 +9,7 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { mockParentSites } from '../../mocks/helpers';
 import {
@@ -215,11 +215,18 @@ describe('VAOS <TypeOfCarePage>', () => {
     await screen.findByText(
       /not eligible to request a community care Podiatry appointment online at this time/i,
     );
-    fireEvent.click(screen.getByText('Ok'));
-
-    await waitFor(
-      () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
+    expect(screen.queryByTestId('toc-modal')).to.exist;
+    expect(
+      screen.queryByTestId('toc-modal').getAttribute('primaryButtonText'),
+    ).to.eq('Ok');
+    expect(screen.queryByTestId('toc-modal')).to.have.attribute(
+      'visible',
+      'true',
     );
+    const okButton = screen.queryByTestId('toc-modal').__events
+      .primaryButtonClick;
+    await okButton();
+    expect(screen.queryByTestId('toc-modal')).to.be.null;
     expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 

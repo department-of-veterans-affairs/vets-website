@@ -7,8 +7,6 @@ import sinon from 'sinon';
 
 import NotificationChannel from '~/applications/personalization/profile/components/notification-settings/NotificationChannel';
 
-import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
-
 const mockStore = configureMockStore();
 
 const baseStore = {
@@ -20,9 +18,6 @@ const baseStore = {
         },
       },
     },
-  },
-  featureToggles: {
-    [featureFlagNames.profileUseNotificationSettingsCheckboxes]: true,
   },
   communicationPreferences: {
     groups: {
@@ -71,7 +66,7 @@ describe('<NotificationChannel />', () => {
     store = mockStore(baseStore);
   });
 
-  it('renders the NotificationCheckbox component when featureToggle is set to true', () => {
+  it('renders the NotificationCheckbox component', () => {
     const props = {
       channelId: 'channel3-1',
       disabledForCheckbox: false,
@@ -85,30 +80,5 @@ describe('<NotificationChannel />', () => {
     );
 
     expect(view.getByTestId(`checkbox-${props.channelId}`)).to.be.visible;
-  });
-
-  it('renders the NotificationRadioButtons component when featureToggle is set to false', () => {
-    store = mockStore({
-      ...baseStore,
-      featureToggles: {
-        [featureFlagNames.profileUseNotificationSettingsCheckboxes]: false,
-      },
-    });
-
-    const props = {
-      channelId: 'channel3-1',
-      disabledForCheckbox: false,
-      saveSetting: sinon.stub(),
-    };
-
-    const view = render(
-      <Provider store={store}>
-        <NotificationChannel {...props} />
-      </Provider>,
-    );
-
-    // renders both labels that are present when using radio buttons
-    expect(view.getByText('Notify me by text')).to.be.visible;
-    expect(view.getByText('Don’t notify me')).to.be.visible;
   });
 });

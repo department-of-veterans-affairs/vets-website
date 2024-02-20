@@ -12,7 +12,7 @@ const TravelMileage = props => {
     {
       info: (
         <Trans
-          i18nKey="if-you-traveled-from-a-different-address--helptext"
+          i18nKey="if-you-need-to-submit-receipts-for-other-expenses--helptext"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
           ]}
@@ -24,7 +24,7 @@ const TravelMileage = props => {
 
   return (
     <TravelPage
-      header={t('are-you-claiming-only-mileage-and-no-other')}
+      header={t('are-you-claiming-only-mileage')}
       eyebrow={t('check-in')}
       additionalInfoItems={additionalInfoItems}
       pageType="travel-mileage"

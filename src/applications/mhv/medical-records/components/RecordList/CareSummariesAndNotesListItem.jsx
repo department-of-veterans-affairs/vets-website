@@ -1,59 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { loincCodes, EMPTY_FIELD } from '../../util/constants';
+import { loincCodes } from '../../util/constants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
   const isDischargeSummary = record.type === loincCodes.DISCHARGE_SUMMARY;
 
-  const dateOrDates = () => {
-    if (isDischargeSummary) {
-      return `${record.startDate} to ${record.endDate}`;
-    }
-    return record.dateSigned;
-  };
-
   return (
-    <div
-      className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
+      {/* web view header */}
+      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5 no-print">
+        <Link
+          to={`/summaries-and-notes/${record.id}`}
+          data-dd-privacy="mask"
+          aria-label={`${record.name} on ${
+            isDischargeSummary ? record.admissionDate : record.dateSigned
+          }`}
+        >
+          {record.name}
+        </Link>
+      </h3>
+
+      {/* print view header */}
       <h3
-        className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4"
-        aria-label={`${record.name} ${dateOrDates()}`}
+        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        data-dd-privacy="mask"
       >
         {record.name}
       </h3>
 
-      <div className="fields">
-        <div>{dateOrDates()}</div>
-        {record.location !== EMPTY_FIELD && <div>{record.location}</div>}
-        <div>
-          <span className="field-label">
-            {isDischargeSummary ? 'Signed by ' : 'Admitted by '}
-          </span>{' '}
-          {record.physician}
-        </div>
-      </div>
-      <Link
-        to={`/summaries-and-notes/${record.id}`}
-        className="vads-u-margin-y--0p5 no-print"
-        aria-describedby={`details-button-description-${record.id}`}
-      >
-        <strong>Details</strong>
-        <i
-          className="fas fa-angle-right details-link-icon"
-          aria-hidden="true"
-        />
-        <span
-          id={`details-button-description-${record.id}`}
-          className="sr-only"
-        >
-          {record.name} {dateOrDates()}
+      <div>
+        {isDischargeSummary && (
+          <span className="vads-u-display--inline">Admitted on </span>
+        )}
+        <span className="vads-u-display--inline" data-dd-privacy="mask">
+          {isDischargeSummary ? record.admissionDate : record.dateSigned}
         </span>
-      </Link>
-    </div>
+      </div>
+      <div data-dd-privacy="mask">{record.location}</div>
+      <div>
+        <span className="vads-u-display--inline">
+          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+        </span>
+        <span className="vads-u-display--inline" data-dd-privacy="mask">
+          {isDischargeSummary ? record.dischargedBy : record.signedBy}
+        </span>
+      </div>
+    </va-card>
   );
 };
 

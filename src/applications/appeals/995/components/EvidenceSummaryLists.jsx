@@ -6,7 +6,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { getDate } from '../utils/dates';
+import { getDate } from '../../shared/utils/dates';
 
 import {
   EVIDENCE_VA_PATH,
@@ -41,7 +41,7 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = date => {
+const formatDate = (date = '') => {
   const result = getDate({ date, pattern: FORMAT_COMPACT });
   return result.includes(',') ? result : '';
 };
@@ -147,6 +147,7 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -265,6 +266,7 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -294,6 +296,7 @@ export const PrivateContent = ({
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               ) : null}
             </div>
@@ -364,6 +367,7 @@ export const UploadContent = ({
                   label={`${content.remove} ${upload.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               </div>
             )}

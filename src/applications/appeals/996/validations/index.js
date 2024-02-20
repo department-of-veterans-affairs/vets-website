@@ -1,9 +1,4 @@
 import { errorMessages } from '../constants';
-import { validateRequireRatedDisability } from '../../shared/validations';
-
-export const requireRatedDisability = (err = {}, fieldData) => {
-  validateRequireRatedDisability(err, fieldData, errorMessages);
-};
 
 export const isFirstConferenceTimeEmpty = formData =>
   (formData?.informalConferenceTimes?.time1 || '') === '';

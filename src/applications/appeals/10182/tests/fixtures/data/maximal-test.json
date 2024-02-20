@@ -29,6 +29,7 @@
     "requestingExtension": true,
     "extensionReason": "Lorem ipsum",
     "appealingVHADenial": false,
+    "view:showPart3": true,
 
     "contestedIssues": [
       {

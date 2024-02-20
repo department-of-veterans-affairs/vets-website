@@ -13,13 +13,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     site.login();
     landingPage.loadInboxMessages();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
     const requestBodyUpdated = {
       ...requestBody,
       body: 'https://www.va.gov/',
@@ -36,14 +30,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       .getMessageBodyField()
       .type(`${requestBodyUpdated.body}`, { force: true });
     composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
-    composePage.sendMessage(requestBodyUpdated);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
 });

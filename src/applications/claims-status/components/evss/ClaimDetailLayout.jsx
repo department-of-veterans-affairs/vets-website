@@ -2,14 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 
-import TabNav from '../TabNav';
-import ClaimSyncWarning from '../ClaimSyncWarning';
-import AskVAQuestions from '../AskVAQuestions';
+import { DATE_FORMATS } from '../../constants';
+import { buildDateFormatter, getClaimType } from '../../utils/helpers';
 import AddingDetails from '../AddingDetails';
-import Notification from '../Notification';
+import AskVAQuestions from '../AskVAQuestions';
+import ClaimSyncWarning from '../ClaimSyncWarning';
 import ClaimsBreadcrumbs from '../ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../ClaimsUnavailable';
-import { getClaimType } from '../../utils/helpers';
+import Notification from '../Notification';
+import TabNav from '../TabNav';
 
 const MAX_CONTENTIONS = 3;
 
@@ -39,10 +40,12 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details'];
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
+
+  const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
 
   let bodyContent;
   let headingContent;
@@ -55,6 +58,8 @@ export default function ClaimDetailLayout(props) {
     );
   } else if (claim !== null) {
     const claimTitle = `Your ${claimType} claim`;
+    const formattedClaimDate = formatDate(claim.attributes.dateFiled);
+    const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
       <>
@@ -66,7 +71,12 @@ export default function ClaimDetailLayout(props) {
             onClose={clearNotification}
           />
         )}
-        <h1 className="claim-title">{claimTitle}</h1>
+        <h1 className="claim-title">
+          {claimTitle}
+          <span className="vads-u-font-family--sans vads-u-margin-top--1">
+            {claimSubheader}
+          </span>
+        </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h6">

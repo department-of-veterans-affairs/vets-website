@@ -45,17 +45,26 @@ export const uiSchema = {
             'ui:title': 'First name',
             'ui:required': (formData, index) =>
               !formData.childrenToAdd[`${index}`].doesChildLiveWithYou,
+            'ui:errorMessages': {
+              pattern: 'This field accepts alphabetic characters only',
+            },
           },
           middle: {
             'ui:title': 'Middle name',
             'ui:options': {
               hideEmptyValueInReview: true,
             },
+            'ui:errorMessages': {
+              pattern: 'This field accepts alphabetic characters only',
+            },
           },
           last: {
             'ui:title': 'Last name',
             'ui:required': (formData, index) =>
               !formData.childrenToAdd[`${index}`].doesChildLiveWithYou,
+            'ui:errorMessages': {
+              pattern: 'This field accepts alphabetic characters only',
+            },
           },
           suffix: {
             'ui:options': {

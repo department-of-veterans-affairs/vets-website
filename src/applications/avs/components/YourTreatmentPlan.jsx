@@ -1,47 +1,52 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import ItemsBlock from './ItemsBlock';
+import ListBlock from './ListBlock';
+import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
+import ParagraphBlock from './ParagraphBlock';
 import { ORDER_TYPES } from '../utils/constants';
-
-const patientInstructions = avs => {
-  if (avs.patientInstructions) {
-    return (
-      <div>
-        <h4>Other instructions</h4>
-        {/* eslint-disable react/no-danger */}
-        {/*
-            We're choosing to trust the HTML coming from AVS since it is explicitly
-            added there and will give us the highest fidelity with the printed AVS.
-            cf. https://github.com/department-of-veterans-affairs/avs/blob/master/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/DelimitedNoteContentThread.java
-        */}
-        <p
-          data-testid="patient-instructions"
-          dangerouslySetInnerHTML={{ __html: avs.patientInstructions }}
-        />
-        {/* eslint-enable react/no-danger */}
-      </div>
-    );
-  }
-
-  return null;
-};
+import { allArraysEmpty } from '../utils';
 
 const YourTreatmentPlan = props => {
   const { avs } = props;
-  const { orders } = avs;
+  const { medChangesSummary, orders } = avs;
+
+  const medChanges = !allArraysEmpty(medChangesSummary)
+    ? medChangesSummary
+    : null;
 
   const medsIntro = (
     <>
-      Note: this section <strong>only</strong> lists <strong>changes</strong> to
-      your medication regimen. Please see your complete medication list under My
-      Ongoing Care below.
+      <p>
+        Note: this section <strong>only</strong> lists <strong>changes</strong>{' '}
+        to your medication regimen. Please see your complete medication list
+        under My Ongoing Care below.
+      </p>
+      <MedicationTerms avs={avs} />
     </>
   );
 
+  const renderReminder = reminder => {
+    return (
+      <p>
+        {reminder.name}
+        <br />
+        When due: {reminder.whenDue}
+        <br />
+        Frequency: {reminder.frequency}
+      </p>
+    );
+  };
+
   return (
     <div>
-      <h3 className="vads-u-margin-top--0">New orders from this appointment</h3>
+      {orders && (
+        <h3 className="vads-u-margin-top--0" data-testid="new-orders-heading">
+          New orders from this appointment
+        </h3>
+      )}
       {/* TODO: is this the correct dataset? (Today vs. all) */}
       <OrdersBlock
         heading="Consultations"
@@ -78,8 +83,39 @@ const YourTreatmentPlan = props => {
         orders={orders}
         type={ORDER_TYPES.OTHER}
       />
-      {/* TODO: add health reminders. */}
-      {patientInstructions(avs)}
+      <ItemsBlock
+        heading="Health reminders"
+        intro="The list below is your health reminders. These are health checks for prevention care (for example cancer screening) and checks on chronic conditions like diabetes. Your primary care provider and team will see this list in the computer and should discuss them with you."
+        itemType="health-reminders"
+        items={avs.clinicalReminders}
+        renderItem={renderReminder}
+        showSeparators
+      />
+      <ParagraphBlock
+        heading="Other instructions"
+        headingLevel={4}
+        content={avs.patientInstructions}
+        htmlContent
+      />
+      {medChanges && <h3>Summary of medication changes</h3>}
+      <ListBlock
+        heading="Start these medications and supplies"
+        headingLevel={4}
+        itemType="new-medications-list"
+        items={medChanges?.newMedications}
+      />
+      <ListBlock
+        heading="Stop these medications and supplies"
+        headingLevel={4}
+        itemType="discontinued-medications-list"
+        items={medChanges?.discontinuedMeds}
+      />
+      <ListBlock
+        heading="Follow new instructions for these medications and supplies"
+        headingLevel={4}
+        itemType="changed-medications-list"
+        items={medChanges?.changedMedications}
+      />
     </div>
   );
 };

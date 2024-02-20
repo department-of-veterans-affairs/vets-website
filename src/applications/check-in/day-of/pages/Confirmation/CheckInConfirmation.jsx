@@ -12,8 +12,7 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
-import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
-import ExternalLink from '../../../components/ExternalLink';
+import { useSendTravelPayClaim } from '../../../hooks/useSendTravelPayClaim';
 import TravelPayAlert from './TravelPayAlert';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -84,8 +83,6 @@ const CheckInConfirmation = props => {
     ],
   );
 
-  const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
-
   const handleDetailClick = e => {
     e.preventDefault();
     recordEvent({
@@ -112,12 +109,6 @@ const CheckInConfirmation = props => {
     [checkInDataError, updateError],
   );
 
-  let pageTitle = t('youre-checked-in');
-
-  if (doTravelPay && (!travelPayEligible || travelPayClaimError)) {
-    pageTitle += ` ${t('we-couldnt-file-reimbursement')}`;
-  }
-
   const renderLoadingMessage = () => {
     return (
       <div>
@@ -131,8 +122,15 @@ const CheckInConfirmation = props => {
 
   const renderConfirmationMessage = () => {
     return (
-      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
-        <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
+      <Wrapper
+        pageTitle={t('youre-checked-in')}
+        testID="multiple-appointments-confirm"
+      >
+        <div data-testid="confirmation-message">
+          <p>{t('the-staff-can-call-you-back')}</p>
+          <p>{t('tell-a-staff-member-if-you-wait')}</p>
+        </div>
+        <h2 className="vads-u-font-family--serif">{t('your-appointment')}</h2>
         <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
@@ -147,48 +145,17 @@ const CheckInConfirmation = props => {
             app={APP_NAMES.CHECK_IN}
           />
         </ul>
-
-        <va-alert
-          background-only
-          show-icon
-          data-testid="confirmation-alert"
-          class="vads-u-margin-bottom--2"
-        >
-          <div>
-            {`${t(
-              'well-get-you-from-waiting-room-when-time-for-your-appointment',
-            )} `}
-            {t('if-you-wait-more-than')}
-          </div>
-        </va-alert>
-
-        {doTravelPay && (
-          <TravelPayAlert
-            travelPayEligible={travelPayEligible}
-            travelPayClaimError={travelPayClaimError}
-          />
-        )}
-
         {isTravelReimbursementEnabled ? (
-          !doTravelPay && (
-            <va-alert
-              background-only
-              show-icon
-              data-testid="travel-pay-info-message"
-            >
-              <p className="vads-u-margin-top--0">
-                {t('travel-pay-reimbursement--info-message')}
-              </p>
-              <ExternalLink
-                href="/health-care/get-reimbursed-for-travel-pay/"
-                hrefLang="en"
-                eventId="request-travel-pay-reimbursement-from-confirmation-with-no-reimbursement--link-clicked"
-                eventPrefix="nav"
-              >
-                {t('find-out-if-youre-eligible--link')}
-              </ExternalLink>
-            </va-alert>
-          )
+          <>
+            <h2 data-testid="travel-reimbursement-heading">
+              {t('travel-reimbursement')}
+            </h2>
+            <TravelPayAlert
+              travelPayClaimError={travelPayClaimError}
+              travelPayClaimRequested={travelPayClaimRequested}
+              travelPayEligible={travelPayEligible}
+            />
+          </>
         ) : (
           <TravelPayReimbursementLink />
         )}

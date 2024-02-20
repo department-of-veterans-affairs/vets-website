@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import user from '../fixtures/user.json';
-import { convertNote } from '../../reducers/careSummariesAndNotes';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 import physicianProcedureNote from '../fixtures/physicianProcedureNote.json';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
 import CareSummariesDetails from '../../containers/CareSummariesDetails';
@@ -15,7 +15,9 @@ describe('CareSummariesAndNotes details', () => {
     user,
     mr: {
       careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertNote(physicianProcedureNote),
+        careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+          physicianProcedureNote,
+        ),
       },
     },
   };
@@ -34,34 +36,15 @@ describe('CareSummariesAndNotes details', () => {
   });
 });
 
-describe('CareSummariesDetails physician procedure note', () => {
-  it('displays physician procedure note label', () => {
+describe('CareSummariesDetails Adverse React/Allergy', () => {
+  it('displays progress note heading', () => {
     const initialState = {
       user,
       mr: {
         careSummariesAndNotes: {
-          careSummariesAndNotesDetails: convertNote(physicianProcedureNote),
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<CareSummariesDetails />, {
-      initialState,
-      reducers: reducer,
-      path: '/summaries-and-notes/123',
-    });
-
-    expect(screen.getByText('Physician procedure note')).to.exist;
-  });
-});
-
-describe('CareSummariesDetails discharge summary', () => {
-  it('displays discharge summary label', () => {
-    const initialState = {
-      user,
-      mr: {
-        careSummariesAndNotes: {
-          careSummariesAndNotesDetails: convertNote(dischargeSummary),
+          careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+            physicianProcedureNote,
+          ),
         },
       },
     };
@@ -73,11 +56,33 @@ describe('CareSummariesDetails discharge summary', () => {
     });
 
     expect(
-      screen.getByText('Discharge summary', {
-        exact: true,
+      screen.getByText('Adverse React/Allergy', {
         selector: 'h1',
       }),
     ).to.exist;
+  });
+});
+
+describe('CareSummariesDetails discharge summary', () => {
+  it('displays discharge summary heading', () => {
+    const initialState = {
+      user,
+      mr: {
+        careSummariesAndNotes: {
+          careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
+            dischargeSummary,
+          ),
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesDetails />, {
+      initialState,
+      reducers: reducer,
+      path: '/summaries-and-notes/123',
+    });
+
+    expect(screen.getByText('Discharge Summary', { selector: 'h1' })).to.exist;
   });
 });
 

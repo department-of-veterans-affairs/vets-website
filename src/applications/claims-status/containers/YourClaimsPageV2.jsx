@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import backendServices from 'platform/user/profile/constants/backendServices';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
 import {
   getAppealsV2 as getAppealsV2Action,
-  // START lighthouse_migration
   getClaims as getClaimsAction,
-  getClaimsV2 as getClaimsV2Action,
-  // END lighthouse_migration
   getStemClaims as getStemClaimsAction,
 } from '../actions';
 
@@ -23,29 +20,19 @@ import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-// START lighthouse_migration
-import ClaimsListItemEVSS from '../components/appeals-v2/ClaimsListItemV2';
-import ClaimsListItemLighthouse from '../components/ClaimsListItem';
+import ClaimsListItemOld from '../components/ClaimsListItem';
 import ClaimsListItemV3 from '../components/ClaimsListItemV3'; // This is the Lighthouse version with an updated design
-// END lighthouse_migration
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import MobileAppMessage from '../components/MobileAppMessage';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItemV2 from '../components/StemClaimListItem';
 import StemClaimListItemV3 from '../components/StemClaimListItemV3';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
-// START lighthouse_migration
-import {
-  cstUseNewClaimCards,
-  cstUseLighthouse,
-  getBackendServices,
-} from '../selectors';
-// END lighthouse_migration
+import { cstUseNewClaimCards, getBackendServices } from '../selectors';
 
 import {
   appealsAvailability,
@@ -81,36 +68,18 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       canAccessAppeals,
-      // START lighthouse_migration
-      canAccessClaimsLighthouse,
-      canAccessClaimsEVSS,
-      // END lighthouse_migration
+      canAccessClaims,
       claimsLoading,
       getAppealsV2,
-      // START lighthouse_migration
-      getClaimsEVSS,
-      getClaimsLighthouse,
-      // END lighthouse_migration
+      getClaims,
       getStemClaims,
       stemClaimsLoading,
-      // START lighthouse_migration
-      useLighthouse,
-      // END lighthouse_migration
     } = this.props;
 
-    // START lighthouse_migration
-    // Only call if we should be using Lighthouse and the current
-    // user has access to Lighthouse claims
-    if (useLighthouse && canAccessClaimsLighthouse) {
-      getClaimsLighthouse();
+    // Only call if the current user has access to Lighthouse claims
+    if (canAccessClaims) {
+      getClaims();
     }
-
-    // Only call if we should be using EVSS and the current
-    // user has access to EVSS claims
-    if (!useLighthouse && canAccessClaimsEVSS) {
-      getClaimsEVSS();
-    }
-    // END lighthouse_migration
 
     if (canAccessAppeals) {
       getAppealsV2();
@@ -138,33 +107,27 @@ class YourClaimsPageV2 extends React.Component {
 
   renderListItem(claim) {
     // START lighthouse_migration
-    const { useLighthouse, useNewClaimCards } = this.props;
+    const { useNewClaimCards } = this.props;
     // END lighthouse_migration
     if (appealTypes.includes(claim.type)) {
       const { fullName } = this.props;
-      const AppealListItem =
-        useNewClaimCards && useLighthouse ? AppealListItemV3 : AppealListItemV2;
+      const AppealListItem = useNewClaimCards
+        ? AppealListItemV3
+        : AppealListItemV2;
       return <AppealListItem key={claim.id} appeal={claim} name={fullName} />;
     }
 
     if (claim.type === 'education_benefits_claims') {
-      const StemClaimListItem =
-        useNewClaimCards && useLighthouse
-          ? StemClaimListItemV3
-          : StemClaimListItemV2;
+      const StemClaimListItem = useNewClaimCards
+        ? StemClaimListItemV3
+        : StemClaimListItemV2;
       return <StemClaimListItem key={claim.id} claim={claim} />;
     }
 
     // START lighthouse_migration
-    let ClaimsListItem;
-    if (useLighthouse) {
-      ClaimsListItem = useNewClaimCards
-        ? ClaimsListItemV3
-        : ClaimsListItemLighthouse;
-    } else {
-      ClaimsListItem = ClaimsListItemEVSS;
-    }
-    // END lighthouse_migration
+    const ClaimsListItem = useNewClaimCards
+      ? ClaimsListItemV3
+      : ClaimsListItemOld;
 
     return <ClaimsListItem key={claim.id} claim={claim} />;
   }
@@ -176,7 +139,7 @@ class YourClaimsPageV2 extends React.Component {
       stemClaimsLoading,
       appealsAvailable,
       canAccessAppeals,
-      canAccessClaimsEVSS,
+      canAccessClaims,
       claimsAvailable,
       // claimsAuthorized
     } = this.props;
@@ -187,17 +150,14 @@ class YourClaimsPageV2 extends React.Component {
 
     if (
       canAccessAppeals &&
-      canAccessClaimsEVSS &&
+      canAccessClaims &&
       claimsAvailable !== claimsAvailability.AVAILABLE &&
       appealsAvailable !== appealsAvailability.AVAILABLE
     ) {
       return <ClaimsAppealsUnavailable />;
     }
 
-    if (
-      canAccessClaimsEVSS &&
-      claimsAvailable !== claimsAvailability.AVAILABLE
-    ) {
+    if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
       return <ClaimsUnavailable />;
     }
 
@@ -232,55 +192,55 @@ class YourClaimsPageV2 extends React.Component {
       content = (
         <va-loading-indicator
           message="Loading your claims and appeals..."
-          set-focus
+          uswds="false"
         />
       );
-    } else {
-      if (!emptyList) {
-        const listLen = list.length;
-        const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
-        const shouldPaginate = numPages > 1;
+    } else if (!emptyList) {
+      const listLen = list.length;
+      const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
+      const shouldPaginate = numPages > 1;
 
-        const pageItems = getVisibleRows(list, this.state.page);
+      const pageItems = getVisibleRows(list, this.state.page);
 
-        if (shouldPaginate) {
-          const range = getPageRange(this.state.page, listLen);
-          const { end, start } = range;
+      if (shouldPaginate) {
+        const range = getPageRange(this.state.page, listLen);
+        const { end, start } = range;
 
-          const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
+        const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
 
-          pageInfo = <p id="pagination-info">{txt}</p>;
-        }
-
-        content = (
-          <>
-            {this.state.show30DayNotice && (
-              <ClosedClaimMessage
-                claims={pageItems}
-                onClose={this.hide30DayNotice}
-              />
-            )}
-            {pageInfo}
-            <div className="claim-list">
-              {atLeastOneRequestLoading && (
-                <va-loading-indicator message="Loading your claims and appeals..." />
-              )}
-              {pageItems.map(claim => this.renderListItem(claim))}
-              {shouldPaginate && (
-                <VaPagination
-                  page={this.state.page}
-                  pages={numPages}
-                  onPageSelect={this.changePage}
-                />
-              )}
-            </div>
-          </>
-        );
-      } else if (allRequestsLoaded) {
-        content = <NoClaims />;
+        pageInfo = <p id="pagination-info">{txt}</p>;
       }
 
-      content = <div className="tab-content">{content}</div>;
+      content = (
+        <>
+          {this.state.show30DayNotice && (
+            <ClosedClaimMessage
+              claims={pageItems}
+              onClose={this.hide30DayNotice}
+            />
+          )}
+          {pageInfo}
+          <div className="claim-list">
+            {atLeastOneRequestLoading && (
+              <va-loading-indicator
+                message="Loading your claims and appeals..."
+                uswds="false"
+              />
+            )}
+            {pageItems.map(claim => this.renderListItem(claim))}
+            {shouldPaginate && (
+              <VaPagination
+                uswds="false"
+                page={this.state.page}
+                pages={numPages}
+                onPageSelect={this.changePage}
+              />
+            )}
+          </div>
+        </>
+      );
+    } else if (allRequestsLoaded) {
+      content = <NoClaims />;
     }
 
     return (
@@ -292,8 +252,7 @@ class YourClaimsPageV2 extends React.Component {
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page />
-            <MobileAppMessage />
+            <va-on-this-page uswds="false" />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
@@ -302,6 +261,7 @@ class YourClaimsPageV2 extends React.Component {
               id="claims-combined"
               class="claims-combined"
               trigger="Find out why we sometimes combine claims."
+              uswds="false"
             >
               {consolidatedClaimsContent}
             </va-additional-info>
@@ -328,18 +288,12 @@ YourClaimsPageV2.propTypes = {
   appealsAvailable: PropTypes.string,
   appealsLoading: PropTypes.bool,
   canAccessAppeals: PropTypes.bool,
-  // START lighthouse_migration
-  canAccessClaimsEVSS: PropTypes.bool,
-  canAccessClaimsLighthouse: PropTypes.bool,
-  // END lighthouse_migration
+  canAccessClaims: PropTypes.bool,
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
-  // START lighthouse_migration
-  getClaimsEVSS: PropTypes.func,
-  getClaimsLighthouse: PropTypes.func,
-  // END lighthouse_migration
+  getClaims: PropTypes.func,
   getStemClaims: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -349,10 +303,7 @@ YourClaimsPageV2.propTypes = {
     }),
   ),
   stemClaimsLoading: PropTypes.bool,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
   useNewClaimCards: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 function mapStateToProps(state) {
@@ -361,12 +312,7 @@ function mapStateToProps(state) {
 
   const services = getBackendServices(state);
   const canAccessAppeals = services.includes(backendServices.APPEALS_STATUS);
-  // START lighthouse_migration
-  const canAccessClaimsEVSS = services.includes(backendServices.EVSS_CLAIMS);
-  // END lighthouse_migration
-  const canAccessClaimsLighthouse = services.includes(
-    backendServices.LIGHTHOUSE,
-  );
+  const canAccessClaims = services.includes(backendServices.LIGHTHOUSE);
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
   ];
@@ -384,29 +330,20 @@ function mapStateToProps(state) {
     appealsAvailable: claimsV2Root.v2Availability,
     appealsLoading: claimsV2Root.appealsLoading,
     canAccessAppeals,
-    // START lighthouse_migration
-    canAccessClaimsLighthouse,
-    canAccessClaimsEVSS,
-    // END lighthouse_migration
+    canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
-    // START lighthouse_migration
-    useLighthouse: cstUseLighthouse(state, 'index'),
     useNewClaimCards: cstUseNewClaimCards(state),
-    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
-  // START lighthouse_migration
-  getClaimsLighthouse: getClaimsAction,
-  getClaimsEVSS: getClaimsV2Action,
-  // END lighthouse_migration
+  getClaims: getClaimsAction,
   getStemClaims: getStemClaimsAction,
 };
 

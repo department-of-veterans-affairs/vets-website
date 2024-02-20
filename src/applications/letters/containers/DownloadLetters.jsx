@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import findIndex from 'lodash/findIndex';
+import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 
 import { chapters } from '../utils/chapters';
 
-export function DownloadLetters({ children, location }) {
+export function DownloadLetters() {
+  const location = useLocation();
   const currentPageIndex = findIndex(chapters, ['path', location.pathname]);
   const currentStep = currentPageIndex + 1;
   const total = chapters.length;
@@ -21,12 +23,16 @@ export function DownloadLetters({ children, location }) {
         To receive some benefits, Veterans need a letter proving their status.
         You can download some of these benefit letters and documents online.
       </p>
-      <va-segmented-progress-bar total={total} current={currentStep} />
+      <va-segmented-progress-bar
+        total={total}
+        current={currentStep}
+        uswds="false"
+      />
       <div className="section-content">
         <h2 id="nav-form-header" className="vads-u-font-size--h4">
           {headerText}
         </h2>
-        {children}
+        <Outlet />
       </div>
     </div>
   );

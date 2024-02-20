@@ -8,17 +8,20 @@ const NonVaPrescription = prescription => {
     const status = prescription?.dispStatus?.toString();
     return (
       <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
-        <h2 className="vads-u-margin-y--2 no-print">About your prescription</h2>
+        <h2 className="vads-u-margin-y--2 no-print">
+          About this medication or supply
+        </h2>
         {prescription && <ExtraDetails {...prescription} />}
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Status
           </h3>
-          <div>{validateField(status)}</div>
+          <div data-testid="rx-status">{validateField(status)}</div>
           <div className="no-print">
             <va-additional-info
               trigger="What does this status mean?"
               data-testid="status-dropdown"
+              uswds
             >
               <ul className="non-va-ul" data-testid="nonVA-status-definition">
                 <li>
@@ -86,7 +89,12 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Provider notes
           </h3>
-          <p>{validateField(prescription.remarks)}</p>
+          <p>
+            {validateField(
+              (prescription.remarks ?? '') +
+                (prescription.disclaimer ? ` ${prescription.disclaimer}` : ''),
+            )}
+          </p>
         </section>
       </div>
     );

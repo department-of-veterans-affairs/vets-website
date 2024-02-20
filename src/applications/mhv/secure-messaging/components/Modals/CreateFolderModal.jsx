@@ -8,7 +8,12 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { Alerts } from '../../util/constants';
 
 const CreateFolderModal = props => {
-  const { isModalVisible, setIsModalVisible, onConfirm, folders } = props;
+  const {
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+    onConfirm,
+    folders,
+  } = props;
   const [folderName, setFolderName] = useState('');
   const [nameWarning, setNameWarning] = useState('');
   const folderNameInput = useRef();
@@ -27,9 +32,9 @@ const CreateFolderModal = props => {
     () => {
       setFolderName('');
       setNameWarning('');
-      setIsModalVisible(false);
+      setIsCreateNewModalVisible(false);
     },
-    [setFolderName, setNameWarning, setIsModalVisible],
+    [setFolderName, setNameWarning, setIsCreateNewModalVisible],
   );
 
   const confirmNewFolder = useCallback(
@@ -52,11 +57,12 @@ const CreateFolderModal = props => {
   return (
     <VaModal
       className="modal"
-      visible={isModalVisible}
+      visible={isCreateNewModalVisible}
       large="true"
       modalTitle={Alerts.Folder.CREATE_FOLDER_MODAL_HEADER}
       onCloseEvent={closeNewModal}
       data-testid="create-folder-modal"
+      data-dd-action-name="Create New Folder Modal Closed"
     >
       <VaTextInput
         data-dd-privacy="mask"
@@ -72,17 +78,21 @@ const CreateFolderModal = props => {
         error={nameWarning}
         name="folder-name"
         data-testid="folder-name"
+        data-dd-action-name="Create New Folder Modal Input Field"
+        charcount
       />
       <va-button
         text="Create"
         onClick={confirmNewFolder}
         data-testid="create-folder-button"
+        data-dd-action-name="Confirm Create New Folder Button"
       />
       <va-button
         secondary="true"
         text="Cancel"
         onClick={closeNewModal}
         data-testid="cancel-folder-button"
+        data-dd-action-name="Cancel Create New Folder Button"
       />
     </VaModal>
   );
@@ -90,8 +100,8 @@ const CreateFolderModal = props => {
 
 CreateFolderModal.propTypes = {
   folders: PropTypes.array.isRequired,
-  isModalVisible: PropTypes.bool.isRequired,
-  setIsModalVisible: PropTypes.func.isRequired,
+  isCreateNewModalVisible: PropTypes.bool.isRequired,
+  setIsCreateNewModalVisible: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
 

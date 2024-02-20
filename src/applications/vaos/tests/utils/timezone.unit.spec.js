@@ -14,13 +14,11 @@ describe('timezone util', () => {
 
   describe('stripDST', () => {
     it('should convert lower-48 tz to two chars', () => {
-      const tz = stripDST('MST');
+      let tz = stripDST('MST');
       expect(tz).to.equal('MT');
-    });
 
-    it('should skip 4 digit timezones', () => {
-      const tz = stripDST('AKST');
-      expect(tz).to.equal('AKST');
+      tz = stripDST('AKST');
+      expect(tz).to.equal('AKT');
     });
   });
 });

@@ -58,7 +58,7 @@ export const resolveParamsWithUrl = ({
 
   let facility;
   let service;
-  let url = api.url;
+  let { url } = api;
   let roundRadius;
   const perPage = 10;
   let communityServiceType = false;
@@ -229,7 +229,7 @@ export const benefitsServices = {
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance:
-    'Vocational rehabilitation and employment help',
+    'Veteran Readiness and Employment help',
 };
 
 export const vetCenterServices = [

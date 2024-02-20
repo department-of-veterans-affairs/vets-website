@@ -1,10 +1,7 @@
-// Dependencies.
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// Relative imports
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
 const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
@@ -26,11 +23,12 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
   const toggleModalState = () =>
     setModalState({ ...modalState, isOpen: !modalState.isOpen });
 
-  // modal state variables
   const { isOpen, pdfSelected, pdfUrl } = modalState;
+
   return (
     <div
       className="faf-pdf-alert-modal"
+      data-testid="faf-pdf-alert-modal"
       style={{
         pointerEvents: 'all',
       }}
@@ -46,6 +44,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
         }}
         modalTitle="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
+        uswds={false}
       >
         <>
           <p>

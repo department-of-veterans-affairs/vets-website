@@ -7,12 +7,12 @@ import { selectProfile } from 'platform/user/selectors';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { resetStoredSubTask } from 'platform/forms/sub-task';
-
-import GetFormHelp from '../content/GetFormHelp';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { DateSubmitted } from '../../shared/components/DateSubmitted';
 import { IssuesSubmitted } from '../../shared/components/IssuesSubmitted';
 import { getIssuesListItems } from '../../shared/utils/issues';
+import { renderFullName } from '../../shared/utils/data';
 
 export const ConfirmationPage = () => {
   const alertRef = useRef(null);
@@ -33,7 +33,6 @@ export const ConfirmationPage = () => {
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
   const submitDate = moment(submission?.timestamp);
   resetStoredSubTask();
 
@@ -47,11 +46,11 @@ export const ConfirmationPage = () => {
         />
         <h2>Application for Supplemental Claim</h2>
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">Thank you for filing a Supplemental Claim</h2>
         <p>
-          When we’ve completed our review, we’ll mail you a decision packet with
-          the details of our decision.
+          After we’ve completed our review, we’ll mail you a decision packet
+          with the details of our decision.
         </p>
       </va-alert>
       <div className="inset">
@@ -59,21 +58,12 @@ export const ConfirmationPage = () => {
           Your information for this claim
         </h3>
         <h4>Your name</h4>
-        {fullName ? (
-          <div
-            className="dd-privacy-hidden"
-            data-dd-action-name="Veteran full name"
-          >
-            {name.first} {name.middle} {name.last}
-            {name.suffix ? `, ${name.suffix}` : null}
-          </div>
-        ) : null}
+        {renderFullName(name)}
 
-        {submitDate.isValid() ? (
-          <DateSubmitted submitDate={submitDate} />
-        ) : null}
+        {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
         <IssuesSubmitted issues={issues} />
       </div>
+
       <h3>What to expect next</h3>
       <p>
         If we need more information, we’ll contact you to tell you what other
@@ -98,16 +88,22 @@ export const ConfirmationPage = () => {
         <a href="https://ask.va.gov/">Contact us through Ask VA</a>
       </p>
       <p>
-        You can also call us at <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />
+        You can also call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />{' '}
+        (<va-telephone contact={CONTACTS[711]} tty />
         ).
       </p>
-      <a href="/track-claims/your-claims" className="usa-button">
-        Track the status of your claim
+      <br role="presentation" />
+      <a
+        href="/claim-or-appeal-status/"
+        className="vads-c-action-link--green"
+        aria-describedby="delay-note"
+      >
+        Check the status of your claim
       </a>
-      <p />
-      <h3 className="help-heading">Need help?</h3>
-      <GetFormHelp />
+      <p id="delay-note">
+        <strong>Note</strong>: It may take 7 to 10 days for your Supplemental
+        Claim request to appear online.
+      </p>
     </div>
   );
 };

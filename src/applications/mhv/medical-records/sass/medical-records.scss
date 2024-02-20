@@ -12,11 +12,6 @@
 @import "./radiology-images";
 @import "./settings";
 
-// Your custom sass
-.loading-indicator {
-  margin: 200px auto;
-}
-
 .link-button,
 .link-button:hover,
 .link-button:active {
@@ -37,7 +32,7 @@
 @media print {
   .no-print,
   .no-print * {
-    visibility: hidden;
+    visibility: hidden !important;
     display: none !important;
     margin: 0px !important;
     padding: 0px !important;
@@ -73,7 +68,7 @@
   .print-only,
   .print-only * {
     visibility: hidden;
-    display: none;
+    display: none !important;
     margin: 0px !important;
     padding: 0px !important;
   }
@@ -95,26 +90,20 @@
       max-width: none;
     }
   }
-  .medical-records-navigation {
-    margin-right: 24px;
-  }
 }
 
 .page-description {
   margin: 8px 0px 16px;
 }
-.page-description-link {
-  display: block;
-}
 
 @media (max-width: $small-screen) {
   .medical-records-container {
     flex-direction: column;
-    .medical-records-navigation {
-      margin-top: 24px;
-      margin-right: 0px;
-    }
   }
+}
+
+.time-header {
+  margin-bottom: 24px;
 }
 
 @media print {
@@ -124,4 +113,17 @@
   .page-description {
     margin: 16px 0px;
   }
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Mono"),
+    url(../../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
+}
+
+.monospace {
+  font-family: Roboto Mono;
+  // font-family: monospace;
 }

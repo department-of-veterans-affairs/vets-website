@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   dateOfBirthUI,
   dateOfDeathUI,
@@ -7,6 +5,7 @@ import {
   dateOfDeathSchema,
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { dateOfDeathValidation } from '../helpers';
@@ -14,10 +13,8 @@ import { dateOfDeathValidation } from '../helpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': (
-      <h3 className="vads-u-margin-y--0">
-        Tell us who you’re requesting a Presidential Memorial Certificate for
-      </h3>
+    ...titleUI(
+      'Tell us who you’re requesting a Presidential Memorial Certificate for',
     ),
     veteranFullName: fullNameNoSuffixUI(),
     veteranDateOfBirth: dateOfBirthUI(),

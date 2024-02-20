@@ -29,12 +29,18 @@ export const uiSchema = {
           'ui:options': {
             useDlWrap: true,
           },
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
+          },
         },
         middle: {
           'ui:title': 'Child’s middle name',
           'ui:options': {
             useDlWrap: true,
             hideEmptyValueInReview: true,
+          },
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
           },
         },
         last: {
@@ -43,6 +49,9 @@ export const uiSchema = {
             isChapterFieldRequired(formData, TASK_KEYS.addChild),
           'ui:options': {
             useDlWrap: true,
+          },
+          'ui:errorMessages': {
+            pattern: 'This field accepts alphabetic characters only',
           },
         },
         suffix: {

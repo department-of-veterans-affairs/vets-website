@@ -7,7 +7,7 @@ import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 
@@ -26,7 +26,7 @@ const BenefitApplicationDrafts = ({
   );
 
   return (
-    <div data-testid="dashboard-section-saved-applications">
+    <div data-testid="dashboard-section-benefit-application-drafts">
       <h2>Benefit application drafts</h2>
       <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
     </div>

@@ -9,19 +9,22 @@ import ReplyButton from './ReplyButton';
 import { Actions } from '../util/actionTypes';
 
 const MessageActionButtons = props => {
-  const { threadId, hideReplyButton, handleReplyButton } = props;
+  const {
+    threadId,
+    hideReplyButton,
+    handleReplyButton,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+  } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
-  const handlePrint = printOption => {
+  const handlePrint = () => {
     dispatch({
       type: Actions.Message.SET_THREAD_PRINT_OPTION,
-      payload: printOption,
     });
-    if (printOption !== null) {
-      window.print();
-    }
+    window.print();
   };
 
   return (
@@ -46,6 +49,8 @@ const MessageActionButtons = props => {
           <MoveMessageToFolderBtn
             activeFolder={activeFolder}
             key="moveMessageToFolderBtn"
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             isVisible={activeFolder?.folderId !== DefaultFolders.SENT.id}
             threadId={threadId}
             allFolders={folders}
@@ -68,7 +73,9 @@ const MessageActionButtons = props => {
 MessageActionButtons.propTypes = {
   handleReplyButton: PropTypes.func,
   hideReplyButton: PropTypes.bool,
+  isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
+  setIsCreateNewModalVisible: PropTypes.func,
   threadId: PropTypes.number,
 };
 

@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { apiRequest } from 'platform/utilities/api';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import RequireSignInModal from '../RequireSignInModal';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { setCategoryID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
 import { URL, requireSignInCategories } from '../../constants';
-import { setCategoryID } from '../../actions';
+import RequireSignInModal from '../RequireSignInModal';
 
 const CategorySelect = props => {
   const { id, onChange, value, loggedIn } = props;
@@ -61,7 +61,7 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}?mock=true`);
+      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
     },
     [loggedIn],
   );
@@ -79,10 +79,10 @@ const CategorySelect = props => {
         id={id}
         name={id}
         value={value}
-        label="Select a category"
         error={showError() || null}
         onVaSelect={handleChange}
         onBlur={handleBlur}
+        uswds
       >
         <option value="">&nbsp;</option>
         {apiData.map(category => (
@@ -108,8 +108,8 @@ const CategorySelect = props => {
 };
 
 CategorySelect.propTypes = {
-  loggedIn: PropTypes.bool,
   id: PropTypes.string,
+  loggedIn: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };

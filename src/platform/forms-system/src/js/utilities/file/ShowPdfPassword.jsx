@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import environment from 'platform/utilities/environment';
-
 import { focusElement } from '../ui';
 
 const ShowPdfPassword = ({
@@ -80,22 +78,12 @@ ShowPdfPassword.propTypes = {
   onSubmitPassword: PropTypes.func,
 };
 
-const PasswordLabel = () => {
-  if (!environment.isProduction()) {
-    return (
-      <p>
-        This is an encrypted PDF document. In order for us to be able to view
-        the document, we will need the password to decrypt it.
-      </p>
-    );
-  }
-  return (
-    <p>
-      This is en encrypted PDF document. In order for us to be able to view the
-      document, we will need the password to decrypt it.
-    </p>
-  );
-};
+const PasswordLabel = () => (
+  <p>
+    This is an encrypted PDF document. In order for us to be able to view the
+    document, we will need the password to decrypt it.
+  </p>
+);
 
 const PasswordSuccess = () => (
   <>

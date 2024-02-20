@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 const ItemList = props => {
   const { list } = props;
-  if (typeof list === 'string') return list;
+  if (typeof list === 'string')
+    return (
+      <span data-dd-privacy="mask" data-testid="item-list-string">
+        {list}
+      </span>
+    );
   if (list?.length > 1) {
     return (
       <ul className="vads-u-margin-top--0 item-list">
@@ -13,6 +18,7 @@ const ItemList = props => {
               key={idx}
               className="vads-u-margin-bottom--0"
               data-dd-privacy="mask"
+              data-testid="list-item-multiple"
             >
               {item}
             </li>
@@ -22,7 +28,11 @@ const ItemList = props => {
     );
   }
   if (list?.length === 1) {
-    return list[0];
+    return (
+      <span data-testid="list-item-single" data-dd-privacy="mask">
+        {list[0]}
+      </span>
+    );
   }
   return <p className="vads-u-margin-top--0">None noted</p>;
 };

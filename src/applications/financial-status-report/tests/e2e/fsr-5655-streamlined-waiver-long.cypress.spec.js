@@ -92,7 +92,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -105,7 +108,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'additional-income-checklist': ({ afterHook }) => {
@@ -176,6 +182,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'other-income-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
+        });
+      },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="Clothing"]`)
@@ -194,6 +208,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'other-expenses-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
+        });
+      },
       'skip-questions-explainer': ({ afterHook }) => {
         afterHook(() => {
           cy.get('h3').should(
@@ -205,22 +227,20 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('.accordion-header').should('have.length', 4);
+          cy.get('va-accordion-item').should('have.length', 4);
           cy.get('#veteran-signature')
             .shadow()
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

@@ -35,10 +35,12 @@ describe('ezr DependentSummary page', () => {
   });
 
   context('when no dependents have been reported', () => {
-    it('should not render a title', () => {
+    it('should render a general page title', () => {
       const { props } = getData({});
       const { container } = render(<DependentSummary {...props} />);
-      expect(container.querySelector('#root__title').textContent).to.be.empty;
+      expect(container.querySelector('#root__title')).to.contain.text(
+        content['household-dependent-summary-title'],
+      );
     });
 
     it('should not render the dependents list field', () => {
@@ -56,7 +58,7 @@ describe('ezr DependentSummary page', () => {
     it('should render the specific form page title', () => {
       const { container } = render(<DependentSummary {...props} />);
       expect(container.querySelector('#root__title')).to.contain.text(
-        content['household-dependent-summary-title'],
+        content['household-dependent-summary-list-title'],
       );
     });
 

@@ -1,15 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 
 import {
+  fieldHasValue,
   getFormattedAppointmentDate,
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES } from '../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  MEDICATION_SOURCES,
+  MEDICATION_TYPES,
+} from '../utils/constants';
+import {
+  filterMedicationsByType,
+  getCombinedMedications,
+  getMedicationsTaking,
+  getMedicationsNotTaking,
+} from '../utils/medications';
 
+import ItemsBlock from './ItemsBlock';
+import MedicationTerms from './MedicationTerms';
 import ParagraphBlock from './ParagraphBlock';
 
 const getAppointments = (type, appointments) => {
@@ -20,7 +34,7 @@ const getAppointmentContent = (type, appointments) => {
   const items = getAppointments(type, appointments);
   if (items.length > 0) {
     return items.map((item, idx) => (
-      <div key={idx}>
+      <li key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
         <p className="vads-u-margin-top--0">
           {item.location}
@@ -28,7 +42,7 @@ const getAppointmentContent = (type, appointments) => {
           <br />
           Clinic location: {item.site}
         </p>
-      </div>
+      </li>
     ));
   }
 
@@ -41,11 +55,9 @@ const primaryCareProvider = avs => {
       <div>
         <h3>Primary care provider</h3>
         <ul data-testid="primary-care-provider">
-          {/* TODO: Confirm that this is correct. */}
           {avs.primaryCareProviders.length && (
             <li>{avs.primaryCareProviders[0]}</li>
           )}
-          {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
     );
@@ -58,14 +70,18 @@ const primaryCareTeam = avs => {
   if (avs.primaryCareTeamMembers?.length > 0) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
-        {member.name} - {member.title}
+        {member.name}
+        {member.title && ` - ${member.title}`}
       </li>
     ));
 
     return (
       <div>
-        <h3>Primary care team</h3>
-        <ul className="bulleted-list" data-testid="primary-care-team">
+        <h3 data-testid="primary-care-team">Primary care team</h3>
+        <p data-testid="primary-care-team-name">
+          {avs.primaryCareTeam && `Team name: ${avs.primaryCareTeam}`}
+        </p>
+        <ul className="bulleted-list" data-testid="primary-care-team-list">
           {teamMembers}
         </ul>
       </div>
@@ -93,7 +109,7 @@ const appointments = avs => {
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="scheduled-appointments"
             >
               {scheduledAppointments}
@@ -111,7 +127,7 @@ const appointments = avs => {
               time.
             </p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="recall-appointments"
             >
               {recallAppointments}
@@ -125,62 +141,45 @@ const appointments = avs => {
   return null;
 };
 
-const immunizations = avs => {
-  if (avs.immunizations?.length > 0) {
-    const immunizationItems = avs.immunizations.map((immunization, idx) => (
-      <div key={idx}>
-        <p>
-          {immunization.name}
-          <br />
-          Date: {formatDateLong(parseVistaDate(immunization.date))}
-          <br />
-          Facility: {immunization.facility}
-        </p>
-        <hr />
-      </div>
-    ));
-
-    return (
-      <div data-testid="immunizations">
-        <h3>Immunizations</h3>
-        {immunizationItems}
-      </div>
-    );
-  }
-
-  return null;
+const renderImmunization = immunization => {
+  return (
+    <p>
+      {immunization.name}
+      <br />
+      Date: {formatDateLong(parseVistaDate(immunization.date))}
+      <br />
+      Facility: {immunization.facility}
+    </p>
+  );
 };
 
-const allergiesAndReactions = avs => {
-  if (avs.allergiesReactions?.allergies?.length > 0) {
-    const allergyItems = avs.allergiesReactions.allergies.map((item, idx) => (
-      <div key={idx}>
-        <p>
-          {item.allergen}
-          <br />
-          Verified date: {formatDateLong(parseVistaDate(item.verifiedDate))}
-          <br />
-          Severity: {item.severity || 'None noted'}
-          <br />
-          Reaction: {item.reactions.join(', ') || 'None noted'}
-          <br />
-          Allergy type: {item.type || 'None noted'}
-          <br />
-          Site: {item.site}
-        </p>
-        <hr />
-      </div>
-    ));
+const renderProblem = problem => {
+  // cf. https://github.com/department-of-veterans-affairs/avs/blob/2af52456e924d8da21b5a8079ac0fb41e6498c63/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/PatientInfoThread.java#L100C87-L100C87
+  const problemName = problem.description.replace(/ \(.*\)$/, '');
+  return (
+    <p>
+      {problemName} <br />
+      Last updated: {formatDateLong(problem.lastUpdated)}
+    </p>
+  );
+};
 
-    return (
-      <div data-testid="allergies-reactions">
-        <h3>Allergies and adverse drug reactions (signs / symptoms)</h3>
-        {allergyItems}
-      </div>
-    );
-  }
-
-  return null;
+const renderAllergy = allergy => {
+  return (
+    <p>
+      {allergy.allergen}
+      <br />
+      Verified date: {formatDateLong(parseVistaDate(allergy.verifiedDate))}
+      <br />
+      Severity: {allergy.severity || 'None noted'}
+      <br />
+      Reaction: {allergy.reactions.join(', ') || 'None noted'}
+      <br />
+      Allergy type: {allergy.type || 'None noted'}
+      <br />
+      Site: {allergy.site}
+    </p>
+  );
 };
 
 const labResultValues = labResult => {
@@ -214,7 +213,7 @@ const labResults = avs => {
           Performing lab: {item.performingLab}
           <br />
         </p>
-        <hr />
+        {avs.labResults.length > 1 && <hr />}
       </div>
     ));
 
@@ -234,6 +233,131 @@ const labResults = avs => {
   return null;
 };
 
+const getMyMedications = avs => {
+  return filterMedicationsByType(
+    getMedicationsTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMyMedicationsNotTaking = avs => {
+  return filterMedicationsByType(
+    getMedicationsNotTaking(avs),
+    MEDICATION_TYPES.DRUG,
+  );
+};
+
+const getMySupplies = avs => {
+  return filterMedicationsByType(
+    getCombinedMedications(avs),
+    MEDICATION_TYPES.SUPPLY,
+  );
+};
+
+const medsIntro = avs => {
+  return (
+    <>
+      <p>
+        The medications listed below were reviewed with you by your provider and
+        is provided to you as an updated list of medications. Please remember to
+        inform your provider of any medication changes or discrepancies that you
+        note. Otherwise, please continue these medications as prescribed.
+      </p>
+      <MedicationTerms avs={avs} />
+    </>
+  );
+};
+
+const getDateLastFilled = medication => {
+  if (fieldHasValue(medication.dateLastFilled))
+    return medication.dateLastFilled;
+  if (fieldHasValue(medication.dateLastReleased))
+    return medication.dateLastReleased;
+
+  return '';
+};
+
+const renderFieldWithBreak = (field, prefix = '') => {
+  if (fieldHasValue(field)) {
+    if (prefix) {
+      return (
+        <>
+          {prefix}: {String(field)} <br />
+        </>
+      );
+    }
+    return (
+      <>
+        {String(field)}
+        <br />
+      </>
+    );
+  }
+
+  return '';
+};
+
+const renderVaMedication = medication => {
+  return (
+    <>
+      <p>
+        {renderFieldWithBreak(medication.name)}
+        {renderFieldWithBreak(medication.sig)}
+        {renderFieldWithBreak(medication.description, 'Description')}
+        {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
+        Notes: {fieldHasValue(medication.comment) && String(medication.comment)}
+        <br />
+        <br />
+        {renderFieldWithBreak(medication.stationName, 'Facility')}
+        {!!medication.facilityPhone && (
+          <>
+            Main phone: [
+            <va-telephone
+              contact={medication.facilityPhone.replace(/\D/g, '')}
+            />
+            ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
+          </>
+        )}
+        {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
+        <br />
+        {renderFieldWithBreak(medication.status, 'Status')}
+        {renderFieldWithBreak(medication.quantity, 'Quantity')}
+        {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
+        {renderFieldWithBreak(medication.dateExpires, 'Expires')}
+        {renderFieldWithBreak(getDateLastFilled(medication), 'Last filled')}
+      </p>
+    </>
+  );
+};
+
+const renderNonVaMedication = medication => {
+  return (
+    <p>
+      {renderFieldWithBreak(medication.name)}
+      {renderFieldWithBreak(medication.sig)}
+      {renderFieldWithBreak(medication.comment, 'Notes')}
+      <br />
+      Facility: NON-VA
+      <br />
+      Documenting Facility & Provider: {medication.documentingFacility},{' '}
+      {medication.documentor}
+      <br />
+      <br />
+      {renderFieldWithBreak(medication.status, 'Status')}
+    </p>
+  );
+};
+
+const renderMedication = medication => {
+  switch (medication.medicationSource) {
+    case MEDICATION_SOURCES.NON_VA:
+      return renderNonVaMedication(medication);
+    case MEDICATION_SOURCES.VA:
+    default:
+      return renderVaMedication(medication);
+  }
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
   const appointmentDate = getFormattedAppointmentDate(avs);
@@ -249,13 +373,56 @@ const YourHealthInformation = props => {
       {primaryCareProvider(avs)}
       {primaryCareTeam(avs)}
       {appointments(avs)}
-      {/* TODO: add problem list */}
+
+      <ItemsBlock
+        heading="Problem list"
+        itemType="problems"
+        items={avs.problems}
+        renderItem={renderProblem}
+        showSeparators={false}
+      />
+
       <ParagraphBlock
         heading="Smoking status"
         content={avs.patientInfo?.smokingStatus}
       />
-      {immunizations(avs)}
-      {allergiesAndReactions(avs)}
+      <ItemsBlock
+        heading="Immunizations"
+        itemType="immunizations"
+        items={avs.immunizations}
+        renderItem={renderImmunization}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="Allergies and adverse drug reactions (signs / symptoms)"
+        itemType="allergies-reactions"
+        items={avs.allergiesReactions?.allergies}
+        renderItem={renderAllergy}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My medications"
+        intro={medsIntro(avs)}
+        itemType="my-medications"
+        items={getMyMedications(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="My VA supplies"
+        itemType="my-va-supplies"
+        items={getMySupplies(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
+      <ItemsBlock
+        heading="Medications you are not taking"
+        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
+        itemType="medications-not-taking"
+        items={getMyMedicationsNotTaking(avs)}
+        renderItem={renderMedication}
+        showSeparators
+      />
       {labResults(avs)}
     </div>
   );

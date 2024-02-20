@@ -4,7 +4,6 @@ import {
   fillTextWebComponent,
   selectDropdownWebComponent,
   selectYesNoWebComponent,
-  fillAddressWebComponentPattern,
 } from '.';
 
 export const advanceToInsurancePolicies = testData => {
@@ -16,13 +15,15 @@ export const advanceToInsurancePolicies = testData => {
     '/veteran-information/personal-information',
   );
   goToNextPage('/veteran-information/mailing-address');
-  fillAddressWebComponentPattern('veteranAddress', testData.veteranAddress);
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
 
   goToNextPage('/household-information/marital-status');
-  selectDropdownWebComponent('maritalStatus', 'Never Married');
+  selectDropdownWebComponent(
+    'view:maritalStatus_maritalStatus',
+    'Never Married',
+  );
 
   goToNextPage('/household-information/dependents');
   cy.get(`[name="root_${DEPENDENT_VIEW_FIELDS.add}"]`).check('N');
@@ -52,10 +53,13 @@ export const advanceToInsurancePolicies = testData => {
   ).type(testData['view:deductibleFuneralExpenses'].deductibleFuneralExpenses);
 
   goToNextPage('/insurance-information/medicaid-eligibility');
-  selectYesNoWebComponent('isMedicaidEligible', false);
+  selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 
   goToNextPage('/insurance-information/medicare-part-a-enrollment');
-  selectYesNoWebComponent('isEnrolledMedicarePartA', false);
+  selectYesNoWebComponent(
+    'view:isEnrolledMedicarePartA_isEnrolledMedicarePartA',
+    false,
+  );
 };
 
 export const fillInsuranceInformation = policy => {
