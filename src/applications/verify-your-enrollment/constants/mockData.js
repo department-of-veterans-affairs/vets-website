@@ -214,7 +214,7 @@ export const USER_MOCK_DATA = {
     ],
     pendingDocuments: [
       {
-        docType: 'voluptatem',
+        docType: '1990',
         queueDate: '2023-12-04T22:24:20.000Z',
       },
     ],
