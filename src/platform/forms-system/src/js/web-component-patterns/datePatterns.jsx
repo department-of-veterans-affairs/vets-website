@@ -4,7 +4,7 @@ import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
 import { validateCurrentOrPastMemorableDate } from '../validation';
 
 /**
- * Web component uiSchema for current or past dates
+ * Web component v3 uiSchema for current or past dates
  *
  * ```js
  * exampleDate: currentOrPastDateUI('Date of event')
@@ -16,7 +16,7 @@ import { validateCurrentOrPastMemorableDate } from '../validation';
  *  ...currentOrPastDateUI('Date of event')
  * }
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
  * }} [options] accepts a single string for title, or an object of options
@@ -62,7 +62,7 @@ const currentOrPastDateUI = options => {
 };
 
 /**
- * Web component uiSchema for current or past dates with digit select for month
+ * Web component v3 uiSchema for current or past dates with digit select for month
  *
  * ```js
  * exampleDate: currentOrPastDateDigitsUI('Date of event')
@@ -74,7 +74,7 @@ const currentOrPastDateUI = options => {
  *  ...currentOrPastDateDigitsUI('Date of event')
  * }
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
  * }} [options] accepts a single string for title, or an object of options
@@ -92,7 +92,7 @@ const currentOrPastDateDigitsUI = options => {
 };
 
 /**
- * Web component uiSchema for date of birth
+ * Web component v3 uiSchema for date of birth
  *
  * ```js
  * dateOfBirth: dateOfBirthUI()
@@ -102,7 +102,7 @@ const currentOrPastDateDigitsUI = options => {
  *    hint: 'This is a hint'
  * })
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
  * }} [options] accepts a single string for title, or an object of options
@@ -123,7 +123,7 @@ const dateOfBirthUI = options => {
 };
 
 /**
- * Web component uiSchema for date of death
+ * Web component v3 uiSchema for date of death
  *
  * ```js
  * dateOfDeath: dateOfDeathUI()
@@ -133,7 +133,7 @@ const dateOfBirthUI = options => {
  *    hint: 'This is a hint'
  * })
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
  * }} [options] accepts a single string for title, or an object of options
