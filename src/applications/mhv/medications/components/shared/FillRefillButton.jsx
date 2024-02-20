@@ -18,6 +18,9 @@ const FillRefillButton = rx => {
   } = rx;
 
   const [isLoading, setIsLoading] = useState(false);
+  const hasBeenDispensed =
+    dispensedDate ||
+    rx.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
 
   useEffect(
     () => {
@@ -79,7 +82,7 @@ const FillRefillButton = rx => {
             setIsLoading(true);
             dispatch(fillPrescription(prescriptionId));
           }}
-          text={`Request ${dispensedDate ? 'a refill' : 'the first fill'}`}
+          text={`Request ${hasBeenDispensed ? 'a refill' : 'the first fill'}`}
         />
       </div>
     );

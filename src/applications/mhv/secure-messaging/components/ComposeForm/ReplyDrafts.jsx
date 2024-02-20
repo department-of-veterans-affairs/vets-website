@@ -78,7 +78,7 @@ ReplyDrafts.propTypes = {
   saveDraftHandler: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
-  signature: PropTypes.string,
+  signature: PropTypes.object,
 };
 
 export default ReplyDrafts;

@@ -16,6 +16,17 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
   useEffect(() => {
     const formDataUserAddress =
       formData?.application?.applicant['view:applicantInfo']?.mailingAddress;
+
+    const addressForAPIRequest = {
+      addressLine1: formDataUserAddress.street,
+      addressLine2: formDataUserAddress.street2,
+      addressPou: 'CORRESPONDENCE',
+      addressType: 'DOMESTIC',
+      city: formDataUserAddress.city,
+      countryCodeIso3: formDataUserAddress.country,
+      stateCode: formDataUserAddress.state,
+      zipCode: formDataUserAddress.postalCode,
+    };
     async function getSuggestedAddresses() {
       try {
         setUserAddress(formDataUserAddress);
@@ -26,8 +37,7 @@ function PreparerContanctDetailsCustom({ formData, addressValidation }) {
             '/profile/addresses',
             'POST',
             'mailingAddress',
-            formData?.application?.applicant['view:applicantInfo']
-              ?.mailingAddress,
+            addressForAPIRequest,
             'mailing-address',
           ),
         );

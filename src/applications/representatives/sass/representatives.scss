@@ -1,5 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+
 .dash-container {
   max-width: 1024px;
   margin: 32px auto;
@@ -7,6 +8,10 @@
   .nav {
     height: 48px;
   }
+}
+
+.placeholder-container {
+
   .notif {
     height: 96px;
   }
@@ -15,9 +20,6 @@
   }
   .etc {
     height: 96px;
-  }
-  .left {
-    height: 200px;
   }
 }
 
@@ -34,4 +36,8 @@
 
 .rounded-corners {
   border-radius: 10px;
+}
+
+.view-all-link {
+  float: right;
 }

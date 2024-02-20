@@ -1,6 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import { isLOA1 } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
@@ -40,6 +44,10 @@ const LandingPage = ({ data = {} }) => {
       data-testid="landing-page-container"
     >
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <DowntimeNotification
+          dependencies={[externalServices.mhvPlatform]}
+          render={renderMHVDowntime}
+        />
         {!showPersonalization && <HeaderLayoutV1 />}
         {showPersonalization && (
           <>

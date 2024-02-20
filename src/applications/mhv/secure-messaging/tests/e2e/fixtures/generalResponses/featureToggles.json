@@ -91,52 +91,12 @@
         "value": true
       },
       {
-        "name": "cernerAllowPartialFacilities",
-        "value": false
-      },
-      {
-        "name": "cerner_allow_partial_facilities",
-        "value": false
-      },
-      {
-        "name": "cernerOverride463",
-        "value": false
-      },
-      {
-        "name": "cerner_override_463",
-        "value": false
-      },
-      {
-        "name": "cernerOverride531",
-        "value": true
-      },
-      {
-        "name": "cerner_override_531",
-        "value": true
-      },
-      {
-        "name": "cernerOverride648",
-        "value": false
-      },
-      {
-        "name": "cerner_override_648",
-        "value": false
-      },
-      {
         "name": "cernerOverride653",
         "value": true
       },
       {
         "name": "cerner_override_653",
         "value": true
-      },
-      {
-        "name": "cernerOverride663",
-        "value": false
-      },
-      {
-        "name": "cerner_override_663",
-        "value": false
       },
       {
         "name": "cernerOverride668",
@@ -1463,10 +1423,6 @@
         "value": true
       },
       {
-        "name": "show_header_v2",
-        "value": true
-      },
-      {
         "name": "showMebUnverifiedUserAlert",
         "value": true
       },
@@ -1552,14 +1508,6 @@
       },
       {
         "name": "show_new_secure_messaging_page",
-        "value": true
-      },
-      {
-        "name": "showNewViewTestLabResultsPage",
-        "value": true
-      },
-      {
-        "name": "show_new_view_test_lab_results_page",
         "value": true
       },
       {

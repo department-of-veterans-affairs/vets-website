@@ -8,8 +8,6 @@ export const issueErrorMessages = {
 
   invalidDate: 'Please provide a valid date',
   blankDecisionDate: 'Please enter a decision date',
-  invalidDateRange: (min, max) =>
-    `Please enter a year between ${min} and ${max}`,
   pastDate: 'Please add a past decision date',
   newerDate: 'Please add an issue with a decision date less than a year old',
 };

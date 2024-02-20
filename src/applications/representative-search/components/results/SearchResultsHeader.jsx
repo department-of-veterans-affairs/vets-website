@@ -7,7 +7,13 @@ import { sortOptions } from '../../config';
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
-  const { inProgress, context, representativeType, sortType } = query;
+  const {
+    inProgress,
+    context,
+    representativeType,
+    sortType,
+    searchArea,
+  } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults.length;
 
@@ -18,9 +24,9 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    officer: 'Veteran Service Officers',
-    attorney: 'Attorneys',
-    claim_agents: 'Claims agents',
+    veteran_service_officer: 'Accredited Veteran Service Officer (VSO)',
+    attorney: 'Accredited attorney',
+    claim_agents: 'Accredited claims agent',
   };
 
   const handleNumberOfResults = () => {
@@ -66,6 +72,7 @@ export const SearchResultsHeader = props => {
       <h2 className="vads-u-margin-y--0">Your search results</h2>
       <div className="vads-u-margin-top--3">
         <div>
+          {' '}
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
@@ -87,51 +94,67 @@ export const SearchResultsHeader = props => {
           id="search-results-subheader"
           className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
           tabIndex="-1"
+          style={{ fontSize: 16 }}
         >
           {handleNumberOfResults()} for
           {` `}
+          &quot;
           <b>{repFormat[representativeType]}</b>
+          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              matching <b>"{context.repOrgName}"</b>
+              matching &quot;
+              <b>{context.repOrgName}</b>
+              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within 50 miles of &quot;
+              within &quot;
+              <b>{searchArea} miles</b>
+              &quot; of &quot;
               <b>{context.location}</b>
               &quot;
             </>
           )}
         </h3>
-        <div className="sort-dropdown">
-          <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
-            Sort by
-          </label>
-          <div className="sort-select-and-apply">
-            <div className="sort-select">
-              <select
-                id="representative-sorting-dropdown"
-                aria-label="Sort"
-                // ref={sortTypeRef}
-                value={selectedSortType}
-                title="Sort by:"
-                onChange={e => setSelectedSortType(e.target.value)}
-                style={{ fontWeight: 'bold' }}
-              >
-                {' '}
-                {options}{' '}
-              </select>
-            </div>
 
-            <div className="vads-u-margin-left--2 sort-apply-button">
-              <va-button onClick={onClickApplyButton} text="Apply" secondary />
+        {noResultsFound ? (
+          <p className="vads-u-margin-bottom--8">
+            For better results, you can increase your <b>search area</b>.
+          </p>
+        ) : (
+          <div className="sort-dropdown">
+            <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
+              Sort by
+            </label>
+            <div className="sort-select-and-apply">
+              <div className="sort-select">
+                <select
+                  id="representative-sorting-dropdown"
+                  aria-label="Sort"
+                  // ref={sortTypeRef}
+                  value={selectedSortType}
+                  title="Sort by:"
+                  onChange={e => setSelectedSortType(e.target.value)}
+                >
+                  {' '}
+                  {options}{' '}
+                </select>
+              </div>
+
+              <div className="vads-u-margin-left--2 sort-apply-button">
+                <va-button
+                  onClick={onClickApplyButton}
+                  text="Apply"
+                  secondary
+                />
+              </div>
             </div>
           </div>
-        </div>
-        {/* <hr /> */}
+        )}
       </div>
     </div>
   );
