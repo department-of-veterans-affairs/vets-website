@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { formConfig }  from './config/form';
+import { formConfig } from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
 function BurialsEntry({ location, children, toggleFeatures, profile }) {
@@ -21,7 +21,7 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
   if (!burialFormEnabled) {
     if (location.pathname !== '/introduction') {
       window.location.href = '/burials-memorials/veterans-burial-allowance/';
-      return <React.Fragment />
+      return <></>;
     }
     return <NoFormPage />;
   }
@@ -31,19 +31,21 @@ function BurialsEntry({ location, children, toggleFeatures, profile }) {
 
   const hasV1Form = profile.savedForms.some(form => {
     return (
-      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === metadataVersion2017
+      form.form === VA_FORM_IDS.FORM_21P_530 &&
+      form.metadata.version === metadataVersion2017
     );
   });
   const hasV2Form = profile.savedForms.some(form => {
     return (
-      form.form === VA_FORM_IDS.FORM_21P_530 && form.metadata.version === metadataVersion2024
+      form.form === VA_FORM_IDS.FORM_21P_530 &&
+      form.metadata.version === metadataVersion2024
     );
   });
 
   const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
   if (!shouldUseV2) {
     window.location.href = '/burials-and-memorials/application/530/';
-    return <React.Fragment />
+    return <></>;
   }
 
   return (

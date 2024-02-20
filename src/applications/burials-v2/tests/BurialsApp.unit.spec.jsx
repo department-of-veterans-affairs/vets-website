@@ -4,8 +4,8 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import BurialsApp from '../BurialsApp';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import BurialsApp from '../BurialsApp';
 
 const burialsLocation = {
   pathname: '/introduction',
@@ -18,12 +18,12 @@ const burialsLocation = {
 };
 
 const store = ({
-                 burialFormEnabled = true,
-                 burialFormV2 = false,
-                 featuresLoading = true,
-                 profileLoading = false,
-                 savedForms = [],
-               } = {}) => ({
+  burialFormEnabled = true,
+  burialFormV2 = false,
+  featuresLoading = true,
+  profileLoading = false,
+  savedForms = [],
+} = {}) => ({
   getState: () => ({
     user: {
       login: {
@@ -32,7 +32,7 @@ const store = ({
       profile: {
         loading: profileLoading,
         savedForms,
-      }
+      },
     },
     featureToggles: {
       loading: featuresLoading,
@@ -58,7 +58,7 @@ describe('BurialsApp', () => {
   it('should show NoFormPage', async () => {
     const mockStore = store({
       featuresLoading: false,
-      burialFormEnabled: false
+      burialFormEnabled: false,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -74,18 +74,20 @@ describe('BurialsApp', () => {
   it('should redirect to burial allowance', async () => {
     const mockStore = store({
       featuresLoading: false,
-      burialFormEnabled: false
+      burialFormEnabled: false,
     });
     global.window.location = {
-      href: "test"
+      href: 'test',
     };
-    const { container } = render(
+    render(
       <Provider store={mockStore}>
-        <BurialsApp location={{...burialsLocation, pathname: 'test'}} />
+        <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
       </Provider>,
     );
     await waitFor(() => {
-      expect(window.location.href).to.eq("/burials-memorials/veterans-burial-allowance/");
+      expect(window.location.href).to.eq(
+        '/burials-memorials/veterans-burial-allowance/',
+      );
     });
   });
 
@@ -95,23 +97,27 @@ describe('BurialsApp', () => {
       burialFormV2: false,
       featuresLoading: false,
       profileLoading: false,
-      savedForms: [{
-        // No form with version 3 present.
-        form: VA_FORM_IDS.FORM_21P_530,
-        metadata: {
-          version: 2
-        }
-      }],
+      savedForms: [
+        {
+          // No form with version 3 present.
+          form: VA_FORM_IDS.FORM_21P_530,
+          metadata: {
+            version: 2,
+          },
+        },
+      ],
     });
     const originalHref = window.location.href;
     global.window.location = {
-      href: originalHref
+      href: originalHref,
     };
     render(
       <Provider store={mockStore}>
         <BurialsApp location={burialsLocation} />
       </Provider>,
     );
-    expect(window.location.href).to.eq("/burials-and-memorials/application/530/");
+    expect(window.location.href).to.eq(
+      '/burials-and-memorials/application/530/',
+    );
   });
 });
