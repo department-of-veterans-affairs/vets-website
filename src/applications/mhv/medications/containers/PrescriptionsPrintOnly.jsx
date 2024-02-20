@@ -10,7 +10,7 @@ import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 
 const PrescriptionsPrintOnly = () => {
-  const location = useLocation();
+  const { search } = useLocation();
   const [fullPrescriptionsList, setFullPrescriptionsList] = React.useState([]);
   const dispatch = useDispatch();
   const allergies = useSelector(state => state.rx.allergies.allergiesList);
@@ -21,7 +21,13 @@ const PrescriptionsPrintOnly = () => {
   const [currentSortOption, setCurrentSortOption] = React.useState(
     selectedSortOption,
   );
-  const LIST_PAGE_PATTERN = React.useMemo(() => /^\/\d+$/, []);
+  const page = React.useMemo(
+    () => {
+      const query = new URLSearchParams(search);
+      return Number(query.get('page'));
+    },
+    [search],
+  );
   React.useEffect(
     () => {
       const getFullList = async () => {
@@ -40,7 +46,8 @@ const PrescriptionsPrintOnly = () => {
         dispatch(getAllergiesList());
       };
       if (
-        LIST_PAGE_PATTERN.test(location.pathname) &&
+        !isNaN(page) &&
+        page > 0 &&
         (fullPrescriptionsList.length === 0 ||
           currentSortOption !== selectedSortOption)
       ) {
@@ -49,10 +56,9 @@ const PrescriptionsPrintOnly = () => {
       }
     },
     [
-      location.pathname,
+      page,
       selectedSortOption,
       fullPrescriptionsList.length,
-      LIST_PAGE_PATTERN,
       currentSortOption,
       allergies,
       dispatch,
@@ -61,7 +67,7 @@ const PrescriptionsPrintOnly = () => {
   const content = () => {
     return (
       <>
-        {LIST_PAGE_PATTERN.test(location.pathname) ? (
+        {page ? (
           <div className="print-only print-only-rx-full-list-page">
             <PrintOnlyPage
               title="Medications"
