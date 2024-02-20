@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
-
 import { applicantWording } from '../helpers/wordingCustomization';
 
 const keyname = 'applicantMedicarePart';
@@ -30,7 +30,7 @@ function generateOptions({ data, pagePerItemIndex }) {
       title: 'Part B',
       description: `${
         useFirstPerson ? "I'm" : `${applicant} is `
-      } enrolled in Medicare Part A`,
+      } enrolled in Medicare Part B`,
     },
     {
       value: 'partD',
@@ -73,6 +73,7 @@ export default function ApplicantMedicareStatusContinuedPage({
   const [dirty, setDirty] = useState(false);
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
   const { labels, useFirstPerson, applicant } = generateOptions({
     data,
@@ -90,6 +91,7 @@ export default function ApplicantMedicareStatusContinuedPage({
       );
       setStringArr(data?.applicants?.[pagePerItemIndex]?.[keyname]);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data],
   );
 
@@ -100,7 +102,7 @@ export default function ApplicantMedicareStatusContinuedPage({
         setError('This field is required');
         isValid = false;
       } else {
-        setError(null); // Clear any existing err msg
+        setError(null);
       }
       return isValid;
     },
@@ -139,6 +141,7 @@ export default function ApplicantMedicareStatusContinuedPage({
     () => {
       if (dirty) handlers.validate();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, stringArr],
   );
 
@@ -160,6 +163,7 @@ export default function ApplicantMedicareStatusContinuedPage({
           hint="You can select more than one"
           error={error}
           required
+          uswds
           onVaChange={handlers.onGroupChange}
         >
           {labels.map((el, index) => (
@@ -176,3 +180,17 @@ export default function ApplicantMedicareStatusContinuedPage({
     </>
   );
 }
+
+ApplicantMedicareStatusContinuedReviewPage.propTypes = {
+  props: PropTypes.object,
+};
+
+ApplicantMedicareStatusContinuedPage.propTypes = {
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+};
