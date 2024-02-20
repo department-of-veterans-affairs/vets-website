@@ -46,6 +46,7 @@ import {
   sponsorCasualtyReportConfig,
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
+  blankSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -547,12 +548,26 @@ const formConfig = {
                 maxItems: 'A maximum of three applicants may be added.',
               },
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} identification information`,
-                  'You must enter either a VA file number or Social Security number',
-                ),
+                'view:description': {
+                  'ui:description':
+                    'You must enter either a VA file number or Social Security number',
+                },
                 applicantSSN: ssnOrVaFileNumberUI(),
+                // Dynamic title (uses "your" if certifierRole is applicant and
+                // this is applicant[0])
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} identification information`,
+                        )['ui:title'], // grab styled title rather than plain text
+                    };
+                  },
+                },
               },
             },
           },
@@ -566,7 +581,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    titleSchema,
+                    'view:description': blankSchema,
                     applicantSSN: ssnOrVaFileNumberSchema,
                   },
                 },
@@ -582,11 +597,24 @@ const formConfig = {
           uiSchema: {
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
-                  'We’ll send any important information about your application to this address.',
-                ),
+                'view:description': {
+                  'ui:description':
+                    'We’ll send any important information about your application to this address.',
+                },
+                applicantSSN: ssnOrVaFileNumberUI(),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} mailing address`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -608,7 +636,7 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    titleSchema,
+                    'view:description': blankSchema,
                     applicantAddress: addressSchema(),
                   },
                 },
@@ -624,10 +652,20 @@ const formConfig = {
           uiSchema: {
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${applicantWording(formData)} contact information`,
-                ),
+                applicantSSN: ssnOrVaFileNumberUI(),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(
+                            formData,
+                            context,
+                          )} contact information`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantEmailAddress: emailUI(),
                 applicantPhone: phoneUI(),
               },
@@ -643,7 +681,6 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    titleSchema,
                     applicantEmailAddress: emailSchema,
                     applicantPhone: phoneSchema,
                   },
@@ -661,9 +698,16 @@ const formConfig = {
             'ui:title': 'Applicant Gender',
             applicants: {
               items: {
-                ...titleUI(
-                  ({ formData }) => `${applicantWording(formData)} gender`,
-                ),
+                'ui:options': {
+                  updateSchema: formData => {
+                    return {
+                      title: context =>
+                        titleUI(
+                          `${applicantWording(formData, context)} gender`,
+                        )['ui:title'],
+                    };
+                  },
+                },
                 applicantGender: radioUI({
                   title: 'Gender',
                   required: true,
@@ -682,7 +726,6 @@ const formConfig = {
                 items: {
                   type: 'object',
                   properties: {
-                    titleSchema,
                     applicantGender: radioSchema(['male', 'female']),
                   },
                 },
