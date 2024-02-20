@@ -1,4 +1,5 @@
 import VaTextInputField from '../web-component-fields/VaTextInputField';
+import VaNumberInputField from '../web-component-fields/VaNumberInputField.jsx';
 
 export function minMaxValidation(min, max) {
   return (errors, formData, uiSchema, schema, errorMessages) => {
@@ -22,7 +23,7 @@ export function minMaxValidation(min, max) {
 }
 
 /**
- * Web component v3 uiSchema for a number based input which uses VaTextInputField
+ * Web component uiSchema for a number based input which uses VaTextInputField
  *
  * Used for simple number amounts containing only digits
  *
@@ -44,7 +45,7 @@ export function minMaxValidation(min, max) {
  * ```js
  * exampleAmount: numberSchema
  * ```
- * @param {string | UIOptions & {
+ * @param {string | {
  *   title?: UISchemaOptions['ui:title'],
  *   description: UISchemaOptions['ui:description'],
  *   hint?: string,
@@ -79,6 +80,33 @@ export const numberUI = options => {
       inputmode: 'numeric',
       ...uiOptions,
     },
+    'ui:errorMessages': {
+      required: 'Please enter a valid number',
+      pattern: 'Please enter a valid number',
+      ...errorMessages,
+    },
+    ...validations,
+  };
+};
+
+export const currencyUI = options => {
+  const { title, description, errorMessages, min, max, ...uiOptions } =
+    typeof options === 'object' ? options : { title: options };
+
+  let validations = {};
+
+  if (min !== undefined || max !== undefined) {
+    validations = { 'ui:validations': [minMaxValidation(min, max)] };
+  }
+
+  return {
+    'ui:title': title,
+    'ui:description': description, // TextInputField is used here because it can do everything number input can do currently
+    // and we prefer to use a string rather than number functionality because we don't
+    // want the stepper buttons on the side of the input for a11y reasons, one of which is that
+    // its easy to accidentally scroll on
+    'ui:webComponentField': VaNumberInputField,
+    'ui:options': { inputmode: 'numeric', currency: 'true', ...uiOptions },
     'ui:errorMessages': {
       required: 'Please enter a valid number',
       pattern: 'Please enter a valid number',
