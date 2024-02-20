@@ -21,7 +21,9 @@ const routes = (
             <Route exact path={['/']} key="App">
               <div>
                 <Prescriptions />
-                <va-back-to-top />
+                <div className="no-print">
+                  <va-back-to-top />
+                </div>
               </div>
             </Route>
             <Route

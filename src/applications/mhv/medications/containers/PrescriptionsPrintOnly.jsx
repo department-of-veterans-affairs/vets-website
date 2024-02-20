@@ -68,7 +68,7 @@ const PrescriptionsPrintOnly = () => {
     return (
       <>
         {page ? (
-          <div className="print-only print-only-rx-full-list-page">
+          <div className="print-only">
             <PrintOnlyPage
               title="Medications"
               preface="This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records."
