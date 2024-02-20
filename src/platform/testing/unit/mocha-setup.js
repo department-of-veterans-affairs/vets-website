@@ -15,6 +15,7 @@ import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
+import sinon from 'sinon';
 
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
@@ -23,6 +24,8 @@ Sentry.init({
   dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
+
+let sandbox;
 
 configure({ defaultHidden: true });
 
@@ -182,9 +185,11 @@ export const mochaHooks = {
       'running: ',
       this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
     );
+    sandbox = sinon.createSandbox();
   },
   afterEach() {
     cleanupStorage();
     flushPromises();
+    sandbox.restore();
   },
 };
