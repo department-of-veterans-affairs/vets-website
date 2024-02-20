@@ -113,7 +113,9 @@ export const SearchResultsHeader = props => {
           {context.location && (
             <>
               within &quot;
-              <b>{searchArea} miles</b>
+              <b>
+                {searchArea === 'Show all' ? 'All' : <>{searchArea} miles</>}
+              </b>
               &quot; of &quot;
               <b>{context.location}</b>
               &quot;
