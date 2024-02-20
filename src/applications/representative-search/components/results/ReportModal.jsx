@@ -113,7 +113,6 @@ const ReportModal = ({
   return (
     <>
       <VaModal
-        modalTitle={`Report outdated information for ${representativeName}`}
         onCloseEvent={onCloseModal}
         onPrimaryButtonClick={onSubmitModal}
         onSecondaryButtonClick={onCloseModal}
@@ -122,9 +121,14 @@ const ReportModal = ({
         visible
         uswds
       >
+        <h2 style={{ fontSize: 20, marginTop: 10 }}>
+          Report outdated information for {representativeName}
+        </h2>
         {someItemsReported && (
           <>
-            <h4>You reported this information</h4>
+            <h3 style={{ fontSize: 17, marginTop: 20 }}>
+              You reported this information
+            </h3>
             <ul>
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
@@ -138,7 +142,9 @@ const ReportModal = ({
         {someItemsReported &&
           notAllItemsReported && (
             <>
-              <h4>You can add to your report</h4>
+              <h3 style={{ fontSize: 17, marginBottom: 0 }}>
+                You can add to your report
+              </h3>
             </>
           )}
 
