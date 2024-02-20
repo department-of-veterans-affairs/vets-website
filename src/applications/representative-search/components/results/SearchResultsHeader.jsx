@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
@@ -69,7 +70,7 @@ export const SearchResultsHeader = props => {
 
   return (
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
-      <h2 className="vads-u-margin-y--0">Your search results</h2>
+      <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
         <div>
           {' '}
@@ -79,9 +80,9 @@ export const SearchResultsHeader = props => {
             uswds
             visible
           >
-            <h2 id="track-your-status-on-mobile" slot="headline">
+            <h3 id="track-your-status-on-mobile" slot="headline">
               We’re updating our search tool
-            </h2>
+            </h3>
             <p>
               Our search tool may show outdated contact information for some
               accredited representatives. You can report outdated information in
@@ -90,11 +91,10 @@ export const SearchResultsHeader = props => {
           </va-alert>
         </div>
 
-        <h3
+        <p
           id="search-results-subheader"
           className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-bottom--0 vads-u-margin-top--3"
           tabIndex="-1"
-          style={{ fontSize: 16 }}
         >
           {handleNumberOfResults()} for
           {` `}
@@ -119,7 +119,7 @@ export const SearchResultsHeader = props => {
               &quot;
             </>
           )}
-        </h3>
+        </p>
 
         {noResultsFound ? (
           <p className="vads-u-margin-bottom--8">
@@ -127,25 +127,20 @@ export const SearchResultsHeader = props => {
           </p>
         ) : (
           <div className="sort-dropdown">
-            <label className="vads-u-margin-top--3" htmlFor="sort-by-dropdown">
-              Sort by
-            </label>
             <div className="sort-select-and-apply">
               <div className="sort-select">
-                <select
-                  id="representative-sorting-dropdown"
-                  aria-label="Sort"
-                  // ref={sortTypeRef}
+                <VaSelect
+                  name="sort"
                   value={selectedSortType}
-                  title="Sort by:"
-                  onChange={e => setSelectedSortType(e.target.value)}
+                  label="Sort by"
+                  onVaSelect={e => setSelectedSortType(e.target.value)}
+                  uswds
                 >
-                  {' '}
-                  {options}{' '}
-                </select>
+                  {options}
+                </VaSelect>
               </div>
 
-              <div className="vads-u-margin-left--2 sort-apply-button">
+              <div className="sort-apply-button">
                 <va-button
                   onClick={onClickApplyButton}
                   text="Apply"

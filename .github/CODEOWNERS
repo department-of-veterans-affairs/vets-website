@@ -30,17 +30,17 @@ src/applications/ds-v3-playground @department-of-veterans-affairs/platform-desig
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms
 src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms
 
-# VSP-Identity authentication
+# octo-identity authentication
 
-src/applications/auth @department-of-veterans-affairs/vsp-identity
-src/applications/login @department-of-veterans-affairs/vsp-identity
-src/applications/terms-of-use @department-of-veterans-affairs/vsp-identity
-src/applications/verify @department-of-veterans-affairs/vsp-identity
-src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/vsp-identity
-src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/vsp-identity
-src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
-src/platform/utilities/oauth @department-of-veterans-affairs/vsp-identity
-src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
+src/applications/auth @department-of-veterans-affairs/octo-identity
+src/applications/login @department-of-veterans-affairs/octo-identity
+src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
+src/applications/verify @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity
+src/platform/user/authentication @department-of-veterans-affairs/octo-identity
+src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity
+src/platform/utilities/sso @department-of-veterans-affairs/octo-identity
 
 # VSP QA Standards
 
@@ -55,6 +55,9 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Disability Benefits Experience
+src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -82,8 +85,6 @@ src/applications/sah @department-of-veterans-affairs/benefits-non-disability @de
 # Pensions
 src/applications/pensions @department-of-veterans-affairs/pensions @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Dependent Benefits Experience
 src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
