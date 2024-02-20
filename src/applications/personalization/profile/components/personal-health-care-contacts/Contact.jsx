@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
 
@@ -25,10 +26,13 @@ const Contact = ({
   primaryPhone,
   // alternatePhone,
   testId,
+  index,
 }) => {
   const names = [prefix, givenName, middleName, familyName, suffix];
   const name = names.filter(el => !!el).join(' ');
-  const addressLine4 = `${city}, ${state} ${zipCode}`;
+  const addressLine4 = [city, ', ', state, ' ', zipCode]
+    .filter(el => !!el)
+    .join('');
   const addressLines = [
     addressLine1,
     addressLine2,
@@ -38,7 +42,10 @@ const Contact = ({
   const showAddress = contactType.match(/next of kin/i);
 
   return (
-    <div data-testid={testId}>
+    <div
+      data-testid={testId}
+      className={classNames({ 'vads-u-margin-top--2': index > 0 })}
+    >
       {name}
       <br />
       {showAddress &&
@@ -65,6 +72,7 @@ Contact.propTypes = {
   // county: PropTypes.string,
   familyName: PropTypes.string,
   givenName: PropTypes.string,
+  index: PropTypes.number,
   middleName: PropTypes.string,
   // postalCode: PropTypes.string,
   prefix: PropTypes.string,

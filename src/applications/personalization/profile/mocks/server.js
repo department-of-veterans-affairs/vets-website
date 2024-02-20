@@ -268,7 +268,7 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
-  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
   'GET /v0/profile/contacts': contacts,
 };
 
