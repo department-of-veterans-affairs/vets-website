@@ -16,7 +16,9 @@ const usePrintTitle = (
       const formattedDob = dateFormat(new Date(dob)) || 'March 15, 1982';
 
       const beforePrintHandler = () => {
-        updatePageTitle(`${baseTitle} | ${name} | ${formattedDob}`);
+        updatePageTitle(
+          `${baseTitle} | ${name} | Date of birth: ${formattedDob}`,
+        );
       };
 
       const afterPrintHandler = () => {

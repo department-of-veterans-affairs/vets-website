@@ -143,6 +143,9 @@
 }
 
 @media print {
+  .landing-page {
+    margin-top: 10px;
+  }
   h1 {
     font-size: 40px;
   }
@@ -169,14 +172,11 @@
   .no-break {
     break-inside: avoid;
   }
-  .print-only-rx-full-list-page {
-    margin-top: -10.5rem;
-  }
   .print-only-refill-container {
     margin-top: 1.5rem;
   }
   .print-only-crisis-line-header {
-    font-size: 1.58rem;
+    font-size: 1.46rem;
     margin-bottom: 5rem;
     width: 100%;
   }
