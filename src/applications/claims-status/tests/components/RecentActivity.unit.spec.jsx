@@ -38,6 +38,7 @@ describe('<RecentActivity>', () => {
       };
       const { container, getByText } = render(<RecentActivity claim={claim} />);
       getByText('Recent activity');
+      getByText('Request for you');
       getByText('We opened a request for "Needed from you Request"');
       expect($('ol', container)).to.exist;
       expect($('va-pagination', container)).not.to.exist;
@@ -59,6 +60,7 @@ describe('<RecentActivity>', () => {
       };
       const { container, getByText } = render(<RecentActivity claim={claim} />);
       getByText('Recent activity');
+      getByText('Request for others');
       getByText('We opened a request for "Needed from others Request"');
       expect($('ol', container)).to.exist;
       expect($('va-alert', container)).to.exist;

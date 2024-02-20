@@ -76,7 +76,11 @@ function RecentActivity({ claim }) {
   const pageLength = items.length;
   const numPages = Math.ceil(pageLength / ITEMS_PER_PAGE);
   const shouldPaginate = numPages > 1;
-
+  const hasRequestType = itemStatus => {
+    return (
+      itemStatus === 'NEEDED_FROM_OTHERS' || itemStatus === 'NEEDED_FROM_YOU'
+    );
+  };
   const requestType = itemStatus => {
     if (itemStatus === 'NEEDED_FROM_OTHERS') {
       return 'Request for others';
@@ -112,12 +116,23 @@ function RecentActivity({ claim }) {
               className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
             >
               <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
-              <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                {requestType(item.status)}
-              </p>
-              <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-                {item.description}
-              </p>
+              {hasRequestType(item.status) ? (
+                <>
+                  <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+                    {requestType(item.status)}
+                  </p>
+                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                    {item.description}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
+                    {item.description}
+                  </p>
+                </>
+              )}
+
               {item.status === 'NEEDED_FROM_OTHERS' && (
                 <va-alert
                   class="optional-alert vads-u-padding-bottom--1"
