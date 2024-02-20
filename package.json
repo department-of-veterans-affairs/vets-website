@@ -200,7 +200,7 @@
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
     "minimist": "^1.2.6",
-    "mocha": "^10.2.0",
+    "mocha": "^10.3.0",
     "mocha-junit-reporter": "^2.0.0",
     "mocha-multi-reporters": "^1.5.1",
     "mocha-snapshots": "^4.2.0",
