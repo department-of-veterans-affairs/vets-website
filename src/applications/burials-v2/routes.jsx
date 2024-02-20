@@ -1,6 +1,6 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
-import { formConfig } from './config/form';
+import formConfig from './config/form';
 import BurialsApp from './BurialsApp.jsx';
 
 const route = {

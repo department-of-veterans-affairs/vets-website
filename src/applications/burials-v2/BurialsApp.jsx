@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { formConfig } from './config/form';
+import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
 function BurialsEntry({ location, children, toggleFeatures, profile }) {

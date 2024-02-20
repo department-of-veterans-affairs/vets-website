@@ -8,7 +8,7 @@ import {
   submitForm,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 
 describe('Burials benefits selection', () => {
   const {
