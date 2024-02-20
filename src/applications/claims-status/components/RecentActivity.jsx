@@ -43,7 +43,7 @@ const getTrackedItemDescription = item => {
     case 'ACCEPTED':
       return `We completed a review for "${item.displayName}"`;
     default:
-      return '';
+      return 'There was an update to this item';
   }
 };
 
@@ -77,6 +77,13 @@ function RecentActivity({ claim }) {
   const numPages = Math.ceil(pageLength / ITEMS_PER_PAGE);
   const shouldPaginate = numPages > 1;
 
+  const requestType = itemStatus => {
+    if (itemStatus === 'NEEDED_FROM_OTHERS') {
+      return 'Request for others';
+    }
+    return 'Request for you';
+  };
+
   let currentPageItems = items;
 
   if (shouldPaginate) {
@@ -105,7 +112,10 @@ function RecentActivity({ claim }) {
               className="vads-u-margin-bottom--2 vads-u-padding-bottom--1"
             >
               <h4 className="vads-u-margin-y--0">{formatDate(item.date)}</h4>
-              <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
+              <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+                {requestType(item.status)}
+              </p>
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                 {item.description}
               </p>
               {item.status === 'NEEDED_FROM_OTHERS' && (
