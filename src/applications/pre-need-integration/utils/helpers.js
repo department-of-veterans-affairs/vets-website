@@ -686,6 +686,7 @@ export const veteranUI = {
     },
   },
   ethnicity: {
+    // The line below might be needed in the future with schema changes from vets-json-schema
     // 'ui:field': RaceEthnicityReviewField,
     'ui:title': 'Duder',
     'ui:widget': 'radio',

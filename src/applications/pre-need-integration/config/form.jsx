@@ -437,14 +437,6 @@ const formConfig = {
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
         },
-        // V1
-        // sponsorRace: {
-        //   title: 'Sponsor ethnicity and race details ',
-        //   path: 'sponsor-race',
-        //   depends: formData => !isVeteran(formData),
-        //   uiSchema: sponsorRace.uiSchema,
-        //   schema: sponsorRace.schema,
-        // },
         sponsorRace: {
           path: 'sponsor-race',
           depends: formData => !isVeteran(formData),
