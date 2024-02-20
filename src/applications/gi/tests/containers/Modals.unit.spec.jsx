@@ -429,9 +429,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain(
-        'Accreditation types (regional vs. national vs. hybrid)',
-      );
+      expect(wrapper.html()).to.contain('Accreditation and why it matters');
       wrapper.unmount();
     });
   });
