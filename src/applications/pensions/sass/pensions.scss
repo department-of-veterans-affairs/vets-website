@@ -35,7 +35,8 @@
   }
 }
 
-p.pension-employment-desc, .pension-dd-warning {
+p.pension-employment-desc,
+.pension-dd-warning {
   margin-top: 3rem;
 }
 
@@ -55,8 +56,4 @@ p.pension-employment-desc, .pension-dd-warning {
 // The '(*Required)' indicator is included in the question title
 .special-monthly-pension-question .schemaform-required-span {
   display: none !important;
-}
-
-.pensions-custom-review {
-  margin-bottom: 5rem !important;
 }
