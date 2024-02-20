@@ -25,8 +25,6 @@ Sentry.init({
   transport: sentryTransport,
 });
 
-let sandbox;
-
 configure({ defaultHidden: true });
 
 global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
@@ -185,11 +183,9 @@ export const mochaHooks = {
       'running: ',
       this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
     );
-    sandbox = sinon.createSandbox();
   },
   afterEach() {
     cleanupStorage();
     flushPromises();
-    sandbox.restore();
   },
 };
