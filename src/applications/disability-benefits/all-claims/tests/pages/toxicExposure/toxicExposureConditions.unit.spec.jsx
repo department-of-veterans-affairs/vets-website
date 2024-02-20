@@ -19,29 +19,31 @@ describe('Toxic Exposure Conditions', () => {
       newDisabilities: [
         {
           cause: 'NEW',
-          condition: 'psoriasis',
-          'view:descriptionInfo': {},
+          primaryDescription: 'Test description',
+          'view:serviceConnectedDisability': {},
+          condition: 'anemia',
         },
         {
           cause: 'NEW',
-          condition: 'acne',
-          'view:descriptionInfo': {},
+          primaryDescription: 'Test description',
+          'view:serviceConnectedDisability': {},
+          condition: 'tinnitus (ringing or hissing in ears)',
         },
       ],
     };
-    const screen = render(
+    const { getByText, getByLabelText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
-    screen.getByText(conditionsPageTitle);
-    screen.getByText(conditionsQuestion);
-    screen.getByText(
+    getByText(conditionsPageTitle);
+    getByText(conditionsQuestion);
+    getByText(
       'Toxic exposures include exposures to substances like Agent Orange',
       { exact: false },
     );
 
     // checkboxes built based on new conditions
-    screen.getByLabelText('Psoriasis');
-    screen.getByLabelText('Acne');
+    getByLabelText('Anemia');
+    getByLabelText('Tinnitus (Ringing Or Hissing In Ears)');
   });
 });

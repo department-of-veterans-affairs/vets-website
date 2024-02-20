@@ -1,5 +1,4 @@
 import React from 'react';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import {
   capitalizeEachWord,
@@ -10,7 +9,10 @@ import {
 import { NULL_CONDITION_STRING } from '../constants';
 
 /**
- * Checks if toggle is enabled and user is claiming at least one new condition for toxic exposure
+ * Checks if
+ * 1. toggle is enabled
+ * 2. at least one new condition is being claimed
+ * 3. at least one checkbox on the TE conditions page is selected that is not 'none'
  *
  * @param {*} formData
  * @returns true if at least one condition is claimed for toxic exposure, false otherwise
@@ -18,7 +20,12 @@ import { NULL_CONDITION_STRING } from '../constants';
 export const isClaimingTECondition = formData =>
   showToxicExposurePages &&
   isClaimingNew(formData) &&
-  Object.values(get('toxicExposureConditions', formData, {})).includes(true);
+  formData.toxicExposureConditions &&
+  Object.keys(formData.toxicExposureConditions).some(
+    condition =>
+      condition !== 'none' &&
+      formData.toxicExposureConditions[condition] === true,
+  );
 
 export const conditionsPageTitle = 'Toxic Exposure';
 export const conditionsQuestion =
@@ -97,7 +104,7 @@ export const makeTEConditionsSchema = formData => {
  *   none: {
  *     'ui:title': 'I am not claiming any conditions related to toxic exposure',
  *   },
- * };
+ * }
  * @param {*} formData - Full formData for the form
  * @returns {object} Object with id and title for each condition
  */
@@ -113,7 +120,7 @@ export const makeTEConditionsUISchema = formData => {
         ? capitalizeEachWord(condition)
         : NULL_CONDITION_STRING;
 
-    options[sippableId(condition)] = {
+    options[sippableId(condition || NULL_CONDITION_STRING)] = {
       'ui:title': capitalizedDisabilityName,
     };
   });
@@ -140,8 +147,8 @@ export function validateTEConditions(errors, formData) {
     Object.values(toxicExposureConditions).filter(value => value === true)
       .length > 1
   ) {
-    errors.addError(
-      'You selected a condition, and you selected “I’m not claiming any conditions relaetd to toxic exposure.” You’ll need to uncheck one of these options to continue',
+    errors.toxicExposureConditions.addError(
+      'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.',
     );
   }
 }
