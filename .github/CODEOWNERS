@@ -56,6 +56,9 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Disability Benefits Experience
+src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/disability-benefits/view-payments @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -82,8 +85,6 @@ src/applications/sah @department-of-veterans-affairs/benefits-non-disability @de
 # Pensions
 src/applications/pensions @department-of-veterans-affairs/pensions @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Dependent Benefits Experience
 src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
