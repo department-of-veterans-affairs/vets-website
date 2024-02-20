@@ -34,7 +34,7 @@ const UnauthContext = () => {
             onClick={handleSigninClick}
             primary-alternate
             text="Sign in or create an account"
-            uswds={false}
+            uswds
           />
         </div>
       </va-alert>
