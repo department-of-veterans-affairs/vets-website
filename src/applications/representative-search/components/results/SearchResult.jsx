@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { scrollTo } from 'platform/utilities/ui';
 import ReportModal from './ReportModal';
 import { parsePhoneNumber } from '../../utils/phoneNumbers';
 
@@ -24,6 +25,8 @@ const SearchResult = ({
 
   const { contact, extension } = parsePhoneNumber(phone);
 
+  const scrollElementId = `result-${representativeId}`;
+
   const addressExists =
     addressLine1 ||
     addressLine2 ||
@@ -47,6 +50,7 @@ const SearchResult = ({
 
   const closeReportModal = () => {
     setReportModalIsShowing(false);
+    scrollTo(scrollElementId);
   };
 
   return (
@@ -74,7 +78,10 @@ const SearchResult = ({
             )}
             {officer && (
               <>
-                <div className="vads-u-font-family--serif vads-u-margin-top--2p5">
+                <div
+                  className="vads-u-font-family--serif vads-u-margin-top--2p5"
+                  id={`result-${representativeId}`}
+                >
                   <h3>{officer}</h3>
                 </div>
                 {associatedOrgs?.length === 1 && (
