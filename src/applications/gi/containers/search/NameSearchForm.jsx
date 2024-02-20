@@ -8,6 +8,7 @@ import {
   fetchSearchByNameResults,
   updateAutocompleteName,
   setError,
+  filterBeforeResultFlag,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
@@ -27,10 +28,13 @@ export function NameSearchForm({
   search,
   smallScreen,
   errorReducer,
+  filterBeforeResultsReducer,
+  dispatchShowFiltersBeforeResult,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
-  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  const { showFiltersBeforeResult } = filterBeforeResultsReducer;
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const history = useHistory();
@@ -90,7 +94,7 @@ export function NameSearchForm({
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
-      setShowFiltersBeforeSearch(false);
+      dispatchShowFiltersBeforeResult();
       doSearch(name);
     }
   };
@@ -147,7 +151,7 @@ export function NameSearchForm({
       </form>
       {!smallScreen &&
         !environment.isProduction() &&
-        showFiltersBeforeSearch && (
+        showFiltersBeforeResult && (
           <div>
             <FilterBeforeResults nameVal={name} searchType="name" />
           </div>
@@ -162,6 +166,7 @@ const mapStateToProps = state => ({
   preview: state.preview,
   search: state.search,
   errorReducer: state.errorReducer,
+  filterBeforeResultsReducer: state.filterBeforeResultsReducer,
 });
 
 const mapDispatchToProps = {
@@ -169,6 +174,7 @@ const mapDispatchToProps = {
   dispatchUpdateAutocompleteName: updateAutocompleteName,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchError: setError,
+  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
 };
 
 export default connect(
