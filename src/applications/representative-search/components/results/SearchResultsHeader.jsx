@@ -104,7 +104,7 @@ export const SearchResultsHeader = props => {
           {context.repOrgName && (
             <>
               {` `}
-              matching &quot;
+              named &quot;
               <b>{context.repOrgName}</b>
               &quot;
             </>
