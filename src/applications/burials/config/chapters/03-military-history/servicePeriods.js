@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { currentOrPastDateUI } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import {
+  VaTextInputField,
+  VaSelectField,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { formatReviewDate } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { generateTitle, generateHelpText } from '../../../utils/helpers';
 import ListItemView from '../../../components/ListItemView';
@@ -89,7 +92,7 @@ export default {
         },
         serviceBranch: {
           'ui:title': 'Branch of service',
-          'ui:webComponentField': VaTextInputField,
+          'ui:webComponentField': VaSelectField,
           'ui:options': {
             uswds: true,
           },

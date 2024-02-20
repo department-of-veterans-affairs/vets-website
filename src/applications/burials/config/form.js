@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+// import merge from 'lodash/merge';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 // import set from '@department-of-veterans-affairs/platform-forms-system/set';
 // import { createSelector } from 'reselect';
@@ -18,7 +18,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 // import emailUI from 'platform/forms-system/src/js/definitions/email';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+// import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -31,14 +31,17 @@ import personalInformation from './chapters/01-claimant-information/personalInfo
 import relationshipToVeteran from './chapters/01-claimant-information/relationshipToVeteran';
 import mailingAddress from './chapters/01-claimant-information/mailingAddress';
 import contactInformation from './chapters/01-claimant-information/contactInformation';
+
 import veteranInformation from './chapters/02-veteran-information/veteranInformation';
 import burialInformation from './chapters/02-veteran-information/burialInformation';
 import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
+
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
+
 import benefitsSelection from './chapters/04-benefits-selection/benefitsSelection';
 import burialAllowancePartOne from './chapters/04-benefits-selection/burialAllowancePartOne';
 import burialAllowancePartTwo from './chapters/04-benefits-selection/burialAllowancePartTwo';
@@ -47,6 +50,7 @@ import nationalOrFederalCemetery from './chapters/04-benefits-selection/national
 import cemeteryLocationQuestion from './chapters/04-benefits-selection/cemeteryLocationQuestion';
 import cemeteryLocation from './chapters/04-benefits-selection/cemeteryLocation';
 import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocation';
+import plotAllowance from './chapters/04-benefits-selection/plotAllowance';
 
 import {
   // isEligibleNonService,
@@ -65,24 +69,24 @@ import migrations from '../utils/migrations';
 
 import manifest from '../manifest.json';
 
-const {
-  // claimantEmail,
-  // claimantPhone,
-  placeOfRemains,
-  federalCemetery,
-  stateCemetery,
-  govtContributions,
-  amountGovtContribution,
-  // burialAllowanceRequested,
-  // burialCost,
-  // previouslyReceivedAllowance,
-  // benefitsUnclaimedRemains,
-  // burialAllowance,
-  // plotAllowance,
-  // transportation,
-  // amountIncurred,
-  // previousNames,
-} = fullSchemaBurials.properties;
+// const {
+//   claimantEmail,
+//   claimantPhone,
+//   placeOfRemains,
+//   federalCemetery,
+//   stateCemetery,
+//   govtContributions,
+//   amountGovtContribution,
+//   burialAllowanceRequested,
+//   burialCost,
+//   previouslyReceivedAllowance,
+//   benefitsUnclaimedRemains,
+//   burialAllowance,
+//   plotAllowance,
+//   transportation,
+//   amountIncurred,
+//   previousNames,
+// } = fullSchemaBurials.properties;
 
 const {
   fullName,
@@ -102,7 +106,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  v3InProgressMessage: true,
+  // v3InProgressMessage: true,
   formId: VA_FORM_IDS.FORM_21P_530,
   saveInProgress: {
     messages: {
@@ -263,7 +267,7 @@ const formConfig = {
         },
         nationalOrFederalCemetery: {
           title: 'Cemetery location',
-          path: 'national-or-federal-cemetery',
+          path: 'benefits/cemetery-type',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true,
           uiSchema: nationalOrFederalCemetery.uiSchema,
@@ -271,7 +275,7 @@ const formConfig = {
         },
         cemeteryLocationQuestion: {
           title: 'Cemetery location',
-          path: 'cemetery-location',
+          path: 'benefits/cemetery-location',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true,
           uiSchema: cemeteryLocationQuestion.uiSchema,
@@ -279,7 +283,7 @@ const formConfig = {
         },
         cemeteryLocation: {
           title: 'Cemetery location',
-          path: 'cemetery-location/add',
+          path: 'benefits/cemetery-location/add',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true &&
             get('cemetaryLocationQuestion', form) === 'cemetery',
@@ -288,7 +292,7 @@ const formConfig = {
         },
         tribalLandLocation: {
           title: 'Cemetery location',
-          path: 'cemetery-location/tribal-land/add',
+          path: 'benefits/cemetery-location/tribal-land/add',
           depends: form =>
             get('view:claimedBenefits.burialAllowance', form) === true &&
             get('cemetaryLocationQuestion', form) === 'tribalLand',
@@ -300,57 +304,8 @@ const formConfig = {
           path: 'benefits/plot-allowance',
           depends: form =>
             get('view:claimedBenefits.plotAllowance', form) === true,
-          uiSchema: {
-            'ui:title': 'Plot or interment allowance',
-            placeOfRemains: {
-              'ui:title':
-                'Place of burial or location of deceased Veteran’s remains',
-            },
-            federalCemetery: {
-              'ui:title':
-                'Was the Veteran buried in a national cemetery, or one owned by the federal government?',
-              'ui:widget': 'yesNo',
-            },
-            stateCemetery: {
-              'ui:title':
-                'Was the Veteran buried in a state Veterans cemetery?',
-              'ui:widget': 'yesNo',
-              'ui:required': form => form.federalCemetery === false,
-              'ui:options': {
-                expandUnder: 'federalCemetery',
-                expandUnderCondition: false,
-              },
-            },
-            govtContributions: {
-              'ui:title':
-                'Did a federal/state government or the Veteran’s employer contribute to the burial?  (Not including employer life insurance)',
-              'ui:widget': 'yesNo',
-            },
-            amountGovtContribution: merge(
-              {},
-              currencyUI('Amount of government or employer contribution:'),
-              {
-                'ui:options': {
-                  expandUnder: 'govtContributions',
-                },
-              },
-            ),
-          },
-          schema: {
-            type: 'object',
-            required: [
-              'placeOfRemains',
-              'federalCemetery',
-              'govtContributions',
-            ],
-            properties: {
-              placeOfRemains,
-              federalCemetery,
-              stateCemetery,
-              govtContributions,
-              amountGovtContribution,
-            },
-          },
+          uiSchema: plotAllowance.uiSchema,
+          schema: plotAllowance.schema,
         },
       },
     },
