@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-regular-webfont.woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-bold-webfont.woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 .ts-header-container,
 .ts-footer-container {
   $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
