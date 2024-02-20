@@ -330,3 +330,9 @@ export const bankInfoHelpText = (
     </span>
   </va-additional-info>
 );
+
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male',
+  NA: 'Prefer not to answer',
+};
