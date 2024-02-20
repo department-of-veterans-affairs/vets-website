@@ -27,7 +27,7 @@ const IdentityNotVerified = () => {
   );
 
   return (
-    <va-alert status="warning" uswds="false">
+    <va-alert status="warning" uswds>
       <h2 slot="headline" className="vads-u-fontsize--h3">
         Verify your identity to view your VA payments
       </h2>
