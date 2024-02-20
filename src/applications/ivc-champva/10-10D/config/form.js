@@ -45,10 +45,13 @@ import {
   sponsorCasualtyReportConfig,
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
+  blankSchema,
 } from '../components/Sponsor/sponsorFileUploads';
 import {
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
+  applicantAdoptedConfig,
+  applicantStepChildConfig,
 } from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
@@ -66,7 +69,10 @@ import ApplicantOhiStatusPage, {
   ApplicantOhiStatusReviewPage,
 } from '../pages/ApplicantOhiStatusPage';
 
+import AdditionalDocumentationAlert from '../components/AdditionalDocumentationAlert';
+
 import { fileTypes, attachmentsSchema } from './attachments';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -116,6 +122,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
+          initialData: mockData,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -827,6 +834,169 @@ const formConfig = {
                     titleSchema,
                     ...applicantSchoolCertConfig.schema,
                     applicantSchoolCert: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page18c: {
+          path: 'applicant-information/:index/child-info',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} relationship to sponsor`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'child',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  ({ formData }) =>
+                    `${applicantWording(formData)} relationship to sponsor`,
+                ),
+                'ui:description': AdditionalDocumentationAlert(),
+                applicantRelationshipOrigin: radioUI({
+                  title: 'Question regarding blood relation status',
+                  required: true,
+                  labels: {
+                    blood: 'Blood',
+                    adoption: 'Adoption',
+                    step: 'Stepchild',
+                  },
+                }),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                minItems: 1,
+                maxItems: 3,
+                items: {
+                  type: 'object',
+                  properties: {
+                    titleSchema,
+                    'ui:description': blankSchema,
+                    applicantRelationshipOrigin: radioSchema([
+                      'blood',
+                      'adoption',
+                      'step',
+                    ]),
+                  },
+                },
+              },
+            },
+          },
+        },
+        page18d: {
+          path: 'applicant-information/:index/adoption-documents',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} school documents`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'child' &&
+            get(
+              'applicantRelationshipOrigin',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'adoption',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload adoption papers for ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantAdoptedConfig.uiSchema,
+                applicantAdoptionPapers: fileUploadUI(
+                  "Upload the applicant's adoption papers",
+                  {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                  },
+                ),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    titleSchema,
+                    ...applicantAdoptedConfig.schema,
+                    applicantAdoptionPapers: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page18e: {
+          path: 'applicant-information/:index/via-marriage-documents',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} school documents`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'child' &&
+            get(
+              'applicantRelationshipOrigin',
+              formData?.applicants?.[`${index || 0}`],
+            ) === 'step',
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload a marriage certificate between ${
+                      formData?.applicantName?.first
+                    } ${
+                      formData?.applicantName?.last
+                    }'s parent and the sponsor.`,
+                ),
+                ...applicantStepChildConfig.uiSchema,
+                applicantStepMarriageCert: fileUploadUI(
+                  "Upload marriage certificate between applicant's parent and the sponsor",
+                  {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                  },
+                ),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    titleSchema,
+                    ...applicantStepChildConfig.schema,
+                    applicantStepMarriageCert: attachmentsSchema,
                   },
                 },
               },
