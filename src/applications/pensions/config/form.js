@@ -33,6 +33,7 @@ import {
 } from '../helpers';
 import HomeAcreageValueInput from '../components/HomeAcreageValueInput';
 import HomeAcreageValueReview from '../components/HomeAcreageValueReview';
+import ServicePeriodReview from '../components/ServicePeriodReview';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
@@ -293,7 +294,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to resume your application for pension benefits.',
   },
-  title: 'Apply for Veterans’ pension benefits',
+  title: 'Apply for Veterans Pension benefits',
   subTitle: 'VA Form 21P-527EZ',
   preSubmitInfo: {
     statementOfTruth: {
@@ -356,6 +357,7 @@ const formConfig = {
           title: 'Service period',
           uiSchema: servicePeriod.uiSchema,
           schema: servicePeriod.schema,
+          CustomPageReview: ServicePeriodReview,
         },
         general: {
           path: 'military/general',
