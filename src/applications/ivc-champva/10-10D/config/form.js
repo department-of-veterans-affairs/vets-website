@@ -20,20 +20,19 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  relationshipToVeteranUI,
+  relationshipToVeteranSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
-import {
-  relationshipToVeteranUI,
-  relationshipToVeteranSchema,
-} from '../components/customRelationshipPattern';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../components/Applicant/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
+import { getAgeInYears, isInRange } from '../helpers/utilities';
 import {
   sponsorWording,
   applicantWording,
@@ -47,7 +46,10 @@ import {
   sponsorDisabilityRatingConfig,
   sponsorDischargePapersConfig,
 } from '../components/Sponsor/sponsorFileUploads';
-import { applicantBirthCertConfig } from '../components/Applicant/applicantFileUpload';
+import {
+  applicantBirthCertConfig,
+  applicantSchoolCertConfig,
+} from '../components/Applicant/applicantFileUpload';
 import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 
 import {
@@ -65,8 +67,6 @@ import ApplicantOhiStatusPage, {
 } from '../pages/ApplicantOhiStatusPage';
 
 import { fileTypes, attachmentsSchema } from './attachments';
-
-import mockData from '../tests/fixtures/data/test-data.json';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -116,7 +116,6 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
           path: 'your-information/description',
           title: 'Which of these best describes you?',
           uiSchema: {
@@ -728,8 +727,7 @@ const formConfig = {
           path: 'applicant-information/:index/child-documents',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} child of sponsor supporting documents`,
+          title: item => `${applicantWording(item)} birth certificate`,
           depends: (formData, index) =>
             get(
               'applicantRelationshipToSponsor',
@@ -740,22 +738,21 @@ const formConfig = {
               items: {
                 ...titleUI(
                   'Required supporting file upload',
-                  ({ item }) =>
+                  ({ formData }) =>
                     `Upload a birth certificate for ${
-                      item.applicantName.first
-                    } ${item.applicantName.last}`,
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
                 ),
                 ...applicantBirthCertConfig.uiSchema,
-                applicantBirthCertOrSocialSecCard: ({ item }) =>
-                  fileUploadUI(
-                    `Upload ${item.applicantName.first}'s birth cert`,
-                    {
-                      fileTypes,
-                      fileUploadUrl: `${
-                        environment.API_URL
-                      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    },
-                  ),
+                applicantBirthCertOrSocialSecCard: fileUploadUI(
+                  "Upload the applicant's birth certificate",
+                  {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                  },
+                ),
               },
             },
           },
@@ -768,7 +765,68 @@ const formConfig = {
                   type: 'object',
                   properties: {
                     titleSchema,
+                    ...applicantBirthCertConfig.schema,
                     applicantBirthCertOrSocialSecCard: attachmentsSchema,
+                  },
+                },
+              },
+            },
+          },
+        },
+        page18b: {
+          path: 'applicant-information/:index/school-documents',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} school documents`,
+          depends: (formData, index) =>
+            get(
+              'applicantRelationshipToSponsor',
+              formData?.applicants?.[`${index || 0}`],
+            )?.relationshipToVeteran === 'child' &&
+            // Calculate the current app's age and check if it's between
+            // 18-23. Did this isInRange method bc can't store temp age value
+            // and didn't want to calculate age twice to do comparison
+            isInRange(
+              getAgeInYears(
+                get('applicantDOB', formData?.applicants?.[`${index || 0}`]),
+              ),
+              18,
+              23,
+            ),
+          uiSchema: {
+            applicants: {
+              items: {
+                ...titleUI(
+                  'Required supporting file upload',
+                  ({ formData }) =>
+                    `Upload a school certification for ${
+                      formData?.applicantName?.first
+                    } ${formData?.applicantName?.last}`,
+                ),
+                ...applicantSchoolCertConfig.uiSchema,
+                applicantSchoolCert: fileUploadUI(
+                  "Upload the applicant's school certification",
+                  {
+                    fileTypes,
+                    fileUploadUrl: `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                  },
+                ),
+              },
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              applicants: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    titleSchema,
+                    ...applicantSchoolCertConfig.schema,
+                    applicantSchoolCert: attachmentsSchema,
                   },
                 },
               },
