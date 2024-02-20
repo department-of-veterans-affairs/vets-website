@@ -1,12 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import formConfig from '../../../config/form';
+import { expect } from 'chai';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   conditionsPageTitle,
   conditionsQuestion,
 } from '../../../content/toxicExposure';
+import formConfig from '../../../config/form';
 
 describe('Toxic Exposure Conditions', () => {
   const {
@@ -14,7 +18,7 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('should render conditions page', () => {
+  it('should render conditions page', async () => {
     const formData = {
       newDisabilities: [
         {
@@ -31,19 +35,33 @@ describe('Toxic Exposure Conditions', () => {
         },
       ],
     };
-    const { getByText, getByLabelText } = render(
+    const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
     getByText(conditionsPageTitle);
-    getByText(conditionsQuestion);
-    getByText(
-      'Toxic exposures include exposures to substances like Agent Orange',
-      { exact: false },
-    );
 
-    // checkboxes built based on new conditions
-    getByLabelText('Anemia');
-    getByLabelText('Tinnitus (Ringing Or Hissing In Ears)');
+    await waitFor(() => {
+      expect($$('va-checkbox-group', container).length).to.equal(1);
+      expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
+        conditionsQuestion,
+      );
+
+      expect($$('va-checkbox', container).length).to.equal(3);
+
+      expect($$(`va-checkbox[label="Anemia"]`, container)).to.exist;
+      expect(
+        $$(
+          `va-checkbox[label="Tinnitus (Ringing Or Hissing In Ears)"]`,
+          container,
+        ),
+      ).to.exist;
+      expect(
+        $$(
+          `va-checkbox[label="I am not claiming any conditions related to toxic exposure"]`,
+          container,
+        ),
+      ).to.exist;
+    });
   });
 });
