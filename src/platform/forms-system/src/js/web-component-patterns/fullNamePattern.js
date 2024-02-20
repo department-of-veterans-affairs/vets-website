@@ -27,7 +27,7 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
 }
 
 /**
- * Web component uiSchema for `first`, `middle`, and `last name`
+ * Web component v3 uiSchema for `first`, `middle`, and `last name`
  *
  * ```js
  * fullName: fullNameNoSuffixUI()
