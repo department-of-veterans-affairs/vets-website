@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
-import TextareaWidget from '../../components/TextareaWidget';
 import userEvent from '@testing-library/user-event';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import TextareaWidget from '../../components/TextareaWidget';
 
 describe('VAOS <TextareaWidget>', () => {
   beforeEach(() => mockFetch());

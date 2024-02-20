@@ -7,10 +7,10 @@ import manifest from './manifest.json';
 
 export const sortOptions = {
   distance_asc: 'Distance (closest to farthest)',
-  first_name_asc: 'First Name (A - Z)',
-  first_name_desc: 'First Name (Z - A)',
-  last_name_asc: 'Last Name (A - Z)',
-  last_name_desc: 'Last Name (Z - A)',
+  first_name_asc: 'First name (A - Z)',
+  first_name_desc: 'First name (Z - A)',
+  last_name_asc: 'Last name (A - Z)',
+  last_name_desc: 'Last name (Z - A)',
 };
 
 export const searchAreaOptions = {

@@ -12,7 +12,7 @@ import {
 const commonServices = {
   EMIS: 'EMIS',
   MVI: 'MVI',
-  VA_PROFILE: 'Vet360',
+  VA_PROFILE: 'VAProfile',
 };
 
 function getErrorStatusDesc(code) {
@@ -84,7 +84,9 @@ export function mapRawUserDataToState(json) {
 
   if (meta && veteranStatus === null) {
     const errorStatus = meta.errors.find(
-      error => error.externalService === commonServices.EMIS,
+      error =>
+        error.externalService === commonServices.VA_PROFILE ||
+        error.externalService === commonServices.EMIS,
     ).status;
     userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {

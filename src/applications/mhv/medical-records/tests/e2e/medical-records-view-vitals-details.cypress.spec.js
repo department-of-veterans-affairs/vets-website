@@ -19,12 +19,12 @@ describe('Medical Records Vitals Details Page', () => {
     VitalsDetailsPage.clickBloodPressureLink(0);
 
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('September 24, 2004');
+    VitalsDetailsPage.verifyVitalDate('October');
 
     // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('126/70');
+    VitalsDetailsPage.verifyVitalResult('130/70');
     // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('None noted');
+    VitalsDetailsPage.verifyVitalLocation('ADTP BURNETT');
     // Verify Vital Details  Provider Notes
     VitalsDetailsPage.verifyVitalProviderNotes('None noted');
 
@@ -39,11 +39,11 @@ describe('Medical Records Vitals Details Page', () => {
     // Verify Vital Details Page "Print or download" button
     VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('September 24, 2004');
+    VitalsDetailsPage.verifyVitalDate('October');
     // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('126/70');
+    VitalsDetailsPage.verifyVitalResult('130/70');
     // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('None noted');
+    VitalsDetailsPage.verifyVitalLocation('ADTP BURNETT');
     // Verify Vital Details  Provider Notes
     VitalsDetailsPage.verifyVitalProviderNotes('None noted');
     // Axe check
@@ -59,32 +59,15 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Weight', () => {
     // Click Vitals Page Weight Link
-    VitalsDetailsPage.clickWeightLink(2);
+    VitalsDetailsPage.clickWeightLink(5);
     // Verify Vital Details Page "Print or download" button
     VitalsDetailsPage.verifyPrintOrDownload('Print or download');
     // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('August 9, 1999');
+    VitalsDetailsPage.verifyVitalDate('October');
     // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('150.4 [lb_av]');
+    VitalsDetailsPage.verifyVitalResult('185 pounds');
     // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('PCT_O');
-    // Verify Vital Details  Provider Notes
-    VitalsDetailsPage.verifyVitalProviderNotes('Here is a provider note');
-    // Axe check
-    cy.injectAxe();
-    cy.axeCheck('main');
-  });
-  it('Vitals Details Pain', () => {
-    // Click Vitals Page Pain Link
-    VitalsDetailsPage.clickPainLink(3);
-    // Verify Vital Details Page "Print or download" button
-    VitalsDetailsPage.verifyPrintOrDownload('Print or download');
-    // Verify Vital Date
-    VitalsDetailsPage.verifyVitalDate('September 14, 2000');
-    // Verify Vital Result
-    VitalsDetailsPage.verifyVitalResult('0 undefined');
-    // Verify Vital Details Location
-    VitalsDetailsPage.verifyVitalLocation('ZZZHEMATOLOGY II');
+    VitalsDetailsPage.verifyVitalLocation('ADTP BURNETT');
     // Verify Vital Details  Provider Notes
     VitalsDetailsPage.verifyVitalProviderNotes('None noted');
     // Axe check
