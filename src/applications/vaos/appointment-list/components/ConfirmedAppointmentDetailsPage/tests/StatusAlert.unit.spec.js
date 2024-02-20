@@ -13,7 +13,7 @@ import {
 
 const facilityData = new Facility();
 
-describe('VAOS <StatusAlert> component', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: false,
@@ -105,7 +105,7 @@ describe('VAOS <StatusAlert> component', () => {
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
   });
 });
-describe('VAOS <StatusAlert> component with After visit summary link', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
