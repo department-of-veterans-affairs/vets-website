@@ -380,3 +380,7 @@ export const FormLabels = {
 };
 
 export const CernerTransitioningFacilities = { NORTH_CHICAGO: 556 };
+
+export const downtimeNotificationParams = {
+  appTitle: 'this messaging tool',
+};
