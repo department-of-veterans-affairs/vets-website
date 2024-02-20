@@ -29,6 +29,7 @@ import StudentVeteranGroupModalContent from '../components/content/modals/Studen
 import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndFeesModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
+import LearnMoreAccreditedContent from './search/LearnMoreAccreditedContent';
 
 export function Modals({ hideModal, modals, profile }) {
   const shouldDisplayModal = modal => modals.displaying === modal;
@@ -319,7 +320,7 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfileSummaryModals = () => (
     <span>
-      <VaModal
+      {/* <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accredited')}
         modalTitle="Accreditation and why it matters"
@@ -336,9 +337,9 @@ export function Modals({ hideModal, modals, profile }) {
           and transfer to another to complete your degree. Be sure to ask any
           potential school about their credit transfer policy.
         </p>
-      </VaModal>
+      </VaModal> */}
 
-      <VaModal
+      {/* <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('typeAccredited')}
         modalTitle="Accreditation types (regional vs. national vs. hybrid)"
@@ -378,7 +379,15 @@ export function Modals({ hideModal, modals, profile }) {
           </a>{' '}
           page.{' '}
         </p>
-      </VaModal>
+      </VaModal> */}
+      <LearnMoreAccreditedContent
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('accredited')}
+      />
+      <LearnMoreAccreditedContent
+        onCloseEvent={hideModal}
+        visible={shouldDisplayModal('typeAccredited')}
+      />
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accreditation')}
