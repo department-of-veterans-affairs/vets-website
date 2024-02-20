@@ -114,7 +114,11 @@ export const SearchResultsHeader = props => {
             <>
               within &quot;
               <b>
-                {searchArea === 'Show all' ? 'All' : <>{searchArea} miles</>}
+                {searchArea === 'Show all' ? (
+                  'Show all'
+                ) : (
+                  <>{searchArea} miles</>
+                )}
               </b>
               &quot; of &quot;
               <b>{context.location}</b>
