@@ -112,13 +112,13 @@ const Prescriptions = () => {
             },
           ],
           {
-            url: '/my-health/medications',
+            url: `/my-health/medications/?page=${page}`,
             label: 'Medications',
           },
         ),
       );
     },
-    [dispatch],
+    [dispatch, page],
   );
 
   useEffect(
@@ -126,7 +126,7 @@ const Prescriptions = () => {
       if (!paginatedPrescriptionsList) {
         updateLoadingStatus(true, 'Loading your medications...');
       }
-      if (isNaN(page) || page < 1) {
+      if (Number.isNaN(page) || page < 1) {
         history.replace('/?page=1');
         return;
       }
