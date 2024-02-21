@@ -90,6 +90,10 @@ const applicantListSchema = (requireds, propertyList) => {
   };
 };
 
+const uploadUrl = `${
+  environment.API_URL
+}/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -371,9 +375,7 @@ const formConfig = {
             sponsorCasualtyReport: {
               ...fileUploadUI("Upload Sponsor's casualty report", {
                 fileTypes,
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                fileUploadUrl: uploadUrl,
               }),
             },
           },
@@ -458,9 +460,7 @@ const formConfig = {
             sponsorDisabilityRating: {
               ...fileUploadUI("Upload Sponsor's disability rating", {
                 fileTypes,
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                fileUploadUrl: uploadUrl,
               }),
             },
           },
@@ -488,9 +488,7 @@ const formConfig = {
             sponsorDischargePapers: {
               ...fileUploadUI("Upload Sponsor's discharge papers", {
                 fileTypes,
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                fileUploadUrl: uploadUrl,
               }),
             },
           },
