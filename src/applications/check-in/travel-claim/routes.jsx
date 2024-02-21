@@ -12,7 +12,7 @@ import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 import Validate from './pages/validate';
 import Landing from './pages/landing';
-import TravelIntro from './pages/intro';
+import TravelIntro from './pages/travel-intro';
 import SelectAppointment from './pages/select-appointment';
 import TravelMileage from './pages/travel-mileage';
 import TravelVehiclePage from './pages/travel-vehicle';
