@@ -44,8 +44,7 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
     'secure-messaging-save-draft': type,
     'secure-messaging-save-draft-id': id,
   });
-  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+  dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
 
   const response = await sendSaveDraft(messageData, id);
   if (response.data) {
@@ -63,8 +62,8 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
   }
   if (response.ok) {
     dispatch({
-      type: Actions.Draft.UPDATE_SUCCEEDED,
-      response: messageData,
+      type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+      payload: { messageId: id, draftDate: Date.now(), ...messageData },
     });
   }
 };
@@ -87,8 +86,7 @@ export const saveReplyDraft = (
     'secure-messaging-save-draft-id': id,
   });
 
-  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+  dispatch({ type: Actions.Thread.DRAFT_SAVE_STARTED });
 
   const response = await sendReplyDraft(replyToId, messageData, id);
   if (response.data) {
@@ -100,8 +98,8 @@ export const saveReplyDraft = (
   }
   if (response.ok) {
     dispatch({
-      type: Actions.Draft.UPDATE_SUCCEEDED,
-      response: messageData,
+      type: Actions.Thread.UPDATE_DRAFT_IN_THREAD,
+      payload: { messageId: id, draftDate: Date.now(), ...messageData },
     });
   }
   if (response.errors) {
@@ -112,10 +110,6 @@ export const saveReplyDraft = (
     throw response.errors[0];
   }
   return null;
-};
-
-export const clearDraft = () => dispatch => {
-  dispatch({ type: Actions.Draft.CLEAR_DRAFT });
 };
 
 /**
@@ -132,7 +126,6 @@ export const deleteDraft = messageId => async dispatch => {
         Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
       ),
     );
-    dispatch(clearDraft());
   } catch (e) {
     dispatch(
       addAlert(

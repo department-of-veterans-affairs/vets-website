@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
+import { INITIAL_STATE } from '../reducers/search';
 import { buildSearchFilters } from './filters';
 
 export const getSearchQueryChanged = query => {

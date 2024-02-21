@@ -3,7 +3,7 @@
 }
 
 .print-download {
-  width: 275px;
+  width: 293px;
   button {
     background-color: var(--color-white);
     color: var(--color-primary);
@@ -38,9 +38,13 @@
   .toggle-menu-button {
     display: flex;
     align-items: center;
-    margin-bottom: 0;
+    margin: 0;
     border-radius: 5px;
     border: 2px solid var(--color-primary);
+  }
+  .toggle-menu-button-open {
+    border-radius: 5px 5px 0px 0px;
+    border-bottom: 2px solid var(--color-primary);
   }
 
   .menu-options {
@@ -49,18 +53,6 @@
     display: none;
     flex-direction: column;
 
-    li:first-child {
-      margin-top: 4px;
-      border-radius: 5px 5px 0px 0px;
-      border-top: 2px solid var(--color-primary);
-      border-right: 2px solid var(--color-primary);
-      border-bottom: 2px solid var(--color-primary);
-      border-left: 2px solid var(--color-primary);
-
-      button {
-        border-radius: 5px 5px 0px 0px;
-      }
-    }
     li {
       margin: 0px;
       padding: 0px;
@@ -90,7 +82,7 @@
   }
 
   .menu-options-open {
-    width: 275px;
+    width: 293px;
     position: absolute;
     z-index: 99;
     list-style: none;

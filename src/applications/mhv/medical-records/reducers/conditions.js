@@ -37,6 +37,12 @@ export const conditionReducer = (state = initialState, action) => {
         conditionDetails: convertCondition(action.response),
       };
     }
+    case Actions.Conditions.GET_FROM_LIST: {
+      return {
+        ...state,
+        conditionDetails: action.response,
+      };
+    }
     case Actions.Conditions.GET_LIST: {
       return {
         ...state,

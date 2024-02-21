@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
 import { onResultsBackClick } from '../../utilities/shared';
+import { QUESTION_MAP } from '../../constants/question-data-map';
 
 const Results3 = ({ formResponses, router, viewedIntroPage }) => {
-  const H1 = 'Learn more about VA benefit eligibility';
+  const H1 = QUESTION_MAP.RESULTS_3;
 
   useEffect(() => {
     pageSetup(H1);
@@ -53,6 +54,7 @@ const Results3 = ({ formResponses, router, viewedIntroPage }) => {
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
         onClick={() => onResultsBackClick(formResponses, router)}
+        uswds={false}
       />
     </>
   );

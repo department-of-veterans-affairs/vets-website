@@ -11,7 +11,13 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../content/addIssue';
 
-import { CONTESTABLE_ISSUES_PATH, MAX_LENGTH, SELECTED } from '../constants';
+import {
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  MAX_LENGTH,
+  SELECTED,
+} from '../constants';
 import { calculateIndexOffset, getSelected } from '../utils/issues';
 import { setStorage } from '../utils/addIssue';
 import { checkValidations } from '../validations';
@@ -39,7 +45,10 @@ const AddIssue = ({
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
-  const returnPath = `/${CONTESTABLE_ISSUES_PATH}`;
+  const returnPath =
+    window.sessionStorage.getItem(REVIEW_ISSUES) === 'true'
+      ? REVIEW_AND_SUBMIT
+      : `/${CONTESTABLE_ISSUES_PATH}`;
 
   const nameValidations = [
     missingIssueName,
@@ -173,6 +182,7 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
+          uswds
         >
           {content.name.hint}
         </VaTextInput>
@@ -192,6 +202,8 @@ const AddIssue = ({
           invalidDay={isInvalid('day')}
           invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
+          month-select={false}
+          uswds
         />
         <p>
           <va-button
@@ -200,12 +212,14 @@ const AddIssue = ({
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
             text={content.button.cancel}
+            uswds
           />
           <va-button
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
+            uswds
           />
         </p>
       </fieldset>

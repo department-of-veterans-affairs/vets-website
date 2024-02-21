@@ -2,19 +2,60 @@ import React, { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DefaultFolders as Folders, PageTitles } from '../../util/constants';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  BlockedTriageAlertStyles,
+  DefaultFolders as Folders,
+  PageTitles,
+  ParentComponent,
+} from '../../util/constants';
 import { handleHeader, updatePageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
+import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
+import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
+  const { featureToggles } = useSelector(state => state);
+  const facilities = useSelector(state => state?.user?.profile?.facilities);
 
-  const cernerFacilitiesPresent = useSelector(
-    state => state.sm.facilities.cernerFacilities.length > 0,
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
+  );
+
+  const mhvSecureMessagingBlockedTriageGroup1p0 = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingBlockedTriageGroup1p0
+      ],
+  );
+
+  const cernerTransition556T30 = useMemo(
+    () => {
+      return featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        ? featureToggles[FEATURE_FLAG_NAMES.cernerTransition556T30]
+        : false;
+    },
+    [featureToggles],
+  );
+
+  const cernerFacilities = useMemo(
+    () => {
+      let cernerFacilitiesFiltered = facilities?.filter(
+        facility => facility.isCerner,
+      );
+      if (cernerTransition556T30) {
+        cernerFacilitiesFiltered = cernerFacilitiesFiltered.filter(
+          facility => facility.facilityId !== '556',
+        );
+      }
+      return cernerFacilitiesFiltered;
+    },
+    [facilities, cernerTransition556T30],
   );
 
   const folderDescription = useMemo(
@@ -65,20 +106,62 @@ const FolderHeader = props => {
         {handleHeader(folder.folderId, folder)}
       </h1>
 
-      {folder.folderId === Folders.INBOX.id &&
-        cernerFacilitiesPresent && <CernerFacilityAlert />}
+      {cernerTransition556T30 &&
+        folder.folderId === Folders.INBOX.id && (
+          <CernerTransitioningFacilityAlert />
+        )}
 
-      <>{handleFolderDescription()}</>
-      {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
-      <ManageFolderButtons folder={folder} />
-      {threadCount > 0 && (
-        <SearchForm
-          folder={folder}
-          keyword=""
-          resultsCount={searchProps.searchResults?.length}
-          {...searchProps}
-          threadCount={threadCount}
-        />
+      {folder.folderId === Folders.INBOX.id &&
+        cernerFacilities?.length && (
+          <CernerFacilityAlert cernerFacilities={cernerFacilities} />
+        )}
+
+      {mhvSecureMessagingBlockedTriageGroup1p0 ? (
+        <>
+          {folder.folderId === Folders.INBOX.id &&
+            (noAssociations || allTriageGroupsBlocked) && (
+              <BlockedTriageGroupAlert
+                alertStyle={
+                  noAssociations
+                    ? BlockedTriageAlertStyles.INFO
+                    : BlockedTriageAlertStyles.WARNING
+                }
+                blockedTriageGroupList={[]}
+                parentComponent={ParentComponent.FOLDER_HEADER}
+              />
+            )}
+
+          <>{handleFolderDescription()}</>
+          {folder.folderId === Folders.INBOX.id &&
+            (mhvSecureMessagingBlockedTriageGroup1p0
+              ? !noAssociations && !allTriageGroupsBlocked
+              : true) && <ComposeMessageButton />}
+          <ManageFolderButtons folder={folder} />
+          {threadCount > 0 && (
+            <SearchForm
+              folder={folder}
+              keyword=""
+              resultsCount={searchProps.searchResults?.length}
+              {...searchProps}
+              threadCount={threadCount}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <>{handleFolderDescription()}</>
+          {folder.folderId === Folders.INBOX.id && <ComposeMessageButton />}
+          <ManageFolderButtons folder={folder} />
+          {threadCount > 0 && (
+            <SearchForm
+              folder={folder}
+              keyword=""
+              resultsCount={searchProps.searchResults?.length}
+              {...searchProps}
+              threadCount={threadCount}
+            />
+          )}
+        </>
       )}
     </>
   );

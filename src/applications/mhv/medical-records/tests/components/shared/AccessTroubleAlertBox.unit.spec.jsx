@@ -35,7 +35,7 @@ describe('AccessTroubleAlertBox', () => {
         exact: true,
         selector: 'h2',
       }),
-    );
+    ).to.exist;
   });
 
   it('should display a paragraph containing additional info', () => {
@@ -47,6 +47,6 @@ describe('AccessTroubleAlertBox', () => {
           selector: 'p',
         },
       ),
-    );
+    ).to.exist;
   });
 });

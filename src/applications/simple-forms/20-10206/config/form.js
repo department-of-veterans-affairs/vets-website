@@ -21,7 +21,7 @@ import otherCompPenDetailsPg from '../pages/otherCompensationAndPensionDetails';
 import otherBenefitDetailsPg from '../pages/otherBenefitDetails';
 import additionalRecordsInformationPg from '../pages/additionalRecordsInformation';
 import associatedVARegionalOfficePg from '../pages/associatedVARegionalOffice';
-import { PREPARER_TYPES, RECORD_TYPES } from './constants';
+import { PREPARER_TYPES, RECORD_TYPES, SUBTITLE, TITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 
@@ -59,7 +59,7 @@ const formConfig = {
     },
   },
   formId: '20-10206',
-  // hideUnauthedStartLink: true,
+  hideUnauthedStartLink: true,
   transformForSubmit,
   saveInProgress: {
     messages: {
@@ -76,7 +76,8 @@ const formConfig = {
     notFound: 'Please start over to request personal records.',
     noAuth: 'Please sign in again to continue your Personal records request.',
   },
-  title: 'Request personal records',
+  title: TITLE,
+  subTitle: SUBTITLE,
   defaultDefinitions: {
     privacyAgreementAccepted: {
       type: 'boolean',

@@ -1,5 +1,4 @@
 import _ from 'platform/utilities/data';
-
 import {
   transformForSubmit,
   filterViewFields,
@@ -29,8 +28,6 @@ import {
   addForm8940,
   addFileAttachments,
 } from './utils/submit';
-
-import { getDisabilityLabels } from './content/disabilityLabels';
 
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
@@ -101,43 +98,6 @@ export function transform(formConfig, form) {
       delete clonedData.powDisabilities;
     }
     return clonedData;
-  };
-
-  // new disabilities that match a name on our mapped list need their
-  // respective classification code added
-  const addClassificationCodeToNewDisabilities = formData => {
-    const { newDisabilities } = formData;
-    if (!newDisabilities) {
-      return formData;
-    }
-
-    const flippedDisabilityLabels = {};
-    Object.entries(getDisabilityLabels()).forEach(([code, description]) => {
-      flippedDisabilityLabels[description?.toLowerCase()] = code;
-    });
-
-    const newDisabilitiesWithClassificationCodes = newDisabilities.map(
-      disability => {
-        const { condition } = disability;
-        if (!condition) {
-          return disability;
-        }
-        const loweredDisabilityName = condition?.toLowerCase();
-        return flippedDisabilityLabels[loweredDisabilityName]
-          ? _.set(
-              'classificationCode',
-              flippedDisabilityLabels[loweredDisabilityName],
-              disability,
-            )
-          : disability;
-      },
-    );
-
-    return _.set(
-      'newDisabilities',
-      newDisabilitiesWithClassificationCodes,
-      formData,
-    );
   };
 
   const addRequiredDescriptionsToDisabilitiesBDD = formData => {
@@ -308,7 +268,6 @@ export function transform(formConfig, form) {
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
-    addClassificationCodeToNewDisabilities,
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
     transformSecondaryDisabilities,

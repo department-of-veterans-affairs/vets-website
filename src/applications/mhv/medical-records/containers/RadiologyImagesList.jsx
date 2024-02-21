@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { getlabsAndTestsDetails } from '../actions/labsAndTests';
@@ -29,13 +28,11 @@ const RadiologyImagesList = () => {
     name: 'ANKLE LEFT 3 VIEWS',
     category: 'Radiology',
     orderedBy: 'Beth M. Smith',
-    orderingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     reason: 'Injury',
     clinicalHistory: 'Information',
     imagingProvider: 'John J. Lydon',
     id: 122,
-    date: '2022-04-13T17:42:46.000Z',
+    date: 'April 13, 2022, 5:25 a.m. MDT',
     imagingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     reactions: ['Just this one'],
@@ -54,8 +51,6 @@ const RadiologyImagesList = () => {
       'image',
     ],
   };
-
-  const formattedDate = formatDateLong(labAndTestDetails?.date);
 
   const download = () => {
     GenerateRadiologyPdf(labAndTestDetails);
@@ -95,7 +90,7 @@ const RadiologyImagesList = () => {
           >
             Images: {labAndTestDetails.name}
           </h1>
-          <DateSubheading date={formattedDate} id="radiology-date" />
+          <DateSubheading date={labAndTestDetails?.date} id="radiology-date" />
 
           <div className="no-print">
             <PrintDownload

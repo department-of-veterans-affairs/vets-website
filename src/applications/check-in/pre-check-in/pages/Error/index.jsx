@@ -161,7 +161,7 @@ const Error = () => {
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
       alertType = 'info';
-      header = t('were-sorry-this-link-has-expired');
+      header = t('this-link-has-expired');
       messageText = mixedPhoneAndInPersonMessage;
       showHowToLink = false;
       break;
@@ -192,10 +192,11 @@ const Error = () => {
   return (
     <Wrapper pageTitle={header}>
       <va-alert
-        background-only
         show-icon
         status={alertType}
         data-testid="error-message"
+        uswds
+        slim
       >
         <div>{messageText}</div>
       </va-alert>

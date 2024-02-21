@@ -1,5 +1,9 @@
 import React from 'react';
 
+export const TITLE = 'Request personal records';
+export const SUBTITLE =
+  'Freedom of Information Act (FOIA) or Privacy Act (PA) Request (VA Form 20-10206)';
+
 export const PREPARER_TYPES = Object.freeze({
   CITIZEN: 'citizen',
   NON_CITIZEN: 'non-citizen',

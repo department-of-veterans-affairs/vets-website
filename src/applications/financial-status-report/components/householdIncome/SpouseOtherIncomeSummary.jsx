@@ -116,7 +116,7 @@ const SpouseOtherIncomeSummary = ({
     <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
-          id="added-income-summary"
+          id="spouse-added-income-summary"
           className="schemaform-block-title"
           name="addedIncomeSummary"
         >
@@ -161,14 +161,13 @@ const SpouseOtherIncomeSummary = ({
             buttons={[
               {
                 label: 'Back',
-                onClick: goBack,
-                secondary: true,
-                iconLeft: '«',
+                onClick: goBack, // Define this function based on page-specific logic
+                isSecondary: true,
               },
               {
                 label: continueButtonText,
-                type: 'submit',
-                iconRight: '»',
+                onClick: onSubmit,
+                isSubmitting: true, // If this button submits a form
               },
             ]}
           />

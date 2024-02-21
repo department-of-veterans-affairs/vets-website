@@ -6,11 +6,28 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  fixSelector,
   focusElement,
   focusOnChange,
   getFocusableElements,
 } from '../../../src/js/utilities/ui';
 import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsibleChapter';
+
+describe('fixSelector', () => {
+  it('should return an unmodified string', () => {
+    expect(fixSelector('va-accordion')).to.eq('va-accordion');
+    expect(fixSelector('.test')).to.eq('.test');
+    expect(fixSelector('#test')).to.eq('#test');
+    expect(fixSelector('[name="test"]')).to.eq('[name="test"]');
+  });
+  it('should escape colons withing the selector', () => {
+    // we shouldn't be passing in `:not([name="test"])` as a selector
+    expect(fixSelector('[name="view:test"]')).to.eq('[name="view\\:test"]');
+    expect(fixSelector('[name="view:test:foo"]')).to.eq(
+      '[name="view\\:test\\:foo"]',
+    );
+  });
+});
 
 describe('focusElement', () => {
   it('should focus on header element using tabindex -1, and remove it on blur', async () => {
@@ -223,14 +240,16 @@ describe('focus on change', () => {
     };
 
     const tree = ReactTestUtils.renderIntoDocument(
-      <ReviewCollapsibleChapter
-        viewedPages={new Set()}
-        expandedPages={pages}
-        chapterKey={chapterKey}
-        chapterFormConfig={chapter}
-        form={form}
-        open
-      />,
+      <div>
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />
+      </div>,
     );
 
     const dom = findDOMNode(tree);
@@ -265,7 +284,7 @@ describe('getFocuableElements', () => {
     setOffset('offsetWidth', offsets.width);
   });
 
-  it.skip('should return an array of focusable elements', () => {
+  it('should return an array of focusable elements', async () => {
     setOffset('offsetHeight', { configurable: true, value: 10 });
     setOffset('offsetWidth', { configurable: true, value: 10 });
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
@@ -283,16 +302,60 @@ describe('getFocuableElements', () => {
         </select>
         <textarea />
         <div tabIndex="0" />
+        <va-button />
+        <va-select />
+        <va-radio-option />
+        <va-checkbox />
+        <va-text-input />
+        <va-textarea />
       </form>,
     );
     /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     const dom = findDOMNode(tree);
     global.document = dom;
-    const focusableElements = getFocusableElements(dom);
+    const focusableElements = await getFocusableElements(dom);
+    // This is supposed to return focusable elements within the web component
+    // shadow DOM;
+    expect(focusableElements.length).to.eq(13);
+  });
+
+  it('should return an array and ignore focusable web components', async () => {
+    setOffset('offsetHeight', { configurable: true, value: 10 });
+    setOffset('offsetWidth', { configurable: true, value: 10 });
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+    const tree = ReactTestUtils.renderIntoDocument(
+      <form>
+        <a href="http://test.com">x</a>
+        <button type="button" aria-label="button" />
+        <details>
+          <summary>foo</summary>
+          baz
+        </details>
+        <input type="text" />
+        <select>
+          <option>bar</option>
+        </select>
+        <textarea />
+        <div tabIndex="0" />
+        <va-button />
+        <va-select />
+        <va-radio-option />
+        <va-checkbox />
+        <va-text-input />
+        <va-textarea />
+      </form>,
+    );
+    /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+    const dom = findDOMNode(tree);
+    global.document = dom;
+    const focusableElements = await getFocusableElements(dom, {
+      returnWebComponent: true,
+      focusableWebComponents: [],
+    });
     expect(focusableElements.length).to.eq(7);
   });
 
-  it.skip('should return an empty array from non-focusable elements', () => {
+  it('should return an empty array from non-focusable elements', async () => {
     setOffset('offsetHeight', { configurable: true, value: 10 });
     setOffset('offsetWidth', { configurable: true, value: 10 });
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
@@ -312,10 +375,10 @@ describe('getFocuableElements', () => {
     /* eslint-enable jsx-a11y/label-has-associated-control */
     const dom = findDOMNode(tree);
     global.document = dom;
-    const focusableElements = getFocusableElements(dom);
+    const focusableElements = await getFocusableElements(dom);
     expect(focusableElements.length).to.eq(0);
   });
-  it.skip('should return an empty array from hidden elements', () => {
+  it('should return an empty array from hidden elements', async () => {
     setOffset('offsetHeight', offsets.height);
     setOffset('offsetWidth', offsets.width);
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
@@ -340,7 +403,7 @@ describe('getFocuableElements', () => {
     /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
     const dom = findDOMNode(tree);
     global.document = dom;
-    const focusableElements = getFocusableElements(dom);
+    const focusableElements = await getFocusableElements(dom);
     expect(focusableElements.length).to.eq(0);
   });
 });

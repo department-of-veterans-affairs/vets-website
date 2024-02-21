@@ -43,7 +43,7 @@ export default function ClaimDetailLayout(props) {
     synced,
     id,
   } = props;
-  const tabs = ['Status', 'Files', 'Details'];
+  const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimsPath = `your-claims/${id}`;
 
   const claimType = getClaimType(claim).toLowerCase();
@@ -55,6 +55,7 @@ export default function ClaimDetailLayout(props) {
       <va-loading-indicator
         set-focus
         message="Loading your claim information..."
+        uswds="false"
       />
     );
   } else if (claim !== null) {
@@ -65,6 +66,7 @@ export default function ClaimDetailLayout(props) {
 
     const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
     const formattedClaimDate = formatDate(claim.attributes.claimDate);
+    const claimSubheader = `Received on ${formattedClaimDate}`;
 
     headingContent = (
       <>
@@ -78,8 +80,8 @@ export default function ClaimDetailLayout(props) {
         )}
         <h1 className="claim-title">
           {claimTitle}
-          <span className="claim-subtitle vads-u-margin-top--1">
-            Submitted on {formattedClaimDate}
+          <span className="vads-u-font-family--sans vads-u-margin-top--1">
+            {claimSubheader}
           </span>
         </h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}

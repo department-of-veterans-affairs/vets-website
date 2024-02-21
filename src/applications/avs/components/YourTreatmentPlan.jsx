@@ -2,14 +2,20 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import ItemsBlock from './ItemsBlock';
+import ListBlock from './ListBlock';
 import MedicationTerms from './MedicationTerms';
 import OrdersBlock from './OrdersBlock';
 import ParagraphBlock from './ParagraphBlock';
 import { ORDER_TYPES } from '../utils/constants';
+import { allArraysEmpty } from '../utils';
 
 const YourTreatmentPlan = props => {
   const { avs } = props;
-  const { orders } = avs;
+  const { medChangesSummary, orders } = avs;
+
+  const medChanges = !allArraysEmpty(medChangesSummary)
+    ? medChangesSummary
+    : null;
 
   const medsIntro = (
     <>
@@ -36,7 +42,11 @@ const YourTreatmentPlan = props => {
 
   return (
     <div>
-      <h3 className="vads-u-margin-top--0">New orders from this appointment</h3>
+      {orders && (
+        <h3 className="vads-u-margin-top--0" data-testid="new-orders-heading">
+          New orders from this appointment
+        </h3>
+      )}
       {/* TODO: is this the correct dataset? (Today vs. all) */}
       <OrdersBlock
         heading="Consultations"
@@ -86,6 +96,25 @@ const YourTreatmentPlan = props => {
         headingLevel={4}
         content={avs.patientInstructions}
         htmlContent
+      />
+      {medChanges && <h3>Summary of medication changes</h3>}
+      <ListBlock
+        heading="Start these medications and supplies"
+        headingLevel={4}
+        itemType="new-medications-list"
+        items={medChanges?.newMedications}
+      />
+      <ListBlock
+        heading="Stop these medications and supplies"
+        headingLevel={4}
+        itemType="discontinued-medications-list"
+        items={medChanges?.discontinuedMeds}
+      />
+      <ListBlock
+        heading="Follow new instructions for these medications and supplies"
+        headingLevel={4}
+        itemType="changed-medications-list"
+        items={medChanges?.changedMedications}
       />
     </div>
   );

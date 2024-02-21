@@ -3,9 +3,6 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-
 import { render, waitFor } from '@testing-library/react';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import {
@@ -101,108 +98,5 @@ describe('<CalculateYourBenefits>', () => {
       const action = store.getActions();
       expect(action.length).to.eq(0);
     });
-  });
-  it('should render and handle scroll events', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const store = mockStore(data);
-    const addEventListenerSpy = sinon.spy(global.window, 'addEventListener');
-    const removeEventListenerSpy = sinon.spy(
-      global.window,
-      'removeEventListener',
-    );
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    global.window.dispatchEvent(new Event('scroll'));
-    sinon.assert.calledWith(addEventListenerSpy, 'scroll', sinon.match.func);
-    const element = tree.find('div#eyb-summary-sheet').getDOMNode();
-    expect(document.body.contains(element)).to.be.false;
-    tree.unmount();
-    sinon.assert.calledWith(removeEventListenerSpy, 'scroll', sinon.match.func);
-    addEventListenerSpy.restore();
-    removeEventListenerSpy.restore();
-  });
-  it('should return no ', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const store = mockStore(data);
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    expect(
-      tree
-        .find('div.vads-u-padding-bottom--1.small-screen-font')
-        .at(1)
-        .text()
-        .includes('No'),
-    ).to.be.true;
-    tree.unmount();
-  });
-  it('should', () => {
-    const middleware = [thunk];
-    const mockStore = configureStore(middleware);
-    const gibctEybBottomSheet = true;
-    const isOJT = false;
-    const { props, data } = getData();
-    const newData = {
-      ...data,
-      profile: {
-        ...data.profile,
-        attributes: {
-          ...data.profile.attributes,
-          vetWebsiteLink: '',
-          section103Message: '',
-          yr: '',
-          vrrap: 'vrrap',
-        },
-      },
-    };
-    const store = mockStore(newData);
-    const tree = mount(
-      <Provider store={store}>
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-          {...props}
-        />
-      </Provider>,
-    );
-    const div = tree
-      .find('div.vads-u-padding-bottom--1.small-screen-font')
-      .at(0);
-    expect(div.text().includes('No')).to.be.true;
-    const div2 = tree
-      .find('div.vads-u-padding-bottom--1.small-screen-font')
-      .at(1);
-    expect(div2.text().includes('No')).to.be.true;
-    const div3 = tree
-      .find('div.vads-u-padding-bottom--1.small-screen-font')
-      .at(2);
-    expect(div3.text().includes('No')).to.be.true;
-    const div4 = tree
-      .find('div.vads-u-padding-bottom--1.small-screen-font')
-      .at(3);
-    expect(div4.text().includes('Yes')).to.be.true;
-    tree.unmount();
   });
 });

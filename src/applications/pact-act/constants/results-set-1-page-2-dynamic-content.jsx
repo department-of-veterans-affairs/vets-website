@@ -4,7 +4,7 @@ import { BATCHES } from './question-batches';
 export const accordions = {
   [BATCHES.BURN_PITS]: [
     {
-      title: 'New PACT Act presumptive conditions for Burn pit exposure',
+      title: 'New PACT Act presumptive conditions for burn pit exposure',
       content: (
         <Fragment key={`${BATCHES.BURN_PITS}-1`}>
           <p>

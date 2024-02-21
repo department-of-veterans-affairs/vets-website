@@ -28,6 +28,7 @@ const TravelQuestion = props => {
   };
   const validation = () => {
     if (agree) {
+      dispatch(recordAnswer({ 'travel-question': 'yes' }));
       goToNextPage();
     } else {
       setError(true);

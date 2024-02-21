@@ -1,4 +1,4 @@
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 /** @type {PageSchema} */
 export default {

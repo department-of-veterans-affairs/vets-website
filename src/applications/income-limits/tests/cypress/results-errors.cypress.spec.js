@@ -3,13 +3,17 @@ import * as h from '../helpers';
 describe('retrieving results - errors', () => {
   describe('422 invalid zip code', () => {
     before(() => {
-      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
-        statusCode: 422,
-        delay: 500,
-        body: {
-          error: 'Invalid zip code',
+      cy.intercept(
+        'GET',
+        `income_limits/v1/limitsByZipCode/10108/${new Date().getFullYear()}/2`,
+        {
+          statusCode: 422,
+          delay: 500,
+          body: {
+            error: 'Invalid zip code',
+          },
         },
-      });
+      );
     });
 
     it('should show the correct error state', () => {
@@ -45,13 +49,17 @@ describe('retrieving results - errors', () => {
 
   describe('422 invalid year', () => {
     before(() => {
-      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
-        statusCode: 422,
-        delay: 500,
-        body: {
-          error: 'Invalid year',
+      cy.intercept(
+        'GET',
+        `income_limits/v1/limitsByZipCode/10108/${new Date().getFullYear()}/2`,
+        {
+          statusCode: 422,
+          delay: 500,
+          body: {
+            error: 'Invalid year',
+          },
         },
-      });
+      );
     });
 
     it('should show the correct error state', () => {
@@ -87,13 +95,17 @@ describe('retrieving results - errors', () => {
 
   describe('422 invalid dependents', () => {
     before(() => {
-      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
-        statusCode: 422,
-        delay: 500,
-        body: {
-          error: 'Invalid dependents',
+      cy.intercept(
+        'GET',
+        `income_limits/v1/limitsByZipCode/10108/${new Date().getFullYear()}/2`,
+        {
+          statusCode: 422,
+          delay: 500,
+          body: {
+            error: 'Invalid dependents',
+          },
         },
-      });
+      );
     });
 
     it('should show the correct error state', () => {
@@ -129,10 +141,14 @@ describe('retrieving results - errors', () => {
 
   describe('response timeout', () => {
     before(() => {
-      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/10108/2023/2', {
-        statusCode: 200,
-        delay: 5500,
-      });
+      cy.intercept(
+        'GET',
+        `income_limits/v1/limitsByZipCode/10108/${new Date().getFullYear()}/2`,
+        {
+          statusCode: 200,
+          delay: 5500,
+        },
+      );
     });
 
     it('should show the correct error state', () => {

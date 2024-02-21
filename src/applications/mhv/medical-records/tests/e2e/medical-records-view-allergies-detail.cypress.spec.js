@@ -12,17 +12,24 @@ describe('Medical Records View Allergies', () => {
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
+    cy.get('@allergyDetails.all').should('have.length', 0);
     AllergyDetailsPage.verifyAllergyDetailReaction(
-      allergy.reaction[0].manifestation[0].text,
+      allergies.entry[0].resource.reaction[0].manifestation[0].text,
     );
 
-    AllergyDetailsPage.verifyAllergyDetailType('Food');
-    // allergy type = food
-    AllergyDetailsPage.verifyAllergyDetailLocation(allergy.recorder.display);
+    AllergyDetailsPage.verifyAllergyDetailType(
+      allergies.entry[0].resource.category[0].charAt(0).toUpperCase(),
+    );
 
+    AllergyDetailsPage.verifyAllergyDetailLocation(
+      allergies.entry[0].resource.recorder.display,
+    );
+    // no observed in allergies...
     AllergyDetailsPage.verifyAllergyDetailObserved('None noted');
 
-    AllergyDetailsPage.verifyAllergyDetailNotes(allergy.note[0].text);
+    AllergyDetailsPage.verifyAllergyDetailNotes(
+      allergies.entry[0].resource.note[0].text,
+    );
     cy.get('[data-testid="print-records-button"]').should('be.visible');
     cy.get('[data-testid="print-records-button"]').click({ force: true });
     cy.injectAxe();

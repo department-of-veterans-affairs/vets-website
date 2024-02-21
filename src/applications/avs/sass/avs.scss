@@ -1,13 +1,32 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-.clinic-information i {
-    padding-right: 0.5em;
+/* Breadcrumb arrow */
+.avs-breadcrumb a::before {
+    content: " \2039 ";
+    display: inline-block;
+    padding: 0 2.4px;
+}
+
+/* Lists */
+.appointment-list {
+    list-style: none;
+}
+
+/* Suppress bullet on lists with only one item */
+#react-root ul:has(> :last-child:nth-child(1)) {
+    list-style: none;
+    padding-left: 0;
 }
 
 /* Lab results */
 .lab-results h4 {
     margin-bottom: 0;
 }
+
+.clinic-information i {
+    padding-right: 0.5em;
+}
+
 
 /* Miscellaneous */
 hr {

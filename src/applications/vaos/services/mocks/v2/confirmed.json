@@ -71,6 +71,7 @@
         "slot": null,
         "start": "2023-12-21T18:19:34",
         "status": "cancelled",
+        "cancellable": false,
         "localStartTime": "2023-12-21T09:00:00.000-06:00",
         "telehealth": null
       }
@@ -235,7 +236,7 @@
                   "eCheckinAllowed": true
               },
               "localStartTime": "2023-10-13T09:00:00.000-06:00",
-              "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+              "avsPath": "Error retrieving AVS link",
               "serviceName": "CHY MENTAL HEALTH ONE",
               "friendlyName": "CHY MENTAL HEALTH ONE",
               "location": {
@@ -913,6 +914,8 @@
         "minutesDuration": 30,
         "requestedPeriods": null,
         "cancellable": false,
+        "clinic": "some string",
+        "friendlyName": "clinic friendly name",
         "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
         "extension": {
           "ccLocation": {
@@ -2080,10 +2083,11 @@
         ],
         "patientIcn": "1013120826V646496",
         "locationId": "983GC",
+        "localStartTime": "2024-06-22T09:00:00.000-06:00",
         "clinic": "945",
-        "start": "2023-06-22T13:00:00Z",
-        "end": "2023-06-22T14:00:00Z",
-        "created": "2023-03-17T00:00:00Z",
+        "start": "2024-06-22T13:00:00Z",
+        "end": "2024-06-22T14:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
         "cancellable": false,
         "extension": {
           "ccLocation": {

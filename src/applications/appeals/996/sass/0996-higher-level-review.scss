@@ -330,14 +330,6 @@ article[data-location="review-and-submit"] {
   dt .hide-on-review, dd .hide-on-review {
     display: none;
   }
-
-  .form-review-panel-page-header {
-    padding-right: 1rem;
-    line-height: 2.5rem;
-  }
-  .form-review-panel-page-header-row {
-    align-items: flex-start;
-  }
 }
 
 @media (max-width: $small-screen) {

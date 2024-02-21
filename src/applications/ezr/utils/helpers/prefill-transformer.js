@@ -1,3 +1,4 @@
+import omit from 'platform/utilities/data/omit';
 import { MILITARY_CITIES } from '../constants';
 
 /**
@@ -52,8 +53,32 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const parsedAddressMatch =
     veteranAddress && veteranHomeAddress ? doesAddressMatch : undefined;
 
+  // omit data values that belong in a viewfield
+  const withoutViewFields = omit(
+    [
+      'email',
+      'homePhone',
+      'maritalStatus',
+      'isMedicaidEligible',
+      'isEnrolledMedicarePartA',
+    ],
+    formData,
+  );
+
+  const {
+    email = '',
+    homePhone = '',
+    maritalStatus = '',
+    isMedicaidEligible = undefined,
+    isEnrolledMedicarePartA = undefined,
+  } = formData;
+
   let newData = {
-    ...formData,
+    ...withoutViewFields,
+    'view:contactInformation': { email, homePhone },
+    'view:maritalStatus': { maritalStatus },
+    'view:isMedicaidEligible': { isMedicaidEligible },
+    'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA },
     'view:doesMailingMatchHomeAddress': parsedAddressMatch,
   };
 

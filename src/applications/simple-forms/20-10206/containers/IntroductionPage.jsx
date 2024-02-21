@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import manifest from '../manifest.json';
-import { ADDITIONAL_INFO_THIRD_PARTY } from '../config/constants';
+import {
+  ADDITIONAL_INFO_THIRD_PARTY,
+  SUBTITLE,
+  TITLE,
+} from '../config/constants';
 
 const ombInfo = {
   resBurden: '5',
@@ -16,12 +20,12 @@ const ombInfo = {
 
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
-    formTitle: 'Request personal records',
-    formSubTitle:
-      'Freedom of Information Act (FOIA) and Privacy Act (PA) Request (VA Form 20-10206)',
+    formTitle: TITLE,
+    formSubTitle: SUBTITLE,
     authStartFormText: 'Start your request',
     unauthStartText: 'Sign in to start your request',
     hideSipIntro: userLoggedIn && !userIdVerified,
+    displayNonVeteranMessaging: true,
   };
 
   const childContent = (
@@ -34,7 +38,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <p>
         If you want to request your records through this online form, you’ll
         need to sign in to your account. You’ll need to verify your identity, so
-        we enourage you to use a <strong>Login.gov</strong> or{' '}
+        we encourage you to use a <strong>Login.gov</strong> or{' '}
         <strong>ID.me</strong> account.
       </p>
       <p>
@@ -69,9 +73,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <p>Or you can submit a PDF version of this form.</p>
       <h2>What types of information can I request?</h2>
       <p>You can request any of these kinds of personal records:</p>
-      <p>
-        <strong>Compensation and pension records</strong>
-      </p>
+      <h3 className="vads-u-font-size--h6">Compensation and pension records</h3>
       <ul>
         <li>
           Certificate of Release or Discharge from Active Duty (DD Form 214)
@@ -83,9 +85,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
         <li>Service or military treatment</li>
         <li>Other compensation and pension records</li>
       </ul>
-      <p>
-        <strong>Benefit records</strong>
-      </p>
+      <h3 className="vads-u-font-size--h6">Benefit records</h3>
       <ul>
         <li>Education benefit</li>
         <li>Fiduciary services</li>
@@ -114,7 +114,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
-            <va-alert status="continue">
+            <va-alert status="continue" uswds visible>
               <h3 slot="headline">
                 You’ll need to verify your identity to request your records
               </h3>

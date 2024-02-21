@@ -1,0 +1,7 @@
+{
+  "appName": "Submitted Appeals view &amp; download",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "submitted-appeal",
+  "rootUrl": "/decision-reviews/submitted-appeal",
+  "productId": "8057a5e9-196a-462f-9bc3-3bd1d199892c"
+}

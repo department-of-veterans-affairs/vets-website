@@ -1,7 +1,6 @@
 import React from 'react';
 import { format, parseISO } from 'date-fns';
 import { expect } from 'chai';
-import { getAppointmentTimezone } from '../../../utils/timezone';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import { AppointmentsCard } from '../../../components/health-care/AppointmentsCard';
@@ -18,15 +17,14 @@ describe('<AppointmentsCard />', () => {
         additionalInfo: 'yada yada yada',
         isVideo: true,
         providerName: 'test provider',
-        startsAt: '2023-12-04T10:00:00-05:00',
+        localStartTime: '2024-01-11T06:30:00-07:00',
         timeZone: 'MT',
         type: 'regular',
       },
     ];
 
-    const startFns = parseISO(appointments[0].startsAt);
+    const startFns = parseISO(appointments[0].localStartTime);
     const startFormatted = format(startFns, 'eeee, MMMM d, yyyy');
-    const timeZone = getAppointmentTimezone(appointments[0]);
     const tree = renderInReduxProvider(
       <AppointmentsCard appointments={appointments} />,
       {
@@ -48,16 +46,14 @@ describe('<AppointmentsCard />', () => {
     });
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
-    tree.getByText(
-      `Time: ${format(startFns, 'h:mm aaaa')} ${timeZone.abbreviation}`,
-    );
+    tree.getByText(`Time: 6:30 a.m. MT`);
   });
 
   context('renders the location name', () => {
     it('when the appointment is a video appointment', () => {
       const appointments = [
         {
-          startsAt: '2023-12-04T10:00:00-05:00',
+          localStartTime: '2023-12-04T10:00:00-05:00',
           isVideo: true,
           additionalInfo: 'testing',
         },
@@ -89,7 +85,7 @@ describe('<AppointmentsCard />', () => {
       const providerName = 'test provider';
       const appointments = [
         {
-          startsAt: '2023-12-04T10:00:00-05:00',
+          localStartTime: '2023-12-04T10:00:00-05:00',
           isVideo: false,
           providerName,
         },

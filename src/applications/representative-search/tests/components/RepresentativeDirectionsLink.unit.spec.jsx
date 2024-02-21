@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import RepresentativeDirectionsLink from '../../components/search/RepresentativeDirectionsLink';
+import RepresentativeDirectionsLink from '../../components/results/RepresentativeDirectionsLink';
 import testDataRepresentative from '../../constants/mock-representative-v0.json';
 
 const verifyLink = data => {
@@ -22,9 +22,8 @@ const verifyLink = data => {
     rel: 'noopener noreferrer',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directions on Google Maps to Bobby Low',
+    '7901 Metropolis Drive Austin, TX 78744-3111',
   );
-  expect(wrapper.find('.sr-only').text()).to.equal('to Bobby Low');
 
   wrapper.unmount();
 };

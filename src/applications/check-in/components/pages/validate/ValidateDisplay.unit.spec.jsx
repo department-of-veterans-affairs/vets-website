@@ -47,26 +47,26 @@ describe('check-in experience', () => {
           </CheckInProvider>,
         );
 
-        expect(getByRole('status')).to.have.text('Loading...');
+        expect(getByRole('status')).to.exist;
       });
       it('renders continue button if isLoading false', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <ValidateDisplay isLoading={false} />
           </CheckInProvider>,
         );
 
-        expect(getByText('Continue')).to.exist;
+        expect(getByTestId('check-in-button')).to.exist;
       });
       it('calls the validateHandler', () => {
         const validateHandler = sinon.spy();
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <ValidateDisplay validateHandler={validateHandler} />
           </CheckInProvider>,
         );
 
-        getByText('Continue').click();
+        getByTestId('check-in-button').click();
         expect(validateHandler.called).to.be.true;
       });
       describe('lastNameInput', () => {

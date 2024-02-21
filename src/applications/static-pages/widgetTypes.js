@@ -17,6 +17,7 @@ export default {
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
+  EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -50,7 +51,6 @@ export default {
   HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   HOMEPAGE_SEARCH: 'homepage-search',
   I_18_SELECT: 'i18-select',
-  LETTERS_MOBILE_CTA: 'letters-mobile-cta',
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',

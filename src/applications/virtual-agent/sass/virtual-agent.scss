@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 #btnAcceptDisclaimer {
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-left: 23px;
   }
 }

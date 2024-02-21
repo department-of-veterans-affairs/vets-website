@@ -1,5 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
@@ -26,11 +26,8 @@ import formConfig from '../../config/form';
     pageTitle,
   );
 
-  /* test for widget errors instead of
-  web component errors because error
-  shows up as alert instead of node label. */
   const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,

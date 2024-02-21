@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
+import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
+
+import BenefitsProfileWrapper from './BenefitsProfilePageWrapper';
 
 export default function App({ children }) {
   return (
-    <EnrollmentVerificationPageWrapper>
-      {children}
-    </EnrollmentVerificationPageWrapper>
+    <>
+      <EnrollmentVerificationPageWrapper>
+        {children}
+      </EnrollmentVerificationPageWrapper>
+      <BenefitsProfileWrapper>{children}</BenefitsProfileWrapper>
+    </>
   );
 }
 

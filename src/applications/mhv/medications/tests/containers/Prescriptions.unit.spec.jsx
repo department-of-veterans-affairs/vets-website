@@ -20,7 +20,7 @@ describe('Medications Prescriptions container', () => {
       },
       breadcrumbs: {
         list: [
-          { url: '/my-health/about-medications' },
+          { url: '/my-health/medications/about' },
           { label: 'About medications' },
         ],
       },
@@ -50,7 +50,7 @@ describe('Medications Prescriptions container', () => {
         },
         breadcrumbs: {
           list: [
-            { url: '/my-health/about-medications' },
+            { url: '/my-health/medications/about' },
             { label: 'About medications' },
           ],
         },
@@ -93,7 +93,7 @@ describe('Medications Prescriptions container', () => {
           },
           breadcrumbs: {
             list: [
-              { url: '/my-health/about-medications' },
+              { url: '/my-health/medications/about' },
               { label: 'About medications' },
             ],
           },
@@ -126,7 +126,7 @@ describe('Medications Prescriptions container', () => {
           },
           breadcrumbs: {
             list: [
-              { url: '/my-health/about-medications' },
+              { url: '/my-health/medications/about' },
               { label: 'About medications' },
             ],
           },
@@ -160,7 +160,7 @@ describe('Medications Prescriptions container', () => {
             },
             breadcrumbs: {
               list: [
-                { url: '/my-health/about-medications' },
+                { url: '/my-health/medications/about' },
                 { label: 'About medications' },
               ],
             },

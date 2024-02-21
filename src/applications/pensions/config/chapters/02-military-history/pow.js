@@ -1,27 +1,26 @@
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import set from 'platform/utilities/data/set';
 
 import {
   yesNoUI,
   yesNoSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import dateRangeUI from '@department-of-veterans-affairs/platform-forms-system/dateRange';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
 const { powDateRange } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'POW Status',
-    'ui:order': ['view:powStatus', 'powDateRange'],
-    'view:powStatus': yesNoUI({
+    'ui:title': 'P. O. W. Status',
+    powStatus: yesNoUI({
       title: 'Have you ever been a prisoner of war?',
       uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     powDateRange: set(
       'ui:options.expandUnder',
-      'view:powStatus',
+      'powStatus',
       dateRangeUI(
         'Start of confinement',
         'End of confinement',
@@ -31,9 +30,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['view:powStatus'],
+    required: ['powStatus'],
     properties: {
-      'view:powStatus': yesNoSchema,
+      powStatus: yesNoSchema,
       powDateRange,
     },
   },

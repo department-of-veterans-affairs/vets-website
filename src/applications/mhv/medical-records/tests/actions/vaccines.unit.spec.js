@@ -28,8 +28,19 @@ describe('Get vaccine action', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
     const dispatch = sinon.spy();
-    return getVaccineDetails('3106')(dispatch).then(() => {
+    return getVaccineDetails('3106', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Vaccines.GET);
+    });
+  });
+});
+
+describe('Get vaccine details action', () => {
+  it('should dispatch a details action and pull from the list', () => {
+    const dispatch = sinon.spy();
+    return getVaccineDetails('1', [{ id: '1' }])(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Vaccines.GET_FROM_LIST,
+      );
     });
   });
 });

@@ -1,1 +1,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.vye-top-border{
+    border-top: 1px solid $color-gray-lighter;
+}
+
+.vye-mimic-link{
+    background-color: inherit !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    font-weight: 500 !important;
+    width: fit-content !important;
+}
+
+.vye-mimic-link:focus{
+    outline: none !important;
+}

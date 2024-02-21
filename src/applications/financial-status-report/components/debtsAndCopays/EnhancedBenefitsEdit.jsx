@@ -103,6 +103,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           value={inputValue}
           className="no-wrap input-size-2"
           required
+          uswds
         />
       </fieldset>
       <ButtonGroup
@@ -110,11 +111,12 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           {
             label: 'Cancel',
             onClick: onCancel,
-            secondary: true,
+            isSecondary: true,
           },
           {
             label: 'Update',
             onClick: onUpdate,
+            isSubmitting: true,
           },
         ]}
       />

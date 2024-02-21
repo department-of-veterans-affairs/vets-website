@@ -10,47 +10,29 @@ import {
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
 };
-export function postAppointment(appointment, useAcheron) {
-  return apiRequestWithUrl(
-    '/vaos/v2/appointments',
-    !useAcheron
-      ? {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(appointment),
-        }
-      : {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...acheronHeader.headers,
-          },
-          body: JSON.stringify(appointment),
-        },
-  ).then(parseApiObject);
+export function postAppointment(appointment) {
+  return apiRequestWithUrl('/vaos/v2/appointments', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...acheronHeader.headers,
+    },
+    body: JSON.stringify(appointment),
+  }).then(parseApiObject);
 }
 
-export function putAppointment(id, appointment, useAcheron) {
-  return apiRequestWithUrl(
-    `/vaos/v2/appointments/${id}`,
-    !useAcheron
-      ? {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(appointment),
-        }
-      : {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            ...acheronHeader.headers,
-          },
-          body: JSON.stringify(appointment),
-        },
-  ).then(parseApiObject);
+export function putAppointment(id, appointment) {
+  return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...acheronHeader.headers,
+    },
+    body: JSON.stringify(appointment),
+  }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = [], useAcheron) {
+export function getAppointments(start, end, statuses = []) {
   const options = {
     method: 'GET',
   };
@@ -58,17 +40,17 @@ export function getAppointments(start, end, statuses = [], useAcheron) {
     `/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
-    !useAcheron ? options : { ...options, ...acheronHeader },
+    { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id, useAcheron) {
+export function getAppointment(id) {
   const options = {
     method: 'GET',
   };
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=facilities,clinics`,
-    !useAcheron ? options : { ...options, ...acheronHeader },
+    { ...options, ...acheronHeader },
   ).then(parseApiObject);
 }
 

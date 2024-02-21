@@ -16,7 +16,7 @@ describe('LoginHeader', () => {
       initialState: generateState({}),
     });
 
-    expect(screen.queryByText(/Sign in/i)).to.not.be.null;
+    expect(screen.queryByText(/Sign in/)).to.not.be.null;
   });
 
   it('should display the LogoutAlert component when user is loggedIn', () => {

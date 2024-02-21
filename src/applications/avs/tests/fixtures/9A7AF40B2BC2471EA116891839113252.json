@@ -9,6 +9,7 @@
       ],
       "meta": {
         "generatedDate": "2023-07-12T07:45:11Z",
+        "pageHeader": "After Visit Summary\nPatient,Test\nDOB: 01/01/1950 (74y)\nVisit date: February 07, 2024\nDate generated: February 08, 2024 11:06\nVEHU DIVISION",
         "stationNo": "500",
         "timeZone": "US/Pacific"
       },
@@ -37,6 +38,16 @@
       "providers": [
         "DOCTOR,GREAT B - ACOS/EDUC.",
         "NURSE,GREAT - LVN"
+      ],
+      "procedures": [
+        {
+          "name": "Skin Barrier, Wipes or Swabs, each",
+          "code": "A5120"
+        },
+        {
+          "name": "SARSCOV2 VAC 5X1010VP/.5MLIM",
+          "code": "91302"
+        }
       ],
       "reasonForVisit": [
         {
@@ -412,7 +423,7 @@
         {
           "T": "PrimaryCareTeamMember",
           "name": "PROVIDER, TWO",
-          "title": "DIETITIAN"
+          "title": ""
         },
         {
           "T": "PrimaryCareTeamMember",
@@ -466,6 +477,47 @@
         "noKnownAllergies": false,
         "noAllergyAssessment": false
       },
+      "clinicMedications": [
+        {
+          "medId": null,
+          "name": "Ketorolac Tromethamine Inj",
+          "type": "Clinic",
+          "sig": "Give: 30MG IM ONCE ",
+          "source": "VA",
+          "totalNumRefills": 0,
+          "refillsRemaining": 0,
+          "startDate": null,
+          "stopDate": null,
+          "dateExpires": "",
+          "dateLastFilled": "",
+          "dateLastReleased": "Requested on  but not yet released.",
+          "fmDateLastReleased": 0,
+          "stationName": "ABILENE (CAA)",
+          "stationNo": "500",
+          "provider": null,
+          "description": null,
+          "ndc": "",
+          "statusIen": "",
+          "status": "Pending",
+          "discontinuedDate": "",
+          "fmDiscontinuedDate": 0,
+          "comment": null,
+          "documentor": null,
+          "documentingFacility": null,
+          "quantity": 0,
+          "daysSupply": 0,
+          "orderingProvider": "",
+          "fillingPharmacy": "",
+          "facilityPhone": "",
+          "rxNumber": "",
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "current": true,
+          "remote": null,
+          "dateDocumented": null,
+          "fmIssueDate": 0
+        }
+      ],
       "vaMedications": [
         {
           "medId": null,
@@ -819,8 +871,67 @@
           "remote": null,
           "dateDocumented": "10/02/2023 16:15",
           "fmIssueDate": 0
+        },
+        {
+          "medId": null,
+          "name": "ALFALFA TAB",
+          "type": "Outpatient",
+          "sig": "TAKE 500MG BY MOUTH EVERY 24 HOURS",
+          "source": "Non-VA",
+          "totalNumRefills": 0,
+          "refillsRemaining": 0,
+          "startDate": "01/01/2024",
+          "stopDate": null,
+          "dateExpires": null,
+          "dateLastFilled": null,
+          "dateLastReleased": null,
+          "fmDateLastReleased": 0,
+          "stationName": "CAMP MASTER",
+          "stationNo": "500",
+          "provider": null,
+          "description": null,
+          "ndc": null,
+          "statusIen": null,
+          "status": "Active",
+          "discontinuedDate": null,
+          "fmDiscontinuedDate": 0,
+          "comment": "\nNon-VA medication not recommended by VA provider.",
+          "documentor": "PROVIDER,ONE",
+          "documentingFacility": "CAMP MASTER",
+          "quantity": 0,
+          "daysSupply": 0,
+          "orderingProvider": null,
+          "fillingPharmacy": null,
+          "facilityPhone": null,
+          "rxNumber": null,
+          "prescriptionType": "drug",
+          "patientTaking": false,
+          "current": null,
+          "remote": null,
+          "dateDocumented": "01/18/2024 18:34",
+          "fmIssueDate": 0
         }
       ],
+      "medChangesSummary": {
+        "discontinuedMeds": [
+          "ACETAMINOPHEN ELIXIR - give: 250ml po q4h ",
+          "IBUPROFEN TAB - give: 800mg po now "
+        ],
+        "newMedications": [
+          "N-G TUBE FEEDING BAG - one now",
+          "ALCOHOL PREP PAD - use t affected area weekly",
+          "KETOROLAC TROMETHAMINE INJ - give: 30mg im once ",
+          "ACEBUTOLOL CAP,ORAL - give: 200mg po once ",
+          "CLINITEST ANALYSIS SET (36 TABS) - 1 today today",
+          "NEEDLE 21G (1 IN) - use 1 needle misc as directed",
+          "ONDANSETRON TAB - give: 8mg po once ",
+          "TABLET CUTTER - device once",
+          "ABACAVIR TAB - give: 300mg po today "
+        ],
+        "changedMedications": [
+          "ONDANSETRON TAB - give: 8mg po once"
+        ]
+      },
       "labResults": [
         {
           "T": "LabTest",
@@ -1505,6 +1616,24 @@
           "lastOccurrence": "",
           "name": "Suicide Hotline",
           "frequency": " Due every 1 year for all ages."
+        }
+      ],
+      "clinicalServices": [
+        {
+            "stationNo": "500",
+            "name": "Cardiology",
+            "location": "Hartford",
+            "hours": "0800-1830",
+            "phone": "9764002",
+            "comment": ""
+        },
+        {
+            "stationNo": "500",
+            "name": "PULMONARY",
+            "location": "Newington",
+            "hours": "0800-1630",
+            "phone": "5058675309",
+            "comment": ""
         }
       ],
       "pharmacyTerms": [

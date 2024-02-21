@@ -2,9 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { cleanup } from '@testing-library/react';
 import FolderHeader from '../../../components/MessageList/FolderHeader';
 import { folderList } from '../../fixtures/folder-response.json';
 import messageResponse from '../../fixtures/message-response.json';
+import noAssociationsAtAll from '../../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
+import allAssociationsBlocked from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 
 import {
   inbox,
@@ -33,6 +36,11 @@ describe('Folder Header component', () => {
       messageDetails: { message: messageResponse },
     },
     drupalStaticData,
+    user: {
+      profile: {
+        facilities: [],
+      },
+    },
   };
   const initialPath = `/folders/${customFolder.folderId}`;
   const initialThreadCount = threadList.length;
@@ -144,7 +152,17 @@ describe('Folder Header component', () => {
           folderList,
         },
       },
+      drupalStaticData,
+      user: {
+        profile: {
+          facilities: [],
+        },
+      },
     };
+
+    afterEach(() => {
+      cleanup();
+    });
 
     it('must display valid FOLDER name: INBOX', async () => {
       const screen = setup(
@@ -186,6 +204,72 @@ describe('Folder Header component', () => {
     it('does not render FilterBox w/o `threadCount` on INBOX FOLDER', () => {
       const screen = setup(initialInboxState, Paths.INBOX, null, inbox);
       expect(screen.queryByTestId('search-form')).to.not.exist;
+    });
+
+    it('renders BlockedTriageGroupAlert if no associations at all', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
+            blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              noAssociationsAtAll.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+            noAssociations: noAssociationsAtAll.noAssociations,
+            allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+          },
+        },
+        featureToggles: {},
+      };
+
+      customState.featureToggles[
+        `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+      ] = true;
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(screen.queryByTestId('compose-message-link')).to.not.exist;
+      const blockedTriageGroupAlert = await screen.findByTestId(
+        'blocked-triage-group-alert',
+      );
+      expect(blockedTriageGroupAlert).to.exist;
+      expect(blockedTriageGroupAlert.firstChild.textContent).to.equal(
+        "You're not connected to any care teams in this messaging tool",
+      );
+    });
+
+    it('renders BlockedTriageGroupAlert if all associations blocked', async () => {
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          recipients: {
+            allowedRecipients: allAssociationsBlocked.mockAllowedRecipients,
+            blockedRecipients: allAssociationsBlocked.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              allAssociationsBlocked.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              allAssociationsBlocked.associatedBlockedTriageGroupsQty,
+            noAssociations: allAssociationsBlocked.noAssociations,
+            allTriageGroupsBlocked:
+              allAssociationsBlocked.allTriageGroupsBlocked,
+          },
+        },
+        featureToggles: {},
+      };
+
+      customState.featureToggles[
+        `${'mhv_secure_messaging_blocked_triage_group_1_0'}`
+      ] = true;
+
+      const screen = setup(customState, Paths.INBOX, initialThreadCount, inbox);
+      expect(
+        screen.findByText(
+          "You can't send messages to your care teams right now",
+        ),
+      ).to.exist;
     });
   });
 

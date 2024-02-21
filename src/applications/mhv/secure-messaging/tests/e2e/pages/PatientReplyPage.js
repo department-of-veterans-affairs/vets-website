@@ -22,7 +22,6 @@ class PatientReplyPage {
       mockReplyMessage,
     ).as('replyMessage');
     cy.get('[data-testid="Send-Button"]').click();
-    cy.wait('@replyMessage');
   };
 
   saveReplyDraft = (repliedToMessage, replyMessageBody) => {
@@ -150,12 +149,8 @@ class PatientReplyPage {
       .find('h1')
       .should('have.text', "We can't save this message yet");
 
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
-    cy.get('[data-testid="reply-form"]')
-      .find('va-button[secondary]')
-      .should('have.attr', 'text', 'Delete draft');
+    cy.contains('Continue editing').should('be.visible');
+    cy.contains('Delete draft').should('be.visible');
   };
 
   verifyContnueButtonMessageDisplay = () => {

@@ -76,11 +76,11 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   chapters: {
     veteranPersonalInfoChapter: {
-      title: 'Veteran’s personal information',
+      title: 'Veteran’s or Reservist’s personal information',
       pages: {
         veteranPersonalInfoPage: {
           path: 'veteran-personal-information',
-          title: 'Veteran’s personal information',
+          title: 'Veteran’s or Reservist’s personal information',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData: getInitialData({ mockData, environment }),
@@ -92,11 +92,11 @@ const formConfig = {
       },
     },
     veteranIdentificationInfoChapter: {
-      title: 'Veteran’s identification information',
+      title: 'Identification information',
       pages: {
         veteranIdentificationInfoPage: {
-          path: 'veteran-identification-information',
-          title: 'Veteran’s identification information',
+          path: 'identification-information',
+          title: 'Identification information',
           uiSchema: vetIdInfoPg.uiSchema,
           schema: vetIdInfoPg.schema,
           pageClass: 'veteran-identification-information',

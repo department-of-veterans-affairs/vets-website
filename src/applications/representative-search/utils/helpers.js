@@ -8,6 +8,25 @@ export const setFocus = (selector, tabIndexInclude = true) => {
   }
 };
 
+export const appendReportsFromLocalStorage = resultsArray => {
+  const localReportsArray = localStorage.getItem('vaReports');
+
+  if (localReportsArray) {
+    const parsedLocalReportsArray = JSON.parse(localReportsArray);
+    for (const localReport of parsedLocalReportsArray) {
+      const resultMatch = resultsArray.find(
+        resultItem => resultItem.id === localReport.representativeId,
+      );
+
+      if (resultMatch) {
+        resultMatch.reports = localReport.reports;
+      }
+    }
+  }
+
+  return resultsArray;
+};
+
 /**
  * Position shape: `{latitude: {number}, longitude: {number}}`
  *
@@ -64,7 +83,7 @@ export const mockPaginatedResponse = (allResults, page) => {
   const endIndex = startIndex + itemsPerPage;
 
   const data = allResults.data.slice(startIndex, endIndex);
-  const link = `https://staging-api.va.gov/services/veteran/v0/accredited_representatives${window.location.search.substring(
+  const link = `https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives${window.location.search.substring(
     1,
   )}`;
   const links = {

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import ProgressNoteDetails from '../../components/CareSummaries/ProgressNoteDetails';
 import progressNote from '../fixtures/physicianProcedureNote.json';
-import noteWithDateMissing from '../fixtures/physicianProcedureNoteWithDateMissing.json';
+import noteWithFieldsMissing from '../fixtures/physicianProcedureNoteWithFieldsMissing.json';
 import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 
-describe('Progress Note details component', () => {
+describe('Adverse React/Allergy details component', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
@@ -42,7 +42,7 @@ describe('Progress Note details component', () => {
   });
 
   it('should display the summary name', () => {
-    const header = screen.getAllByText('Progress note', {
+    const header = screen.getAllByText('Adverse React/Allergy', {
       exact: true,
       selector: 'h1',
     });
@@ -57,6 +57,14 @@ describe('Progress Note details component', () => {
     expect(formattedDate).to.exist;
   });
 
+  it('should display a co-signer if one is present in the data', async () => {
+    const coSigner = await screen.getByText('Co-signed by', {
+      exact: true,
+      selector: 'h3',
+    });
+    expect(coSigner).to.exist;
+  });
+
   it('should download a pdf', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen).to.exist;
@@ -68,34 +76,43 @@ describe('Progress Note details component', () => {
   });
 });
 
-describe('Progress note details component with no date', () => {
+describe('Adverse React/Allergy details component with fields missing', () => {
   const initialState = {
     mr: {
       careSummariesAndNotes: {
         careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
-          noteWithDateMissing,
+          noteWithFieldsMissing,
         ),
       },
     },
   };
 
-  const screen = renderWithStoreAndRouter(
-    <ProgressNoteDetails
-      record={convertCareSummariesAndNotesRecord(noteWithDateMissing)}
-      runningUnitTest
-    />,
-    {
-      initialState,
-      reducers: reducer,
-      path: '/summaries-and-notes/954',
-    },
-  );
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <ProgressNoteDetails
+        record={convertCareSummariesAndNotesRecord(noteWithFieldsMissing)}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/summaries-and-notes/954',
+      },
+    );
+  });
 
   it('should not display the formatted date if dateSigned is missing', () => {
-    waitFor(() => {
-      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
-      );
+    expect(screen.queryByTestId('header-time').innerHTML).to.contain(
+      'None noted',
+    );
+  });
+
+  it('should not display a co-signer if one is not present in the data', () => {
+    const coSigner = screen.queryByText('Co-signed by', {
+      exact: true,
+      selector: 'h3',
     });
+    expect(coSigner).to.not.exist;
   });
 });

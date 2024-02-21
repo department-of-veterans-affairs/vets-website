@@ -4,8 +4,8 @@ import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
 const DraftSavedInfo = () => {
-  const { isSaving, lastSaveTime, saveError } = useSelector(
-    state => state.sm.draftDetails,
+  const { isSaving, saveError, lastSaveTime } = useSelector(
+    state => state.sm.threadDetails,
   );
 
   const content = () => {
@@ -48,8 +48,11 @@ const DraftSavedInfo = () => {
           status="success"
           visible
           aria-describedby="save-draft-button"
+          data-test-id="save-alert-message"
         >
-          <p className="vads-u-margin-y--0">{content()}</p>
+          <p className="vads-u-margin-y--0" id="messagetext">
+            {content()}
+          </p>
         </va-alert>
       </>
     );

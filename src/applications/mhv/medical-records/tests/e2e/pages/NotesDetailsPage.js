@@ -18,48 +18,58 @@ class NotesDetailsPage {
     });
   }
   */
-  verifyCareSummaryPageText = () => {
-    // Very Care Summary Page title Text
-    cy.get('[data-testid="care-summaries-and-notes"]').should('be.visible');
-  };
 
-  clickProgressNoteLink = (_ProgressNote = 0) => {
+  clickProgressNoteLink = (ProgressNote = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_ProgressNote)
+      .eq(ProgressNote)
       .click();
   };
 
-  clickDischargeSummaryLink = (_DischargeSummary = 1) => {
+  clickDischargeSummaryLink = (DischargeSummary = 1) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_DischargeSummary)
+      .eq(DischargeSummary)
       .click();
   };
 
-  clickBreadCrumbsLink = (_breadcrumb = 0) => {
+  verifyProgressNoteTitle = expectedTitle => {
+    cy.get('[data-testid="progress-note-name"]').should(
+      'contain',
+      expectedTitle,
+    );
+  };
+
+  verifyDischargeSummaryTitle = expectedTitle => {
+    cy.get('[data-testid="admission-discharge-name"]').should(
+      'contain',
+      expectedTitle,
+    );
+  };
+
+  clickBreadCrumbsLink = breadcrumb => {
     // Click Back to Care summaries and notes
     cy.get('[data-testid="breadcrumbs"]')
       .find('a')
-      .eq(_breadcrumb)
+      .eq(breadcrumb)
       .click();
   };
 
-  verifyProgressNoteLocation = dischargeLocation => {
+  verifyProgressNoteLocation = progressLocation => {
     // Verify Progress Note Details Location
-    cy.get('[data-testid="note-record-location"]').should('be.visible');
-    cy.get('[data-testid="note-record-location"]').contains(dischargeLocation);
+    cy.get('[data-testid="progress-location"]').should('be.visible');
+    cy.get('[data-testid="progress-location"]').contains(progressLocation);
   };
 
-  verifyProgressNoteSignedBy = signedBy => {
+  verifyProgressNoteSignedBy = progressSignedBy => {
     // Progress Note Details Signed by
     cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-by"]').contains(signedBy);
+    cy.get('[data-testid="note-record-signed-by"]').contains(progressSignedBy);
   };
 
-  verifyProgressNoteSignedDate = notesSignedDate => {
-    cy.get('[data-testid="note-record-signed-date"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-date"]').contains(notesSignedDate);
+  verifyProgressNoteSignedDate = progressSignedDate => {
+    cy.get('[data-testid="progress-signed-date"]').should('be.visible');
+    cy.get('[data-testid="progress-signed-date"]').contains(progressSignedDate);
   };
 
   verifyProgressNoteRecord = progressNote => {
@@ -75,12 +85,14 @@ class NotesDetailsPage {
     cy.get('[data-testid="note-record-location"]').contains(summaryLocation);
   };
 
+  // There may no longer be Addmission date on discharge page
+  /*
   verifyDischargeSummaryAdmissionDate = addmissionDate => {
     // Discharge Summary Details Admission Date
     cy.get('[data-testid="note-admission-date"]').should('be.visible');
     cy.get('[data-testid="note-admission-date"]').contains(addmissionDate);
   };
-
+  */
   verifyDischargeSummaryDischargeDate = dischargeDate => {
     // Discharge Summary Details DischargeDate
     cy.get('[data-testid="note-discharge-date"]').should('be.visible');
@@ -133,7 +145,7 @@ class NotesDetailsPage {
   };
 
   clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
+    // should display a download pdf file button "Download list as a pdf file"
     cy.get('[data-testid="printButton-1"]').click();
   };
 }

@@ -82,6 +82,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
         <va-loading-indicator
           data-testid="feature-flags-loading"
           message="Loading your information..."
+          uswds="false"
         />
       </div>
     );
@@ -139,6 +140,7 @@ function ClaimsStatusApp({
       serviceRequired={[
         backendServices.EVSS_CLAIMS,
         backendServices.APPEALS_STATUS,
+        backendServices.LIGHTHOUSE,
       ]}
       user={user}
     >

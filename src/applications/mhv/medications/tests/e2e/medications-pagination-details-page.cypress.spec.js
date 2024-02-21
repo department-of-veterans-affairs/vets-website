@@ -2,14 +2,15 @@ import MedicationsSite from './med_site/MedicationsSite';
 import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
+import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
 describe('Medications List Page Pagination', () => {
   it('visits Medications list Page Pagination', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
+    const landingPage = new MedicationsLandingPage();
     site.login();
-    cy.visit('my-health/about-medications');
-
+    landingPage.visitLandingPageURL();
     const threadLength = 29;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;

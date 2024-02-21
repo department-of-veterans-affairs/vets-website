@@ -1,12 +1,12 @@
 import merge from 'lodash/merge';
 
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import get from 'platform/utilities/data/get';
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
-import { VaTextInputField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import currencyUI from '@department-of-veterans-affairs/platform-forms-system/currency';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
@@ -16,10 +16,22 @@ import IncomeSourceView from '../../../components/IncomeSourceView';
 const typeOfIncomeOptions = {
   SOCIAL_SECURITY: 'Social Security',
   INTEREST_DIVIDEND: 'Interest or dividend income',
-  RETIREMENT: 'Retirement income',
-  PENSION: 'Pension income',
+  CIVIL_SERVICE: 'Civil Service',
+  PENSION_RETIREMENT: 'Pension or retirement income',
   OTHER: 'Other income',
 };
+
+const receiverOptions = {
+  VETERAN: 'Veteran',
+  SPOUSE: 'Spouse',
+  DEPENDENT: 'Dependent',
+};
+
+export const otherExplanationRequired = (form, index) =>
+  get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
+
+export const dependentNameRequired = (form, index) =>
+  get(['incomeSources', index, 'receiver'], form) === 'DEPENDENT';
 
 /** @type {PageSchema} */
 export default {
@@ -31,9 +43,13 @@ export default {
     },
     incomeSources: {
       'ui:options': {
-        itemName: 'income source',
+        itemName: 'Income source',
         viewField: IncomeSourceView,
         reviewTitle: 'Income sources',
+        keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
       },
       items: {
         typeOfIncome: radioUI({
@@ -42,21 +58,25 @@ export default {
         }),
         otherTypeExplanation: {
           'ui:title': 'Please specify',
-          'ui:options': {
-            expandUnder: 'typeOfIncome',
-            expandUnderCondition: typeOfIncomeOptions.OTHER,
-          },
-          'ui:required': (form, index) =>
-            get(['incomeSources', index, 'typeOfIncome'], form) ===
-            typeOfIncomeOptions.OTHER,
-        },
-        receiver: {
-          'ui:title': 'Who receives this income?',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
-            hint:
-              'Enter your name, or the name of your spouse or one of your dependents.',
+            expandUnder: 'typeOfIncome',
+            expandUnderCondition: 'OTHER',
           },
+          'ui:required': otherExplanationRequired,
+        },
+        receiver: radioUI({
+          title: 'Who receives this income?',
+          labels: receiverOptions,
+        }),
+        dependentName: {
+          'ui:title': 'Which dependent?',
+          'ui:webComponentField': VaTextInputField,
+          'ui:options': {
+            expandUnder: 'receiver',
+            expandUnderCondition: 'DEPENDENT',
+          },
+          'ui:required': dependentNameRequired,
         },
         payer: {
           'ui:title': 'Who pays this income?',
@@ -82,13 +102,15 @@ export default {
       },
       incomeSources: {
         type: 'array',
+        minItems: 1,
         items: {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            typeOfIncome: radioSchema(Object.values(typeOfIncomeOptions)),
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeOptions)),
             otherTypeExplanation: { type: 'string' },
-            receiver: { type: 'string' },
+            receiver: radioSchema(Object.keys(receiverOptions)),
+            dependentName: { type: 'string' },
             payer: { type: 'string' },
             amount: { type: 'number' },
           },

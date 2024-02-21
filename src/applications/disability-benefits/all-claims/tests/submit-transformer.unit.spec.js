@@ -26,6 +26,7 @@ describe('transform', () => {
 
   // Read all the data files
   const dataDir = path.join(__dirname, './fixtures/data/');
+
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
@@ -55,7 +56,6 @@ describe('transform', () => {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
-
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,
         );
@@ -88,7 +88,8 @@ describe('Test internal transform functions', () => {
               causedByDisability: 'Diabetes Mellitus0',
               causedByDisabilityDescription: longString,
             },
-            condition: 'phlebitis',
+            condition:
+              'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
             'view:descriptionInfo': {},
           },
           {
@@ -97,7 +98,7 @@ describe('Test internal transform functions', () => {
               worsenedDescription: longString,
               worsenedEffects: longString,
             },
-            condition: 'knee replacement',
+            condition: 'ankylosis in knee, bilateral',
             'view:descriptionInfo': {},
           },
           {
@@ -107,7 +108,7 @@ describe('Test internal transform functions', () => {
               vaMistreatmentLocation: longString,
               vaMistreatmentDate: longString,
             },
-            condition: 'myocardial infarction (MI)',
+            condition: 'heart attack (myocardial infarction)',
             'view:descriptionInfo': {},
           },
         ],
@@ -120,29 +121,26 @@ describe('Test internal transform functions', () => {
         cause: 'NEW',
         primaryDescription: getString('primaryDescription'),
         condition: 'asthma',
-        classificationCode: '540',
       },
       {
         cause: 'WORSENED',
         worsenedDescription: getString('worsenedDescription'),
         worsenedEffects: getString('worsenedEffects'),
-        condition: 'knee replacement',
+        condition: 'ankylosis in knee, bilateral',
         specialIssues: ['POW'],
-        classificationCode: '8919',
       },
       {
         cause: 'VA',
         vaMistreatmentDescription: getString('vaMistreatmentDescription'),
         vaMistreatmentLocation: getString('vaMistreatmentLocation'),
         vaMistreatmentDate: getString('vaMistreatmentDate'),
-        condition: 'myocardial infarction (MI)',
+        condition: 'heart attack (myocardial infarction)',
         specialIssues: ['POW'],
-        classificationCode: '4440',
       },
       {
-        condition: 'phlebitis',
+        condition:
+          'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
         cause: 'NEW',
-        classificationCode: '5300',
         primaryDescription: `${phlebitisPrefix}${getString(
           'primaryDescription',
           -phlebitisPrefix.length,

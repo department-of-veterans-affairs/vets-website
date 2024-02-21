@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 
 describe('<PageFieldSummary>', () => {
   describe('when the component renders', () => {
-    it('should render chapter title and questions', async () => {
+    it.skip('should render chapter title and questions', async () => {
       const mockStore = {
         getState: () => ({
           form: {

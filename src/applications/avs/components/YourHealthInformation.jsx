@@ -10,7 +10,11 @@ import {
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  MEDICATION_SOURCES,
+  MEDICATION_TYPES,
+} from '../utils/constants';
 import {
   filterMedicationsByType,
   getCombinedMedications,
@@ -30,7 +34,7 @@ const getAppointmentContent = (type, appointments) => {
   const items = getAppointments(type, appointments);
   if (items.length > 0) {
     return items.map((item, idx) => (
-      <div key={idx}>
+      <li key={idx}>
         <h5>{formatDateLong(parseVistaDateTime(item.datetime))}</h5>
         <p className="vads-u-margin-top--0">
           {item.location}
@@ -38,7 +42,7 @@ const getAppointmentContent = (type, appointments) => {
           <br />
           Clinic location: {item.site}
         </p>
-      </div>
+      </li>
     ));
   }
 
@@ -51,11 +55,9 @@ const primaryCareProvider = avs => {
       <div>
         <h3>Primary care provider</h3>
         <ul data-testid="primary-care-provider">
-          {/* TODO: Confirm that this is correct. */}
           {avs.primaryCareProviders.length && (
             <li>{avs.primaryCareProviders[0]}</li>
           )}
-          {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
     );
@@ -68,14 +70,18 @@ const primaryCareTeam = avs => {
   if (avs.primaryCareTeamMembers?.length > 0) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
-        {member.name} - {member.title}
+        {member.name}
+        {member.title && ` - ${member.title}`}
       </li>
     ));
 
     return (
       <div>
-        <h3>Primary care team</h3>
-        <ul className="bulleted-list" data-testid="primary-care-team">
+        <h3 data-testid="primary-care-team">Primary care team</h3>
+        <p data-testid="primary-care-team-name">
+          {avs.primaryCareTeam && `Team name: ${avs.primaryCareTeam}`}
+        </p>
+        <ul className="bulleted-list" data-testid="primary-care-team-list">
           {teamMembers}
         </ul>
       </div>
@@ -103,7 +109,7 @@ const appointments = avs => {
             <h4>Scheduled appointments</h4>
             <p>Appointments in the next 13 months:</p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="scheduled-appointments"
             >
               {scheduledAppointments}
@@ -121,7 +127,7 @@ const appointments = avs => {
               time.
             </p>
             <ul
-              className="vads-u-padding-left--0"
+              className="vads-u-padding-left--0 appointment-list"
               data-testid="recall-appointments"
             >
               {recallAppointments}
@@ -291,7 +297,7 @@ const renderFieldWithBreak = (field, prefix = '') => {
   return '';
 };
 
-const renderMedication = medication => {
+const renderVaMedication = medication => {
   return (
     <>
       <p>
@@ -324,7 +330,7 @@ const renderMedication = medication => {
   );
 };
 
-const renderNotTakingMedication = medication => {
+const renderNonVaMedication = medication => {
   return (
     <p>
       {renderFieldWithBreak(medication.name)}
@@ -340,6 +346,16 @@ const renderNotTakingMedication = medication => {
       {renderFieldWithBreak(medication.status, 'Status')}
     </p>
   );
+};
+
+const renderMedication = medication => {
+  switch (medication.medicationSource) {
+    case MEDICATION_SOURCES.NON_VA:
+      return renderNonVaMedication(medication);
+    case MEDICATION_SOURCES.VA:
+    default:
+      return renderVaMedication(medication);
+  }
 };
 
 const YourHealthInformation = props => {
@@ -404,7 +420,7 @@ const YourHealthInformation = props => {
         intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
         itemType="medications-not-taking"
         items={getMyMedicationsNotTaking(avs)}
-        renderItem={renderNotTakingMedication}
+        renderItem={renderMedication}
         showSeparators
       />
       {labResults(avs)}

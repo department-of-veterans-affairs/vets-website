@@ -1,10 +1,16 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
-import { loincCodes, vitalTypes, EMPTY_FIELD } from '../util/constants';
+import {
+  loincCodes,
+  vitalTypes,
+  EMPTY_FIELD,
+  vitalUnitCodes,
+  vitalUnitDisplayText,
+} from '../util/constants';
 import {
   isArrayAndHasItems,
   macroCase,
   extractContainedResource,
+  dateFormat,
 } from '../util/helpers';
 
 const initialState = {
@@ -19,6 +25,11 @@ const initialState = {
   vitalDetails: undefined,
 };
 
+const getUnit = (type, unit) => {
+  if (vitalUnitCodes[type] === unit) return vitalUnitDisplayText[type];
+  return ` ${unit}`;
+};
+
 const getMeasurement = (record, type) => {
   if (type === vitalTypes.BLOOD_PRESSURE) {
     const systolic = record.component.find(
@@ -29,7 +40,8 @@ const getMeasurement = (record, type) => {
     );
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
-  return `${record.valueQuantity?.value} ${record.valueQuantity?.code}`;
+  const unit = getUnit(type, record.valueQuantity?.code);
+  return `${record.valueQuantity?.value}${unit}`;
 };
 
 export const extractLocation = vital => {
@@ -55,7 +67,7 @@ export const convertVital = record => {
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
     date: record?.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),
     notes:

@@ -1,7 +1,7 @@
 import {
   radioUI,
   radioSchema,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const maritalStatusOptions = {
   MARRIED: 'Married',
@@ -14,9 +14,9 @@ const maritalStatusOptions = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Martial status',
+    'ui:title': 'Marital status',
     maritalStatus: radioUI({
-      title: 'What’s your marital status?',
+      title: 'What’s your current marital status?',
       labels: maritalStatusOptions,
     }),
   },

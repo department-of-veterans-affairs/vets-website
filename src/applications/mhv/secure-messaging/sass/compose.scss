@@ -29,6 +29,14 @@
     margin: 0;
     width: fit-content;
   }
+
+  .message-body-draft-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .compose-form {
     background-color: $color-white;
     .required {
@@ -57,11 +65,7 @@
   }
   .reply-form {
     margin: 2rem 0 1rem 0;
-    padding-left: 2rem;
     background-color: $color-white;
-    border-left-color: $color-primary-alt-darkest;
-    border-left-style: solid;
-    border-left-width: 8px;
     .required {
       color: $color-secondary-dark;
     }
@@ -74,6 +78,8 @@
     }
     va-textarea#reply-message-body::part(textarea) {
       max-width: 100%;
+      resize: vertical;
+      box-sizing: border-box;
     }
 
     .compose-inputs-container {

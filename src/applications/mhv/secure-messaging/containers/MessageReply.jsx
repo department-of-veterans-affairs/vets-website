@@ -7,23 +7,20 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
-import { PrintMessageOptions } from '../util/constants';
-import { getPatientSignature } from '../actions/preferences';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const { error } = useSelector(state => state.sm.draftDetails);
-  const replyMessage = useSelector(state => state.sm.messageDetails.message);
-  const { messageHistory, printOption, threadViewCount } = useSelector(
-    state => state.sm.messageDetails,
+  const { drafts, error, messages, threadViewCount } = useSelector(
+    state => state.sm.threadDetails,
   );
+  const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
+  const recipients = useSelector(state => state.sm);
 
   useEffect(
     () => {
       dispatch(retrieveMessageThread(replyId));
-      dispatch(getPatientSignature());
     },
     [replyId, dispatch],
   );
@@ -55,21 +52,20 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draftToEdit={null} replyMessage={replyMessage} />;
+    return (
+      <ReplyForm
+        drafts={drafts}
+        replyMessage={replyMessage}
+        recipients={recipients}
+        messages={messages}
+      />
+    );
   };
 
   const thread = () => {
-    const newHistory = [replyMessage];
-    if (messageHistory?.length) {
-      newHistory.push(...messageHistory);
-    }
     return (
       <>
-        <MessageThread
-          messageHistory={newHistory}
-          isForPrint={printOption === PrintMessageOptions.PRINT_THREAD}
-          viewCount={threadViewCount}
-        />
+        <MessageThread messageHistory={messages} viewCount={threadViewCount} />
       </>
     );
   };
@@ -89,7 +85,7 @@ const MessageReply = () => {
             <AlertBackgroundBox closeable />
 
             {content()}
-            {replyMessage && thread()}
+            {messages?.length && thread()}
           </div>
         </>
       )}

@@ -45,9 +45,8 @@
     "standardClaim": false,
     "newPrimaryDisabilities": [
       {
-        "condition": "PTSD (post traumatic stress disorder)",
-        "cause": "NEW",
-        "classificationCode": "5420"
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
+        "cause": "NEW"
       }
     ],
     "attachments": [

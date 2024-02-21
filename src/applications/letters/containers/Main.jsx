@@ -11,7 +11,7 @@ import {
 } from '../actions/letters';
 import noAddressBanner from '../components/NoAddressBanner';
 import systemDownMessage from '../components/systemDownMessage';
-import { lettersUseLighthouse } from '../selectors';
+import { lettersUseLighthouse, lettersCheckDiscrepancies } from '../selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import {
   recordsNotFound,
@@ -32,14 +32,14 @@ const {
 
 export class Main extends React.Component {
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
+    const { shouldUseLighthouse, shouldUseLettersDiscrepancies } = this.props;
 
     // eslint-disable-next-line -- LH_MIGRATION
     const LH_MIGRATION__options = LH_MIGRATION__getOptions(shouldUseLighthouse);
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
-      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options);
+      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options, shouldUseLettersDiscrepancies);
     }
     return this.props.profileHasEmptyAddress();
   }
@@ -54,7 +54,12 @@ export class Main extends React.Component {
       case available:
         return <Outlet />;
       case awaitingResponse:
-        return <va-loading-indicator message="Loading your letters..." />;
+        return (
+          <va-loading-indicator
+            message="Loading your letters..."
+            uswds="false"
+          />
+        );
       case backendAuthenticationError:
         return recordsNotFound;
       case letterEligibilityError:
@@ -75,6 +80,7 @@ Main.propTypes = {
   getLetterListAndBSLOptions: PropTypes.func,
   lettersAvailability: PropTypes.string,
   profileHasEmptyAddress: PropTypes.func,
+  shouldUseLettersDiscrepancies: PropTypes.bool,
   shouldUseLighthouse: PropTypes.bool,
 };
 
@@ -89,6 +95,7 @@ function mapStateToProps(state) {
     },
     optionsAvailable: letterState.optionsAvailable,
     emptyAddress: isAddressEmpty(selectVAPContactInfo(state)?.mailingAddress),
+    shouldUseLettersDiscrepancies: lettersCheckDiscrepancies(state),
     // TODO: change to conform to LH_MIGRATION style
     shouldUseLighthouse: lettersUseLighthouse(state),
   };

@@ -6,7 +6,10 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 const renderNewLandingContent = () => {
   return (
     <>
-      <p>Use our online tool to search for an accredited representative.</p>
+      <p>
+        Use our online tool to search for an accredited attorney, claims agent,
+        or VSO.
+      </p>
       <a
         className="vads-c-action-link--green"
         href="/get-help-from-accredited-representative/find-rep"
@@ -20,20 +23,22 @@ const renderNewLandingContent = () => {
 const renderOldLandingContent = () => {
   return (
     <>
-      <p>You can find an accredited representative in 1 of 2 ways:</p>
+      <p>
+        You can find an accredited attorney, claims agent, or VSO in 1 of these
+        2 ways:
+      </p>
       <ul>
         <li>
-          Go to eBenefits to find a local accredited representative by state or
-          territory, zip code, or the organization’s name. <br />
+          Go to eBenefits to find an accredited representative by name, state,
+          territory, or zip code. <br />
           <va-link
             href="https://www.ebenefits.va.gov/ebenefits/vso-search"
             text="Go to eBenefits"
           />
         </li>
         <li>
-          Search the VA Office of the General Counsel’s list to find VA
-          accredited individuals and organizations by name, city, state, or zip
-          code. <br />
+          Search the VA Office of the General Counsel’s list to find an
+          accredited representative by name, city, state, or zip code. <br />
           <va-link
             href="https://www.va.gov/ogc/apps/accreditation/index.asp"
             text="Search the VA Office of the General Counsel’s list"
@@ -68,7 +73,7 @@ export const App = ({ show }) => {
 };
 
 const mapStateToProps = state => ({
-  show: state?.featureToggles?.findARepresentative,
+  show: state?.featureToggles?.findARepresentativeEnableFrontend,
 });
 
 export default connect(

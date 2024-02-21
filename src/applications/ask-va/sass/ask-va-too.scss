@@ -6,25 +6,121 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-
 .dashboard-card {
-    background-color: $color-gray-lightest;
-    border: none;
+  background-color: $color-gray-lightest;
+  border: none;
 }
 
 .card-heading {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .form-panel {
-    min-width: 100%;
+  min-width: 100%;
 }
 
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
-    margin-top: 1rem;
+  margin-top: 1rem;
+}
+
+.inbox-replies,
+.attachment-box {
+  width: 70%;
+
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+.empty-message {
+  width: 50%;
+  padding: 1.25rem;
+  font-weight: 600;
+
+  @media (max-width: $small-screen) {
+    width: 92%;
+    padding: 1.25rem;
+    font-weight: 400;
+  }
+}
+
+.no-messages {
+  margin: 5rem 0;
+}
+
+.attachment-box {
+  padding: 1.25rem 2.5rem;
+  margin: 1rem 0;
+  align-items: center;
+
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+    align-items: flex-start;
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.need-help-footer {
+  margin: 3rem 0;
+}
+
+.multiline-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: calc(
+    1.2em * 2
+  ); /* Renders 3 lines and then ellipsis to keep card height uniform */
+  line-height: 1.2;
+  font-size: 16px;
+}
+
+.multiline-ellipsis-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: calc(
+    1.2em * 3
+  ); /* Renders 3 lines and then ellipsis to keep card height uniform */
+  line-height: 1.2;
+  font-size: 16px;
+}
+
+.no-attachments {
+  background-color: $color-gray-lightest;
+  padding: 5px;
+}
+
+.attachments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.attachment-file {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.remove-attachment-button-wrapper {
+  color: $color-red-dark;
+}
+
+.header-breadcrumbs {
+  font-size: 16px !important;
+font-weight: normal !important;
+font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif !important;
 }

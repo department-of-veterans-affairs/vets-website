@@ -15,7 +15,6 @@ describe('PACT Act', () => {
 
       // SERVICE_PERIOD -------------------------------
       h.verifyUrl(ROUTES.SERVICE_PERIOD);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
 
       h.clickContinue();
@@ -27,7 +26,6 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
 
       h.clickContinue();
@@ -39,7 +37,6 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1_1 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
 
       h.clickContinue();
@@ -51,7 +48,6 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1_2 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1_2);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
 
       h.clickContinue();
@@ -63,7 +59,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_A --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
 
       h.clickContinue();
@@ -75,7 +70,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_B --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_B);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
 
       h.clickContinue();
@@ -93,7 +87,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_1_A ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_A);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
 
       h.clickContinue();
@@ -105,7 +98,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_1_B -----------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
 
       h.clickContinue();
@@ -123,7 +115,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_2 ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.ORANGE_2_2_2_INPUT);
 
       h.clickContinue();
@@ -135,7 +126,6 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_3 ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_3);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.ORANGE_2_2_3_INPUT);
 
       h.clickContinue();
@@ -146,7 +136,6 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_A ------------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_A);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.RADIATION_2_3_A_INPUT);
 
       h.clickContinue();
@@ -157,7 +146,6 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_B -----------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_B);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
 
       h.clickContinue();
@@ -175,7 +163,6 @@ describe('PACT Act', () => {
 
       // LEJEUNE_2_4 ------------------------------
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
-      cy.injectAxeThenAxeCheck();
       h.verifyFormErrorNotShown(h.LEJEUNE_2_4_INPUT);
 
       h.clickContinue();

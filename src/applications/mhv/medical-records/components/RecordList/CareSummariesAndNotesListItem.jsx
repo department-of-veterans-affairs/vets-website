@@ -8,8 +8,9 @@ const CareSummariesAndNotesListItem = props => {
   const isDischargeSummary = record.type === loincCodes.DISCHARGE_SUMMARY;
 
   return (
-    <div
-      className="record-list-item vads-u-padding-x--3 vads-u-padding-y--2p5 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
+    <va-card
+      background
+      class="record-list-item vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
       {/* web view header */}
@@ -18,7 +19,7 @@ const CareSummariesAndNotesListItem = props => {
           to={`/summaries-and-notes/${record.id}`}
           data-dd-privacy="mask"
           aria-label={`${record.name} on ${
-            isDischargeSummary ? record.dischargeDate : record.dateSigned
+            isDischargeSummary ? record.admissionDate : record.dateSigned
           }`}
         >
           {record.name}
@@ -34,29 +35,23 @@ const CareSummariesAndNotesListItem = props => {
       </h3>
 
       <div>
-        <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Discharged on' : 'Date'}
-        </span>
-        {': '}
+        {isDischargeSummary && (
+          <span className="vads-u-display--inline">Admitted on </span>
+        )}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.dischargeDate : record.dateSigned}
+          {isDischargeSummary ? record.admissionDate : record.dateSigned}
         </span>
       </div>
-      <div>
-        <span className="vads-u-display--inline">Location:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.location}
-        </span>
-      </div>
+      <div data-dd-privacy="mask">{record.location}</div>
       <div>
         <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Admitted by' : 'Signed by'}:
-        </span>{' '}
+          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+        </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.admittedBy : record.signedBy}
+          {isDischargeSummary ? record.dischargedBy : record.signedBy}
         </span>
       </div>
-    </div>
+    </va-card>
   );
 };
 

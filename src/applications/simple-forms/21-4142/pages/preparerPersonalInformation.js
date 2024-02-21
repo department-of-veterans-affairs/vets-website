@@ -1,6 +1,6 @@
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullSchema from 'vets-json-schema/dist/21-4142-schema.json';
 import { intersection, pick } from 'lodash';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import {
   preparerIdentificationFields,
   veteranDirectRelative,
@@ -28,7 +28,7 @@ const isThirdParty = formData => !isNotThirdParty(formData);
 export default {
   uiSchema: {
     [preparerIdentificationFields.parentObject]: {
-      [preparerIdentificationFields.preparerFullName]: fullNameUI,
+      [preparerIdentificationFields.preparerFullName]: fullNameDeprecatedUI,
       [preparerIdentificationFields.preparerTitle]: {
         'ui:title': 'Title',
         'ui:options': {

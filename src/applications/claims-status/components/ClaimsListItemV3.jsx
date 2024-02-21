@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getClaimType, buildDateFormatter } from '../utils/helpers';
+import {
+  getClaimType,
+  buildDateFormatter,
+  getStatusDescription,
+} from '../utils/helpers';
 import ClaimCard from './ClaimCard';
-
-const statusMap = {
-  CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
-  INITIAL_REVIEW: 'Step 2 of 5: Initial review',
-  EVIDENCE_GATHERING_REVIEW_DECISION:
-    'Step 3 of 5: Evidence gathering, review, and decision',
-  PREPARATION_FOR_NOTIFICATION: 'Step 4 of 5: Preparation for notification',
-  COMPLETE: 'Step 5 of 5: Closed',
-};
-
-function getStatusDescription(status) {
-  return statusMap[status];
-}
 
 const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
 
@@ -72,7 +63,7 @@ export default function ClaimsListItemV3({ claim }) {
     <ClaimCard
       title={getTitle(claim)}
       label={inProgress ? 'In Progress' : null}
-      subtitle={`Submitted on ${formattedReceiptDate}`}
+      subtitle={`Received on ${formattedReceiptDate}`}
     >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (

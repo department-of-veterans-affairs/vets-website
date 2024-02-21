@@ -11,7 +11,14 @@ import {
 import AddIssue from '../../components/AddIssue';
 import { getDate } from '../../utils/dates';
 
-import { LAST_ISSUE, MAX_LENGTH, MAX_YEARS_PAST } from '../../constants';
+import {
+  CONTESTABLE_ISSUES_PATH,
+  REVIEW_AND_SUBMIT,
+  REVIEW_ISSUES,
+  LAST_ISSUE,
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+} from '../../constants';
 import sharedErrorMessages from '../../content/errorMessages';
 
 import { errorMessages } from '../../../995/constants';
@@ -218,6 +225,26 @@ describe('<AddIssue>', () => {
 
     expect($('va-text-input', container).error).to.be.null;
     expect($('va-memorable-date', container).error).to.be.null;
-    expect(goToPathSpy.called).to.be.true;
+    expect(goToPathSpy.calledWith(`/${CONTESTABLE_ISSUES_PATH}`)).to.be.true;
+  });
+  it('should submit when everything is valid', () => {
+    window.sessionStorage.setItem(REVIEW_ISSUES, 'true');
+    const goToPathSpy = sinon.spy();
+    const additionalIssues = [
+      { issue: 'test', decisionDate: getDate({ offset: { months: -3 } }) },
+    ];
+    const { container } = render(
+      setup({
+        goToPath: goToPathSpy,
+        data: { contestedIssues, additionalIssues },
+        index: 1,
+      }),
+    );
+    fireEvent.click($('#submit', container));
+
+    expect($('va-text-input', container).error).to.be.null;
+    expect($('va-memorable-date', container).error).to.be.null;
+    expect(goToPathSpy.calledWith(REVIEW_AND_SUBMIT)).to.be.true;
+    window.sessionStorage.removeItem(REVIEW_ISSUES);
   });
 });

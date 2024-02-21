@@ -1,11 +1,6 @@
 import {
-  ssnUI as ssnNewUI,
-  ssnSchema as ssnNewSchema,
-  vaFileNumberSchema as vaFileNumberNewSchema,
-  vaFileNumberUI as vaFileNumberNewUI,
   ssnOrVaFileNumberUI,
   ssnOrVaFileNumberSchema,
-  titleSchema,
   titleUI,
   inlineTitleUI,
   inlineTitleSchema,
@@ -15,7 +10,7 @@ import { ssnUI } from 'applications/caregivers/definitions/UIDefinitions/sharedU
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     ssn: {
       ...ssnUI(),
       'ui:title': 'Social security number',
@@ -26,39 +21,22 @@ export default {
         pattern: 'Your VA file number must be 8 or 9 digits',
       },
     },
-    'view:wcTitle': inlineTitleUI('Web component'),
-    wcOldSsn: {
-      ...ssnNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
-    wcOldVaFileNumber: {
-      ...vaFileNumberNewUI(),
-      'ui:options': {
-        uswds: false,
-      },
-    },
     'view:wcv3Title': inlineTitleUI('Web component v3'),
     wcv3SsnNew: ssnOrVaFileNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       ssn: {
         $ref: '#/definitions/ssn',
       },
       vaFileNumber: {
         $ref: '#/definitions/vaFileNumber',
       },
-      'view:wcTitle': inlineTitleSchema,
-      wcOldSsn: ssnNewSchema,
-      wcOldVaFileNumber: vaFileNumberNewSchema,
       'view:wcv3Title': inlineTitleSchema,
       wcv3SsnNew: ssnOrVaFileNumberSchema,
     },
-    required: ['ssn', 'wcOldSsn', 'wcv3SsnNew'],
+    required: ['ssn', 'wcv3SsnNew'],
   },
   initialData: {},
 };

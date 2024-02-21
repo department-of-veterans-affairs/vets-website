@@ -49,7 +49,7 @@ describe('functionality of Yellow Ribbons', () => {
     cy.get(`${SELECTORS.SEARCH_FORM} input[name="yr-search-city"]`).type(
       'Austin',
     );
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
+    cy.get(`${SELECTORS.SEARCH_FORM} va-button`).click();
     cy.wait('@getSchoolsInYR');
 
     // A11y check the search results.
@@ -114,7 +114,7 @@ describe('functionality of Yellow Ribbons', () => {
     cy.get(`${SELECTORS.SEARCH_FORM} input[name="yr-search-city"]`).type(
       'Austin',
     );
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
+    cy.get(`${SELECTORS.SEARCH_FORM} va-button`).click();
     cy.wait('@getSchoolsInYR');
 
     // Ensure ERROR Alert Box exists

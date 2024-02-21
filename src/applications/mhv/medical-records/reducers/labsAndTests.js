@@ -157,9 +157,8 @@ const convertRadiologyRecord = record => {
       (isArrayAndHasItems(record.author) && record.author[0].display) ||
       EMPTY_FIELD,
     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
-    orderingLocation: record.location || EMPTY_FIELD,
     imagingLocation: authorDisplay,
-    date: record.date ? formatDateLong(record.data) : EMPTY_FIELD,
+    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
@@ -200,7 +199,6 @@ const labsAndTestsConverterMap = {
   [labTypes.PATHOLOGY]: convertPathologyRecord,
   [labTypes.EKG]: convertEkgRecord,
   [labTypes.RADIOLOGY]: convertRadiologyRecord,
-  [labTypes.OTHER]: record => record,
 };
 
 /**
@@ -210,7 +208,9 @@ const labsAndTestsConverterMap = {
 export const convertLabsAndTestsRecord = record => {
   const type = getRecordType(record);
   const convertRecord = labsAndTestsConverterMap[type];
-  return convertRecord ? convertRecord(record) : record;
+  return convertRecord
+    ? convertRecord(record)
+    : { ...record, type: labTypes.OTHER };
 };
 
 export const labsAndTestsReducer = (state = initialState, action) => {
@@ -226,8 +226,9 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsList:
-          recordList.entry?.map(record => convertLabsAndTestsRecord(record)) ||
-          [],
+          recordList.entry
+            ?.map(record => convertLabsAndTestsRecord(record))
+            .filter(record => record.type !== labTypes.OTHER) || [],
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {

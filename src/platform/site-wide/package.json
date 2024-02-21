@@ -7,6 +7,7 @@
     "exports": {
       "." :"./exportsFile.js",
       "./showVaAlertExpandable": "./alerts/showVaAlertExpandable.js",
+      "./MobileAppCallout": "./alerts/MobileAppCallout.jsx",
       "./EbenefitsLink": "./ebenefits/containers/EbenefitsLink.jsx",
       "./selectors": "./feature-toggles/selectors.js",
       "./actionTypes": "./feature-toggles/actionTypes.js",
@@ -31,6 +32,7 @@
       "./sitemap-helpers": "./tests/sitemap/sitemap-helpers.js",
       "./actions": "./user-nav/actions/index.js",
       "./AutoSSO": "./user-nav/containers/AutoSSO.jsx",
+      "./PageNotFound": "./user-nav/components/PageNotFound.jsx",
       "./user-nav": "./user-nav/index.js",
       "./sass/user-nav": "./user-nav/sass/user-nav.scss",
       "./user-nav/reducers": "./user-nav/reducers/index.js",

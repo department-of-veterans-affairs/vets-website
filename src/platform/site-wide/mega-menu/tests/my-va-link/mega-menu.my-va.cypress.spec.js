@@ -1,4 +1,3 @@
-import manifest from 'applications/personalization/dashboard/manifest.json';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
 
@@ -65,7 +64,7 @@ const mockUser = {
   meta: { errors: null },
 };
 
-describe(manifest.appName, () => {
+describe('My VA', () => {
   context('authenticated', () => {
     it('shows the My VA link', () => {
       cy.login(mockUser);

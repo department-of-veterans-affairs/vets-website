@@ -25,11 +25,13 @@ describe('ezr submit transformer', () => {
           veteranSocialSecurityNumber: '234243444',
           veteranDateOfBirth: '1990-01-01',
           gender: 'F',
+          medicareClaimNumber: '7AD5WC9MW60',
+          medicarePartAEffectiveDate: '2009-01-02',
           'view:isMedicaidEligible': {
             isMedicaidEligible: true,
           },
           'view:isEnrolledMedicarePartA': {
-            isEnrolledMedicarePartA: false,
+            isEnrolledMedicarePartA: true,
           },
           'view:deductibleMedicalExpenses': {
             deductibleMedicalExpenses: 234,
@@ -76,8 +78,10 @@ describe('ezr submit transformer', () => {
             last: 'Doe',
           },
           veteranSocialSecurityNumber: '234243444',
+          medicareClaimNumber: '7AD5WC9MW60',
+          medicarePartAEffectiveDate: '2009-01-02',
           isMedicaidEligible: true,
-          isEnrolledMedicarePartA: false,
+          isEnrolledMedicarePartA: true,
           deductibleMedicalExpenses: 234,
           deductibleFuneralExpenses: 11,
           deductibleEducationExpenses: 0,

@@ -1,59 +1,110 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import get from 'platform/utilities/data/get';
 import {
-  yesNoSchema,
-  yesNoUI,
-} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import ListItemView from '../../../components/ListItemView';
 
-export const description = (
-  <section>
-    <p>
-      We want to know if you, your spouse, or your dependents paid any medical
-      expenses or certain other expenses that aren’t reimbursed.
-    </p>
-    <p>
-      Examples include these types of expenses:
-      <ul>
-        <li>
-          Recurring medical expenses for yourself, or someone in your household,
-          over the past year that insurance doesn’t cover
-        </li>
-        <li>
-          One-time medical expenses for yourself, or someone in your household,
-          over the past year that insurance doesn’t cover
-        </li>
-        <li>
-          Tuition, materials, and other expenses for educational courses or
-          vocational rehabilitation for you or your spouse over the past year
-        </li>
-        <li> Burial expenses for a spouse or a child over the past year </li>
-        <li>
-          Legal expenses over the past year that resulted in a financial
-          settlement or award (like Social Security disability benefits)
-        </li>
-      </ul>
-    </p>
-  </section>
+const recipientOptions = {
+  VETERAN: 'Veteran',
+  SPOUSE: 'Veteran’s spouse',
+  CHILD: 'Veteran’s child',
+};
+
+const frequencyOptions = {
+  ONCE_MONTH: 'Once a month',
+  ONCE_YEAR: 'Once a year',
+  ONE_TIME: 'One-time',
+};
+
+const MedicalExpenseView = ({ formData }) => (
+  <ListItemView title={formData.provider} />
 );
+
+MedicalExpenseView.propTypes = {
+  formData: PropTypes.shape({
+    provider: PropTypes.string,
+  }),
+};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:title': 'Medical expenses',
-    'ui:description': description,
-    medicalExpenses: yesNoUI({
-      title:
-        "Did you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
-      uswds: true,
-    }),
+    'ui:title': 'Add a medical or other unreimbursed expense',
+    medicalExpenses: {
+      'ui:options': {
+        itemName: 'Unreimbursed Expense',
+        viewField: MedicalExpenseView,
+        reviewTitle: 'Unreimbursed Expenses',
+        keepInPageOnReview: true,
+        customTitle: ' ',
+        confirmRemove: true,
+        useDlWrap: true,
+      },
+      items: {
+        recipients: radioUI({
+          title: 'Who is the expense for?',
+          labels: recipientOptions,
+          classNames: 'vads-u-margin-bottom--2',
+        }),
+        childName: {
+          'ui:title': 'Enter the child’s name',
+          'ui:options': {
+            classNames: 'vads-u-margin-bottom--2',
+            expandUnder: 'recipients',
+            expandUnderCondition: 'CHILD',
+          },
+          'ui:required': (form, index) =>
+            get(['medicalExpenses', index, 'recipients'], form) === 'CHILD',
+        },
+        provider: {
+          'ui:title': 'Who receives the payment?',
+        },
+        purpose: {
+          'ui:title': 'What’s the payment for?',
+        },
+        paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
+        paymentFrequency: radioUI({
+          title: 'How often are the payments?',
+          labels: frequencyOptions,
+          classNames: 'vads-u-margin-bottom--2',
+        }),
+        paymentAmount: currencyUI('How much is each payment?'),
+      },
+    },
   },
   schema: {
     type: 'object',
-    required: ['medicalExpenses'],
     properties: {
-      medicalExpenses: yesNoSchema,
-      'view:warningAlert': {
-        type: 'object',
-        properties: {},
+      medicalExpenses: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          required: [
+            'recipients',
+            'childName',
+            'provider',
+            'purpose',
+            'paymentDate',
+            'paymentFrequency',
+            'paymentAmount',
+          ],
+          properties: {
+            recipients: radioSchema(Object.keys(recipientOptions)),
+            childName: { type: 'string' },
+            provider: { type: 'string' },
+            purpose: { type: 'string' },
+            paymentDate: currentOrPastDateSchema,
+            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
+            paymentAmount: { type: 'number' },
+          },
+        },
       },
     },
   },

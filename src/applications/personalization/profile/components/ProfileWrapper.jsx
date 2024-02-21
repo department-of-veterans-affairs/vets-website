@@ -24,17 +24,18 @@ const LAYOUTS = {
 // we want to use a different layout for the specific routes
 // the profile hub and edit page are full width, while the others
 // include a sidebar navigation
-const getLayout = ({ currentPathname, profileUseHubPage }) => {
+const getLayout = ({ currentPathname }) => {
   const path = normalizePath(currentPathname);
 
-  const pathLayoutMap = {
-    [PROFILE_PATHS.EDIT]: LAYOUTS.FULL_WIDTH,
-    [PROFILE_PATHS.PROFILE_ROOT]: profileUseHubPage
-      ? LAYOUTS.FULL_WIDTH
-      : LAYOUTS.SIDEBAR,
-  };
+  const fullWidthPaths = [PROFILE_PATHS.EDIT, PROFILE_PATHS.PROFILE_ROOT];
 
-  return pathLayoutMap[path] || LAYOUTS.SIDEBAR;
+  // if the current path is in the list of full width paths, use that layout
+  if (fullWidthPaths.includes(path)) {
+    return LAYOUTS.FULL_WIDTH;
+  }
+
+  // fallback to the sidebar layout
+  return LAYOUTS.SIDEBAR;
 };
 
 const ProfileWrapper = ({
@@ -44,7 +45,6 @@ const ProfileWrapper = ({
   totalDisabilityRating,
   totalDisabilityRatingServerError,
   showNameTag,
-  profileUseHubPage,
 }) => {
   const location = useLocation();
 
@@ -57,10 +57,9 @@ const ProfileWrapper = ({
     () => {
       return getLayout({
         currentPathname: location.pathname,
-        profileUseHubPage,
       });
     },
-    [location.pathname, profileUseHubPage],
+    [location.pathname],
   );
 
   return (
@@ -83,7 +82,7 @@ const ProfileWrapper = ({
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
-            <ProfileBreadcrumbs />
+            <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 vads-u-margin-top--neg2 vads-u-margin-bottom--neg2" />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav
@@ -123,7 +122,6 @@ ProfileWrapper.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  profileUseHubPage: PropTypes.bool.isRequired,
   hero: PropTypes.object,
   isInMVI: PropTypes.bool,
   isLOA3: PropTypes.bool,

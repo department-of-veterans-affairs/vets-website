@@ -1,0 +1,100 @@
+{
+  "associatedTriageGroupsQty": 7,
+  "associatedBlockedTriageGroupsQty": 4,
+  "noAssociations": false,
+  "allTriageGroupsBlocked": false,
+  "data": [
+        {
+          "id": "7026562",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 7026562,
+            "name": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
+            "stationNumber": "607",
+            "blockedStatus": true,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "6832726",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 6832726,
+            "name": "###PQR TRIAGE_TEAM 747###",
+            "stationNumber": "607",
+            "blockedStatus": true,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "6910405",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 6910405,
+            "name": "***Jeasmitha-Cardio-Clinic***",
+            "stationNumber": "607",
+            "blockedStatus": true,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "6978853",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 6978853,
+            "name": "TRIAGE GROUP_UAT2929",
+            "stationNumber": "607",
+            "blockedStatus": true,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "6978854",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 6978854,
+            "name": "***TG 200_APPT_SLC4%",
+            "stationNumber": "583",
+            "blockedStatus": false,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "7123233",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 7123233,
+            "name": "CAMRY_PCMM RELATIONSHIP_05092022_SLC4",
+            "stationNumber": "583",
+            "blockedStatus": false,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        },
+        {
+          "id": "56219",
+          "type": "triage_teams",
+          "attributes": {
+            "triageTeamId": 56219,
+            "name": "SLC4 PCMM",
+            "stationNumber": "583",
+            "blockedStatus": false,
+            "relationType": "PATIENT",
+            "preferredTeam": true
+          }
+        }
+  ],
+  "mockBlockedFacilities": ["607"],
+  "meta": {
+    "associatedTriageGroups": 7,
+    "associatedBlockedTriageGroups": 4,
+    "sort": {
+      "name": "ASC"
+    }
+  }
+}

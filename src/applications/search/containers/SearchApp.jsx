@@ -20,6 +20,7 @@ import {
   formatResponseString,
   truncateResponseString,
   removeDoubleBars,
+  isSearchStrInvalid,
 } from '../utils';
 import { fetchSearchResults } from '../actions';
 
@@ -57,7 +58,7 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      if (userInput.length > 255) {
+      if (isSearchStrInvalid(userInput)) {
         return;
       }
       this.props.fetchSearchResults(userInput, page, {
@@ -101,7 +102,7 @@ class SearchApp extends React.Component {
       ? parseInt(rawPageFromURL, 10)
       : undefined;
 
-    if (userInput.length > 255 || userInputFromURL > 255) {
+    if (isSearchStrInvalid(userInput) || isSearchStrInvalid(userInputFromURL)) {
       return;
     }
 
@@ -226,7 +227,7 @@ class SearchApp extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    if (inputValue.length > 255) {
+    if (isSearchStrInvalid(inputValue)) {
       return;
     }
 
@@ -304,7 +305,7 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
-      if (inputValue.length > 255) {
+      if (isSearchStrInvalid(inputValue)) {
         return [];
       }
 
@@ -411,17 +412,23 @@ class SearchApp extends React.Component {
       </div>
     );
 
-    if ((hasErrors && !loading) || userInput.length > 255) {
-      const errorMessage =
-        userInput.length > 255
-          ? 'The search is over the character limit. Shorten the search and try again.'
-          : `We’re sorry. Something went wrong on our end, and your search
-      didn't go through. Please try again`;
+    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
+      let errorMessage;
+
+      if (!userInput.trim().length) {
+        errorMessage = `Enter a search term that contains letters or numbers to find what you're looking for.`;
+      } else if (userInput.length > 255) {
+        errorMessage =
+          'The search is over the character limit. Shorten the search and try again.';
+      } else {
+        errorMessage = `We’re sorry. Something went wrong on our end, and your search
+        didn't go through. Please try again.`;
+      }
 
       return (
-        <div className="columns error vads-u-margin-bottom--4">
+        <div className="columns vads-u-margin-bottom--4">
           {/* this is the alert box for when searches fail due to server issues */}
-          <va-alert status="error" data-e2e-id="alert-box">
+          <va-alert status="error" data-e2e-id="alert-box" uswds>
             <h2 slot="headline">Your search didn't go through</h2>
             <p>{errorMessage}</p>
           </va-alert>
@@ -450,6 +457,7 @@ class SearchApp extends React.Component {
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={5}
+                uswds
               />
             )}
           <span className="powered-by">Powered by Search.gov</span>

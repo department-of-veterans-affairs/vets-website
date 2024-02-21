@@ -10,6 +10,7 @@ import { BATCHES } from '../../constants/question-batches';
 import { NONE } from '../../constants/display-conditions/results-screens';
 
 const pushSpy = sinon.spy();
+const updateSpy = sinon.spy();
 
 const router = {
   push: pushSpy,
@@ -17,6 +18,7 @@ const router = {
 
 beforeEach(() => {
   pushSpy.reset();
+  updateSpy.reset();
 });
 
 const {
@@ -206,9 +208,8 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1_2: null,
         };
 
-        determineResultsPage(formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_P1)).to.be
-          .true;
+        determineResultsPage(formResponses, router, updateSpy);
+        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_1)).to.be.true;
       });
 
       it('should return push to results 1 when necessary', () => {
@@ -227,9 +228,8 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: NOT_SURE,
         };
 
-        determineResultsPage(formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_P1)).to.be
-          .true;
+        determineResultsPage(formResponses, router, updateSpy);
+        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_1)).to.be.true;
       });
 
       it('should return push to results 1 when necessary', () => {
@@ -248,9 +248,8 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: NOT_SURE,
         };
 
-        determineResultsPage(formResponses, router);
-        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_P1)).to.be
-          .true;
+        determineResultsPage(formResponses, router, updateSpy);
+        expect(router.push.firstCall.calledWith(ROUTES.RESULTS_1_1)).to.be.true;
       });
     });
 
@@ -271,7 +270,7 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: YES,
         };
 
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateSpy);
         expect(router.push.firstCall.calledWith(ROUTES.RESULTS_2)).to.be.true;
       });
 
@@ -291,7 +290,7 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: YES,
         };
 
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateSpy);
         expect(router.push.firstCall.calledWith(ROUTES.RESULTS_2)).to.be.true;
       });
     });
@@ -305,7 +304,7 @@ describe('display conditions for results pages', () => {
           BURN_PIT_2_1_2: NO,
         };
 
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateSpy);
         expect(router.push.firstCall.calledWith(ROUTES.RESULTS_3)).to.be.true;
       });
 
@@ -325,7 +324,7 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: NO,
         };
 
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateSpy);
         expect(router.push.firstCall.calledWith(ROUTES.RESULTS_3)).to.be.true;
       });
 
@@ -345,7 +344,7 @@ describe('display conditions for results pages', () => {
           LEJEUNE_2_4: NO,
         };
 
-        determineResultsPage(formResponses, router);
+        determineResultsPage(formResponses, router, updateSpy);
         expect(router.push.firstCall.calledWith(ROUTES.RESULTS_3)).to.be.true;
       });
     });

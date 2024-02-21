@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { checkForDiscrepancies } from '../actions';
-import NeedHelp from './NeedHelp';
 import Learn from './Learn';
-import TotalRatedDisabilities from './TotalRatedDisabilities';
+import NeedHelp from './NeedHelp';
 import OnThisPage from './OnThisPage';
 import RatedDisabilityList from './RatedDisabilityList';
+import TotalRatedDisabilities from './TotalRatedDisabilities';
 
 const RatedDisabilityView = ({
   detectDiscrepancies,
