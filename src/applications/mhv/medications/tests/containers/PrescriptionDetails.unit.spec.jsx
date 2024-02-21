@@ -22,7 +22,7 @@ describe('Prescription details container', () => {
     return renderWithStoreAndRouter(<PrescriptionDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/21142496',
+      path: '/1234567891',
     });
   };
 
@@ -78,7 +78,6 @@ describe('Prescription details container', () => {
 
     expect(rxName).to.exist;
   });
-
   it('displays "Not filled yet" when there is no dispense date', () => {
     const stateWdispensedDate = {
       ...initialState,
