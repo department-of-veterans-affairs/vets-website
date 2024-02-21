@@ -5,9 +5,8 @@ import { Hub } from './components/hub/Hub';
 
 // conditionally add the profile hub route based on feature toggle
 const getRoutes = (
-  { profileContactsPage, profileUseHubPage } = {
+  { profileContactsPage } = {
     profileContactsPage: false,
-    profileUseHubPage: false,
   },
 ) => {
   return [
@@ -19,17 +18,13 @@ const getRoutes = (
       requiresLOA3: true,
       requiresMVI: true,
     },
-    ...(profileUseHubPage
-      ? [
-          {
-            component: Hub,
-            name: PROFILE_PATH_NAMES.PROFILE_ROOT,
-            path: PROFILE_PATHS.PROFILE_ROOT,
-            requiresLOA3: true,
-            requiresMVI: true,
-          },
-        ]
-      : []),
+    {
+      component: Hub,
+      name: PROFILE_PATH_NAMES.PROFILE_ROOT,
+      path: PROFILE_PATHS.PROFILE_ROOT,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
   ];
 };
 

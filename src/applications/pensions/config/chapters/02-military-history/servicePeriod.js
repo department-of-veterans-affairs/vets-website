@@ -12,19 +12,9 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const { dateRange } = fullSchemaPensions.definitions;
+import { serviceBranchLabels } from '../../../labels';
 import { wartimeWarning, servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
-
-const serviceBranchOptions = {
-  army: 'Army',
-  navy: 'Navy',
-  airForce: 'Air Force',
-  coastGuard: 'Coast Guard',
-  marineCorps: 'Marine Corps',
-  spaceForce: 'Space Force',
-  usphs: 'USPHS',
-  noaa: 'NOAA',
-};
 
 /** @type {PageSchema} */
 export default {
@@ -32,7 +22,7 @@ export default {
     'ui:title': 'Service period',
     serviceBranch: checkboxGroupUI({
       title: 'Branch of service',
-      labels: serviceBranchOptions,
+      labels: serviceBranchLabels,
       required: true,
     }),
     activeServiceDateRange: dateRangeUI(
@@ -71,7 +61,7 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
-      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchOptions)),
+      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
       activeServiceDateRange: {
         ...dateRange,
         required: ['from', 'to'],
