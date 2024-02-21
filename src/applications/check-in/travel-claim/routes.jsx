@@ -6,7 +6,7 @@ import withAuthorization from '../containers/withAuthorization';
 import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
-
+import { APP_NAMES } from '../utils/appConstants';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
@@ -84,7 +84,11 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = { isPreCheckIn: false, isTravel: true };
+        const options = {
+          // @TODO Refactor out this isPreCheckIn concept, will be important when we get to session work
+          isPreCheckIn: false,
+          appName: APP_NAMES.TRAVEL_CLAIM,
+        };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
