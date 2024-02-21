@@ -142,12 +142,6 @@ describe('Edu 1995 applicantInformation', () => {
       form,
       'select',
     ).find(select => select.id === 'root_dateOfBirthMonth');
-    // eslint-disable-next-line no-console
-    console.log('xxxx-----------------------------------');
-    // eslint-disable-next-line no-console
-    console.log(birthMonth);
-    // eslint-disable-next-line no-console
-    console.log('xxxx-----------------------------------');
 
     ReactTestUtils.Simulate.change(birthMonth, {
       target: {
