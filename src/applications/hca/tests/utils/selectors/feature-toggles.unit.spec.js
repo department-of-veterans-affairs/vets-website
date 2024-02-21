@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 describe('hca FeatureToggles selector', () => {
   const state = {
@@ -13,9 +13,8 @@ describe('hca FeatureToggles selector', () => {
     },
   };
 
-  describe('when `makeSelectFeatureToggles` executes', () => {
+  describe('when `selectFeatureToggles` executes', () => {
     it('should return feature toggles', () => {
-      const selectFeatureToggles = makeSelectFeatureToggles();
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
