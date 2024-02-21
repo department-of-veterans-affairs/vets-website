@@ -29,6 +29,7 @@ import StudentVeteranGroupModalContent from '../components/content/modals/Studen
 import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndFeesModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
+import LearnMoreAccreditedContent from './search/LearnMoreAccreditedContent';
 
 export function Modals({ hideModal, modals, profile }) {
   const shouldDisplayModal = modal => modals.displaying === modal;
@@ -319,66 +320,14 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderProfileSummaryModals = () => (
     <span>
-      <VaModal
+      <LearnMoreAccreditedContent
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accredited')}
-        modalTitle="Accreditation and why it matters"
-        large
-      >
-        <p>
-          The goal of accreditation is to ensure that the education provided by
-          institutions of higher education meets acceptable levels of quality.
-          Schools can be accredited by private educational associations of
-          regional or national scope.
-        </p>
-        <p>
-          Accreditation matters if you plan to start school at one institution
-          and transfer to another to complete your degree. Be sure to ask any
-          potential school about their credit transfer policy.
-        </p>
-      </VaModal>
-
-      <VaModal
+      />
+      <LearnMoreAccreditedContent
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('typeAccredited')}
-        modalTitle="Accreditation types (regional vs. national vs. hybrid)"
-        large
-      >
-        <p>
-          Is the school regionally or nationally accredited at the institution
-          level?
-        </p>
-        <p>
-          Schools are accredited by private educational associations of regional
-          or national scope. While the Department of Education does not say
-          whether regional or national accreditation is better, a recent ED
-          study revealed that, “Nearly 90 percent of all student credit transfer
-          opportunities occurred between institutions that were regionally,
-          rather than nationally, accredited.”{' '}
-          <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">
-            http://nces.ed.gov/pubs2014/2014163.pdf
-          </a>
-        </p>
-        <p>
-          CAUTION: Not every program approved for GI Bill benefits at an
-          accredited school is accredited by the regional or national
-          accreditor. Prior to enrolling, it’s important you confirm the program
-          you’re seeking is accredited and whether or not your field of study
-          requires accreditation for employment and/or licensing.
-        </p>
-        <p>
-          To learn more about accreditation types, visit the{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            about this tool
-          </a>{' '}
-          page.{' '}
-        </p>
-      </VaModal>
+      />
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accreditation')}

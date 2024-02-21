@@ -33,13 +33,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'entry_name, continuous_deployment'
-
       - name: Configure AWS credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: aws-actions/configure-aws-credentials@v4
@@ -48,7 +41,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
           mask-aws-account-id: true    
-          
+            
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -58,6 +51,13 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Get Mapbox Token
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -309,7 +309,12 @@ jobs:
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
-        run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+        run: |
+          if [ -f coverage/test-coverage-report.json ]; then
+            aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
+          else
+            echo 'No coverage report exists as no tests were run.'
+          fi
 
       - name: Get code coverage
         if: ${{ always() }}
@@ -1769,7 +1774,12 @@ jobs:
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
-        run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+        run: |
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
+          else
+            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
+          fi
 
   deploy:
     name: Deploy

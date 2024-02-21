@@ -41,7 +41,7 @@ const testDates = () => {
   };
 };
 
-describe('VAOS <PastAppointmentsList> V2 api', () => {
+describe('VAOS Page: PastAppointmentsList V2 api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());

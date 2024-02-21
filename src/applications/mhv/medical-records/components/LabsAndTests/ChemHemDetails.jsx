@@ -33,6 +33,7 @@ import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import usePrintTitle from '../../../shared/hooks/usePrintTitle';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -52,6 +53,14 @@ const ChemHemDetails = props => {
       );
     },
     [record.date, record.name],
+  );
+
+  usePrintTitle(
+    pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
+    user.userFullName,
+    user.dob,
+    formatDateLong,
+    updatePageTitle,
   );
 
   const generateChemHemPdf = async () => {

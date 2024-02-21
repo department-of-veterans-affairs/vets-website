@@ -109,7 +109,7 @@ const PrescriptionDetails = () => {
     [prescription],
   );
 
-  const baseTitle = `${prescription?.prescriptionName} | Veterans Affairs`;
+  const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
 
   useEffect(
@@ -252,9 +252,10 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
-      if (prescriptionId) dispatch(getPrescriptionDetails(prescriptionId));
+      if (!prescription && prescriptionId)
+        dispatch(getPrescriptionDetails(prescriptionId));
     },
-    [prescriptionId, dispatch],
+    [prescriptionId, dispatch, prescription],
   );
 
   useEffect(
