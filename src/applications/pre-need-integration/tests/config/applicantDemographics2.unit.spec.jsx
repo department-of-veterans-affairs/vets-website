@@ -5,7 +5,6 @@ import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
-  selectCheckbox,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
@@ -16,7 +15,7 @@ describe('Pre-need applicant demographics', () => {
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.applicantDemographics2;
 
-  it.skip('should render', () => {
+  it('should render', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -26,11 +25,11 @@ describe('Pre-need applicant demographics', () => {
     );
 
     expect(form.find('input').length).to.equal(4);
-    expect(form.find('.usa-checkbox__input').length).to.equal(7);
+    expect(form.find('va-checkbox').length).to.equal(7);
     form.unmount();
   });
 
-  it.skip('should not submit empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -44,12 +43,12 @@ describe('Pre-need applicant demographics', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(1);
-    expect(form.find('.checkbox-error-message').length).to.equal(1);
+    expect(form.find('va-checkbox-group[error]').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it.skip('should submit with required information', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -59,8 +58,14 @@ describe('Pre-need applicant demographics', () => {
         uiSchema={uiSchema}
       />,
     );
-    fillData(form, 'input#root_application_veteran_ethnicity_2', 'Unknown');
-    selectCheckbox(form, 'root_application_veteran_race_isAsian', true);
+    fillData(form, 'input#root_application_veteran_ethnicity_2', 'unknown');
+    form
+      .find(`va-checkbox[name*="root_application_veteran_race_isAsian"]`)
+      .simulate('change', {
+        target: { checked: true },
+      });
+
+    expect(form.ownerDocument).to.exist;
 
     form.find('form').simulate('submit');
 
