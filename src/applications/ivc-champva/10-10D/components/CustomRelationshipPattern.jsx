@@ -5,9 +5,8 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 /**
- * Web component uiSchema for relationship to veteran
- *
- * Pattern recommendation: Use as a standalone on the page
+ * Customized web component uiSchema for relationship to veteran
+ * with support for more custom wording.
  *
  * set `labelHeaderLevel: ''` if you just want to use it as a standard field instead
  *
@@ -33,6 +32,7 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
  * }} options - a string representing the person type, or an object with options
  * @returns {UISchemaOptions}
  */
+
 export const relationshipToVeteranUI = options => {
   const { personTitle, relativeTitle, tense, labelHeaderLevel, customLabels } =
     typeof options === 'object' ? options : { personTitle: options };
