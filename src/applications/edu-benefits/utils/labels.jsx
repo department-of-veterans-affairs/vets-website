@@ -184,7 +184,7 @@ export const benefitsLabelsUpdate = {
       Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
       <a
         aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
-        href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
         target="_blank"
       >
         Learn more
