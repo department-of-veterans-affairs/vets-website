@@ -2,7 +2,10 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { $, $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import RatingLists, { helpers } from '../../../components/RatingLists';
 
@@ -89,52 +92,74 @@ describe('<RatingLists>', () => {
         const list = $$('.rating-list', container)[0];
         const listItems = $$('h4', list);
 
-        expect(listItems[0].textContent).to.equal(helpers.getHeadingText(ratings[2]));
-        expect(listItems[1].textContent).to.equal(helpers.getHeadingText(ratings[1]));
-        expect(listItems[2].textContent).to.equal(helpers.getHeadingText(ratings[0]));
+        expect(listItems[0].textContent).to.equal(
+          helpers.getHeadingText(ratings[2]),
+        );
+        expect(listItems[1].textContent).to.equal(
+          helpers.getHeadingText(ratings[1]),
+        );
+        expect(listItems[2].textContent).to.equal(
+          helpers.getHeadingText(ratings[0]),
+        );
       });
     },
   );
 
   context('when there are only service-connected ratings', () => {
     it('should only display the service-connected ratings section', () => {
-      const screen = render(<RatingLists ratings={serviceConnectedRatingsOnly} />);
+      const screen = render(
+        <RatingLists ratings={serviceConnectedRatingsOnly} />,
+      );
 
       expect(screen.getByText(serviceConnectedSectionTitle)).to.exist;
       expect(screen.queryByText(nonServiceConnectedSectionTitle)).not.to.exist;
     });
 
     it('should display a total of three ratings', () => {
-      const screen = render(<RatingLists ratings={serviceConnectedRatingsOnly} />);
+      const screen = render(
+        <RatingLists ratings={serviceConnectedRatingsOnly} />,
+      );
 
       const cards = screen.getAllByRole('heading', { level: 4 });
       expect(cards.length).to.equal(3);
     });
 
     it('should sort service-connected ratings by effective date (most to least recent)', () => {
-      const { container } = render(<RatingLists ratings={serviceConnectedRatingsOnly} />);
+      const { container } = render(
+        <RatingLists ratings={serviceConnectedRatingsOnly} />,
+      );
 
       // Get the rating list (Service connected ratings) and check
       // that the cards is sorted correctly by evaluating the order of the card headings
       const list = $('.rating-list', container);
       const listItems = $$('h4', list);
 
-      expect(listItems[0].textContent).to.equal(helpers.getHeadingText(ratings[2]));
-      expect(listItems[1].textContent).to.equal(helpers.getHeadingText(ratings[1]));
-      expect(listItems[2].textContent).to.equal(helpers.getHeadingText(ratings[0]));
+      expect(listItems[0].textContent).to.equal(
+        helpers.getHeadingText(ratings[2]),
+      );
+      expect(listItems[1].textContent).to.equal(
+        helpers.getHeadingText(ratings[1]),
+      );
+      expect(listItems[2].textContent).to.equal(
+        helpers.getHeadingText(ratings[0]),
+      );
     });
   });
 
   context('when there are only non-service-connected ratings', () => {
     it('should only display the non-service-connected ratings section', () => {
-      const screen = render(<RatingLists ratings={nonServiceConnectedRatingsOnly} />);
+      const screen = render(
+        <RatingLists ratings={nonServiceConnectedRatingsOnly} />,
+      );
 
       expect(screen.queryByText(serviceConnectedSectionTitle)).not.to.exist;
       expect(screen.getByText(nonServiceConnectedSectionTitle)).to.exist;
     });
 
     it('should display a total of two ratings', () => {
-      const screen = render(<RatingLists ratings={nonServiceConnectedRatingsOnly} />);
+      const screen = render(
+        <RatingLists ratings={nonServiceConnectedRatingsOnly} />,
+      );
 
       const cards = screen.getAllByRole('heading', { level: 4 });
       expect(cards.length).to.equal(2);
