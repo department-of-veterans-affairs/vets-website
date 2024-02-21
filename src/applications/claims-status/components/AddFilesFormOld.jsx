@@ -227,13 +227,12 @@ class AddFilesFormOld extends React.Component {
                     <div>{displayFileSize(file.size)}</div>
                   </div>
                   <div className="remove-document-button">
-                    <button
-                      type="button"
-                      className="usa-button-secondary"
+                    <va-button
+                      secondary
+                      text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                    >
-                      Remove
-                    </button>
+                      uswds
+                    />
                   </div>
                 </div>
                 {isEncrypted && (
@@ -303,14 +302,12 @@ class AddFilesFormOld extends React.Component {
           <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </div>
         <div>
-          <button
-            type="submit"
-            className="usa-button"
-            data-cy="submit-files-button"
+          <va-button
+            primary
+            text="Submit Files for Review"
             onClick={this.submit}
-          >
-            Submit Files for Review
-          </button>
+            uswds
+          />
           <Link to={this.props.backUrl} className="claims-files-cancel">
             Cancel
           </Link>
