@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import VideoLink from '../VideoLink';
 
-describe('VideoVisitInstructions', () => {
+describe('VAOS Component: VideoLink', () => {
   it('renders join appoinment link', () => {
     const appointment = {
       start: moment(),
