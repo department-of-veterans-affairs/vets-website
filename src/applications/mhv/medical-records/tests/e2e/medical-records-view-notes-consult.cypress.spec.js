@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
@@ -24,16 +25,26 @@ describe('Medical Records Care Summary Page ', () => {
 
     // NOTE: consult result notes use the progress note component
     // Verify Progress Note Details Location
-    NotesDetailsPage.verifyProgressNoteLocation('DAYTON');
+    NotesDetailsPage.verifyProgressNoteLocation(
+      notes.entry[4].resource.contained[0].name,
+    );
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy('TESTER,JOHN');
+    NotesDetailsPage.verifyProgressNoteSignedBy(
+      notes.entry[4].resource.contained[1].name[0].text,
+    );
     // Verify Progress Note Details Cosigned by
-    NotesDetailsPage.verifyProgressNoteCoSignedBy('TESTER,JOHN');
+    NotesDetailsPage.verifyProgressNoteCoSignedBy(
+      notes.entry[4].resource.contained[2].name[0].text,
+    );
     // Verify Progress Note Details Signed Date
-    NotesDetailsPage.verifyProgressNoteSignedDate('February 7, 2024');
+    NotesDetailsPage.verifyProgressNoteSignedDate(
+      moment(
+        notes.entry[4].resource.authenticator.extension[0].valueDateTime,
+      ).format('MMMM D, YYYY'),
+    );
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(
-      'LOCAL TITLE: ADHC CONSULT RESULTS',
+      `LOCAL TITLE: ${notes.entry[4].resource.content[0].attachment.title}`, // ADHC CONSULT RESULTS
     );
 
     cy.injectAxe();
