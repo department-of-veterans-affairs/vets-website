@@ -9,6 +9,7 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 
 import {
   stringifyFormReplacer,
@@ -412,6 +413,10 @@ export function isVeteran(item) {
   return get('application.claimant.relationshipToVet', item) === 'veteran';
 }
 
+export const sponsorEthnicityTitle = "What’s your sponsor's ethnicity? ";
+
+export const sponsorRaceTitle = "What’s your sponsor's race?";
+
 export function isSponsorDeceased(item) {
   return get('application.veteran.isDeceased', item) === 'yes';
 }
@@ -656,15 +661,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -673,21 +681,34 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
+    },
+  },
+  ethnicity: {
+    // The line below might be needed in the future with schema changes from vets-json-schema
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'Duder',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
     },
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
+    'ui:title': 'Duderino',
+    'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -695,11 +716,14 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -710,6 +734,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },

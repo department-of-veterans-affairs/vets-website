@@ -1,28 +1,26 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+// Is this import needed?
+// import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import { merge, pick } from 'lodash';
+import { merge } from 'lodash';
 import {
   sponsorDemographicsDescription,
   sponsorDemographicsSubHeader,
   veteranUI,
 } from '../../utils/helpers';
 
-const { veteran } = fullSchemaPreNeed.properties.application.properties;
+// This will be used again once the changes are made in the json-schema
+// const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   'ui:title': sponsorDemographicsSubHeader,
   'ui:description': sponsorDemographicsDescription,
   application: {
     veteran: merge({}, veteranUI, {
-      gender: {
-        'ui:title': 'What’s the sponsor’s sex?',
-      },
-      race: {
-        'ui:title':
-          'Which categories best describe the sponsor? (You may check more than one.)',
-      },
       maritalStatus: {
         'ui:title': 'What’s the sponsor’s marital status?',
+      },
+      gender: {
+        'ui:title': 'What’s the sponsor’s sex?',
       },
     }),
   },
@@ -36,12 +34,24 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['gender', 'race', 'maritalStatus'],
-          properties: pick(veteran.properties, [
-            'gender',
-            'race',
-            'maritalStatus',
-          ]),
+          required: ['maritalStatus', 'gender'],
+          properties: {
+            maritalStatus: {
+              type: 'string',
+              enum: [
+                'Single',
+                'Separated',
+                'Married',
+                'Divorced',
+                'Widowed',
+                'na',
+              ],
+            },
+            gender: {
+              type: 'string',
+              enum: ['Female', 'Male', 'na'],
+            },
+          },
         },
       },
     },
