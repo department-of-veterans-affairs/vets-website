@@ -81,10 +81,8 @@ const Validate = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header={t('start-pre-check-in')}
-        subtitle={t(
-          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
-        )}
+        header={t('file-travel-reimbursement-claim')}
+        subtitle={t('file-a-travel-reimbursment-claim-if-you-meet')}
         lastNameInput={{
           lastNameError,
           setLastName,

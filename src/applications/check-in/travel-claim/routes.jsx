@@ -1,9 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Validate from './pages/validate';
-import Landing from './pages/landing';
-
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
@@ -14,6 +11,15 @@ import { URLS } from '../utils/navigation';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
+import Validate from './pages/validate';
+import Landing from './pages/landing';
+import TravelIntro from './pages/intro';
+import TravelMileage from './pages/travel-mileage';
+import TravelVehiclePage from './pages/travel-vehicle';
+import TravelAddressPage from './pages/travel-address';
+import TravelReviewPage from './pages/travel-review';
+import Complete from './pages/complete';
+
 const routes = [
   {
     path: URLS.LANDING,
@@ -22,6 +28,48 @@ const routes = [
   {
     path: URLS.VALIDATION_NEEDED,
     component: Validate,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_INTRO,
+    component: TravelIntro,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_MILEAGE,
+    component: TravelMileage,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_VEHICLE,
+    component: TravelVehiclePage,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_ADDRESS,
+    component: TravelAddressPage,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_REVIEW,
+    component: TravelReviewPage,
+    permissions: {
+      requiresForm: true,
+    },
+  },
+  {
+    path: URLS.COMPLETE,
+    component: Complete,
     permissions: {
       requiresForm: true,
     },
