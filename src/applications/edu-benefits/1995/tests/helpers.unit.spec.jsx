@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { buildSubmitEventData } from '../../1995/helpers';
+import { buildSubmitEventData, directDepositMethod } from '../helpers';
 
-import minimalData from '../tests/e2e/fixtures/data/minimal.json';
-import maximalData from '../tests/e2e/fixtures/data/maximal.json';
+import minimalData from './e2e/fixtures/data/minimal.json';
+import maximalData from './e2e/fixtures/data/maximal.json';
 
 describe('helpers', () => {
   describe('buildSubmitEventData', () => {
@@ -62,5 +62,10 @@ describe('helpers', () => {
         'direct-deposit-account-type': 'checking',
       });
     });
+  });
+  describe('directDepositMethod for production env', () => {
+    const automatedTest = true;
+    const directDeposit = directDepositMethod({}, automatedTest);
+    expect(directDeposit).not.to.be.null;
   });
 });
