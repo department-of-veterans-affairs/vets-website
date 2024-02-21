@@ -66,6 +66,27 @@
               }
             ],
             "name": "DAYTSHR TEST LAB"
+          },
+          {
+            "id": "Provider-1",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                "value": "AuthorTO.36556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF"
+              }
+            ],
+            "resourceType": "Practitioner"
           }
         ],
         "identifier": [
@@ -635,7 +656,7 @@
             "contentType": "text/plain",
             "data": "DQogTE9DQUwgVElUTEU6IEFESEMgQ09OU1VMVCBSRVNVTFRTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KREFURSBPRiBOT1RFOiBGRUIgMDcsIDIwMjRAMTU6NDE6MTggIEVOVFJZIERBVEU6IEZFQiAwNywgMjAyNEAxNTo0MToxOCAgICAgIA0KICAgICAgQVVUSE9SOiBBSE1FRCxNQVJVRiAgICAgICAgICBFWFAgQ09TSUdORVI6ICAgICAgICAgICAgICAgICAgICAgICAgICAgDQogICAgIFVSR0VOQ1k6ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNUQVRVUzogQ09NUExFVEVEICAgICAgICAgICAgICAgICAgICAgDQoNCnRlc3QgY29uc3VsdCByZXN1bHQgbm90ZSwgTWFydWYgYWhtZWQNCiANCi9lcy8gTUFSVUYgQUhNRUQNClBIWVNJQ0lBTg0KU2lnbmVkOiAwMi8wNy8yMDI0IDE1OjQxDQo=",
             "title": "ADHC CONSULT RESULTS"
-          }
+          } 
         }
         ],
         "context": {

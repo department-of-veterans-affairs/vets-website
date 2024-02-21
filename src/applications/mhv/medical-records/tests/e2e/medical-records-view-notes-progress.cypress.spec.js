@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
 import NotesListPage from './pages/NotesListPage';
@@ -23,18 +24,27 @@ describe('Medical Records Care Summary Page ', () => {
     );
 
     // Verify Progress Note Details Location
-    NotesDetailsPage.verifyProgressNoteLocation('DAYTSHR TEST LAB');
+    NotesDetailsPage.verifyProgressNoteLocation(
+      notes.entry[0].resource.contained[1].name,
+    );
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy('AHMED,MARUF');
+    NotesDetailsPage.verifyProgressNoteSignedBy(
+      notes.entry[0].resource.contained[0].name[0].text,
+    );
     // Verify Progress Note Details Cosigned by
-    NotesDetailsPage.verifyProgressNoteCoSignedBy('AHMED,MARUF');
+    NotesDetailsPage.verifyProgressNoteCoSignedBy(
+      notes.entry[0].resource.contained[2].name[0].text,
+    );
     // Verify Progress Note Details Signed Date
-    NotesDetailsPage.verifyProgressNoteSignedDate('August 5, 2022');
+    NotesDetailsPage.verifyProgressNoteSignedDate(
+      moment(
+        notes.entry[0].resource.authenticator.extension[0].valueDateTime,
+      ).format('MMMM D, YYYY'),
+    );
     // Verify Progress Note Record Details
     NotesDetailsPage.verifyProgressNoteRecord(
-      'LOCAL TITLE: Adverse React/Allergy',
+      `LOCAL TITLE: ${notes.entry[0].resource.content[0].attachment.title}`,
     );
-
     cy.injectAxe();
     cy.axeCheck('main');
   });
